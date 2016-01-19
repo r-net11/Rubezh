@@ -13,7 +13,8 @@ namespace AutomationModule.ViewModels
 			CloseDialogArguments = stepViewModel.Step.CloseDialogArguments;
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 			WindowUIDArgument = new ArgumentViewModel(CloseDialogArguments.WindowIDArgument, stepViewModel.Update, UpdateContent);
-			WindowUIDArgument.Update(Procedure, ExplicitType.String);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(CloseDialogArguments.LayoutFilter);
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 
 		public bool ForAllClients
@@ -41,7 +42,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return string.Format("Закрыть диалог");
+				return "Закрыть диалог: ID=" + WindowUIDArgument.Description;
 			}
 		}
 
@@ -57,8 +58,7 @@ namespace AutomationModule.ViewModels
 		}
 		public override void UpdateContent()
 		{
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(CloseDialogArguments.LayoutFilter);
-			IsServerContext = Procedure.ContextType == ContextType.Server;
+			WindowUIDArgument.Update(Procedure, ExplicitType.String, isList: false);
 		}
 	}
 }
