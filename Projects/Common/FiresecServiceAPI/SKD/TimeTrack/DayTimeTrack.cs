@@ -124,6 +124,15 @@ namespace FiresecAPI.SKD
 
 		public List<TimeTrackPart> RealTimeTrackPartsForCalculates { get; set; }
 
+		private TimeSpan _nightTimeForToday;
+		/// <summary>
+		/// Содержит ночные часы, которые нужно отработать сотруднику за текущий день (DayTimeTrack.Date)
+		/// </summary>
+		public TimeSpan NightTimeForToday
+		{
+			get { return _nightTimeForToday; }
+		}
+
 		#endregion
 
 		/// <summary>
@@ -147,7 +156,7 @@ namespace FiresecAPI.SKD
 			}
 
 			if (NightSettings != null && NightSettings.IsNightSettingsEnabled)
-				CalculateNightTimeSpans(NightSettings);
+				CalculateNightTimeSpans(NightSettings, ref _nightTimeForToday);
 
 			CombinedTimeTrackParts = TransferNightSettings(CombinedTimeTrackParts, _nighTimeSpans);
 			CombinedTimeTrackParts = ApplyDeviationPolitics(CombinedTimeTrackParts, AllowedAbsentLowThan, AllowedEarlyLeave, AllowedLate, NotAllowOvertimeLowerThan);
@@ -160,7 +169,7 @@ namespace FiresecAPI.SKD
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
-			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackParts, IsOnlyFirstEnter);
+			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackPartsForCalculates, IsOnlyFirstEnter);
 		}
 
 		private List<TimeTrackPart> GetRealTimeTrackPartsForDrawing(List<TimeTrackPart> realTimeTrackParts, bool isOnlyFirstEnter)
@@ -182,17 +191,20 @@ namespace FiresecAPI.SKD
 			};
 		}
 
-		private void CalculateNightTimeSpans(NightSettings nightSettings)
+		private void CalculateNightTimeSpans(NightSettings nightSettings, ref TimeSpan nightTimeForToday)
 		{
 			_nighTimeSpans = new List<NightSettings>();
 
 			if (nightSettings.NightStartTime < nightSettings.NightEndTime)
 			{
 				_nighTimeSpans.Add(nightSettings);
+				nightTimeForToday = nightSettings.NightEndTime - nightSettings.NightEndTime;
 			}
 			else if(nightSettings.NightStartTime > nightSettings.NightEndTime)
 			{
-				_nighTimeSpans.Add(new NightSettings{NightStartTime = nightSettings.NightStartTime, NightEndTime = new TimeSpan(23, 59, 59)});
+				var tmp = new NightSettings {NightStartTime = nightSettings.NightStartTime, NightEndTime = new TimeSpan(23, 59, 59)};
+				nightTimeForToday = tmp.NightEndTime - tmp.NightStartTime;
+				_nighTimeSpans.Add(tmp);
 				_nighTimeSpans.Add(new NightSettings{NightStartTime = new TimeSpan(), NightEndTime = nightSettings.NightEndTime});
 			}
 		}

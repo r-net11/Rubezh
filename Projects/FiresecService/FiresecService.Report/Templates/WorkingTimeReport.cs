@@ -60,28 +60,16 @@ namespace FiresecService.Report.Templates
 					var totalNight = new TimeSpan();
 					var totalDocumentOvertime = new TimeSpan();
 					var totalDocumentAbsence = new TimeSpan();
+					var balance = new TimeSpan();
 					foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 					{
 						dayTimeTrack.Calculate();
+						//if (dayTimeTrack.NightSettings != null && dayTimeTrack.NightSettings.IsNightSettingsEnabled)
+							totalScheduleNight += dayTimeTrack.NightTimeForToday;
 
-						foreach (var plannedTimeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
-						{
-							if(!plannedTimeTrackPart.ExitDateTime.HasValue) continue;
-
-							if (plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay < new TimeSpan(20, 0, 0))
-							{
-								totalScheduleDay += plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay - plannedTimeTrackPart.EnterDateTime.TimeOfDay;
-							}
-							if (plannedTimeTrackPart.EnterDateTime.TimeOfDay > new TimeSpan(20, 0, 0))
-							{
-								totalScheduleNight += plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay - plannedTimeTrackPart.EnterDateTime.TimeOfDay;
-							}
-							if (plannedTimeTrackPart.EnterDateTime.TimeOfDay < new TimeSpan(20, 0, 0) && plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay > new TimeSpan(20, 0, 0))
-							{
-								totalScheduleDay += new TimeSpan(20, 0, 0) - plannedTimeTrackPart.EnterDateTime.TimeOfDay;
-								totalScheduleNight += plannedTimeTrackPart.ExitDateTime.Value.TimeOfDay - new TimeSpan(20, 0, 0);
-							}
-						}
+						totalScheduleDay = dayTimeTrack.SlideTime != default(TimeSpan)
+											? dayTimeTrack.SlideTime
+											: dayTimeTrack.PlannedTimeTrackParts.Aggregate(totalScheduleDay, (current, plannedPart) => current + plannedPart.Delta);
 
 						var presence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence);
 						if (presence != null)
@@ -112,6 +100,12 @@ namespace FiresecService.Report.Templates
 						{
 							totalDocumentAbsence += documentAbsence.TimeSpan;
 						}
+
+						var balanceTotal = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Balance);
+						if (balanceTotal != null)
+						{
+							balance += balanceTotal.TimeSpan;
+						}
 					}
 					dataRow.ScheduleDay = totalScheduleDay.TotalHours;
 					dataRow.ScheduleNight = totalScheduleNight.TotalHours;
@@ -121,8 +115,10 @@ namespace FiresecService.Report.Templates
 					dataRow.TotalPresence = totalPresence.TotalHours + totalOvertime.TotalHours + totalNight.TotalHours;
 					dataRow.DocumentOvertime = totalDocumentOvertime.TotalHours;
 					dataRow.DocumentAbsence = totalDocumentAbsence.TotalHours;
-					dataRow.Balance = -(dataRow.ScheduleDay + dataRow.ScheduleNight) + dataRow.TotalPresence;
-					dataRow.TotalBalance = dataRow.Balance + dataRow.DocumentOvertime - dataRow.DocumentAbsence;
+					dataRow.Balance = balance.TotalHours;
+					dataRow.TotalBalance = balance.TotalHours;
+					//dataRow.Balance = -(dataRow.ScheduleDay + dataRow.ScheduleNight) + dataRow.TotalPresence;
+					//	dataRow.TotalBalance = dataRow.Balance + dataRow.DocumentOvertime - dataRow.DocumentAbsence;
 				}
 
 				dataSet.Data.Rows.Add(dataRow);
