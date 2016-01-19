@@ -234,39 +234,22 @@ namespace RubezhClient
 
 		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
 		{
-			throw new NotImplementedException();
-
-			//return SafeOperationCall(() =>
-			//{
-			//	try
-			//	{
-			//		return FiresecService.ReadOpcDaServerTags(server);
-			//	}
-			//	catch (Exception e)
-			//	{
-			//		Logger.Error("Исключение при вызове RubezhClient.ReadOpcDaServerTags " + e.GetType().Name.ToString());
-			//	}
-			//	return OperationResult<TsCDaItemValueResult[]>.FromError("Не удается прочитать значения тегов сервера " + server.ServerName);
-			//}, "ReadOpcDaServerTags");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return FiresecService.ReadOpcDaServerTags(clientUID, server);
+			}, "ReadOpcDaServerTags");
 		}
 
 		public OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues)
 		{
-			throw new NotImplementedException();
-
-			//return SafeOperationCall(() =>
-			//{
-			//	try
-			//	{
-			//		FiresecService.WriteOpcDaServerTags(server, tagValues);
-			//		return new OperationResult();
-			//	}
-			//	catch (Exception e)
-			//	{
-			//		Logger.Error("Исключение при вызове RubezhClient.WriteOpcDaServerTags " + e.GetType().Name.ToString());
-			//	}
-			//	return new OperationResult("Не удается прочитать значения тегов сервера " + server.ServerName);
-			//}, "WriteOpcDaServerTags");
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)			
+					return FiresecService.WriteOpcDaServerTags(clientUID, server, tagValues);
+			}, "WriteOpcDaServerTags");
 		}
 	}
 }

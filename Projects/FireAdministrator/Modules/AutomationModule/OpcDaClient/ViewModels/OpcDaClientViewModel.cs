@@ -154,7 +154,6 @@ namespace AutomationModule.ViewModels
 		void OnGetServerStatus()
 		{
 			string statusInfo;
-			OperationResult resultConnect = null;
 			OperationResult<OpcServerStatus> result = null;
 
 			//WaitHelper.Execute(() =>
