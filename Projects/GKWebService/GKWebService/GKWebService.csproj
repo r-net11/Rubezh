@@ -247,6 +247,7 @@
     <Resource Include="Content\Image\Icon\Hr\Lock.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
+    <Content Include="Content\Image\Icon\Menu\delays.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Copy.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Delete.png" />
@@ -326,6 +327,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\DelaysViewModel.js" />
     <Content Include="Scripts\app\controllers\firezonesCtrl.js" />
     <Content Include="Scripts\app\controllers\DirectionsViewModel.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
@@ -502,6 +504,7 @@
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
     <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\DelayModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
@@ -602,6 +605,7 @@
     <Content Include="Views\AccessTemplates\Index.cshtml" />
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
     <Content Include="Views\Cards\Index.cshtml" />
+    <Content Include="Views\Home\Delays.cshtml" />
     <Content Include="Views\Home\Directions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
