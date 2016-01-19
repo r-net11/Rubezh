@@ -351,5 +351,43 @@ namespace RubezhClient
 		{
 			ImportOrganisationList(FiresecServiceFactory.UID, isWithDeleted, path);
 		}
+		#region OPC DA Server
+
+		public OperationResult<OpcDaServer[]> GetOpcDaServers()
+		{
+			return SafeContext.Execute(() => FiresecService.GetOpcDaServers());
+		}
+
+		//public OperationResult ConnectToOpcDaServer(OpcDaServer server)
+		//{
+		//	return SafeContext.Execute(() => FiresecService.ConnectToOpcDaServer(server));
+		//}
+
+		//public OperationResult DisconnectFromOpcDaServer(OpcDaServer server)
+		//{
+		//	return SafeContext.Execute(() => FiresecService.DisconnectFromOpcDaServer(server));
+		//}
+
+		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server)
+		{
+			return SafeContext.Execute(() => FiresecService.GetOpcDaServerGroupAndTags(server));
+		}
+
+		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server)
+		{
+			return SafeContext.Execute(() => FiresecService.GetOpcDaServerStatus(server));
+		}
+
+		//public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
+		//{
+		//	return SafeContext.Execute(() => FiresecService.ReadOpcDaServerTags(server));
+		//}
+		
+		//public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
+		//{ 
+		//	return SafeContext.Execute(() => FiresecService.WriteOpcDaServerTags(server, tagValues));
+		//}
+
+		#endregion
 	}
 }

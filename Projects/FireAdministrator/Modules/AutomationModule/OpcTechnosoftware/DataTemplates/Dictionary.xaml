@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:AutomationModule.Views"
+					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels">
+	<DataTemplate DataType="{x:Type ViewModels:OpcTechnosoftwareViewModel}">
+		<Views:OpcTechnosoftwareView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OpcTechnosoftwareMenuViewModel}">
+		<Views:OpcTechnosoftwareMenuView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OpcTechnosoftWriteTagsViewModel}">
+		<Views:OpcTechnosoftWriteTagsView />
+	</DataTemplate>
+</ResourceDictionary>

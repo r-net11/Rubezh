@@ -137,6 +137,10 @@
     <Reference Include="Npgsql.EntityFrameworkLegacy">
       <HintPath>..\..\..\3rdParty\Npgsql\Npgsql.EntityFrameworkLegacy.dll</HintPath>
     </Reference>
+    <Reference Include="OpcClientSdk40, Version=7.1.0.1, Culture=neutral, PublicKeyToken=aaf49bf92e1a676f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\petrovdy\Documents\OPC DA AE HDA Client SDK .NET\binaries\NET40\OpcClientSdk40.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -161,6 +165,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Technosoftware.Logging40">
+      <HintPath>..\..\..\3rdParty\OPC\Technosoftware.Logging40.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -181,9 +188,11 @@
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\FiresecLicenseProcessor.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
+    <Compile Include="Processor\OpcDaServersProcessor.cs" />
     <Compile Include="Processor\ServerTaskRunner.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
+    <Compile Include="Service\FiresecService.OpcDa.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeTrack.cs" />
     <Compile Include="Service\FiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\FiresecService.GK.cs" />

@@ -122,6 +122,9 @@
     <Reference Include="Entities">
       <HintPath>..\..\..\3rdParty\RVIVSS\Entities.dll</HintPath>
     </Reference>
+    <Reference Include="OpcClientSdk40">
+      <HintPath>..\..\..\3rdParty\OPC\OpcClientSdk40.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -160,6 +163,7 @@
     <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="PollResult.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlOpcDaTagArguments.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
     <Compile Include="GKManager\GKManager.PumpStations.cs" />
     <Compile Include="GKManager\GKManager.MPTs.cs" />
@@ -192,6 +196,8 @@
     <Compile Include="Models\Automation\ContextType.cs" />
     <Compile Include="Models\Automation\ElementProperty.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
+    <Compile Include="Models\Automation\OPC DA\OpcDaTag.cs" />
+    <Compile Include="Models\Automation\OPC DA\OpcDaServer.cs" />
     <Compile Include="Models\Automation\OPC\OPCTag.cs" />
     <Compile Include="Models\Automation\OPC\OPCServer.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />

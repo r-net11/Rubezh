@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using OpcClientSdk.Da;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.Journal;
@@ -81,7 +82,9 @@ namespace FireMonitor
 						((SafeFiresecService)ClientManager.FiresecService).ExportConfiguration,
 						((SafeFiresecService)ClientManager.FiresecService).ImportOrganisation,
 						((SafeFiresecService)ClientManager.FiresecService).ImportOrganisationList,
-						GetOrganisations
+						GetOrganisations,
+						GetOpcDaTagValue,
+						SetOpcDaTagValue
 						);
 
 					GKDriversCreator.Create();
@@ -139,6 +142,52 @@ namespace FireMonitor
 				return false;
 			}
 			return result;
+		}
+
+		object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
+		{
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				return null;
+
+			var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
+			if (opcDaTag == null)
+				return null;
+
+			var tagsValues = ClientManager.FiresecService.ReadOpcDaServerTags(opcDaServer);
+			if (tagsValues.HasError)
+				return null;
+
+			var tagValue = tagsValues.Result.FirstOrDefault(x => x.ItemPath == opcDaTag.Path && x.ItemName == opcDaTag.ElementName);
+			return tagValue == null ? null : tagValue.Value;
+		}
+
+		bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
+		{
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				return false;
+
+			var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
+			if (opcDaTag == null)
+				return false;
+
+			var result = ClientManager.FiresecService.WriteOpcDaServerTags(opcDaServer,
+				new TsCDaItemValue[] 
+				{ 
+					new TsCDaItemValue 
+					{ 
+						ItemPath = opcDaTag.Path, 
+						ItemName = opcDaTag.ElementName, 
+						Value = value 
+					} 
+				});
+
+			return !result.HasError;
 		}
 
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)

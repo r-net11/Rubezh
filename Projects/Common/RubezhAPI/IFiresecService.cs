@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using RubezhAPI.Automation;
+using OpcClientSdk;
+using OpcClientSdk.Da;
 
 namespace RubezhAPI
 {
@@ -133,6 +136,51 @@ namespace RubezhAPI
 
 		[OperationContract]
 		void SetLocalConfig(Guid clientUID);
+		#endregion
+
+		#region OPC DA
+
+		/// <summary>
+		/// Возвращает список имен OPC DA серверов, 
+		/// зарегистрированных в системе
+		/// </summary>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcDaServer[]> GetOpcDaServers();
+
+		/// <summary>
+		/// Возвращает структуру сервера (группы и теги) для указанного сервера
+		/// </summary>
+		/// <param name="server">Наименование сервера</param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server);
+
+		/// <summary>
+		/// Возвращает описание и текущий статус сервера
+		/// </summary>
+		/// <param name="server"></param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server);
+
+		///// <summary>
+		///// Возвращает значения тегов
+		///// </summary>
+		///// <param name="server"></param>
+		///// <returns></returns>
+		//[OperationContract]
+		//OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server);
+
+		///// <summary>
+		///// Записывает новое значение указанных тегов
+		///// </summary>
+		///// <param name="server"></param>
+		///// <param name="tagValues"></param>
+		///// <returns></returns>
+		//[OperationContract]
+		//OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues);
+		
 		#endregion
 	}
 }

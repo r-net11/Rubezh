@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpcDaServer
+namespace OpcFoundation
 {
 	/// <summary>
 	/// Тег или директория OPC DA сервера
@@ -15,10 +15,6 @@ namespace OpcDaServer
 			_items = new List<OpcDaItemBase>();
 		}
 
-		#region Methods
-		
-		#endregion
-
 		#region Fields And Properties
 
 		protected List<OpcDaItemBase> _items;
@@ -26,7 +22,11 @@ namespace OpcDaServer
 		/// <summary>
 		/// Наименование корневой директории тегов
 		/// </summary>
-		public const string RootDirectory = @"."; 
+		public const string RootDirectory = @".";
+		/// <summary>
+		/// Разделитель для сегментов пути к тегу
+		/// </summary>
+		public const string Spliter = @"\";
 
 		/// <summary>
 		/// 
@@ -39,6 +39,9 @@ namespace OpcDaServer
 		/// </summary>
 		public OpcDaDirectory Directory { get { return _directory; } }
 
+		#endregion
+
+		#region Methods
 		#endregion
 	}
 }
