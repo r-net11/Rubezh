@@ -1,4 +1,5 @@
 ﻿using OpcClientSdk;
+using OpcClientSdk.Da;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
@@ -224,6 +225,7 @@ namespace RubezhClient
 		OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID);
 		OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server);
 		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server);
-
+		OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
+		OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues);
 	}
 }

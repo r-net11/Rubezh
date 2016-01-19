@@ -146,7 +146,7 @@ namespace FireMonitor
 
 		object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
 		{
-			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
 				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
@@ -156,7 +156,7 @@ namespace FireMonitor
 			if (opcDaTag == null)
 				return null;
 
-			var tagsValues = ClientManager.FiresecService.ReadOpcDaServerTags(opcDaServer);
+			var tagsValues = ClientManager.FiresecService.ReadOpcDaServerTags(clientUID, opcDaServer);
 			if (tagsValues.HasError)
 				return null;
 
@@ -166,7 +166,7 @@ namespace FireMonitor
 
 		bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
 		{
-			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
 				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
@@ -176,7 +176,7 @@ namespace FireMonitor
 			if (opcDaTag == null)
 				return false;
 
-			var result = ClientManager.FiresecService.WriteOpcDaServerTags(opcDaServer,
+			var result = ClientManager.FiresecService.WriteOpcDaServerTags(clientUID, opcDaServer,
 				new TsCDaItemValue[] 
 				{ 
 					new TsCDaItemValue 

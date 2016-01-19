@@ -10,7 +10,7 @@ namespace RubezhClient
 	public partial class ClientManager
 	{
 		public static ClientCredentials ClientCredentials { get; private set; }
-		public static SafeFiresecService FiresecService { get; internal set; }
+		public static ISafeFiresecService FiresecService { get; internal set; }
 
 		public static string Connect(ClientType clientType, string serverAddress, string login, string password)
 		{
