@@ -250,7 +250,7 @@ namespace RubezhClient
 			//}, "ReadOpcDaServerTags");
 		}
 
-		public OperationResult WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues)
+		public OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues)
 		{
 			throw new NotImplementedException();
 
