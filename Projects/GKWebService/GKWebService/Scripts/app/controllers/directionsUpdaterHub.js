@@ -9,6 +9,7 @@
             var directionRowID = direction.UID;
             var rowData = $('#jqGridDirections').jqGrid('getRowData', directionRowID);
             rowData.State = direction.State;
+            rowData.StateIcon = direction.StateIcon;
             $('#jqGridDirections').jqGrid('setRowData', directionRowID, rowData);
         },
 
