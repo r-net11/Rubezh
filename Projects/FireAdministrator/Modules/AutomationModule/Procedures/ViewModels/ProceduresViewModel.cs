@@ -334,6 +334,7 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
 			{
 				SelectedProcedure.Update(procedureDetailsViewModel.Procedure);
+				procedureDetailsViewModel.Procedure.OnChanged();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
