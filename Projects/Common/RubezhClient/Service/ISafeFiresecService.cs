@@ -1,4 +1,5 @@
-﻿using RubezhAPI;
+﻿using OpcClientSdk;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
@@ -220,5 +221,9 @@ namespace RubezhClient
 		void StopPoll();
 		void StopRecord(Guid cameraUid, Guid eventUid);
 		string Test(string arg);
+		OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID);
+		OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server);
+		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server);
+
 	}
 }

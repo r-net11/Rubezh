@@ -1,9 +1,12 @@
 ﻿using RubezhAPI.Automation;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using RubezhClient;
+using System.Collections.ObjectModel;
+using RubezhAPI;
 using Property = RubezhAPI.Automation.Property;
+using RubezhClient.SKDHelpers;
 
 namespace Infrastructure.Automation
 {
@@ -128,13 +131,13 @@ namespace Infrastructure.Automation
 					Property.State
 				};
 			if (objectType == ObjectType.Organisation)
-				return new List<Property> {Property.Description, Property.Uid, Property.Name};
+				return new List<Property> { Property.Description, Property.Uid, Property.Name };
 			if (objectType == ObjectType.VideoDevice)
-				return new List<Property> {Property.Uid, Property.Name};
+				return new List<Property> { Property.Uid, Property.Name };
 			if (objectType == ObjectType.PumpStation)
-				return new List<Property> {Property.Uid, Property.No, Property.Delay, Property.Name, Property.State};
+				return new List<Property> { Property.Uid, Property.No, Property.Delay, Property.Name };
 			if (objectType == ObjectType.MPT)
-				return new List<Property> {Property.Uid, Property.Description, Property.Name, Property.State};
+				return new List<Property> { Property.Uid, Property.Description, Property.Name };
 			return new List<Property>();
 		}
 
@@ -152,7 +155,7 @@ namespace Infrastructure.Automation
 					ConditionType.IsNotLess
 				};
 			if ((ExplicitType == ExplicitType.Boolean) || (ExplicitType == ExplicitType.Object))
-				return new List<ConditionType> {ConditionType.IsEqual, ConditionType.IsNotEqual};
+				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
 			if (ExplicitType == ExplicitType.String)
 				return new List<ConditionType>
 				{
@@ -167,22 +170,113 @@ namespace Infrastructure.Automation
 
 		public static ObservableCollection<T> GetEnumObs<T>()
 		{
-			return new ObservableCollection<T>(GetEnumList<T>());
+			return new ObservableCollection<T>(Enum.GetValues(typeof(T)).Cast<T>().ToList());
 		}
 
 		public static List<T> GetEnumList<T>()
 		{
-			var result = new List<T>(Enum.GetValues(typeof (T)).Cast<T>());
-			result.Sort();
-			return result;
+			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 		}
 
 		public static string GetProcedureName(Guid procedureUid)
 		{
-			var procedure =
-				ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(
-					x => x.Uid == procedureUid);
+			var procedure = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
 			return procedure == null ? "" : procedure.Name;
+		}
+
+		public static string GetStringValue(object obj)
+		{
+			if (obj == null)
+				return "";
+
+			var objType = obj.GetType();
+			if (objType == typeof(bool))
+				return (bool)obj ? "Да" : "Нет";
+
+			if (objType.IsEnum)
+				return ((Enum)obj).ToDescription();
+
+			if (objType == typeof(Guid))
+				return UidToObjectName((Guid)obj);
+
+			return obj.ToString();
+		}
+
+		public static string GetStringValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		{
+			switch (explicitType)
+			{
+				case ExplicitType.Boolean:
+					return explicitValue.BoolValue ? "Да" : "Нет";
+				case ExplicitType.DateTime:
+					return explicitValue.DateTimeValue.ToString();
+				case ExplicitType.Integer:
+					return explicitValue.IntValue.ToString();
+				case ExplicitType.String:
+					return explicitValue.StringValue;
+				case ExplicitType.Enum:
+					{
+						switch (enumType)
+						{
+							case EnumType.StateType:
+								return explicitValue.StateTypeValue.ToDescription();
+							case EnumType.DriverType:
+								return explicitValue.DriverTypeValue.ToDescription();
+							case EnumType.PermissionType:
+								return explicitValue.PermissionTypeValue.ToDescription();
+							case EnumType.JournalEventDescriptionType:
+								return explicitValue.JournalEventDescriptionTypeValue.ToDescription();
+							case EnumType.JournalEventNameType:
+								return explicitValue.JournalEventNameTypeValue.ToDescription();
+							case EnumType.JournalObjectType:
+								return explicitValue.JournalObjectTypeValue.ToDescription();
+							case EnumType.ColorType:
+								return explicitValue.ColorValue.ToString();
+						}
+					}
+					break;
+				case ExplicitType.Object:
+				default:
+					return UidToObjectName(explicitValue.UidValue);
+			}
+			return "";
+		}
+		
+		static string UidToObjectName(Guid uid)
+		{
+			if (uid == Guid.Empty)
+				return "";
+			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uid);
+			if (device != null)
+				return device.PresentationName;
+			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uid);
+			if (zone != null)
+				return zone.PresentationName;
+			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uid);
+			if (guardZone != null)
+				return guardZone.PresentationName;
+			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uid);
+			if (camera != null)
+				return camera.PresentationName;
+			var gKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uid);
+			if (gKDoor != null)
+				return gKDoor.PresentationName;
+			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uid);
+			if (direction != null)
+				return direction.PresentationName;
+			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uid);
+			if (delay != null)
+				return delay.PresentationName;
+			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == uid);
+			if (pumpStation != null)
+				return pumpStation.PresentationName;
+			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uid);
+			if (mpt != null)
+				return mpt.PresentationName;
+			var organisation = OrganisationHelper.GetSingle(uid);
+			if (organisation != null)
+				return organisation.Name;
+			return "";
 		}
 	}
 }

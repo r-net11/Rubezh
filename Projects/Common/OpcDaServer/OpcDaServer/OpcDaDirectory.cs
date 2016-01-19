@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpcDaServer
+namespace OpcFoundation
 {
 	public class OpcDaDirectory: OpcDaItemBase
 	{
-		private OpcDaDirectory() { throw new NotImplementedException(); }
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -33,7 +31,7 @@ namespace OpcDaServer
 			}
 			else
 			{
-				_directoryName = String.IsNullOrEmpty(directoryName) ? RootDirectory : _directoryName;
+				_directoryName = String.IsNullOrEmpty(directoryName) ? RootDirectory : directoryName;
 			}
 		}
 
@@ -52,12 +50,11 @@ namespace OpcDaServer
 			get { return _directoryName == RootDirectory; }
 		}
 
-		string _directoryName;
-		List<OpcDaItemBase> _tags;
+		List<OpcDaItemBase> _items = new List<OpcDaItemBase>();
 
 		/// <summary>
 		/// Список воложенных тегов и директорий
 		/// </summary>
-		public IList<OpcDaItemBase> Tags { get; }
+		public IList<OpcDaItemBase> Items { get { return _items; } }
 	}
 }

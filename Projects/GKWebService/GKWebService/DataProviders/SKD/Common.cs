@@ -14,7 +14,7 @@ namespace GKWebService.DataProviders.SKD
             {
                 throw new InvalidOperationException("Сервис вернул ссылку на объект не указывающую на экземпляр объекта");
             }
-            if (operationResult.HasError)
+            if (operationResult.Errors != null && operationResult.HasError)
             {
                 throw new InvalidOperationException(operationResult.Error);
             }

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="AutomationModule.Views.OpcTechnosoftWriteTagsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 xmlns:model="clr-namespace:OpcClientSdk.Da;assembly=OpcDaClientSdk40"
+			 xmlns:local="clr-namespace:AutomationModule.ViewModels"
+			 MinWidth="200" MinHeight="300">
+
+	<UserControl.Resources>
+		<!--<ObjectDataProvider x:Key="GetEnumValues" MethodName="GetValues" 
+							ObjectType="{x:Type sys:Enum}">
+			<ObjectDataProvider.MethodParameters>
+				<x:Type TypeName="model:Boolean" />
+			</ObjectDataProvider.MethodParameters>
+		</ObjectDataProvider>-->
+		
+		<ObjectDataProvider x:Key="QualityValueList" MethodName="QualityValues" 
+							ObjectType="{x:Type local:OpcTechnosoftWriteTagsViewModel}">
+			<!--<ObjectDataProvider.MethodParameters>
+				<x:Type TypeName="model:TsCDaQuality" />
+			</ObjectDataProvider.MethodParameters>-->
+		</ObjectDataProvider>
+		<ObjectDataProvider x:Key="BooleanValueList" MethodName="GetBooleanValues" 
+							ObjectType="{x:Type local:OpcTechnosoftWriteTagsViewModel}">
+			<!--<ObjectDataProvider.MethodParameters>
+				<x:Type TypeName="model:TsCDaQuality" />
+			</ObjectDataProvider.MethodParameters>-->
+		</ObjectDataProvider>
+	</UserControl.Resources>
+	
+	<StackPanel>
+		<DataGrid ItemsSource="{Binding Tags}" Margin="3" IsReadOnly="False" MinHeight="100">
+			<DataGrid.Columns>
+				<DataGridCheckBoxColumn Header="Записать тег" IsReadOnly="False" IsThreeState="False"
+										Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" />
+				<DataGridTextColumn Header="Тег" IsReadOnly="True" Binding="{Binding Tag.ItemName}" />
+				<DataGridComboBoxColumn Header="Качество значения" IsReadOnly="False" 
+										ItemsSource="{Binding Source={StaticResource QualityValueList}}" 
+										SelectedItemBinding="{Binding ValueQuality, UpdateSourceTrigger=PropertyChanged}" />
+				<DataGridComboBoxColumn Header="Значение" IsReadOnly="False"
+										ItemsSource="{Binding Source={StaticResource BooleanValueList}}"
+										SelectedItemBinding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+			</DataGrid.Columns>
+		</DataGrid>
+		<Button Content="Записать теги" Command="{Binding WriteTagsCommand}" />
+	</StackPanel>
+</UserControl>

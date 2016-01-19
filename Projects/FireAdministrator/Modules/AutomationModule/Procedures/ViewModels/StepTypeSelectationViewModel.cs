@@ -147,6 +147,12 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.RviAlarm),
 								}),
 						}),
+					new StepTypeViewModel("OPC DA Сервер", "/Controls;component/StepIcons/Control.png",
+						new List<StepTypeViewModel>
+						{
+							new StepTypeViewModel(ProcedureStepType.ControlOpcDaTagGet),
+							new StepTypeViewModel(ProcedureStepType.ControlOpcDaTagSet)
+						}),
 					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",
 						new List<StepTypeViewModel>
 						{
