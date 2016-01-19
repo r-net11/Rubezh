@@ -237,7 +237,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return FiresecService.ReadOpcDaServerTags(clientUID, server);
+					return firesecService.ReadOpcDaServerTags(clientUID, server);
 			}, "ReadOpcDaServerTags");
 		}
 
@@ -246,8 +246,8 @@ namespace RubezhClient
 			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
-				using (firesecService as IDisposable)			
-					return FiresecService.WriteOpcDaServerTags(clientUID, server, tagValues);
+				using (firesecService as IDisposable)
+					return firesecService.WriteOpcDaServerTags(clientUID, server, tagValues);
 			}, "WriteOpcDaServerTags");
 		}
 	}

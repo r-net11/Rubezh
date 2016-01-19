@@ -1,13 +1,13 @@
-﻿using RubezhAPI.Automation;
+﻿using RubezhAPI;
+using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using RubezhClient;
 using System.Collections.ObjectModel;
-using RubezhAPI;
+using System.Linq;
 using Property = RubezhAPI.Automation.Property;
-using RubezhClient.SKDHelpers;
 
 namespace Infrastructure.Automation
 {
@@ -187,6 +187,8 @@ namespace Infrastructure.Automation
 		public static List<T> GetEnumList<T>()
 		{
 			var result = new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
+			result.Sort();
+			return result;
 		}
 
 		public static string GetProcedureName(Guid procedureUid)
@@ -252,7 +254,7 @@ namespace Infrastructure.Automation
 			}
 			return "";
 		}
-		
+
 		static string UidToObjectName(Guid uid)
 		{
 			if (uid == Guid.Empty)
