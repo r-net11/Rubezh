@@ -115,8 +115,6 @@ namespace FiresecService.Report.Templates
 					dataRow.TotalPresence = totalPresence.TotalHours + totalOvertime.TotalHours + totalNight.TotalHours;
 					dataRow.DocumentOvertime = totalDocumentOvertime.TotalHours;
 					dataRow.DocumentAbsence = totalDocumentAbsence.TotalHours;
-					dataRow.Balance = balance.TotalHours;
-					dataRow.TotalBalance = balance.TotalHours;
 					dataRow.Balance = -(dataRow.ScheduleDay + dataRow.ScheduleNight) + dataRow.TotalPresence;
 					dataRow.TotalBalance = dataRow.Balance + dataRow.DocumentOvertime - dataRow.DocumentAbsence;
 				}
