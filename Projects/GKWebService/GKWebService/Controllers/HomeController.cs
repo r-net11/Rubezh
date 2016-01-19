@@ -2,6 +2,7 @@
 using GKWebService.Models;
 using GKWebService.Models.FireZone;
 using RubezhAPI;
+using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -54,7 +55,7 @@ namespace GKWebService.Controllers
 		public JsonResult GetDirections()
 		{
 			var directions = new List<GKDirection>();
-			foreach(var direction in GKManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				var copyDirection = new GKDirection()
 				{
