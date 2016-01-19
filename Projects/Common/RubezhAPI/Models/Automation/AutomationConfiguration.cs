@@ -33,6 +33,9 @@ namespace RubezhAPI.Automation
 		[DataMember]
 		public List<Variable> GlobalVariables { get; set; }
 
+		[DataMember]
+		public List<OpcDaServer> OpcDaTsServers { get; set; }
+
 		public void UpdateConfiguration()
 		{
 			foreach (var procedure in Procedures)

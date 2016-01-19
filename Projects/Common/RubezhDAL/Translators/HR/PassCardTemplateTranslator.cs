@@ -32,20 +32,16 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<API.PassCardTemplate> GetPassCardTemplate(Guid? uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (uid == null)
-					return new OperationResult<API.PassCardTemplate>();
+					return null;
 				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == uid.Value);
 				if(tableItem == null)
-					return new OperationResult<API.PassCardTemplate>();
+					return null;
 				var result =Translate(tableItem);
-				return new OperationResult<API.PassCardTemplate>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<API.PassCardTemplate>.FromError(e.Message);
-			}
+				return result;
+			});
 		}
 
 		API.PassCardTemplate Translate(PassCardTemplate tableItem)

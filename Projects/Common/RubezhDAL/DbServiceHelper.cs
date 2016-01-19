@@ -3,20 +3,20 @@ using RubezhAPI;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using Infrastructure.Common;
+using Common;
 
 namespace RubezhDAL.DataClasses
 {
 	public static class DbServiceHelper
 	{
-		public static OperationResult ConcatOperationResults(params OperationResult[] results)
+		public static OperationResult<T> ConcatOperationResults<T>(params OperationResult<T>[] results)
 		{
-			var result = new OperationResult();
+			var result = new OperationResult<T>();
 			foreach (var item in results)
 			{
 				if (item.HasError)
 				{
-					result.HasError = true;
-					result.Error = string.Format("{0} {1}", result.Error, item.Error);
+					result.Errors.Add(item.Error);
 				}
 			}
 			return result;
@@ -37,6 +37,19 @@ namespace RubezhDAL.DataClasses
 				default:
 					connectionFactory = new SqlConnectionFactory();
 					return connectionFactory.CreateConnection(connectionString);
+			}
+		}
+
+		public static OperationResult<T> InTryCatch<T>(Func<T> function)
+		{
+			try
+			{
+				return new OperationResult<T>(function());
+			}
+			catch (System.Exception e)
+			{
+				Logger.Error(e);
+				return OperationResult<T>.FromError(e.Message);
 			}
 		}
 	}

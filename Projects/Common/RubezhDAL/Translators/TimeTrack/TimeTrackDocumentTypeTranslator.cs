@@ -23,7 +23,7 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<List<API.TimeTrackDocumentType>> Get(Guid organisationUID, IEnumerable<TimeTrackDocumentType> tableItems)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableTimeTrackDocumentTypes = tableItems.Where(x => x.OrganisationUID == organisationUID);
 				if (tableTimeTrackDocumentTypes != null)
@@ -33,14 +33,10 @@ namespace RubezhDAL.DataClasses
 					{
 						timeTrackDocumentTypes.Add(Translate(tableItem));
 					}
-					return new OperationResult<List<API.TimeTrackDocumentType>>(timeTrackDocumentTypes);
+					return timeTrackDocumentTypes;
 				}
-				return new OperationResult<List<API.TimeTrackDocumentType>>(new List<API.TimeTrackDocumentType>());
-			}
-			catch (Exception e)
-			{
-				return OperationResult<List<API.TimeTrackDocumentType>>.FromError(e.Message);
-			}
+				return new List<API.TimeTrackDocumentType>();
+			});
 		}
 
 		public API.TimeTrackDocumentType Translate(TimeTrackDocumentType tableItem)
@@ -56,9 +52,9 @@ namespace RubezhDAL.DataClasses
 			};
 		}
 
-		public OperationResult AddTimeTrackDocumentType(API.TimeTrackDocumentType timeTrackDocumentType)
+		public OperationResult<bool> AddTimeTrackDocumentType(API.TimeTrackDocumentType timeTrackDocumentType)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = new TimeTrackDocumentType();
 				tableItem.UID = timeTrackDocumentType.UID;
@@ -69,16 +65,12 @@ namespace RubezhDAL.DataClasses
 				tableItem.DocumentType = (int)timeTrackDocumentType.DocumentType;
 				Context.TimeTrackDocumentTypes.Add(tableItem);
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
-		public OperationResult EditTimeTrackDocumentType(API.TimeTrackDocumentType timeTrackDocumentType)
+		public OperationResult<bool> EditTimeTrackDocumentType(API.TimeTrackDocumentType timeTrackDocumentType)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = (from x in Context.TimeTrackDocumentTypes where x.UID.Equals(timeTrackDocumentType.UID) select x).FirstOrDefault();
 				if (tableItem != null)
@@ -89,26 +81,18 @@ namespace RubezhDAL.DataClasses
 					tableItem.DocumentType = (int)timeTrackDocumentType.DocumentType;
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
-		public OperationResult RemoveTimeTrackDocumentType(Guid uid)
+		public OperationResult<bool> RemoveTimeTrackDocumentType(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Context.TimeTrackDocumentTypes.Where(x => x.UID.Equals(uid)).Single();
 				Context.TimeTrackDocumentTypes.Remove(tableItem);
 				Context.SaveChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
+				return true;
+			});
 		}
 	}
 }

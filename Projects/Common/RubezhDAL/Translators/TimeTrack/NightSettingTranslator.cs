@@ -17,9 +17,9 @@ namespace RubezhDAL.DataClasses
 			DbService = context;
 		}
 
-		public OperationResult Save(API.NightSettings item)
+		public OperationResult<bool> Save(API.NightSettings item)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				bool isNew = false;
 				var tableItem = Context.NightSettings.FirstOrDefault(x => x.UID == item.UID);
@@ -34,27 +34,19 @@ namespace RubezhDAL.DataClasses
 				if (isNew)
 					Context.NightSettings.Add(tableItem);
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		public OperationResult<API.NightSettings> GetByOrganisation(Guid organisationUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Context.NightSettings.FirstOrDefault(x => x.OrganisationUID == organisationUID);
 				if (tableItem == null)
-					return new OperationResult<API.NightSettings>();
-				return new OperationResult<API.NightSettings>(Transalte(tableItem));
-			}
-			catch (Exception e)
-			{
-				return OperationResult<API.NightSettings>.FromError(e.Message);
-			}
+					return null;
+				return Transalte(tableItem);
+			});
 		}
 
 		public API.NightSettings Transalte(NightSetting tableItem)
