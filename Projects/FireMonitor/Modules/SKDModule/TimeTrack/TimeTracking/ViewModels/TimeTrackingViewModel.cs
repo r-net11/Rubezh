@@ -1,4 +1,7 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Reactive;
+using System.Security.AccessControl;
+using System.Threading.Tasks;
+using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -33,13 +36,28 @@ namespace SKDModule.ViewModels
 		private List<TimeTrack> _cachedTimeTracks;
 		private const int RecordsPerPage = 25;
 		private readonly ObservableAsPropertyHelper<ObservableCollection<TimeTrack>> _searchResults;
+		private readonly ObservableAsPropertyHelper<int> _totalPageNumber;
 		private int _pageNumber;
 		int _rowHeight;
 		private bool _isFilterAccepted;
+		private static object locker = new object();
 
 		#endregion
 
 		#region Properties
+
+		private bool _isBisy;
+
+		public bool IsBisy
+		{
+			get { return _isBisy; }
+			set
+			{
+				if (_isBisy == value) return;
+				_isBisy = value;
+				OnPropertyChanged(() => IsBisy);
+			}
+		}
 
 		public bool IsFilterAccepted
 		{
@@ -89,12 +107,9 @@ namespace SKDModule.ViewModels
 
 		public int TotalPageNumber
 		{
-			get
-			{
-				if (_cachedTimeTracks == null) return 0;
-				return ((_cachedTimeTracks.Count - 1) / RecordsPerPage + 1) - 1;
-			}
+			get { return _totalPageNumber != null ? _totalPageNumber.Value : default(int); }
 		}
+
 
 		public TimeTrack SelectedTimeTrack
 		{
@@ -154,8 +169,8 @@ namespace SKDModule.ViewModels
 			FirstPageCommand = new ReactiveAsyncCommand(canSelectPreviousPage);
 			FirstPageCommand.RegisterAsyncAction(_ => PageNumber = default(int));
 
-			IObservable<bool> canSelectNextPage = this.WhenAny(x => x.PageNumber,
-													x => (_cachedTimeTracks != null && (x.Value < TotalPageNumber)));
+			IObservable<bool> canSelectNextPage = this.ObservableForProperty(x => x.TotalPageNumber).Select(x => x.Value > PageNumber)
+				.Merge(this.WhenAny(x => x.PageNumber, x => (_cachedTimeTracks != null && (x.Value < TotalPageNumber))));
 			NextPageCommand = new ReactiveAsyncCommand(canSelectNextPage);
 			NextPageCommand.RegisterAsyncAction(_ => PageNumber++);
 
@@ -167,30 +182,44 @@ namespace SKDModule.ViewModels
 			});
 
 			RefreshCommand = new ReactiveAsyncCommand();
-			RefreshCommand.RegisterAsyncAction(_ => UpdateGrid());
+			RefreshCommand.Subscribe(_ => IsBisy = true);
+			RefreshCommand.RegisterAsyncAction(_ => UpdateGrid()).Subscribe(x => { IsBisy = false; });
+
+			var executeUpdateTotalPageCounterCommand = new ReactiveAsyncCommand();
 
 			var executeSearchCommand = new ReactiveAsyncCommand();
-			executeSearchCommand.Subscribe(x =>
+			executeSearchCommand
+				//.ObserveOn(RxApp.TaskpoolScheduler)
+				.Subscribe(x =>
 			{
 				if (SelectedTimeTrack == null && SearchResults == null) return;
 				SelectedTimeTrack = SelectedTimeTrack ?? SearchResults.FirstOrDefault();
 
 			});
+
+			var resultsTotalPages = executeUpdateTotalPageCounterCommand.RegisterAsyncFunction(x => _cachedTimeTracks != null ? ((_cachedTimeTracks.Count - 1)/RecordsPerPage + 1) - 1 : default(int));
+			_executeUpdateTotalPageCounterCommand = executeUpdateTotalPageCounterCommand;
+
 			var results = executeSearchCommand.RegisterAsyncFunction(s => ExecuteSearch((int) s));
 			_executeSearchCommand = executeSearchCommand;
 
 			this.WhenAny(x => x.IsActive, x => x.PageNumber, x => x.IsFilterAccepted,
 				(isActive, pageNumber, isFilterAccepted) => new { IsActive = isActive.Value, PageNumber = pageNumber.Value, IsFilterAccepted = isFilterAccepted.Value })
-			//	.Throttle(TimeSpan.FromMilliseconds(1000))
+				//.Throttle(TimeSpan.FromMilliseconds(1000))
 				.Select(x => new { x.PageNumber, x.IsFilterAccepted })
 				.Where(x => (x.PageNumber >= default(int) && x.PageNumber <= TotalPageNumber) || x.IsFilterAccepted)
+			//	.ObserveOn(RxApp.TaskpoolScheduler)
 				.Subscribe(value =>
 				{
+					IsBisy = true;
 					_executeSearchCommand.Execute(value.PageNumber);
+					_executeUpdateTotalPageCounterCommand.Execute(null);
 					IsFilterAccepted = false;
+					IsBisy = false;
 				});
 
 			_searchResults = new ObservableAsPropertyHelper<ObservableCollection<TimeTrack>>(results, _ => OnPropertyChanged(() => SearchResults));
+			_totalPageNumber = new ObservableAsPropertyHelper<int>(resultsTotalPages, _ => OnPropertyChanged(() => TotalPageNumber));
 
 			this.WhenAny(x => x.IsActive, x => x.Value)
 				.Subscribe(value =>
@@ -271,8 +300,10 @@ namespace SKDModule.ViewModels
 
 			_timeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
 			_cachedTimeTracks = _timeTrackEmployeeResults.Select(x => new TimeTrack(_timeTrackFilter, x)).OrderBy(x => x.ShortEmployee.FirstName).ToList();
+
 			if(_executeSearchCommand != null)
-			_executeSearchCommand.Execute(PageNumber);
+				_executeSearchCommand.Execute(PageNumber);
+
 			RowHeight = 60 + 20 * _timeTrackFilter.TotalTimeTrackTypeFilters.Count;
 		}
 
@@ -281,21 +312,34 @@ namespace SKDModule.ViewModels
 			var resultFileName = Path.Combine(AppDataFolderHelper.GetFolder("Temp"), "ClientTimeTrackResult.xml");
 
 			if (!Directory.Exists(resultFileName)) Directory.CreateDirectory(AppDataFolderHelper.GetFolder("Temp"));
+			TimeTrackResult timeTrackResult = null;
+			lock (locker)
+			{
+				//using (var fileStream = File.Create(resultFileName))
+				using (var fileStream = new FileStream(resultFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+				{
+					using (
+						var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter,
+							_timeTrackFilter.StartDate, _timeTrackFilter.EndDate))
+					{
+						FiresecManager.CopyStream(stream, fileStream);
+					}
+				}
+				timeTrackResult = Deserialize(resultFileName);
+			}
+			//var resultFileStream = File.Create(resultFileName);
+		//	var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate);
+			//FiresecManager.CopyStream(stream, resultFileStream);
 
-			var resultFileStream = File.Create(resultFileName);
-			var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate);
-			FiresecManager.CopyStream(stream, resultFileStream);
-
-			return Deserialize(resultFileName);
+			return timeTrackResult;
 		}
 
 		public static TimeTrackResult Deserialize(string fileName)
 		{
-			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None))
 			{
 				var dataContractSerializer = new DataContractSerializer(typeof(TimeTrackResult));
 				var result = (TimeTrackResult)dataContractSerializer.ReadObject(fileStream);
-				fileStream.Close();
 				return result;
 			}
 		}
@@ -305,6 +349,7 @@ namespace SKDModule.ViewModels
 		#region Commands
 
 		private readonly ICommand _executeSearchCommand;
+		private readonly ICommand _executeUpdateTotalPageCounterCommand;
 
 		public ReactiveAsyncCommand LastPageCommand { get; private set; }
 
@@ -320,9 +365,13 @@ namespace SKDModule.ViewModels
 			var filterViewModel = new TimeTrackFilterViewModel(_timeTrackFilter);
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
-				UpdateGrid();
-				PageNumber = default(int);
-				IsFilterAccepted = true;
+				IsBisy = true;
+				Task.Factory.StartNew(UpdateGrid).ContinueWith(_ =>
+				{
+					IsBisy = false;
+					PageNumber = default(int);
+					IsFilterAccepted = true;
+				}, TaskContinuationOptions.OnlyOnRanToCompletion);
 			}
 		}
 
