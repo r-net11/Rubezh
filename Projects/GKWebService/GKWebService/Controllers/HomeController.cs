@@ -83,8 +83,8 @@ namespace GKWebService.Controllers
 
 		public JsonResult GetFireZonesData()
 		{
-			//Получили данные с сервера
-			var zone = FireZonesDataProvider.Instance.GetFireZones();
+            //Получили данные с сервера
+            var zone = FireZonesDataProvider.Instance.GetFireZones();
 
 			//Создали объект для передачи на клиент и заполняем его данными
 			FireZone data = new FireZone();

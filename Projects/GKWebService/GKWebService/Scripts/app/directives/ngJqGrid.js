@@ -12,13 +12,19 @@
 
                 scope.$watch('config', function (newValue) {
                     element.children().empty();
-                    table = angular.element('<table id = "grid"></table>');
+                    table = angular.element('<table id="grid"></table>');
                     element.append(table);
                     $(table).jqGrid(newValue);
                 });
 
                 scope.$watch('data', function (newValue, oldValue) {
-                    table[0].addJSONData({rows: newValue});
+                    var i;
+                    for (i = oldValue.length - 1; i >= 0; i--) {
+                        $(table).jqGrid('delRowData', i);
+                    }
+                    for (i = 0; i < newValue.length; i++) {
+                        $(table).jqGrid('addRowData', i, newValue[i]);
+                    }
                 });
             }
         };
