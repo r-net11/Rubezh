@@ -1,4 +1,5 @@
 ﻿using OpcClientSdk;
+using OpcClientSdk.Da;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
@@ -55,7 +56,6 @@ namespace RubezhClient
 		void ExportOrganisation(bool isWithDeleted, Guid organisationUid, string path);
 		OperationResult<bool> ExportOrganisationList(ExportFilter filter);
 		void ExportOrganisationList(bool isWithDeleted, string path);
-		IFiresecService FiresecService { get; set; }
 		OperationResult<bool> GenerateEmployeeDays();
 		OperationResult<bool> GenerateJournal();
 		OperationResult<bool> GenerateTestData(bool isAscending);
@@ -224,6 +224,7 @@ namespace RubezhClient
 		OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID);
 		OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server);
 		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server);
-
+		OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
+		OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues);
 	}
 }

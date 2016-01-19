@@ -7,17 +7,22 @@ using Infrastructure.Automation;
 using Infrastructure.Client;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using OpcClientSdk.Da;
+using Microsoft.Practices.Prism.Events;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.Journal;
+using RubezhAPI.Models;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
@@ -146,7 +151,7 @@ namespace FireMonitor
 
 		object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
 		{
-			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
 				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
@@ -156,7 +161,7 @@ namespace FireMonitor
 			if (opcDaTag == null)
 				return null;
 
-			var tagsValues = ClientManager.FiresecService.ReadOpcDaServerTags(opcDaServer);
+			var tagsValues = ClientManager.FiresecService.ReadOpcDaServerTags(clientUID, opcDaServer);
 			if (tagsValues.HasError)
 				return null;
 
@@ -166,7 +171,7 @@ namespace FireMonitor
 
 		bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
 		{
-			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
 				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
 			if (opcDaServer == null)
@@ -176,7 +181,7 @@ namespace FireMonitor
 			if (opcDaTag == null)
 				return false;
 
-			var result = ClientManager.FiresecService.WriteOpcDaServerTags(opcDaServer,
+			var result = ClientManager.FiresecService.WriteOpcDaServerTags(clientUID, opcDaServer,
 				new TsCDaItemValue[] 
 				{ 
 					new TsCDaItemValue 
@@ -192,22 +197,6 @@ namespace FireMonitor
 
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
 		{
-			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.ShowDialog)
-			{
-				var data = automationCallbackResult.Data as ShowDialogCallbackData;
-				var layoutUID = GetLayoutUID();
-				if (layoutUID.HasValue && data != null && data.LayoutFilter != null && data.LayoutFilter.Contains(layoutUID.Value))
-					LayoutDialogViewModel.Show(data);
-				return;
-			}
-			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.CloseDialog)
-			{
-				var data = automationCallbackResult.Data as CloseDialogCallbackData;
-				var layoutUID = GetLayoutUID();
-				if (layoutUID.HasValue && data != null && data.LayoutFilter != null && data.LayoutFilter.Contains(layoutUID.Value))
-					LayoutDialogViewModel.Close(data);
-				return;
-			}
 			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GlobalVariable)
 			{
 				var data = automationCallbackResult.Data as GlobalVariableCallBackData;
@@ -216,6 +205,130 @@ namespace FireMonitor
 					var variable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == data.VariableUID);
 					ProcedureExecutionContext.SetVariableValue(variable, data.Value, null);
 				}
+				return;
+			}
+
+			if (!AutomationHelper.CheckLayoutFilter(automationCallbackResult, GetLayoutUID()))
+				return;
+
+			switch (automationCallbackResult.AutomationCallbackType)
+			{
+				case AutomationCallbackType.ShowDialog:
+					var showDialogData = automationCallbackResult.Data as ShowDialogCallbackData;
+					if (showDialogData != null)
+						LayoutDialogViewModel.Show(showDialogData);
+					break;
+				case AutomationCallbackType.CloseDialog:
+					var closeDialogData = automationCallbackResult.Data as CloseDialogCallbackData;
+					if (closeDialogData != null)
+						LayoutDialogViewModel.Close(closeDialogData);
+					break;
+				case AutomationCallbackType.Sound:
+					var soundData = (SoundCallbackData)automationCallbackResult.Data;
+					var sound =
+						ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(
+							x => x.Uid == soundData.SoundUID);
+					if (sound != null)
+						ApplicationService.Invoke(
+							() =>
+								AlarmPlayerHelper.Play(
+									FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())),
+									BeeperType.Alarm, false));
+					break;
+				case AutomationCallbackType.Message:
+					var messageData = (MessageCallbackData)automationCallbackResult.Data;
+					ApplicationService.Invoke(() =>
+					{
+						if (messageData.WithConfirmation)
+						{
+							var confirm = MessageBoxService.ShowConfirmation(messageData.Message, "Сообщение");
+							ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
+						}
+						else
+							MessageBoxService.ShowExtended(messageData.Message, "Сообщение", messageData.IsModalWindow);
+					});
+					break;
+				case AutomationCallbackType.Property:
+					{
+						var propertyData = (PropertyCallBackData)automationCallbackResult.Data;
+						var ShowObjectDetailsEvent = new CompositePresentationEvent<Guid>();
+						switch (propertyData.ObjectType)
+						{
+							case ObjectType.Device:
+								var device = GKManager.Devices.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (device != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
+								break;
+
+							case ObjectType.Zone:
+								var zone = GKManager.Zones.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (zone != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
+								break;
+
+							case ObjectType.Direction:
+								var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (direction != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
+								break;
+
+							case ObjectType.Delay:
+								var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (delay != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
+								break;
+
+							case ObjectType.GuardZone:
+								var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (guardZone != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
+								break;
+
+							case ObjectType.VideoDevice:
+								var videoDevice = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (videoDevice != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
+								break;
+
+							case ObjectType.GKDoor:
+								var gkDoor = GKManager.Doors.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (gkDoor != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
+								break;
+
+							case ObjectType.PumpStation:
+								var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (pumpStation != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
+								break;
+
+							case ObjectType.MPT:
+								var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == propertyData.ObjectUid);
+								if (mpt != null)
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
+								break;
+						}
+						if (ShowObjectDetailsEvent != null)
+							ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyData.ObjectUid));
+					}
+					break;
+				case AutomationCallbackType.GetPlanProperty:
+					var controlPlanEventArg = new ControlPlanEventArg
+					{
+						ControlElementType = ControlElementType.Get,
+						PlanCallbackData = (PlanCallbackData)automationCallbackResult.Data
+					};
+					ServiceFactory.Events.GetEvent<ControlPlanEvent>().Publish(controlPlanEventArg);
+					ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, controlPlanEventArg.PlanCallbackData.Value);
+					break;
+				case AutomationCallbackType.SetPlanProperty:
+					controlPlanEventArg = new ControlPlanEventArg
+					{
+						ControlElementType = ControlElementType.Set,
+						PlanCallbackData = (PlanCallbackData)automationCallbackResult.Data
+					};
+					ServiceFactory.Events.GetEvent<ControlPlanEvent>().Publish(controlPlanEventArg);
+					break;
 			}
 
 		}

@@ -17,7 +17,8 @@ namespace AutomationModule.ViewModels
 			ShowDialogArguments = stepViewModel.Step.ShowDialogArguments;
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 			WindowUIDArgument = new ArgumentViewModel(ShowDialogArguments.WindowIDArgument, stepViewModel.Update, UpdateContent);
-			WindowUIDArgument.Update(Procedure, ExplicitType.String);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowDialogArguments.LayoutFilter);
+			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 
 		public bool ForAllClients
@@ -177,7 +178,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return string.Format("Открыть диалог: {0} {1}", SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModalWindow ? "(модальный)" : "(не модальный)");
+				return string.Format("Открыть диалог: {0} {1}; ID={2}", SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModalWindow ? "(модальный)" : "(не модальный)", WindowUIDArgument.Description);
 			}
 		}
 
@@ -195,8 +196,7 @@ namespace AutomationModule.ViewModels
 		{
 			Layouts = new ObservableCollection<LayoutViewModel>(ClientManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ShowDialogArguments.Layout);
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowDialogArguments.LayoutFilter);
-			IsServerContext = Procedure.ContextType == ContextType.Server;
+			WindowUIDArgument.Update(Procedure, ExplicitType.String);
 		}
 	}
 }

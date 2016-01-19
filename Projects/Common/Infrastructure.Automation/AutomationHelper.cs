@@ -1,17 +1,28 @@
-﻿using RubezhAPI.Automation;
+﻿using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.AutomationCallback;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using RubezhClient;
 using System.Collections.ObjectModel;
-using RubezhAPI;
+using System.Linq;
 using Property = RubezhAPI.Automation.Property;
-using RubezhClient.SKDHelpers;
 
 namespace Infrastructure.Automation
 {
 	public static class AutomationHelper
 	{
+		public static bool CheckLayoutFilter(AutomationCallbackResult automationCallbackResult, Guid? layoutUID)
+		{
+			if (automationCallbackResult == null)
+				return false;
+			if (automationCallbackResult.Data == null || !(automationCallbackResult.Data is UIAutomationCallbackData))
+				return true;
+			var data = automationCallbackResult.Data as UIAutomationCallbackData;
+			return data.LayoutFilter != null && layoutUID.HasValue && data.LayoutFilter.Contains(layoutUID.Value);
+		}
+
 		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
 			var allVariables =
@@ -86,7 +97,7 @@ namespace Infrastructure.Automation
 					Property.Uid
 				};
 			if (objectType == ObjectType.Zone)
-				return new List<Property> {Property.Description, Property.No, Property.Uid, Property.Name, Property.State};
+				return new List<Property> { Property.Description, Property.No, Property.Uid, Property.Name, Property.State };
 			if (objectType == ObjectType.Direction)
 				return new List<Property>
 				{
@@ -116,7 +127,7 @@ namespace Infrastructure.Automation
 					Property.State
 				};
 			if (objectType == ObjectType.GuardZone)
-				return new List<Property> {Property.Description, Property.No, Property.Uid, Property.Name, Property.State};
+				return new List<Property> { Property.Description, Property.No, Property.Uid, Property.Name, Property.State };
 			if (objectType == ObjectType.GKDoor)
 				return new List<Property>
 				{
@@ -135,16 +146,16 @@ namespace Infrastructure.Automation
 			if (objectType == ObjectType.VideoDevice)
 				return new List<Property> { Property.Uid, Property.Name };
 			if (objectType == ObjectType.PumpStation)
-				return new List<Property> { Property.Uid, Property.No, Property.Delay, Property.Name };
+				return new List<Property> { Property.Uid, Property.No, Property.Delay, Property.Name, Property.State };
 			if (objectType == ObjectType.MPT)
-				return new List<Property> { Property.Uid, Property.Description, Property.Name };
+				return new List<Property> { Property.Uid, Property.Description, Property.Name, Property.State };
 			return new List<Property>();
 		}
 
 		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType ExplicitType)
 		{
 			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) ||
-			    (ExplicitType == ExplicitType.Object) || ExplicitType == ExplicitType.Enum)
+				(ExplicitType == ExplicitType.Object) || ExplicitType == ExplicitType.Enum)
 				return new List<ConditionType>
 				{
 					ConditionType.IsEqual,
@@ -175,7 +186,9 @@ namespace Infrastructure.Automation
 
 		public static List<T> GetEnumList<T>()
 		{
-			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
+			var result = new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
+			result.Sort();
+			return result;
 		}
 
 		public static string GetProcedureName(Guid procedureUid)
@@ -241,7 +254,7 @@ namespace Infrastructure.Automation
 			}
 			return "";
 		}
-		
+
 		static string UidToObjectName(Guid uid)
 		{
 			if (uid == Guid.Empty)

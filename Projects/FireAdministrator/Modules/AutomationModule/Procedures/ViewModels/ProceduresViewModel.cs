@@ -1,3 +1,4 @@
+using AutomationModule.Plans;
 using Common;
 using Infrastructure;
 using Infrastructure.Common;
@@ -320,6 +321,7 @@ namespace AutomationModule.ViewModels
 				ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
 				var procedureViewModel = new ProcedureViewModel(procedureDetailsViewModel.Procedure);
 				Procedures.Add(procedureViewModel);
+				AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 				SelectedProcedure = procedureViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
@@ -332,6 +334,7 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
 			{
 				SelectedProcedure.Update(procedureDetailsViewModel.Procedure);
+				procedureDetailsViewModel.Procedure.OnChanged();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

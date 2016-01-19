@@ -71,9 +71,7 @@ namespace FiresecService.Service
 				CallbackResultType = CallbackResultType.AutomationCallbackResult,
 				AutomationCallbackResult = automationCallbackResult,
 			};
-			var uiData = automationCallbackResult != null ? automationCallbackResult.Data as UIAutomationCallbackData : null;
-			var layoutUIDs = uiData != null ? uiData.LayoutFilter : null;
-			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID, layoutUIDs);
+			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUID);
 		}
 
 		public static void NotifyJournalItems(List<JournalItem> journalItems, bool isNew)
