@@ -17,7 +17,7 @@ namespace GKProcessor
 		void PingJournal()
 		{
 			JournalParser journalParser;
-			if (IsFirstTimeReadJournal) // Находим последнее событие на КАУ первый раз (при запуске сервера)
+			if (IsFirstTimeReadJournal && !String.IsNullOrEmpty(GkDatabase.RootDevice.GetReservedIpAddress())) // Находим последнее событие на КАУ первый раз (при запуске сервера)
 			{
 				journalParser = GetKauJournalById(-1);
 				if (journalParser != null)
