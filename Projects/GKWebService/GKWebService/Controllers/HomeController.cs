@@ -54,15 +54,18 @@ namespace GKWebService.Controllers
 
 		public JsonResult GetDirections()
 		{
-			var directions = new List<GKDirection>();
-			foreach (var direction in GKManager.Directions)
+			var directions = new List<Direction>();
+			foreach (var realDirection in GKManager.Directions)
 			{
-				var copyDirection = new GKDirection()
+				var direction = new Direction
 				{
-					No = direction.No,
-					Name = direction.Name
+					UID = realDirection.UID,
+					No = realDirection.No,
+					Name = realDirection.Name,
+					State = realDirection.State.StateClass.ToDescription(),
+					StateIcon = realDirection.State.StateClass.ToString()
 				};
-				directions.Add(copyDirection);
+				directions.Add(direction);
 			}
 
 			dynamic result = new
@@ -88,6 +91,9 @@ namespace GKWebService.Controllers
 
 			//Создали объект для передачи на клиент и заполняем его данными
 			FireZone data = new FireZone();
+
+            data.DescriptorPresentationName = zone.DescriptorPresentationName;
+
 			data.Fire1Count = zone.Fire1Count;
 			data.Fire2Count = zone.Fire2Count;
 

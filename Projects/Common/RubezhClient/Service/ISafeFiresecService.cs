@@ -56,7 +56,6 @@ namespace RubezhClient
 		void ExportOrganisation(bool isWithDeleted, Guid organisationUid, string path);
 		OperationResult<bool> ExportOrganisationList(ExportFilter filter);
 		void ExportOrganisationList(bool isWithDeleted, string path);
-		IFiresecService FiresecService { get; set; }
 		OperationResult<bool> GenerateEmployeeDays();
 		OperationResult<bool> GenerateJournal();
 		OperationResult<bool> GenerateTestData(bool isAscending);

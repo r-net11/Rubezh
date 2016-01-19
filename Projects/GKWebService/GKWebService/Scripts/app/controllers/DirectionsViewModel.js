@@ -1,4 +1,9 @@
 ﻿(function () {
+
+    function imageFormat(cellvalue, options, rowObject) {
+        return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/GKStateIcons/' + rowObject.StateIcon + '.png" />' + rowObject.No;
+    };
+
     'use strict';
 
     var app = angular.module('canvasApp.controllers').controller('directionsCtrl',
@@ -6,11 +11,13 @@
             $scope.config = {
                 datatype: "local",
                 colModel: [
-                    { label: 'No', name: 'No', key: true, hidden: false, sortable: false },
+            { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
                     { label: 'Name', name: 'Name', width: 100, hidden: false, sortable: false }
+            { label: 'Номер', name: 'No', key: true, hidden: false, sortable: false, formatter: imageFormat },
+            { label: 'Наименование', name: 'Name', hidden: false, sortable: false },
                 ],
-                width: 630,
-                height: 500,
+        width: jQuery(window).width() - 300,
+        height: jQuery(window).height() - 10,
                 rowNum: 100,
                 viewrecords: true
             };
@@ -51,6 +58,7 @@
 //    $('#jqGridDirections').on('jqGridSelectRow', function (event, id, selected) {
 
 //        var myGrid = $('#jqgrid');
+
 
 //        self.No(myGrid.jqGrid('getCell', id, 'No'));
 //        self.Name(myGrid.jqGrid('getCell', id, 'Name'));
