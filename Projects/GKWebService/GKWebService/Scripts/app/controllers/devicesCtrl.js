@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('canvasApp.controllers').controller('firezonesCtrl',
+    var app = angular.module('canvasApp.controllers').controller('devicesCtrl',
         function ($scope, $http) {
             $http.get('home/GetFireZonesData').success(function (data, status, headers, config) {
                 $scope.data = [];

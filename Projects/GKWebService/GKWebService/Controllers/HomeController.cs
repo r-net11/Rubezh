@@ -91,6 +91,9 @@ namespace GKWebService.Controllers
 
 			//Создали объект для передачи на клиент и заполняем его данными
 			FireZone data = new FireZone();
+
+            data.DescriptorPresentationName = zone.DescriptorPresentationName;
+
 			data.Fire1Count = zone.Fire1Count;
 			data.Fire2Count = zone.Fire2Count;
 

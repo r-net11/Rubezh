@@ -15,6 +15,8 @@ namespace GKWebService.Models.FireZone
 
         public List<Device> devicesList;
 
+        public String DescriptorPresentationName { get; set; }
+
         public FireZone()
         {
             devicesList = new List<Device>();
