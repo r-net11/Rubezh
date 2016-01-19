@@ -16,7 +16,6 @@ namespace RubezhClient
 	public partial class SafeFiresecService : ISafeFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
-		public IFiresecService FiresecService { get; set; }
 		string _serverAddress;
 		ClientCredentials _clientCredentials;
 		bool IsDisconnecting = false;
