@@ -247,6 +247,9 @@
 	<DataTemplate x:Key="httpRequestTemplate">
 		<Views:HttpRequestStepView />
 	</DataTemplate>
+	<DataTemplate x:Key="controlOpcDaTagTemplate">
+		<Views:ControlOpcDaTagStepView />
+	</DataTemplate>
 
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"

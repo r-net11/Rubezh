@@ -37,6 +37,11 @@ namespace GKProcessor
 				return;
 			}
 
+			MPT.LinkToDescriptor(GlobalPim);
+			Formula.AddGetBit(GKStateBit.On, GlobalPim);
+			Formula.Add(FormulaOperationType.BR, 2, 1);
+			Formula.Add(FormulaOperationType.EXIT);
+
 			var mirrorParents = MPT.GetMirrorParents();
 			Formula.AddMirrorLogic(MPT, mirrorParents);
 

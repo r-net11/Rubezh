@@ -214,5 +214,8 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public HttpRequestArguments HttpRequestArguments { get; set; }
+
+		[DataMember]
+		public ControlOpcDaTagArguments ControlOpcDaTagArguments { get; set; }
 	}
 }

@@ -1,6 +1,9 @@
 ﻿using Common;
 using Infrastructure.Common.Windows;
+using OpcClientSdk;
+using OpcClientSdk.Da;
 using RubezhAPI;
+using RubezhAPI.Automation;
 using RubezhAPI.License;
 using RubezhAPI.Models;
 using System;
@@ -13,7 +16,6 @@ namespace RubezhClient
 	public partial class SafeFiresecService : ISafeFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
-		public IFiresecService FiresecService { get; set; }
 		string _serverAddress;
 		ClientCredentials _clientCredentials;
 		bool IsDisconnecting = false;
@@ -197,6 +199,56 @@ namespace RubezhClient
 			Disconnect(FiresecServiceFactory.UID);
 			StopPoll();
 			FiresecServiceFactory.Dispose();
+		}
+
+		public OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID)
+		{
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetOpcDaServers(clientUID);
+			}, "GetOpcDaServerNames");
+		}
+
+		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server)
+		{
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetOpcDaServerStatus(clientUID, server);
+			}, "GetOpcDaServerStatus");
+		}
+
+		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server)
+		{
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetOpcDaServerGroupAndTags(clientUID, server);
+			}, "GetOpcDaServerGroupAndTags");
+		}
+
+		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
+		{
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.ReadOpcDaServerTags(clientUID, server);
+			}, "ReadOpcDaServerTags");
+		}
+
+		public OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues)
+		{
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.WriteOpcDaServerTags(clientUID, server, tagValues);
+			}, "WriteOpcDaServerTags");
 		}
 	}
 }

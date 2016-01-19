@@ -56,7 +56,8 @@ namespace GKWebService.DataProviders
 					UID = realDirection.UID,
 					No = realDirection.No,
 					Name = realDirection.Name,
-					State = realDirection.State.StateClass.ToDescription()
+					State = realDirection.State.StateClass.ToDescription(),
+					StateIcon = realDirection.State.StateClass.ToString()
 				};
 				_directions.TryAdd(direction.UID, direction);
 			}

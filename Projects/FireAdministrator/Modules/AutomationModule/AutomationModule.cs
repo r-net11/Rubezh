@@ -27,6 +27,8 @@ namespace AutomationModule
 		private SchedulesViewModel _schedulesViewModel;
 		private GlobalVariablesViewModel _globalVariablesViewModel;
 		private AutomationPlanExtension _planExtension;
+		private OpcTechnosoftwareViewModel _opcTechnosoftwareViewModel;
+		private OpcDaClientViewModel _opcDaClientViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -36,6 +38,8 @@ namespace AutomationModule
 			_schedulesViewModel = new SchedulesViewModel();
 			_globalVariablesViewModel = new GlobalVariablesViewModel();
 			_planExtension = new AutomationPlanExtension(_proceduresViewModel);
+			_opcTechnosoftwareViewModel = new OpcTechnosoftwareViewModel();
+			_opcDaClientViewModel = new OpcDaClientViewModel();
 		}
 
 		public override void Initialize()
@@ -44,6 +48,7 @@ namespace AutomationModule
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			_soundsViewModel.Initialize();
 			_opcServersViewModel.Initialize();
+			//_opcDaServersViewModel.Initialize();
 			_proceduresViewModel.Initialize();
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
@@ -55,6 +60,8 @@ namespace AutomationModule
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();
+			_opcTechnosoftwareViewModel.Initialize();
+			_opcDaClientViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -67,7 +74,10 @@ namespace AutomationModule
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music"),
-							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2")
+							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2"),
+							//new NavigationItem<ShowOpcDaServersEvent, Guid>(_opcDaServersViewModel, "OPC DA Серверы", "Settings2"),
+							new NavigationItem<ShowOpcTechnosoftwareEvent, Guid>(_opcTechnosoftwareViewModel, "OPC DA on Technosoftware", "Settings2"),
+							new NavigationItem<ShowOpcDaClientEvent, Guid>(_opcDaClientViewModel, "OPC DA Клиент", "Settings2")
 						}) { IsExpanded = true },
 				};
 		}
@@ -87,6 +97,8 @@ namespace AutomationModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml");
 		}
 
 		public IEnumerable<IValidationError> Validate()

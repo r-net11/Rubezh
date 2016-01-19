@@ -217,16 +217,6 @@ namespace GKProcessor.Test
 			errors = Validate();
 			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "К точке доступа не подключено реле на закрытие"));
 
-			Assert.IsFalse(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Для шлагбаума должен быть задан датчик контроля на въезд"));
-			door.LockControlDeviceUID = Guid.Empty;
-			errors = Validate();
-			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Для шлагбаума должен быть задан датчик контроля на въезд"));
-
-			Assert.IsFalse(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Для шлагбаума должен быть задан датчик контроля на выезд"));
-			door.LockControlDeviceExitUID = Guid.Empty;
-			errors = Validate();
-			Assert.IsTrue(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite && x.Error == "Для шлагбаума должен быть задан датчик контроля на выезд"));
-
 			door.AntipassbackOn = true;
 			errors = Validate();
 

@@ -10,18 +10,29 @@ namespace GKProcessor
 	public partial class Watcher
 	{
 		int LastId = -1;
+		int LastKauId = -1;
 		string IpAddress = "";
+		bool IsFirstTimeReadJournal = true;
 
 		void PingJournal()
 		{
+			JournalParser journalParser;
+			if (IsFirstTimeReadJournal && !String.IsNullOrEmpty(GkDatabase.RootDevice.GetReservedIpAddress())) // Находим последнее событие на КАУ первый раз (при запуске сервера)
+			{
+				journalParser = GetKauJournalById(-1);
+				if (journalParser != null)
+					LastKauId = journalParser.KauJournalRecordNo;
+				IsFirstTimeReadJournal = false;
+			}
 			using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Проверка журнала"))
 			{
 				if (IpAddress != GkDatabase.RootDevice.GetGKIpAddress())
 				{
 					if (!String.IsNullOrEmpty(IpAddress))
 					{
-						var lastKauJournal = GetLastKauJournal();
-						LastId = lastKauJournal.GKJournalRecordNo;
+						var lastKauJournal = GetKauJournalById(LastKauId);
+						if (lastKauJournal != null)
+							LastId = lastKauJournal.GKJournalRecordNo;
 					}
 					IpAddress = GkDatabase.RootDevice.GetGKIpAddress();
 				}
@@ -35,7 +46,9 @@ namespace GKProcessor
 					for (int index = LastId + 1; index <= newLastId; index++)
 					{
 						gkLifecycleManager.Progress(index - LastId, newLastId - LastId);
-						ReadAndPublish(index);
+						journalParser = ReadAndPublish(index);
+						if (journalParser != null && journalParser.KauJournalRecordNo != 0)
+							LastKauId = journalParser.KauJournalRecordNo;
 					}
 					LastId = newLastId;
 
@@ -64,14 +77,16 @@ namespace GKProcessor
 			return journalParser.GKJournalRecordNo;
 		}
 
-		JournalParser GetLastKauJournal()
+		JournalParser GetKauJournalById(int lastKauId)
 		{
 			var lastGkId = GetLastId(); // Находим номер последней записи
-			for (int index = lastGkId; index > 0; index--) // Ищем последнюю запись на КАУ
+			for (int index = lastGkId; index > 0; index--) // Ищем последнюю запись на КАУ, записанную в систему
 			{
 				var journalParser = ReadJournal(index);
-				if (journalParser.KauJournalRecordNo != 0)
+				if (journalParser.KauJournalRecordNo != 0 && (journalParser.KauJournalRecordNo <= lastKauId || lastKauId == -1))
 					return journalParser;
+				if (lastGkId - index > 10000) // Если последнии 10000 записей не содержат записи на КАУ, то возвращаем null
+					return null;
 			}
 			return null;
 		}
@@ -100,7 +115,7 @@ namespace GKProcessor
 			return null;
 		}
 
-		void ReadAndPublish(int index)
+		JournalParser ReadAndPublish(int index)
 		{
 			var journalParser = ReadJournal(index);
 			if (journalParser != null)
@@ -142,7 +157,9 @@ namespace GKProcessor
 					CheckTechnologicalRegime();
 					NotifyAllObjectsStateChanged();
 				}
+				return journalParser;
 			}
+			return null;
 		}
 
 		void CheckServiceRequired(GKBase gkBase, JournalItem journalItem)

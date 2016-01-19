@@ -1,4 +1,5 @@
 using FireMonitor.ViewModels;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
@@ -133,7 +134,8 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
 		{
-			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GetVisualProperty || automationCallbackResult.AutomationCallbackType == AutomationCallbackType.SetVisualProperty)
+			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GetVisualProperty || automationCallbackResult.AutomationCallbackType == AutomationCallbackType.SetVisualProperty
+				&& (AutomationHelper.CheckLayoutFilter(automationCallbackResult, Layout == null ? null : (Guid?)Layout.UID)))
 			{
 				var visuaPropertyData = (VisualPropertyCallbackData)automationCallbackResult.Data;
 				var layoutPart = LayoutContainer.LayoutParts.FirstOrDefault(item => item.UID == visuaPropertyData.LayoutPart);

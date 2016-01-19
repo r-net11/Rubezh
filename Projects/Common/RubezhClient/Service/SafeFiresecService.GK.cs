@@ -361,16 +361,23 @@ namespace RubezhClient
 
 		public void GKTurnOnNowGlobalPimsInAutomatic()
 		{
-			var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(1));
-			using (firesecService as IDisposable)
-				SafeOperationCall(() => firesecService.GKTurnOnNowGlobalPimsInAutomatic(FiresecServiceFactory.UID), "GKTurnOnNowGlobalPimsInAutomatic");
+			SafeOperationCall(() =>
+				{
+					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+					using (firesecService as IDisposable)
+						firesecService.GKTurnOnNowGlobalPimsInAutomatic(FiresecServiceFactory.UID);
+				}, "GKTurnOnNowGlobalPimsInAutomatic");
 		}
 
 		public void GKTurnOffNowGlobalPimsInAutomatic()
 		{
-			var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(1));
-			using (firesecService as IDisposable)
-				SafeOperationCall(() => firesecService.GKTurnOffNowGlobalPimsInAutomatic(FiresecServiceFactory.UID), "GKTurnOffNowGlobalPimsInAutomatic");
+			SafeOperationCall(() =>
+				{
+					var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+					using (firesecService as IDisposable)
+						firesecService.GKTurnOffNowGlobalPimsInAutomatic(FiresecServiceFactory.UID);
+				}
+				, "GKTurnOffNowGlobalPimsInAutomatic");
 		}
 
 		public void GKStop(GKBase gkBase)
