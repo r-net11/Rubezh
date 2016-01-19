@@ -66,33 +66,29 @@ namespace RubezhDAL
 		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
 		Guid OrganisationUID;
 
-		public override OperationResult Export(RubezhAPI.SKD.ExportFilter filter)
+		public override OperationResult<bool> Export(RubezhAPI.SKD.ExportFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() => 
 			{
 				var organisationResult = base.Export(filter);
 				if (organisationResult.HasError)
-					return organisationResult;
+					throw new Exception(organisationResult.Error);
 				var employeeResult = EmployeeSynchroniser.Export(filter);
 				if (employeeResult.HasError)
-					return employeeResult;
-				var PositionResult = PositionSynchroniser.Export(filter);
-				if (PositionResult.HasError)
-					return PositionResult;
-				var DepartmentResult = DepartmentSynchroniser.Export(filter);
-				if (DepartmentResult.HasError)
-					return DepartmentResult;
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+					throw new Exception(employeeResult.Error);
+				var positionResult = PositionSynchroniser.Export(filter);
+				if (positionResult.HasError)
+					throw new Exception(positionResult.Error);
+				var departmentResult = DepartmentSynchroniser.Export(filter);
+				if (departmentResult.HasError)
+					throw new Exception(departmentResult.Error);
+				return true;
+			});
 		}
 
-		public override OperationResult Import(RubezhAPI.SKD.ImportFilter filter)
+		public override OperationResult<bool> Import(RubezhAPI.SKD.ImportFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				base.Import(filter);
 				PositionSynchroniser.Import(filter);
@@ -108,12 +104,8 @@ namespace RubezhDAL
 				ImportForignKeys(hrCash);
 				DepartmentSynchroniser.ImportForignKeys(hrCash);
 				EmployeeSynchroniser.ImportForignKeys(hrCash);
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		protected override string XmlHeaderName

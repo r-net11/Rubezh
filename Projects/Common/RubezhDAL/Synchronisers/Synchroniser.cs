@@ -56,15 +56,15 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public virtual OperationResult Export(ExportFilter filter)
+		public virtual OperationResult<bool> Export(ExportFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult("Папка не существует");
+					throw new Exception("Папка не существует");
 				var getResult = Get(filter);
 				if (getResult.HasError)
-					return new OperationResult(getResult.Error);
+					throw new Exception(getResult.Error);
 				var items = getResult.Result;
 				var serializer = new XmlSerializer(typeof(List<TExportItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
@@ -75,12 +75,8 @@ namespace RubezhDAL.DataClasses
 				if (File.Exists(newPath))
 					File.Delete(newPath);
 				File.Move(NameXml, newPath);
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		void Save(List<TExportItem> exportItems)
@@ -123,12 +119,12 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public virtual OperationResult Import(ImportFilter filter)
+		public virtual OperationResult<bool> Import(ImportFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() => 
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult("Папка не существует");
+					throw new Exception("Папка не существует");
 				var fileName = Path.Combine(filter.Path, NameXml);
 				File.Copy(fileName, NameXml, true);
 				using (var stream = new FileStream(NameXml, FileMode.Open))
@@ -143,17 +139,13 @@ namespace RubezhDAL.DataClasses
 						Save(importItems);
 					}
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public virtual OperationResult ImportForignKeys(OrganisationHRCash hrCash)
+		public virtual OperationResult<bool> ImportForignKeys(OrganisationHRCash hrCash)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() => 
 			{
 				using (var stream = new FileStream(NameXml, FileMode.Open))
 				{
@@ -164,12 +156,8 @@ namespace RubezhDAL.DataClasses
 						SaveForignKeys(importItems, hrCash);
 					}
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		protected virtual void BeforeSave(List<TExportItem> exportItems) { }

@@ -129,42 +129,34 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public OperationResult SaveChief(Guid uid, Guid? chiefUID)
+		public OperationResult<bool> SaveChief(Guid uid, Guid? chiefUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem == null)
-					return new OperationResult("Запись не найдена");
+					throw new Exception("Запись не найдена");
 				tableItem.ChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		public OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var result = new List<Guid>();
 				var tableItem = Table.Include(x => x.Employees).Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
 				result.AddRange(tableItem.Employees.Select(x => x.UID));
 				result.AddRange(tableItem.ChildDepartments.SelectMany(x => x.Employees.Select(y => y.UID)));
-				return new OperationResult<List<Guid>>(result);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<List<Guid>>.FromError(e.Message);
-			}
+				return result;
+			});
 		}
 
 		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var result = new List<Guid>();
 				var parentItem = Table.Include(x => x.ChildDepartments.Select(y => y.Employees)).FirstOrDefault(x => x.UID == uid);
@@ -175,12 +167,8 @@ namespace RubezhDAL.DataClasses
 					result.AddRange(parentItem.Employees.Select(x => x.UID));
 					parentItem = parentItem.ParentDepartment;
 				}
-				return new OperationResult<List<Guid>>(result);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<List<Guid>>.FromError(e.Message);
-			}
+				return result;
+			});
 		}
 	}
 

@@ -11,10 +11,7 @@ namespace RubezhDAL.DataClasses
 {
 	public class AdditionalColumnTypeTranslator : OrganisationItemTranslatorBase<AdditionalColumnType, API.AdditionalColumnType, API.AdditionalColumnTypeFilter>
 	{
-		public AdditionalColumnTypeTranslator(DbService context)
-			: base(context)
-		{
-		}
+		public AdditionalColumnTypeTranslator(DbService context) : base(context) { }
 
 		public override DbSet<AdditionalColumnType> Table
 		{
@@ -34,6 +31,9 @@ namespace RubezhDAL.DataClasses
 		public override void TranslateBack(API.AdditionalColumnType apiItem, AdditionalColumnType tableItem)
 		{
 			base.TranslateBack(apiItem, tableItem);
+			tableItem.DataType = (int)apiItem.DataType;
+			tableItem.PersonType = (int)apiItem.PersonType;
+			tableItem.IsInGrid = apiItem.IsInGrid;
 		}
 
 		protected override IEnumerable<API.AdditionalColumnType> GetAPIItems(IQueryable<AdditionalColumnType> tableItems)

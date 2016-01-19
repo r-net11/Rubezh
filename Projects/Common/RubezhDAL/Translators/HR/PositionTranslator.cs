@@ -67,15 +67,10 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<List<Guid>> GetEmployeeUIDs(Guid positionUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() => 
 			{
-				var result = Context.Employees.Where(x => x.PositionUID == positionUID).Select(x => x.UID).ToList();
-				return new OperationResult<List<Guid>>(result);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<List<Guid>>.FromError(e.Message);
-			}
+				return Context.Employees.Where(x => x.PositionUID == positionUID).Select(x => x.UID).ToList();
+			});
 		}
 	}
 

@@ -24,53 +24,38 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<List<API.Organisation>> Get(API.OrganisationFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItems = GetFilteredTableItems(filter).ToList();
-				var result = tableItems.Select(x => Translate(x)).ToList();
-				return new OperationResult<List<API.Organisation>>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<List<API.Organisation>>.FromError(e.Message);
-			}
+				return tableItems.Select(x => Translate(x)).ToList();
+			});
 		}
 
 		public OperationResult<API.Organisation> GetSingle(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItems = GetTableItems().FirstOrDefault(x => x.UID == uid);
-				var result = Translate(tableItems);
-				return new OperationResult<API.Organisation>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<API.Organisation>.FromError(e.Message);
-			}
+				return Translate(tableItems);
+			});
 		}
 
 		public OperationResult<API.OrganisationDetails> GetDetails(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItems = GetTableItems().FirstOrDefault(x => x.UID == uid);
-				var result = TranslateDetails(tableItems);
-				return new OperationResult<API.OrganisationDetails>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<API.OrganisationDetails>.FromError(e.Message);
-			}
+				return TranslateDetails(tableItems);
+			});
 		}
 
 		public OperationResult<bool> Save(API.OrganisationDetails item)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var canSaveResult = CanSave(item);
 				if (canSaveResult.HasError)
-					return canSaveResult;
+					throw new Exception(canSaveResult.Error);
 				var tableItem = GetTableItems().FirstOrDefault(x => x.UID == item.UID);
 				if (tableItem == null)
 				{
@@ -92,21 +77,17 @@ namespace RubezhDAL.DataClasses
 					TranslateDetailsBack(item, tableItem);
 				}
 				Context.SaveChanges();
-				return new OperationResult<bool>(true);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<bool>.FromError(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult MarkDeleted(Guid uid)
+		public OperationResult<bool> MarkDeleted(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var canDeleteResult = CanDelete(uid);
 				if (canDeleteResult.HasError)
-					return canDeleteResult;
+					throw new Exception(canDeleteResult.Error);
 				var removalDate = DateTime.Now;
 				DeleteItems(uid, removalDate);
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
@@ -116,12 +97,8 @@ namespace RubezhDAL.DataClasses
 					tableItem.RemovalDate = removalDate;
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		void DeleteItems(Guid uid, DateTime removalDate)
@@ -138,9 +115,9 @@ namespace RubezhDAL.DataClasses
 			MarkDeletedSQLQuery("Departments", removalDate, uid);
 		}
 
-		public OperationResult Restore(Guid uid)
+		public OperationResult<bool> Restore(Guid uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem != null)
@@ -150,12 +127,8 @@ namespace RubezhDAL.DataClasses
 					tableItem.RemovalDate = null;
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		void RestoreItems(Guid uid, DateTime removalDate)
@@ -185,9 +158,9 @@ namespace RubezhDAL.DataClasses
 				return new OperationResult<bool>(true);
 		}
 
-		OperationResult CanDelete(Guid uid)
+		OperationResult<bool> CanDelete(Guid uid)
 		{
-			return new OperationResult();
+			return new OperationResult<bool>(true);
 		}
 
 		public API.Organisation Translate(Organisation tableItem)
@@ -272,40 +245,32 @@ namespace RubezhDAL.DataClasses
 			);
 		}
 
-		public OperationResult AddDoor(Guid uid, Guid doorUID)
+		public OperationResult<bool> AddDoor(Guid uid, Guid doorUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				Context.OrganisationDoors.Add(new OrganisationDoor { UID = Guid.NewGuid(), DoorUID = doorUID, OrganisationUID = uid });
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult RemoveDoor(Guid uid, Guid doorUID)
+		public OperationResult<bool> RemoveDoor(Guid uid, Guid doorUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var doorsToRemove = Context.OrganisationDoors.Where(x => x.OrganisationUID == uid && x.DoorUID == doorUID);
 				Context.OrganisationDoors.RemoveRange(doorsToRemove);
 				var zonesToRemove = Context.ScheduleZones.Include(x => x.Schedule).Where(x => x.Schedule.OrganisationUID == uid && x.DoorUID == doorUID);
 				Context.ScheduleZones.RemoveRange(zonesToRemove);
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult SaveUsers(Guid organisationUID, List<Guid> UserUIDs)
+		public OperationResult<bool> SaveUsers(Guid organisationUID, List<Guid> UserUIDs)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableOrganisationUsers = Context.OrganisationUsers.Where(x => x.OrganisationUID == organisationUID);
 				Context.OrganisationUsers.RemoveRange(tableOrganisationUsers);
@@ -318,19 +283,15 @@ namespace RubezhDAL.DataClasses
 					Context.OrganisationUsers.Add(tableOrganisationUser);
 				}
 				Context.SaveChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
+				return true;
+			});
 		}
 
 		public OperationResult<bool> IsAnyItems(Guid organisationUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
-				var result =
+				return
 					Context.Employees.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.Departments.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.Positions.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
@@ -341,47 +302,33 @@ namespace RubezhDAL.DataClasses
 					Context.Holidays.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.Schedules.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
 					Context.ScheduleSchemes.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID);
-				return new OperationResult<bool>(result);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<bool>.FromError(e.Message);
-			}
+			});
 		}
 
-		public OperationResult SaveChief(Guid uid, Guid? chiefUID)
+		public OperationResult<bool> SaveChief(Guid uid, Guid? chiefUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem == null)
-					return new OperationResult("Запись не найдена");
+					throw new Exception("Запись не найдена");
 				tableItem.ChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-
+				return true;
+			});
 		}
 
-		public OperationResult SaveHRChief(Guid uid, Guid? chiefUID)
+		public OperationResult<bool> SaveHRChief(Guid uid, Guid? chiefUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem == null)
-					return new OperationResult("Запись не найдена");
+					throw new Exception("Запись не найдена");
 				tableItem.HRChiefUID = chiefUID != null ? chiefUID.Value.EmptyToNull() : null;
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		void MarkDeletedSQLQuery(string tableName, DateTime removalDate, Guid organisationUID)

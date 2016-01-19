@@ -70,17 +70,13 @@ namespace RubezhDAL.DataClasses
 			ImitatorJournalTranslator = new ImitatorJournalTranslator(this);
 		}
 
-		public OperationResult ResetDB()
+		public OperationResult<bool> ResetDB()
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				Context.Database.Initialize(true);
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		public OperationResult<bool> CheckConnection()

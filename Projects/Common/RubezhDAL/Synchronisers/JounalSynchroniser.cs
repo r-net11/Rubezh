@@ -26,12 +26,12 @@ namespace RubezhDAL
 			_Table = Context.Journals;
 		}
 
-		public OperationResult Export(JournalExportFilter filter)
+		public OperationResult<bool> Export(JournalExportFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult("Папка не существует");
+					throw new Exception("Папка не существует");
 				var minDate = filter.MinDate.CheckDate();
 				var maxDate = filter.MaxDate.CheckDate();
 				var tableItems = _Table.Where(x => x.SystemDate >= minDate & x.SystemDate <= maxDate).ToList();
@@ -48,12 +48,8 @@ namespace RubezhDAL
 						File.Delete(newPath);
 					File.Move(NameXml, newPath);
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		public ExportJournalItem Translate(Journal tableItem)

@@ -18,23 +18,19 @@ namespace RubezhDAL.DataClasses
             Context = dbService.Context;
             _dbService = dbService;
         }
-        public OperationResult GenerateTestData(bool isAscending)
+        public OperationResult<bool> GenerateTestData(bool isAscending)
         {
-            try
+            return DbServiceHelper.InTryCatch(() =>
             {
                 var cards = TestEmployeeCards();
                 TestCardDoors(cards, true);
-                return new OperationResult();
-            }
-            catch (Exception e)
-            {
-                return new OperationResult(e.Message);
-            }
+				return true;
+            });
         }
 
-        public OperationResult GenerateJournal()
+        public OperationResult<bool> GenerateJournal()
         {
-            try
+            return DbServiceHelper.InTryCatch(() =>
             {
 				var random = new Random();
                 //var journals = new List<Journal>();
@@ -73,13 +69,9 @@ namespace RubezhDAL.DataClasses
 				_dbService.JournalTranslator.AddRange(journals);
 				//Context.BulkInsert(journals);
                 //Context.SaveChanges();
-                return new OperationResult();
-            }
-            catch (Exception e)
-            {
-                return new OperationResult(e.Message);
-            }
-        }
+                return true;
+            });
+		}
 
         public List<Guid> GetEmployeeCards()
         {
@@ -287,9 +279,9 @@ namespace RubezhDAL.DataClasses
             };
         }
 
-        public OperationResult GenerateEmployeeDays()
+        public OperationResult<bool> GenerateEmployeeDays()
         {
-            try
+            return DbServiceHelper.InTryCatch(() =>
             {
                 var result = new List<EmployeeDay>();
                 var employees = Context.Employees.Where(x => !x.IsDeleted);
@@ -339,12 +331,8 @@ namespace RubezhDAL.DataClasses
                     }
                 }
                 Context.EmployeeDays.AddRange(result);
-                return new OperationResult();
-            }
-            catch (Exception e)
-            {
-                return new OperationResult(e.Message);
-            }
+                return true;
+            });
         }
     }
 }
