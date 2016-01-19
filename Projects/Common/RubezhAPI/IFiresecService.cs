@@ -146,23 +146,25 @@ namespace RubezhAPI
 		/// </summary>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<OpcDaServer[]> GetOpcDaServers();
+		OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID);
 
 		/// <summary>
 		/// Возвращает структуру сервера (группы и теги) для указанного сервера
 		/// </summary>
+		/// <param name="clientUID"></param>
 		/// <param name="server">Наименование сервера</param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server);
+		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server);
 
 		/// <summary>
 		/// Возвращает описание и текущий статус сервера
 		/// </summary>
+		/// <param name="clientUID"></param>
 		/// <param name="server"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server);
+		OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server);
 
 		///// <summary>
 		///// Возвращает значения тегов

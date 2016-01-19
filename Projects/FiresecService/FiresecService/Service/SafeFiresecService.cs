@@ -572,14 +572,15 @@ namespace FiresecService.Service
 
 		#region OPC DA Server
 
-		public OperationResult<OpcDaServer[]> GetOpcDaServers()
+		public OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetOpcDaServers(); }, "GetOpcDaServerNames");
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetOpcDaServers(); }, "GetOpcDaServerNames");
 		}
 
-		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(OpcDaServer server)
+		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetOpcDaServerGroupAndTags(server); }, "GetOpcDaServerGroupAndTags"); 
+			return SafeOperationCall(clientUID, () => 
+			{ return FiresecService.GetOpcDaServerGroupAndTags(server); }, "GetOpcDaServerGroupAndTags"); 
 		}
 
 		//public OperationResult ConnectToOpcDaServer(OpcDaServer server)
@@ -592,9 +593,10 @@ namespace FiresecService.Service
 		//	return SafeOperationCall(() => { return FiresecService.DisconnectFromOpcDaServer(server); }, "DisconnectFromOpcDaServer");
 		//}
 
-		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(OpcDaServer server)
+		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetOpcDaServerStatus(server); }, "GetOpcDaServerStatus");
+			return SafeOperationCall(clientUID, () => 
+			{ return FiresecService.GetOpcDaServerStatus(server); }, "GetOpcDaServerStatus");
 		}
 
 		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)

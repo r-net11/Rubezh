@@ -35,6 +35,8 @@ namespace Infrastructure.Automation
 		static Action<Guid, bool, string> OnImportOrganisation;
 		static Action<Guid, bool, string> OnImportOrganisationList;
 		static GetOrganisationsEventHandler OnGetOrganisations;
+		static GetOpcDaTagValueEventHandler OnGetOpcDaTagValue;
+		static SetOpcDaTagValueEventHandler OnSetOpcDaTagValue;
 
 		public static void Initialize(ContextType contextType,
 			GetSystemConfigurationDelegate getSystemConfiguration,
@@ -60,7 +62,9 @@ namespace Infrastructure.Automation
 			Action<Guid, bool, bool, bool, string> onExportConfiguration = null,
 			Action<Guid, bool, string> onImportOrganisation = null,
 			Action<Guid, bool, string> onImportOrganisationList = null,
-			GetOrganisationsEventHandler onGetOrganisations = null
+			GetOrganisationsEventHandler onGetOrganisations = null,
+			GetOpcDaTagValueEventHandler onGetOpcDaTagValue = null,
+			SetOpcDaTagValueEventHandler onSetOpcDaTagValue = null
 			)
 		{
 			ContextType = contextType;

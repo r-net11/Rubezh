@@ -159,6 +159,11 @@
     <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="Models\Automation\OPC DA\OpcDaElement.cs" />
+    <Compile Include="Models\Automation\OPC DA\OpcDaGroup.cs" />
+    <Compile Include="Models\Automation\OPC DA\OpcDaTagValue.cs" />
+    <Compile Include="Models\Automation\OPC DA\OpcServerStructure.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlElementType.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />

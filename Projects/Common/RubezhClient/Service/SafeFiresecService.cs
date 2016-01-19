@@ -1,5 +1,6 @@
 ﻿using Common;
 using Infrastructure.Common.Windows;
+using OpcClientSdk;
 using OpcClientSdk.Da;
 using RubezhAPI;
 using RubezhAPI.Automation;
@@ -201,8 +202,37 @@ namespace RubezhClient
 			FiresecServiceFactory.Dispose();
 		}
 
+		public OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID)
+		{
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetOpcDaServers(clientUID);
+			}, "GetOpcDaServerNames");
+		}
 
-		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
+		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server)
+		{
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetOpcDaServerStatus(clientUID, server);
+			}, "GetOpcDaServerStatus");
+		}
+
+		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server)
+		{
+			return SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetOpcDaServerGroupAndTags(clientUID, server);
+			}, "GetOpcDaServerGroupAndTags");
+		}
+
+		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
 		{
 			throw new NotImplementedException();
 
@@ -220,7 +250,7 @@ namespace RubezhClient
 			//}, "ReadOpcDaServerTags");
 		}
 
-		public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
+		public OperationResult WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues)
 		{
 			throw new NotImplementedException();
 

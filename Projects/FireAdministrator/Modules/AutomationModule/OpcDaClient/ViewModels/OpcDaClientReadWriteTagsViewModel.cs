@@ -84,7 +84,7 @@ namespace AutomationModule.ViewModels
 
 			WaitHelper.Execute(() =>
 			{
-				result = ClientManager.FiresecService.ReadOpcDaServerTags(OpcServer);
+				result = ClientManager.FiresecService.ReadOpcDaServerTags(FiresecServiceFactory.UID, OpcServer);
 			});
 
 			if (!result.HasError)

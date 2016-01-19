@@ -172,7 +172,7 @@ namespace AutomationModule.ViewModels
 				WaitHelper.Execute(() =>
 				{
 					result = ClientManager.FiresecService
-						.GetOpcDaServerStatus(SelectedOpcServer);
+						.GetOpcDaServerStatus(FiresecServiceFactory.UID, SelectedOpcServer);
 				});
 
 				if (result.HasError)

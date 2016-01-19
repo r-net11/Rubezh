@@ -123,10 +123,10 @@
     <Compile Include="ObjectSelection\ViewModels\MPTViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\PumpStationViewModel.cs" />
     <Compile Include="ObjectSelection\Views\MPTSelectionView.xaml.cs">
-      <DependentUpon>MPTSelectionView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="ObjectSelection\Views\PumpStationSelectionView.xaml.cs">
-      <DependentUpon>PumpStationSelectionView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientAddingServersViewModel.cs" />
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientEditingTagsViewModel.cs" />
@@ -599,6 +599,14 @@
     <Page Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\MPTSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\PumpStationSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="OpcDaClient\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

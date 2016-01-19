@@ -2,17 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.Automation;
 using RubezhClient;
 using System.Collections.ObjectModel;
-using System.Linq;
 using RubezhAPI;
 using Property = RubezhAPI.Automation.Property;
 using RubezhClient.SKDHelpers;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.Journal;
-using System.Windows.Media;
 
 namespace Infrastructure.Automation
 {
