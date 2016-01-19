@@ -12,7 +12,7 @@
 
                 scope.$watch('config', function (newValue) {
                     element.children().empty();
-                    table = angular.element('<table id = "grid"></table>');
+                    table = angular.element('<table id="' + attrs.id + '"></table>');
                     element.append(table);
                     $(table).jqGrid(newValue);
                 });
