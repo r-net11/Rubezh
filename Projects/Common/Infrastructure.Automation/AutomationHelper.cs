@@ -15,9 +15,7 @@ namespace Infrastructure.Automation
 	{
 		public static bool CheckLayoutFilter(AutomationCallbackResult automationCallbackResult, Guid? layoutUID)
 		{
-			if (automationCallbackResult == null)
-				return false;
-			if (automationCallbackResult.Data == null || !(automationCallbackResult.Data is UIAutomationCallbackData))
+			if (automationCallbackResult == null || automationCallbackResult.Data == null || !(automationCallbackResult.Data is UIAutomationCallbackData))
 				return true;
 			var data = automationCallbackResult.Data as UIAutomationCallbackData;
 			return data.LayoutFilter != null && layoutUID.HasValue && data.LayoutFilter.Contains(layoutUID.Value);
