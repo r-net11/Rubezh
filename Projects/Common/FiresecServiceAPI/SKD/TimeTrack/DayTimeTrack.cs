@@ -169,7 +169,7 @@ namespace FiresecAPI.SKD
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
-			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackParts, IsOnlyFirstEnter);
+			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackPartsForCalculates, IsOnlyFirstEnter);
 		}
 
 		private List<TimeTrackPart> GetRealTimeTrackPartsForDrawing(List<TimeTrackPart> realTimeTrackParts, bool isOnlyFirstEnter)
