@@ -3,8 +3,10 @@
         url: '/Home/GetDirections',
         datatype: "json",
         colModel: [
-            { label: 'No', name: 'No', key: true, hidden: false, sortable: false },
-            { label: 'Name', name: 'Name', hidden: false, sortable: false }
+            { label: 'UID', name: 'UID', key: true, hidden: true, sortable: false },
+            { label: 'Номер', name: 'No', key: true, hidden: false, sortable: false },
+            { label: 'Наименование', name: 'Name', hidden: false, sortable: false },
+            { label: 'Состояние', name: 'State', hidden: false, sortable: false },
         ],
         width: jQuery(window).width() - 242,
         height: 250,
@@ -31,3 +33,4 @@ function DirectionsViewModel() {
 
     return self;
 }
+
