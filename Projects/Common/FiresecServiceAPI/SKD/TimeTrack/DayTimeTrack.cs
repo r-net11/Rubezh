@@ -148,7 +148,8 @@ namespace FiresecAPI.SKD
 			CrossNightTimeTrackParts = CalculateCrossNightTimeTrackParts(RealTimeTrackParts, Date);
 			RealTimeTrackParts = RealTimeTrackParts.OrderBy(x => x.EnterDateTime).ThenBy(x => x.ExitDateTime).ToList();
 			RealTimeTrackPartsForCalculates = GetRealTimeTracksForCalculate(RealTimeTrackParts.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone && !x.NotTakeInCalculations));
-			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, DocumentTrackParts);
+			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackPartsForCalculates, IsOnlyFirstEnter);
+			CombinedTimeTrackParts = CalculateCombinedTimeTrackParts(PlannedTimeTrackParts, RealTimeTrackPartsForDrawing, DocumentTrackParts);
 			if (SlideTime != TimeSpan.Zero)
 			{
 				CombinedTimeTrackParts = AdjustmentCombinedTimeTracks(CombinedTimeTrackParts, PlannedTimeTrackParts, SlideTime);
@@ -169,7 +170,7 @@ namespace FiresecAPI.SKD
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
-			RealTimeTrackPartsForDrawing = GetRealTimeTrackPartsForDrawing(RealTimeTrackPartsForCalculates, IsOnlyFirstEnter);
+
 		}
 
 		private List<TimeTrackPart> GetRealTimeTrackPartsForDrawing(List<TimeTrackPart> realTimeTrackParts, bool isOnlyFirstEnter)
@@ -186,7 +187,8 @@ namespace FiresecAPI.SKD
 				{
 					EnterDateTime = realTimeTrackPartsForUrv.Min(x => x.EnterDateTime),
 					ExitDateTime = realTimeTrackPartsForUrv.Max(x => x.ExitDateTime),
-					TimeTrackPartType = TimeTrackType.Presence
+					TimeTrackPartType = TimeTrackType.Presence,
+					IsForURVZone = true
 				}
 			};
 		}
@@ -903,7 +905,7 @@ namespace FiresecAPI.SKD
 		{
 			var resultTotalCollection = new List<TimeTrackTotal>();
 
-			var totalBalance = GetBalanceForSlideTime(slideTime, plannedTimeTrackParts, realTimeTrackParts);
+			var totalBalance = GetBalanceForSlideTime(slideTime, plannedTimeTrackParts);
 
 			foreach (var timeTrack in combinedTimeTrackParts)
 			{
@@ -1029,35 +1031,32 @@ namespace FiresecAPI.SKD
 		}
 
 		/// <summary>
-		/// Расчитывает баланс для каждого прохода сотрудника. Не учитывается неразрешенная переработка.
+		/// Расчитывает баланс для каждого прохода сотрудника.
 		/// </summary>
-		/// <param name="slideTimeTotalSeconds">Время скользящего графика в секундах</param>
+		/// <param name="slideTime">Время скользящего графика в секундах (норма)</param>
 		/// <param name="plannedTimeTrackParts">Интервалы рабочего графика</param>
-		/// <param name="realTimeTrackParts">Интервалы проходов сотрудника</param>
 		/// <returns>Баланс, вычисленный на основе скользящего графика</returns>
-		private TimeSpan GetBalanceForSlideTime(TimeSpan slideTimeTotalSeconds, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts)
+		private TimeSpan GetBalanceForSlideTime(TimeSpan slideTime, List<TimeTrackPart> plannedTimeTrackParts) //TODO: refactoring
 		{
-			if (slideTimeTotalSeconds.TotalSeconds <= 0 && plannedTimeTrackParts.Any())
+			const double tolerance = 0.0000001;
+			if (Math.Abs(slideTime.TotalSeconds) < tolerance && plannedTimeTrackParts.Any()) //если норма не указана и есть график работ
 			{
-				TimeSpan result = new TimeSpan();
+				var result = new TimeSpan();
 				foreach (var plannedTimeTrackPart in plannedTimeTrackParts)
 				{
 					result -= plannedTimeTrackPart.Delta;
 				}
 				return result;
 			}
-			if (slideTimeTotalSeconds.TotalSeconds <= 0)
+			//если норма не указана и нет графика работ.
+			if (Math.Abs(slideTime.TotalSeconds) < tolerance)
 				return default(TimeSpan);
 
 			var balanceTimeSpan = new TimeSpan();
 
-			if (plannedTimeTrackParts.Count > 0)
-				balanceTimeSpan = -TimeSpan.FromSeconds(slideTimeTotalSeconds.TotalSeconds);
-
-			//foreach (var realTimeTrackPart in realTimeTrackParts.Where(x => x.TimeTrackPartType != TimeTrackType.Overtime && !x.NotTakeInCalculations))
-			//{
-			//	balanceTimeSpan += realTimeTrackPart.Delta;
-			//}
+			//если норма указана и есть график работ
+			if (plannedTimeTrackParts.Any())
+				balanceTimeSpan = -TimeSpan.FromSeconds(slideTime.TotalSeconds);
 
 			return balanceTimeSpan;
 		}
