@@ -13,7 +13,6 @@
                     $scope.data.push({
                         device: i > 0 ? image1 + image2 + item.ShortName : image2 + item.ShortName,
                         address: item.Address,
-                        logic: "",
                         note: "",
                         id: i,
                         level: i,
@@ -29,13 +28,12 @@
                     ExpandColumn: 'device',
                     datatype: "local",
                     height: "auto",
-                    colNames: ['Id', 'Устройство', 'Адрес', 'Логика', 'Примечание'],
+                    colNames: ['Id', 'Устройство', 'Адрес', 'Примечание'],
                     colModel:
-                        [{ name: 'id', index: 'id', width: 20, sortable: false, hidden: true },
+                        [{ name: 'id', index: 'id', sortable: false, hidden: true },
                         { name: 'device', index: 'device', width: 250, sortable: false },
                         { name: 'address', index: 'address', width: 100, sortable: false },
-                        { name: 'logic', index: 'logic', width: 50, sortable: false },
-                        { name: 'note', index: 'note', width: 780, sortable: false }],
+                        { name: 'note', index: 'note', width: $(window).width() - 650, sortable: false }],
                     sortname: 'id',
                     treeIcons: { plus: 'ui-icon-plusthick', minus: 'ui-icon-minusthick', leaf: 'ui-icon-blank' }
                 }
