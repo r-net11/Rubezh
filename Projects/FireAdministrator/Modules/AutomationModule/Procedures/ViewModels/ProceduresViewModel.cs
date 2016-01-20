@@ -353,11 +353,13 @@ namespace AutomationModule.ViewModels
 		{
 			var index = Procedures.IndexOf(SelectedProcedure);
 			ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
+			SelectedProcedure.Procedure.OnChanged();
 			Procedures.Remove(SelectedProcedure);
 			index = Math.Min(index, Procedures.Count - 1);
 			if (index > -1)
 				SelectedProcedure = Procedures[index];
 			ServiceFactory.SaveService.AutomationChanged = true;
+			AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 		}
 		bool CanDelete()
 		{
