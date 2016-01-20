@@ -11,5 +11,6 @@ namespace GKWebService.Models
 		public int No { get; set; }
 		public string Name { get; set; }
 		public string State { get; set; }
+		public string StateIcon { get; set; }
 	}
 }

@@ -286,7 +286,7 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.AND);
 				if (Door.AntipassbackOn && exitZone != null)
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 11);
+					Formula.Add(FormulaOperationType.BR, 1, 12);
 					Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
 					Formula.Add(FormulaOperationType.BR, 1, 0);
 					Formula.Add(FormulaOperationType.CONST, 0, (byte)exitZone.No);
@@ -295,7 +295,7 @@ namespace GKProcessor
 				}
 				else
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 7);
+					Formula.Add(FormulaOperationType.BR, 1, 8);
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
 				}
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
@@ -314,7 +314,7 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.AND);
 				if (Door.AntipassbackOn && enterZone != null)
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 11);
+					Formula.Add(FormulaOperationType.BR, 1, 12);
 					Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
 					Formula.Add(FormulaOperationType.BR, 1, 0);
 					Formula.Add(FormulaOperationType.CONST, 0, (byte)enterZone.No);
@@ -323,7 +323,7 @@ namespace GKProcessor
 				}
 				else
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 7);
+					Formula.Add(FormulaOperationType.BR, 1, 8);
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
 				}
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);

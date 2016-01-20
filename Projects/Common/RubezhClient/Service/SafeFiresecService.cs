@@ -16,7 +16,6 @@ namespace RubezhClient
 	public partial class SafeFiresecService : ISafeFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
-		public IFiresecService FiresecService { get; set; }
 		string _serverAddress;
 		ClientCredentials _clientCredentials;
 		bool IsDisconnecting = false;
@@ -238,7 +237,7 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return FiresecService.ReadOpcDaServerTags(clientUID, server);
+					return firesecService.ReadOpcDaServerTags(clientUID, server);
 			}, "ReadOpcDaServerTags");
 		}
 
@@ -247,8 +246,8 @@ namespace RubezhClient
 			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
-				using (firesecService as IDisposable)			
-					return FiresecService.WriteOpcDaServerTags(clientUID, server, tagValues);
+				using (firesecService as IDisposable)
+					return firesecService.WriteOpcDaServerTags(clientUID, server, tagValues);
 			}, "WriteOpcDaServerTags");
 		}
 	}
