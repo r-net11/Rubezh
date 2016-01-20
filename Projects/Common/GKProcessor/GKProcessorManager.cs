@@ -188,18 +188,21 @@ namespace GKProcessor
 			{
 				descriptorReader = new KauDescriptorsReaderBase();
 				descriptorReader.ReadConfiguration(device, clientUID);
+				Start();
 				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
 			}
 			if (device.Driver.DriverType == GKDriverType.GK)
 			{
 				descriptorReader = new GkDescriptorsReaderBase();
 				descriptorReader.ReadConfiguration(device, clientUID);
+				Start();
 				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
 			}
 			if (device.Driver.DriverType == GKDriverType.GKMirror)
 			{
 				descriptorReader = new MirrorDescriptorsReader();
 				descriptorReader.ReadConfiguration(device, clientUID);
+				Start();
 				return OperationResult<GKDeviceConfiguration>.FromError(descriptorReader.Error, descriptorReader.DeviceConfiguration);
 			}
 			Start();
