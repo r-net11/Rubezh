@@ -23,10 +23,6 @@ namespace RubezhDAL.DataClasses
 			PassJournalSynchroniser = new PassJounalSynchroniser(dbService);
 		}
 
-		public event Action<List<JournalItem>, Guid> ArchivePortionReady;
-		public static bool IsAbort { get; set; }
-
-
 		#region Video
 		public OperationResult<bool> SaveVideoUID(Guid itemUID, Guid videoUID, Guid cameraUID)
 		{
@@ -144,26 +140,6 @@ namespace RubezhDAL.DataClasses
 				var query = BuildArchiveQuery(filter);
 				return query.Count();
 			});
-		}
-
-		bool IsInFilter(Journal item, JournalFilter filter)
-		{
-			bool result = true;
-			if (filter.UseDeviceDateTime)
-			{
-				result = result && item.DeviceDate > filter.StartDate && item.DeviceDate < filter.EndDate;
-			}
-			else
-			{
-				result = result && item.SystemDate > filter.StartDate && item.SystemDate < filter.EndDate;
-			}
-			return result;
-		}
-
-		void PublishNewItemsPortion(List<JournalItem> journalItems, Guid archivePortionUID)
-		{
-			if (ArchivePortionReady != null)
-				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
 		}
 
 		JournalItem Translate(Journal apiItem)

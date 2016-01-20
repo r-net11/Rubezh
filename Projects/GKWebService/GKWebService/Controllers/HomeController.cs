@@ -1,9 +1,12 @@
 ﻿using GKWebService.DataProviders.FireZones;
+using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
 using GKWebService.Models.FireZone;
 using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhAPI.Journal;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -148,31 +151,22 @@ namespace GKWebService.Controllers
 
 		public JsonResult GetReports()
 		{
-			List<ReportModel> list = new List<ReportModel>();
-
-			for (int i = 0; i < 100; i++)
-			{
-				list.Add(new ReportModel()
+			var apiItems = JournalHelper.Get(new JournalFilter());// new List<JournalItem>();
+			var list = apiItems.Select(x => new ReportModel()
 				{
-					Desc = "Описание" + i.ToString(),
+					Desc = x.JournalEventDescriptionType.ToDescription(),
 					DeviceDate = DateTime.Now,
-					Name = "Назваине" + i.ToString(),
-					Object = "Объект" + i.ToString(),
+					Name = x.JournalEventNameType.ToDescription(),
+					Object = x.JournalObjectType.ToDescription(),
 					SystemDate = DateTime.Now
-				});
-			}
-
+				}).ToList();
 			dynamic result = new
 			{
 				page = 1,
-				total = 100,
-				records = 100,
+				total = list.Count(),
+				records = list.Count(),
 				rows = list,
 			};
-
-
-
-
 			return Json(result, JsonRequestBehavior.AllowGet);
 		}
 	}
