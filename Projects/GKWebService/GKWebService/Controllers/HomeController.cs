@@ -6,6 +6,7 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using GKWebService.Utils;
 
 namespace GKWebService.Controllers
 {
@@ -92,12 +93,23 @@ namespace GKWebService.Controllers
 			//Создали объект для передачи на клиент и заполняем его данными
 			FireZone data = new FireZone();
 
+            //Имя зоны
             data.DescriptorPresentationName = zone.DescriptorPresentationName;
 
+            //Количество датчиков для перевода в состояние Пожар1
 			data.Fire1Count = zone.Fire1Count;
+
+            //Количество датчиков для перевода в состояние Пожар2
 			data.Fire2Count = zone.Fire2Count;
 
-			foreach (var deviceItem in zone.Devices)
+            //Иконка текущей зоны
+		    data.ImageSource = InternalConverter.GetImageResource(zone.ImageSource);
+
+            //Изображение, сигнализирующее о состоянии зоны
+            data.StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(zone.State.StateClass) + ".png");
+
+            //Переносим устройства для этой зоны
+            foreach (var deviceItem in zone.Devices)
 			{
 				var device = deviceItem;
 				do
@@ -106,7 +118,6 @@ namespace GKWebService.Controllers
 					device = device.Parent;
 				} while (device != null);
 			}
-
 			data.devicesList.Reverse();
 
 			//Передаем данные на клиент
