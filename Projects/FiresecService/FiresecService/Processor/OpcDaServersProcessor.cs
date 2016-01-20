@@ -259,7 +259,7 @@ namespace FiresecService.Processor
 		{
 			var opcTag = _tags.FirstOrDefault(t => t.Uid == tagId);
 			var server = _opcServers.FirstOrDefault(srv => srv.ServerName == opcTag.ServerName);
-			
+
 			if (value.GetType().ToString() != opcTag.TypeNameOfValue)
 			{
 				error = "Тип данный заначения тега не соответствует заданному";

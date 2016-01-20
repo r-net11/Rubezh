@@ -21,9 +21,10 @@ namespace AutomationModule.ViewModels
 			Title = "Запись и чтение тегов";
 			_opcDaServersViewModel = vm;
 
-			ReadTagCommand = new RelayCommand(OnReadTag, CanReadTag);
+			Tags = _opcDaServersViewModel.SelectedTags;
 
-			WaitHelper.Execute(ConnectToServer);
+			ReadTagCommand = new RelayCommand(OnReadTag, CanReadTag);
+			WriteTagCommand = new RelayCommand(OnWriteTag, CanWriteTag);
 		}
 
 		#endregion
@@ -40,36 +41,28 @@ namespace AutomationModule.ViewModels
 			private set { _tagValues = value; OnPropertyChanged(() => TagValues); }
 		}
 
+		public OpcDaTag[] Tags { get; private set; }
+
+		OpcDaTag _selectedTag;
+		public OpcDaTag SelectedTag 
+		{ 
+			get { return _selectedTag; }
+			set { _selectedTag = value; OnPropertyChanged(() => SelectedTag); }
+		}
+
+		string _tagValue;
+		public string TagValue
+		{
+			get { return _tagValue; }
+			set { _tagValue = value; OnPropertyChanged(() => TagValue); }
+		}
+
 		#endregion
 
 		#region Methods
 		
-		void ConnectToServer()
-		{
-			//var result = ClientManager.FiresecService.ConnectToOpcDaServer(OpcServer);
-
-			//if (result.HasError)
-			//{
-			//	MessageBoxService.Show(string.Format(
-			//		"Ошибка при подключении к серверу: ", result.Error));
-			//	Close(false); // Завершаем работу окна
-			//}
-		}
-
-		void DisconnectFromServer()
-		{
-			//var result = ClientManager.FiresecService.DisconnectFromOpcDaServer(OpcServer);
-
-			//if (result.HasError)
-			//{
-			//	MessageBoxService.Show(string.Format(
-			//		"Ошибка при отключении от сервера: ", result.Error));
-			//}
-		}
-
 		public override void OnClosed()
 		{
-			WaitHelper.Execute(DisconnectFromServer);
 			base.OnClosed();
 		}
 
@@ -101,9 +94,27 @@ namespace AutomationModule.ViewModels
 		public RelayCommand WriteTagCommand { get; private set; }
 		void OnWriteTag()
 		{
+			OperationResult<bool> result = null;
+			Object value;
 
+			WaitHelper.Execute(() =>
+			{
+				if (SelectedTag.TypeNameOfValue == typeof(SByte).FullName)
+				{
+					value = SByte.Parse(_tagValue);
+				}
+				else
+				{
+					return;
+				}
+				result = ClientManager.FiresecService.WriteOpcDaServerTag(
+					FiresecServiceFactory.UID, SelectedTag.Uid, value); 
+			});
 		}
-		bool CanWriteTag() { return OpcServer != null; }
+		bool CanWriteTag() 
+		{ 
+			return SelectedTag != null; 
+		}
 
 		#endregion
 	}
