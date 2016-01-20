@@ -231,7 +231,7 @@ namespace RubezhClient
 			}, "GetOpcDaServerGroupAndTags");
 		}
 
-		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
+		public OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
 		{
 			return SafeOperationCall(() =>
 			{
@@ -241,14 +241,14 @@ namespace RubezhClient
 			}, "ReadOpcDaServerTags");
 		}
 
-		public OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues)
+		public OperationResult<bool> WriteOpcDaServerTag(Guid clientUID, Guid tagId, object value)
 		{
 			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.WriteOpcDaServerTags(clientUID, server, tagValues);
-			}, "WriteOpcDaServerTags");
+					return firesecService.WriteOpcDaTag(clientUID, tagId, value);
+			}, "WriteOpcDaServerTag");
 		}
 	}
 }

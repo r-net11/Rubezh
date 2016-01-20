@@ -106,69 +106,28 @@ namespace FiresecService.Service
 			}
 		}
 
-		//public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(OpcDaServer server)
-		//{
-		//	OperationResult<TsCDaItemValueResult[]> result;
+		public OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(OpcDaServer server)
+		{
+			var values = OpcDaServersProcessor.ReadTags(server);
+			return new OperationResult<OpcDaTagValue[]>(values);
+		}
 
-		//	var srv = null; //FindOpcDaServer(server);
+		public OperationResult<bool> WriteOpcDaTag(Guid tagId, object value)
+		{
+			OperationResult<bool> result;
+			string errorDescription;
+			if (OpcDaServersProcessor.WriteTag(tagId, value, out errorDescription))
+			{
+				result = new OperationResult<bool>(true);
+			}
+			else
+			{
+				result = new OperationResult<bool>(false);
+				result.Errors.Add(errorDescription);
+			}
 
-		//	if (srv != null)
-		//	{
-		//		if (srv.IsConnected)
-		//		{
-		//			var tags = server.Tags.Select(x => new TsCDaItem(new OpcItem(x.ElementName))).ToArray();
-		//			var readingResult = srv.Read(tags);
-		//			result = new OperationResult<TsCDaItemValueResult[]>(readingResult);
-		//		}
-		//		else
-		//		{
-		//			result = new OperationResult<TsCDaItemValueResult[]>
-		//			{
-		//				Errors = new List<string> { string.Format("OPC DA сервер {0} не подключен", server.ServerName) },
-		//				Result = null
-		//			};
-		//		}
-		//	}
-		//	else
-		//	{
-		//		result = new OperationResult<TsCDaItemValueResult[]>
-		//		{
-		//			Errors = new List<string> 
-		//			{ 
-		//				string.Format("OPC DA сервер {0} не найден", server.ServerName) 
-		//			},
-		//			Result = null
-		//		};
-		//	}
-		//	return result;
-		//}
-
-		//public OperationResult WriteOpcDaServerTags(OpcDaServer server, TsCDaItemValue[] tagValues)
-		//{
-		//	OperationResult result;
-
-		//	var srv = null; //FindOpcDaServer(server);
-
-		//	if (srv != null)
-		//	{
-		//		if (srv.IsConnected)
-		//		{
-		//			srv.Write(tagValues);
-		//			result = new OperationResult();
-		//		}
-		//		else
-		//		{
-		//			result = new OperationResult(string.Format(
-		//				"OPC DA сервер {0} не подключен", server.ServerName));
-		//		}
-		//	}
-		//	else
-		//	{
-		//		result = new OperationResult(string.Format(
-		//			"OPC DA сервер {0} не найден", server.ServerName));
-		//	}
-		//	return result;
-		//}
+			return result;
+		}
 
 		void BrowseChildren(TsCDaServer server, OpcItem opcItem, TsCDaBrowseFilters filters,
 			IList<TsCDaBrowseElement> elementList)

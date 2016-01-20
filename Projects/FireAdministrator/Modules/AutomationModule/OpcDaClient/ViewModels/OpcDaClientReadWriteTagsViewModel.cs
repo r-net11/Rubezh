@@ -33,8 +33,8 @@ namespace AutomationModule.ViewModels
 		OpcDaClientViewModel _opcDaServersViewModel;
 
 		OpcDaServer OpcServer { get { return _opcDaServersViewModel.SelectedOpcServer; } }
-		public TsCDaItemValueResult[] _tagValues;
-		public TsCDaItemValueResult[] TagValues
+		public OpcDaTagValue[] _tagValues;
+		public OpcDaTagValue[] TagValues
 		{
 			get { return _tagValues; }
 			private set { _tagValues = value; OnPropertyChanged(() => TagValues); }
@@ -80,7 +80,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand ReadTagCommand { get; private set; }
 		void OnReadTag()
 		{
-			OperationResult<TsCDaItemValueResult[]> result = null;
+			OperationResult<OpcDaTagValue[]> result = null;
 
 			WaitHelper.Execute(() =>
 			{
