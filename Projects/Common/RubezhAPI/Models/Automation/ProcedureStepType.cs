@@ -176,6 +176,12 @@ namespace RubezhAPI.Automation
 		Now,
 
 		[DescriptionAttribute("HTTP запрос")]
-		HttpRequest
+		HttpRequest,
+
+		[DescriptionAttribute("Чтение значения OPC DA Тэга")]
+		ControlOpcDaTagGet,
+
+		[DescriptionAttribute("Установка значения OPC DA Тэга")]
+		ControlOpcDaTagSet,
 	}
 }

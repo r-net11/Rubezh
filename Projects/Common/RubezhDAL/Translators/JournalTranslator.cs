@@ -23,14 +23,10 @@ namespace RubezhDAL.DataClasses
 			PassJournalSynchroniser = new PassJounalSynchroniser(dbService);
 		}
 
-		public event Action<List<JournalItem>, Guid> ArchivePortionReady;
-		public static bool IsAbort { get; set; }
-
-
 		#region Video
-		public OperationResult SaveVideoUID(Guid itemUID, Guid videoUID, Guid cameraUID)
+		public OperationResult<bool> SaveVideoUID(Guid itemUID, Guid videoUID, Guid cameraUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Context.Journals.FirstOrDefault(x => x.UID == itemUID);
 				if (tableItem != null)
@@ -39,17 +35,13 @@ namespace RubezhDAL.DataClasses
 					tableItem.CameraUID = cameraUID;
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult SaveCameraUID(Guid itemUID, Guid CameraUID)
+		public OperationResult<bool> SaveCameraUID(Guid itemUID, Guid CameraUID)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItem = Context.Journals.FirstOrDefault(x => x.UID == itemUID);
 				if (tableItem != null)
@@ -57,34 +49,25 @@ namespace RubezhDAL.DataClasses
 					tableItem.CameraUID = CameraUID;
 					Context.SaveChanges();
 				}
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 		#endregion
 
 		public OperationResult<DateTime> GetMinDate()
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
-				var result = Context.Journals.Min(x => x.SystemDate);
-				return new OperationResult<DateTime>(result);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<DateTime>.FromError(e.Message);
-			}
+				return Context.Journals.Min(x => x.SystemDate);
+			});
 		}
 
-		public OperationResult AddRange(List<JournalItem> apiItems)
+		public OperationResult<bool> AddRange(List<JournalItem> apiItems)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (apiItems.Count == 0)
-					return new OperationResult();
+					return true;
 				var query = new StringBuilder();
 				foreach (var item in apiItems)
 				{
@@ -108,107 +91,55 @@ namespace RubezhDAL.DataClasses
 							item.CardNo));
 				}
 				Context.Database.ExecuteSqlCommand(query.ToString());
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "JournalTranslator.AddRange");
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
-		public OperationResult Add(JournalItem apiItem)
+		public OperationResult<bool> Add(JournalItem apiItem)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var result = Context.Journals.Add(TranslateBack(apiItem));
 				Context.SaveChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "JournalTranslator.Add");
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItems = BuildJournalQuery(filter).ToList();
-				var result = new List<JournalItem>(tableItems.Select(x => Translate(x)));
-				return new OperationResult<List<JournalItem>>(result);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "JournalTranslator.GetFilteredJournalItems");
-				return OperationResult<List<JournalItem>>.FromError(e.Message);
-			}
+				return new List<JournalItem>(tableItems.Select(x => Translate(x)));
+			});
 		}
 
 		public OperationResult<List<JournalItem>> GetFilteredArchiveItems(JournalFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableItems = BuildArchiveQuery(filter).ToList();
-				var result = new List<JournalItem>(tableItems.Select(x => Translate(x)));
-				return new OperationResult<List<JournalItem>>(result);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "JournalTranslator.GetFilteredJournalItems");
-				return OperationResult<List<JournalItem>>.FromError(e.Message);
-			}
+				return new List<JournalItem>(tableItems.Select(x => Translate(x)));
+			});
 		}
 
 		public OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var query = BuildArchiveQuery(filter).Skip((page - 1) * filter.PageSize).Take(filter.PageSize);
 				var tableItems = query.ToList();
-				var journalItems = new List<JournalItem>(tableItems.Select(x => Translate(x))); ;
-				return new OperationResult<List<JournalItem>>(journalItems);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<List<JournalItem>>.FromError(e.Message);
-			}
+				return new List<JournalItem>(tableItems.Select(x => Translate(x))); ;
+			});
 		}
 
 		public OperationResult<int> GetArchiveCount(JournalFilter filter)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var query = BuildArchiveQuery(filter);
-				var result = query.Count();
-				return new OperationResult<int>(result);
-			}
-			catch (Exception e)
-			{
-				return OperationResult<int>.FromError(e.Message);
-			}
-		}
-
-		bool IsInFilter(Journal item, JournalFilter filter)
-		{
-			bool result = true;
-			if (filter.UseDeviceDateTime)
-			{
-				result = result && item.DeviceDate > filter.StartDate && item.DeviceDate < filter.EndDate;
-			}
-			else
-			{
-				result = result && item.SystemDate > filter.StartDate && item.SystemDate < filter.EndDate;
-			}
-			return result;
-		}
-
-		void PublishNewItemsPortion(List<JournalItem> journalItems, Guid archivePortionUID)
-		{
-			if (ArchivePortionReady != null)
-				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
+				return query.Count();
+			});
 		}
 
 		JournalItem Translate(Journal apiItem)

@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using OpcClientSdk.Da;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
@@ -17,6 +18,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Diagnostics;
+using System.Linq;
 
 namespace FiresecService
 {
@@ -87,7 +90,9 @@ namespace FiresecService
 					ProcedureHelper.ExportConfiguration,
 					ProcedureHelper.ImportOrganisation,
 					ProcedureHelper.ImportOrganisationList,
-					GetOrganisations
+					GetOrganisations,
+					GetOpcDaTagValue,
+					SetOpcDaTagValue
 					);
 
 				GKProcessor.Create();
@@ -111,6 +116,8 @@ namespace FiresecService
 				AutomationProcessor.RunOnServerRun();
 				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
 				UILogger.Log("Готово");
+				OpcDaServersProcessor.Start();
+				UILogger.Log("Запуск OPC DA");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 				FiresecService.Service.FiresecService.AfterConnect += FiresecService_AfterConnect;
 			}
@@ -136,6 +143,44 @@ namespace FiresecService
 							Value = variable.Value
 						}
 					}, clientUID);
+		}
+
+		static object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
+		{
+			
+			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			if (opcDaServer == null)
+				return null;
+
+			var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
+			if (opcDaTag == null)
+				return null;
+
+			var tagsValues = FiresecServiceManager.SafeFiresecService.ReadOpcDaServerTags(clientUID ,opcDaServer);
+			if (tagsValues.HasError)
+				return null;
+
+			var tagValue = tagsValues.Result.FirstOrDefault(x => x.Uid == opcDaTag.Uid);
+			return tagValue == null ? null : tagValue.Value;
+		}
+
+		static bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
+		{
+			//var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			//if (opcDaServer == null)
+			//	opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			//if (opcDaServer == null)
+			//	return false;
+
+			//var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
+			//if (opcDaTag == null)
+			//	return false;
+
+			var result = FiresecServiceManager.SafeFiresecService.WriteOpcDaTag(clientUID, opcDaServerUID, value);
+
+			return !result.HasError;
 		}
 
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)

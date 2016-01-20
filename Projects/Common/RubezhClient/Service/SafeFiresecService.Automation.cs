@@ -1,9 +1,12 @@
-﻿using RubezhAPI;
+﻿using System;
+using System.Collections.Generic;
+using Common;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
-using System;
-using System.Collections.Generic;
+using OpcClientSdk;
+using OpcClientSdk.Da;
 
 namespace RubezhClient
 {
@@ -351,5 +354,6 @@ namespace RubezhClient
 		{
 			ImportOrganisationList(FiresecServiceFactory.UID, isWithDeleted, path);
 		}
+
 	}
 }

@@ -27,7 +27,7 @@
 				<File Id="Server.RviClient.dll"												Name="RviClient.dll"								Source="$(var.Server.TargetDir)" />
 				<File Id="Server.RubezhDAL.dll"												Name="RubezhDAL.dll"								Source="$(var.Server.TargetDir)" />
 				<File Id="Server.RubezhLicense.dll"											Name="RubezhLicense.dll"							Source="$(var.Server.TargetDir)" />
-				
+
 				<File Id="Server.EntityFramework.dll"										Name="EntityFramework.dll"							Source="$(var.Server.TargetDir)" />
 				<File Id="Server.EntityFramework.SqlServer.dll"								Name="EntityFramework.SqlServer.dll"				Source="$(var.Server.TargetDir)" />
 				<File Id="Server.EntityFramework.BulkInsert.dll"							Name="EntityFramework.BulkInsert.dll"				Source="$(var.Server.TargetDir)" />
@@ -35,7 +35,7 @@
 
 				<File Id="Server.Npgsql.dll"												Name="Npgsql.dll"									Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Npgsql.EntityFramework.dll"								Name="Npgsql.EntityFramework.dll"					Source="$(var.Server.TargetDir)" />
-				
+
 				<File Id="Server.Mono.Security.dll"											Name="Mono.Security.dll"							Source="$(var.Server.TargetDir)" />
 
 				<File Id="Server.Ionic.Zip.dll"												Name="Ionic.Zip.dll"								Source="..\..\..\..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\" />
@@ -55,6 +55,8 @@
 				<File Id="Server.DevExpress.XtraReports.v15.1.dll"							Name="DevExpress.XtraReports.v15.1.dll"				Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
 				<File Id="Server.DevExpress.XtraReports.v15.1.Service.dll"					Name="DevExpress.XtraReports.v15.1.Service.dll"		Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
 				<File Id="Server.DevExpress.Xpo.v15.1.dll"									Name="DevExpress.Xpo.v15.1.dll"						Source="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\" />
+
+				<File Id="Server.OpcClientSdk40.dll"										Name="OpcClientSdk40.dll"							Source="..\..\..\..\..\..\3rdParty\OPC\" />
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">
@@ -121,7 +123,7 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.ServerLocation">
-		<Component Id="AppData.ServerLocation.SecurityConfiguration" Guid="53B46190-51CB-4AAA-ACA0-BD9CB6C58494" Permanent='yes' NeverOverwrite='yes'>
+			<Component Id="AppData.ServerLocation.SecurityConfiguration" Guid="53B46190-51CB-4AAA-ACA0-BD9CB6C58494" Permanent='yes' NeverOverwrite='yes'>
 				<File Id="Server.SecurityConfiguration.xml"								Name="SecurityConfiguration.xml"					Source="..\..\..\..\..\Deploy\ConfigurationService\Config\SecurityConfiguration.xml" />
 			</Component>
 		</DirectoryRef>

@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using RubezhAPI.Automation;
+using OpcClientSdk;
+using OpcClientSdk.Da;
 
 namespace RubezhAPI
 {
@@ -57,7 +60,7 @@ namespace RubezhAPI
 		string Ping(Guid clientUID);
 
 		[OperationContract]
-		OperationResult ResetDB(Guid clientUID);
+		OperationResult<bool> ResetDB(Guid clientUID);
 
 		/// <summary>
 		/// Запрос данных лицензии
@@ -133,6 +136,55 @@ namespace RubezhAPI
 
 		[OperationContract]
 		void SetLocalConfig(Guid clientUID);
+		#endregion
+
+		#region OPC DA
+
+		/// <summary>
+		/// Возвращает список имен OPC DA серверов, 
+		/// зарегистрированных в системе
+		/// </summary>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID);
+
+		/// <summary>
+		/// Возвращает структуру сервера (группы и теги) для указанного сервера
+		/// </summary>
+		/// <param name="clientUID"></param>
+		/// <param name="server">Наименование сервера</param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server);
+
+		/// <summary>
+		/// Возвращает описание и текущий статус сервера
+		/// </summary>
+		/// <param name="clientUID"></param>
+		/// <param name="server"></param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server);
+
+		/// <summary>
+		/// Возвращает значения тегов
+		/// </summary>
+		/// <param name="clientUID"></param>
+		/// <param name="server"></param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
+
+		/// <summary>
+		/// Записывает новое значение указанных тегов
+		/// </summary>
+		/// <param name="clientUID"></param>
+		/// <param name="serverId"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<bool> WriteOpcDaTag(Guid clientUID, Guid serverId, object value);
+		
 		#endregion
 	}
 }

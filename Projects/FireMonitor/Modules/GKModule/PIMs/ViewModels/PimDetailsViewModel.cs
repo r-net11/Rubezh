@@ -160,11 +160,6 @@ namespace GKModule.ViewModels
 			get { return Plans.Count > 0; }
 		}
 
-		public bool CanControl
-		{
-			get { return ClientManager.CheckPermission(PermissionType.Oper_PIM_Control); }
-		}
-
 		#region IWindowIdentity Members
 		public string Guid
 		{

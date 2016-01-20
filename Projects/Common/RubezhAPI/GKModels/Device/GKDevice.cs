@@ -764,6 +764,19 @@ namespace RubezhAPI.GK
 			return null;
 		}
 
+		public string GetReservedIpAddress()
+		{
+			if (DriverType == GKDriverType.GK)
+			{
+				var ipProperty = Properties.FirstOrDefault(x => x.Name == "ReservedIPAddress");
+				if (ipProperty != null)
+				{
+					return ipProperty.StringValue;
+				}
+			}
+			return null;
+		}
+
 		[XmlIgnore]
 		public bool IsRealDevice
 		{

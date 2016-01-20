@@ -22,18 +22,13 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<TShort> GetSingle(Guid? uid)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (uid == null)
-					return new OperationResult<TShort>(null);
+					return null;
 				var tableItems = GetTableItems().Where(x => x.UID == uid.Value);
-				var result = GetAPIItems(tableItems).FirstOrDefault();
-				return new OperationResult<TShort>(result);
-			}
-			catch (System.Exception e)
-			{
-				return OperationResult<TShort>.FromError(e.Message);
-			}
+				return GetAPIItems(tableItems).FirstOrDefault();
+			});
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace RubezhAPI
 		OperationResult<bool> SaveEmployee(Guid clientUID, Employee item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedEmployee(Guid clientUID, Guid uid, string name, bool isEmployee);
+		OperationResult<bool> MarkDeletedEmployee(Guid clientUID, Guid uid, string name, bool isEmployee);
 
 		[OperationContract]
 		OperationResult<TimeTrackResult> GetTimeTracks(Guid clientUID, EmployeeFilter filter, DateTime startDate, DateTime endDate);
@@ -30,13 +30,13 @@ namespace RubezhAPI
 		Stream GetTimeTracksStream(Guid clientUID, EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
-		OperationResult SaveEmployeeDepartment(Guid clientUID, Guid uid, Guid? departmentUid, string name);
+		OperationResult<bool> SaveEmployeeDepartment(Guid clientUID, Guid uid, Guid? departmentUid, string name);
 
 		[OperationContract]
-		OperationResult SaveEmployeePosition(Guid clientUID, Guid uid, Guid? positionUid, string name);
+		OperationResult<bool> SaveEmployeePosition(Guid clientUID, Guid uid, Guid? positionUid, string name);
 
 		[OperationContract]
-		OperationResult RestoreEmployee(Guid clientUID, Guid uid, string name, bool isEmployee);
+		OperationResult<bool> RestoreEmployee(Guid clientUID, Guid uid, string name, bool isEmployee);
 		#endregion
 
 		#region Department
@@ -50,13 +50,13 @@ namespace RubezhAPI
 		OperationResult<bool> SaveDepartment(Guid clientUID, Department item, bool isNew);//
 
 		[OperationContract]
-		OperationResult MarkDeletedDepartment(Guid clientUID, ShortDepartment department);//
+		OperationResult<bool> MarkDeletedDepartment(Guid clientUID, ShortDepartment department);//
 
 		[OperationContract]
-		OperationResult SaveDepartmentChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);//
+		OperationResult<bool> SaveDepartmentChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);//
 
 		[OperationContract]
-		OperationResult RestoreDepartment(Guid clientUID, ShortDepartment department);//
+		OperationResult<bool> RestoreDepartment(Guid clientUID, ShortDepartment department);//
 
 		[OperationContract]
 		OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid clientUID, Guid uid);//
@@ -79,10 +79,10 @@ namespace RubezhAPI
 		OperationResult<bool> SavePosition(Guid clientUID, Position item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedPosition(Guid clientUID, Guid uid, string name);
+		OperationResult<bool> MarkDeletedPosition(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestorePosition(Guid clientUID, Guid uid, string name);
+		OperationResult<bool> RestorePosition(Guid clientUID, Guid uid, string name);
 		#endregion
 
 		#region Card
@@ -105,10 +105,10 @@ namespace RubezhAPI
 		OperationResult<bool> DeleteCardFromEmployee(Guid clientUID, SKDCard item, string employeeName, string reason = null);
 
 		[OperationContract]
-		OperationResult DeletedCard(Guid clientUID, SKDCard card);
+		OperationResult<bool> DeletedCard(Guid clientUID, SKDCard card);
 
 		[OperationContract]
-		OperationResult SaveCardTemplate(Guid clientUID, SKDCard card);
+		OperationResult<bool> SaveCardTemplate(Guid clientUID, SKDCard card);
 
 		[OperationContract]
 		OperationResult<List<GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> deviceUIDs);
@@ -122,10 +122,10 @@ namespace RubezhAPI
 		OperationResult<bool> SaveAccessTemplate(Guid clientUID, AccessTemplate item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate item);
+		OperationResult<bool> MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate item);
 
 		[OperationContract]
-		OperationResult RestoreAccessTemplate(Guid clientUID, AccessTemplate item);
+		OperationResult<bool> RestoreAccessTemplate(Guid clientUID, AccessTemplate item);
 		#endregion
 
 		#region Organisation
@@ -136,28 +136,28 @@ namespace RubezhAPI
 		OperationResult<bool> SaveOrganisation(Guid clientUID, OrganisationDetails Organisation, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedOrganisation(Guid clientUID, Guid uid, string name);
+		OperationResult<bool> MarkDeletedOrganisation(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult AddOrganisationDoor(Guid clientUID, Organisation organisation, Guid doorUID);
+		OperationResult<bool> AddOrganisationDoor(Guid clientUID, Organisation organisation, Guid doorUID);
 
 		[OperationContract]
-		OperationResult RemoveOrganisationDoor(Guid clientUID, Organisation organisation, Guid doorUID);
+		OperationResult<bool> RemoveOrganisationDoor(Guid clientUID, Organisation organisation, Guid doorUID);
 
 		[OperationContract]
-		OperationResult SaveOrganisationUsers(Guid clientUID, Organisation organisation);
+		OperationResult<bool> SaveOrganisationUsers(Guid clientUID, Organisation organisation);
 
 		[OperationContract]
 		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid clientUID, Guid uid);
 
 		[OperationContract]
-		OperationResult SaveOrganisationChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);
+		OperationResult<bool> SaveOrganisationChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);
 
 		[OperationContract]
-		OperationResult SaveOrganisationHRChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);
+		OperationResult<bool> SaveOrganisationHRChief(Guid clientUID, Guid uid, Guid? chiefUID, string name);
 
 		[OperationContract]
-		OperationResult RestoreOrganisation(Guid clientUID, Guid uid, string name);
+		OperationResult<bool> RestoreOrganisation(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
 		OperationResult<bool> IsAnyOrganisationItems(Guid clientUID, Guid uid);
@@ -172,10 +172,10 @@ namespace RubezhAPI
 		OperationResult<bool> SaveAdditionalColumnType(Guid clientUID, AdditionalColumnType item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedAdditionalColumnType(Guid clientUID, Guid uid, string name);
+		OperationResult<bool> MarkDeletedAdditionalColumnType(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestoreAdditionalColumnType(Guid clientUID, Guid uid, string name);
+		OperationResult<bool> RestoreAdditionalColumnType(Guid clientUID, Guid uid, string name);
 		#endregion
 
 		#region NightSettings
@@ -183,7 +183,7 @@ namespace RubezhAPI
 		OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid clientUID, Guid organisationUID);
 
 		[OperationContract]
-		OperationResult SaveNightSettings(Guid clientUID, NightSettings nightSettings);
+		OperationResult<bool> SaveNightSettings(Guid clientUID, NightSettings nightSettings);
 		#endregion
 
 		#region PassCardTemplate
@@ -197,26 +197,26 @@ namespace RubezhAPI
 		OperationResult<bool> SavePassCardTemplate(Guid clientUID, PassCardTemplate item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedPassCardTemplate(Guid clientUID, Guid uid, string name);
+		OperationResult<bool> MarkDeletedPassCardTemplate(Guid clientUID, Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestorePassCardTemplate(Guid clientUID, Guid uid, string name);
+		OperationResult<bool> RestorePassCardTemplate(Guid clientUID, Guid uid, string name);
 		#endregion
 
 		[OperationContract]
-		OperationResult GenerateEmployeeDays(Guid clientUID);
+		OperationResult<bool> GenerateEmployeeDays(Guid clientUID);
 
 		[OperationContract]
-		OperationResult GenerateJournal(Guid clientUID);
+		OperationResult<bool> GenerateJournal(Guid clientUID);
 
 		[OperationContract]
-		OperationResult GenerateTestData(Guid clientUID, bool isAscending);
+		OperationResult<bool> GenerateTestData(Guid clientUID, bool isAscending);
 
 		[OperationContract]
-		OperationResult SaveJournalVideoUID(Guid clientUID, Guid journaItemUID, Guid videoUID, Guid cameraUID);
+		OperationResult<bool> SaveJournalVideoUID(Guid clientUID, Guid journaItemUID, Guid videoUID, Guid cameraUID);
 
 		[OperationContract]
-		OperationResult SaveJournalCameraUID(Guid clientUID, Guid journaItemUID, Guid CameraUID);
+		OperationResult<bool> SaveJournalCameraUID(Guid clientUID, Guid journaItemUID, Guid CameraUID);
 
 		#region GKSchedule
 		[OperationContract]
@@ -242,27 +242,27 @@ namespace RubezhAPI
 
 		#region Export
 		[OperationContract]
-		OperationResult ExportOrganisation(Guid clientUID, ExportFilter filter);
+		OperationResult<bool> ExportOrganisation(Guid clientUID, ExportFilter filter);
 
 		[OperationContract]
-		OperationResult ImportOrganisation(Guid clientUID, ImportFilter filter);
+		OperationResult<bool> ImportOrganisation(Guid clientUID, ImportFilter filter);
 
 		[OperationContract]
-		OperationResult ExportOrganisationList(Guid clientUID, ExportFilter filter);
+		OperationResult<bool> ExportOrganisationList(Guid clientUID, ExportFilter filter);
 
 		[OperationContract]
-		OperationResult ImportOrganisationList(Guid clientUID, ImportFilter filter);
+		OperationResult<bool> ImportOrganisationList(Guid clientUID, ImportFilter filter);
 
 		[OperationContract]
-		OperationResult ExportJournal(Guid clientUID, JournalExportFilter filter);
+		OperationResult<bool> ExportJournal(Guid clientUID, JournalExportFilter filter);
 
 		[OperationContract]
-		OperationResult ExportConfiguration(Guid clientUID, ConfigurationExportFilter filter);
+		OperationResult<bool> ExportConfiguration(Guid clientUID, ConfigurationExportFilter filter);
 		#endregion
 
 		#region CurrentConsumption
 		[OperationContract]
-		OperationResult SaveCurrentConsumption(Guid clientUID, CurrentConsumption item);
+		OperationResult<bool> SaveCurrentConsumption(Guid clientUID, CurrentConsumption item);
 
 		[OperationContract]
 		OperationResult<List<CurrentConsumption>> GetCurrentConsumption(Guid clientUID, CurrentConsumptionFilter filter);

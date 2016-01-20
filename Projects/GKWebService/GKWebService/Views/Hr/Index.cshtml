@@ -43,7 +43,7 @@
         <div class="icon redo"></div>
     </div>
     <div class="HrToolbar" data-bind="visible:hrPages.Cards">
-        <div class="icon delete"></div>
+        <div class="icon delete" title="Удалить" data-bind="click: Cards.CanRemove() ? function(data,event) { Cards.Remove(data, event); } : null, css: {disabled: !Cards.CanRemove()}"></div>
     </div>
     <div class="HrToolbar" data-bind="visible:hrPages.AccessTemplates">
         <div class="icon add" title="Добавить" data-bind="click: AccessTemplates.CanAdd() ? function(data,event) { AccessTemplates.Add(data, event); } : null, css: {disabled: !AccessTemplates.CanAdd()}"></div>
@@ -93,7 +93,7 @@
 <div data-bind="visible:HR.hrPages.Employees">@Html.Action("Index", "Employees")</div>
 <div data-bind="visible:HR.hrPages.Departments">@Html.Action("Index", "Departments")</div>
 <div data-bind="visible:HR.hrPages.Positions">@Html.Action("Index", "Positions")</div>
-<div data-bind="visible:HR.hrPages.Cards">@Html.Action("Cards")</div>
+<div data-bind="visible:HR.hrPages.Cards">@Html.Action("Index", "Cards")</div>
 <div data-bind="visible:HR.hrPages.AccessTemplates">@Html.Action("Index", "AccessTemplates")</div>
 <div data-bind="visible:HR.hrPages.Organisations">@Html.Action("Index", "Organisations")</div>
     

@@ -286,7 +286,7 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.AND);
 				if (Door.AntipassbackOn && exitZone != null)
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 11);
+					Formula.Add(FormulaOperationType.BR, 1, 7);
 					Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
 					Formula.Add(FormulaOperationType.BR, 1, 0);
 					Formula.Add(FormulaOperationType.CONST, 0, (byte)exitZone.No);
@@ -295,14 +295,20 @@ namespace GKProcessor
 				}
 				else
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 7);
+					Formula.Add(FormulaOperationType.BR, 1, 3);
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
 				}
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
+				Formula.Add(FormulaOperationType.EXIT);
 				Formula.AddGetBit(GKStateBit.TurningOff, Door);
 				Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice);
 				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
+				Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit);
+				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}
@@ -314,7 +320,7 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.AND);
 				if (Door.AntipassbackOn && enterZone != null)
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 11);
+					Formula.Add(FormulaOperationType.BR, 1, 7);
 					Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
 					Formula.Add(FormulaOperationType.BR, 1, 0);
 					Formula.Add(FormulaOperationType.CONST, 0, (byte)enterZone.No);
@@ -323,14 +329,20 @@ namespace GKProcessor
 				}
 				else
 				{
-					Formula.Add(FormulaOperationType.BR, 1, 7);
+					Formula.Add(FormulaOperationType.BR, 1, 3);
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
 				}
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
+				Formula.Add(FormulaOperationType.EXIT);
 				Formula.AddGetBit(GKStateBit.TurningOff, Door);
 				Formula.AddGetBit(GKStateBit.Fire1, lockControlDeviceExit);
 				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
+				Formula.AddGetBit(GKStateBit.Fire1, lockControlDevice);
+				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.Add(FormulaOperationType.BR, 1, 3);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}

@@ -117,6 +117,8 @@
 							<li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
 							<li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
 							<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
+                           				<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
+							<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Delays'); } "><span class="icon delays"></span><span class="text">Задержки</span></a></li>
 						</ul>
 					</li>
 					<li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Report'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
@@ -162,8 +164,11 @@
 	<script src="~/Scripts/app/controllers/planCtrl.js"></script>
 	<script src="~/Scripts/app/controllers/signalrCtrl.js"></script>
 	<script src="~/Scripts/app/directives/d3Plan.js"></script>
-	<script src="~/Scripts/app/services/signalrService.js"></script>
-	<script src="~/Scripts/app/controllers/firezonesCtrl.js"></script>
+    <script src="~/Scripts/app/services/signalrService.js"></script>
+    <script src="~/Scripts/app/controllers/zonesCtrl.js"></script>
+	<script src="~/Scripts/app/controllers/devicesCtrl.js"></script>
+    	<script src="~/Scripts/app/controllers/DirectionsViewModel.js"></script>
+	<script src="~/Scripts/app/controllers/DelaysViewModel.js"></script>
     <script src="~/Scripts/app/directives/ngJqGrid.js"></script>
 
 	<script src="~/Scripts/report.js"></script>
@@ -190,6 +195,7 @@
     <script src="~/Scripts/SKD/Positions/PositionsViewModel.js"></script>
     <script src="~/Scripts/SKD/Positions/PositionDetailsViewModel.js"></script>
     <script src="~/Scripts/SKD/Positions/PositionEmployeeListViewModel.js"></script>
+    <script src="~/Scripts/SKD/Cards/CardsViewModel.js"></script>
     <script src="~/Scripts/SKD/AccessTemplates/AccessTemplatesViewModel.js"></script>
     <script src="~/Scripts/SKD/AccessTemplates/AccessTemplateDetailsViewModel.js"></script>
     <script src="~/Scripts/SKD/Organisations/OrganisationsViewModel.js"></script>

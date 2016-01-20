@@ -1,4 +1,5 @@
-﻿using RubezhAPI;
+﻿using Infrastructure.Automation;
+using RubezhAPI;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.Models;
 using System;
@@ -12,7 +13,7 @@ namespace FiresecService.Service
 		static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
 		public static int Index { get; private set; }
 
-		public static void Add(CallbackResult callbackResult, ClientType? clientType = null, Guid? clientUID = null, IEnumerable<Guid> layoutUIDs = null)
+		public static void Add(CallbackResult callbackResult, ClientType? clientType = null, Guid? clientUID = null)
 		{
 			lock (CallbackResultItems)
 			{
@@ -27,8 +28,7 @@ namespace FiresecService.Service
 					CallbackResult = callbackResult,
 					DateTime = DateTime.Now,
 					ClientType = clientType,
-					ClientUID = clientUID,
-					LayoutUIDs = layoutUIDs
+					ClientUID = clientUID
 				};
 				CallbackResultItems.Add(newCallbackResultItem);
 
@@ -63,7 +63,7 @@ namespace FiresecService.Service
 						continue;
 					if (clientUID.HasValue && clientUID.Value != clientInfo.UID)
 						continue;
-					if (layoutUIDs != null && !layoutUIDs.Contains(clientInfo.LayoutUID))
+					if (!AutomationHelper.CheckLayoutFilter(callbackResult.AutomationCallbackResult, clientInfo.LayoutUID))
 						continue;
 					clientInfo.WaitEvent.Set();
 				}
@@ -84,9 +84,9 @@ namespace FiresecService.Service
 							continue;
 						if (callbackResultItem.ClientUID.HasValue && callbackResultItem.ClientUID.Value != clientInfo.UID)
 							continue;
-						if (callbackResultItem.LayoutUIDs != null && !callbackResultItem.LayoutUIDs.Contains(clientInfo.LayoutUID))
-							continue;
 						if (callbackResultItem.CallbackResult.GKProgressCallback != null && callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled)
+							continue;
+						if (!AutomationHelper.CheckLayoutFilter(callbackResultItem.CallbackResult.AutomationCallbackResult, clientInfo.LayoutUID))
 							continue;
 						if (callbackResultItem.CallbackResult.AutomationCallbackResult != null && callbackResultItem.CallbackResult.AutomationCallbackResult.Data is GlobalVariableCallBackData)
 						{
@@ -104,14 +104,11 @@ namespace FiresecService.Service
 		}
 	}
 
-
-
 	public class CallbackResultItem
 	{
 		public CallbackResult CallbackResult { get; set; }
 		public DateTime DateTime { get; set; }
 		public ClientType? ClientType { get; set; }
 		public Guid? ClientUID { get; set; }
-		public IEnumerable<Guid> LayoutUIDs { get; set; }
 	}
 }

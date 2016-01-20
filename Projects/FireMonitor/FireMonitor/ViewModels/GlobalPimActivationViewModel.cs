@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 
 namespace FireMonitor.ViewModels
@@ -27,7 +28,7 @@ namespace FireMonitor.ViewModels
 		public GlobalPimActivationViewModel()
 		{
 			GlobalPims.ForEach(x => x.State.StateChanged += OnStateChanged);
-			ChangeGlobalPimActivationCommand = new RelayCommand(OnChangeGlobalPimActivation);
+			ChangeGlobalPimActivationCommand = new RelayCommand(OnChangeGlobalPimActivation, CanChangeGlobalPim);
 			OnStateChanged();
 		}
 
@@ -78,6 +79,11 @@ namespace FireMonitor.ViewModels
 			{
 				ClientManager.FiresecService.GKTurnOnNowGlobalPimsInAutomatic();
 			}
+		}
+
+		bool CanChangeGlobalPim()
+		{
+			return ClientManager.CheckPermission(PermissionType.Oper_GlobalPIM_Control);
 		}
 	}
 

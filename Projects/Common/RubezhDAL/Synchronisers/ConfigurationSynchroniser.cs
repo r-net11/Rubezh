@@ -11,14 +11,14 @@ namespace RubezhDAL
 {
 	public static class ConfigurationSynchroniser
 	{
-		public static OperationResult Export(ConfigurationExportFilter filter)
+		public static OperationResult<bool> Export(ConfigurationExportFilter filter)
 		{
 			if (!Directory.Exists(filter.Path))
-				return new OperationResult("Папка не существует");
-			var devicesResult = new OperationResult();
-			var doorsResult = new OperationResult();
-			var zonesResult = new OperationResult();
-			var gkZonesResult = new OperationResult();
+				return OperationResult<bool>.FromError("Папка не существует");
+			var devicesResult = new OperationResult<bool>();
+			var doorsResult = new OperationResult<bool>();
+			var zonesResult = new OperationResult<bool>();
+			var gkZonesResult = new OperationResult<bool>();
 			if (filter.IsExportDevices)
 				devicesResult = Export<ExportDevice, GKDevice>(GKManager.Devices, "Devices.xml", filter.Path);
 			if(filter.IsExportDoors)
@@ -30,10 +30,10 @@ namespace RubezhDAL
             return DbServiceHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
 		}
 
-		static OperationResult Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)
+		static OperationResult<bool> Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)
 			where TExportItem : IConfigExportItem<TConfigItem>, new()
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var exportItems = new List<TExportItem>();
 				foreach (var item in configItems)
@@ -48,12 +48,8 @@ namespace RubezhDAL
 					serializer.Serialize(fileStream, exportItems);
 				}
 				File.Move(fileName, Path.Combine(path, fileName));
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+				return true;
+			});
 		}
 	}
 

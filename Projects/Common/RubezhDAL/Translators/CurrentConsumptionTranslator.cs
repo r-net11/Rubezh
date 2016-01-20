@@ -17,24 +17,20 @@ namespace RubezhDAL.DataClasses
 			DbService = dbService;
 		}
 
-        public OperationResult Save(API.CurrentConsumption item)
+        public OperationResult<bool> Save(API.CurrentConsumption item)
         {
-            try
-            {
+            return DbServiceHelper.InTryCatch(() =>
+			{
                 SaveItem(item, Context.CurrentConsumptions);
                 Context.SaveChanges();
-                return new OperationResult();
-            }
-            catch (Exception e)
-            {
-                return new OperationResult(e.Message);
-            }
+				return true;
+            });
         }
 
-        public OperationResult SaveMany(IEnumerable<API.CurrentConsumption> items)
+        public OperationResult<bool> SaveMany(IEnumerable<API.CurrentConsumption> items)
         {
-            try
-            {
+            return DbServiceHelper.InTryCatch(() =>
+			{
                 var uids = items.Select(x => x.UID).ToList();
                 var tableItems = Context.CurrentConsumptions.Where(x => uids.Contains(x.UID)).ToList();//. new List<DataAccess.CurrentConsumption>();
                 foreach (var item in items)
@@ -42,12 +38,8 @@ namespace RubezhDAL.DataClasses
                     SaveItem(item, tableItems);
                 }
                 Context.SaveChanges();
-                return new OperationResult();
-            }
-            catch (Exception e)
-            {
-                return new OperationResult(e.Message);
-            }
+                return true;
+            });
         }
 
         void SaveItem(API.CurrentConsumption item, IEnumerable<CurrentConsumption> tableItems)
@@ -68,7 +60,7 @@ namespace RubezhDAL.DataClasses
 
         public OperationResult<List<API.CurrentConsumption>> Get(API.CurrentConsumptionFilter filter)
         {
-            try
+            return DbServiceHelper.InTryCatch(() =>
             {
                 var result = from tableItem in Context.CurrentConsumptions
                              where tableItem.AlsUID == filter.AlsUID && tableItem.DateTime >= filter.StartDateTime && tableItem.DateTime <= filter.EndDateTime
@@ -79,12 +71,8 @@ namespace RubezhDAL.DataClasses
                                  Current = tableItem.Current,
                                  DateTime = tableItem.DateTime
                              };
-                return new OperationResult<List<API.CurrentConsumption>>(result.ToList());
-            }
-            catch (Exception e)
-            {
-                return OperationResult<List<API.CurrentConsumption>>.FromError(e.Message);
-            }
+                return result.ToList();
+            });
         }
     }
 }

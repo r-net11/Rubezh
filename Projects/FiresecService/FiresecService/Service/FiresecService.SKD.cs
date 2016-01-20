@@ -52,7 +52,7 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedEmployee(Guid clientUID, Guid uid, string name, bool isEmployee)
+		public OperationResult<bool> MarkDeletedEmployee(Guid clientUID, Guid uid, string name, bool isEmployee)
 		{
 			AddJournalMessage(isEmployee ? JournalEventNameType.Удаление_сотрудника : JournalEventNameType.Удаление_посетителя, name, uid, clientUID, JournalEventDescriptionType.Удаление);
 			var errors = new List<string>();
@@ -83,9 +83,9 @@ namespace FiresecService.Service
 			}
 
 			if (errors.Count > 0)
-				return new OperationResult(errors);
+				return OperationResult<bool>.FromError(errors);
 			else
-				return new OperationResult();
+				return new OperationResult<bool>(true);
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(Guid clientUID, EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
@@ -101,7 +101,7 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackTranslator.GetTimeTracksStream(filter, startDate, endDate);
 			}
 		}
-		public OperationResult SaveEmployeeDepartment(Guid clientUID, Guid uid, Guid? departmentUid, string name)
+		public OperationResult<bool> SaveEmployeeDepartment(Guid clientUID, Guid uid, Guid? departmentUid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -109,7 +109,7 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.SaveDepartment(uid, departmentUid);
 			}
 		}
-		public OperationResult SaveEmployeePosition(Guid clientUID, Guid uid, Guid? PositionUid, string name)
+		public OperationResult<bool> SaveEmployeePosition(Guid clientUID, Guid uid, Guid? PositionUid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -117,7 +117,7 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
 			}
 		}
-		public OperationResult RestoreEmployee(Guid clientUID, Guid uid, string name, bool isEmployee)
+		public OperationResult<bool> RestoreEmployee(Guid clientUID, Guid uid, string name, bool isEmployee)
 		{
 			AddJournalMessage(isEmployee ? JournalEventNameType.Восстановление_сотрудника : JournalEventNameType.Восстановление_посетителя, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -155,7 +155,7 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedDepartment(Guid clientUID, ShortDepartment department)
+		public OperationResult<bool> MarkDeletedDepartment(Guid clientUID, ShortDepartment department)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_отдела, department.Name, department.UID, clientUID);
 			foreach (var childDepartment in department.ChildDepartments)
@@ -167,7 +167,7 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.MarkDeleted(department.UID);
 			}
 		}
-		public OperationResult SaveDepartmentChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
+		public OperationResult<bool> SaveDepartmentChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -176,7 +176,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult RestoreDepartment(Guid clientUID, ShortDepartment department)
+		public OperationResult<bool> RestoreDepartment(Guid clientUID, ShortDepartment department)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_отдела, department.Name, department.UID, clientUID);
 			foreach (var parent in department.ParentDepartments)
@@ -241,7 +241,7 @@ namespace FiresecService.Service
 				return databaseService.PositionTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedPosition(Guid clientUID, Guid uid, string name)
+		public OperationResult<bool> MarkDeletedPosition(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_должности, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -249,7 +249,7 @@ namespace FiresecService.Service
 				return databaseService.PositionTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestorePosition(Guid clientUID, Guid uid, string name)
+		public OperationResult<bool> RestorePosition(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_должности, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -468,7 +468,7 @@ namespace FiresecService.Service
 			return result;
 		}
 
-		public OperationResult DeletedCard(Guid clientUID, SKDCard card)
+		public OperationResult<bool> DeletedCard(Guid clientUID, SKDCard card)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_карты, card.EmployeeName, card.EmployeeUID, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -487,12 +487,12 @@ namespace FiresecService.Service
 					errors.Add(deleteFromDbResult.Error);
 
 				if (errors.Count > 0)
-					return new OperationResult(errors);
+					return OperationResult<bool>.FromError(errors);
 				else
-					return new OperationResult();
+					return new OperationResult<bool>(true);
 			}
 		}
-		public OperationResult SaveCardTemplate(Guid clientUID, SKDCard card)
+		public OperationResult<bool> SaveCardTemplate(Guid clientUID, SKDCard card)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -545,9 +545,9 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, !saveResult.HasError);
 			}
 		}
-		public OperationResult MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate accessTemplate)
+		public OperationResult<bool> MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate accessTemplate)
 		{
-			var operationResult = new OperationResult();
+			var operationResult = new OperationResult<bool>();
 			var warnings = new List<string>();
 			AddJournalMessage(JournalEventNameType.Удаление_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -572,13 +572,13 @@ namespace FiresecService.Service
 				}
 				var markDeletedResult = databaseService.AccessTemplateTranslator.MarkDeleted(accessTemplate.UID);
 				if (markDeletedResult.HasError)
-					operationResult = new OperationResult(markDeletedResult.Error);
+					operationResult = OperationResult<bool>.FromError(markDeletedResult.Error);
 				operationResult.Warnings = warnings;
 				return operationResult;
 			}
 		}
 
-		public OperationResult RestoreAccessTemplate(Guid clientUID, AccessTemplate accessTemplate)
+		public OperationResult<bool> RestoreAccessTemplate(Guid clientUID, AccessTemplate accessTemplate)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -607,7 +607,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedOrganisation(Guid clientUID, Guid uid, string name)
+		public OperationResult<bool> MarkDeletedOrganisation(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_организации, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -637,19 +637,19 @@ namespace FiresecService.Service
 						errors.Add(markDeleledResult.Error);
 					}
 					if (errors.Count > 0)
-						return new OperationResult(String.Join("\n", errors));
+						return OperationResult<bool>.FromError(String.Join("\n", errors));
 					else
-						return new OperationResult();
+						return new OperationResult<bool>(true);
 				}
 				else
 				{
 					errors.Add(cardAccessTemplateDoors.Error);
 					errors.Add(cards.Error);
-					return new OperationResult(String.Join("\n", errors));
+					return OperationResult<bool>.FromError(String.Join("\n", errors));
 				}
 			}
 		}
-		public OperationResult AddOrganisationDoor(Guid clientUID, Organisation item, Guid doorUID)
+		public OperationResult<bool> AddOrganisationDoor(Guid clientUID, Organisation item, Guid doorUID)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -657,7 +657,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.AddDoor(item.UID, doorUID);
 			}
 		}
-		public OperationResult RemoveOrganisationDoor(Guid clientUID, Organisation item, Guid doorUID)
+		public OperationResult<bool> RemoveOrganisationDoor(Guid clientUID, Organisation item, Guid doorUID)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -665,7 +665,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.RemoveDoor(item.UID, doorUID);
 			}
 		}
-		public OperationResult SaveOrganisationUsers(Guid clientUID, Organisation item)
+		public OperationResult<bool> SaveOrganisationUsers(Guid clientUID, Organisation item)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -680,7 +680,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.GetDetails(uid);
 			}
 		}
-		public OperationResult SaveOrganisationChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
+		public OperationResult<bool> SaveOrganisationChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -688,7 +688,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveChief(uid, chiefUID);
 			}
 		}
-		public OperationResult SaveOrganisationHRChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
+		public OperationResult<bool> SaveOrganisationHRChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -696,7 +696,7 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveHRChief(uid, chiefUID);
 			}
 		}
-		public OperationResult RestoreOrganisation(Guid clientUID, Guid uid, string name)
+		public OperationResult<bool> RestoreOrganisation(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_организации, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -739,7 +739,7 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedAdditionalColumnType(Guid clientUID, Guid uid, string name)
+		public OperationResult<bool> MarkDeletedAdditionalColumnType(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_дополнительной_колонки, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -747,7 +747,7 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestoreAdditionalColumnType(Guid clientUID, Guid uid, string name)
+		public OperationResult<bool> RestoreAdditionalColumnType(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_дополнительной_колонки, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -766,7 +766,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveNightSettings(Guid clientUID, NightSettings nightSettings)
+		public OperationResult<bool> SaveNightSettings(Guid clientUID, NightSettings nightSettings)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -801,7 +801,7 @@ namespace FiresecService.Service
 				return databaseService.PassCardTemplateTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedPassCardTemplate(Guid clientUID, Guid uid, string name)
+		public OperationResult<bool> MarkDeletedPassCardTemplate(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Удаление_шаблона_пропуска, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -809,7 +809,7 @@ namespace FiresecService.Service
 				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestorePassCardTemplate(Guid clientUID, Guid uid, string name)
+		public OperationResult<bool> RestorePassCardTemplate(Guid clientUID, Guid uid, string name)
 		{
 			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_пропуска, name, uid, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -820,7 +820,7 @@ namespace FiresecService.Service
 		#endregion
 
 		#region TestData
-		public OperationResult GenerateEmployeeDays(Guid clientUID)
+		public OperationResult<bool> GenerateEmployeeDays(Guid clientUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -828,7 +828,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult GenerateTestData(Guid clientUID, bool isAscending)
+		public OperationResult<bool> GenerateTestData(Guid clientUID, bool isAscending)
 		{
 			var stoppWatch = new Stopwatch();
 			stoppWatch.Start();
@@ -855,10 +855,10 @@ namespace FiresecService.Service
 			//	currentPage++;
 			//}
 
-			return new OperationResult();
+			return new OperationResult<bool>(true);
 		}
 
-		public OperationResult GenerateJournal(Guid clientUID)
+		public OperationResult<bool> GenerateJournal(Guid clientUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -867,7 +867,7 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		public OperationResult SaveJournalVideoUID(Guid clientUID, Guid journalItemUID, Guid videoUID, Guid cameraUID)
+		public OperationResult<bool> SaveJournalVideoUID(Guid clientUID, Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -875,7 +875,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveJournalCameraUID(Guid clientUID, Guid journalItemUID, Guid CameraUID)
+		public OperationResult<bool> SaveJournalCameraUID(Guid clientUID, Guid journalItemUID, Guid CameraUID)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -1009,14 +1009,14 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Export
-		public OperationResult ExportOrganisation(Guid clientUID, ExportFilter filter)
+		public OperationResult<bool> ExportOrganisation(Guid clientUID, ExportFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Synchroniser.Export(filter);
 			}
 		}
-		public OperationResult ImportOrganisation(Guid clientUID, ImportFilter filter)
+		public OperationResult<bool> ImportOrganisation(Guid clientUID, ImportFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -1024,14 +1024,14 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult ExportOrganisationList(Guid clientUID, ExportFilter filter)
+		public OperationResult<bool> ExportOrganisationList(Guid clientUID, ExportFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.ListSynchroniser.Export(filter);
 			}
 		}
-		public OperationResult ImportOrganisationList(Guid clientUID, ImportFilter filter)
+		public OperationResult<bool> ImportOrganisationList(Guid clientUID, ImportFilter filter)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -1039,10 +1039,10 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult ExportJournal(Guid clientUID, JournalExportFilter filter)
+		public OperationResult<bool> ExportJournal(Guid clientUID, JournalExportFilter filter)
 		{
-			var journalResult = new OperationResult();
-			var passJournalResult = new OperationResult();
+			var journalResult = new OperationResult<bool>(true);
+			var passJournalResult = new OperationResult<bool>(true);
 			if (filter.IsExportJournal)
 			{
 				using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -1060,14 +1060,14 @@ namespace FiresecService.Service
 			return RubezhDAL.DataClasses.DbServiceHelper.ConcatOperationResults(journalResult, passJournalResult);
 		}
 
-		public OperationResult ExportConfiguration(Guid clientUID, ConfigurationExportFilter filter)
+		public OperationResult<bool> ExportConfiguration(Guid clientUID, ConfigurationExportFilter filter)
 		{
 			return ConfigurationSynchroniser.Export(filter);
 		}
 		#endregion
 
 		#region CurrentConsumption
-		public OperationResult SaveCurrentConsumption(Guid clientUID, CurrentConsumption item)
+		public OperationResult<bool> SaveCurrentConsumption(Guid clientUID, CurrentConsumption item)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{

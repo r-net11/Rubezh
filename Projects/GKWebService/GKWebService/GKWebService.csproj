@@ -226,6 +226,34 @@
     <Content Include="Content\Image\Icon\Archive\rightRight.png" />
     <Resource Include="Content\Image\Icon\Hr\Card.png" />
     <Resource Include="Content\Image\Icon\Hr\Employee.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Attention.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\AutoOff.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\ConnectionLost.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\DBMissmatch.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Failure.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Fire1.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Fire2.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\HasNoLicense.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Ignore.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Info.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Manual.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\no.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Norm.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\NPTOn.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Off.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\On.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Service.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\State1.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\State2.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TechnologicalRegime.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Test.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurningOff.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurningOn.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurnOff_InAutomatic.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurnOff_InManual.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InAutomatic.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InManual.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Unknown.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
@@ -244,8 +272,10 @@
     <Resource Include="Content\Image\Icon\Hr\Position.png" />
     <Resource Include="Content\Image\Icon\Hr\SKDUser.png" />
     <Resource Include="Content\Image\Icon\Hr\load.png" />
+    <Resource Include="Content\Image\Icon\Hr\Lock.png" />
     <Content Include="Content\Image\Icon\Menu\archive.png" />
     <Content Include="Content\Image\Icon\Menu\Bug.png" />
+    <Content Include="Content\Image\Icon\Menu\delays.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Copy.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Delete.png" />
@@ -313,6 +343,9 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="Content\ui-grid.css" />
+    <Content Include="Content\ui-grid.min.css" />
+    <Content Include="Content\ui-grid.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -325,9 +358,12 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
-    <Content Include="Scripts\app\controllers\firezonesCtrl.js" />
+    <Content Include="Scripts\app\controllers\devicesCtrl.js" />
+    <Content Include="Scripts\app\controllers\DirectionsViewModel.js" />
+    <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
+    <Content Include="Scripts\app\controllers\zonesCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
     <Content Include="Scripts\app\directives\ngJqGrid.js" />
     <Content Include="Scripts\app\services\signalrService.js" />
@@ -415,6 +451,9 @@
     <Content Include="Content\SaveCancelPopup.less" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\d3\LICENSE" />
+    <Content Include="Content\ui-grid.woff" />
+    <Content Include="Content\ui-grid.ttf" />
+    <Content Include="Content\ui-grid.eot" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -443,6 +482,7 @@
     <Content Include="Scripts\report.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />
+    <Content Include="Scripts\SKD\Cards\CardsViewModel.js" />
     <Content Include="Scripts\SKD\Common\PhotoSelectionViewModel.js" />
     <Content Include="Scripts\SKD\Common\EmployeesFilterViewModel.js" />
     <Content Include="Scripts\SKD\Common\PositionsFilterViewModel.js" />
@@ -462,6 +502,8 @@
     <Content Include="Scripts\SKD\Positions\PositionDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Positions\PositionsViewModel.js" />
     <Content Include="Scripts\tooltips.js" />
+    <Content Include="Scripts\ui-grid.js" />
+    <Content Include="Scripts\ui-grid.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -475,6 +517,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccessTemplatesController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
+    <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
@@ -483,6 +526,8 @@
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
+    <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -491,12 +536,17 @@
     <Compile Include="DataProviders\SKD\DepartmentHelper.cs" />
     <Compile Include="DataProviders\SKD\EmployeeHelper.cs" />
     <Compile Include="DataProviders\SKD\GKScheduleHelper.cs" />
+    <Compile Include="DataProviders\SKD\JournalHelper.cs" />
     <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
+    <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\DelayModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
+    <Compile Include="Models\SKD\Cards\CardsViewModel.cs" />
+    <Compile Include="Models\SKD\Cards\CardViewModel.cs" />
     <Compile Include="Models\SKD\Common\CopyHelper.cs" />
     <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
     <Compile Include="Models\FireZone\Device.cs" />
@@ -591,6 +641,9 @@
     <Content Include="Views\Employees\ScheduleSelection.cshtml" />
     <Content Include="Views\AccessTemplates\Index.cshtml" />
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
+    <Content Include="Views\Cards\Index.cshtml" />
+    <Content Include="Views\Home\Delays.cshtml" />
+    <Content Include="Views\Home\Directions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

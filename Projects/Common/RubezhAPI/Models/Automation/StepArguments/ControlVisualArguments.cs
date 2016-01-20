@@ -45,14 +45,6 @@ namespace RubezhAPI.Automation
 		}
 	}
 
-	public enum ControlElementType
-	{
-		[Description("Чтение свойства")]
-		Get,
-		[Description("Установка свойства")]
-		Set
-	}
-
 	public enum LayoutPartPropertyName
 	{
 		[Description("Заголовок")]

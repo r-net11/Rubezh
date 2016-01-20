@@ -7,6 +7,8 @@ using RubezhAPI.Journal;
 using RubezhAPI.License;
 using RubezhAPI.Models;
 using System;
+using OpcClientSdk.Da;
+using OpcClientSdk;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -126,7 +128,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(clientUID, () => { return FiresecService.Ping(clientUID); }, "Ping");
 		}
 
-		public OperationResult ResetDB(Guid clientUID)
+		public OperationResult<bool> ResetDB(Guid clientUID)
 		{
 			return SafeOperationCall(clientUID, () => { return FiresecService.ResetDB(clientUID); }, "ResetDB");
 		}
@@ -566,6 +568,40 @@ namespace FiresecService.Service
 		{
 			SafeOperationCall(clientUID, () => FiresecService.ImportOrganisationListA(clientUID, isWithDeleted, path), "ImportOrganisationList");
 		}
+		#endregion
+
+		#region OPC DA Server
+
+		public OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID)
+		{
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetOpcDaServers(); }, "GetOpcDaServerNames");
+		}
+
+		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server)
+		{
+			return SafeOperationCall(clientUID, () => 
+			{ return FiresecService.GetOpcDaServerGroupAndTags(server); }, "GetOpcDaServerGroupAndTags"); 
+		}
+
+		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server)
+		{
+			return SafeOperationCall(clientUID, () => 
+			{ return FiresecService.GetOpcDaServerStatus(server); }, "GetOpcDaServerStatus");
+		}
+
+		public OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
+		{
+			var result = SafeOperationCall(clientUID, () => 
+			{ return FiresecService.ReadOpcDaServerTags(server); }, "ReadOpcDaServerTags");
+			return result;
+		}
+
+		public OperationResult<bool> WriteOpcDaTag(Guid clientUID, Guid tagId, Object value)
+		{
+			return SafeOperationCall(clientUID, () => { return FiresecService.WriteOpcDaTag(tagId, value); }, 
+				"WriteOpcDaTag");
+		}
+
 		#endregion
 	}
 }

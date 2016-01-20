@@ -50,6 +50,8 @@
 
 				<File Id="Administrator.Npgsql.dll"										Name="Npgsql.dll"										Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Npgsql.EntityFramework.dll"						Name="Npgsql.EntityFramework.dll"						Source="$(var.Administrator.TargetDir)" />
+
+				<File Id="Administrator.OpcClientSdk40.dll"								Name="OpcClientSdk40.dll"								Source="..\..\..\..\..\..\3rdParty\OPC\" />
 			</Component>
 
 			<Component Id="Administrator.DB" Guid="5619BD45-25EA-4635-8BBA-4D8E81F06B2F">

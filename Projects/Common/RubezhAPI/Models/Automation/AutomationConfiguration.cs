@@ -33,6 +33,9 @@ namespace RubezhAPI.Automation
 		[DataMember]
 		public List<Variable> GlobalVariables { get; set; }
 
+		[DataMember]
+		public List<OpcDaServer> OpcDaTsServers { get; set; }
+
 		public void UpdateConfiguration()
 		{
 			foreach (var procedure in Procedures)
@@ -364,10 +367,10 @@ namespace RubezhAPI.Automation
 					}
 					break;
 				case ProcedureStepType.ShowDialog:
-					InvalidateArgument(step.ShowDialogArguments.WindowIDArgument);
+					InvalidateArgument(procedure, step.ShowDialogArguments.WindowIDArgument);
 					break;
 				case ProcedureStepType.CloseDialog:
-					InvalidateArgument(step.CloseDialogArguments.WindowIDArgument);
+					InvalidateArgument(procedure, step.CloseDialogArguments.WindowIDArgument);
 					break;
 				case ProcedureStepType.GenerateGuid:
 					InvalidateArgument(procedure, step.GenerateGuidArguments.ResultArgument);
