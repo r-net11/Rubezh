@@ -21,7 +21,9 @@ namespace AutomationModule.ViewModels
 			Title = "Запись и чтение тегов";
 			_opcDaServersViewModel = vm;
 
-			Tags = _opcDaServersViewModel.SelectedTags;
+			Tags = _opcDaServersViewModel.SelectedTags
+				.Where(x => (x.AccessRights == TsDaAccessRights.ReadWritable) || (x.AccessRights == TsDaAccessRights.Writable))
+				.ToArray();
 
 			ReadTagCommand = new RelayCommand(OnReadTag, CanReadTag);
 			WriteTagCommand = new RelayCommand(OnWriteTag, CanWriteTag);
