@@ -152,7 +152,7 @@ namespace SKDModule.ViewModels
 		{
 			SubscribeOnEvents();
 
-			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			ShowFilterCommand = new RelayCommand(OnShowFilter, () => !IsBisy);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			CanShowDocumentTypes = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 
@@ -311,25 +311,21 @@ namespace SKDModule.ViewModels
 		{
 			var resultFileName = Path.Combine(AppDataFolderHelper.GetFolder("Temp"), "ClientTimeTrackResult.xml");
 
-			if (!Directory.Exists(resultFileName)) Directory.CreateDirectory(AppDataFolderHelper.GetFolder("Temp"));
-			TimeTrackResult timeTrackResult = null;
+			if (!Directory.Exists(resultFileName))
+				Directory.CreateDirectory(AppDataFolderHelper.GetFolder("Temp"));
+
+			TimeTrackResult timeTrackResult;
 			lock (locker)
 			{
-				//using (var fileStream = File.Create(resultFileName))
 				using (var fileStream = new FileStream(resultFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
 				{
-					using (
-						var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter,
-							_timeTrackFilter.StartDate, _timeTrackFilter.EndDate))
+					using (var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate))
 					{
 						FiresecManager.CopyStream(stream, fileStream);
 					}
 				}
 				timeTrackResult = Deserialize(resultFileName);
 			}
-			//var resultFileStream = File.Create(resultFileName);
-		//	var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate);
-			//FiresecManager.CopyStream(stream, resultFileStream);
 
 			return timeTrackResult;
 		}
