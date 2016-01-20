@@ -536,6 +536,7 @@
     <Compile Include="DataProviders\SKD\DepartmentHelper.cs" />
     <Compile Include="DataProviders\SKD\EmployeeHelper.cs" />
     <Compile Include="DataProviders\SKD\GKScheduleHelper.cs" />
+    <Compile Include="DataProviders\SKD\JournalHelper.cs" />
     <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />

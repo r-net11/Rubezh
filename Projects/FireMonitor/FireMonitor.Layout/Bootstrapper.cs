@@ -38,7 +38,7 @@ namespace FireMonitor.Layout
 
 		protected override Guid? GetLayoutUID()
 		{
-			return _layoutID;
+			return _layout == null ? null : (Guid?)_layout.UID;
 		}
 
 		private RubezhAPI.Models.Layouts.Layout SelectLayout(List<RubezhAPI.Models.Layouts.Layout> layouts)
