@@ -77,32 +77,6 @@ namespace RubezhAPI.GK
 			}
 			if (Driver.HasMirror)
 			{
-				//switch (DriverType)
-				//{
-				//	case GKDriverType.DetectorDevicesMirror:
-				//		GKReflectionItem.Devices.ForEach(AddDependentElement);
-				//		break;
-				//	case GKDriverType.ControlDevicesMirror:
-				//		GKReflectionItem.Devices.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		GKReflectionItem.Delays.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		GKReflectionItem.MPTs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		GKReflectionItem.NSs.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		break;
-				//	case GKDriverType.DirectionsMirror:
-				//		GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		break;
-				//	case GKDriverType.FireZonesMirror:
-				//		GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		break;
-				//	case GKDriverType.FirefightingZonesMirror:
-				//		GKReflectionItem.Zones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		GKReflectionItem.Diretions.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		break;
-				//	case GKDriverType.GuardZonesMirror:
-				//		GKReflectionItem.GuardZones.ForEach(x => { x.AddDependentElement(this); AddDependentElement(x); });
-				//		break;
-				//}
 				InvalidateReflection(deviceConfiguration);
 			}
 		}
