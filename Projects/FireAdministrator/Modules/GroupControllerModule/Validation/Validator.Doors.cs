@@ -125,15 +125,24 @@ namespace GKModule.Validation
 			}
 			else
 			{
+				if (door.LockControlDevice == null)
+				{
+					 if (door.DoorType == GKDoorType.Barrier)
+						 AddError(door, "Для шлагбаума должен быть задан датчик контроля на въезд", ValidationErrorLevel.CannotWrite);
+				}
+				if (door.LockControlDeviceExit == null)
+				{
+					if (door.DoorType == GKDoorType.Barrier)
+						AddError(door, "Для шлагбаума должен быть задан датчик контроля на выезд", ValidationErrorLevel.CannotWrite);
+				}
+
 				if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.SensorNotConnected))
 				{
 					if (door.LockControlDevice == null)
 					{
 						if (door.DoorType == GKDoorType.Turnstile)
 							AddError(door, "У точки доступа отсутствует датчик проворота", ValidationErrorLevel.Warning);
-						else if (door.DoorType == GKDoorType.Barrier)
-							AddError(door, "У точки доступа отсутствует датчик контроля въезда", ValidationErrorLevel.Warning);
-						else
+						if (door.DoorType != GKDoorType.Barrier && door.DoorType != GKDoorType.Turnstile)
 							AddError(door, "У точки доступа отсутствует датчик контроля двери", ValidationErrorLevel.Warning);
 
 					}
@@ -141,8 +150,6 @@ namespace GKModule.Validation
 					{
 						if (door.DoorType == GKDoorType.AirlockBooth)
 							AddError(door, "У точки доступа отсутствует датчик контроля двери на выход", ValidationErrorLevel.Warning);
-						if (door.DoorType == GKDoorType.Barrier)
-							AddError(door, "У точки доступа отсутствует датчик контроля выезда", ValidationErrorLevel.Warning);
 					}
 				}
 			}

@@ -255,15 +255,15 @@ namespace FiresecService.Processor
 			return result;
 		}
 
-		public static void WriteTag(Guid serverId, Guid tagId, object value)
+		public static bool WriteTag(Guid tagId, object value, out string error)
 		{
-			var serverName = OpcDaServers.FirstOrDefault(x => x.Uid == serverId).ServerName;
-			var server = _opcServers.FirstOrDefault(srv => srv.ServerName == serverName);
-			
-			var opcTag = _tags.FirstOrDefault(tgs => tgs.ServerId == serverId);
+			var opcTag = _tags.FirstOrDefault(t => t.Uid == tagId);
+			var server = _opcServers.FirstOrDefault(srv => srv.ServerName == opcTag.ServerName);
+
 			if (value.GetType().ToString() != opcTag.TypeNameOfValue)
 			{
-				throw new ArgumentException("Тип данный заначения тега не соответствует заданному");
+				error = "Тип данный заначения тега не соответствует заданному";
+				return false;
 			}
 
 			var subscription = _subscriptions.FirstOrDefault(s => s.Server == server);
@@ -273,6 +273,23 @@ namespace FiresecService.Processor
 			item.Value = value;
 
 			var result = server.Write(new TsCDaItemValue[] { item });
+
+			if (result.Length == 1)
+			{
+				error = string.Format("Code: {0}; Description: {1}; Name: {2}", 
+					result[0].Result.Code, result[0].Result.Description(), result[0].Result.Name);
+				return !result[0].Result.IsError(); 
+			}
+			else
+			{
+				error = string.Format("Неопределённый результат операции записи тега");
+				return false;
+			}
+		}
+
+		public static OpcDaTagValue[] ReadTags(OpcDaServer server)
+		{
+			return _tags.Where(tag => tag.ServerId == server.Uid).ToArray();
 		}
 
 		#endregion

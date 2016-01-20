@@ -66,16 +66,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		TsOpcTagsStructure _tags;
-		public TsOpcTagsStructure Tags
-		{
-			get { return _tags; }
-			set 
-			{
-				_tags = value;
-				OnPropertyChanged(() => Tags);
-			}
-		}
+		//TsOpcTagsStructure _tags;
+		//public TsOpcTagsStructure Tags
+		//{
+		//	get { return _tags; }
+		//	set
+		//	{
+		//		_tags = value;
+		//		OnPropertyChanged(() => Tags);
+		//	}
+		//}
 
 		OpcDaTag[] _selectedTags;
 		public OpcDaTag[] SelectedTags

@@ -224,7 +224,7 @@ namespace RubezhClient
 		OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID);
 		OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server);
 		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server);
-		OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
-		OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues);
+		OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
+		OperationResult<bool> WriteOpcDaServerTag(Guid clientUID, Guid tagId, object values);
 	}
 }

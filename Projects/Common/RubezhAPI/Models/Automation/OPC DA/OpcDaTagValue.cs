@@ -24,13 +24,20 @@ namespace RubezhAPI.Automation
 			get { return _Value; }
 			set
 			{
-				if (value.GetType().ToString() == TypeNameOfValue)
+				if (value != null)
 				{
-					_Value = value;
+					if (value.GetType().ToString() == TypeNameOfValue)
+					{
+						_Value = value;
+					}
+					else
+					{
+						throw new ArgumentException("Попытка установить значение недопустимого типа");
+					}
 				}
 				else
 				{
-					throw new ArgumentException("Попытка установить значение недопустимого типа");
+					_Value = value;
 				}
 			}
 		}
