@@ -22,6 +22,7 @@ namespace StrazhModule.ViewModels
 					Name = "Новая точка доступа",
 					No = 1,
 					PlanElementUIDs = new List<Guid>(),
+					DoorType = DoorType.TwoWay
 				};
 				if (SKDManager.Doors.Count != 0)
 					Door.No = (ushort)(SKDManager.Doors.Select(x => x.No).Max() + 1);
