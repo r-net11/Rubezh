@@ -6,6 +6,7 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using GKWebService.Utils;
 
 namespace GKWebService.Controllers
 {
@@ -54,15 +55,18 @@ namespace GKWebService.Controllers
 
 		public JsonResult GetDirections()
 		{
-			var directions = new List<GKDirection>();
-			foreach (var direction in GKManager.Directions)
+			var directions = new List<Direction>();
+			foreach (var realDirection in GKManager.Directions)
 			{
-				var copyDirection = new GKDirection()
+				var direction = new Direction
 				{
-					No = direction.No,
-					Name = direction.Name
+					UID = realDirection.UID,
+					No = realDirection.No,
+					Name = realDirection.Name,
+					State = realDirection.State.StateClass.ToDescription(),
+					StateIcon = realDirection.State.StateClass.ToString()
 				};
-				directions.Add(copyDirection);
+				directions.Add(direction);
 			}
 
 			dynamic result = new
@@ -83,15 +87,29 @@ namespace GKWebService.Controllers
 
 		public JsonResult GetFireZonesData()
 		{
-			//Получили данные с сервера
-			var zone = FireZonesDataProvider.Instance.GetFireZones();
+            //Получили данные с сервера
+            var zone = FireZonesDataProvider.Instance.GetFireZones();
 
 			//Создали объект для передачи на клиент и заполняем его данными
 			FireZone data = new FireZone();
+
+            //Имя зоны
+            data.DescriptorPresentationName = zone.DescriptorPresentationName;
+
+            //Количество датчиков для перевода в состояние Пожар1
 			data.Fire1Count = zone.Fire1Count;
+
+            //Количество датчиков для перевода в состояние Пожар2
 			data.Fire2Count = zone.Fire2Count;
 
-			foreach (var deviceItem in zone.Devices)
+            //Иконка текущей зоны
+		    data.ImageSource = InternalConverter.GetImageResource(zone.ImageSource);
+
+            //Изображение, сигнализирующее о состоянии зоны
+            data.StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(zone.State.StateClass) + ".png");
+
+            //Переносим устройства для этой зоны
+            foreach (var deviceItem in zone.Devices)
 			{
 				var device = deviceItem;
 				do
@@ -100,7 +118,6 @@ namespace GKWebService.Controllers
 					device = device.Parent;
 				} while (device != null);
 			}
-
 			data.devicesList.Reverse();
 
 			//Передаем данные на клиент

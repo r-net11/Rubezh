@@ -109,7 +109,6 @@ var app = new function AppViewModel() {
 
 	self.Menu.Report = ReportViewModel();
 	self.Menu.Archive = ArchiveViewModel();
-    	self.Menu.Directions = DirectionsViewModel();
 	self.Menu.Delays = DelaysViewModel();
 	self.Menu.HR = HRViewModel(self.Menu);
 
