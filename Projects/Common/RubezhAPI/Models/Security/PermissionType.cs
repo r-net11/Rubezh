@@ -66,8 +66,8 @@ namespace RubezhAPI.Models
 		[DescriptionAttribute("Управление задержкой")]
 		Oper_Delay_Control,
 
-		[DescriptionAttribute("Управление ПИМ")]
-		Oper_PIM_Control,
+		[DescriptionAttribute("Управление глобальным ПИМ")]
+		Oper_GlobalPIM_Control,
 
 		[DescriptionAttribute("Управление интерфейсом")]
 		Oper_ChangeView,
