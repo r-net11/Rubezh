@@ -383,6 +383,12 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SetControllerNetworkSettings(device.UID, controllerNetworkSettings); }, "SetControllerNetworkSettings");
 		}
 
+		public OperationResult<bool> SetControllerTimeSchedulesAndLocksPasswords(SKDDevice device, IEnumerable<SKDLocksPassword> locksPasswords)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetControllerTimeSchedulesAndLocksPasswords(device.UID, locksPasswords); }, "SetControllerTimeSchedulesAndLocksPasswords");
+		}
+
+
 		public OperationResult<bool> SKDOpenDevice(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(device.UID); }, "SKDOpenDevice");

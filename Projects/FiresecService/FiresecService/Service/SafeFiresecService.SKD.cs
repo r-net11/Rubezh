@@ -419,6 +419,17 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SetControllerNetworkSettings(deviceUID, controllerNetworkSettings); }, "SetControllerNetworkSettings");
 		}
 
+		/// <summary>
+		/// Записывает на контроллер графики доступа и пароли замков
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <param name="locksPasswords">Пароли замков</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<bool> SetControllerTimeSchedulesAndLocksPasswords(Guid deviceUID, IEnumerable<SKDLocksPassword> locksPasswords)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetControllerTimeSchedulesAndLocksPasswords(deviceUID, locksPasswords); }, "SetControllerTimeSchedulesAndLocksPasswords");
+		}
+
 		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");

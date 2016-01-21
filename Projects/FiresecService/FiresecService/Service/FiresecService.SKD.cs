@@ -1,4 +1,5 @@
-﻿using ChinaSKDDriver;
+﻿using System.Threading;
+using ChinaSKDDriver;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
@@ -24,6 +25,9 @@ namespace FiresecService.Service
 				return "<Нет>";
 			}
 		}
+
+		private IList<Guid> _criticalOperationRunningControllerGuids = new List<Guid>();
+		private object _criticalOperationRunningControllerGuidsLock = new object();
 
 		#region Employee
 
@@ -817,8 +821,24 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Сброс_Контроллера, device);
-				return ChinaSKDDriver.Processor.ResetController(deviceUID);
+				var isDisallowedHere = default(bool);
+				try
+				{
+					// Проверяем признак выполнения на данном устройстве опасной операции
+					isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
+					if (!isDisallowedHere)
+						return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
+
+					// Выполняем критическую операцию
+					AddSKDJournalMessage(JournalEventNameType.Сброс_Контроллера, device);
+					return Processor.ResetController(deviceUID);
+				}
+				finally
+				{
+					// Убираем признак выполнения на данном устройстве опасной операции
+					if (isDisallowedHere)
+						AllowRunCriticalOperationOnDevice(deviceUID);
+				}
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -828,8 +848,24 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Перезагрузка_Контроллера, device);
-				return ChinaSKDDriver.Processor.RebootController(deviceUID);
+				var isDisallowedHere = default(bool);
+				try
+				{
+					// Проверяем признак выполнения на данном устройстве опасной операции
+					isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
+					if (!isDisallowedHere)
+						return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
+
+					// Выполняем критическую операцию
+					AddSKDJournalMessage(JournalEventNameType.Перезагрузка_Контроллера, device);
+					return Processor.RebootController(deviceUID);
+				}
+				finally 
+				{
+					// Убираем признак выполнения на данном устройстве опасной операции
+					if (isDisallowedHere)
+						AllowRunCriticalOperationOnDevice(deviceUID);
+				}
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -898,6 +934,35 @@ namespace FiresecService.Service
 		}
 
 		/// <summary>
+		/// Запрещает выполнение на контроллере опасной операции
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <returns>true - выполнение на контроллере опасной операции запрещено,
+		/// false - выполнение на контроллере опасной операции было запрещено ранее</returns>
+		private bool DisallowRunCriticalOperationOnDevice(Guid deviceUID)
+		{
+			lock (_criticalOperationRunningControllerGuidsLock)
+			{
+				if (_criticalOperationRunningControllerGuids.Contains(deviceUID))
+					return false;
+				_criticalOperationRunningControllerGuids.Add(deviceUID);
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Разрешает выполнение на контроллере опасной операции
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		private void AllowRunCriticalOperationOnDevice(Guid deviceUID)
+		{
+			lock (_criticalOperationRunningControllerGuidsLock)
+			{
+				_criticalOperationRunningControllerGuids.Remove(deviceUID);
+			}
+		}
+
+		/// <summary>
 		/// Перезаписывает на контроллер все пропуска, связанные с ним через точку доступа и организацию
 		/// </summary>
 		/// <param name="deviceUID">Идентификатор контроллера</param>
@@ -907,19 +972,35 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				using (var databaseService = new SKDDatabaseService())
+				var isDisallowedHere = default(bool);
+				try
 				{
-					AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
-					var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
-					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
-					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
+					// Проверяем признак выполнения на данном устройстве опасной операции
+					isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
+					if (!isDisallowedHere)
+						return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
+
+					// Выполняем критическую операцию
+					using (var databaseService = new SKDDatabaseService())
 					{
-						return Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
+						AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
+						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
+						var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
+						if (!cardsResult.HasError && !accessTemplatesResult.HasError)
+						{
+							return Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
+						}
+						else
+						{
+							return OperationResult<bool>.FromError("Ошибка при получении карт или шаблонов карт");
+						}
 					}
-					else
-					{
-						return OperationResult<bool>.FromError("Ошибка при получении карт или шаблонов карт");
-					}
+				}
+				finally 
+				{
+					// Убираем признак выполнения на данном устройстве опасной операции
+					if (isDisallowedHere)
+						AllowRunCriticalOperationOnDevice(deviceUID);
 				}
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
@@ -1093,6 +1174,32 @@ namespace FiresecService.Service
 				return ChinaSKDDriver.Processor.SetControllerNetworkSettings(deviceUID, controllerNetworkSettings);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SetControllerTimeSchedulesAndLocksPasswords(Guid deviceUID, IEnumerable<SKDLocksPassword> locksPasswords)
+		{
+			var isDisallowedHere = default(bool);
+			try
+			{
+				// Проверяем признак выполнения на данном устройстве опасной операции
+				isDisallowedHere = DisallowRunCriticalOperationOnDevice(deviceUID);
+				if (!isDisallowedHere)
+					return OperationResult<bool>.FromError("В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.");
+
+				// Выполняем критическую операцию
+				// 1. Записываем графики доступа на контроллер
+				var result = SKDWriteTimeSheduleConfiguration(deviceUID);
+				// 2. Записываем пароли замков на контроллер
+				if (!result.IsCanceled)
+					result = SetControllerLocksPasswords(deviceUID, locksPasswords);
+				return result;
+			}
+			finally
+			{
+				// Убираем признак выполнения на данном устройстве опасной операции
+				if (isDisallowedHere)
+					AllowRunCriticalOperationOnDevice(deviceUID);
+			}
 		}
 
 		#region <Пароли замков>
