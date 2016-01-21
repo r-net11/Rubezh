@@ -1,11 +1,7 @@
-﻿using Infrastructure.Common.Services.Content;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace GKWebService.DataProviders.FireZones
 {
@@ -26,6 +22,7 @@ namespace GKWebService.DataProviders.FireZones
                 if (zone != null)
                 {
                     remoteZoneState.CopyTo(zone.State);
+                    FireZonesUpdater.Instance.StartTestBroadcast();
                     return zone;
                 }
             }

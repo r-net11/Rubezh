@@ -61,6 +61,16 @@
                     }
                 }
             });
+
+            var fireZonesUpdater = new Hub('fireZonesUpdater', {
+                //client side methods
+                listeners: {
+                    'testMethodOfAlex': function (param) {
+                        console.log(param);
+                    }
+                }
+            });
+
             return {
                 startTest: startTestBroadcast
             };
