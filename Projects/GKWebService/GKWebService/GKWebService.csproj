@@ -358,6 +358,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\delaysCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
     <Content Include="Scripts\app\controllers\DirectionsViewModel.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />

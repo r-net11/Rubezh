@@ -2,14 +2,13 @@
 using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
 using GKWebService.Models.FireZone;
+using GKWebService.Utils;
 using RubezhAPI;
-using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
-using GKWebService.Utils;
 
 namespace GKWebService.Controllers
 {
@@ -56,6 +55,11 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+		public ActionResult Delays()
+		{
+			return View();
+		}
+
 		public JsonResult GetDirections()
 		{
 			var directions = new List<Direction>();
@@ -83,36 +87,32 @@ namespace GKWebService.Controllers
 			return Json(result, JsonRequestBehavior.AllowGet);
 		}
 
-		public ActionResult Delays()
-		{
-			return View();
-		}
 
 		public JsonResult GetFireZonesData()
 		{
-            //Получили данные с сервера
-            var zone = FireZonesDataProvider.Instance.GetFireZones();
+			//Получили данные с сервера
+			var zone = FireZonesDataProvider.Instance.GetFireZones();
 
 			//Создали объект для передачи на клиент и заполняем его данными
 			FireZone data = new FireZone();
 
-            //Имя зоны
-            data.DescriptorPresentationName = zone.DescriptorPresentationName;
+			//Имя зоны
+			data.DescriptorPresentationName = zone.DescriptorPresentationName;
 
-            //Количество датчиков для перевода в состояние Пожар1
+			//Количество датчиков для перевода в состояние Пожар1
 			data.Fire1Count = zone.Fire1Count;
 
-            //Количество датчиков для перевода в состояние Пожар2
+			//Количество датчиков для перевода в состояние Пожар2
 			data.Fire2Count = zone.Fire2Count;
 
-            //Иконка текущей зоны
-		    data.ImageSource = InternalConverter.GetImageResource(zone.ImageSource);
+			//Иконка текущей зоны
+			data.ImageSource = InternalConverter.GetImageResource(zone.ImageSource);
 
-            //Изображение, сигнализирующее о состоянии зоны
-            data.StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(zone.State.StateClass) + ".png");
+			//Изображение, сигнализирующее о состоянии зоны
+			data.StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(zone.State.StateClass) + ".png");
 
-            //Переносим устройства для этой зоны
-            foreach (var deviceItem in zone.Devices)
+			//Переносим устройства для этой зоны
+			foreach (var deviceItem in zone.Devices)
 			{
 				var device = deviceItem;
 				do
@@ -142,14 +142,7 @@ namespace GKWebService.Controllers
 				};
 				delays.Add(copyDelay);
 			}
-			dynamic result = new
-			{
-				page = 1,
-				total = 100,
-				recorcds = 100,
-				rows = delays
-			};
-			return Json(result, JsonRequestBehavior.AllowGet);
+			return Json(delays, JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]
@@ -170,13 +163,13 @@ namespace GKWebService.Controllers
 		{
 			var apiItems = JournalHelper.Get(new JournalFilter());// new List<JournalItem>();
 			var list = apiItems.Select(x => new ReportModel()
-				{
-					Desc = x.JournalEventDescriptionType.ToDescription(),
-					DeviceDate = DateTime.Now,
-					Name = x.JournalEventNameType.ToDescription(),
-					Object = x.JournalObjectType.ToDescription(),
-					SystemDate = DateTime.Now
-				}).ToList();
+			{
+				Desc = x.JournalEventDescriptionType.ToDescription(),
+				DeviceDate = DateTime.Now,
+				Name = x.JournalEventNameType.ToDescription(),
+				Object = x.JournalObjectType.ToDescription(),
+				SystemDate = DateTime.Now
+			}).ToList();
 			dynamic result = new
 			{
 				page = 1,
