@@ -87,7 +87,7 @@ namespace GKImitator.ViewModels
 			var door = GKBase as GKDoor;
 			if (door != null)
 			{
-				OnDelay = (ushort)door.Delay;
+				OffDelay = (ushort)door.Delay;
 				HoldDelay = (ushort)door.Hold;
 				DelayRegime = RubezhAPI.GK.DelayRegime.Off;
 			}
@@ -204,11 +204,11 @@ namespace GKImitator.ViewModels
 					{
 						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
 						{
-							TurnOffNow();
+							TurnOff();
 						}
 						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
 						{
-							TurnOnNow();
+							TurnOn();
 						}
 					}
 					//else
@@ -298,7 +298,7 @@ namespace GKImitator.ViewModels
 		{
 			var onState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
 			var turningOnState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.TurningOn);
-			if (HasTurnOn && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive))
+			if (HasTurnOnNow && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive))
 			{
 				TurnOnNow();
 			}
@@ -387,6 +387,11 @@ namespace GKImitator.ViewModels
 			{
 				AddJournalItem(journalItem);
 				RecalculateOutputLogic();
+			}
+			if (HoldDelay > 0)
+			{
+				TurningState = TurningState.Holding;
+				CurrentHoldDelay = HoldDelay;
 			}
 		}
 

@@ -563,14 +563,13 @@ namespace GKImitator.ViewModels
 				HasManualRegime = true;
 				HasIgnoreRegime = true;
 				HasTurnOn = true;
-				HasTurnOnNow = true;
+				HasTurnOffNow = true;
 				HasTurnOff = true;
 				AddStateBit(GKStateBit.On);
 				AddStateBit(GKStateBit.Off, true);
 				AddStateBit(GKStateBit.TurningOn);
 				AddStateBit(GKStateBit.TurningOff);
 				AddStateBit(GKStateBit.Fire1);
-				HasOnDelay = true;
 				HasHoldDelay = true;
 				HasOffDelay = true;
 				HasReset = true;
