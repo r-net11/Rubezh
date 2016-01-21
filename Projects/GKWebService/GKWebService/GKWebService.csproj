@@ -358,9 +358,11 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\mptsCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
     <Content Include="Scripts\app\controllers\DirectionsViewModel.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
+    <Content Include="Scripts\app\controllers\MPTsUpdateHub.js" />
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\controllers\zonesCtrl.js" />
@@ -529,6 +531,8 @@
     <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
+    <Compile Include="DataProviders\MPTHubs\BackgroundMPTcs.cs" />
+    <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
     <Compile Include="DataProviders\SKD\CardHelper.cs" />
@@ -542,6 +546,7 @@
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
@@ -644,6 +649,7 @@
     <Content Include="Views\Cards\Index.cshtml" />
     <Content Include="Views\Home\Delays.cshtml" />
     <Content Include="Views\Home\Directions.cshtml" />
+    <Content Include="Views\Home\MPTs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

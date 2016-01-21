@@ -88,6 +88,11 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+		public ActionResult MPTs()
+		{
+			return View();
+		}
+
 		public JsonResult GetFireZonesData()
 		{
             //Получили данные с сервера
@@ -124,6 +129,16 @@ namespace GKWebService.Controllers
 			data.devicesList.Reverse();
 
 			//Передаем данные на клиент
+			return Json(data, JsonRequestBehavior.AllowGet);
+		}
+
+		public JsonResult GetMPTsData()
+		{
+			var data = new List<MPTModel>();
+			foreach (var mpt in GKManager.MPTs)
+			{
+				data.Add(new MPTModel {Name = mpt.Name, No = mpt.No, UID = mpt.UID});
+			}
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
