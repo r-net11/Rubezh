@@ -589,18 +589,17 @@ namespace FiresecService.Service
 			{ return FiresecService.GetOpcDaServerStatus(server); }, "GetOpcDaServerStatus");
 		}
 
-		public OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
+		public OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
 		{
-			throw new NotImplementedException();
-
-			//return SafeOperationCall(() => { return FiresecService.ReadOpcDaServerTags(server); }, "ReadOpcDaServerTags");
+			var result = SafeOperationCall(clientUID, () => 
+			{ return FiresecService.ReadOpcDaServerTags(server); }, "ReadOpcDaServerTags");
+			return result;
 		}
 
-		public OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues)
+		public OperationResult<bool> WriteOpcDaTag(Guid clientUID, Guid tagId, Object value)
 		{
-			throw new NotImplementedException();
-
-			//return SafeOperationCall(() => { return FiresecService.WriteOpcDaServerTags(server, tagValues); }, "WriteOpcDaServerTags");
+			return SafeOperationCall(clientUID, () => { return FiresecService.WriteOpcDaTag(tagId, value); }, 
+				"WriteOpcDaTag");
 		}
 
 		#endregion

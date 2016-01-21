@@ -222,16 +222,12 @@ namespace GKModule.ViewModels
 						if (device == null)
 							break;
 						device.UID = pasteDevice.UID;
-						if (device != null)
-						{
-							cache.UpdateDeviceBinding(device);
-						}
+						cache.UpdateDeviceBinding(device);
 					}
 					if (device != null)
 					{
 						if (device.IsConnectedToKAU)
 						{
-							GKManager.RebuildRSR2Addresses(SelectedDevice.Device);
 							GKManager.UpdateConfiguration();
 							SelectedDevice.Device.ChangedLogic();
 						}

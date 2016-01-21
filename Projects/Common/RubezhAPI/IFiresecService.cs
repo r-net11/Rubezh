@@ -173,17 +173,17 @@ namespace RubezhAPI
 		/// <param name="server"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<TsCDaItemValueResult[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
+		OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
 
 		/// <summary>
 		/// Записывает новое значение указанных тегов
 		/// </summary>
 		/// <param name="clientUID"></param>
-		/// <param name="server"></param>
-		/// <param name="tagValues"></param>
+		/// <param name="serverId"></param>
+		/// <param name="value"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> WriteOpcDaServerTags(Guid clientUID, OpcDaServer server, TsCDaItemValue[] tagValues);
+		OperationResult<bool> WriteOpcDaTag(Guid clientUID, Guid serverId, object value);
 		
 		#endregion
 	}

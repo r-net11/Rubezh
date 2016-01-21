@@ -69,6 +69,7 @@ namespace RubezhAPI.GK
 					x.OnChanged();
 				});
 			InputDependentElements = new List<GKBase>();
+			OutputDependentElements = new List<GKBase>();
 			Invalidate(GKManager.DeviceConfiguration);
 		}
 

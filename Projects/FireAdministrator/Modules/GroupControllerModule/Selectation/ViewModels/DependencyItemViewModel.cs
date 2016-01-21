@@ -37,6 +37,10 @@ namespace GKModule.ViewModels
 				ServiceFactoryBase.Events.GetEvent<ShowGKPumpStationEvent>().Publish(gkBase.UID);
 			if (gkBase is GKDevice)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDeviceEvent>().Publish(gkBase.UID);
+			if (gkBase is GKGuardZone)
+				ServiceFactoryBase.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(gkBase.UID);
+			if (gkBase is GKZone)
+				ServiceFactoryBase.Events.GetEvent<ShowGKZoneEvent>().Publish(gkBase.UID);
 		}
 	}
 }

@@ -22,9 +22,9 @@ namespace PlansModule.Designer
 		public static Plan Plan { get; set;}
 		public static EventWaitHandle WiteHandle { get; private set; }
 
-		public static void UpgradeBackground(IElementBackground element)
+		static Helper()
 		{
-			PainterCache.CacheBrush(element);
+			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(CloseThread);
 		}
 
 		public static void ThreadMetod()
@@ -34,6 +34,12 @@ namespace PlansModule.Designer
 			Plans = new List<Plan>();
 			WiteHandle = new AutoResetEvent(true);
 			TwoThread.Start();
+		}
+
+		private static void CloseThread(object obj)
+		{
+			TwoThread.Abort();
+			WiteHandle.Close();
 		}
 
 		static void CreatPlans()
@@ -47,13 +53,13 @@ namespace PlansModule.Designer
 
 					if (!Flag)
 						break;
-					Helper.UpgradeBackground(plan);
+					PainterCache.CacheBrush(plan);
 
 					foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 					{
 						if (!Flag)
 							break;
-						Helper.UpgradeBackground(elementBase);
+						PainterCache.CacheBrush(elementBase);
 					}
 
 					if (!Flag)

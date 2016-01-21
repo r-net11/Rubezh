@@ -162,32 +162,23 @@ namespace FiresecService
 			if (tagsValues.HasError)
 				return null;
 
-			var tagValue = tagsValues.Result.FirstOrDefault(x => x.ItemPath == opcDaTag.Path && x.ItemName == opcDaTag.ElementName);
+			var tagValue = tagsValues.Result.FirstOrDefault(x => x.Uid == opcDaTag.Uid);
 			return tagValue == null ? null : tagValue.Value;
 		}
 
 		static bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
 		{
-			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
-			if (opcDaServer == null)
-				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
-			if (opcDaServer == null)
-				return false;
+			//var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			//if (opcDaServer == null)
+			//	opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
+			//if (opcDaServer == null)
+			//	return false;
 
-			var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
-			if (opcDaTag == null)
-				return false;
+			//var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
+			//if (opcDaTag == null)
+			//	return false;
 
-			var result = FiresecServiceManager.SafeFiresecService.WriteOpcDaServerTags(clientUID, opcDaServer,
-				new TsCDaItemValue[] 
-				{ 
-					new TsCDaItemValue 
-					{ 
-						ItemPath = opcDaTag.Path, 
-						ItemName = opcDaTag.ElementName, 
-						Value = value 
-					} 
-				});
+			var result = FiresecServiceManager.SafeFiresecService.WriteOpcDaTag(clientUID, opcDaServerUID, value);
 
 			return !result.HasError;
 		}

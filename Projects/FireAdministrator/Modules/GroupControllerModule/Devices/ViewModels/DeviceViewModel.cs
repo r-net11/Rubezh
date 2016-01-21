@@ -676,7 +676,10 @@ namespace GKModule.ViewModels
 			if (Driver.HasMirror)
 			{
 				var _reflectionview = new MirrorViewModel(Device);
-				DialogService.ShowModalWindow(_reflectionview);
+				if (DialogService.ShowModalWindow(_reflectionview))
+				{
+					Device.ChangedLogic();
+				}
 			}
 			OnPropertyChanged(() => EditingPresentationZone);
 			ServiceFactory.SaveService.GKChanged = true;
