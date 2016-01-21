@@ -531,7 +531,6 @@
     <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
-    <Compile Include="DataProviders\MPTHubs\BackgroundMPTcs.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
