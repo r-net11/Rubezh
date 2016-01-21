@@ -271,6 +271,8 @@ namespace FiresecService.Processor
 			
 			TsCDaItemValue item = new TsCDaItemValue(tag);
 			item.Value = value;
+			item.Timestamp = DateTime.Now;
+			item.Quality = TsCDaQuality.Good;
 
 			var result = server.Write(new TsCDaItemValue[] { item });
 

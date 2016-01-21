@@ -22,24 +22,7 @@ namespace RubezhAPI.Automation
 		public Object Value 
 		{
 			get { return _Value; }
-			set
-			{
-				if (value != null)
-				{
-					if (value.GetType().ToString() == TypeNameOfValue)
-					{
-						_Value = value;
-					}
-					else
-					{
-						throw new ArgumentException("Попытка установить значение недопустимого типа");
-					}
-				}
-				else
-				{
-					_Value = value;
-				}
-			}
+			set { _Value = value; }
 		}
 		[DataMember]
 		public Int16 Quality { get; set; }
