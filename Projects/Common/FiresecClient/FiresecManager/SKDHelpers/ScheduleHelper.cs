@@ -42,7 +42,8 @@ namespace FiresecClient.SKDHelpers
 			var filter = new ScheduleFilter();
 			filter.UIDs.Add(uid.Value);
 			var operationResult = FiresecManager.FiresecService.GetSchedules(filter);
-			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+			var result = Common.ShowErrorIfExists(operationResult);
+			return result == null ? null : result.FirstOrDefault();
 		}
 
 		public static IEnumerable<Schedule> GetByOrganisation(Guid organisationUID)
