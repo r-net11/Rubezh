@@ -17,6 +17,7 @@ namespace SKDModule.ViewModels
 		Guid DoorUID;
 		public string PresentationName { get; private set; }
 		public int No { get; private set; }
+		public bool CanChange { get { return false; } }
 
 		public OrganisationDoorViewModel(Organisation organisation, GKDoor door)
 		{

@@ -69,11 +69,7 @@ namespace GKProcessor
 				}
 			}
 			if (ChangeGuardDevices.Count > 0)
-			{
 				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
-			}
-			else
-				GuardZone.LinkToDescriptor(GuardZone);
 		}
 
 		public override void Build()
@@ -95,6 +91,8 @@ namespace GKProcessor
 			var mirrorParents = GuardZone.GetMirrorParents();
 			Formula.AddMirrorLogic(GuardZone, mirrorParents);
 
+			if (ChangeGuardDevices.Count == 0)
+				GuardZone.LinkToDescriptor(GuardZone);
 			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire1);
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
