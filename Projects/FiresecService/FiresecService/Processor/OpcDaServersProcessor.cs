@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Infrastructure.Automation;
+using OpcClientSdk;
+using OpcClientSdk.Da;
+using RubezhAPI.Automation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RubezhAPI.Automation;
-using OpcClientSdk.Da;
-using OpcClientSdk;
 
 namespace FiresecService.Processor
 {
@@ -32,7 +33,7 @@ namespace FiresecService.Processor
 		public static void Start()
 		{
 			TsCDaItemValue x = new TsCDaItemValue();
-			
+
 			OpcDaServers =
 				ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.ToArray();
 
@@ -60,8 +61,8 @@ namespace FiresecService.Processor
 
 				// Добавляем в объект подписки выбранные теги
 				List<TsCDaItem> list = new List<TsCDaItem>();
-				
-				list.AddRange(server.Tags.Select(tag => 
+
+				list.AddRange(server.Tags.Select(tag =>
 					new TsCDaItem
 					{
 						ItemName = tag.ElementName,
@@ -110,7 +111,7 @@ namespace FiresecService.Processor
 			{
 				// Прекращем все подписки
 				var subscriptions = _subscriptions.Where(x => x.Server == server);
-				
+
 				foreach (var subscription in subscriptions)
 				{
 					server.CancelSubscription(subscription);
@@ -268,7 +269,7 @@ namespace FiresecService.Processor
 
 			var subscription = _subscriptions.FirstOrDefault(s => s.Server == server);
 			var tag = subscription.Items.FirstOrDefault(t => t.ItemName == opcTag.ElementName);
-			
+
 			TsCDaItemValue item = new TsCDaItemValue(tag);
 			item.Value = value;
 			item.Timestamp = DateTime.Now;
@@ -278,9 +279,9 @@ namespace FiresecService.Processor
 
 			if (result.Length == 1)
 			{
-				error = string.Format("Code: {0}; Description: {1}; Name: {2}", 
+				error = string.Format("Code: {0}; Description: {1}; Name: {2}",
 					result[0].Result.Code, result[0].Result.Description(), result[0].Result.Name);
-				return !result[0].Result.IsError(); 
+				return !result[0].Result.IsError();
 			}
 			else
 			{
@@ -298,7 +299,7 @@ namespace FiresecService.Processor
 
 		#region Event handlers
 
-		static void EventHandler_Subscription_DataChangedEvent(object subscriptionHandle, 
+		static void EventHandler_Subscription_DataChangedEvent(object subscriptionHandle,
 			object requestHandle, TsCDaItemValueResult[] values)
 		{
 			var subscr = _subscriptions.FirstOrDefault(sbs => sbs.ClientHandle == subscriptionHandle);
@@ -310,10 +311,14 @@ namespace FiresecService.Processor
 				foreach (var result in values)
 				{
 					var tag = _tags.FirstOrDefault(tg => tg.ServerName == server);
-					tag.Quality = result.Quality.GetCode();
-					tag.Timestamp = result.Timestamp;
-					tag.Value = result.Value;
-					tag.OperationResult = result.Result.IsSuccess();
+					if (tag != null)
+					{
+						tag.Quality = result.Quality.GetCode();
+						tag.Timestamp = result.Timestamp;
+						tag.Value = result.Value;
+						tag.OperationResult = result.Result.IsSuccess();
+						OpcDaHelper.OnReadTagValue(tag.Uid, tag.Value);
+					}
 				}
 			}
 		}
