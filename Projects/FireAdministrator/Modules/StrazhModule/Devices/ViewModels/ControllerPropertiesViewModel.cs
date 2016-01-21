@@ -24,6 +24,19 @@ namespace StrazhModule.ViewModels
 		public SKDDevice Device { get; private set; }
 		public SKDDeviceInfo DeviceInfo { get; private set; }
 
+		private bool _isCriticalOperationsEnabled;
+		public bool IsCriticalOperationsEnabled
+		{
+			get { return _isCriticalOperationsEnabled; }
+			set
+			{
+				if (_isCriticalOperationsEnabled == value)
+					return;
+				_isCriticalOperationsEnabled = value;
+				OnPropertyChanged(() => IsCriticalOperationsEnabled);
+			}
+		}
+
 		public ControllerPropertiesViewModel(SKDDevice device, SKDDeviceInfo deviceInfo)
 		{
 			Title = "Конфигурация контроллера";
@@ -34,6 +47,7 @@ namespace StrazhModule.ViewModels
 			RebootCommand = new RelayCommand(OnReboot);
 			RewriteAllCardsCommand = new RelayCommand(OnRewriteAllCards);
 			RewriteConfigurationCommand = new RelayCommand(OnRewriteConfiguration);
+			IsCriticalOperationsEnabled = true;
 
 #if DEBUG
 			Logger.Info("Подписываемся на событие изменения конфигурации");
@@ -43,7 +57,7 @@ namespace StrazhModule.ViewModels
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
-		void OnReset()
+		private void OnReset()
 		{
 			if (!MessageBoxService.ShowQuestion(
 					"При сбросе настроек все параметры контроллера будут установлены на заводские, а записанные пропуска будут стерты. Продолжить?",
@@ -56,12 +70,12 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
+				MessageBoxService.ShowWarning(result.Error);
 			}
 		}
 
 		public RelayCommand RebootCommand { get; private set; }
-		void OnReboot()
+		private void OnReboot()
 		{
 			var result = FiresecManager.FiresecService.SKDRebootController(Device);
 			if (result.Result)
@@ -70,25 +84,36 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
+				MessageBoxService.ShowWarning(result.Error);
 			}
 		}
 
 		public RelayCommand RewriteAllCardsCommand { get; private set; }
-		void OnRewriteAllCards()
+		private void OnRewriteAllCards()
 		{
+			RewriteAllCards();
+		}
+
+		private void RewriteAllCards()
+		{
+			// Начали выполнять критическую операцию на контроллере. Блокируем доступ к аналагичным операциям.
+			IsCriticalOperationsEnabled = false;
+
 			var thread = new Thread(() =>
 			{
 				var result = FiresecManager.FiresecService.SKDRewriteAllCards(Device);
 
-				ApplicationService.Invoke(new Action(() =>
+				ApplicationService.Invoke(() =>
 				{
 					if (result.HasError)
 					{
 						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error);
 					}
-				}));
+
+					// Закончили выполнять критическую операцию на контроллере. Разблокируем доступ к аналогичным операциям.
+					IsCriticalOperationsEnabled = true;
+				});
 			});
 			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
 			thread.Start();
@@ -156,6 +181,9 @@ namespace StrazhModule.ViewModels
 
 		private void WriteConfiguration()
 		{
+			// Начали выполнять критическую операцию на контроллере. Блокируем доступ к аналагичным операциям.
+			IsCriticalOperationsEnabled = false;
+
 			var thread = new Thread(() =>
 			{
 				if (_configurationChangedWaitHandle != null)
@@ -169,17 +197,9 @@ namespace StrazhModule.ViewModels
 				//Thread.Sleep(TimeSpan.FromSeconds(2));
 
 #if DEBUG
-				Logger.Info("Записываем графики доступа");
+				Logger.Info("Записываем графики доступа и пароли замков");
 #endif
-				// 1. Записываем графики доступа на контроллер
-				var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(Device);
-
-#if DEBUG
-				Logger.Info("Записываем пароли замков");
-#endif
-				// 2. Записываем пароли замков на контроллер
-				if (!result.IsCanceled)
-					result = FiresecManager.FiresecService.SetControllerLocksPasswords(Device, GetCantrollerLocksPasswords(Device));
+				var result = FiresecManager.FiresecService.SetControllerTimeSchedulesAndLocksPasswords(Device, GetCantrollerLocksPasswords(Device));
 
 				ApplicationService.Invoke(() =>
 				{
@@ -204,6 +224,9 @@ namespace StrazhModule.ViewModels
 					OnPropertyChanged(() => HasMismatch);
 					if (HasMismatch != oldHasMismatch)
 						ServiceFactory.SaveService.SKDChanged = true;
+
+					// Закончили выполнять критическую операцию на контроллере. Разблокируем доступ к аналогичным операциям.
+					IsCriticalOperationsEnabled = true;
 				});
 			});
 			thread.Name = "ControllerPropertiesViewModel WriteConfiguration";
