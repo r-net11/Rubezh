@@ -8,7 +8,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using OpcClientSdk.Da;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
@@ -16,10 +15,9 @@ using RubezhDAL.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Diagnostics;
-using System.Linq;
 
 namespace FiresecService
 {
@@ -90,10 +88,10 @@ namespace FiresecService
 					ProcedureHelper.ExportConfiguration,
 					ProcedureHelper.ImportOrganisation,
 					ProcedureHelper.ImportOrganisationList,
-					GetOrganisations,
-					GetOpcDaTagValue,
-					SetOpcDaTagValue
+					GetOrganisations
 					);
+
+				OpcDaHelper.Initialize(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers, ReadTagValue, WriteTagValue);
 
 				GKProcessor.Create();
 				UILogger.Log("Запуск ГК");
@@ -129,8 +127,43 @@ namespace FiresecService
 			}
 		}
 
+		static void ReadTagValue(Guid tagUID, object value)
+		{
+			OpcDaHelper.SetTagValue(tagUID, value);
+			FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
+			{
+				CallbackUID = Guid.NewGuid(),
+				ContextType = ContextType.Server,
+				AutomationCallbackType = AutomationCallbackType.OpcDaTag,
+				Data = new OpcDaTagCallBackData
+				{
+					TagUID = tagUID,
+					Value = value
+				}
+			}, null);
+		}
+
+		static void WriteTagValue(Guid tagUID, object value)
+		{
+			string error;
+			OpcDaServersProcessor.WriteTag(tagUID, value, out error);
+		}
+
 		static void FiresecService_AfterConnect(Guid clientUID)
 		{
+			foreach (var tag in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.SelectMany(x => x.Tags))
+				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
+				{
+					CallbackUID = Guid.NewGuid(),
+					ContextType = ContextType.Server,
+					AutomationCallbackType = AutomationCallbackType.OpcDaTag,
+					Data = new OpcDaTagCallBackData
+					{
+						TagUID = tag.Uid,
+						Value = OpcDaHelper.GetTagValue(tag.Uid)
+					}
+				}, clientUID);
+
 			foreach (var variable in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
 					{
@@ -143,44 +176,6 @@ namespace FiresecService
 							Value = variable.Value
 						}
 					}, clientUID);
-		}
-
-		static object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
-		{
-			
-			var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
-			if (opcDaServer == null)
-				opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
-			if (opcDaServer == null)
-				return null;
-
-			var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
-			if (opcDaTag == null)
-				return null;
-
-			var tagsValues = FiresecServiceManager.SafeFiresecService.ReadOpcDaServerTags(clientUID ,opcDaServer);
-			if (tagsValues.HasError)
-				return null;
-
-			var tagValue = tagsValues.Result.FirstOrDefault(x => x.Uid == opcDaTag.Uid);
-			return tagValue == null ? null : tagValue.Value;
-		}
-
-		static bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
-		{
-			//var opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
-			//if (opcDaServer == null)
-			//	opcDaServer = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.FirstOrDefault(x => x.Uid == opcDaServerUID);
-			//if (opcDaServer == null)
-			//	return false;
-
-			//var opcDaTag = opcDaServer.Tags.FirstOrDefault(x => x.Uid == opcDaTagUID);
-			//if (opcDaTag == null)
-			//	return false;
-
-			var result = FiresecServiceManager.SafeFiresecService.WriteOpcDaTag(clientUID, opcDaServerUID, value);
-
-			return !result.HasError;
 		}
 
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)

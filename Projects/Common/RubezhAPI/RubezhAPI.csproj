@@ -149,6 +149,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AutomationCallback\CloseDialogCallbackData.cs" />
+    <Compile Include="AutomationCallback\OpcDaTagCallBackData.cs" />
     <Compile Include="AutomationCallback\UIAutomationCallbackData.cs" />
     <Compile Include="AutomationCallback\ShowDialogCallbackData.cs" />
     <Compile Include="AutomationCallback\PlanCallbackData.cs" />

@@ -1,5 +1,6 @@
 ﻿using RubezhAPI.Automation;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,55 +9,74 @@ namespace Infrastructure.Automation
 	public static class OpcDaHelper
 	{
 		static object _locker = new object();
-		static List<OpcDaTagValue> _tagValues = new List<OpcDaTagValue>();
+		static List<OpcDaTagConcept> _tags = new List<OpcDaTagConcept>();
 
-		static WriteTagValueDelegate _writeTagValue;
+		static ReadWriteTagValueDelegate _readTagValue;
+		static ReadWriteTagValueDelegate _writeTagValue;
 
-		public static void Initialize(List<OpcDaServer> opcDaServers, WriteTagValueDelegate writeTagValue)
+		public static void Initialize(List<OpcDaServer> opcDaServers, ReadWriteTagValueDelegate readTagValue, ReadWriteTagValueDelegate writeTagValue)
 		{
 			UpdateTagList(opcDaServers);
+			_readTagValue = readTagValue;
 			_writeTagValue = writeTagValue;
 		}
 
 		public static void UpdateTagList(List<OpcDaServer> opcDaServers)
 		{
-			var inTagValues = opcDaServers.SelectMany(server => server.Tags.Select(tag => new OpcDaTagValue
-				{
-					ElementName = tag.ElementName,
-					TagId = tag.TagId,
-					Path = tag.Path,
-					TypeNameOfValue = tag.TypeNameOfValue,
-					AccessRights = tag.AccessRights,
-					ScanRate = tag.ScanRate,
-					ServerId = server.Uid,
-					ServerName = server.ServerName
-				})).ToList();
+			var inTags = opcDaServers.SelectMany(server => server.Tags.Select(tag => new OpcDaTagConcept(tag.Uid, tag.TypeNameOfValue))).ToList();
 
 			lock (_locker)
 			{
-				foreach (var inTagValue in inTagValues)
+				foreach (var inTag in inTags)
 				{
-					var tagValue = _tagValues.FirstOrDefault(x => x.Uid == inTagValue.Uid);
-					if (tagValue != null)
-						inTagValue.Value = tagValue.Value;
+					var tag = _tags.FirstOrDefault(x => x.UID == inTag.UID);
+					if (tag != null)
+						inTag.SetValue(tag.Value);
 				}
-				_tagValues = inTagValues;
+				_tags = inTags;
 			}
 		}
 
-		public static OpcDaTagValue GetTagValue(Guid tagUID)
+		public static object GetTagValue(Guid tagUID)
 		{
-			return _tagValues.FirstOrDefault(x => x.Uid == tagUID);
+			var tag = _tags.FirstOrDefault(x => x.UID == tagUID);
+			return tag == null ? null : tag.Value;
 		}
 
 		public static void SetTagValue(Guid tagUID, object value)
 		{
 			lock (_locker)
 			{
-				var tagValue = _tagValues.FirstOrDefault(x => x.Uid == tagUID);
+				var tagValue = _tags.FirstOrDefault(x => x.UID == tagUID);
 				if (tagValue != null)
-					tagValue.Value = value;
+					tagValue.SetValue(value);
 			}
+		}
+
+		public static ExplicitType? GetExplicitType(string typeName)
+		{
+			switch (typeName)
+			{
+				case "System.Boolean":
+					return ExplicitType.Boolean;
+				case "System.DateTime":
+					return ExplicitType.DateTime;
+				case "System.Double":
+				case "System.Single":
+				case "System.Int16":
+				case "System.Int32":
+					return ExplicitType.Integer;
+				case "System.String":
+					return ExplicitType.String;
+				default:
+					return null;
+			}
+		}
+
+		public static void OnReadTagValue(Guid tagUID, object value)
+		{
+			if (_readTagValue != null)
+				_readTagValue(tagUID, value);
 		}
 
 		public static void OnWriteTagValue(Guid tagUID, object value)
@@ -66,5 +86,75 @@ namespace Infrastructure.Automation
 		}
 	}
 
-	public delegate void WriteTagValueDelegate(Guid tagUID, object value);
+	public delegate void ReadWriteTagValueDelegate(Guid tagUID, object value);
+
+	public class OpcDaTagConcept
+	{
+		public Guid UID { get; private set; }
+		public ExplicitType ExplicitType { get; private set; }
+		public bool IsArray { get; private set; }
+		public object Value { get; private set; }
+
+		public OpcDaTagConcept(Guid uid, string typeName)
+		{
+			UID = uid;
+			IsArray = typeName.EndsWith("[]");
+			if (IsArray)
+				typeName = typeName.Remove(typeName.Length - 2);
+			var explicitType = OpcDaHelper.GetExplicitType(typeName);
+			ExplicitType = explicitType.HasValue ? explicitType.Value : ExplicitType.String;
+
+		}
+
+		public void SetValue(object value)
+		{
+			object result;
+			var isOk = TryConvert(value, ExplicitType, IsArray, out result);
+			if (isOk)
+				Value = result;
+		}
+
+		bool TryConvert(object value, ExplicitType resultType, bool resultIsArray, out object result)
+		{
+			result = null;
+			if (value == null)
+				return true;
+
+			var valueTypeName = value.GetType().ToString();
+
+			var valueIsArray = valueTypeName.EndsWith("[]");
+			if (valueIsArray != resultIsArray)
+				return false;
+
+			if (valueIsArray)
+				valueTypeName = valueTypeName.Remove(valueTypeName.Length - 2);
+
+			switch (resultType)
+			{
+				case ExplicitType.Boolean:
+					if (valueTypeName == "System.Boolean")
+						result = value;
+					break;
+				case ExplicitType.DateTime:
+					if (valueTypeName == "System.DateTime")
+						result = value;
+					break;
+				case ExplicitType.Integer:
+					if (valueTypeName == "System.Double" || valueTypeName == "System.Single" || valueTypeName == "System.Int16" || valueTypeName == "System.Int32")
+						result = resultIsArray ?
+							(object)((IEnumerable)value).Cast<Int32>() :
+							Convert.ToInt32(value);
+					break;
+				case ExplicitType.String:
+					result = resultIsArray ?
+							(object)((IEnumerable)value).Cast<String>() :
+							value.ToString();
+					break;
+				default:
+					return false;
+			}
+
+			return true;
+		}
+	}
 }

@@ -131,6 +131,7 @@ namespace FiresecService.Service
 			ScheduleRunner.SetNewConfig();
 			AutomationProcessor.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
+			OpcDaHelper.UpdateTagList(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);
 			ServerState = RubezhAPI.ServerState.Ready;
 			NotifyConfigurationChanged();
 		}

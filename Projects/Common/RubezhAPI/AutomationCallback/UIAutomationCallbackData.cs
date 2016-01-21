@@ -11,7 +11,6 @@ namespace RubezhAPI.AutomationCallback
 	[KnownType(typeof(PlanCallbackData))]
 	[KnownType(typeof(ShowDialogCallbackData))]
 	[KnownType(typeof(PropertyCallBackData))]
-	[KnownType(typeof(GlobalVariableCallBackData))]
 	public class UIAutomationCallbackData : AutomationCallbackData
 	{
 		public UIAutomationCallbackData()
