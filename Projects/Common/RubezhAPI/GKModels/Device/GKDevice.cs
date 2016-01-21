@@ -77,6 +77,7 @@ namespace RubezhAPI.GK
 			}
 			if (Driver.HasMirror)
 			{
+				OutputDependentElements = new List<GKBase>();
 				InvalidateReflection(deviceConfiguration);
 			}
 		}
