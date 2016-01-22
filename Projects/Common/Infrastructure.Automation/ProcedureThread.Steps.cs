@@ -257,6 +257,22 @@ namespace Infrastructure.Automation
 			}
 		}
 
+		void ControlOpcDaTag(ProcedureStep procedureStep, ControlElementType controlElementType)
+		{
+			var controlOpcDaTagArguments = procedureStep.ControlOpcDaTagArguments;
+
+			if (controlElementType == ControlElementType.Get)
+			{
+				var value = OpcDaHelper.GetTagValue(controlOpcDaTagArguments.OpcDaTagUID);
+				SetValue(controlOpcDaTagArguments.ValueArgument, value);
+			}
+			else
+			{
+				var value = GetValue<object>(controlOpcDaTagArguments.ValueArgument);
+				OpcDaHelper.OnWriteTagValue(controlOpcDaTagArguments.OpcDaTagUID, value);
+			}
+		}
+
 		void HttpRequest(ProcedureStep procedureStep)
 		{
 			var httpRequestArguments = procedureStep.HttpRequestArguments;

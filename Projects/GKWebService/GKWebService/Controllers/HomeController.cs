@@ -88,42 +88,28 @@ namespace GKWebService.Controllers
 		}
 
 
+		public ActionResult MPTs()
+		{
+			return View();
+		}
+
 		public JsonResult GetFireZonesData()
 		{
-			//Получили данные с сервера
-			var zone = FireZonesDataProvider.Instance.GetFireZones();
+		    var data = FireZonesDataProvider.Instance.GetZone();
 
-			//Создали объект для передачи на клиент и заполняем его данными
-			FireZone data = new FireZone();
-
-			//Имя зоны
-			data.DescriptorPresentationName = zone.DescriptorPresentationName;
-
-			//Количество датчиков для перевода в состояние Пожар1
-			data.Fire1Count = zone.Fire1Count;
-
-			//Количество датчиков для перевода в состояние Пожар2
-			data.Fire2Count = zone.Fire2Count;
-
-			//Иконка текущей зоны
-			data.ImageSource = InternalConverter.GetImageResource(zone.ImageSource);
-
-			//Изображение, сигнализирующее о состоянии зоны
-			data.StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(zone.State.StateClass) + ".png");
-
-			//Переносим устройства для этой зоны
-			foreach (var deviceItem in zone.Devices)
-			{
-				var device = deviceItem;
-				do
-				{
-					data.devicesList.Add(new Device(device.Address, device.ImageSource, device.ShortName, device.State.StateClass));
-					device = device.Parent;
-				} while (device != null);
-			}
-			data.devicesList.Reverse();
+            FireZonesUpdater.Instance.StartTestBroadcast();
 
 			//Передаем данные на клиент
+			return Json(data, JsonRequestBehavior.AllowGet);
+		}
+
+		public JsonResult GetMPTsData()
+		{
+			var data = new List<MPTModel>();
+			foreach (var mpt in GKManager.MPTs)
+			{
+				data.Add(new MPTModel {Name = mpt.Name, No = mpt.No, UID = mpt.UID});
+			}
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 

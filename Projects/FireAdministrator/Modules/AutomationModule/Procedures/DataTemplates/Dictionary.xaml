@@ -135,6 +135,10 @@
 	<DataTemplate x:Key="controlMPTTemplate">
 		<Views:ControlMPTStepView />
 	</DataTemplate>
+	
+	<DataTemplate x:Key="controlOpcDaTagTemplate">
+		<Views:ControlOpcDaTagStepView />
+	</DataTemplate>
 
 	<DataTemplate x:Key="getObjectPropertyTemplate">
 		<Views:GetObjectPropertyStepView />
@@ -247,10 +251,7 @@
 	<DataTemplate x:Key="httpRequestTemplate">
 		<Views:HttpRequestStepView />
 	</DataTemplate>
-	<DataTemplate x:Key="controlOpcDaTagTemplate">
-		<Views:ControlOpcDaTagStepView />
-	</DataTemplate>
-
+	
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
@@ -264,6 +265,7 @@
 										 ControlPumpStationTemplate="{StaticResource controlPumpStationTemplate}"
 										 ControlMPTTemplate="{StaticResource controlMPTTemplate}"
 										 ControlPlanTemplate="{StaticResource controlPlanTemplate}"
+										 ControlOpcDaTagTemplate="{StaticResource controlOpcDaTagTemplate}"
 										 ControlVisualTemplate="{StaticResource controlVisualTemplate}"
 										 FindObjectTemplate="{StaticResource findObjectTemplate}"
 										 ForeachTemplate="{StaticResource foreachTemplate}"

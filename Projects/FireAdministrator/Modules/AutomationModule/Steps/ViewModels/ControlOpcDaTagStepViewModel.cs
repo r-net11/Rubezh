@@ -1,8 +1,8 @@
-﻿using RubezhAPI;
+﻿using Infrastructure.Automation;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhClient;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -34,6 +34,7 @@ namespace AutomationModule.ViewModels
 				{
 					ControlOpcDaTagArguments.OpcDaServerUID = _selectedOpcDaServer.Uid;
 					OpcDaTags = new ObservableCollection<OpcDaTag>(_selectedOpcDaServer.Tags);
+					SelectedOpcDaTag = OpcDaTags.FirstOrDefault(x => x.Uid == ControlOpcDaTagArguments.OpcDaTagUID);
 				}
 				else
 					ControlOpcDaTagArguments.OpcDaServerUID = Guid.Empty;
@@ -59,37 +60,26 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedOpcDaTag = value;
 				if (_selectedOpcDaTag != null)
+				{
 					ControlOpcDaTagArguments.OpcDaTagUID = _selectedOpcDaTag.Uid;
+					var explicitType = OpcDaHelper.GetExplicitType(_selectedOpcDaTag.TypeNameOfValue);
+					var defaultExplicitType = explicitType.HasValue ?
+						explicitType.Value :
+						ControlElementType == ControlElementType.Get ? ExplicitType.String : ExplicitType.Integer;
+					ValueArgument.Update(Procedure, defaultExplicitType, isList: false);
+				}
 				else
+				{
 					ControlOpcDaTagArguments.OpcDaTagUID = Guid.Empty;
-				ValueArgument.Update(Procedure, GetExplicitType(_selectedOpcDaTag), isList: false);
+					ValueArgument.Update(Procedure);
+				}
 				OnPropertyChanged(() => SelectedOpcDaTag);
-			}
-		}
-
-		ExplicitType GetExplicitType(OpcDaTag opcDaTag)
-		{
-			switch (opcDaTag.TypeNameOfValue)
-			{
-				case "System.String":
-					return ExplicitType.String;
-				case "System.Boolean":
-					return ExplicitType.Boolean;
-				case "System.DateTime":
-					return ExplicitType.DateTime;
-				case "System.Int16":
-				case "System.Int32":
-				case "System.Int64":
-				default:
-					return ExplicitType.Integer;
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			var allServers = new List<OpcDaServer>(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);
-			allServers.AddRange(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);
-			OpcDaServers = new ObservableCollection<OpcDaServer>(allServers);
+			OpcDaServers = new ObservableCollection<OpcDaServer>(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);
 			SelectedOpcDaServer = OpcDaServers.FirstOrDefault(x => x.Uid == ControlOpcDaTagArguments.OpcDaServerUID);
 			OnPropertyChanged(() => OpcDaServers);
 		}

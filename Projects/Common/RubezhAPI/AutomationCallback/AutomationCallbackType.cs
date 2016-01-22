@@ -11,6 +11,7 @@
 		ShowDialog,
 		CloseDialog,
 		Property,
-		GlobalVariable
+		GlobalVariable,
+		OpcDaTag
 	}
 }
