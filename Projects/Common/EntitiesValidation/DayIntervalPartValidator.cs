@@ -70,7 +70,7 @@ namespace EntitiesValidation
 			// Если "Обязательная продолжительность скользящего графика" = 0, ничего не делаем
 			if (slideTime == TimeSpan.Zero)
 				return new OperationResult<bool>(true);
-			
+
 			var generalLength = TimeSpan.Zero;
 			foreach (var dayIntervalPart in dayIntervalParts)
 				generalLength = generalLength.Add(GetDayIntervalPartLength(dayIntervalPart));
@@ -127,8 +127,8 @@ namespace EntitiesValidation
 				return new OperationResult<bool>(true);
 
 			var monthOrSlideScheduleSchemes = scheduleSchemes.Where(
-				scheduleScheme => scheduleScheme.Type == ScheduleSchemeType.Month
-				|| scheduleScheme.Type == ScheduleSchemeType.SlideDay).ToList();
+				scheduleScheme => scheduleScheme.Type == ScheduleSchemeType.Month).ToList();
+			//	|| scheduleScheme.Type == ScheduleSchemeType.SlideDay).ToList();
 			if (!monthOrSlideScheduleSchemes.Any())
 				return new OperationResult<bool>(true);
 

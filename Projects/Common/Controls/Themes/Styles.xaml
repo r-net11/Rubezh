@@ -7,7 +7,7 @@
 		<ResourceDictionary Source="Constants.xaml" />
 		<ResourceDictionary Source="Converters.xaml" />
 		<ResourceDictionary Source="CommonDataTemplates.xaml" />
-		<ResourceDictionary Source="BlueTheme.xaml" />
+		<!--<ResourceDictionary Source="BlueTheme.xaml" />-->
 		<ResourceDictionary Source="StrazhTheme.xaml" />
 		<ResourceDictionary Source="ScrollBarStyle.xaml" />
 		<ResourceDictionary Source="DatePickerCalendarStyle.xaml" />

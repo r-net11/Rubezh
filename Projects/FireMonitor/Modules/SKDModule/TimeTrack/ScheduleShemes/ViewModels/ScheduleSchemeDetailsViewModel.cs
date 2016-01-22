@@ -87,7 +87,7 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				return _parentViewModel == null 
+				return _parentViewModel == null
 					? new ObservableCollection<DayInterval>()
 					: _parentViewModel.GetDayIntervals(Organisation.UID, SelectedScheduleSchemeType);
 			}
@@ -125,9 +125,9 @@ namespace SKDModule.ViewModels
 					case ScheduleSchemeType.Month:
 						Model.DaysCount = 31;
 						break;
-					case ScheduleSchemeType.SlideDay:
-						Model.DaysCount = 1;
-						break;
+					//case ScheduleSchemeType.SlideDay:
+					//	Model.DaysCount = 1;
+					//	break;
 					default:
 						Model.DaysCount = 7;
 						break;

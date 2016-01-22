@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 	{
 		bool _isInitialized;
 		public ScheduleSchemesViewModel ScheduleSchemesViewModel;
-		
+
 		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeOrganisation(organisation, parentViewModel);
@@ -25,8 +25,8 @@ namespace SKDModule.ViewModels
 
 		public override void InitializeModel(Organisation organisation, ScheduleScheme model, ViewPartViewModel parentViewModel)
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			//AddCommand = new RelayCommand(OnAdd, CanAdd);
+			//DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			ScheduleSchemesViewModel = (parentViewModel as ScheduleSchemesViewModel);
 			base.InitializeModel(organisation, model, parentViewModel);
 			_isInitialized = false;
@@ -55,10 +55,10 @@ namespace SKDModule.ViewModels
 			get { return ScheduleSchemesViewModel.GetDayIntervals(Organisation.UID, Model.Type); }
 		}
 
-		public bool IsSlide
-		{
-			get { return Model != null && Model.Type == ScheduleSchemeType.SlideDay; }
-		}
+		//public bool IsSlide
+		//{
+		//	get { return Model != null && Model.Type == ScheduleSchemeType.SlideDay; }
+		//}
 
 		public string Type
 		{
@@ -76,49 +76,49 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var dayInterval = new ScheduleDayInterval()
-			{
-				Number = Model.DayIntervals.Count,
-				ScheduleSchemeUID = Model.UID,
-				DayIntervalUID = Guid.Empty,
-			};
-			if (SheduleDayIntervalHelper.Save(dayInterval, Model.Name))
-			{
-				Model.DayIntervals.Add(dayInterval);
-				var viewModel = new SheduleDayIntervalViewModel(this, dayInterval);
-				SheduleDayIntervals.Add(viewModel);
-				Sort();
-				SelectedSheduleDayInterval = viewModel;
-				UpdateDaysCount();
-			}
-		}
-		bool CanAdd()
-		{
-			return IsSlide && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
-		}
+		//public RelayCommand AddCommand { get; private set; }
+		//void OnAdd()
+		//{
+		//	var dayInterval = new ScheduleDayInterval()
+		//	{
+		//		Number = Model.DayIntervals.Count,
+		//		ScheduleSchemeUID = Model.UID,
+		//		DayIntervalUID = Guid.Empty,
+		//	};
+		//	if (SheduleDayIntervalHelper.Save(dayInterval, Model.Name))
+		//	{
+		//		Model.DayIntervals.Add(dayInterval);
+		//		var viewModel = new SheduleDayIntervalViewModel(this, dayInterval);
+		//		SheduleDayIntervals.Add(viewModel);
+		//		Sort();
+		//		SelectedSheduleDayInterval = viewModel;
+		//		UpdateDaysCount();
+		//	}
+		//}
+		//bool CanAdd()
+		//{
+		//	return  IsSlide && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
+		//}
 
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
-		{
-			var number = SelectedSheduleDayInterval.Model.Number;
-			if (SheduleDayIntervalHelper.Remove(SelectedSheduleDayInterval.Model, Model.Name))
-			{
-				for (int i = number + 1; i < Model.DayIntervals.Count; i++)
-					Model.DayIntervals[i].Number--;
-				Model.DayIntervals.Remove(SelectedSheduleDayInterval.Model);
-				SheduleDayIntervals.Remove(SelectedSheduleDayInterval);
-				SheduleDayIntervals.ForEach(item => item.Update());
-				SelectedSheduleDayInterval = number < SheduleDayIntervals.Count ? SheduleDayIntervals[number] : SheduleDayIntervals.LastOrDefault();
-				UpdateDaysCount();
-			}
-		}
-		bool CanDelete()
-		{
-			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
-		}
+		//public RelayCommand DeleteCommand { get; private set; }
+		//void OnDelete()
+		//{
+		//	var number = SelectedSheduleDayInterval.Model.Number;
+		//	if (SheduleDayIntervalHelper.Remove(SelectedSheduleDayInterval.Model, Model.Name))
+		//	{
+		//		for (int i = number + 1; i < Model.DayIntervals.Count; i++)
+		//			Model.DayIntervals[i].Number--;
+		//		Model.DayIntervals.Remove(SelectedSheduleDayInterval.Model);
+		//		SheduleDayIntervals.Remove(SelectedSheduleDayInterval);
+		//		SheduleDayIntervals.ForEach(item => item.Update());
+		//		SelectedSheduleDayInterval = number < SheduleDayIntervals.Count ? SheduleDayIntervals[number] : SheduleDayIntervals.LastOrDefault();
+		//		UpdateDaysCount();
+		//	}
+		//}
+		//bool CanDelete()
+		//{
+		//	return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
+		//}
 
 		void Sort()
 		{

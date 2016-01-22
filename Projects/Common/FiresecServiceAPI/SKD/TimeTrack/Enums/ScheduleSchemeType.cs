@@ -16,8 +16,8 @@ namespace FiresecAPI.SKD
 		[EnumMember]
 		Month = 2,
 
-		[DescriptionAttribute("Сменный")]
-		[EnumMember]
-		SlideDay = 4,
+		//[DescriptionAttribute("Сменный")]
+		//[EnumMember]
+		//SlideDay = 4,
 	}
 }
