@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using GKWebService.Models.FireZone;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
@@ -24,19 +25,45 @@ namespace GKWebService.DataProviders.FireZones
 
 		private IHubConnectionContext<dynamic> Clients { get; set; }
 
+        /// <summary>
+        /// Инстанс этого класса
+        /// </summary>
         public static FireZonesUpdater Instance { get { return _instance.Value; } }
 
 		public void StartTestBroadcast() {
 			lock (_testBroadcastLock) {
-                _timer = new Timer(TestMethod, "MessageText", _updateInterval, _updateInterval);
+                _data = FireZonesDataProvider.Instance.GetZone();
+                
+                //назначаем текущий статус зоны
+			    _currentState = _data.StateLabel;
+
+                _timer = new Timer(_refreshZoneState, null, _updateInterval, _updateInterval);
 			}
 		}
 
-
-        private void TestMethod(object param)
+        /// <summary>
+        /// Метод, обновляющий статус зоны
+        /// </summary>
+        private void _refreshZoneState(object parameter)
         {
-            Clients.All.testMethodOfAlex(param);
+            //Получаем текущие данные
+            _data = FireZonesDataProvider.Instance.GetZone();
+
+            if (_data.StateLabel != _currentState)
+            {
+                _currentState = _data.StateLabel;
+                Clients.All.RefreshZoneState(_data.StateImageSource.Item1);
+            }
         }
 
+        /// <summary>
+        /// Данные о зоне
+        /// </summary>
+        private FireZone _data { get; set; }
+
+        /// <summary>
+        /// Текущий статус зоны (ConnectionLost, Norm, etc...)
+        /// </summary>
+        private String _currentState { get; set; }
     }
 }

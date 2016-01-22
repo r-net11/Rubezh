@@ -7,7 +7,7 @@
             var startTestBroadcast = function () {
                 plansUpdater.startTestBroadcast(); //Calling a server method
             };
-            
+
             //declaring the hub connection
             plansUpdater = new Hub('plansUpdater', {
 
@@ -65,8 +65,8 @@
             var fireZonesUpdater = new Hub('fireZonesUpdater', {
                 //client side methods
                 listeners: {
-                    'testMethodOfAlex': function (param) {
-                        console.log(param);
+                    'RefreshZoneState': function (imageBloom) {
+                        $('td:nth-child(2) > img:nth-child(2)')[0].src = "data:image/gif;base64," + imageBloom;
                     }
                 }
             });
