@@ -1,22 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <!-- -->
+    <InstallerAssemblyNamePrefix Condition=" '$(InstallerAssemblyNamePrefix)' == '' ">i</InstallerAssemblyNamePrefix>
+    <InstallerAssemblyName Condition=" '$(InstallerAssemblyName)' == '' ">A.C.Tech</InstallerAssemblyName>
+    <OurProductVersion Condition=" '$(OurProductVersion)' == '' ">0.0.0</OurProductVersion>
+    <OurProductBuildNumber Condition=" '$(OurProductBuildNumber)' == '' ">0</OurProductBuildNumber>
+    <!-- -->
     <Configuration Condition=" '$(Configuration)' == '' ">
     </Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
     <ProjectGuid>{184068e9-b59d-4b55-a57b-60c9cc3450f2}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Firesec 2.1.5</OutputName>
+    <OutputName>$(InstallerAssemblyNamePrefix)$(InstallerAssemblyName)-$(OurProductVersion).$(OurProductBuildNumber)</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <Name>FiresecInstaller</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <!-- -->
+    <OurProductVersion Condition=" '$(OurProductVersion)' == '' ">0.0.0</OurProductVersion>
+    <OurProductBuildNumber Condition=" '$(OurProductBuildNumber)' == '' ">0</OurProductBuildNumber>
+    <!-- -->
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug</DefineConstants>
+    <DefineConstants>Debug;ProductVersion=$(OurProductVersion).$(OurProductBuildNumber)</DefineConstants>
     <Cultures>
     </Cultures>
     <CompilerAdditionalOptions>
@@ -24,9 +34,14 @@
     <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <!-- -->
+    <OurProductVersion Condition=" '$(OurProductVersion)' == '' ">0.0.0</OurProductVersion>
+    <OurProductBuildNumber Condition=" '$(OurProductBuildNumber)' == '' ">0</OurProductBuildNumber>
+    <!-- -->
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
+    <DefineConstants>ProductVersion=$(OurProductVersion).$(OurProductBuildNumber)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Binary.wxs" />

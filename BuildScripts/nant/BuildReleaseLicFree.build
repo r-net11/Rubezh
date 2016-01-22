@@ -18,6 +18,10 @@
     </msbuild>
     <msbuild project="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
+      <property name="InstallerAssemblyNamePrefix" value="${property::get-value('InstallerAssemblyNamePrefix')}" />
+      <property name="InstallerAssemblyName" value="${property::get-value('InstallerAssemblyName')}" />
+      <property name="OurProductVersion" value="${property::get-value('OurProductVersion')}" />
+      <property name="OurProductBuildNumber" value="${property::get-value('OurProductBuildNumber')}" />
     </msbuild>
     <copy todir="..\bin\A.C.Tech\LicFree">
       <fileset basedir="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">
