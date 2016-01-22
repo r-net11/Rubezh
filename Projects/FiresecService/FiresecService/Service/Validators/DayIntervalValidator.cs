@@ -65,7 +65,7 @@ namespace FiresecService.Service.Validators
 						case ScheduleSchemeType.Week:
 							break;
 						case ScheduleSchemeType.Month:
-						case ScheduleSchemeType.SlideDay:
+						//case ScheduleSchemeType.SlideDay:
 							if (dayInterval.SlideTime != TimeSpan.Zero)
 								errorLinksWithScheduleSchemes.AppendLine(String.Format("{0} ({1}{2})", scheduleScheme.Name, scheduleScheme.Type.ToDescription().ToLower(), scheduleScheme.IsDeleted ? ", архивный" : null));
 							break;
@@ -87,7 +87,7 @@ namespace FiresecService.Service.Validators
 		private static OperationResult ValidateDayIntervalParts(DayInterval dayInterval)
 		{
 			var generalTimeSpan = TimeSpan.Zero;
-			
+
 			foreach (var dayIntervalPart in dayInterval.DayIntervalParts)
 			{
 				if (dayIntervalPart.TransitionType == DayIntervalPartTransitionType.Night)
