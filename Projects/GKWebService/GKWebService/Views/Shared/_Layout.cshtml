@@ -117,8 +117,9 @@
 							<li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
 							<li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
 							<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
-                           				<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
+                           	<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
 							<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Delays'); } "><span class="icon delays"></span><span class="text">Задержки</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'MPTs'); } "><span class="icon delays"></span><span class="text">МПТ</span></a></li>
 						</ul>
 					</li>
 					<li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Report'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
@@ -164,42 +165,45 @@
     <script src="~/Scripts/app/controllers/signalrCtrl.js"></script>
 	<script src="~/Scripts/app/controllers/planCtrl.js"></script>
 	<script src="~/Scripts/app/directives/d3Plan.js"></script>
-    <script src="~/Scripts/app/services/signalrService.js"></script>
-    <script src="~/Scripts/app/controllers/zonesCtrl.js"></script>
+	<script src="~/Scripts/app/services/signalrService.js"></script>
+	<script src="~/Scripts/app/controllers/zonesCtrl.js"></script>
 	<script src="~/Scripts/app/controllers/devicesCtrl.js"></script>
     <script src="~/Scripts/app/controllers/directions/directionsCtrl.js"></script>
-	<script src="~/Scripts/app/controllers/DelaysViewModel.js"></script>
-    <script src="~/Scripts/app/directives/ngJqGrid.js"></script>
+    <script src="~/Scripts/app/controllers/mptsCtrl.js"></script>
+	<script src="~/Scripts/app/controllers/delaysCtrl.js"></script>
+	<script src="~/Scripts/app/controllers/journalCtrl.js"></script>
+	<script src="~/Scripts/app/controllers/DirectionsViewModel.js"></script>
+	<script src="~/Scripts/app/directives/ngJqGrid.js"></script>
 
-	<script src="~/Scripts/report.js"></script>
+	@*<script src="~/Scripts/report.js"></script>*@
 	<script src="~/Scripts/archive.js"></script>
 	<script src="~/Scripts/HR.js"></script>
 	<script src="~/Scripts/HrFilter.js"></script>
 	<script src="~/Scripts/HrEmployees.js"></script>
 	<script src="~/Scripts/EmployeeDetails.js"></script>
 	<script src="~/Scripts/EmployeeCardDetails.js"></script>
-    <script src="~/Scripts/SKD/Employees/DepartmentSelectionViewModel.js"></script>
-    <script src="~/Scripts/SKD/Employees/PositionSelectionViewModel.js"></script>
-    <script src="~/Scripts/SKD/Employees/ScheduleSelectionViewModel.js"></script>
-    <script src="~/Scripts/SKD/Employees/CardRemovalReasonViewModel.js"></script>
+	<script src="~/Scripts/SKD/Employees/DepartmentSelectionViewModel.js"></script>
+	<script src="~/Scripts/SKD/Employees/PositionSelectionViewModel.js"></script>
+	<script src="~/Scripts/SKD/Employees/ScheduleSelectionViewModel.js"></script>
+	<script src="~/Scripts/SKD/Employees/CardRemovalReasonViewModel.js"></script>
 	<script src="~/Scripts/HrEmployeeCards.js"></script>
-    <script src="~/Scripts/SKD/Departments/DepartmentsViewModel.js"></script>
-    <script src="~/Scripts/SKD/Departments/DepartmentDetailsViewModel.js"></script> 
-    <script src="~/Scripts/SKD/Common/EmployeeSelectionDialogViewModel.js"></script>
-    <script src="~/Scripts/SKD/Common/PhotoSelectionViewModel.js"></script>
-    <script src="~/Scripts/SKD/Common/OrganisationsFilterViewModel.js"></script>
-    <script src="~/Scripts/SKD/Common/DepartmentsFilterViewModel.js"></script>
-    <script src="~/Scripts/SKD/Common/PositionsFilterViewModel.js"></script>
-    <script src="~/Scripts/SKD/Common/EmployeesFilterViewModel.js"></script>
-    <script src="~/Scripts/SKD/Departments/DepartmentEmployeeListViewModel.js"></script>
-    <script src="~/Scripts/SKD/Positions/PositionsViewModel.js"></script>
-    <script src="~/Scripts/SKD/Positions/PositionDetailsViewModel.js"></script>
-    <script src="~/Scripts/SKD/Positions/PositionEmployeeListViewModel.js"></script>
-    <script src="~/Scripts/SKD/Cards/CardsViewModel.js"></script>
-    <script src="~/Scripts/SKD/AccessTemplates/AccessTemplatesViewModel.js"></script>
-    <script src="~/Scripts/SKD/AccessTemplates/AccessTemplateDetailsViewModel.js"></script>
-    <script src="~/Scripts/SKD/Organisations/OrganisationsViewModel.js"></script>
-    <script src="~/Scripts/SKD/Organisations/OrganisationDetailsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Departments/DepartmentsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Departments/DepartmentDetailsViewModel.js"></script> 
+	<script src="~/Scripts/SKD/Common/EmployeeSelectionDialogViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/PhotoSelectionViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/OrganisationsFilterViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/DepartmentsFilterViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/PositionsFilterViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/EmployeesFilterViewModel.js"></script>
+	<script src="~/Scripts/SKD/Departments/DepartmentEmployeeListViewModel.js"></script>
+	<script src="~/Scripts/SKD/Positions/PositionsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Positions/PositionDetailsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Positions/PositionEmployeeListViewModel.js"></script>
+	<script src="~/Scripts/SKD/Cards/CardsViewModel.js"></script>
+	<script src="~/Scripts/SKD/AccessTemplates/AccessTemplatesViewModel.js"></script>
+	<script src="~/Scripts/SKD/AccessTemplates/AccessTemplateDetailsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Organisations/OrganisationsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Organisations/OrganisationDetailsViewModel.js"></script>
 	<script src="~/Scripts/Main.js"></script>
 	<script src="~/Scripts/Clock.js"></script>
 	<script src="~/Scripts/tooltips.js"></script>

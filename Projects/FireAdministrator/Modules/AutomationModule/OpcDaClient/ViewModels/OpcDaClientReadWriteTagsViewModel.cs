@@ -22,7 +22,8 @@ namespace AutomationModule.ViewModels
 			_opcDaServersViewModel = vm;
 
 			Tags = _opcDaServersViewModel.SelectedTags
-				.Where(x => (x.AccessRights == TsDaAccessRights.ReadWritable) || (x.AccessRights == TsDaAccessRights.Writable))
+				.Where(x => (x.AccessRights == TsDaAccessRights.ReadWritable) || 
+					(x.AccessRights == TsDaAccessRights.Writable))
 				.ToArray();
 
 			ReadTagCommand = new RelayCommand(OnReadTag, CanReadTag);

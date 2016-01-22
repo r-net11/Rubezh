@@ -1,7 +1,6 @@
 ﻿using Common;
 using Infrastructure.Common.Windows;
 using OpcClientSdk;
-using OpcClientSdk.Da;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.License;
@@ -249,6 +248,11 @@ namespace RubezhClient
 				using (firesecService as IDisposable)
 					return firesecService.WriteOpcDaTag(clientUID, tagId, value);
 			}, "WriteOpcDaServerTag");
+		}
+
+		public OperationResult<bool> WriteOpcDaServerTag(Guid tagId, object value)
+		{
+			return WriteOpcDaServerTag(FiresecServiceFactory.UID, tagId, value);
 		}
 	}
 }

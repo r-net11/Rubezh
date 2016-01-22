@@ -366,6 +366,18 @@ namespace RubezhAPI.Automation
 						InvalidateArgument(procedure, controlPlanArguments.ValueArgument);
 					}
 					break;
+				case ProcedureStepType.ControlOpcDaTagGet:
+				case ProcedureStepType.ControlOpcDaTagSet:
+					var server = OpcDaTsServers.FirstOrDefault(x => x.Uid == step.ControlOpcDaTagArguments.OpcDaServerUID);
+					if (server == null)
+					{
+						step.ControlOpcDaTagArguments.OpcDaServerUID = Guid.Empty;
+						step.ControlOpcDaTagArguments.OpcDaTagUID = Guid.Empty;
+					}
+					else if (server.Tags.All(x => x.Uid != step.ControlOpcDaTagArguments.OpcDaTagUID))
+						step.ControlOpcDaTagArguments.OpcDaTagUID = Guid.Empty;
+					InvalidateArgument(procedure, step.ControlOpcDaTagArguments.ValueArgument);
+					break;
 				case ProcedureStepType.ShowDialog:
 					InvalidateArgument(procedure, step.ShowDialogArguments.WindowIDArgument);
 					break;

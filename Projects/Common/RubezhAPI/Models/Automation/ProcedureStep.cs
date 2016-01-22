@@ -58,6 +58,7 @@ namespace RubezhAPI.Automation
 			ControlGKDoorArguments = new ControlGKDoorArguments();
 			NowArguments = new NowArguments();
 			HttpRequestArguments = new HttpRequestArguments();
+			ControlOpcDaTagArguments = new ControlOpcDaTagArguments();
 		}
 
 		[XmlIgnore]

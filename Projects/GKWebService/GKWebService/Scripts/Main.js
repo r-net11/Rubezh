@@ -12,7 +12,8 @@ function MenuViewModel() {
 		Plan: ko.observable(false),
        		FireZones: ko.observable(false),
      		Directions: ko.observable(false),
-		Delays: ko.observable(false)
+     	Delays: ko.observable(false),
+	    MPTs: ko.observable(false)
 	};
 
 	self.StatePageOpened = ko.observable(false);
@@ -107,9 +108,7 @@ var app = new function AppViewModel() {
 
 	self.Header.QuestionBox = QuestionBoxViewModel();
 
-	self.Menu.Report = ReportViewModel();
 	self.Menu.Archive = ArchiveViewModel();
-	self.Menu.Delays = DelaysViewModel();
 	self.Menu.HR = HRViewModel(self.Menu);
 
 	return self;

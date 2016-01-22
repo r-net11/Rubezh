@@ -113,8 +113,11 @@ namespace GKProcessor
 				}
 				descriptor.Formula.Resolve(this);
 				descriptor.FormulaBytes = descriptor.Formula.GetBytes();
-				descriptor.GKBase.InputDescriptors = descriptor.GKBase.InputDescriptors.OrderBy(x => x.No).ToList();
-				descriptor.GKBase.OutputDescriptors = descriptor.GKBase.OutputDescriptors.OrderBy(x => x.No).ToList();
+				if (!(descriptor is MirrorDescriptor))
+				{
+					descriptor.GKBase.InputDescriptors = descriptor.GKBase.InputDescriptors.OrderBy(x => x.No).ToList();
+					descriptor.GKBase.OutputDescriptors = descriptor.GKBase.OutputDescriptors.OrderBy(x => x.No).ToList();
+				}
 				descriptor.InitializeAllBytes();
 			}
 		}

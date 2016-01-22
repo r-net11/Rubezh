@@ -24,6 +24,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlGKDoorTemplate { get; set; }
 		public DataTemplate ControlPumpStationTemplate { get; set; }
 		public DataTemplate ControlMPTTemplate { get; set; }
+		public DataTemplate ControlOpcDaTagTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgramTemplate { get; set; }
@@ -96,6 +97,8 @@ namespace AutomationModule.ViewModels
 				return ControlMPTTemplate;
 			if (item is ControlDelayStepViewModel)
 				return ControlDelayTemplate;
+			if (item is ControlOpcDaTagStepViewModel)
+				return ControlOpcDaTagTemplate;
 			if (item is GetObjectPropertyStepViewModel)
 				return GetObjectPropertyTemplate;
 			if (item is SendEmailStepViewModel)

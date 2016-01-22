@@ -358,9 +358,13 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\mptsCtrl.js" />
+    <Content Include="Scripts\app\controllers\delaysCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
     <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
+    <Content Include="Scripts\app\controllers\journalCtrl.js" />
+    <Content Include="Scripts\app\controllers\MPTsUpdateHub.js" />
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\controllers\zonesCtrl.js" />
@@ -480,7 +484,6 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\report.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Cards\CardsViewModel.js" />
@@ -525,11 +528,13 @@
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
-    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
+    <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
+    <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
     <Compile Include="DataProviders\SKD\CardHelper.cs" />
@@ -543,6 +548,7 @@
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
@@ -645,6 +651,7 @@
     <Content Include="Views\Cards\Index.cshtml" />
     <Content Include="Views\Home\Delays.cshtml" />
     <Content Include="Views\Home\Directions.cshtml" />
+    <Content Include="Views\Home\MPTs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Infrastructure.Automation;
+using OpcClientSdk;
+using OpcClientSdk.Da;
+using RubezhAPI.Automation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RubezhAPI.Automation;
-using OpcClientSdk.Da;
-using OpcClientSdk;
 
 namespace FiresecService.Processor
 {
@@ -12,15 +13,14 @@ namespace FiresecService.Processor
 	{
 		static OpcDaServersProcessor()
 		{
-			_opcServers = new List<TsCDaServer>();
-			_subscriptions = new List<TsCDaSubscription>();
+			_Servers = new List<Tuple<TsCDaServer, TsCDaSubscription>>();
 			_tags = new List<OpcDaTagValue>();
 		}
 
 		#region Fields And Properties
 
-		static List<TsCDaServer> _opcServers;
-		static List<TsCDaSubscription> _subscriptions;
+		static List<Tuple<TsCDaServer, TsCDaSubscription>> _Servers;
+
 		static List<OpcDaTagValue> _tags;
 
 		public static OpcDaServer[] OpcDaServers { get; private set; }
@@ -31,8 +31,6 @@ namespace FiresecService.Processor
 
 		public static void Start()
 		{
-			TsCDaItemValue x = new TsCDaItemValue();
-			
 			OpcDaServers =
 				ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.ToArray();
 
@@ -41,8 +39,28 @@ namespace FiresecService.Processor
 				var url = new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, server.Url);
 				var opcServer = new TsCDaServer();
 				opcServer.Connect(url, null);
-				opcServer.ServerShutdownEvent += EventHandler_ServerShutdownEvent;
-				_opcServers.Add(opcServer);
+				opcServer.ServerShutdownEvent += reason => 
+				{
+					var srv = _Servers.FirstOrDefault(x => x.Item1.ServerName == opcServer.ServerName);
+					if (srv != null)
+					{
+						try
+						{
+							srv.Item1.CancelSubscription(srv.Item2);
+						}
+						catch { }
+
+						// Ищем все теги для данного сервера у удаляем их
+						var tags = _tags.Where(t => t.ServerName == opcServer.ServerName);
+
+						foreach (var tag in tags)
+						{
+							_tags.Remove(tag);
+						}
+						
+						_Servers.Remove(srv);
+					}
+				};
 
 				// Создаём объект подписки
 				var id = Guid.NewGuid().ToString();
@@ -56,17 +74,15 @@ namespace FiresecService.Processor
 				};
 
 				var subscription = (TsCDaSubscription)opcServer.CreateSubscription(subscriptionState);
-				_subscriptions.Add(subscription);
+
+				_Servers.Add(Tuple.Create<TsCDaServer, TsCDaSubscription>(opcServer, subscription));
 
 				// Добавляем в объект подписки выбранные теги
-				List<TsCDaItem> list = new List<TsCDaItem>();
-				
-				list.AddRange(server.Tags.Select(tag => 
-					new TsCDaItem
+				List<TsCDaItem> list = server.Tags.Select(tag => new TsCDaItem
 					{
 						ItemName = tag.ElementName,
 						ClientHandle = tag.ElementName // Уникальный Id определяемый пользователем
-					}));
+					}).ToList();
 
 				// Добавляем теги и проверяем результат данной операции
 				var results = subscription.AddItems(list.ToArray());
@@ -106,24 +122,20 @@ namespace FiresecService.Processor
 		{
 			_tags.Clear();
 
-			foreach (var server in _opcServers)
+			foreach (var server in _Servers)
 			{
 				// Прекращем все подписки
-				var subscriptions = _subscriptions.Where(x => x.Server == server);
+				var subscription = server.Item2;
+				server.Item1.CancelSubscription(subscription);
+				subscription.DataChangedEvent -= EventHandler_Subscription_DataChangedEvent;
+				subscription.Dispose();
 				
-				foreach (var subscription in subscriptions)
-				{
-					server.CancelSubscription(subscription);
-					subscription.DataChangedEvent -= EventHandler_Subscription_DataChangedEvent;
-					subscription.Dispose();
-				}
 
-				_opcServers.Remove(server);
+				_Servers.Remove(server);
 
 				// Отключаемся от сервера
-				server.Disconnect();
-				server.ServerShutdownEvent -= EventHandler_ServerShutdownEvent;
-				server.Dispose();
+				server.Item1.Disconnect();
+				server.Item1.Dispose();
 			}
 		}
 
@@ -143,7 +155,7 @@ namespace FiresecService.Processor
 
 		public static OpcServerStatus GetServerStatus(OpcDaServer server)
 		{
-			var opcServer = _opcServers.FirstOrDefault(x => x.ServerName == server.ServerName);
+			var opcServer = _Servers.FirstOrDefault(x => x.Item1.ServerName == server.ServerName);
 
 			if (opcServer == null)
 			{
@@ -151,26 +163,22 @@ namespace FiresecService.Processor
 			}
 			else
 			{
-				return opcServer.IsConnected ? opcServer.GetServerStatus() : null;
+				return opcServer.Item1.IsConnected ? opcServer.Item1.GetServerStatus() : null;
 			}
 		}
 
 		static TsCDaBrowseElement[] Browse(TsCDaServer server)
 		{
-			TsCDaBrowseFilters filters;
-			List<TsCDaBrowseElement> elementList;
-			TsCDaBrowseElement[] elements;
 			TsCDaBrowsePosition position;
-			OpcItem path = new OpcItem();
+			var path = new OpcItem();
 
-			filters = new TsCDaBrowseFilters();
+			var filters = new TsCDaBrowseFilters();
 			filters.BrowseFilter = TsCDaBrowseFilter.All;
 			filters.ReturnAllProperties = true;
 			filters.ReturnPropertyValues = true;
 
-			elementList = new List<TsCDaBrowseElement>();
-
-			elements = server.Browse(path, filters, out position);
+			var elementList = new List<TsCDaBrowseElement>();
+			var elements = server.Browse(path, filters, out position);
 
 			foreach (var item in elements)
 			{
@@ -214,7 +222,8 @@ namespace FiresecService.Processor
 		public static OpcDaElement[] GetOpcDaServerGroupAndTags(OpcDaServer server)
 		{
 			OpcDaElement[] result;
-			var opcServer = _opcServers.FirstOrDefault(x => x.ServerName == server.ServerName);
+			var srv = _Servers.FirstOrDefault(x => x.Item1.ServerName == server.ServerName);
+			var opcServer = srv == null ? null : srv.Item1;
 
 			if (opcServer == null)
 			{
@@ -258,7 +267,7 @@ namespace FiresecService.Processor
 		public static bool WriteTag(Guid tagId, object value, out string error)
 		{
 			var opcTag = _tags.FirstOrDefault(t => t.Uid == tagId);
-			var server = _opcServers.FirstOrDefault(srv => srv.ServerName == opcTag.ServerName);
+			var server = _Servers.FirstOrDefault(srv => srv.Item1.ServerName == opcTag.ServerName);
 
 			if (value.GetType().ToString() != opcTag.TypeNameOfValue)
 			{
@@ -266,19 +275,23 @@ namespace FiresecService.Processor
 				return false;
 			}
 
-			var subscription = _subscriptions.FirstOrDefault(s => s.Server == server);
+			var subscription = server.Item2;
 			var tag = subscription.Items.FirstOrDefault(t => t.ItemName == opcTag.ElementName);
-			
-			TsCDaItemValue item = new TsCDaItemValue(tag);
-			item.Value = value;
 
-			var result = server.Write(new TsCDaItemValue[] { item });
+			var item = new TsCDaItemValue(tag)
+			{
+				Value = value,
+				Timestamp = DateTime.Now,
+				Quality = TsCDaQuality.Good
+			};
+
+			var result = server.Item1.Write(new TsCDaItemValue[] { item });
 
 			if (result.Length == 1)
 			{
-				error = string.Format("Code: {0}; Description: {1}; Name: {2}", 
+				error = string.Format("Code: {0}; Description: {1}; Name: {2}",
 					result[0].Result.Code, result[0].Result.Description(), result[0].Result.Name);
-				return !result[0].Result.IsError(); 
+				return !result[0].Result.IsError();
 			}
 			else
 			{
@@ -296,29 +309,28 @@ namespace FiresecService.Processor
 
 		#region Event handlers
 
-		static void EventHandler_Subscription_DataChangedEvent(object subscriptionHandle, 
+		static void EventHandler_Subscription_DataChangedEvent(object subscriptionHandle,
 			object requestHandle, TsCDaItemValueResult[] values)
 		{
-			var subscr = _subscriptions.FirstOrDefault(sbs => sbs.ClientHandle == subscriptionHandle);
-			var server = _opcServers.FirstOrDefault(srv => srv.ServerName == subscr.Server.ServerName).ServerName;
+			var server = _Servers.FirstOrDefault(s => s.Item2.ClientHandle == subscriptionHandle);
 
 			if (values.Length > 0)
 			{
 
 				foreach (var result in values)
 				{
-					var tag = _tags.FirstOrDefault(tg => tg.ServerName == server);
-					tag.Quality = result.Quality.GetCode();
-					tag.Timestamp = result.Timestamp;
-					tag.Value = result.Value;
-					tag.OperationResult = result.Result.IsSuccess();
+					var tag = _tags.FirstOrDefault(tg => tg.ServerName == server.Item1.ServerName &&
+						tg.ElementName == result.ItemName);
+					if (tag != null)
+					{
+						tag.Quality = result.Quality.GetCode();
+						tag.Timestamp = result.Timestamp;
+						tag.Value = result.Value;
+						tag.OperationResult = result.Result.IsSuccess();
+						OpcDaHelper.OnReadTagValue(tag.Uid, tag.Value);
+					}
 				}
 			}
-		}
-
-		static void EventHandler_ServerShutdownEvent(string reason)
-		{
-			// Ищем отключившийся сервер
 		}
 
 		#endregion
