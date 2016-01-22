@@ -61,8 +61,8 @@ namespace RubezhAPI.GK
 
 		public void ChangedLogic()
 		{
-			if(InputDependentElements.Count()==0)
-				Invalidate(GKManager.DeviceConfiguration);
+			//if(InputDependentElements.Count()==0)
+			//	Invalidate(GKManager.DeviceConfiguration);
 			InputDependentElements.ForEach(x =>
 				{
 					x.OutputDependentElements.Remove(this);
