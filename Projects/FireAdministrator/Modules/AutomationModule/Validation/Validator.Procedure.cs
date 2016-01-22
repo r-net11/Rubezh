@@ -330,6 +330,16 @@ namespace AutomationModule.Validation
 					else if (controlPlanArguments.ElementUid == Guid.Empty)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент плана", ValidationErrorLevel.CannotSave));
 					break;
+				case ProcedureStepType.ControlOpcDaTagGet:
+				case ProcedureStepType.ControlOpcDaTagSet:
+					var controlOpcDaTagArguments = step.ControlOpcDaTagArguments;
+					if (controlOpcDaTagArguments.OpcDaServerUID == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран OPC DA Сервер", ValidationErrorLevel.CannotSave));
+					else if (controlOpcDaTagArguments.OpcDaTagUID == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран OPC DA Тэг", ValidationErrorLevel.CannotSave));
+					else
+						ValidateArgument(procedure, step, controlOpcDaTagArguments.ValueArgument);
+					break;
 				case ProcedureStepType.ShowDialog:
 					if (step.ShowDialogArguments.Layout == Guid.Empty)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран макет", ValidationErrorLevel.CannotSave));

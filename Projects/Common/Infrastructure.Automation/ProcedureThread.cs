@@ -320,6 +320,14 @@ namespace Infrastructure.Automation
 					ControlPlan(procedureStep, ControlElementType.Set);
 					break;
 
+				case ProcedureStepType.ControlOpcDaTagGet:
+					ControlOpcDaTag(procedureStep, ControlElementType.Get);
+					break;
+
+				case ProcedureStepType.ControlOpcDaTagSet:
+					ControlOpcDaTag(procedureStep, ControlElementType.Set);
+					break;
+
 				case ProcedureStepType.ShowDialog:
 					ShowDialog(procedureStep);
 					break;

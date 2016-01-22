@@ -1,13 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using RubezhAPI;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using RubezhAPI;
-using SKDAPI = RubezhAPI.SKD;
 using GKAPI = RubezhAPI.GK;
-using System.Threading;
-using System.Diagnostics;
+using SKDAPI = RubezhAPI.SKD;
 
 namespace RubezhDAL.DataClasses
 {
@@ -413,13 +410,15 @@ namespace RubezhDAL.DataClasses
 							UserType = x.GKCardType,
 							Password = x.Number,
 							CardDoors = x.CardDoors,
+							AccessTemplateDoors = x.AccessTemplate.CardDoors,
 							GKControllerUIDs = x.GKControllerUIDs
 						})
 					.OrderBy(x => x.Password)
 					.ToList();
 				var filteredTableUsers = tableUsers
-					.Where(x => x.GKControllerUIDs.Any(gkControllerUID => gkControllerUID.GKControllerUID == deviceUID)
-						|| x.CardDoors.Any(cardDoor => deviceDoorUIDs.Any( doorUID => doorUID == cardDoor.DoorUID)));
+					.Where(x => x.GKControllerUIDs.Any(gkControllerUID => gkControllerUID.GKControllerUID == deviceUID) || 
+						(x.CardDoors.Any(door => deviceDoorUIDs.Any( doorUID => doorUID == door.DoorUID)) ||
+						 x.AccessTemplateDoors.Any(door => deviceDoorUIDs.Any( doorUID => doorUID == door.DoorUID))));
 				var users = new List<GKAPI.GKUser>();
 				foreach (var tableUser in filteredTableUsers)
 				{
@@ -437,7 +436,10 @@ namespace RubezhDAL.DataClasses
 						Password = (uint)tableUser.Password,
 						UserType = (GKAPI.GKCardType)tableUser.UserType
 					};
-					foreach (var cardDoor in tableUser.CardDoors)
+					var doors = new List<CardDoor>();
+					doors.AddRange(tableUser.CardDoors);
+					doors.AddRange(tableUser.AccessTemplateDoors);
+					foreach (var cardDoor in doors)
 					{
 						var door = GKManager.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
 						user.Descriptors.Add(

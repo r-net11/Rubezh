@@ -3,7 +3,6 @@ using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using RubezhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -214,18 +213,5 @@ namespace Infrastructure.Automation
 				SynchronizeVariable(target, initialClientUID);
 			target.OnValueChanged();
 		}
-
-		public static object GetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID)
-		{
-			return OnGetOpcDaTagValue == null ? null : OnGetOpcDaTagValue(clientUID, opcDaServerUID, opcDaTagUID);
-		}
-
-		public static bool SetOpcDaTagValue(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value)
-		{
-			return OnSetOpcDaTagValue == null ? false : OnSetOpcDaTagValue(clientUID, opcDaServerUID, opcDaTagUID, value);
-		}
 	}
-
-	public delegate object GetOpcDaTagValueEventHandler(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID);
-	public delegate bool SetOpcDaTagValueEventHandler(Guid clientUID, Guid opcDaServerUID, Guid opcDaTagUID, object value);
 }
