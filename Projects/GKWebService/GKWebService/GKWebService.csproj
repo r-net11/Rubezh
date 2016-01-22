@@ -358,10 +358,10 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\directions\directionCtrl.js" />
     <Content Include="Scripts\app\controllers\mptsCtrl.js" />
     <Content Include="Scripts\app\controllers\delaysCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
-    <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
     <Content Include="Scripts\app\controllers\journalCtrl.js" />
     <Content Include="Scripts\app\controllers\MPTsUpdateHub.js" />

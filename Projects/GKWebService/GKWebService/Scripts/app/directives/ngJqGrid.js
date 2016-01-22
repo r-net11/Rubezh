@@ -5,7 +5,8 @@
             restrict: 'E',
             scope: {
                 config: '=',
-                data: '='
+                data: '=',
+                ngdata: '='
             },
             link: function (scope, element, attrs) {
                 var table;
@@ -30,21 +31,13 @@
                 });
 
                 scope.$watch('data', function (newValue, oldValue) {
+                    table[0].addJSONData({ rows: newValue });
+                });
+
+                scope.$watch('ngdata', function (newValue, oldValue) {
                     table.jqGrid("clearGridData");
                     table.jqGrid("setGridParam", { data: newValue });
                     table.trigger("reloadGrid");
-                    //if (oldValue === undefined) {
-                    //    table[0].addJSONData({ rows: newValue });
-                    //} else {
-                    //    var i;
-                    //    for (i = oldValue.length - 1; i >= 0; i--) {
-                    //        $(table).jqGrid('delRowData', i);
-                    //    }
-                    //    for (i = 0; i < newValue.length; i++) {
-                    //        $(table).jqGrid('addRowData', i, newValue[i]);
-                    //    }
-                    //}
-
                 });
             }
         };
