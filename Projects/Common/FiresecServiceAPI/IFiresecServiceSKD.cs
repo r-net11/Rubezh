@@ -250,6 +250,15 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings);
 
+		/// <summary>
+		/// Записывает на контроллер графики доступа и пароли замков
+		/// </summary>
+		/// <param name="deviceUID">Идентификатор контроллера</param>
+		/// <param name="locksPasswords">Пароли замков</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<bool> SetControllerTimeSchedulesAndLocksPasswords(Guid deviceUID, IEnumerable<SKDLocksPassword> locksPasswords);
+
 		#region <Пароли замков>
 
 		/// <summary>
