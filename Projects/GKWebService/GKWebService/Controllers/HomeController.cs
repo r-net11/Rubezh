@@ -159,9 +159,9 @@ namespace GKWebService.Controllers
 		}
 
 
-		public JsonResult GetReports()
+		public JsonResult GetJournal()
 		{
-			var apiItems = JournalHelper.Get(new JournalFilter());// new List<JournalItem>();
+			var apiItems = JournalHelper.Get(new JournalFilter());
 			var list = apiItems.Select(x => new ReportModel()
 			{
 				Desc = x.JournalEventDescriptionType.ToDescription(),

@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    function imageFormat(cellvalue, options, rowObject) {
+	function imageFormat(cellvalue, options, rowObject) {
         return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/GKStateIcons/' + rowObject.StateIcon + '.png" />' + rowObject.No;
     };
 

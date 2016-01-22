@@ -362,6 +362,7 @@
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
     <Content Include="Scripts\app\controllers\DirectionsViewModel.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
+    <Content Include="Scripts\app\controllers\journalCtrl.js" />
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\controllers\zonesCtrl.js" />
@@ -480,7 +481,6 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\report.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Cards\CardsViewModel.js" />
@@ -525,7 +525,6 @@
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
-    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
