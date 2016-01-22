@@ -11,7 +11,8 @@
     'use strict';
 
     var app = angular.module('canvasApp.controllers').controller('directionsCtrl',
-        function ($scope, $http, $uibModal) {
+        ['$scope', '$http', '$uibModal', 'signalrDirectionsService',
+        function ($scope, $http, $uibModal, signalrDirectionsService) {
             $http.get('Home/GetDirections').success(function (data, status, headers, config) {
                 $scope.config = {
                     myClick: function (rowid) {
@@ -40,8 +41,10 @@
                 };
 
                 $scope.data = data.rows;
+
+                $scope.signalrDirectionsService = signalrDirectionsService;
             });
-        }
+        }]
     );
     angular.module('canvasApp.controllers').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, directionId) {
 

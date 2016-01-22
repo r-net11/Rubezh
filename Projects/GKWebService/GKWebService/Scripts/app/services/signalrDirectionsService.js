@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('canvasApp.services', ['SignalR'])
+    var app = angular.module('canvasApp.services')
         .factory('signalrDirectionsService', ['Hub', function (Hub) {
             var directionsUpdater;
             var startTestBroadcast1 = function () {
