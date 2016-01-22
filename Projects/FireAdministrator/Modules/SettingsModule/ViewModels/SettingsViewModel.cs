@@ -8,7 +8,7 @@ namespace SettingsModule.ViewModels
 {
 	public class SettingsViewModel : ViewPartViewModel
 	{
-		public ThemeViewModel ThemeContext { get; set; }
+	//	public ThemeViewModel ThemeContext { get; set; }
 
 		public SettingsViewModel()
 		{
@@ -17,7 +17,7 @@ namespace SettingsModule.ViewModels
 
 		public void Initialize()
 		{
-			ThemeContext = new ThemeViewModel();
+		//	ThemeContext = new ThemeViewModel();
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }

@@ -2,15 +2,15 @@
 
 namespace Infrastructure.Common.Theme
 {
-	public enum Theme
-	{
-		[DescriptionAttribute("Синяя тема")]
-		BlueTheme,
+	//public enum Theme
+	//{
+	//	[DescriptionAttribute("Синяя тема")]
+	//	BlueTheme,
 
-		[DescriptionAttribute("Серая тема")]
-		GrayTheme,
+	//	[DescriptionAttribute("Серая тема")]
+	//	GrayTheme,
 
-		[DescriptionAttribute("Страж тема")]
-		StrazhTheme
-	}
+	//	[DescriptionAttribute("Страж тема")]
+	//	StrazhTheme
+	//}
 }
