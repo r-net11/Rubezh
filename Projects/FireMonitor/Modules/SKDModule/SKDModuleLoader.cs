@@ -137,7 +137,6 @@ namespace SKDModule
 			yield return new DisciplineReportProvider();
 			yield return new SchedulesReportProvider();
 			yield return new DocumentsReportProvider();
-			yield return new WorkingTimeReportProvider();
 		}
 		#endregion
 	}
