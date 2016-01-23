@@ -371,6 +371,7 @@
     <Content Include="Scripts\app\directives\d3Plan.js" />
     <Content Include="Scripts\app\directives\ngJqGrid.js" />
     <Content Include="Scripts\app\services\signalrDirectionsService.js" />
+    <Content Include="Scripts\app\services\signalrFireZonesService.js" />
     <Content Include="Scripts\app\services\signalrService.js" />
     <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
     <Content Include="Scripts\archive.js" />
