@@ -11,9 +11,9 @@
                     var image2 = "<img src= data:image/gif;base64," + item.ImageBloom.Item1 + " height=16 width =16>";
 
                     $scope.data.push({
-                        device: i > 0 ? image1 + image2 + item.ShortName : image2 + item.ShortName,
+                        device: i > 0 ? image1 + image2 + item.Name : image2 + item.Name,
                         address: item.Address,
-                        note: "",
+                        note: item.Note,
                         id: i,
                         level: i,
                         parent: (i > 0) ? (i - 1).toString() : "null",

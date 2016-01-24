@@ -32,7 +32,7 @@ namespace GKWebService.DataProviders.FireZones
 
 		public void StartTestBroadcast() {
 			lock (_testBroadcastLock) {
-                _data = FireZonesDataProvider.Instance.GetZone();
+                _data = FireZonesDataProvider.Instance.GetFireZones();
                 
                 //назначаем текущий статус зоны
 			    _currentState = _data.StateLabel;
@@ -47,7 +47,7 @@ namespace GKWebService.DataProviders.FireZones
         private void _refreshZoneState(object parameter)
         {
             //Получаем текущие данные
-            _data = FireZonesDataProvider.Instance.GetZone();
+            _data = FireZonesDataProvider.Instance.GetFireZones();
 
             if (_data.StateLabel != _currentState)
             {

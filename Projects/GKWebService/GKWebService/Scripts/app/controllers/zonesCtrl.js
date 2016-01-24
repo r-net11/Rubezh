@@ -1,9 +1,10 @@
 ﻿(
     function () {
-    'use strict';
+        'use strict';
 
-    var app = angular.module('canvasApp.controllers').controller('zonesCtrl', ['$scope', '$http','signalrService', function ($scope, $http, signalrService) {
-            $scope.signalrService = signalrService;
+        var app = angular.module('canvasApp.controllers').controller('zonesCtrl', ['$scope', '$http', 'signalrFireZonesService', function ($scope, $http, signalrFireZonesService) {
+            $scope.signalrFireZonesService = signalrFireZonesService;
+
             $http.get('home/GetFireZonesData').success(function (data, status, headers, config) {
                 $scope.data = [];
                 var zoneImage = "<img src= data:image/gif;base64," + data.ImageSource.Item1 + "> ";
@@ -23,7 +24,8 @@
                         { name: 'name', index: 'name', width: 200, sorztable: false },
                         { name: 'count1', index: 'count1', width: Math.round(($(window).width() - 500) / 2), sortable: false },
                         { name: 'count2', index: 'count2', width: Math.round(($(window).width() - 500) / 2), sortable: false }]
-                }});
+                }
+            });
         }]);
     }()
 );

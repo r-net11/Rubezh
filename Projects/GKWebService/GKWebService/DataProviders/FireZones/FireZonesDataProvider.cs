@@ -10,12 +10,22 @@ namespace GKWebService.DataProviders.FireZones
 {
     public class FireZonesDataProvider
     {
-        private FireZonesDataProvider()
+        /// <summary>
+        /// Инстанс провайдера данных
+        /// </summary>
+        public static FireZonesDataProvider Instance
         {
-            ClientManager.GetConfiguration("GKOPC/Configuration");
-		}
+            get
+            {
+                if (_instance != null)
+                {
+                    return _instance;
+                }
+                return _instance = new FireZonesDataProvider();
+            }
+        }
 
-        public FireZone GetZone()
+        public FireZone GetFireZones()
         {
             var gkStates = ClientManager.FiresecService.GKGetStates();
             GKZone zone = GKManager.Zones[0];
@@ -55,7 +65,7 @@ namespace GKWebService.DataProviders.FireZones
                 var device = deviceItem;
                 do
                 {
-                    data.devicesList.Add(new Device(device.Address, device.ImageSource, device.ShortName, device.State.StateClass));
+                    data.devicesList.Add(new Device(device));
                     device = device.Parent;
                 } while (device != null);
             }
@@ -63,20 +73,17 @@ namespace GKWebService.DataProviders.FireZones
             return data;
         }
 
-
-
-        public static FireZonesDataProvider Instance
+        /// <summary>
+        /// private constructor
+        /// </summary>
+        private FireZonesDataProvider()
         {
-            get
-            {
-                if (_instance != null)
-                {
-                    return _instance;
-                }
-                return _instance = new FireZonesDataProvider();
-            }
+            ClientManager.GetConfiguration("GKOPC/Configuration");
         }
 
+        /// <summary>
+        /// private instance of DataProvider
+        /// </summary>
         private static FireZonesDataProvider _instance;
     }
 }

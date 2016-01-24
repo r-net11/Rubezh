@@ -95,9 +95,8 @@ namespace GKWebService.Controllers
 
 		public JsonResult GetFireZonesData()
 		{
-		    var data = FireZonesDataProvider.Instance.GetZone();
-
-            FireZonesUpdater.Instance.StartTestBroadcast();
+            //Получаем данные о зонах
+		    var data = FireZonesDataProvider.Instance.GetFireZones();
 
 			//Передаем данные на клиент
 			return Json(data, JsonRequestBehavior.AllowGet);
