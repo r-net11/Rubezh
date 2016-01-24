@@ -65,7 +65,7 @@ namespace GKWebService.DataProviders.FireZones
                 var device = deviceItem;
                 do
                 {
-                    data.devicesList.Add(new Device(device.Address, device.ImageSource, device.ShortName, device.State.StateClass));
+                    data.devicesList.Add(new Device(device));
                     device = device.Parent;
                 } while (device != null);
             }
