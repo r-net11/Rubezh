@@ -18,11 +18,17 @@
                     myClick: function (rowid) {
                         var modalInstance = $uibModal.open({
                             animation: false,
-                            templateUrl: 'myModalContent.html',
-                            controller: 'ModalInstanceCtrl',
+                            templateUrl: 'Directions/DirectionDetails',
+                            controller: 'directionDetailsCtrl',
                             resolve: {
-                                directionId: function () {
-                                    return rowid;
+                                direction: function () {
+                                    var direction = null;
+                                    for (var i = 0; i < data.rows.length; i++) {
+                                        if (data.rows[i].UID === rowid) {
+                                            direction = data.rows[i];
+                                        }
+                                    }
+                                    return direction;
                                 }
                             }
                         });
@@ -46,52 +52,5 @@
             });
         }]
     );
-    angular.module('canvasApp.controllers').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, directionId) {
-
-        $scope.directionId = directionId;
-
-        $scope.ok = function () {
-            $uibModalInstance.close();
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    });
 
 }());
-
-//$(document).ready(function () {
-//    $("#jqGridDirections").jqGrid({
-//        url: '/Home/GetDirections',
-//        datatype: "json",
-//        colModel: [
-//            { label: 'No', name: 'No', key: true, hidden: false, sortable: false },
-//            { label: 'Name', name: 'Name', hidden: false, sortable: false }
-//        ],
-//        width: jQuery(window).width() - 242,
-//        height: 250,
-//        rowNum: 100,
-//        viewrecords: true
-//    });
-
-//});
-
-//function DirectionsViewModel() {
-//    var self = {};
-
-//    self.No = ko.observable();
-//    self.Name = ko.observable();
-
-//    $('#jqGridDirections').on('jqGridSelectRow', function (event, id, selected) {
-
-//        var myGrid = $('#jqgrid');
-
-
-//        self.No(myGrid.jqGrid('getCell', id, 'No'));
-//        self.Name(myGrid.jqGrid('getCell', id, 'Name'));
-
-//    });
-
-//    return self;
-//}

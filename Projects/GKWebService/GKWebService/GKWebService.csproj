@@ -358,7 +358,8 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
-    <Content Include="Scripts\app\controllers\directions\directionCtrl.js" />
+    <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
+    <Content Include="Scripts\app\controllers\directions\directionDetailsCtrl.js" />
     <Content Include="Scripts\app\controllers\mptsCtrl.js" />
     <Content Include="Scripts\app\controllers\delaysCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
@@ -522,6 +523,7 @@
     <Compile Include="Controllers\AccessTemplatesController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
+    <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
@@ -650,8 +652,9 @@
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
     <Content Include="Views\Cards\Index.cshtml" />
     <Content Include="Views\Home\Delays.cshtml" />
-    <Content Include="Views\Home\Directions.cshtml" />
     <Content Include="Views\Home\MPTs.cshtml" />
+    <Content Include="Views\Directions\Index.cshtml" />
+    <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
