@@ -99,6 +99,7 @@
 
 (function () {
 	'use strict';
+	console.log('creating journalCtrl . . .');
 	var app = angular.module('canvasApp.controllers').controller("journalCtrl", function ($scope, $http) {
 		$scope.config = {
 			datatype: "local",
