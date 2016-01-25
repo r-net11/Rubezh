@@ -97,7 +97,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="Technosoftware.Logging40">
       <HintPath>..\..\..\3rdParty\OPC\Technosoftware.Logging40.dll</HintPath>
     </Reference>
@@ -265,10 +267,6 @@
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhDAL\RubezhDAL.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
