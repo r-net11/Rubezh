@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.GK
 {
@@ -10,7 +9,7 @@ namespace RubezhAPI.GK
 	/// Зона СКД
 	/// </summary>
 	[DataContract]
-	public class GKSKDZone : GKBase, IPlanPresentable
+	public class GKSKDZone : GKBase
 	{
 		public GKSKDZone()
 		{

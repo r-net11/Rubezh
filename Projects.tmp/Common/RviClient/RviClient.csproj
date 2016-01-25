@@ -3,14 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{112658EB-3244-4922-AEF7-6376E688B7A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RviClient</RootNamespace>
     <AssemblyName>RviClient</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -73,12 +71,8 @@
       <Name>RubezhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -384,7 +384,7 @@
     <Content Include="Content\main.less" />
     <Content Include="Content\menu.less" />
     <Content Include="Content\logon.less" />
-    <Content Include="Content\report.less" />
+    <Content Include="Content\journal.less" />
     <Content Include="Content\archive.less" />
     <Content Include="Content\tab.less" />
     <Content Include="Content\favicon\manifest.json" />
@@ -619,7 +619,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\State.cshtml" />
     <Content Include="Views\Home\Device.cshtml" />
-    <Content Include="Views\Home\Report.cshtml" />
     <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
     <Content Include="Views\Hr\HrEmployees.cshtml" />
@@ -662,6 +661,7 @@
     <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
+    <Content Include="Views\Home\Journal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

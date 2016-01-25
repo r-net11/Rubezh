@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Management;
 
 namespace RubezhLicense
 {
@@ -11,7 +10,7 @@ namespace RubezhLicense
             get
             {
                 if (_cpuId == null)
-                    _cpuId = GetFromWmi("Select ProcessorID From Win32_processor", "ProcessorID");
+					_cpuId = "9876543210"; //TODO: get cpuId (linux)
                 return _cpuId;
             }
         }
@@ -22,21 +21,8 @@ namespace RubezhLicense
             get
             {
                 if (_hardDiskId == null)
-                    _hardDiskId = GetFromWmi("Select VolumeSerialNumber From Win32_LogicalDisk Where DeviceID = \"C:\"", "VolumeSerialNumber");
+					_hardDiskId = "0123456789"; //TODO: get cpuId (linux)
                 return _hardDiskId;
-            }
-        }
-
-        static string GetFromWmi(string query, string column, string scope = null)
-        {
-            try
-            {
-                IEnumerator wmi = new ManagementObjectSearcher(scope, query).Get().GetEnumerator();
-                return wmi.MoveNext() ? ((ManagementObject)wmi.Current)[column].ToString() : null;
-            }
-            catch
-            {
-                return null;
             }
         }
     }

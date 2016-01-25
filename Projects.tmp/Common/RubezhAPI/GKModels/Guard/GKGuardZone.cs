@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
 using RubezhAPI;
-using Infrustructure.Plans.Interfaces;
 using System.Linq;
 
 namespace RubezhAPI.GK
@@ -14,7 +13,7 @@ namespace RubezhAPI.GK
 	/// Охранная зона ГК
 	/// </summary>
 	[DataContract]
-	public class GKGuardZone : GKBase, IPlanPresentable
+	public class GKGuardZone : GKBase, IIdentity
 	{
 		public GKGuardZone()
 		{
