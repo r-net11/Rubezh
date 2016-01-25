@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DoorsDataSet" targetNamespace="http://tempuri.org/DoorsDataSet.xsd" xmlns:mstns="http://tempuri.org/DoorsDataSet.xsd" xmlns="http://tempuri.org/DoorsDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+	<xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+	  <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+		<Connections />
+		<Tables />
+		<Sources />
+	  </DataSource>
+	</xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DoorsDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DoorsDataSet" msprop:Generator_UserDSName="DoorsDataSet">
+	<xs:complexType>
+	  <xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_RowClassName="DataRow" msprop:Generator_UserTableName="Data" msprop:Generator_RowEvArgName="DataRowChangeEvent">
+		  <xs:complexType>
+			<xs:sequence>
+			  <xs:element name="Number" msprop:Generator_ColumnVarNameInTable="columnNumber" msprop:Generator_ColumnPropNameInRow="Number" msprop:Generator_ColumnPropNameInTable="NumberColumn" msprop:Generator_UserColumnName="Number" type="xs:int" minOccurs="0" />
+			  <xs:element name="Door" msprop:Generator_ColumnVarNameInTable="columnDoor" msprop:Generator_ColumnPropNameInRow="Door" msprop:Generator_ColumnPropNameInTable="DoorColumn" msprop:Generator_UserColumnName="Door" type="xs:string" minOccurs="0" />
+			  <xs:element name="Controller" msprop:Generator_ColumnVarNameInTable="columnController" msprop:Generator_ColumnPropNameInRow="Controller" msprop:Generator_ColumnPropNameInTable="ControllerColumn" msprop:Generator_UserColumnName="Controller" type="xs:string" minOccurs="0" />
+			  <xs:element name="IP" msprop:Generator_ColumnVarNameInTable="columnIP" msprop:Generator_ColumnPropNameInRow="IP" msprop:Generator_ColumnPropNameInTable="IPColumn" msprop:Generator_UserColumnName="IP" type="xs:string" minOccurs="0" />
+			  <xs:element name="EnterReader" msprop:Generator_ColumnVarNameInTable="columnEnterReader" msprop:Generator_ColumnPropNameInRow="EnterReader" msprop:Generator_ColumnPropNameInTable="EnterReaderColumn" msprop:Generator_UserColumnName="EnterReader" type="xs:string" minOccurs="0" />
+			  <xs:element name="EnterZone" msprop:Generator_ColumnVarNameInTable="columnEnterZone" msprop:Generator_ColumnPropNameInRow="EnterZone" msprop:Generator_ColumnPropNameInTable="EnterZoneColumn" msprop:Generator_UserColumnName="EnterZone" type="xs:string" minOccurs="0" />
+			  <xs:element name="ExitReader" msprop:Generator_ColumnVarNameInTable="columnExitReader" msprop:Generator_ColumnPropNameInRow="ExitReader" msprop:Generator_ColumnPropNameInTable="ExitReaderColumn" msprop:Generator_UserColumnName="ExitReader" type="xs:string" minOccurs="0" />
+			  <xs:element name="ExitZone" msprop:Generator_ColumnVarNameInTable="columnExitZone" msprop:Generator_ColumnPropNameInRow="ExitZone" msprop:Generator_ColumnPropNameInTable="ExitZoneColumn" msprop:Generator_UserColumnName="ExitZone" type="xs:string" minOccurs="0" />
+			  <xs:element name="Organisation" msprop:Generator_ColumnVarNameInTable="columnOrganisation" msprop:Generator_ColumnPropNameInRow="Organisation" msprop:Generator_ColumnPropNameInTable="OrganisationColumn" msprop:Generator_UserColumnName="Organisation" type="xs:string" minOccurs="0" />
+			  <xs:element name="Comment" msprop:Generator_ColumnVarNameInTable="columnComment" msprop:Generator_ColumnPropNameInRow="Comment" msprop:Generator_ColumnPropNameInTable="CommentColumn" msprop:Generator_UserColumnName="Comment" type="xs:string" minOccurs="0" />
+			</xs:sequence>
+		  </xs:complexType>
+		</xs:element>
+	  </xs:choice>
+	</xs:complexType>
+  </xs:element>
+</xs:schema>

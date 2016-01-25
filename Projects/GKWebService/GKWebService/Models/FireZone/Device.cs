@@ -4,15 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using RubezhAPI.GK;
 
 namespace GKWebService.Models.FireZone
 {
     public class Device
     {
         /// <summary>
+        /// Наименование устройства
+        /// </summary>
+        public String Name { get; set; }
+
+        /// <summary>
         /// Адрес устройства
         /// </summary>
         public String Address { get; set; }
+
+        /// <summary>
+        /// Примечание
+        /// </summary>
+        public String Note { get; set; }
 
         /// <summary>
         /// Индикатор статуса
@@ -23,22 +34,17 @@ namespace GKWebService.Models.FireZone
         /// Логотип устройства
         /// </summary>
         public Tuple<string, System.Drawing.Size> ImageBloom { get; set; }
-
-        /// <summary>
-        /// Сокращенное имя устройства
-        /// </summary>
-        public String ShortName { get; set; }
-
-        public Device(string address, string imageSource, string shortName, object stateImageSourse)
+       
+        public Device(GKDevice device)
         {
-            Address = address;
-            ShortName = shortName;
-            
+            Address = device.Address;
+            Name = device.PresentationName;
+            Note = Name.IndexOf('(') > 0 ? Name.Split('(', ')')[1] : String.Empty;
             //Получаем логотип устройства
-            ImageBloom = InternalConverter.GetImageResource(imageSource);
+            ImageBloom = InternalConverter.GetImageResource(device.ImageSource);
 
             //Получаем изображение индикатора устройства
-            StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(stateImageSourse) + ".png");
+            StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(device.State.StateClass) + ".png");
         }
     }
 }

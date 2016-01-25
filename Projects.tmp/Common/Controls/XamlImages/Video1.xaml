@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Video1" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 18.8333,27.78C 13.74,27.78 9.61067,23.6493 9.61067,18.556C 9.61067,13.4626 13.74,9.33331 18.8333,9.33331C 23.9267,9.33331 28.056,13.4626 28.056,18.556C 28.056,23.6493 23.9267,27.78 18.8333,27.78 Z M 32.3333,5.44397L 27,5.44397L 27,2.25464C 27,1.01465 25.984,0 24.7453,0L 12.9213,0C 11.6827,0 10.6667,1.01465 10.6667,2.25464L 10.6667,5.44397L 5.33333,5.44397C 2.4,5.44397 0,7.84265 0,10.7773L 0,26.7773C 0,29.7094 2.4,32.1107 5.33333,32.1107L 32.3333,32.1107C 35.2667,32.1107 37.6667,29.7094 37.6667,26.7773L 37.6667,10.7773C 37.6667,7.84265 35.2667,5.44397 32.3333,5.44397 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 24.306,18.556C 24.306,21.58 21.8553,24.0293 18.834,24.0293C 15.8113,24.0293 13.3607,21.58 13.3607,18.556C 13.3607,15.5333 15.8113,13.084 18.834,13.084C 21.8553,13.084 24.306,15.5333 24.306,18.556 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

@@ -25,5 +25,5 @@
 				{ name: 'onDelay', index: 'onDelay', width: Math.round(($(window).width()-320) * (1/8)), sortable: false },
 				{ name: 'holdDelay', index: 'holdDelay', width: Math.round(($(window).width()-320) *(1/8)), sortable: false}]
 		}
-		});
+	});
 }());

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="EditDocument" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 106.837,76.184L 102.073,71.42L 104.308,69.184L 109.073,73.9479M 86.5253,96.792L 81.4667,91.7307L 100.996,72.2L 106.056,77.2599M 80.6653,92.8133L 85.4747,97.6213L 78.9053,99.3799M 2.66667,123.164L 2.66667,2.66663L 67.068,2.66663L 67.62,3.21863L 67.62,26.572L 90.9733,26.572L 91.5253,27.124L 91.5253,56.9066C 76.992,57.6066 65.4147,69.576 65.4147,84.2827C 65.4147,98.9893 76.992,110.96 91.5253,111.659L 91.5253,123.164M 70.2867,7.10129L 87.0893,23.9053L 70.2867,23.9053M 120.303,84.2827C 120.303,69.576 108.725,57.6066 94.192,56.9066L 94.192,26.02L 68.172,-3.05176e-005L 0,-3.05176e-005L 0,125.831L 94.192,125.831L 94.192,111.659C 108.725,110.96 120.303,98.9893 120.303,84.2827 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

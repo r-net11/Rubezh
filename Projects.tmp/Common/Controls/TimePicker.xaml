@@ -1,0 +1,25 @@
+<UserControl x:Class="Controls.TimePicker"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<WrapPanel>
+		<TextBox Name="TextBox"
+				 Width="37" MinWidth="0"
+				 Margin="1" HorizontalContentAlignment="Center" 
+				 VerticalContentAlignment="Center"
+				 LostFocus="TextBox_LostFocus"
+				 OverridesDefaultStyle="True"
+				 PreviewKeyDown="TextBox_PreviewKeyDown"
+				 PreviewTextInput="TextBox_PreviewTextInput"
+				 SelectionChanged="TextBox_SelectionChanged"
+				 TextChanged="TextBox_TextChanged"
+				 ContextMenu="{x:Null}" />
+		<StackPanel>
+			<Button Name="Inc" Width="20" Height="16" Click="Inc_Click">
+				<Rectangle Fill="{DynamicResource AddTime}" Width="16" Height="16" />
+			</Button>
+			<Button Name="Dec" Width="20" Height="16" Click="Dec_Click">
+				<Rectangle Fill="{DynamicResource DeleteTime}" Width="16" Height="16" />
+			</Button>
+		</StackPanel>
+	</WrapPanel>
+</UserControl>

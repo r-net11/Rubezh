@@ -108,7 +108,6 @@ var app = new function AppViewModel() {
 
 	self.Header.QuestionBox = QuestionBoxViewModel();
 
-	self.Menu.Report = ReportViewModel();
 	self.Menu.Archive = ArchiveViewModel();
 	self.Menu.HR = HRViewModel(self.Menu);
 

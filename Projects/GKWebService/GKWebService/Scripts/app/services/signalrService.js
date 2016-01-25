@@ -7,7 +7,7 @@
             var startTestBroadcast = function () {
                 plansUpdater.startTestBroadcast(); //Calling a server method
             };
-            
+
             //declaring the hub connection
             plansUpdater = new Hub('plansUpdater', {
 
@@ -61,6 +61,7 @@
                     }
                 }
             });
+
             return {
                 startTest: startTestBroadcast
             };

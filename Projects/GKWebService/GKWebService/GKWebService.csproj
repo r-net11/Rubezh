@@ -358,17 +358,21 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
+    <Content Include="Scripts\app\controllers\directions\directionDetailsCtrl.js" />
     <Content Include="Scripts\app\controllers\mptsCtrl.js" />
     <Content Include="Scripts\app\controllers\delaysCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
-    <Content Include="Scripts\app\controllers\DirectionsViewModel.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
+    <Content Include="Scripts\app\controllers\journalCtrl.js" />
     <Content Include="Scripts\app\controllers\MPTsUpdateHub.js" />
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\controllers\zonesCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
     <Content Include="Scripts\app\directives\ngJqGrid.js" />
+    <Content Include="Scripts\app\services\signalrDirectionsService.js" />
+    <Content Include="Scripts\app\services\signalrFireZonesService.js" />
     <Content Include="Scripts\app\services\signalrService.js" />
     <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
     <Content Include="Scripts\archive.js" />
@@ -482,7 +486,6 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\report.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Cards\CardsViewModel.js" />
@@ -521,17 +524,19 @@
     <Compile Include="Controllers\AccessTemplatesController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
+    <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
-    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
+    <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
+    <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -648,8 +653,9 @@
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
     <Content Include="Views\Cards\Index.cshtml" />
     <Content Include="Views\Home\Delays.cshtml" />
-    <Content Include="Views\Home\Directions.cshtml" />
     <Content Include="Views\Home\MPTs.cshtml" />
+    <Content Include="Views\Directions\Index.cshtml" />
+    <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
