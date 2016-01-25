@@ -109,7 +109,6 @@ namespace PlansModule.ViewModels
 				var oldIndex = selectedPlan.Index;
 
 				DesignerCanvas.IsLocked = true;
-				DesignerCanvas.RemoveAll();
 				if (parent == null)
 				{
 					Plans.Remove(selectedPlan);
