@@ -254,6 +254,8 @@
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InAutomatic.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InManual.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\Unknown.png" />
+    <Content Include="Content\Image\Icon\GK\BJournal.png" />
+    <Content Include="Content\Image\Icon\GK\Blue_Direction.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />

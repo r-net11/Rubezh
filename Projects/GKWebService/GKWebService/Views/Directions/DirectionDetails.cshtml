@@ -13,8 +13,8 @@
             <div style="float: left; width: 300px">
                 <ul>
                     <li ng-repeat="stateClass in directionState.StateClasses">
-                    <img src="{{stateClass.IconData}}"/>
-                    {{stateClass.Name}}
+                        <img style="margin: 2px; vertical-align:middle" src="{{stateClass.IconData}}"/>
+                        {{stateClass.Name}}
                     <li>
                 </ul>
             </div>
@@ -34,7 +34,7 @@
         <uib-tabset>
             <uib-tab heading="Управление">
                 <div>
-                    <img style="margin: 2px" src="{{directionState.ControlRegimeIcon}}"/>
+                    <img style="margin: 2px; vertical-align:middle" src="{{directionState.ControlRegimeIcon}}"/>
                     <span style="font-weight: bold; margin: 2px">Режим</span>
                     <span style="font-weight: bold; margin: 2px">{{directionState.ControlRegimeName}}</span>
                 </div>
@@ -53,7 +53,30 @@
                 </div>
             </uib-tab>
             <uib-tab heading="Свойства">
-                <span>Свойства</span>
+                <div>
+                    <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png"/>
+                    <a href="#" ng-click="Show()">{{direction.Name}}</a>
+                </div>
+                <div>
+                    <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
+                    <span style="margin: 2px; font-weight: bold">{{direction.GKDescriptorNo}}</span>
+                </div>
+                <div>
+                    <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png"/>
+                    <a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                </div>
+                <div>
+                    <span>Задержка: </span>
+                    <span>{{direction.Delay}}</span>
+                </div>
+                <div>
+                    <span>Удержание: </span>
+                    <span>{{direction.Hold}}</span>
+                </div>
+                <div>
+                    <span>Режим после удержания: </span>
+                    <span>{{direction.DelayRegimeName}}</span>
+                </div>
             </uib-tab>
         </uib-tabset>
     </div>

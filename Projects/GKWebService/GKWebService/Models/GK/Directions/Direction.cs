@@ -27,5 +27,9 @@ namespace GKWebService.Models
 		public bool CanSetManualState { get; set; }
 		public bool CanSetIgnoreState { get; set; }
 		public bool IsControlRegime { get; set; }
-    }
+		public ushort GKDescriptorNo { get; set; }
+		public ushort Delay { get; set; }
+		public ushort Hold { get; set; }
+		public string DelayRegimeName { get; set; }
+	}
 }
