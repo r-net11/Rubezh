@@ -21,6 +21,8 @@ using Infrastructure.Common.Navigation;
 using System.Windows.Input;
 using Controls.Menu.ViewModels;
 using System.Threading;
+using Infrastructure.Common.Services;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.ViewModels
 {
@@ -31,7 +33,7 @@ namespace PlansModule.ViewModels
 
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
-		
+
 		public PlansViewModel()
 		{
 			ServiceFactory.Events.GetEvent<ShowPlanElementEvent>().Subscribe(OnShowElement);
@@ -48,7 +50,7 @@ namespace PlansModule.ViewModels
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 			AddFolderCommand = new RelayCommand(OnAddFolder);
 			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
-		
+
 			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
 			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
@@ -358,7 +360,9 @@ namespace PlansModule.ViewModels
 				foreach (var device in devices)
 				{
 					DesignerCanvas.RemoveDesignerItem(device);
+					ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { device });
 				}
+
 			}
 		}
 

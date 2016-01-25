@@ -371,6 +371,7 @@
     <Content Include="Scripts\app\controllers\zonesCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
     <Content Include="Scripts\app\directives\ngJqGrid.js" />
+    <Content Include="Scripts\app\services\broadcastService.js" />
     <Content Include="Scripts\app\services\signalrDirectionsService.js" />
     <Content Include="Scripts\app\services\signalrFireZonesService.js" />
     <Content Include="Scripts\app\services\signalrService.js" />
@@ -549,8 +550,11 @@
     <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
-    <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\GK\DeviceControlRegime.cs" />
+    <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
+    <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
     <Compile Include="Models\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />

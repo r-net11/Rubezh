@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using Controls.Converters;
+using GKModule.Converters;
 using Microsoft.AspNet.SignalR.Hubs;
 using RubezhAPI.GK;
 using RubezhAPI;
 using GKWebService.Models;
+using GKWebService.Models.GK;
+using GKWebService.Utils;
 using Microsoft.AspNet.SignalR;
 
 namespace GKWebService.DataProviders
@@ -57,8 +62,10 @@ namespace GKWebService.DataProviders
 					No = realDirection.No,
 					Name = realDirection.Name,
 					State = realDirection.State.StateClass.ToDescription(),
-					StateIcon = realDirection.State.StateClass.ToString()
-				};
+					StateIcon = realDirection.State.StateClass.ToString(),
+					OnDelay = realDirection.State.OnDelay,
+					HoldDelay = realDirection.State.HoldDelay,
+                };
 				_directions.TryAdd(direction.UID, direction);
 			}
 		}
@@ -87,8 +94,22 @@ namespace GKWebService.DataProviders
 		private bool TryUpdateDirection(Direction direction)
 		{
 			var stateClass = (XStateClass)randomState.Next(19);
+			var stateClasses = new List<XStateClass> { stateClass };
 			direction.State = stateClass.ToDescription();
 			direction.StateIcon = stateClass.ToString();
+			direction.StateColor = "'#" + new XStateClassToColorConverter2().Convert(stateClass, null, null, null).ToString().Substring(3) + "'";
+			direction.StateClasses = new List<DirectionStateClass>{ new DirectionStateClass(stateClass)};
+			direction.HasOnDelay = stateClasses.Contains(XStateClass.TurningOn) && direction.OnDelay > 0;
+			direction.HasHoldDelay = stateClasses.Contains(XStateClass.On) && direction.HoldDelay > 0;
+			direction.ControlRegime = stateClasses.Contains(XStateClass.Ignore)
+				? DeviceControlRegime.Ignore
+				: !stateClasses.Contains(XStateClass.AutoOff) ? DeviceControlRegime.Automatic : DeviceControlRegime.Manual;
+			direction.ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string) new DeviceControlRegimeToIconConverter().Convert(direction.ControlRegime, null, null, null)) ?? string.Empty).Item1;
+			direction.ControlRegimeName = direction.ControlRegime.ToDescription();
+			direction.CanSetAutomaticState = (direction.ControlRegime != DeviceControlRegime.Automatic);
+			direction.CanSetManualState = (direction.ControlRegime != DeviceControlRegime.Manual);
+			direction.CanSetIgnoreState = (direction.ControlRegime != DeviceControlRegime.Ignore);
+			direction.IsControlRegime = (direction.ControlRegime == DeviceControlRegime.Manual);
 			return true;
 		}
 
