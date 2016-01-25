@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="BAlarm_main_6_Service" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 17.652,33.172L 33.324,17.6934C 36.252,18.4974 39.4293,17.836 41.616,15.6507C 43.3227,13.948 44.0853,11.6347 43.964,9.31067C 43.6693,8.95203 43.372,8.7467 43.0947,8.63068L 41.0627,10.6627C 38.8453,12.88 35.2827,12.948 33.152,10.8134C 31.0173,8.67999 31.0827,5.12 33.3013,2.90533L 35.3213,0.88269C 35.212,0.602661 35.012,0.301331 34.656,0C 32.3307,-0.12262 30.0187,0.643982 28.3133,2.34937C 26.0907,4.57202 25.444,7.82135 26.312,10.792L 10.64,26.2693C 7.712,25.4667 4.53467,26.128 2.34933,28.312C 0.642667,30.0173 -0.121333,32.3293 0,34.6533C 0.294668,35.012 0.592,35.2173 0.869334,35.3334L 2.90133,33.3027C 5.12,31.084 8.68133,31.0173 10.812,33.1507C 12.9467,35.284 12.88,38.844 10.6613,41.06L 8.64267,43.0814C 8.752,43.3613 8.95467,43.6627 9.308,43.964C 11.6333,44.088 13.9453,43.32 15.6507,41.6147C 17.8733,39.392 18.52,36.144 17.652,33.172 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>
