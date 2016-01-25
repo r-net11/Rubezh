@@ -81,6 +81,10 @@ namespace FiresecService.Service
 					}
 				}
 
+				var interval = databaseService.PassJournalTranslator.TryGetOpenedInterval(uid);
+				if (interval != null)
+					databaseService.PassJournalTranslator.ManualClosingInterval(interval, DateTime.Now);
+
 				var markdDletedOperationResult = databaseService.EmployeeTranslator.MarkDeleted(uid);
 				if (markdDletedOperationResult.HasError)
 				{
@@ -88,10 +92,7 @@ namespace FiresecService.Service
 				}
 			}
 
-			if (errors.Count > 0)
-				return new OperationResult(errors);
-			else
-				return new OperationResult();
+			return errors.Any() ? new OperationResult(errors) : new OperationResult();
 		}
 
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
@@ -860,7 +861,7 @@ namespace FiresecService.Service
 					AddSKDJournalMessage(JournalEventNameType.Перезагрузка_Контроллера, device);
 					return Processor.RebootController(deviceUID);
 				}
-				finally 
+				finally
 				{
 					// Убираем признак выполнения на данном устройстве опасной операции
 					if (isDisallowedHere)
@@ -996,7 +997,7 @@ namespace FiresecService.Service
 						}
 					}
 				}
-				finally 
+				finally
 				{
 					// Убираем признак выполнения на данном устройстве опасной операции
 					if (isDisallowedHere)
@@ -2127,7 +2128,7 @@ namespace FiresecService.Service
 					Directory.CreateDirectory(dir);
 				var filePath = Path.Combine(dir, attachment.UID.ToString());
 				File.WriteAllBytes(filePath, attachment.Data);
-				
+
 				// Сохраняем метаданные сохраненного файла
 				OperationResult operationResult;
 				using (var databaseService = new SKDDatabaseService())
@@ -2183,7 +2184,7 @@ namespace FiresecService.Service
 			{
 				// Удаляем файл из хранилища
 				File.Delete(fileName);
-				
+
 				// Удаляем метаинформацию удаленного файла
 				using (var databaseService = new SKDDatabaseService())
 				{
@@ -2204,7 +2205,7 @@ namespace FiresecService.Service
 			}
 			return new OperationResult<bool>();
 		}
-		
+
 		#endregion </Attachment>
 	}
 }

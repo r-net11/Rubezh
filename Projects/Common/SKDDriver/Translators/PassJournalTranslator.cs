@@ -124,18 +124,6 @@ namespace SKDDriver.Translators
 			return new OperationResult<List<DayTimeTrackPart>>(resultCollection);
 		}
 
-		private List<DayTimeTrackPart> TrySetOriginalValuesToTimeTracks(List<DayTimeTrackPart> dayTimeTimeTrackParts)
-		{
-			var resultCollection = new List<DayTimeTrackPart>();
-			foreach (var dayTimeTrack in dayTimeTimeTrackParts)
-			{
-				dayTimeTrack.EnterDateTime = dayTimeTrack.EnterTimeOriginal;
-				dayTimeTrack.ExitDateTime = dayTimeTrack.ExitTimeOriginal;
-				resultCollection.Add(dayTimeTrack);
-			}
-			return resultCollection;
-		}
-
 		private Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>> GetIntervalsWithConflicts(IEnumerable<DayTimeTrackPart> originalCollection, List<PassJournal> linkedIntervalsCollection)
 		{
 			var resultDictionary = new Dictionary<DayTimeTrackPart, List<DayTimeTrackPart>>();
@@ -623,6 +611,21 @@ namespace SKDDriver.Translators
 			{
 				return OperationResult<DateTime>.FromError(e.Message);
 			}
+		}
+
+		public PassJournal TryGetOpenedInterval(Guid employeeGuid)
+		{
+			return Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeGuid && x.IsOpen);
+		}
+
+		public void ManualClosingInterval(PassJournal interval, DateTime closedDate)
+		{
+			if (interval == null) return;
+
+			interval.ExitTime = closedDate;
+			interval.ExitTimeOriginal = closedDate;
+			interval.IsOpen = false;
+			Context.SubmitChanges();
 		}
 
 	}
