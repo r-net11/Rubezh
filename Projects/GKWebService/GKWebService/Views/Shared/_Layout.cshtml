@@ -122,7 +122,7 @@
                             <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'MPTs'); } "><span class="icon delays"></span><span class="text">МПТ</span></a></li>
 						</ul>
 					</li>
-					<li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Report'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
+					<li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Journal'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
 					<li><a class="archive" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"><span class="icon archive"></span><span class="text">Архив</span></a></li>
 					<li><a class="reports" href="" data-bind="click: MenuClick"><span class="icon reports"></span><span class="text">Отчёты</span></a></li>
 					<li class="SKD has-sub last">
@@ -165,6 +165,7 @@
     <script src="~/Scripts/app/controllers/signalrCtrl.js"></script>
 	<script src="~/Scripts/app/controllers/planCtrl.js"></script>
 	<script src="~/Scripts/app/directives/d3Plan.js"></script>
+    <script src="~/Scripts/app/services/broadcastService.js"></script>
 	<script src="~/Scripts/app/services/signalrService.js"></script>
     <script src="~/Scripts/app/services/signalrDirectionsService.js"></script>
     <script src="~/Scripts/app/services/signalrFireZonesService.js"></script>

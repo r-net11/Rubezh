@@ -9,9 +9,9 @@ namespace RubezhAPI.Models.Layouts
 		public LayoutPartTimeProperties()
 		{
 			Format = "dd.MM.yyyy H:mm:ss";
-			ForegroundColor = Colors.White;
-			BackgroundColor = Colors.Transparent;
-			BorderColor = Colors.Black;
+			//ForegroundColor = Colors.White; //TODO: mde
+			//BackgroundColor = Colors.Transparent; //TODO: mde
+			//BorderColor = Colors.Black; //TODO: mde
 			BorderThickness = 0;
 			FontSize = 23;
 			HorizontalAlignment = 0;

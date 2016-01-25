@@ -30,7 +30,7 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public ActionResult Report()
+		public ActionResult Journal()
 		{
 			return View();
 		}

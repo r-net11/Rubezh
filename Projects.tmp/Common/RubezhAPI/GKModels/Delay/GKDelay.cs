@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Interfaces;
 using RubezhAPI;
 using System.Linq;
+using Common;
 
 namespace RubezhAPI.GK
 {
@@ -12,7 +12,7 @@ namespace RubezhAPI.GK
 	/// Задержка ГК
 	/// </summary>
 	[DataContract]
-	public class GKDelay : GKBase, IPlanPresentable
+	public class GKDelay : GKBase, IIdentity
 	{
 		public GKDelay()
 		{

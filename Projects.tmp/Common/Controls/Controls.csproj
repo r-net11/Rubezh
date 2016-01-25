@@ -3,18 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Controls</RootNamespace>
     <AssemblyName>Controls</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,7 +21,6 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -33,7 +29,6 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -50,6 +45,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Release\</OutputPath>
@@ -68,13 +64,6 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
@@ -83,10 +72,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\System.Windows.Controls.Input.Toolkit.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -111,6 +96,9 @@
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Input.Toolkit">
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\System.Windows.Controls.Input.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -993,10 +981,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\Briefcase.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="XamlImages\BRuleController.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1209,10 +1193,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\Direction.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="XamlImages\DirectionPolygon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1306,10 +1286,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\FidthToPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlImages\Filter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1413,10 +1389,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\Map.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="XamlImages\MapOff.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1450,14 +1422,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\MPT.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlImages\Music.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlImages\Mute.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1593,10 +1557,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\RubezhLogo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="XamlImages\Save.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1614,10 +1574,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\SelectNone.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlImages\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1701,10 +1657,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\Sound.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="XamlImages\Star.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1745,19 +1697,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\Tree.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="XamlImages\Undo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlImages\User.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlImages\Users.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1777,14 +1717,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="XamlImages\WindowCross.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlImages\WindowNormal.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="XamlImages\write.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1794,10 +1726,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="XamlImages\ZoneRectangle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlImages\Zones.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1813,6 +1741,66 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="XamlImages\briefcase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\direction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\filter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\map.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\music.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\mute.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\rubezhLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\sound.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\tree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\user.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\users.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\windowCross.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\windowNormal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\zones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -1827,64 +1815,22 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\DeleteCross.png" />
     <Resource Include="Images\Alarm_main_2_Attention.png" />
     <Resource Include="Images\Alarm_main_3_Failure.png" />
     <Resource Include="Images\Alarm_main_4_Off.png" />
     <Resource Include="Images\Alarm_main_5_Info.png" />
     <Resource Include="Images\Alarm_main_6_Service.png" />
     <Resource Include="Images\Alarm_main_7_Auto.png" />
-    <Resource Include="Images\Arrow-left-right.png" />
-    <Resource Include="Images\Book.png" />
-    <Resource Include="Images\Check.png" />
-    <Resource Include="Images\cut.png" />
     <Resource Include="Images\DeleteAll.png" />
-    <Resource Include="Images\Download.png" />
-    <Resource Include="Images\edit.png" />
-    <Resource Include="Images\Filter.png" />
-    <Resource Include="Images\Information.png" />
-    <Resource Include="Images\Levels.png" />
-    <Resource Include="Images\Load.png" />
-    <Resource Include="Images\Logo.png" />
-    <Resource Include="Images\Map.png" />
-    <Resource Include="Images\Music.png" />
     <Resource Include="Images\New.png" />
-    <Resource Include="Images\paste.png" />
-    <Resource Include="Images\save.png" />
-    <Resource Include="Images\Settings.png" />
-    <Resource Include="Images\Tree.png" />
-    <Resource Include="Images\User.png" />
-    <Resource Include="Images\Users.png" />
-    <Resource Include="Images\Zones.png" />
-    <Resource Include="Images\add.png" />
-    <Resource Include="Images\delete.png" />
-    <Resource Include="Images\Mute.png" />
-    <Resource Include="Images\Sound.png" />
-    <Resource Include="Images\WindowCross.png" />
-    <Resource Include="Images\WindowNormal.png" />
-    <Resource Include="Images\Archive.png" />
-    <Resource Include="Images\Phone.png" />
     <Resource Include="Images\Copy.png" />
-    <Resource Include="Images\Left.png" />
-    <Resource Include="Images\LeftLeft.png" />
-    <Resource Include="Images\Right.png" />
-    <Resource Include="Images\RightRight.png" />
-    <Resource Include="Images\ArrowDown.png" />
-    <Resource Include="Images\ArrowUp.png" />
-    <Resource Include="Images\Logic.png" />
     <Resource Include="Images\Alarm.png" />
-    <Resource Include="Images\Direction.png" />
     <Resource Include="Images\Ind_C-C.png" />
     <Resource Include="Images\Ind_C-P.png" />
     <Resource Include="Images\Ind_CxC.png" />
     <Resource Include="Images\Ind_CxP.png" />
-    <Resource Include="Images\DeleteEmpty.png" />
     <Resource Include="Images\AddChild.png" />
     <Resource Include="Images\MoveBack.png" />
     <Resource Include="Images\MoveBackward.png" />
@@ -1897,16 +1843,6 @@
     <Resource Include="Images\Rectangle.png" />
     <Resource Include="Images\ZonePolygon.png" />
     <Resource Include="Images\ZoneRectangle.png" />
-    <Resource Include="Images\Shapes-align-hori-center.png" />
-    <Resource Include="Images\Shapes-align-hori-left.png" />
-    <Resource Include="Images\Shapes-align-hori-right.png" />
-    <Resource Include="Images\Shapes-align-verti-bottom.png" />
-    <Resource Include="Images\Shapes-align-verti-middle.png" />
-    <Resource Include="Images\Shapes-align-verti-top.png" />
-    <Resource Include="Images\Shapes-flip-horizontal.png" />
-    <Resource Include="Images\Shapes-flip-vertical.png" />
-    <Resource Include="Images\Shapes-rotate-anticlockwise.png" />
-    <Resource Include="Images\Shapes-rotate-clockwise.png" />
     <Resource Include="Images\SubPlanPolygon.png" />
     <Resource Include="Images\Text.png" />
     <Resource Include="Images\ZoomIn.png" />
@@ -1950,14 +1886,8 @@
     <Resource Include="GKIcons\KAUIndicator.png" />
     <Resource Include="GKIcons\System.png" />
     <Resource Include="Images\Alarm_MPT.png" />
-    <Resource Include="Images\Write.png" />
-    <Resource Include="Images\Read.png" />
     <Resource Include="Images\WidthToPage.png" />
     <Resource Include="Images\HeightToPage.png" />
-    <Resource Include="Images\Readconfig.png" />
-    <Resource Include="Images\Writeconfig.png" />
-    <Resource Include="Images\Adrparameters.png" />
-    <Resource Include="Images\Devparameters.png" />
     <Resource Include="Images\map2.png" />
     <Resource Include="Images\map3.png" />
     <Resource Include="Images\map1.png" />
@@ -1965,7 +1895,6 @@
     <Resource Include="Images\Arrow-down-right.png" />
     <Resource Include="Images\Arrow-up-left.png" />
     <Resource Include="Images\Lamp.png" />
-    <Resource Include="Images\Defconfig.png" />
     <Resource Include="StateClassIcons\Failure.png" />
     <Resource Include="StateClassIcons\Fire2.png" />
     <Resource Include="StateClassIcons\Fire1.png" />
@@ -1976,7 +1905,6 @@
     <Resource Include="StateClassIcons\On.png" />
     <Resource Include="StateClassIcons\Info.png" />
     <Resource Include="StateClassIcons\Unknown.png" />
-    <Resource Include="StateClassIcons\No.png" />
     <Resource Include="StateClassIcons\TurningOn.png" />
     <Resource Include="Images\Folder.png" />
     <Resource Include="Images\FolderOpen.png" />
@@ -2076,7 +2004,6 @@
     <Resource Include="StateClassIcons\TechnologicalRegime.png" />
     <Resource Include="Images\Blue_Direction.png" />
     <Resource Include="Images\Chip.png" />
-    <Resource Include="Images\Zone.png" />
     <Resource Include="Images\PC.png" />
     <Resource Include="Images\map_black.png" />
     <Resource Include="Images\Delay.png" />
@@ -2084,8 +2011,6 @@
     <Resource Include="Images\BLogic.png" />
     <Resource Include="Images\BPasteAll.png" />
     <Resource Include="Images\BBriefcaseAll.png" />
-    <Resource Include="Images\Writeconfig_all.png" />
-    <Resource Include="Images\Readconfig_all.png" />
     <Resource Include="Images\BMoveBack.png" />
     <Resource Include="Images\BMoveBackward.png" />
     <Resource Include="Images\BMoveForward.png" />
@@ -2179,8 +2104,6 @@
     <Resource Include="Images\BMap.png" />
     <Resource Include="Images\BBook.png" />
     <Resource Include="Images\BArchive.png" />
-    <Resource Include="Images\Blank.png" />
-    <Resource Include="Images\NextDifference.png" />
     <Resource Include="Images\previousDifference.png" />
     <Resource Include="Images\Exit.png" />
     <Resource Include="Images\Watch.png" />
@@ -2208,6 +2131,68 @@
     <Resource Include="SKDIcons\Reader.png" />
     <Resource Include="SKDIcons\System.png" />
     <Resource Include="SKDIcons\Controller.png" />
+    <Resource Include="Images\deleteCross.png" />
+    <Resource Include="Images\arrow-left-right.png" />
+    <Resource Include="Images\book.png" />
+    <Resource Include="Images\check.png" />
+    <Resource Include="Images\Cut.png" />
+    <Resource Include="Images\download.png" />
+    <Resource Include="Images\Edit.png" />
+    <Resource Include="Images\filter.png" />
+    <Resource Include="Images\information.png" />
+    <Resource Include="Images\levels.png" />
+    <Resource Include="Images\load.png" />
+    <Resource Include="Images\logo.png" />
+    <Resource Include="Images\map.png" />
+    <Resource Include="Images\music.png" />
+    <Resource Include="Images\Paste.png" />
+    <Resource Include="Images\Save.png" />
+    <Resource Include="Images\settings.png" />
+    <Resource Include="Images\tree.png" />
+    <Resource Include="Images\user.png" />
+    <Resource Include="Images\users.png" />
+    <Resource Include="Images\zones.png" />
+    <Resource Include="Images\Add.png" />
+    <Resource Include="Images\Delete.png" />
+    <Resource Include="Images\mute.png" />
+    <Resource Include="Images\sound.png" />
+    <Resource Include="Images\windowCross.png" />
+    <Resource Include="Images\windowNormal.png" />
+    <Resource Include="Images\archive.png" />
+    <Resource Include="Images\phone.png" />
+    <Resource Include="Images\left.png" />
+    <Resource Include="Images\leftLeft.png" />
+    <Resource Include="Images\right.png" />
+    <Resource Include="Images\rightRight.png" />
+    <Resource Include="Images\arrowDown.png" />
+    <Resource Include="Images\arrowUp.png" />
+    <Resource Include="Images\logic.png" />
+    <Resource Include="Images\direction.png" />
+    <Resource Include="Images\deleteEmpty.png" />
+    <Resource Include="Images\shapes-align-hori-center.png" />
+    <Resource Include="Images\shapes-align-hori-left.png" />
+    <Resource Include="Images\shapes-align-hori-right.png" />
+    <Resource Include="Images\shapes-align-verti-bottom.png" />
+    <Resource Include="Images\shapes-align-verti-middle.png" />
+    <Resource Include="Images\shapes-align-verti-top.png" />
+    <Resource Include="Images\shapes-flip-horizontal.png" />
+    <Resource Include="Images\shapes-flip-vertical.png" />
+    <Resource Include="Images\shapes-rotate-anticlockwise.png" />
+    <Resource Include="Images\shapes-rotate-clockwise.png" />
+    <Resource Include="Images\write.png" />
+    <Resource Include="Images\read.png" />
+    <Resource Include="Images\readconfig.png" />
+    <Resource Include="Images\writeconfig.png" />
+    <Resource Include="Images\adrparameters.png" />
+    <Resource Include="Images\devparameters.png" />
+    <Resource Include="Images\defconfig.png" />
+    <Resource Include="StateClassIcons\no.png" />
+    <Resource Include="Images\zone.png" />
+    <Resource Include="Images\writeconfig_all.png" />
+    <Resource Include="Images\readconfig_all.png" />
+    <Resource Include="Images\blank.png" />
+    <Resource Include="Images\nextDifference.png" />
+    <Resource Include="Images\stock_macro-stop-after-procedure.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\AddTime.png" />
@@ -2405,7 +2390,6 @@
     <Resource Include="Images\ShedulesDaylyW.png" />
     <Resource Include="Images\ShedulesMonthlyW.png" />
     <Resource Include="Images\SKDW.png" />
-    <Resource Include="Images\Stock_macro-stop-after-procedure.png" />
     <Resource Include="Images\TimeTrackingW.png" />
   </ItemGroup>
   <ItemGroup>

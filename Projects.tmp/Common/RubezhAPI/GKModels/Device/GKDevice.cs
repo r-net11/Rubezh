@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Interfaces;
+﻿using Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace RubezhAPI.GK
 	/// Устройство ГК
 	/// </summary>
 	[DataContract]
-	public class GKDevice : GKBase, IPlanPresentable
+	public class GKDevice : GKBase, IIdentity
 	{
 		public GKDevice()
 		{

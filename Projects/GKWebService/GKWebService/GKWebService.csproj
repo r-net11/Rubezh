@@ -371,6 +371,7 @@
     <Content Include="Scripts\app\controllers\zonesCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
     <Content Include="Scripts\app\directives\ngJqGrid.js" />
+    <Content Include="Scripts\app\services\broadcastService.js" />
     <Content Include="Scripts\app\services\signalrDirectionsService.js" />
     <Content Include="Scripts\app\services\signalrFireZonesService.js" />
     <Content Include="Scripts\app\services\signalrService.js" />
@@ -381,7 +382,7 @@
     <Content Include="Content\main.less" />
     <Content Include="Content\menu.less" />
     <Content Include="Content\logon.less" />
-    <Content Include="Content\report.less" />
+    <Content Include="Content\journal.less" />
     <Content Include="Content\archive.less" />
     <Content Include="Content\tab.less" />
     <Content Include="Content\favicon\manifest.json" />
@@ -549,8 +550,11 @@
     <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
-    <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\GK\DeviceControlRegime.cs" />
+    <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
+    <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
     <Compile Include="Models\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
@@ -613,7 +617,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\State.cshtml" />
     <Content Include="Views\Home\Device.cshtml" />
-    <Content Include="Views\Home\Report.cshtml" />
     <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
     <Content Include="Views\Hr\HrEmployees.cshtml" />
@@ -656,6 +659,7 @@
     <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
+    <Content Include="Views\Home\Journal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.GK
 {
 	/// <summary>
 	/// Точка доступа ГК
 	/// </summary>
-	public class GKDoor : GKBase, IPlanPresentable
+	public class GKDoor : GKBase, IIdentity
 	{
 		public GKDoor()
 		{

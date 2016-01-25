@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Infrastructure.Automation</RootNamespace>
     <AssemblyName>Infrastructure.Automation</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -60,19 +60,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RubezhAPI\RubezhAPI.csproj">
-      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>RubezhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
-      <Name>Infrustructure.Plans</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RubezhClient\RubezhClient.csproj">
-      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>RubezhClient</Name>
     </ProjectReference>
   </ItemGroup>

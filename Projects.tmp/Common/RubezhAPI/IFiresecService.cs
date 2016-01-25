@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using RubezhAPI.Automation;
-using OpcClientSdk;
-using OpcClientSdk.Da;
 
 namespace RubezhAPI
 {

@@ -16,7 +16,7 @@ namespace RubezhAPI.Models.Layouts
 			Parts = new List<LayoutPart>();
 			HostNameOrAddressList = new List<string>();
 			SplitterSize = 4;
-			SplitterColor = Colors.Transparent;
+			//SplitterColor = Colors.Transparent; //TODO: mde
 			IsRibbonEnabled = true;
 		}
 		public Layout(List<string> otherCaptions)

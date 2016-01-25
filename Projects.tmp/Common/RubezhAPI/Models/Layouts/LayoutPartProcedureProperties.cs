@@ -9,9 +9,9 @@ namespace RubezhAPI.Models.Layouts
 		public LayoutPartProcedureProperties()
 		{
 			Text = "";
-			ForegroundColor = Colors.Black;
-			BackgroundColor = Colors.White;
-			BorderColor = Colors.Black;
+			//ForegroundColor = Colors.Black; //TODO: mde
+			//BackgroundColor = Colors.White; //TODO: mde
+			//BorderColor = Colors.Black; //TODO: mde
 			BorderThickness = 1;
 			FontSize = 10;
 			TextAlignment = 0;
