@@ -348,35 +348,9 @@ namespace RubezhAPI.Automation
 					break;
 				case ProcedureStepType.ControlPlanGet:
 				case ProcedureStepType.ControlPlanSet:
-					{
-						var controlPlanArguments = step.ControlPlanArguments;
-						if (ConfigurationCash.PlansConfiguration == null || ConfigurationCash.PlansConfiguration.AllPlans == null)
-							return;
-						var plan = ConfigurationCash.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == controlPlanArguments.PlanUid);
-						if (plan == null)
-						{
-							controlPlanArguments.PlanUid = Guid.Empty;
-							controlPlanArguments.ElementUid = Guid.Empty;
-						}
-						else
-						{
-							if (plan.AllElements.All(x => x.UID != controlPlanArguments.ElementUid))
-								controlPlanArguments.ElementUid = Guid.Empty;
-						}
-						InvalidateArgument(procedure, controlPlanArguments.ValueArgument);
-					}
 					break;
 				case ProcedureStepType.ControlOpcDaTagGet:
 				case ProcedureStepType.ControlOpcDaTagSet:
-					var server = OpcDaTsServers.FirstOrDefault(x => x.Uid == step.ControlOpcDaTagArguments.OpcDaServerUID);
-					if (server == null)
-					{
-						step.ControlOpcDaTagArguments.OpcDaServerUID = Guid.Empty;
-						step.ControlOpcDaTagArguments.OpcDaTagUID = Guid.Empty;
-					}
-					else if (server.Tags.All(x => x.Uid != step.ControlOpcDaTagArguments.OpcDaTagUID))
-						step.ControlOpcDaTagArguments.OpcDaTagUID = Guid.Empty;
-					InvalidateArgument(procedure, step.ControlOpcDaTagArguments.ValueArgument);
 					break;
 				case ProcedureStepType.ShowDialog:
 					InvalidateArgument(procedure, step.ShowDialogArguments.WindowIDArgument);

@@ -4,12 +4,11 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
 using RubezhAPI.GK;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.Models
 {
 	[DataContract]
-	public class Camera : IStateProvider, IPlanPresentable
+	public class Camera : IStateProvider, IIdentity
 	{
 		public Camera()
 		{

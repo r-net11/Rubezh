@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Interfaces;
+using Common;
 using RubezhAPI;
 using System.Linq;
 
@@ -12,7 +12,7 @@ namespace RubezhAPI.GK
 	/// Направление ГК
 	/// </summary>
 	[DataContract]
-	public class GKDirection : GKBase, IPlanPresentable
+	public class GKDirection : GKBase, IIdentity
 	{
 		public GKDirection()
 		{

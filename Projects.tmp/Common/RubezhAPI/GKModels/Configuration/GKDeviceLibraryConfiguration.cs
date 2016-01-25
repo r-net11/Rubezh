@@ -18,14 +18,7 @@ namespace RubezhAPI.GK
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			foreach (var libraryDevice in GKDevices)
-			{
-				if (libraryDevice.UID == Guid.Empty)
-				{
-					libraryDevice.UID = Guid.NewGuid();
-					result = false;
-				}
-			}
+			//TODO: mde
 			return result;
 		}
 	}

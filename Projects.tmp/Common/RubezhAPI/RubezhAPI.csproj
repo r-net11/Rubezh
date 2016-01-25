@@ -109,13 +109,9 @@
     <Reference Include="Entities">
       <HintPath>..\..\..\3rdParty\RVIVSS\Entities.dll</HintPath>
     </Reference>
-    <Reference Include="OpcClientSdk40">
-      <HintPath>..\..\..\3rdParty\OPC\OpcClientSdk40.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SqlXml" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -123,13 +119,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
@@ -147,14 +138,9 @@
     <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="IBindable.cs" />
-    <Compile Include="Models\Automation\OPC DA\OpcDaElement.cs" />
-    <Compile Include="Models\Automation\OPC DA\OpcDaGroup.cs" />
-    <Compile Include="Models\Automation\OPC DA\OpcDaTagValue.cs" />
-    <Compile Include="Models\Automation\OPC DA\OpcServerStructure.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlElementType.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
-    <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlOpcDaTagArguments.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
@@ -189,8 +175,6 @@
     <Compile Include="Models\Automation\ContextType.cs" />
     <Compile Include="Models\Automation\ElementProperty.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
-    <Compile Include="Models\Automation\OPC DA\OpcDaTag.cs" />
-    <Compile Include="Models\Automation\OPC DA\OpcDaServer.cs" />
     <Compile Include="Models\Automation\OPC\OPCTag.cs" />
     <Compile Include="Models\Automation\OPC\OPCServer.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
@@ -261,20 +245,10 @@
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
     <Compile Include="Models\Layouts\LayoutPartAdditionalProperties.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKDelay.cs" />
     <Compile Include="Models\Layouts\LayoutPartTextProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartTimeProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartProcedureProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
-    <Compile Include="Models\Plans\ElementGKDoor.cs" />
-    <Compile Include="Models\Plans\ElementProcedure.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKGuardZone.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKDelay.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKGuardZone.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKSKDZone.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKSKDZone.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKMPT.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKMPT.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackData.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackResult.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
@@ -375,7 +349,6 @@
     <Compile Include="Models\Layouts\Layout.cs" />
     <Compile Include="Models\Layouts\LayoutPartPlansProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartPlansType.cs" />
-    <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnDataType.cs" />
     <Compile Include="SKD\AdditionalColumn\ShortAdditionalColumnType.cs" />
@@ -437,14 +410,8 @@
     <Compile Include="Models\Notification\Email.cs" />
     <Compile Include="Models\Notification\EmailData.cs" />
     <Compile Include="Models\Notification\EmailSettings.cs" />
-    <Compile Include="Models\Plans\ElementRectangleTank.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKDirection.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKDirection.cs" />
-    <Compile Include="Models\Plans\PlanFolder.cs" />
     <Compile Include="SKD\Card\AccessTemplate.cs" />
     <Compile Include="VersionedConfiguration.cs" />
-    <Compile Include="Models\Plans\ElementPolygonGKZone.cs" />
-    <Compile Include="Models\Plans\ElementRectangleGKZone.cs" />
     <Compile Include="GKManager\GKManager.Actions.cs" />
     <Compile Include="GKManager\GKManager.cs" />
     <Compile Include="GKManager\GKManager.Device.cs" />
@@ -457,20 +424,12 @@
     <Compile Include="GKModels\Device\GKDeviceParameterTemplate.cs" />
     <Compile Include="GKModels\Device\GKParameterTemplate.cs" />
     <Compile Include="GKModels\Directions\GKDirection.cs" />
-    <Compile Include="Models\Plans\ElementGKDevice.cs" />
-    <Compile Include="Models\Plans\ElementPolyline.cs" />
-    <Compile Include="Models\Plans\ElementPolygon.cs" />
-    <Compile Include="Models\Plans\ElementTextBlock.cs" />
-    <Compile Include="Models\Plans\ElementEllipse.cs" />
-    <Compile Include="Models\Plans\ElementRectangle.cs" />
     <Compile Include="Models\Security\PermissionType.cs" />
     <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\Security\RemoteAccess.cs" />
     <Compile Include="Models\Video\Camera.cs" />
-    <Compile Include="Models\Plans\ElementSubPlan.cs" />
-    <Compile Include="Models\Plans\Plan.cs" />
     <Compile Include="Models\System\Sound.cs" />
     <Compile Include="Models\Configuration\SystemConfiguration.cs" />
     <Compile Include="OperationResult.cs" />
@@ -537,26 +496,18 @@
     <Compile Include="GKModels\GKMeasureParameterValue.cs" />
     <Compile Include="GKModels\GKState.cs" />
     <Compile Include="GKModels\Zone\GKZone.cs" />
+    <Compile Include="Gags.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Security\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

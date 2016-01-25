@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.Automation
 {
 	[DataContract]
-	public class Procedure : IPlanPresentable
+	public class Procedure : IIdentity
 	{
 		public Procedure()
 		{

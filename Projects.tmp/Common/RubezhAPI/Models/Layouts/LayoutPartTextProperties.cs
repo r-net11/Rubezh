@@ -10,8 +10,8 @@ namespace RubezhAPI.Models.Layouts
 		{
 			HorizontalAlignment = 0;
 			VerticalAlignment = 0;
-			BackgroundColor = Colors.Transparent;
-			ForegroundColor = Colors.Black;
+			//BackgroundColor = Colors.Transparent; //TODO: mde
+			//ForegroundColor = Colors.Black; //TODO: mde
 			Text = string.Empty;
 			FontFamilyName = "Arial";
 			FontSize = 12;
