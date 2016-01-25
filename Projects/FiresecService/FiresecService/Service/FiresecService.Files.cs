@@ -1,4 +1,5 @@
 ﻿using Common;
+using FiresecService.Processor;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Ionic.Zip;
@@ -131,6 +132,7 @@ namespace FiresecService.Service
 			ScheduleRunner.SetNewConfig();
 			AutomationProcessor.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
+			OpcDaServersProcessor.SetNewConfig();
 			OpcDaHelper.UpdateTagList(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);
 			ServerState = RubezhAPI.ServerState.Ready;
 			NotifyConfigurationChanged();

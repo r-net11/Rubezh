@@ -139,6 +139,12 @@ namespace FiresecService.Processor
 			}
 		}
 
+		public static void SetNewConfig()
+		{
+			Stop();
+			Start();
+		}
+
 		public static OpcDaServer[] GetOpcDaServers()
 		{
 			return (OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20)
