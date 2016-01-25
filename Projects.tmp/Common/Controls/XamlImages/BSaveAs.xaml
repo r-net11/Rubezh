@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="BSaveAs" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 10.7362,34.7565L 17.8029,34.7565L 18.5776,32.0899L 10.7362,32.0899L 10.7362,34.7565 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 26.7226,13.444L 21.3893,13.444L 21.3893,2.72136L 26.7226,2.72136L 26.7226,13.444 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 22.7649,26.7774L 10.7369,26.7774L 10.7369,29.444L 21.2236,29.444L 22.7649,27.9027L 22.7649,26.7774 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 25.692,35.5716L 19.836,37.337L 21.604,31.4837L 25.692,35.5716 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 26.8482,34.6068L 22.6642,30.4228L 31.6803,21.4081L 35.8642,25.5895L 26.8482,34.6068 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 36.925,24.5301L 32.7411,20.3461L 35.9224,17.1647L 40.1064,21.3473L 36.925,24.5301 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 5.444,34.7774L 2.73599,34.7774L 2.73599,32.0694L 5.444,32.0694M 37.444,8.00005C 37.444,6.96135 36.8426,5.50938 36.1093,4.7747L 32.6693,1.33604C 31.936,0.601364 30.484,4.57764e-005 29.444,4.57764e-005L 29.3613,4.57764e-005L 29.3613,16.028L 5.444,16.028L 5.444,4.57764e-005L 1.88931,4.57764e-005C 0.850647,4.57764e-005 0,0.849411 0,1.88933L 0,35.444C 0,36.4827 0.850647,37.3334 1.88931,37.3334L 8.11066,37.3334L 8.11066,21.444L 28.6667,21.444L 37.444,12.6667L 37.444,8.00005 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 32.028,32.6667L 32.028,37.3334L 35.556,37.3334C 36.5947,37.3334 37.444,36.4827 37.444,35.444L 37.444,27.2507L 32.028,32.6667 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>
