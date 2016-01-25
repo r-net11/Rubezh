@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="shapes-rotate-clockwise" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 26.8893,0L 37.556,26.5L 26.8893,26.5413L 26.8893,0 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 24.056,13.25L 24.056,26.542L 0,26.542L 24.056,13.25 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 12.0273,0L 21.4433,6.58264L 12.0273,13.248L 12.0273,9.13867C 12.0273,9.13867 6.194,8.8053 2.88867,10.472C 6.494,4.66669 12.0273,4.58398 12.0273,4.58398L 12.0273,0 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

@@ -1,0 +1,48 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Minify" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M 30.1667,38.0833L 40.3053,25.806L 43.2507,28.4167L 35.528,38.0833L 43.2507,47.694L 40.3333,50.1673L 30.1667,38.0833 Z "/>
+					<GeometryDrawing Geometry="F1 M 68,38C 68,54.568 54.568,68 38,68C 21.432,68 8,54.568 8,38C 8,21.432 21.432,7.99999 38,7.99999C 54.568,7.99999 68,21.432 68,38 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="4" MiterLimit="2.75" Brush="#FFFFFFFF"/>
+						</GeometryDrawing.Pen>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>
+<!--<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Minify" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 68,38C 68,54.568 54.568,68 38,68C 21.432,68 8,54.568 8,38C 8,21.432 21.432,7.99999 38,7.99999C 54.568,7.99999 68,21.432 68,38 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="4" MiterLimit="2.75" Brush="#FFFFFFFF" />
+						</GeometryDrawing.Pen>
+					</GeometryDrawing>
+					<GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M 42.4792,24.5833L 32.6672,34.646L 53.9579,34.75L 53.9579,41.7087L 32.7459,41.7087L 42.5432,51.8327L 33.2032,51.8327L 20.1259,38.138L 33.1192,24.5833L 42.4792,24.5833 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>-->
+<!--<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Minify" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 68,38C 68,54.568 54.568,68 38,68C 21.432,68 8,54.568 8,38C 8,21.432 21.432,7.99999 38,7.99999C 54.568,7.99999 68,21.432 68,38 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="4" MiterLimit="2.75" Brush="#FFFFFFFF" />
+						</GeometryDrawing.Pen>
+					</GeometryDrawing>
+					<GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M 37.75,25.8056L 25.9167,38.0003L 37.75,50.0829L 40.3607,47.5829L 32.666,39.6109L 49.8887,39.6389L 49.8887,36.2216L 32.694,36.2216L 40.3887,28.3056L 37.75,25.8056 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>-->

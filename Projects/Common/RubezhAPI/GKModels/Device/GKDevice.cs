@@ -78,204 +78,132 @@ namespace RubezhAPI.GK
 			if (Driver.HasMirror)
 			{
 				OutputDependentElements = new List<GKBase>();
-				InvalidateReflection(deviceConfiguration);
-			}
-		}
-		void InvalidateReflection(GKDeviceConfiguration deviceConfiguration)
-		{
-			switch (DriverType)
-			{
-				case GKDriverType.DetectorDevicesMirror:
-					GKReflectionItem.DeviceUIDs.ForEach(x =>
-					{
-						var device = deviceConfiguration.Devices.FirstOrDefault(y => y.UID == x);
-						if (device != null)
-						{
-							if (!GKReflectionItem.Devices.Contains(device))
-								GKReflectionItem.Devices.Add(device);
-							AddDependentElement(device);
-						}
-						else
-						{
-							GKReflectionItem.Devices.RemoveAll(z => z.UID == x);
-							GKReflectionItem.DeviceUIDs.Remove(x);
-						}
-					});
-					break;
-				case GKDriverType.ControlDevicesMirror:
-					GKReflectionItem.DeviceUIDs.ForEach(x =>
-					{
-						var device = deviceConfiguration.Devices.FirstOrDefault(y => y.UID == x);
-						if (device != null)
-						{
-							if (!GKReflectionItem.Devices.Contains(device))
-								GKReflectionItem.Devices.Add(device);
-							AddDependentElement(device);
-							device.AddDependentElement(this);
-						}
-						else
-						{
-							GKReflectionItem.Devices.RemoveAll(z => z.UID == x);
-							GKReflectionItem.DeviceUIDs.Remove(x);
-						}
-					});
+				var delays = new List<GKDelay>();
+				var mpts = new List<GKMPT>();
+				var pumpStantoins = new List<GKPumpStation>();
+				var guardZones = new List<GKGuardZone>();
 
-					GKReflectionItem.DiretionUIDs.ForEach(x =>
-					{
-						var derection = deviceConfiguration.Directions.FirstOrDefault(y => y.UID == x);
-						if (derection != null)
-						{
-							if (!GKReflectionItem.Diretions.Contains(derection))
-								GKReflectionItem.Diretions.Add(derection);
-							AddDependentElement(derection);
-							derection.AddDependentElement(this);
-						}
-						else
-						{
-							GKReflectionItem.Diretions.RemoveAll(z => z.UID == x);
-							GKReflectionItem.DiretionUIDs.Remove(x);
-						}
-					});
+				switch (DriverType)
+				{
+					case GKDriverType.DetectorDevicesMirror:
+						CreatReflectionDevices(deviceConfiguration);
+						break;
+					case GKDriverType.ControlDevicesMirror:
+						CreatReflectionDevices(deviceConfiguration);
+						CreatReflectionDirection(deviceConfiguration);
 
-					GKReflectionItem.DelayUIDs.ForEach(x =>
-					{
-						var delay = deviceConfiguration.Delays.FirstOrDefault(y => y.UID == x);
-						if (delay != null)
+						GKReflectionItem.DelayUIDs.ForEach(x =>
 						{
-							if (!GKReflectionItem.Delays.Contains(delay))
-								GKReflectionItem.Delays.Add(delay);
-							AddDependentElement(delay);
-							delay.AddDependentElement(this);
-						}
-						else
-						{
-							GKReflectionItem.Delays.RemoveAll(z => z.UID == x);
-							GKReflectionItem.DelayUIDs.Remove(x);
-						}
-					});
-					GKReflectionItem.MPTUIDs.ForEach(x =>
-					{
-						var mpt = deviceConfiguration.MPTs.FirstOrDefault(y => y.UID == x);
-						if (mpt != null)
-						{
-							if (!GKReflectionItem.MPTs.Contains(mpt))
-								GKReflectionItem.MPTs.Add(mpt);
-							AddDependentElement(mpt);
-							mpt.AddDependentElement(this);
-						}
-						else
-						{
-							GKReflectionItem.MPTs.RemoveAll(z => z.UID == x);
-							GKReflectionItem.MPTUIDs.Remove(x);
-						}
-					});
-					GKReflectionItem.NSUIDs.ForEach(x =>
-					{
-						var pump = deviceConfiguration.PumpStations.FirstOrDefault(y => y.UID == x);
-						if (pump != null)
-						{
-							if (!GKReflectionItem.NSs.Contains(pump))
-								GKReflectionItem.NSs.Add(pump);
-							AddDependentElement(pump);
-							pump.AddDependentElement(this);
-						}
-						else
-						{
-							GKReflectionItem.NSs.RemoveAll(z => z.UID == x);
-							GKReflectionItem.NSUIDs.Remove(x);
-						}
-					});
-					break;
-				case GKDriverType.DirectionsMirror:
-					GKReflectionItem.DiretionUIDs.ForEach(x =>
-					{
-						var derection = deviceConfiguration.Directions.FirstOrDefault(y => y.UID == x);
-						if (derection != null)
-						{
-							if (!GKReflectionItem.Diretions.Contains(derection))
-								GKReflectionItem.Diretions.Add(derection);
-							AddDependentElement(derection);
-							derection.AddDependentElement(this);
-						}
-						else
-						{
-							GKReflectionItem.Diretions.RemoveAll(z => z.UID == x);
-							GKReflectionItem.DiretionUIDs.Remove(x);
-						}
-					});
-					break;
-				case GKDriverType.FireZonesMirror:
-					GKReflectionItem.ZoneUIDs.ForEach(x =>
-					{
-						var zone = deviceConfiguration.Zones.FirstOrDefault(y => y.UID == x);
-						if (zone != null)
-						{
-							if (!GKReflectionItem.Zones.Contains(zone))
-								GKReflectionItem.Zones.Add(zone);
-							AddDependentElement(zone);
-							zone.AddDependentElement(this);
-						}
-						else
-						{
-							GKReflectionItem.Zones.RemoveAll(z => z.UID == x);
-							GKReflectionItem.ZoneUIDs.Remove(x);
-						}
-					});
-					break;
-				case GKDriverType.FirefightingZonesMirror:
-					GKReflectionItem.ZoneUIDs.ForEach(x =>
-					{
-						var zone = deviceConfiguration.Zones.FirstOrDefault(y => y.UID == x);
-						if (zone != null)
-						{
-							if (!GKReflectionItem.Zones.Contains(zone))
-								GKReflectionItem.Zones.Add(zone);
-							AddDependentElement(zone);
-							zone.AddDependentElement(this);
-						}
-						else
-						{
-							GKReflectionItem.Zones.RemoveAll(z => z.UID == x);
-							GKReflectionItem.ZoneUIDs.Remove(x);
-						}
-					});
-
-					GKReflectionItem.DiretionUIDs.ForEach(x =>
-						{
-							var derection = deviceConfiguration.Directions.FirstOrDefault(y => y.UID == x);
-							if (derection != null)
+							var delay = deviceConfiguration.Delays.FirstOrDefault(y => y.UID == x);
+							if (delay != null)
 							{
-								if (!GKReflectionItem.Diretions.Contains(derection))
-									GKReflectionItem.Diretions.Add(derection);
-								AddDependentElement(derection);
-								derection.AddDependentElement(this);
-							}
-							else
-							{
-								GKReflectionItem.Diretions.RemoveAll(z => z.UID == x);
-								GKReflectionItem.DiretionUIDs.Remove(x);
+								delays.Add(delay);
+								AddDependentElement(delay);
+								delay.AddDependentElement(this);
 							}
 						});
-					break;
-				case GKDriverType.GuardZonesMirror:
-					GKReflectionItem.GuardZoneUIDs.ForEach(x =>
-					{
-						var zone = deviceConfiguration.GuardZones.FirstOrDefault(y => y.UID == x);
-						if (zone != null)
+						GKReflectionItem.Delays = new List<GKDelay>(delays);
+						GKReflectionItem.DelayUIDs = new List<Guid>(delays.Select(x => x.UID));
+
+						GKReflectionItem.MPTUIDs.ForEach(x =>
 						{
-							if (!GKReflectionItem.GuardZones.Contains(zone))
-								GKReflectionItem.GuardZones.Add(zone);
-							AddDependentElement(zone);
-							zone.AddDependentElement(this);
-						}
-						else
+							var mpt = deviceConfiguration.MPTs.FirstOrDefault(y => y.UID == x);
+							if (mpt != null)
+							{
+								mpts.Add(mpt);
+								AddDependentElement(mpt);
+								mpt.AddDependentElement(this);
+							}
+						});
+						GKReflectionItem.MPTs = new List<GKMPT>(mpts);
+						GKReflectionItem.MPTUIDs = new List<Guid>(mpts.Select(x => x.UID));
+
+						GKReflectionItem.NSUIDs.ForEach(x =>
 						{
-							GKReflectionItem.GuardZones.RemoveAll(z=> z.UID == x);
-							GKReflectionItem.GuardZoneUIDs.Remove(x);
-						}
-					});
-					break;
+							var pump = deviceConfiguration.PumpStations.FirstOrDefault(y => y.UID == x);
+							if (pump != null)
+							{
+								pumpStantoins.Add(pump);
+								AddDependentElement(pump);
+								pump.AddDependentElement(this);
+							}
+						});
+						GKReflectionItem.NSs = new List<GKPumpStation>(pumpStantoins);
+						GKReflectionItem.NSUIDs = new List<Guid>(pumpStantoins.Select(x => x.UID));
+						break;
+					case GKDriverType.DirectionsMirror:
+						CreatReflectionDirection(deviceConfiguration);
+						break;
+					case GKDriverType.FireZonesMirror:
+						CreatReflectionFire(deviceConfiguration);
+						break;
+					case GKDriverType.FirefightingZonesMirror:
+						CreatReflectionFire(deviceConfiguration);
+						CreatReflectionDirection(deviceConfiguration);
+						break;
+					case GKDriverType.GuardZonesMirror:
+						GKReflectionItem.GuardZoneUIDs.ForEach(x =>
+						{
+							var zone = deviceConfiguration.GuardZones.FirstOrDefault(y => y.UID == x);
+							if (zone != null)
+							{
+								guardZones.Add(zone);
+								AddDependentElement(zone);
+								zone.AddDependentElement(this);
+							}
+						});
+						GKReflectionItem.GuardZones = new List<GKGuardZone>(guardZones);
+						GKReflectionItem.GuardZoneUIDs = new List<Guid>(guardZones.Select(x => x.UID));
+						break;
+				}
 			}
+		}
+		
+		void CreatReflectionDevices(GKDeviceConfiguration deviceConfiguration)
+		{
+			var _device = new List<GKDevice>();
+			GKReflectionItem.DeviceUIDs.ForEach(x =>
+			{
+				var device = deviceConfiguration.Devices.FirstOrDefault(y => y.UID == x);
+				if (device != null)
+				{
+					_device.Add(device);
+					AddDependentElement(device);
+				}
+			});
+			GKReflectionItem.Devices = new List<GKDevice>(_device);
+			GKReflectionItem.DeviceUIDs = new List<Guid>(_device.Select(x => x.UID));
+		}
+		void CreatReflectionDirection(GKDeviceConfiguration deviceConfiguration)
+		{
+			var _direction = new List<GKDirection>();
+			GKReflectionItem.DiretionUIDs.ForEach(x =>
+			{
+				var direction = deviceConfiguration.Directions.FirstOrDefault(y => y.UID == x);
+				if (direction != null)
+				{
+					_direction.Add(direction);
+					AddDependentElement(direction);
+				}
+			});
+			GKReflectionItem.Diretions = new List<GKDirection>(_direction);
+			GKReflectionItem.DiretionUIDs = new List<Guid>(_direction.Select(x => x.UID));
+		}
+
+		void CreatReflectionFire(GKDeviceConfiguration deviceConfiguration)
+		{
+			var _zone = new List<GKZone>();
+			GKReflectionItem.ZoneUIDs.ForEach(x =>
+			{
+				var zone = deviceConfiguration.Zones.FirstOrDefault(y => y.UID == x);
+				if (zone != null)
+				{
+					_zone.Add(zone);
+					AddDependentElement(zone);
+				}
+			});
+			GKReflectionItem.Zones = new List<GKZone>(_zone);
+			GKReflectionItem.ZoneUIDs = new List<Guid>(_zone.Select(x => x.UID));
 		}
 		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
 		{

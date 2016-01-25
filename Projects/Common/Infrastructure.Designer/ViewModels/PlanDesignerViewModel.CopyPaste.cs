@@ -95,14 +95,9 @@ namespace Infrastructure.Designer.ViewModels
 				return true;
 
 			var elementGKDevice = element as ElementGKDevice;
-			bool deviceExistsOnCanvas = DesignerCanvas.Items
-				.Select(item => item.Element)
-				.OfType<ElementGKDevice>()
-				.Any(device => device.ItemUID == elementGKDevice.ItemUID);
-
 			if (!elementGKDevice.AllowMultipleVizualization)
 			{
-				if (deviceExistsOnCanvas || this.clipboard.SourceAction == ClipboardSourceAction.Copy)
+				if (this.clipboard.SourceAction == ClipboardSourceAction.Copy)
 					return false;
 			}
 			return true;

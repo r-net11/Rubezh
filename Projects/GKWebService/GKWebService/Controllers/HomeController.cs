@@ -109,6 +109,7 @@ namespace GKWebService.Controllers
 			{
 				data.Add(new MPTModel {Name = mpt.Name, No = mpt.No, UID = mpt.UID});
 			}
+			data.Reverse();
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
