@@ -5,8 +5,6 @@ using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
-using OpcClientSdk;
-using OpcClientSdk.Da;
 
 namespace RubezhClient
 {

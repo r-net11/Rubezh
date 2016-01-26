@@ -1,6 +1,4 @@
-﻿using OpcClientSdk;
-using OpcClientSdk.Da;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;

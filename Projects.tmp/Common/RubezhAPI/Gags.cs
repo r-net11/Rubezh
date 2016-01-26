@@ -7,8 +7,6 @@ namespace RubezhAPI
 	public class OpcServerStatus { }
 	public class OpcDaTagValue { }
 
-	public class PassCardTemplate { }
-
 	public class Color { }
 	public class Stretch { }
 
