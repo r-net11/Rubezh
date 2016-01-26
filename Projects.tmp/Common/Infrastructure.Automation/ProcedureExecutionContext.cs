@@ -163,7 +163,7 @@ namespace Infrastructure.Automation
 					if (target.EnumType == EnumType.JournalObjectType)
 						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { JournalObjectTypeValue = (JournalObjectType)x }).ToList();
 					if (target.EnumType == EnumType.ColorType)
-						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { ColorValue = (Color)x }).ToList();
+						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { ColorValue = (RubezhAPI.Color)x }).ToList();
 				}
 			}
 			else
@@ -193,7 +193,7 @@ namespace Infrastructure.Automation
 					if (target.EnumType == EnumType.JournalObjectType)
 						target.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)value;
 					if (target.EnumType == EnumType.ColorType)
-						target.ExplicitValue.ColorValue = (Color)value;
+						target.ExplicitValue.ColorValue = (RubezhAPI.Color)value;
 				}
 			}
 			if (ContextType == ContextType.Server)
