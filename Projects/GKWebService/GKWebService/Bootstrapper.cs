@@ -46,7 +46,7 @@ namespace GKWebService
 		private static void SubscribeOnServiceStateEvents()
 		{
 			SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
-            SafeFiresecService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
+			SafeFiresecService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
 		}
 
 		private static void SafeFiresecServiceOnConnectionAppeared()
@@ -132,6 +132,7 @@ namespace GKWebService
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
+					delay.State.OnStateChanged();
 				}
 			}
 			foreach (var remotePimState in gkStates.PimStates)

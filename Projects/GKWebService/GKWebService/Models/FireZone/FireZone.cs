@@ -33,20 +33,10 @@ namespace GKWebService.Models.FireZone
         /// Состояние зоны
         /// </summary>
         public String StateLabel { get; set; }
-
-        /// <summary>
-        /// Список устройств для этой зоны
-        /// </summary>
-        public List<Device> devicesList;
-
+        
         /// <summary>
         /// Имя зоны
         /// </summary>
         public String DescriptorPresentationName { get; set; }
-
-        public FireZone()
-        {
-            devicesList = new List<Device>();
-        }
     }
 }

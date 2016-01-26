@@ -5,6 +5,8 @@ using System.Linq;
 using GKWebService.Models.FireZone;
 using GKWebService.Utils;
 using System;
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
 
 namespace GKWebService.DataProviders.FireZones
 {
@@ -25,52 +27,90 @@ namespace GKWebService.DataProviders.FireZones
             }
         }
 
-        public FireZone GetFireZones()
+        /// <summary>
+        /// Метод, предоставляющий данные 
+        /// для вкладки "Пожарные зоны"
+        /// </summary>
+        /// <returns>Список зон с соответствующими устройствами</returns>
+        public List<FireZone> GetFireZones()
         {
-            var gkStates = ClientManager.FiresecService.GKGetStates();
-            GKZone zone = GKManager.Zones[0];
-            foreach (var remoteZoneState in gkStates.ZoneStates)
+            //Формируем список зон со всеми необходимыми данными
+            List<FireZone> list = new List<FireZone>();
+
+            //Проходимся по списку всех пожарных зон
+            foreach (var currentZone in GKManager.Zones)
             {
-                zone = GKManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
-                if (zone != null)
+                //Получаем зону
+                var zone = currentZone;
+                //Заносим в нее статус
+                var gkStates = ClientManager.FiresecService.GKGetStates();
+                foreach (var remoteZoneState in gkStates.ZoneStates)
                 {
-                    remoteZoneState.CopyTo(zone.State);
-                    break;
+                    if (currentZone.UID == remoteZoneState.UID)
+                    {
+                        remoteZoneState.CopyTo(zone.State);
+                        break;
+                    }
                 }
+                FireZone data = new FireZone();
+                data.StateLabel = Convert.ToString(zone.State.StateClasses[0]);
+                data.DescriptorPresentationName = zone.DescriptorPresentationName;
+                data.Fire1Count = zone.Fire1Count;
+                data.Fire2Count = zone.Fire2Count;
+                data.ImageSource = InternalConverter.GetImageResource(zone.ImageSource);
+                data.StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(zone.State.StateClass) + ".png");
+                list.Add(data);
             }
+            return list;
+        }
 
-            //Создали объект для передачи на клиент и заполняем его данными
-            FireZone data = new FireZone();
 
-            data.StateLabel = Convert.ToString(gkStates.ZoneStates[0].StateClasses[0]);
+        public List<DeviceNode> GetDevicesByZone(int zoneNumber)
+        {
+            List<DeviceNode> listTree = new List<DeviceNode>();
 
-            //Имя зоны
-            data.DescriptorPresentationName = zone.DescriptorPresentationName;
+            DeviceNode data = new DeviceNode();
 
-            //Количество датчиков для перевода в состояние Пожар1
-            data.Fire1Count = zone.Fire1Count;
+            int level = 0;
 
-            //Количество датчиков для перевода в состояние Пожар2
-            data.Fire2Count = zone.Fire2Count;
-
-            //Иконка текущей зоны
-            data.ImageSource = InternalConverter.GetImageResource(zone.ImageSource);
-
-            //Изображение, сигнализирующее о состоянии зоны
-            data.StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(zone.State.StateClass) + ".png");
-
-            //Переносим устройства для этой зоны
-            foreach (var deviceItem in zone.Devices)
+            if (GKManager.Zones.Count - 1 < zoneNumber)
             {
-                var device = deviceItem;
-                do
-                {
-                    data.devicesList.Add(new Device(device));
-                    device = device.Parent;
-                } while (device != null);
+                return null;
             }
-            data.devicesList.Reverse();
-            return data;
+
+            foreach (var remoteDevice in GKManager.Zones[zoneNumber].Devices)
+            {
+                data.DeviceList.Add(new Device()
+                {
+                    Name = remoteDevice.PresentationName,
+                    Address = remoteDevice.Address,
+                    ImageBloom = InternalConverter.GetImageResource(remoteDevice.ImageSource),
+                    StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(remoteDevice.State.StateClass) + ".png"),
+                    Level = level
+                });
+            }
+
+            listTree.Add(data);
+            var device = GKManager.Zones[zoneNumber].Devices.FirstOrDefault();
+
+            while (device != null && device.Parent != null)
+            {
+                level++;
+                DeviceNode item = new DeviceNode();
+                device = device.Parent;
+                item.DeviceList.Add(new Device()
+                {
+                    Name = device.PresentationName,
+                    Address = device.Address,
+                    ImageBloom = InternalConverter.GetImageResource(device.ImageSource),
+                    StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(device.State.StateClass) + ".png"),
+                    Level = level
+                });
+                listTree.Add(item);
+            }
+
+            listTree.Reverse();
+            return listTree;
         }
 
         /// <summary>

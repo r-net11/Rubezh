@@ -7,13 +7,18 @@
 
             $http.get('home/GetFireZonesData').success(function (data, status, headers, config) {
                 $scope.data = [];
-                var zoneImage = "<img src= data:image/gif;base64," + data.ImageSource.Item1 + "> ";
-                var statusImage = "<img src= data:image/gif;base64," + data.StateImageSource.Item1 + "> ";
-                $scope.data.push({
-                    name: zoneImage + statusImage + data.DescriptorPresentationName,
-                    count1: data.Fire1Count,
-                    count2: data.Fire2Count
-                });
+                for (var i in data) {
+                    var item = data[i];
+                    var zoneImage = "<img src= data:image/gif;base64," + item.ImageSource.Item1 + "> ";
+                    var statusImage = "<img src= data:image/gif;base64," + item.StateImageSource.Item1 + "> ";
+
+                    $scope.data.push({
+                        id: i,
+                        name: zoneImage + statusImage + item.DescriptorPresentationName,
+                        count1: item.Fire1Count,
+                        count2: item.Fire2Count
+                    });
+                }
 
                 $scope.config = {
                     datatype: "local",
