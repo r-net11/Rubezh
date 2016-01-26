@@ -538,6 +538,8 @@
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="Models\MPT\DeviceModel.cs" />
+    <Compile Include="Models\MPT\MPTDevice.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -555,7 +557,7 @@
     <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\DelayModel.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
-    <Compile Include="Models\MPTModel.cs" />
+    <Compile Include="Models\MPT\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />

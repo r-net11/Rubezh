@@ -107,7 +107,12 @@ namespace GKWebService.Controllers
 			var data = new List<MPTModel>();
 			foreach (var mpt in GKManager.MPTs)
 			{
-				data.Add(new MPTModel {Name = mpt.Name, No = mpt.No, UID = mpt.UID});
+				var devices = new List<MPTDevice>();
+				mpt.MPTDevices.ForEach(x =>
+				{
+					devices.Add(new MPTDevice { DottedPresentationAddress = x.Device.DottedPresentationAddress, MPTDeviceType = x.MPTDeviceType.ToDescription(), Uid = x.DeviceUID, Description = x.Device.Description});
+				});
+				data.Add(new MPTModel { Name = mpt.Name, No = mpt.No, UID = mpt.UID, MptLogic = GKManager.GetPresentationLogic(mpt.MptLogic), MPTDevices = devices, Delay = mpt .Delay});
 			}
 			data.Reverse();
 			return Json(data, JsonRequestBehavior.AllowGet);
