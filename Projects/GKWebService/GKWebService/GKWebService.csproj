@@ -538,7 +538,6 @@
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
-    <Compile Include="Models\MPT\DeviceModel.cs" />
     <Compile Include="Models\MPT\MPTDevice.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
@@ -674,6 +673,7 @@
     <Folder Include="Views\Archive\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\FireZones\" />
+    <Folder Include="Views\MPT\" />
     <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />
   </ItemGroup>
