@@ -12,6 +12,10 @@ namespace GKWebService.Models
 		public Guid UID { get; set; }
 		public int No { get; set; }
 		public string Name { get; set; }
+		public ushort Delay { get; set; }
+		public ushort Hold { get; set; }
+		public string DelayRegime { get; set; }
+		public string Logic { get; set; }
 		public string State { get; set; }
 		public string StateIcon { get; set; }
 		public string StateColor { get; set; }
@@ -28,8 +32,5 @@ namespace GKWebService.Models
 		public bool CanSetIgnoreState { get; set; }
 		public bool IsControlRegime { get; set; }
 		public ushort GKDescriptorNo { get; set; }
-		public ushort Delay { get; set; }
-		public ushort Hold { get; set; }
-		public string DelayRegimeName { get; set; }
 	}
 }
