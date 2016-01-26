@@ -1,31 +1,54 @@
 ﻿<Properties StartupItem="FiresecService.LicenseEditor/FiresecService.LicenseEditor.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../Common/RubezhAPI/SKD/PassCardLibrary/ShortPassCardTemplate.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Common/RubezhLicense/HardwareInfo.cs">
     <Files>
-      <File FileName="../Common/RubezhAPI/GKModels/Directions/GKDirection.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/Models/Video/Camera.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/GKModels/SKD/GKDoor.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/GKModels/Device/GKDevice.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/GKModels/MPT/GKMPT.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/GKModels/GKBase.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/ModelBase.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/GKModels/Zone/GKZone.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/IFiresecServiceSKD.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/Gags.cs" Line="15" Column="2" />
-      <File FileName="../Common/RubezhAPI/Models/Automation/ExplicitValue.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/Models/Configuration/PlansConfiguration.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartImageProperties.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/GKModels/Configuration/GKDeviceLibraryConfiguration.cs" Line="12" Column="29" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartTextProperties.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartTimeProperties.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/License/FiresecLicenseInfo.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartProcedureProperties.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/Models/Automation/AutomationConfiguration.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/Layout.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/SKD/PassCardLibrary/PassCardImagePropertyType.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/SKD/PassCardLibrary/PassCardTemplateFilter.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/SKD/PassCardLibrary/PassCardTextPropertyType.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/SKD/PassCardLibrary/ShortPassCardTemplate.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Ribbon/RibbonButton.cs" Line="2" Column="22" />
+      <File FileName="../Common/Infrastructure.Common/Configuration/ModuleCollection.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Configuration/ModuleElement.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Configuration/ModuleSection.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/FSCP/ZipSerializeHelper.cs" Line="15" Column="4" />
+      <File FileName="../Common/Infrastructure.Common/LoadHelper/RevisorLoadHelper.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/LoadHelper/ServerLoadHelper.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Mail/MailHelper.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Navigation/NavigationItem.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Navigation/ShowOnPlanArgs.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/RegistryHelper/RegistryHelper.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Content/IContentService.cs" Line="5" Column="28" />
+      <File FileName="../Common/Infrastructure.Common/Services/Content/ContentService.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/DragDrop/DragAdorner.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/DragDrop/DragCorrectionEventArgs.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/DragDrop/DragDropDecorator.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/DragDrop/DragDropService.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/DragDrop/DragServiceEventArgs.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/DragDrop/IDragDropService.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/DragDrop/TreeListDragDropDecorator.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/DragDrop/TreeNodeDropObject.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/BaseLayoutPartViewModel.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/ILayoutDeclarationModule.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/ILayoutPartContainer.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/ILayoutPartContent.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/ILayoutPartControl.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/ILayoutPartDescription.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/ILayoutPartPresenter.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/ILayoutProviderModule.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/LayoutPartContainerCollection.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/LayoutPartDescription.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/LayoutPartDescriptionGroup.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/LayoutPartPresenter.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/LayoutPartProperty.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/LayoutPartPropertyAccess.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/LayoutPartPropertyPageViewModel.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/LayoutPartPropertyType.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/UnknownLayoutPartDescription.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Layout/UnknownLayoutPartPresenter.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Resources/IResourceService.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Resources/ResourceService.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Ribbon/IRibbonService.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/Ribbon/RibbonService.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/IDialogService.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Common/Services/IMessageBoxService.cs" Line="18" Column="10" />
+      <File FileName="../Common/Infrastructure.Common/Services/ISecurityService.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhLicense/HardwareInfo.cs" Line="2" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
