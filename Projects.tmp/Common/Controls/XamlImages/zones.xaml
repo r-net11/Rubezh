@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Zones" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 10.6667,10.6667L 0,10.6667L 0,0L 10.6667,0L 10.6667,10.6667 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 10.6667,23.9973L 0,23.9973L 0,13.3307L 10.6667,13.3307L 10.6667,23.9973 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 10.6667,37.328L 0,37.328L 0,26.66L 10.6667,26.66L 10.6667,37.328 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 23.996,10.6667L 13.3293,10.6667L 13.3293,0L 23.996,0L 23.996,10.6667 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 23.996,23.9973L 13.3293,23.9973L 13.3293,13.3307L 23.996,13.3307L 23.996,23.9973 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 23.996,37.328L 13.3293,37.328L 13.3293,26.66L 23.996,26.66L 23.996,37.328 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 37.3253,10.6667L 26.6587,10.6667L 26.6587,0L 37.3253,0L 37.3253,10.6667 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 37.3253,37.328L 26.6587,37.328L 26.6587,26.66L 37.3253,26.66L 37.3253,37.328 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 34.6653,21.3373L 29.3187,21.3373L 29.3187,15.9907L 34.6653,15.9907M 26.6587,23.9973L 37.3253,23.9973L 37.3253,13.3307L 26.6587,13.3307L 26.6587,23.9973 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

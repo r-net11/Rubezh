@@ -1,0 +1,2665 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Controls</RootNamespace>
+    <AssemblyName>Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Controls.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Controls.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>true</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationClientsideProviders" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    </Compile>
+    <Compile Include="AlarmButton.cs" />
+    <Compile Include="AlignableWrapPanel.cs" />
+    <Compile Include="Attach.cs" />
+    <Compile Include="AttachedColumnBehavior.cs" />
+    <Compile Include="ButtonSpinner.cs" />
+    <Compile Include="Converters\BoolToRotationConverter.cs" />
+    <Compile Include="Converters\BoolToYesNoConverter.cs" />
+    <Compile Include="Converters\ConverterHelper.cs" />
+    <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
+    <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
+    <Compile Include="Converters\IfConverter.cs" />
+    <Compile Include="Converters\MultiBooleanConverter.cs" />
+    <Compile Include="Converters\MultiParameterConverter.cs" />
+    <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
+    <Compile Include="Converters\StringToResourceConverter.cs" />
+    <Compile Include="Converters\StringToSingleLineString.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\XStateClassToStringConverter2.cs" />
+    <Compile Include="IsDeletedTextBlock.xaml.cs">
+      <DependentUpon>IsDeletedTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ColorsHelper.cs" />
+    <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
+    <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
+    <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
+    <Compile Include="Converters\BoolToStringColorConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToYesConverter.cs" />
+    <Compile Include="Converters\ClauseOperationTypeToIconConverter.cs" />
+    <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\ColorToNameConverter.cs" />
+    <Compile Include="Converters\BoolToFontStyleConverter.cs" />
+    <Compile Include="Converters\BoolToFontWeightConverter.cs" />
+    <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
+    <Compile Include="Converters\BoolToGridLengthConverter.cs" />
+    <Compile Include="Converters\ConnectionStateToImageSourceConverter.cs" />
+    <Compile Include="Converters\DateToStringConverter.cs" />
+    <Compile Include="Converters\EnumToBoolConverter.cs" />
+    <Compile Include="Converters\EnumToDescriptionConverter.cs" />
+    <Compile Include="Converters\EnumToVisibilityConverter.cs" />
+    <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\InversedBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\InversedEnumToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullableTimeToStringConverter.cs" />
+    <Compile Include="Converters\ObjectTypeToStringConverter.cs" />
+    <Compile Include="Converters\StringToImageConverter.cs" />
+    <Compile Include="Converters\SwitchConverter.cs" />
+    <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />
+    <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
+    <Compile Include="Converters\IntToEnumConverter.cs" />
+    <Compile Include="Converters\CountToVisibilityConverter.cs" />
+    <Compile Include="Converters\DateTimeToStringConverter.cs" />
+    <Compile Include="Converters\DebugConverter.cs" />
+    <Compile Include="Converters\IsOffToStringConverter.cs" />
+    <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
+    <Compile Include="Converters\LevelToIndentConverter.cs" />
+    <Compile Include="Converters\LevelToMarginConverter.cs" />
+    <Compile Include="Converters\MultiBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullToBoolConverter.cs" />
+    <Compile Include="Converters\NullToImageConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\TimeToStringConverter.cs" />
+    <Compile Include="Converters\XStateClassToIconConverter.cs" />
+    <Compile Include="Converters\XStateClassToColorConverter.cs" />
+    <Compile Include="Converters\XStateClassToIconConverter2.cs" />
+    <Compile Include="Converters\XStateClassToStringConverter.cs" />
+    <Compile Include="Converters\XStateTypeToIconConverter.cs" />
+    <Compile Include="Converters\XStateClassToColorConverter2.cs" />
+    <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
+    <Compile Include="Converters\MPTDeviceTypeToStringConverter.cs" />
+    <Compile Include="Converters\XGuardZoneStateClassToStringConverter.cs" />
+    <Compile Include="Converters\XStateClassToGuardZoneColorConverter.cs" />
+    <Compile Include="Converters\GKGuardZoneDeviceActionTypeToIconConverter.cs" />
+    <Compile Include="Converters\XStateClassToSKDStringConverter.cs" />
+    <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
+    <Compile Include="EditorPresenter.cs" />
+    <Compile Include="ExtendedBinding.cs" />
+    <Compile Include="UIBehavior.cs" />
+    <Compile Include="GridSplitterFix.cs" />
+    <Compile Include="HeaderedScrollViewer.cs" />
+    <Compile Include="IconedMenuItem.cs" />
+    <Compile Include="IconTextBlock.cs" />
+    <Compile Include="ImageHelper.cs" />
+    <Compile Include="IPValidationRule.cs" />
+    <Compile Include="Layout\RubezhTheme.cs" />
+    <Compile Include="ListViewLayoutManager.cs" />
+    <Compile Include="Masking.cs" />
+    <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
+    <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
+    <Compile Include="Menu\ViewModels\MenuViewModel.cs" />
+    <Compile Include="Menu\Views\MenuButtonView.xaml.cs">
+      <DependentUpon>MenuButtonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Menu\Views\MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopupButton.cs" />
+    <Compile Include="Ribbon\Views\RibbonMenuItemView.cs" />
+    <Compile Include="Ribbon\Views\RibbonMenuView.cs" />
+    <Compile Include="Ribbon\Views\RibbonPopup.cs" />
+    <Compile Include="Ribbon\Views\RibbonView.xaml.cs">
+      <DependentUpon>RibbonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SpinnerCogs.xaml.cs">
+      <DependentUpon>SpinnerCogs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="XStateHelper.cs" />
+    <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
+    <Compile Include="TextBoxHelper.cs" />
+    <Compile Include="ToggleButton.cs" />
+    <Compile Include="ToolBarRadioButton.cs" />
+    <Compile Include="DataGridProperties.cs" />
+    <Compile Include="DigitalPasswordHelper.cs" />
+    <Compile Include="MiddleButtonScrollHelper.cs" />
+    <Compile Include="PasswordBoxControl.cs" />
+    <Compile Include="Converters\BrightnessToColorConverter.cs" />
+    <Compile Include="Converters\ColorToAlphaColorConverter.cs" />
+    <Compile Include="Converters\HighlightCornerRadiusConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ToolBarButton.cs" />
+    <Compile Include="TreeGridViewRowPresenter.cs" />
+    <Compile Include="TreeListView.cs" />
+    <Compile Include="TreeListViewItem.cs" />
+    <Compile Include="TreeList\Converters\CanExpandConverter.cs" />
+    <Compile Include="TreeList\Converters\LevelToIndentConverter.cs" />
+    <Compile Include="TreeList\RowExpander.cs" />
+    <Compile Include="TreeList\SortBehavior.cs" />
+    <Compile Include="TreeList\TreeList.cs" />
+    <Compile Include="TreeList\TreeListItem.cs" />
+    <Compile Include="XAutoCompleteBox.cs" />
+    <Compile Include="XRichTextBox.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="IsDeletedTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layout\Theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Menu\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\Themes\RibbonMenuItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\Themes\RibbonMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Menu\Views\MenuButtonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Menu\Views\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\Views\RibbonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SpinnerCogs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ButtonSpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\CommonDataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Constants.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\Themes\RibbonButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\DatePickerCalendarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\DatePickerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ImageStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\IntegerUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\IconedMenuStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\IconLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ItemsControlStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LightTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\SkyblueTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\GrayTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\BlueTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\CheckBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColorPickerComboBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ComboBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ContextMenuStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\GridViewColumnHeaderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\HeaderedScrollViewerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ListViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\SeparatorStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ToggleButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ToolBarRadioButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\OutlookTreeViewStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ListBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\MenuStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\PasswordBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ProgressBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\RadioButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ResizeThumbStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ScrollBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\SliderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TabControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TextBlockStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TextBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ToolBarButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TreeExpanderStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\AlarmButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\OutlookTabControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\DataGridStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\HyperlinkStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TreeListViewStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\TreeViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\1x7Grid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\2x2Grid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\3x3Grid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\4x4Grid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\6x6Grid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Add.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\AddChild.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\AddCondition.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\AddCycle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\AddDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\AddFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\AddTime.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_Main_0_Fire1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_Main_1_Fire2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_main_2_Attention.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_main_3_Failure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_main_4_Off.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_main_5_Info.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_main_5_Info_2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_main_6_Service.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_main_7_Auto.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Alarm_MPT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\AllParameters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\archive.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Arrow-down-right.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\arrow-left-right.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Arrow-up-left.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\arrowDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\arrowInto.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\arrowUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ArrowUpDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAdd.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAddChild.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_Main_0_Fire1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_Main_1_Fire2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_main_2_Attention.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_main_3_Failure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_main_4_Off.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_main_5_Info.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_main_5_Info_2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_main_6_Service.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAlarm_main_7_Auto.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BAllParameters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BArchive.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BArrowRight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BArrowUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BArrowUpDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BBriefcase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BBriefcaseAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BBug.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BCheck.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BClose.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BConfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BConnectionIndicator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BCopy2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BCopy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BCut2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BCut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BDelete.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BDeleteAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BDeleteEmpty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BDevice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BDirection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BDownload.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BExit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BFolderOpen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BGraphAllController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BGraphController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BInformation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BJournal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BLayouts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BLeft.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BLeftLeft.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BLevels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BLoad.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BLockParam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BLogic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BlueAdd.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BlueDelete.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BlueEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BlueFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BlueSound.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Blue_Direction.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMapOff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMoveBack.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMoveBackward.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMoveForward.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMoveFront.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMPT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BMute.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BNetController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BNew.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\book.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BParametersRead.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BParametersReadAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BParametersReadFromFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BParametersReadWrite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BParametersSync.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BParametersWrite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BParametersWriteAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BPassCardDesigner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BPassController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BPaste2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BPaste.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BPasteAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BPhoto.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BPlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BProcedures.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BPumpStation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BReadDeviceUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\BRefresh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BReset.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BResetIgnore.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BRuleController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BSave.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BSaveAs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BSearch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\bshapes-align-hori-center.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\bshapes-align-hori-left.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\bshapes-align-hori-right.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\bshapes-align-verti-bottom.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\bshapes-align-verti-middle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\bshapes-align-verti-top.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BSound.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BStop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BTime.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BTimeController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BTurnOff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BTurnOn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BTypeController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Bug.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BUpdateAllSchedules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\BUpdateDeviceUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\BUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BUsers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BVideo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BWatch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BWindowCross.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BWindowNormal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BWrite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\BZones.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Cable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\Calendar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\check.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ChiefW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Close.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ConnectionIndicator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Copy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Cursor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Cut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\defconfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Delete.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DeleteAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\deleteCross.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DeleteDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\deleteEmpty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DeleteFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DeleteTime.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Descriptors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\devparameters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DirectionPolygon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DirectionRectangle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DocumentSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\DoorW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\download.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Edit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\EditCheckBoxList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\EditDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\EditFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Ellipse.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportCSV.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportHTM.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportMHT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportPDF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportRTF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportTXT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportXLS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportXLSX.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ExportXPS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Eye2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Eye3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Faster.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\FidthToPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\FolderOpen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Font.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\GlobalVariables.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\GridLineEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\GridLineHorizontal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\GridLineVertical.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\HeightToPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Help.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\HolidaysW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\HRChiefW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Ind_C-C.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Ind_C-P.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Ind_CxC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Ind_CxP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\information.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Kartoteka2W.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Lamp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Layers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Layouts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\left.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\leftLeft.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\levels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Line.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\load.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\logic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\MapOff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Maximize.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Minify.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\Minimize.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\MoveBack.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\MoveBackward.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\MoveForward.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\MoveFront.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\MPT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\New.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\nextDifference.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\NightSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Normalize.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ParametersRead.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ParametersReadAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ParametersReadWrite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ParametersSync.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ParametersWrite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ParametersWriteAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\PassCardDesigner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Paste.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\PasteAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Pause.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Pdf.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Pen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Photo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Play.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Polygon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\previousDifference.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Print.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Procedure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\PumpStation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\RAlarm_main_5_Info.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\read.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Rectangle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\RedDeleteCross.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\Redo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Refresh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ResetAlarm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ResetAlarmText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\right.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\rightRight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Save.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Scanner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Search.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SelectAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SelectNone.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Settings2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-align-hori-center.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-align-hori-left.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-align-hori-right.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-align-verti-bottom.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-align-verti-middle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-align-verti-top.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-flip-horizontal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-flip-vertical.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-rotate-anticlockwise.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\shapes-rotate-clockwise.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Shedules.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ShedulesDaylyW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SheduleSlideDaylyW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SheduleSlideWeeklyW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ShedulesW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SheduleWeeklyW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SheduleWeeklyWW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Shield.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SKDW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Star.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\stock_macro-stop-after-procedure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Stop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Subplan.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SubPlanPolygon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\SubPlanRectangle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Tank.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Text.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Time.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\TimeTrackingW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Undo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Video1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Watch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Webcam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\WidthToPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\write.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ZonePolygon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ZoneRectangle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ZoomIn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\ZoomOut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\Blue_MPT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XamlImages\briefcase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\direction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\filter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\map.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\music.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\mute.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\rubezhLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\sound.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\tree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\user.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\users.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\windowCross.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\windowNormal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlImages\zones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RubezhAPI\RubezhAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>RubezhAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alarm_main_2_Attention.png" />
+    <Resource Include="Images\Alarm_main_3_Failure.png" />
+    <Resource Include="Images\Alarm_main_4_Off.png" />
+    <Resource Include="Images\Alarm_main_5_Info.png" />
+    <Resource Include="Images\Alarm_main_6_Service.png" />
+    <Resource Include="Images\Alarm_main_7_Auto.png" />
+    <Resource Include="Images\DeleteAll.png" />
+    <Resource Include="Images\New.png" />
+    <Resource Include="Images\Copy.png" />
+    <Resource Include="Images\Alarm.png" />
+    <Resource Include="Images\Ind_C-C.png" />
+    <Resource Include="Images\Ind_C-P.png" />
+    <Resource Include="Images\Ind_CxC.png" />
+    <Resource Include="Images\Ind_CxP.png" />
+    <Resource Include="Images\AddChild.png" />
+    <Resource Include="Images\MoveBack.png" />
+    <Resource Include="Images\MoveBackward.png" />
+    <Resource Include="Images\MoveForward.png" />
+    <Resource Include="Images\MoveFront.png" />
+    <Resource Include="Images\Play.png" />
+    <Resource Include="Images\Stop.png" />
+    <Resource Include="Images\Ellipse.png" />
+    <Resource Include="Images\Polygon.png" />
+    <Resource Include="Images\Rectangle.png" />
+    <Resource Include="Images\ZonePolygon.png" />
+    <Resource Include="Images\ZoneRectangle.png" />
+    <Resource Include="Images\SubPlanPolygon.png" />
+    <Resource Include="Images\Text.png" />
+    <Resource Include="Images\ZoomIn.png" />
+    <Resource Include="Images\ZoomOut.png" />
+    <Resource Include="Images\Close.png" />
+    <Resource Include="Images\Maximize.png" />
+    <Resource Include="Images\Minimize.png" />
+    <Resource Include="Images\Help.png" />
+    <Resource Include="Images\ArrowUpDown.png" />
+    <Resource Include="Images\Font.png" />
+    <Resource Include="Images\Redo.png" />
+    <Resource Include="Images\Undo.png" />
+    <Resource Include="Images\Layers.png" />
+    <Resource Include="Images\FidthToPage.png" />
+    <Resource Include="Images\Print.png" />
+    <Resource Include="Images\Refresh.png" />
+    <Resource Include="Images\Eye1.png" />
+    <Resource Include="Images\Eye2.png" />
+    <Resource Include="Images\Lock.png" />
+    <Resource Include="Images\Unlock.png" />
+    <Resource Include="Images\Video1.png" />
+    <Resource Include="Images\Video2.png" />
+    <Resource Include="Images\Video3.png" />
+    <Resource Include="Images\Search.png" />
+    <Resource Include="Images\Lamp1.png" />
+    <Resource Include="Images\Lamp2.png" />
+    <Resource Include="Images\Empty.png" />
+    <Resource Include="Images\CheckBlack.png" />
+    <Resource Include="Images\MessageBox\information.png" />
+    <Resource Include="Images\MessageBox\warning.png" />
+    <Resource Include="Images\MessageBox\question.png" />
+    <Resource Include="Images\Link.png" />
+    <Resource Include="Images\Line.png" />
+    <Resource Include="Images\Cursor.png" />
+    <Resource Include="Images\Pen.png" />
+    <Resource Include="GKIcons\GK.png" />
+    <Resource Include="GKIcons\GKIndicator.png" />
+    <Resource Include="GKIcons\GKLine.png" />
+    <Resource Include="GKIcons\GKRele.png" />
+    <Resource Include="GKIcons\KAU.png" />
+    <Resource Include="GKIcons\KAUIndicator.png" />
+    <Resource Include="GKIcons\System.png" />
+    <Resource Include="Images\Alarm_MPT.png" />
+    <Resource Include="Images\WidthToPage.png" />
+    <Resource Include="Images\HeightToPage.png" />
+    <Resource Include="Images\map2.png" />
+    <Resource Include="Images\map3.png" />
+    <Resource Include="Images\map1.png" />
+    <Resource Include="Images\Bug.png" />
+    <Resource Include="Images\Arrow-down-right.png" />
+    <Resource Include="Images\Arrow-up-left.png" />
+    <Resource Include="Images\Lamp.png" />
+    <Resource Include="StateClassIcons\Failure.png" />
+    <Resource Include="StateClassIcons\Fire2.png" />
+    <Resource Include="StateClassIcons\Fire1.png" />
+    <Resource Include="StateClassIcons\Attention.png" />
+    <Resource Include="StateClassIcons\Ignore.png" />
+    <Resource Include="StateClassIcons\AutoOff.png" />
+    <Resource Include="StateClassIcons\Service.png" />
+    <Resource Include="StateClassIcons\On.png" />
+    <Resource Include="StateClassIcons\Info.png" />
+    <Resource Include="StateClassIcons\Unknown.png" />
+    <Resource Include="StateClassIcons\TurningOn.png" />
+    <Resource Include="Images\Folder.png" />
+    <Resource Include="Images\FolderOpen.png" />
+    <Resource Include="GKIcons\RSR2_KAU.png" />
+    <Resource Include="GKIcons\RSR2_HandDetector.png" />
+    <Resource Include="GKIcons\RSR2_SmokeDetector.png" />
+    <Resource Include="GKIcons\RSR2_RM_1.png" />
+    <Resource Include="GKIcons\RSR2_RM_2.png" />
+    <Resource Include="GKIcons\RSR2_AM_1.png" />
+    <Resource Include="GKIcons\RSR2_AM_4.png" />
+    <Resource Include="GKIcons\RSR2_MDU.png" />
+    <Resource Include="Images\Subplan.png" />
+    <Resource Include="Images\SubPlanRectangle.png" />
+    <Resource Include="Images\map4.png" />
+    <Resource Include="Images\GridLineHorizontal.png" />
+    <Resource Include="Images\GridLineVertical.png" />
+    <Resource Include="Images\GridLineEdit.png" />
+    <Resource Include="GKIcons\RSR2_MVK8.png" />
+    <Resource Include="GKIcons\RSR2_MAP4.png" />
+    <Resource Include="GKIcons\RSR2_MVK8_Group.png" />
+    <Resource Include="GKIcons\RSR2_MAP4_Group.png" />
+    <Resource Include="Images\SaveAll.png" />
+    <Resource Include="GKIcons\RSR2_SmokeDetector2.png" />
+    <Resource Include="GKIcons\RSR2_HeatDetector.png" />
+    <Resource Include="GKIcons\RSR2_Bush_Drenazh.png" />
+    <Resource Include="GKIcons\RSR2_CombinedDetector.png" />
+    <Resource Include="StateClassIcons\TurningOff.png" />
+    <Resource Include="Images\AllParameters.png" />
+    <Resource Include="Images\briefcase.png" />
+    <Resource Include="Images\ParametersRead.png" />
+    <Resource Include="Images\ParametersReadWrite.png" />
+    <Resource Include="Images\ParametersSync.png" />
+    <Resource Include="Images\ParametersWrite.png" />
+    <Resource Include="Images\Star.png" />
+    <Resource Include="Images\BDownload.png" />
+    <Resource Include="Images\BCheck.png" />
+    <Resource Include="Images\BNew.png" />
+    <Resource Include="Images\BLoad.png" />
+    <Resource Include="Images\BSave.png" />
+    <Resource Include="Images\BSync.png" />
+    <Resource Include="Images\ParametersReadAll.png" />
+    <Resource Include="Images\ParametersWriteAll.png" />
+    <Resource Include="Images\BConfig.png" />
+    <Resource Include="Images\BArrowRight.png" />
+    <Resource Include="Images\BSettings.png" />
+    <Resource Include="Images\BTree.png" />
+    <Resource Include="Images\BAdd.png" />
+    <Resource Include="Images\BCut.png" />
+    <Resource Include="Images\BCopy.png" />
+    <Resource Include="Images\BDelete.png" />
+    <Resource Include="Images\BEdit.png" />
+    <Resource Include="Images\BPaste.png" />
+    <Resource Include="Images\BArrowUpDown.png" />
+    <Resource Include="Images\BParametersRead.png" />
+    <Resource Include="Images\BParametersWriteAll.png" />
+    <Resource Include="Images\BParametersReadAll.png" />
+    <Resource Include="Images\BParametersReadWrite.png" />
+    <Resource Include="Images\BParametersSync.png" />
+    <Resource Include="Images\BParametersWrite.png" />
+    <Resource Include="Images\BAllParameters.png" />
+    <Resource Include="Images\BBriefcase.png" />
+    <Resource Include="Images\BZones.png" />
+    <Resource Include="Images\BDirection.png" />
+    <Resource Include="Images\BDeleteEmpty.png" />
+    <Resource Include="Images\BUser.png" />
+    <Resource Include="Images\BUsers.png" />
+    <Resource Include="Images\BFilter.png" />
+    <Resource Include="Images\BInformation.png" />
+    <Resource Include="Images\BPlay.png" />
+    <Resource Include="Images\BStop.png" />
+    <Resource Include="Images\BDeleteAll.png" />
+    <Resource Include="Images\BDevice.png" />
+    <Resource Include="Images\BJournal.png" />
+    <Resource Include="Images\BLink.png" />
+    <Resource Include="Images\BPassword.png" />
+    <Resource Include="Images\BSearch.png" />
+    <Resource Include="Images\BUsb.png" />
+    <Resource Include="Images\MessageBox\BWatch.png" />
+    <Resource Include="Images\BWatch.png" />
+    <Resource Include="Images\Normalize.png" />
+    <Resource Include="Images\BExit.png" />
+    <Resource Include="Images\Eye3.png" />
+    <Resource Include="Images\BSaveAs.png" />
+    <Resource Include="Images\BSaveAll.png" />
+    <Resource Include="Images\BRead.png" />
+    <Resource Include="Images\BWrite.png" />
+    <Resource Include="Images\BView.png" />
+    <Resource Include="Images\BToolbar.png" />
+    <Resource Include="Images\BMenu.png" />
+    <Resource Include="StateClassIcons\Off.png" />
+    <Resource Include="StateClassIcons\ConnectionLost.png" />
+    <Resource Include="StateClassIcons\DBMissmatch.png" />
+    <Resource Include="Images\Alarm_Main_0_Fire1.png" />
+    <Resource Include="Images\Alarm_Main_1_Fire2.png" />
+    <Resource Include="Images\Tank.png" />
+    <Resource Include="Images\Pdf.png" />
+    <Resource Include="StateClassIcons\TechnologicalRegime.png" />
+    <Resource Include="Images\Blue_Direction.png" />
+    <Resource Include="Images\Chip.png" />
+    <Resource Include="Images\PC.png" />
+    <Resource Include="Images\map_black.png" />
+    <Resource Include="Images\Delay.png" />
+    <Resource Include="Images\BAddChild.png" />
+    <Resource Include="Images\BLogic.png" />
+    <Resource Include="Images\BPasteAll.png" />
+    <Resource Include="Images\BBriefcaseAll.png" />
+    <Resource Include="Images\BMoveBack.png" />
+    <Resource Include="Images\BMoveBackward.png" />
+    <Resource Include="Images\BMoveForward.png" />
+    <Resource Include="Images\BMoveFront.png" />
+    <Resource Include="Images\bshapes-align-hori-center.png" />
+    <Resource Include="Images\bshapes-align-hori-left.png" />
+    <Resource Include="Images\bshapes-align-hori-right.png" />
+    <Resource Include="Images\bshapes-align-verti-bottom.png" />
+    <Resource Include="Images\bshapes-align-verti-middle.png" />
+    <Resource Include="Images\bshapes-align-verti-top.png" />
+    <Resource Include="Images\BFolderOpen.png" />
+    <Resource Include="Images\BTurnOff.png" />
+    <Resource Include="Images\BSetIgnore.png" />
+    <Resource Include="Images\BTurnOn.png" />
+    <Resource Include="Images\BResetIgnore.png" />
+    <Resource Include="Images\BReset.png" />
+    <Resource Include="Images\BAlarm_Main_0_Fire1.png" />
+    <Resource Include="Images\BAlarm_Main_1_Fire2.png" />
+    <Resource Include="Images\BAlarm_main_2_Attention.png" />
+    <Resource Include="Images\BAlarm_main_3_Failure.png" />
+    <Resource Include="Images\BAlarm_main_4_Off.png" />
+    <Resource Include="Images\BAlarm_main_5_Info.png" />
+    <Resource Include="Images\BAlarm_main_6_Service.png" />
+    <Resource Include="Images\BAlarm_main_7_Auto.png" />
+    <Resource Include="Images\BAlarm_shield.png" />
+    <Resource Include="Images\BlueAdd.png" />
+    <Resource Include="Images\BlueDelete.png" />
+    <Resource Include="Images\BlueEdit.png" />
+    <Resource Include="Validation\CannotSave.png" />
+    <Resource Include="Validation\CannotWrite.png" />
+    <Resource Include="Validation\Unknown.png" />
+    <Resource Include="Validation\Warning.png" />
+    <Resource Include="StateClassIcons\TurnOn_InAutomatic.png" />
+    <Resource Include="StateClassIcons\TurnOff_InAutomatic.png" />
+    <Resource Include="StateClassIcons\NPTOn.png" />
+    <Resource Include="StateClassIcons\Manual.png" />
+    <Resource Include="StateClassIcons\HasNoLicense.png" />
+    <Resource Include="StateClassIcons\Test.png" />
+    <Resource Include="Images\Pause.png" />
+    <Resource Include="Images\BRefresh.png" />
+    <Resource Include="Images\BFilterClear.png" />
+    <Resource Include="Images\Layouts.png" />
+    <Resource Include="Images\BLayouts.png" />
+    <Resource Include="GKIcons\KAU_Shleif.png" />
+    <Resource Include="GKIcons\RSR2_KAU_Shleif.png" />
+    <Resource Include="Images\BFolder.png" />
+    <Resource Include="Images\Bleft.png" />
+    <Resource Include="Images\BleftLeft.png" />
+    <Resource Include="Images\Layout\ContentPreview.png" />
+    <Resource Include="Images\Layout\IndicatorsPreview.png" />
+    <Resource Include="Images\Layout\NavigationPreview.png" />
+    <Resource Include="Images\BAlarm.png" />
+    <Resource Include="Layout\Images\DockAnchorableBottom.png" />
+    <Resource Include="Layout\Images\DockAnchorableLeft.png" />
+    <Resource Include="Layout\Images\DockAnchorableRight.png" />
+    <Resource Include="Layout\Images\DockAnchorableTop.png" />
+    <Resource Include="Layout\Images\DockDocumentAsAnchorableBottom.png" />
+    <Resource Include="Layout\Images\DockDocumentAsAnchorableLeft.png" />
+    <Resource Include="Layout\Images\DockDocumentAsAnchorableRight.png" />
+    <Resource Include="Layout\Images\DockDocumentAsAnchorableTop.png" />
+    <Resource Include="Layout\Images\DockDocumentBottom.png" />
+    <Resource Include="Layout\Images\DockDocumentInside.png" />
+    <Resource Include="Layout\Images\DockDocumentLeft.png" />
+    <Resource Include="Layout\Images\DockDocumentRight.png" />
+    <Resource Include="Layout\Images\DockDocumentTop.png" />
+    <Resource Include="Layout\Images\DockPaneEmpty.png" />
+    <Resource Include="Layout\Images\DockPaneLargeEmpty.png" />
+    <Resource Include="Layout\Images\HTabGroup.png" />
+    <Resource Include="Layout\Images\Locked.png" />
+    <Resource Include="Layout\Images\PinAutoHide.png" />
+    <Resource Include="Layout\Images\PinAutoHide_Black.png" />
+    <Resource Include="Layout\Images\PinAutoHide_Dark.png" />
+    <Resource Include="Layout\Images\PinClose.png" />
+    <Resource Include="Layout\Images\PinClose_Black.png" />
+    <Resource Include="Layout\Images\PinClose_Dark.png" />
+    <Resource Include="Layout\Images\PinDocMenu.png" />
+    <Resource Include="Layout\Images\PinDocMenu_Black.png" />
+    <Resource Include="Layout\Images\PinMaximize.png" />
+    <Resource Include="Layout\Images\PinMaximize_Black.png" />
+    <Resource Include="Layout\Images\PinMaximize_Dark.png" />
+    <Resource Include="Layout\Images\PinMenu.png" />
+    <Resource Include="Layout\Images\PinMenu_Black.png" />
+    <Resource Include="Layout\Images\PinMenu_Dark.png" />
+    <Resource Include="Layout\Images\PinRestore.png" />
+    <Resource Include="Layout\Images\PinRestore_Black.png" />
+    <Resource Include="Layout\Images\PinRestore_Dark.png" />
+    <Resource Include="Layout\Images\VTabGroup.png" />
+    <Resource Include="Images\BLevels.png" />
+    <Resource Include="Images\BBug.png" />
+    <Resource Include="Images\BVideo.png" />
+    <Resource Include="Images\BMap.png" />
+    <Resource Include="Images\BBook.png" />
+    <Resource Include="Images\BArchive.png" />
+    <Resource Include="Images\previousDifference.png" />
+    <Resource Include="Images\Exit.png" />
+    <Resource Include="Images\Watch.png" />
+    <Resource Include="Images\PasteAll.png" />
+    <Resource Include="Images\DirectionPolygon.png" />
+    <Resource Include="Images\DirectionRectangle.png" />
+    <Resource Include="Images\PCUser.png" />
+    <Resource Include="Images\BParametersReadFromFile.png" />
+    <Resource Include="Images\Pim.png" />
+    <Resource Include="Images\PumpStation.png" />
+    <Resource Include="Images\View.png" />
+    <Resource Include="Images\BPumpStation.png" />
+    <Resource Include="Images\Descriptors.png" />
+    <Resource Include="Images\Pim_White.png" />
+    <Resource Include="Images\SelectAll.png" />
+    <Resource Include="Images\SelectNone.png" />
+    <Resource Include="Images\BSelect.png" />
+    <Resource Include="Images\BArrowDown.png" />
+    <Resource Include="Images\BArrowUp.png" />
+    <Resource Include="GKIcons\RSR2_MVP.png" />
+    <Resource Include="Images\CMap.png" />
+    <Resource Include="Images\Reset.png" />
+    <Resource Include="Images\ResetAlarm.png" />
+    <Resource Include="Images\CFolder.png" />
+    <Resource Include="SKDIcons\Reader.png" />
+    <Resource Include="SKDIcons\System.png" />
+    <Resource Include="SKDIcons\Controller.png" />
+    <Resource Include="Images\deleteCross.png" />
+    <Resource Include="Images\arrow-left-right.png" />
+    <Resource Include="Images\book.png" />
+    <Resource Include="Images\check.png" />
+    <Resource Include="Images\Cut.png" />
+    <Resource Include="Images\download.png" />
+    <Resource Include="Images\Edit.png" />
+    <Resource Include="Images\filter.png" />
+    <Resource Include="Images\information.png" />
+    <Resource Include="Images\levels.png" />
+    <Resource Include="Images\load.png" />
+    <Resource Include="Images\logo.png" />
+    <Resource Include="Images\map.png" />
+    <Resource Include="Images\music.png" />
+    <Resource Include="Images\Paste.png" />
+    <Resource Include="Images\Save.png" />
+    <Resource Include="Images\settings.png" />
+    <Resource Include="Images\tree.png" />
+    <Resource Include="Images\user.png" />
+    <Resource Include="Images\users.png" />
+    <Resource Include="Images\zones.png" />
+    <Resource Include="Images\Add.png" />
+    <Resource Include="Images\Delete.png" />
+    <Resource Include="Images\mute.png" />
+    <Resource Include="Images\sound.png" />
+    <Resource Include="Images\windowCross.png" />
+    <Resource Include="Images\windowNormal.png" />
+    <Resource Include="Images\archive.png" />
+    <Resource Include="Images\phone.png" />
+    <Resource Include="Images\left.png" />
+    <Resource Include="Images\leftLeft.png" />
+    <Resource Include="Images\right.png" />
+    <Resource Include="Images\rightRight.png" />
+    <Resource Include="Images\arrowDown.png" />
+    <Resource Include="Images\arrowUp.png" />
+    <Resource Include="Images\logic.png" />
+    <Resource Include="Images\direction.png" />
+    <Resource Include="Images\deleteEmpty.png" />
+    <Resource Include="Images\shapes-align-hori-center.png" />
+    <Resource Include="Images\shapes-align-hori-left.png" />
+    <Resource Include="Images\shapes-align-hori-right.png" />
+    <Resource Include="Images\shapes-align-verti-bottom.png" />
+    <Resource Include="Images\shapes-align-verti-middle.png" />
+    <Resource Include="Images\shapes-align-verti-top.png" />
+    <Resource Include="Images\shapes-flip-horizontal.png" />
+    <Resource Include="Images\shapes-flip-vertical.png" />
+    <Resource Include="Images\shapes-rotate-anticlockwise.png" />
+    <Resource Include="Images\shapes-rotate-clockwise.png" />
+    <Resource Include="Images\write.png" />
+    <Resource Include="Images\read.png" />
+    <Resource Include="Images\readconfig.png" />
+    <Resource Include="Images\writeconfig.png" />
+    <Resource Include="Images\adrparameters.png" />
+    <Resource Include="Images\devparameters.png" />
+    <Resource Include="Images\defconfig.png" />
+    <Resource Include="StateClassIcons\no.png" />
+    <Resource Include="Images\zone.png" />
+    <Resource Include="Images\writeconfig_all.png" />
+    <Resource Include="Images\readconfig_all.png" />
+    <Resource Include="Images\blank.png" />
+    <Resource Include="Images\nextDifference.png" />
+    <Resource Include="Images\stock_macro-stop-after-procedure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddTime.png" />
+    <Resource Include="Images\DeleteTime.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alarm_shield_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alarm_main_5_Info_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_OPS.png" />
+    <Resource Include="GKIcons\RSR2_OPZ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_OPK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\2x2Grid.png" />
+    <Resource Include="Images\MultiGrid\3x3Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\4x4Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\6x6Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\1x7Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MPT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMPT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPhoto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Photo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LoadingVideo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MapOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MapOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Faster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Slower.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\NoPhoto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Scanner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Webcam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Channel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MVP_Part.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Dvr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\VideoDisconnected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\VideoConnected.png" />
+    <Resource Include="Images\VideoConnecting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\VideoNotAvailable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Bush_Fire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Bush_Jokey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AccessTemplate.png" />
+    <Resource Include="Images\AdditionalColumn.png" />
+    <Resource Include="Images\Card.png" />
+    <Resource Include="Images\Department.png" />
+    <Resource Include="Images\Employee.png" />
+    <Resource Include="Images\Position.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Organisation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SKDUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Day.png" />
+    <Resource Include="Images\Holiday.png" />
+    <Resource Include="Images\Interval.png" />
+    <Resource Include="Images\Month.png" />
+    <Resource Include="Images\Week.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Shedules.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Mask.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Masks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GlobalVariable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GlobalVariables.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Shedule.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Door.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PassCardDesigner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BlueSound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddCycle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddCondition.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BlueFilter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Procedure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\ChinaController_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\ChinaController_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\Lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\LockControl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMapOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SheduleSlideDaylyW.png" />
+    <Resource Include="Images\ShedulesW.png" />
+    <Resource Include="Images\SheduleWeeklyW.png" />
+    <Resource Include="Images\SheduleWeeklyWW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BUnlock.png" />
+    <Resource Include="Images\HolidaysW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SheduleSlideWeeklyW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Kartoteka2W.png" />
+    <Resource Include="Images\ShedulesDaylyW.png" />
+    <Resource Include="Images\ShedulesMonthlyW.png" />
+    <Resource Include="Images\SKDW.png" />
+    <Resource Include="Images\TimeTrackingW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PassCardB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DoorW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GuardZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GuardDetector.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_CodeReader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BTemplateContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TemplateContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMapOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWindowCross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWindowNormal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BProcedures.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrowInto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\ChinaController_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ProcedureYellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPassCardDesigner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HRChief.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Chief.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Code.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ChiefW.png" />
+    <Resource Include="Images\HRChiefW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BSound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMute.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BTime.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BConnectionIndicator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ConnectionIndicator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Valve_DU.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Valve_KV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Valve_KVMV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\Arithmetics.png" />
+    <Resource Include="StepIcons\Step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\SetValue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\IncrementValue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\FindObjects.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\Random.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\AddJournalItem.png" />
+    <Resource Include="StepIcons\Break.png" />
+    <Resource Include="StepIcons\ChangeList.png" />
+    <Resource Include="StepIcons\CheckPermission.png" />
+    <Resource Include="StepIcons\Continue.png" />
+    <Resource Include="StepIcons\Control.png" />
+    <Resource Include="StepIcons\ControlVisualGet.png" />
+    <Resource Include="StepIcons\Equal.png" />
+    <Resource Include="StepIcons\Exit.png" />
+    <Resource Include="StepIcons\For.png" />
+    <Resource Include="StepIcons\GetJournalItem.png" />
+    <Resource Include="StepIcons\GetListCount.png" />
+    <Resource Include="StepIcons\GetListItem.png" />
+    <Resource Include="StepIcons\GetObjectProperty.png" />
+    <Resource Include="StepIcons\Pause.png" />
+    <Resource Include="StepIcons\PlaySound.png" />
+    <Resource Include="StepIcons\ProcedureSelection.png" />
+    <Resource Include="StepIcons\SendEmail.png" />
+    <Resource Include="StepIcons\ShowMessage.png" />
+    <Resource Include="StepIcons\While.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BText.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\ControlVisualSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\ShowDialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\ControlPlanGet.png" />
+    <Resource Include="StepIcons\ControlPlanSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Norm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_CardReader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BAdrparameters.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\RunProgram.png" />
+    <Resource Include="StepIcons\ShowProperty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\TurnOn_InManual.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\TurnOff_InManual.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\GenerateGuid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\Export.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\Import.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\SetJournalItemGuid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GuardDetectorSound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Bush_Shuv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Buz_KV.png" />
+    <Resource Include="GKIcons\RSR2_Buz_KVDU.png" />
+    <Resource Include="GKIcons\RSR2_Buz_KVMV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_AM_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MDU24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\State1.png" />
+    <Resource Include="StateClassIcons\State2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_RM_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RedArrowUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GreenArrowDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GKMirrorItem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SKDZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\GKRelaysGroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\GKIndicatorsGroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_OPSZ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_OPKS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_OPKZ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\Now.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\ControlDevicesMirror.png" />
+    <Resource Include="GKIcons\DetectorDevicesMirror.png" />
+    <Resource Include="GKIcons\FirefightingZonesMirror.png" />
+    <Resource Include="GKIcons\FireZonesMirror.png" />
+    <Resource Include="GKIcons\GKMirror.png" />
+    <Resource Include="GKIcons\GuardZonesMirror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\DirectionsMirror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\HttpRequest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\CloseDialog.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -396,7 +396,7 @@
 /* Out color-profile framework values
 ----------------------------------------*/
 
-[data-bind="visible:pages.Report"], 
+[data-bind="visible:pages.Journal"], 
 [data-bind="visible:pages.Archive"], 
 [data-bind="visible:pages.HR"], 
 [data-bind="visible:pages.State"], 

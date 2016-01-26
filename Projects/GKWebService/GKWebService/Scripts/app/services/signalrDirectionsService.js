@@ -2,19 +2,19 @@
     'use strict';
 
     var app = angular.module('canvasApp.services')
-        .factory('signalrDirectionsService', ['Hub', function (Hub) {
+        .factory('signalrDirectionsService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
             var directionsUpdater;
             var startTestBroadcast1 = function () {
                 directionsUpdater.startTestBroadcast1(); //Calling a server method
             };
-            
+
             //declaring the hub connection
             directionsUpdater = new Hub('directionsUpdater', {
 
                 //client side methods
                 listeners: {
                     'updateDirection': function (direction) {
-                        console.info ("directionsUpdater");
+                        broadcastService.send('directionChanged', direction);
                     }
                 },
 

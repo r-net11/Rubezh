@@ -4,6 +4,6 @@
   
     angular.module('canvasApp.directives', []);
     angular.module('canvasApp.controllers', []);
-    angular.module('canvasApp.services', []);
+    angular.module('canvasApp.services', ['SignalR']);
 
 }());

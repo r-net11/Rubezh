@@ -369,6 +369,8 @@ namespace GKModule.ViewModels
 					device.GKReflectionItem.Zones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+					zone.AddDependentElement(device);
+					device.AddDependentElement(zone);
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -390,6 +392,8 @@ namespace GKModule.ViewModels
 					device.GKReflectionItem.GuardZones.Add(zone);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+					zone.AddDependentElement(device);
+					device.AddDependentElement(zone);
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -411,6 +415,8 @@ namespace GKModule.ViewModels
 					device.GKReflectionItem.Diretions.Add(direction);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+					direction.AddDependentElement(device);
+					device.AddDependentElement(direction);
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -432,6 +438,8 @@ namespace GKModule.ViewModels
 					device.GKReflectionItem.Devices.Add(detectordevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+					detectordevice.AddDependentElement(device);
+					device.AddDependentElement(detectordevice);
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -453,6 +461,8 @@ namespace GKModule.ViewModels
 					device.GKReflectionItem.Devices.Add(performerdevice);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+					performerdevice.AddDependentElement(device);
+					device.AddDependentElement(performerdevice);
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -474,6 +484,8 @@ namespace GKModule.ViewModels
 					device.GKReflectionItem.MPTs.Add(mpt);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
+					mpt.AddDependentElement(device);
+					device.AddDependentElement(mpt);
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();

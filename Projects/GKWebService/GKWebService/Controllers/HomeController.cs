@@ -30,7 +30,7 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public ActionResult Report()
+		public ActionResult Journal()
 		{
 			return View();
 		}
@@ -71,7 +71,13 @@ namespace GKWebService.Controllers
 					No = realDirection.No,
 					Name = realDirection.Name,
 					State = realDirection.State.StateClass.ToDescription(),
-					StateIcon = realDirection.State.StateClass.ToString()
+					StateIcon = realDirection.State.StateClass.ToString(),
+					OnDelay = realDirection.State.OnDelay,
+					HoldDelay = realDirection.State.HoldDelay,
+					GKDescriptorNo = realDirection.GKDescriptorNo,
+					Delay = realDirection.Delay,
+					Hold = realDirection.Hold,
+					DelayRegimeName = realDirection.DelayRegime.ToDescription(),
 				};
 				directions.Add(direction);
 			}
@@ -113,6 +119,7 @@ namespace GKWebService.Controllers
 			{
 				data.Add(new MPTModel {Name = mpt.Name, No = mpt.No, UID = mpt.UID});
 			}
+			data.Reverse();
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
