@@ -1,8 +1,6 @@
 ﻿using GKWebService.DataProviders.FireZones;
 using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
-using GKWebService.Models.FireZone;
-using GKWebService.Utils;
 using RubezhAPI;
 using RubezhAPI.Journal;
 using System;
@@ -99,18 +97,18 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-        public JsonResult GetFireZonesData()
-        {
-            return Json(FireZonesDataProvider.Instance.GetFireZones(), JsonRequestBehavior.AllowGet);
-        }
+		public JsonResult GetFireZonesData()
+		{
+			return Json(FireZonesDataProvider.Instance.GetFireZones(), JsonRequestBehavior.AllowGet);
+		}
 
-        /// <summary>
-        /// Метод, предоставляющий данные об устройствах для конкретной зоны
-        /// </summary>
-        public JsonResult GetDevicesListByZoneNumber(int id)
-        {
-            return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
-        }
+		/// <summary>
+		/// Метод, предоставляющий данные об устройствах для конкретной зоны
+		/// </summary>
+		public JsonResult GetDevicesListByZoneNumber(int id)
+		{
+			return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
+		}
 
 		public JsonResult GetMPTsData()
 		{
@@ -126,24 +124,6 @@ namespace GKWebService.Controllers
 			}
 			data.Reverse();
 			return Json(data, JsonRequestBehavior.AllowGet);
-		}
-
-		public JsonResult GetDelays()
-		{
-			var delays = new List<DelayModel>();
-			foreach (var delay in GKManager.Delays)
-			{
-				var copyDelay = new DelayModel
-				{
-					Number = delay.No,
-					Name = delay.Name,
-					PresentationLogic = GKManager.GetPresentationLogic(delay.Logic),
-					OnDelay = delay.State.OnDelay,
-					HoldDelay = delay.State.HoldDelay
-				};
-				delays.Add(copyDelay);
-			}
-			return Json(delays, JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

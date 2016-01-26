@@ -1,7 +1,7 @@
 ﻿(function () {
 
     function imageFormat(cellvalue, options, rowObject) {
-        return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/GKStateIcons/' + rowObject.StateIcon + '.png" />' + rowObject.No;
+        return '<img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/GKStateIcons/{{}}.png" />' + rowObject.No;
     };
 
     function linkFormat(cellvalue, options, rowObject) {
@@ -13,7 +13,45 @@
     var app = angular.module('canvasApp.controllers').controller('directionsCtrl',
         ['$scope', '$http', '$uibModal', 'signalrDirectionsService',
         function ($scope, $http, $uibModal, signalrDirectionsService) {
+            $scope.gridOptions = {
+                enableColumnResizing: true,
+                columnDefs: [
+                    { field: 'No', cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" />{{row.entity[col.field]}}</div>' },
+                    { field: 'Name', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.directionClick(row.entity)">{{row.entity[col.field]}}</a></div>' },
+                    { field: 'State' }
+                ]
+            };
+
+            $scope.signalrDirectionsService = signalrDirectionsService;
+
+            $scope.$on('directionChanged', function (event, args) {
+                var data = $scope.gridOptions.data;
+                for (var i = 0, len = data.length; i < len; i++) {
+                    if (args.UID === data[i].UID) {
+                        data[i].State = args.State;
+                        data[i].StateIcon = args.StateIcon;
+                        $scope.$apply();
+                        break;
+                    }
+                }
+            });
+
+            $scope.directionClick = function (direction) {
+                var modalInstance = $uibModal.open({
+                    animation: false,
+                    templateUrl: 'Directions/DirectionDetails',
+                    controller: 'directionDetailsCtrl',
+                    resolve: {
+                        direction: function () {
+                            return direction;
+                        }
+                    }
+                });
+            };
+
             $http.get('Home/GetDirections').success(function (data, status, headers, config) {
+                $scope.gridOptions.data = data.rows;
+/*
                 $scope.config = {
                     myClick: function (rowid) {
                         var modalInstance = $uibModal.open({
@@ -47,9 +85,8 @@
                 };
 
                 $scope.data = data.rows;
-
-                $scope.signalrDirectionsService = signalrDirectionsService;
-            });
+*/
+});
         }]
     );
 
