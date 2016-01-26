@@ -531,6 +531,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
+    <Compile Include="Controllers\MPTsController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
@@ -664,6 +665,7 @@
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Home\Journal.cshtml" />
+    <Content Include="Views\MPTs\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -676,7 +678,6 @@
     <Folder Include="Views\Archive\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\FireZones\" />
-    <Folder Include="Views\MPT\" />
     <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />
   </ItemGroup>
