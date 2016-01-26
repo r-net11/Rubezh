@@ -1,27 +1,31 @@
 ﻿<Properties StartupItem="FiresecService.LicenseEditor/FiresecService.LicenseEditor.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../Common/RubezhAPI/GKModels/Configuration/GKDeviceLibraryConfiguration.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Common/RubezhAPI/SKD/PassCardLibrary/ShortPassCardTemplate.cs">
     <Files>
-      <File FileName="../Common/RubezhAPI/GKModels/Directions/GKDirection.cs" Line="9" Column="9" />
-      <File FileName="../Common/RubezhAPI/Models/Video/Camera.cs" Line="11" Column="49" />
-      <File FileName="../Common/RubezhAPI/GKModels/SKD/GKDoor.cs" Line="12" Column="41" />
-      <File FileName="../Common/RubezhAPI/GKModels/Device/GKDevice.cs" Line="15" Column="43" />
-      <File FileName="../Common/RubezhAPI/GKModels/MPT/GKMPT.cs" Line="16" Column="25" />
-      <File FileName="../Common/RubezhAPI/GKModels/GKBase.cs" Line="15" Column="39" />
-      <File FileName="../Common/RubezhAPI/ModelBase.cs" Line="8" Column="15" />
-      <File FileName="../Common/RubezhAPI/GKModels/Zone/GKZone.cs" Line="15" Column="41" />
-      <File FileName="../Common/RubezhAPI/IFiresecServiceSKD.cs" Line="194" Column="35" />
+      <File FileName="../Common/RubezhAPI/GKModels/Directions/GKDirection.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/Models/Video/Camera.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/GKModels/SKD/GKDoor.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/GKModels/Device/GKDevice.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/GKModels/MPT/GKMPT.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/GKModels/GKBase.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/ModelBase.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/GKModels/Zone/GKZone.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/IFiresecServiceSKD.cs" Line="1" Column="1" />
       <File FileName="../Common/RubezhAPI/Gags.cs" Line="15" Column="2" />
-      <File FileName="../Common/RubezhAPI/Models/Automation/ExplicitValue.cs" Line="52" Column="15" />
-      <File FileName="../Common/RubezhAPI/Models/Configuration/PlansConfiguration.cs" Line="15" Column="3" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartImageProperties.cs" Line="11" Column="17" />
-      <File FileName="../Common/RubezhAPI/GKModels/Configuration/GKDeviceLibraryConfiguration.cs" Line="11" Column="4" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartTextProperties.cs" Line="14" Column="49" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartTimeProperties.cs" Line="14" Column="18" />
-      <File FileName="../Common/RubezhAPI/License/FiresecLicenseInfo.cs" Line="9" Column="36" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartProcedureProperties.cs" Line="14" Column="18" />
-      <File FileName="../Common/RubezhAPI/Models/Automation/AutomationConfiguration.cs" Line="349" Column="43" />
-      <File FileName="../Common/RubezhAPI/Models/Layouts/Layout.cs" Line="19" Column="53" />
+      <File FileName="../Common/RubezhAPI/Models/Automation/ExplicitValue.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/Models/Configuration/PlansConfiguration.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartImageProperties.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/GKModels/Configuration/GKDeviceLibraryConfiguration.cs" Line="12" Column="29" />
+      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartTextProperties.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartTimeProperties.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/License/FiresecLicenseInfo.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/Models/Layouts/LayoutPartProcedureProperties.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/Models/Automation/AutomationConfiguration.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/Models/Layouts/Layout.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/SKD/PassCardLibrary/PassCardImagePropertyType.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/SKD/PassCardLibrary/PassCardTemplateFilter.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/SKD/PassCardLibrary/PassCardTextPropertyType.cs" Line="1" Column="1" />
+      <File FileName="../Common/RubezhAPI/SKD/PassCardLibrary/ShortPassCardTemplate.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

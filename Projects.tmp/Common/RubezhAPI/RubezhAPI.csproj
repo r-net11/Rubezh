@@ -359,7 +359,6 @@
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnType.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnTypeFilter.cs" />
     <Compile Include="SKD\Department\ShortDepartment.cs" />
-    <Compile Include="Models\Video\IVSSContract.cs" />
     <Compile Include="SKD\Card\CardDoor.cs" />
     <Compile Include="SKD\TimeTrack\ScheduleZoneFilter.cs" />
     <Compile Include="SKD\TimeTrack\ScheduleFilter.cs" />
@@ -401,10 +400,7 @@
     <Compile Include="SKD\TimeTrack\ScheduleZone.cs" />
     <Compile Include="SKD\TimeTrack\ScheduleSchemeType.cs" />
     <Compile Include="SKD\Card\AccessTemplateFilter.cs" />
-    <Compile Include="SKD\PassCardLibrary\ElementPassCardImageProperty.cs" />
-    <Compile Include="SKD\PassCardLibrary\ElementPassCardTextProperty.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTextPropertyType.cs" />
-    <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
     <Compile Include="SKD\Position\Position.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplateFilter.cs" />
     <Compile Include="Models\Notification\Email.cs" />
@@ -454,9 +450,6 @@
     <Compile Include="GKModels\Guard\GKCode.cs" />
     <Compile Include="Journal\JournalEventDescriptionType.cs" />
     <Compile Include="Journal\JournalItem.cs" />
-    <Compile Include="GKModels\Library\GKLibraryDevice.cs" />
-    <Compile Include="GKModels\Library\GKLibraryFrame.cs" />
-    <Compile Include="GKModels\Library\GKLibraryState.cs" />
     <Compile Include="GKModels\Logic\ClauseConditionType.cs" />
     <Compile Include="GKModels\Logic\ClauseJounOperationType.cs" />
     <Compile Include="GKModels\Logic\ClauseOperationType.cs" />
