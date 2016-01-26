@@ -73,6 +73,11 @@ namespace GKWebService.DataProviders.FireZones
 
             int level = 0;
 
+            if (GKManager.Zones.Count - 1 < zoneNumber)
+            {
+                return null;
+            }
+
             foreach (var remoteDevice in GKManager.Zones[zoneNumber].Devices)
             {
                 data.DeviceList.Add(new Device()

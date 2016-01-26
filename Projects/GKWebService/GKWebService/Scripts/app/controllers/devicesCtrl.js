@@ -3,7 +3,7 @@
 
     var app = angular.module('canvasApp.controllers').controller('devicesCtrl',
         function ($scope, $http) {
-            $http.get('home/GetDevicesListByZoneNumber/1').success(function (data, status, headers, config) {
+            $http.get('home/GetDevicesListByZoneNumber/0').success(function (data, status, headers, config) {
                 $scope.data = [];
                 for (var i in data) {
                     var item = data[i].DeviceList;
