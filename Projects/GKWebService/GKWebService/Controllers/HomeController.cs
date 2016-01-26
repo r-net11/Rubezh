@@ -93,14 +93,18 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public JsonResult GetFireZonesData()
-		{
-            //Получаем данные о зонах
-		    var data = FireZonesDataProvider.Instance.GetFireZones();
+        public JsonResult GetFireZonesData()
+        {
+            return Json(FireZonesDataProvider.Instance.GetFireZones(), JsonRequestBehavior.AllowGet);
+        }
 
-			//Передаем данные на клиент
-			return Json(data, JsonRequestBehavior.AllowGet);
-		}
+        /// <summary>
+        /// Метод, предоставляющий данные об устройствах для конкретной зоны
+        /// </summary>
+        public JsonResult GetDevicesListByZoneNumber(int id)
+        {
+            return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
+        }
 
 		public JsonResult GetMPTsData()
 		{

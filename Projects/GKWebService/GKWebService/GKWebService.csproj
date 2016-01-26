@@ -549,6 +549,7 @@
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />

@@ -25,6 +25,9 @@ namespace GKWebService.Models.FireZone
         /// </summary>
         public String Note { get; set; }
 
+
+        public Int32 Level { get; set; }
+
         /// <summary>
         /// Индикатор статуса
         /// </summary>
@@ -34,17 +37,5 @@ namespace GKWebService.Models.FireZone
         /// Логотип устройства
         /// </summary>
         public Tuple<string, System.Drawing.Size> ImageBloom { get; set; }
-       
-        public Device(GKDevice device)
-        {
-            Address = device.Address;
-            Name = device.PresentationName;
-            Note = Name.IndexOf('(') > 0 ? Name.Split('(', ')')[1] : String.Empty;
-            //Получаем логотип устройства
-            ImageBloom = InternalConverter.GetImageResource(device.ImageSource);
-
-            //Получаем изображение индикатора устройства
-            StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(device.State.StateClass) + ".png");
-        }
     }
 }

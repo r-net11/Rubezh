@@ -5,20 +5,22 @@
         .factory('signalrFireZonesService', ['Hub', function (Hub) {
             var fireZonesUpdater;
 
-            var startTestBroadcast = function () {
-                fireZonesUpdater.startTestBroadcast(); //Calling a server method
+            var startStatesMonitoring = function () {
+                fireZonesUpdater.StartStatesMonitoring(); //Calling a server method
             };
 
             fireZonesUpdater = new Hub('fireZonesUpdater', {
                 //client side methods
                 listeners: {
-                    'RefreshZoneState': function (imageBloom) {
-                        $('td:nth-child(2) > img:nth-child(2)')[0].src = "data:image/gif;base64," + imageBloom;
+                    'RefreshZoneState': function (data) {
+                        for (var i in data) {
+                            $('td:nth-child(2) > img:nth-child(2)')[i].src = "data:image/gif;base64," + data[i].StateImageSource.Item1;
+                        }
                     }
                 },
 
                 //server side methods
-                methods: ['startTestBroadcast'],
+                methods: ['StartStatesMonitoring'],
 
                 //query params sent on initial connection
                 queryParams: {
@@ -39,7 +41,7 @@
                             //your code here
                             break;
                         case $.signalR.connectionState.connected:
-                            startTestBroadcast();
+                            startStatesMonitoring();
                             break;
                         case $.signalR.connectionState.reconnecting:
                             //your code here
@@ -51,7 +53,7 @@
                 }
             });
             return {
-                startTest: startTestBroadcast
+                startMonitoring: startStatesMonitoring
             };
         }]);
 }());
