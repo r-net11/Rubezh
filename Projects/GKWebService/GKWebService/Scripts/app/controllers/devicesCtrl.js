@@ -3,23 +3,27 @@
 
     var app = angular.module('canvasApp.controllers').controller('devicesCtrl',
         function ($scope, $http) {
-            $http.get('home/GetFireZonesData').success(function (data, status, headers, config) {
+            $http.get('home/GetDevicesListByZoneNumber/0').success(function (data, status, headers, config) {
                 $scope.data = [];
-                for (var i in data.devicesList) {
-                    var item = data.devicesList[i];
-                    var image1 = "<img src= data:image/gif;base64," + item.StateImageSource.Item1 + "> ";
-                    var image2 = "<img src= data:image/gif;base64," + item.ImageBloom.Item1 + " height=16 width =16>";
+                for (var i in data) {
+                    var item = data[i].DeviceList;
+                    for (var j in item) {
+                        var element = item[j];
+                        var image1 = "<img src= data:image/gif;base64," + element.StateImageSource.Item1 + "> ";
+                        var image2 = "<img src= data:image/gif;base64," + element.ImageBloom.Item1 + " height=16 width =16>";
 
-                    $scope.data.push({
-                        device: i > 0 ? image1 + image2 + item.Name : image2 + item.Name,
-                        address: item.Address,
-                        note: item.Note,
-                        id: i,
-                        level: i,
-                        parent: (i > 0) ? (i - 1).toString() : "null",
-                        isLeaf: (i == data.devicesList.length - 1) ? true : false,
-                        expanded: true
-                    });
+                        $scope.data.push({
+                            device: i > 0 ? image1 + image2 + element.Name : image2 + element.Name,
+                            address: element.Address,
+                            note: element.Note,
+                            id: (parseInt(i) + parseInt(j)).toString(),
+                            level: data.length - element.Level,
+                            parent: (i > 0) ? (i - 1) : null,
+                            isLeaf: (i == data.length - 1) ? true : false,
+                            expanded: true
+                        });
+                    }
+                    
                 }
 
                 $scope.config = {

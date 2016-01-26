@@ -254,6 +254,8 @@
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InAutomatic.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InManual.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\Unknown.png" />
+    <Content Include="Content\Image\Icon\GK\BJournal.png" />
+    <Content Include="Content\Image\Icon\GK\Blue_Direction.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
@@ -555,6 +557,7 @@
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />

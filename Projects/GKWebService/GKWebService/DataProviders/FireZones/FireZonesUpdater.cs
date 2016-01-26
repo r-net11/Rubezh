@@ -3,6 +3,7 @@ using System.Threading;
 using GKWebService.Models.FireZone;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using System.Collections.Generic;
 
 namespace GKWebService.DataProviders.FireZones
 {
@@ -12,7 +13,7 @@ namespace GKWebService.DataProviders.FireZones
 		private static readonly Lazy<FireZonesUpdater> _instance = new Lazy<FireZonesUpdater>(
             () => new FireZonesUpdater(GlobalHost.ConnectionManager.GetHubContext<FireZonesUpdaterHub>().Clients));
 
-		private readonly object _testBroadcastLock = new object();
+		private readonly object _startStatesMonitoringLock = new object();
 		private readonly object _testSendMessageLock = new object();
 		private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(250);
 		private volatile bool _sendingTestMessage;
@@ -30,12 +31,17 @@ namespace GKWebService.DataProviders.FireZones
         /// </summary>
         public static FireZonesUpdater Instance { get { return _instance.Value; } }
 
-		public void StartTestBroadcast() {
-			lock (_testBroadcastLock) {
+        public void StartStatesMonitoring()
+        {
+			lock (_startStatesMonitoringLock) {
                 _data = FireZonesDataProvider.Instance.GetFireZones();
                 
+                _currentState = new List<String>();
                 //назначаем текущий статус зоны
-			    _currentState = _data.StateLabel;
+			    foreach (var item in _data)
+			    {
+                    _currentState.Add(item.StateLabel);
+			    }
 
                 _timer = new Timer(_refreshZoneState, null, _updateInterval, _updateInterval);
 			}
@@ -48,22 +54,33 @@ namespace GKWebService.DataProviders.FireZones
         {
             //Получаем текущие данные
             _data = FireZonesDataProvider.Instance.GetFireZones();
-
-            if (_data.StateLabel != _currentState)
+            bool flag = false;
+            foreach (var item in _data)
             {
-                _currentState = _data.StateLabel;
-                Clients.All.RefreshZoneState(_data.StateImageSource.Item1);
+                if (item.StateLabel != _currentState[_data.IndexOf(item)])
+                {
+                    _currentState[_data.IndexOf(item)] = item.StateLabel;
+                    flag = true;
+                    
+                }    
             }
+
+            if (flag)
+            {
+                Clients.All.RefreshZoneState(_data);
+                flag = false;
+            }
+            
         }
 
         /// <summary>
         /// Данные о зоне
         /// </summary>
-        private FireZone _data { get; set; }
+        private List<FireZone> _data;
 
         /// <summary>
         /// Текущий статус зоны (ConnectionLost, Norm, etc...)
         /// </summary>
-        private String _currentState { get; set; }
+        private List<String> _currentState;
     }
 }

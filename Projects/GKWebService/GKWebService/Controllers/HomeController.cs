@@ -71,7 +71,13 @@ namespace GKWebService.Controllers
 					No = realDirection.No,
 					Name = realDirection.Name,
 					State = realDirection.State.StateClass.ToDescription(),
-					StateIcon = realDirection.State.StateClass.ToString()
+					StateIcon = realDirection.State.StateClass.ToString(),
+					OnDelay = realDirection.State.OnDelay,
+					HoldDelay = realDirection.State.HoldDelay,
+					GKDescriptorNo = realDirection.GKDescriptorNo,
+					Delay = realDirection.Delay,
+					Hold = realDirection.Hold,
+					DelayRegimeName = realDirection.DelayRegime.ToDescription(),
 				};
 				directions.Add(direction);
 			}
@@ -93,14 +99,18 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public JsonResult GetFireZonesData()
-		{
-            //Получаем данные о зонах
-		    var data = FireZonesDataProvider.Instance.GetFireZones();
+        public JsonResult GetFireZonesData()
+        {
+            return Json(FireZonesDataProvider.Instance.GetFireZones(), JsonRequestBehavior.AllowGet);
+        }
 
-			//Передаем данные на клиент
-			return Json(data, JsonRequestBehavior.AllowGet);
-		}
+        /// <summary>
+        /// Метод, предоставляющий данные об устройствах для конкретной зоны
+        /// </summary>
+        public JsonResult GetDevicesListByZoneNumber(int id)
+        {
+            return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
+        }
 
 		public JsonResult GetMPTsData()
 		{

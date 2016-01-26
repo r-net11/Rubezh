@@ -20,8 +20,8 @@ namespace GKWebService.DataProviders.FireZones
             _fireZonesUpdater = fireZonesUpdater;
 		}
         
-        public void StartTestBroadcast(){
-            _fireZonesUpdater.StartTestBroadcast();
+        public void StartStatesMonitoring(){
+            _fireZonesUpdater.StartStatesMonitoring();
         }
     }
 }

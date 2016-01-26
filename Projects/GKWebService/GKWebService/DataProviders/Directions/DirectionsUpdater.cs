@@ -65,6 +65,10 @@ namespace GKWebService.DataProviders
 					StateIcon = realDirection.State.StateClass.ToString(),
 					OnDelay = realDirection.State.OnDelay,
 					HoldDelay = realDirection.State.HoldDelay,
+					GKDescriptorNo = realDirection.GKDescriptorNo,
+					Delay = realDirection.Delay,
+					Hold = realDirection.Hold,
+					DelayRegimeName = realDirection.DelayRegime.ToDescription(),
                 };
 				_directions.TryAdd(direction.UID, direction);
 			}

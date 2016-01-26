@@ -39,6 +39,14 @@
                 $http.post('Directions/TurnOff', { id: $scope.direction.UID });
             };
 
+            $scope.Show = function () {
+                
+            };
+
+            $scope.ShowJournal = function() {
+
+            };
+
             $scope.ok = function () {
                 $uibModalInstance.close();
             };
