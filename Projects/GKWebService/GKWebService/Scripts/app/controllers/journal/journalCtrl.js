@@ -128,7 +128,7 @@
 					name: 'Подсистема',
 					cellTemplate:
 						'<div class="ui-grid-cell-contents">\
-							<img style="vertical-align: middle; padding-right: 3px; width: 16px" src="/Content/Image/Icon/SubsystemTypes/{{row.entity.SubsystemImage}}.png" />\
+							<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="/Content/Image/Icon/SubsystemTypes/{{row.entity.SubsystemImage}}.png" />\
 							{{row.entity.Subsystem}}\
 						</div>'
 				}

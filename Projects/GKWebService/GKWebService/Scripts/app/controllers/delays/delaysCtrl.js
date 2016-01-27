@@ -1,6 +1,6 @@
 ﻿(function () {
 	'use strict';
-	var nameTemplate = '<p><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" />' +
+	var nameTemplate = '<p><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" />' +
 		'<button class="btn-link" ng-click="grid.appScope.showDialogWindow()">{{row.entity.Name}}</button></p>';
 
 	var delaysApp = angular.module("canvasApp.controllers");

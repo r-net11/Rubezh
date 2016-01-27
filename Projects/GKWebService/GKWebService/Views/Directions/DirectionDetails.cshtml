@@ -13,7 +13,7 @@
             <div style="float: left; width: 300px">
                 <ul>
                     <li ng-repeat="stateClass in directionState.StateClasses">
-                        <img style="margin: 2px; vertical-align:middle" src="{{stateClass.IconData}}"/>
+                        <img style="margin: 2px; vertical-align:middle" ng-src="{{stateClass.IconData}}"/>
                         {{stateClass.Name}}
                     <li>
                 </ul>
@@ -34,7 +34,7 @@
         <uib-tabset>
             <uib-tab heading="Управление">
                 <div>
-                    <img style="margin: 2px; vertical-align:middle" src="{{directionState.ControlRegimeIcon}}"/>
+                    <img style="margin: 2px; vertical-align:middle" ng-src="{{directionState.ControlRegimeIcon}}"/>
                     <span style="font-weight: bold; margin: 2px">Режим</span>
                     <span style="font-weight: bold; margin: 2px">{{directionState.ControlRegimeName}}</span>
                 </div>

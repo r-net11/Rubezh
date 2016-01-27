@@ -1,6 +1,6 @@
 ﻿(function () {
 
-	angular.module('canvasApp.controllers').controller('directionDetailsCtrl',
+	angular.module('canvasApp.controllers').controller('delayDetailsCtrl',
         function ($scope, $uibModalInstance, $http, direction) {
         	$scope.direction = direction;
 
