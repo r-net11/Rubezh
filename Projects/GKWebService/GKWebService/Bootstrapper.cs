@@ -1,4 +1,5 @@
 ﻿using GKProcessor;
+using GKWebService.DataProviders;
 using Infrastructure.Common;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -114,6 +115,10 @@ namespace GKWebService
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
+					if (DirectionsUpdaterHub.Instance != null)
+					{
+						DirectionsUpdaterHub.Instance.BroadcastDirection(direction);
+					}
 				}
 			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)

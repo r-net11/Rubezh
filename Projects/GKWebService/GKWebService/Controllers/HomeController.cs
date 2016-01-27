@@ -63,21 +63,7 @@ namespace GKWebService.Controllers
 			var directions = new List<Direction>();
 			foreach (var realDirection in GKManager.Directions)
 			{
-				var direction = new Direction
-				{
-					UID = realDirection.UID,
-					No = realDirection.No,
-					Name = realDirection.Name,
-					Delay = realDirection.Delay,
-					Hold = realDirection.Hold,
-					DelayRegime = realDirection.DelayRegime.ToDescription(),
-					Logic = GKManager.GetPresentationLogic(realDirection.Logic),
-					State = realDirection.State.StateClass.ToDescription(),
-					StateIcon = realDirection.State.StateClass.ToString(),
-					OnDelay = realDirection.State.OnDelay,
-					HoldDelay = realDirection.State.HoldDelay,
-					GKDescriptorNo = realDirection.GKDescriptorNo,
-				};
+				var direction = new Direction(realDirection);
 				directions.Add(direction);
 			}
 
