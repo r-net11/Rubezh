@@ -558,7 +558,7 @@
     <Compile Include="Models\GK\DeviceControlRegime.cs" />
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
-    <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\DelayViewModel.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
     <Compile Include="Models\MPTModel.cs" />
@@ -666,6 +666,7 @@
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Home\Journal.cshtml" />
+    <Content Include="Views\Delays\DelayDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

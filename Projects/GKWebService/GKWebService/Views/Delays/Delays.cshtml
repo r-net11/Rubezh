@@ -4,13 +4,7 @@
 
 <div>
 	<div ng-controller="delaysCtrl">
-		<ng-jq-grid config="config" data="data" id="delays"></ng-jq-grid>
-		<input type="button" ng-click="ButtonClick()" value="Кнопка" />
-		<p>{{Message}}</p>
-	</div>
-	<div ng-controller="uiGridCtrl">
 		<div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav class="myGrid"></div>
-		<input type="button" ng-click="delayChange()" value="DelayChange()" />
 	</div>
 </div>
 

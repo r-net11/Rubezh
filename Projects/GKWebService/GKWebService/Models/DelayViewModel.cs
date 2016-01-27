@@ -1,10 +1,11 @@
-﻿using RubezhAPI;
+﻿using GKWebService.DataProviders;
+using RubezhAPI;
 using RubezhAPI.GK;
 using System.Linq;
 
 namespace GKWebService.Models
 {
-	public class DelayModel
+	public class DelayViewModel
 	{
 		public int Number { get; set; }
 		public string Name { get; set; }
@@ -12,9 +13,10 @@ namespace GKWebService.Models
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }
 		public string StateIcon { get; set; }
+		public string Uid { get; set; }
 		GKState State { get; set; }
 		GKDelay Delay { get; set; }
-		public DelayModel(GKDelay delay)
+		public DelayViewModel(GKDelay delay)
 		{
 			Number = delay.No;
 			Name = delay.Name;
@@ -22,12 +24,15 @@ namespace GKWebService.Models
 			OnDelay = delay.State.OnDelay;
 			HoldDelay = delay.State.HoldDelay;
 			StateIcon = delay.State.StateClass.ToString();
+			Uid = delay.UID.ToString();
 			Delay = GKManager.Delays.FirstOrDefault(x => x.UID == delay.UID);
 			Delay.State.StateChanged += OnStateChanged;
 		}
 		void OnStateChanged()
 		{
-
+			StateIcon = Delay.State.StateClass.ToString();
+			if (DelaysHub.Instance != null)
+				DelaysHub.Instance.DelayStateIconUpdate(Uid, StateIcon);
 		}
 	}
 }
