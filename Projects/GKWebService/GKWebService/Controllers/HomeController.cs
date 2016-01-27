@@ -134,27 +134,5 @@ namespace GKWebService.Controllers
 
 			return Json(new { Success = error == null, Message = error });
 		}
-
-
-		public JsonResult GetJournal()
-		{
-			var apiItems = JournalHelper.Get(new JournalFilter());
-			var list = apiItems.Select(x => new ReportModel()
-			{
-				Desc = x.JournalEventDescriptionType.ToDescription(),
-				DeviceDate = DateTime.Now,
-				Name = x.JournalEventNameType.ToDescription(),
-				Object = x.JournalObjectType.ToDescription(),
-				SystemDate = DateTime.Now
-			}).ToList();
-			dynamic result = new
-			{
-				page = 1,
-				total = list.Count(),
-				records = list.Count(),
-				rows = list,
-			};
-			return Json(result, JsonRequestBehavior.AllowGet);
-		}
 	}
 }
