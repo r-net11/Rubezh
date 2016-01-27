@@ -363,18 +363,20 @@
     <Content Include="Scripts\app\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
     <Content Include="Scripts\app\controllers\directions\directionDetailsCtrl.js" />
-    <Content Include="Scripts\app\controllers\mptsCtrl.js" />
+    <Content Include="Scripts\app\controllers\MPTs\mptsCtrl.js" />
     <Content Include="Scripts\app\controllers\delays\delaysCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
     <Content Include="Scripts\app\controllers\journalCtrl.js" />
     <Content Include="Scripts\app\controllers\MPTsUpdateHub.js" />
+    <Content Include="Scripts\app\controllers\MPTs\mptsDetailsCtrl.js" />
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
     <Content Include="Scripts\app\controllers\planCtrl.js" />
     <Content Include="Scripts\app\controllers\zonesCtrl.js" />
     <Content Include="Scripts\app\directives\d3Plan.js" />
     <Content Include="Scripts\app\directives\ngJqGrid.js" />
     <Content Include="Scripts\app\services\broadcastService.js" />
+    <Content Include="Scripts\app\services\signalMPTsService.js" />
     <Content Include="Scripts\app\services\signalrDirectionsService.js" />
     <Content Include="Scripts\app\services\signalrFireZonesService.js" />
     <Content Include="Scripts\app\services\signalrService.js" />
@@ -669,6 +671,7 @@
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Home\Journal.cshtml" />
     <Content Include="Views\MPTs\Index.cshtml" />
+    <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

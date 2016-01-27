@@ -1,0 +1,31 @@
+﻿(function () {
+    'use strict';
+    var app = angular.module('canvasApp.controllers').controller ('mptsCtrl',['$scope', '$http', '$uibModal', 'signalrDirectionsService',
+           function ($scope, $http, $uibModal, signalrDirectionsService) {
+               $scope.uiGrid = {
+                   enableColumnResizing: true,
+                   columnDefs:
+                     [{ field: 'No', displayName: 'No', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Delay.png"/>{{row.entity.No}}</div>' },
+                      { field: 'Name', displayName: 'МПТ', width: 450, cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.mptClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity.Name}}</a></div>' },
+                      { field: 'Delay', displayName: 'Задержка', width: 200 }],
+               },
+
+                $scope.mptClick = function (mpt) {
+                    var modalInstance = $uibModal.open({
+                        animation: false,
+                        templateUrl: 'MPTs/MPTDetails',
+                        controller: 'mptsDetailsCtrl',
+                        resolve: {
+                            mpt: function () {
+                                return mpt;
+                            }
+                        }
+                    });
+                };
+
+               $http.get('MPTs/GetMPTsData').success(function (data) {
+                   $scope.uiGrid.data = data;
+
+               });
+           }]);
+}());

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +19,7 @@ namespace GKWebService.Models
 		public String MptLogic { get; set; }
 		public List<MPTDevice> MPTDevices { get; set; }
 		public int Delay { get; set; }
+		public string StateIcon { get; set; }
 		
 	}
 }
