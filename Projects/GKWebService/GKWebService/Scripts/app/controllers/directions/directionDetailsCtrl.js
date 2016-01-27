@@ -1,6 +1,7 @@
 ﻿(function () {
 
     angular.module('canvasApp.controllers').controller('directionDetailsCtrl',
+        function ($scope, $uibModalInstance, $http, direction) {
             $scope.direction = direction;
 
             $scope.$on('directionChanged', function (event, args) {
