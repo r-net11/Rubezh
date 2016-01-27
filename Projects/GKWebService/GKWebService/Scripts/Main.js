@@ -3,7 +3,6 @@
 function MenuViewModel() {
 	var self = {};
 
-	console.log("MenuViewModel");
 	self.pages = {
 		State: ko.observable(false),
 		Journal: ko.observable(false),
@@ -103,7 +102,6 @@ function HeaderIconsViewModel() {
 
 var app = new function AppViewModel() {
 	var self = this;
-	console.log("daefs");
 	self.Menu = MenuViewModel();
 
 	self.Header = HeaderIconsViewModel();

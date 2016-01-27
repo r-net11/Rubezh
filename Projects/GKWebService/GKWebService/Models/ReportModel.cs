@@ -5,11 +5,11 @@ using System.Web;
 
 namespace GKWebService.Models
 {
-    public class ReportModel
+    public class JournalModel
     {
-        public DateTime? DeviceDate { get; set; }
+		public string DeviceDate { get; set; }
 
-        public DateTime? SystemDate { get; set; }
+		public string SystemDate { get; set; }
 
         public string Name { get; set; }
 
@@ -18,6 +18,8 @@ namespace GKWebService.Models
         public string Object { get; set; }
 
         public string Subsystem { get; set; }
+
+		public string SubsystemImage { get; set; }
 
         public string User { get; set; }
     }

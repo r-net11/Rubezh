@@ -2,7 +2,7 @@
 $(document).ready(function () {
 
     $("#jqGridArchive").jqGrid({
-        url: '/Home/GetJournal',
+        url: '/Journal/GetJournal',
         datatype: "json",
         colModel: [
            { label: 'Дата в приборе', name: 'DeviceDate', formatter: Formatter.date, formatoptions: { newformat: 'M/D/YYYY HH:mm:ss' }, width: 75, sortable: false },
