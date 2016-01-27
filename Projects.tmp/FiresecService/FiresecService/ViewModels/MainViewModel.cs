@@ -50,15 +50,6 @@ namespace FiresecService.ViewModels
 
 		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
 		{
-			_dispatcher.Invoke((Action)(() =>
-			{
-				var startupMessageBoxViewModel = new ServerMessageBoxViewModel(viewModel.Title, viewModel.Message, viewModel.MessageBoxButton, viewModel.MessageBoxImage, viewModel.IsException);
-				if (isModal)
-					DialogService.ShowModalWindow(startupMessageBoxViewModel);
-				else
-					DialogService.ShowWindow(startupMessageBoxViewModel);
-				viewModel.Result = startupMessageBoxViewModel.Result;
-			}));
 		}
 
 		string _status;
@@ -158,7 +149,7 @@ namespace FiresecService.ViewModels
 		{
 			if (Current != null)
 			{
-				Current._dispatcher.BeginInvoke((Action)(() => { Current.LocalAddress = address; }));
+				Current.LocalAddress = address;
 			}
 		}
 
@@ -166,7 +157,7 @@ namespace FiresecService.ViewModels
 		{
 			if (Current != null)
 			{
-				Current._dispatcher.BeginInvoke((Action)(() => { Current.RemoteAddress = address; }));
+				Current.RemoteAddress = address;
 			}
 		}
 
