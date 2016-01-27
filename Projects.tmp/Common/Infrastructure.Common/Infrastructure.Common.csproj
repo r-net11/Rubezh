@@ -217,6 +217,7 @@
     <Compile Include="Windows\ViewModels\WindowBaseViewModel.cs" />
     <Compile Include="Gags.cs" />
     <Compile Include="Windows\Views\WindowBaseView.xaml.cs" />
+    <Compile Include="BalloonToolTip\BalloonHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

@@ -43,6 +43,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_title = value;
+				Console.Title = value;
 				OnPropertyChanged(() => Title);
 			}
 		}

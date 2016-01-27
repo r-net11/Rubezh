@@ -8,15 +8,17 @@ using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
 using Infrastructure.Automation;
 
-namespace FiresecServiceRunner
+namespace FiresecService
 {
-	public class App
+	class MainClass
 	{
 		private const string SignalId = "{9C3B6318-48BB-40D0-9249-CA7D9365CDA5}";
 		private const string WaitId = "{254FBDB4-7632-42A8-B2C2-27176EF7E60C}";
 
-		void OnStartup()
+		public static void Main (string[] args)
 		{
+			Console.WriteLine ("Starting...");
+
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
 			ServerLoadHelper.SetStatus(FSServerState.Opening);
 
@@ -36,10 +38,11 @@ namespace FiresecServiceRunner
 			}
 		}
 
-		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
 			Bootstrapper.Close();
 		}
 	}
 }
+
