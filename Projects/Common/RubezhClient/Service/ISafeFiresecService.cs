@@ -154,7 +154,7 @@ namespace RubezhClient
 		void ImportOrganisationList(bool isWithDeleted, string path);
 		OperationResult<bool> IsAnyOrganisationItems(Guid uid);
 		bool LayoutChanged(Guid clientUID, Guid layoutUID);
-		OperationResult<bool> MarkDeletedAccessTemplate(AccessTemplate item);
+		OperationResult<List<string>> MarkDeletedAccessTemplate(AccessTemplate item);
 		OperationResult<bool> MarkDeletedAdditionalColumnType(Guid uid, string name);
 		OperationResult<bool> MarkDeletedDayInterval(Guid uid, string name);
 		OperationResult<bool> MarkDeletedDepartment(ShortDepartment item);
