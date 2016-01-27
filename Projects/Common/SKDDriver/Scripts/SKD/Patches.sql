@@ -1534,3 +1534,78 @@ BEGIN
 	END
 END
 GO
+
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKDaySchedule')
+BEGIN
+	DROP TABLE [GKDaySchedule]
+END
+GO
+
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKSchedule')
+BEGIN
+	DROP TABLE [GKSchedule]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_NightSettings_IsNightSettingsEnabled_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [NightSettings], [IsNightSettingsEnabled]
+	INSERT INTO Patches (Id) VALUES ('Drop_NightSettings_IsNightSettingsEnabled_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_Schedule_AllowedAbsentLowThan_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [Schedule], [AllowedAbsentLowThan]
+	INSERT INTO Patches (Id) VALUES ('Drop_NightSettings_AllowedAbsentLowThan_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_Schedule_NotAllowOvertimeLowerThan_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [Schedule], [NotAllowOvertimeLowerThan]
+	INSERT INTO Patches (Id) VALUES ('Drop_Schedule_NotAllowOvertimeLowerThan_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_Schedule_IsEnabledAllowLate_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [Schedule], [IsEnabledAllowLate]
+	INSERT INTO Patches (Id) VALUES ('Drop_Schedule_IsEnabledAllowLate_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_Schedule_IsEnabledAllowEarlyLeave_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [Schedule], [IsEnabledAllowEarlyLeave]
+	INSERT INTO Patches (Id) VALUES ('Drop_Schedule_IsEnabledAllowEarlyLeave_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_Schedule_IsAllowAbsent_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [Schedule], [IsAllowAbsent]
+	INSERT INTO Patches (Id) VALUES ('Drop_Schedule_IsAllowAbsent_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_Schedule_IsEnabledOvertime_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [Schedule], [IsEnabledOvertime]
+	INSERT INTO Patches (Id) VALUES ('Drop_Schedule_IsEnabledOvertime_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_TimeTrackDocument_IsOutside_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [TimeTrackDocument], [IsOutside]
+	INSERT INTO Patches (Id) VALUES ('Drop_TimeTrackDocument_IsOutside_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_TimeTrackDocumentType_IsSystem_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [TimeTrackDocumentType], [IsSystem]
+	INSERT INTO Patches (Id) VALUES ('Drop_TimeTrackDocumentType_IsSystem_Default')
+END
+GO
