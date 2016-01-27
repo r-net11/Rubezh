@@ -4,8 +4,8 @@
     var app = angular.module('canvasApp.services')
         .factory('signalrDirectionsService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
             var directionsUpdater;
-            var startTestBroadcast1 = function () {
-                directionsUpdater.startTestBroadcast1(); //Calling a server method
+            var startTestBroadcast = function () {
+                directionsUpdater.startTestBroadcast(); //Calling a server method
             };
 
             //declaring the hub connection
@@ -19,7 +19,7 @@
                 },
 
                 //server side methods
-                methods: ['startTestBroadcast1'],
+                methods: ['startTestBroadcast'],
 
                 //query params sent on initial connection
                 queryParams: {
@@ -40,7 +40,7 @@
                         //your code here
                         break;
                     case $.signalR.connectionState.connected:
-                        startTestBroadcast1();
+                        startTestBroadcast();
                         break;
                     case $.signalR.connectionState.reconnecting:
                         //your code here
@@ -52,7 +52,7 @@
                 }
             });
             return {
-                startTest: startTestBroadcast1
+                startTest: startTestBroadcast
             };
         }]);
 }());
