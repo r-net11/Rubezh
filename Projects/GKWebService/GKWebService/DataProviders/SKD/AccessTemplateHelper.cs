@@ -28,7 +28,7 @@ namespace GKWebService.DataProviders.SKD
 		public static bool MarkDeleted(AccessTemplate accessTemplate)
 		{
 			var result = ClientManager.FiresecService.MarkDeletedAccessTemplate(accessTemplate);
-			return Common.ThrowErrorIfExists(result);
+			return Common.ThrowErrorIfExists(result) != null;
 		}
 
 		public static bool Restore(AccessTemplate accessTemplate)
