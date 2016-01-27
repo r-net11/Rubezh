@@ -2,15 +2,11 @@
 using System.Windows.Media;
 using System.Windows.Threading;
 using Common;
-using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
 	public class BalloonHelper
 	{
-		static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
-		static Brush ForegroundColor = Brushes.Black;
-
 		public static void ShowFromFiresec(string text)
 		{
 			Show("Глобал", text);
@@ -33,26 +29,10 @@ namespace Infrastructure.Common.BalloonTrayTip
 
 		public static void Show(string title, string text)
 		{
-			Show(title, text, Brushes.Black, Brushes.Cornsilk);
-		}
-
-		public static void Show(string title, string text, Brush foregroundColor, Brush backgroundColor)
-		{
-			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-			{
-				try
-				{
-					if (balloonToolTipViewModel == null)
-					{
-						balloonToolTipViewModel = new BalloonToolTipViewModel();
-					}
-					balloonToolTipViewModel.Add(title, text, foregroundColor, backgroundColor);
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "BalloonHelper.Show");
-				}
-			}));
+			var foregroundColor = Console.ForegroundColor;
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.WriteLine ("{0}: {1}", title, text);
+			Console.ForegroundColor = foregroundColor;
 		}
 	}
 }

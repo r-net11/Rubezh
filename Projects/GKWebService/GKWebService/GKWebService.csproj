@@ -467,6 +467,7 @@
     <Content Include="Content\ui-grid.woff" />
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
+    <Content Include="Content\ui-grid.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -562,7 +563,7 @@
     <Compile Include="Models\GK\DeviceControlRegime.cs" />
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
-    <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\DelayViewModel.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
@@ -670,6 +671,7 @@
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Home\Journal.cshtml" />
+    <Content Include="Views\Delays\DelayDetails.cshtml" />
     <Content Include="Views\MPTs\Index.cshtml" />
     <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <None Include="Web.Debug.config">

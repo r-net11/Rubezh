@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNet.SignalR;
 
-namespace GKWebService.DataProviders.Delays
+namespace GKWebService.DataProviders
 {
 	public class DelaysHub : Hub
 	{
-		public void DelaysUpdate(string name, string message)
+		public static DelaysHub Instance { get; private set; }
+		public void CreateInstance()
 		{
-			Clients.All.addNewMessageToPage(name, message);
+			Instance = this;
+		}
+		public void DelayStateIconUpdate(string delayUid, string stateIcon)
+		{
+			Clients.All.delayStateUpdate(delayUid, stateIcon);
 		}
 	}
 }

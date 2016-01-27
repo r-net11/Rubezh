@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Windows;
 using Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows.Views;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Services;
 

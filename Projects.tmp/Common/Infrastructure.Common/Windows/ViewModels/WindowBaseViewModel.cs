@@ -18,7 +18,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			TopMost = false;
 			HideInTaskbar = false;
 			AllowClose = true;
-			ResizeMode = System.Windows.ResizeMode.CanResize;
 		}
 
 		public Window Surface { get; private set; }
@@ -44,6 +43,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_title = value;
+				Console.Title = value;
 				OnPropertyChanged(() => Title);
 			}
 		}
@@ -66,7 +66,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_sizable = value;
 				OnPropertyChanged(() => Sizable);
-				ResizeMode = Sizable ? ResizeMode.CanResize : ResizeMode.CanMinimize;
 				OnPropertyChanged(() => ResizeMode);
 			}
 		}
@@ -89,9 +88,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		
 		public virtual void OnLoad()
 		{
-			Surface.Owner = DialogService.GetActiveWindow();
-			Surface.ShowInTaskbar = Surface.Owner == null;
-			Surface.WindowStartupLocation = Surface.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
+			
 		}
 
 		public virtual bool OnClosing(bool isCanceled)
@@ -107,14 +104,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 		public void Close(bool result)
 		{
-			if (Surface != null)
-			{
-				AllowClose = true;
-				if (ComponentDispatcher.IsThreadModal && Surface.IsModal())
-					Surface.DialogResult = result;
-				Surface.Close();
-			}
-			CloseResult = result;
 		}
 
 		internal void InternalClosing(CancelEventArgs e)
@@ -125,11 +114,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 		internal void InternalClosed()
 		{
-			if (Closed != null)
-				Closed(this, EventArgs.Empty);
-			OnClosed();
-			if (Surface.Owner != null)
-				Surface.Owner.Activate();
+			
 		}
 
 		public virtual void Loaded()

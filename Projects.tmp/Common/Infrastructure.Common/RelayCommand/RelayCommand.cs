@@ -81,11 +81,7 @@ namespace Infrastructure.Common
 			return true;
 		}
 
-		public event EventHandler CanExecuteChanged
-		{
-			add { CommandManager.RequerySuggested += value; }
-			remove { CommandManager.RequerySuggested -= value; }
-		}
+		public event EventHandler CanExecuteChanged;
 		#endregion
 	}
 
@@ -149,8 +145,8 @@ namespace Infrastructure.Common
 
 		event EventHandler ICommand.CanExecuteChanged
 		{
-			add { CommandManager.RequerySuggested += value; }
-			remove { CommandManager.RequerySuggested -= value; }
+			add { }
+			remove { }
 		}
 		#endregion
 	}

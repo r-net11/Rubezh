@@ -16,13 +16,7 @@ namespace Infrastructure.Common
 		//public void AddResource(Assembly callerAssembly, string name)
 		public void AddResource(Assembly callerAssembly, string name)
 		{
-			try
-			{
-				var source = ComposeResourceUri(callerAssembly, name);
-				if (Application.Current != null)
-					Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = source });
-			}
-			catch { }
+			
 		}
 
 		public static Uri ComposeResourceUri(Assembly callingAssembly, string resourcePath)

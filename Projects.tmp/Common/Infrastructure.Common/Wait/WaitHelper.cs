@@ -11,7 +11,6 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				Mouse.SetCursor(Cursors.Wait);
 				action();
 				return true;
 			}
@@ -22,7 +21,7 @@ namespace Infrastructure.Common
 			}
 			finally
 			{
-				Mouse.SetCursor(Cursors.Arrow);
+				
 			}
 			return true;
 		}
