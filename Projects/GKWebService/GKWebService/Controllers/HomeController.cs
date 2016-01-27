@@ -1,8 +1,6 @@
 ﻿using GKWebService.DataProviders.FireZones;
 using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
-using GKWebService.Models.FireZone;
-using GKWebService.Utils;
 using RubezhAPI;
 using RubezhAPI.Journal;
 using System;
@@ -70,14 +68,15 @@ namespace GKWebService.Controllers
 					UID = realDirection.UID,
 					No = realDirection.No,
 					Name = realDirection.Name,
+					Delay = realDirection.Delay,
+					Hold = realDirection.Hold,
+					DelayRegime = realDirection.DelayRegime.ToDescription(),
+					Logic = GKManager.GetPresentationLogic(realDirection.Logic),
 					State = realDirection.State.StateClass.ToDescription(),
 					StateIcon = realDirection.State.StateClass.ToString(),
 					OnDelay = realDirection.State.OnDelay,
 					HoldDelay = realDirection.State.HoldDelay,
 					GKDescriptorNo = realDirection.GKDescriptorNo,
-					Delay = realDirection.Delay,
-					Hold = realDirection.Hold,
-					DelayRegimeName = realDirection.DelayRegime.ToDescription(),
 				};
 				directions.Add(direction);
 			}
@@ -99,46 +98,28 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-        public JsonResult GetFireZonesData()
-        {
-            return Json(FireZonesDataProvider.Instance.GetFireZones(), JsonRequestBehavior.AllowGet);
-        }
+		public JsonResult GetFireZonesData()
+		{
+			return Json(FireZonesDataProvider.Instance.GetFireZones(), JsonRequestBehavior.AllowGet);
+		}
 
-        /// <summary>
-        /// Метод, предоставляющий данные об устройствах для конкретной зоны
-        /// </summary>
-        public JsonResult GetDevicesListByZoneNumber(int id)
-        {
-            return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
-        }
+		/// <summary>
+		/// Метод, предоставляющий данные об устройствах для конкретной зоны
+		/// </summary>
+		public JsonResult GetDevicesListByZoneNumber(int id)
+		{
+			return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
+		}
 
 		public JsonResult GetMPTsData()
 		{
 			var data = new List<MPTModel>();
 			foreach (var mpt in GKManager.MPTs)
 			{
-				data.Add(new MPTModel {Name = mpt.Name, No = mpt.No, UID = mpt.UID});
+				data.Add(new MPTModel { Name = mpt.Name, No = mpt.No, UID = mpt.UID });
 			}
 			data.Reverse();
 			return Json(data, JsonRequestBehavior.AllowGet);
-		}
-
-		public JsonResult GetDelays()
-		{
-			var delays = new List<DelayModel>();
-			foreach (var delay in GKManager.Delays)
-			{
-				var copyDelay = new DelayModel
-				{
-					Number = delay.No,
-					Name = delay.Name,
-					PresentationLogic = GKManager.GetPresentationLogic(delay.Logic),
-					OnDelay = delay.State.OnDelay,
-					HoldDelay = delay.State.HoldDelay
-				};
-				delays.Add(copyDelay);
-			}
-			return Json(delays, JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

@@ -442,21 +442,21 @@
             зарегистрированных в системе
             </summary>
             <returns></returns></member>
-        <member name="M:RubezhAPI.IFiresecService.GetOpcDaServerGroupAndTags(System.Guid,RubezhAPI.OpcDaServer)">
+        <member name="M:RubezhAPI.IFiresecService.GetOpcDaServerGroupAndTags(System.Guid,RubezhAPI.Automation.OpcDaServer)">
             <summary>
             Возвращает структуру сервера (группы и теги) для указанного сервера
             </summary>
             <param name="clientUID"></param>
             <param name="server">Наименование сервера</param>
             <returns></returns></member>
-        <member name="M:RubezhAPI.IFiresecService.GetOpcDaServerStatus(System.Guid,RubezhAPI.OpcDaServer)">
+        <member name="M:RubezhAPI.IFiresecService.GetOpcDaServerStatus(System.Guid,RubezhAPI.Automation.OpcDaServer)">
             <summary>
             Возвращает описание и текущий статус сервера
             </summary>
             <param name="clientUID"></param>
             <param name="server"></param>
             <returns></returns></member>
-        <member name="M:RubezhAPI.IFiresecService.ReadOpcDaServerTags(System.Guid,RubezhAPI.OpcDaServer)">
+        <member name="M:RubezhAPI.IFiresecService.ReadOpcDaServerTags(System.Guid,RubezhAPI.Automation.OpcDaServer)">
             <summary>
             Возвращает значения тегов
             </summary>
@@ -1249,5 +1249,26 @@
             <summary>
             Количество устройств в сработке-2 для перевода зоны в состояние Пожар-2
             </summary></member>
+        <member name="P:RubezhAPI.Automation.OpcDaServer.Url">
+            <summary>
+            Путь к хост-компьютеру на котором установлен данный сервер
+            </summary></member>
+        <member name="P:RubezhAPI.Automation.OpcDaTag.TypeNameOfValue">
+            <summary>
+            Тип данных значения тега
+            </summary></member>
+        <member name="P:RubezhAPI.Automation.OpcDaTag.ScanRate">
+            <summary>
+            Периoд обновление значения тега в мсек.
+            </summary></member>
+        <member name="P:RubezhAPI.Automation.OpcDaTag.IsTag">
+            <summary>
+            Значение тега
+            </summary></member>
+        <member name="M:RubezhAPI.Automation.TsOpcTagsStructure.GetChildrenInGroup(RubezhAPI.Automation.TsOpcElement)">
+            <summary>
+            </summary>
+            <param name="element">null - корневая группа</param>
+            <returns></returns></member>
     </members>
 </doc>

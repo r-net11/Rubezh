@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common.Services.Content;
-using Infrastructure.Common.Services.DragDrop;
+﻿using Infrastructure.Common;
 using Infrastructure.Services;
 using Microsoft.Practices.Prism.Events;
 

@@ -360,10 +360,11 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
     <Content Include="Scripts\app\controllers\directions\directionDetailsCtrl.js" />
     <Content Include="Scripts\app\controllers\mptsCtrl.js" />
-    <Content Include="Scripts\app\controllers\delaysCtrl.js" />
+    <Content Include="Scripts\app\controllers\delays\delaysCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
     <Content Include="Scripts\app\controllers\journalCtrl.js" />
@@ -527,6 +528,7 @@
     <Compile Include="Controllers\AccessTemplatesController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
+    <Compile Include="Controllers\DelaysController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -535,6 +537,7 @@
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="DataProviders\Delays\DelaysHub.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
@@ -555,7 +558,7 @@
     <Compile Include="Models\GK\DeviceControlRegime.cs" />
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
-    <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\DelayViewModel.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
     <Compile Include="Models\MPTModel.cs" />
@@ -658,11 +661,12 @@
     <Content Include="Views\AccessTemplates\Index.cshtml" />
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
     <Content Include="Views\Cards\Index.cshtml" />
-    <Content Include="Views\Home\Delays.cshtml" />
+    <Content Include="Views\Delays\Delays.cshtml" />
     <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Home\Journal.cshtml" />
+    <Content Include="Views\Delays\DelayDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -109,15 +109,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			try
-			{
-				Clipboard.SetText(Message);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове MessageBoxViewModel.CopyCommand");
-				return;
-			}
+			
 		}
 
 		public MessageBoxImage MessageBoxImage
