@@ -100,3 +100,34 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddingNotTakeInCalculationsOrig
 		INSERT INTO Patches (Id) VALUES ('AddingNotTakeInCalculationsOriginalColumn')
 	END
 GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropColumnDefaultConstraint')
+BEGIN
+	exec [dbo].[sp_executesql] @statement = N'
+	CREATE PROCEDURE [dbo].[DropColumnDefaultConstraint]
+(
+	@tableName VARCHAR(MAX),
+	@columnName VARCHAR(MAX)
+)
+AS
+BEGIN
+DECLARE @ConstraintName nvarchar(200)
+SELECT @ConstraintName = Name 
+FROM SYS.DEFAULT_CONSTRAINTS
+WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName) 
+AND PARENT_COLUMN_ID = (
+    SELECT column_id FROM sys.columns
+    WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
+IF @ConstraintName IS NOT NULL
+    EXEC(''ALTER TABLE ''+@tableName+'' DROP CONSTRAINT '' + @ConstraintName)
+END'	
+	INSERT INTO Patches (Id) VALUES ('DropColumnDefaultConstraint')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_PassJournal_NotTakeInCalculationsOriginal_Default')
+BEGIN
+	EXECUTE [dbo].[DropColumnDefaultConstraint] [PassJournal], [NotTakeInCalculationsOriginal]
+	INSERT INTO Patches (Id) VALUES ('Drop_PassJournal_NotTakeInCalculationsOriginal_Default')
+END
+GO
