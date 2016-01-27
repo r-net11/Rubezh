@@ -59,5 +59,11 @@ namespace FiresecAPI.SKD.ReportFilters
 		public DateTime DateTimeTo { get; set; }
 
 		#endregion IReportFilterPeriod Members
+
+		/// <summary>
+		/// Учибывать только сверхурочные. Для варианта расчета баланса
+		/// </summary>
+		[DataMember]
+		public bool AllowOnlyAcceptedOvertime { get; set; }
 	}
 }

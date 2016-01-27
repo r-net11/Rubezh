@@ -274,6 +274,34 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
+		private bool _hasBalanceVariation;
+
+		public bool HasBalanceVariation
+		{
+			get { return _hasBalanceVariation; }
+			set
+			{
+				if (_hasBalanceVariation == value) return;
+
+				_hasBalanceVariation = value;
+				OnPropertyChanged(() => HasBalanceVariation);
+			}
+		}
+
+		private bool _allowOnlyAcceptedOvertime;
+
+		public bool AllowOnlyAcceptedOvertime
+		{
+			get { return _allowOnlyAcceptedOvertime; }
+			set
+			{
+				if (_allowOnlyAcceptedOvertime == value) return;
+
+				_allowOnlyAcceptedOvertime = value;
+				OnPropertyChanged(() => AllowOnlyAcceptedOvertime);
+			}
+		}
+
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			PrintFilterName = filter.PrintFilterName;
@@ -281,6 +309,14 @@ namespace ReportsModule.ViewModels
 			PrintPeriod = filter.PrintPeriod;
 			PrintDate = filter.PrintDate;
 			PrintUser = filter.PrintUser;
+
+			var workingTimeFilter = filter as WorkingTimeReportFilter;
+			if (workingTimeFilter != null)
+			{
+				HasBalanceVariation = true;
+				AllowOnlyAcceptedOvertime = workingTimeFilter.AllowOnlyAcceptedOvertime;
+			}
+
 			var periodFilter = filter as IReportFilterPeriod;
 			HasPeriod = periodFilter != null;
 			if (periodFilter != null)
@@ -320,6 +356,9 @@ namespace ReportsModule.ViewModels
 			}
 			if (filter is IReportFilterArchive)
 				((IReportFilterArchive)filter).UseArchive = UseArchive;
+
+			if (filter is WorkingTimeReportFilter)
+				((WorkingTimeReportFilter) filter).AllowOnlyAcceptedOvertime = AllowOnlyAcceptedOvertime;
 		}
 	}
 }

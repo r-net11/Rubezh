@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Diagnostics;
+using FiresecAPI.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -114,8 +116,6 @@ namespace FiresecAPI.SKD
 		/// </summary>
 		public List<TimeTrackPart> RealTimeDesignTimeTrackParts { get; set; }
 
-		private bool IsCrossNight { get { return false; } }
-
 		/// <summary>
 		/// Интервалы, переходящие через сутки (текущую дату)
 		/// <example>EnterDateTime == 03.04.2015 && ExitDateTime == 04.04.2015</example>
@@ -171,6 +171,64 @@ namespace FiresecAPI.SKD
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
 			CalculateLetterCode();
 
+		}
+
+		/// <summary>
+		/// Метод для получения количества ночных часов, которые сотруднику необходимо отработать
+		/// </summary>
+		/// <returns>Ночное время (в часах)</returns>
+		public double GetNightTotalTime()
+		{
+			if (NightSettings == null || !NightSettings.IsNightSettingsEnabled) return default(double);
+
+			var calcNightIntervals = new List<TimeTrackPart>();
+			if (NightSettings.NightEndTime >= NightSettings.NightStartTime)
+			{
+				calcNightIntervals.Add(
+					new TimeTrackPart
+					{
+						EnterDateTime = new DateTime().Add(NightSettings.NightStartTime),
+						ExitDateTime = new DateTime().Add(NightSettings.NightEndTime)
+					});
+			}
+			else
+			{
+				calcNightIntervals.Add(new TimeTrackPart
+				{
+					EnterDateTime = new DateTime(),
+					ExitDateTime = new DateTime() +  NightSettings.NightEndTime
+				});
+				calcNightIntervals.Add(new TimeTrackPart
+				{
+					EnterDateTime = new DateTime() + NightSettings.NightStartTime,
+					ExitDateTime = new DateTime() + new TimeSpan(0, 23, 59, 59)
+				});
+			}
+
+			//Если ночной интервал пересекается с интервалом графика работ,
+			//то формируем новый интервал, являющийся пересечением этих интервалов
+			var resultIntervals = new List<TimeTrackPart>();
+			foreach (var planned in PlannedTimeTrackParts)
+			{
+				foreach (var nightInterval in calcNightIntervals)
+				{
+					if (!nightInterval.IsIntersectTimeOfDay(planned)) continue;
+
+					var enterTime = nightInterval.EnterDateTime >= planned.EnterDateTime
+						? nightInterval.EnterDateTime
+						: planned.EnterDateTime;
+
+					Debug.Assert(planned.ExitDateTime != null, "planned.ExitDateTime != null");
+					Debug.Assert(nightInterval.ExitDateTime != null, "nightInterval.ExitDateTime != null");
+					var endTime = nightInterval.ExitDateTime >= planned.ExitDateTime
+						? planned.ExitDateTime.Value
+						: nightInterval.ExitDateTime.Value;
+
+					resultIntervals.Add(new TimeTrackPart { EnterDateTime = enterTime, ExitDateTime = endTime });
+				}
+			}
+
+			return resultIntervals.Aggregate(default(double), (s, tp) => s + Math.Abs(tp.Delta.TotalHours));
 		}
 
 		private List<TimeTrackPart> GetRealTimeTrackPartsForDrawing(List<TimeTrackPart> realTimeTrackParts, bool isOnlyFirstEnter)
