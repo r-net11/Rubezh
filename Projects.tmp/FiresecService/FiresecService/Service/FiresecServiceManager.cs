@@ -25,10 +25,10 @@ namespace FiresecService.Service
 				{
 					MainViewModel.SetRemoteAddress("<Не разрешено>");
 				}
-				else if (!UACHelper.IsAdministrator)
-				{
-					MainViewModel.SetRemoteAddress("<Нет прав администратора>");
-				}
+				//else if (!UACHelper.IsAdministrator)
+				//{
+				//	MainViewModel.SetRemoteAddress("<Нет прав администратора>");
+				//}
 				else
 				{
 					CreateTcpEndpoint();

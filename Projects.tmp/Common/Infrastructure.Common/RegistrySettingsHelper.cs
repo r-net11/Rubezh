@@ -84,7 +84,7 @@ namespace Infrastructure.Common
 			{
 				return registryData.ColorValue;
 			}
-			return Colors.White;
+			return new Color ();//Colors.White;
 		}
 
 		public static void SetString(string name, string stringValue)

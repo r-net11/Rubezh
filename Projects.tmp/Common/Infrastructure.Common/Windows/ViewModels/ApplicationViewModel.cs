@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Infrastructure.Common.About.ViewModels;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -24,8 +23,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		protected internal override void SetSurface(Window surface)
 		{
-			base.SetSurface(surface);
-			surface.StateChanged += (s, e) => OnPropertyChanged(() => IsMaximized);
+			
 		}
 
 		private bool _allowHelp;
@@ -63,18 +61,18 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public RelayCommand ApplicationMinimizeCommand { get; private set; }
 		private void Minimize()
 		{
-			Surface.WindowState = WindowState.Minimized;
+			
 		}
 		public RelayCommand ApplicationMaximizeCommand { get; private set; }
 		private void Maximize()
 		{
-			Surface.WindowState = WindowState.Maximized;
+			
 			OnPropertyChanged(() => IsMaximized);
 		}
 		public RelayCommand ApplicationNormalizeCommand { get; private set; }
 		private void Normalize()
 		{
-			Surface.WindowState = WindowState.Normal;
+			
 			OnPropertyChanged(() => IsMaximized);
 		}
 		public RelayCommand ApplicationHelpCommand { get; private set; }
@@ -85,14 +83,10 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public RelayCommand ApplicationAboutCommand { get; private set; }
 		protected virtual void ShowAbout()
 		{
-			var aboutViewModel = new AboutViewModel();
-			DialogService.ShowModalWindow(aboutViewModel);
+			
 		}
 
-		public bool IsMaximized
-		{
-			get { return Surface != null && Surface.WindowState == WindowState.Normal; }
-		}
+		public bool IsMaximized;
 
 		private BaseViewModel _headerTop;
 		public BaseViewModel HeaderTop

@@ -24,11 +24,7 @@ namespace Infrastructure.Common
 			return command == null ? false : command.CanExecute(parameter);
 		}
 
-		public event EventHandler CanExecuteChanged
-		{
-			add { CommandManager.RequerySuggested += value; }
-			remove { CommandManager.RequerySuggested -= value; }
-		}
+		public event EventHandler CanExecuteChanged;
 
 		public void Execute(object parameter)
 		{

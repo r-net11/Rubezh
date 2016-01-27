@@ -62,7 +62,7 @@ namespace GKWebService
 
 		static void InitializeGK()
 		{
-			ClientManager.GetConfiguration("GKOPC/Configuration");
+			ClientManager.GetConfiguration("GKWEB/Configuration");
 
 			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();

@@ -391,7 +391,7 @@ namespace RubezhDAL.DataClasses
 
 		public OperationResult<List<GKAPI.GKUser>> GetDbDeviceUsers(Guid deviceUID, List<Guid> deviceDoorUIDs)
 		{
-			try
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				var tableUsers = Table
 					.Include(x => x.Employee)
@@ -438,7 +438,7 @@ namespace RubezhDAL.DataClasses
 					};
 					var doors = new List<CardDoor>();
 					doors.AddRange(tableUser.CardDoors);
-					doors.AddRange(tableUser.AccessTemplateDoors);
+					doors.AddRange(tableUser.AccessTemplateDoors.Where(x => !doors.Any(door => door.DoorUID == x.DoorUID)));
 					foreach (var cardDoor in doors)
 					{
 						var door = GKManager.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
@@ -460,12 +460,8 @@ namespace RubezhDAL.DataClasses
 					}
 					users.Add(user);
 				}
-				return new OperationResult<List<GKAPI.GKUser>>(users);
-			}
-			catch(Exception e)
-			{
-				return OperationResult<List<GKAPI.GKUser>>.FromError(e.Message);
-			}
+				return users;
+			});
 		}
 	}
 }

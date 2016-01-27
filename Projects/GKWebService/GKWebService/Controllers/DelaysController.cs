@@ -11,16 +11,16 @@ namespace GKWebService.Controllers
 		{
 			return View();
 		}
-		public ActionResult DelaysDetails()
+		public ActionResult DelayDetails()
 		{
 			return View();
 		}
 		public JsonResult GetDelays()
 		{
-			var delays = new List<DelayModel>();
+			var delays = new List<DelayViewModel>();
 			foreach (var delay in GKManager.Delays)
 			{
-				var copyDelay = new DelayModel(delay);
+				var copyDelay = new DelayViewModel(delay);
 				delays.Add(copyDelay);
 			}
 			return Json(delays, JsonRequestBehavior.AllowGet);

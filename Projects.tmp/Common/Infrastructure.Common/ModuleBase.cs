@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using RubezhAPI;
-using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
 
 namespace Infrastructure.Common

@@ -35,16 +35,12 @@ namespace Infrastructure.Common.Windows
 			Close();
 			_progressViewModel = progressViewModel;
 			DialogService.ShowWindow(_progressViewModel);
-			if (ApplicationService.ApplicationWindow != null)
-				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = false);
 		}
 		public static void Close()
 		{
 			if (_progressViewModel != null)
 				_progressViewModel.ForceClose();
 			_progressViewModel = null;
-			if (ApplicationService.ApplicationWindow != null)
-				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = true);
 		}
 
 		public static void DoStep(string text)

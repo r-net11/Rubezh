@@ -2,7 +2,6 @@
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Elements;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
@@ -64,8 +63,6 @@ namespace RubezhClient
 				}
 				Directory.CreateDirectory(configDirectory);
 				Directory.CreateDirectory(contentDirectory);
-				if (ServiceFactoryBase.ContentService != null)
-					ServiceFactoryBase.ContentService.Invalidate();
 
 				if (ConnectionSettingsManager.IsRemote)
 				{
@@ -118,7 +115,6 @@ namespace RubezhClient
 				if (LayoutsConfiguration == null)
 					LayoutsConfiguration = new LayoutsConfiguration();
 				LayoutsConfiguration.Update();
-				PlansConfiguration.Update();
 				SystemConfiguration.UpdateConfiguration();
 				GKDriversCreator.Create();
 				GKManager.UpdateConfiguration();
@@ -202,118 +198,6 @@ namespace RubezhClient
 					if (!procedureMap.ContainsKey(procedure.Uid))
 						procedureMap.Add(procedure.Uid, procedure);
 				}
-
-				var planMap = new Dictionary<Guid, Plan>();
-				PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
-				foreach (var plan in PlansConfiguration.AllPlans)
-				{
-					for (int i = plan.ElementGKDevices.Count(); i > 0; i--)
-					{
-						var elementGKDevice = plan.ElementGKDevices[i - 1];
-						elementGKDevice.UpdateZLayer();
-						if (gkDeviceMap.ContainsKey(elementGKDevice.DeviceUID))
-							gkDeviceMap[elementGKDevice.DeviceUID].PlanElementUIDs.Add(elementGKDevice.UID);
-					}
-					foreach (var zone in plan.ElementPolygonGKZones)
-					{
-						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && gkZoneMap.ContainsKey(zone.ZoneUID) ? gkZoneMap[zone.ZoneUID] : null);
-						if (gkZoneMap.ContainsKey(zone.ZoneUID))
-							gkZoneMap[zone.ZoneUID].PlanElementUIDs.Add(zone.UID);
-					}
-					foreach (var zone in plan.ElementRectangleGKZones)
-					{
-						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && gkZoneMap.ContainsKey(zone.ZoneUID) ? gkZoneMap[zone.ZoneUID] : null);
-						if (gkZoneMap.ContainsKey(zone.ZoneUID))
-							gkZoneMap[zone.ZoneUID].PlanElementUIDs.Add(zone.UID);
-					}
-					foreach (var guardZone in plan.ElementPolygonGKGuardZones)
-					{
-						UpdateZoneType(guardZone, guardZone.ZoneUID != Guid.Empty && gkGuardZoneMap.ContainsKey(guardZone.ZoneUID) ? gkGuardZoneMap[guardZone.ZoneUID] : null);
-						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
-							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
-					}
-					foreach (var guardZone in plan.ElementRectangleGKGuardZones)
-					{
-						UpdateZoneType(guardZone, guardZone.ZoneUID != Guid.Empty && gkGuardZoneMap.ContainsKey(guardZone.ZoneUID) ? gkGuardZoneMap[guardZone.ZoneUID] : null);
-						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
-							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
-					}
-					for (int i = plan.ElementRectangleGKSKDZones.Count(); i > 0; i--)
-					{
-						var elementRectangleGKSKDZone = plan.ElementRectangleGKSKDZones[i - 1];
-						elementRectangleGKSKDZone.UpdateZLayer();
-						if (gkDoorMap.ContainsKey(elementRectangleGKSKDZone.ZoneUID))
-							gkDoorMap[elementRectangleGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementRectangleGKSKDZone.UID);
-					}
-					for (int i = plan.ElementPolygonGKSKDZones.Count(); i > 0; i--)
-					{
-						var elementPolygonGKSKDZone = plan.ElementPolygonGKSKDZones[i - 1];
-						elementPolygonGKSKDZone.UpdateZLayer();
-						if (gkDoorMap.ContainsKey(elementPolygonGKSKDZone.ZoneUID))
-							gkDoorMap[elementPolygonGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementPolygonGKSKDZone.UID);
-					}
-					foreach (var delay in plan.ElementRectangleGKDelays)
-					{
-						UpdateDelayType(delay, delay.DelayUID != Guid.Empty && gkDelayMap.ContainsKey(delay.DelayUID) ? gkDelayMap[delay.DelayUID] : null);
-						if (gkDelayMap.ContainsKey(delay.DelayUID))
-							gkDelayMap[delay.DelayUID].PlanElementUIDs.Add(delay.UID);
-					}
-					foreach (var delay in plan.ElementPolygonGKDelays)
-					{
-						UpdateDelayType(delay, delay.DelayUID != Guid.Empty && gkDelayMap.ContainsKey(delay.DelayUID) ? gkDelayMap[delay.DelayUID] : null);
-						if (gkDelayMap.ContainsKey(delay.DelayUID))
-							gkDelayMap[delay.DelayUID].PlanElementUIDs.Add(delay.UID);
-					}
-					foreach (var direction in plan.ElementRectangleGKDirections)
-					{
-						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
-						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
-							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
-					}
-					foreach (var direction in plan.ElementPolygonGKDirections)
-					{
-						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
-						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
-							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
-					}
-					foreach (var mpt in plan.ElementRectangleGKMPTs)
-					{
-						UpdateMPTType(mpt, mpt.MPTUID != Guid.Empty && gkMPTMap.ContainsKey(mpt.MPTUID) ? gkMPTMap[mpt.MPTUID] : null);
-						if (gkMPTMap.ContainsKey(mpt.MPTUID))
-							gkMPTMap[mpt.MPTUID].PlanElementUIDs.Add(mpt.UID);
-					}
-					foreach (var mpt in plan.ElementPolygonGKMPTs)
-					{
-						UpdateMPTType(mpt, mpt.MPTUID != Guid.Empty && gkMPTMap.ContainsKey(mpt.MPTUID) ? gkMPTMap[mpt.MPTUID] : null);
-						if (gkMPTMap.ContainsKey(mpt.MPTUID))
-							gkMPTMap[mpt.MPTUID].PlanElementUIDs.Add(mpt.UID);
-					}
-					for (int i = plan.ElementGKDoors.Count(); i > 0; i--)
-					{
-						var elementGKDoor = plan.ElementGKDoors[i - 1];
-						elementGKDoor.UpdateZLayer();
-						if (gkDoorMap.ContainsKey(elementGKDoor.DoorUID))
-							gkDoorMap[elementGKDoor.DoorUID].PlanElementUIDs.Add(elementGKDoor.UID);
-					}
-
-					for (int i = plan.ElementExtensions.Count(); i > 0; i--)
-					{
-						var elementExtension = plan.ElementExtensions[i - 1];
-						elementExtension.UpdateZLayer();
-						var elementCamera = elementExtension as ElementCamera;
-						if (elementCamera != null && cameraMap.ContainsKey(elementCamera.CameraUID))
-							cameraMap[elementCamera.CameraUID].PlanElementUIDs.Add(elementExtension.UID);
-						else if (elementExtension is ElementProcedure)
-						{
-							var elementProcedure = (ElementProcedure)elementExtension;
-							if (procedureMap.ContainsKey(elementProcedure.ProcedureUID))
-								procedureMap[elementProcedure.ProcedureUID].PlanElementUIDs.Add(elementExtension.UID);
-						}
-					}
-
-					foreach (var subplan in plan.ElementSubPlans)
-						UpdateSubPlan(subplan, subplan.PlanUID != Guid.Empty && planMap.ContainsKey(subplan.PlanUID) ? planMap[subplan.PlanUID] : null);
-				}
 			}
 			catch (Exception e)
 			{
@@ -322,66 +206,9 @@ namespace RubezhClient
 			}
 		}
 
-		private static void UpdateZoneType(IElementZone elementZone, GKGuardZone zone)
-		{
-			elementZone.SetZLayer(zone == null ? 20 : 40);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Brown;
-		}
-		private static void UpdateZoneType(IElementZone elementZone, GKZone zone)
-		{
-			elementZone.SetZLayer(zone == null ? 50 : 60);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
-		}
-		private static void UpdateSKDZoneType(IElementZone elementZone, GKSKDZone zone)
-		{
-			elementZone.SetZLayer(zone == null ? 50 : 60);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
-		}
-		private static void UpdateDelayType(IElementDelay elementGKDelay, GKDelay gkDelay)
-		{
-			elementGKDelay.BackgroundColor = gkDelay == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
-		}
-		private static void UpdateDirectionType(IElementDirection elementGKDirection, GKDirection gkDirection)
-		{
-			elementGKDirection.SetZLayer(gkDirection == null ? 10 : 11);
-			elementGKDirection.BackgroundColor = gkDirection == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
-		}
-		private static void UpdateMPTType(IElementMPT elementGKMPT, GKMPT gkMPT)
-		{
-			elementGKMPT.SetZLayer(gkMPT == null ? 10 : 11);
-			elementGKMPT.BackgroundColor = gkMPT == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
-		}
-		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
-		{
-			elementSubPlan.BackgroundColor = plan == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
-		}
-
 		public static void InvalidateContent()
 		{
-			var uids = new HashSet<Guid?>();
-			foreach (var plan in PlansConfiguration.AllPlans)
-			{
-				uids.Add(plan.BackgroundImageSource);
-				uids.Add(plan.BackgroundSVGImageSource);
-				plan.AllElements.ForEach(x => uids.Add(x.BackgroundImageSource));
-				plan.AllElements.ForEach(x => uids.Add(x.BackgroundSVGImageSource));
-			}
-			foreach (var layout in LayoutsConfiguration.Layouts)
-			{
-				foreach (var part in layout.Parts)
-				{
-					if (part.Properties is LayoutPartImageProperties)
-					{
-						var layoutPartImageProperties = part.Properties as LayoutPartImageProperties;
-						uids.Add(layoutPartImageProperties.ReferenceUID);
-						uids.Add(layoutPartImageProperties.ReferenceSVGUID);
-					}
-				}
-			}
-			SystemConfiguration.AutomationConfiguration.AutomationSounds.ForEach(x => uids.Add(x.Uid));
-			uids.Remove(null);
-			uids.Remove(Guid.Empty);
-			ServiceFactoryBase.ContentService.RemoveAllBut(uids.Select(x => x.Value.ToString()).ToList());
+
 		}
 	}
 }
