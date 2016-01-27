@@ -44,7 +44,7 @@ namespace Common
 			binding.SendTimeout = TimeSpan.FromMinutes(10);
 			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
-			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			binding.ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas ();
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;

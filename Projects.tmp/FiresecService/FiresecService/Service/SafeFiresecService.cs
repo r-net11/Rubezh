@@ -7,8 +7,6 @@ using RubezhAPI.Journal;
 using RubezhAPI.License;
 using RubezhAPI.Models;
 using System;
-using OpcClientSdk.Da;
-using OpcClientSdk;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

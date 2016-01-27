@@ -1,6 +1,5 @@
 ﻿using Common;
 using FiresecService.Processor;
-using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Automation;
@@ -35,13 +34,7 @@ namespace FiresecService
 				Logger.Trace(SystemInfo.GetString());
 				ServiceFactoryBase.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
 				ServiceFactoryBase.ResourceService.AddResource(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml");
-				WindowThread = new Thread(new ThreadStart(OnWorkThread));
-				WindowThread.Name = "Main window";
-				WindowThread.Priority = ThreadPriority.Highest;
-				WindowThread.SetApartmentState(ApartmentState.STA);
-				WindowThread.IsBackground = true;
-				WindowThread.Start();
-				MainViewStartedEvent.WaitOne();
+				MainViewModel = new MainViewModel();
 
 				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 
@@ -91,31 +84,19 @@ namespace FiresecService
 					GetOrganisations
 					);
 
-				OpcDaHelper.Initialize(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers, ReadTagValue, WriteTagValue);
-
 				GKProcessor.Create();
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
-
-				UILogger.Log("Запуск сервиса отчетов");
-				if (ReportServiceManager.Run())
-				{
-					UILogger.Log("Сервис отчетов запущен: " + ConnectionSettingsManager.ReportServerAddress);
-					MainViewModel.SetReportAddress(ConnectionSettingsManager.ReportServerAddress);
-				}
-				else
-				{
-					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
-					MainViewModel.SetReportAddress("<Ошибка>");
-				}
 
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnServerRun();
 				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
 				UILogger.Log("Готово");
-				OpcDaServersProcessor.Start();
-				UILogger.Log("Запуск OPC DA");
+
+				Console.WriteLine("LocalAddress: {0}", MainViewModel.Current.LocalAddress);
+				Console.WriteLine("RemoteAddress: {0}", MainViewModel.Current.RemoteAddress);
+
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 				FiresecService.Service.FiresecService.AfterConnect += FiresecService_AfterConnect;
 			}
@@ -125,28 +106,6 @@ namespace FiresecService
 				UILogger.Log("Ошибка при запуске сервера", true);
 				Close();
 			}
-		}
-
-		static void ReadTagValue(Guid tagUID, object value)
-		{
-			OpcDaHelper.SetTagValue(tagUID, value);
-			FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
-			{
-				CallbackUID = Guid.NewGuid(),
-				ContextType = ContextType.Server,
-				AutomationCallbackType = AutomationCallbackType.OpcDaTag,
-				Data = new OpcDaTagCallBackData
-				{
-					TagUID = tagUID,
-					Value = value
-				}
-			}, null);
-		}
-
-		static void WriteTagValue(Guid tagUID, object value)
-		{
-			string error;
-			OpcDaServersProcessor.WriteTag(tagUID, value, out error);
 		}
 
 		static void FiresecService_AfterConnect(Guid clientUID)
