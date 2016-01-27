@@ -547,7 +547,6 @@
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\Delays\DelaysHub.cs" />
-    <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />

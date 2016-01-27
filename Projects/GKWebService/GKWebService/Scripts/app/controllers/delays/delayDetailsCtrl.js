@@ -6,7 +6,7 @@
 
         	$scope.$on('directionChanged', function (event, args) {
         		if (args.UID === $scope.direction.UID) {
-        			$scope.directionState = args;
+        			$scope.direction = args;
         			$scope.$apply();
         		};
         	});
