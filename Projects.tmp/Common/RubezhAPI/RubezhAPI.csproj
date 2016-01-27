@@ -490,8 +490,6 @@
     <Compile Include="GKModels\GKState.cs" />
     <Compile Include="GKModels\Zone\GKZone.cs" />
     <Compile Include="Gags.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="SKD\PassCardLibrary\ElementPassCardImageProperty.cs" />
     <Compile Include="SKD\PassCardLibrary\ElementPassCardTextProperty.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
@@ -501,7 +499,6 @@
     <Compile Include="Models\Automation\OPC DA\OpcDaTag.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaTagValue.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcServerStructure.cs" />
->>>>>>> Monodevelop experiment - build Common/Infrastructure.Automation
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Security\User.cs" />
