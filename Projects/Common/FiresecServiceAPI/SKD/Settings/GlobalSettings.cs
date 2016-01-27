@@ -91,7 +91,6 @@ namespace FiresecAPI
 				"ReportsModule.dll",
 				"FiltersModule.dll",
 				"JournalModule.dll",
-				"SoundsModule.dll",
 				"SettingsModule.dll"
 			};
 		}

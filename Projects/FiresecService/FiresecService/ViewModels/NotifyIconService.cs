@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -7,26 +6,28 @@ namespace FiresecService.Service
 {
 	public static class NotifyIconService
 	{
-		private static System.Windows.Forms.NotifyIcon _notifyIcon = null;
+		private static System.Windows.Forms.NotifyIcon _notifyIcon;
 
 		public static void Start(EventHandler onShow, EventHandler onClose)
 		{
 			RefreshTaskbarNotificationArea();
-			AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
+			AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 			_notifyIcon = new System.Windows.Forms.NotifyIcon();
-			Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/StrazhService;component/Firesec.ico")).Stream;
-			_notifyIcon.Icon = new System.Drawing.Icon(iconStream);
+			var streamResourceInfo = Application.GetResourceStream(new Uri("pack://application:,,,/StrazhService;component/ServerLogo.ico"));
+			if (streamResourceInfo != null)
+			{
+				var iconStream = streamResourceInfo.Stream;
+				_notifyIcon.Icon = new System.Drawing.Icon(iconStream);
+			}
 			_notifyIcon.Visible = true;
 
 			_notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
-			var menuItem1 = new System.Windows.Forms.MenuItem();
-			menuItem1.Text = "Показать";
-			menuItem1.Click += new EventHandler(onShow);
+			var menuItem1 = new System.Windows.Forms.MenuItem {Text = "Показать"};
+			menuItem1.Click += onShow;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem1);
 
-			var menuItem2 = new System.Windows.Forms.MenuItem();
-			menuItem2.Text = "Выход";
-			menuItem2.Click += new EventHandler(onClose);
+			var menuItem2 = new System.Windows.Forms.MenuItem {Text = "Выход"};
+			menuItem2.Click += onClose;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 
 			_notifyIcon.Text = "Сервер приложений";

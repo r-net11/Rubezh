@@ -94,19 +94,6 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.ServerLocation">
-			<Directory Id="AppData.ServerLocation.SoundsLocation" Name="Sounds">
-				<Component Id="AppData.ServerLocation.Sounds" Guid="C1CF2CC9-472F-447A-8F12-923A5951D87B">
-					<File Id="AppData.ServerLocation.Sound1.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound1.wav" />
-					<File Id="AppData.ServerLocation.Sound2.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound2.wav" />
-					<File Id="AppData.ServerLocation.Sound3.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound3.wav" />
-					<File Id="AppData.ServerLocation.Sound4.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound4.wav" />
-					<File Id="AppData.ServerLocation.Sound5.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound5.wav" />
-					<File Id="AppData.ServerLocation.Sound6.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound6.wav" />
-					<File Id="AppData.ServerLocation.Sound7.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound7.wav" />
-					<File Id="AppData.ServerLocation.Sound8.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound8.wav" />
-					<File Id="AppData.ServerLocation.Sound9.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound9.wav" />
-				</Component>
-			</Directory>
 
 			<Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
 				<File Id="Server.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" KeyPath="yes" />

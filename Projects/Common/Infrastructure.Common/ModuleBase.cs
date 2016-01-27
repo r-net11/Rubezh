@@ -96,9 +96,6 @@ namespace Infrastructure.Common
 		[DescriptionAttribute("Страж")]
 		Strazh,
 
-		[DescriptionAttribute("Звуки")]
-		Sounds,
-
 		[DescriptionAttribute("Видео")]
 		Video,
 
