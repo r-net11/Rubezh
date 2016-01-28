@@ -1,4 +1,4 @@
-USE [SKD]
+﻿USE [SKD]
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationUser')
 BEGIN
 IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationUser')
@@ -1607,5 +1607,86 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_TimeTrackDocumentType_IsSy
 BEGIN
 	EXECUTE [dbo].[DropColumnDefaultConstraint] [TimeTrackDocumentType], [IsSystem]
 	INSERT INTO Patches (Id) VALUES ('Drop_TimeTrackDocumentType_IsSystem_Default')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'SP_CreateOrganisationTimeTrackDocumentTypes_Added')
+BEGIN
+	exec [dbo].[sp_executesql] @statement = N'CREATE PROCEDURE [dbo].[CreateOrganisationTimeTrackDocumentTypes]
+(
+	@organisationUID uniqueidentifier
+)
+AS
+BEGIN
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Продолжительность работы в дневное время'', N''Я'', 1, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Продолжительность работы в ночное время'', N''Н'', 2, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Продолжительность работы в выходные и нерабочие праздничные дни'', N''РВ'', 3, 0, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Продолжительность сверхурочной работы'', N''С'', 4, 0, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Продолжительность работы вахтовым методом'', N''ВМ'', 5, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Служебная командировка'', N''К'', 6, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Повышение квалификации с отрывом от работы'', N''ПК'', 7, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Повышение квалификации с отрывом от работы в другой местности'', N''ПМ'', 8, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Ежегодный основной оплачиваемый отпуск'', N''ОТ'', 9, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Ежегодный дополнительный оплачиваемый отпуск'', N''ОД'', 10, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Дополнительный отпуск в связи с обучением с сохранением среднего заработка работникам, совмещающим работу с обучением'', N''У'', 11, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Сокращенная продолжительность рабочего времени для обучающихся без отрыва от производства с частичным сохранением заработной платы'', N''УВ'', 12, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Дополнительный отпуск в связи с обучением без сохранения заработной платы'', N''УД'', 13, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Отпуск по беременности и родам (отпуск в связи с усыновлением новорожденного ребенка)'', N''Р'', 14, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Отпуск по уходу за ребенком до достижения им возраста трех лет'', N''ОЖ'', 15, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Отпуск без сохранения заработной платы, предоставляемый работнику по разрешению работодателя'', N''ДО'', 16, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Отпуск без сохранения заработной платы при условиях, предусмотренных действующим законодательством Российской Федерации'', N''ОЗ'', 17, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Ежегодный дополнительный отпуск без сохранения заработной платы'', N''ДБ'', 18, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Временная нетрудоспособность (кроме случаев, предусмотренных кодом "Т") с назначением пособия согласно законодательству'', N''Б'', 19, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Временная нетрудоспособность без назначения пособия в случаях, предусмотренных законодательством'', N''Т'', 20, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Сокращенная продолжительность рабочего времени против нормальной продолжительности рабочего дня в случаях, предусмотренных законодательством'', N''ЛЧ'', 21, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Время вынужденного прогула в случае признания увольнения, перевода на другую работу или отстранения от работы незаконным и с восстановлением на прежней работе'', N''ПВ'', 22, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Невыходы на время исполнения государственных или общественных обязанностей согласно законодательству'', N''Г'', 23, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Прогулы (отсутствие на рабочем месте без уважительных причин в течение времени, установленного законодательством)'', N''ПР'', 24, 2, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Продолжительность работы в режиме неполного рабочего времени по инициативе работодателя в случаях, предусмотренных законодательством'', N''НС'', 25, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Выходные дни (еженедельный отпуск) и нерабочие праздничные дни'', N''В'', 26, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Дополнительные выходные дни (оплачиваемые)'', N''ОВ'', 27, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Дополнительные выходные дни (без сохранения заработной платы)'', N''НВ'', 28, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Забастовка (при условиях и в порядке, предусмотренных законом)'', N''ЗБ'', 29, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Неявки по невыясненным причинам (до выяснения обстоятельств)'', N''НН'', 30, 2, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Время простоя по вине работодателя'', N''РП'', 31, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Время простоя по причинам, не зависящим от работодателя и работника'', N''НП'', 32, 1, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Время простоя по вине работника'', N''ВП'', 33, 2, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Отстранение от работы (недопущение к работе) с оплатой (пособием) в соответствии с законодательством'', N''НО'', 34, 3, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Отстранение от работы (недопущение к работе) по причинам, предусмотренным законодательством, без начисления заработной платы'', N''НБ'', 35, 2, @organisationUID, 1)
+	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Время приостановки работы в случае задержки выплаты заработной платы'', N''НЗ'', 36, 3, @organisationUID, 1)
+END'	
+	INSERT INTO Patches (Id) VALUES ('SP_CreateOrganisationTimeTrackDocumentTypes_Added')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'SP_CreateOrganisationsTimeTrackDocumentTypes_Added')
+BEGIN
+	exec [dbo].[sp_executesql] @statement = N'CREATE PROCEDURE [dbo].[CreateOrganisationsTimeTrackDocumentTypes]
+AS
+BEGIN
+	DECLARE @OrganisationUID uniqueidentifier
+	DECLARE @OrganisationCursor CURSOR
+	SET @OrganisationCursor = CURSOR SCROLL FOR SELECT [UID] FROM Organisation
+
+	OPEN @OrganisationCursor
+	FETCH NEXT FROM @OrganisationCursor INTO @OrganisationUID
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		IF NOT EXISTS (SELECT * FROM TimeTrackDocumentType WHERE [OrganisationUID] = @OrganisationUID AND [IsSystem] = 1)
+		BEGIN
+			EXECUTE [dbo].[CreateOrganisationTimeTrackDocumentTypes] @OrganisationUID
+		END
+		FETCH NEXT FROM @OrganisationCursor INTO @OrganisationUID
+	END
+	CLOSE @OrganisationCursor
+END'	
+	INSERT INTO Patches (Id) VALUES ('SP_CreateOrganisationsTimeTrackDocumentTypes_Added')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationsTimeTrackDocumentTypes_Created')
+BEGIN
+	EXEC [dbo].[CreateOrganisationsTimeTrackDocumentTypes]
+	INSERT INTO Patches (Id) VALUES ('OrganisationsTimeTrackDocumentTypes_Created')
 END
 GO
