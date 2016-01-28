@@ -2,7 +2,7 @@
     function () {
         'use strict';
 
-        var app = angular.module('canvasApp.controllers').controller('zonesCtrl', ['$scope', '$http', 'signalrFireZonesService', function ($scope, $http, signalrFireZonesService) {
+        var app = angular.module('gkApp.controllers').controller('zonesCtrl', ['$scope', '$http', 'signalrFireZonesService', function ($scope, $http, signalrFireZonesService) {
             $scope.signalrFireZonesService = signalrFireZonesService;
 
             $http.get('home/GetFireZonesData').success(function (data, status, headers, config) {

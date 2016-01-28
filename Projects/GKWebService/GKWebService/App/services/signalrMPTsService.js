@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('canvasApp.services')
+    var app = angular.module('gkApp.services')
         .factory('signalrMPTsService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
             //declaring the hub connection
            var mptsUpdater = new Hub('mptHub', {

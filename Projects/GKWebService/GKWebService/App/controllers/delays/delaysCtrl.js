@@ -3,7 +3,7 @@
 	var nameTemplate = '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" />' +
 		'<a href="#" ng-click="grid.appScope.showDetailsDelay(row.entity)">{{row.entity.Name}}</a></div>';
 
-	var delaysApp = angular.module("canvasApp.controllers");
+	var delaysApp = angular.module("gkApp.controllers");
 	delaysApp.controller('delaysCtrl', ['$scope', '$http', '$uibModal', 'signalrDelaysService',
 		function ($scope, $http, $uibModal) {
 			function ChangeDelay(delay)

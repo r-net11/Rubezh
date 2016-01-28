@@ -99,7 +99,7 @@
 
 (function () {
 	'use strict';
-	angular.module('canvasApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants) {
+	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants) {
 		$http.get("Journal/GetJournal").success(function (data) {
 			$scope.gridOptions.data = data;
 		});

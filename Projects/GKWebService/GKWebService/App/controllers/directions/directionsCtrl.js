@@ -2,7 +2,7 @@
 
     'use strict';
 
-    var app = angular.module('canvasApp.controllers').controller('directionsCtrl',
+    var app = angular.module('gkApp.controllers').controller('directionsCtrl',
         ['$scope', '$http', '$uibModal', 'signalrDirectionsService',
         function ($scope, $http, $uibModal, signalrDirectionsService) {
             $scope.gridOptions = {

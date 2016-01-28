@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('canvasApp.services')
+    var app = angular.module('gkApp.services')
         .factory('signalrService', ['$rootScope', 'Hub', '$timeout', function ($rootScope, Hub, $timeout) {
             var plansUpdater;
             var startTestBroadcast = function () {

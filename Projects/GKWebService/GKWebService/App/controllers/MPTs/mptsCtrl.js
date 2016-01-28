@@ -1,6 +1,6 @@
 ﻿(function () {
     'use strict';
-    var app = angular.module('canvasApp.controllers').controller ('mptsCtrl',['$scope', '$http', '$uibModal', 'signalrMPTsService',
+    var app = angular.module('gkApp.controllers').controller('mptsCtrl', ['$scope', '$http', '$uibModal', 'signalrMPTsService',
            function ($scope, $http, $uibModal, signalrMPTsService) {
                $scope.uiGrid = {
                    enableColumnResizing: true,

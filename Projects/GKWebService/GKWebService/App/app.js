@@ -1,9 +1,9 @@
 ﻿(function() {
     'use strict';
-    var app = angular.module('canvasApp', ['canvasApp.controllers', 'canvasApp.directives', 'canvasApp.services', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.selection']);
+    var app = angular.module('gkApp', ['gkApp.controllers', 'gkApp.directives', 'gkApp.services', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.selection']);
   
-    angular.module('canvasApp.directives', []);
-    angular.module('canvasApp.controllers', ['ui.grid', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.grid.resizeColumns']);
-    angular.module('canvasApp.services', ['SignalR']);
+    angular.module('gkApp.directives', []);
+    angular.module('gkApp.controllers', ['ui.grid', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.grid.resizeColumns']);
+    angular.module('gkApp.services', ['SignalR']);
 
 }());

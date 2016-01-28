@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('canvasApp.controllers').controller('devicesCtrl',
+    var app = angular.module('gkApp.controllers').controller('devicesCtrl',
         function ($scope, $http) {
             $scope.main = function() {
                 $http.get('home/GetDevicesListByZoneNumber/' + $scope.$parent.zoneNumber).success(function (data, status, headers, config) {

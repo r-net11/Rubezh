@@ -1,6 +1,6 @@
 ﻿(function () {
     'use strict';
-    angular.module('canvasApp.directives').directive('ngJqGrid', function ($compile, $rootScope) {
+    angular.module('gkApp.directives').directive('ngJqGrid', function ($compile, $rootScope) {
         return {
             restrict: 'E',
             scope: {
