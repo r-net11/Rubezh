@@ -15,7 +15,6 @@ namespace RubezhAPI
 		public OperationResult()
 		{
 			Errors = new List<string>();
-			Warnings = new List<string>();
 		}
 
 		public OperationResult(T result) : this()
@@ -47,11 +46,6 @@ namespace RubezhAPI
 		/// </summary>
 		[DataMember]
 		public List<string> Errors { get; set; }
-
-		[DataMember]
-		public List<string> Warnings { get; set; }
-
-		public bool HasWarnings { get { return Warnings.Count > 0; } }
 
 		public static OperationResult<T> FromError(string error, T result = default(T))
 		{

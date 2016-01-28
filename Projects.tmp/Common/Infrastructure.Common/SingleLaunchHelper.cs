@@ -92,7 +92,7 @@ namespace Infrastructure.Common
 			_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
 			if (!isNew)
 			{
-				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+				
 				bool terminate = false;
 				if (!force && !RequestConfirmation())
 					terminate = true;
@@ -107,13 +107,12 @@ namespace Infrastructure.Common
 						terminate = !_waitHandler.WaitOne(TIMEOUT);
 					}
 				}
-				if (terminate)
+				if (terminate) {
+					TryShutdown ();
+					ForceShutdown ();
+				} else 
 				{
-					TryShutdown();
-					ForceShutdown();
 				}
-				else
-					Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			}
 			ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
 		}
@@ -145,16 +144,11 @@ namespace Infrastructure.Common
 			if (ShuttingDown != null)
 				ShuttingDown();
 
-			if (!_force && Application.Current != null)
-			{
-				Application.Current.Dispatcher.InvokeShutdown();
-				ApplicationService.DoEvents();
-			}
+
 		}
 		private void ForceShutdown()
 		{
-			if (Application.Current == null || !Application.Current.Dispatcher.HasShutdownFinished)
-				Environment.Exit(0);
+			
 		}
 
 		#region IDisposable Members
@@ -197,7 +191,6 @@ namespace Infrastructure.Common
 			_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
 			if (!isNew)
 			{
-				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 				_signalHandler.Set();
 				TryShutdown();
 				ForceShutdown();
@@ -219,16 +212,11 @@ namespace Infrastructure.Common
 			if (ShuttingDown != null)
 				ShuttingDown();
 
-			if (Application.Current != null)
-			{
-				Application.Current.Dispatcher.InvokeShutdown();
-				ApplicationService.DoEvents();
-			}
+
 		}
 		private void ForceShutdown()
 		{
-			if (Application.Current == null || !Application.Current.Dispatcher.HasShutdownFinished)
-				Environment.Exit(0);
+			Environment.Exit(0);
 		}
 
 		#region IDisposable Members

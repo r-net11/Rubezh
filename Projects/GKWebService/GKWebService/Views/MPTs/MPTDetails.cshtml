@@ -1,0 +1,73 @@
+﻿@{
+    Layout = null;
+}
+
+
+<div class="modal-header">
+    <h3 class="modal-title">{{mpt.Name}}</h3>
+</div>
+<div class="modal-body">
+    <div>
+        <div>
+            <div ng-style="{'background-color': mpt.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
+            <div style="float: left; width: 300px">
+                <ul>
+                    <li ng-repeat="stateClass in mpt.StateClasses">
+                        <img style="margin: 2px; vertical-align:middle" src="{{stateClass.IconData}}" />
+                        {{stateClass.Name}}
+                    <li>
+                </ul>
+            </div>
+            <div style="float: left">
+                <div ng-show="mpt.HasOnDelay">
+                    <span>Задержка на включение</span> <br />
+                    <span>{{mpt.OnDelay}}</span><span> сек</span>
+                </div>
+            </div>
+            <div style="clear: left">
+            </div>
+        </div>
+        <uib-tabset>
+            <uib-tab heading="Управление">
+                <div>
+                    <img style="margin: 2px; vertical-align:middle" src="{{mpt.ControlRegimeIcon}}" />
+                    <span style="font-weight: bold; margin: 2px">Режим</span>
+                    <span style="font-weight: bold; margin: 2px">{{mpt.ControlRegimeName}}</span>
+                </div>
+                <div style="float: left; width: 50%">
+                    <button style="height: 50px; width: 100%; margin: 2px;" ng-click="SetAutomaticState()" ng-disabled="!mpt.CanSetAutomaticState">Автоматика</button>
+                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="SetManualState()" ng-disabled="!mpt.CanSetManualState">Ручное</button>
+                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="SetIgnoreState()" ng-disabled="!mpt.CanSetIgnoreState">Отключение</button>
+                </div>
+                <div style="float: left; width: 50%">
+                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!mpt.IsControlRegime">Пуск</button>
+                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOnNow()" ng-disabled="!mpt.IsControlRegime">Пуск немедленно</button>
+                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="ForbidStart()" ng-disabled="!mpt.IsControlRegime">Стоп</button>
+                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOff()" ng-disabled="!mpt.IsControlRegime">Выключить немедленно</button>
+                </div>
+                <div style="clear: left">
+                </div>
+            </uib-tab>
+            <uib-tab heading="Свойства">
+                <div>
+                    <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png" />
+                    <a href="#" ng-click="Show()">{{mpt.Name}}</a>
+                </div>
+                <div>
+                    <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
+                    <span style="margin: 2px; font-weight: bold">{{mpt.GKDescriptorNo}}</span>
+                </div>
+                <div>
+                    <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                    <a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                </div>
+                <div>
+                    <span>Задержка: </span>
+                    <span>{{mpt.Delay}}</span>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>
+
+

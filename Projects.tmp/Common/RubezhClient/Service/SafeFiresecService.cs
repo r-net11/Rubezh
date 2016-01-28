@@ -1,6 +1,5 @@
 ﻿using Common;
 using Infrastructure.Common.Windows;
-using OpcClientSdk;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.License;

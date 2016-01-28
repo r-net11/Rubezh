@@ -114,14 +114,6 @@ namespace GKWebService.DataProviders.FireZones
         }
 
         /// <summary>
-        /// private constructor
-        /// </summary>
-        private FireZonesDataProvider()
-        {
-            ClientManager.GetConfiguration("GKOPC/Configuration");
-        }
-
-        /// <summary>
         /// private instance of DataProvider
         /// </summary>
         private static FireZonesDataProvider _instance;

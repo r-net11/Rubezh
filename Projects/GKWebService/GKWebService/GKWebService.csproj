@@ -178,6 +178,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\app.js" />
+    <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
+    <Content Include="App\controllers\delays\delaysCtrl.js" />
+    <Content Include="App\controllers\devicesCtrl.js" />
+    <Content Include="App\controllers\directionsUpdaterHub.js" />
+    <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
+    <Content Include="App\controllers\directions\directionsCtrl.js" />
+    <Content Include="App\controllers\journal\journalCtrl.js" />
+    <Content Include="App\controllers\journal\journalFilterCtrl.js" />
+    <Content Include="App\controllers\MPTsUpdateHub.js" />
+    <Content Include="App\controllers\MPTs\mptsCtrl.js" />
+    <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
+    <Content Include="App\controllers\planCtrl.js" />
+    <Content Include="App\controllers\signalrCtrl.js" />
+    <Content Include="App\controllers\zonesCtrl.js" />
+    <Content Include="App\directives\d3Plan.js" />
+    <Content Include="App\directives\ngJqGrid.js" />
+    <Content Include="App\services\broadcastService.js" />
+    <Content Include="App\services\signalrDelaysService.js" />
+    <Content Include="App\services\signalrDirectionsService.js" />
+    <Content Include="App\services\signalrFireZonesService.js" />
+    <Content Include="App\services\signalrMPTsService.js" />
+    <Content Include="App\services\signalrService.js" />
+    <Content Include="App\signalr\plansUpdaterHub.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -301,6 +325,11 @@
     <Content Include="Content\Image\Icon\Menu\fine\workSchedule.png" />
     <Content Include="Content\Image\Icon\Menu\levels.png" />
     <Content Include="Content\Image\Icon\Menu\tree.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Camera.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Chip.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\no.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\PC.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
       <DependentUpon>main.less</DependentUpon>
@@ -359,25 +388,6 @@
     <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\app\app.js" />
-    <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
-    <Content Include="Scripts\app\controllers\directions\directionDetailsCtrl.js" />
-    <Content Include="Scripts\app\controllers\mptsCtrl.js" />
-    <Content Include="Scripts\app\controllers\delaysCtrl.js" />
-    <Content Include="Scripts\app\controllers\devicesCtrl.js" />
-    <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
-    <Content Include="Scripts\app\controllers\journalCtrl.js" />
-    <Content Include="Scripts\app\controllers\MPTsUpdateHub.js" />
-    <Content Include="Scripts\app\controllers\signalrCtrl.js" />
-    <Content Include="Scripts\app\controllers\planCtrl.js" />
-    <Content Include="Scripts\app\controllers\zonesCtrl.js" />
-    <Content Include="Scripts\app\directives\d3Plan.js" />
-    <Content Include="Scripts\app\directives\ngJqGrid.js" />
-    <Content Include="Scripts\app\services\broadcastService.js" />
-    <Content Include="Scripts\app\services\signalrDirectionsService.js" />
-    <Content Include="Scripts\app\services\signalrFireZonesService.js" />
-    <Content Include="Scripts\app\services\signalrService.js" />
-    <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
     <Content Include="Scripts\archive.js" />
     <Content Include="Content\header.less" />
     <Content Include="Content\vars.less" />
@@ -464,6 +474,8 @@
     <Content Include="Content\ui-grid.woff" />
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
+    <Content Include="Content\ui-grid.less" />
+    <Content Include="Content\bootstrap.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -527,19 +539,23 @@
     <Compile Include="Controllers\AccessTemplatesController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
+    <Compile Include="Controllers\DelaysController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
+    <Compile Include="Controllers\MPTsController.cs" />
+    <Compile Include="Controllers\JournalController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
-    <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
+    <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="Models\MPT\MPTDevice.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -552,13 +568,14 @@
     <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
+    <Compile Include="Models\GK\Delay\DelayStateClass.cs" />
     <Compile Include="Models\GK\DeviceControlRegime.cs" />
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
-    <Compile Include="Models\DelayModel.cs" />
+    <Compile Include="Models\GK\Delay\Delay.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
-    <Compile Include="Models\MPTModel.cs" />
+    <Compile Include="Models\MPT\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
@@ -658,11 +675,15 @@
     <Content Include="Views\AccessTemplates\Index.cshtml" />
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
     <Content Include="Views\Cards\Index.cshtml" />
-    <Content Include="Views\Home\Delays.cshtml" />
+    <Content Include="Views\Delays\Delays.cshtml" />
     <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
-    <Content Include="Views\Home\Journal.cshtml" />
+    <Content Include="Views\Journal\Index.cshtml" />
+    <Content Include="Views\Delays\DelayDetails.cshtml" />
+    <Content Include="Views\MPTs\Index.cshtml" />
+    <Content Include="Views\Journal\JournalFilter.cshtml" />
+    <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
