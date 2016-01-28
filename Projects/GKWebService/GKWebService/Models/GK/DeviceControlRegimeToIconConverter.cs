@@ -2,28 +2,22 @@
 using System.Windows.Data;
 using GKWebService.Models.GK;
 
-namespace GKModule.Converters
+namespace GKWebService.Converters
 {
-	public class DeviceControlRegimeToIconConverter : IValueConverter
+	public class DeviceControlRegimeToIconConverter
 	{
-		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public string Convert(DeviceControlRegime deviceControlRegime)
 		{
-			DeviceControlRegime deviceControlRegime = (DeviceControlRegime)value;
 			switch (deviceControlRegime)
 			{
 				case DeviceControlRegime.Automatic:
-					return "/Controls;component/StateClassIcons/TechnologicalRegime.png";
+					return "TechnologicalRegime";
 				case DeviceControlRegime.Manual:
-					return "/Controls;component/StateClassIcons/Manual.png";
+					return "Manual";
 				case DeviceControlRegime.Ignore:
-					return "/Controls;component/StateClassIcons/Ignore.png";
+					return "Ignore";
 			}
 			return "";
-		}
-
-		object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }
