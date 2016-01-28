@@ -1,5 +1,6 @@
 ﻿using RubezhAPI.GK;
 using Graybox.OPC.ServerToolkit.CLRWrapper;
+using System;
 
 namespace GKOPCServer
 {
@@ -7,6 +8,8 @@ namespace GKOPCServer
 
 	{
 		public GKState State { get; private set; }
+		public GKDriverType DriverType { get; set; }
+		public Guid DeviceUID { get; set; }
 
 		public TagBase(int tagId, GKState state)
 		{
