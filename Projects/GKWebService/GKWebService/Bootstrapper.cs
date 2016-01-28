@@ -1,4 +1,5 @@
 ﻿using GKProcessor;
+using GKWebService.DataProviders.MPTHubs;
 using Infrastructure.Common;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -151,6 +152,7 @@ namespace GKWebService
 				if (mpt != null)
 				{
 					mptState.CopyTo(mpt.State);
+					//MPTHub.Instance.MPTStateIconUpdate(mpt)
 				}
 			}
 			foreach (var guardZoneState in gkStates.GuardZoneStates)

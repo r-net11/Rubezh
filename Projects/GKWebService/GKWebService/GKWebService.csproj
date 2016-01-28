@@ -376,7 +376,7 @@
     <Content Include="Scripts\app\directives\d3Plan.js" />
     <Content Include="Scripts\app\directives\ngJqGrid.js" />
     <Content Include="Scripts\app\services\broadcastService.js" />
-    <Content Include="Scripts\app\services\signalMPTsService.js" />
+    <Content Include="Scripts\app\services\signalrMPTsService.js" />
     <Content Include="Scripts\app\services\signalrDirectionsService.js" />
     <Content Include="Scripts\app\services\signalrFireZonesService.js" />
     <Content Include="Scripts\app\services\signalrService.js" />

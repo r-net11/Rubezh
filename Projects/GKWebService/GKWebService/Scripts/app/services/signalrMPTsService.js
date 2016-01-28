@@ -3,24 +3,14 @@
 
     var app = angular.module('canvasApp.services')
         .factory('signalrMPTsService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
-            var moptsUpdater;
-            var startTestBroadcast1 = function () {
-                mptsUpdater.startTestBroadcast1(); //Calling a server method
-            };
-
             //declaring the hub connection
-            mptsUpdater = new Hub('mptsUpdater', {
-
+           var mptsUpdater = new Hub('mptHub', {
                 //client side methods
                 listeners: {
-                    'mptsUpdater': function (mpt) {
-                        broadcastService.send('directionChanged', mpt);
+                    'mptStateUpdate': function (mpt) {
+                        broadcastService.send('mptChanged', mpt);
                     }
                 },
-
-                //server side methods
-                methods: ['startTestBroadcast1'],
-
                 //query params sent on initial connection
                 queryParams: {
                     'token': 'exampletoken'
@@ -51,8 +41,6 @@
                     }
                 }
             });
-            return {
-                startTest: startTestBroadcast1
-            };
+           return [];
         }]);
 }());

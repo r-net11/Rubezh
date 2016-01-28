@@ -1,5 +1,6 @@
 ﻿using GKWebService.Models;
 using RubezhAPI;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,19 +32,93 @@ namespace GKWebService.Controllers
 				{
 					devices.Add(new MPTDevice { DottedPresentationAddress = x.Device.DottedPresentationAddress, MPTDeviceType = x.MPTDeviceType.ToDescription(), Uid = x.DeviceUID, Description = x.Device.Description });
 				});
-				data.Add(new MPTModel 
-				{ Name = mpt.Name, 
-			      No = mpt.No, 
-				  UID = mpt.UID,
-				  MptLogic = GKManager.GetPresentationLogic(mpt.MptLogic), 
-				  MPTDevices = devices, 
-				  Delay = mpt.Delay,
-				  StateIcon = mpt.State.StateClass.ToString()
-				}
-				  );
+				data.Add(new MPTModel(mpt));
 			}
 			data.Reverse();
 			return Json(data, JsonRequestBehavior.AllowGet);
+		}
+
+		public JsonResult SetAutomaticState(Guid id)
+		{
+			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
+			if (mpt != null)
+			{
+				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+			}
+
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult SetManualState(Guid id)
+		{
+			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
+			if (mpt != null)
+			{
+				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+			}
+
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult SetIgnoreState(Guid id)
+		{
+			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
+			if (mpt != null)
+			{
+				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+			}
+
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult TurnOn(Guid id)
+		{
+			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
+			if (mpt != null)
+			{
+				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+			}
+
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult TurnOnNow(Guid id)
+		{
+			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
+			if (mpt != null)
+			{
+				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+			}
+
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult TurnOff(Guid id)
+		{
+			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
+			if (mpt != null)
+			{
+				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+			}
+
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult ForbidStart(Guid id)
+		{
+			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
+			if (mpt != null)
+			{
+				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+			}
+
+			return new JsonResult();
 		}
 
     }
