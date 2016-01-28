@@ -1,6 +1,7 @@
 ﻿using GKProcessor;
 using GKWebService.DataProviders;
 using GKWebService.DataProviders.MPTHubs;
+using GKWebService.Models;
 using Infrastructure.Common;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -138,7 +139,8 @@ namespace GKWebService
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
-					delay.State.OnStateChanged();
+					if (DelaysUpdaterHub.Instance != null)
+						DelaysUpdaterHub.Instance.DelayUpdate(new Delay(delay));
 				}
 			}
 			foreach (var remotePimState in gkStates.PimStates)

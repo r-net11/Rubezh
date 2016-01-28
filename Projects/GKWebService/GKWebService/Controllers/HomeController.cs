@@ -48,36 +48,10 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public ActionResult Directions()
-		{
-			return View();
-		}
-
 		public ActionResult Delays()
 		{
 			return View();
 		}
-
-		public JsonResult GetDirections()
-		{
-			var directions = new List<Direction>();
-			foreach (var realDirection in GKManager.Directions)
-			{
-				var direction = new Direction(realDirection);
-				directions.Add(direction);
-			}
-
-			dynamic result = new
-			{
-				page = 1,
-				total = 100,
-				records = 100,
-				rows = directions
-			};
-
-			return Json(result, JsonRequestBehavior.AllowGet);
-		}
-
 
 		public ActionResult MPTs()
 		{

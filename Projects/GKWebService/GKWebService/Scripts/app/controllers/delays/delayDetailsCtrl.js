@@ -1,59 +1,45 @@
 ﻿(function () {
 
 	angular.module('canvasApp.controllers').controller('delayDetailsCtrl',
-        function ($scope, $uibModalInstance, $http, direction) {
-        	$scope.direction = direction;
+		function ($scope, $uibModalInstance, $http, delay) {
+			$scope.delay = delay;
 
-        	$scope.$on('directionChanged', function (event, args) {
-        		if (args.UID === $scope.direction.UID) {
-        			$scope.direction = args;
-        			$scope.$apply();
-        		};
-        	});
+			$scope.$on('delayChanged', function (event, args) {
+				if (args.Uid === $scope.delay.Uid) {
+					$scope.delay = args;
+					$scope.$apply();
+				};
+			});
+			$scope.SetAutomaticState = function () {
+				$http.post('Delays/SetAutomaticState', { id: $scope.delay.Uid });
+			};
 
-        	$scope.SetAutomaticState = function () {
-        		$http.post('Directions/SetAutomaticState', { id: $scope.direction.UID });
-        	};
+			$scope.SetManualState = function () {
+				$http.post('Delays/SetManualState', { id: $scope.delay.Uid });
+			};
 
-        	$scope.SetManualState = function () {
-        		$http.post('Directions/SetManualState', { id: $scope.direction.UID });
-        	};
+			$scope.SetIgnoreState = function () {
+				$http.post('Delays/SetIgnoreState', { id: $scope.delay.Uid });
+			};
 
-        	$scope.SetIgnoreState = function () {
-        		$http.post('Directions/SetIgnoreState', { id: $scope.direction.UID });
-        	};
+			$scope.TurnOn = function () {
+				$http.post('Delays/TurnOn', { id: $scope.delay.Uid });
+			};
 
-        	$scope.TurnOn = function () {
-        		$http.post('Directions/TurnOn', { id: $scope.direction.UID });
-        	};
+			$scope.TurnOnNow = function () {
+				$http.post('Delays/TurnOnNow', { id: $scope.delay.Uid });
+			};
 
-        	$scope.TurnOnNow = function () {
-        		$http.post('Directions/TurnOnNow', { id: $scope.direction.UID });
-        	};
+			$scope.TurnOff = function () {
+				$http.post('Delays/TurnOff', { id: $scope.delay.Uid });
+			};
+			$scope.Show = function () {
 
-        	$scope.ForbidStart = function () {
-        		$http.post('Directions/ForbidStart', { id: $scope.direction.UID });
-        	};
+			};
 
-        	$scope.TurnOff = function () {
-        		$http.post('Directions/TurnOff', { id: $scope.direction.UID });
-        	};
+			$scope.ShowJournal = function () {
 
-        	$scope.Show = function () {
-
-        	};
-
-        	$scope.ShowJournal = function () {
-
-        	};
-
-        	$scope.ok = function () {
-        		$uibModalInstance.close();
-        	};
-
-        	$scope.cancel = function () {
-        		$uibModalInstance.dismiss('cancel');
-        	};
-        }
-    );
+			};
+		}
+	);
 }());

@@ -21,14 +21,11 @@
                 ]
             };
 
-            $scope.signalrDirectionsService = signalrDirectionsService;
-
             $scope.$on('directionChanged', function (event, args) {
                 var data = $scope.gridOptions.data;
                 for (var i = 0, len = data.length; i < len; i++) {
                     if (args.UID === data[i].UID) {
-                        data[i].State = args.State;
-                        data[i].StateIcon = args.StateIcon;
+                        data[i] = args;
                         $scope.$apply();
                         break;
                     }
@@ -48,8 +45,8 @@
                 });
             };
 
-            $http.get('Home/GetDirections').success(function (data, status, headers, config) {
-                $scope.gridOptions.data = data.rows;
+            $http.get('Directions/GetDirections').success(function (data, status, headers, config) {
+                $scope.gridOptions.data = data;
             });
         }]
     );

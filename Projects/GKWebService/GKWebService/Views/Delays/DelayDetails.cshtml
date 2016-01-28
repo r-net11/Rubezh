@@ -4,28 +4,28 @@
 
 
 <div class="modal-header">
-	<h3 class="modal-title">{{direction.Name}}</h3>
+	<h3 class="modal-title">{{delay.Name}}</h3>
 </div>
 <div class="modal-body">
 	<div>
 		<div>
-			<div ng-style="{'background-color': directionState.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
+			<div ng-style="{'background-color': delay.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
 			<div style="float: left; width: 300px">
 				<ul>
-					<li ng-repeat="stateClass in directionState.StateClasses">
+					<li ng-repeat="stateClass in delay.StateClasses">
 						<img style="margin: 2px; vertical-align:middle" src="{{stateClass.IconData}}" />
 						{{stateClass.Name}}
 					<li>
 				</ul>
 			</div>
 			<div style="float: left">
-				<div ng-show="directionState.HasOnDelay">
+				<div ng-show="delay.HasOnDelay">
 					<span>Задержка на включение</span> <br />
-					<span>{{directionState.OnDelay}}</span><span> сек</span>
+					<span>{{delay.OnDelay}}</span><span> сек</span>
 				</div>
-				<div ng-show="directionState.HasHoldDelay">
+				<div ng-show="delay.HasHoldDelay">
 					<span>Удержание</span> <br />
-					<span>{{directionState.HoldDelay}}</span><span> сек</span>
+					<span>{{delay.HoldDelay}}</span><span> сек</span>
 				</div>
 			</div>
 			<div style="clear: left">
@@ -34,32 +34,31 @@
 		<uib-tabset>
 			<uib-tab heading="Управление">
 				<div>
-					<img style="margin: 2px; vertical-align:middle" src="{{directionState.ControlRegimeIcon}}" />
+					<img style="margin: 2px; vertical-align:middle" src="{{delay.ControlRegimeIcon}}" />
 					<span style="font-weight: bold; margin: 2px">Режим</span>
-					<span style="font-weight: bold; margin: 2px">{{directionState.ControlRegimeName}}</span>
+					<span style="font-weight: bold; margin: 2px">{{delay.ControlRegimeName}}</span>
 				</div>
 				<div style="float: left; width: 50%">
-					<button style="height: 50px; width: 100%; margin: 2px;" ng-click="SetAutomaticState()" ng-disabled="!directionState.CanSetAutomaticState">Автоматика</button>
-					<button style="height: 50px; width: 100%; margin: 2px" ng-click="SetManualState()" ng-disabled="!directionState.CanSetManualState">Ручное</button>
-					<button style="height: 50px; width: 100%; margin: 2px" ng-click="SetIgnoreState()" ng-disabled="!directionState.CanSetIgnoreState">Отключение</button>
+					<button style="height: 50px; width: 100%; margin: 2px;" ng-click="SetAutomaticState()" ng-disabled="!delay.CanSetAutomaticState">Автоматика</button>
+					<button style="height: 50px; width: 100%; margin: 2px" ng-click="SetManualState()" ng-disabled="!delay.CanSetManualState">Ручное</button>
+					<button style="height: 50px; width: 100%; margin: 2px" ng-click="SetIgnoreState()" ng-disabled="!delay.CanSetIgnoreState">Отключение</button>
 				</div>
 				<div style="float: left; width: 50%">
-					<button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!directionState.IsControlRegime">Пуск</button>
-					<button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOnNow()" ng-disabled="!directionState.IsControlRegime">Пуск немедленно</button>
-					<button style="height: 50px; width: 100%; margin: 2px" ng-click="ForbidStart()" ng-disabled="!directionState.IsControlRegime">Останов пуска</button>
-					<button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOff()" ng-disabled="!directionState.IsControlRegime">Выключить немедленно</button>
+					<button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!delay.IsControlRegime">Включить</button>
+					<button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOnNow()" ng-disabled="!delay.IsControlRegime">Включить немедленно</button>
+					<button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOff()" ng-disabled="!delay.IsControlRegime">Выключить</button>
 				</div>
 				<div style="clear: left">
 				</div>
 			</uib-tab>
 			<uib-tab heading="Свойства">
 				<div>
-					<img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png" />
-					<a href="#" ng-click="Show()">{{direction.Name}}</a>
+					<img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/Hr/Delay.png" />
+					<a href="#" ng-click="Show()">{{delay.Name}}</a>
 				</div>
 				<div>
 					<span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-					<span style="margin: 2px; font-weight: bold">{{direction.GKDescriptorNo}}</span>
+					<span style="margin: 2px; font-weight: bold">{{delay.GKDescriptorNo}}</span>
 				</div>
 				<div>
 					<img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
@@ -67,15 +66,15 @@
 				</div>
 				<div>
 					<span>Задержка: </span>
-					<span>{{direction.Delay}}</span>
+					<span>{{delay.DelayTime}}</span>
 				</div>
 				<div>
 					<span>Удержание: </span>
-					<span>{{direction.Hold}}</span>
+					<span>{{delay.HoldTime}}</span>
 				</div>
 				<div>
 					<span>Режим после удержания: </span>
-					<span>{{direction.DelayRegimeName}}</span>
+					<span>{{delay.DelayRegimeName}}</span>
 				</div>
 			</uib-tab>
 		</uib-tabset>
