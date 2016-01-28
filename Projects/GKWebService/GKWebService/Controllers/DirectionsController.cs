@@ -22,6 +22,18 @@ namespace GKWebService.Controllers
             return View();
         }
 
+		public JsonResult GetDirections()
+		{
+			var directions = new List<Direction>();
+			foreach (var gkDirection in GKManager.Directions)
+			{
+				var direction = new Direction(gkDirection);
+				directions.Add(direction);
+			}
+
+			return Json(directions, JsonRequestBehavior.AllowGet);
+		}
+
 		[HttpPost]
 	    public JsonResult SetAutomaticState(Guid id)
 		{
