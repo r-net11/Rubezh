@@ -5,6 +5,7 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using GKWebService.Models;
+using RubezhAPI.GK;
 
 namespace GKWebService.DataProviders.MPTHubs
 {
@@ -16,8 +17,9 @@ namespace GKWebService.DataProviders.MPTHubs
 		{
 			Instance = this;
 		}
-		public void MPTStateIconUpdate(MPTModel mpt)
+		 public void MPTStateIconUpdate(GKMPT mpt)
 		{
+			var mptModel = new MPTModel(mpt);
 			Clients.All.mptStateUpdate(mpt);
 		}
 	}

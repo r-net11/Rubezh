@@ -6,7 +6,7 @@
 
             $scope.$on('mptChanged', function (event, args) {
                 if (args.UID === $scope.mpt.UID) {
-                    $scope.directionState = args;
+                    $scope.mpt = args;
                     $scope.$apply();
                 };
             });
