@@ -30,7 +30,6 @@
                             //your code here
                             break;
                         case $.signalR.connectionState.connected:
-                            startTestBroadcast1();
                             break;
                         case $.signalR.connectionState.reconnecting:
                             //your code here
