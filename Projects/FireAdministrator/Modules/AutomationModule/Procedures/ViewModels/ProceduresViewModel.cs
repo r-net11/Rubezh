@@ -303,6 +303,7 @@ namespace AutomationModule.ViewModels
 			var procedureViewModel = new ProcedureViewModel(clone);
 			ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureViewModel.Procedure);
 			Procedures.Add(procedureViewModel);
+			AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 			SelectedProcedure = procedureViewModel;
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
