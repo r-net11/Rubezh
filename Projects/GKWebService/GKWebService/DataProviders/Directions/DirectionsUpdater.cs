@@ -1,16 +1,17 @@
-﻿using Controls.Converters;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Controls.Converters;
 using GKModule.Converters;
+using Microsoft.AspNet.SignalR.Hubs;
+using RubezhAPI.GK;
+using RubezhAPI;
 using GKWebService.Models;
 using GKWebService.Models.GK;
 using GKWebService.Utils;
 using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
-using RubezhAPI;
-using RubezhAPI.GK;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace GKWebService.DataProviders
 {
@@ -53,7 +54,7 @@ namespace GKWebService.DataProviders
 		{
 			_directions.Clear();
 
-			foreach (var realDirection in GKManager.Directions)
+			foreach(var realDirection in GKManager.Directions)
 			{
 				var direction = new Direction
 				{
@@ -68,7 +69,7 @@ namespace GKWebService.DataProviders
 					OnDelay = realDirection.State.OnDelay,
 					HoldDelay = realDirection.State.HoldDelay,
 					GKDescriptorNo = realDirection.GKDescriptorNo,
-				};
+                };
 				_directions.TryAdd(direction.UID, direction);
 			}
 		}
@@ -101,13 +102,13 @@ namespace GKWebService.DataProviders
 			direction.State = stateClass.ToDescription();
 			direction.StateIcon = stateClass.ToString();
 			direction.StateColor = "'#" + new XStateClassToColorConverter2().Convert(stateClass, null, null, null).ToString().Substring(3) + "'";
-			direction.StateClasses = new List<DirectionStateClass> { new DirectionStateClass(stateClass) };
+			direction.StateClasses = new List<DirectionStateClass>{ new DirectionStateClass(stateClass)};
 			direction.HasOnDelay = stateClasses.Contains(XStateClass.TurningOn) && direction.OnDelay > 0;
 			direction.HasHoldDelay = stateClasses.Contains(XStateClass.On) && direction.HoldDelay > 0;
 			direction.ControlRegime = stateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore
 				: !stateClasses.Contains(XStateClass.AutoOff) ? DeviceControlRegime.Automatic : DeviceControlRegime.Manual;
-			direction.ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string)new DeviceControlRegimeToIconConverter().Convert(direction.ControlRegime, null, null, null)) ?? string.Empty).Item1;
+			direction.ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string) new DeviceControlRegimeToIconConverter().Convert(direction.ControlRegime, null, null, null)) ?? string.Empty).Item1;
 			direction.ControlRegimeName = direction.ControlRegime.ToDescription();
 			direction.CanSetAutomaticState = (direction.ControlRegime != DeviceControlRegime.Automatic);
 			direction.CanSetManualState = (direction.ControlRegime != DeviceControlRegime.Manual);
