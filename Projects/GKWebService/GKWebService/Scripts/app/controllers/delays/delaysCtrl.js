@@ -1,54 +1,51 @@
 ﻿(function () {
 	'use strict';
-	var nameTemplate = '<p><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" />' +
-		'<button class="btn-link" ng-click="grid.appScope.showDialogWindow()">{{row.entity.Name}}</button></p>';
+	var nameTemplate = '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" />' +
+		'<a href="#" ng-click="grid.appScope.showDetailsDelay(row.entity)">{{row.entity.Name}}</a></div>';
 
 	var delaysApp = angular.module("canvasApp.controllers");
-	delaysApp.controller('delaysCtrl', ['$scope', '$http', '$uibModal', function ($scope, $http, $uibModal) {
-		function CreateConnection() {
-			var connection = $.hubConnection();
-			var proxy = connection.createHubProxy('delaysHub');
-			proxy.on('createInstance', function () {
-				alert('Хаб создан');
-			});
-			proxy.on('delayStateUpdate', StateIconUpdate);
-			connection.start().done(function () {
-				proxy.invoke("createInstance");
-			});
-		};
-		CreateConnection();
-		function GetDelays() {
+	delaysApp.controller('delaysCtrl', ['$scope', '$http', '$uibModal', 'signalrDelaysService',
+		function ($scope, $http, $uibModal) {
+			function ChangeDelay(delay)
+			{
+				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+					if ($scope.gridOptions.data[i].Uid == delay.Uid) {
+						$scope.gridOptions.data[i] = delay;
+					}
+				}
+			}
+			$scope.gridOptions = {
+				enableSorting: false,
+				enableColumnResizing: true,
+				enableColumnMenus: false,
+				columnDefs: [
+				{ name: "Number", displayName: "№", width: 40, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Delay.png" />{{row.entity.Number}}</div>' },
+				{ name: "Name", displayName: "Задержка", width: 300, cellTemplate: nameTemplate },
+				{ name: "PresentationLogic", displayName: "Логика включения" },
+				{ name: "OnDelay", displayName: "Задержка", width: 120 },
+				{ name: "HoldDelay", displayName: "Удержание", width: 120 }
+				]
+			};
+
 			$http.get("Delays/GetDelays").success(function (data) {
 				$scope.gridOptions.data = data;
 			});
-		};
-		function StateIconUpdate(delayUid,stateIcon) {
-			GetDelays();
-		};
-		$scope.gridOptions = {};
-		$scope.enableCellEditOnFocus = true;
-		$scope.gridOptions.enableSorting = false;
-		$scope.gridOptions.columnDefs = [
-			{ name: "Number", displayName: "№", width:40, cellTemplate:'<p><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Delay.png" />{{row.entity.Number}}</p>' },
-			{ name: "Name", displayName: "Задержка", cellTemplate: nameTemplate },
-			{ name: "PresentationLogic", displayName: "Логика включения" },
-			{ name: "OnDelay", displayName: "Задержка" },
-			{ name: "HoldDelay", displayName: "Удержание" }
-		];
 
-		GetDelays();
-		$scope.showDialogWindow = function (data) {
-			alert("IsClicked");
-			$uibModal.open({
-				animation: false,
-				templateUrl: 'Delays/DelayDetails',
-				controleer: 'delayDetailsCtrl',
-				resolve: {
-					direction: function () {
-						return data;
-					}
-				},
-			});
-		};
+			$scope.showDetailsDelay = function (delay) {
+				$uibModal.open({
+					animation: false,
+					templateUrl: 'Delays/DelayDetails',
+					controller: 'delayDetailsCtrl',
+					resolve: {
+						delay: function () {
+							return delay;
+						}
+					},
+				});
+			};
+			$scope.$on('delayChanged', function (event, args) {
+				ChangeDelay(args);
+				$scope.$apply();
+			})
 	}]);
 }());
