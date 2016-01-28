@@ -1,5 +1,5 @@
 ﻿using Controls.Converters;
-using GKModule.Converters;
+using GKWebService.Converters;
 using GKWebService.Models.GK;
 using GKWebService.Utils;
 using RubezhAPI;
@@ -30,7 +30,7 @@ namespace GKWebService.Models
 			var controlRegime = mpt.State.StateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore
 				: !mpt.State.StateClasses.Contains(XStateClass.AutoOff) ? DeviceControlRegime.Automatic : DeviceControlRegime.Manual;
-			ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string)new DeviceControlRegimeToIconConverter().Convert(controlRegime, null, null, null)) ?? string.Empty).Item1;
+			//ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string)new DeviceControlRegimeToIconConverter().Convert(controlRegime)) ?? string.Empty).Item1;
 			ControlRegimeName = controlRegime.ToDescription();
 			CanSetAutomaticState = (controlRegime != DeviceControlRegime.Automatic);
 			CanSetManualState = (controlRegime != DeviceControlRegime.Manual);

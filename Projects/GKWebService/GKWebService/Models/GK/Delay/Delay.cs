@@ -49,7 +49,7 @@ namespace GKWebService.Models
 				? DeviceControlRegime.Ignore
 				: !gkDelay.State.StateClasses.Contains(XStateClass.AutoOff) ? DeviceControlRegime.Automatic : DeviceControlRegime.Manual;
 			ControlRegimeName = controlRegime.ToDescription();
-			ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string)new DeviceControlRegimeToIconConverter().Convert(controlRegime)) ?? string.Empty).Item1;
+			//ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string)new DeviceControlRegimeToIconConverter().Convert(controlRegime)) ?? string.Empty).Item1;
 			CanSetAutomaticState = (controlRegime != DeviceControlRegime.Automatic);
 			CanSetManualState = (controlRegime != DeviceControlRegime.Manual);
 			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore);
