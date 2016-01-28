@@ -50,27 +50,7 @@ namespace FiresecService.ViewModels
         public RelayCommand LoadLicenseCommand { get; private set; }
         void OnLoadLicenseCommand()
         {
-            var openFileDialog = new OpenFileDialog()
-            {
-                Filter = "Файл лицензии (*.license)|*.license"
-            };
-            if (openFileDialog.ShowDialog().Value)
-            {
-				if (!LicenseManager.CheckLicense(openFileDialog.FileName))
-                {
-                    MessageBoxService.ShowError("Некорректный файл лицензии");
-                    return;
-                }
-                try
-                {
-                    File.Copy(openFileDialog.FileName, GetLicensePath(), true);
-                }
-                catch (Exception e)
-                {
-                    MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + e.Message);
-                }
-				FiresecLicenseProcessor.SetLicense(LicenseManager.TryLoad(GetLicensePath()));
-            }
+            
         }
        
 		void FiresecLicenseManager_LicenseChanged()

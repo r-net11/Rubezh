@@ -390,7 +390,7 @@ namespace RubezhClient
 					return firesecService.SaveAccessTemplate(FiresecServiceFactory.UID, item, isNew);
 			}, "SaveAccessTemplate");
 		}
-		public OperationResult<bool> MarkDeletedAccessTemplate(AccessTemplate item)
+		public OperationResult<List<string>> MarkDeletedAccessTemplate(AccessTemplate item)
 		{
 			return SafeOperationCall(() =>
 			{

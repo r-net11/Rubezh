@@ -107,6 +107,8 @@ namespace FireMonitor
 						RunWatcher();
 					}
 
+					AutomationProcessor.Start();
+
 					SafeFiresecService.AutomationEvent -= OnAutomationCallback;
 					SafeFiresecService.AutomationEvent += OnAutomationCallback;
 

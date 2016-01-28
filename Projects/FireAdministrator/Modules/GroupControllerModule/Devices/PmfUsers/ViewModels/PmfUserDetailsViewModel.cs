@@ -124,10 +124,6 @@ namespace GKModule.ViewModels
 				}
 			}
 			_isSaved = true;
-			if (!_isNew)
-				_parentViewModel.Pmf.PmfUsers.Remove(_oldUser);
-			_parentViewModel.Pmf.PmfUsers.Add(User);
-			ServiceFactory.SaveService.GKChanged = true;
 			return base.Save();
 		}
 

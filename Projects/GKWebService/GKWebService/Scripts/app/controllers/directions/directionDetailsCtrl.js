@@ -6,12 +6,12 @@
 
             $scope.$on('directionChanged', function (event, args) {
                 if (args.UID === $scope.direction.UID) {
-                    $scope.directionState = args;
+                    $scope.direction = args;
                     $scope.$apply();
                 };
             });
 
-            $scope.SetAutomaticState = function() {
+            $scope.SetAutomaticState = function () {
                 $http.post('Directions/SetAutomaticState', { id: $scope.direction.UID });
             };
 

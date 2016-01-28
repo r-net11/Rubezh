@@ -60,7 +60,8 @@ namespace GKModule.ViewModels
 			if(DialogService.ShowModalWindow(pmfUserDetailsViewModel))
 			{
 				var user = pmfUserDetailsViewModel.User;
-				user.IsActive = false;
+				Pmf.PmfUsers.Add(user);
+				ServiceFactory.SaveService.GKChanged = true;
 				Users.Add(new PmfUserViewModel(user));
 			}
 		}
@@ -72,6 +73,9 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(pmfUserDetailsViewModel))
 			{
 				var user = pmfUserDetailsViewModel.User;
+				Pmf.PmfUsers.Remove(SelectedUser.User);
+				Pmf.PmfUsers.Add(user);
+				ServiceFactory.SaveService.GKChanged = true;
 				SelectedUser.Update(user);
 			}
 		}

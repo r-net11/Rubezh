@@ -25,7 +25,8 @@ namespace GKModule.ViewModels
 			NextConflictCommand = new RelayCommand(OnNextConflict, CanNextConflict);
 			_deviceUID = deviceUID;
 			var deviceDoorUIDs = GKManager.Doors
-				.Where(x => x.EnterDevice.GKParent.UID == _deviceUID || x.ExitDevice.GKParent.UID == _deviceUID)
+				.Where(x => (x.EnterDevice.GKParent != null && x.EnterDevice.GKParent.UID == _deviceUID) || 
+					(x.ExitDevice.GKParent != null && x.ExitDevice.GKParent.UID == _deviceUID))
 				.Select(x => x.UID).ToList();
 
 			var dbUsers = new List<GKUser>();
@@ -144,8 +145,8 @@ namespace GKModule.ViewModels
 			{
 				var deviceUser = deviceUsers.FirstOrDefault(x => x.Password == user.Password);
 				var dbUser = dbUsers.FirstOrDefault(x => x.Password == user.Password);
-				var deviceViewModel = new GKUserViewModel(deviceUser, isDevice: true);
-				var dbViewModel = new GKUserViewModel(dbUser, isDevice: false);
+				var deviceViewModel = new GKUserViewModel(deviceUser ?? dbUser, isDevice: true);
+				var dbViewModel = new GKUserViewModel(dbUser ?? deviceUser, isDevice: false);
 				
 				if (deviceUser != null && dbUser == null)
 				{

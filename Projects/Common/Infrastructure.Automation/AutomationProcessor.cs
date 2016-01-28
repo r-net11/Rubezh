@@ -14,19 +14,6 @@ namespace Infrastructure.Automation
 		static ConcurrentDictionary<Guid, ProcedureThread> _procedureThreads;
 		static AutoResetEvent _resetEvent;
 		static Thread _checkThread;
-		//static object _lock;
-
-		static AutomationProcessor()
-		{
-			//_lock = new object();
-			_procedureThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
-			_resetEvent = new AutoResetEvent(false);
-			_checkThread = new Thread(CheckProcedureThread)
-			{
-				Name = "CheckProcedureThread",
-			};
-			_checkThread.Start();
-		}
 
 		public static void RunOnJournal(JournalItem journalItem, User user, Guid? clientUID)
 		{
@@ -70,12 +57,23 @@ namespace Infrastructure.Automation
 
 		public static void RunProcedure(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
 		{
-			if (procedure.IsActive)
+			if (procedure.IsActive && _procedureThreads != null)
 			{
 				var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem, user, clientUID);
 				_procedureThreads.TryAdd(procedureThread.UID, procedureThread);
 				procedureThread.Start();
 			}
+		}
+
+		public static void Start()
+		{
+			_procedureThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
+			_resetEvent = new AutoResetEvent(false);
+			_checkThread = new Thread(CheckProcedureThread)
+			{
+				Name = "CheckProcedureThread",
+			};
+			_checkThread.Start();
 		}
 
 		public static void Stop()
@@ -84,6 +82,7 @@ namespace Infrastructure.Automation
 			{
 				procedureThread.IsTimeOut = true;
 			}
+			Terminate();
 		}
 
 		public static void Terminate()
@@ -94,6 +93,8 @@ namespace Infrastructure.Automation
 
 		public static void SetNewConfig()
 		{
+			Start();
+			Stop();
 		}
 
 		static void CheckProcedureThread()
