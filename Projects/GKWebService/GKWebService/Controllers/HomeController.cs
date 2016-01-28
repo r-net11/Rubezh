@@ -63,21 +63,7 @@ namespace GKWebService.Controllers
 			var directions = new List<Direction>();
 			foreach (var realDirection in GKManager.Directions)
 			{
-				var direction = new Direction
-				{
-					UID = realDirection.UID,
-					No = realDirection.No,
-					Name = realDirection.Name,
-					Delay = realDirection.Delay,
-					Hold = realDirection.Hold,
-					DelayRegime = realDirection.DelayRegime.ToDescription(),
-					Logic = GKManager.GetPresentationLogic(realDirection.Logic),
-					State = realDirection.State.StateClass.ToDescription(),
-					StateIcon = realDirection.State.StateClass.ToString(),
-					OnDelay = realDirection.State.OnDelay,
-					HoldDelay = realDirection.State.HoldDelay,
-					GKDescriptorNo = realDirection.GKDescriptorNo,
-				};
+				var direction = new Direction(realDirection);
 				directions.Add(direction);
 			}
 
@@ -122,28 +108,6 @@ namespace GKWebService.Controllers
 			}
 
 			return Json(new { Success = error == null, Message = error });
-		}
-
-
-		public JsonResult GetJournal()
-		{
-			var apiItems = JournalHelper.Get(new JournalFilter());
-			var list = apiItems.Select(x => new ReportModel()
-			{
-				Desc = x.JournalEventDescriptionType.ToDescription(),
-				DeviceDate = DateTime.Now,
-				Name = x.JournalEventNameType.ToDescription(),
-				Object = x.JournalObjectType.ToDescription(),
-				SystemDate = DateTime.Now
-			}).ToList();
-			dynamic result = new
-			{
-				page = 1,
-				total = list.Count(),
-				records = list.Count(),
-				rows = list,
-			};
-			return Json(result, JsonRequestBehavior.AllowGet);
 		}
 	}
 }

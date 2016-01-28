@@ -301,6 +301,11 @@
     <Content Include="Content\Image\Icon\Menu\fine\workSchedule.png" />
     <Content Include="Content\Image\Icon\Menu\levels.png" />
     <Content Include="Content\Image\Icon\Menu\tree.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Camera.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Chip.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\no.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\PC.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
       <DependentUpon>main.less</DependentUpon>
@@ -364,10 +369,11 @@
     <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
     <Content Include="Scripts\app\controllers\directions\directionDetailsCtrl.js" />
     <Content Include="Scripts\app\controllers\MPTs\mptsCtrl.js" />
+    <Content Include="Scripts\app\controllers\journal\journalFilterCtrl.js" />
     <Content Include="Scripts\app\controllers\delays\delaysCtrl.js" />
     <Content Include="Scripts\app\controllers\devicesCtrl.js" />
     <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
-    <Content Include="Scripts\app\controllers\journalCtrl.js" />
+    <Content Include="Scripts\app\controllers\journal\journalCtrl.js" />
     <Content Include="Scripts\app\controllers\MPTsUpdateHub.js" />
     <Content Include="Scripts\app\controllers\MPTs\mptsDetailsCtrl.js" />
     <Content Include="Scripts\app\controllers\signalrCtrl.js" />
@@ -468,6 +474,7 @@
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
     <Content Include="Content\ui-grid.less" />
+    <Content Include="Content\bootstrap.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -537,12 +544,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\MPTsController.cs" />
+    <Compile Include="Controllers\JournalController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\Delays\DelaysHub.cs" />
-    <Compile Include="DataProviders\Directions\DirectionsUpdater.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
@@ -670,9 +677,10 @@
     <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
-    <Content Include="Views\Home\Journal.cshtml" />
+    <Content Include="Views\Journal\Index.cshtml" />
     <Content Include="Views\Delays\DelayDetails.cshtml" />
     <Content Include="Views\MPTs\Index.cshtml" />
+    <Content Include="Views\Journal\JournalFilter.cshtml" />
     <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -99,27 +99,64 @@
 
 (function () {
 	'use strict';
-	console.log('creating journalCtrl . . .');
-	var app = angular.module('canvasApp.controllers').controller("journalCtrl", function ($scope, $http) {
-		$scope.config = {
-			datatype: "local",
-			colModel: [
-				{ label: 'Дата в приборе', name: 'DeviceDate', formatter: Formatter.date, formatoptions: { newformat: 'M/D/YYYY HH:mm:ss' }, width: 75, sortable: false },
-				{ label: 'Дата в системе', name: 'SystemDate', formatter: Formatter.date, formatoptions: { newformat: 'M/D/YYYY HH:mm:ss' }, width: 90, sortable: false },
-				{ label: 'Название', name: 'Name', width: 100, sortable: false },
-				{ label: 'Уточнение', name: 'Desc', width: 80, sortable: false },
-				{ label: 'Объект', name: 'Object', width: 80, sortable: false }
-			],
-			width: jQuery(window).width() - 258,
-			height: jQuery(window).height() - 250,
-			rowNum: 100,
-			viewrecords: true
+	angular.module('canvasApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants) {
+		$http.get("Journal/GetJournal").success(function (data) {
+			$scope.gridOptions.data = data;
+		});
+		
+		$scope.gridOptions = {
+			enableRowSelection: true,
+			enableRowHeaderSelection: false,
+			multiSelect: false,
+			modifierKeysToMultiSelect: true,
+			noUnselect: true,
+			enableSorting: false,
+			enableColumnResizing: true,
+			enableColumnMenus: false,
+			onRegisterApi: function(gridApi) {
+				$scope.gridApi = gridApi;
+				gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
+				gridApi.selection.on.rowSelectionChangedBatch($scope, $scope.showSelectedRow);
+			},
+			columnDefs: [
+				{ name: 'Дата в системе', field: 'SystemDate' },
+				{ name: 'Дата в приборе', field: 'DeviceDate' },
+				{ name: 'Название', field: 'Name' },
+				{ name: 'Уточнение', field: 'Desc' },
+				{ name: 'Объект', field: 'Object' },
+				{
+					name: 'Подсистема',
+					cellTemplate:
+						'<div class="ui-grid-cell-contents">\
+							<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="/Content/Image/Icon/SubsystemTypes/{{row.entity.SubsystemImage}}.png" />\
+							{{row.entity.Subsystem}}\
+						</div>'
+				}
+			]
 		};
 
-		$scope.data = [];
+		$scope.refreshRow = function() {
+			$scope.gridOptions.data.splice(0, 1);
+			$scope.gridOptions.data.push({
+				SystemDate: 'TestSystemDate',
+				DeviceDate: 'TestDeviceDate',
+				Name: 'TestName',
+				Desc: 'TestDesc',
+				Object: 'TestObject',
+				User: 'TestUser',
+				Subsystem: 'TestSubsystem'
+			});
+		};
 
-		$http.get("home/GetJournal").success(function (data) {
-			$scope.data = data.rows;
-		});
+		$scope.showFilter = function () {
+			var modalInstance = $uibModal.open({
+				animation: false,
+				templateUrl: 'Journal/JournalFilter',
+			});
+		};
+
+		$scope.showSelectedRow = function () {
+			$scope.selectedRow = $scope.gridApi.selection.getSelectedRows()[0]
+		};
 	});
 }());
