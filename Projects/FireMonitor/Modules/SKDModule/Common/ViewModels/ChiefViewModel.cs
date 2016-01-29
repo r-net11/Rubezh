@@ -1,9 +1,9 @@
-﻿using System;
-using RubezhAPI.SKD;
-using RubezhClient.SKDHelpers;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectCommand { get; private set; }
 		void OnSelect()
 		{
-			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(HasSelected ? SelectedEmployee.UID : Guid.Empty, _filter);
+			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(HasSelected ? SelectedEmployee : null, _filter);
 			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
 			{
 				SelectedEmployee = employeeSelectionViewModel.SelectedEmployee;

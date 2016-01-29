@@ -1,6 +1,6 @@
 ﻿(function () {
 
-	angular.module('canvasApp.controllers').controller('delayDetailsCtrl',
+    angular.module('gkApp.controllers').controller('delayDetailsCtrl',
 		function ($scope, $uibModalInstance, $http, delay) {
 			$scope.delay = delay;
 

@@ -1,5 +1,5 @@
 ﻿(function () {
-	angular.module('canvasApp.controllers').controller('journalFilterCtrl',
+    angular.module('gkApp.controllers').controller('journalFilterCtrl',
         function ($scope, $http, $uibModal, uiGridConstants) {
         	$scope.testStr = 'testStrtestStrtestStr';
 

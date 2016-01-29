@@ -39,6 +39,7 @@ namespace FiresecService
 				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 
 				UILogger.Log("Проверка лицензии");
+				Console.WriteLine("InitialKey: {0}", RubezhLicense.InitialKey.Generate ());
 				if (!FiresecLicenseProcessor.TryLoadLicense())
 					UILogger.Log("Ошибка лицензии", true);
 
@@ -110,19 +111,6 @@ namespace FiresecService
 
 		static void FiresecService_AfterConnect(Guid clientUID)
 		{
-			foreach (var tag in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.SelectMany(x => x.Tags))
-				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
-				{
-					CallbackUID = Guid.NewGuid(),
-					ContextType = ContextType.Server,
-					AutomationCallbackType = AutomationCallbackType.OpcDaTag,
-					Data = new OpcDaTagCallBackData
-					{
-						TagUID = tag.Uid,
-						Value = OpcDaHelper.GetTagValue(tag.Uid)
-					}
-				}, clientUID);
-
 			foreach (var variable in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
 					{

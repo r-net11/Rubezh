@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('canvasApp.services')
+    var app = angular.module('gkApp.services')
         .factory('signalrFireZonesService', ['Hub', function (Hub) {
             var fireZonesUpdater;
 

@@ -2,7 +2,7 @@
 {
     'use strict';
 
-    var app = angular.module('canvasApp.controllers').controller('PlanCtrl', [
+    var app = angular.module('gkApp.controllers').controller('PlanCtrl', [
         '$scope', 'plansListFactory','dataFactory', '$modal', function ($scope, plansListFactory, dataFactory, $modal)
         {
             // Задаем модальное окно для контекстного меню фигуры

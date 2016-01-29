@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('canvasApp.controllers').controller('mptsDetailsCtrl',
+    angular.module('gkApp.controllers').controller('mptsDetailsCtrl',
         function ($scope, $uibModalInstance, $http, mpt) {
             $scope.mpt= mpt;
 

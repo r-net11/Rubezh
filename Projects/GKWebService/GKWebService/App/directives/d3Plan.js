@@ -267,7 +267,7 @@
 	}
 
 	// Модуль директивы
-	angular.module('canvasApp.directives').directive('d3Plan', [
+	angular.module('gkApp.directives').directive('d3Plan', [
         function ()
         {
         	return {

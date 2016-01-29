@@ -15,8 +15,7 @@ namespace GKWebService.DataProviders.FireZones
 
 		private readonly object _startStatesMonitoringLock = new object();
 		private readonly object _testSendMessageLock = new object();
-		private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(250);
-		private volatile bool _sendingTestMessage;
+		private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(100);//old value 250
 		private Timer _timer;
 
         private FireZonesUpdater(IHubConnectionContext<dynamic> clients)
@@ -54,21 +53,20 @@ namespace GKWebService.DataProviders.FireZones
         {
             //Получаем текущие данные
             _data = FireZonesDataProvider.Instance.GetFireZones();
-            bool flag = false;
+            bool isNewStates = false;
             foreach (var item in _data)
             {
                 if (item.StateLabel != _currentState[_data.IndexOf(item)])
                 {
                     _currentState[_data.IndexOf(item)] = item.StateLabel;
-                    flag = true;
-                    
+                    isNewStates = true;
                 }    
             }
 
-            if (flag)
+            if (isNewStates)
             {
                 Clients.All.RefreshZoneState(_data);
-                flag = false;
+                isNewStates = false;
             }
             
         }

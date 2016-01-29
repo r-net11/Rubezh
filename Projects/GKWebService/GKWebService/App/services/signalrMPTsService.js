@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('canvasApp.services')
+    var app = angular.module('gkApp.services')
         .factory('signalrMPTsService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
             //declaring the hub connection
            var mptsUpdater = new Hub('mptHub', {
@@ -30,7 +30,6 @@
                             //your code here
                             break;
                         case $.signalR.connectionState.connected:
-                            startTestBroadcast1();
                             break;
                         case $.signalR.connectionState.reconnecting:
                             //your code here
