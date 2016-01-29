@@ -25,10 +25,10 @@ namespace FiresecService.Service
 				{
 					MainViewModel.SetRemoteAddress("<Не разрешено>");
 				}
-				//else if (!UACHelper.IsAdministrator)
-				//{
-				//	MainViewModel.SetRemoteAddress("<Нет прав администратора>");
-				//}
+				/*else if (!UACHelper.IsAdministrator)
+				{
+					MainViewModel.SetRemoteAddress("<Нет прав администратора>");
+				}*/
 				else
 				{
 					CreateTcpEndpoint();
@@ -82,10 +82,13 @@ namespace FiresecService.Service
 		{
 			try
 			{
+				//var ipAddress = "dmitry-VirtualBox";//ConnectionSettingsManager.GetIPAddress();
 				var ipAddress = ConnectionSettingsManager.GetIPAddress();
+				//var ipAddress = "127.0.0.1";
 				if (ipAddress != null)
 				{
 					var address = "net.tcp://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
+					//address = "net.tcp://127.0.1.1:8000/FiresecService/";
 					ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService", Common.BindingHelper.CreateNetTcpBinding(), new Uri(address));
 					MainViewModel.SetRemoteAddress(address);
 				}
