@@ -43,6 +43,10 @@
 
             };
 
+            $scope.ShowJournal = function () {
+
+            };
+
             $scope.ok = function () {
                 $uibModalInstance.close();
             };

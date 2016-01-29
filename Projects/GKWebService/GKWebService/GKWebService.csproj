@@ -187,7 +187,6 @@
     <Content Include="App\controllers\directions\directionsCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
     <Content Include="App\controllers\journal\journalFilterCtrl.js" />
-    <Content Include="App\controllers\MPTsUpdateHub.js" />
     <Content Include="App\controllers\MPTs\mptsCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
     <Content Include="App\controllers\planCtrl.js" />
@@ -692,6 +691,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App\controllers\MPTDevice\" />
     <Folder Include="App_Data\" />
     <Folder Include="Views\Archive\" />
     <Folder Include="Views\Employee\" />

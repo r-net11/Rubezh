@@ -12,7 +12,6 @@
                         broadcastService.send('directionChanged', direction);
                     }
                 },
-
                 queryParams: {
                     'token': 'exampletoken'
                 },

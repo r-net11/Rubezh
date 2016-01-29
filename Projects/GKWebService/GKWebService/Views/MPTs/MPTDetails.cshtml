@@ -35,15 +35,15 @@
                     <span style="font-weight: bold; margin: 2px">{{mpt.ControlRegimeName}}</span>
                 </div>
                 <div style="float: left; width: 50%">
-                    <button style="height: 50px; width: 100%; margin: 2px;" ng-click="SetAutomaticState()" ng-disabled="!mpt.CanSetAutomaticState">Автоматика</button>
-                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="SetManualState()" ng-disabled="!mpt.CanSetManualState">Ручное</button>
-                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="SetIgnoreState()" ng-disabled="!mpt.CanSetIgnoreState">Отключение</button>
+                    <button class="btn btn-primary" style="height: 50px; width: 100%; margin: 2px;" ng-click="SetAutomaticState()" ng-disabled="!mpt.CanSetAutomaticState">Автоматика</button>
+                    <button class="btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="SetManualState()" ng-disabled="!mpt.CanSetManualState">Ручное</button>
+                    <button class="btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="SetIgnoreState()" ng-disabled="!mpt.CanSetIgnoreState">Отключение</button>
                 </div>
                 <div style="float: left; width: 50%">
-                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!mpt.IsControlRegime">Пуск</button>
-                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOnNow()" ng-disabled="!mpt.IsControlRegime">Пуск немедленно</button>
-                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="ForbidStart()" ng-disabled="!mpt.IsControlRegime">Стоп</button>
-                    <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOff()" ng-disabled="!mpt.IsControlRegime">Выключить немедленно</button>
+                    <button class="btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!mpt.IsControlRegime">Пуск</button>
+                    <button class="btn btn-primary"  style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOnNow()" ng-disabled="!mpt.IsControlRegime">Пуск немедленно</button>
+                    <button class="btn btn-primary"  style="height: 50px; width: 100%; margin: 2px" ng-click="ForbidStart()" ng-disabled="!mpt.IsControlRegime">Стоп</button>
+                    <button class="btn btn-primary"  style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOff()" ng-disabled="!mpt.IsControlRegime">Выключить немедленно</button>
                 </div>
                 <div style="clear: left">
                 </div>

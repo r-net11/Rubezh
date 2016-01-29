@@ -4,10 +4,10 @@
     var app = angular.module('gkApp.services')
         .factory('signalrMPTsService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
             //declaring the hub connection
-           var mptsUpdater = new Hub('mptHub', {
+            var mptsUpdater = new Hub('mptUpdaterHub', {
                 //client side methods
                 listeners: {
-                    'mptStateUpdate': function (mpt) {
+                    'mptUpdate': function (mpt) {
                         broadcastService.send('mptChanged', mpt);
                     }
                 },
@@ -40,6 +40,6 @@
                     }
                 }
             });
-           return [];
+            return {};
         }]);
 }());

@@ -159,9 +159,9 @@ namespace GKWebService
 				if (mpt != null)
 				{
 					mptState.CopyTo(mpt.State);
-					if (MPTHub.Instance != null)
+					if (MptUpdaterHub.Instance != null)
 					{
-						MPTHub.Instance.MPTStateIconUpdate(mpt);
+						MptUpdaterHub.Instance.MptUpdate(mpt);
 					}
 				}
 			}
