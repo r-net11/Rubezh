@@ -73,6 +73,18 @@ namespace PlansModule
 		private void OnConfigurationSavingEvent(object obj)
 		{
 			_plansViewModel.PlanDesignerViewModel.Save();
+
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			{
+				foreach (var element in plan.AllElements)
+				{
+					var elementBaseShape = element as Infrustructure.Plans.Elements.ElementBaseShape;
+					if (elementBaseShape != null)
+					{
+						elementBaseShape.SaveRGPoints();
+					}
+				}
+			}
 		}
 
 		void OnEditPlanElementBindingEvent(EditPlanElementBindingEventArgs editPlanElementBindingEventArgs)
