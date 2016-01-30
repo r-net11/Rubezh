@@ -54,7 +54,7 @@ namespace PlansModule.ViewModels
 			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
 			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
-				if (e.Element is ElementSubPlan)
+				if (e.Element is ElementRectangleSubPlan)
 				{
 					e.DesignerItem = new DesignerItemSubPlan(e.Element);
 					e.DesignerItem.IconSource = "/Controls;component/Images/CMap.png";

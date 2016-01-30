@@ -6,16 +6,16 @@ using PlansModule.ViewModels;
 
 namespace PlansModule.InstrumentAdorners
 {
-	public class SubPlanAdorner : RectangleAdorner
+	public class SubPlanRectangleAdorner : RectangleAdorner
 	{
-		public SubPlanAdorner(DesignerCanvas designerCanvas)
+		public SubPlanRectangleAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}
 
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
-			var element = new ElementSubPlan();
+			var element = new ElementRectangleSubPlan();
 			var propertiesViewModel = new SubPlanPropertiesViewModel(element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}

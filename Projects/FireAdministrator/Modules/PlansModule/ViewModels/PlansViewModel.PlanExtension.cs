@@ -57,7 +57,7 @@ namespace PlansModule.ViewModels
 		{
 			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.NotBoundedElements))
 				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
-					foreach (var element in BasePlanExtension.FindUnbinded<ElementSubPlan>(plan.ElementSubPlans))
+					foreach (var element in BasePlanExtension.FindUnbinded<ElementRectangleSubPlan>(plan.ElementSubPlans))
 						yield return new PlanElementValidationError(new ElementError()
 						{
 							PlanUID = plan.UID,
