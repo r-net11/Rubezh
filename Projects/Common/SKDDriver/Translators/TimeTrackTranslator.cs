@@ -254,6 +254,8 @@ namespace SKDDriver.Translators
 			}
 
 			TimeTrackPart nightTimeTrackPart = null;
+			// Для дней графика отличных от первого учитываем хвосты дневных графиков с переходом из предыдущего дня
+			if (date != employee.ScheduleStartDate.Date)
 			{
 				var previousDay = dayNo > 0
 					? days.FirstOrDefault(x => x.Number == dayNo - 1)
