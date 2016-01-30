@@ -291,7 +291,7 @@ namespace SKDModule.ViewModels
 			_schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter
 			{
 				OrganisationUIDs = new List<Guid> { Organisation.UID },
-				Type = ScheduleSchemeType.Month | ScheduleSchemeType.Week, //| ScheduleSchemeType.SlideDay
+				Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
 				WithDays = false,
 			});
 			var selectedScheme = _schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);

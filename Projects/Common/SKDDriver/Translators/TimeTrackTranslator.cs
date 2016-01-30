@@ -227,12 +227,12 @@ namespace SKDDriver.Translators
 						dayNo = 6;
 					break;
 
-				//case ScheduleSchemeType.SlideDay:
-				//	var daysCount = days.Count();
-				//	var ticksDelta = new TimeSpan(date.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
-				//	var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
-				//	dayNo = daysDelta % daysCount;
-				//	break;
+				case ScheduleSchemeType.SlideDay:
+					var daysCount = days.Count();
+					var ticksDelta = new TimeSpan(date.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
+					var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
+					dayNo = daysDelta % daysCount;
+					break;
 
 				case ScheduleSchemeType.Month:
 					dayNo = date.Day - 1;
