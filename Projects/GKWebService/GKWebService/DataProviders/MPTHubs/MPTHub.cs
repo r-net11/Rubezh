@@ -9,6 +9,7 @@ using RubezhAPI.GK;
 
 namespace GKWebService.DataProviders.MPTHubs
 {
+	[HubName("mptsUpdater")]
 	public class MptUpdaterHub : Hub
 	{
 		public static MptUpdaterHub Instance { get; private set; }

@@ -3,26 +3,18 @@
 
     var app = angular.module('gkApp.services')
         .factory('signalrMPTsService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
-            //declaring the hub connection
-            var mptsUpdater = new Hub('mptUpdaterHub', {
-                //client side methods
+            var mptsUpdater = new Hub('mptsUpdater', {
                 listeners: {
                     'mptUpdate': function (mpt) {
                         broadcastService.send('mptChanged', mpt);
                     }
                 },
-                //query params sent on initial connection
                 queryParams: {
                     'token': 'exampletoken'
                 },
-
-                //handle connection error
                 errorHandler: function (error) {
                     console.error(error);
                 },
-
-                //specify a non default root
-                //rootPath: '/api
 
                 stateChanged: function (state) {
                     switch (state.newState) {

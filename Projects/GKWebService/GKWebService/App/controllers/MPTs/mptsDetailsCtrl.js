@@ -2,7 +2,7 @@
 
     angular.module('gkApp.controllers').controller('mptsDetailsCtrl',
         function ($scope, $uibModalInstance, $http, mpt) {
-            $scope.mpt= mpt;
+            $scope.mpt = mpt;
 
             $scope.$on('mptChanged', function (event, args) {
                 if (args.UID === $scope.mpt.UID) {

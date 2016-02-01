@@ -55,7 +55,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				ClientManager.FiresecService.GKSetManualRegime(mpt);
 			}
 
 			return new JsonResult();
@@ -67,7 +67,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				ClientManager.FiresecService.GKSetIgnoreRegime(mpt);
 			}
 
 			return new JsonResult();
@@ -79,7 +79,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				ClientManager.FiresecService.GKTurnOn(mpt);
 			}
 
 			return new JsonResult();
@@ -91,7 +91,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				ClientManager.FiresecService.GKTurnOnNow(mpt);
 			}
 
 			return new JsonResult();
@@ -103,7 +103,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				ClientManager.FiresecService.GKTurnOff(mpt);
 			}
 
 			return new JsonResult();
@@ -115,7 +115,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				ClientManager.FiresecService.GKStop(mpt);
 			}
 
 			return new JsonResult();
