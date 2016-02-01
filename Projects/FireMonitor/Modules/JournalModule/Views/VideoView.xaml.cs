@@ -16,13 +16,14 @@ namespace JournalModule.Views
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var videoViewModel = DataContext as VideoViewModel;
+			videoViewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
+			videoViewModel.Surface.Left = videoViewModel.MarginLeft;
+			videoViewModel.Surface.Top = videoViewModel.MarginTop;
+			if (videoViewModel.VideoPath != null)
 			{
-				if (videoViewModel.VideoPath != null)
-				{
-					videoViewModel.Closing += Close;
-					MediaSourcePlayer.Open(MediaSourceFactory.GetMediaSource(new Uri(videoViewModel.VideoPath)));
-					MediaSourcePlayer.Play();
-				}
+				videoViewModel.Closing += Close;
+				MediaSourcePlayer.Open(MediaSourceFactory.GetMediaSource(new Uri(videoViewModel.VideoPath)));
+				MediaSourcePlayer.Play();
 			}
 		}
 		private void Close(object sender, EventArgs e)
