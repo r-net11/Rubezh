@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Designer;
@@ -15,8 +16,10 @@ namespace PlansModule.Designer
 		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
 			: base(planDesignerViewModel)
 		{
+			ContextMenu.Items.Add(new Separator());
+
 			var editItem = DesignerCanvasHelper.BuildMenuItem(
-				"Редактировать", 
+				"Редактировать план", 
 				"BEdit", 
 				planDesignerViewModel.PlansViewModel.EditCommand
 			);
