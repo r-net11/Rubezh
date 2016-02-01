@@ -67,11 +67,12 @@
     <Port>8000</Port>
     <Login>strazh</Login>
     <Password>strazh12345</Password>
-    <DllsPath>..\VLC\</DllsPath>
-    <PluginsPath>..\VLC\plugins\</PluginsPath>
+    <VideoWidth>500</VideoWidth>
+    <VideoHeight>500</VideoHeight>
+    <VideoMarginLeft>500</VideoMarginLeft>
+    <VideoMarginTop>500</VideoMarginTop>
   </RviSettings>
   <Cameras />
-  <Devices />
   <EmailData>
     <Emails />
     <EmailSettings />
@@ -80,6 +81,8 @@
     <Procedures />
     <AutomationSchedules />
     <AutomationSounds />
+    <OPCServers />
     <GlobalVariables />
+    <OpcDaTsServers />
   </AutomationConfiguration>
 </SystemConfiguration>

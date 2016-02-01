@@ -150,7 +150,7 @@ namespace RubezhDAL.DataClasses
 				departments.AddRange(opranisationDepartments);
             }
 
-			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			switch (GlobalSettingsHelper.GlobalSettings.DbSettings.DbType)
 			{
 				case DbType.MsSql:
 					Context.BulkInsert(positions);
@@ -196,7 +196,7 @@ namespace RubezhDAL.DataClasses
 					cardDoors.Add(cardDoor);
                 }
             }
-			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			switch (GlobalSettingsHelper.GlobalSettings.DbSettings.DbType)
 			{
 				case DbType.MsSql:
 					Context.BulkInsert(cardDoors);

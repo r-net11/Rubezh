@@ -9,6 +9,7 @@ using RubezhAPI.GK;
 using RubezhClient;
 using Graybox.OPC.ServerToolkit.CLRWrapper;
 using RubezhAPI;
+using System.Runtime.InteropServices;
 
 namespace GKOPCServer
 {
@@ -106,10 +107,11 @@ namespace GKOPCServer
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
 					name,
-					AccessRights.readable,
+					//AccessRights.readable,
+					AccessRights.readWritable,
 					(double)0);
 
-				var tagDevice = new TagBase(tagId, device.State);
+				var tagDevice = new TagBase(tagId, device.State, device.UID);
 				TagDevices.Add(tagDevice);
 				TagsCount++;
 			}
@@ -122,10 +124,11 @@ namespace GKOPCServer
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
 					"Zones/" + zone.PresentationName,
-					AccessRights.readable,
+					//AccessRights.readable,
+					AccessRights.readWritable,
 					(double)0);
 
-				var tagZone = new TagBase(tagId, zone.State);
+				var tagZone = new TagBase(tagId, zone.State, zone.UID);
 				TagZones.Add(tagZone);
 				TagsCount++;
 			}
@@ -138,10 +141,11 @@ namespace GKOPCServer
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
 					"Directions/" + direction.PresentationName,
-					AccessRights.readable,
+					//AccessRights.readable,
+					AccessRights.readWritable,
 					(double)0);
 
-				var tagDirection = new TagBase(tagId, direction.State);
+				var tagDirection = new TagBase(tagId, direction.State, direction.UID);
 				TagDirections.Add(tagDirection);
 				TagsCount++;
 			}
@@ -154,10 +158,11 @@ namespace GKOPCServer
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
 					"GuardZones/" + zone.PresentationName,
-					AccessRights.readable,
+					//AccessRights.readable,
+					AccessRights.readWritable,
 					(double)0);
 
-				var tagGuardZone = new TagBase(tagId, zone.State);
+				var tagGuardZone = new TagBase(tagId, zone.State, zone.UID);
 				TagGuardZones.Add(tagGuardZone);
 				TagsCount++;
 			}
@@ -170,10 +175,11 @@ namespace GKOPCServer
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
 					"Delays/" + delay.PresentationName,
-					AccessRights.readable,
+					//AccessRights.readable,
+					AccessRights.readWritable,
 					(double)0);
 
-				var tagdelay = new TagBase(tagId, delay.State);
+				var tagdelay = new TagBase(tagId, delay.State, delay.UID);
 				TagDelays.Add(tagdelay);
 				TagsCount++;
 			}
@@ -186,10 +192,11 @@ namespace GKOPCServer
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
 					"MPTs/" + mpt.PresentationName,
-					AccessRights.readable,
+					//AccessRights.readable,
+					AccessRights.readWritable,
 					(double)0);
 
-				var tagmpt = new TagBase(tagId, mpt.State);
+				var tagmpt = new TagBase(tagId, mpt.State, mpt.UID);
 				TagMPTs.Add(tagmpt);
 				TagsCount++;
 			}
@@ -202,10 +209,11 @@ namespace GKOPCServer
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
 					"PumpStations/" + pump.PresentationName,
-					AccessRights.readable,
+					//AccessRights.readable,
+					AccessRights.readWritable,
 					(double)0);
 
-				var tagns = new TagBase(tagId, pump.State);
+				var tagns = new TagBase(tagId, pump.State, pump.UID);
 				TagPumpStations.Add(tagns);
 				TagsCount++;
 			}
@@ -218,10 +226,11 @@ namespace GKOPCServer
 				var tagId = OPCDAServer.CreateTag(
 					TagsCount,
 					"Doors/" + door.PresentationName,
-					AccessRights.readable,
+					//AccessRights.readable,
+					AccessRights.readWritable,
 					(double)0);
 
-				var tagdoor = new TagBase(tagId, door.State);
+				var tagdoor = new TagBase(tagId, door.State, door.UID);
 				TagDoors.Add(tagdoor);
 				TagsCount++;
 			}
@@ -282,6 +291,88 @@ namespace GKOPCServer
 
 		static void Events_WriteItems(object sender, WriteItemsArgs e)
 		{
+			GKBase device;
+
+			for (int i = 0; i < e.Count; i++)
+			{
+				if (e.ItemIds[i].TagId == 0)
+					continue;
+
+				var tag = TagDevices.FirstOrDefault(x => x.TagId == e.ItemIds[i].TagId);
+				
+				if (tag == null)
+				{
+					e.Errors[i] = ErrorCodes.False;
+					e.ItemIds[i].TagId = 0;
+					e.MasterError = ErrorCodes.False;
+					continue;
+				}
+
+				try
+				{
+					var stateCode = Convert.ToInt32(e.Values[i]);
+					var cmd = (Commands)stateCode;
+
+					device = (GKBase)GKManager.Devices.FirstOrDefault(x => x.UID == tag.UID);
+
+					if (device == null)
+					{
+						device = (GKBase)GKManager.Zones.FirstOrDefault(x => x.UID == tag.UID);
+
+						if (device == null)
+						{
+							device = (GKBase)GKManager.Directions.FirstOrDefault(x => x.UID == tag.UID);
+
+							if (device == null)
+							{
+								device = (GKBase)GKManager.GuardZones.FirstOrDefault(x => x.UID == tag.UID);
+
+								if (device == null)
+								{
+									device = (GKBase)GKManager.Delays.FirstOrDefault(x => x.UID == tag.UID);
+
+									if (device == null)
+									{
+										device = (GKBase)GKManager.MPTs.FirstOrDefault(x => x.UID == tag.UID);
+
+										if (device == null)
+										{
+											device = (GKBase)GKManager.PumpStations.FirstOrDefault(x => x.UID == tag.UID);
+
+											if (device == null)
+											{
+												device = GKManager.Doors.FirstOrDefault(x => x.UID == tag.UID);
+
+												if (device == null)
+												{
+													// Необходимо, что бы значение не было записано в тег,
+													// а приходило по обратной связи после выполения команды
+													//throw new CancelWritingException();
+													e.Errors[i] = ErrorCodes.False;
+													e.ItemIds[i].TagId = 0;
+													e.MasterError = ErrorCodes.False;
+													continue;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+
+					ExecuteCmd(device, cmd);
+					e.Errors[i] = ErrorCodes.False;
+					e.ItemIds[i].TagId = 0;
+					e.MasterError = ErrorCodes.False;
+				}
+				catch (Exception ex)
+				{
+					e.Errors[i] = (ErrorCodes)Marshal.GetHRForException(ex);
+					e.ItemIds[i].TagId = 0;
+					e.MasterError = ErrorCodes.False;
+				}
+			}
 		}
 
 		static void Events_ReadItems(object sender, ReadItemsArgs e)
@@ -306,6 +397,58 @@ namespace GKOPCServer
 		public static void OPCUnRegister()
 		{
 			OPCDAServer.UnregisterServer(srvGuid);
+		}
+
+		static void ExecuteCmd(GKBase device, Commands cmd)
+		{
+			switch (cmd)
+			{
+				case Commands.SetAutomaticMode:
+					{
+						ClientManager.FiresecService.GKSetAutomaticRegime(device);
+						break;
+					}
+				case Commands.SetManualMode:
+					{
+						ClientManager.FiresecService.GKSetManualRegime(device);
+						break;
+					}
+				case Commands.SetDisabledMode:
+					{
+						ClientManager.FiresecService.GKSetIgnoreRegime(device);
+						break;
+					}
+				case Commands.TurnOff:
+					{
+						ClientManager.FiresecService.GKTurnOff(device);
+						break;
+					}
+				case Commands.TurnOn:
+					{
+						ClientManager.FiresecService.GKTurnOn(device);
+						break;
+					}
+				case Commands.TurnOnNow:
+					{
+						ClientManager.FiresecService.GKTurnOnNow(device);
+						break;
+					}
+				case Commands.TurnOffNow:
+					{
+						ClientManager.FiresecService.GKTurnOffNow(device);
+						break;
+					}
+				case Commands.Stop:
+					{
+						ClientManager.FiresecService.GKStop(device);
+						break;
+					}
+				case Commands.Reset:
+					{
+						ClientManager.FiresecService.GKReset(device);
+						break;
+					}
+			}
 		}
 	}
 }

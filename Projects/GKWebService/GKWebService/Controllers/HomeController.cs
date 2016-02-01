@@ -1,12 +1,4 @@
-﻿using GKWebService.DataProviders.FireZones;
-using GKWebService.DataProviders.SKD;
-using GKWebService.Models;
-using RubezhAPI;
-using RubezhAPI.Journal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
@@ -28,11 +20,6 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public ActionResult Journal()
-		{
-			return View();
-		}
-
 		public ActionResult Archive()
 		{
 			return View();
@@ -43,32 +30,10 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public ActionResult FireZones()
-		{
-			return View();
-		}
-
-		public ActionResult Delays()
-		{
-			return View();
-		}
 
 		public ActionResult MPTs()
 		{
 			return View();
-		}
-
-		public JsonResult GetFireZonesData()
-		{
-			return Json(FireZonesDataProvider.Instance.GetFireZones(), JsonRequestBehavior.AllowGet);
-		}
-
-		/// <summary>
-		/// Метод, предоставляющий данные об устройствах для конкретной зоны
-		/// </summary>
-		public JsonResult GetDevicesListByZoneNumber(int id)
-		{
-			return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

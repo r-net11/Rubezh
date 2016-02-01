@@ -17,14 +17,14 @@ namespace GKWebService.Controllers
 
             for (int i = 0; i < 10; i++)
             {
-                list.Add(new JournalModel()
-                {
+                //list.Add(new JournalModel()
+                //{
 					//Desc = "Описание" + i.ToString(),
 					//DeviceDate = DateTime.Now,
 					//Name = "Назваине" + i.ToString(),
 					//Object = "Объект" + i.ToString(),
 					//SystemDate = DateTime.Now
-                });
+                //});
             }
 
             return Json(list);

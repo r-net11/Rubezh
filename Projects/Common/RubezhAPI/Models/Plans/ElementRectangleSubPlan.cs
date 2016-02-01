@@ -7,9 +7,9 @@ using Infrustructure.Plans.Interfaces;
 namespace RubezhAPI.Models
 {
 	[DataContract]
-	public class ElementSubPlan : ElementBaseRectangle, IPrimitive, IElementReference
+	public class ElementRectangleSubPlan : ElementBaseRectangle, IElementSubPlan, IPrimitive, IElementReference
 	{
-		public ElementSubPlan()
+		public ElementRectangleSubPlan()
 		{
 			PresentationName = "Ссылка на план";
 		}
@@ -25,7 +25,7 @@ namespace RubezhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.SubPlan; }
+			get { return Infrustructure.Plans.Elements.Primitive.RectangleZone; }
 		}
 
 		#endregion

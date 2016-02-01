@@ -4,6 +4,8 @@ using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using Infrastructure.Common;
 using Common;
+using Npgsql;
+using System.Data.SqlClient;
 
 namespace RubezhDAL.DataClasses
 {
@@ -24,20 +26,20 @@ namespace RubezhDAL.DataClasses
 
 		public static DbConnection CreateConnection()
 		{
-			IDbConnectionFactory connectionFactory;
-			var connectionString = GlobalSettingsHelper.GlobalSettings.DbConnectionString;
-			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			IDbConnectionFactory connectionFactory = null;
+			var connectionString = "";
+			switch (GlobalSettingsHelper.GlobalSettings.DbSettings.DbType)
 			{
 				case DbType.Postgres:
+					connectionString = CreatePostgresConnectionString(GlobalSettingsHelper.GlobalSettings.DbSettings);
 					connectionFactory = new Npgsql.NpgsqlConnectionFactory();
-					return connectionFactory.CreateConnection(connectionString);
+					break;
 				case DbType.MsSql:
+					connectionString = CreateMsSQLConnectionString(GlobalSettingsHelper.GlobalSettings.DbSettings);
 					connectionFactory = new SqlConnectionFactory();
-					return connectionFactory.CreateConnection(connectionString);
-				default:
-					connectionFactory = new SqlConnectionFactory();
-					return connectionFactory.CreateConnection(connectionString);
+					break;
 			}
+			return connectionFactory.CreateConnection(connectionString);
 		}
 
 		public static OperationResult<T> InTryCatch<T>(Func<T> function)
@@ -51,6 +53,41 @@ namespace RubezhDAL.DataClasses
 				Logger.Error(e);
 				return OperationResult<T>.FromError(e.Message);
 			}
+		}
+
+		static string CreateMsSQLConnectionString(DbSettings dbSettings)
+		{
+			var builder = new SqlConnectionStringBuilder();
+			builder.DataSource = dbSettings.DataSource;
+			builder.InitialCatalog = dbSettings.DbName;
+			if (dbSettings.IsSQLAuthentication)
+			{
+				builder.UserID = dbSettings.UserName;
+				builder.Password = dbSettings.Password;
+				builder.IntegratedSecurity = false;
+			}
+			else
+			{
+				builder.IntegratedSecurity = true;
+			}
+			return builder.ConnectionString;
+		}
+
+		static string CreatePostgresConnectionString(DbSettings dbSettings)
+		{
+			if (dbSettings.IsFullConnectionString)
+				return dbSettings.ConnectionString;
+			var builder = new NpgsqlConnectionStringBuilder();
+			builder.Database = dbSettings.DbName;
+			builder.Host = dbSettings.Server;
+			builder.Port = dbSettings.Port;
+			if (dbSettings.IsSQLAuthentication)
+			{
+				builder.IntegratedSecurity = false;
+				builder.UserName = dbSettings.UserName;
+				builder.Password = dbSettings.Password;
+			}
+			return builder.ConnectionString;
 		}
 	}
 }
