@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common;
+using Infrustructure.Plans.Interfaces;
+using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Common;
-using RubezhAPI.GK;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.Models
 {
@@ -60,6 +60,13 @@ namespace RubezhAPI.Models
 
 		[DataMember]
 		public int CountTemplatesAutoscan { get; set; }
+		[DataMember]
+		public int ShowDetailsWidth { get; set; }
+		[DataMember]
+		public int ShowDetailsHeight { get; set; }
+		[DataMember]
+		public int ShowDetailsMarginLeft { get; set; }
+		public int ShowDetailsMarginTop { get; set; }
 
 		public void OnChanged()
 		{

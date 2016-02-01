@@ -16,10 +16,10 @@
                 var glowElem = angular.element('<div>');
                 glowElem.addClass("alarmBtnGlow");
 
-                elem.append(highlightElem);
+                elem.append(glowElem);
                 element.append(elem);
 
-                highlightElem.after(glowElem);
+                glowElem.after(highlightElem);
             }
         });
 }());

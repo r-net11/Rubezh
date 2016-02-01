@@ -22,17 +22,7 @@ namespace GKWebService.Controllers
 		public JsonResult GetJournal()
 		{
 			var apiItems = JournalHelper.Get(new JournalFilter());
-			var list = apiItems.Select(x => new JournalModel()
-			{
-				Desc = x.JournalEventDescriptionType.ToDescription(),
-				SystemDate = x.SystemDateTime.ToString(),
-				Name = x.JournalEventNameType.ToDescription(),
-				Object = x.JournalObjectType.ToDescription(),
-				DeviceDate = x.DeviceDateTime.ToString(),
-				Subsystem = x.JournalSubsystemType.ToDescription(),
-				SubsystemImage = GetSubsystemImage(x), 
-				User = x.UserName
-			}).ToList();
+			var list = apiItems.Select(x => new JournalModel(x)).ToList();
 			return Json(list, JsonRequestBehavior.AllowGet);
 		}
 

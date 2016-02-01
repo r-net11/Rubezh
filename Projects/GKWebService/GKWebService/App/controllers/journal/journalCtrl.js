@@ -99,7 +99,7 @@
 
 (function () {
 	'use strict';
-	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants) {
+	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants, signalrJournalService) {
 		$http.get("Journal/GetJournal").success(function (data) {
 			$scope.gridOptions.data = data;
 		});
@@ -135,19 +135,6 @@
 			]
 		};
 
-		$scope.refreshRow = function() {
-			$scope.gridOptions.data.splice(0, 1);
-			$scope.gridOptions.data.push({
-				SystemDate: 'TestSystemDate',
-				DeviceDate: 'TestDeviceDate',
-				Name: 'TestName',
-				Desc: 'TestDesc',
-				Object: 'TestObject',
-				User: 'TestUser',
-				Subsystem: 'TestSubsystem'
-			});
-		};
-
 		$scope.showFilter = function () {
 			var modalInstance = $uibModal.open({
 				animation: false,
@@ -158,5 +145,12 @@
 		$scope.showSelectedRow = function () {
 			$scope.selectedRow = $scope.gridApi.selection.getSelectedRows()[0]
 		};
+
+		$scope.$on('updateJournalItemsJs', function (event, args) {
+			args.forEach(function (element) {
+				$scope.gridOptions.data.unshift(element)
+			});
+			$scope.$apply();
+		})
 	});
 }());

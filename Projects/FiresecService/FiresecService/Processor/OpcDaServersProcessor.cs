@@ -130,13 +130,12 @@ namespace FiresecService.Processor
 				subscription.DataChangedEvent -= EventHandler_Subscription_DataChangedEvent;
 				subscription.Dispose();
 				
-
-				_Servers.Remove(server);
-
 				// Отключаемся от сервера
 				server.Item1.Disconnect();
 				server.Item1.Dispose();
 			}
+
+			_Servers.Clear();
 		}
 
 		public static void SetNewConfig()

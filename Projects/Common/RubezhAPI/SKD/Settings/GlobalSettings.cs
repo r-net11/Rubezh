@@ -26,9 +26,12 @@ namespace RubezhAPI
 			IgnoredErrors = new List<ValidationErrorType>();
 
 			//DbConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Rubezh;Integrated Security=True;Language='English'";
-			DbConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;";
-			DbType = RubezhAPI.DbType.Postgres;
-			
+			DbSettings = new RubezhAPI.DbSettings
+			{
+				ConnectionString = @"Server=localhost;Database=Rubezh;User Id=asd;Password=1;",
+				DbType = RubezhAPI.DbType.Postgres,
+				IsFullConnectionString = true
+			};
 			ModuleItems = new List<string>();
 
 			Monitor_F1_Enabled = false;
@@ -74,12 +77,6 @@ namespace RubezhAPI
 		public string Server_RemoteIpAddress { get; set; }
 
 		[DataMember]
-		public string DbConnectionString { get; set; }
-
-		[DataMember]
-		public DbType DbType { get; set; }
-
-		[DataMember]
 		public List<string> ModuleItems { get; set; }
 
 		[DataMember]
@@ -114,6 +111,9 @@ namespace RubezhAPI
 
 		[DataMember]
 		public bool ShowMPTsDevicesForZone { get; set; }
+
+		[DataMember]
+		public DbSettings DbSettings { get; set; }
 
 		public void SetDefaultModules()
 		{

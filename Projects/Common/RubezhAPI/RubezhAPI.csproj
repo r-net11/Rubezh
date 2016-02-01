@@ -338,6 +338,7 @@
     <Compile Include="SKD\ReportFilters\ReportPeriodType.cs" />
     <Compile Include="SKD\ReportFilters\SKDReportFilters.cs" />
     <Compile Include="SKD\ReportFilters\SKDReportFilter.cs" />
+    <Compile Include="SKD\Settings\DbSettings.cs" />
     <Compile Include="SKD\Settings\DbType.cs" />
     <Compile Include="SKD\Settings\ValidationErrorType.cs" />
     <Compile Include="SKD\TimeTrack\DocumentType.cs" />
