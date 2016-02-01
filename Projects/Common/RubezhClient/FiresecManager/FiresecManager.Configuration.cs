@@ -351,7 +351,7 @@ namespace RubezhClient
 			elementGKMPT.SetZLayer(gkMPT == null ? 10 : 11);
 			elementGKMPT.BackgroundColor = gkMPT == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
 		}
-		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
+		private static void UpdateSubPlan(ElementRectangleSubPlan elementSubPlan, Plan plan)
 		{
 			elementSubPlan.BackgroundColor = plan == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}

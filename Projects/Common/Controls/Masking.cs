@@ -81,6 +81,16 @@ namespace Controls
 				if (!maskExpression.IsMatch(proposedText))
 					e.Handled = true;
 			}
+			if (e.Key == Key.Back || e.Key == Key.Delete)
+			{
+				string proposedText;
+				if (textBox.SelectionLength == 0)
+					proposedText = textBox.Text.Remove(textBox.CaretIndex - 1);
+				else
+					proposedText = GetProposedText(textBox, "");
+				if (!maskExpression.IsMatch(proposedText))
+					e.Handled = true;
+			}
 		}
 
 		private static void Pasting(object sender, DataObjectPastingEventArgs e)

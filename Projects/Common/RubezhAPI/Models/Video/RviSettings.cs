@@ -24,5 +24,13 @@ namespace RubezhAPI.Models
 
 		[DataMember]
 		public string Password { get; set; }
+		[DataMember]
+		public int VideoWidth { get; set; }
+		[DataMember]
+		public int VideoHeight { get; set; }
+		[DataMember]
+		public int VideoMarginLeft { get; set; }
+		[DataMember]
+		public int VideoMarginTop { get; set; }
 	}
 }

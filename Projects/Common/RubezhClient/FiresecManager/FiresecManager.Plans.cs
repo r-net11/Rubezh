@@ -18,7 +18,7 @@ namespace RubezhClient
                 foreach (var Plan in PlansConfiguration.AllPlans)
                 {
                     var keys = PlansConfiguration.AllPlans.Select(item => item.UID).ToList();
-                    var elementSubPlans = new List<ElementSubPlan>();
+                    var elementSubPlans = new List<ElementRectangleSubPlan>();
                     foreach (var elementSubPlan in Plan.ElementSubPlans)
                         if (keys.Contains(elementSubPlan.PlanUID))
                             elementSubPlans.Add(elementSubPlan);
