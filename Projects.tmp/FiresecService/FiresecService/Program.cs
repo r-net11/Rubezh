@@ -18,7 +18,7 @@ namespace FiresecService
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Starting...");
-
+			//var entry = System.Net.Dns.GetHostEntry ("192.168.21.55");
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
 			ServerLoadHelper.SetStatus(FSServerState.Opening);
 

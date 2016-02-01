@@ -167,6 +167,7 @@
     <Compile Include="Models\Automation\StepArguments\ControlElementType.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
+    <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlOpcDaTagArguments.cs" />
@@ -483,7 +484,7 @@
     <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\Security\RemoteAccess.cs" />
     <Compile Include="Models\Video\Camera.cs" />
-    <Compile Include="Models\Plans\ElementSubPlan.cs" />
+    <Compile Include="Models\Plans\ElementRectangleSubPlan.cs" />
     <Compile Include="Models\Plans\Plan.cs" />
     <Compile Include="Models\System\Sound.cs" />
     <Compile Include="Models\Configuration\SystemConfiguration.cs" />

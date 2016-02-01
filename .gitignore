@@ -21,3 +21,7 @@ Projects/Resurs/UinitTestResursNetwork/FakesAssemblies/resursnetwork.Fakes.xml
 *.vsp
 /Projects/GKWebService/GKWebService/GKWebService.csproj.DotSettings
 /git.bat
+Projects/GKWebService/GKWebService/GKWebService.csproj.BACKUP.4408.csproj
+Projects/GKWebService/GKWebService/GKWebService.csproj.BASE.4408.csproj
+Projects/GKWebService/GKWebService/GKWebService.csproj.LOCAL.4408.csproj
+Projects/GKWebService/GKWebService/GKWebService.csproj.REMOTE.4408.csproj

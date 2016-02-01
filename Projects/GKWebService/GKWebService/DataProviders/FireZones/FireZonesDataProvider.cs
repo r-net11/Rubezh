@@ -7,6 +7,7 @@ using GKWebService.Utils;
 using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using Controls.Converters;
 
 namespace GKWebService.DataProviders.FireZones
 {
@@ -52,14 +53,23 @@ namespace GKWebService.DataProviders.FireZones
                         break;
                     }
                 }
-                FireZone data = new FireZone();
-                data.StateLabel = Convert.ToString(zone.State.StateClasses[0]);
-                data.DescriptorPresentationName = zone.DescriptorPresentationName;
-                data.Fire1Count = zone.Fire1Count;
-                data.Fire2Count = zone.Fire2Count;
-                data.ImageSource = InternalConverter.GetImageResource(zone.ImageSource);
-                data.StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(zone.State.StateClass) + ".png");
-                list.Add(data);
+
+                list.Add(new FireZone
+                {
+                    StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(zone.State.StateClasses[0]) + ".png",
+                    Name = zone.DescriptorPresentationName,
+                    Fire1Count = zone.Fire1Count,
+                    Fire2Count = zone.Fire2Count,
+                    ImageSource = InternalConverter.GetImageResource(zone.ImageSource),
+                    Uid = zone.UID, 
+                    No = zone.No, 
+                    StateColor = "'#" + new XStateClassToColorConverter2().Convert(zone.State.StateClass, null, null, null).ToString().Substring(3) + "'",
+                    StateMessage = zone.State.StateClass.ToDescription(),
+                    CanTurnOff = Convert.ToString(zone.State.StateClasses[0]) == "Norm",
+                    CanTurnOn = Convert.ToString(zone.State.StateClasses[0]) == "Ignore",
+                    CanReset = Convert.ToString(zone.State.StateClasses[0]) == "Norm", 
+                    GKDescriptorNo = zone.GKDescriptorNo
+                });
             }
             return list;
         }
@@ -84,8 +94,8 @@ namespace GKWebService.DataProviders.FireZones
                 {
                     Name = remoteDevice.PresentationName,
                     Address = remoteDevice.Address,
-                    ImageBloom = InternalConverter.GetImageResource(remoteDevice.ImageSource),
-                    StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(remoteDevice.State.StateClass) + ".png"),
+                    ImageDeviceIcon = InternalConverter.GetImageResource(remoteDevice.ImageSource),
+                    StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(remoteDevice.State.StateClass) + ".png",
                     Level = level
                 });
             }
@@ -102,8 +112,8 @@ namespace GKWebService.DataProviders.FireZones
                 {
                     Name = device.PresentationName,
                     Address = device.Address,
-                    ImageBloom = InternalConverter.GetImageResource(device.ImageSource),
-                    StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(device.State.StateClass) + ".png"),
+                    ImageDeviceIcon = InternalConverter.GetImageResource(device.ImageSource),
+                    StateIcon =  "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(device.State.StateClass) + ".png",
                     Level = level
                 });
                 listTree.Add(item);

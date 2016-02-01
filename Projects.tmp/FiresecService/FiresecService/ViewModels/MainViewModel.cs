@@ -79,29 +79,22 @@ namespace FiresecService.ViewModels
 
 		public void AddClient(ClientCredentials clientCredentials)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var connectionViewModel = new ClientViewModel(clientCredentials);
+			var connectionViewModel = new ClientViewModel(clientCredentials);
 				Clients.Add(connectionViewModel);
-			}));
+			Console.WriteLine ("Connected: {0}/{1}/{2}", clientCredentials.ClientIpAddressAndPort, clientCredentials.ClientType, clientCredentials.FriendlyUserName);
 		}
 		public void RemoveClient(Guid uid)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
+			var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					Clients.Remove(connectionViewModel);
-			}));
+			Console.WriteLine ("Disconnected: {0}/{1}/{2}", connectionViewModel.ClientCredentials.ClientIpAddressAndPort, connectionViewModel.ClientType, connectionViewModel.FriendlyUserName);
 		}
 		public void EditClient(Guid uid, string userName)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
+			var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					connectionViewModel.FriendlyUserName = userName;
-			}));
 		}
 		#endregion Clients
 

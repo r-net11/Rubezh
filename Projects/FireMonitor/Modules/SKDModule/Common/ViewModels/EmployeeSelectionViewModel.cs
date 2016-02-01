@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
+using System.Linq;
 
-namespace SKDModule.ViewModels 
+namespace SKDModule.ViewModels
 {
 	public class EmployeeSelectionDialogViewModel : SaveCancelDialogViewModel
 	{
 		EmployeeFilter _filter;
 
-		public EmployeeSelectionDialogViewModel(Guid selectedEmployeeUID, EmployeeFilter filter)
+		public EmployeeSelectionDialogViewModel(ShortEmployee selectedEmployee, EmployeeFilter filter)
 		{
 			Initialize(filter);
-			if (selectedEmployeeUID != Guid.Empty)
+			if (selectedEmployee != null)
 			{
-				SelectedEmployee = Employees.FirstOrDefault(x => x.UID == selectedEmployeeUID);
+				SelectedEmployee = Employees.FirstOrDefault(x => x.UID == selectedEmployee.UID);
+				if (SelectedEmployee == null)
+				{
+					Employees.Insert(0, selectedEmployee);
+					SelectedEmployee = selectedEmployee;
+				}
 			}
 		}
 
@@ -36,7 +40,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public ObservableCollection<ShortEmployee> Employees { get; set; }
-		
+
 		protected override bool CanSave()
 		{
 			return SelectedEmployee != null;

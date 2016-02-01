@@ -23,16 +23,7 @@ namespace GKWebService.Models
 		public DirectionStateClass(XStateClass stateClass)
 		{
 			Name = stateClass.ToDescription();
-
-			var iconResourceName = new XStateClassToIconConverter().Convert(stateClass, null, null, null);
-			if (iconResourceName != null)
-			{
-				IconData = "data:image/gif;base64," + InternalConverter.GetImageResource((string) iconResourceName).Item1;
-			}
-			else
-			{
-				IconData = string.Empty;
-			}
+			IconData = stateClass.ToString();
 		}
 	}
 }

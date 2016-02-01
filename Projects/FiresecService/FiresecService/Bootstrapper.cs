@@ -109,6 +109,7 @@ namespace FiresecService
 					MainViewModel.SetReportAddress("<Ошибка>");
 				}
 
+				AutomationProcessor.Start();
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnServerRun();

@@ -1,5 +1,6 @@
 ﻿using GKProcessor;
 using GKWebService.DataProviders;
+using GKWebService.DataProviders.MPTHubs;
 using GKWebService.Models;
 using Infrastructure.Common;
 using RubezhAPI;
@@ -117,6 +118,10 @@ namespace GKWebService
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
+					if (DirectionsUpdaterHub.Instance != null)
+					{
+						DirectionsUpdaterHub.Instance.BroadcastDirection(direction);
+					}
 				}
 			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)
@@ -135,7 +140,8 @@ namespace GKWebService
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
-					delay.State.OnStateChanged();
+					if (DelaysUpdaterHub.Instance != null)
+						DelaysUpdaterHub.Instance.DelayUpdate(new Delay(delay));
 				}
 			}
 			foreach (var remotePimState in gkStates.PimStates)
@@ -154,6 +160,10 @@ namespace GKWebService
 				if (mpt != null)
 				{
 					mptState.CopyTo(mpt.State);
+					if (MPTHub.Instance != null)
+					{
+						MPTHub.Instance.MPTStateIconUpdate(mpt);
+					}
 				}
 			}
 			foreach (var guardZoneState in gkStates.GuardZoneStates)

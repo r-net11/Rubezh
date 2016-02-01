@@ -1,31 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNet.SignalR.Hubs;
-using GKWebService.Models;
+﻿using GKWebService.Models;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+using RubezhAPI.GK;
 
 namespace GKWebService.DataProviders
 {
 	[HubName("directionsUpdater")]
 	public class DirectionsUpdaterHub : Hub
 	{
-		private readonly DirectionsUpdater _directionsUpdater;
+		public static DirectionsUpdaterHub Instance { get; private set; }
 
-		public DirectionsUpdaterHub() :
-			this(DirectionsUpdater.Instance)
+		public DirectionsUpdaterHub()
 		{
-
+			Instance = this;
 		}
 
-		public DirectionsUpdaterHub(DirectionsUpdater directionsUpdater)
+		public void BroadcastDirection(GKDirection gkDirection)
 		{
-			_directionsUpdater = directionsUpdater;
-		}
-
-		public IEnumerable<Direction> GetAllDirections()
-		{
-			return _directionsUpdater.GetDirections();
+			var direction = new Direction(gkDirection);
+			Clients.All.updateDirection(direction);
 		}
 	}
 }

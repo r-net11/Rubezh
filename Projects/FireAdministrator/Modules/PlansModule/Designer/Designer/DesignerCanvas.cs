@@ -49,8 +49,8 @@ namespace PlansModule.Designer
 				Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
 			else if (elementBase is ElementTextBox)
 				Plan.ElementTextBoxes.Add(elementBase as ElementTextBox);
-			else if (elementBase is ElementSubPlan)
-				Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
+			else if (elementBase is ElementRectangleSubPlan)
+				Plan.ElementSubPlans.Add(elementBase as ElementRectangleSubPlan);
 			else
 				((PlanDesignerViewModel)PlanDesignerViewModel).PlansViewModel.ElementAdded(elementBase);
 
@@ -70,8 +70,8 @@ namespace PlansModule.Designer
 				Plan.ElementTextBlocks.Remove(elementBase as ElementTextBlock);
 			else if (elementBase is ElementTextBox)
 				Plan.ElementTextBoxes.Remove(elementBase as ElementTextBox);
-			else if (elementBase is ElementSubPlan)
-				Plan.ElementSubPlans.Remove(elementBase as ElementSubPlan);
+			else if (elementBase is ElementRectangleSubPlan)
+				Plan.ElementSubPlans.Remove(elementBase as ElementRectangleSubPlan);
 			else
 				((PlanDesignerViewModel)PlanDesignerViewModel).PlansViewModel.ElementRemoved(elementBase);
 		}
