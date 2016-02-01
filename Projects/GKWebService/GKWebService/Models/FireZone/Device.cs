@@ -1,10 +1,4 @@
-﻿using GKWebService.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web;
-using RubezhAPI.GK;
+﻿using System;
 
 namespace GKWebService.Models.FireZone
 {
@@ -25,17 +19,16 @@ namespace GKWebService.Models.FireZone
         /// </summary>
         public String Note { get; set; }
 
-
         public Int32 Level { get; set; }
 
         /// <summary>
         /// Индикатор статуса
         /// </summary>
-        public Tuple<string, System.Drawing.Size> StateImageSource { get; set; }
+        public String StateIcon { get; set; }
 
         /// <summary>
         /// Логотип устройства
         /// </summary>
-        public Tuple<string, System.Drawing.Size> ImageBloom { get; set; }
+        public Tuple<string, System.Drawing.Size> ImageDeviceIcon { get; set; }
     }
 }

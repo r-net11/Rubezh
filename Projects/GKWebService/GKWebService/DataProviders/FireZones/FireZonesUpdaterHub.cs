@@ -13,7 +13,8 @@ namespace GKWebService.DataProviders.FireZones
         private readonly FireZonesUpdater _fireZonesUpdater;
 
         public FireZonesUpdaterHub()
-            : this(FireZonesUpdater.Instance) {
+            : this(FireZonesUpdater.Instance)
+        {
         }
 
         public FireZonesUpdaterHub(FireZonesUpdater fireZonesUpdater){
