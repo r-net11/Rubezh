@@ -1,4 +1,5 @@
 ﻿using GKWebService.DataProviders.FireZones;
+using GKWebService.DataProviders.Devices;
 using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
 using RubezhAPI;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using RubezhClient;
 
 namespace GKWebService.Controllers
 {
@@ -68,10 +70,18 @@ namespace GKWebService.Controllers
 		/// </summary>
 		public JsonResult GetDevicesListByZoneNumber(int id)
 		{
-			return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
+            return Json(FireZonesDataProvider.Instance.GetDevicesByZone(id), JsonRequestBehavior.AllowGet);
 		}
 
-		[HttpPost]
+        /// <summary>
+		/// Метод, предоставляющий данные об устройствах 
+		/// </summary>
+		public JsonResult GetDevicesList()
+        {
+            return Json(DevicesDataProvider.Instance.GetDevices(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
 		public JsonResult Logon(string login, string password)
 		{
 			string error = null;
