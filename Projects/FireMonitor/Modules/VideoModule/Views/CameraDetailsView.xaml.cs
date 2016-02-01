@@ -1,9 +1,9 @@
-﻿using System.Windows;
-using VideoModule.ViewModels;
+﻿using Common;
 using MediaSourcePlayer.MediaSource;
-using System.Net;
 using System;
-using Common;
+using System.Net;
+using System.Windows;
+using VideoModule.ViewModels;
 
 namespace VideoModule.Views
 {
@@ -20,6 +20,9 @@ namespace VideoModule.Views
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var viewModel = DataContext as CameraDetailsViewModel;
+			viewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
+			viewModel.Surface.Left = viewModel.MarginLeft;
+			viewModel.Surface.Top = viewModel.MarginTop;
 			if (viewModel == null)
 				return;
 
@@ -37,7 +40,7 @@ namespace VideoModule.Views
 			{
 				Logger.Error(e);
 			}
-		}	
+		}
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			MediaSourcePlayer.Stop();

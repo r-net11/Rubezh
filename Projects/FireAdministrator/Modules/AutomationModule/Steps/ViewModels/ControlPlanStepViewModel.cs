@@ -168,7 +168,7 @@ namespace AutomationModule.ViewModels
 				element.ElementType == typeof(ElementPolygonGKDirection) ||
 				element.ElementType == typeof(ElementPolygonGKMPT) ||
 				element.ElementType == typeof(ElementPolygonGKDelay) ||
-				element.ElementType == typeof(ElementSubPlan))
+				element.ElementType == typeof(ElementRectangleSubPlan))
 				return new ObservableCollection<ElementPropertyType> 
 				{ 
 					ElementPropertyType.IsVisible, 

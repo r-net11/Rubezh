@@ -35,9 +35,9 @@
 	@Scripts.Render("~/bundles/bootstrap")
 	@*@Scripts.Render("~/bundles/libs")*@
 </head>
-<body>
+<body ng-app="gkApp">
 	<div class="wrapper">
-		<header class="header">
+    		<header class="header">
 			<div class="left" data-bind="with: Header">
 
 
@@ -86,19 +86,9 @@
 					<div class="icon plan on"></div>
 				</div>
 			</div>
-			<div class="right">
-				<div class="icon reset"></div>
-				<div class="icon mpt"></div>
-				<div class="icon shield"></div>
-				<div class="icon fire2"></div>
-				<div class="icon fire"></div>
-				<div class="icon attention"></div>
-				<div class="icon failure"></div>
-				<div class="icon off"></div>
-				<div class="icon auto"></div>
-				<div class="icon service"></div>
-				<div class="icon onOff"></div>
-			</div>
+		    <div class="right">
+		        @Html.Action("AlarmGroups", "Alarms")
+		    </div>
 		</header><!-- .header-->
 
 		<div class="middle" data-bind="with: Menu">
@@ -170,10 +160,13 @@
 	<script src="~/App/services/signalrService.js"></script>
 	<script src="~/App/services/signalrDelaysService.js"></script>
     <script src="~/App/services/signalrDirectionsService.js"></script>
+	<script src="~/App/services/signalrJournalService.js"></script>
     <script src="~/App/services/signalrFireZonesService.js"></script>
     <script src="~/App/services/signalrMPTsService.js"></script>
-	<script src="~/App/controllers/zonesCtrl.js"></script>
-	<script src="~/App/controllers/devicesCtrl.js"></script>
+    <script src="~/App/controllers/fireZones/fireZonesCtrl.js"></script>
+    <script src="~/App/controllers/fireZones/fireZonesDevicesCtrl.js"></script>
+    <script src="~/App/controllers/fireZones/fireZonesDetailsCtrl.js"></script>
+    <script src="~/App/controllers/fireZones/fireZonesDevicesDetailsCtrl.js"></script>
     <script src="~/App/controllers/directions/directionsCtrl.js"></script>
     <script src="~/App/controllers/directions/directionDetailsCtrl.js"></script>
     <script src="~/App/controllers/MPTs/mptsDetailsCtrl.js"></script>
@@ -183,7 +176,9 @@
 	<script src="~/App/controllers/journal/journalCtrl.js"></script>
 	<script src="~/App/controllers/journal/journalFilterCtrl.js"></script>
     <script src="~/App/controllers/devices/devicesMainCtrl.js"></script>
+    <script src="~/App/controllers/alarms/alarmGroupsCtrl.js"></script>
 	<script src="~/App/directives/ngJqGrid.js"></script>
+    <script src="~/App/directives/alarmBtn.js"></script>
 
 	@*<script src="~/Scripts/report.js"></script>*@
 	<script src="~/Scripts/archive.js"></script>

@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services')
-        .factory('signalrFireZonesService', ['Hub', function (Hub) {
+        .factory('signalrFireZonesService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
             var fireZonesUpdater;
 
             var startStatesMonitoring = function () {
@@ -13,9 +13,7 @@
                 //client side methods
                 listeners: {
                     'RefreshZoneState': function (data) {
-                        for (var i in data) {
-                            $('td:nth-child(2) > img:nth-child(2)')[i].src = "data:image/gif;base64," + data[i].StateImageSource.Item1;
-                        }
+                        broadcastService.send('fireZonesChanged', data);
                     }
                 },
 

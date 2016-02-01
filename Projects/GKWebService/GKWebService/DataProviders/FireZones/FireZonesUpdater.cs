@@ -39,7 +39,7 @@ namespace GKWebService.DataProviders.FireZones
                 //назначаем текущий статус зоны
 			    foreach (var item in _data)
 			    {
-                    _currentState.Add(item.StateLabel);
+                    _currentState.Add(item.StateIcon);
 			    }
 
                 _timer = new Timer(_refreshZoneState, null, _updateInterval, _updateInterval);
@@ -53,20 +53,13 @@ namespace GKWebService.DataProviders.FireZones
         {
             //Получаем текущие данные
             _data = FireZonesDataProvider.Instance.GetFireZones();
-            bool isNewStates = false;
             foreach (var item in _data)
             {
-                if (item.StateLabel != _currentState[_data.IndexOf(item)])
+                if ( _data.IndexOf(item) >= 0 && item.StateIcon != _currentState[_data.IndexOf(item)])
                 {
-                    _currentState[_data.IndexOf(item)] = item.StateLabel;
-                    isNewStates = true;
+                    _currentState[_data.IndexOf(item)] = item.StateIcon;
+                    Clients.All.RefreshZoneState(item);
                 }    
-            }
-
-            if (isNewStates)
-            {
-                Clients.All.RefreshZoneState(_data);
-                isNewStates = false;
             }
             
         }
