@@ -1,4 +1,6 @@
 ﻿using GKProcessor;
+using GKWebService.DataProviders;
+using GKWebService.Models;
 using Infrastructure.Common;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -6,6 +8,7 @@ using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhClient;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -73,8 +76,8 @@ namespace GKWebService
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			//SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
-			//SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
+			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnNewJournalItem);
+			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnNewJournalItem);
 
 			ShowAllObjects();
 		}
@@ -171,10 +174,10 @@ namespace GKWebService
 			}
 		}
 
-		static void OnNewJournalItem(JournalItem journalItem)
+		static void OnNewJournalItem(List<JournalItem> journalItems, bool boool)
 		{
-			var journalItemViewModel = new JournalItemViewModel(journalItem);
-			Trace.WriteLine("");
+			if (JournalUpdaterHub.Instance != null)
+				JournalUpdaterHub.Instance.BroadcastNewJournalItems(journalItems);
 		}
 
 		static void ShowAllObjects()

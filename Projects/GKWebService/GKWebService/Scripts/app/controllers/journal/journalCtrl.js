@@ -99,7 +99,7 @@
 
 (function () {
 	'use strict';
-	angular.module('canvasApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants) {
+	angular.module('canvasApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants, signalrJournalService) {
 		$http.get("Journal/GetJournal").success(function (data) {
 			$scope.gridOptions.data = data;
 		});
@@ -128,24 +128,11 @@
 					name: 'Подсистема',
 					cellTemplate:
 						'<div class="ui-grid-cell-contents">\
-							<img style="vertical-align: middle; padding-right: 3px; width: 16px" src="/Content/Image/Icon/SubsystemTypes/{{row.entity.SubsystemImage}}.png" />\
+							<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="/Content/Image/Icon/SubsystemTypes/{{row.entity.SubsystemImage}}.png" />\
 							{{row.entity.Subsystem}}\
 						</div>'
 				}
 			]
-		};
-
-		$scope.refreshRow = function() {
-			$scope.gridOptions.data.splice(0, 1);
-			$scope.gridOptions.data.push({
-				SystemDate: 'TestSystemDate',
-				DeviceDate: 'TestDeviceDate',
-				Name: 'TestName',
-				Desc: 'TestDesc',
-				Object: 'TestObject',
-				User: 'TestUser',
-				Subsystem: 'TestSubsystem'
-			});
 		};
 
 		$scope.showFilter = function () {
@@ -158,5 +145,12 @@
 		$scope.showSelectedRow = function () {
 			$scope.selectedRow = $scope.gridApi.selection.getSelectedRows()[0]
 		};
+
+		$scope.$on('updateJournalItemsJs', function (event, args) {
+			args.forEach(function (element) {
+				$scope.gridOptions.data.unshift(element)
+			});
+			$scope.$apply();
+		})
 	});
 }());

@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>5</LangVersion>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <PublishDatabases>true</PublishDatabases>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -383,6 +386,7 @@
     <Content Include="Scripts\app\services\broadcastService.js" />
     <Content Include="Scripts\app\services\signalrDirectionsService.js" />
     <Content Include="Scripts\app\services\signalrFireZonesService.js" />
+    <Content Include="Scripts\app\services\signalrJournalService.js" />
     <Content Include="Scripts\app\services\signalrService.js" />
     <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
     <Content Include="Scripts\archive.js" />
@@ -472,6 +476,7 @@
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
     <Content Include="Content\ui-grid.less" />
+    <Content Include="Content\bootstrap.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -551,6 +556,7 @@
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -612,7 +618,7 @@
     <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\Plan\PlanElement.cs" />
     <Compile Include="Models\Plan\PlanSimpl.cs" />
-    <Compile Include="Models\ReportModel.cs" />
+    <Compile Include="Models\JournalModel.cs" />
     <Compile Include="Models\Plan\Shape.cs" />
     <Compile Include="Models\Plan\ShapeTypesEnum.cs" />
     <Compile Include="Models\Plan\HintLine.cs" />
@@ -736,7 +742,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>64778</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:64726/</IISUrl>
+          <IISUrl>http://localhost:64726</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
