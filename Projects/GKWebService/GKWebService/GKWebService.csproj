@@ -188,6 +188,7 @@
     <Content Include="App\controllers\directions\directionsCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
     <Content Include="App\controllers\journal\journalFilterCtrl.js" />
+    <Content Include="App\controllers\MPTs\DevicesMPTCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
     <Content Include="App\controllers\planCtrl.js" />
