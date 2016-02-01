@@ -74,7 +74,7 @@ namespace RubezhClient
 					var stream = FiresecService.GetConfig();
 					CopyStream(stream, configFileStream);
 					LoadFromZipFile(configFileName);
-					
+
 					var result = FiresecService.GetSecurityConfiguration();
 					if (!result.HasError && result.Result != null)
 					{
@@ -313,6 +313,8 @@ namespace RubezhClient
 
 					foreach (var subplan in plan.ElementSubPlans)
 						UpdateSubPlan(subplan, subplan.PlanUID != Guid.Empty && planMap.ContainsKey(subplan.PlanUID) ? planMap[subplan.PlanUID] : null);
+					foreach (var subplan in plan.ElementPolygonSubPlans)
+						UpdateSubPlan(subplan, subplan.PlanUID != Guid.Empty && planMap.ContainsKey(subplan.PlanUID) ? planMap[subplan.PlanUID] : null);
 				}
 			}
 			catch (Exception e)
@@ -354,6 +356,10 @@ namespace RubezhClient
 		private static void UpdateSubPlan(ElementRectangleSubPlan elementSubPlan, Plan plan)
 		{
 			elementSubPlan.BackgroundColor = plan == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+		}
+		private static void UpdateSubPlan(ElementPolygonSubPlan elementSubPlan, Plan plan)
+		{
+			elementSubPlan.BackgroundColor = (plan == null) ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}
 
 		public static void InvalidateContent()

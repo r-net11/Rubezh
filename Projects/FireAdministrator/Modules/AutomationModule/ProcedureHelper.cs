@@ -37,6 +37,7 @@ namespace AutomationModule
 			allElements.AddRange(plan.ElementPolygonGKMPTs);
 			allElements.AddRange(plan.ElementPolygonGKDelays);
 			allElements.AddRange(plan.ElementSubPlans);
+			allElements.AddRange(plan.ElementPolygonSubPlans);
 			foreach (var elementRectangle in allElements)
 			{
 				elements.Add(new ElementViewModel(elementRectangle));
