@@ -3,14 +3,15 @@ using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.ViewModels
 {
 	public class SubPlanPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementSubPlan _elementSubPlan;
+		private IElementSubPlan _elementSubPlan;
 
-		public SubPlanPropertiesViewModel(ElementSubPlan elementSubPlan)
+		public SubPlanPropertiesViewModel(IElementSubPlan elementSubPlan)
 		{
 			Title = "Свойства фигуры: Ссылка на план";
 			_elementSubPlan = elementSubPlan;

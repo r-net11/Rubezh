@@ -179,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\app.js" />
+    <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
     <Content Include="App\controllers\directionsUpdaterHub.js" />
@@ -195,6 +196,7 @@
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
     <Content Include="App\controllers\planCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
+    <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
     <Content Include="App\directives\ngJqGrid.js" />
     <Content Include="App\services\broadcastService.js" />
@@ -242,6 +244,7 @@
     <Content Include="Content\Image\Icon\Alarms\mpt.png" />
     <Content Include="Content\Image\Icon\Alarms\off.png" />
     <Content Include="Content\Image\Icon\Alarms\onOff.png" />
+    <Content Include="Content\Image\Icon\Alarms\ResetAlarmText.png" />
     <Content Include="Content\Image\Icon\Alarms\service.png" />
     <Content Include="Content\Image\Icon\Alarms\shield.png" />
     <Content Include="Content\Image\Icon\Archive\filter.png" />
@@ -478,6 +481,7 @@
     <Content Include="Content\ui-grid.eot" />
     <Content Include="Content\ui-grid.less" />
     <Content Include="Content\bootstrap.less" />
+    <Content Include="Content\alarmBtn.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -539,6 +543,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccessTemplatesController.cs" />
+    <Compile Include="Controllers\AlarmsController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DelaysController.cs" />

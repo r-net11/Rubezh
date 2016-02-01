@@ -21,7 +21,7 @@ namespace RubezhAPI.Models
 		{
 			UID = Guid.NewGuid();
 			Children = new List<Plan>();
-			ElementSubPlans = new List<ElementSubPlan>();
+			ElementSubPlans = new List<ElementRectangleSubPlan>();
 			Caption = "Новый план";
 			Width = 297;
 			Height = 210;
@@ -32,7 +32,7 @@ namespace RubezhAPI.Models
 
 		public void ClearElements()
 		{
-			ElementSubPlans = new List<ElementSubPlan>();
+			ElementSubPlans = new List<ElementRectangleSubPlan>();
 			ElementRectangles = new List<ElementRectangle>();
 			ElementEllipses = new List<ElementEllipse>();
 			ElementTextBlocks = new List<ElementTextBlock>();
@@ -99,7 +99,7 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public List<ElementPolyline> ElementPolylines { get; set; }
 		[DataMember]
-		public List<ElementSubPlan> ElementSubPlans { get; set; }
+		public List<ElementRectangleSubPlan> ElementSubPlans { get; set; }
 		[DataMember]
 		public List<ElementGKDevice> ElementGKDevices { get; set; }
 		[DataMember]

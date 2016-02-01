@@ -90,23 +90,23 @@ namespace PlansModule.Designer
 			}
 		}
 
-		public static Plan GetPlan(ElementSubPlan element)
+		public static Plan GetPlan(IElementSubPlan element)
 		{
 			return ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == element.PlanUID);
 		}
-		public static string GetSubPlanTitle(ElementSubPlan element)
+		public static string GetSubPlanTitle(ElementRectangleSubPlan element)
 		{
 			Plan plan = GetPlan(element);
 			if (plan == null && element.PlanUID != Guid.Empty)
 				SetSubPlan(element, null);
 			return plan == null ? "Несвязанная ссылка на план" : plan.Caption;
 		}
-		public static void SetSubPlan(ElementSubPlan element)
+		public static void SetSubPlan(IElementSubPlan element)
 		{
 			Plan plan = GetPlan(element);
 			SetSubPlan(element, plan);
 		}
-		public static void SetSubPlan(ElementSubPlan element, Plan plan)
+		public static void SetSubPlan(IElementSubPlan element, Plan plan)
 		{
 			element.PlanUID = plan == null ? Guid.Empty : plan.UID;
 			element.Caption = plan == null ? string.Empty : plan.Caption;
