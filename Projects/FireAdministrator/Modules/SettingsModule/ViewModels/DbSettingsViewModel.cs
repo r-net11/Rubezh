@@ -1,7 +1,6 @@
 ﻿using RubezhAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,9 +15,7 @@ namespace SettingsModule.ViewModels
 	{
 		public DbSettingsViewModel()
 		{
-			DbConnectionString = GlobalSettingsHelper.GlobalSettings.DbConnectionString;
 			DbTypes = new ObservableCollection<DbType>(Enum.GetValues(typeof(DbType)) as IEnumerable<DbType>);
-			SelectedDbType = GlobalSettingsHelper.GlobalSettings.DbType;
 			GetConnectionParams();
 		}
 
@@ -145,79 +142,51 @@ namespace SettingsModule.ViewModels
 
 		public void Save()
 		{
-			GlobalSettingsHelper.GlobalSettings.DbType = SelectedDbType;
-			if (IsCreateConnectionString)
+			GlobalSettingsHelper.GlobalSettings.DbSettings.DbType = SelectedDbType;
+			GlobalSettingsHelper.GlobalSettings.DbSettings.IsFullConnectionString = !IsCreateConnectionString;
+			if (IsMsSQL)
 			{
-				if (IsMsSQL)
-					GlobalSettingsHelper.GlobalSettings.DbConnectionString = CreateMsSQLConnectionString();
-				if (IsPostgres)
-					GlobalSettingsHelper.GlobalSettings.DbConnectionString = CreatePostgresConnectionString();
+				GlobalSettingsHelper.GlobalSettings.DbSettings.ConnectionString = DbConnectionString;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.UserName = Login;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.Password = Password;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.IsSQLAuthentication = IsSQLAuthentication;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.DbName = DbName;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.DataSource = DataSource;
 			}
-			else
-				GlobalSettingsHelper.GlobalSettings.DbConnectionString = DbConnectionString;
-		}
-
-		string CreateMsSQLConnectionString()
-		{
-			var builder = new SqlConnectionStringBuilder();
-			builder.DataSource = DataSource;
-			builder.InitialCatalog = _dbName;
-			if (IsSQLAuthentication)
+			if (IsPostgres)
 			{
-				builder.UserID = Login;
-				builder.Password = Password;
-				builder.IntegratedSecurity = false;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.ConnectionString = DbConnectionString;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.UserName = Login;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.Password = Password;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.IsSQLAuthentication = IsSQLAuthentication;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.DbName = DbName;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.Server = Server;
+				GlobalSettingsHelper.GlobalSettings.DbSettings.Port = Port;
 			}
-			else
-			{
-				builder.IntegratedSecurity = true;
-			}
-			return builder.ConnectionString;
-		}
-
-		string CreatePostgresConnectionString()
-		{
-			var builder = new NpgsqlConnectionStringBuilder();
-			builder.Database = DbName;
-			builder.Host = Server;
-			builder.Port = Port;
-
-			if (IsSQLAuthentication)
-			{
-				builder.IntegratedSecurity = false;
-				builder.UserName = Login;
-				builder.Password = Password;
-			}
-			return builder.ConnectionString;
 		}
 
 		void GetConnectionParams()
 		{
-			try
+			SelectedDbType = GlobalSettingsHelper.GlobalSettings.DbSettings.DbType;
+			IsCreateConnectionString = !GlobalSettingsHelper.GlobalSettings.DbSettings.IsFullConnectionString;
+			if (IsMsSQL)
 			{
-				if (IsMsSQL)
-				{
-					var builder = new SqlConnectionStringBuilder(DbConnectionString);
-					Login = builder.UserID;
-					Password = builder.Password;
-					IsSQLAuthentication = !builder.IntegratedSecurity;
-					DbName = builder.InitialCatalog;
-					DataSource = builder.DataSource;
-				}
-				if (IsPostgres)
-				{
-					var builder2 = new NpgsqlConnectionStringBuilder(DbConnectionString);
-					Login = builder2.UserName;
-					Password = builder2.Password;
-					IsSQLAuthentication = !builder2.IntegratedSecurity;
-					DbName = builder2.Database;
-					Server = builder2.Host;
-					Port = builder2.Port;
-				}
+				DbConnectionString = GlobalSettingsHelper.GlobalSettings.DbSettings.ConnectionString;
+				Login = GlobalSettingsHelper.GlobalSettings.DbSettings.UserName;
+				Password = GlobalSettingsHelper.GlobalSettings.DbSettings.Password;
+				IsSQLAuthentication = !GlobalSettingsHelper.GlobalSettings.DbSettings.IsSQLAuthentication;
+				DbName = GlobalSettingsHelper.GlobalSettings.DbSettings.DbName;
+				DataSource = GlobalSettingsHelper.GlobalSettings.DbSettings.DataSource;
 			}
-			catch (Exception)
+			if (IsPostgres)
 			{
-
+				DbConnectionString = GlobalSettingsHelper.GlobalSettings.DbSettings.ConnectionString;
+				Login = GlobalSettingsHelper.GlobalSettings.DbSettings.UserName;
+				Password = GlobalSettingsHelper.GlobalSettings.DbSettings.Password;
+				IsSQLAuthentication = !GlobalSettingsHelper.GlobalSettings.DbSettings.IsSQLAuthentication;
+				DbName = GlobalSettingsHelper.GlobalSettings.DbSettings.DbName;
+				Server = GlobalSettingsHelper.GlobalSettings.DbSettings.Server;
+				Port = GlobalSettingsHelper.GlobalSettings.DbSettings.Port;
 			}
 		}
 	}

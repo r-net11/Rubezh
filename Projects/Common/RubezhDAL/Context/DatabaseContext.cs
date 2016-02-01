@@ -12,7 +12,7 @@ namespace RubezhDAL
 {
 	public class DatabaseContext : DbContext
 	{
-		public static bool IsPostgres { get { return GlobalSettingsHelper.GlobalSettings.DbType == RubezhAPI.DbType.Postgres; } }
+		public static bool IsPostgres { get { return GlobalSettingsHelper.GlobalSettings.DbSettings.DbType == RubezhAPI.DbType.Postgres; } }
 		public DatabaseContext(DbConnection connection)
 			: base(connection, true)
 		{
