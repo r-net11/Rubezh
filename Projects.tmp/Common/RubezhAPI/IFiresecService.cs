@@ -26,7 +26,7 @@ namespace RubezhAPI
 		/// Отсоединение от сервиса
 		/// </summary>
 		/// <param name="uid">Идентификатор клиента</param>
-		[OperationContract(IsOneWay = true)]
+		[OperationContract]
 		void Disconnect(Guid clientUID);
 
 		[OperationContract]
@@ -42,7 +42,7 @@ namespace RubezhAPI
 		[OperationContract]
 		PollResult Poll(Guid clientUID, int callbackIndex);
 
-		[OperationContract(IsOneWay = true)]
+		[OperationContract]
 		void LayoutChanged(Guid clientUID, Guid layoutUID);
 
 		[OperationContract]

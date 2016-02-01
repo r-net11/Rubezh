@@ -13,6 +13,7 @@
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <WarningLevel>4</WarningLevel>
+    <UseMSBuildEngine>False</UseMSBuildEngine>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
