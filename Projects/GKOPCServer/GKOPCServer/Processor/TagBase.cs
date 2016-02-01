@@ -9,12 +9,13 @@ namespace GKOPCServer
 	{
 		public GKState State { get; private set; }
 		public GKDriverType DriverType { get; set; }
-		public Guid DeviceUID { get; set; }
+		public Guid UID { get; private set; }
 
-		public TagBase(int tagId, GKState state)
+		public TagBase(int tagId, GKState state, Guid uid)
 		{
 			TagId = tagId;
 			State = state;
+			UID = uid;
 			state.StateChanged += state_StateChanged;
 		}
 
