@@ -102,6 +102,10 @@ namespace GKWebService
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
+					if (DevicesHub.Instance!= null)
+					{
+						DevicesHub.Instance.DevicesUpdate(device);
+					}
 				}
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)
@@ -160,9 +164,9 @@ namespace GKWebService
 				if (mpt != null)
 				{
 					mptState.CopyTo(mpt.State);
-					if (MPTHub.Instance != null)
+					if (MptUpdaterHub.Instance != null)
 					{
-						MPTHub.Instance.MPTStateIconUpdate(mpt);
+						MptUpdaterHub.Instance.MptUpdate(mpt);
 					}
 				}
 			}
