@@ -1,5 +1,4 @@
-﻿using GKWebService.DataProviders.Devices;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
@@ -35,14 +34,6 @@ namespace GKWebService.Controllers
 		public ActionResult MPTs()
 		{
 			return View();
-		}
-
-		/// <summary>
-		/// Метод, предоставляющий данные об устройствах 
-		/// </summary>
-		public JsonResult GetDevicesList()
-		{
-			return Json(DevicesDataProvider.Instance.GetDevices(), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]
