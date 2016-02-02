@@ -111,6 +111,12 @@ namespace AutomationModule.ViewModels
 					if (item != null)
 						return "План: " + item.Caption;
 				}
+				if (ElementType == typeof(ElementPolygonSubPlan))
+				{
+					var item = GetPlan(ClientManager.PlansConfiguration.Plans, ((ElementPolygonSubPlan)ElementBase).PlanUID);
+					if (item != null)
+						return "План: " + item.Caption;
+				}
 				if (ElementType == typeof(ElementProcedure))
 					return "Процедура: " + AutomationHelper.GetProcedureName(((ElementProcedure)ElementBase).ProcedureUID);
 				

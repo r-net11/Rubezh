@@ -57,6 +57,7 @@ namespace PlansModule.ViewModels
 		{
 			if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.NotBoundedElements))
 				foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+				{
 					foreach (var element in BasePlanExtension.FindUnbinded<ElementRectangleSubPlan>(plan.ElementSubPlans))
 						yield return new PlanElementValidationError(new ElementError()
 						{
@@ -66,6 +67,17 @@ namespace PlansModule.ViewModels
 							IsCritical = false,
 							ImageSource = "/Controls;component/Images/CMap.png",
 						});
+					foreach (var element in BasePlanExtension.FindUnbinded<ElementPolygonSubPlan>(plan.ElementPolygonSubPlans))
+						yield return new PlanElementValidationError(new ElementError()
+						{
+							PlanUID = plan.UID,
+							Error = "Несвязанная ссылка на план",
+							Element = element,
+							IsCritical = false,
+							ImageSource = "/Controls;component/Images/CMap.png",
+						});
+				}
+
 			foreach (var planExtension in _planExtensions)
 				foreach (var error in planExtension.Validate())
 					yield return new PlanElementValidationError(error);
@@ -95,10 +107,10 @@ namespace PlansModule.ViewModels
 		private void CreatePages()
 		{
 			var layers = new TabItem()
-				{
-					Header = "Слои",
-					Content = ElementsViewModel
-				};
+			{
+				Header = "Слои",
+				Content = ElementsViewModel
+			};
 			Binding visibilityBinding = new Binding("SelectedPlan");
 			visibilityBinding.Source = this;
 			visibilityBinding.Converter = new NullToVisibilityConverter();
