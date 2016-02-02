@@ -40,16 +40,19 @@ namespace FiresecService.Service
 
 		OperationResult<T> SafeOperationCall<T>(Guid clientUID, Func<OperationResult<T>> func, string operationName)
 		{
+			Console.WriteLine("-> {0}: {1}", clientUID, operationName);
 			if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
 			try
 			{
 				BeginOperation(operationName);
 				var result = func();
 				EndOperation();
+				//Console.WriteLine("<- {0}: {1}", clientUID, operationName);
 				return result;
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine (e.Message);
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
 				return OperationResult<T>.FromError("Ошибка при выполнении операции на сервере" + "\n\r" + e.Message + "\n" + e.StackTrace);
 			}
@@ -57,23 +60,28 @@ namespace FiresecService.Service
 
 		T SafeOperationCall<T>(Guid clientUID, Func<T> func, string operationName)
 		{
+			Console.WriteLine("-> {0}: {1}", clientUID, operationName);
 			if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
 			try
 			{
 				BeginOperation(operationName);
 				var result = func();
 				EndOperation();
+				//Console.WriteLine("<- {0}: {1}", clientUID, operationName);
 				return result;
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine (e.Message);
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. OperationName = " + operationName);
 			}
+			//Console.WriteLine("<- {0}: {1}", clientUID, operationName);
 			return default(T);
 		}
 
 		void SafeOperationCall(Guid clientUID, Action action, string operationName)
 		{
+			Console.WriteLine("-> {0}: {1}", clientUID, operationName);
 			if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
 			try
 			{
@@ -83,8 +91,10 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine (e.Message);
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. OperationName = " + operationName);
 			}
+			//Console.WriteLine("<- {0}: {1}", clientUID, operationName);
 		}
 
 		public OperationResult<bool> Connect(ClientCredentials clientCredentials)
@@ -168,14 +178,17 @@ namespace FiresecService.Service
 
 		public void SetRemoteConfig(Stream stream)
 		{
+			Console.WriteLine("-> ?: SetRemoteConfig");
 			try
 			{
 				FiresecService.SetRemoteConfig(stream);
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine("-> ?: {0}", e.Message);
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SetRemoteConfig");
 			}
+			Console.WriteLine("-> ?: SetRemoteConfig");
 		}
 
 		public void SetLocalConfig(Guid clientUID)
