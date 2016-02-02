@@ -191,6 +191,28 @@ namespace GKModule.ViewModels
 				}
 			}
 
+			foreach (var pumpStation in GKManager.PumpStations)
+			{
+				foreach (var stateClass in pumpStation.State.StateClasses)
+				{
+					switch (stateClass)
+					{
+						case XStateClass.On:
+						case XStateClass.TurningOn:
+							alarms.Add(new Alarm(GKAlarmType.NPTOn, pumpStation));
+							break;
+
+						case XStateClass.Ignore:
+							alarms.Add(new Alarm(GKAlarmType.Ignore, pumpStation));
+							break;
+					}
+				}
+				if (pumpStation.State.StateClasses.Contains(XStateClass.AutoOff))
+				{
+					alarms.Add(new Alarm(GKAlarmType.AutoOff, pumpStation));
+				}
+			}
+
 			foreach (var mpt in GKManager.MPTs)
 			{
 				foreach (var stateClass in mpt.State.StateClasses)
