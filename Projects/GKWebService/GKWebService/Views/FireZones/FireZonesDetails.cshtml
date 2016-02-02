@@ -3,6 +3,7 @@
 }
 
 <div class="modal-header">
+    <a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
     <h3 class="modal-title">{{fireZone.Name}}</h3>
 </div>
 <div class="modal-body">
@@ -17,9 +18,9 @@
         <uib-tabset>
             <uib-tab heading="Управление">
                 @*<div style="float: left; width: 50%">*@
-                    <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px;" ng-click="TurnOff()" ng-disabled="!fireZone.CanTurnOff">Отключить</div>
-                    <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!fireZone.CanTurnOn">Снять отключение</div>
-                    <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="Reset()" ng-disabled="!fireZone.CanReset">Сбросить</div>
+                <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px;" ng-click="TurnOff()" ng-disabled="!fireZone.CanTurnOff">Отключить</div>
+                <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!fireZone.CanTurnOn">Снять отключение</div>
+                <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="Reset()" ng-disabled="!fireZone.CanReset">Сбросить</div>
                 @*</div>*@
                 <div style="clear: left">
                 </div>
