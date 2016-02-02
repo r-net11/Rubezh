@@ -13,7 +13,7 @@ namespace ReportsModule.ViewModels
 		{
 			Title = "Сортировка";
 			Columns = columns;
-			if (Columns.Count > 0)
+			if (Columns.Any())
 				SortColumn = Columns.First().Key;
 		}
 
@@ -41,7 +41,7 @@ namespace ReportsModule.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			if (Columns.Count > 0)
+			if (Columns.Any())
 				SortColumn = !string.IsNullOrEmpty(filter.SortColumn) && Columns.ContainsKey(filter.SortColumn) ? filter.SortColumn : Columns.First().Key;
 			SortAscending = filter.SortAscending;
 		}
