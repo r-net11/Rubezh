@@ -9,13 +9,13 @@ namespace Client
 		public int ClientId { get; private set; }
 		ITestService _service;
 
-		public TestService()
+		public TestService(string address)
 		{
 			ClientId = new Random().Next(10000, 99999);
-			var tcpUri = new Uri("net.tcp://localhost:1050/TestService");
-			var address = new EndpointAddress(tcpUri);
+			var tcpUri = new Uri("net.tcp://" + address + "/TestService");
+			var endpointAddress = new EndpointAddress(tcpUri);
 			var binding = new NetTcpBinding();
-			ChannelFactory<ITestService> factory = new ChannelFactory<ITestService>(binding, address);
+			ChannelFactory<ITestService> factory = new ChannelFactory<ITestService>(binding, endpointAddress);
 			_service = factory.CreateChannel();
 		}
 

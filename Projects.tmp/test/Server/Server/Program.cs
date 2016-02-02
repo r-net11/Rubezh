@@ -8,7 +8,8 @@ namespace Server
 	{
 		static void Main(string[] args)
 		{
-			ServiceHost host = new ServiceHost(typeof(TestService), new Uri("net.tcp://localhost:1050/TestService"));
+			var address = args.Length == 0 ? "localhost:1050" : args [0];
+			ServiceHost host = new ServiceHost(typeof(TestService), new Uri("net.tcp://" + address + "/TestService"));
 			host.AddServiceEndpoint(typeof(ITestService), new NetTcpBinding(), "");
 			host.Open();
 			Console.WriteLine("Сервер запущен");

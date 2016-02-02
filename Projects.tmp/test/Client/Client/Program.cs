@@ -8,11 +8,13 @@ namespace Client
 	{
 		static bool _isCanceled;
 		static int _period = 1024;
-		static TestService _testService = new TestService();
+		static TestService _testService;
 		static void Main(string[] args)
 		{
+			var address = args.Length == 0 ? "localhost:1050" : args [0];
+			_testService = new TestService (address);
+
 			UpdateTitle();
-			Console.CursorVisible = false;
 
 			while (true)
 			{
@@ -36,16 +38,16 @@ namespace Client
 					case ConsoleKey.Escape:
 						_isCanceled = true;
 						break;
-					case ConsoleKey.NumPad1:
+				case ConsoleKey.D1:
 						InvokeAction(_testService.Void, "Void");
 						break;
-					case ConsoleKey.NumPad2:
+				case ConsoleKey.D2:
 						InvokeAction(_testService.VoidOneWay, "VoidOneWay");
 						break;
-					case ConsoleKey.NumPad3:
+				case ConsoleKey.D3:
 						InvokeRandomInt();
 						break;
-					case ConsoleKey.NumPad4:
+				case ConsoleKey.D4:
 						new Thread(() =>
 							{
 								while (!_isCanceled)
@@ -56,7 +58,7 @@ namespace Client
 								_isCanceled = false;
 							}).Start();
 						break;
-					case ConsoleKey.NumPad5:
+					case ConsoleKey.D5:
 						new Thread(() =>
 							{
 								while (!_isCanceled)
@@ -67,7 +69,7 @@ namespace Client
 								_isCanceled = false;
 							}).Start();
 						break;
-					case ConsoleKey.NumPad6:
+					case ConsoleKey.D6:
 						new Thread(() =>
 						{
 							while (!_isCanceled)

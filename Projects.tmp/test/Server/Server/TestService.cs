@@ -9,7 +9,6 @@ namespace Server
 		public void Void(int clientId)
 		{
 			Console.WriteLine("{0}: Void", clientId);
-			Thread.Sleep(1000);
 		}
 
 		public void VoidOneWay(int clientId)
