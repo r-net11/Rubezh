@@ -53,16 +53,6 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Unsubscribe(OnGKObjectsPropertyChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsPropertyChangedEvent>().Subscribe(OnGKObjectsPropertyChanged);
 		}
-		bool _isLogicToolTipVisible;
-		public bool IsLogicToolTipVisible
-		{
-			get { return _isLogicToolTipVisible; }
-			set
-			{
-				_isLogicToolTipVisible = value;
-				OnPropertyChanged(() => IsLogicToolTipVisible);
-			}
-		}
 		public string DescriptorName
 		{
 			get { return Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType); }
