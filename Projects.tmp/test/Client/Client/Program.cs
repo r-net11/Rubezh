@@ -11,8 +11,8 @@ namespace Client
 		static TestService _testService;
 		static void Main(string[] args)
 		{
-			var address = args.Length == 0 ? "localhost:1050" : args [0];
-			_testService = new TestService (address);
+			var address = args.Length == 0 ? "localhost:8000" : args[0];
+			_testService = new TestService(address);
 
 			UpdateTitle();
 
@@ -38,16 +38,20 @@ namespace Client
 					case ConsoleKey.Escape:
 						_isCanceled = true;
 						break;
-				case ConsoleKey.D1:
+					case ConsoleKey.NumPad1:
+					case ConsoleKey.D1:
 						InvokeAction(_testService.Void, "Void");
 						break;
-				case ConsoleKey.D2:
+					case ConsoleKey.NumPad2:
+					case ConsoleKey.D2:
 						InvokeAction(_testService.VoidOneWay, "VoidOneWay");
 						break;
-				case ConsoleKey.D3:
+					case ConsoleKey.NumPad3:
+					case ConsoleKey.D3:
 						InvokeRandomInt();
 						break;
-				case ConsoleKey.D4:
+					case ConsoleKey.NumPad4:
+					case ConsoleKey.D4:
 						new Thread(() =>
 							{
 								while (!_isCanceled)
@@ -58,6 +62,7 @@ namespace Client
 								_isCanceled = false;
 							}).Start();
 						break;
+					case ConsoleKey.NumPad5:
 					case ConsoleKey.D5:
 						new Thread(() =>
 							{
@@ -69,6 +74,7 @@ namespace Client
 								_isCanceled = false;
 							}).Start();
 						break;
+					case ConsoleKey.NumPad6:
 					case ConsoleKey.D6:
 						new Thread(() =>
 						{

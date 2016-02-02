@@ -14,7 +14,7 @@ namespace Client
 			ClientId = new Random().Next(10000, 99999);
 			var tcpUri = new Uri("net.tcp://" + address + "/TestService");
 			var endpointAddress = new EndpointAddress(tcpUri);
-			var binding = new NetTcpBinding();
+			var binding = BindingHelper.CreateBinding();
 			ChannelFactory<ITestService> factory = new ChannelFactory<ITestService>(binding, endpointAddress);
 			_service = factory.CreateChannel();
 		}
