@@ -33,15 +33,15 @@ namespace GKWebService.Controllers
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
-		public JsonResult GetMPTDevices(Guid uid)
+		public JsonResult GetMPTDevices(Guid id)
 		{
 			var data = new List<MPTDevice>();
-			var device = GKManager.MPTs.FirstOrDefault(x => x.UID == uid);
+			var device = GKManager.MPTs.FirstOrDefault(x => x.UID == id);
 			if (device != null)
 				device.MPTDevices.Select(x => x.Device).ToList().ForEach(x => data.Add(new MPTDevice(x)));
-
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
+
 
 		public JsonResult SetAutomaticState(Guid id)
 		{

@@ -16,7 +16,7 @@ namespace GKWebService.Models
 			UID = device.UID;
 			No = device.No;
 			GKDescriptorNo = device.GKDescriptorNo;
-			Name = device.Name;
+			Name = device.PresentationName;
 			//Delay = device.Delay;
 			//Hold = device.Hold;
 			//DelayRegime = device.DelayRegime.ToDescription();
@@ -42,7 +42,7 @@ namespace GKWebService.Models
 			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore);
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 		}
-		public Guid Uid { get; set; }
+
 				
 		public string  MPTDeviceType { get; set; }
 

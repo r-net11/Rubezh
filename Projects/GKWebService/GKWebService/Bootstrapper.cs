@@ -102,6 +102,10 @@ namespace GKWebService
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
+					if (DevicesHub.Instance!= null)
+					{
+						DevicesHub.Instance.DevicesUpdate(device);
+					}
 				}
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)

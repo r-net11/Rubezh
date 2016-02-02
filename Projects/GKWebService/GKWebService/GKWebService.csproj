@@ -203,7 +203,7 @@
     <Content Include="App\directives\d3Plan.js" />
     <Content Include="App\directives\ngJqGrid.js" />
     <Content Include="App\services\broadcastService.js" />
-    <Content Include="App\services\signalDevicesService.js" />
+    <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
     <Content Include="App\services\signalrFireZonesService.js" />
@@ -564,6 +564,7 @@
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
+    <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
