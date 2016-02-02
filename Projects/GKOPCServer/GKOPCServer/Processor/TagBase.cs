@@ -8,7 +8,6 @@ namespace GKOPCServer
 
 	{
 		public GKState State { get; private set; }
-		public GKDriverType DriverType { get; set; }
 		public Guid UID { get; private set; }
 
 		public TagBase(int tagId, GKState state, Guid uid)
