@@ -76,6 +76,11 @@ namespace PlansModule.ViewModels
 				var presenterItem = DesignerCanvas.CreateMonitorPresenterItem(elementBase);
 				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, elementBase.PlanUID));
 			}
+			foreach (var elementBase in Plan.ElementPolygonSubPlans)
+			{
+				var presenterItem = DesignerCanvas.CreateMonitorPresenterItem(elementBase);
+				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, elementBase.PlanUID));
+			}
 
 			foreach(var elementBase in Plan.ElementTextBoxes)
 			{
