@@ -17,7 +17,7 @@
 		<Grid Grid.Row="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" Name="rightColumn" />
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
 				<Border Width="50" Height="50" Margin="0, 0, 0, 5" Background="{Binding DevicePicture}" BorderThickness="0" />
@@ -164,10 +164,16 @@
 									</TextBlock>
 								</StackPanel>
 								<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Device.Driver.HasLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-									<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Логика: " />
-									<TextBlock>
+									<TextBlock  Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Логика: " />
+                                    <TextBlock Name="logicTextBlock">
 										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
+											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="2">
+                                                <TextBlock.ToolTip>
+                                                    <ToolTip Visibility="{Binding IsLogicToolTipVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                        <TextBlock Text="{Binding PresentationZone}" />
+													</ToolTip>
+												</TextBlock.ToolTip>
+											</TextBlock>
 										</StackPanel>
 									</TextBlock>
 								</StackPanel>
