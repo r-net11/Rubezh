@@ -165,7 +165,7 @@ namespace FiresecAPI.SKD
 			if(SlideTime != TimeSpan.Zero)
 				CombinedTimeTrackParts = CorrectDocumentIntervals(CombinedTimeTrackParts, SlideTime);
 
-			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts, IsOnlyFirstEnter);
+			RealTimeTrackPartsForCalculates = FillTypesForRealTimeTrackParts(RealTimeTrackPartsForCalculates, PlannedTimeTrackParts);
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
@@ -643,16 +643,15 @@ namespace FiresecAPI.SKD
 		/// </summary>
 		/// <param name="realTimeTrackParts">Коллекция временных интервалов проходов сотрудника</param>
 		/// <param name="plannedTimeTrackParts">Коллекция временных интервалов графика работ</param>
-		/// <param name="isOnlyFirstEnter">Флаг-параметр указывает, используется ли "первый вход-последний выход"</param>
 		/// <returns>Коллекция временных интервалов проходов сотрудника с заполненными типами проходов</returns>
-		private List<TimeTrackPart> FillTypesForRealTimeTrackParts(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, bool isOnlyFirstEnter)
+		private List<TimeTrackPart> FillTypesForRealTimeTrackParts(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts)
 		{
 			var resultCollection = new List<TimeTrackPart>();
 			var scheduleTimeInterval = GetPlannedScheduleInterval(plannedTimeTrackParts);
 
 			foreach (var timeTrackPart in realTimeTrackParts.Where(timeTrackPart => timeTrackPart.ExitDateTime.HasValue))
 			{
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, isOnlyFirstEnter, scheduleTimeInterval,
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, scheduleTimeInterval,
 					new ScheduleInterval(timeTrackPart.EnterDateTime, timeTrackPart.ExitDateTime.Value));
 				resultCollection.Add(timeTrackPart);
 			}
@@ -801,7 +800,7 @@ namespace FiresecAPI.SKD
 				var documentTimeTrack = documentTimeTrackParts.Where(x => x.ExitDateTime.HasValue).FirstOrDefault(x => x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay
 																			&& x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay);
 
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, IsOnlyFirstEnter, GetPlannedScheduleInterval(plannedTimeTrackParts), combinedInterval);
+				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, GetPlannedScheduleInterval(plannedTimeTrackParts), combinedInterval);
 
 				//Если на временной интервал есть документ
 				if (documentTimeTrack != null)
@@ -857,21 +856,21 @@ namespace FiresecAPI.SKD
 		/// <param name="schedulePlannedInterval">Начальное и конечное время графика работы</param>
 		/// <param name="combinedInterval">Начальное время и конечное время временного интервала в УРВ</param>
 		/// <returns>Возвращает тип интервала прохода для расчета баланса</returns>
-		public TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts,  bool isOnlyFirstEnter, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
+		public TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
 		{
 			bool hasRealTimeTrack = false, hasPlannedTimeTrack = false;
-				hasRealTimeTrack = realTimeTrackParts
-					.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
-					.Any(x => combinedInterval.EndTime != null
-						&& (x.ExitDateTime != null
-							&& (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+			hasRealTimeTrack = realTimeTrackParts
+				.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
+				.Any(x => combinedInterval.EndTime != null
+					&& (x.ExitDateTime != null
+						&& (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
 
-				hasPlannedTimeTrack = plannedTimeTrackParts
-					.Where(x => x.ExitDateTime.HasValue)
-					.Any(x =>
-						combinedInterval.EndTime != null &&
-						(x.ExitDateTime != null &&
-						(x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+			hasPlannedTimeTrack = plannedTimeTrackParts
+				.Where(x => x.ExitDateTime.HasValue)
+				.Any(x =>
+					combinedInterval.EndTime != null &&
+					(x.ExitDateTime != null &&
+					(x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack) //TODO: hasPlannedTimeTrack flag may be killed by inserting (timeTrackPart.StartTime >= schedulePlannedInterval.StartTime && timeTrackPart.EndTime <= schedulePlannedInterval.EndTime)
 			{
@@ -893,14 +892,6 @@ namespace FiresecAPI.SKD
 
 			//Если нет интервала прохода сотрудника, но есть интервал рабочего графика
 			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
-
-			//Если учитывается первый вход-последний выход и проход в рамках графика, то "Отсутствие в рамках графика"
-			if (realTimeTrackParts
-				.Any(x => x.EnterDateTime.TimeOfDay >= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)
-				&& isOnlyFirstEnter)
-			{
-				return TimeTrackType.Presence;
-			}
 
 			if (plannedTimeTrackParts.Any(x => x.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) && //TODO: describe it
 				plannedTimeTrackParts.All(x => x.ExitDateTime.Value.TimeOfDay != timeTrackPart.ExitDateTime.Value.TimeOfDay) &&

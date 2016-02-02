@@ -30,7 +30,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var plannedTimeTrackPartCollection = new List<TimeTrackPart> {plannedTimeTrackPart};
 
 			//Act
-			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
+			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, plannedTimeInterval,
 				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
 
 			//Assert
@@ -54,7 +54,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPart };
 
 			//Act
-			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
+			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, plannedTimeInterval,
 				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
 
 			//Assert
@@ -79,7 +79,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPart };
 
 			//Act
-			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
+			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, plannedTimeInterval,
 				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
 
 			//Assert
@@ -104,7 +104,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPart };
 
 			//Act
-			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
+			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, plannedTimeInterval,
 				new DayTimeTrack.ScheduleInterval(realTimeTrackPart.EnterDateTime, realTimeTrackPart.ExitDateTime));
 
 			//Assert
@@ -129,7 +129,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPart };
 
 			//Act
-			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
+			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, plannedTimeInterval,
 				new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(6), TIME.Date + TimeSpan.FromHours(7)));
 
 			//Assert
@@ -154,7 +154,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var plannedTimeTrackPartCollection = new List<TimeTrackPart> { plannedTimeTrackPart };
 
 			//Act
-			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, false, plannedTimeInterval,
+			TimeTrackType type = dayTimeTrack.GetTimeTrackType(realTimeTrackPart, plannedTimeTrackPartCollection, realTimeTrackPartsCollection, plannedTimeInterval,
 				new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(10)));
 
 			//Assert
@@ -742,53 +742,6 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var firstOrDefault = dayTimeTrack.CombinedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == TimeSpan.FromHours(17));
 			if (firstOrDefault != null)
 				Assert.AreEqual(firstOrDefault.TimeTrackPartType, TimeTrackType.Overtime);
-		}
-
-		[Test]
-		public void IsOnlyFirstEnterFalseTest()
-		{
-			var timeTrackPart = new TimeTrackPart
-			{
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(11),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
-			};
-
-			var combinedTimeTrackPart = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(11),
-				TIME.Date + TimeSpan.FromHours(15));
-
-			var plannedTimeTrackParts = new List<TimeTrackPart>
-			{
-				new TimeTrackPart
-				{
-					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-					ExitDateTime = TIME.Date + TimeSpan.FromHours(17)
-				}
-			};
-
-			var realTimeTrackParts = new List<TimeTrackPart>
-			{
-				new TimeTrackPart
-				{
-					EnterDateTime = TIME.Date + TimeSpan.FromHours(8),
-					ExitDateTime = TIME.Date + TimeSpan.FromHours(10)
-				},
-				new TimeTrackPart
-				{
-					EnterDateTime = TIME.Date + TimeSpan.FromHours(15),
-					ExitDateTime = TIME.Date + TimeSpan.FromHours(17)
-				}
-			};
-
-			DayTimeTrack.ScheduleInterval schedulePlannedInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(17));
-			DayTimeTrack.ScheduleInterval combinedInterval = new DayTimeTrack.ScheduleInterval(TIME.Date + TimeSpan.FromHours(8), TIME.Date + TimeSpan.FromHours(17));
-
-
-			bool isOnlyFirstEnter = false;
-
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, isOnlyFirstEnter,
-				schedulePlannedInterval, combinedTimeTrackPart);
-			Assert.AreEqual(result, TimeTrackType.Absence);
 		}
 
 		#endregion
