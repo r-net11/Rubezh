@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('fireZonesCtrl',
-        ['$scope', '$http', '$timeout', '$uibModal', 'signalrFireZonesService',
-        function ($scope, $http, $timeout, $uibModal, signalrFireZonesService) {
+        ['$scope', '$http', '$timeout', '$uibModal', 'signalrFireZonesService', 'broadcastService',
+        function ($scope, $http, $timeout, $uibModal, signalrFireZonesService, broadcastService) {
 
             $scope.gridOptions = {
                 enableRowHeaderSelection: false,
@@ -45,8 +45,10 @@
             };
 
             $scope.changeZone = function (row) {
-                $scope.$parent.zoneNumber = row.entity.No - 1;
-                angular.element(document.getElementById('devices')).scope().main();
+                //$scope.$parent.zoneNumber = row.entity.No - 1;
+                //angular.element(document.getElementById('devices')).scope().main();
+
+                broadcastService.send('selectedZoneChanged', row.entity.No - 1);
             }
 
             $http.get('FireZones/GetFireZonesData').success(function (data, status, headers, config) {
@@ -63,7 +65,7 @@
             };
 
             //Номер активной зоны
-            $scope.$parent.zoneNumber = 0;
+            //$scope.$parent.zoneNumber = 0;
         }]
     );
 }());
