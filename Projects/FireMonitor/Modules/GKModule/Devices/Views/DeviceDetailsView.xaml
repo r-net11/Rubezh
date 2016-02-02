@@ -163,14 +163,10 @@
 										</Hyperlink>
 									</TextBlock>
 								</StackPanel>
-								<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Device.Driver.HasLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-									<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Логика: " />
-									<TextBlock>
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
-										</StackPanel>
-									</TextBlock>
-								</StackPanel>
+								<WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Device.Driver.HasLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+									<TextBlock  Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Логика: " />
+									<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="2" />
+								</WrapPanel>
 								<WrapPanel.Style>
 									<Style>
 										<Style.Triggers>

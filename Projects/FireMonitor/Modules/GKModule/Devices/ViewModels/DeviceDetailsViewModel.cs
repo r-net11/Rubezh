@@ -1,21 +1,21 @@
-﻿using System;
+﻿using DeviceControls;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using System.Windows.Media;
-using DeviceControls;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
-using System.Collections.Generic;
-using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

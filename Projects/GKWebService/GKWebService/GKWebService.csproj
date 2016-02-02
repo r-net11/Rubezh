@@ -185,6 +185,7 @@
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
+    <Content Include="App\controllers\devices\devicesCtrl.js" />
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
     <Content Include="App\controllers\directions\directionsCtrl.js" />
@@ -550,6 +551,7 @@
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DelaysController.cs" />
+    <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\FireZonesController.cs" />
@@ -562,10 +564,12 @@
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
+    <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="Models\MPT\MPTDevice.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
@@ -648,7 +652,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\State.cshtml" />
-    <Content Include="Views\Home\Device.cshtml" />
+    <Content Include="Views\Devices\Index.cshtml" />
     <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
     <Content Include="Views\Hr\HrEmployees.cshtml" />
