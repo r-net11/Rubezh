@@ -9,10 +9,11 @@ namespace Client
 		static bool _isCanceled;
 		static int _period = 1024;
 		static TestService _testService;
+		static string _address;
 		static void Main(string[] args)
 		{
-			var address = args.Length == 0 ? "localhost:8000" : args[0];
-			_testService = new TestService(address);
+			_address = args.Length == 0 ? "localhost:1050" : args[0];
+			_testService = new TestService(_address);
 
 			UpdateTitle();
 
@@ -37,6 +38,10 @@ namespace Client
 						break;
 					case ConsoleKey.Escape:
 						_isCanceled = true;
+						break;
+					case ConsoleKey.NumPad0:
+					case ConsoleKey.D0:
+						InvokeOperationResult();
 						break;
 					case ConsoleKey.NumPad1:
 					case ConsoleKey.D1:
@@ -92,7 +97,7 @@ namespace Client
 
 		static void UpdateTitle()
 		{
-			Console.Title = string.Format("ClientId: {0}, Period: {1}", _testService.ClientId, _period);
+			Console.Title = string.Format("Address: {0}, ClientId: {1}, Period: {2}", _address, _testService.ClientId, _period);
 		}
 
 		static void InvokeAction(Action action, string actionName)
@@ -119,7 +124,17 @@ namespace Client
 			_isCanceled = false;
 		}
 
+		static void InvokeOperationResult()
+		{
+			var stopWatch = new Stopwatch();
+			stopWatch.Start();
 
+			var result = _testService.OperationResult();
+
+			stopWatch.Stop();
+			Console.WriteLine("OperationResult = {0}: {1} ms", result.Result, stopWatch.ElapsedMilliseconds);
+			_isCanceled = false;
+		}
 
 		static void Void()
 		{

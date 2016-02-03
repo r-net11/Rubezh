@@ -34,6 +34,11 @@ namespace Client
 			return _service.RandomInt(clientId, delay);
 		}
 
+		public OperationResult<bool> OperationResult(int clientId)
+		{
+			return _service.OperationResult(clientId);
+		}
+
 		public void Void()
 		{
 			Void(ClientId);
@@ -48,5 +53,11 @@ namespace Client
 		{
 			return RandomInt(ClientId, delay);
 		}
+
+		public OperationResult<bool> OperationResult()
+		{
+			return OperationResult(ClientId);
+		}
+
 	}
 }
