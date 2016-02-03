@@ -24,6 +24,13 @@ namespace FiresecService
 
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.ApplicationExit += Application_ApplicationExit;
+			var view = new MainWinFormView();
+			var presenter = new MainPresenter(view);
+			view.WindowState = FormWindowState.Minimized;
+
 			try
 			{
 				Bootstrapper.Run();
@@ -37,13 +44,7 @@ namespace FiresecService
 				return;
 			}
 
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.ApplicationExit += Application_ApplicationExit;
-			var view = new MainWinFormView();
-			var presenter = new MainPresenter(view);
 			Application.Run(view);
-
 		}
 
 		static void Application_ApplicationExit(object sender, EventArgs e)

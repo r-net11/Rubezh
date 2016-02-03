@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace FiresecService.Views
 {
@@ -16,7 +17,6 @@ namespace FiresecService.Views
 		/// Status bar: Последение событие сервера
 		/// </summary>
 		string LastLog { get; set; }
-
 		/// <summary>
 		/// Tray: Выводит сообщение
 		/// </summary>

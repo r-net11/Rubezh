@@ -197,7 +197,11 @@
 			this.Controls.Add(this._tabControlMain);
 			this.Controls.Add(this._statusStripMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "MainWinFormView";
+			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MainWinFormView";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EventHandler_MainWinFormView_FormClosing);
 			this.Load += new System.EventHandler(this.EventHandler_MainWinFormView_Load);
