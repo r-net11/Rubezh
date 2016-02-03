@@ -1,4 +1,6 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Collections.Generic;
+using DevExpress.Office.Utils;
+using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using System;
@@ -27,6 +29,8 @@ namespace FiresecService.Report.Templates
 			get { return "Справка по отработанному времени"; }
 		}
 
+		protected bool AllowOnlyAcceptedOvertime { get; set; }
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<WorkingTimeReportFilter>();
@@ -53,77 +57,108 @@ namespace FiresecService.Report.Templates
 				var timeTrackEmployeeResult = timeTrackResult.Result.TimeTrackEmployeeResults.FirstOrDefault(x => x.ShortEmployee.UID == employee.UID);
 				if (timeTrackEmployeeResult != null)
 				{
-					var totalScheduleDay = new TimeSpan();
-					var totalScheduleNight = new TimeSpan();
-					var totalPresence = new TimeSpan();
-					var totalOvertime = new TimeSpan();
-					var totalNight = new TimeSpan();
-					var totalDocumentOvertime = new TimeSpan();
-					var totalDocumentAbsence = new TimeSpan();
-					var balance = new TimeSpan();
+					var totalScheduleDay = default(double);
+					var totalScheduleNight = default(double);
+					var totalPresence = default(double);
+					var totalOvertime = default(double);
+					var totalNight = default(double);
+					var totalDocumentOvertime = default(double);
+					var totalDocumentAbsence = default(double);
+					var totalAbsence = default(double);
+					var documentPresenceTotal = default(double);
+					var documentAbsenceReasTotal = default(double);
 					foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 					{
 						dayTimeTrack.Calculate();
-						//if (dayTimeTrack.NightSettings != null && dayTimeTrack.NightSettings.IsNightSettingsEnabled)
-							totalScheduleNight += dayTimeTrack.NightTimeForToday;
+						totalScheduleNight += dayTimeTrack.GetNightTotalTime();
 
 						totalScheduleDay = dayTimeTrack.SlideTime != default(TimeSpan)
-											? dayTimeTrack.SlideTime
-											: dayTimeTrack.PlannedTimeTrackParts.Aggregate(totalScheduleDay, (current, plannedPart) => current + plannedPart.Delta);
+											? dayTimeTrack.SlideTime.TotalHours
+											: dayTimeTrack.PlannedTimeTrackParts.Aggregate(totalScheduleDay, (current, plannedPart) => current + plannedPart.Delta.TotalHours);
 
 						var presence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence);
 						if (presence != null)
 						{
-							totalPresence += presence.TimeSpan;
+							totalPresence += presence.TimeSpan.TotalHours;
 						}
 
 						var overtime = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Overtime);
 						if (overtime != null)
 						{
-							totalOvertime += overtime.TimeSpan;
+							totalOvertime += overtime.TimeSpan.TotalHours;
 						}
 
 						var night = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Night);
 						if (night != null)
 						{
-							totalNight += night.TimeSpan;
+							totalNight += night.TimeSpan.TotalHours;
 						}
 
 						var documentOvertime = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentOvertime);
 						if (documentOvertime != null)
 						{
-							totalDocumentOvertime += documentOvertime.TimeSpan;
+							totalDocumentOvertime += documentOvertime.TimeSpan.TotalHours;
 						}
 
 						var documentAbsence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentAbsence);
 						if (documentAbsence != null)
 						{
-							totalDocumentAbsence += documentAbsence.TimeSpan;
+							totalDocumentAbsence += documentAbsence.TimeSpan.TotalHours;
 						}
 
 						var balanceTotal = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Balance);
 						if (balanceTotal != null)
 						{
-							balance += balanceTotal.TimeSpan;
+						}
+
+						var absence = dayTimeTrack.Totals.Where(x => x.TimeTrackType == TimeTrackType.Absence
+						                                        || x.TimeTrackType == TimeTrackType.EarlyLeave
+						                                        || x.TimeTrackType == TimeTrackType.Late)
+																.Select(x => x.TimeSpan.TotalHours);
+						if (absence != null)
+						{
+							totalAbsence += absence.Aggregate(default(double), (s, i) => s + i);
+						}
+
+						var documentPresence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentPresence);
+						if (documentPresence != null)
+						{
+							documentPresenceTotal += documentPresence.TimeSpan.TotalHours;
+						}
+
+						var documentAbsenceReas = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentAbsenceReasonable);
+						if (documentAbsenceReas != null)
+						{
+							documentAbsenceReasTotal += documentAbsenceReas.TimeSpan.TotalHours;
 						}
 					}
-					dataRow.ScheduleDay = totalScheduleDay.TotalHours;
-					dataRow.ScheduleNight = totalScheduleNight.TotalHours;
-					dataRow.Presence = totalPresence.TotalHours;
-					dataRow.Overtime = totalOvertime.TotalHours;
-					dataRow.Night = totalNight.TotalHours;
-					dataRow.TotalPresence = totalPresence.TotalHours + totalOvertime.TotalHours + totalNight.TotalHours;
-					dataRow.DocumentOvertime = totalDocumentOvertime.TotalHours;
-					dataRow.DocumentAbsence = totalDocumentAbsence.TotalHours;
-					dataRow.Balance = balance.TotalHours;
-					dataRow.TotalBalance = balance.TotalHours;
-					//dataRow.Balance = -(dataRow.ScheduleDay + dataRow.ScheduleNight) + dataRow.TotalPresence;
-					//	dataRow.TotalBalance = dataRow.Balance + dataRow.DocumentOvertime - dataRow.DocumentAbsence;
-				}
 
+					dataRow.ScheduleDay = totalScheduleDay;
+					dataRow.ScheduleNight = totalScheduleNight;
+					dataRow.RealPresence = totalPresence;
+					dataRow.RealNightTime = totalNight;
+					dataRow.TotalAbsence = totalAbsence;
+					dataRow.TotalNonAcceptedOvertime = totalOvertime;
+					dataRow.DocumentPresence = documentPresenceTotal;
+					dataRow.DocumentAbsenceReasonable = documentAbsenceReasTotal;
+					dataRow.DocumentAbsence = totalDocumentAbsence;
+					dataRow.DocumentOvertime = totalDocumentOvertime;
+					dataRow.TotalBalance = GetBalanceWithoutNonAcceptedOvertime(totalDocumentOvertime, totalAbsence, totalDocumentAbsence, totalOvertime, filter.AllowOnlyAcceptedOvertime);
+				}
+				dataRow.TotalBalanceHeaderName = filter.AllowOnlyAcceptedOvertime
+												? "Баланс (без учета неподтвержденных переработок)"
+												: "Баланс (включая неподтвержденные переработки)";
 				dataSet.Data.Rows.Add(dataRow);
 			}
 			return dataSet;
+		}
+
+		private double GetBalanceWithoutNonAcceptedOvertime(double totalDocumentOvertime, double totalAbsence, double totalDocumentAbsence, double totalOvertime, bool allowOnlyAcceptedOvertime)
+		{
+			return allowOnlyAcceptedOvertime
+				? totalDocumentOvertime - (totalAbsence + totalDocumentAbsence)
+				: (totalOvertime + totalDocumentOvertime) - (totalAbsence + totalDocumentAbsence);
+
 		}
 	}
 }

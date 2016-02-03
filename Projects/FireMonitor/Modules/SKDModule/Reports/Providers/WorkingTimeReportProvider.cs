@@ -8,29 +8,27 @@ namespace SKDModule.Reports.Providers
 {
 	public class WorkingTimeReportProvider : FilteredSKDReportProvider<WorkingTimeReportFilter>
 	{
-		public WorkingTimeReportProvider()
-			: base("Справка по отработанному времени", 424, SKDReportGroup.TimeTracking, PermissionType.Oper_Reports_WorkTime)
+		public WorkingTimeReportProvider() : base("Справка по отработанному времени", 424, SKDReportGroup.TimeTracking, PermissionType.Oper_Reports_WorkTime)
 		{
 		}
 
 		public override FilterModel GetFilterModel()
 		{
-			return new FilterModel()
+			return new FilterModel
 			{
-				Columns = new Dictionary<string, string> 
-				{ 
+				Columns = new Dictionary<string, string>
+				{
 					{ "Employee", "Сотрудник" },
 					{ "Department", "Подразделение" },
 					{ "Position", "Должность" },
-					{ "Balance", "Баланс отработанного времени" },
-					{ "TotalBalance", "Итоговый баланс" },
+					{ "Balance", "Баланс" }
 				},
-				Pages = new List<FilterContainerViewModel>()
+				Pages = new List<FilterContainerViewModel>
 				{
 					new OrganizationPageViewModel(true),
 					new DepartmentPageViewModel(),
 					new PositionPageViewModel(),
-					new EmployeePageViewModel(),
+					new EmployeePageViewModel()
 				},
 			};
 		}
