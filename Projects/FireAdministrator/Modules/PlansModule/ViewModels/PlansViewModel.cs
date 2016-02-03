@@ -54,7 +54,7 @@ namespace PlansModule.ViewModels
 			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
 			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
-				if (e.Element is ElementRectangleSubPlan)
+				if (e.Element is IElementSubPlan)
 				{
 					e.DesignerItem = new DesignerItemSubPlan(e.Element);
 					e.DesignerItem.IconSource = "/Controls;component/Images/CMap.png";
@@ -410,9 +410,14 @@ namespace PlansModule.ViewModels
 		private void ClearReferences(Plan plan)
 		{
 			foreach (var p in ClientManager.PlansConfiguration.AllPlans)
+			{
 				foreach (var subPlan in p.ElementSubPlans)
 					if (subPlan.PlanUID == plan.UID)
 						Helper.SetSubPlan(subPlan);
+				foreach (var subPlan in p.ElementPolygonSubPlans)
+					if (subPlan.PlanUID == plan.UID)
+						Helper.SetSubPlan(subPlan);
+			}
 		}
 
 		private static void MoveItem<T>(ObservableCollection<T> parent, T item, int increment)

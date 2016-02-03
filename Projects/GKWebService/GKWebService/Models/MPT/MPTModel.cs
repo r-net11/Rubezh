@@ -23,15 +23,25 @@ namespace GKWebService.Models
 			Name = mpt.Name;
 			MptLogic = GKManager.GetPresentationLogic(mpt.MptLogic);
 			Delay = mpt.Delay;
+			Hold = mpt.Hold;
+ 			DelayRegime = mpt.DelayRegime.ToDescription();
+
+			State = mpt.State.StateClass.ToDescription();
 			StateIcon = mpt.State.StateClass.ToString();
 			StateClasses = mpt.State.StateClasses.Select(x => new DirectionStateClass(x)).ToList();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(mpt.State.StateClass, null, null, null).ToString().Substring(3) + "'";
-			HasOnMPT = mpt.State.StateClasses.Contains(XStateClass.TurningOn) && Delay > 0;
+
+			HasOnDelay = mpt.State.StateClasses.Contains(XStateClass.TurningOn) && mpt.State.OnDelay > 0;
+			OnDelay = mpt.State.OnDelay;
+			HoldDelay = mpt.State.HoldDelay;
+			HasHoldDelay = mpt.State.StateClasses.Contains(XStateClass.On) && mpt.State.HoldDelay > 0;
+
 			var controlRegime = mpt.State.StateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore
 				: !mpt.State.StateClasses.Contains(XStateClass.AutoOff) ? DeviceControlRegime.Automatic : DeviceControlRegime.Manual;
 			//ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string)new DeviceControlRegimeToIconConverter().Convert(controlRegime)) ?? string.Empty).Item1;
 			ControlRegimeName = controlRegime.ToDescription();
+			ControlRegimeIcon = (new DeviceControlRegimeToIconConverter()).Convert(controlRegime);
 			CanSetAutomaticState = (controlRegime != DeviceControlRegime.Automatic);
 			CanSetManualState = (controlRegime != DeviceControlRegime.Manual);
 			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore);
@@ -51,10 +61,21 @@ namespace GKWebService.Models
 		public bool IsControlRegime { get; set; }
 		public string ControlRegimeName { get; set; }
 		public string ControlRegimeIcon { get; set; }
-		public bool HasOnMPT { get; set; }
+		public bool HasOnDelay { get; set; }
 		public ushort GKDescriptorNo { get; set; }
 		public List<DirectionStateClass> StateClasses { get; set; }
 
+		public string DelayRegime { get; set; }
 		public string StateColor { get; set; }
+
+		public int Hold { get; set; }
+
+		public string State { get; set; }
+
+		public int OnDelay { get; set; }
+
+		public int HoldDelay { get; set; }
+
+		public bool HasHoldDelay { get; set; }
 	}
 }

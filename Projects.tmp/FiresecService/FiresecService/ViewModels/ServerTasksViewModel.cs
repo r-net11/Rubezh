@@ -33,29 +33,25 @@ namespace FiresecService.ViewModels
 
 		public void Add(ServerTask serverTask)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var serverTaskViewModel = new ServerTaskViewModel(serverTask);
+			var serverTaskViewModel = new ServerTaskViewModel(serverTask);
 				ServerTasks.Add(serverTaskViewModel);
-			}));
+
 		}
 		public void Remove(ServerTask serverTask)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
+			
 				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
 					ServerTasks.Remove(serverTaskViewModel);
-			}));
+			
 		}
 		public void Edit(ServerTask serverTask)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
+			
 				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
 					serverTaskViewModel.ServerTask = serverTask;
-			}));
+			
 		}
 	}
 

@@ -94,7 +94,7 @@ namespace PlansModule.Designer
 		{
 			return ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == element.PlanUID);
 		}
-		public static string GetSubPlanTitle(ElementRectangleSubPlan element)
+		public static string GetSubPlanTitle(IElementSubPlan element)
 		{
 			Plan plan = GetPlan(element);
 			if (plan == null && element.PlanUID != Guid.Empty)

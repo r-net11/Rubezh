@@ -9,18 +9,18 @@ using RubezhAPI.GK;
 
 namespace GKWebService.DataProviders.MPTHubs
 {
-	[HubName("mptHub")]
-	public class MPTHub : Hub
+	[HubName("mptsUpdater")]
+	public class MptUpdaterHub : Hub
 	{
-		public static MPTHub Instance { get; private set; }
-		 MPTHub()
+		public static MptUpdaterHub Instance { get; private set; }
+		public MptUpdaterHub()
 		{
 			Instance = this;
 		}
-		 public void MPTStateIconUpdate(GKMPT mpt)
+		 public void MptUpdate(GKMPT mpt)
 		{
 			var mptModel = new MPTModel(mpt);
-			Clients.All.mptStateUpdate(mpt);
+			Clients.All.mptUpdate(mptModel);
 		}
 	}
 }

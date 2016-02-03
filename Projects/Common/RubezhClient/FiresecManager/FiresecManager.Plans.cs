@@ -24,6 +24,12 @@ namespace RubezhClient
                             elementSubPlans.Add(elementSubPlan);
                     Plan.ElementSubPlans = elementSubPlans;
 
+					var elementPolygonSubPlans = new List<ElementPolygonSubPlan>();
+					foreach (var elementSubPlan in Plan.ElementPolygonSubPlans)
+						if (keys.Contains(elementSubPlan.PlanUID))
+							elementPolygonSubPlans.Add(elementSubPlan);
+					Plan.ElementPolygonSubPlans = elementPolygonSubPlans;
+
                     keys = GKManager.Zones.Select(item => item.UID).ToList();
                     var elementRectangleGKZones = new List<ElementRectangleGKZone>();
                     foreach (var elementRectangleGKZone in Plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty))

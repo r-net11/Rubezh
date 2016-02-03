@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GKWebService.Models;
+using GKWebService.Utils;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
@@ -22,6 +23,7 @@ namespace GKWebService.Controllers
             return View();
         }
 
+		[ErrorHandler]
 		public JsonResult GetDirections()
 		{
 			var directions = new List<Direction>();
@@ -35,6 +37,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ErrorHandler]
 	    public JsonResult SetAutomaticState(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
@@ -47,7 +50,8 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-	    public JsonResult SetManualState(Guid id)
+		[ErrorHandler]
+		public JsonResult SetManualState(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
@@ -59,7 +63,8 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-	    public JsonResult SetIgnoreState(Guid id)
+		[ErrorHandler]
+		public JsonResult SetIgnoreState(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
@@ -71,7 +76,8 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-	    public JsonResult TurnOn(Guid id)
+		[ErrorHandler]
+		public JsonResult TurnOn(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
@@ -83,7 +89,8 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-	    public JsonResult TurnOnNow(Guid id)
+		[ErrorHandler]
+		public JsonResult TurnOnNow(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
@@ -95,7 +102,8 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-	    public JsonResult TurnOff(Guid id)
+		[ErrorHandler]
+		public JsonResult TurnOff(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
@@ -107,7 +115,8 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-	    public JsonResult ForbidStart(Guid id)
+		[ErrorHandler]
+		public JsonResult ForbidStart(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)

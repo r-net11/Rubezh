@@ -1,18 +1,16 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using GKModule.Events;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Prism.Events;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -114,6 +112,10 @@ namespace GKModule.ViewModels
 			if (Alarm.GkBaseEntity is GKDirection)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(Alarm.GkBaseEntity.UID);
+			}
+			if (Alarm.GkBaseEntity is GKPumpStation)
+			{
+				ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
 			if (Alarm.GkBaseEntity is GKMPT)
 			{
@@ -338,6 +340,12 @@ namespace GKModule.ViewModels
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					return true;
 			}
+
+			if (Alarm.GkBaseEntity is GKPumpStation)
+			{
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
+					return true;
+			}
 			return false;
 		}
 		public bool CanResetIgnoreCommand
@@ -365,6 +373,15 @@ namespace GKModule.ViewModels
 					if (direction.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					{
 						ClientManager.FiresecService.GKSetAutomaticRegime(direction);
+					}
+				}
+
+				var pumpStation = Alarm.GkBaseEntity as GKPumpStation;
+				if (pumpStation != null)
+				{
+					if (pumpStation.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
+					{
+						ClientManager.FiresecService.GKSetAutomaticRegime(pumpStation);
 					}
 				}
 
@@ -424,6 +441,7 @@ namespace GKModule.ViewModels
 			GKZone zone;
 			GKGuardZone guardZone;
 			GKDirection direction;
+			GKPumpStation pumpStation;
 			GKMPT mpt;
 			GKDelay delay;
 			GKDoor door;
@@ -443,6 +461,10 @@ namespace GKModule.ViewModels
 			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
 			{
 				DialogService.ShowWindow(new DirectionDetailsViewModel(direction));
+			}
+			if ((pumpStation = Alarm.GkBaseEntity as GKPumpStation) != null)
+			{
+				DialogService.ShowWindow(new PumpStationDetailsViewModel(pumpStation));
 			}
 			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
 			{
