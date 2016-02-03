@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using Controls.Converters;
+using GKWebService.Models;
 
 namespace GKWebService.DataProviders.FireZones
 {
@@ -67,7 +68,6 @@ namespace GKWebService.DataProviders.FireZones
                     StateMessage = zone.State.StateClass.ToDescription(),
                     CanTurnOff = Convert.ToString(zone.State.StateClasses[0]) == "Norm",
                     CanTurnOn = Convert.ToString(zone.State.StateClasses[0]) == "Ignore",
-                    CanReset = Convert.ToString(zone.State.StateClasses[0]) == "Norm", 
                     GKDescriptorNo = zone.GKDescriptorNo
                 });
             }

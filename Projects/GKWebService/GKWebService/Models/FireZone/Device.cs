@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GKWebService.Models.FireZone
+namespace GKWebService.Models
 {
     public class Device
     {

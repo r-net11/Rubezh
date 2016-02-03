@@ -1,8 +1,9 @@
 ﻿using Common;
+using FiresecService.Presenters;
 using FiresecService.Processor;
 using FiresecService.Report;
 using FiresecService.Service;
-using FiresecService.ViewModels;
+//using FiresecService.ViewModels;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
@@ -18,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace FiresecService
 {

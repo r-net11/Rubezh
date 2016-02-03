@@ -1,6 +1,5 @@
 ﻿
 $(document).ready(function () {
-
     $("#jqGridArchive").jqGrid({
         url: '/Journal/GetJournal',
         datatype: "json",
@@ -17,32 +16,20 @@ $(document).ready(function () {
         viewrecords: true,
         pager: "#jqGridArchivePager"
     });
-
-
 });
-
-
 
 function ArchiveViewModel() {
     var self = {};
-
     self.DeviceDate = ko.observable();
     self.SystemDate = ko.observable();
     self.Name = ko.observable();
     self.Desc = ko.observable();
-
     $('#jqGridArchive').on('jqGridSelectRow', function (event, id, selected) {
-
         var myGrid = $('#jqGrid');
-
         self.DeviceDate(myGrid.jqGrid('getCell', id, 'DeviceDate'));
         self.SystemDate(myGrid.jqGrid('getCell', id, 'SystemDate'));
         self.Name(myGrid.jqGrid('getCell', id, 'Name'));
         self.Desc(myGrid.jqGrid('getCell', id, 'Desc'));
     });
-
-
-
-
     return self;
 }

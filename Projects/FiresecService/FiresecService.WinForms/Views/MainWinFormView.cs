@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace FiresecService.Views
 {
@@ -74,6 +75,10 @@ namespace FiresecService.Views
 			{
 				ShowInTaskbar = true;
 				Visible = true;
+			}
+			if (WindowState == FormWindowState.Minimized)
+			{
+				WindowState = FormWindowState.Normal;
 			}
 		}
 
