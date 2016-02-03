@@ -233,7 +233,7 @@
 				</DataGrid>
 			</TabItem>
 			<TabItem Header="Измерения" Visibility="{Binding HasMeasureParameters, Converter={StaticResource BoolToVisibilityConverter}}">
-				<DataGrid CanUserSortColumns="True" ItemsSource="{Binding MeasureParameters}">
+				<DataGrid CanUserSortColumns="True" ItemsSource="{Binding MeasureParameters}" SelectedItem="{Binding SelectedMeasureParameter, UpdateSourceTrigger=PropertyChanged}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Width="*" Header="Параметр">
 							<DataGridTemplateColumn.CellTemplate>
