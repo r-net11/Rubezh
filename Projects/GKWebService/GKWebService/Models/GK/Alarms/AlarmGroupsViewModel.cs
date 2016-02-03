@@ -31,5 +31,22 @@ namespace GKWebService.Models.GK.Alarms
 			AlarmGroups.Add(new AlarmGroupViewModel(GKAlarmType.Turning));
 		}
 
+		public void Update(List<Alarm> alarms)
+		{
+			foreach (var alarmGroup in AlarmGroups)
+			{
+				var alarmViewModels = new List<AlarmViewModel>();
+				foreach (var alarm in alarms)
+				{
+					if (alarm.AlarmType == alarmGroup.AlarmType)
+					{
+						var alarmViewModel = new AlarmViewModel(alarm);
+						alarmViewModels.Add(alarmViewModel);
+					}
+				}
+
+				alarmGroup.Update(alarmViewModels);
+			}
+		}
 	}
 }

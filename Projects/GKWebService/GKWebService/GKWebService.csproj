@@ -564,6 +564,7 @@
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
@@ -573,9 +574,12 @@
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
     <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
+    <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupViewModel.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmTypeToColorConverter.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmViewModel.cs" />
     <Compile Include="Models\MPT\MPTDevice.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />

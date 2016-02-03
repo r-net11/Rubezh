@@ -92,6 +92,10 @@ namespace GKWebService
 		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
 			CopyGKStates(gkCallbackResult.GKStates);
+			if (AlarmsUpdaterHub.Instance != null)
+			{
+				AlarmsUpdaterHub.Instance.BroadcastAlarms();
+			}
 		}
 
 		static void CopyGKStates(GKStates gkStates)
