@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GKWebService.Models.FireZone
+namespace GKWebService.Models
 {
     public class DeviceNode
     {

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using Controls.Converters;
+using GKWebService.Models;
 
 namespace GKWebService.DataProviders.FireZones
 {

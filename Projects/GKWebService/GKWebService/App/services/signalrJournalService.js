@@ -3,7 +3,6 @@
 
 	var app = angular.module('gkApp.services')
 		.factory('signalrJournalService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
-			console.log('signalrJournalService');
 			var delaysHub = new Hub('journalUpdaterHub', {
 				listeners: {
 					'updateJournalItems': function (journalItems) {
