@@ -41,7 +41,7 @@ namespace FiresecService.Report.Templates
 			var dataSet = new DisciplineDataSet();
 			foreach (var employee in employees)
 			{
-				if (filter.ScheduleSchemas != null && filter.ScheduleSchemas.Count > 0)
+				if (filter.ScheduleSchemas != null && filter.ScheduleSchemas.Any())
 				{
 					if (employee.Item.Schedule == null || !filter.ScheduleSchemas.Contains(employee.Item.Schedule.UID))
 						continue;
@@ -78,10 +78,10 @@ namespace FiresecService.Report.Templates
 
 						if (isShowAbsence || isShowLate || isShowEarlуLeave || isShowOvertime || filter.ShowAllViolation)
 						{
-							dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString();
-							dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString();
-							dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString();
-							dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString();
+							dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm\:ss");
+							dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm\:ss");
+							dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm\:ss");
+							dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm\:ss");
 							dataSet.Data.Rows.Add(dataRow);
 						}
 					}
@@ -99,7 +99,7 @@ namespace FiresecService.Report.Templates
 				.DefaultIfEmpty()
 				.Min();
 
-			if(resultDateTime == default(DateTime)) return string.Empty;
+			if (resultDateTime == default(DateTime)) return string.Empty;
 
 			return resultDateTime.Date < dayTimeTrack.Date
 				? "Пред. день"
