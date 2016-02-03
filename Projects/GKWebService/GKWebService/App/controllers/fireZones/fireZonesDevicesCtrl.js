@@ -69,7 +69,7 @@
                                 Name: element.Name,
                                 address: element.Address,
                                 $$treeLevel: data.length - element.Level - 1,
-                                imageDevice: "data:image/gif;base64," + element.ImageDeviceIcon.Item1,
+                                imageDevice: element.ImageDeviceIcon,
                                 imageState: element.StateIcon
                             });
                         }
