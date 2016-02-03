@@ -14,7 +14,7 @@ namespace Client
 			ClientId = new Random().Next(10000, 99999);
 			var tcpUri = new Uri("net.tcp://" + address + "/TestService");
 			var endpointAddress = new EndpointAddress(tcpUri);
-			var binding = new NetTcpBinding();
+			var binding = BindingHelper.CreateBinding();
 			ChannelFactory<ITestService> factory = new ChannelFactory<ITestService>(binding, endpointAddress);
 			_service = factory.CreateChannel();
 		}
@@ -34,6 +34,11 @@ namespace Client
 			return _service.RandomInt(clientId, delay);
 		}
 
+		public OperationResult<bool> OperationResult(int clientId)
+		{
+			return _service.OperationResult(clientId);
+		}
+
 		public void Void()
 		{
 			Void(ClientId);
@@ -48,5 +53,11 @@ namespace Client
 		{
 			return RandomInt(ClientId, delay);
 		}
+
+		public OperationResult<bool> OperationResult()
+		{
+			return OperationResult(ClientId);
+		}
+
 	}
 }
