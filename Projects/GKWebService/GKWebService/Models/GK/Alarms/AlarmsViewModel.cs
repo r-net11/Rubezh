@@ -11,6 +11,13 @@ namespace GKWebService.Models.GK.Alarms
 	{
 		public List<AlarmViewModel> Alarms { get; set; }
 
+		public bool CanResetAll { get; set; }
+
+		public AlarmsViewModel()
+		{
+			Alarms = new List<AlarmViewModel>();
+		}
+
 		public static List<Alarm> OnGKObjectsStateChanged(object obj)
 		{
 			var alarms = new List<Alarm>();
@@ -221,8 +228,41 @@ namespace GKWebService.Models.GK.Alarms
 			return alarms;
 		}
 
+		public static int GetAlarmsToResetCount()
+		{
+			int result = 0;
+			foreach (var zone in GKManager.Zones)
+			{
+				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
+					result++;
+				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
+					result++;
+			}
+			foreach (var zone in GKManager.GuardZones)
+			{
+				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
+					result++;
+			}
+			foreach (var device in GKManager.Devices)
+			{
+				if (device.DriverType == GKDriverType.RSR2_MAP4)
+				{
+					if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
+						result++;
+				}
+			}
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.State.StateClasses.Contains(XStateClass.Fire1))
+					result++;
+			}
+			return result;
+		}
+
 		public void UpdateAlarms(List<Alarm> alarms)
 		{
+			CanResetAll = (GetAlarmsToResetCount() > 0);
+
 			foreach (var alarm in alarms)
 			{
 				var alarmViewModel = new AlarmViewModel(alarm);

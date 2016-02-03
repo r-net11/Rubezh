@@ -11,6 +11,10 @@ namespace GKWebService.Models.GK.Alarms
 	{
 		public List<AlarmGroupViewModel> AlarmGroups { get; private set; }
 
+		public bool CanReset { get; set; }
+
+		public int Count { get; set; }
+
 		public AlarmGroupsViewModel()
 		{
 			AlarmGroups = new List<AlarmGroupViewModel>();
@@ -33,6 +37,10 @@ namespace GKWebService.Models.GK.Alarms
 
 		public void Update(List<Alarm> alarms)
 		{
+			Count = AlarmsViewModel.GetAlarmsToResetCount();
+
+			CanReset = (Count > 0);
+
 			foreach (var alarmGroup in AlarmGroups)
 			{
 				var alarmViewModels = new List<AlarmViewModel>();
