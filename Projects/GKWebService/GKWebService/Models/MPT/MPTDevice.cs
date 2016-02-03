@@ -14,12 +14,11 @@ namespace GKWebService.Models
 		public MPTDevice(GKDevice device)
 		{
 			UID = device.UID;
-			No = device.No;
 			GKDescriptorNo = device.GKDescriptorNo;
 			Name = device.PresentationName;
-			//Delay = device.Delay;
-			//Hold = device.Hold;
-			//DelayRegime = device.DelayRegime.ToDescription();
+			ImageSource = device.ImageSource;
+			DottedPresentationAddress = device.DottedPresentationAddress;
+			Description = device.Description;
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
@@ -45,16 +44,11 @@ namespace GKWebService.Models
 
 				
 		public string  MPTDeviceType { get; set; }
-
 		public string DottedPresentationAddress { get; set; }
-
 		public string Description { get; set; }
 		public Guid UID { get; set; }
 		public int No { get; set; }
 		public string Name { get; set; }
-		public String MptLogic { get; set; }
-		public List<MPTDevice> MPTDevices { get; set; }
-		public int Delay { get; set; }
 		public string StateIcon { get; set; }
 		public bool CanSetAutomaticState { get; set; }
 		public bool CanSetManualState { get; set; }
@@ -65,19 +59,12 @@ namespace GKWebService.Models
 		public bool HasOnDelay { get; set; }
 		public ushort GKDescriptorNo { get; set; }
 		public List<DirectionStateClass> StateClasses { get; set; }
-
 		public string DelayRegime { get; set; }
 		public string StateColor { get; set; }
-
-		public int Hold { get; set; }
-
+		public string ImageSource { get; set; }
 		public string State { get; set; }
-
 		public int OnDelay { get; set; }
-
 		public int HoldDelay { get; set; }
-
 		public bool HasHoldDelay { get; set; }
-
 	}
 }

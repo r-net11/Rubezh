@@ -17,7 +17,7 @@ namespace GKWebService.Models.FireZone
         /// <summary>
         /// Изображение-логотип зоны
         /// </summary>
-        public Tuple<string, System.Drawing.Size> ImageSource { get; set; }
+        public String ImageSource { get; set; }
         
         /// <summary>
         /// Состояние зоны

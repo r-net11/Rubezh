@@ -60,7 +60,7 @@ namespace GKWebService.DataProviders.FireZones
                     Name = zone.DescriptorPresentationName,
                     Fire1Count = zone.Fire1Count,
                     Fire2Count = zone.Fire2Count,
-                    ImageSource = InternalConverter.GetImageResource(zone.ImageSource),
+                    ImageSource = "/Content/Image/" + zone.ImageSource.Replace("/Controls;component/", ""),
                     Uid = zone.UID, 
                     No = zone.No, 
                     StateColor = "'#" + new XStateClassToColorConverter2().Convert(zone.State.StateClass, null, null, null).ToString().Substring(3) + "'",
@@ -94,9 +94,10 @@ namespace GKWebService.DataProviders.FireZones
                 {
                     Name = remoteDevice.PresentationName,
                     Address = remoteDevice.Address,
-                    ImageDeviceIcon = InternalConverter.GetImageResource(remoteDevice.ImageSource),
+                    ImageDeviceIcon = "/Content/Image/" + remoteDevice.ImageSource.Replace("/Controls;component/", ""),
                     StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(remoteDevice.State.StateClass) + ".png",
-                    Level = level
+                    Level = level,
+                    Note = remoteDevice.Description
                 });
             }
 
@@ -112,9 +113,10 @@ namespace GKWebService.DataProviders.FireZones
                 {
                     Name = device.PresentationName,
                     Address = device.Address,
-                    ImageDeviceIcon = InternalConverter.GetImageResource(device.ImageSource),
+                    ImageDeviceIcon = "/Content/Image/" + device.ImageSource.Replace("/Controls;component/", ""),
                     StateIcon =  "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(device.State.StateClass) + ".png",
-                    Level = level
+                    Level = level, 
+                    Note = device.Description
                 });
                 listTree.Add(item);
             }

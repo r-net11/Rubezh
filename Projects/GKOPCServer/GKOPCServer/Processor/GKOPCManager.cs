@@ -291,7 +291,7 @@ namespace GKOPCServer
 
 		static void Events_WriteItems(object sender, WriteItemsArgs e)
 		{
-			GKBase device;
+			GKBase gkBase;
 
 			for (int i = 0; i < e.Count; i++)
 			{
@@ -313,37 +313,37 @@ namespace GKOPCServer
 					var stateCode = Convert.ToInt32(e.Values[i]);
 					var cmd = (Commands)stateCode;
 
-					device = (GKBase)GKManager.Devices.FirstOrDefault(x => x.UID == tag.UID);
+					gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == tag.UID);
 
-					if (device == null)
+					if (gkBase == null)
 					{
-						device = (GKBase)GKManager.Zones.FirstOrDefault(x => x.UID == tag.UID);
+						gkBase = GKManager.Zones.FirstOrDefault(x => x.UID == tag.UID);
 
-						if (device == null)
+						if (gkBase == null)
 						{
-							device = (GKBase)GKManager.Directions.FirstOrDefault(x => x.UID == tag.UID);
+							gkBase = GKManager.Directions.FirstOrDefault(x => x.UID == tag.UID);
 
-							if (device == null)
+							if (gkBase == null)
 							{
-								device = (GKBase)GKManager.GuardZones.FirstOrDefault(x => x.UID == tag.UID);
+								gkBase = GKManager.GuardZones.FirstOrDefault(x => x.UID == tag.UID);
 
-								if (device == null)
+								if (gkBase == null)
 								{
-									device = (GKBase)GKManager.Delays.FirstOrDefault(x => x.UID == tag.UID);
+									gkBase = GKManager.Delays.FirstOrDefault(x => x.UID == tag.UID);
 
-									if (device == null)
+									if (gkBase == null)
 									{
-										device = (GKBase)GKManager.MPTs.FirstOrDefault(x => x.UID == tag.UID);
+										gkBase = GKManager.MPTs.FirstOrDefault(x => x.UID == tag.UID);
 
-										if (device == null)
+										if (gkBase == null)
 										{
-											device = (GKBase)GKManager.PumpStations.FirstOrDefault(x => x.UID == tag.UID);
+											gkBase = GKManager.PumpStations.FirstOrDefault(x => x.UID == tag.UID);
 
-											if (device == null)
+											if (gkBase == null)
 											{
-												device = GKManager.Doors.FirstOrDefault(x => x.UID == tag.UID);
+												gkBase = GKManager.Doors.FirstOrDefault(x => x.UID == tag.UID);
 
-												if (device == null)
+												if (gkBase == null)
 												{
 													// Необходимо, что бы значение не было записано в тег,
 													// а приходило по обратной связи после выполения команды
@@ -361,7 +361,7 @@ namespace GKOPCServer
 						}
 					}
 
-					ExecuteCmd(device, cmd);
+					ExecuteCmd(gkBase, cmd);
 					e.Errors[i] = ErrorCodes.False;
 					e.ItemIds[i].TagId = 0;
 					e.MasterError = ErrorCodes.False;
@@ -399,53 +399,53 @@ namespace GKOPCServer
 			OPCDAServer.UnregisterServer(srvGuid);
 		}
 
-		static void ExecuteCmd(GKBase device, Commands cmd)
+		static void ExecuteCmd(GKBase gkBase, Commands cmd)
 		{
 			switch (cmd)
 			{
 				case Commands.SetAutomaticMode:
 					{
-						ClientManager.FiresecService.GKSetAutomaticRegime(device);
+						ClientManager.FiresecService.GKSetAutomaticRegime(gkBase);
 						break;
 					}
 				case Commands.SetManualMode:
 					{
-						ClientManager.FiresecService.GKSetManualRegime(device);
+						ClientManager.FiresecService.GKSetManualRegime(gkBase);
 						break;
 					}
 				case Commands.SetDisabledMode:
 					{
-						ClientManager.FiresecService.GKSetIgnoreRegime(device);
+						ClientManager.FiresecService.GKSetIgnoreRegime(gkBase);
 						break;
 					}
 				case Commands.TurnOff:
 					{
-						ClientManager.FiresecService.GKTurnOff(device);
+						ClientManager.FiresecService.GKTurnOff(gkBase);
 						break;
 					}
 				case Commands.TurnOn:
 					{
-						ClientManager.FiresecService.GKTurnOn(device);
+						ClientManager.FiresecService.GKTurnOn(gkBase);
 						break;
 					}
 				case Commands.TurnOnNow:
 					{
-						ClientManager.FiresecService.GKTurnOnNow(device);
+						ClientManager.FiresecService.GKTurnOnNow(gkBase);
 						break;
 					}
 				case Commands.TurnOffNow:
 					{
-						ClientManager.FiresecService.GKTurnOffNow(device);
+						ClientManager.FiresecService.GKTurnOffNow(gkBase);
 						break;
 					}
 				case Commands.Stop:
 					{
-						ClientManager.FiresecService.GKStop(device);
+						ClientManager.FiresecService.GKStop(gkBase);
 						break;
 					}
 				case Commands.Reset:
 					{
-						ClientManager.FiresecService.GKReset(device);
+						ClientManager.FiresecService.GKReset(gkBase);
 						break;
 					}
 			}

@@ -29,6 +29,6 @@ namespace GKWebService.Models.FireZone
         /// <summary>
         /// Логотип устройства
         /// </summary>
-        public Tuple<string, System.Drawing.Size> ImageDeviceIcon { get; set; }
+        public String ImageDeviceIcon { get; set; }
     }
 }

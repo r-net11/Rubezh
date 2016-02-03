@@ -7,31 +7,43 @@ namespace Client
 	public class TestService : ITestService
 	{
 		public int ClientId { get; private set; }
-		ITestService _service;
+		ChannelFactory<ITestService> _factory;
 
 		public TestService(string address)
 		{
 			ClientId = new Random().Next(10000, 99999);
 			var tcpUri = new Uri("net.tcp://" + address + "/TestService");
 			var endpointAddress = new EndpointAddress(tcpUri);
-			var binding = new NetTcpBinding();
-			ChannelFactory<ITestService> factory = new ChannelFactory<ITestService>(binding, endpointAddress);
-			_service = factory.CreateChannel();
+			var binding = BindingHelper.CreateBinding();
+			_factory = new ChannelFactory<ITestService>(binding, endpointAddress);
 		}
 
 		public void Void(int clientId)
 		{
-			_service.Void(clientId);
+			var service = _factory.CreateChannel ();
+			using (service as IDisposable)
+				service.Void(clientId);
 		}
 
 		public void VoidOneWay(int clientId)
 		{
-			_service.VoidOneWay(clientId);
+			var service = _factory.CreateChannel ();
+			using (service as IDisposable)
+				service.VoidOneWay(clientId);
 		}
 
 		public int RandomInt(int clientId, int delay)
 		{
-			return _service.RandomInt(clientId, delay);
+			var service = _factory.CreateChannel ();
+			using (service as IDisposable)
+				return service.RandomInt(clientId, delay);
+		}
+
+		public OperationResult<bool> OperationResult(int clientId)
+		{
+			var service = _factory.CreateChannel ();
+			using (service as IDisposable)
+				return service.OperationResult(clientId);
 		}
 
 		public void Void()
@@ -48,5 +60,11 @@ namespace Client
 		{
 			return RandomInt(ClientId, delay);
 		}
+
+		public OperationResult<bool> OperationResult()
+		{
+			return OperationResult(ClientId);
+		}
+
 	}
 }

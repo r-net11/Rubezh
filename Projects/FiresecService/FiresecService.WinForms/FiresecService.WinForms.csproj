@@ -164,20 +164,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\FiresecLicenseProcessor.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Processor\OpcDaServersProcessor.cs" />
     <Compile Include="Processor\ServerTaskRunner.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FiresecService.OpcDa.cs" />
@@ -204,6 +202,13 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
     <Compile Include="ViewModels\ServerTasksViewModel.cs" />
+    <Compile Include="Views\IMainView.cs" />
+    <Compile Include="Views\MainWinFormView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MainWinFormView.Designer.cs">
+      <DependentUpon>MainWinFormView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\UILogger.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -212,10 +217,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,6 +236,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Views\MainWinFormView.resx">
+      <DependentUpon>MainWinFormView.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
