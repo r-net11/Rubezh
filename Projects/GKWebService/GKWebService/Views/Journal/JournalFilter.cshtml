@@ -3,8 +3,5 @@
 }
 
 <div class="modal-body">
-	<div ng-controller="journalFilterCtrl">
-		<button class="btn btn-success" ng-bind="testStr"></button>
-		<div ui-grid="gridOptions"></div>
-	</div>
+	<div ui-grid="gridOptions" ui-grid-tree-view ui-grid-selection id="devices"></div>
 </div>

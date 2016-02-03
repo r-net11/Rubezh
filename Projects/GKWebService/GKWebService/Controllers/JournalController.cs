@@ -1,7 +1,9 @@
 ﻿using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
+using GKWebService.Utils;
 using RubezhAPI;
 using RubezhAPI.Journal;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -26,20 +28,29 @@ namespace GKWebService.Controllers
 			return Json(list, JsonRequestBehavior.AllowGet);
 		}
 
-		string GetSubsystemImage(JournalItem journalModel)
+		public JsonResult GetFilterDevices()
 		{
-			switch (journalModel.JournalSubsystemType)
+			var listTree = new List<DeviceNode>();
+			var data = new DeviceNode();
+			
+			var result = new List<Device>();
+			BuildDeviceTree(GKManager.DeviceConfiguration.RootDevice, null, result);
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
+
+		void BuildDeviceTree(RubezhAPI.GK.GKDevice apiDevice, Device parent, List<Device> devices)
+		{
+			var device = new Device
 			{
-				case JournalSubsystemType.System:
-					return "PC";	
-				case JournalSubsystemType.GK:
-					return "Chip";
-				case JournalSubsystemType.SKD:
-					return "Controller";
-				case JournalSubsystemType.Video:
-					return "Camera";
-				default:
-					return "no";
+				Name = apiDevice.PresentationName,
+				Address = apiDevice.Address,
+				ImageDeviceIcon = InternalConverter.GetImageResource(apiDevice.ImageSource),
+				Level = parent != null ? parent.Level + 1 : 0
+			};
+			devices.Add(device);
+			foreach (var child in apiDevice.Children)
+			{
+				BuildDeviceTree(child, device, devices);
 			}
 		}
 	}

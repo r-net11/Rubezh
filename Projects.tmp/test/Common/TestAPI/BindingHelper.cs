@@ -19,7 +19,7 @@ namespace TestAPI
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 			binding.Security.Mode = SecurityMode.None;
-			//binding.TransferMode = TransferMode.Streamed;
+			binding.TransferMode = TransferMode.Buffered;
 			return binding;
 		}
 	}

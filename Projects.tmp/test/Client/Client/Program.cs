@@ -91,6 +91,15 @@ namespace Client
 							_isCanceled = false;
 						}).Start();
 						break;
+				case ConsoleKey.NumPad9:
+				case ConsoleKey.D9:
+					for (int i = 0; i < 3; i++)
+						new Thread(() =>
+						{
+								InvokeAction(_testService.Void, "Void#" + i);
+						}).Start();
+					_isCanceled = false;
+					break;
 				}
 			}
 		}

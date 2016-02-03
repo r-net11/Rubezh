@@ -12,6 +12,8 @@ namespace GKWebService.Models.GK.Alarms
 		public GKAlarmType AlarmType { get; set; }
 		public string AlarmTypeName { get; set; }
 		public string GlowColor { get; set; }
+		public int Count { get; set; }
+		public bool HasAlarms { get; set; }
 
 		public AlarmGroupViewModel()
 		{
@@ -23,6 +25,12 @@ namespace GKWebService.Models.GK.Alarms
 			this.AlarmType = alarmType;
 			AlarmTypeName = AlarmType.ToString();
             GlowColor = (string)(new AlarmTypeToColorConverter()).Convert(this.AlarmType, null, null, null);
+		}
+
+		public void Update(List<AlarmViewModel> Alarms)
+		{
+			Count = Alarms.Count;
+			HasAlarms = (Count > 0);
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
     'use strict';
 
-    var app = angular.module('gkApp.controllers').controller('DevicesMPTCtrl',
+    var app = angular.module('gkApp.controllers').controller('devicesMPTCtrl',
         ['$scope', '$http', '$uibModal', 'signalrDevicesService',
         function ($scope, $http, $uibModal, signalrDevicesService) {
 
@@ -13,19 +13,6 @@
                     $scope.uiGrid.data = data;
                    
                 });
-
-                $scope.fireZonesDevicesClick = function (fireZoneDevice) {
-                    var modalInstance = $uibModal.open({
-                        animation: false,
-                        templateUrl: 'FireZones/FireZonesDevicesDetails',
-                        controller: 'fireZonesDevicesDetailsCtrl',
-                        resolve: {
-                            fireZoneDevice: function () {
-                                return fireZoneDevice;
-                            }
-                        }
-                    });
-                };
 
                 $scope.mptClick = function (mpt) {
                     $uibModal.open({
@@ -64,11 +51,13 @@
                     onRegisterApi: function (gridApi) {
                         $scope.gridApi = gridApi;
                         gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
-                        gridApi.selection.on.rowSelectionChangedBatch($scope, $scope.showSelectedRow);
                     },
                     columnDefs:
-                      [{ field: 'No', displayName: 'No', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/Icon/GK/Blue_Direction.png" />{{row.entity[col.field]}}</div>' },
-                       { field: 'Name', displayName: 'МПТ', width: 450, cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.mptClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },],
+                      [{ field: 'MPTDeviceType', displayName: 'Тип', width: 100 },
+                       { field: 'Name', displayName: 'Устройство', width: 450, cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.mptClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
+                       { field: 'DottedPresentationAddress', displayName: 'Адрес', width: 100 },
+                       { field: 'Description', displayName: 'Описание', width: 100 }]
+
                 };
             }
             StartGrid();
