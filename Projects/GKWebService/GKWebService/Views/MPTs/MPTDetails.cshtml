@@ -24,6 +24,10 @@
                     <span>Задержка на включение</span> <br />
                     <span>{{mpt.OnDelay}}</span><span> сек</span>
                 </div>
+                <div ng-show="mpt.HasHoldDelay">
+                    <span>Удержание</span> <br />
+                    <span>{{mpt.HoldDelay}}</span><span> сек</span>
+                </div>
             </div>
             <div style="clear: left">
             </div>
@@ -44,38 +48,40 @@
                     <div style="float: left; width: 50%; background: #fff">
                         <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="TurnOn()" ng-disabled="!mpt.IsControlRegime">Пуск</div>
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOnNow()" ng-disabled="!mpt.IsControlRegime">Пуск немедленно</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="ForbidStart()" ng-disabled="!mpt.IsControlRegime">Стоп</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOff()" ng-disabled="!mpt.IsControlRegime">Выключить немедленно</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOff()" ng-disabled="!mpt.IsControlRegime">Стоп</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="ForbidStart()" ng-disabled="!mpt.IsControlRegime">Останов пуска</div>
                     </div>
                     <div style="clear: left">
                     </div>
                   </div>
             </uib-tab>
-            <uib-tab heading="Свойства" style="background: #fff; color: #000; height: 248px">
-                <div>
-                    <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png" />
-                    <a href="#" ng-click="Show()">{{mpt.Name}}</a>
-                </div>
-                <div>
-                    <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-                    <span style="margin: 2px; font-weight: bold">{{mpt.GKDescriptorNo}}</span>
-                </div>
-                <div>
-                    <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-                    <a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-                </div>
-                <div>
-                    <span>Задержка: </span>
-                    <span>{{mpt.Delay}}</span>
-                </div>
-                <div>
-                    <span>Удержание: </span>
-                    <span>{{mpt.Hold}}</span>
-                </div>
-                <div>
-                    <span>Режим после удержания: </span>
-                    <span>{{mpt.DelayRegime}}</span>
-                </div>
+            <uib-tab heading="Свойства">
+                <div style="background: #fff; color: #000; height: 248px">
+                    <div>
+                        <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png" />
+                        <a href="#" ng-click="Show()">{{mpt.Name}}</a>
+                    </div>
+                    <div>
+                        <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
+                        <span style="margin: 2px; font-weight: bold">{{mpt.GKDescriptorNo}}</span>
+                    </div>
+                    <div>
+                        <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                        <a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                    </div>
+                    <div>
+                        <span>Задержка: </span>
+                        <span>{{mpt.Delay}}</span>
+                    </div>
+                    <div>
+                        <span>Удержание: </span>
+                        <span>{{mpt.Hold}}</span>
+                    </div>
+                    <div>
+                        <span>Режим после удержания: </span>
+                        <span>{{mpt.DelayRegime}}</span>
+                    </div>
+                 </div>
             </uib-tab>
         </uib-tabset>
     </div>
