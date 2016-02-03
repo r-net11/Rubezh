@@ -44,7 +44,7 @@ namespace GKWebService.Controllers
 			{
 				Name = apiDevice.PresentationName,
 				Address = apiDevice.Address,
-				ImageDeviceIcon = InternalConverter.GetImageResource(apiDevice.ImageSource),
+                ImageDeviceIcon = "/Content/Image/" + apiDevice.ImageSource.Replace("/Controls;component/", ""),
 				Level = parent != null ? parent.Level + 1 : 0
 			};
 			devices.Add(device);
