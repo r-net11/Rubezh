@@ -96,7 +96,8 @@ namespace GKWebService.DataProviders.FireZones
                     Address = remoteDevice.Address,
                     ImageDeviceIcon = "/Content/Image/" + remoteDevice.ImageSource.Replace("/Controls;component/", ""),
                     StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(remoteDevice.State.StateClass) + ".png",
-                    Level = level
+                    Level = level,
+                    Note = remoteDevice.Description
                 });
             }
 
@@ -114,7 +115,8 @@ namespace GKWebService.DataProviders.FireZones
                     Address = device.Address,
                     ImageDeviceIcon = "/Content/Image/" + device.ImageSource.Replace("/Controls;component/", ""),
                     StateIcon =  "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(device.State.StateClass) + ".png",
-                    Level = level
+                    Level = level, 
+                    Note = device.Description
                 });
                 listTree.Add(item);
             }

@@ -16,8 +16,8 @@
                 showTreeRowHeader: false,
                 columnDefs: [
                     { field: 'Name', width: 300, displayName: 'Устройство', cellTemplate: template },
-                    { field: 'address', displayName: 'Адрес', width: 100 },
-                    { field: 'note', displayName: 'Примечание', width: $(window).width() - 675 }
+                    { field: 'Address', displayName: 'Адрес', width: 100 },
+                    { field: 'Note', displayName: 'Примечание', width: $(window).width() - 675 }
                 ]
             };
 
@@ -67,10 +67,11 @@
                             var element = item[j];
                             $scope.gridOptions.data.push({
                                 Name: element.Name,
-                                address: element.Address,
+                                Address: element.Address,
                                 $$treeLevel: data.length - element.Level - 1,
                                 imageDevice: element.ImageDeviceIcon,
-                                imageState: element.StateIcon
+                                imageState: element.StateIcon, 
+                                Note: element.Note
                             });
                         }
                     }
