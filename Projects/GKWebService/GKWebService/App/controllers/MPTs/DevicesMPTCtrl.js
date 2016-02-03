@@ -2,7 +2,7 @@
 
     'use strict';
 
-    var app = angular.module('gkApp.controllers').controller('DevicesMPTCtrl',
+    var app = angular.module('gkApp.controllers').controller('devicesMPTCtrl',
         ['$scope', '$http', '$uibModal', 'signalrDevicesService',
         function ($scope, $http, $uibModal, signalrDevicesService) {
 
