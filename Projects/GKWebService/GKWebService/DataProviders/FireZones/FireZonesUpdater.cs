@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Threading;
-using GKWebService.Models.FireZone;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using System.Collections.Generic;
+using RubezhAPI.GK;
+using RubezhClient;
 
 namespace GKWebService.DataProviders.FireZones
 {
     public class FireZonesUpdater
     {
         // Singleton instance
-		private static readonly Lazy<FireZonesUpdater> _instance = new Lazy<FireZonesUpdater>(
+        private static readonly Lazy<FireZonesUpdater> _instance = new Lazy<FireZonesUpdater>(
             () => new FireZonesUpdater(GlobalHost.ConnectionManager.GetHubContext<FireZonesUpdaterHub>().Clients));
 
-		private readonly object _startStatesMonitoringLock = new object();
-		private readonly object _testSendMessageLock = new object();
-		private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(100);//old value 250
-		private Timer _timer;
+        private readonly object _startStatesMonitoringLock = new object();
+        private readonly object _testSendMessageLock = new object();
+        private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(100);//old value 250
+        private Timer _timer;
 
         private FireZonesUpdater(IHubConnectionContext<dynamic> clients)
         {
-			Clients = clients;
-		}
+            Clients = clients;
+        }
 
-		private IHubConnectionContext<dynamic> Clients { get; set; }
+        private IHubConnectionContext<dynamic> Clients { get; set; }
 
         /// <summary>
         /// Инстанс этого класса
@@ -32,46 +33,42 @@ namespace GKWebService.DataProviders.FireZones
 
         public void StartStatesMonitoring()
         {
-			lock (_startStatesMonitoringLock) {
-                _data = FireZonesDataProvider.Instance.GetFireZones();
-                
-                _currentState = new List<String>();
-                //назначаем текущий статус зоны
-			    foreach (var item in _data)
-			    {
-                    _currentState.Add(item.StateIcon);
-			    }
+            lock (_startStatesMonitoringLock)
+            {
+                //Получаем состояния зон
+                _currentStates = ClientManager.FiresecService.GKGetStates().ZoneStates;
 
                 _timer = new Timer(_refreshZoneState, null, _updateInterval, _updateInterval);
-			}
-		}
+            }
+        }
 
         /// <summary>
         /// Метод, обновляющий статус зоны
         /// </summary>
         private void _refreshZoneState(object parameter)
         {
-            //Получаем текущие данные
-            _data = FireZonesDataProvider.Instance.GetFireZones();
-            foreach (var item in _data)
+            //Получаем новые данные о состоянии зон
+            _newStates = ClientManager.FiresecService.GKGetStates().ZoneStates;
+
+            //Если есть изменения, то отправляем данные на клиент и биндим в _currentStates
+            for (int i = 0; i < _newStates.Count; i++)
             {
-                if ( _data.IndexOf(item) >= 0 && item.StateIcon != _currentState[_data.IndexOf(item)])
+                if (_newStates[i].StateClass != _currentStates[i].StateClass && _newStates[i].UID == _currentStates[i].UID)
                 {
-                    _currentState[_data.IndexOf(item)] = item.StateIcon;
-                    Clients.All.RefreshZoneState(item);
-                }    
+                    _currentStates[i] = _newStates[i];
+                    Clients.All.RefreshZoneState(FireZonesDataProvider.Instance.GetFireZones()[i]);
+                }
             }
-            
         }
 
         /// <summary>
-        /// Данные о зоне
+        /// Новые состояния зон
         /// </summary>
-        private List<FireZone> _data;
+        private List<GKState> _newStates;
 
         /// <summary>
-        /// Текущий статус зоны (ConnectionLost, Norm, etc...)
+        /// Текущие состояния зон
         /// </summary>
-        private List<String> _currentState;
+        private List<GKState> _currentStates;
     }
 }
