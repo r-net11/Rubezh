@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using DevExpress.Xpo.Helpers;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
@@ -47,17 +49,9 @@ namespace FiresecService.Report.Templates
 				var timeTrackEmployeeResult = timeTrackResult.TimeTrackEmployeeResults.FirstOrDefault(x => x.ShortEmployee.UID == employee.UID);
 				if (timeTrackEmployeeResult != null)
 				{
-					var crossNightNTimeTrackParts = new List<TimeTrackPart>();
-
 					foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 					{
-						var isFirstEnterCrossNight = crossNightNTimeTrackParts.Any();
-						dayTimeTrack.CrossNightTimeTrackParts = crossNightNTimeTrackParts;
-
 						dayTimeTrack.Calculate();
-
-						crossNightNTimeTrackParts = dayTimeTrack.CrossNightTimeTrackParts;
-						var isLastExitCrossNight = crossNightNTimeTrackParts.Any();
 
 						var dataRow = dataSet.Data.NewDataRow();
 						dataRow.Employee = employee.Name;
@@ -66,18 +60,10 @@ namespace FiresecService.Report.Templates
 						dataRow.Date = dayTimeTrack.Date;
 						dataRow.Weekday = dayTimeTrack.Date.ToString("ddd");
 
-						if (dayTimeTrack.RealTimeTrackParts.Count > default(int))
+						if (dayTimeTrack.RealTimeTrackParts.Any(x => x.IsForURVZone))
 						{
-							dataRow.FirstEnter = isFirstEnterCrossNight
-												? "Пред. сутки"
-												: dayTimeTrack.RealTimeTrackParts.Min(x => x.EnterDateTime.TimeOfDay).ToString();
-							dataRow.LastExit = isLastExitCrossNight
-												? "След. сутки"
-												: dayTimeTrack.RealTimeTrackParts
-													.Where(x => x.ExitDateTime.HasValue && x.IsForURVZone)
-													.Select(x => x.ExitDateTime)
-													.DefaultIfEmpty().Max().GetValueOrDefault().TimeOfDay
-													.ToString();
+							dataRow.FirstEnter = GetFirstEnterString(dayTimeTrack);
+							dataRow.LastExit = GetLastExitString(dayTimeTrack);
 						}
 
 						var absence = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Absence);
@@ -85,18 +71,12 @@ namespace FiresecService.Report.Templates
 						var earlyLeave = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.EarlyLeave);
 						var overtime = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Overtime);
 
-						if (((absence.TotalSeconds > default(int) && filter.ShowAbsence)
-							|| (late.TotalSeconds > default(int) && filter.ShowLate)
-							|| (earlyLeave.TotalSeconds > default(int) && filter.ShowEarlуLeave)
-							|| (overtime.TotalSeconds > default(int) && filter.ShowOvertime)) && filter.ShowShiftedViolation)
-						{
-							dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString();
-							dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString();
-							dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString();
-							dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString();
-							dataSet.Data.Rows.Add(dataRow);
-						}
-						else if (filter.ShowAllViolation)
+						var isShowAbsence = absence.TotalSeconds > default(int) && filter.ShowAbsence;
+						var isShowLate = late.TotalSeconds > default(int) && filter.ShowLate;
+						var isShowEarlуLeave = earlyLeave.TotalSeconds > default(int) && filter.ShowEarlуLeave;
+						var isShowOvertime = overtime.TotalSeconds > default(int) && filter.ShowOvertime && filter.ShowShiftedViolation;
+
+						if (isShowAbsence || isShowLate || isShowEarlуLeave || isShowOvertime || filter.ShowAllViolation)
 						{
 							dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString();
 							dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString();
@@ -107,7 +87,38 @@ namespace FiresecService.Report.Templates
 					}
 				}
 			}
+
 			return dataSet;
+		}
+
+		private string GetFirstEnterString(DayTimeTrack dayTimeTrack)
+		{
+			var resultDateTime = dayTimeTrack.RealTimeTrackParts
+				.Where(x => x.IsForURVZone)
+				.Select(x => x.EnterDateTime)
+				.DefaultIfEmpty()
+				.Min();
+
+			if(resultDateTime == default(DateTime)) return string.Empty;
+
+			return resultDateTime.Date < dayTimeTrack.Date
+				? "Пред. день"
+				: resultDateTime.TimeOfDay.ToString(@"hh\:mm\:ss");
+		}
+
+		private string GetLastExitString(DayTimeTrack dayTimeTrack)
+		{
+			var resultDateTime = dayTimeTrack.RealTimeTrackParts
+				.Where(x => x.IsForURVZone)
+				.Select(x => x.ExitDateTime)
+				.DefaultIfEmpty()
+				.Max();
+
+			if (resultDateTime == default(DateTime?)) return string.Empty;
+
+			return resultDateTime.Value.Date > dayTimeTrack.Date
+				? "След. день"
+				: resultDateTime.Value.TimeOfDay.ToString(@"hh\:mm\:ss");
 		}
 
 		private TimeSpan GetTimespanForTimeTrackType(IEnumerable<TimeTrackTotal> totals, TimeTrackType type)
