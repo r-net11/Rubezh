@@ -17,34 +17,38 @@
         </div>
         <uib-tabset>
             <uib-tab heading="Управление">
-                @*<div style="float: left; width: 50%">*@
-                <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px;" ng-click="TurnOff()" ng-disabled="!fireZone.CanTurnOff">Отключить</div>
-                <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!fireZone.CanTurnOn">Снять отключение</div>
-                <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="Reset()" ng-disabled="!fireZone.CanReset">Сбросить</div>
-                @*</div>*@
-                <div style="clear: left">
+                <div style="background: #fff">
+                    @*<div style="float: left; width: 50%">*@
+                    <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px;" ng-click="TurnOff()" ng-disabled="!fireZone.CanTurnOff">Отключить</div>
+                    <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!fireZone.CanTurnOn">Снять отключение</div>
+                    <div class=" btn btn-primary" style="height: 50px; width: 100%; margin: 2px" ng-click="Reset()" ng-disabled="!fireZone.CanReset">Сбросить</div>
+                    @*</div>*@
+                    <div style="clear: left">
+                    </div>
                 </div>
             </uib-tab>
             <uib-tab heading="Свойства">
-                <div>
-                    <img style="margin: 2px; vertical-align:middle" height="16" width="16" ng-src="data:image/gif;base64,{{fireZone.ImageSource.Item1}}" />
-                    <a href="#" ng-click="Show()">{{fireZone.Name}}</a>
-                </div>
-                <div>
-                    <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-                    <span style="margin: 2px; font-weight: bold">{{fireZone.GKDescriptorNo}}</span>
-                </div>
-                <div>
-                    <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-                    <a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-                </div>
-                <div>
-                    <span>Количество датчиков для перевода в Пожар 1: </span>
-                    <span>{{fireZone.Fire1Count}}</span>
-                </div>
-                <div>
-                    <span>Количество датчиков для перевода в Пожар 2: </span>
-                    <span>{{fireZone.Fire2Count}}</span>
+                <div style="background: #fff">
+                    <div>
+                        <img style="margin: 2px; vertical-align:middle" height="16" width="16" ng-src="{{fireZone.ImageSource}}" />
+                        <a href="#" ng-click="Show()">{{fireZone.Name}}</a>
+                    </div>
+                    <div>
+                        <span style="font-weight: bold; width: 110px; color: black">Номер в ГК:</span>
+                        <span style="margin: 2px; font-weight: bold; color: black">{{fireZone.GKDescriptorNo}}</span>
+                    </div>
+                    <div>
+                        <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                        <a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                    </div>
+                    <div>
+                        <span style="font-weight: bold; width: 110px; color: black">Количество датчиков для перевода в Пожар 1: </span>
+                        <span style="font-weight: bold; width: 110px; color: black">{{fireZone.Fire1Count}}</span>
+                    </div>
+                    <div>
+                        <span style="font-weight: bold; width: 110px; color: black">Количество датчиков для перевода в Пожар 2: </span>
+                        <span style="font-weight: bold; width: 110px; color: black">{{fireZone.Fire2Count}}</span>
+                    </div>
                 </div>
             </uib-tab>
         </uib-tabset>

@@ -6,7 +6,7 @@
         ['$scope', '$http', '$timeout', '$uibModal', 'uiGridTreeViewConstants', 'uiGridTreeBaseService', 'signalrFireZonesService',
         function ($scope, $http, $timeout, $uibModal, uiGridTreeViewConstants, uiGridTreeBaseService) {
 
-            var template = "<div class=\"ui-grid-cell-contents\"><div style=\"float:left;\" class=\"ui-grid-tree-base-row-header-buttons\" ng-class=\"{'ui-grid-tree-base-header': row.treeLevel > -1 }\" ng-click=\"grid.appScope.toggleRow(row,evt)\"><i ng-class=\"{'ui-grid-icon-minus-squared': ( ( grid.options.showTreeExpandNoChildren && row.treeLevel > -1 ) || ( row.treeNode.children && row.treeNode.children.length > 0 ) ) && row.treeNode.state === 'expanded', 'ui-grid-icon-plus-squared': ( ( grid.options.showTreeExpandNoChildren && row.treeLevel > -1 ) || ( row.treeNode.children && row.treeNode.children.length > 0 ) ) && row.treeNode.state === 'collapsed'}\" ng-style=\"{'padding-left': grid.options.treeIndent * row.treeLevel + 'px'}\"></i> &nbsp;</div>{{ CUSTOM_FILTERS}}<a href=\"#\" ng-click=\"grid.appScope.fireZonesClick(row.entity)\"><img style=\"vertical-align: middle; padding-right: 3px\" ng-src=\"{{row.entity.imageState}}\"/><img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"{{row.entity.imageDevice}}\"/>{{row.entity[col.field]}}</a></div>";
+            var template = "<div class=\"ui-grid-cell-contents\"><div style=\"float:left;\" class=\"ui-grid-tree-base-row-header-buttons\" ng-class=\"{'ui-grid-tree-base-header': row.treeLevel > -1 }\" ng-click=\"grid.appScope.toggleRow(row,evt)\"><i ng-class=\"{'ui-grid-icon-minus-squared': ( ( grid.options.showTreeExpandNoChildren && row.treeLevel > -1 ) || ( row.treeNode.children && row.treeNode.children.length > 0 ) ) && row.treeNode.state === 'expanded', 'ui-grid-icon-plus-squared': ( ( grid.options.showTreeExpandNoChildren && row.treeLevel > -1 ) || ( row.treeNode.children && row.treeNode.children.length > 0 ) ) && row.treeNode.state === 'collapsed', 'ui-grid-icon-blank': ( ( grid.options.showTreeExpandNoChildren && row.treeLevel > -1 ) || ( row.treeNode.children && row.treeNode.children.length == 0 ) ) && row.treeNode.state === 'expanded'}\" ng-style=\"{'padding-left': grid.options.treeIndent * row.treeLevel + 'px'}\"></i> &nbsp;</div>{{ CUSTOM_FILTERS}}<a href=\"#\" ng-click=\"grid.appScope.fireZonesClick(row.entity)\"><img style=\"vertical-align: middle; padding-right: 3px\" ng-src=\"{{row.entity.imageState}}\"/><img style=\"vertical-align: middle\" width=\"16px\" height=\"16px\" ng-src=\"{{row.entity.imageDevice}}\"/> {{row.entity[col.field]}}</a></div>";
             $scope.gridOptions = {
                 enableSorting: false,
                 enableFiltering: false,
@@ -16,8 +16,8 @@
                 showTreeRowHeader: false,
                 columnDefs: [
                     { field: 'Name', width: 300, displayName: 'Устройство', cellTemplate: template },
-                    { field: 'address', displayName: 'Адрес', width: 100 },
-                    { field: 'note', displayName: 'Примечание', width: $(window).width() - 675 }
+                    { field: 'Address', displayName: 'Адрес', width: 100 },
+                    { field: 'Note', displayName: 'Примечание', width: $(window).width() - 675 }
                 ]
             };
 
@@ -67,10 +67,11 @@
                             var element = item[j];
                             $scope.gridOptions.data.push({
                                 Name: element.Name,
-                                address: element.Address,
+                                Address: element.Address,
                                 $$treeLevel: data.length - element.Level - 1,
-                                imageDevice: "data:image/gif;base64," + element.ImageDeviceIcon.Item1,
-                                imageState: element.StateIcon
+                                imageDevice: element.ImageDeviceIcon,
+                                imageState: element.StateIcon, 
+                                Note: element.Note
                             });
                         }
                     }

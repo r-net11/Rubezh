@@ -9,10 +9,11 @@ namespace Client
 		static bool _isCanceled;
 		static int _period = 1024;
 		static TestService _testService;
+		static string _address;
 		static void Main(string[] args)
 		{
-			var address = args.Length == 0 ? "localhost:1050" : args [0];
-			_testService = new TestService (address);
+			_address = args.Length == 0 ? "localhost:1050" : args[0];
+			_testService = new TestService(_address);
 
 			UpdateTitle();
 
@@ -38,16 +39,24 @@ namespace Client
 					case ConsoleKey.Escape:
 						_isCanceled = true;
 						break;
-				case ConsoleKey.D1:
+					case ConsoleKey.NumPad0:
+					case ConsoleKey.D0:
+						InvokeOperationResult();
+						break;
+					case ConsoleKey.NumPad1:
+					case ConsoleKey.D1:
 						InvokeAction(_testService.Void, "Void");
 						break;
-				case ConsoleKey.D2:
+					case ConsoleKey.NumPad2:
+					case ConsoleKey.D2:
 						InvokeAction(_testService.VoidOneWay, "VoidOneWay");
 						break;
-				case ConsoleKey.D3:
+					case ConsoleKey.NumPad3:
+					case ConsoleKey.D3:
 						InvokeRandomInt();
 						break;
-				case ConsoleKey.D4:
+					case ConsoleKey.NumPad4:
+					case ConsoleKey.D4:
 						new Thread(() =>
 							{
 								while (!_isCanceled)
@@ -58,6 +67,7 @@ namespace Client
 								_isCanceled = false;
 							}).Start();
 						break;
+					case ConsoleKey.NumPad5:
 					case ConsoleKey.D5:
 						new Thread(() =>
 							{
@@ -69,6 +79,7 @@ namespace Client
 								_isCanceled = false;
 							}).Start();
 						break;
+					case ConsoleKey.NumPad6:
 					case ConsoleKey.D6:
 						new Thread(() =>
 						{
@@ -80,13 +91,22 @@ namespace Client
 							_isCanceled = false;
 						}).Start();
 						break;
+				case ConsoleKey.NumPad9:
+				case ConsoleKey.D9:
+					for (int i = 0; i < 3; i++)
+						new Thread(() =>
+						{
+								InvokeAction(_testService.Void, "Void#" + i);
+						}).Start();
+					_isCanceled = false;
+					break;
 				}
 			}
 		}
 
 		static void UpdateTitle()
 		{
-			Console.Title = string.Format("ClientId: {0}, Period: {1}", _testService.ClientId, _period);
+			Console.Title = string.Format("Address: {0}, ClientId: {1}, Period: {2}", _address, _testService.ClientId, _period);
 		}
 
 		static void InvokeAction(Action action, string actionName)
@@ -113,7 +133,17 @@ namespace Client
 			_isCanceled = false;
 		}
 
+		static void InvokeOperationResult()
+		{
+			var stopWatch = new Stopwatch();
+			stopWatch.Start();
 
+			var result = _testService.OperationResult();
+
+			stopWatch.Stop();
+			Console.WriteLine("OperationResult = {0}: {1} ms", result.Result, stopWatch.ElapsedMilliseconds);
+			_isCanceled = false;
+		}
 
 		static void Void()
 		{

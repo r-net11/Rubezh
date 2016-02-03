@@ -5,15 +5,6 @@
 }
 
 <div ng-controller="alarmGroupsCtrl">
-    <div alarm-btn="reset" style="float: left"></div>
-    <div class="icon mpt"></div>
-    <div class="icon shield"></div>
-    <div class="icon fire2"></div>
-    <div class="icon fire"></div>
-    <div class="icon attention"></div>
-    <div class="icon failure"></div>
-    <div class="icon off"></div>
-    <div class="icon auto"></div>
-    <div class="icon service"></div>
-    <div class="icon onOff"></div>
+    <div alarm-btn="reset" alarm-icon="ResetAlarmText" glow-color="#FF0000" style="float: left; margin-right: 10px"></div>
+    <div alarm-btn="{{group.AlarmType}}" alarm-icon="{{group.AlarmTypeName}}" glow-color="{{group.GlowColor}}" style="float: left; margin-right: 10px" ng-repeat="group in model.AlarmGroups"></div>
 </div>

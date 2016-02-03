@@ -3,23 +3,31 @@
 
     angular.module("gkApp")
         .directive("alarmBtn", function () {
-            return function (scope, element, attributes) {
-                var alarmType = scope[attributes["alarmBtn"]];
-                var glowColor = attributes["glowColor"];
-                var color = attributes["color"];
-                var elem = angular.element("<div>");
-                elem.addClass("alarmBtn");
+            return {
+                link: function (scope, element, attributes) {
+                    scope.alarmType = scope[attributes["alarmBtn"]];
 
-                var highlightElem = angular.element('<div>');
-                highlightElem.addClass("alarmBtnHighlight");
+                    scope.alarmIcon = "Content/Image/Icon/Alarms/" + attributes["alarmIcon"] + ".png";
 
-                var glowElem = angular.element('<div>');
-                glowElem.addClass("alarmBtnGlow");
-
-                elem.append(glowElem);
-                element.append(elem);
-
-                glowElem.after(highlightElem);
+                    var glowColor = attributes["glowColor"] || "#FFFFFF";
+                    var dec = parseInt(glowColor.replace('#', ''), 16);
+                    var template = 'rgba(' + ((dec >> 16) & 255) + ', ' + ((dec >> 8) & 255) + ', ' + (dec & 255) + ', alpha)';
+                    scope.glowColorFrom = template.replace('alpha', '0.68');
+                    scope.glowColorTo = template.replace('alpha', '0');
+                },
+                restrict: "A",
+                template: function () {
+                    return "<div class='alarmBtn' ng-style='{\"background-image\": \"url(\" + alarmIcon + \")\"}' >" +
+                        "<div class='alarmBtnGlow' " +
+                        "style='background-image: -webkit-radial-gradient(0% 100%, circle, {{glowColorFrom}} 0%, {{glowColorTo}} 100%);" +
+                        "background-image:   -o-radial-gradient(0% 100%, circle, {{glowColorFrom}} 0%, {{glowColorTo}} 100%);" +
+                        "background-image: -moz-radial-gradient(0% 100%, circle, {{glowColorFrom}} 0%, {{glowColorTo}} 100%);" +
+                        "background-image:  -ms-radial-gradient(0% 100%, circle, {{glowColorFrom}} 0%, {{glowColorTo}} 100%);" +
+                        "background-image:      radial-gradient(0% 100%, circle, {{glowColorFrom}} 0%, {{glowColorTo}} 100%)'" +
+                        " />" +
+                        "<div class='alarmBtnHighlight' />" +
+                        "</div>";
+                }
             }
         });
 }());
