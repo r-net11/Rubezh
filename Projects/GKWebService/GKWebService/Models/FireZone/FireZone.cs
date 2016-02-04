@@ -40,11 +40,11 @@ namespace GKWebService.Models.FireZone
 
         public String StateMessage { get; set; }
 
-        public Boolean CanTurnOff { get; set; }
+		public Boolean CanSetIgnore { get; set; }
 
-        public Boolean CanTurnOn { get; set; }
+		public Boolean CanResetIgnore { get; set; }
 
-        public Boolean CanReset { get; set; }
+		public Boolean CanResetFire { get; set; }
 
         public ushort GKDescriptorNo { get; set; }
 
@@ -62,8 +62,8 @@ namespace GKWebService.Models.FireZone
                              .ToString()
                              .Substring(3) + "'";
             StateMessage = gkZone.State.StateClass.ToDescription();
-            CanTurnOff = Convert.ToString(gkZone.State.StateClasses[0]) == "Norm";
-            CanTurnOn = Convert.ToString(gkZone.State.StateClasses[0]) == "Ignore";
+			CanSetIgnore = Convert.ToString(gkZone.State.StateClasses[0]) == "Norm";
+			CanResetIgnore = Convert.ToString(gkZone.State.StateClasses[0]) == "Ignore";
             GKDescriptorNo = gkZone.GKDescriptorNo;
         }
     }

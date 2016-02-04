@@ -17,7 +17,7 @@
                 columnDefs: [
                     { field: 'Name', width: 300, displayName: 'Устройство', cellTemplate: template },
                     { field: 'Address', displayName: 'Адрес', width: 100 },
-                    { field: 'Note', displayName: 'Примечание', width: $(window).width() - 675 }
+                    { field: 'Description', displayName: 'Примечание', width: $(window).width() - 675 }
                 ]
             };
 
@@ -74,7 +74,7 @@
                                 $$treeLevel: data.length - element.Level - 1,
                                 imageDevice: element.ImageDeviceIcon,
                                 imageState: element.StateIcon,
-                                Note: element.Note
+                                Description: element.Description
                             });
                         }
                     }

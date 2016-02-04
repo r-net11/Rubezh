@@ -55,7 +55,7 @@ namespace GKWebService.Controllers
 						ImageDeviceIcon = "/Content/Image/" + remoteDevice.ImageSource.Replace("/Controls;component/", ""),
 						StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(remoteDevice.State.StateClass) + ".png",
 						Level = level,
-						Note = remoteDevice.Description
+						Description = remoteDevice.Description
 					});
 				}
 
@@ -73,7 +73,7 @@ namespace GKWebService.Controllers
 					ImageDeviceIcon = "/Content/Image/" + device.ImageSource.Replace("/Controls;component/", ""),
 					StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(device.State.StateClass) + ".png",
 					Level = level,
-					Note = device.Description
+					Description = device.Description
 				});
 				listTree.Add(item);
 			}
@@ -82,7 +82,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult TurnOff(Guid id)
+		public JsonResult SetIgnore(Guid id)
 		{
 			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
 			{
@@ -94,7 +94,7 @@ namespace GKWebService.Controllers
 
 
 		[HttpPost]
-		public JsonResult TurnOn(Guid id)
+		public JsonResult ResetIgnore(Guid id)
 		{
 			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
 			{
@@ -105,7 +105,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult Reset(Guid id)
+		public JsonResult ResetFire(Guid id)
 		{
 			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
 			{

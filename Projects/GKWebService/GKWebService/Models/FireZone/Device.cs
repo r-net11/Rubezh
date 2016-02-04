@@ -22,7 +22,7 @@ namespace GKWebService.Models
         /// <summary>
         /// Примечание
         /// </summary>
-        public String Note { get; set; }
+		public String Description { get; set; }
 
         public Int32 Level { get; set; }
 

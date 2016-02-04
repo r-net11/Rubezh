@@ -23,12 +23,13 @@
             $scope.$on('fireZonesChanged', function (event, args) {
                 for (var i in $scope.gridOptions.data) {
                     if (args.Uid === $scope.gridOptions.data[i].Uid) {
-                        var isCurrentRowSelected = $scope.gridApi.grid.rows[i].isSelected;
-                        $scope.gridOptions.data[i] = args;
+                        $scope.gridOptions.data[i].CanResetIgnore = args.CanResetIgnore;
+                        $scope.gridOptions.data[i].CanSetIgnore = args.CanSetIgnore;
+                        $scope.gridOptions.data[i].CanResetFire = args.CanResetFire;
+                        $scope.gridOptions.data[i].StateColor = args.StateColor;
+                        $scope.gridOptions.data[i].StateIcon = args.StateIcon;
+                        $scope.gridOptions.data[i].StateMessage = args.StateMessage;
                         $scope.$apply();
-                        if (isCurrentRowSelected) {
-                            $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
-                        }
                         break;
                     }
                 }
