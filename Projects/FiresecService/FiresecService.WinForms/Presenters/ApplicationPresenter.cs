@@ -16,6 +16,6 @@ namespace FiresecService.Presenters
 
 		public static Presenter Current { get; set; }
 
-		Dispatcher FormDispatcher { get; private set; }
+		public Dispatcher FormDispatcher { get; private set; }
 	}
 }
