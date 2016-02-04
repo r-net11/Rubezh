@@ -14,7 +14,7 @@
         					</i> &nbsp;\
         			</div>\
         			<a href=\"#\">\
-						<img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"data:image/gif;base64,{{row.entity.ImageDeviceIcon}}\"/>\
+						<img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"{{row.entity.ImageDeviceIcon}}\"/>\
         				{{row.entity[col.field]}}\
         			</a>\
         		</div>";
@@ -47,14 +47,14 @@
 						item.$$treeLevel = item.Level;
 					})
 					$scope.gridOptions.data = data;
-					if (filter != null && filter.deviceUids != null)
+					if (filter != null && filter.deviceuids != null)
 						$timeout(function () {
-							$scope.gridApi.treeBase.expandAllRows();
-							for (var i in $scope.gridOptions.data) {
-								var row = $scope.gridOptions.data[i];
-								for (var j in filter.deviceUids) {
-									if (row.Uid == filter.deviceUids[j])
-										$scope.gridApi.selection.selectRow(row);
+							$scope.gridapi.treebase.expandallrows();
+							for (var i in $scope.gridoptions.data) {
+								var row = $scope.gridoptions.data[i];
+								for (var j in filter.deviceuids) {
+									if (row.uid == filter.deviceuids[j])
+										$scope.gridapi.selection.selectrow(row);
 								}
 							}
 						}, 100);
