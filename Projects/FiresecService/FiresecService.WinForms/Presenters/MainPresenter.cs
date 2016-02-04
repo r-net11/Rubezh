@@ -17,13 +17,12 @@ namespace FiresecService.Presenters
 			View = view;
 			Logs = new ObservableCollection<LogViewModel>();
 			LastLog = String.Empty;
-
+			View.Title = "Сервер приложений Глобал";
+			View.TabChanged += EventHandler_View_TabChanged;
 			Current = this;
 		}
 
 		#region Fields And Properties
-
-
 
 		public IMainView View { get; private set; }
 
@@ -51,6 +50,29 @@ namespace FiresecService.Presenters
 			}));
 		}
 
+		#endregion
+
+		#region Event handlers for View
+
+		void EventHandler_View_TabChanged(object sender, EventArgs e)
+		{
+			IMainView view = (IMainView)sender;
+
+			if (view.SelectedTabView is ITabPageConnectionsView)
+			{ }
+			else if (view.SelectedTabView is ITabPageGKView)
+			{ }
+			else if (view.SelectedTabView is ITabPageLicenceView)
+			{ }
+			else if (view.SelectedTabView is ITabPageLogView)
+			{ }
+			else if (view.SelectedTabView is ITabPageOperationsView)
+			{ }
+			else if (view.SelectedTabView is ITabPagePollingView)
+			{ }
+			else if (view.SelectedTabView is ITabPageStatusView)
+			{ }
+		}
 
 		#endregion
 	}
