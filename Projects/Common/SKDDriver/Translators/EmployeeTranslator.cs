@@ -616,11 +616,11 @@ namespace SKDDriver
 										dayNo = 6;
 									break;
 
-								//case ScheduleSchemeType.SlideDay:
-								//	var ticksDelta = new TimeSpan(employeeDay.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
-								//	var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
-								//	dayNo = daysDelta % schedule.ScheduleScheme.DaysCount;
-								//	break;
+								case ScheduleSchemeType.SlideDay:
+									var ticksDelta = new TimeSpan(employeeDay.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
+									var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
+									dayNo = daysDelta % schedule.ScheduleScheme.DaysCount;
+									break;
 
 								case ScheduleSchemeType.Month:
 									dayNo = (int)employeeDay.Date.Day - 1;

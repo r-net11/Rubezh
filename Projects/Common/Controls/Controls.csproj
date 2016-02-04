@@ -131,6 +131,7 @@
     <Compile Include="Behaviours\NumericValidator.cs" />
     <Compile Include="Behaviours\TextBlockAutoToolTipBehaviour.cs" />
     <Compile Include="Behaviours\TextBoxBehavior.cs" />
+    <Compile Include="BindingProxy.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />

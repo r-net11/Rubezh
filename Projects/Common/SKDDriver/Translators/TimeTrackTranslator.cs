@@ -227,12 +227,12 @@ namespace SKDDriver.Translators
 						dayNo = 6;
 					break;
 
-				//case ScheduleSchemeType.SlideDay:
-				//	var daysCount = days.Count();
-				//	var ticksDelta = new TimeSpan(date.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
-				//	var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
-				//	dayNo = daysDelta % daysCount;
-				//	break;
+				case ScheduleSchemeType.SlideDay:
+					var daysCount = days.Count();
+					var ticksDelta = new TimeSpan(date.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
+					var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
+					dayNo = daysDelta % daysCount;
+					break;
 
 				case ScheduleSchemeType.Month:
 					dayNo = date.Day - 1;
@@ -254,6 +254,8 @@ namespace SKDDriver.Translators
 			}
 
 			TimeTrackPart nightTimeTrackPart = null;
+			// Для дней графика отличных от первого учитываем хвосты дневных графиков с переходом из предыдущего дня
+			if (date != employee.ScheduleStartDate.Date)
 			{
 				var previousDay = dayNo > 0
 					? days.FirstOrDefault(x => x.Number == dayNo - 1)

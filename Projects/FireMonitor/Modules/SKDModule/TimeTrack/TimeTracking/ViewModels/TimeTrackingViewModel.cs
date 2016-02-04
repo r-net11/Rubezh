@@ -44,6 +44,19 @@ namespace SKDModule.ViewModels
 		#endregion
 
 		#region Properties
+		private bool _isEnabledTimeTrackFilter;
+
+		public bool IsEnabledTimeTrackFilter
+		{
+			get { return _isEnabledTimeTrackFilter; }
+			set
+			{
+				if (_isEnabledTimeTrackFilter == value) return;
+
+				_isEnabledTimeTrackFilter = value;
+				OnPropertyChanged(() => IsEnabledTimeTrackFilter);
+			}
+		}
 
 		private bool _isBisy;
 
@@ -292,6 +305,7 @@ namespace SKDModule.ViewModels
 		{
 			TotalDays = (int)(_timeTrackFilter.EndDate - _timeTrackFilter.StartDate).TotalDays + 1;
 			FirstDay = _timeTrackFilter.StartDate;
+			IsEnabledTimeTrackFilter = _timeTrackFilter.TotalTimeTrackTypeFilters.Any();
 
 			var timeTrackResult = GetServerTimeTrackResults();
 

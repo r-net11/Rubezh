@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 	{
 		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
-
+		
 		public ScheduleSchemesViewModel()
 			:base()
 		{
@@ -88,7 +88,7 @@ namespace SKDModule.ViewModels
 		{
 			return _dayIntervals.ContainsKey(organisationUID) ? _dayIntervals[organisationUID] : new ObservableCollection<DayInterval>();
 		}
-
+		
 		public ObservableCollection<DayInterval> GetDayIntervals(Guid organisationUID, ScheduleSchemeType scheduleSchemeType)
 		{
 			IEnumerable<DayInterval> dayIntervals = null;
@@ -100,9 +100,9 @@ namespace SKDModule.ViewModels
 				case ScheduleSchemeType.Month:
 					dayIntervals = GetDayIntervals(organisationUID).Where(x => x.SlideTime == TimeSpan.Zero && !x.DayIntervalParts.Any(y => y.TransitionType == DayIntervalPartTransitionType.Night));
 					break;
-				//case ScheduleSchemeType.SlideDay:
-				//	dayIntervals = GetDayIntervals(organisationUID).Where(x => x.SlideTime == TimeSpan.Zero);
-				//	break;
+				case ScheduleSchemeType.SlideDay:
+					dayIntervals = GetDayIntervals(organisationUID).Where(x => x.SlideTime == TimeSpan.Zero);
+					break;
 			}
 			return dayIntervals == null
 				? new ObservableCollection<DayInterval>()

@@ -499,7 +499,7 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(string Employee, string Department, string Position, double ScheduleDay, double ScheduleNight, double RealPresence, double RealNightTime, double TotalAbsence, double TotalNonAcceptedOvertime, double DocumentPresence, double DocumentAbsenceReasonable, double DocumentAbsence, double DocumentOvertime, double TotalBalance, string TotalBalanceHeaderName) {
+            public DataRow AddDataRow(string Employee, string Department, string Position, string ScheduleDay, string ScheduleNight, string RealPresence, string RealNightTime, string TotalAbsence, string TotalNonAcceptedOvertime, string DocumentPresence, string DocumentAbsenceReasonable, string DocumentAbsence, string DocumentOvertime, string TotalBalance, string TotalBalanceHeaderName) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Employee,
@@ -565,27 +565,27 @@ namespace FiresecService.Report.DataSources {
                 base.Columns.Add(this.columnDepartment);
                 this.columnPosition = new global::System.Data.DataColumn("Position", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPosition);
-                this.columnScheduleDay = new global::System.Data.DataColumn("ScheduleDay", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnScheduleDay = new global::System.Data.DataColumn("ScheduleDay", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnScheduleDay);
-                this.columnScheduleNight = new global::System.Data.DataColumn("ScheduleNight", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnScheduleNight = new global::System.Data.DataColumn("ScheduleNight", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnScheduleNight);
-                this.columnRealPresence = new global::System.Data.DataColumn("RealPresence", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnRealPresence = new global::System.Data.DataColumn("RealPresence", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRealPresence);
-                this.columnRealNightTime = new global::System.Data.DataColumn("RealNightTime", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnRealNightTime = new global::System.Data.DataColumn("RealNightTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRealNightTime);
-                this.columnTotalAbsence = new global::System.Data.DataColumn("TotalAbsence", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnTotalAbsence = new global::System.Data.DataColumn("TotalAbsence", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalAbsence);
-                this.columnTotalNonAcceptedOvertime = new global::System.Data.DataColumn("TotalNonAcceptedOvertime", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnTotalNonAcceptedOvertime = new global::System.Data.DataColumn("TotalNonAcceptedOvertime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalNonAcceptedOvertime);
-                this.columnDocumentPresence = new global::System.Data.DataColumn("DocumentPresence", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnDocumentPresence = new global::System.Data.DataColumn("DocumentPresence", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDocumentPresence);
-                this.columnDocumentAbsenceReasonable = new global::System.Data.DataColumn("DocumentAbsenceReasonable", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnDocumentAbsenceReasonable = new global::System.Data.DataColumn("DocumentAbsenceReasonable", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDocumentAbsenceReasonable);
-                this.columnDocumentAbsence = new global::System.Data.DataColumn("DocumentAbsence", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnDocumentAbsence = new global::System.Data.DataColumn("DocumentAbsence", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDocumentAbsence);
-                this.columnDocumentOvertime = new global::System.Data.DataColumn("DocumentOvertime", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnDocumentOvertime = new global::System.Data.DataColumn("DocumentOvertime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDocumentOvertime);
-                this.columnTotalBalance = new global::System.Data.DataColumn("TotalBalance", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnTotalBalance = new global::System.Data.DataColumn("TotalBalance", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalBalance);
                 this.columnTotalBalanceHeaderName = new global::System.Data.DataColumn("TotalBalanceHeaderName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalBalanceHeaderName);
@@ -779,10 +779,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double ScheduleDay {
+            public string ScheduleDay {
                 get {
                     try {
-                        return ((double)(this[this.tableData.ScheduleDayColumn]));
+                        return ((string)(this[this.tableData.ScheduleDayColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'ScheduleDay\' in table \'Data\' is DBNull.", e);
@@ -795,10 +795,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double ScheduleNight {
+            public string ScheduleNight {
                 get {
                     try {
-                        return ((double)(this[this.tableData.ScheduleNightColumn]));
+                        return ((string)(this[this.tableData.ScheduleNightColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'ScheduleNight\' in table \'Data\' is DBNull.", e);
@@ -811,10 +811,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double RealPresence {
+            public string RealPresence {
                 get {
                     try {
-                        return ((double)(this[this.tableData.RealPresenceColumn]));
+                        return ((string)(this[this.tableData.RealPresenceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'RealPresence\' in table \'Data\' is DBNull.", e);
@@ -827,10 +827,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double RealNightTime {
+            public string RealNightTime {
                 get {
                     try {
-                        return ((double)(this[this.tableData.RealNightTimeColumn]));
+                        return ((string)(this[this.tableData.RealNightTimeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'RealNightTime\' in table \'Data\' is DBNull.", e);
@@ -843,10 +843,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double TotalAbsence {
+            public string TotalAbsence {
                 get {
                     try {
-                        return ((double)(this[this.tableData.TotalAbsenceColumn]));
+                        return ((string)(this[this.tableData.TotalAbsenceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TotalAbsence\' in table \'Data\' is DBNull.", e);
@@ -859,10 +859,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double TotalNonAcceptedOvertime {
+            public string TotalNonAcceptedOvertime {
                 get {
                     try {
-                        return ((double)(this[this.tableData.TotalNonAcceptedOvertimeColumn]));
+                        return ((string)(this[this.tableData.TotalNonAcceptedOvertimeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TotalNonAcceptedOvertime\' in table \'Data\' is DBNull.", e);
@@ -875,10 +875,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double DocumentPresence {
+            public string DocumentPresence {
                 get {
                     try {
-                        return ((double)(this[this.tableData.DocumentPresenceColumn]));
+                        return ((string)(this[this.tableData.DocumentPresenceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'DocumentPresence\' in table \'Data\' is DBNull.", e);
@@ -891,10 +891,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double DocumentAbsenceReasonable {
+            public string DocumentAbsenceReasonable {
                 get {
                     try {
-                        return ((double)(this[this.tableData.DocumentAbsenceReasonableColumn]));
+                        return ((string)(this[this.tableData.DocumentAbsenceReasonableColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'DocumentAbsenceReasonable\' in table \'Data\' is DBNull.", e);
@@ -907,10 +907,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double DocumentAbsence {
+            public string DocumentAbsence {
                 get {
                     try {
-                        return ((double)(this[this.tableData.DocumentAbsenceColumn]));
+                        return ((string)(this[this.tableData.DocumentAbsenceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'DocumentAbsence\' in table \'Data\' is DBNull.", e);
@@ -923,10 +923,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double DocumentOvertime {
+            public string DocumentOvertime {
                 get {
                     try {
-                        return ((double)(this[this.tableData.DocumentOvertimeColumn]));
+                        return ((string)(this[this.tableData.DocumentOvertimeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'DocumentOvertime\' in table \'Data\' is DBNull.", e);
@@ -939,10 +939,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double TotalBalance {
+            public string TotalBalance {
                 get {
                     try {
-                        return ((double)(this[this.tableData.TotalBalanceColumn]));
+                        return ((string)(this[this.tableData.TotalBalanceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TotalBalance\' in table \'Data\' is DBNull.", e);

@@ -50,8 +50,10 @@
 				Command="{Binding RestoreCommand}"
 				ImageSource="Redo"
 				ToolTip="Восстановить"
-				Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+				Visibility="{Binding IsWithDeleted,
+			                                    Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
+
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
@@ -128,9 +130,11 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<!--<StackPanel
+				<StackPanel
+					Grid.Row="0"
 					Orientation="Horizontal"
-					Visibility="{Binding IsSlide,  Converter={StaticResource BoolToVisibilityConverter}}">
+					Visibility="{Binding IsSlide,
+				                                 Converter={StaticResource BoolToVisibilityConverter}}">
 					<ToolBarButton
 						Command="{Binding AddCommand}"
 						ImageSource="Add"
@@ -139,9 +143,10 @@
 						Command="{Binding DeleteCommand}"
 						ImageSource="Delete"
 						ToolTip="Удалить" />
-				</StackPanel>-->
+				</StackPanel>
 				<DataGrid
 					Grid.Row="1"
+					Margin="2"
 					IsReadOnly="False"
 					ItemsSource="{Binding SheduleDayIntervals}"
 					SelectedItem="{Binding SelectedSheduleDayInterval}">

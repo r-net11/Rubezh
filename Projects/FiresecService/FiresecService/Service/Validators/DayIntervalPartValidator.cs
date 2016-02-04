@@ -78,7 +78,7 @@ namespace FiresecService.Service.Validators
 			{
 				otherDayIntervalParts = databaseService.DayIntervalPartTranslator.GetOtherDayIntervalParts(dayIntervalPart).ToList();
 			}
-
+			
 			// Если другие временные интервалы отсутствуют, то дальше не выполняем проверку
 			if (otherDayIntervalParts.Any())
 			{
@@ -153,7 +153,7 @@ namespace FiresecService.Service.Validators
 
 			if (dayInterval.SlideTime == TimeSpan.Zero)
 			{
-				var monthOrSlideScheduleSchemes = scheduleSchemes.Where(x => x.Type == ScheduleSchemeType.Month); //|| x.Type == ScheduleSchemeType.SlideDay);
+				var monthOrSlideScheduleSchemes = scheduleSchemes.Where(x => x.Type == ScheduleSchemeType.Month || x.Type == ScheduleSchemeType.SlideDay);
 				// Если тип связного графика - "Месячный" или "Сменный", выходим
 				if (!monthOrSlideScheduleSchemes.Any())
 					return new OperationResult();
@@ -183,7 +183,7 @@ namespace FiresecService.Service.Validators
 			var dayIntervalPartWithTransitionValidationResult = ValidateDayIntervalPartWithTransitionOnAddingOrEditing(dayIntervalPart);
 			if (dayIntervalPartWithTransitionValidationResult.HasError)
 				return dayIntervalPartWithTransitionValidationResult;
-
+			
 			// Суммарная продолжительность интервалов дневного графика меньше значения в поле "Обязательная продолжительность скользящего графика"?
 			DayInterval dayInterval;
 			IEnumerable<DayIntervalPart> otherDayIntervalParts;
@@ -220,7 +220,7 @@ namespace FiresecService.Service.Validators
 				// Если "Обязательная продолжительность скользящего графика" = 0
 				if (dayInterval.SlideTime == TimeSpan.Zero)
 				{
-					var monthOrSlideScheduleSchemes = scheduleSchemes.Where(x => x.Type == ScheduleSchemeType.Month); //|| x.Type == ScheduleSchemeType.SlideDay);
+					var monthOrSlideScheduleSchemes = scheduleSchemes.Where(x => x.Type == ScheduleSchemeType.Month || x.Type == ScheduleSchemeType.SlideDay);
 					// Если тип связного графика - "Месячный" или "Сменный", выходим
 					if (!monthOrSlideScheduleSchemes.Any())
 						return new OperationResult();
@@ -272,7 +272,7 @@ namespace FiresecService.Service.Validators
 					dayInterval.DayIntervalParts.Where(x => x.UID != dayIntervalPartUID), dayInterval.SlideTime);
 			if (validationResult.HasError)
 				return new OperationResult(validationResult.Errors);
-
+			
 			return new OperationResult();
 		}
 	}
