@@ -58,8 +58,11 @@
             };
 
             $scope.$on('selectedZoneChanged', function (event, args) {
-                $http.get('FireZones/GetDevicesListByZoneNumber/' + args
-                ).success(function (data, status, headers, config) {
+                $http({
+                    url: 'FireZones/GetDevicesListByZoneNumber/',
+                    method: "GET",
+                    params: { uid: args }
+                }).success(function (data, status, headers, config) {
                     $scope.gridOptions.data = [];
                     for (var i in data) {
                         var item = data[i].DeviceList;
@@ -70,7 +73,7 @@
                                 Address: element.Address,
                                 $$treeLevel: data.length - element.Level - 1,
                                 imageDevice: element.ImageDeviceIcon,
-                                imageState: element.StateIcon, 
+                                imageState: element.StateIcon,
                                 Note: element.Note
                             });
                         }

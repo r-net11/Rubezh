@@ -43,7 +43,7 @@
             };
 
             $scope.changeZone = function (row) {
-                broadcastService.send('selectedZoneChanged', row.entity.No - 1);
+                broadcastService.send('selectedZoneChanged', row.entity.Uid);
             }
 
             $http.get('FireZones/GetFireZonesData').success(function (data, status, headers, config) {
