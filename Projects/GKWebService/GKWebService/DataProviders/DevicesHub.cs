@@ -19,7 +19,7 @@ namespace GKWebService.DataProviders
 		}
 		 public void DevicesUpdate(GKDevice device)
 		{
-			var deviceModel = new MPTDevice (device);
+			var deviceModel = new Device (device);
 			Clients.All.devicesUpdate(deviceModel);
 		}
 	}

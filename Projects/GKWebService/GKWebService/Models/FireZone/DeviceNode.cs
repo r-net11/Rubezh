@@ -6,9 +6,9 @@ namespace GKWebService.Models.FireZone
     {
         public DeviceNode()
         {
-            DeviceList = new List<Device>();
+			DeviceList = new List<Device>();
         }
 
-        public List<Device> DeviceList { get; set; }
+		public List<Device> DeviceList { get; set; }
     }
 }

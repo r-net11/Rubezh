@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using Controls.Converters;
+using GKWebService.Models;
 
 namespace GKWebService.DataProviders.FireZones
 {
@@ -90,14 +91,9 @@ namespace GKWebService.DataProviders.FireZones
 
             foreach (var remoteDevice in GKManager.Zones[zoneNumber].Devices)
             {
-                data.DeviceList.Add(new Device()
+				data.DeviceList.Add(new Device(remoteDevice)
                 {
-                    Name = remoteDevice.PresentationName,
-                    Address = remoteDevice.Address,
-                    ImageDeviceIcon = "/Content/Image/" + remoteDevice.ImageSource.Replace("/Controls;component/", ""),
-                    StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(remoteDevice.State.StateClass) + ".png",
-                    Level = level,
-                    Note = remoteDevice.Description
+                    Level = level
                 });
             }
 
@@ -109,15 +105,10 @@ namespace GKWebService.DataProviders.FireZones
                 level++;
                 DeviceNode item = new DeviceNode();
                 device = device.Parent;
-                item.DeviceList.Add(new Device()
-                {
-                    Name = device.PresentationName,
-                    Address = device.Address,
-                    ImageDeviceIcon = "/Content/Image/" + device.ImageSource.Replace("/Controls;component/", ""),
-                    StateIcon =  "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(device.State.StateClass) + ".png",
-                    Level = level, 
-                    Note = device.Description
-                });
+				item.DeviceList.Add(new Device(device)
+				{
+					Level = level
+				});
                 listTree.Add(item);
             }
 

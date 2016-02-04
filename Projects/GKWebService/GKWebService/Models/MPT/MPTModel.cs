@@ -16,7 +16,6 @@ namespace GKWebService.Models
 	{
 		public MPTModel(GKMPT mpt)
 		{
-			MPTDevices = new List<MPTDevice>();
 			UID = mpt.UID;
 			No = mpt.No;
 			GKDescriptorNo = mpt.GKDescriptorNo;
@@ -52,7 +51,6 @@ namespace GKWebService.Models
 		public int No { get; set; }
 		public string Name { get; set; }
 		public String MptLogic { get; set; }
-		public List<MPTDevice> MPTDevices { get; set; }
 		public int Delay { get; set; }
 		public string StateIcon { get; set; }
 		public bool CanSetAutomaticState { get; set; }
