@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace FiresecService.Presenters
 {
-	public class MainPresenter
+	public class Presenter : ApplicationPresenter
 	{
-		public MainPresenter(IMainView view)
+		public Presenter(IMainView view)
 		{
 			View = view;
-			_dispatcher = Dispatcher.CurrentDispatcher;
 			Logs = new ObservableCollection<LogViewModel>();
 			LastLog = String.Empty;
 
@@ -24,9 +23,7 @@ namespace FiresecService.Presenters
 
 		#region Fields And Properties
 
-		public static MainPresenter Current { get; set; }
 
-		Dispatcher _dispatcher;
 
 		public IMainView View { get; private set; }
 
@@ -44,7 +41,7 @@ namespace FiresecService.Presenters
 		
 		public void AddLog(string message, bool isError)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
+			FormDispatcher.BeginInvoke((Action)(() =>
 			{
 				LastLog = message;
 				var logViewModel = new LogViewModel(message, isError);

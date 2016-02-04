@@ -60,6 +60,10 @@ namespace FiresecService.Views
 		{
 		}
 
+		#endregion
+
+		#region Methods
+
 		protected override void SetVisibleCore(bool value)
 		{
 			// этот код необходим что бы скрыть форму при запуске приложения

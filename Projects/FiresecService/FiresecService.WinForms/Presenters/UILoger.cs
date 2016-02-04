@@ -10,9 +10,9 @@ namespace FiresecService.Presenters
 	{
 		public static void Log(string message, bool isError = false)
 		{
-			if (MainPresenter.Current != null)
+			if (Presenter.Current != null)
 			{
-				MainPresenter.Current.AddLog(message, isError);
+				Presenter.Current.AddLog(message, isError);
 			}
 			if (isError)
 			{
