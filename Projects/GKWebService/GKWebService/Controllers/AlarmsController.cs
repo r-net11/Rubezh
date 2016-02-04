@@ -23,7 +23,24 @@ namespace GKWebService.Controllers
 		[ErrorHandler]
 		public JsonResult GetAlarmGroups()
 		{
-			return Json(new AlarmGroupsViewModel(), JsonRequestBehavior.AllowGet);
+			var alarms = AlarmsViewModel.OnGKObjectsStateChanged(null);
+			var alarmGroupsViewModel = new AlarmGroupsViewModel();
+			alarmGroupsViewModel.Update(alarms);
+			return Json(alarmGroupsViewModel, JsonRequestBehavior.AllowGet);
+		}
+
+		public ActionResult Alarms()
+		{
+			return View();
+		}
+
+		[ErrorHandler]
+		public JsonResult GetAlarms()
+		{
+			var alarms = AlarmsViewModel.OnGKObjectsStateChanged(null);
+			var alarmsViewModel = new AlarmsViewModel();
+			alarmsViewModel.UpdateAlarms(alarms);
+			return Json(alarmsViewModel, JsonRequestBehavior.AllowGet);
 		}
 	}
 }
