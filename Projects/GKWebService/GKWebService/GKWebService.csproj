@@ -351,9 +351,12 @@
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InAutomatic.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InManual.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\Unknown.png" />
+    <Resource Include="Content\Image\Images\BDirection.png" />
     <Content Include="Content\Image\Icon\GK\BJournal.png" />
     <Content Include="Content\Image\Icon\GK\Blue_Direction.png" />
     <Content Include="Content\Image\Icon\GK\BMPT.png" />
+    <Resource Include="Content\Image\Images\Code.png" />
+    <Resource Include="Content\Image\Images\Delay.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
@@ -404,6 +407,12 @@
     <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\no.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\PC.png" />
+    <Resource Include="Content\Image\Images\Door.png" />
+    <Resource Include="Content\Image\Images\GuardZone.png" />
+    <Resource Include="Content\Image\Images\BMPT.png" />
+    <Resource Include="Content\Image\Images\Pim.png" />
+    <Resource Include="Content\Image\Images\BPumpStation.png" />
+    <Resource Include="Content\Image\Images\SKDZone.png" />
     <Content Include="Content\Image\Images\Zone.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
