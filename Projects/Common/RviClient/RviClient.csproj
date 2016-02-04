@@ -107,6 +107,24 @@
     <None Include="Dll\npf64.sys">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Service References\RVIServiceReference\RVI.IntegrationInterface.XmlSchemas.Alarm.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RVIServiceReference\RVI.IntegrationInterface.XmlSchemas.Common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RVIServiceReference\RVI.IntegrationInterface.XmlSchemas.Perimeter.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RVIServiceReference\RVI.IntegrationInterface.XmlSchemas.Video.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RVIServiceReference\RVI.IntegrationInterface.XmlSchemas.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RVIServiceReference\RVI.IntegrationInterface.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRuleCheckExistOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -129,6 +147,12 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.PtzTemplateBypassStopOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.ServerListOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.ServerPollOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.SessionCloseOut.datasource">
@@ -161,36 +185,21 @@
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.VideoRecordStopOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Alarm.xsd">
+    <None Include="Service References\RVIServiceReference\service1.wsdl" />
+    <None Include="Service References\RVIServiceReference\service2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd">
+    <None Include="Service References\RVIServiceReference\service21.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Video.xsd">
+    <None Include="Service References\RVIStreamingServiceReference\Message.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.xsd">
+    <None Include="Service References\RVIStreamingServiceReference\service.wsdl" />
+    <None Include="Service References\RVIStreamingServiceReference\service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RVIServiceReference\service.wsdl" />
-    <None Include="Service References\RVIServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RVIServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RVIStreamingServiceReference\Message1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RVIStreamingServiceReference\service1.wsdl" />
-    <None Include="Service References\RVIStreamingServiceReference\service2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RVIStreamingServiceReference\service21.xsd">
+    <None Include="Service References\RVIStreamingServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

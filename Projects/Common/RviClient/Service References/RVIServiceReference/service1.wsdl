@@ -14,11 +14,12 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Alarm" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Video" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Perimeter" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Alarm" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Video" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IIntegration_SessionInitialiazation_InputMessage">
@@ -38,6 +39,18 @@
   </wsdl:message>
   <wsdl:message name="IIntegration_SessionClose_OutputMessage">
     <wsdl:part name="parameters" element="tns:SessionCloseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_GetServerList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerList" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_GetServerList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_ServerPoll_InputMessage">
+    <wsdl:part name="parameters" element="tns:ServerPoll" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_ServerPoll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ServerPollResponse" />
   </wsdl:message>
   <wsdl:message name="IIntegration_GetPerimeter_InputMessage">
     <wsdl:part name="parameters" element="tns:GetPerimeter" />
@@ -142,6 +155,14 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/SessionClose" message="tns:IIntegration_SessionClose_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/SessionCloseResponse" message="tns:IIntegration_SessionClose_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetServerList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/GetServerList" message="tns:IIntegration_GetServerList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/GetServerListResponse" message="tns:IIntegration_GetServerList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ServerPoll">
+      <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/ServerPoll" message="tns:IIntegration_ServerPoll_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/ServerPollResponse" message="tns:IIntegration_ServerPoll_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetPerimeter">
       <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/GetPerimeter" message="tns:IIntegration_GetPerimeter_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/GetPerimeterResponse" message="tns:IIntegration_GetPerimeter_OutputMessage" />
@@ -227,6 +248,24 @@
     </wsdl:operation>
     <wsdl:operation name="SessionClose">
       <soap12:operation soapAction="http://tempuri.org/IIntegration/SessionClose" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServerList">
+      <soap12:operation soapAction="http://tempuri.org/IIntegration/GetServerList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServerPoll">
+      <soap12:operation soapAction="http://tempuri.org/IIntegration/ServerPoll" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -372,9 +411,9 @@
   </wsdl:binding>
   <wsdl:service name="Integration">
     <wsdl:port name="NetTcpBinding_IIntegration" binding="tns:NetTcpBinding_IIntegration">
-      <soap12:address location="net.tcp://localhost:8000/Integration" />
+      <soap12:address location="net.tcp://192.168.21.38:8001/Integration" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://localhost:8000/Integration</wsa10:Address>
+        <wsa10:Address>net.tcp://192.168.21.38:8001/Integration</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

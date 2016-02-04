@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" />
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface" />
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface" />
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="SessionInitialiazationIn">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q1:DocumentInBase">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q1:DocumentInBase">
         <xs:sequence>
           <xs:element name="Login" nillable="true" type="xs:string" />
           <xs:element name="Password" nillable="true" type="xs:string" />
@@ -16,7 +16,7 @@
   <xs:element name="SessionInitialiazationIn" nillable="true" type="tns:SessionInitialiazationIn" />
   <xs:complexType name="SessionInitialiazationOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q2:DocumentOutBase">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q2:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -24,7 +24,7 @@
   <xs:element name="SessionInitialiazationOut" nillable="true" type="tns:SessionInitialiazationOut" />
   <xs:complexType name="SessionKeepAliveIn">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q3:DocumentInBase">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q3:DocumentInBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -32,7 +32,7 @@
   <xs:element name="SessionKeepAliveIn" nillable="true" type="tns:SessionKeepAliveIn" />
   <xs:complexType name="SessionKeepAliveOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q4:DocumentOutBase">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q4:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -40,7 +40,7 @@
   <xs:element name="SessionKeepAliveOut" nillable="true" type="tns:SessionKeepAliveOut" />
   <xs:complexType name="SessionCloseIn">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q5:DocumentInBase">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q5:DocumentInBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -48,7 +48,7 @@
   <xs:element name="SessionCloseIn" nillable="true" type="tns:SessionCloseIn" />
   <xs:complexType name="SessionCloseOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q6:DocumentOutBase">
+      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q6:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -56,7 +56,7 @@
   <xs:element name="SessionCloseOut" nillable="true" type="tns:SessionCloseOut" />
   <xs:complexType name="PerimeterIn">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q7:DocumentInBase">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q7:DocumentInBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -64,7 +64,7 @@
   <xs:element name="PerimeterIn" nillable="true" type="tns:PerimeterIn" />
   <xs:complexType name="PerimeterOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q8:DocumentOutBase">
+      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q8:DocumentOutBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="Devices" nillable="true" type="tns:ArrayOfDevice" />
         </xs:sequence>
@@ -80,7 +80,7 @@
   <xs:element name="ArrayOfDevice" nillable="true" type="tns:ArrayOfDevice" />
   <xs:complexType name="Device">
     <xs:sequence>
-      <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface" minOccurs="0" name="Channels" nillable="true" type="q9:ArrayOfChannel" />
+      <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface" minOccurs="0" name="Channels" nillable="true" type="q9:ArrayOfChannel" />
       <xs:element minOccurs="0" name="Guid" type="ser:guid" />
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
@@ -131,7 +131,7 @@
   <xs:element name="Stream" nillable="true" type="tns:Stream" />
   <xs:complexType name="SubscribePerimeterChangedIn">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q10:DocumentInBase">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q10:DocumentInBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -139,7 +139,7 @@
   <xs:element name="SubscribePerimeterChangedIn" nillable="true" type="tns:SubscribePerimeterChangedIn" />
   <xs:complexType name="SubscribePerimeterChangedOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q11="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q11:DocumentOutBase">
+      <xs:extension xmlns:q11="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q11:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -147,7 +147,7 @@
   <xs:element name="SubscribePerimeterChangedOut" nillable="true" type="tns:SubscribePerimeterChangedOut" />
   <xs:complexType name="UnsubscribePerimeterChangedIn">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q12="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q12:DocumentInBase">
+      <xs:extension xmlns:q12="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q12:DocumentInBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -155,7 +155,7 @@
   <xs:element name="UnsubscribePerimeterChangedIn" nillable="true" type="tns:UnsubscribePerimeterChangedIn" />
   <xs:complexType name="UnsubscribePerimeterChangedOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q13="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q13:DocumentOutBase">
+      <xs:extension xmlns:q13="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q13:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -173,7 +173,7 @@
   <xs:element name="VideoRecordStartIn" nillable="true" type="tns:VideoRecordStartIn" />
   <xs:complexType name="VideoRecordBaseIn">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q14="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q14:DocumentInBase">
+      <xs:extension xmlns:q14="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q14:DocumentInBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="ChannelNumber" type="xs:int" />
           <xs:element minOccurs="0" name="DeviceGuid" type="ser:guid" />
@@ -185,7 +185,7 @@
   <xs:element name="VideoRecordBaseIn" nillable="true" type="tns:VideoRecordBaseIn" />
   <xs:complexType name="VideoRecordStartOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q15="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q15:DocumentOutBase">
+      <xs:extension xmlns:q15="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q15:DocumentOutBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="StarTime" type="xs:dateTime" />
         </xs:sequence>
@@ -203,7 +203,7 @@
   <xs:element name="VideoRecordStopIn" nillable="true" type="tns:VideoRecordStopIn" />
   <xs:complexType name="VideoRecordStopOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q16="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q16:DocumentOutBase">
+      <xs:extension xmlns:q16="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q16:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -221,7 +221,7 @@
   <xs:element name="VideoFileIn" nillable="true" type="tns:VideoFileIn" />
   <xs:complexType name="VideoFileOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q17="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q17:DocumentOutBase">
+      <xs:extension xmlns:q17="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q17:DocumentOutBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="FileContent" nillable="true" type="xs:base64Binary" />
           <xs:element minOccurs="0" name="HasNextSegment" type="xs:boolean" />
@@ -243,7 +243,7 @@
   <xs:element name="PtzPresetIn" nillable="true" type="tns:PtzPresetIn" />
   <xs:complexType name="PtzBaseIn">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q18="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q18:DocumentInBase">
+      <xs:extension xmlns:q18="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q18:DocumentInBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="ChannelNumber" type="xs:int" />
           <xs:element minOccurs="0" name="DeviceGuid" type="ser:guid" />
@@ -254,7 +254,7 @@
   <xs:element name="PtzBaseIn" nillable="true" type="tns:PtzBaseIn" />
   <xs:complexType name="PtzPresetOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q19="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q19:DocumentOutBase">
+      <xs:extension xmlns:q19="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q19:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -282,7 +282,7 @@
   <xs:element name="PtzTemplateBypassBase" nillable="true" type="tns:PtzTemplateBypassBase" />
   <xs:complexType name="PtzTemplateBypassStartOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q20="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q20:DocumentOutBase">
+      <xs:extension xmlns:q20="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q20:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -298,7 +298,7 @@
   <xs:element name="PtzTemplateBypassStopIn" nillable="true" type="tns:PtzTemplateBypassStopIn" />
   <xs:complexType name="PtzTemplateBypassStopOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q21="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q21:DocumentOutBase">
+      <xs:extension xmlns:q21="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q21:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -314,7 +314,7 @@
   <xs:element name="SnapshotDoIn" nillable="true" type="tns:SnapshotDoIn" />
   <xs:complexType name="SnapshotBase">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q22="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q22:DocumentInBase">
+      <xs:extension xmlns:q22="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q22:DocumentInBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="ChannelNumber" type="xs:int" />
           <xs:element minOccurs="0" name="DeviceGuid" type="ser:guid" />
@@ -326,7 +326,7 @@
   <xs:element name="SnapshotBase" nillable="true" type="tns:SnapshotBase" />
   <xs:complexType name="SnapshotDoOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q23="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q23:DocumentOutBase">
+      <xs:extension xmlns:q23="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q23:DocumentOutBase">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
@@ -342,7 +342,7 @@
   <xs:element name="SnapshotImageIn" nillable="true" type="tns:SnapshotImageIn" />
   <xs:complexType name="SnapshotImageOut">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q24="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" base="q24:DocumentOutBase">
+      <xs:extension xmlns:q24="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q24:DocumentOutBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="Content" nillable="true" type="xs:base64Binary" />
           <xs:element minOccurs="0" name="Date" type="xs:dateTime" />

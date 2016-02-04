@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.ServiceModel;
+﻿using Common;
 using RubezhAPI.Models;
 using RviClient.RVIServiceReference;
 using RviClient.RVIStreamingServiceReference;
-using Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
+using System.ServiceModel;
 
 namespace RviClient
 {
@@ -99,6 +99,14 @@ namespace RviClient
 				{
 					devices = perimeterOut.Devices.ToList();
 				}
+				var serverListIn = new ServerListIn();
+				serverListIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var serverListOut = client.GetServerList(serverListIn);
+				var servers = serverListOut.ServerList;
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()
