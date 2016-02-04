@@ -30,7 +30,8 @@ namespace FiresecService.Service
 			clientInfo.CallbackIndex = CallbackManager.Index;
 			ClientInfos.Add(clientInfo);
 
-			MainViewModel.Current.AddClient(clientCredentials);
+			//MainViewModel.Current.AddClient(clientCredentials);
+			throw new NotImplementedException();
 			return result;
 		}
 
@@ -38,7 +39,8 @@ namespace FiresecService.Service
 		{
 			var clientInfo = ClientInfos.FirstOrDefault(x => x.UID == uid);
 			ClientInfos.Remove(clientInfo);
-			MainViewModel.Current.RemoveClient(uid);
+			//MainViewModel.Current.RemoveClient(uid);
+			throw new NotImplementedException();
 		}
 
 		public static ClientInfo GetClientInfo(Guid uid)
