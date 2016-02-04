@@ -133,17 +133,17 @@ namespace FiresecService.Report.Templates
 						}
 					}
 
-					dataRow.ScheduleDay = totalScheduleDay;
-					dataRow.ScheduleNight = totalScheduleNight;
-					dataRow.RealPresence = totalPresence;
-					dataRow.RealNightTime = totalNight;
-					dataRow.TotalAbsence = totalAbsence;
-					dataRow.TotalNonAcceptedOvertime = totalOvertime;
-					dataRow.DocumentPresence = documentPresenceTotal;
-					dataRow.DocumentAbsenceReasonable = documentAbsenceReasTotal;
-					dataRow.DocumentAbsence = totalDocumentAbsence;
-					dataRow.DocumentOvertime = totalDocumentOvertime;
-					dataRow.TotalBalance = GetBalanceWithoutNonAcceptedOvertime(totalDocumentOvertime, totalAbsence, totalDocumentAbsence, totalOvertime, filter.AllowOnlyAcceptedOvertime);
+					dataRow.ScheduleDay = totalScheduleDay.ToString("f1");
+					dataRow.ScheduleNight = totalScheduleNight.ToString("f1");
+					dataRow.RealPresence = totalPresence.ToString("f1");
+					dataRow.RealNightTime = totalNight.ToString("f1");
+					dataRow.TotalAbsence = totalAbsence.ToString("f1");
+					dataRow.TotalNonAcceptedOvertime = totalOvertime.ToString("f1");
+					dataRow.DocumentPresence = documentPresenceTotal.ToString("f1");
+					dataRow.DocumentAbsenceReasonable = documentAbsenceReasTotal.ToString("f1");
+					dataRow.DocumentAbsence = totalDocumentAbsence.ToString("f1");
+					dataRow.DocumentOvertime = totalDocumentOvertime.ToString("f1");
+					dataRow.TotalBalance = GetBalanceWithoutNonAcceptedOvertime(totalDocumentOvertime, totalAbsence, totalDocumentAbsence, totalOvertime, filter.AllowOnlyAcceptedOvertime).ToString("f1");
 				}
 				dataRow.TotalBalanceHeaderName = filter.AllowOnlyAcceptedOvertime
 												? "Баланс (без учета неподтвержденных переработок)"
