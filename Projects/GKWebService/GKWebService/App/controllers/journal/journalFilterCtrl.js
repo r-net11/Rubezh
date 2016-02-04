@@ -1,6 +1,6 @@
 ﻿(function () {
     angular.module('gkApp.controllers').controller('journalFilterCtrl',
-        function ($scope, $http, $uibModal, journalProperties, uiGridTreeViewConstants, uiGridTreeBaseService) {
+        function ($scope, $http, $uibModal, $uibModalInstance, $timeout, filter, uiGridTreeBaseService) {
         	var nameTemplate =
 				"<div class=\"ui-grid-cell-contents\">\
         			<div style=\"float:left;\" class=\"ui-grid-tree-base-row-header-buttons\" \
@@ -14,7 +14,7 @@
         					</i> &nbsp;\
         			</div>\
         			<a href=\"#\">\
-						<img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"data:image/gif;base64,{{row.entity.ImageDeviceIcon.Item1}}\"/>\
+						<img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"data:image/gif;base64,{{row.entity.ImageDeviceIcon}}\"/>\
         				{{row.entity[col.field]}}\
         			</a>\
         		</div>";
@@ -34,7 +34,6 @@
         		onRegisterApi: function (gridApi) {
         			$scope.gridApi = gridApi;
         			gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
-        			gridApi.selection.on.rowSelectionChangedBatch($scope, $scope.showSelectedRow);
         		}
         	};
 
@@ -43,19 +42,45 @@
         	};
 
         	$http.get('Journal/GetFilterDevices')
-			.success(function (data) {
-				data.forEach(function (item) {
-					item.$$treeLevel = item.Level;
-				})
-				$scope.gridOptions.data = data;
-			});
-
-        	$scope.expandAll = function () {
-        		$scope.gridApi.treeBase.expandAllRows();
-        	};
+				.success(function (data) {
+					data.forEach(function (item) {
+						item.$$treeLevel = item.Level;
+					})
+					$scope.gridOptions.data = data;
+					if (filter != null && filter.deviceUids != null)
+						$timeout(function () {
+							$scope.gridApi.treeBase.expandAllRows();
+							for (var i in $scope.gridOptions.data) {
+								var row = $scope.gridOptions.data[i];
+								for (var j in filter.deviceUids) {
+									if (row.Uid == filter.deviceUids[j])
+										$scope.gridApi.selection.selectRow(row);
+								}
+							}
+						}, 100);
+				});
 
         	$scope.toggleRow = function (row, evt) {
         		uiGridTreeBaseService.toggleRowTreeState($scope.gridApi.grid, row, evt);
         	};
+
+        	$scope.ok = function () {
+        		$uibModalInstance.close(createFilter());
+        	};
+
+        	$scope.cancel = function () {
+        		$uibModalInstance.dismiss('cancel');
+        	};
+
+        	var createFilter = function()
+        	{
+        		var filter = {};
+				var devices = $scope.gridApi.selection.getSelectedRows();
+				filter.deviceUids = [];
+				devices.forEach(function (item) {
+					filter.deviceUids.push(item.Uid);
+				});
+				return filter;
+			}
         });
 }());

@@ -3,9 +3,15 @@ using GKWebService.Models;
 using GKWebService.Utils;
 using RubezhAPI;
 using RubezhAPI.Journal;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
+using System.Threading;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace GKWebService.Controllers
 {
@@ -21,13 +27,20 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public JsonResult GetJournal()
+		[HttpPost]
+		public JsonResult GetJournal(GKWebService.Models.JournalFilter filter)
 		{
-			var apiItems = JournalHelper.Get(new JournalFilter());
+			var journalFilter = new RubezhAPI.Journal.JournalFilter();
+			if (filter != null)
+			{
+				if (filter.deviceUids != null)
+					journalFilter.ObjectUIDs = filter.deviceUids;
+			};
+			var apiItems = JournalHelper.Get(journalFilter);
 			var list = apiItems.Select(x => new JournalModel(x)).ToList();
 			return Json(list, JsonRequestBehavior.AllowGet);
 		}
-
+		
 		public JsonResult GetFilterDevices()
 		{
 			var listTree = new List<DeviceNode>();
@@ -42,9 +55,10 @@ namespace GKWebService.Controllers
 		{
 			var device = new Device
 			{
+				Uid = apiDevice.UID,
 				Name = apiDevice.PresentationName,
 				Address = apiDevice.Address,
-				ImageDeviceIcon = InternalConverter.GetImageResource(apiDevice.ImageSource),
+				ImageDeviceIcon = InternalConverter.GetImageResource(apiDevice.ImageSource).Item1,
 				Level = parent != null ? parent.Level + 1 : 0
 			};
 			devices.Add(device);

@@ -1,11 +1,14 @@
 ﻿(function () {
 	'use strict';
-	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants, signalrJournalService, journalProperties) {
-		$http.get("Journal/GetJournal").success(function (data) {
-			$scope.gridOptions.data = data;
-		});
-		
-		$scope.filter = "testString";
+	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants, signalrJournalService) {
+		var requestJournalItems = function (filter) {
+			$http.post("Journal/GetJournal", filter)
+				.success(function (data) {
+					$scope.gridOptions.data = data;
+				});
+		}
+		$scope.filter = null;
+		requestJournalItems(null);
 
 		$scope.gridOptions = {
 			enableRowSelection: true,
@@ -19,7 +22,6 @@
 			onRegisterApi: function(gridApi) {
 				$scope.gridApi = gridApi;
 				gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
-				gridApi.selection.on.rowSelectionChangedBatch($scope, $scope.showSelectedRow);
 			},
 			columnDefs: [
 				{ name: 'Дата в системе', field: 'SystemDate' },
@@ -48,6 +50,10 @@
 						return $scope.filter;
 					}
 				},
+			});
+			modalInstance.result.then(function (journalFilter) {
+				$scope.filter = journalFilter;
+				requestJournalItems(journalFilter);
 			});
 		};
 

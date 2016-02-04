@@ -4,7 +4,12 @@ namespace GKWebService.Models
 {
     public class Device
     {
-        /// <summary>
+		/// <summary>
+		/// Идентификатор устройства
+		/// </summary>
+		public Guid Uid { get; set; }
+		
+		/// <summary>
         /// Наименование устройства
         /// </summary>
         public String Name { get; set; }

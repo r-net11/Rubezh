@@ -638,6 +638,7 @@
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
     <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
+    <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupViewModel.cs" />
