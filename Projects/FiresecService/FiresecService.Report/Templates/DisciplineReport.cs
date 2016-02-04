@@ -49,9 +49,12 @@ namespace FiresecService.Report.Templates
 				var timeTrackEmployeeResult = timeTrackResult.TimeTrackEmployeeResults.FirstOrDefault(x => x.ShortEmployee.UID == employee.UID);
 				if (timeTrackEmployeeResult != null)
 				{
+					var crossNightTimeTrackParts = new List<TimeTrackPart>();
 					foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 					{
+						dayTimeTrack.CrossNightTimeTrackParts = crossNightTimeTrackParts;
 						dayTimeTrack.Calculate();
+						crossNightTimeTrackParts = dayTimeTrack.CrossNightTimeTrackParts;
 
 						var dataRow = dataSet.Data.NewDataRow();
 						dataRow.Employee = employee.Name;
@@ -66,24 +69,29 @@ namespace FiresecService.Report.Templates
 							dataRow.LastExit = GetLastExitString(dayTimeTrack);
 						}
 
-						var absence = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Absence);
-						var late = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Late);
-						var earlyLeave = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.EarlyLeave);
-						var overtime = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Overtime);
-
-						var isShowAbsence = absence.TotalSeconds > default(int) && filter.ShowAbsence;
-						var isShowLate = late.TotalSeconds > default(int) && filter.ShowLate;
-						var isShowEarlуLeave = earlyLeave.TotalSeconds > default(int) && filter.ShowEarlуLeave;
-						var isShowOvertime = overtime.TotalSeconds > default(int) && filter.ShowOvertime && filter.ShowShiftedViolation;
-
-						if (isShowAbsence || isShowLate || isShowEarlуLeave || isShowOvertime || filter.ShowAllViolation)
+						if (dayTimeTrack.PlannedTimeTrackParts.Any())
 						{
-							dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm\:ss");
-							dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm\:ss");
-							dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm\:ss");
-							dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm\:ss");
-							dataSet.Data.Rows.Add(dataRow);
+							var absence = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Absence);
+							var late = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Late);
+							var earlyLeave = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.EarlyLeave);
+							var overtime = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Overtime);
+
+							var isShowAbsence = absence.TotalSeconds > default(int) && filter.ShowAbsence;
+							var isShowLate = late.TotalSeconds > default(int) && filter.ShowLate;
+							var isShowEarlуLeave = earlyLeave.TotalSeconds > default(int) && filter.ShowEarlуLeave;
+							var isShowOvertime = overtime.TotalSeconds > default(int) && filter.ShowOvertime && filter.ShowShiftedViolation;
+
+							if (isShowAbsence || isShowLate || isShowEarlуLeave || isShowOvertime || filter.ShowAllViolation)
+							{
+								dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm\:ss");
+								dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm\:ss");
+								dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm\:ss");
+								dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm\:ss");
+
+							}
 						}
+
+						dataSet.Data.Rows.Add(dataRow);
 					}
 				}
 			}
