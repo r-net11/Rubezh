@@ -31,16 +31,28 @@
     left: 0;
     right: 0;
     bottom: 0;
-    /*background: -webkit-radial-gradient(0% 100%, circle, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0) 100%);
-    background: -o-radial-gradient(0% 100%, circle, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0) 100%);
-    background: -moz-radial-gradient(0% 100%, circle, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0) 100%);
-    background: -ms-radial-gradient(0% 100%, circle, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0) 100%);
-    background: radial-gradient(0% 100%, circle, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0) 100%);*/
     animation-name: alarmBtnGlowKeyframes;
     animation-duration: .5s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
     pointer-events: none;
+}
+
+.alarmBtnCount {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 64px;
+    text-align: right;
+}
+
+.alarmBtnCount span {
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: normal;
+    margin: 5px;
 }
 
 @keyframes alarmBtnGlowKeyframes {

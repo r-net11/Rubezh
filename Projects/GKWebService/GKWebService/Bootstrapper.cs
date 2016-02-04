@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using GKWebService.DataProviders.FireZones;
 
 namespace GKWebService
 {
@@ -92,6 +93,10 @@ namespace GKWebService
 		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
 			CopyGKStates(gkCallbackResult.GKStates);
+			if (AlarmsUpdaterHub.Instance != null)
+			{
+				AlarmsUpdaterHub.Instance.BroadcastAlarms();
+			}
 		}
 
 		static void CopyGKStates(GKStates gkStates)
@@ -114,6 +119,10 @@ namespace GKWebService
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
+				    if (FireZonesUpdaterHub.Instance != null)
+				    {
+				        FireZonesUpdaterHub.Instance.BroadcastFireZone(zone);
+				    }
 				}
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)

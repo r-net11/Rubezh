@@ -3,7 +3,8 @@ using System.ServiceModel;
 using Common;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
+using FiresecService.Presenters;
+using System.Windows.Forms;
 
 namespace FiresecService.Service
 {
@@ -23,11 +24,13 @@ namespace FiresecService.Service
 
 				if (!GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections)
 				{
-					MainViewModel.SetRemoteAddress("<Не разрешено>");
+					//MainViewModel.SetRemoteAddress("<Не разрешено>");
+					throw new NotImplementedException();
 				}
 				else if (!UACHelper.IsAdministrator)
 				{
-					MainViewModel.SetRemoteAddress("<Нет прав администратора>");
+					//MainViewModel.SetRemoteAddress("<Нет прав администратора>");
+					throw new NotImplementedException();
 				}
 				else
 				{
@@ -39,10 +42,12 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
-				BalloonHelper.ShowFromServer("Ошибка при запуске хоста сервиса \n" + e.Message);
+				//BalloonHelper.ShowFromServer("Ошибка при запуске хоста сервиса \n" + e.Message);
+				Program.ShowBalloonTip(5000, "Ошибка", 
+					"Ошибка при запуске хоста сервиса \n" + e.Message, ToolTipIcon.Error);
 				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
-				MainViewModel.SetLocalAddress("<Ошибка>");
-				MainViewModel.SetRemoteAddress("<Ошибка>");
+				//MainViewModel.SetLocalAddress("<Ошибка>");
+				//MainViewModel.SetRemoteAddress("<Ошибка>");
 			}
 		}
 
@@ -52,7 +57,7 @@ namespace FiresecService.Service
 			{
 				var address = "net.pipe://127.0.0.1/FiresecService/";
 				ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService", Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(address));
-				MainViewModel.SetLocalAddress(address);
+				//MainViewModel.SetLocalAddress(address);
 			}
 			catch (Exception e)
 			{
@@ -69,7 +74,7 @@ namespace FiresecService.Service
 				{
 					var address = "http://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
 					ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService", Common.BindingHelper.CreateWSHttpBinding(), new Uri(address));
-					MainViewModel.SetRemoteAddress(address);
+					//MainViewModel.SetRemoteAddress(address);
 				}
 			}
 			catch (Exception e)
@@ -87,7 +92,7 @@ namespace FiresecService.Service
 				{
 					var address = "net.tcp://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
 					ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService", Common.BindingHelper.CreateNetTcpBinding(), new Uri(address));
-					MainViewModel.SetRemoteAddress(address);
+					//MainViewModel.SetRemoteAddress(address);
 				}
 			}
 			catch (Exception e)

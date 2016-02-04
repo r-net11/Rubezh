@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Video" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Video" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" />
+  <xs:complexType name="ChannelStreamingStartIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q1:DocumentInBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ChannelNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="DeviceGuid" type="ser:guid" />
+          <xs:element minOccurs="0" name="StreamNumber" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ChannelStreamingStartIn" nillable="true" type="tns:ChannelStreamingStartIn" />
+  <xs:complexType name="ChannelStreamingStartOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q2:DocumentOutBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ChannelNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="DeviceGuid" type="ser:guid" />
+          <xs:element minOccurs="0" name="EndPointAdress" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="EndPointPort" type="xs:int" />
+          <xs:element minOccurs="0" name="StreamNumber" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ChannelStreamingStartOut" nillable="true" type="tns:ChannelStreamingStartOut" />
+</xs:schema>

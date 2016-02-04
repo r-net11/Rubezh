@@ -182,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\app.js" />
+    <Content Include="App\controllers\alarms\alarmsCtrl.js" />
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
@@ -195,6 +196,7 @@
     <Content Include="App\controllers\fireZones\fireZonesDevicesDetailsCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
     <Content Include="App\controllers\journal\journalFilterCtrl.js" />
+    <Content Include="App\controllers\journal\journalProperties.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
@@ -203,6 +205,7 @@
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
     <Content Include="App\services\broadcastService.js" />
+    <Content Include="App\services\signalrAlarmsService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
@@ -627,18 +630,20 @@
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
-    <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
-    <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="Models\Devices\Device.cs" />
+    <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupViewModel.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmTypeToColorConverter.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmViewModel.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -717,7 +722,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\State.cshtml" />
     <Content Include="Views\Devices\Index.cshtml" />
     <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
@@ -767,6 +771,9 @@
     <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <Content Include="Views\FireZones\Index.cshtml" />
     <Content Include="Views\FireZones\FireZonesDetails.cshtml" />
+    <Content Include="Views\Alarms\AlarmGroups.cshtml" />
+    <Content Include="Views\Alarms\Index.cshtml" />
+    <Content Include="Views\Alarms\Alarms.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
