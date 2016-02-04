@@ -327,7 +327,7 @@ namespace FiresecAPI.SKD
 			var resultCollection = new List<TimeTrackPart>();
 			foreach (var combinedTimeTrackPart in combinedTimeTrackParts)
 			{
-				if (CanApplyDeviationPolitics(combinedTimeTrackPart, allowedAbsent, allowedEarlyLeave, allowedLate, notAllowedOvertime))
+				if (CanApplyDeviationPolitics(combinedTimeTrackPart, allowedAbsent, allowedEarlyLeave, allowedLate, notAllowedOvertime, combinedTimeTrackParts))
 					combinedTimeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 
 				resultCollection.Add(combinedTimeTrackPart);
@@ -336,14 +336,22 @@ namespace FiresecAPI.SKD
 			return resultCollection;
 		}
 
-		private bool CanApplyDeviationPolitics(TimeTrackPart timeTrackPart, int allowedAbsent, int allowedEarlyLeave, int allowedLate, int notAllowedOvertime)
+		private bool CanApplyDeviationPolitics(TimeTrackPart timeTrackPart, int allowedAbsent, int allowedEarlyLeave, int allowedLate, int notAllowedOvertime, IEnumerable<TimeTrackPart> combinedTimeTrackParts)
 		{
-			var isApplyForAbsence = timeTrackPart.TimeTrackPartType == TimeTrackType.Absence && timeTrackPart.Delta.TotalMinutes <= allowedAbsent && allowedAbsent != default (int);
-			var isApplyForEarlyLeave = timeTrackPart.TimeTrackPartType == TimeTrackType.EarlyLeave && timeTrackPart.Delta.TotalMinutes <= allowedEarlyLeave && allowedEarlyLeave != default(int);
-			var isApplyForLate = timeTrackPart.TimeTrackPartType == TimeTrackType.Late && timeTrackPart.Delta.TotalMinutes <= allowedLate && allowedLate != default(int);
-			var isApplyForOverTime = timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime && timeTrackPart.Delta.TotalMinutes <= notAllowedOvertime && notAllowedOvertime != default(int);
+			var isApplyForAbsence = timeTrackPart.TimeTrackPartType == TimeTrackType.Absence && GetSummOfTypedInterval(combinedTimeTrackParts, TimeTrackType.Absence) <= allowedAbsent && allowedAbsent != default(int);
+			var isApplyForEarlyLeave = timeTrackPart.TimeTrackPartType == TimeTrackType.EarlyLeave && GetSummOfTypedInterval(combinedTimeTrackParts, TimeTrackType.EarlyLeave) <= allowedEarlyLeave && allowedEarlyLeave != default(int);
+			var isApplyForLate = timeTrackPart.TimeTrackPartType == TimeTrackType.Late && GetSummOfTypedInterval(combinedTimeTrackParts, TimeTrackType.Late) <= allowedLate && allowedLate != default(int);
+			var isApplyForOverTime = timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime && GetSummOfTypedInterval(combinedTimeTrackParts, TimeTrackType.Overtime) <= notAllowedOvertime && notAllowedOvertime != default(int);
 
 			return isApplyForAbsence || isApplyForEarlyLeave || isApplyForLate || isApplyForOverTime;
+		}
+
+		private double GetSummOfTypedInterval(IEnumerable<TimeTrackPart> timeTrackParts, TimeTrackType type)
+		{
+			return
+				timeTrackParts.Where(x => x.TimeTrackPartType == type)
+					.Select(x => x.Delta.TotalMinutes)
+					.Aggregate(default(double), (s, x) => s + x);
 		}
 
 		private bool IsIntersectWithNightSettings(TimeTrackPart timeTrackPart, List<NightSettings> nightSettings, out NightSettings currentNightSetting)
@@ -359,13 +367,6 @@ namespace FiresecAPI.SKD
 			}
 			currentNightSetting = new NightSettings();
 			return false;
-			//if (nightSettings.NightStartTime > nightSettings.NightEndTime)
-			//{
-			//	return nightSettings.NightEndTime <= timeTrackPart.EnterDateTime.TimeOfDay
-			//	   && nightSettings.NightStartTime >= timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay;
-			//}
-			//return timeTrackPart.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
-			//		&& timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightStartTime;
 		}
 
 		private List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts,
@@ -378,8 +379,6 @@ namespace FiresecAPI.SKD
 			{
 				NightSettings currentNightSetting;
 				if (el.TimeTrackPartType == TimeTrackType.Presence && IsIntersectWithNightSettings(el, nightSettings, out currentNightSetting))
-				//	&& el.EnterDateTime.TimeOfDay <= nightSettings.NightEndTime
-				//	&& el.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSettings.NightStartTime)
 				{
 					var night = new TimeTrackPart {TimeTrackPartType = TimeTrackType.Night};
 					//Вычисляем время входа нового интервала ночного времени
