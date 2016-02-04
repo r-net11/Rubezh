@@ -10,7 +10,6 @@ namespace SKDModule.Model
 	public class TimeTrackFilter : OrganisationFilterBase
 	{
 		public TimeTrackFilter()
-			: base()
 		{
 			EmployeeFilter = new EmployeeFilter();
 			var hasEmployeePermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View);

@@ -22,7 +22,6 @@ using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Input;
 
-// ReSharper disable once CheckNamespace
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackingViewModel : ViewPartViewModel
@@ -40,7 +39,7 @@ namespace SKDModule.ViewModels
 		private int _pageNumber;
 		int _rowHeight;
 		private bool _isFilterAccepted;
-		private static object locker = new object();
+		private static readonly object Locker = new object();
 
 		#endregion
 
@@ -315,7 +314,7 @@ namespace SKDModule.ViewModels
 				Directory.CreateDirectory(AppDataFolderHelper.GetFolder("Temp"));
 
 			TimeTrackResult timeTrackResult;
-			lock (locker)
+			lock (Locker)
 			{
 				using (var fileStream = new FileStream(resultFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
 				{
