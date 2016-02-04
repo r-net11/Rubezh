@@ -10,11 +10,6 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public ActionResult State()
-		{
-			return View();
-		}
-
 		public ActionResult Device()
 		{
 			return View();

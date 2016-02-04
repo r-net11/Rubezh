@@ -38,7 +38,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,6 +58,9 @@
   <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>FiresecService.exe.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FiresecService.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Entities">
@@ -168,7 +171,12 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Presenters\ApplicationPresenter.cs" />
+    <Compile Include="Presenters\LogViewModel.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Presenters\TabConnectionsPresenter.cs" />
+    <Compile Include="Presenters\TabPagePresenter.cs" />
+    <Compile Include="Presenters\UILoger.cs" />
     <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\FiresecLicenseProcessor.cs" />
@@ -191,36 +199,44 @@
     <Compile Include="Service\PollAsyncResult.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.cs" />
     <Compile Include="Service\FiresecService.Automation.cs" />
-    <Compile Include="ViewModels\ClientPollViewModel.cs" />
-    <Compile Include="ViewModels\GKLifecycleViewModel.cs" />
-    <Compile Include="ViewModels\LicenseViewModel.cs" />
-    <Compile Include="ViewModels\LogViewModel.cs" />
-    <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />
-    <Compile Include="ViewModels\ClientViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
-    <Compile Include="ViewModels\ServerTasksViewModel.cs" />
     <Compile Include="Views\IMainView.cs" />
-    <Compile Include="Views\MainWinFormView.cs">
+    <Compile Include="Views\ITabPageConnectionsView.cs" />
+    <Compile Include="Views\ITabPageGKView.cs" />
+    <Compile Include="Views\ITabPageLicenceView.cs" />
+    <Compile Include="Views\ITabPageLogView.cs" />
+    <Compile Include="Views\ITabPageOperationsView.cs" />
+    <Compile Include="Views\ITabPagePollingView.cs" />
+    <Compile Include="Views\ITabPageStatusView.cs" />
+    <Compile Include="Views\ITabPageView.cs" />
+    <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MainWinFormView.Designer.cs">
-      <DependentUpon>MainWinFormView.cs</DependentUpon>
+    <Compile Include="Views\MainView.Designer.cs">
+      <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\UILogger.cs" />
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
+    <Compile Include="Views\TabPageConnectionsView.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="Views\TabPageGKView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\TabPageLicenceView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\TabPageLogView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\TabPageOperationsView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\TabPagePollingView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\TabPageStatusView.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -236,8 +252,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Views\MainWinFormView.resx">
-      <DependentUpon>MainWinFormView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\MainView.resx">
+      <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
@@ -345,7 +361,12 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Firesec.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Server.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
