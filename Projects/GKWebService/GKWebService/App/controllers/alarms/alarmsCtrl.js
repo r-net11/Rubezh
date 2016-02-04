@@ -2,7 +2,7 @@
 
     'use strict';
 
-    var app = angular.module('gkApp.controllers').controller('directionsCtrl',
+    var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
         ['$scope', '$http', '$uibModal',
         function ($scope, $http, $uibModal) {
             $scope.gridOptions = {
