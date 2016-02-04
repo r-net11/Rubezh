@@ -37,11 +37,6 @@ namespace FiresecService.Views
 			}
 		}
 
-		public void ShowBalloonTip(int timeOut, string title, string text, ToolTipIcon icon)
-		{
-			_notifyIcon.ShowBalloonTip(timeOut, title, text, icon);
-		}
-
 		#endregion
 
 		#region Event handlers for form
@@ -52,9 +47,6 @@ namespace FiresecService.Views
 
 		private void EventHandler_MainWinFormView_Shown(object sender, EventArgs e)
 		{
-			Form form = (Form)sender;
-			form.ShowInTaskbar = false;
-			form.Visible = false;
 		}
 
 		private void EventHandler_MainWinFormView_FormClosing(object sender, FormClosingEventArgs e)
@@ -64,27 +56,20 @@ namespace FiresecService.Views
 			e.Cancel = true;
 		}
 
-		#endregion
-
-
-		#region Event handlers for context menu
-
-		private void EventHandler_toolStripMenuItemShowForm_Click(object sender, EventArgs e)
+		private void MainWinFormView_Activated(object sender, EventArgs e)
 		{
-			if (Visible == false)
-			{
-				ShowInTaskbar = true;
-				Visible = true;
-			}
-			if (WindowState == FormWindowState.Minimized)
-			{
-				WindowState = FormWindowState.Normal;
-			}
 		}
 
-		private void EventHandler_toolStripMenuItemExit_Click(object sender, EventArgs e)
+		protected override void SetVisibleCore(bool value)
 		{
-			Application.Exit();
+			// этот код необходим что бы скрыть форму при запуске приложения
+			// http://stackoverflow.com/questions/4556411/how-to-hide-a-window-in-start-in-c-sharp-desktop-application
+			if (!IsHandleCreated && value)
+			{
+				value = false;
+				CreateHandle();
+			}
+			base.SetVisibleCore(value);
 		}
 
 		#endregion

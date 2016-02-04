@@ -13,6 +13,8 @@ namespace FiresecService
 {
 	static class Program
 	{
+		public static ApplicationContext AppContext { get; set; }
+		public static NotifyIcon SystemTray { get; set; }
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -26,10 +28,33 @@ namespace FiresecService
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
 			Application.ApplicationExit += Application_ApplicationExit;
+			AppContext = new ApplicationContext();
+
+			var _contextMenuNotifyIcon = new ContextMenuStrip();
+			var menuItem = new ToolStripMenuItem();
+			menuItem.Name = "_ToolStripMenuItemShowWindow";
+			menuItem.Text = "Показать";
+			menuItem.Click += EventHandler_MenuItem_Click;
+			_contextMenuNotifyIcon.Items.Add(menuItem);
+			menuItem = new ToolStripMenuItem();
+			menuItem.Name = "_ToolStripMenuItemExit";
+			menuItem.Text = "Выход";
+			menuItem.Click += EventHandler_MenuItem_Click;
+			_contextMenuNotifyIcon.Items.Add(menuItem);
+
+			SystemTray = new NotifyIcon();
+			SystemTray.Icon = Properties.Resources.Firesec;
+			SystemTray.ContextMenuStrip = _contextMenuNotifyIcon;
+			SystemTray.Visible = true;
+			SystemTray.Text = "Сервер приложений Глобал";
+
 			var view = new MainWinFormView();
 			var presenter = new MainPresenter(view);
-			view.WindowState = FormWindowState.Minimized;
+
+			AppContext.MainForm = null;
+			AppContext.MainForm = view;
 
 			try
 			{
@@ -39,12 +64,11 @@ namespace FiresecService
 			{
 				Logger.Error(ex, "App.OnStartup");
 				//BalloonHelper.ShowFromServer("Ошибка во время загрузки");
-				MessageBox.Show("Ошибка во время загрузки", "Ошибка", 
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				ShowBalloonTip(5000, "Ошибка", "Ошибка во время загрузки", ToolTipIcon.Error);
 				return;
 			}
 
-			Application.Run(view);
+			Application.Run(AppContext);
 		}
 
 		static void Application_ApplicationExit(object sender, EventArgs e)
@@ -57,6 +81,7 @@ namespace FiresecService
 		{
 			Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
 			//BalloonHelper.ShowFromServer("Перезагрузка");
+			ShowBalloonTip(5000, "Внимание", "Перезагрузка", ToolTipIcon.Info);
 			var processStartInfo = new ProcessStartInfo()
 			{
 				//FileName = Application.ResourceAssembly.Location
@@ -64,9 +89,43 @@ namespace FiresecService
 			};
 			Process.Start(processStartInfo);
 			Bootstrapper.Close();
-			//Application.Current.MainWindow.Close();
-			//Application.Current.Shutdown();
 			Application.Exit();
+		}
+
+		static void EventHandler_MenuItem_Click(object sender, EventArgs e)
+		{
+			ToolStripMenuItem item = (ToolStripMenuItem)sender;
+			switch (item.Name)
+			{
+				case "_ToolStripMenuItemShowWindow":
+					{
+						if (AppContext.MainForm.Visible == false)
+						{
+							AppContext.MainForm.StartPosition = FormStartPosition.CenterScreen;
+							AppContext.MainForm.WindowState = FormWindowState.Normal;
+							AppContext.MainForm.ShowInTaskbar = true;
+							AppContext.MainForm.Visible = true;
+						}
+						break;
+					}
+				case "_ToolStripMenuItemExit":
+					{
+						Application.Exit();
+						break;
+					}
+			}
+		}
+
+		/// <summary>
+		/// Tray: Выводит сообщение
+		/// </summary>
+		/// <param name="timeOut">Время отображения сообщения, мсек</param>
+		/// <param name="title">Заголовок сообщения</param>
+		/// <param name="text">Текс сообщения</param>
+		/// <param name="icon">Иконка сообщения</param>
+		public static void ShowBalloonTip(int timeOut, string title, string text, ToolTipIcon icon)
+		{
+			SystemTray.ShowBalloonTip(timeOut, title, text, icon);
 		}
 	}
 }

@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWinFormView));
 			this._statusStripMain = new System.Windows.Forms.StatusStrip();
 			this._toolStripStatusLabelLastLog = new System.Windows.Forms.ToolStripStatusLabel();
@@ -40,14 +39,8 @@
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
-			this._notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this._contextMenuStripNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this._toolStripMenuItemShowForm = new System.Windows.Forms.ToolStripMenuItem();
-			this._toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-			this._toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
 			this._statusStripMain.SuspendLayout();
 			this._tabControlMain.SuspendLayout();
-			this._contextMenuStripNotifyIcon.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _statusStripMain
@@ -153,42 +146,6 @@
 			this.tabPage7.Text = "tabPage7";
 			this.tabPage7.UseVisualStyleBackColor = true;
 			// 
-			// _notifyIcon
-			// 
-			this._notifyIcon.ContextMenuStrip = this._contextMenuStripNotifyIcon;
-			this._notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("_notifyIcon.Icon")));
-			this._notifyIcon.Text = "Сервер приложений Глобал";
-			this._notifyIcon.Visible = true;
-			// 
-			// _contextMenuStripNotifyIcon
-			// 
-			this._contextMenuStripNotifyIcon.ImageScalingSize = new System.Drawing.Size(20, 20);
-			this._contextMenuStripNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._toolStripMenuItemShowForm,
-            this._toolStripSeparator,
-            this._toolStripMenuItemExit});
-			this._contextMenuStripNotifyIcon.Name = "_contextMenuStripNotifyIcon";
-			this._contextMenuStripNotifyIcon.Size = new System.Drawing.Size(149, 62);
-			// 
-			// _toolStripMenuItemShowForm
-			// 
-			this._toolStripMenuItemShowForm.Name = "_toolStripMenuItemShowForm";
-			this._toolStripMenuItemShowForm.Size = new System.Drawing.Size(148, 26);
-			this._toolStripMenuItemShowForm.Text = "Показать";
-			this._toolStripMenuItemShowForm.Click += new System.EventHandler(this.EventHandler_toolStripMenuItemShowForm_Click);
-			// 
-			// _toolStripSeparator
-			// 
-			this._toolStripSeparator.Name = "_toolStripSeparator";
-			this._toolStripSeparator.Size = new System.Drawing.Size(145, 6);
-			// 
-			// _toolStripMenuItemExit
-			// 
-			this._toolStripMenuItemExit.Name = "_toolStripMenuItemExit";
-			this._toolStripMenuItemExit.Size = new System.Drawing.Size(148, 26);
-			this._toolStripMenuItemExit.Text = "Выход";
-			this._toolStripMenuItemExit.Click += new System.EventHandler(this.EventHandler_toolStripMenuItemExit_Click);
-			// 
 			// MainWinFormView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -203,13 +160,13 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MainWinFormView";
+			this.Activated += new System.EventHandler(this.MainWinFormView_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EventHandler_MainWinFormView_FormClosing);
 			this.Load += new System.EventHandler(this.EventHandler_MainWinFormView_Load);
 			this.Shown += new System.EventHandler(this.EventHandler_MainWinFormView_Shown);
 			this._statusStripMain.ResumeLayout(false);
 			this._statusStripMain.PerformLayout();
 			this._tabControlMain.ResumeLayout(false);
-			this._contextMenuStripNotifyIcon.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -227,10 +184,5 @@
 		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.TabPage tabPage6;
 		private System.Windows.Forms.TabPage tabPage7;
-		private System.Windows.Forms.NotifyIcon _notifyIcon;
-		private System.Windows.Forms.ContextMenuStrip _contextMenuStripNotifyIcon;
-		private System.Windows.Forms.ToolStripMenuItem _toolStripMenuItemShowForm;
-		private System.Windows.Forms.ToolStripSeparator _toolStripSeparator;
-		private System.Windows.Forms.ToolStripMenuItem _toolStripMenuItemExit;
 	}
 }

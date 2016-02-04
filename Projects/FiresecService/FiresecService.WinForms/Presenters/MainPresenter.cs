@@ -38,11 +38,6 @@ namespace FiresecService.Presenters
 			set { View.LastLog = value; }
 		}
 
-		public void ShowBalloonTip(int timeOut, string title, string text, ToolTipIcon icon)
-		{
-			View.ShowBalloonTip(timeOut, title, text, icon);
-		}
-
 		#endregion
 
 		#region Methods

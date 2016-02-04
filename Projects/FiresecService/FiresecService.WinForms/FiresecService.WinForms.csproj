@@ -59,6 +59,9 @@
   <PropertyGroup>
     <ApplicationManifest>FiresecService.exe.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FiresecService.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Entities">
       <HintPath>..\..\..\3rdParty\RVIVSS\Entities.dll</HintPath>
@@ -346,7 +349,12 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Firesec.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Server.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
