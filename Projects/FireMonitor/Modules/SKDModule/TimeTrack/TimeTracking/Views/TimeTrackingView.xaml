@@ -177,6 +177,9 @@
 			RowHeight="{Binding RowHeight}"
 			SelectedItem="{Binding SelectedTimeTrack}"
 			IsEnabled="{Binding IsBisy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}">
+			<DataGrid.Resources>
+				<BindingProxy x:Key="proxy" Data="{Binding}" />
+			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="ФИО">
 					<DataGridTemplateColumn.CellTemplate>
@@ -222,7 +225,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Тип">
+				<DataGridTemplateColumn Header="Тип" Visibility="{Binding Data.IsEnabledTimeTrackFilter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:TimeTrack}">
 							<StackPanel Margin="0 60 0 0">
@@ -234,8 +237,7 @@
 												Margin="0 0 2 0"
 												HorizontalAlignment="Right"
 												VerticalAlignment="Center"
-												Text="{Binding TimeTrackType,
-											                          Converter={StaticResource EnumToDescriptionConverter}}" />
+												Text="{Binding TimeTrackType, Converter={StaticResource EnumToDescriptionConverter}}" />
 										</DataTemplate>
 									</ItemsControl.ItemTemplate>
 								</ItemsControl>
@@ -243,7 +245,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Итого">
+				<DataGridTemplateColumn Header="Итого" Visibility="{Binding Data.IsEnabledTimeTrackFilter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="{x:Type models:TimeTrack}">
 							<StackPanel Margin="0 60 0 0">
@@ -254,12 +256,9 @@
 												Height="20"
 												HorizontalAlignment="Center"
 												VerticalAlignment="Center"
-												Foreground="{Binding TimeSpan,
-											                                Converter={StaticResource TimeSpanToColorConverter}}"
-												Text="{Binding TimeSpan,
-											                          Converter={StaticResource TimeSpanToStringConverter}}"
-												ToolTip="{Binding TimeTrackType,
-											                             Converter={StaticResource EnumToDescriptionConverter}}" />
+												Foreground="{Binding TimeSpan, Converter={StaticResource TimeSpanToColorConverter}}"
+												Text="{Binding TimeSpan, Converter={StaticResource TimeSpanToStringConverter}}"
+												ToolTip="{Binding TimeTrackType,  Converter={StaticResource EnumToDescriptionConverter}}" />
 										</DataTemplate>
 									</ItemsControl.ItemTemplate>
 								</ItemsControl>
