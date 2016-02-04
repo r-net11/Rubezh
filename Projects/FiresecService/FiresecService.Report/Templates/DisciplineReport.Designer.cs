@@ -132,7 +132,7 @@
 			// xrTableCell2
 			//
 			this.xrTableCell3.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.FirstEnter", "{0:%h\\:mm}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.FirstEnter")});
 			this.xrTableCell3.Dpi = 254F;
 			this.xrTableCell3.Name = "xrTableCell3";
 			this.xrTableCell3.StylePriority.UseTextAlignment = false;
@@ -142,7 +142,7 @@
 			// xrTableCell3
 			//
 			this.xrTableCell4.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.LastExit", "{0:%h\\:mm}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.LastExit")});
 			this.xrTableCell4.Dpi = 254F;
 			this.xrTableCell4.Name = "xrTableCell4";
 			this.xrTableCell4.StylePriority.UseTextAlignment = false;
@@ -176,7 +176,7 @@
 			// xrTableCell23
 			//
 			this.xrTableCell8.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Late", "{0:%h\\:mm}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Late")});
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
 			this.xrTableCell8.StylePriority.UseTextAlignment = false;
@@ -186,7 +186,7 @@
 			// xrTableCell24
 			//
 			this.xrTableCell9.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EarlyLeave", "{0:%h\\:mm}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EarlyLeave")});
 			this.xrTableCell9.Dpi = 254F;
 			this.xrTableCell9.Name = "xrTableCell9";
 			this.xrTableCell9.StylePriority.UseTextAlignment = false;
@@ -196,7 +196,7 @@
 			// xrTableCell25
 			//
 			this.xrTableCell10.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Absence", "{0:%h\\:mm}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Absence")});
 			this.xrTableCell10.Dpi = 254F;
 			this.xrTableCell10.Name = "xrTableCell10";
 			this.xrTableCell10.StylePriority.UseTextAlignment = false;
@@ -206,7 +206,7 @@
 			// xrTableCell26
 			//
 			this.xrTableCell11.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Overtime", "{0:%h\\:mm}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Overtime")});
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
 			this.xrTableCell11.StylePriority.UseTextAlignment = false;
