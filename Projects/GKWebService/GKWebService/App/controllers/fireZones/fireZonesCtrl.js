@@ -11,6 +11,7 @@
                 multiSelect: false,
                 enableColumnMenus: false,
                 enableRowSelection: true,
+                noUnselect: true,
                 columnDefs: [
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="{{row.entity.ImageSource}}"/>{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.fireZonesClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="{{row.entity.StateIcon}}"/>{{row.entity[col.field]}}</a></div>' },
@@ -22,8 +23,12 @@
             $scope.$on('fireZonesChanged', function (event, args) {
                 for (var i in $scope.gridOptions.data) {
                     if (args.Uid === $scope.gridOptions.data[i].Uid) {
+                        var isCurrentRowSelected = $scope.gridApi.grid.rows[i].isSelected;
                         $scope.gridOptions.data[i] = args;
                         $scope.$apply();
+                        if (isCurrentRowSelected) {
+                            $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
+                        }
                         break;
                     }
                 }
