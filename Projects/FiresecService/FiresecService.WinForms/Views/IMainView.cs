@@ -7,6 +7,20 @@ using System.Windows.Threading;
 
 namespace FiresecService.Views
 {
+	/// <summary>
+	/// Закладки окна
+	/// </summary>
+	//public enum MainViewTabs
+	//{
+	//	Connections,
+	//	Log,
+	//	Status,
+	//	GK,
+	//	Polling,
+	//	Operations,
+	//	Licence
+	//}
+
 	public interface IMainView
 	{
 		/// <summary>
@@ -17,5 +31,13 @@ namespace FiresecService.Views
 		/// Status bar: Последение событие сервера
 		/// </summary>
 		string LastLog { get; set; }
+		/// <summary>
+		/// Текущая выбранная закладка
+		/// </summary>
+		ITabPageView SelectedTabView { get; }
+		/// <summary>
+		/// Событие происходит при выборе закладки
+		/// </summary>
+		event EventHandler TabChanged; 
 	}
 }

@@ -27,7 +27,8 @@ namespace FiresecService
 				if(serverTask.ProgressCallback != null)
 				{
 					serverTask.ProgressCallback.IsCanceled = true;
-					MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
+					//MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
+					throw new NotImplementedException();
 				}
 			}
 
@@ -60,7 +61,7 @@ namespace FiresecService
 				if(serverTask != null)
 				{
 					serverTask.Action();
-					MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
+					//MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
 					ServerTasks.Remove(serverTask);
 				}
 			}
@@ -70,7 +71,7 @@ namespace FiresecService
 		{
 			var serverTask = new ServerTask() { Action = action, ProgressCallback = progressCallback, Name = name };
 			ServerTasks.Add(serverTask);
-			MainViewModel.Current.ServerTasksViewModel.Add(serverTask);
+			//MainViewModel.Current.ServerTasksViewModel.Add(serverTask);
 		}
 	}
 

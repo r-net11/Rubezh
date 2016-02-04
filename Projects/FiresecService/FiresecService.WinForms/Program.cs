@@ -50,7 +50,7 @@ namespace FiresecService
 			SystemTray.Visible = true;
 			SystemTray.Text = "Сервер приложений Глобал";
 
-			var view = new MainWinFormView();
+			var view = new MainView();
 			var presenter = new Presenter(view);
 
 			AppContext.MainForm = null;
@@ -58,7 +58,7 @@ namespace FiresecService
 
 			try
 			{
-				Bootstrapper.Run();
+				//Bootstrapper.Run();
 			}
 			catch (Exception ex)
 			{
