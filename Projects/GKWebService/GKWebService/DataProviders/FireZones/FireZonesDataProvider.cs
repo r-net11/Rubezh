@@ -55,21 +55,7 @@ namespace GKWebService.DataProviders.FireZones
                     }
                 }
 
-                list.Add(new FireZone
-                {
-                    StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(zone.State.StateClasses[0]) + ".png",
-                    Name = zone.DescriptorPresentationName,
-                    Fire1Count = zone.Fire1Count,
-                    Fire2Count = zone.Fire2Count,
-                    ImageSource = "/Content/Image/" + zone.ImageSource.Replace("/Controls;component/", ""),
-                    Uid = zone.UID, 
-                    No = zone.No, 
-                    StateColor = "'#" + new XStateClassToColorConverter2().Convert(zone.State.StateClass, null, null, null).ToString().Substring(3) + "'",
-                    StateMessage = zone.State.StateClass.ToDescription(),
-                    CanTurnOff = Convert.ToString(zone.State.StateClasses[0]) == "Norm",
-                    CanTurnOn = Convert.ToString(zone.State.StateClasses[0]) == "Ignore",
-                    GKDescriptorNo = zone.GKDescriptorNo
-                });
+                list.Add(new FireZone(zone));
             }
             return list;
         }
