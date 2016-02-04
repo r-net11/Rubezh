@@ -40,13 +40,16 @@ namespace GKWebService.Controllers
 		/// </summary>
 		public JsonResult GetDevicesListByZoneNumber(Guid uid)
 		{
-			List<DeviceNode> listTree = new List<DeviceNode>();
-			DeviceNode data = new DeviceNode();
+			var listTree = new List<DeviceNode>();
+			var data = new DeviceNode();
 			int level = 0;
 
-			var devices = GKManager.Zones.FirstOrDefault(zone => zone.UID == uid).Devices;
+			var firstZone = GKManager.Zones.FirstOrDefault(zone => zone.UID == uid);
+			if (firstZone != null)
+			{
+				var devices = firstZone.Devices;
 
-			foreach (var remoteDevice in devices)
+				foreach (var remoteDevice in devices)
 				{
 					data.DeviceList.Add(new Device
 					{
@@ -59,23 +62,24 @@ namespace GKWebService.Controllers
 					});
 				}
 
-			listTree.Add(data);
-			var device = devices.FirstOrDefault();
-			while (device != null && device.Parent != null)
-			{
-				level++;
-				DeviceNode item = new DeviceNode();
-				device = device.Parent;
-				item.DeviceList.Add(new Device()
+				listTree.Add(data);
+				var device = devices.FirstOrDefault();
+				while (device != null && device.Parent != null)
 				{
-					Name = device.PresentationName,
-					Address = device.Address,
-					ImageDeviceIcon = "/Content/Image/" + device.ImageSource.Replace("/Controls;component/", ""),
-					StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(device.State.StateClass) + ".png",
-					Level = level,
-					Description = device.Description
-				});
-				listTree.Add(item);
+					level++;
+					var item = new DeviceNode();
+					device = device.Parent;
+					item.DeviceList.Add(new Device()
+					{
+						Name = device.PresentationName,
+						Address = device.Address,
+						ImageDeviceIcon = "/Content/Image/" + device.ImageSource.Replace("/Controls;component/", ""),
+						StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(device.State.StateClass) + ".png",
+						Level = level,
+						Description = device.Description
+					});
+					listTree.Add(item);
+				}
 			}
 			listTree.Reverse();
 			return Json(listTree, JsonRequestBehavior.AllowGet);
