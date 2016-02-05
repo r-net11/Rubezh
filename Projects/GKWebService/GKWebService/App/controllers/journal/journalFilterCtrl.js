@@ -47,14 +47,14 @@
 						item.$$treeLevel = item.Level;
 					})
 					$scope.gridOptions.data = data;
-					if (filter != null && filter.deviceuids != null)
-						$timeout(function () {
-							$scope.gridapi.treebase.expandallrows();
-							for (var i in $scope.gridoptions.data) {
-								var row = $scope.gridoptions.data[i];
-								for (var j in filter.deviceuids) {
-									if (row.uid == filter.deviceuids[j])
-										$scope.gridapi.selection.selectrow(row);
+					$timeout(function () {
+						$scope.gridApi.treeBase.expandAllRows();
+						if (filter != null && filter.deviceUids != null)
+							for (var i in $scope.gridOptions.data) {
+								var row = $scope.gridOptions.data[i];
+								for (var j in filter.deviceUids) {
+									if (row.UID == filter.deviceUids[j])
+										$scope.gridApi.selection.selectRow(row);
 								}
 							}
 						}, 100);
@@ -78,7 +78,7 @@
 				var devices = $scope.gridApi.selection.getSelectedRows();
 				filter.deviceUids = [];
 				devices.forEach(function (item) {
-					filter.deviceUids.push(item.Uid);
+					filter.deviceUids.push(item.UID);
 				});
 				return filter;
 			}

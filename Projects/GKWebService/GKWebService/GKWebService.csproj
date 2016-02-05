@@ -647,7 +647,7 @@
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="Models\Devices\Device.cs" />
-    <Compile Include="Models\Filter.cs" />
+    <Compile Include="Models\Journal\JournalFilter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupViewModel.cs" />
@@ -673,6 +673,7 @@
     <Compile Include="Models\GK\Delay\Delay.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
+    <Compile Include="Models\Journal\JournalFilterObject.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
@@ -715,7 +716,7 @@
     <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\Plan\PlanElement.cs" />
     <Compile Include="Models\Plan\PlanSimpl.cs" />
-    <Compile Include="Models\JournalModel.cs" />
+    <Compile Include="Models\Journal\JournalModel.cs" />
     <Compile Include="Models\Plan\Shape.cs" />
     <Compile Include="Models\Plan\ShapeTypesEnum.cs" />
     <Compile Include="Models\Plan\HintLine.cs" />
