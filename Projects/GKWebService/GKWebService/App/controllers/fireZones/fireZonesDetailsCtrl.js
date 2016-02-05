@@ -11,16 +11,16 @@
                 };
             });
 
-            $scope.TurnOn = function () {
-                $http.post('FireZones/TurnOn', { id: $scope.fireZone.Uid });
+            $scope.ResetIgnore = function () {
+                $http.post('FireZones/ResetIgnore', { id: $scope.fireZone.Uid });
             };
             
-            $scope.TurnOff = function () {
-                $http.post('FireZones/TurnOff', { id: $scope.fireZone.Uid });
+            $scope.SetIgnore = function () {
+                $http.post('FireZones/SetIgnore', { id: $scope.fireZone.Uid });
             };
 
-            $scope.Reset = function () {
-                $http.post('FireZones/Reset', { id: $scope.fireZone.Uid });
+            $scope.ResetFire = function () {
+                $http.post('FireZones/ResetFire', { id: $scope.fireZone.Uid });
             };
 
             $scope.Show = function () {

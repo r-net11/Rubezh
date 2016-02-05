@@ -12,61 +12,58 @@ using GKWebService.Models.FireZone;
 
 namespace GKWebService.Controllers
 {
-    public class FireZonesController : Controller
-    {
-        // GET: FireZones
-        public ActionResult Index()
-        {
-            return View();
-        }
+	public class FireZonesController : Controller
+	{
+		// GET: FireZones
+		public ActionResult Index()
+		{
+			return View();
+		}
 
-        public ActionResult FireZonesDetails()
-        {
-            return View();
-        }
+		public ActionResult FireZonesDetails()
+		{
+			return View();
+		}
 
 		/// <summary>
 		/// Метод, предоставляющий данные о зонах
 		/// </summary>
 		/// <returns></returns>
-        public JsonResult GetFireZonesData()
-        {
-            return Json(GKManager.Zones.Select(
+		public JsonResult GetFireZonesData()
+		{
+			return Json(GKManager.Zones.Select(
 				zone => new FireZone(zone)).ToList(), JsonRequestBehavior.AllowGet);
-        }
+		}
 
-        /// <summary>
-        /// Метод, предоставляющий данные об устройствах для конкретной зоны
-        /// </summary>
-        public JsonResult GetDevicesListByZoneNumber(int id)
-        {
-			List<DeviceNode> listTree = new List<DeviceNode>();
-
-			DeviceNode data = new DeviceNode();
-
+		/// <summary>
+		/// Метод, предоставляющий данные об устройствах для конкретной зоны
+		/// </summary>
+		public JsonResult GetDevicesListByZoneNumber(Guid uid)
+		{
+			var listTree = new List<DeviceNode>();
+			var data = new DeviceNode();
 			int level = 0;
 
-			if (GKManager.Zones.Count - 1 < id)
+			var firstZone = GKManager.Zones.FirstOrDefault(zone => zone.UID == uid);
+			if (firstZone != null)
 			{
-				return null;
-			}
+				var devices = firstZone.Devices;
 
-			foreach (var remoteDevice in GKManager.Zones[id].Devices)
-			{
+				foreach (var remoteDevice in devices)
+				{
 				data.DeviceList.Add(new Device(remoteDevice)
                 {
                     Level = level
                 });
 			}
 
-			listTree.Add(data);
-			var device = GKManager.Zones[id].Devices.FirstOrDefault();
-
-			while (device != null && device.Parent != null)
-			{
-				level++;
-				DeviceNode item = new DeviceNode();
-				device = device.Parent;
+				listTree.Add(data);
+				var device = devices.FirstOrDefault();
+				while (device != null && device.Parent != null)
+				{
+					level++;
+					var item = new DeviceNode();
+					device = device.Parent;
 				item.DeviceList.Add(new Device(device)
 				{
 					Level = level
@@ -74,43 +71,42 @@ namespace GKWebService.Controllers
 				listTree.Add(item);
 			}
 			listTree.Reverse();
-
 			return Json(listTree, JsonRequestBehavior.AllowGet);
-        }
+		}
 
-        [HttpPost]
-        public JsonResult TurnOff(Guid id)
-        {
-            if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
-            {
-                ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Ignore);
-            }
+		[HttpPost]
+		public JsonResult SetIgnore(Guid id)
+		{
+			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
+			{
+				ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Ignore);
+			}
 
-            return new JsonResult();
-        }
+			return new JsonResult();
+		}
 
 
-        [HttpPost]
-        public JsonResult TurnOn(Guid id)
-        {
-            if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
-            {
-                ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.ResetIgnore);
-            }
+		[HttpPost]
+		public JsonResult ResetIgnore(Guid id)
+		{
+			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
+			{
+				ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.ResetIgnore);
+			}
 
-            return new JsonResult();
-        }
+			return new JsonResult();
+		}
 
-        [HttpPost]
-        public JsonResult Reset(Guid id)
-        {
-            if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
-            {
-                ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Reset);
-            }
+		[HttpPost]
+		public JsonResult ResetFire(Guid id)
+		{
+			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
+			{
+				ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Reset);
+			}
 
-            return new JsonResult();
-        }
+			return new JsonResult();
+		}
 
-    }
+	}
 }

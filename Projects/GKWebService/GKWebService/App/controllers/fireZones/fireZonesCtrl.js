@@ -11,6 +11,7 @@
                 multiSelect: false,
                 enableColumnMenus: false,
                 enableRowSelection: true,
+                noUnselect: true,
                 columnDefs: [
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="{{row.entity.ImageSource}}"/>{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.fireZonesClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="{{row.entity.StateIcon}}"/>{{row.entity[col.field]}}</a></div>' },
@@ -22,7 +23,12 @@
             $scope.$on('fireZonesChanged', function (event, args) {
                 for (var i in $scope.gridOptions.data) {
                     if (args.Uid === $scope.gridOptions.data[i].Uid) {
-                        $scope.gridOptions.data[i] = args;
+                        $scope.gridOptions.data[i].CanResetIgnore = args.CanResetIgnore;
+                        $scope.gridOptions.data[i].CanSetIgnore = args.CanSetIgnore;
+                        $scope.gridOptions.data[i].CanResetFire = args.CanResetFire;
+                        $scope.gridOptions.data[i].StateColor = args.StateColor;
+                        $scope.gridOptions.data[i].StateIcon = args.StateIcon;
+                        $scope.gridOptions.data[i].StateMessage = args.StateMessage;
                         $scope.$apply();
                         break;
                     }
@@ -43,7 +49,7 @@
             };
 
             $scope.changeZone = function (row) {
-                broadcastService.send('selectedZoneChanged', row.entity.No - 1);
+                broadcastService.send('selectedZoneChanged', row.entity.Uid);
             }
 
             $http.get('FireZones/GetFireZonesData').success(function (data, status, headers, config) {

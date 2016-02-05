@@ -17,7 +17,7 @@
                 columnDefs: [
                     { field: 'Name', width: 300, displayName: 'Устройство', cellTemplate: template },
                     { field: 'Address', displayName: 'Адрес', width: 100 },
-                    { field: 'Note', displayName: 'Примечание', width: $(window).width() - 675 }
+                    { field: 'Description', displayName: 'Примечание', width: $(window).width() - 675 }
                 ]
             };
 
@@ -63,8 +63,11 @@
             };
 
             $scope.$on('selectedZoneChanged', function (event, args) {
-                $http.get('FireZones/GetDevicesListByZoneNumber/' + args
-                ).success(function (data, status, headers, config) {
+                $http({
+                    url: 'FireZones/GetDevicesListByZoneNumber/',
+                    method: "GET",
+                    params: { uid: args }
+                }).success(function (data, status, headers, config) {
                     $scope.gridOptions.data = [];
                     for (var i in data) {
                         var item = data[i].DeviceList;
@@ -76,7 +79,7 @@
                                 $$treeLevel: data.length - element.Level - 1,
                                 ImageSource: element.ImageSource,
                                 StateIcon: element.StateIcon,
-                                Note: element.Description,
+                                Description: element.Description
                                 UID: element.UID
                             });
                         }
@@ -85,7 +88,12 @@
                     $timeout(function () {
                         $scope.expandAll();
                     });
-                });
+                });$http({
+                    url: 'FireZones/GetDevicesListByZoneNumber/',
+                    method: "GET",
+                    params: { uid: args }
+                }).success(function (data, status, headers, config) {
+
             });
 
         }]);
