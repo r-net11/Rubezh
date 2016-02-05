@@ -40,6 +40,7 @@ namespace FiresecService.Views
 		/// Разрешает или запрещает контекстноем меню "Разоравть соединение"
 		/// </summary>
 		bool EnableMenuDisconnect { get; set; }
-		BindingSource Clients { set; }
+		BindingSource ClientsContext { set; }
+		BindingSource LogsContext { set; }
 	}
 }

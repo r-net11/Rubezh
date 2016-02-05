@@ -19,9 +19,6 @@ namespace FiresecService.Presenters
 		{
 			View = view;
 
-			Logs = new ObservableCollection<LogViewModel>();
-			LastLog = String.Empty;
-
 			_bindingSourceClients = new BindingSource();
 			_clients = new List<ClientViewModel>();
 			//Clients = new ObservableCollection<ClientViewModel>();
@@ -29,13 +26,22 @@ namespace FiresecService.Presenters
 			_bindingSourceClients.DataSource = null;
 			_bindingSourceClients.DataSource = _clients;
 			_bindingSourceClients.ListChanged += EventHandler_bindingSourceClients_ListChanged;
+
+			//Logs = new ObservableCollection<LogViewModel>();
+			_bindingSourceLogs = new BindingSource();
+			_logs = new List<LogViewModel>();
+			_bindingSourceLogs.DataSource = null;
+			_bindingSourceLogs.DataSource = _logs;
+
 			ClientPolls = new ObservableCollection<ClientPollViewModel>();
 
 			View.Title = "Сервер приложений Глобал";
 			View.CommandDisconnectActivated += EventHandler_View_CommandDisconnectActivated;
-			View.Clients = _bindingSourceClients;
+			View.ClientsContext = _bindingSourceClients;
 			View.EnableMenuDisconnect = false;
+			View.LogsContext = _bindingSourceLogs;
 
+			LastLog = String.Empty;
 			Current = this;
 		}
 
@@ -43,7 +49,14 @@ namespace FiresecService.Presenters
 
 		public IMainView View { get; private set; }
 
-		public ObservableCollection<LogViewModel> Logs { get; private set; }
+		public ServerTasksViewModel ServerTasksViewModel { get; private set; }
+
+		#endregion
+
+		#region Logs
+		//public ObservableCollection<LogViewModel> Logs { get; private set; }
+		List<LogViewModel> _logs;
+		BindingSource _bindingSourceLogs;
 
 		public string LastLog
 		{
@@ -51,21 +64,18 @@ namespace FiresecService.Presenters
 			set { View.LastLog = value; }
 		}
 
-		public ServerTasksViewModel ServerTasksViewModel { get; private set; }
-
-		#endregion
-
-		#region Methods
-		
 		public void AddLog(string message, bool isError)
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
 				LastLog = message;
 				var logViewModel = new LogViewModel(message, isError);
-				Logs.Add(logViewModel);
-				if (Logs.Count > 1000)
-					Logs.RemoveAt(0);
+				//Logs.Add(logViewModel);
+				//if (Logs.Count > 1000)
+				//	Logs.RemoveAt(0);
+				_bindingSourceLogs.Add(logViewModel);
+				if (_bindingSourceLogs.Count > 1000)
+					_bindingSourceLogs.RemoveAt(0);
 			}));
 		}
 
