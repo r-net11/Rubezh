@@ -40,11 +40,8 @@ namespace GKWebService.Controllers
 
 		void BuildDeviceTree(RubezhAPI.GK.GKDevice apiDevice, Device parent, List<Device> devices)
 		{
-			var device = new Device
+			var device = new Device(apiDevice)
 			{
-				Name = apiDevice.PresentationName,
-				Address = apiDevice.Address,
-                ImageDeviceIcon = "/Content/Image/" + apiDevice.ImageSource.Replace("/Controls;component/", ""),
 				Level = parent != null ? parent.Level + 1 : 0
 			};
 			devices.Add(device);
