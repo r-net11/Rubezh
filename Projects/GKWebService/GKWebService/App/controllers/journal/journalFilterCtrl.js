@@ -14,8 +14,8 @@
         					</i> &nbsp;\
         			</div>\
         			<a href=\"#\">\
-						<img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"{{row.entity.ImageDeviceIcon}}\"/>\
-        				{{row.entity[col.field]}}\
+						<img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
+						{{row.entity[col.field]}}\
         			</a>\
         		</div>";
         	$scope.gridOptions = {
