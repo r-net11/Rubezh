@@ -83,10 +83,10 @@ namespace FiresecService.Report.Templates
 
 							if (isShowAbsence || isShowLate || isShowEarlуLeave || isShowOvertime || filter.ShowAllViolation)
 							{
-								dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm\:ss");
-								dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm\:ss");
-								dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm\:ss");
-								dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm\:ss");
+								dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm");
+								dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm");
+								dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm");
+								dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm");
 
 							}
 						}

@@ -34,13 +34,7 @@ namespace SKDModule.Views
 		{
 			if (!dateTime.HasValue) return string.Empty;
 
-			var result = dateTime.Value.TimeOfDay.Hours + ":" + dateTime.Value.TimeOfDay.Minutes + ":" + dateTime.Value.TimeOfDay.Seconds;
-			return result;
-		}
-
-		string TimePartDateToString(TimeSpan timeSpan)
-		{
-			var result = timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
+			var result = dateTime.Value.TimeOfDay.Hours + ":" + dateTime.Value.TimeOfDay.Minutes;
 			return result;
 		}
 
