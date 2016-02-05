@@ -50,11 +50,11 @@ namespace GKWebService.Models.FireZone
 
 		public FireZone(GKZone gkZone)
 		{
-			StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(gkZone.State.StateClass) + ".png";
+			StateIcon = Convert.ToString(gkZone.State.StateClass);
 			Name = gkZone.Name;
 			Fire1Count = gkZone.Fire1Count;
 			Fire2Count = gkZone.Fire2Count;
-			ImageSource = "/Content/Image/" + gkZone.ImageSource.Replace("/Controls;component/", "");
+			ImageSource = gkZone.ImageSource.Replace("/Controls;component/", "");
 			Uid = gkZone.UID;
 			No = gkZone.No;
 			StateColor = "'#" +
