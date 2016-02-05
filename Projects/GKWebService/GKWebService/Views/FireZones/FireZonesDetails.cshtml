@@ -10,7 +10,7 @@
     <div>
         <div ng-style="{'background-color': fireZone.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
         <div style="float: left; width: 300px">
-            <img style="margin: 2px; vertical-align: middle" ng-src={{fireZone.StateIcon}} />
+            <img style="margin: 2px; vertical-align: middle" ng-src="/Content/Image/Icon/GKStateIcons/{{fireZone.StateIcon}}.png"/>
             {{fireZone.StateMessage}}
         </div>
         <div style="clear: left">
@@ -30,7 +30,7 @@
             <uib-tab heading="Свойства">
                 <div style="background: #fff">
                     <div>
-                        <img style="margin: 2px; vertical-align:middle" height="16" width="16" ng-src="{{fireZone.ImageSource}}" />
+                        <img style="margin: 2px; vertical-align:middle" height="16" width="16" ng-src="/Content/Image/{{fireZone.ImageSource}}" />
                         <a href="#" ng-click="Show()">{{fireZone.Name}}</a>
                     </div>
                     <div>
