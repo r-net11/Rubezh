@@ -4,8 +4,8 @@
         function ($scope, $uibModalInstance, device) {
             $scope.device = device;
 
-            $scope.$on('fireZonesDeviceChanged', function (event, args) {
-                if (args.Uid === $scope.device.Uid) {
+            $scope.$on('devicesChanged', function (event, args) {
+                if (args.UID === $scope.device.UID) {
                     $scope.device = args;
                     $scope.$apply();
                 };
