@@ -33,18 +33,13 @@ namespace FiresecService.Views
 		/// </summary>
 		string LastLog { get; set; }
 		/// <summary>
-		/// Текущая выбранная закладка
-		/// </summary>
-		ITabPageView SelectedTabView { get; }
-		/// <summary>
-		/// Событие происходит при выборе закладки
-		/// </summary>
-		event EventHandler TabChanged;
-		/// <summary>
 		/// Событие происходит при вызове контекстного меню "Разорвать соединение"
 		/// </summary>
 		event EventHandler CommandDisconnectActivated;
-		BindingSource Clients { set; }
+		/// <summary>
+		/// Разрешает или запрещает контекстноем меню "Разоравть соединение"
+		/// </summary>
 		bool EnableMenuDisconnect { get; set; }
+		BindingSource Clients { set; }
 	}
 }

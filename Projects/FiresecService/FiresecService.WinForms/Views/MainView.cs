@@ -69,18 +69,14 @@ namespace FiresecService.Views
 
 		#region Fields And Properties
 
-		//TabPageConnectionsView _tabPageConnectionsView;
-		//TabPageGKView _tabPageGKView;
-		//TabPageLicenceView _tabPageLicenceView;
-		//TabPageLogView _tabPageLogView;
-		//TabPageOperationsView _tabPageOperationsView;
-		//TabPagePollingView _tabPagePollingView;
-		//TabPageStatusView _tabPageStatusView;
-
+		// Вкладка "Соедининия"
 		TabPage _tabPageConnections;
 		DataGridView _dataGridViewConnections;
 		ContextMenuStrip _contexMenuStripConnections;
 		ToolStripMenuItem _toolStripMenuItemDisconnect;
+
+		// Вкладка "Лог"
+		TabPage _tabPageLog;
 
 		public string Title
 		{
@@ -94,18 +90,6 @@ namespace FiresecService.Views
 			set 
 			{ 
 				_toolStripStatusLabelLastLog.Text = value;
-			}
-		}
-
-		public ITabPageView SelectedTabView 
-		{
-			get 
-			{ 
-				return (ITabPageView)_tabControlMain.SelectedTab;
-			}
-			private set 
-			{
-				OnTabChanged();
 			}
 		}
 
@@ -134,111 +118,11 @@ namespace FiresecService.Views
 
 		#region Event handlers for form
 
-		private void EventHandler_MainWinFormView_Load(object sender, EventArgs e)
-		{
-			// Инициализация _tabControlMain
-			//_tabPageConnectionsView = new TabPageConnectionsView()
-			//{
-			//	Name = "_tabPageConnections",
-			//	Text = "Соединения"
-			//};
-			//_tabControlMain.TabPages.Add(_tabPageConnectionsView);
-
-			//_tabPageLogView = new TabPageLogView()
-			//{
-			//	Name = "_tabPageLog",
-			//	Text = "Лог"
-			//};
-			//_tabControlMain.TabPages.Add(_tabPageLogView);
-
-			//_tabPageStatusView = new TabPageStatusView()
-			//{
-			//	Name = "_tabPageStatus",
-			//	Text = "Статус"
-			//};
-			//_tabControlMain.TabPages.Add(_tabPageStatusView);
-
-			//_tabPageGKView = new TabPageGKView()
-			//{
-			//	Name = "_tabPageGK",
-			//	Text = "ГК"
-			//};
-			//_tabControlMain.TabPages.Add(_tabPageGKView);
-
-			//_tabPagePollingView = new TabPagePollingView()
-			//{
-			//	Name = "_tabPagePolling",
-			//	Text = "Поллинг"
-			//};
-			//_tabControlMain.TabPages.Add(_tabPagePollingView);
-
-			//_tabPageOperationsView = new TabPageOperationsView()
-			//{
-			//	Name = "_tabPageOperations",
-			//	Text = "Операции"
-			//};
-			//_tabControlMain.TabPages.Add(_tabPageOperationsView);
-
-			//_tabPageLicenceView = new TabPageLicenceView()
-			//{
-			//	Name = "_tabPageLicence",
-			//	Text = "Лицензирование"
-			//};
-			//_tabControlMain.TabPages.Add(_tabPageLicenceView);
-		}
-
-		private void EventHandler_MainWinFormView_Shown(object sender, EventArgs e)
-		{
-		}
-
 		private void EventHandler_MainWinFormView_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			ShowInTaskbar = false;
 			Visible = false;
 			e.Cancel = true;
-		}
-
-		private void MainWinFormView_Activated(object sender, EventArgs e)
-		{
-		}
-
-		#endregion
-
-		#region Event handlers for _tabControlMain
-		
-		private void EventHandler_tabControlMain_Selected(object sender, TabControlEventArgs e)
-		{
-			if (e.Action == TabControlAction.Selected)
-			{
-				//if (e.TabPage.Equals(_tabPageConnectionsView))
-				//{
-				//	SelectedTabView = (ITabPageConnectionsView)e.TabPage;
-				//}
-				//else if (e.TabPage.Equals(_tabPageLogView))
-				//{
-				//	SelectedTabView = (ITabPageLogView)e.TabPage;
-				//}
-				//else if (e.TabPage.Equals(_tabPageStatusView))
-				//{
-				//	SelectedTabView = (ITabPageStatusView)e.TabPage;
-				//}
-				//else if (e.TabPage.Equals(_tabPageGKView))
-				//{
-				//	SelectedTabView = (ITabPageGKView)e.TabPage;
-				//}
-				//else if (e.TabPage.Equals(_tabPagePollingView))
-				//{
-				//	SelectedTabView = (ITabPagePollingView)e.TabPage;
-				//}
-				//else if (e.TabPage.Equals(_tabPageOperationsView))
-				//{
-				//	SelectedTabView = (ITabPageOperationsView)e.TabPage;
-				//}
-				//else if (e.TabPage.Equals(_tabPageLicenceView))
-				//{
-				//	SelectedTabView = (ITabPageLicenceView)e.TabPage;
-				//}
-			}
 		}
 
 		#endregion
@@ -266,14 +150,6 @@ namespace FiresecService.Views
 			base.SetVisibleCore(value);
 		}
 
-		void OnTabChanged()
-		{
-			if (TabChanged != null)
-			{
-				TabChanged(this, new EventArgs());
-			}
-		}
-
 		void OnCommandDisconnectActivated()
 		{
 			if (CommandDisconnectActivated != null)
@@ -284,7 +160,6 @@ namespace FiresecService.Views
 
 		#region Events
 
-		public event EventHandler TabChanged;
 		public event EventHandler CommandDisconnectActivated;
 
 		#endregion

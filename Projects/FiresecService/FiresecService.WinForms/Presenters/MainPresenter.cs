@@ -32,43 +32,11 @@ namespace FiresecService.Presenters
 			ClientPolls = new ObservableCollection<ClientPollViewModel>();
 
 			View.Title = "Сервер приложений Глобал";
-			View.TabChanged += EventHandler_View_TabChanged;
 			View.CommandDisconnectActivated += EventHandler_View_CommandDisconnectActivated;
 			View.Clients = _bindingSourceClients;
 			View.EnableMenuDisconnect = false;
 
 			Current = this;
-		}
-
-		void EventHandler_bindingSourceClients_ListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
-		{
-			BindingSource control = (BindingSource)sender;
-			View.EnableMenuDisconnect = control.Count > 0;
-		}
-
-		void EventHandler_Clients_CollectionChanged(object sender, 
-			System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-		{
-			switch (e.Action)
-			{
-				case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-					{
-						foreach (var item in e.NewItems)
-						{
-							_bindingSourceClients.Add((ClientViewModel)item);
-						}
-						break;
-					}
-				case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-					{
-						foreach (var item in e.OldItems)
-						{
-							_bindingSourceClients.Remove((ClientViewModel)item);
-						}
-						break;
-					}
-			}
-			
 		}
 
 		#region Fields And Properties
@@ -99,44 +67,6 @@ namespace FiresecService.Presenters
 				if (Logs.Count > 1000)
 					Logs.RemoveAt(0);
 			}));
-		}
-
-		#endregion
-
-		#region Event handlers for View
-
-		void EventHandler_View_TabChanged(object sender, EventArgs e)
-		{
-			IMainView view = (IMainView)sender;
-
-			if (view.SelectedTabView is ITabPageConnectionsView)
-			{ }
-			else if (view.SelectedTabView is ITabPageGKView)
-			{ }
-			else if (view.SelectedTabView is ITabPageLicenceView)
-			{ }
-			else if (view.SelectedTabView is ITabPageLogView)
-			{ }
-			else if (view.SelectedTabView is ITabPageOperationsView)
-			{ }
-			else if (view.SelectedTabView is ITabPagePollingView)
-			{ }
-			else if (view.SelectedTabView is ITabPageStatusView)
-			{ }
-		}
-
-		void EventHandler_View_CommandDisconnectActivated(object sender, EventArgs e)
-		{
-			//TODO: передалать в сервис
-			var connection = SelectedClient;
-			var text = string.Format("Вы действительно хотите отключить клиента <{0} / {1} / {2}> от сервера?", 
-				connection.ClientType, connection.IpAddress, connection.FriendlyUserName);
-			var result = MessageBox.Show(text, "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-			
-			if (result == DialogResult.Yes)
-			{
-				ClientsManager.Remove(connection.UID);
-			}
 		}
 
 		#endregion
@@ -255,6 +185,52 @@ namespace FiresecService.Presenters
 					connectionViewModel.FriendlyUserName = userName;
 			}));
 		}
+
+		void EventHandler_View_CommandDisconnectActivated(object sender, EventArgs e)
+		{
+			//TODO: передалать в сервис
+			var connection = SelectedClient;
+			var text = string.Format("Вы действительно хотите отключить клиента <{0} / {1} / {2}> от сервера?",
+				connection.ClientType, connection.IpAddress, connection.FriendlyUserName);
+			var result = MessageBox.Show(text, "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+			if (result == DialogResult.Yes)
+			{
+				ClientsManager.Remove(connection.UID);
+			}
+		}
+
+		void EventHandler_bindingSourceClients_ListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
+		{
+			BindingSource control = (BindingSource)sender;
+			View.EnableMenuDisconnect = control.Count > 0;
+		}
+
+		void EventHandler_Clients_CollectionChanged(object sender,
+			System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+					{
+						foreach (var item in e.NewItems)
+						{
+							_bindingSourceClients.Add((ClientViewModel)item);
+						}
+						break;
+					}
+				case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+					{
+						foreach (var item in e.OldItems)
+						{
+							_bindingSourceClients.Remove((ClientViewModel)item);
+						}
+						break;
+					}
+			}
+
+		}
+
 		#endregion Clients
 
 		#region GK Lifecycle
