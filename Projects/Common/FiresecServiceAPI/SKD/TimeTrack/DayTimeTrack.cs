@@ -169,7 +169,7 @@ namespace FiresecAPI.SKD
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
-			CalculateLetterCode();
+			CalculateLetterCode(TimeTrackType);
 
 		}
 
@@ -1199,46 +1199,6 @@ namespace FiresecAPI.SKD
 			return result;
 		}
 
-		public static List<TimeTrackPart> NormalizeTimeTrackParts(List<TimeTrackPart> timeTrackParts)
-		{
-			if (timeTrackParts.Count == 0)
-				return new List<TimeTrackPart>();
-
-			var result = new List<TimeTrackPart>();
-
-			var timeScheduleIntervals = timeTrackParts.Select(timeTrackPart => new ScheduleInterval(timeTrackPart.EnterDateTime, timeTrackPart.ExitDateTime)).ToList();
-			timeScheduleIntervals = timeScheduleIntervals.OrderBy(x => x.StartTime.TimeOfDay).ToList();
-
-			foreach (var timeScheduleInterval in timeScheduleIntervals.Where(x => x.EndTime.HasValue))
-			{
-				var timeTrackPart = timeTrackParts.FirstOrDefault(x => x.EnterDateTime <= timeScheduleInterval.StartTime && x.ExitDateTime > timeScheduleInterval.StartTime);
-
-				if(timeTrackPart == null) continue;
-
-				result.Add(new TimeTrackPart
-				{
-					EnterDateTime = timeScheduleInterval.StartTime,
-					ExitDateTime = timeScheduleInterval.EndTime,
-					TimeTrackPartType = timeTrackPart.TimeTrackPartType,
-					ZoneUID = timeTrackPart.ZoneUID,
-					StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
-					EndsInNextDay = timeTrackPart.EndsInNextDay,
-					DayName = timeTrackPart.DayName,
-					PassJournalUID = timeTrackPart.PassJournalUID,
-					IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
-					AdjustmentDate = timeTrackPart.AdjustmentDate,
-					CorrectedByUID = timeTrackPart.CorrectedByUID,
-					EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
-					ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
-					NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
-					IsManuallyAdded = timeTrackPart.IsManuallyAdded,
-					IsOpen = timeTrackPart.IsOpen,
-					IsForceClosed = timeTrackPart.IsForceClosed
-				});
-			}
-			return result;
-		}
-
 		/// <summary>
 		/// Возвращает интервалы, которые переходят через сутки
 		/// </summary>
@@ -1247,19 +1207,21 @@ namespace FiresecAPI.SKD
 		/// <returns>Коллекцию интервалов, переходящих через сутки</returns>
 		public List<TimeTrackPart> CalculateCrossNightTimeTrackParts(List<TimeTrackPart> timeTrackParts, DateTime date)
 		{
-			return timeTrackParts.Where(x => x.ExitDateTime.HasValue).Where(x => (x.EnterDateTime.Date == date.Date && x.ExitDateTime.Value.Date > date.Date)
-											||(x.EnterDateTime.Date < date.Date && x.ExitDateTime.Value.Date > date.Date))
-											.ToList();
+			return timeTrackParts
+				.Where(x => x.ExitDateTime.HasValue)
+				.Where(x => (x.EnterDateTime.Date == date.Date && x.ExitDateTime.Value.Date > date.Date)
+							||(x.EnterDateTime.Date < date.Date && x.ExitDateTime.Value.Date > date.Date))
+				.ToList();
 		}
 
 		/// <summary>
 		/// Получение буквенного кода для дня УРВ
 		/// </summary>
-		private void CalculateLetterCode()
+		private void CalculateLetterCode(TimeTrackType type)
 		{
-			Tooltip = TimeTrackType.ToDescription();
+			Tooltip = type.ToDescription();
 
-			switch (TimeTrackType)
+			switch (type)
 			{
 				case TimeTrackType.None:
 					LetterCode = "";
@@ -1315,6 +1277,27 @@ namespace FiresecAPI.SKD
 					break;
 			}
 		}
+
+		//private void SetLetterCode()
+		//{
+		//	if (PlannedTimeTrackParts.Any())
+		//	{
+
+		//	}
+		//	else
+		//	{
+		//		//LetterCode
+		//		if (DocumentTrackParts.Any())
+		//		{
+		//			var s  = Documents.Where(x => x.)
+
+		//		}
+		//		else
+		//		{
+		//			LetterCode = "В";
+		//		}
+		//	}
+		//}
 
 		/// <summary>
 		/// Структура для хранения начального и конечного времени интервалов
