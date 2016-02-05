@@ -5,8 +5,8 @@
     <Fragment>
         <UI>
             <Dialog Id="SQLLoginDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
-                <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Параметры соединения с SQL Server 2005" TabSkip="yes" Transparent="yes" />
-                <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Укажите параметры соединения с SQL Server 2005 для создания базы данных $(var.ProductName)." TabSkip="yes" Transparent="yes" />
+                <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Параметры соединения с SQL Server 2008" TabSkip="yes" Transparent="yes" />
+                <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Укажите параметры соединения с SQL Server 2008 для создания базы данных $(var.ProductName)." TabSkip="yes" Transparent="yes" />
                 <!-- IP-адрес сервера баз данных -->
                 <Control Id="SqlServerAddressLabel" Type="Text" Width="137" Height="15" X="38" Y="50" Text="IP-адрес сервера баз данных:" />
                 <Control Id="SqlServerAddressEdit" Type="Edit" Width="146" Height="15" X="184" Y="50" Property="SQLSERVER_ADDRESS" />
