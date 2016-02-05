@@ -784,6 +784,7 @@
     <Content Include="Views\Alarms\AlarmGroups.cshtml" />
     <Content Include="Views\Alarms\Index.cshtml" />
     <Content Include="Views\Alarms\Alarms.cshtml" />
+    <Content Include="Views\Devices\DeviceDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

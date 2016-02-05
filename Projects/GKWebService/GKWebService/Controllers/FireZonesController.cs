@@ -20,6 +20,10 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
+		/// <summary>
+		/// Возвращает форму настройки зоны
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult FireZonesDetails()
 		{
 			return View();
@@ -38,13 +42,13 @@ namespace GKWebService.Controllers
 		/// <summary>
 		/// Метод, предоставляющий данные об устройствах для конкретной зоны
 		/// </summary>
-		public JsonResult GetDevicesListByZoneNumber(Guid uid)
+		public JsonResult GetDevicesListByZoneNumber(Guid id)
 		{
 			var listTree = new List<DeviceNode>();
 			var data = new DeviceNode();
 			int level = 0;
 
-			var firstZone = GKManager.Zones.FirstOrDefault(zone => zone.UID == uid);
+			var firstZone = GKManager.Zones.FirstOrDefault(zone => zone.UID == id);
 			if (firstZone != null)
 			{
 				var devices = firstZone.Devices;

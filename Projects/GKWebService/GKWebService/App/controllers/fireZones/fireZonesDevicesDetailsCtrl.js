@@ -1,12 +1,12 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('fireZonesDevicesDetailsCtrl',
-        function ($scope, $uibModalInstance, $http, fireZone) {
-            $scope.fireZone = fireZone;
+        function ($scope, $uibModalInstance, $http, device) {
+            $scope.device = device;
 
             $scope.$on('fireZonesDeviceChanged', function (event, args) {
-                if (args.Uid === $scope.fireZoneDevice.Uid) {
-                    $scope.fireZoneDevice = args;
+                if (args.Uid === $scope.device.Uid) {
+                    $scope.device = args;
                     $scope.$apply();
                 };
             });
