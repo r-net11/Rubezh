@@ -51,11 +51,11 @@ namespace GKWebService.Controllers
 
 				foreach (var remoteDevice in devices)
 				{
-				data.DeviceList.Add(new Device(remoteDevice)
-                {
-                    Level = level
-                });
-			}
+					data.DeviceList.Add(new Device(remoteDevice)
+					{
+						Level = level
+					});
+				}
 
 				listTree.Add(data);
 				var device = devices.FirstOrDefault();
@@ -64,11 +64,12 @@ namespace GKWebService.Controllers
 					level++;
 					var item = new DeviceNode();
 					device = device.Parent;
-				item.DeviceList.Add(new Device(device)
-				{
-					Level = level
-				});
-				listTree.Add(item);
+					item.DeviceList.Add(new Device(device)
+					{
+						Level = level
+					});
+					listTree.Add(item);
+				}
 			}
 			listTree.Reverse();
 			return Json(listTree, JsonRequestBehavior.AllowGet);

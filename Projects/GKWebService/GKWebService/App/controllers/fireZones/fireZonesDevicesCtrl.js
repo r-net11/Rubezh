@@ -79,7 +79,7 @@
                                 $$treeLevel: data.length - element.Level - 1,
                                 ImageSource: element.ImageSource,
                                 StateIcon: element.StateIcon,
-                                Description: element.Description
+                                Description: element.Description,
                                 UID: element.UID
                             });
                         }
@@ -88,11 +88,7 @@
                     $timeout(function () {
                         $scope.expandAll();
                     });
-                });$http({
-                    url: 'FireZones/GetDevicesListByZoneNumber/',
-                    method: "GET",
-                    params: { uid: args }
-                }).success(function (data, status, headers, config) {
+                })
 
             });
 

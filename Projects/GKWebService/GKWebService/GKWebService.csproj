@@ -646,6 +646,7 @@
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
+    <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
