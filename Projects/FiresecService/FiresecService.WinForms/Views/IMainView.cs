@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FiresecService.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,12 @@ namespace FiresecService.Views
 		/// <summary>
 		/// Событие происходит при выборе закладки
 		/// </summary>
-		event EventHandler TabChanged; 
+		event EventHandler TabChanged;
+		/// <summary>
+		/// Событие происходит при вызове контекстного меню "Разорвать соединение"
+		/// </summary>
+		event EventHandler CommandDisconnectActivated;
+		BindingSource Clients { set; }
+		bool EnableMenuDisconnect { get; set; }
 	}
 }

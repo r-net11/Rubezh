@@ -7,5 +7,6 @@ namespace FiresecService.Views
 {
 	public interface ITabPageView
 	{
+
 	}
 }
