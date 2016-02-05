@@ -13,22 +13,16 @@ namespace FiresecService.Views
 	public partial class MainView : Form, IMainView
 	{
 		#region Constructors
+
 		public MainView()
 		{
 			InitializeComponent();
+			Initialize();
 		}
 
 		#endregion
 
 		#region Fields And Properties
-
-		TabPageConnectionsView _tabPageConnectionsView;
-		TabPageGKView _tabPageGKView;
-		TabPageLicenceView _tabPageLicenceView;
-		TabPageLogView _tabPageLogView;
-		TabPageOperationsView _tabPageOperationsView;
-		TabPagePollingView _tabPagePollingView;
-		TabPageStatusView _tabPageStatusView;
 
 		public string Title
 		{
@@ -36,88 +30,59 @@ namespace FiresecService.Views
 			set { Text = value; }
 		}
 
-		public string LastLog
+		// Вкладка "Соедининия"
+		TabPage _tabPageConnections;
+		DataGridView _dataGridViewConnections;
+		ContextMenuStrip _contexMenuStripConnections;
+		ToolStripMenuItem _toolStripMenuItemDisconnect;
+
+		public BindingSource ClientsContext
 		{
-			get { return _toolStripStatusLabelLastLog.Text; }
-			set 
-			{ 
-				_toolStripStatusLabelLastLog.Text = value;
+			set
+			{
+				_dataGridViewConnections.DataSource = null;
+				_dataGridViewConnections.DataSource = value;
 			}
 		}
 
-		public ITabPageView SelectedTabView 
+		public bool EnableMenuDisconnect
 		{
-			get 
-			{ 
-				return (ITabPageView)_tabControlMain.SelectedTab;
-			}
-			private set 
+			get
 			{
-				OnTabChanged();
+				return _toolStripMenuItemDisconnect.Enabled;
+			}
+			set
+			{
+				_toolStripMenuItemDisconnect.Enabled = value;
+			}
+		}
+
+		// Вкладка "Лог"
+		TabPage _tabPageLog;
+		DataGridView _dataGridViewLog;
+
+		public BindingSource LogsContext
+		{
+			set
+			{
+				_dataGridViewLog.DataSource = null;
+				_dataGridViewLog.DataSource = value;
+			}
+		}
+		
+		// Сторока состояния окна
+		public string LastLog
+		{
+			get { return _toolStripStatusLabelLastLog.Text; }
+			set
+			{
+				_toolStripStatusLabelLastLog.Text = value;
 			}
 		}
 
 		#endregion
 
 		#region Event handlers for form
-
-		private void EventHandler_MainWinFormView_Load(object sender, EventArgs e)
-		{
-			// Инициализация _tabControlMain
-			_tabPageConnectionsView = new TabPageConnectionsView()
-			{
-				Name = "_tabPageConnections",
-				Text = "Соединения"
-			};
-			_tabControlMain.TabPages.Add(_tabPageConnectionsView);
-
-			_tabPageLogView = new TabPageLogView()
-			{
-				Name = "_tabPageLog",
-				Text = "Лог"
-			};
-			_tabControlMain.TabPages.Add(_tabPageLogView);
-
-			_tabPageStatusView = new TabPageStatusView()
-			{
-				Name = "_tabPageStatus",
-				Text = "Статус"
-			};
-			_tabControlMain.TabPages.Add(_tabPageStatusView);
-
-			_tabPageGKView = new TabPageGKView()
-			{
-				Name = "_tabPageGK",
-				Text = "ГК"
-			};
-			_tabControlMain.TabPages.Add(_tabPageGKView);
-
-			_tabPagePollingView = new TabPagePollingView()
-			{
-				Name = "_tabPagePolling",
-				Text = "Поллинг"
-			};
-			_tabControlMain.TabPages.Add(_tabPagePollingView);
-
-			_tabPageOperationsView = new TabPageOperationsView()
-			{
-				Name = "_tabPageOperations",
-				Text = "Операции"
-			};
-			_tabControlMain.TabPages.Add(_tabPageOperationsView);
-
-			_tabPageLicenceView = new TabPageLicenceView()
-			{
-				Name = "_tabPageLicence",
-				Text = "Лицензирование"
-			};
-			_tabControlMain.TabPages.Add(_tabPageLicenceView);
-
-		}
-
-		private void EventHandler_MainWinFormView_Shown(object sender, EventArgs e)
-		{
-		}
 
 		private void EventHandler_MainWinFormView_FormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -126,52 +91,103 @@ namespace FiresecService.Views
 			e.Cancel = true;
 		}
 
-		private void MainWinFormView_Activated(object sender, EventArgs e)
-		{
-		}
-
 		#endregion
 
-		#region Event handlers for _tabControlMain
-		
-		private void EventHandler_tabControlMain_Selected(object sender, TabControlEventArgs e)
+		#region Event handlers for context menu _toolStripMenuItemDisconnect
+
+		void EventHandler_toolStripMenuItemDisconnect_Click(object sender, EventArgs e)
 		{
-			if (e.Action == TabControlAction.Selected)
-			{
-				if (e.TabPage.Equals(_tabPageConnectionsView))
-				{
-					SelectedTabView = (ITabPageConnectionsView)e.TabPage;
-				}
-				else if (e.TabPage.Equals(_tabPageLogView))
-				{
-					SelectedTabView = (ITabPageLogView)e.TabPage;
-				}
-				else if (e.TabPage.Equals(_tabPageStatusView))
-				{
-					SelectedTabView = (ITabPageStatusView)e.TabPage;
-				}
-				else if (e.TabPage.Equals(_tabPageGKView))
-				{
-					SelectedTabView = (ITabPageGKView)e.TabPage;
-				}
-				else if (e.TabPage.Equals(_tabPagePollingView))
-				{
-					SelectedTabView = (ITabPagePollingView)e.TabPage;
-				}
-				else if (e.TabPage.Equals(_tabPageOperationsView))
-				{
-					SelectedTabView = (ITabPageOperationsView)e.TabPage;
-				}
-				else if (e.TabPage.Equals(_tabPageLicenceView))
-				{
-					SelectedTabView = (ITabPageLicenceView)e.TabPage;
-				}
-			}
+			OnCommandDisconnectActivated();
 		}
 
 		#endregion
 
 		#region Methods
+
+		void Initialize()
+		{
+			#region Tab Connections
+
+			_tabPageConnections = new TabPage() { Name = "_tabPageConnections", Text = "Подключения" };
+			_tabControlMain.TabPages.Add(_tabPageConnections);
+
+			_dataGridViewConnections = new DataGridView()
+			{
+				Name = "_dataGridViewConnections",
+				MultiSelect = false,
+				SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+				Dock = DockStyle.Fill,
+				AutoGenerateColumns = false,
+				AllowUserToAddRows = false,
+				AllowUserToDeleteRows = false,
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+			};
+			_dataGridViewConnections.Columns.Add(new DataGridViewTextBoxColumn()
+			{
+				Name = "_dataGridViewColumnType",
+				HeaderText = "Тип",
+				DataPropertyName = "ClientType"
+			});
+			_dataGridViewConnections.Columns.Add(new DataGridViewTextBoxColumn()
+			{
+				Name = "_dataGridViewColumnAddress",
+				HeaderText = "Адрес",
+				DataPropertyName = "IpAddress",
+			});
+			_dataGridViewConnections.Columns.Add(new DataGridViewTextBoxColumn()
+			{
+				Name = "_dataGridViewColumnFriendlyUserName",
+				HeaderText = "Пользователь",
+				DataPropertyName = "FriendlyUserName"
+			});
+			_contexMenuStripConnections = new ContextMenuStrip()
+			{
+				Name = "_contexMenuStripConnections"
+			};
+			_toolStripMenuItemDisconnect = new ToolStripMenuItem(
+					"Разорвать соединение",
+					null,
+					EventHandler_toolStripMenuItemDisconnect_Click,
+					"_toolStripMenuItemDisconnect");
+			_contexMenuStripConnections.Items.Add(_toolStripMenuItemDisconnect);
+			_dataGridViewConnections.ContextMenuStrip = _contexMenuStripConnections;
+
+			_tabPageConnections.Controls.Add(_dataGridViewConnections);
+
+			#endregion
+
+			#region Log
+
+			_tabPageLog = new TabPage() { Name = "_tabPageLog", Text = "Лог" };
+			_tabControlMain.TabPages.Add(_tabPageLog);
+
+			_dataGridViewLog = new DataGridView()
+			{
+				Name = "_dataGridViewLog",
+				MultiSelect = false,
+				SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+				Dock = DockStyle.Fill,
+				AutoGenerateColumns = false,
+				AllowUserToAddRows = false,
+				AllowUserToDeleteRows = false,
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+			};
+			_dataGridViewLog.Columns.Add(new DataGridViewTextBoxColumn()
+			{
+				Name = "_dataGridViewColumnMessage",
+				HeaderText = "Название",
+				DataPropertyName = "Message"
+			});
+			_dataGridViewLog.Columns.Add(new DataGridViewTextBoxColumn()
+			{
+				Name = "_dataGridViewColumnDate",
+				HeaderText = "Дата",
+				DataPropertyName = "DateTime"
+			});
+			_tabPageLog.Controls.Add(_dataGridViewLog);
+
+			#endregion
+		}
 
 		protected override void SetVisibleCore(bool value)
 		{
@@ -185,16 +201,18 @@ namespace FiresecService.Views
 			base.SetVisibleCore(value);
 		}
 
-		void OnTabChanged()
+		void OnCommandDisconnectActivated()
 		{
-			if (TabChanged != null)
-			{
-				TabChanged(this, new EventArgs());
-			}
+			if (CommandDisconnectActivated != null)
+				CommandDisconnectActivated(this, new EventArgs());
 		}
 
 		#endregion
 
-		public event EventHandler TabChanged;
+		#region Events
+
+		public event EventHandler CommandDisconnectActivated;
+
+		#endregion
 	}
 }

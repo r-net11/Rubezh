@@ -15,9 +15,7 @@ namespace FiresecService
 	{
 		public static ApplicationContext AppContext { get; set; }
 		public static NotifyIcon SystemTray { get; set; }
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
+
 		[STAThread]
 		static void Main()
 		{
@@ -51,14 +49,14 @@ namespace FiresecService
 			SystemTray.Text = "Сервер приложений Глобал";
 
 			var view = new MainView();
-			var presenter = new Presenter(view);
+			var presenter = new MainPresenter(view);
 
 			AppContext.MainForm = null;
 			AppContext.MainForm = view;
 
 			try
 			{
-				//Bootstrapper.Run();
+				Bootstrapper.Run();
 			}
 			catch (Exception ex)
 			{

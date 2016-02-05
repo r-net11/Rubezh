@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using FiresecService.Presenters;
 
 namespace FiresecService
 {
@@ -28,7 +29,7 @@ namespace FiresecService
 				{
 					serverTask.ProgressCallback.IsCanceled = true;
 					//MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
-					throw new NotImplementedException();
+					MainPresenter.Current.ServerTasksViewModel.Remove(serverTask);
 				}
 			}
 
@@ -62,6 +63,7 @@ namespace FiresecService
 				{
 					serverTask.Action();
 					//MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
+					MainPresenter.Current.ServerTasksViewModel.Remove(serverTask);
 					ServerTasks.Remove(serverTask);
 				}
 			}
@@ -72,6 +74,7 @@ namespace FiresecService
 			var serverTask = new ServerTask() { Action = action, ProgressCallback = progressCallback, Name = name };
 			ServerTasks.Add(serverTask);
 			//MainViewModel.Current.ServerTasksViewModel.Add(serverTask);
+			MainPresenter.Current.ServerTasksViewModel.Add(serverTask);
 		}
 	}
 
