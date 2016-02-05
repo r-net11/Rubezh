@@ -645,8 +645,8 @@
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
-    <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
+    <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
@@ -654,7 +654,6 @@
     <Compile Include="Models\GK\Alarms\AlarmsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmTypeToColorConverter.cs" />
     <Compile Include="Models\GK\Alarms\AlarmViewModel.cs" />
-    <Compile Include="Models\MPT\MPTDevice.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -682,7 +681,6 @@
     <Compile Include="Models\SKD\Cards\CardViewModel.cs" />
     <Compile Include="Models\SKD\Common\CopyHelper.cs" />
     <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
-    <Compile Include="Models\FireZone\Device.cs" />
     <Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
     <Compile Include="Models\FireZone\FireZone.cs" />
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />

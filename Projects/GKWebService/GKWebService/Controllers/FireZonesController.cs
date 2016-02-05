@@ -55,14 +55,9 @@ namespace GKWebService.Controllers
 
 				foreach (var remoteDevice in devices)
 				{
-					data.DeviceList.Add(new Device
+					data.DeviceList.Add(new Device(remoteDevice)
 					{
-						Name = remoteDevice.PresentationName,
-						Address = remoteDevice.Address,
-						ImageDeviceIcon = "/Content/Image/" + remoteDevice.ImageSource.Replace("/Controls;component/", ""),
-						StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(remoteDevice.State.StateClass) + ".png",
-						Level = level,
-						Description = remoteDevice.Description
+						Level = level
 					});
 				}
 
@@ -73,14 +68,9 @@ namespace GKWebService.Controllers
 					level++;
 					var item = new DeviceNode();
 					device = device.Parent;
-					item.DeviceList.Add(new Device()
+					item.DeviceList.Add(new Device(device)
 					{
-						Name = device.PresentationName,
-						Address = device.Address,
-						ImageDeviceIcon = "/Content/Image/" + device.ImageSource.Replace("/Controls;component/", ""),
-						StateIcon = "/Content/Image/Icon/GKStateIcons/" + Convert.ToString(device.State.StateClass) + ".png",
-						Level = level,
-						Description = device.Description
+						Level = level
 					});
 					listTree.Add(item);
 				}

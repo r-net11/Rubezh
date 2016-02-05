@@ -1,4 +1,4 @@
-﻿using GKWebService.Models.Devices;
+﻿using GKWebService.Models;
 using GKWebService.Utils;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -29,26 +29,19 @@ namespace GKWebService.DataProviders.Devices
         /// </summary>
         private static DevicesDataProvider _instance;
 
-        public IEnumerable<Device> GetDevices()
+		public IEnumerable<Device> GetDevices()
         {
             var root = GKManager.DeviceConfiguration.RootDevice;
             return BuildTreeList(root);
         }
 
-        private List<Device> BuildTreeList(GKDevice node, int level = 0)
+		private List<Device> BuildTreeList(GKDevice node, int level = 0)
         {
-            List<Device> list = new List<Device>();
+			List<Device> list = new List<Device>();
 
-            list.Add(new Device
+			list.Add(new Device(node)
             {
-                UID = node.UID,
-                ParentUID = node.Parent != null ? node.Parent.UID : (Guid?) null,
-                Name = node.PresentationName,
-                Address = node.Address,
                 Level = level,
-                IsLeaf = node.Children.Count == 0,
-                ImageBloom = InternalConverter.GetImageResource(node.ImageSource),
-                StateImageSource = InternalConverter.GetImageResource("StateClassIcons/" + Convert.ToString(node.State.StateClass) + ".png"),
             });
 
             foreach (var child in node.Children)

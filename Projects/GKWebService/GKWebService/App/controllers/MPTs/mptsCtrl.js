@@ -32,7 +32,6 @@
                    onRegisterApi: function (gridApi) {
                        $scope.gridApi = gridApi;
                        gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
-                       //gridApi.selection.on.rowSelectionChangedBatch($scope, $scope.showSelectedRow);
                    },
                    columnDefs:
                      [{ field: 'No', displayName: 'No', width: 50,  cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/Icon/GK/BMPT.png" />{{row.entity[col.field]}}</div>' },
@@ -46,9 +45,8 @@
                });
 
                $scope.showSelectedRow = function () {
-                   var row = $scope.gridApi.selection.getSelectedRows();
                    var uid = $scope.gridApi.selection.getSelectedRows()[0].UID;
-                   broadcastService.send('deviceChanged', uid);
+                   broadcastService.send('mptDevicesChanged', uid);
                };
                
                $scope.mptClick = function (mpt) {
