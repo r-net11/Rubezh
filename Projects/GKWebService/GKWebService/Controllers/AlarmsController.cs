@@ -42,5 +42,14 @@ namespace GKWebService.Controllers
 			alarmsViewModel.UpdateAlarms(alarms);
 			return Json(alarmsViewModel, JsonRequestBehavior.AllowGet);
 		}
+
+		[HttpPost]
+		[ErrorHandler]
+		public JsonResult ResetAll()
+		{
+			AlarmsViewModel.ResetAll();
+
+			return new JsonResult();
+		}
 	}
 }

@@ -14,6 +14,8 @@ namespace GKWebService.Models.GK.Alarms
 	{
 		private Alarm Alarm { get; set; }
 
+		public GKAlarmType AlarmType { get; set; }
+
 		public string AlarmImageSource { get; set; }
 
 		public string AlarmName { get; set; }
@@ -23,6 +25,8 @@ namespace GKWebService.Models.GK.Alarms
 		public string ObjectImageSource { get; set; }
 
 		public string ObjectStateClass { get; set; }
+
+		public string AlarmColor { get; set; }
 
 		public bool CanReset { get; set; }
 
@@ -35,7 +39,8 @@ namespace GKWebService.Models.GK.Alarms
 		public AlarmViewModel(Alarm alarm)
 		{
 			Alarm = alarm;
-			AlarmImageSource = ((string)new AlarmTypeToBIconConverter().Convert(alarm.AlarmType, null, null, null)).Substring(36).Replace(".png", "");
+			AlarmType = alarm.AlarmType;
+            AlarmImageSource = ((string)new AlarmTypeToBIconConverter().Convert(alarm.AlarmType, null, null, null)).Substring(36).Replace(".png", "");
 			AlarmName = alarm.AlarmType.ToDescription();
             ObjectName = alarm.GkBaseEntity.PresentationName;
 			ObjectImageSource = alarm.GkBaseEntity.ImageSource.Substring(20).Replace(".png", "");
@@ -44,6 +49,7 @@ namespace GKWebService.Models.GK.Alarms
 			CanResetIgnore = GetCanResetIgnore();
 			CanTurnOnAutomatic = GetCanTurnOnAutomatic();
 			CanShowProperties = GetCanShowProperties();
+			AlarmColor = new AlarmTypeToColorConverter().Convert(alarm.AlarmType);
 		}
 
 		bool GetCanReset()

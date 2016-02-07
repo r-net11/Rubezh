@@ -5,6 +5,6 @@
 }
 
 <div ng-controller="alarmGroupsCtrl">
-    <div alarm-btn="reset" alarm-icon="ResetAlarmText" glow-color="#FFFFFF" ng-disabled="!model.CanReset" count="{{model.Count}}" style="float: left; margin-right: 10px"></div>
-    <div alarm-btn="{{group.AlarmType}}" alarm-icon="{{group.AlarmTypeName}}" glow-color="{{group.GlowColor}}" ng-disabled="!group.HasAlarms" count="{{group.Count}}" style="float: left; margin-right: 10px" ng-repeat="group in model.AlarmGroups"></div>
+    <div alarm-btn="reset" alarm-icon="ResetAlarmText" glow-color="#FFFFFF" ng-disabled="!model.CanReset" count="{{model.Count}}" ng-click="resetClick()" style="float: left; margin-right: 10px"></div>
+    <div alarm-btn="{{group.AlarmType}}" alarm-icon="{{group.AlarmTypeName}}" glow-color="{{group.GlowColor}}" ng-disabled="!group.HasAlarms" count="{{group.Count}}" ng-click="ShowClick(group)" style="float: left; margin-right: 10px" ng-repeat="group in model.AlarmGroups"></div>
 </div>
