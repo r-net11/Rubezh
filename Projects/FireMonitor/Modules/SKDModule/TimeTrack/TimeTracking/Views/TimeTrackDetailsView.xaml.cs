@@ -45,71 +45,85 @@ namespace SKDModule.Views
 
 		public void Refresh()
 		{
-			TimeTrackDetailsViewModel timeTrackDetailsViewModel = DataContext as TimeTrackDetailsViewModel;
+			var timeTrackDetailsViewModel = DataContext as TimeTrackDetailsViewModel;
 			if (timeTrackDetailsViewModel != null)
 			{
 				var dayTimeTrack = timeTrackDetailsViewModel.DayTimeTrack;
 
-				foreach (var timeTrackPart in dayTimeTrack.DocumentTrackParts)
+				if (dayTimeTrack.DocumentTrackParts != null)
 				{
-					switch (timeTrackPart.MinTimeTrackDocumentType.DocumentType)
+					foreach (var timeTrackPart in dayTimeTrack.DocumentTrackParts)
 					{
-						case DocumentType.Overtime:
-							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentOvertime;
-							break;
+						switch (timeTrackPart.MinTimeTrackDocumentType.DocumentType) //TODO:
+						{
+							case DocumentType.Overtime:
+								timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentOvertime;
+								break;
 
-						case DocumentType.Presence:
-							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
-							break;
+							case DocumentType.Presence:
+								timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
+								break;
 
-						case DocumentType.Absence:
-							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
-							break;
-						case DocumentType.AbsenceReasonable:
-							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsenceReasonable;
-							break;
+							case DocumentType.Absence:
+								timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
+								break;
+							case DocumentType.AbsenceReasonable:
+								timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsenceReasonable;
+								break;
+						}
+						timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+						                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +
+						                        timeTrackPart.MinTimeTrackDocumentType.Name;
 					}
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
-					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +
-					                        timeTrackPart.MinTimeTrackDocumentType.Name;
 				}
 
-				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackPartsForCalculates)
+				if (dayTimeTrack.RealTimeTrackPartsForCalculates != null)
 				{
-					var zoneName = "<Нет в конфигурации>";
-					var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-					if (strazhZone != null)
+					foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackPartsForCalculates)
 					{
-						zoneName = strazhZone.Name;
+						var zoneName = "<Нет в конфигурации>";
+						var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+						if (strazhZone != null)
+						{
+							zoneName = strazhZone.Name;
+						}
+
+						timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+						                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + zoneName;
+						timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 					}
-
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
-					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + zoneName;
-					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
 
-				foreach (var timeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
+				if (dayTimeTrack.PlannedTimeTrackParts != null)
 				{
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
-					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + timeTrackPart.DayName;
-					if (timeTrackPart.StartsInPreviousDay)
-						timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
-					if (timeTrackPart.EndsInNextDay)
-						timeTrackPart.Tooltip += "\n" + "Интервал заканчивается днем позже";
-					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+					foreach (var timeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
+					{
+						timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+						                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" + timeTrackPart.DayName;
+						if (timeTrackPart.StartsInPreviousDay)
+							timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
+						if (timeTrackPart.EndsInNextDay)
+							timeTrackPart.Tooltip += "\n" + "Интервал заканчивается днем позже";
+						timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+					}
 				}
 
-				foreach (var timeTrackPart in dayTimeTrack.CombinedTimeTrackParts)
+				if (dayTimeTrack.CombinedTimeTrackParts != null)
 				{
-					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
-					                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +
-					                        timeTrackPart.TimeTrackPartType.ToDescription();
+					foreach (var timeTrackPart in dayTimeTrack.CombinedTimeTrackParts)
+					{
+						timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.EnterDateTime) + " - " +
+						                        TimePartDateToString(timeTrackPart.ExitDateTime) + "\n" +
+						                        timeTrackPart.TimeTrackPartType.ToDescription();
+					}
 				}
 
 				DrawTimeTrackGrid(dayTimeTrack.DocumentTrackParts, DocumentsGrid);
 				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackPartsForDrawing, RealGrid);
 				DrawTimeTrackGrid(dayTimeTrack.PlannedTimeTrackParts, PlannedGrid);
-				DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts.Where(x => !x.NotTakeInCalculations).ToList(), CombinedGrid);
+
+				if (dayTimeTrack.CombinedTimeTrackParts != null)
+					DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts.Where(x => !x.NotTakeInCalculations).ToList(), CombinedGrid);
 			}
 
 			DrawHoursGrid();
@@ -117,42 +131,39 @@ namespace SKDModule.Views
 
 		void DrawTimeTrackGrid(List<TimeTrackPart> timeTrackParts, Grid grid)
 		{
-			if (timeTrackParts.Count > 0)
+			if (timeTrackParts == null || !timeTrackParts.Any()) return;
+
+			double current = 0;
+			var timeParts = new List<TimePart>();
+
+			foreach (var timeTrackPart in timeTrackParts)
 			{
-				double current = 0;
-				var timeParts = new List<TimePart>();
+				if(!timeTrackPart.ExitDateTime.HasValue) continue;
 
-				for (var i = 0; i < timeTrackParts.Count; i++)
+				var startTimePart = new TimePart {Delta = timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds - current, IsInterval = false};
+				timeParts.Add(startTimePart);
+
+				var endTimePart = new TimePart
 				{
-					var timeTrackPart = timeTrackParts[i];
+					Delta = timeTrackPart.ExitDateTime.Value.TimeOfDay.TotalSeconds - timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds,
+					IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None,
+					TimeTrackType = timeTrackPart.TimeTrackPartType,
+					Tooltip = timeTrackPart.Tooltip
+				};
+				timeParts.Add(endTimePart);
 
-					if(!timeTrackPart.ExitDateTime.HasValue) continue;
-
-					var startTimePart = new TimePart {Delta = timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds - current, IsInterval = false};
-					timeParts.Add(startTimePart);
-
-					var endTimePart = new TimePart
-					{
-						Delta = timeTrackPart.ExitDateTime.Value.TimeOfDay.TotalSeconds - timeTrackPart.EnterDateTime.TimeOfDay.TotalSeconds,
-						IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None,
-						TimeTrackType = timeTrackPart.TimeTrackPartType,
-						Tooltip = timeTrackPart.Tooltip
-					};
-					timeParts.Add(endTimePart);
-
-					current = timeTrackPart.ExitDateTime.Value.TimeOfDay.TotalSeconds;
-				}
-
-				var lastTimePart = new TimePart {Delta = 24*60*60 - current, IsInterval = false};
-				timeParts.Add(lastTimePart);
-
-				DrawGrid(timeParts, grid);
+				current = timeTrackPart.ExitDateTime.Value.TimeOfDay.TotalSeconds;
 			}
+
+			var lastTimePart = new TimePart {Delta = 24*60*60 - current, IsInterval = false};
+			timeParts.Add(lastTimePart);
+
+			DrawGrid(timeParts, grid);
 		}
 
 		void DrawGrid(List<TimePart> timeParts, Grid grid)
 		{
-			for (int i = 0; i < timeParts.Count; i++)
+			for (var i = 0; i < timeParts.Count; i++)
 			{
 				var timePart = timeParts[i];
 				var widht = timePart.Delta;
@@ -162,10 +173,12 @@ namespace SKDModule.Views
 
 					if (timePart.IsInterval)
 					{
-						var rectangle = new Rectangle {ToolTip = timePart.Tooltip};
-						var timeTrackTypeToColorConverter = new TimeTrackTypeToColorConverter();
-						rectangle.Fill = (Brush)timeTrackTypeToColorConverter.Convert(timePart.TimeTrackType, null, null, null);
-						rectangle.Stroke = new SolidColorBrush(Colors.Black);
+						var rectangle = new Rectangle
+						{
+							ToolTip = timePart.Tooltip,
+							Fill = GetRectangleColorFromType(timePart.TimeTrackType),
+							Stroke = new SolidColorBrush(Colors.Black)
+						};
 						Grid.SetRow(rectangle, 0);
 						Grid.SetColumn(rectangle, i);
 						grid.Children.Add(rectangle);
@@ -191,6 +204,55 @@ namespace SKDModule.Views
 				TimeLineGrid.Children.Add(timeTextBlock);
 			}
 			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.5, GridUnitType.Star) });
+		}
+
+		private SolidColorBrush GetRectangleColorFromType(TimeTrackType timeTrackType)
+		{
+			switch (timeTrackType)
+			{
+				case TimeTrackType.None:
+					return new SolidColorBrush(Colors.Gray);
+
+				case TimeTrackType.Balance:
+					return new SolidColorBrush(Colors.Gray);
+
+				case TimeTrackType.Presence:
+					return new SolidColorBrush(Colors.Green);
+
+				case TimeTrackType.Absence:
+					return new SolidColorBrush(Colors.Red);
+
+				case TimeTrackType.Late:
+					return new SolidColorBrush(Colors.SkyBlue);
+
+				case TimeTrackType.EarlyLeave:
+					return new SolidColorBrush(Colors.LightBlue);
+
+				case TimeTrackType.Overtime:
+					return new SolidColorBrush(Colors.Yellow);
+
+				case TimeTrackType.Night:
+					return new SolidColorBrush(Colors.YellowGreen);
+
+				case TimeTrackType.DayOff:
+					return new SolidColorBrush(Colors.LightGray);
+
+				case TimeTrackType.Holiday:
+					return new SolidColorBrush(Colors.DarkGray);
+
+				case TimeTrackType.DocumentOvertime:
+					return new SolidColorBrush(Colors.LightYellow);
+
+				case TimeTrackType.DocumentPresence:
+					return new SolidColorBrush(Colors.LightGreen);
+
+				case TimeTrackType.DocumentAbsence:
+					return new SolidColorBrush(Colors.LightPink);
+				case TimeTrackType.DocumentAbsenceReasonable:
+					return new SolidColorBrush(Colors.LightPink);
+			}
+
+			return new SolidColorBrush(Colors.Green);
 		}
 	}
 }

@@ -40,7 +40,7 @@ namespace FiresecAPI.SKD
 		[Description("Присутствие по документу")]
 		DocumentPresence,
 
-		[Description("Отсутствие по документу")]
+		[Description("Отсутствие по неуважительной причине")]
 		DocumentAbsence,
 
 		[Description("Отсутствие по уважительной причине")]

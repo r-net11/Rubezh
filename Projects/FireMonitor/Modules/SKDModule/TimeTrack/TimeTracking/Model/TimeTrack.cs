@@ -1,4 +1,5 @@
-﻿using FiresecAPI;
+﻿using System.Windows.Media;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using ReactiveUI;
 using SKDModule.Helpers;
@@ -29,7 +30,6 @@ namespace SKDModule.Model
 		public TimeTrack(TimeTrackFilter timeTrackFilter, TimeTrackEmployeeResult timeTrackEmployeeResult)
 		{
 			DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, timeTrackFilter.StartDate, timeTrackFilter.EndDate);
-
 			ShortEmployee = timeTrackEmployeeResult.ShortEmployee;
 			ScheduleName = timeTrackEmployeeResult.ScheduleName;
 
@@ -58,6 +58,7 @@ namespace SKDModule.Model
 				{
 					dayTimeTrack.TimeTrackType = TimeTrackType.None;
 					dayTimeTrack.Tooltip = TimeTrackType.None.ToDescription();
+					dayTimeTrack.BackgroundColor = Colors.DarkGray;
 				}
 
 				DayTracks.Add(new DayTrack(dayTimeTrack, timeTrackFilter, timeTrackEmployeeResult.ShortEmployee));
