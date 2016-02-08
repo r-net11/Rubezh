@@ -6,7 +6,7 @@
         ['$scope', '$http', '$uibModal', '$window',
         function ($scope, $http, $uibModal, $window) {
             $scope.gridOptions = {
-                enableFiltering: true,
+                enableFiltering: false,
                 enableRowHeaderSelection: false,
                 enableSorting: false,
                 multiSelect: false,
@@ -78,9 +78,18 @@
             });
 
             $scope.$on('alarmsShowClick', function (event, args) {
+                // TODO: Исправить когда меню переведём на ангулар
+                $window.app.Menu.PageClick(null, { currentTarget: angular.element("#menuState")[0] }, 'State');
+
+                $scope.gridOptions.enableFiltering = true;
                 $scope.term = args;
                 $scope.gridApi.grid.refresh();
             });
+
+            $scope.menuStateClick = function() {
+                $scope.gridOptions.enableFiltering = false;
+                $scope.gridApi.grid.refresh();
+            };
 
             $http.get('Alarms/GetAlarms').success(function (data, status, headers, config) {
                 $scope.model = data;
@@ -101,6 +110,16 @@
 
             $scope.resetIgnoreAll = function () {
                 $http.post('Alarms/ResetIgnoreAll');
+            };
+
+            $scope.objectClick = function(alarm) {
+                // TODO: Исправить когда меню переведём на ангулар
+                if (alarm.GkBaseEntityObjectType === 0) {
+                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .device")[0] }, 'Device');
+                }
+                if (alarm.GkBaseEntityObjectType === 1) {
+                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .zone")[0] }, 'FireZones');
+                }
             };
         }]
     );
