@@ -20,7 +20,9 @@ namespace GKWebService.Models
 			No = mpt.No;
 			GKDescriptorNo = mpt.GKDescriptorNo;
 			Name = mpt.Name;
-			MptLogic = GKManager.GetPresentationLogic(mpt.MptLogic);
+			OnClausesGroup = GKManager.GetPresentationLogic(mpt.MptLogic.OnClausesGroup);
+			StopClausesGroup = GKManager.GetPresentationLogic(mpt.MptLogic.StopClausesGroup);
+			OffClausesGroup = GKManager.GetPresentationLogic(mpt.MptLogic.OffClausesGroup);
 			Delay = mpt.Delay;
 			Hold = mpt.Hold;
  			DelayRegime = mpt.DelayRegime.ToDescription();
@@ -50,7 +52,7 @@ namespace GKWebService.Models
 		public Guid UID { get; set; }
 		public int No { get; set; }
 		public string Name { get; set; }
-		public String MptLogic { get; set; }
+		public String OnClausesGroup { get; set; }
 		public int Delay { get; set; }
 		public string StateIcon { get; set; }
 		public bool CanSetAutomaticState { get; set; }
@@ -75,5 +77,9 @@ namespace GKWebService.Models
 		public int HoldDelay { get; set; }
 
 		public bool HasHoldDelay { get; set; }
+
+		public string StopClausesGroup { get; set; }
+
+		public string OffClausesGroup { get; set; }
 	}
 }

@@ -171,11 +171,13 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Models\ClientPollViewModel.cs" />
+    <Compile Include="Models\ClientViewModel.cs" />
+    <Compile Include="Models\GKLifecycleViewModel.cs" />
+    <Compile Include="Models\ServerTasksViewModel.cs" />
     <Compile Include="Presenters\ApplicationPresenter.cs" />
     <Compile Include="Presenters\LogViewModel.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
-    <Compile Include="Presenters\TabConnectionsPresenter.cs" />
-    <Compile Include="Presenters\TabPagePresenter.cs" />
     <Compile Include="Presenters\UILoger.cs" />
     <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
@@ -202,40 +204,11 @@
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="Views\IMainView.cs" />
-    <Compile Include="Views\ITabPageConnectionsView.cs" />
-    <Compile Include="Views\ITabPageGKView.cs" />
-    <Compile Include="Views\ITabPageLicenceView.cs" />
-    <Compile Include="Views\ITabPageLogView.cs" />
-    <Compile Include="Views\ITabPageOperationsView.cs" />
-    <Compile Include="Views\ITabPagePollingView.cs" />
-    <Compile Include="Views\ITabPageStatusView.cs" />
-    <Compile Include="Views\ITabPageView.cs" />
     <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TabPageConnectionsView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Views\TabPageGKView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Views\TabPageLicenceView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Views\TabPageLogView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Views\TabPageOperationsView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Views\TabPagePollingView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Views\TabPageStatusView.cs">
-      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

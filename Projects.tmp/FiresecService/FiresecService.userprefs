@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="FiresecService/FiresecService.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FiresecService/Service/FiresecServiceManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Common/Common/WCF/BindingHelper.cs">
     <Files>
       <File FileName="FiresecService/Service/SafeFiresecService.cs" Line="1" Column="1" />
       <File FileName="../Common/GKProcessor/Watcher/TimeSynchronisationHelper.cs" Line="1" Column="1" />
@@ -20,13 +20,18 @@
       <File FileName="FiresecService/Bootstrapper.cs" Line="1" Column="1" />
       <File FileName="../Common/RubezhDAL/DbService.cs" Line="1" Column="1" />
       <File FileName="../Common/RubezhDAL/DbServiceHelper.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecServiceManager.cs" Line="17" Column="7" />
+      <File FileName="FiresecService/Service/FiresecServiceManager.cs" Line="1" Column="1" />
+      <File FileName="../Common/Common/SafeContext.cs" Line="1" Column="1" />
+      <File FileName="../Common/Common/WCF/BindingHelper.cs" Line="30" Column="20" />
+      <File FileName="FiresecService/Service/ClientsManager.cs" Line="1" Column="1" />
+      <File FileName="FiresecService/ViewModels/MainViewModel.cs" Line="1" Column="1" />
+      <File FileName="../Common/Infrastructure.Automation/ProcedurePropertyCache.cs" Line="1" Column="1" />
+      <File FileName="FiresecService/Service/CallbackManager.cs" Line="1" Column="1" />
+      <File FileName="FiresecService/Processor/GKProcessor.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/home/dmitry/Rubezh/Projects.tmp/FiresecService/FiresecService/Bootstrapper.cs" line="57" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

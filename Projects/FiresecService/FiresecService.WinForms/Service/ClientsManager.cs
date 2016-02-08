@@ -1,4 +1,5 @@
-﻿using FiresecService.ViewModels;
+﻿using FiresecService.Presenters;
+using FiresecService.ViewModels;
 using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace FiresecService.Service
 			ClientInfos.Add(clientInfo);
 
 			//MainViewModel.Current.AddClient(clientCredentials);
-			throw new NotImplementedException();
+			MainPresenter.Current.AddClient(clientCredentials);
 			return result;
 		}
 
@@ -40,7 +41,7 @@ namespace FiresecService.Service
 			var clientInfo = ClientInfos.FirstOrDefault(x => x.UID == uid);
 			ClientInfos.Remove(clientInfo);
 			//MainViewModel.Current.RemoveClient(uid);
-			throw new NotImplementedException();
+			MainPresenter.Current.RemoveClient(uid);
 		}
 
 		public static ClientInfo GetClientInfo(Guid uid)

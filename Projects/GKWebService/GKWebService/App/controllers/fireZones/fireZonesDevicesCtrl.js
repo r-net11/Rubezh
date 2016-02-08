@@ -77,7 +77,10 @@
                                 ImageSource: element.ImageSource,
                                 StateIcon: element.StateIcon,
                                 Description: element.Description,
-                                UID: element.UID
+                                UID: element.UID,
+                                State: element.State,
+                                GKDescriptorNo: element.GKDescriptorNo,
+                                Properties: element.Properties
                             });
                         }
                     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FiresecService.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,12 +33,20 @@ namespace FiresecService.Views
 		/// </summary>
 		string LastLog { get; set; }
 		/// <summary>
-		/// Текущая выбранная закладка
+		/// Событие происходит при вызове контекстного меню "Разорвать соединение"
 		/// </summary>
-		ITabPageView SelectedTabView { get; }
+		event EventHandler CommandDisconnectActivated;
 		/// <summary>
-		/// Событие происходит при выборе закладки
+		/// Разрешает или запрещает контекстноем меню "Разоравть соединение"
 		/// </summary>
-		event EventHandler TabChanged; 
+		bool EnableMenuDisconnect { get; set; }
+		BindingSource ClientsContext { set; }
+		BindingSource LogsContext { set; }
+		string LocalAddress { set; }
+		string RemoteAddress { set; }
+		string ReportAddress { set; }
+		BindingSource GkLifecyclesContext { set; }
+		BindingSource ClientPollsContext { set; }
+		BindingSource OperationsContext { set; }
 	}
 }
