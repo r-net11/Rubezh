@@ -151,17 +151,18 @@ namespace FiresecService.Service.Validators
 			if (!scheduleSchemes.Any())
 				return new OperationResult();
 
+			// Если "Обязательная продолжительность скользящего графика" = 0
 			if (dayInterval.SlideTime == TimeSpan.Zero)
 			{
-				var monthOrSlideScheduleSchemes = scheduleSchemes.Where(x => x.Type == ScheduleSchemeType.Month || x.Type == ScheduleSchemeType.SlideDay);
-				// Если тип связного графика - "Месячный" или "Сменный", выходим
-				if (!monthOrSlideScheduleSchemes.Any())
+				var weekOrMonthScheduleSchemes = scheduleSchemes.Where(x => x.Type == ScheduleSchemeType.Week || x.Type == ScheduleSchemeType.Month);
+				// Если тип связного графика - не "Недельный" и не "Месячный", выходим
+				if (!weekOrMonthScheduleSchemes.Any())
 					return new OperationResult();
 				// Если добавляемый интервал не является переходным, выходим
 				if (dayIntervalPart.TransitionType != DayIntervalPartTransitionType.Night)
 					return new OperationResult();
 				var weekOrMonthScheduleSchemesStr = new StringBuilder();
-				foreach (var weekOrMonthScheduleScheme in monthOrSlideScheduleSchemes)
+				foreach (var weekOrMonthScheduleScheme in weekOrMonthScheduleSchemes)
 				{
 					weekOrMonthScheduleSchemesStr.AppendLine(String.Format("{0} ({1}{2})", weekOrMonthScheduleScheme.Name, weekOrMonthScheduleScheme.Type.ToDescription().ToLower(), weekOrMonthScheduleScheme.IsDeleted ? ", архивный" : null));
 				}
@@ -220,15 +221,15 @@ namespace FiresecService.Service.Validators
 				// Если "Обязательная продолжительность скользящего графика" = 0
 				if (dayInterval.SlideTime == TimeSpan.Zero)
 				{
-					var monthOrSlideScheduleSchemes = scheduleSchemes.Where(x => x.Type == ScheduleSchemeType.Month || x.Type == ScheduleSchemeType.SlideDay);
-					// Если тип связного графика - "Месячный" или "Сменный", выходим
-					if (!monthOrSlideScheduleSchemes.Any())
+					var weekOrMonthScheduleSchemes = scheduleSchemes.Where(x => x.Type == ScheduleSchemeType.Week || x.Type == ScheduleSchemeType.Month);
+					// Если тип связного графика - не "Недельный" и не "Месячный", выходим
+					if (!weekOrMonthScheduleSchemes.Any())
 						return new OperationResult();
 					// Если редактируемый интервал не является переходным, выходим
 					if (dayIntervalPart.TransitionType != DayIntervalPartTransitionType.Night)
 						return new OperationResult();
 					var weekOrMonthScheduleSchemesStr = new StringBuilder();
-					foreach (var weekOrMonthScheduleScheme in monthOrSlideScheduleSchemes)
+					foreach (var weekOrMonthScheduleScheme in weekOrMonthScheduleSchemes)
 					{
 						weekOrMonthScheduleSchemesStr.AppendLine(String.Format("{0} ({1}{2})", weekOrMonthScheduleScheme.Name,
 							weekOrMonthScheduleScheme.Type.ToDescription().ToLower(),
