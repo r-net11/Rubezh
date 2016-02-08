@@ -42,5 +42,10 @@ namespace FiresecService.Views
 		bool EnableMenuDisconnect { get; set; }
 		BindingSource ClientsContext { set; }
 		BindingSource LogsContext { set; }
+		string LocalAddress { set; }
+		string RemoteAddress { set; }
+		string ReportAddress { set; }
+		BindingSource GkLifecyclesContext { set; }
+		BindingSource ClientPollsContext { set; }
 	}
 }

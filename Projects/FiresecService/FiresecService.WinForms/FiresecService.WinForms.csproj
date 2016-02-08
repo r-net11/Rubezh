@@ -173,6 +173,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Models\ClientPollViewModel.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
+    <Compile Include="Models\GKLifecycleViewModel.cs" />
     <Compile Include="Models\ServerTasksViewModel.cs" />
     <Compile Include="Presenters\ApplicationPresenter.cs" />
     <Compile Include="Presenters\LogViewModel.cs" />
