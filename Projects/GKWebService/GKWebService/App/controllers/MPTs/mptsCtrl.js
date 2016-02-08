@@ -46,6 +46,12 @@
 
                $scope.showSelectedRow = function () {
                    var uid = $scope.gridApi.selection.getSelectedRows()[0].UID;
+                   $scope.selectedRow =
+                   {
+                       'onClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].OnClausesGroup,
+                       'offClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].OffClausesGroup,
+                       'stopClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].StopClausesGroup
+                   }
                    broadcastService.send('mptDevicesChanged', uid);
                };
                

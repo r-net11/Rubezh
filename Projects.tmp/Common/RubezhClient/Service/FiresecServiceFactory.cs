@@ -1,5 +1,6 @@
 ﻿using Common;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 using RubezhAPI;
 using System;
 using System.ServiceModel;
@@ -48,7 +49,8 @@ namespace RubezhClient
 		{
 			if (_serverAddress.StartsWith("net.pipe:"))
 			{
-				
+				if (!ServerLoadHelper.Load())
+					BalloonHelper.ShowFromAdm("Не удается соединиться с сервером");
 			}
 
 			IFiresecService firesecService = _channelFactory.CreateChannel();

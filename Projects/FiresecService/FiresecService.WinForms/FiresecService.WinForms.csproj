@@ -38,7 +38,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -47,7 +47,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -173,6 +173,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Models\ClientPollViewModel.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
+    <Compile Include="Models\GKLifecycleViewModel.cs" />
     <Compile Include="Models\ServerTasksViewModel.cs" />
     <Compile Include="Presenters\ApplicationPresenter.cs" />
     <Compile Include="Presenters\LogViewModel.cs" />
@@ -338,6 +339,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Server.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OpcClientSdk40.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

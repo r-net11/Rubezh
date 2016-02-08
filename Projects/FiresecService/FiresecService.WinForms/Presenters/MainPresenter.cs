@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using RubezhAPI;
 using RubezhAPI.Models;
 using FiresecService.Service;
+using GKProcessor;
 
 namespace FiresecService.Presenters
 {
@@ -19,27 +20,45 @@ namespace FiresecService.Presenters
 		{
 			View = view;
 
-			_bindingSourceClients = new BindingSource();
 			_clients = new List<ClientViewModel>();
 			//Clients = new ObservableCollection<ClientViewModel>();
 			//Clients.CollectionChanged += Clients_CollectionChanged;
+			_bindingSourceClients = new BindingSource();
 			_bindingSourceClients.DataSource = null;
 			_bindingSourceClients.DataSource = _clients;
 			_bindingSourceClients.ListChanged += EventHandler_bindingSourceClients_ListChanged;
 
 			//Logs = new ObservableCollection<LogViewModel>();
-			_bindingSourceLogs = new BindingSource();
 			_logs = new List<LogViewModel>();
+			_bindingSourceLogs = new BindingSource();
 			_bindingSourceLogs.DataSource = null;
 			_bindingSourceLogs.DataSource = _logs;
 
-			ClientPolls = new ObservableCollection<ClientPollViewModel>();
+			_gkLifecycles = new List<GKLifecycleViewModel>();
+			_bindingSourceLifecycle = new BindingSource();
+			_bindingSourceLifecycle.DataSource = null;
+			_bindingSourceLifecycle.DataSource = _gkLifecycles;
+			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
+
+			//ClientPolls = new ObservableCollection<ClientPollViewModel>();
+			ClientPolls = new List<ClientPollViewModel>();
+			_bindingSourceClientPolls = new BindingSource();
+			_bindingSourceClientPolls.DataSource = null;
+			_bindingSourceClientPolls.DataSource = ClientPolls;
+
+			ServerTasks = new List<ServerTaskViewModel>();
+			_bindingSourceOperations = new BindingSource();
+			_bindingSourceOperations.DataSource = null;
+			_bindingSourceOperations.DataSource = ServerTasks;
 
 			View.Title = "Сервер приложений Глобал";
 			View.CommandDisconnectActivated += EventHandler_View_CommandDisconnectActivated;
 			View.ClientsContext = _bindingSourceClients;
 			View.EnableMenuDisconnect = false;
 			View.LogsContext = _bindingSourceLogs;
+			View.GkLifecyclesContext = _bindingSourceLifecycle;
+			View.ClientPollsContext = _bindingSourceClientPolls;
+			View.OperationsContext = _bindingSourceOperations;
 
 			LastLog = String.Empty;
 			Current = this;
@@ -48,8 +67,6 @@ namespace FiresecService.Presenters
 		#region Fields And Properties
 
 		public IMainView View { get; private set; }
-
-		public ServerTasksViewModel ServerTasksViewModel { get; private set; }
 
 		#endregion
 
@@ -114,6 +131,7 @@ namespace FiresecService.Presenters
 			set
 			{
 				_localAddress = value;
+				View.LocalAddress = _localAddress;
 				//OnPropertyChanged(() => LocalAddress);
 			}
 		}
@@ -125,6 +143,7 @@ namespace FiresecService.Presenters
 			set
 			{
 				_remoteAddress = value;
+				View.RemoteAddress = _remoteAddress;
 				//OnPropertyChanged(() => RemoteAddress);
 			}
 		}
@@ -136,6 +155,7 @@ namespace FiresecService.Presenters
 			set
 			{
 				_reportAddress = value;
+				View.ReportAddress = _reportAddress;
 				//OnPropertyChanged(() => ReportAddress);
 			}
 		}
@@ -245,6 +265,18 @@ namespace FiresecService.Presenters
 
 		#region GK Lifecycle
 
+		BindingSource _bindingSourceLifecycle;
+
+		List<GKLifecycleViewModel> _gkLifecycles;
+		public List<GKLifecycleViewModel> GKLifecycles
+		{
+			get { return _gkLifecycles; }
+			set
+			{
+				_gkLifecycles = value;
+			}
+		}
+
 		//ObservableCollection<GKLifecycleViewModel> _gkLifecycles;
 		//public ObservableCollection<GKLifecycleViewModel> GKLifecycles
 		//{
@@ -267,37 +299,41 @@ namespace FiresecService.Presenters
 		//	}
 		//}
 
-		//void On_GKLifecycleChangedEvent(GKLifecycleInfo gkLifecycleInfo)
-		//{
-		//	_dispatcher.Invoke((Action)(() =>
-		//	{
-		//		var gkLifecycleViewModel = GKLifecycles.FirstOrDefault(x => x.GKLifecycleInfo.UID == gkLifecycleInfo.UID);
-		//		if (gkLifecycleViewModel == null)
-		//		{
-		//			gkLifecycleViewModel = AddGKViewModel(gkLifecycleInfo);
-		//		}
-		//		else
-		//		{
-		//			gkLifecycleViewModel.Update(gkLifecycleInfo);
-		//		}
-		//		//SelectedGKViewModel = gkViewModel;
-		//	}));
-		//}
+		void On_GKLifecycleChangedEvent(GKLifecycleInfo gkLifecycleInfo)
+		{
+			FormDispatcher.Invoke((Action)(() =>
+			{
+				var gkLifecycleViewModel = GKLifecycles.FirstOrDefault(x => x.GKLifecycleInfo.UID == gkLifecycleInfo.UID);
+				if (gkLifecycleViewModel == null)
+				{
+					gkLifecycleViewModel = AddGKViewModel(gkLifecycleInfo);
+				}
+				else
+				{
+					gkLifecycleViewModel.Update(gkLifecycleInfo);
+				}
+				//SelectedGKViewModel = gkViewModel;
+			}));
+		}
 
-		//GKLifecycleViewModel AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
-		//{
-		//	var gkViewModel = new GKLifecycleViewModel(gkLifecycleInfo);
-		//	GKLifecycles.Insert(0, gkViewModel);
-		//	if (GKLifecycles.Count > 20)
-		//		GKLifecycles.RemoveAt(20);
-		//	return gkViewModel;
-		//}
+		GKLifecycleViewModel AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
+		{
+			var gkViewModel = new GKLifecycleViewModel(gkLifecycleInfo);
+			//GKLifecycles.Insert(0, gkViewModel);
+			_bindingSourceLifecycle.Insert(0, gkViewModel);
+			if (GKLifecycles.Count > 20)
+				//GKLifecycles.RemoveAt(20);
+				_bindingSourceLifecycle.RemoveAt(20);
+			return gkViewModel;
+		}
 
 		#endregion GK
 
 		#region Polling
 
-		public ObservableCollection<ClientPollViewModel> ClientPolls { get; private set; }
+		//public ObservableCollection<ClientPollViewModel> ClientPolls { get; private set; }
+		List<ClientPollViewModel> ClientPolls { get; set; }
+		BindingSource _bindingSourceClientPolls;
 
 		public void OnPoll(Guid uid)
 		{
@@ -313,12 +349,50 @@ namespace FiresecService.Presenters
 				{
 					clientPoll = new ClientPollViewModel { UID = uid, Client = client };
 					clientPoll.FirstPollTime = now;
-					ClientPolls.Add(clientPoll);
+					//ClientPolls.Add(clientPoll);
+					_bindingSourceClientPolls.Add(clientPoll);
 				}
 				if (clientInfo != null)
 					clientPoll.CallbackIndex = clientInfo.CallbackIndex;
 				clientPoll.LastPollTime = now;
 
+			}));
+		}
+
+		#endregion
+
+		#region Operations
+		
+		//public ServerTasksViewModel ServerTasksViewModel { get; private set; }
+		List<ServerTaskViewModel> ServerTasks { get; set; }
+
+		BindingSource _bindingSourceOperations;
+
+		public void AddTask(ServerTask serverTask)
+		{
+			FormDispatcher.BeginInvoke((Action)(() =>
+			{
+				var serverTaskViewModel = new ServerTaskViewModel(serverTask);
+				_bindingSourceOperations.Add(serverTaskViewModel);
+			}));
+		}
+		public void RemoveTask(ServerTask serverTask)
+		{
+			FormDispatcher.BeginInvoke((Action)(() =>
+			{
+				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
+				if (serverTaskViewModel != null)
+					//ServerTasks.Remove(serverTaskViewModel);
+					_bindingSourceOperations.Remove(serverTaskViewModel);
+			}));
+		}
+		public void EditTask(ServerTask serverTask)
+		{
+			FormDispatcher.BeginInvoke((Action)(() =>
+			{
+				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
+				if (serverTaskViewModel != null)
+					serverTaskViewModel.ServerTask = serverTask;
 			}));
 		}
 

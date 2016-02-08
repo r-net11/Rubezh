@@ -7,6 +7,6 @@ namespace GKWebService.Models
 {
 	public class JournalFilter
 	{
-		public List<Guid> deviceUids { get; set; }
+		public List<Guid> ObjectUids { get; set; }
 	}
 }

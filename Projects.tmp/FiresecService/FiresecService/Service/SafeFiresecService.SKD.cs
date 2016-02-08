@@ -162,7 +162,7 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(clientUID, () => FiresecService.SaveAccessTemplate(clientUID, item, isNew), "SaveAccessTemplate");
 		}
-		public OperationResult<bool> MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate item)
+		public OperationResult<List<string>> MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate item)
 		{
 			return SafeOperationCall(clientUID, () => FiresecService.MarkDeletedAccessTemplate(clientUID, item), "MarkDeletedAccessTemplate");
 		}

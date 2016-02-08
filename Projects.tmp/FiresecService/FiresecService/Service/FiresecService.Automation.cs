@@ -30,6 +30,7 @@ namespace FiresecService.Service
 
 		public ProcedureProperties GetProperties(Guid clientUID, Guid layoutUID)
 		{
+			//return new ProcedureProperties();
 			return ProcedurePropertyCache.GetProcedureProperties(layoutUID);
 		}
 
