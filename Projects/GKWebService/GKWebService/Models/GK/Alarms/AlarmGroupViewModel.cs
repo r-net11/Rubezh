@@ -24,7 +24,7 @@ namespace GKWebService.Models.GK.Alarms
 		{
 			this.AlarmType = alarmType;
 			AlarmTypeName = AlarmType.ToString();
-            GlowColor = (string)(new AlarmTypeToColorConverter()).Convert(this.AlarmType, null, null, null);
+            GlowColor = new AlarmTypeToColorConverter().Convert(this.AlarmType);
 		}
 
 		public void Update(List<AlarmViewModel> Alarms)

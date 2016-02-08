@@ -60,7 +60,6 @@
 			this._tabControlMain.SelectedIndex = 0;
 			this._tabControlMain.Size = new System.Drawing.Size(801, 476);
 			this._tabControlMain.TabIndex = 2;
-			this._tabControlMain.Selected += new System.Windows.Forms.TabControlEventHandler(this.EventHandler_tabControlMain_Selected);
 			// 
 			// MainView
 			// 
@@ -76,10 +75,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MainWinFormView";
-			this.Activated += new System.EventHandler(this.MainWinFormView_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EventHandler_MainWinFormView_FormClosing);
-			this.Load += new System.EventHandler(this.EventHandler_MainWinFormView_Load);
-			this.Shown += new System.EventHandler(this.EventHandler_MainWinFormView_Shown);
 			this._statusStripMain.ResumeLayout(false);
 			this._statusStripMain.PerformLayout();
 			this.ResumeLayout(false);

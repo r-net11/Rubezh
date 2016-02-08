@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhClient;
 
 namespace GKWebService.Models.GK.Alarms
 {
@@ -267,6 +268,35 @@ namespace GKWebService.Models.GK.Alarms
 			{
 				var alarmViewModel = new AlarmViewModel(alarm);
 				Alarms.Add(alarmViewModel);
+			}
+		}
+
+		public static void ResetAll()
+		{
+			foreach (var zone in GKManager.Zones)
+			{
+				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
+				{
+					ClientManager.FiresecService.GKResetFire1(zone);
+				}
+				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
+				{
+					ClientManager.FiresecService.GKResetFire2(zone);
+				}
+			}
+			foreach (var guardZone in GKManager.GuardZones)
+			{
+				if (guardZone.State.StateClasses.Contains(XStateClass.Fire1))
+				{
+					ClientManager.FiresecService.GKReset(guardZone);
+				}
+			}
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.State.StateClasses.Contains(XStateClass.Fire1))
+				{
+					ClientManager.FiresecService.GKReset(door);
+				}
 			}
 		}
 	}

@@ -20,7 +20,7 @@ namespace GKWebService.Models
 			Address = device.DottedPresentationAddress;
 			Description = device.Description;
 
-			//State = device.State.StateClass.ToDescription();
+			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
 			StateClasses = device.State.StateClasses.Select(x => new DirectionStateClass(x)).ToList();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(device.State.StateClass, null, null, null).ToString().Substring(3) + "'";
@@ -40,6 +40,7 @@ namespace GKWebService.Models
 			CanSetManualState = (controlRegime != DeviceControlRegime.Manual);
 			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore);
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
+			Properties = device.Properties;
 		}
 
 				
@@ -67,5 +68,6 @@ namespace GKWebService.Models
 		public int HoldDelay { get; set; }
 		public bool HasHoldDelay { get; set; }
 		public int Level { get; set; }
+		public List<GKProperty> Properties { get; set; } 
 	}
 }
