@@ -46,6 +46,11 @@ namespace FiresecService.Presenters
 			_bindingSourceClientPolls.DataSource = null;
 			_bindingSourceClientPolls.DataSource = ClientPolls;
 
+			ServerTasks = new List<ServerTaskViewModel>();
+			_bindingSourceOperations = new BindingSource();
+			_bindingSourceOperations.DataSource = null;
+			_bindingSourceOperations.DataSource = ServerTasks;
+
 			View.Title = "Сервер приложений Глобал";
 			View.CommandDisconnectActivated += EventHandler_View_CommandDisconnectActivated;
 			View.ClientsContext = _bindingSourceClients;
@@ -53,6 +58,7 @@ namespace FiresecService.Presenters
 			View.LogsContext = _bindingSourceLogs;
 			View.GkLifecyclesContext = _bindingSourceLifecycle;
 			View.ClientPollsContext = _bindingSourceClientPolls;
+			View.OperationsContext = _bindingSourceOperations;
 
 			LastLog = String.Empty;
 			Current = this;
@@ -61,8 +67,6 @@ namespace FiresecService.Presenters
 		#region Fields And Properties
 
 		public IMainView View { get; private set; }
-
-		public ServerTasksViewModel ServerTasksViewModel { get; private set; }
 
 		#endregion
 
@@ -352,6 +356,43 @@ namespace FiresecService.Presenters
 					clientPoll.CallbackIndex = clientInfo.CallbackIndex;
 				clientPoll.LastPollTime = now;
 
+			}));
+		}
+
+		#endregion
+
+		#region Operations
+		
+		//public ServerTasksViewModel ServerTasksViewModel { get; private set; }
+		List<ServerTaskViewModel> ServerTasks { get; set; }
+
+		BindingSource _bindingSourceOperations;
+
+		public void AddTask(ServerTask serverTask)
+		{
+			FormDispatcher.BeginInvoke((Action)(() =>
+			{
+				var serverTaskViewModel = new ServerTaskViewModel(serverTask);
+				_bindingSourceOperations.Add(serverTaskViewModel);
+			}));
+		}
+		public void RemoveTask(ServerTask serverTask)
+		{
+			FormDispatcher.BeginInvoke((Action)(() =>
+			{
+				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
+				if (serverTaskViewModel != null)
+					//ServerTasks.Remove(serverTaskViewModel);
+					_bindingSourceOperations.Remove(serverTaskViewModel);
+			}));
+		}
+		public void EditTask(ServerTask serverTask)
+		{
+			FormDispatcher.BeginInvoke((Action)(() =>
+			{
+				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
+				if (serverTaskViewModel != null)
+					serverTaskViewModel.ServerTask = serverTask;
 			}));
 		}
 

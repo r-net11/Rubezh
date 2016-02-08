@@ -47,5 +47,6 @@ namespace FiresecService.Views
 		string ReportAddress { set; }
 		BindingSource GkLifecyclesContext { set; }
 		BindingSource ClientPollsContext { set; }
+		BindingSource OperationsContext { set; }
 	}
 }

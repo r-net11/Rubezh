@@ -115,6 +115,19 @@ namespace FiresecService.Views
 			}
 		}
 
+		// Вкладка Операции
+		TabPage _tabPageOperations;
+		DataGridView _dataGridViewOperations;
+		public BindingSource OperationsContext 
+		{
+			set
+			{
+				_dataGridViewOperations.DataSource = null;
+				_dataGridViewOperations.DataSource = value;
+			}
+		}
+
+		// Вкладка Лицензирование 
 
 		// Сторока состояния окна
 		public string LastLog
@@ -394,6 +407,32 @@ namespace FiresecService.Views
 				DataPropertyName = "CallbackIndex"
 			});
 			_tabPagePolling.Controls.Add(_dataGridViewPolling);
+
+			#endregion
+
+			#region Operations
+
+			_tabPageOperations = new TabPage() { Name = "_tabPageOperations", Text = "Операции" };
+			_tabControlMain.TabPages.Add(_tabPageOperations);
+
+			_dataGridViewOperations = new DataGridView()
+			{
+				Name = "_dataGridViewOperations",
+				MultiSelect = false,
+				SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+				Dock = DockStyle.Fill,
+				AutoGenerateColumns = false,
+				AllowUserToAddRows = false,
+				AllowUserToDeleteRows = false,
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+			};
+			_dataGridViewOperations.Columns.Add(new DataGridViewTextBoxColumn()
+			{
+				Name = "_dataGridViewColumnName",
+				HeaderText = "Название",
+				DataPropertyName = "Name"
+			});
+			_tabPageOperations.Controls.Add(_dataGridViewOperations);
 
 			#endregion
 		}
