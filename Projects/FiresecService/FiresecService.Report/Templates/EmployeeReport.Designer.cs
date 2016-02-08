@@ -505,7 +505,7 @@
 			// xrTableCell26
 			//
 			this.xrTableCell26.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.BirthDay", "{0:dd.MM.yyyy}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.BirthDay")});
 			this.xrTableCell26.Dpi = 254F;
 			this.xrTableCell26.Name = "xrTableCell26";
 			this.xrTableCell26.Text = "xrTableCell26";
@@ -582,7 +582,7 @@
 			// xrTableCell32
 			//
 			this.xrTableCell32.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentValidFrom", "{0:dd.MM.yyyy}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentValidFrom")});
 			this.xrTableCell32.Dpi = 254F;
 			this.xrTableCell32.Name = "xrTableCell32";
 			this.xrTableCell32.Text = "xrTableCell32";
@@ -607,7 +607,7 @@
 			// xrTableCell34
 			//
 			this.xrTableCell34.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentValidTo", "{0:dd.MM.yyyy}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentValidTo")});
 			this.xrTableCell34.Dpi = 254F;
 			this.xrTableCell34.Name = "xrTableCell34";
 			this.xrTableCell34.Text = "xrTableCell34";

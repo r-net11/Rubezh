@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using System;
+using DevExpress.XtraReports.UI;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
@@ -44,14 +45,20 @@ namespace FiresecService.Report.Templates
 			{
 				var dataRow = dataSet.Data.NewDataRow();
 				dataRow.IsEmployee = filter.IsEmployee;
-				dataRow.BirthDay = employee.Item.BirthDate.GetValueOrDefault();
+				dataRow.BirthDay = employee.Item.BirthDate.HasValue
+					? employee.Item.BirthDate.Value.ToString("d")
+					: String.Empty;
 				dataRow.BirthPlace = employee.Item.BirthPlace;
 				dataRow.Department = employee.Department;
 				dataRow.Document = employee.Item.DocumentType.ToDescription();
 				dataRow.DocumentIssuer = employee.Item.DocumentGivenBy;
 				dataRow.DocumentNumber = employee.Item.DocumentNumber;
-				dataRow.DocumentValidFrom = employee.Item.DocumentGivenDate.GetValueOrDefault();
-				dataRow.DocumentValidTo = employee.Item.DocumentValidTo.GetValueOrDefault();
+				dataRow.DocumentValidFrom = employee.Item.DocumentGivenDate.HasValue
+					? employee.Item.DocumentGivenDate.Value.ToString("d")
+					: String.Empty;
+				dataRow.DocumentValidTo = employee.Item.DocumentValidTo.HasValue
+					? employee.Item.DocumentValidTo.Value.ToString("d")
+					: String.Empty;
 				dataRow.FirstName = employee.Item.FirstName;
 				dataRow.LastName = employee.Item.LastName;
 				dataRow.Nationality = employee.Item.Citizenship;
