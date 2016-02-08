@@ -122,7 +122,7 @@ namespace RubezhAPI
 		OperationResult<bool> SaveAccessTemplate(Guid clientUID, AccessTemplate item, bool isNew);
 
 		[OperationContract]
-		OperationResult<bool> MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate item);
+		OperationResult<List<string>> MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate item);
 
 		[OperationContract]
 		OperationResult<bool> RestoreAccessTemplate(Guid clientUID, AccessTemplate item);

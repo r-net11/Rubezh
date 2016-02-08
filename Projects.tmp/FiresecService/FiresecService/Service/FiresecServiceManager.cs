@@ -19,7 +19,7 @@ namespace FiresecService.Service
 				Close();
 
 				SafeFiresecService = new SafeFiresecService();
-				ServiceHost = new ServiceHost(SafeFiresecService);
+				ServiceHost = new ServiceHost(typeof(SafeFiresecService));
 
 				if (!GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections)
 				{
