@@ -11,8 +11,8 @@ namespace Server
 		{
 			var address = args.Length == 0 ? "localhost:1050" : args[0];
 			Console.Title = address;
-			ServiceHost host = new ServiceHost(typeof(TestService), new Uri("net.tcp://" + address + "/TestService"), new Uri("http://localhost:9987"));
-			host.AddServiceEndpoint(typeof(ITestService), BindingHelper.CreateBinding(), "");
+			ServiceHost host = new ServiceHost(typeof(TestService), new Uri("net.tcp://" + address), new Uri("http://localhost:9987"));
+			host.AddServiceEndpoint(typeof(ITestService), BindingHelper.CreateBinding(), "TestService");
 
 			var smb = new ServiceMetadataBehavior();
 			host.Description.Behaviors.Add(smb);
