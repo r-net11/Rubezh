@@ -113,30 +113,5 @@ namespace EntitiesValidation
 					"Для добавления интервала с переходом необходимо установить в поле \"Суммарная продолжительность интервалов дневного графика\" значение 0")
 				: new OperationResult<bool>(true);
 		}
-
-		/// <summary>
-		/// Проверяет возможность сохранения отредактированного интервала
-		/// </summary>
-		/// <param name="dayIntervalParts">Интервал</param>
-		/// <param name="scheduleSchemes">Связанные с дневным графиком графики работы</param>
-		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public static OperationResult<bool> ValidateDayIntervalPartOnEditing(IEnumerable<DayIntervalPart> dayIntervalParts, IEnumerable<ScheduleScheme> scheduleSchemes)
-		{
-			// Если нет интервалов переходящих через сутки, ничего не делаем
-			if (!dayIntervalParts.Any(dayIntervalPart => dayIntervalPart.TransitionType == DayIntervalPartTransitionType.Night))
-				return new OperationResult<bool>(true);
-
-			var monthOrSlideScheduleSchemes = scheduleSchemes.Where(
-				scheduleScheme => scheduleScheme.Type == ScheduleSchemeType.Month).ToList();
-			//	|| scheduleScheme.Type == ScheduleSchemeType.SlideDay).ToList();
-			if (!monthOrSlideScheduleSchemes.Any())
-				return new OperationResult<bool>(true);
-
-			var sb = new StringBuilder();
-			foreach (var monthOrSlideScheduleScheme in monthOrSlideScheduleSchemes)
-				sb.AppendLine(String.Format("{0} ({1}{2})", monthOrSlideScheduleScheme.Name, monthOrSlideScheduleScheme.Type.ToDescription().ToLower(), monthOrSlideScheduleScheme.IsDeleted ? ", архивный" : null));
-
-			return OperationResult<bool>.FromError(String.Format("Для добавления интервал с переходом необходимо удалить связи дневного графика со следующими недельными или месячными графиками:\n\n{0}", sb));
-		}
 	}
 }
