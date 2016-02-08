@@ -16,6 +16,10 @@ namespace GKWebService.Models.GK.Alarms
 
 		public GKAlarmType AlarmType { get; set; }
 
+		public Guid GkBaseEntityUID { get; set; }
+
+		public GKBaseObjectType GkBaseEntityObjectType { get; set; }
+
 		public string AlarmImageSource { get; set; }
 
 		public string AlarmName { get; set; }
@@ -36,9 +40,15 @@ namespace GKWebService.Models.GK.Alarms
 
 		public bool CanShowProperties { get; set; }
 
+		public AlarmViewModel()
+		{
+		}
+
 		public AlarmViewModel(Alarm alarm)
 		{
 			Alarm = alarm;
+			GkBaseEntityUID = alarm.GkBaseEntity.UID;
+			GkBaseEntityObjectType = alarm.GkBaseEntity.ObjectType;
 			AlarmType = alarm.AlarmType;
             AlarmImageSource = ((string)new AlarmTypeToBIconConverter().Convert(alarm.AlarmType, null, null, null)).Substring(36).Replace(".png", "");
 			AlarmName = alarm.AlarmType.ToDescription();
@@ -50,6 +60,65 @@ namespace GKWebService.Models.GK.Alarms
 			CanTurnOnAutomatic = GetCanTurnOnAutomatic();
 			CanShowProperties = GetCanShowProperties();
 			AlarmColor = new AlarmTypeToColorConverter().Convert(alarm.AlarmType);
+		}
+
+		public void Reset()
+		{
+			if (GkBaseEntityObjectType == GKBaseObjectType.Zone)
+			{
+				var zone = new GKZone {UID = GkBaseEntityUID};
+				switch (AlarmType)
+				{
+					case GKAlarmType.Fire1:
+						ClientManager.FiresecService.GKResetFire1(zone);
+						break;
+
+					case GKAlarmType.Fire2:
+						ClientManager.FiresecService.GKResetFire2(zone);
+						break;
+				}
+			}
+
+			if (GkBaseEntityObjectType == GKBaseObjectType.GuardZone)
+			{
+				var guardZone = new GKGuardZone { UID = GkBaseEntityUID };
+				switch (AlarmType)
+				{
+					case GKAlarmType.GuardAlarm:
+						ClientManager.FiresecService.GKReset(guardZone);
+						break;
+				}
+			}
+
+			if (GkBaseEntityObjectType == GKBaseObjectType.Device)
+			{
+				var device = new GKDevice { UID = GkBaseEntityUID };
+				ClientManager.FiresecService.GKReset(device);
+			}
+
+			if (GkBaseEntityObjectType == GKBaseObjectType.Door)
+			{
+				var door = new GKDoor { UID = GkBaseEntityUID };
+				switch (AlarmType)
+				{
+					case GKAlarmType.GuardAlarm:
+						ClientManager.FiresecService.GKReset(door);
+						break;
+				}
+			}
+		}
+
+		public void ResetIgnore()
+		{
+			var alarms = AlarmsViewModel.OnGKObjectsStateChanged(null);
+			var alarm = alarms.FirstOrDefault(a => a.GkBaseEntity.UID == GkBaseEntityUID);
+			if (alarm != null)
+			{
+				if (alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(alarm.GkBaseEntity);
+				}
+			}
 		}
 
 		bool GetCanReset()

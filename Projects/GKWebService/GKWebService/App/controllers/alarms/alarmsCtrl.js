@@ -54,10 +54,10 @@
                                             <a href="#" style="padding-right: 3px" ng-click="grid.appScope.journalClick(row.entity)">\
                                                 Журнал\
                                             </a>\
-                                            <a href="#" style="padding-right: 3px" ng-show="row.entity.CanReset" ng-click="grid.appScope.resetClick(row.entity)">\
+                                            <a href="#" style="padding-right: 3px" ng-show="row.entity.CanReset" ng-click="grid.appScope.resetAlarmClick(row.entity)">\
                                                 Сбросить\
                                             </a>\
-                                            <a href="#" style="padding-right: 3px" ng-show="row.entity.CanResetIgnore" ng-click="grid.appScope.resetIgnoreClick(row.entity)">\
+                                            <a href="#" style="padding-right: 3px" ng-show="row.entity.CanResetIgnore" ng-click="grid.appScope.resetAlarmIgnoreClick(row.entity)">\
                                                 Снять отключение\
                                             </a>\
                                             <a href="#" style="padding-right: 3px" ng-show="row.entity.CanTurnOnAutomatic" ng-click="grid.appScope.turnOnAutomaticClick(row.entity)">\
@@ -72,7 +72,8 @@
             };
 
             $scope.$on('alarmsChanged', function (event, args) {
-                $scope.gridOptions.data = args.alarms.Alarms;
+                $scope.model = args.alarms;
+                $scope.gridOptions.data = $scope.model.Alarms;
                 $scope.$apply();
             });
 
@@ -82,11 +83,24 @@
             });
 
             $http.get('Alarms/GetAlarms').success(function (data, status, headers, config) {
-                $scope.gridOptions.data = data.Alarms;
+                $scope.model = data;
+                $scope.gridOptions.data = $scope.model.Alarms;
             });
 
             $scope.resetClick = function() {
                 $http.post('Alarms/ResetAll');
+            };
+
+            $scope.resetAlarmClick = function (alarm) {
+                $http.post('Alarms/Reset', { alarm: alarm });
+            };
+
+            $scope.resetAlarmIgnoreClick = function (alarm) {
+                $http.post('Alarms/ResetIgnore', { alarm: alarm });
+            };
+
+            $scope.resetIgnoreAll = function () {
+                $http.post('Alarms/ResetIgnoreAll');
             };
         }]
     );
