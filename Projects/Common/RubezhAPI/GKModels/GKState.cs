@@ -15,6 +15,9 @@ namespace RubezhAPI.GK
 		public Guid ReferenceUid { get; set; }
 
 		[DataMember]
+		public bool IsReservedState { get; set; }
+
+		[DataMember]
 		public List<XStateClass> StateClasses { get; set; }
 
 		[DataMember]

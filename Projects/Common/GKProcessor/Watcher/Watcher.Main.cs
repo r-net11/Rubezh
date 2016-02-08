@@ -1,4 +1,5 @@
 ﻿using Common;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.License;
@@ -22,19 +23,21 @@ namespace GKProcessor
 		DateTime LastMissmatchCheckTime;
 		GKCallbackResult GKCallbackResult { get; set; }
 		bool IsHashFailure { get; set; }
+        public bool UseReservedIp { get; set; }
 
 		bool MustCheckTechnologicalRegime = false;
 		DateTime LastTechnologicalRegimeCheckTime = DateTime.Now;
 		int TechnologicalRegimeCheckCount = 0;
-
 		bool HasLicense = true;
+        public Watcher ReservedWatcher;
 
-		public Watcher(GkDatabase gkDatabase)
+        public Watcher(GkDatabase gkDatabase, bool useReservedIp = false)
 		{
 			GkDatabase = gkDatabase;
 			GKCallbackResult = new GKCallbackResult();
 			IsStopping = false;
 			IsSuspending = false;
+            UseReservedIp = useReservedIp;
 		}
 
 		public void StartThread()
@@ -121,9 +124,9 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					if (descriptor.GKBase.InternalState != null)
+					if (descriptor.GKBase.GetInternalState(UseReservedIp) != null)
 					{
-						descriptor.GKBase.InternalState.IsSuspending = isSuspending;
+						descriptor.GKBase.GetInternalState(UseReservedIp).IsSuspending = isSuspending;
 					}
 				}
 				NotifyAllObjectsStateChanged();
@@ -158,6 +161,7 @@ namespace GKProcessor
 						DeviceDateTime = DateTime.Now,
 						JournalObjectType = JournalObjectType.GKDevice,
 						ObjectUID = GkDatabase.RootDevice.UID,
+                        IsReserved = UseReservedIp,
 						JournalEventNameType = JournalEventNameType.Начало_мониторинга,
 					};
 				AddJournalItem(journalItem);
@@ -206,16 +210,19 @@ namespace GKProcessor
 			}
 		}
 
+        public bool IsPingFailure;
+        public bool IsOtherPingFailure;
+
 		bool InitializeMonitoring()
 		{
-			bool IsPingFailure = false;
+			IsPingFailure = false;
 			bool IsInTechnologicalRegime = false;
 			bool IsGetStatesFailure = false;
 			IsHashFailure = false;
 
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				descriptor.GKBase.InternalState.Clear();
+				descriptor.GKBase.GetInternalState(UseReservedIp).Clear();
 			}
 
 			while (true)
@@ -224,12 +231,24 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					descriptor.GKBase.InternalState.IsInitialState = true;
+					descriptor.GKBase.GetInternalState(UseReservedIp).IsInitialState = true;
 				}
 
 				using (var gkLifecycleManager = new GKLifecycleManager(GkDatabase.RootDevice, "Проверка связи"))
 				{
-					var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
+				    string deviceInfo = "";
+                    if (ReservedWatcher != null)
+                    {
+                        deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice, !UseReservedIp);
+                        IsOtherPingFailure = string.IsNullOrEmpty(deviceInfo);
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x17))
+                        {
+                            descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = IsPingFailure && IsOtherPingFailure;
+                            descriptor.GKBase.GetInternalState(UseReservedIp).IsInitialState = !(IsPingFailure && IsOtherPingFailure);
+                        }
+                    }
+
+					deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice, UseReservedIp);
 					var pingResult = string.IsNullOrEmpty(deviceInfo);
 					if (IsPingFailure != pingResult)
 					{
@@ -240,12 +259,13 @@ namespace GKProcessor
 						else
 							AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, JournalEventDescriptionType.Старт_мониторинга);
 
-						foreach (var descriptor in GkDatabase.Descriptors)
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() < 0x17))
 						{
-							descriptor.GKBase.InternalState.IsConnectionLost = IsPingFailure;
-							descriptor.GKBase.InternalState.IsInitialState = !IsPingFailure;
+							descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = IsPingFailure;
+							descriptor.GKBase.GetInternalState(UseReservedIp).IsInitialState = !IsPingFailure;
 						}
-						NotifyAllObjectsStateChanged();
+
+					    NotifyAllObjectsStateChanged();
 						OnGKCallbackResult(GKCallbackResult);
 					}
 
@@ -284,12 +304,12 @@ namespace GKProcessor
 				{
 					var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
 					var gkFileReaderWriter = new GKFileReaderWriter();
-					var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-					result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
+					var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice, UseReservedIp);
+					result = false;
 					if (IsHashFailure != result)
 					{
 						GKCallbackResult = new GKCallbackResult();
-						IsHashFailure = result;
+						IsHashFailure = false;
 						if (IsHashFailure)
 							AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
 						else
@@ -297,8 +317,8 @@ namespace GKProcessor
 
 						foreach (var descriptor in GkDatabase.Descriptors)
 						{
-							descriptor.GKBase.InternalState.IsDBMissmatch = IsHashFailure;
-							descriptor.GKBase.InternalState.IsInitialState = false;
+							descriptor.GKBase.GetInternalState(UseReservedIp).IsDBMissmatch = IsHashFailure;
+							descriptor.GKBase.GetInternalState(UseReservedIp).IsInitialState = false;
 						}
 						NotifyAllObjectsStateChanged();
 						OnGKCallbackResult(GKCallbackResult);
@@ -347,7 +367,7 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.GKBase.InternalState.IsInitialState = false;
+						descriptor.GKBase.GetInternalState(UseReservedIp).IsInitialState = false;
 					}
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -368,7 +388,7 @@ namespace GKProcessor
 					HasLicense = hasLicense;
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.GKBase.InternalState.IsNoLicense = !HasLicense;
+						descriptor.GKBase.GetInternalState(UseReservedIp).IsNoLicense = !HasLicense;
 					}
 					NotifyAllObjectsStateChanged();
 				}
@@ -506,60 +526,87 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(GKBase gkBase, bool overrideExistingDeviceStates = true)
 		{
-			AddObjectStateToGKStates(GKCallbackResult.GKStates, gkBase, overrideExistingDeviceStates);
+            if (!IsPingFailure || gkBase.GKDescriptorNo < 0x17)
+                AddObjectStateToGKStates(GKCallbackResult.GKStates, gkBase, overrideExistingDeviceStates, UseReservedIp);
 		}
 
-		public static void AddObjectStateToGKStates(GKStates gkStates, GKBase gkBase, bool overrideExistingDeviceStates = true)
+		public static void AddObjectStateToGKStates(GKStates gkStates, GKBase gkBase, bool overrideExistingDeviceStates = true, bool useReservedIp = false)
 		{
 			if (gkBase.State != null)
 			{
-				gkBase.InternalState.CopyToGKState(gkBase.State);
-				if (gkBase is GKDevice)
-				{
-					if (overrideExistingDeviceStates)
+                if (useReservedIp)
+			    {
+                    gkBase.ReservedState.IsReservedState = true;
+                    gkBase.GetInternalState(true).UseReservedState = true;
+                    gkBase.GetInternalState(true).CopyToGKState(gkBase.ReservedState);
+			    }
+			    else
+                    gkBase.GetInternalState(false).CopyToGKState(gkBase.State);
+			    if (gkBase is GKDevice)
+			    {
+			        if (overrideExistingDeviceStates)
 					{
-						gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID);
-					}
-					gkStates.DeviceStates.Add(gkBase.State);
+                        if (!useReservedIp)
+                            gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID && x.IsReservedState == gkBase.State.IsReservedState);
+                        else
+                            gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID && x.IsReservedState == gkBase.ReservedState.IsReservedState);
+                    }
 
-				}
-				if (gkBase is GKZone)
+			        gkStates.DeviceStates.Add(!useReservedIp ? gkBase.State : gkBase.ReservedState);
+			    }
+			    if (gkBase is GKZone)
 				{
-					gkStates.ZoneStates.Add(gkBase.State);
+                    gkStates.ZoneStates.Add(!useReservedIp ? gkBase.State : gkBase.ReservedState);
 				}
 				if (gkBase is GKDirection)
 				{
-					gkStates.DirectionStates.Add(gkBase.State);
+                    gkStates.DirectionStates.Add(!useReservedIp ? gkBase.State : gkBase.ReservedState);
 				}
 				if (gkBase is GKPumpStation)
 				{
-					gkStates.PumpStationStates.Add(gkBase.State);
+                    gkStates.PumpStationStates.Add(!useReservedIp ? gkBase.State : gkBase.ReservedState);
 				}
 				if (gkBase is GKMPT)
 				{
-					gkStates.MPTStates.Add(gkBase.State);
+                    gkStates.MPTStates.Add(!useReservedIp ? gkBase.State : gkBase.ReservedState);
 				}
 				if (gkBase is GKDelay)
 				{
-					gkBase.State.PresentationName = gkBase.PresentationName;
-					gkStates.DelayStates.Add(gkBase.State);
+				    if (!useReservedIp)
+				    {
+				        gkBase.State.PresentationName = gkBase.PresentationName;
+				        gkStates.DelayStates.Add(gkBase.State);
+				    }
+				    else
+				    {
+                        gkBase.ReservedState.PresentationName = gkBase.PresentationName;
+                        gkStates.DelayStates.Add(gkBase.ReservedState);
+				    }
 				}
 				if (gkBase is GKPim)
 				{
-					gkBase.State.PresentationName = gkBase.PresentationName;
-					gkStates.PimStates.Add(gkBase.State);
+				    if (!useReservedIp)
+				    {
+				        gkBase.State.PresentationName = gkBase.PresentationName;
+				        gkStates.PimStates.Add(gkBase.State);
+				    }
+				    else
+				    {
+                        gkBase.ReservedState.PresentationName = gkBase.PresentationName;
+                        gkStates.PimStates.Add(gkBase.ReservedState);
+				    }
 				}
 				if (gkBase is GKGuardZone)
 				{
-					gkStates.GuardZoneStates.Add(gkBase.State);
+                    gkStates.GuardZoneStates.Add(!useReservedIp ? gkBase.State : gkBase.ReservedState);
 				}
 				if (gkBase is GKDoor)
 				{
-					gkStates.DoorStates.Add(gkBase.State);
+                    gkStates.DoorStates.Add(!useReservedIp ? gkBase.State : gkBase.ReservedState);
 				}
 				if (gkBase is GKSKDZone)
 				{
-					gkStates.SKDZoneStates.Add(gkBase.State);
+                    gkStates.SKDZoneStates.Add(!useReservedIp ? gkBase.State : gkBase.ReservedState);
 				}
 			}
 		}

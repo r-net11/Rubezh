@@ -26,6 +26,8 @@ namespace RubezhDAL.DataClasses
 		public int ObjectType { get; set; }
 		[Index]
 		public Guid ObjectUID { get; set; }
+        [Index]
+        public bool IsReserved { get; set; }
 		[MaxLength(4000)]
 		public string Detalisation { get; set; }
 		[MaxLength(50)]

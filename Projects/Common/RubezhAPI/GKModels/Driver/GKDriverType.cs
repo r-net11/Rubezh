@@ -168,5 +168,8 @@ namespace RubezhAPI.GK
 
 		[Description("Световой оповещатель комбинированный")]
 		RSR2_OPKZ = 81,
+
+        [Description("Составной ГК")]
+        MultiGK = 82,
 	}
 }

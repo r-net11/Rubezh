@@ -142,12 +142,12 @@ namespace GKProcessor
 			}
 		}
 
-		public GKFileInfo ReadInfoBlock(GKDevice gkControllerDevice)
+		public GKFileInfo ReadInfoBlock(GKDevice gkControllerDevice, bool useReservedIp = false)
 		{
 			try
 			{
 				var data = new List<byte>(BitConverter.GetBytes(1));
-				var sendResult = SendManager.Send(gkControllerDevice, 4, 23, 256, data);
+                var sendResult = SendManager.Send(gkControllerDevice, 4, 23, 256, data, useReservedIp: useReservedIp);
 				if (sendResult.HasError)
 				{ Error = "Устройство недоступно"; return null; }
 				if (sendResult.Bytes.Count == 0)

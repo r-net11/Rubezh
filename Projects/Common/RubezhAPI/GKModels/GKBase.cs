@@ -19,6 +19,7 @@ namespace RubezhAPI.GK
 			ClearDescriptor();
 			ClearClauseDependencies();
 			State = new GKState();
+            ReservedState = new GKState();
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			InputDependentElements = new List<GKBase>();
@@ -101,10 +102,105 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public abstract string ImageSource { get; }
 
-		[XmlIgnore]
-		public GKBaseInternalState InternalState { get; set; }
+	    public void InitializeInternalState()
+	    {
+	        if (this is GKDevice)
+	        {
+                InternalState = new GKDeviceInternalState(this as GKDevice);
+                ReservedInternalState = new GKDeviceInternalState(this as GKDevice);
+                State = new GKState(this as GKDevice);
+                ReservedState = new GKState(this as GKDevice);
+            }
+            if (this is GKZone)
+            {
+                InternalState = new GKZoneInternalState(this as GKZone);
+                ReservedInternalState = new GKZoneInternalState(this as GKZone);
+                State = new GKState(this as GKZone);
+                ReservedState = new GKState(this as GKZone);
+            }
+            if (this is GKDirection)
+            {
+                InternalState = new GKDirectionInternalState(this as GKDirection);
+                ReservedInternalState = new GKDirectionInternalState(this as GKDirection);
+                State = new GKState(this as GKDirection);
+                ReservedState = new GKState(this as GKDirection);
+            }
+            if (this is GKPumpStation)
+            {
+                InternalState = new GKPumpStationInternalState(this as GKPumpStation);
+                ReservedInternalState = new GKPumpStationInternalState(this as GKPumpStation);
+                State = new GKState(this as GKPumpStation);
+                ReservedState = new GKState(this as GKPumpStation);
+            }
+            if (this is GKMPT)
+            {
+                InternalState = new GKMPTInternalState(this as GKMPT);
+                ReservedInternalState = new GKMPTInternalState(this as GKMPT);
+                State = new GKState(this as GKMPT);
+                ReservedState = new GKState(this as GKMPT);
+            }
+            if (this is GKGuardZone)
+            {
+                InternalState = new GKGuardZoneInternalState(this as GKGuardZone);
+                ReservedInternalState = new GKGuardZoneInternalState(this as GKGuardZone);
+                State = new GKState(this as GKGuardZone);
+                ReservedState = new GKState(this as GKGuardZone);
+            }
+            if (this is GKDelay)
+            {
+                InternalState = new GKDelayInternalState(this as GKDelay);
+                ReservedInternalState = new GKDelayInternalState(this as GKDelay);
+                State = new GKState(this as GKDelay);
+                ReservedState = new GKState(this as GKDelay);
+            }
+            if (this is GKDoor)
+            {
+                InternalState = new GKDoorInternalState(this as GKDoor);
+                ReservedInternalState = new GKDoorInternalState(this as GKDoor);
+                State = new GKState(this as GKDoor);
+                ReservedState = new GKState(this as GKDoor);
+            }
+            if (this is GKSKDZone)
+            {
+                InternalState = new GKSKDZoneInternalState(this as GKSKDZone);
+                ReservedInternalState = new GKSKDZoneInternalState(this as GKSKDZone);
+                State = new GKState(this as GKSKDZone);
+                ReservedState = new GKState(this as GKSKDZone);
+            }
+            if (this is GKCode)
+            {
+                InternalState = new GKCodeInternalState(this as GKCode);
+                ReservedInternalState = new GKCodeInternalState(this as GKCode);
+                State = new GKState(this as GKCode);
+                ReservedState = new GKState(this as GKCode);
+            }
+            if (this is GKPim)
+            {
+                InternalState = new GKPimInternalState(this as GKPim);
+                ReservedInternalState = new GKPimInternalState(this as GKPim);
+                State = new GKState(this as GKPim);
+                ReservedState = new GKState(this as GKPim);
+            }
+	    }
+
+	    public GKBaseInternalState GetInternalState(bool isReservedState = false)
+	    {
+	        if (isReservedState)
+	            return ReservedInternalState;
+	        return InternalState;
+	    }
+
+	    [XmlIgnore]
+	    GKBaseInternalState InternalState { get; set; }
+
+        [XmlIgnore]
+        GKBaseInternalState ReservedInternalState { get; set; }
+
 		[XmlIgnore]
 		public GKState State { get; set; }
+
+        [XmlIgnore]
+        public GKState ReservedState { get; set; }
 
 		#region IStateProvider Members
 

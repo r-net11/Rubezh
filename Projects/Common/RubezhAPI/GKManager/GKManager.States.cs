@@ -8,53 +8,45 @@ namespace RubezhAPI
 		{
 			foreach (var device in Devices)
 			{
-				device.InternalState = new GKDeviceInternalState(device);
-				device.State = new GKState(device);
+				device.InitializeInternalState();
+			    if (device.DriverType == GKDriverType.MultiGK)
+			        device.State.StateClass = XStateClass.Norm;
 			}
 			foreach (var zone in Zones)
 			{
-				zone.InternalState = new GKZoneInternalState(zone);
-				zone.State = new GKState(zone);
+				zone.InitializeInternalState();
 			}
-			foreach (var direction in Directions)
+		    foreach (var direction in Directions)
+		    {
+		        direction.InitializeInternalState();
+		    }
+		    foreach (var pumpStation in PumpStations)
 			{
-				direction.InternalState = new GKDirectionInternalState(direction);
-				direction.State = new GKState(direction);
-			}
-			foreach (var pumpStation in PumpStations)
-			{
-				pumpStation.InternalState = new GKPumpStationInternalState(pumpStation);
-				pumpStation.State = new GKState(pumpStation);
+				pumpStation.InitializeInternalState();
 			}
 			foreach (var mpt in MPTs)
 			{
-				mpt.InternalState = new GKMPTInternalState(mpt);
-				mpt.State = new GKState(mpt);
+				mpt.InitializeInternalState();
 			}
 			foreach (var guardZone in GuardZones)
 			{
-				guardZone.InternalState = new GKGuardZoneInternalState(guardZone);
-				guardZone.State = new GKState(guardZone);
+				guardZone.InitializeInternalState();
 			}
 			foreach (var delay in Delays)
 			{
-				delay.InternalState = new GKDelayInternalState(delay);
-				delay.State = new GKState(delay);
+				delay.InitializeInternalState();
 			}
 			foreach (var door in Doors)
 			{
-				door.InternalState = new GKDoorInternalState(door);
-				door.State = new GKState(door);
+				door.InitializeInternalState();
 			}
 			foreach (var skdZone in SKDZones)
 			{
-				skdZone.InternalState = new GKSKDZoneInternalState(skdZone);
-				skdZone.State = new GKState(skdZone);
+				skdZone.InitializeInternalState();
 			}
 			foreach (var code in DeviceConfiguration.Codes)
 			{
-				code.InternalState = new GKCodeInternalState(code);
-				code.State = new GKState(code);
+				code.InitializeInternalState();
 			}
 		}
 

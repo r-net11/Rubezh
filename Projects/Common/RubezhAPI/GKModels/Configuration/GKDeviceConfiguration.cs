@@ -28,6 +28,7 @@ namespace RubezhAPI.GK
 			Doors = new List<GKDoor>();
 			SKDZones = new List<GKSKDZone>();
 			OPCSettings = new OPCSettings();
+            ReservedDevices = new List<GKDevice>();
 			
 			ParameterTemplates = new List<GKParameterTemplate>();
 			GKNameGenerationType = GKNameGenerationType.DriverTypePlusAddressPlusDescription;
@@ -35,6 +36,9 @@ namespace RubezhAPI.GK
 
 		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
+
+        [DataMember]
+        public List<GKDevice> ReservedDevices { get; set; }
 
 		/// <summary>
 		/// Устройство верхнего уровня

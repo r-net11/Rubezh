@@ -304,8 +304,18 @@ namespace GKProcessor
 			var gkStates = new GKStates();
 			foreach (var device in GKManager.Devices)
 			{
-				Watcher.AddObjectStateToGKStates(gkStates, device);
+			    var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice == device.GkDatabaseParent && !x.UseReservedIp);
+			    if (watcher != null)
+			    {
+                    if (!watcher.IsPingFailure || device.KAUParent == null) // Посылаем состояния для устройств на КАУ, полученные с этого ГК, если он пингуется
+                        Watcher.AddObjectStateToGKStates(gkStates, device);     // (для индикаторов всегда)
+                    if (!watcher.IsOtherPingFailure && watcher.IsPingFailure || device.KAUParent == null) // Посылаем состояния для устройств на КАУ, полученные с этого ГК, если он пингуется
+                        Watcher.AddObjectStateToGKStates(gkStates, device, useReservedIp: true);              // и если основной не пингуется (для индикаторов всегда)
+			    }
+                else
+                    Watcher.AddObjectStateToGKStates(gkStates, device);
 			}
+
 			foreach (var zone in GKManager.Zones)
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, zone);

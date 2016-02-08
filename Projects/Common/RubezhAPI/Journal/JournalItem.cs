@@ -19,6 +19,28 @@ namespace RubezhAPI.Journal
 			JournalObjectType = JournalObjectType.None;
 		}
 
+
+        /// <summary>
+        /// Идентефикатор ГК
+        /// </summary>
+        public Guid GkUid { get; set; }
+
+        /// <summary>
+        /// Номер КАУ
+        /// </summary>
+        public int KauNo { get; set; }
+
+        /// <summary>
+        /// Номер записи на КАУ
+        /// </summary>
+        public int KauJournalRecordNo { get; set; }
+
+        /// <summary>
+        /// Состояние резервного ГК
+        /// </summary>
+        [DataMember]
+        public bool IsReserved { get; set; }
+
 		/// <summary>
 		/// Дата, когда событие было зарегистрированно системой
 		/// </summary>

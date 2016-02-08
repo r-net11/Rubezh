@@ -296,6 +296,7 @@ namespace GKModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
+		    BuildMultiGk();
 			SubscribeGK();
 			return true;
 		}
@@ -305,6 +306,43 @@ namespace GKModule
 			GKAfterInitialize();
 			AlarmsViewModel.SubscribeShortcuts();
 		}
+
+        void BuildMultiGk()
+        {
+            var multiGK = new GKDevice();
+            foreach (var device in GKManager.DeviceConfiguration.Devices)
+            {
+                if (device.DriverType == GKDriverType.GK)
+                {
+                    var reservedIp = device.GetReservedIpAddress();
+                    if (reservedIp != null)
+                    {
+                        multiGK = new GKDevice { Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.MultiGK) };
+                        multiGK.DriverUID = multiGK.Driver.UID;
+                        multiGK.Children.Add(device);
+                        device.Parent.Children.Remove(device);
+                        device.Parent = multiGK;
+                        var gkDevice2 = GKManager.CopyDevice(device, false);
+                        foreach (var kauChild in gkDevice2.Children.FindAll(x => x.Driver.IsKau))
+                        {
+                            gkDevice2.Children.Remove(kauChild);
+                        }
+                        var ipAddress2 = gkDevice2.Properties.FirstOrDefault(x => x.Name == "IPAddress");
+                        if (ipAddress2 != null)
+                            ipAddress2.StringValue = device.GetReservedIpAddress();
+                        multiGK.Children.Add(gkDevice2);
+                        gkDevice2.Parent = multiGK;
+                        foreach (var kauChild in device.Children.FindAll(x => x.Driver.IsKau))
+                        {
+                            multiGK.Children.Add(kauChild);
+                            device.Children.Remove(kauChild);
+                            kauChild.Parent = multiGK;
+                        }
+                    }
+                }
+            }
+            GKManager.DeviceConfiguration.RootDevice.Children.Add(multiGK);
+        }
 
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()

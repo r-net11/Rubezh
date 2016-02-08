@@ -15,7 +15,7 @@ namespace GKProcessor
 			if (descriptor != null && descriptor.GKBase is GKDevice)
 			{
 				var device = descriptor.GKBase as GKDevice;
-				var deviceState = device.InternalState;
+				var deviceState = device.GetInternalState(UseReservedIp);
 				if (journalItem.JournalEventNameType == JournalEventNameType.Неисправность)
 				{
 					if (!string.IsNullOrEmpty(description))

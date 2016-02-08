@@ -28,7 +28,7 @@ namespace GKProcessor
 		public int ObjectState { get; private set; }
 		public JournalSourceType JournalSourceType { get; private set; }
 
-		public JournalParser(GKDevice gkControllerDevice, List<byte> bytes)
+		public JournalParser(GKDevice gkControllerDevice, List<byte> bytes, bool isReserved = false)
 		{
 			JournalItem = new JournalItem();
 			JournalItem.JournalObjectType = JournalObjectType.GKDevice;
@@ -39,14 +39,21 @@ namespace GKProcessor
 
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			JournalItem.ObjectUID = gkControllerDevice.UID;
+		    JournalItem.IsReserved = isReserved;
+            JournalItem.GkUid = gkControllerDevice.UID;
 			var ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
+            JournalItem.KauNo = 0;
 			if (ControllerAddress != 0x200)
 			{
 				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && x.IntAddress == ControllerAddress);
-				if (kauDevice != null)
-					JournalItem.ObjectUID = kauDevice.UID;
-				KauJournalRecordNo = BytesHelper.SubstructInt(bytes, 0x20);
+			    if (kauDevice != null)
+			    {
+			        JournalItem.ObjectUID = kauDevice.UID;
+			        JournalItem.KauNo = kauDevice.IntAddress;
+			    }
+			    KauJournalRecordNo = BytesHelper.SubstructInt(bytes, 0x20);
 			}
+            JournalItem.KauJournalRecordNo = KauJournalRecordNo;
 			InitializeFromObjectUID(gkControllerDevice);
 			var kauObjectNo = BytesHelper.SubstructShort(bytes, 54);
 

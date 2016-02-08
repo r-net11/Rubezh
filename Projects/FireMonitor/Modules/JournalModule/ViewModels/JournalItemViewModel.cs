@@ -73,10 +73,12 @@ namespace JournalModule.ViewModels
 			switch (JournalItem.JournalObjectType)
 			{
 				case JournalObjectType.GKDevice:
-					Device = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					Device = GKManager.GetDevice(JournalItem.ObjectUID, JournalItem.IsReserved);
 					if (Device != null)
 					{
 						ObjectName = Device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
+                        if (IsSomeDevice && Device.GKParent != null && Device.GKDescriptorNo < 0x17)
+					        ObjectName += "(" + Device.GKParent.Address + ")";
 						ObjectImageSource = Device.Driver.ImageSource;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
@@ -260,6 +262,11 @@ namespace JournalModule.ViewModels
 			}
 		}
 
+	    public static bool IsSomeDevice
+	    {
+	        get { return GKManager.IsManyGK(); }
+	    }
+
 		public bool IsStateImage
 		{
 			get { return JournalItem != null && JournalItem.ObjectName != null && JournalItem.ObjectName.EndsWith("АМ-R2"); }
@@ -280,12 +287,23 @@ namespace JournalModule.ViewModels
 		}
 
 		public RelayCommand ShowObjectCommand { get; private set; }
-		void OnShowObject()
-		{
-			if (ShowObjectEvent != null)
-				ShowObjectEvent.Publish(JournalItem.ObjectUID);
-		}
-		bool CanShowObject()
+
+	    private void OnShowObject()
+	    {
+	        if (ShowObjectEvent != null)
+	        {
+	            if (!JournalItem.IsReserved)
+	                ShowObjectEvent.Publish(JournalItem.ObjectUID);
+	            else
+	            {
+	                var reservedDevice = GKManager.GetDevice(JournalItem.ObjectUID, true);
+	                if (reservedDevice != null)
+	                    ShowObjectEvent.Publish(reservedDevice.UID);
+	            }
+	        }
+	    }
+
+	    bool CanShowObject()
 		{
 			return IsExistsInConfig && ShowObjectEvent != null;
 		}

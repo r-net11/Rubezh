@@ -16,7 +16,7 @@ namespace RubezhAPI
 			{
 				newDevice.UID = device.UID;
 			}
-			CopyDevice(device, newDevice);
+			CopyDevice(device, newDevice, fullCopy);
 
 			if (paste)
 			{
@@ -30,7 +30,7 @@ namespace RubezhAPI
 			return newDevice;
 		}
 
-		public static GKDevice CopyDevice(GKDevice deviceFrom, GKDevice deviceTo)
+		public static GKDevice CopyDevice(GKDevice deviceFrom, GKDevice deviceTo, bool fullCopy)
 		{
 			deviceTo.DriverUID = deviceFrom.DriverUID;
 			deviceTo.Driver = deviceFrom.Driver;
@@ -63,7 +63,7 @@ namespace RubezhAPI
 			deviceTo.Children = new List<GKDevice>();
 			foreach (var childDevice in deviceFrom.Children)
 			{
-				var newChildDevice = CopyDevice(childDevice, false, true);
+                var newChildDevice = CopyDevice(childDevice, fullCopy, true);
 				newChildDevice.Parent = deviceTo;
 				deviceTo.Children.Add(newChildDevice);
 			}
@@ -186,5 +186,19 @@ namespace RubezhAPI
 			}
 			return true;
 		}
+
+        public static bool IsValidReservedIpAddress(GKDevice device)
+        {
+            if (device.DriverType == GKDriverType.GK)
+            {
+                const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
+                var address = device.GetReservedIpAddress();
+                if (string.IsNullOrEmpty(address) || !Regex.IsMatch(address, pattern))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 	}
 }

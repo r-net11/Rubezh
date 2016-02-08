@@ -286,7 +286,7 @@ namespace GKModule.ViewModels
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part)
 				{
 					var addedDevice = GKManager.AddDevice(SelectedDevice.Device, device.Driver, 0);
-					GKManager.CopyDevice(device, addedDevice);
+					GKManager.CopyDevice(device, addedDevice, true);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice);
 					addedDeviceViewModel.IsExpanded = true;
 					AllDevices.Add(addedDeviceViewModel);
@@ -296,7 +296,7 @@ namespace GKModule.ViewModels
 				{
 					var index = SelectedDevice.Device.Parent.Children.IndexOf(SelectedDevice.Device) + 1;
 					var addedDevice = GKManager.AddDevice(SelectedDevice.Parent.Device, device.Driver, 0, index);
-					GKManager.CopyDevice(device, addedDevice);
+                    GKManager.CopyDevice(device, addedDevice, true);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
 					addedDeviceViewModel.IsExpanded = true;
 					AllDevices.Add(addedDeviceViewModel);

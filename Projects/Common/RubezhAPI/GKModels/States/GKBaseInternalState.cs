@@ -26,6 +26,7 @@ namespace RubezhAPI.GK
 			RunningTime = 0;
 		}
 
+		public bool UseReservedState { get; set; }
 		public bool IsInitialState { get; set; }
 		public bool IsSuspending { get; set; }
 		public bool IsNoLicense { get; set; }
@@ -125,6 +126,7 @@ namespace RubezhAPI.GK
 			state.OffDelay = OffDelay;
 			state.HoldDelay = HoldDelay;
 			state.RunningTime = RunningTime;
+		    state.IsReservedState = UseReservedState;
 
 			if (IsInitialState || IsSuspending || IsNoLicense || IsConnectionLost)
 			{

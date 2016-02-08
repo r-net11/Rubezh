@@ -36,7 +36,7 @@ namespace FireMonitor
 						switch (journalItem.JournalObjectType)
 						{
 							case JournalObjectType.GKDevice:
-								var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								var device = GKManager.GetDevice(journalItem.ObjectUID, journalItem.IsReserved);
 								if (ShowOnPlanHelper.CanShowDevice(device))
 									ShowOnPlanHelper.ShowDevice(device);
 								break;

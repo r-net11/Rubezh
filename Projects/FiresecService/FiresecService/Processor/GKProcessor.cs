@@ -41,20 +41,44 @@ namespace FiresecService
 			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback, clientUID);
 		}
 
+        /// <summary>
+		/// ГК UId, Номер КАУ, Номер записи на КАУ
+		/// </summary>
+		static List<Tuple<Guid, int, int>> LastIds  = new List<Tuple<Guid, int, int>>();
+		static object locker = new object();
+
 		static void OnGKCallbackResultEvent(GKCallbackResult gkCallbackResult)
 		{
 			CheckPendingCards(gkCallbackResult);
 
-			if (gkCallbackResult.JournalItems.Count > 0)
-			{
-				FiresecService.Service.FiresecService.AddCommonJournalItems(gkCallbackResult.JournalItems, null);
-				foreach (var journalItem in gkCallbackResult.JournalItems)
-				{
-					ProcessPassJournal(journalItem);
-				}
-			}
+		    if (gkCallbackResult.JournalItems.Count > 0)
+		    {
+		        lock (locker)
+		        {
+		            foreach (var lastId in LastIds)
+		            {
+		                gkCallbackResult.JournalItems.RemoveAll(
+		                    x => x.GkUid == lastId.Item1 && x.KauNo == lastId.Item2 && x.KauJournalRecordNo <= lastId.Item3);
+		            }
+		            foreach (var journalItem in gkCallbackResult.JournalItems)
+		            {
+		                var currentId =
+		                    LastIds.FirstOrDefault(x => x.Item1 == journalItem.GkUid && x.Item2 == journalItem.KauNo);
+		                if (currentId != null)
+		                    LastIds.Remove(currentId);
+		                if (journalItem.GkUid != Guid.Empty && journalItem.KauNo != 0)
+		                    LastIds.Add(new Tuple<Guid, int, int>(journalItem.GkUid, journalItem.KauNo,
+		                        journalItem.KauJournalRecordNo));
+		            }
+		            FiresecService.Service.FiresecService.AddCommonJournalItems(gkCallbackResult.JournalItems, null);
+		            foreach (var journalItem in gkCallbackResult.JournalItems)
+		            {
+		                ProcessPassJournal(journalItem);
+		            }
+		        }
+		    }
 
-			foreach (var doorState in gkCallbackResult.GKStates.DoorStates)
+		    foreach (var doorState in gkCallbackResult.GKStates.DoorStates)
 			{
 				if (doorState.Door != null)
 				{

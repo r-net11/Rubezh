@@ -432,7 +432,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				if (DriverType == GKDriverType.GK)
+                if (DriverType == GKDriverType.GK || DriverType == GKDriverType.MultiGK)
 				{
 					return Address;
 				}
@@ -445,11 +445,13 @@ namespace RubezhAPI.GK
 
 				var allParents = AllParents;
 				var rootDevice = allParents.FirstOrDefault();
-				if (rootDevice != null && rootDevice.Children.Count > 1 && rootDevice.Driver.DriverType == GKDriverType.System)
+				if (rootDevice != null && rootDevice.AllChildren.Count(x => x.DriverType == GKDriverType.GK) > 1 && rootDevice.Driver.DriverType == GKDriverType.System )
 				{
-					address = address + (" (" + allParents[1].Address + ")");
+				    var gkParent = allParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
+                    if (gkParent != null)
+                        address = address + (" (" + gkParent.Address + ")");
 				}
-				return address;
+			    return address;
 			}
 		}
 
@@ -680,7 +682,7 @@ namespace RubezhAPI.GK
 			return null;
 		}
 
-		string GetMainIpAddress()
+		public string GetMainIpAddress()
 		{
 			if (DriverType == GKDriverType.GK)
 			{

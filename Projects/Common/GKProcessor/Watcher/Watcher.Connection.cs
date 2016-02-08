@@ -32,6 +32,7 @@ namespace GKProcessor
 						DeviceDateTime = DateTime.Now,
 						JournalObjectType = JournalObjectType.GKDevice,
 						ObjectUID = GkDatabase.RootDevice.UID,
+                        IsReserved = UseReservedIp,
 						JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи_с_прибором : JournalEventNameType.Потеря_связи_с_прибором,
 					};
 					//var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
@@ -44,18 +45,45 @@ namespace GKProcessor
 					{
 						var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
 						var gkFileReaderWriter = new GKFileReaderWriter();
-						var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-						IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
+						var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice, UseReservedIp);
+						IsHashFailure = false;
 						if (!IsHashFailure)
 						{
 							GetAllStates();
 						}
 					}
 
-					foreach (var descriptor in GkDatabase.Descriptors)
+					foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() < 0x17))
 					{
-						descriptor.GKBase.InternalState.IsConnectionLost = !isConnected;
+						descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = !isConnected;
 					}
+
+				    if (ReservedWatcher == null)
+				    {
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x17))
+                        {
+                            descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = !isConnected;
+                        }
+				    }
+
+				    if (ReservedWatcher != null && !ReservedWatcher.IsConnected && !IsConnected)
+				    {
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x17))
+                        {
+                            descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = true;
+                            descriptor.GKBase.GetInternalState(!UseReservedIp).IsConnectionLost = true;
+                        }
+				    }
+
+
+                    if (ReservedWatcher != null && (ReservedWatcher.IsConnected || IsConnected))
+                    {
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x17))
+                        {
+                            descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = false;
+                            descriptor.GKBase.GetInternalState(!UseReservedIp).IsConnectionLost = false;
+                        }
+                    }
 					NotifyAllObjectsStateChanged();
 				}
 			}

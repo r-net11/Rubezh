@@ -50,15 +50,15 @@ namespace RubezhAPI.GK
 						stateClasses.Add(XStateClass.Service);
 				}
 				if (Device.Driver.IsGroupDevice || Device.DriverType == GKDriverType.RSR2_KAU_Shleif || Device.DriverType == GKDriverType.RSR2_MVP_Part
-					|| Device.DriverType == GKDriverType.GKRelaysGroup || Device.DriverType == GKDriverType.GKIndicatorsGroup)
+                    || Device.DriverType == GKDriverType.GKRelaysGroup || Device.DriverType == GKDriverType.GKIndicatorsGroup)
 				{
 					stateClasses.Clear();
 					if (Device.Children.Count > 0)
 					{
 						foreach (var child in Device.AllChildren)
 						{
-							if (!stateClasses.Contains(child.InternalState.StateClass))
-								stateClasses.Add(child.InternalState.StateClass);
+							if (!stateClasses.Contains(child.GetInternalState(UseReservedState).StateClass))
+                                stateClasses.Add(child.GetInternalState(UseReservedState).StateClass);
 						}
 						if (stateClasses.Count > 1 && stateClasses.Contains(XStateClass.Norm))
 							stateClasses.Remove(XStateClass.Norm);

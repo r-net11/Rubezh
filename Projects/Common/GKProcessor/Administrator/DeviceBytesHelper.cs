@@ -41,12 +41,12 @@ namespace GKProcessor
 			return !sendResult.HasError;
 		}
 
-		public static string GetDeviceInfo(GKDevice device)
+		public static string GetDeviceInfo(GKDevice device, bool useReservedIp = false)
 		{
 			try
 			{
 				var stringBuilder = new StringBuilder();
-				var result1 = Ping(device);
+				var result1 = Ping(device, useReservedIp);
 				if (result1.HasError)
 					return null;
 
@@ -59,7 +59,7 @@ namespace GKProcessor
 				softvareVersion = (byte)(softvareVersion >> 1);
 				stringBuilder.AppendLine("Версия ПО: " + softvareVersion.ToString());
 
-				var result2 = SendManager.Send(device, 0, 2, 8);
+				var result2 = SendManager.Send(device, 0, 2, 8, useReservedIp:useReservedIp);
 				if (result2.HasError)
 					if (result1.HasError)
 						return null;
@@ -180,14 +180,14 @@ namespace GKProcessor
 			}
 		}
 
-		public static SendResult Ping(GKDevice gkControllerDevice)
+		public static SendResult Ping(GKDevice gkControllerDevice, bool useReservedIp = false)
 		{
-			var sendResult = SendManager.Send(gkControllerDevice, 0, 1, 1);
-			if (sendResult.HasError)
-			{
-				gkControllerDevice.UseReservedIP = !gkControllerDevice.UseReservedIP;
-				sendResult = SendManager.Send(gkControllerDevice, 0, 1, 1);
-			}
+            var sendResult = SendManager.Send(gkControllerDevice, 0, 1, 1, useReservedIp: useReservedIp);
+            //if (sendResult.HasError)
+            //{
+            //    gkControllerDevice.UseReservedIP = !gkControllerDevice.UseReservedIP;
+            //    sendResult = SendManager.Send(gkControllerDevice, 0, 1, 1);
+            //}
 			return sendResult;
 		}
 	}

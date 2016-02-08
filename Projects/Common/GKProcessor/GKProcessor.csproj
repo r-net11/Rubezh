@@ -110,6 +110,7 @@
     <Compile Include="Drivers\GKDevices\KAUIndicator_Helper.cs" />
     <Compile Include="Drivers\GKDevices\KAU_RSR2_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKIndicatorsGroup_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\MultiGK_Helper.cs" />
     <Compile Include="Drivers\GKDevices\RSR2_KAU_ShleifHelper.cs" />
     <Compile Include="Drivers\GKDevices\KAU_Mirror_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKMirrorDetectorsDevice_Helper.cs" />

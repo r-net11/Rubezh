@@ -71,8 +71,8 @@ namespace RubezhDAL.DataClasses
 				var query = new StringBuilder();
 				foreach (var item in apiItems)
 				{
-					query.Append("INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES");
-					query.Append(string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}'); ",
+                    query.Append("INSERT INTO dbo.\"Journals\" (\"UID\", \"EmployeeUID\", \"SystemDate\", \"DeviceDate\", \"Subsystem\", \"Name\", \"Description\", \"DescriptionText\", \"ObjectType\", \"ObjectUID\", \"IsReserved\", \"Detalisation\", \"UserName\", \"VideoUID\", \"CameraUID\", \"ObjectName\", \"CardNo\") VALUES");
+                    query.Append(string.Format("('{0}', {1}, '{2}', {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}'); ",
 							item.UID,
 							item.EmployeeUID.EmptyToNullSqlStr(),
 							item.SystemDateTime.CheckDate().ToString("yyyyMMdd HH:mm:ss"),
@@ -83,6 +83,7 @@ namespace RubezhDAL.DataClasses
 							item.DescriptionText,
 							(int)item.JournalObjectType,
 							item.ObjectUID,
+                            item.IsReserved,
 							JournalDetalisationItem.ListToString(item.JournalDetalisationItems),
 							item.UserName,
 							item.VideoUID,
@@ -155,6 +156,7 @@ namespace RubezhDAL.DataClasses
 				DescriptionText = apiItem.DescriptionText,
 				JournalObjectType = (JournalObjectType)apiItem.ObjectType,
 				ObjectUID = apiItem.ObjectUID,
+                IsReserved = apiItem.IsReserved,
 				ObjectName = apiItem.ObjectName,
 				UserName = apiItem.UserName,
 				CardNo = apiItem.CardNo,
@@ -178,6 +180,7 @@ namespace RubezhDAL.DataClasses
 				DescriptionText = apiItem.DescriptionText,
 				ObjectType = (int)apiItem.JournalObjectType,
 				ObjectUID = apiItem.ObjectUID,
+                IsReserved = apiItem.IsReserved,
 				ObjectName = apiItem.ObjectName,
 				UserName = apiItem.UserName,
 				CardNo = apiItem.CardNo,

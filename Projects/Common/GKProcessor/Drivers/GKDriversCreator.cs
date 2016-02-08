@@ -12,6 +12,7 @@ namespace GKProcessor
 
 			GKManager.DriversConfiguration.Drivers.Add(GKSystem_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(GK_Helper.Create());
+            GKManager.DriversConfiguration.Drivers.Add(MultiGK_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(GKIndicator_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(GKRele_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(KAU_RSR2_Helper.Create());

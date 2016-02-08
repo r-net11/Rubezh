@@ -64,7 +64,7 @@ namespace GKProcessor
 
 		int GetLastId()
 		{
-			var sendResult = SendManager.Send(GkDatabase.RootDevice, 0, 6, 64);
+			var sendResult = SendManager.Send(GkDatabase.RootDevice, 0, 6, 64, useReservedIp:UseReservedIp);
 			if (IsStopping)
 				return -1;
 			if (sendResult.HasError)
@@ -73,7 +73,7 @@ namespace GKProcessor
 				return -1;
 			}
 			ConnectionChanged(true);
-			var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
+			var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes, UseReservedIp);
 			return journalParser.GKJournalRecordNo;
 		}
 
@@ -97,7 +97,7 @@ namespace GKProcessor
 			if (IsStopping)
 				return null;
 			var data = BitConverter.GetBytes(index).ToList();
-			var sendResult = SendManager.Send(GkDatabase.RootDevice, 4, 7, 64, data);
+			var sendResult = SendManager.Send(GkDatabase.RootDevice, 4, 7, 64, data, useReservedIp: UseReservedIp);
 			if (sendResult.HasError)
 			{
 				ConnectionChanged(false);
@@ -105,7 +105,7 @@ namespace GKProcessor
 			}
 			if (sendResult.Bytes.Count == 64)
 			{
-				var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
+				var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes, UseReservedIp);
 #if !DEBUG
 				if (journalParser.JournalItem.JournalObjectType == JournalObjectType.GKPim)
 					return null;
@@ -127,11 +127,11 @@ namespace GKProcessor
 					CheckServiceRequired(descriptor.GKBase, journalParser.JournalItem);
 					if (journalParser.JournalSourceType == JournalSourceType.Object)
 					{
-						descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalParser.ObjectState);
+						descriptor.GKBase.GetInternalState(UseReservedIp).StateBits = GKStatesHelper.StatesFromInt(journalParser.ObjectState);
 					}
-					if (descriptor.GKBase.InternalState.StateClass == XStateClass.On)
+					if (descriptor.GKBase.GetInternalState(UseReservedIp).StateClass == XStateClass.On)
 					{
-						descriptor.GKBase.InternalState.ZeroHoldDelayCount = 0;
+						descriptor.GKBase.GetInternalState(UseReservedIp).ZeroHoldDelayCount = 0;
 						CheckDelay(descriptor.GKBase);
 					}
 					ParseAdditionalStates(journalParser);
@@ -142,7 +142,7 @@ namespace GKProcessor
 						foreach(var parent in device.AllParents)
 						{
 							if (parent.Driver.IsGroupDevice || parent.DriverType == GKDriverType.RSR2_KAU_Shleif || parent.DriverType == GKDriverType.RSR2_MVP_Part
-								|| parent.DriverType == GKDriverType.GKIndicatorsGroup || parent.DriverType == GKDriverType.GKRelaysGroup)
+                                || parent.DriverType == GKDriverType.GKIndicatorsGroup || parent.DriverType == GKDriverType.GKRelaysGroup)
 								OnObjectStateChanged(parent);
 						}
 					}
@@ -170,9 +170,9 @@ namespace GKProcessor
 				{
 					var device = gkBase as GKDevice;
 					if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность)
-						device.InternalState.IsService = true;
+						device.GetInternalState(UseReservedIp).IsService = true;
 					if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность_устранена)
-						device.InternalState.IsService = false;
+						device.GetInternalState(UseReservedIp).IsService = false;
 				}
 			}
 		}

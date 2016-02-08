@@ -10,12 +10,11 @@ using RubezhAPI;
 
 namespace GKProcessor
 {
-	[System.Diagnostics.DebuggerStepThrough]
 	public static class SendManager
 	{
 		static List<SendClient> SendClients = new List<SendClient>();
 
-		public static SendResult Send(GKDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
+		public static SendResult Send(GKDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000, bool useReservedIp = false)
 		{
 			if ((device == null) || (device.Driver == null))
 			{
@@ -63,7 +62,7 @@ namespace GKProcessor
 			if (data != null)
 				bytes.AddRange(data);
 
-			string ipAddress = GKManager.GetIpAddress(device);
+			string ipAddress = GKManager.GetIpAddress(device, useReservedIp);
 			if (string.IsNullOrEmpty(ipAddress))
 			{
 				return new SendResult("Не задан адрес ГК");
