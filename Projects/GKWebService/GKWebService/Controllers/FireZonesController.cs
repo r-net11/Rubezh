@@ -42,7 +42,7 @@ namespace GKWebService.Controllers
 		/// <summary>
 		/// Метод, предоставляющий данные об устройствах для конкретной зоны
 		/// </summary>
-		public JsonResult GetDevicesListByZoneNumber(Guid id)
+		public JsonResult GetDevicesByZoneUID(Guid id)
 		{
 			var listTree = new List<DeviceNode>();
 			var data = new DeviceNode();
