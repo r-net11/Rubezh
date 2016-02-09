@@ -43,14 +43,15 @@ namespace SKDModule.ViewModels
 			{
 				new TimeTrackTypeFilterItem(TimeTrackType.Balance),
 				new TimeTrackTypeFilterItem(TimeTrackType.Presence),
-				new TimeTrackTypeFilterItem(TimeTrackType.Absence),
 				new TimeTrackTypeFilterItem(TimeTrackType.Late),
+				new TimeTrackTypeFilterItem(TimeTrackType.Absence),
 				new TimeTrackTypeFilterItem(TimeTrackType.EarlyLeave),
 				new TimeTrackTypeFilterItem(TimeTrackType.Overtime),
 				new TimeTrackTypeFilterItem(TimeTrackType.Night),
-				new TimeTrackTypeFilterItem(TimeTrackType.DocumentOvertime),
 				new TimeTrackTypeFilterItem(TimeTrackType.DocumentPresence),
-				new TimeTrackTypeFilterItem(TimeTrackType.DocumentAbsence)
+				new TimeTrackTypeFilterItem(TimeTrackType.DocumentAbsenceReasonable),
+				new TimeTrackTypeFilterItem(TimeTrackType.DocumentAbsence),
+				new TimeTrackTypeFilterItem(TimeTrackType.DocumentOvertime)
 			};
 
 			foreach (var totalTimeTrackTypeFilter in timeTrackFilter.TotalTimeTrackTypeFilters)

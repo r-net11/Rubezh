@@ -50,8 +50,7 @@ namespace SKDModule.Views
 					},
 				};
 
-				var holiday =
-					viewModel.HolydaysOfCurrentOrganisation.FirstOrDefault(x => x.Date.Day == date.Day && x.Date.Month == date.Month);
+				var holiday = viewModel.HolydaysOfCurrentOrganisation.FirstOrDefault(x => x.Date.Day == date.Day && x.Date.Month == date.Month);
 
 				column.Header = CreateColumnHeader(date, holiday);
 

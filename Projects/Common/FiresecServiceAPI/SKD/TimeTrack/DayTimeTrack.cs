@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Windows.Media;
+using FiresecAPI.Automation;
 using FiresecAPI.Extensions;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,8 @@ namespace FiresecAPI.SKD
 			Documents = new List<TimeTrackDocument>();
 			Totals = new List<TimeTrackTotal>();
 			RealTimeTrackPartsForDrawing = new List<TimeTrackPart>();
+			RealTimeTrackPartsForCalculates = new List<TimeTrackPart>();
+			BackgroundColor = Colors.DarkGray;
 		}
 
 		public DayTimeTrack(string error)
@@ -133,6 +137,8 @@ namespace FiresecAPI.SKD
 			get { return _nightTimeForToday; }
 		}
 
+		public Color BackgroundColor { get; set; }
+
 		#endregion
 
 		/// <summary>
@@ -169,8 +175,63 @@ namespace FiresecAPI.SKD
 			Totals = CalculateTotal(SlideTime, PlannedTimeTrackParts, RealTimeTrackPartsForCalculates, CombinedTimeTrackParts, IsHoliday);
 			Totals = GetTotalBalance(Totals);
 			TimeTrackType = CalculateTimeTrackType(Totals, PlannedTimeTrackParts, IsHoliday, Error);
-			CalculateLetterCode();
+			SetLetterCode();
+			SetBackgroundColor();
+		}
 
+		/// <summary>
+		/// Метод установки фона ячейки
+		/// </summary>
+		private void SetBackgroundColor()
+		{
+			var balance = Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Balance);
+			if (balance == null) return;
+
+			if (PlannedTimeTrackParts.Any())
+			{
+				var absence = Totals
+					.Where(x => x.TimeTrackType == TimeTrackType.Absence
+							|| x.TimeTrackType == TimeTrackType.EarlyLeave
+							|| x.TimeTrackType == TimeTrackType.Late)
+					.ToList();
+				BackgroundColor = GetColorBaseOnWeekDay(balance, absence);
+			}
+			else
+				BackgroundColor = GetColorBaseOnHoliday(balance);
+		}
+
+		private static Color GetColorBaseOnWeekDay(TimeTrackTotal balance, IEnumerable<TimeTrackTotal> absences)
+		{
+			var balanceEqualZero = balance.TimeSpan == TimeSpan.Zero;
+			var balanceMoreThanMore = balance.TimeSpan > TimeSpan.Zero;
+			var balanceLessThanZero = balance.TimeSpan < TimeSpan.Zero;
+			var hasAbsence = absences.Any(x => x.TimeSpan != TimeSpan.Zero);
+
+
+			if (balanceEqualZero && !hasAbsence)
+				return Colors.White;
+			if ((balanceMoreThanMore || balanceEqualZero) && hasAbsence)
+				return Colors.Pink;
+			if (balanceMoreThanMore && !hasAbsence)
+				return Colors.LightGreen;
+			if (balanceLessThanZero && hasAbsence)
+				return Colors.LightCoral;
+			if (balanceLessThanZero && !hasAbsence)
+				return Colors.DarkRed;
+
+			return Colors.DarkGray;
+		}
+
+		private static Color GetColorBaseOnHoliday(TimeTrackTotal balance)
+		{
+			if (balance.TimeSpan == TimeSpan.Zero)
+				return Colors.LightGray;
+			if (balance.TimeSpan > TimeSpan.Zero)
+				return Colors.DarkGreen;
+			if (balance.TimeSpan < TimeSpan.Zero)
+				return Colors.DarkRed;
+
+			return Colors.DarkGray;
 		}
 
 		/// <summary>
@@ -1199,46 +1260,6 @@ namespace FiresecAPI.SKD
 			return result;
 		}
 
-		public static List<TimeTrackPart> NormalizeTimeTrackParts(List<TimeTrackPart> timeTrackParts)
-		{
-			if (timeTrackParts.Count == 0)
-				return new List<TimeTrackPart>();
-
-			var result = new List<TimeTrackPart>();
-
-			var timeScheduleIntervals = timeTrackParts.Select(timeTrackPart => new ScheduleInterval(timeTrackPart.EnterDateTime, timeTrackPart.ExitDateTime)).ToList();
-			timeScheduleIntervals = timeScheduleIntervals.OrderBy(x => x.StartTime.TimeOfDay).ToList();
-
-			foreach (var timeScheduleInterval in timeScheduleIntervals.Where(x => x.EndTime.HasValue))
-			{
-				var timeTrackPart = timeTrackParts.FirstOrDefault(x => x.EnterDateTime <= timeScheduleInterval.StartTime && x.ExitDateTime > timeScheduleInterval.StartTime);
-
-				if(timeTrackPart == null) continue;
-
-				result.Add(new TimeTrackPart
-				{
-					EnterDateTime = timeScheduleInterval.StartTime,
-					ExitDateTime = timeScheduleInterval.EndTime,
-					TimeTrackPartType = timeTrackPart.TimeTrackPartType,
-					ZoneUID = timeTrackPart.ZoneUID,
-					StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
-					EndsInNextDay = timeTrackPart.EndsInNextDay,
-					DayName = timeTrackPart.DayName,
-					PassJournalUID = timeTrackPart.PassJournalUID,
-					IsNeedAdjustment = timeTrackPart.IsNeedAdjustment,
-					AdjustmentDate = timeTrackPart.AdjustmentDate,
-					CorrectedByUID = timeTrackPart.CorrectedByUID,
-					EnterTimeOriginal = timeTrackPart.EnterTimeOriginal,
-					ExitTimeOriginal = timeTrackPart.ExitTimeOriginal,
-					NotTakeInCalculations = timeTrackPart.NotTakeInCalculations,
-					IsManuallyAdded = timeTrackPart.IsManuallyAdded,
-					IsOpen = timeTrackPart.IsOpen,
-					IsForceClosed = timeTrackPart.IsForceClosed
-				});
-			}
-			return result;
-		}
-
 		/// <summary>
 		/// Возвращает интервалы, которые переходят через сутки
 		/// </summary>
@@ -1247,72 +1268,94 @@ namespace FiresecAPI.SKD
 		/// <returns>Коллекцию интервалов, переходящих через сутки</returns>
 		public List<TimeTrackPart> CalculateCrossNightTimeTrackParts(List<TimeTrackPart> timeTrackParts, DateTime date)
 		{
-			return timeTrackParts.Where(x => x.ExitDateTime.HasValue).Where(x => (x.EnterDateTime.Date == date.Date && x.ExitDateTime.Value.Date > date.Date)
-											||(x.EnterDateTime.Date < date.Date && x.ExitDateTime.Value.Date > date.Date))
-											.ToList();
+			return timeTrackParts
+				.Where(x => x.ExitDateTime.HasValue)
+				.Where(x => (x.EnterDateTime.Date == date.Date && x.ExitDateTime.Value.Date > date.Date)
+							||(x.EnterDateTime.Date < date.Date && x.ExitDateTime.Value.Date > date.Date))
+				.ToList();
 		}
 
 		/// <summary>
 		/// Получение буквенного кода для дня УРВ
 		/// </summary>
-		private void CalculateLetterCode()
+		private void SetLetterCode()
 		{
-			Tooltip = TimeTrackType.ToDescription();
-
-			switch (TimeTrackType)
+			if (PlannedTimeTrackParts.Any())
 			{
-				case TimeTrackType.None:
-					LetterCode = "";
-					break;
-
-				case TimeTrackType.Presence:
-					LetterCode = "Я";
-					break;
-
-				case TimeTrackType.Absence:
-					LetterCode = "НН";
-					break;
-
-				case TimeTrackType.Late:
-					LetterCode = "ОП";
-					break;
-
-				case TimeTrackType.EarlyLeave:
-					LetterCode = "УР";
-					break;
-
-				case TimeTrackType.Overtime:
-					LetterCode = "С";
-					break;
-
-				case TimeTrackType.Night:
-					LetterCode = "Н";
-					break;
-
-				case TimeTrackType.DayOff:
-					LetterCode = "В";
-					break;
-
-				case TimeTrackType.Holiday:
-					LetterCode = "В";
-					break;
-
-				case TimeTrackType.DocumentOvertime:
-				case TimeTrackType.DocumentPresence:
-				case TimeTrackType.DocumentAbsence:
-				case TimeTrackType.DocumentAbsenceReasonable:
-					var tmieTrackPart = CombinedTimeTrackParts.FirstOrDefault(x => x.TimeTrackPartType == TimeTrackType);
-					if (tmieTrackPart != null && tmieTrackPart.MinTimeTrackDocumentType != null)
+				if (DocumentTrackParts.Any())
+				{
+					LetterCode = GetMaxDocumentCode();
+				}
+				else
+				{
+					var totalAbsence = Totals.Where(x => x.TimeTrackType == TimeTrackType.EarlyLeave || x.TimeTrackType == TimeTrackType.Absence || x.TimeTrackType == TimeTrackType.Late).ToList();
+					if (totalAbsence.Any(x => x.TimeSpan != default(TimeSpan)))
 					{
-						LetterCode = tmieTrackPart.MinTimeTrackDocumentType.ShortName;
-						Tooltip = tmieTrackPart.MinTimeTrackDocumentType.Name;
+						var tmp = totalAbsence.FirstOrDefault(x => x.TimeSpan == totalAbsence.Max(total => total.TimeSpan));
+						if (tmp != null)
+						{
+							LetterCode = GetLetterCodeFromAbcense(tmp.TimeTrackType);
+						}
 					}
-					break;
+					else
+					{
+						LetterCode = SlideTime == TimeSpan.Zero ? PlannedTimeTrackParts.Sum(x => x.Delta.TotalHours).ToString("F") : SlideTime.TotalHours.ToString("F");
+					}
+				}
+			}
+			else
+			{
+				LetterCode = DocumentTrackParts.Any() ? GetMaxDocumentCode() : "В";
+			}
 
+			if (RealTimeTrackParts.Any(x => x.IsManuallyAdded))
+				LetterCode += "*";
+			//TODO: Add calculating for Tooltip
+		}
+
+		private string GetLetterCodeFromAbcense(TimeTrackType type)
+		{
+			switch (type)
+			{
+				case TimeTrackType.Late:
+					return "ОП";
+				case TimeTrackType.EarlyLeave:
+					return "УР";
+				case TimeTrackType.Absence:
+					return "НН";
 				default:
-					LetterCode = "";
-					Tooltip = "";
-					break;
+					return string.Empty;
+			}
+		}
+
+		private string GetMaxDocumentCode()
+		{
+			var allDocumentTotals = Totals.Where(x => x.TimeTrackType == TimeTrackType.DocumentAbsence
+			                               || x.TimeTrackType == TimeTrackType.DocumentAbsenceReasonable
+			                               || x.TimeTrackType == TimeTrackType.DocumentOvertime
+			                               || x.TimeTrackType == TimeTrackType.DocumentPresence).ToList();
+			var maxDocumentIntervals = allDocumentTotals.Where(x => x.TimeSpan == allDocumentTotals.Max(span => span.TimeSpan));
+			var documents = Documents.Where(doc => maxDocumentIntervals.Any(x => x.TimeTrackType == GetTimeTrackTypeFromDocument(doc))).ToList();
+
+			var timeTrackDocument = documents.FirstOrDefault(doc => doc.TimeTrackDocumentType.Code == documents.Min(x => x.TimeTrackDocumentType.Code));
+
+			return timeTrackDocument !=null ? timeTrackDocument.TimeTrackDocumentType.ShortName : string.Empty;
+		}
+
+		private TimeTrackType GetTimeTrackTypeFromDocument(TimeTrackDocument document)
+		{
+			switch (document.TimeTrackDocumentType.DocumentType)
+			{
+				case DocumentType.Absence:
+					return TimeTrackType.DocumentAbsence;
+				case DocumentType.AbsenceReasonable:
+					return TimeTrackType.DocumentAbsenceReasonable;
+				case DocumentType.Overtime:
+					return TimeTrackType.DocumentOvertime;
+				case DocumentType.Presence:
+					return TimeTrackType.DocumentPresence;
+				default:
+					return TimeTrackType.None;
 			}
 		}
 
