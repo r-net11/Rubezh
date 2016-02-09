@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
-        ['$scope', '$http', '$uibModal', '$window',
-        function ($scope, $http, $uibModal, $window) {
+        ['$scope', '$http', '$uibModal', '$window', 'broadcastService',
+        function ($scope, $http, $uibModal, $window, broadcastService) {
             $scope.gridOptions = {
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
@@ -79,6 +79,7 @@
 
             $scope.$on('alarmsShowClick', function (event, args) {
                 // TODO: Исправить когда меню переведём на ангулар
+                angular.element(".menu .group-control").parent().addClass('clicked');
                 $window.app.Menu.PageClick(null, { currentTarget: angular.element("#menuState")[0] }, 'State');
 
                 $scope.gridOptions.enableFiltering = true;
@@ -114,11 +115,30 @@
 
             $scope.objectClick = function(alarm) {
                 // TODO: Исправить когда меню переведём на ангулар
+                angular.element(".menu .group-control").parent().addClass('clicked');
                 if (alarm.GkBaseEntityObjectType === 0) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .device")[0] }, 'Device');
+                    broadcastService.send('showGKDevice', alarm.GkBaseEntityUID);
                 }
                 if (alarm.GkBaseEntityObjectType === 1) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .zone")[0] }, 'FireZones');
+                    broadcastService.send('showGKZone', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === 7) {
+                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .guardZone")[0] }, 'GuardZone');
+                    broadcastService.send('showGKGuardZone', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === 2) {
+                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .direction")[0] }, 'Directions');
+                    broadcastService.send('showGKDirection', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === 4) {
+                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .MPTs")[0] }, 'MPTs');
+                    broadcastService.send('showGKMPT', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === 5) {
+                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .delays")[0] }, 'Delays');
+                    broadcastService.send('showGKDelay', alarm.GkBaseEntityUID);
                 }
             };
         }]
