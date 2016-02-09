@@ -1,6 +1,5 @@
 ﻿using Common;
 using RubezhAPI.Models;
-using RubezhClient;
 using RviClient.RVIServiceReference;
 using RviClient.RVIStreamingServiceReference;
 using System;
@@ -14,7 +13,7 @@ namespace RviClient
 {
 	public static class RviClientHelper
 	{
-		static IntegrationClient CreateIntegrationClient(string url)
+		static IntegrationClient CreateIntegrationClient(RviSettings rviSettings)
 		{
 			var devices = new List<Device>();
 			var binding = new NetTcpBinding(SecurityMode.None);
@@ -32,7 +31,11 @@ namespace RviClient
 			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
 			binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 			binding.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
-			var endpointAddress = new EndpointAddress(new Uri(url));
+			var ip = rviSettings.Ip;
+			var port = rviSettings.Port;
+			var login = rviSettings.Login;
+			var password = rviSettings.Password;
+			var endpointAddress = new EndpointAddress(new Uri("net.tcp://" + ip + ":" + port + "/Integration"));
 
 			var client = new IntegrationClient(binding, endpointAddress);
 			return client;
@@ -66,59 +69,11 @@ namespace RviClient
 			return client;
 		}
 
-		public static List<RviServer> GetServers(string url, string login, string password)
-		{
-			Server[] servers = null;
-			List<RviServer> rviServers = new List<RviServer>();
-
-			using (IntegrationClient client = CreateIntegrationClient(url))
-			{
-				var sessionUID = Guid.NewGuid();
-
-				var sessionInitialiazationIn = new SessionInitialiazationIn();
-				sessionInitialiazationIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				sessionInitialiazationIn.Login = login;
-				sessionInitialiazationIn.Password = password;
-				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
-				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
-
-				var serverListIn = new ServerListIn();
-				serverListIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var serverListOut = client.GetServerList(serverListIn);
-				if (serverListOut != null)
-				{
-					servers = serverListOut.ServerList;
-				}
-
-				var sessionCloseIn = new SessionCloseIn();
-				sessionCloseIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
-				foreach (var server in servers)
-				{
-					var rviServer = new RviServer { Ip = server.IP, Port = server.Port, Protocol = server.Protocol, Url = server.Url };
-					rviServer.RviDevices = GetDevices(server.Url, login, password);
-					rviServers.Add(rviServer);
-				}
-			}
-			return rviServers;
-		}
-		public static List<RviDevice> GetDevices(string url, string login, string password)
+		public static List<Device> GetDevices(RviSettings rviSettings)
 		{
 			var devices = new List<Device>();
-			var rviDevices = new List<RviDevice>();
-			using (IntegrationClient client = CreateIntegrationClient(url))
+
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -128,8 +83,8 @@ namespace RviClient
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
-				sessionInitialiazationIn.Login = login;
-				sessionInitialiazationIn.Password = password;
+				sessionInitialiazationIn.Login = rviSettings.Login;
+				sessionInitialiazationIn.Password = rviSettings.Password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
 
@@ -160,48 +115,14 @@ namespace RviClient
 					Session = sessionUID
 				};
 				var sessionCloseOut = client.SessionClose(sessionCloseIn);
-				foreach (var device in devices)
-				{
-					var rviDevice = new RviDevice { Uid = device.Guid, Ip = device.Ip, Name = device.Name };
-					rviDevices.Add(rviDevice);
-					foreach (var channel in device.Channels)
-					{
-						var rviChannel = new RviChannel { Name = channel.Name, Number = channel.Number, Vendor = channel.Vendor };
-						rviDevice.RviChannels.Add(rviChannel);
-						foreach (var stream in channel.Streams)
-						{
-							var existingCamera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.IsAddedInConfiguration && x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number && x.StreamNo == stream.Number);
-							if (existingCamera == null)
-							{
-								var camera = new Camera
-								{
-									StreamNo = stream.Number,
-									Ip = device.Ip,
-									RviDeviceName = device.Name,
-									RviDeviceUID = device.Guid,
-									RviChannelNo = channel.Number,
-									RviChannelName = channel.Name,
-									RviRTSP = stream.Rtsp,
-									CountPresets = channel.CountPresets,
-									CountTemplateBypass = channel.CountTemplateBypass,
-									CountTemplatesAutoscan = channel.CountTemplatesAutoscan
-								};
-								rviChannel.Cameras.Add(camera);
-							}
-							else
-							{
-								rviChannel.Cameras.Add(existingCamera);
-							}
-						}
-					}
-				}
 			}
-			return rviDevices;
+
+			return devices;
 		}
 
 		public static void GetSnapshot(RviSettings rviSettings, Camera camera)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -251,7 +172,7 @@ namespace RviClient
 
 		public static void SetPtzPreset(RviSettings rviSettings, Camera camera, int number)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -290,7 +211,7 @@ namespace RviClient
 		{
 			try
 			{
-				using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+				using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 				{
 					var sessionUID = Guid.NewGuid();
 
@@ -335,7 +256,7 @@ namespace RviClient
 		{
 			try
 			{
-				using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+				using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 				{
 					var sessionUID = Guid.NewGuid();
 
@@ -379,7 +300,7 @@ namespace RviClient
 		{
 			try
 			{
-				using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+				using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 				{
 					var sessionUID = Guid.NewGuid();
 
@@ -426,20 +347,20 @@ namespace RviClient
 			ipEndPoint = null;
 			vendorId = -1;
 
-			var devices = GetDevices(rviSettings.Url, rviSettings.Login, rviSettings.Password);
-			var device = devices.FirstOrDefault(d => d.Uid == camera.RviDeviceUID);
+			var devices = GetDevices(rviSettings);
+			var device = devices.FirstOrDefault(d => d.Guid == camera.RviDeviceUID);
 
 			if (device == null)
 				return false;
 
-			var channel = device.RviChannels.FirstOrDefault(ch => ch.Number == camera.RviChannelNo);
+			var channel = device.Channels.FirstOrDefault(ch => ch.Number == camera.RviChannelNo);
 
 			if (channel == null)
 				return false;
 
 			vendorId = channel.Vendor;
 
-			using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 
@@ -457,7 +378,7 @@ namespace RviClient
 				var response = client.VideoStreamingStart(new ChannelStreamingStartIn()
 				{
 					Header = new HeaderRequest() { Request = new Guid(), Session = sessionUID },
-					DeviceGuid = device.Uid,
+					DeviceGuid = device.Guid,
 					ChannelNumber = channel.Number,
 					StreamNumber = camera.StreamNo
 				});
@@ -481,7 +402,7 @@ namespace RviClient
 
 		public static void AlarmRuleExecute(RviSettings rviSettings, string ruleName)
 		{
-			using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings))
 			{
 				var sessionUID = Guid.NewGuid();
 

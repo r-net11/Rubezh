@@ -1,19 +1,20 @@
-﻿using Common;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using Common;
+using RubezhAPI;
+using RubezhAPI.Automation;
+using RubezhAPI.Models;
+using RubezhAPI.SKD;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
-using RubezhAPI;
-using RubezhAPI.Automation;
 using RubezhAPI.Journal;
-using RubezhAPI.Models;
-using RubezhClient;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows;
 
 namespace FireAdministrator
 {
@@ -173,10 +174,9 @@ namespace FireAdministrator
 					ServiceFactory.ContentService.Clear();
 					GKManager.SetEmptyConfiguration();
 					ClientManager.PlansConfiguration = new PlansConfiguration();
+					ClientManager.SystemConfiguration.Cameras = new List<Camera>();
 					ClientManager.SystemConfiguration.Sounds = new List<Sound>();
 					ClientManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
-					ClientManager.SystemConfiguration.RviSettings = new RviSettings();
-					ClientManager.SystemConfiguration.RviServers = new List<RviServer>();
 					ClientManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 					ClientManager.PlansConfiguration.Update();
 					ClientManager.LayoutsConfiguration = new LayoutsConfiguration();

@@ -1,7 +1,7 @@
-﻿using RubezhAPI.Automation;
-using RubezhAPI.Journal;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using RubezhAPI.Automation;
+using RubezhAPI.Journal;
 
 namespace RubezhAPI.Models
 {
@@ -12,15 +12,15 @@ namespace RubezhAPI.Models
 		{
 			Sounds = new List<Sound>();
 			JournalFilters = new List<JournalFilter>();
+			Cameras = new List<Camera>();
 			EmailData = new EmailData();
 			AutomationConfiguration = new AutomationConfiguration();
 			RviSettings = new RviSettings();
-			RviServers = new List<RviServer>();
 		}
 
 		[DataMember]
 		public List<Sound> Sounds { get; set; }
-
+	
 		[DataMember]
 		public List<JournalFilter> JournalFilters { get; set; }
 
@@ -28,7 +28,7 @@ namespace RubezhAPI.Models
 		public RviSettings RviSettings { get; set; }
 
 		[DataMember]
-		public List<RviServer> RviServers { get; set; }
+		public List<Camera> Cameras { get; set; }
 
 		[DataMember]
 		public EmailData EmailData { get; set; }
@@ -44,15 +44,6 @@ namespace RubezhAPI.Models
 		public override bool ValidateVersion()
 		{
 			return true;
-		}
-		public List<Camera> Cameras
-		{
-			get
-			{
-				var cameras = new List<Camera>();
-				RviServers.ForEach(server => server.RviDevices.ForEach(device => device.RviChannels.ForEach(channel => cameras.AddRange(channel.Cameras))));
-				return cameras;
-			}
 		}
 	}
 }

@@ -1,41 +1,41 @@
-﻿using DeviceControls;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using DeviceControls;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using RubezhAPI.Models;
-using System;
-using System.Windows;
-using System.Windows.Input;
 
 namespace VideoModule.ViewModels
 {
-	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
+	public class CameraViewModel : BaseViewModel
 	{
 		CamerasViewModel _camerasViewModel;
 		public Camera Camera { get; set; }
-		public bool IsCamera { get { return Camera != null; } }
-		public string PresentationName { get; private set; }
-		public string PresentationAddress { get; private set; }
 
 		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
 		{
 			_camerasViewModel = camerasViewModel;
 			Camera = camera;
-			PresentationName = camera.Name;
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand,
 				CanAllowMultipleVizualizationCommand);
 		}
-		public CameraViewModel(CamerasViewModel camerasViewModel, string presentationName, string presentationAddress)
-		{
-			PresentationName = presentationName;
-			PresentationAddress = presentationAddress;
-		}
 
+		public string PresentationAddress
+		{
+			get { return Camera.Ip; }
+		}
 
 		public void Update()
 		{
@@ -47,7 +47,7 @@ namespace VideoModule.ViewModels
 
 		public bool IsOnPlan
 		{
-			get { return Camera != null && Camera.PlanElementUIDs.Count > 0; }
+			get { return Camera.PlanElementUIDs.Count > 0; }
 		}
 		public VisualizationState VisualizationState
 		{
