@@ -103,3 +103,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 div.disabled {
     opacity: 0.5;
 }
+
+
+.modal-rbzh {
+        width: 420px !important;
+    }
