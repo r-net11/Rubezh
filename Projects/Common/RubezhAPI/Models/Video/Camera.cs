@@ -83,15 +83,12 @@ namespace RubezhAPI.Models
 		[XmlIgnore]
 		public string Name
 		{
-			get { return $"Поток {StreamNo}"; }
+			get { return string.Format("Поток {0}", StreamNo); }
 		}
 		[XmlIgnore]
 		public string PresentationName
 		{
-			get
-			{
-				return $"{RviDeviceName}. {RviChannelName}. Поток {StreamNo}";
-			}
+			get { return string.Format("{0}. {1}. Поток {2}", RviDeviceName, RviChannelName, StreamNo); }
 		}
 
 		[XmlIgnore]

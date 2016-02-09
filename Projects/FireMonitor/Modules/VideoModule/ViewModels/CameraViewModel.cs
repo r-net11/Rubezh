@@ -15,12 +15,14 @@ namespace VideoModule.ViewModels
 	{
 		public Camera Camera { get; set; }
 		public string PresentationName { get; private set; }
+		public string PresentationAddress { get; private set; }
 		public List<CameraViewModel> VisualCameraViewModels;
-		public CameraViewModel(string presentationName, Camera camera = null)
+		public CameraViewModel(string presentationName, string presentationAddress, Camera camera = null)
 		{
 			VisualCameraViewModels = new List<CameraViewModel>();
 			Camera = camera;
 			PresentationName = presentationName;
+			PresentationAddress = presentationAddress;
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => Camera != null && Camera.PlanElementUIDs.Count > 0);
@@ -34,14 +36,6 @@ namespace VideoModule.ViewModels
 		{
 			return Camera != null;
 		}
-		public string PresentationAddress
-		{
-			get
-			{
-				return Camera?.Ip;
-			}
-		}
-
 		public void Update()
 		{
 			OnPropertyChanged(() => Camera);

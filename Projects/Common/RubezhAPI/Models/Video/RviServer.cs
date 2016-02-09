@@ -18,6 +18,9 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public List<RviDevice> RviDevices { get; set; }
 		[XmlIgnore]
-		public string Name { get { return $"Сервер ({Ip}:{Port})"; } }
+		public string Name
+		{
+			get { return string.Format("Сервер ({0}:{1})", Ip, Port); }
+		}
 	}
 }
