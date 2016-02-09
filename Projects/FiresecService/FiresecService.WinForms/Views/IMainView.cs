@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FiresecService.ViewModels;
+using RubezhAPI.License;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +9,20 @@ using System.Windows.Threading;
 
 namespace FiresecService.Views
 {
+	/// <summary>
+	/// Закладки окна
+	/// </summary>
+	//public enum MainViewTabs
+	//{
+	//	Connections,
+	//	Log,
+	//	Status,
+	//	GK,
+	//	Polling,
+	//	Operations,
+	//	Licence
+	//}
+
 	public interface IMainView
 	{
 		/// <summary>
@@ -18,12 +34,30 @@ namespace FiresecService.Views
 		/// </summary>
 		string LastLog { get; set; }
 		/// <summary>
-		/// Tray: Выводит сообщение
+		/// Событие происходит при вызове контекстного меню "Разорвать соединение"
 		/// </summary>
-		/// <param name="timeOut">Время отображения сообщения, мсек</param>
-		/// <param name="title">Заголовок сообщения</param>
-		/// <param name="text">Текс сообщения</param>
-		/// <param name="icon">Иконка сообщения</param>
-		void ShowBalloonTip(int timeOut, string title, string text, ToolTipIcon icon);
+		event EventHandler CommandDisconnectActivated;
+		/// <summary>
+		/// Разрешает или запрещает контекстноем меню "Разоравть соединение"
+		/// </summary>
+		bool EnableMenuDisconnect { get; set; }
+		BindingSource ClientsContext { set; }
+		BindingSource LogsContext { set; }
+		string LocalAddress { set; }
+		string RemoteAddress { set; }
+		string ReportAddress { set; }
+		BindingSource GkLifecyclesContext { set; }
+		BindingSource ClientPollsContext { set; }
+		BindingSource OperationsContext { set; }
+
+		LicenseMode LicenseMode { set; }
+		int RemoteClientsCount { set; }
+		bool HasFirefighting { set; }
+		bool HasGuard { set; }
+		bool HasSKD { set; }
+		bool HasVideo { set; }
+		bool HasOpcServer { set; }
+		string InitialKey { set; }
+		event EventHandler ClickLoadLicense; 
 	}
 }

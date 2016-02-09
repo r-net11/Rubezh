@@ -16,7 +16,7 @@ namespace FiresecService.Presenters
 			}
 			if (isError)
 			{
-				MainPresenter.Current.ShowBalloonTip(5000, "Ошибка", message, ToolTipIcon.Error);
+				Program.ShowBalloonTip(5000, "Ошибка", message, ToolTipIcon.Error);
 			}
 		}
 	}

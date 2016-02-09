@@ -182,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\app.js" />
+    <Content Include="App\controllers\alarms\alarmsCtrl.js" />
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
@@ -350,9 +351,12 @@
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InAutomatic.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InManual.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\Unknown.png" />
+    <Resource Include="Content\Image\Images\BDirection.png" />
     <Content Include="Content\Image\Icon\GK\BJournal.png" />
     <Content Include="Content\Image\Icon\GK\Blue_Direction.png" />
     <Content Include="Content\Image\Icon\GK\BMPT.png" />
+    <Resource Include="Content\Image\Images\Code.png" />
+    <Resource Include="Content\Image\Images\Delay.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
@@ -403,6 +407,14 @@
     <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\no.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\PC.png" />
+    <Resource Include="Content\Image\Images\Door.png" />
+    <Resource Include="Content\Image\Images\GuardZone.png" />
+    <Resource Include="Content\Image\Images\BMPT.png" />
+    <Resource Include="Content\Image\Images\Pim.png" />
+    <Resource Include="Content\Image\Images\BPumpStation.png" />
+    <Resource Include="Content\Image\Images\SKDZone.png" />
+    <Resource Include="Content\Image\Images\BVideo.png" />
+    <Resource Include="Content\Image\Images\blank.png" />
     <Content Include="Content\Image\Images\Zone.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
@@ -634,18 +646,16 @@
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
-    <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
-    <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
-    <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
+    <Compile Include="Models\Devices\Device.cs" />
+    <Compile Include="Models\Journal\JournalFilter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmsViewModel.cs" />
     <Compile Include="Models\GK\Alarms\AlarmTypeToColorConverter.cs" />
     <Compile Include="Models\GK\Alarms\AlarmViewModel.cs" />
-    <Compile Include="Models\MPT\MPTDevice.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -665,6 +675,8 @@
     <Compile Include="Models\GK\Delay\Delay.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
+    <Compile Include="Models\Journal\JournalFilterEvent.cs" />
+    <Compile Include="Models\Journal\JournalFilterObject.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
@@ -673,7 +685,6 @@
     <Compile Include="Models\SKD\Cards\CardViewModel.cs" />
     <Compile Include="Models\SKD\Common\CopyHelper.cs" />
     <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
-    <Compile Include="Models\FireZone\Device.cs" />
     <Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
     <Compile Include="Models\FireZone\FireZone.cs" />
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
@@ -708,7 +719,7 @@
     <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\Plan\PlanElement.cs" />
     <Compile Include="Models\Plan\PlanSimpl.cs" />
-    <Compile Include="Models\JournalModel.cs" />
+    <Compile Include="Models\Journal\JournalModel.cs" />
     <Compile Include="Models\Plan\Shape.cs" />
     <Compile Include="Models\Plan\ShapeTypesEnum.cs" />
     <Compile Include="Models\Plan\HintLine.cs" />
@@ -725,7 +736,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\State.cshtml" />
     <Content Include="Views\Devices\Index.cshtml" />
     <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
@@ -775,6 +785,10 @@
     <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <Content Include="Views\FireZones\Index.cshtml" />
     <Content Include="Views\FireZones\FireZonesDetails.cshtml" />
+    <Content Include="Views\Alarms\AlarmGroups.cshtml" />
+    <Content Include="Views\Alarms\Index.cshtml" />
+    <Content Include="Views\Alarms\Alarms.cshtml" />
+    <Content Include="Views\Devices\DeviceDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

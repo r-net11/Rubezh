@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Web;
-using System.Windows.Data;
 using RubezhAPI.GK;
 
 namespace GKWebService.Models.GK.Alarms
 {
-	public class AlarmTypeToColorConverter : IValueConverter
+	public class AlarmTypeToColorConverter
 	{
-		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public string Convert(GKAlarmType value)
 		{
-			switch ((GKAlarmType)value)
+			switch (value)
 			{
 				case GKAlarmType.NPTOn:
 					return "#FF0000";
@@ -47,11 +42,6 @@ namespace GKWebService.Models.GK.Alarms
 				default:
 					return "#FFFFFF";
 			}
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

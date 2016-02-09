@@ -18,5 +18,10 @@ namespace GKWebService.Controllers
 		{
 			return Json(DevicesDataProvider.Instance.GetDevices(), JsonRequestBehavior.AllowGet);
 		}
+
+		public ActionResult DeviceDetails()
+		{
+			return View();
+		}
 	}
 }

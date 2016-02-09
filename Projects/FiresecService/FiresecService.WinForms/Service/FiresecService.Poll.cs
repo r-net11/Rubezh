@@ -14,7 +14,9 @@ namespace FiresecService.Service
 	{
 		public PollResult Poll(Guid clientUID, int callbackIndex)
 		{
-			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
+			//global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
+			global::FiresecService.Presenters.MainPresenter.Current.OnPoll(clientUID);
+
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
 			if (clientInfo != null)
 			{

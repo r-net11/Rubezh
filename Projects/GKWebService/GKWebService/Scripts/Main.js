@@ -26,6 +26,10 @@ function MenuViewModel() {
 		self.pages[page](!self.pages[page]());
 		$('ul.menu li').removeClass("active");
 		$(e.currentTarget).parent().addClass("active");
+
+		if (page === 'State') {
+		    angular.element($('#pageStates')).scope().menuStateClick();
+		}
 	}
 
 	self.MenuClick = function (data, e) {
