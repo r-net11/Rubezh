@@ -18,6 +18,9 @@
 				enableSorting: false,
 				enableColumnResizing: true,
 				enableColumnMenus: false,
+				onRegisterApi: function (gridApi) {
+				    $scope.gridApi = gridApi;
+				},
 				columnDefs: [
 				{ name: "Number", displayName: "№", width: 40, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Delay.png" />{{row.entity.Number}}</div>' },
 				{ name: "Name", displayName: "Задержка", width: 300, cellTemplate: nameTemplate },
@@ -47,5 +50,13 @@
 				ChangeDelay(args);
 				$scope.$apply();
 			})
-	}]);
+			$scope.$on('showGKDelay', function (event, args) {
+			    for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+			        if ($scope.gridOptions.data[i].UID === args) {
+			            $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
+			            break;
+			        }
+			    }
+			});
+		}]);
 }());

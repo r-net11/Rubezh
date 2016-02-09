@@ -11,6 +11,7 @@ using RubezhAPI;
 using RubezhAPI.Models;
 using FiresecService.Service;
 using GKProcessor;
+using RubezhAPI.License;
 
 namespace FiresecService.Presenters
 {
@@ -51,6 +52,10 @@ namespace FiresecService.Presenters
 			_bindingSourceOperations.DataSource = null;
 			_bindingSourceOperations.DataSource = ServerTasks;
 
+			LicenseViewModel = new LicenseViewModel();
+			LicenseViewModel.PropertyChanged += EventHandler_LicenseViewModel_PropertyChanged;
+			LicenseManager.LicenseChanged += EventHandler_LicenseManager_LicenseChanged;
+
 			View.Title = "Сервер приложений Глобал";
 			View.CommandDisconnectActivated += EventHandler_View_CommandDisconnectActivated;
 			View.ClientsContext = _bindingSourceClients;
@@ -59,6 +64,15 @@ namespace FiresecService.Presenters
 			View.GkLifecyclesContext = _bindingSourceLifecycle;
 			View.ClientPollsContext = _bindingSourceClientPolls;
 			View.OperationsContext = _bindingSourceOperations;
+			View.LicenseMode = LicenseViewModel.LicenseInfo.LicenseMode;
+			View.RemoteClientsCount = LicenseViewModel.LicenseInfo.RemoteClientsCount;
+			View.HasFirefighting = LicenseViewModel.LicenseInfo.HasFirefighting;
+			View.HasGuard = LicenseViewModel.LicenseInfo.HasGuard;
+			View.HasSKD = LicenseViewModel.LicenseInfo.HasSKD;
+			View.HasVideo = LicenseViewModel.LicenseInfo.HasVideo;
+			View.HasOpcServer = LicenseViewModel.LicenseInfo.HasOpcServer;
+			View.InitialKey = LicenseViewModel.InitialKey;
+			View.ClickLoadLicense += EventHandler_View_ClickLoadLicense;
 
 			LastLog = String.Empty;
 			Current = this;
@@ -394,6 +408,41 @@ namespace FiresecService.Presenters
 				if (serverTaskViewModel != null)
 					serverTaskViewModel.ServerTask = serverTask;
 			}));
+		}
+
+		#endregion
+
+		#region License
+		
+		public LicenseViewModel LicenseViewModel { get; private set; }
+
+		void EventHandler_View_ClickLoadLicense(object sender, EventArgs e)
+		{
+			LicenseViewModel.LoadLicenseCommand.Execute();
+		}
+
+		void EventHandler_LicenseViewModel_PropertyChanged(object sender, 
+			System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			var target = (LicenseViewModel)sender;
+			
+			if (e.PropertyName == "LicenseInfo")
+			{
+				View.LicenseMode = target.LicenseInfo.LicenseMode;
+				View.RemoteClientsCount = target.LicenseInfo.RemoteClientsCount;
+				View.HasFirefighting = target.LicenseInfo.HasFirefighting;
+				View.HasGuard = target.LicenseInfo.HasGuard;
+				View.HasSKD = target.LicenseInfo.HasSKD;
+				View.HasVideo = target.LicenseInfo.HasVideo;
+				View.HasOpcServer = target.LicenseInfo.HasOpcServer;
+			}
+		}
+
+		void EventHandler_LicenseManager_LicenseChanged()
+		{
+			View.Title = LicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
+				"Сервер приложений Глобал [Демонстрационный режим]" :
+				"Сервер приложений Глобал";
 		}
 
 		#endregion

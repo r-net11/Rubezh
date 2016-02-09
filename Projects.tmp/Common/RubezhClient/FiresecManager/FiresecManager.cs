@@ -107,7 +107,7 @@ namespace RubezhClient
 							FiresecService.Dispose();
 						}
 					}
-					IsDisconnected = true;
+					//IsDisconnected = true;
 				}
 			}
 			catch (Exception e)
