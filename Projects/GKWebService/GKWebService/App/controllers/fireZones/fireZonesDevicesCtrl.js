@@ -82,8 +82,9 @@
                                 UID: element.UID,
                                 State: element.State,
                                 GKDescriptorNo: element.GKDescriptorNo,
-                                Properties: element.Properties
-                            });
+                                Properties: element.Properties,
+                                MeasureParameters: element.MeasureParameters
+                        });
                         }
                     }
                     //Раскрываем дерево после загрузки

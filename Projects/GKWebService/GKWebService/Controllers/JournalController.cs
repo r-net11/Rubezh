@@ -36,13 +36,46 @@ namespace GKWebService.Controllers
 			{
 				if (filter.ObjectUids != null)
 					journalFilter.ObjectUIDs = filter.ObjectUids;
+				if(filter.Events != null)
+				{
+					foreach (var filterEvent in filter.Events)
+					{
+						switch (filterEvent.Type)
+						{
+							case 0:
+								journalFilter.JournalSubsystemTypes.Add((JournalSubsystemType)filterEvent.Value);
+								break;
+							case 1:
+								journalFilter.JournalEventNameTypes.Add((JournalEventNameType)filterEvent.Value);
+								break;
+							case 2:
+								journalFilter.JournalEventDescriptionTypes.Add((JournalEventDescriptionType)filterEvent.Value);
+								break;
+							default:
+								break;
+						}
+					}
+				}
+				
 			};
 			var apiItems = JournalHelper.Get(journalFilter);
 			var list = apiItems.Select(x => new JournalModel(x)).ToList();
 			return Json(list, JsonRequestBehavior.AllowGet);
 		}
-		
-		public JsonResult GetFilterObjects()
+
+		public JsonResult GetFilter()
+		{
+			var result = new JournalFilterJson
+			{
+				MinDate = DateTime.Now.AddDays(-7),
+				MaxDate = DateTime.Now,
+				Events = GetFilterEvents(),
+				Objects = GetFilterObjects()
+			};
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
+
+		List<JournalFilterObject> GetFilterObjects()
 		{
 			var result = new List<JournalFilterObject>();
 			result.Add(new JournalFilterObject(new Guid("98BEF3DB-0E77-4AB4-BCFB-917918DFC726"), "Icon/SubsystemTypes/Chip.png", "ГК", 0));
@@ -67,10 +100,10 @@ namespace GKWebService.Controllers
 			result.Add(new JournalFilterObject(new Guid("D8997692-0858-43CA-88B5-4AFB537D2BE2"), "Images/BVideo.png", "Видео", 0));
 			result.Add(new JournalFilterObject(new Guid("DBC956A1-37BD-433E-97F0-99D2BC27741F"), "Images/BVideo.png", "Видеоустройства", 1));
 			result.AddRange(ClientManager.SystemConfiguration.Cameras.Select(x => new JournalFilterObject(x.UID, "Images/BVideo.png", x.PresentationName, 2)));
-			return Json(result, JsonRequestBehavior.AllowGet);
+			return result;
 		}
 
-		public JsonResult GetFilterEvents()
+		List<JournalFilterEvent> GetFilterEvents()
 		{
 			var result = new List<JournalFilterEvent>();
 			foreach (JournalSubsystemType journalSubsystemType in Enum.GetValues(typeof(JournalSubsystemType)))
@@ -87,7 +120,7 @@ namespace GKWebService.Controllers
 					}
 				}
 			}
-			return Json(result, JsonRequestBehavior.AllowGet);
+			return result;
 		}
 
 		void BuildDeviceTree(RubezhAPI.GK.GKDevice apiDevice, JournalFilterObject parent, List<JournalFilterObject> devices)

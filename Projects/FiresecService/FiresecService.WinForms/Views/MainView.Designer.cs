@@ -42,7 +42,7 @@
             this._toolStripStatusLabelLastLog});
 			this._statusStripMain.Location = new System.Drawing.Point(0, 476);
 			this._statusStripMain.Name = "_statusStripMain";
-			this._statusStripMain.Size = new System.Drawing.Size(801, 25);
+			this._statusStripMain.Size = new System.Drawing.Size(839, 25);
 			this._statusStripMain.TabIndex = 1;
 			this._statusStripMain.Text = "statusStrip1";
 			// 
@@ -58,14 +58,14 @@
 			this._tabControlMain.Location = new System.Drawing.Point(0, 0);
 			this._tabControlMain.Name = "_tabControlMain";
 			this._tabControlMain.SelectedIndex = 0;
-			this._tabControlMain.Size = new System.Drawing.Size(801, 476);
+			this._tabControlMain.Size = new System.Drawing.Size(839, 476);
 			this._tabControlMain.TabIndex = 2;
 			// 
 			// MainView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(801, 501);
+			this.ClientSize = new System.Drawing.Size(839, 501);
 			this.Controls.Add(this._tabControlMain);
 			this.Controls.Add(this._statusStripMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
