@@ -415,6 +415,7 @@
     <Resource Include="Content\Image\Images\SKDZone.png" />
     <Resource Include="Content\Image\Images\BVideo.png" />
     <Resource Include="Content\Image\Images\blank.png" />
+    <Content Include="Content\Image\Images\BReset.png" />
     <Content Include="Content\Image\Images\Zone.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
