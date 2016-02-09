@@ -18,7 +18,7 @@
         <uib-tabset>
             <uib-tab heading="Управление">
                 <div style="background: #698ebe; padding: 5px">
-                    <div style="background: #fff; text-align: center">
+                    <div style="background: #fff; text-align: center; height: 295px">
                         <div class=" btn btn-primary" style="height: 35px; width: 50%; margin: 2px;" ng-click="SetIgnore()" ng-disabled="!fireZone.CanSetIgnore">Отключить</div>
                         <div class=" btn btn-primary" style="height: 35px; width: 50%; margin: 2px" ng-click="ResetIgnore()" ng-disabled="!fireZone.CanResetIgnore">Снять отключение</div>
                         <div class=" btn btn-primary" style="height: 35px; width: 50%; margin: 2px" ng-click="ResetFire()" ng-disabled="!fireZone.CanSetIgnore">Сбросить</div>
@@ -27,7 +27,7 @@
             </uib-tab>
             <uib-tab heading="Свойства">
                 <div style="background: #698ebe; padding: 5px">
-                    <div style="background: #fff">
+                    <div style="background: #fff; height: 295px">
                         <div>
                             <img style="margin: 2px; vertical-align: middle" height="16" width="16" ng-src="/Content/Image/{{fireZone.ImageSource}}" />
                             <a href="#" ng-click="Show()">{{fireZone.Name}}</a>
