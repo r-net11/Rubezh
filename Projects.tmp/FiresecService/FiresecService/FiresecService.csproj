@@ -62,6 +62,8 @@
     <Reference Include="Entities">
       <HintPath>..\..\..\3rdParty\RVIVSS\Entities.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -134,10 +136,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
@@ -174,10 +172,6 @@
     <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
     <Compile Include="ViewModels\ServerTasksViewModel.cs" />
     <Compile Include="Views\UILogger.cs" />
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
