@@ -15,7 +15,7 @@ namespace VideoModule.ViewModels
 		public DeviceViewModel(Camera camera)
 		{
 			Camera = camera;
-			Name = $"Поток {camera.StreamNo}";
+			Name = camera.Name;
 			CameraUid = camera.UID;
 			IsCamera = true;
 			IsChecked = camera.IsAddedInConfiguration;
@@ -23,7 +23,7 @@ namespace VideoModule.ViewModels
 		}
 		public DeviceViewModel(RviServer server)
 		{
-			Name = $"Сервер ({server.Ip}:{server.Port})";
+			Name = server.Name;
 		}
 		public DeviceViewModel(RviDevice device)
 		{
