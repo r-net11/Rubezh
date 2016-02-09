@@ -56,14 +56,12 @@
             </uib-tab>
             <uib-tab heading="Параметры">
                 <div style="background: #698ebe; padding: 5px">
-                    <div ui-grid="gridOptions" style="height: 0%;" ui-grid-selection></div>
+                    <div ui-grid="gridParameters" style="height: 0%;" ui-grid-selection></div>
                 </div>
             </uib-tab>
-            <uib-tab heading="Измерения" ng-if="false">
+            <uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0">
                 <div style="background: #698ebe; padding: 5px">
-                    <div style="background: #fff">
-
-                    </div>
+                    <div ui-grid="gridMeasurements" style="height: 0%;" ui-grid-selection></div>
                 </div>
             </uib-tab>
         </uib-tabset>

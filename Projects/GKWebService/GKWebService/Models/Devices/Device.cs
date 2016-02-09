@@ -41,6 +41,7 @@ namespace GKWebService.Models
 			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore);
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 			Properties = device.Properties;
+			MeasureParameters = device.Driver.MeasureParameters;
 		}
 
 				
@@ -68,6 +69,7 @@ namespace GKWebService.Models
 		public int HoldDelay { get; set; }
 		public bool HasHoldDelay { get; set; }
 		public int Level { get; set; }
-		public List<GKProperty> Properties { get; set; } 
+		public List<GKProperty> Properties { get; set; }
+		public List<GKMeasureParameter> MeasureParameters { get; set; }
 	}
 }
