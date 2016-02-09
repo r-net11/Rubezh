@@ -1,57 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using Common;
-using DeviceControls;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
-using Infrustructure.Plans.Painters;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrastructure;
-using Infrastructure.Common.Services;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VideoModule.ViewModels
 {
 	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
 		public Camera Camera { get; set; }
+		public string PresentationName { get; private set; }
+		public List<CameraViewModel> VisualCameraViewModels;
+		public CameraViewModel(string presentationName, Camera camera = null)
+		{
+			VisualCameraViewModels = new List<CameraViewModel>();
+			Camera = camera;
+			PresentationName = presentationName;
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => Camera != null && Camera.PlanElementUIDs.Count > 0);
+		}
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
 			DialogService.ShowWindow(new CameraDetailsViewModel(Camera));
 		}
-		public CameraViewModel(Camera camera)
+		bool CanShowProperties()
 		{
-			VisualCameraViewModels = new List<CameraViewModel>();
-			Camera = camera;
-			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => Camera != null && Camera.PlanElementUIDs.Count > 0);
+			return Camera != null;
 		}
-
-		public List<CameraViewModel> VisualCameraViewModels;
-
-		public string PresentationName
-		{
-			get
-			{
-				return Camera.Name + " " + Camera.Ip;
-			}
-		}
-
 		public string PresentationAddress
 		{
 			get
 			{
-				return Camera.Ip;
+				return Camera?.Ip;
 			}
 		}
 
@@ -86,7 +73,7 @@ namespace VideoModule.ViewModels
 		public void Start(bool addToRootCamera = true)
 		{
 			//_cellPlayerWrap.Start(Camera, Camera.ChannelNumber);
-			if ((addToRootCamera)&&(RootCamera != null))
+			if ((addToRootCamera) && (RootCamera != null))
 				RootCamera.VisualCameraViewModels.Add(this);
 		}
 
