@@ -1,4 +1,5 @@
 ﻿using FiresecService.ViewModels;
+using RubezhAPI.License;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,5 +49,15 @@ namespace FiresecService.Views
 		BindingSource GkLifecyclesContext { set; }
 		BindingSource ClientPollsContext { set; }
 		BindingSource OperationsContext { set; }
+
+		LicenseMode LicenseMode { set; }
+		int RemoteClientsCount { set; }
+		bool HasFirefighting { set; }
+		bool HasGuard { set; }
+		bool HasSKD { set; }
+		bool HasVideo { set; }
+		bool HasOpcServer { set; }
+		string InitialKey { set; }
+		event EventHandler ClickLoadLicense; 
 	}
 }
