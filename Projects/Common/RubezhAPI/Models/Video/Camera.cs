@@ -18,12 +18,8 @@ namespace RubezhAPI.Models
 			AllowMultipleVizualization = false;
 			CameraState = new CameraState(this);
 		}
-
 		[DataMember]
 		public Guid UID { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
 
 		[DataMember]
 		public string Ip { get; set; }
@@ -39,6 +35,8 @@ namespace RubezhAPI.Models
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
+		[DataMember]
+		public string RviDeviceName { get; set; }
 
 		[DataMember]
 		public Guid RviDeviceUID { get; set; }
@@ -65,6 +63,7 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public int ShowDetailsHeight { get; set; }
 		[DataMember]
+		public bool IsAddedInConfiguration { get; set; }
 		public int ShowDetailsMarginLeft { get; set; }
 		public int ShowDetailsMarginTop { get; set; }
 
@@ -81,7 +80,6 @@ namespace RubezhAPI.Models
 				UIDChanged(oldUID, newUID);
 		}
 		public event Action<Guid, Guid> UIDChanged;
-
 		[XmlIgnore]
 		public string Name
 		{

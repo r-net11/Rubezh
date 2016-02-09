@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhClient;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 

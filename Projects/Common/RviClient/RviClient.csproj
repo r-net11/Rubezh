@@ -80,6 +80,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RubezhClient\RubezhClient.csproj">
+      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
+      <Name>RubezhClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
