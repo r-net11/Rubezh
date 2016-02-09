@@ -1,21 +1,31 @@
-﻿using Infrastructure;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using Common;
+using DeviceControls;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 using Infrastructure.Common;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
+using Infrustructure.Plans.Painters;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using RubezhAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Infrastructure;
+using Infrastructure.Common.Services;
 
 namespace VideoModule.ViewModels
 {
 	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
 		public Camera Camera { get; set; }
-		public string PresentationName { get; private set; }
+		public RelayCommand ShowPropertiesCommand { get; private set; }
 		public string PresentationAddress { get; private set; }
+		{
 		public List<CameraViewModel> VisualCameraViewModels;
 		public CameraViewModel(string presentationName, string presentationAddress, Camera camera = null)
 		{

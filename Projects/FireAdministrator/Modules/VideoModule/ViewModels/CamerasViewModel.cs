@@ -1,19 +1,19 @@
-﻿using Infrastructure;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using RubezhAPI.Models;
+using RubezhClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using RubezhAPI.Models;
-using RubezhClient;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using VideoModule.Plans;
 using KeyboardKey = System.Windows.Input.Key;
+using VideoModule.Plans;
 
 namespace VideoModule.ViewModels
 {
@@ -21,7 +21,6 @@ namespace VideoModule.ViewModels
 	{
 		bool _lockSelection = false;
 		public static CamerasViewModel Current { get; private set; }
-		public List<CameraViewModel> AllCameras { get; private set; }
 
 		public CamerasViewModel()
 		{
@@ -39,50 +38,14 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-			AllCameras = new List<CameraViewModel>();
-			BuildTree();
+			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
+			{
+				var cameraViewModel = new CameraViewModel(this, camera);
+				Cameras.Add(cameraViewModel);
+			}
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
-		void BuildTree()
-		{
-			var servers = ClientManager.SystemConfiguration.RviServers;
-			foreach (var server in servers)
-			{
-				var serverViewModel = new CameraViewModel(this, server.Name, string.Empty);
-				foreach (var device in server.RviDevices)
-				{
-					var deviceViewModel = new CameraViewModel(this, device.Name, device.Ip);
-					foreach (var channel in device.RviChannels)
-					{
-						var channelViewModel = new CameraViewModel(this, channel.Name, string.Empty);
-						foreach (var camera in channel.Cameras)
-						{
-							if (camera.IsAddedInConfiguration)
-							{
-								var cameraViewModel = new CameraViewModel(this, camera);
-								AllCameras.Add(cameraViewModel);
-								if (!channelViewModel.Children.Contains(cameraViewModel))
-								{
-									channelViewModel.AddChild(cameraViewModel);
-									if (!deviceViewModel.Children.Contains(channelViewModel))
-									{
-										deviceViewModel.AddChild(channelViewModel);
-										if (!serverViewModel.Children.Contains(deviceViewModel))
-										{
-											serverViewModel.AddChild(deviceViewModel);
-											if (!Cameras.Contains(serverViewModel))
-											{
-												Cameras.Add(serverViewModel);
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+
 		ObservableCollection<CameraViewModel> _cameras;
 		public ObservableCollection<CameraViewModel> Cameras
 		{
@@ -111,8 +74,12 @@ namespace VideoModule.ViewModels
 			var devicesViewModel = new DeviceSelectionViewModel();
 			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
-				ClientManager.SystemConfiguration.RviServers = devicesViewModel.RviServers;
-				Initialize();
+				foreach (var camera in devicesViewModel.GetCameras())
+				{
+					camera.OnChanged();
+					ClientManager.SystemConfiguration.Cameras.Add(camera);
+					Cameras.Add(new CameraViewModel(this, camera));
+				}
 				ServiceFactory.SaveService.CamerasChanged = true;
 				PlanExtension.Instance.Cache.BuildSafe<Camera>();
 			}
@@ -144,7 +111,7 @@ namespace VideoModule.ViewModels
 
 		bool CanEditDelete()
 		{
-			return SelectedCamera != null && SelectedCamera.Camera != null;
+			return SelectedCamera != null;
 		}
 
 		public RelayCommand SettingsCommand { get; private set; }
@@ -180,7 +147,7 @@ namespace VideoModule.ViewModels
 
 		private void OnCameraChanged(Guid cameraUID)
 		{
-			var camera = AllCameras.FirstOrDefault(x => x.IsCamera && x.Camera.UID == cameraUID);
+			var camera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
 			if (camera != null)
 			{
 				camera.Update();
@@ -216,7 +183,7 @@ namespace VideoModule.ViewModels
 		{
 			if (cameraUID != Guid.Empty)
 			{
-				SelectedCamera = Cameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == cameraUID);
+				SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
 			}
 		}
 	}

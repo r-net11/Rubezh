@@ -1,39 +1,32 @@
-﻿using Infrastructure.Common.TreeList;
-using RubezhAPI.Models;
-using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RviClient.RVIServiceReference;
 
 namespace VideoModule.ViewModels
 {
-	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
+	public class DeviceViewModel : BaseViewModel
 	{
-		public bool IsEnabled { get; set; }
-		public string Name { get; private set; }
-		public string Address { get; private set; }
-		public Guid CameraUid { get; private set; }
-		public Camera Camera { get; private set; }
-		public bool IsCamera { get; private set; }
-		public DeviceViewModel(Camera camera)
+		public DeviceViewModel(Device device, Channel channel, int streamNo, bool isEnabled)
 		{
-			Camera = camera;
-			Name = $"Поток {camera.StreamNo}";
-			CameraUid = camera.UID;
-			IsCamera = true;
-			IsChecked = camera.IsAddedInConfiguration;
-			IsEnabled = !camera.IsAddedInConfiguration;
+			Device = device;
+			Channel = channel;
+			StreamNo = streamNo;
+
+			DeviceName = device.Name + " (" + "поток " + StreamNo + ")";
+			DeviceIP = device.Ip;
+			ChannalNumber = channel.Number;
+			ChannalName = channel.Name;
+			IsEnabled = isEnabled;
 		}
-		public DeviceViewModel(RviServer server)
-		{
-			Name = $"Сервер ({server.Ip}:{server.Port})";
-		}
-		public DeviceViewModel(RviDevice device)
-		{
-			Name = device.Name;
-			Address = device.Ip;
-		}
-		public DeviceViewModel(RviChannel channel)
-		{
-			Name = channel.Name;
-		}
+
+		public int StreamNo { get; private set; }
+		public Device Device { get; private set; }
+		public Channel Channel { get; private set; }
+
+		public string DeviceName { get; private set; }
+		public string DeviceIP { get; private set; }
+		public int ChannalNumber { get; private set; }
+		public string ChannalName { get; private set; }
+
 		bool _isChecked;
 		public bool IsChecked
 		{
@@ -44,5 +37,7 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => IsChecked);
 			}
 		}
+
+		public bool IsEnabled { get; private set; }
 	}
 }

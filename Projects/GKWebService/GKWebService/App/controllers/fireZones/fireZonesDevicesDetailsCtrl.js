@@ -12,7 +12,7 @@
             });
 
             var template = '<div align="center" style="color: black; font-weight: bold">{{row.entity[col.field]}}</div>';
-            $scope.gridOptions = {
+            $scope.gridParameters = {
                 data: [],
                 enableRowHeaderSelection: false,
                 enableSorting: false,
@@ -38,9 +38,23 @@
                             }
                         }
                     }
-                    $scope.gridOptions.data[i] = { Name: name, Value: value };
+                    $scope.gridParameters.data[i] = { Name: name, Value: value };
                 }
             };
+
+            $scope.gridMeasurements = {
+                data: [],
+                enableRowHeaderSelection: false,
+                enableSorting: false,
+                multiSelect: false,
+                enableColumnMenus: false,
+                enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
+                enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
+                rowHeight: 35,
+                columnDefs: [{ field: 'Name', displayName: 'Параметр', cellTemplate: template }, { field: 'Value', displayName: 'Значение', cellTemplate: template }]
+            };
+            $scope.gridMeasurements.data = device.MeasureParameters;
+
 
             $scope.Show = function () {
 

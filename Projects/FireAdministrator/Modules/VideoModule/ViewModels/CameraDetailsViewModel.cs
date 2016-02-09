@@ -12,10 +12,10 @@ namespace VideoModule.ViewModels
 	{
 		public Camera Camera { get; private set; }
 		public event EventHandler Play;
-		public CameraDetailsViewModel(Camera camera)
+		public CameraDetailsViewModel(Camera camera = null)
 		{
 			Title = "Свойства камеры";
-			Camera = camera;
+			Camera = camera ?? new Camera();
 			ShowDetailsWidth = Camera.ShowDetailsWidth.ToString();
 			ShowDetailsHeight = Camera.ShowDetailsHeight.ToString();
 			ShowDetailsMarginLeft = Camera.ShowDetailsMarginLeft.ToString();
