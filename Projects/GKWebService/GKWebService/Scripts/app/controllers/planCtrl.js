@@ -10,7 +10,11 @@
                 instance: null
             };
 
-            $scope.ShowModal = function (size, html)
+			$scope.toggle = function(scope) {
+		        scope.toggle();
+	        }
+
+	        $scope.ShowModal = function (size, html)
             {
                 $scope.modal.instance = $modal.open({
                     template: html,
@@ -23,8 +27,12 @@
                     $scope.d3Data = results;
                 });
             };
-            plansListFactory.getPlansList(function(results) {
-                 $scope.PlansList = results;
+            plansListFactory.getPlansList(function (results) {
+	            if (results.length > 0) {
+	            	$scope.PlansList = results;
+	            } else {
+	            	$scope.PlansList = { errorMessage: "Планы не загружены. Убедитесь, что планы существуют в текущей конфигурации." };
+	            }
             });
 
             //// Получаем данные для отображения плана
@@ -43,7 +51,7 @@
     app.factory('plansListFactory', function ($http)
     {
         return {
-            getPlansList: function (callback) { $http.get('../Plans/GetPlans').success(callback); }
+            getPlansList: function (callback) { $http.get('../Plans/List').success(callback); }
         };
     });
 }());

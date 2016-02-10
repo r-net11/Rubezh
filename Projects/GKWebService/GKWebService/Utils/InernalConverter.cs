@@ -11,9 +11,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Infrastructure.Common.Services.Content;
 using RubezhAPI.GK;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
+using Size = System.Windows.Size;
 
 #endregion
 
@@ -21,6 +23,23 @@ namespace GKWebService.Utils
 {
 	internal static class InernalConverter
 	{
+		public static string RenderIcon(Guid? source, int width, int height) {
+			var contentService = new ContentService("Sergey_GKOPC");
+			Drawing drawing;
+			if (source.HasValue) {
+				drawing = contentService.GetDrawing(source.Value);
+				if (drawing == null) {
+					return string.Empty;
+				}
+			}
+			else {
+				return string.Empty;
+			}
+			drawing.Freeze();
+
+			return InernalConverter.XamlDrawingToPngBase64String(width, height, drawing);
+		}
+
 		/// <summary>
 		///     Преобразует XAML Drawing/DrawingGroup в png base64 string
 		/// </summary>
@@ -70,13 +89,12 @@ namespace GKWebService.Utils
 				throw new ArgumentNullException("surface");
 			}
 
-			// Save current canvas transform
-			var transform = surface.LayoutTransform;
-			// reset current transform (in case it is scaled or rotated)
 			surface.LayoutTransform = null;
 
 			// Get the size of canvas
-			var size = new System.Windows.Size(surface.Width, surface.Height);
+			var size = new Size(surface.Width, surface.Height);
+
+
 			// Measure and arrange the surface
 			// VERY IMPORTANT
 			surface.Measure(size);
@@ -107,6 +125,65 @@ namespace GKWebService.Utils
 			return bmp;
 		}
 
+		public static string XamlCanvasToPngBase64(Canvas surface, int width, int height) {
+			if (surface == null) {
+				throw new ArgumentNullException("surface");
+			}
+			Grid newSurface = new Grid();
+
+			foreach (UIElement child in surface.Children) {
+				var xaml = System.Windows.Markup.XamlWriter.Save(child);
+				var deepCopy = System.Windows.Markup.XamlReader.Parse(xaml) as UIElement;
+				newSurface.Children.Add(deepCopy);
+			}
+
+			// Get the size of canvas
+			var size = new Size(width, height);
+
+			// Measure and arrange the surface
+			// VERY IMPORTANT
+			newSurface.Measure(size);
+			newSurface.Arrange(new Rect(size));
+
+			double maxWidth = width;
+			double maxheight = height;
+
+			foreach (UIElement child in newSurface.Children)
+			{
+				if (child.RenderSize.Height > maxheight)
+				{
+					maxheight = child.RenderSize.Height;
+				}
+				if (child.RenderSize.Width > maxWidth)
+				{
+					maxWidth = child.RenderSize.Width;
+				}
+			}
+
+			// Create a render bitmap and push the surface to it
+			var renderBitmap =
+				new RenderTargetBitmap(
+					(int)maxWidth,
+					(int)maxheight,
+					96d,
+					96d,
+					PixelFormats.Pbgra32);
+			renderBitmap.Render(newSurface);
+
+			// Create a file stream for saving image
+			using (var stream = new MemoryStream()) {
+				// Use png encoder for our data
+				var encoder = new PngBitmapEncoder();
+				// push the rendered bitmap to it
+				encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+				// save the data to the stream
+				encoder.Save(stream);
+
+				byte[] imageBytes = stream.ToArray();
+				return Convert.ToBase64String(imageBytes);
+			}
+		}
+
 		/// <summary>
 		///     Преобразует набор точек в путь
 		/// </summary>
@@ -120,7 +197,7 @@ namespace GKWebService.Utils
 			}
 
 			switch (pathKind) {
-					case PathKind.Ellipse: {
+				case PathKind.Ellipse: {
 						var radiusX = (enumerable[1].X - enumerable[0].X) / 2;
 						var radiusY = (enumerable[2].Y - enumerable[1].Y) / 2;
 						var center = new Point(enumerable[1].X - radiusX, enumerable[2].Y - radiusY);
@@ -137,23 +214,25 @@ namespace GKWebService.Utils
 						var geometry = new PathGeometry();
 						geometry.Figures.Add(figure);
 						return geometry.ToString(CultureInfo.InvariantCulture);
-				}
+					}
 			}
 		}
 
 		public static System.Drawing.Color ConvertColor(Color source) {
-			return System.Drawing.Color.FromArgb(source.A, source.R, source.G, source.B);
+			var color =  System.Drawing.Color.FromArgb(source.A, source.R, source.G, source.B);
+			return color;
 		}
 
-	    internal static string GetStateClassName(XStateClass stateClass) {
-	        var type = typeof (XStateClass);
-	        var memInfo = type.GetMember(stateClass.ToString());
-	        var attributes = memInfo[0].GetCustomAttributes(typeof (DescriptionAttribute), false);
-	        return ((DescriptionAttribute)attributes[0]).Description;
-	    }
+		internal static string GetStateClassName(XStateClass stateClass) {
+			var type = typeof(XStateClass);
+			var memInfo = type.GetMember(stateClass.ToString());
+			var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+			return ((DescriptionAttribute)attributes[0]).Description;
+		}
 	}
 
-	public enum PathKind {
+	public enum PathKind
+	{
 		Line,
 		ClosedLine,
 		Ellipse

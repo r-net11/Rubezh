@@ -1,26 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure.Common;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows;
 using System.Diagnostics;
-using GKWebService.DataProviders;
 using RubezhAPI.Journal;
 
 namespace GKWebService
 {
 	public static class Bootstrapper
 	{
-        private static object syncBootstrapper = new object();
-
 		public static void Run() {
-
 		    SubscribeOnServiceStateEvents();
 
 			for (int i = 1; i <= 10; i++)
@@ -40,7 +33,7 @@ namespace GKWebService
 		}
 
 	    private static void InitServer() {
-	        InitializeGK();
+	        InitializeGk();
 	        ClientManager.StartPoll();
 	    }
 
@@ -58,9 +51,9 @@ namespace GKWebService
             //InitServer();
 	    }
 
-	    static void InitializeGK()
+	    static void InitializeGk()
 		{
-			ClientManager.GetConfiguration("GKOPC/Configuration");
+			ClientManager.GetConfiguration("Sergey_GKOPC/Configuration");
             
 			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
@@ -68,8 +61,8 @@ namespace GKWebService
 			DescriptorsManager.Create();
 			InitializeStates();
 
-			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGkCallbackResult);
+			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGkCallbackResult);
 
 			//SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
 			//SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
@@ -80,15 +73,15 @@ namespace GKWebService
 		static void InitializeStates()
 		{
 			var gkStates = ClientManager.FiresecService.GKGetStates();
-			CopyGKStates(gkStates);
+			CopyGkStates(gkStates);
 		}
 
-		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
+		static void OnGkCallbackResult(GKCallbackResult gkCallbackResult)
 		{
-			CopyGKStates(gkCallbackResult.GKStates);
+			CopyGkStates(gkCallbackResult.GKStates);
 		}
 
-		static void CopyGKStates(GKStates gkStates)
+		static void CopyGkStates(GKStates gkStates)
 		{
 			foreach (var remoteDeviceState in gkStates.DeviceStates)
 			{
