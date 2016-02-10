@@ -31,5 +31,10 @@ namespace FiresecClient
 		{
 			ClientManager.Disconnect();
 		}
+
+		private void Test_Click(object sender, EventArgs e)
+		{
+			var result = ClientManager.FiresecService.Test("Test");
+		}
 	}
 }
