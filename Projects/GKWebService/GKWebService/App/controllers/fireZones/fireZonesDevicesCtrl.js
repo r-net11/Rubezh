@@ -86,7 +86,10 @@
                                 MeasureParameters: element.MeasureParameters,
                                 IsBiStateControl: element.IsBiStateControl,
                                 IsTriStateControl: element.IsTriStateControl,
-                                HasReset: element.HasReset
+                                HasReset: element.HasReset,
+                                CanSetIgnoreState: element.CanSetIgnoreState,
+                                CanSetAutomaticState: element.CanSetAutomaticState,
+                                CanReset: element.CanReset
                         });
                         }
                     }
