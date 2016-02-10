@@ -261,20 +261,24 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		public void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить карту?"))
-			{
-				CardHelper.Delete(SelectedCard.Card);
+			if (!MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить карту?")) return;
 
-				var parent = SelectedCard.Card.IsInStopList ? RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem) : RootItems.FirstOrDefault(x => x.Organisation.UID == SelectedCard.Card.OrganisationUID);
-				OnBlockCard(SelectedCard.Card.UID);
+			CardHelper.Delete(SelectedCard.Card);
 
-				if (parent == null) return;
+			var parent = SelectedCard.Card.IsInStopList
+				? RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem)
+				: RootItems.FirstOrDefault(x => x.Organisation.UID == SelectedCard.Card.OrganisationUID);
 
-				parent.RemoveChild(SelectedCard);
-				SelectedCard = parent.HasChildren ? parent : parent.Children.FirstOrDefault();
-			}
+			OnBlockCard(SelectedCard.Card.UID);
+
+			if (parent == null) return;
+
+			parent.RemoveChild(SelectedCard);
+
+			SelectedCard = parent.HasChildren ? parent : parent.Children.FirstOrDefault();
+			OnPropertyChanged(() => RootItemsArray);
 		}
 		bool CanRemove()
 		{
