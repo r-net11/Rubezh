@@ -24,7 +24,7 @@ namespace VideoModule.ViewModels
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 		public List<RviServer> RviServers { get; private set; }
-		List<DeviceViewModel> Cameras { get; }
+		List<DeviceViewModel> Cameras { get; set; }
 		protected override bool Save()
 		{
 			foreach (var device in Cameras)

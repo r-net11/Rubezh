@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using GKWebService.DataProviders.FireZones;
+using GKWebService.DataProviders.PumpStations;
 
 namespace GKWebService
 {
@@ -143,6 +144,8 @@ namespace GKWebService
 				if (pumpStation != null)
 				{
 					remotePumpStationState.CopyTo(pumpStation.State);
+					if (PumpStationsHub.Instance != null)
+						PumpStationsHub.Instance.PumpStationstUpdate(pumpStation);
 				}
 			}
 			foreach (var delayState in gkStates.DelayStates)

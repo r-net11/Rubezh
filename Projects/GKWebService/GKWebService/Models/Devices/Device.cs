@@ -19,6 +19,8 @@ namespace GKWebService.Models
 			ImageSource = device.ImageSource.Replace("/Controls;component/", "");
 			Address = device.DottedPresentationAddress;
 			Description = device.Description;
+			Logic = GKManager.GetPresentationLogic(device.Logic);
+			NsLogic = GKManager.GetPresentationLogic(device.NSLogic);
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
@@ -29,6 +31,20 @@ namespace GKWebService.Models
 			OnDelay = device.State.OnDelay;
 			HoldDelay = device.State.HoldDelay;
 			HasHoldDelay = device.State.StateClasses.Contains(XStateClass.On) && device.State.HoldDelay > 0;
+
+			IsFireAndGuard = device.Driver.HasZone && device.Driver.HasGuardZone;
+
+			// надо проверить это условие
+			var isInPumpStation = device != null && (device.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.DriverType == GKDriverType.RSR2_Bush_Fire
+				|| device.DriverType == GKDriverType.RSR2_Bush_Jokey) && device.OutputDependentElements.Any(x => x as GKPumpStation != null);
+
+			var canShowZones = device.Driver.HasZone || device.Driver.HasGuardZone;
+			var canShowLogic = device.Driver.HasLogic && !device.IsInMPT && !isInPumpStation;
+
+			IsZoneOrLogic = !device.IsInMPT && isInPumpStation && (canShowZones || canShowLogic || device.Driver.HasMirror);
+
+			PresentationZone = GKManager.GetPresentationZoneAndGuardZoneOrLogic(device);
+			GuardPresentationZone = GKManager.GetPresentationGuardZone(device);
 
 			var controlRegime = device.State.StateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore
@@ -41,10 +57,11 @@ namespace GKWebService.Models
 			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore);
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 			Properties = device.Properties;
+			DriverProperties = device.Driver.Properties;
 			MeasureParameters = device.Driver.MeasureParameters;
 		}
 
-				
+
 		public string  MPTDeviceType { get; set; }
 		public string Address { get; set; }
 		public string Description { get; set; }
@@ -69,7 +86,20 @@ namespace GKWebService.Models
 		public int HoldDelay { get; set; }
 		public bool HasHoldDelay { get; set; }
 		public int Level { get; set; }
-		public List<GKProperty> Properties { get; set; }
+		public List<GKProperty> Properties { get; set; } 
+
+		public List<GKDriverProperty> DriverProperties { get; set; }
+
+		public bool IsZoneOrLogic { get; set; }
+
+		public string PresentationZone { get; set; }
+
+		public bool IsFireAndGuard { get; set; }
+
+		public string GuardPresentationZone { get; set; }
+		public string Logic { get; set; }
 		public List<GKMeasureParameter> MeasureParameters { get; set; }
+
+		public string NsLogic { get; set; }
 	}
 }
