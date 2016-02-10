@@ -6,6 +6,7 @@ namespace GKWebService.Controllers
 {
 	public class DevicesController : Controller
 	{
+
 		public ActionResult Index()
 		{
 			return View();

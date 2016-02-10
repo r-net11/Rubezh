@@ -11,9 +11,78 @@ namespace GKWebService.Models
 {
 	public class Device
 	{
+		public string MPTDeviceType { get; set; }
+
+		public string Address { get; set; }
+
+		public string Description { get; set; }
+
+		public Guid UID { get; set; }
+
+		public Guid? ParentUID { get; set; }
+
+		public int No { get; set; }
+
+		public string Name { get; set; }
+
+		public string StateIcon { get; set; }
+
+		public bool CanSetAutomaticState { get; set; }
+
+		public bool CanSetManualState { get; set; }
+
+		public bool CanSetIgnoreState { get; set; }
+
+		public bool IsControlRegime { get; set; }
+
+		public string ControlRegimeName { get; set; }
+
+		public string ControlRegimeIcon { get; set; }
+
+		public bool HasOnDelay { get; set; }
+
+		public ushort GKDescriptorNo { get; set; }
+
+		public List<DirectionStateClass> StateClasses { get; set; }
+
+		public string DelayRegime { get; set; }
+
+		public string StateColor { get; set; }
+
+		public string ImageSource { get; set; }
+
+		public string State { get; set; }
+
+		public int OnDelay { get; set; }
+
+		public int HoldDelay { get; set; }
+
+		public bool HasHoldDelay { get; set; }
+
+		public int Level { get; set; }
+
+		public List<GKProperty> Properties { get; set; }
+
+		public List<GKDriverProperty> DriverProperties { get; set; }
+
+		public bool IsZoneOrLogic { get; set; }
+
+		public string PresentationZone { get; set; }
+
+		public bool IsFireAndGuard { get; set; }
+
+		public string GuardPresentationZone { get; set; }
+
+		public string Logic { get; set; }
+
+		public List<GKMeasureParameter> MeasureParameters { get; set; }
+
+		public string NsLogic { get; set; }
+
 		public Device(GKDevice device)
 		{
 			UID = device.UID;
+			ParentUID = device.Parent != null ? device.Parent.UID : (Guid?)null;
 			GKDescriptorNo = device.GKDescriptorNo;
 			Name = device.PresentationName;
 			ImageSource = device.ImageSource.Replace("/Controls;component/", "");
@@ -34,8 +103,7 @@ namespace GKWebService.Models
 
 			IsFireAndGuard = device.Driver.HasZone && device.Driver.HasGuardZone;
 
-			// надо проверить это условие
-			var isInPumpStation = device != null && (device.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.DriverType == GKDriverType.RSR2_Bush_Fire
+			var isInPumpStation = (device.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.DriverType == GKDriverType.RSR2_Bush_Fire
 				|| device.DriverType == GKDriverType.RSR2_Bush_Jokey) && device.OutputDependentElements.Any(x => x as GKPumpStation != null);
 
 			var canShowZones = device.Driver.HasZone || device.Driver.HasGuardZone;
@@ -60,46 +128,5 @@ namespace GKWebService.Models
 			DriverProperties = device.Driver.Properties;
 			MeasureParameters = device.Driver.MeasureParameters;
 		}
-
-
-		public string  MPTDeviceType { get; set; }
-		public string Address { get; set; }
-		public string Description { get; set; }
-		public Guid UID { get; set; }
-		public int No { get; set; }
-		public string Name { get; set; }
-		public string StateIcon { get; set; }
-		public bool CanSetAutomaticState { get; set; }
-		public bool CanSetManualState { get; set; }
-		public bool CanSetIgnoreState { get; set; }
-		public bool IsControlRegime { get; set; }
-		public string ControlRegimeName { get; set; }
-		public string ControlRegimeIcon { get; set; }
-		public bool HasOnDelay { get; set; }
-		public ushort GKDescriptorNo { get; set; }
-		public List<DirectionStateClass> StateClasses { get; set; }
-		public string DelayRegime { get; set; }
-		public string StateColor { get; set; }
-		public string ImageSource { get; set; }
-		public string State { get; set; }
-		public int OnDelay { get; set; }
-		public int HoldDelay { get; set; }
-		public bool HasHoldDelay { get; set; }
-		public int Level { get; set; }
-		public List<GKProperty> Properties { get; set; } 
-
-		public List<GKDriverProperty> DriverProperties { get; set; }
-
-		public bool IsZoneOrLogic { get; set; }
-
-		public string PresentationZone { get; set; }
-
-		public bool IsFireAndGuard { get; set; }
-
-		public string GuardPresentationZone { get; set; }
-		public string Logic { get; set; }
-		public List<GKMeasureParameter> MeasureParameters { get; set; }
-
-		public string NsLogic { get; set; }
 	}
 }
