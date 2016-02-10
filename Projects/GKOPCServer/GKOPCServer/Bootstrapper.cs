@@ -219,7 +219,7 @@ namespace GKOPCServer
 			}
 			foreach (var doorState in gkStates.DoorStates)
 			{
-				var door = GKManager.MPTs.FirstOrDefault(x => x.UID == doorState.UID);
+				var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorState.UID);
 				if (door != null)
 				{
 					doorState.CopyTo(door.State);
