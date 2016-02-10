@@ -46,6 +46,13 @@ namespace SKDModule.ViewModels
 		{
 			return AccessTemplateHelper.Restore(model);
 		}
+
+		protected override void AfterRestore(AccessTemplate model)
+		{
+			base.AfterRestore(model);
+			model.IsDeleted = false;
+		}
+
 		protected override bool Add(AccessTemplate item)
 		{
 			return AccessTemplateHelper.Save(item, true);
