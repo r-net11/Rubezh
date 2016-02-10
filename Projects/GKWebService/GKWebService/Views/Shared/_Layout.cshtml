@@ -102,15 +102,16 @@
 				<ul class="menu">
 					<li>
 						<a class="group-control" href="#" data-bind="click: MenuClick"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
-						<ul>
-							<li class="state" data-bind="css:{'active': StatePageOpened}"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'State'); } "><span class="icon state"></span><span class="text">Состояния</span></a></li>
-							<li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
-							<li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
-							<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
-                           	<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
-							<li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Delays'); } "><span class="icon delays"></span><span class="text">Задержки</span></a></li>
-                            <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'MPTs'); } "><span class="icon delays"></span><span class="text">МПТ</span></a></li>
-						</ul>
+                        <ul>
+                            <li class="state" data-bind="css:{'active': StatePageOpened}"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'State'); } "><span class="icon state"></span><span class="text">Состояния</span></a></li>
+                            <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
+                            <li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data, event){PageClick(data, event, 'PumpStations'); }"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Delays'); } "><span class="icon delays"></span><span class="text">Задержки</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data,event) { PageClick(data, event, 'MPTs'); } "><span class="icon mpt"></span><span class="text">МПТ</span></a></li>
+                        </ul>
 					</li>
 					<li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Journal'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
 					<li><a class="archive" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"><span class="icon archive"></span><span class="text">Архив</span></a></li>
@@ -164,11 +165,15 @@
 	<script src="~/App/services/signalrJournalService.js"></script>
     <script src="~/App/services/signalrFireZonesService.js"></script>
     <script src="~/App/services/signalrMPTsService.js"></script>
+    <script src="~/App/services/signalrPumpStationService.js"></script>
 
     <script src="~/App/controllers/fireZones/fireZonesCtrl.js"></script>
     <script src="~/App/controllers/fireZones/fireZonesDevicesCtrl.js"></script>
     <script src="~/App/controllers/fireZones/fireZonesDetailsCtrl.js"></script>
     <script src="~/App/controllers/fireZones/fireZonesDevicesDetailsCtrl.js"></script>
+    <script src="~/App/controllers/PumpStations/pumpStationDevicesCtrl.js"></script>
+    <script src="~/App/controllers/PumpStations/pumpStationsCtrl.js"></script>
+    <script src="~/App/controllers/PumpStations/pumpStationDetailsCtrl.js"></script>
     <script src="~/App/controllers/directions/directionsCtrl.js"></script>
     <script src="~/App/controllers/directions/directionDetailsCtrl.js"></script>
     <script src="~/App/controllers/MPTs/mptsDetailsCtrl.js"></script>
