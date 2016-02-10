@@ -23,5 +23,13 @@ namespace GKWebService.Controllers
 		{
 			return View();
 		}
+
+		/// <summary>
+		/// Метод, предоставляющий данные об устройствах 
+		/// </summary>
+		public JsonResult GetDeviceParameters()
+		{
+			return Json(DevicesDataProvider.Instance.GetDevices(), JsonRequestBehavior.AllowGet);
+		}
 	}
 }

@@ -186,6 +186,7 @@
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
+    <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
     <Content Include="App\controllers\devices\devicesCtrl.js" />
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
@@ -564,6 +565,7 @@
     <Content Include="Content\ui-grid.less" />
     <Content Include="Content\bootstrap.less" />
     <Content Include="Content\alarmBtn.less" />
+    <Content Include="Content\devices.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
