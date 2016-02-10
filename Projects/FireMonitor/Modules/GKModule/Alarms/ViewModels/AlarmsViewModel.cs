@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using Common;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 
 namespace GKModule.ViewModels
 {
@@ -190,6 +191,28 @@ namespace GKModule.ViewModels
 				}
 			}
 
+			foreach (var pumpStation in GKManager.PumpStations)
+			{
+				foreach (var stateClass in pumpStation.State.StateClasses)
+				{
+					switch (stateClass)
+					{
+						case XStateClass.On:
+						case XStateClass.TurningOn:
+							alarms.Add(new Alarm(GKAlarmType.NPTOn, pumpStation));
+							break;
+
+						case XStateClass.Ignore:
+							alarms.Add(new Alarm(GKAlarmType.Ignore, pumpStation));
+							break;
+					}
+				}
+				if (pumpStation.State.StateClasses.Contains(XStateClass.AutoOff))
+				{
+					alarms.Add(new Alarm(GKAlarmType.AutoOff, pumpStation));
+				}
+			}
+
 			foreach (var mpt in GKManager.MPTs)
 			{
 				foreach (var stateClass in mpt.State.StateClasses)
@@ -300,11 +323,27 @@ namespace GKModule.ViewModels
 					}
 				}
 
+				foreach (var door in GKManager.Doors)
+				{
+					if (door.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+					{
+						ClientManager.FiresecService.GKSetAutomaticRegime(door);
+					}
+				}
+
 				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
 					{
 						ClientManager.FiresecService.GKSetAutomaticRegime(direction);
+					}
+				}
+
+				foreach (var pumpStation in GKManager.PumpStations)
+				{
+					if (pumpStation.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
+					{
+						ClientManager.FiresecService.GKSetAutomaticRegime(pumpStation);
 					}
 				}
 
@@ -350,9 +389,21 @@ namespace GKModule.ViewModels
 						return true;
 				}
 
+				foreach (var door in GKManager.Doors)
+				{
+					if (door.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
 				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var pumpStation in GKManager.PumpStations)
+				{
+					if (pumpStation.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
 

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 using RubezhAPI.GK;
-using RubezhAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
@@ -25,13 +24,13 @@ namespace PlansModule.Designer
 			PlanUID = planUID;
 			_presenterItem = presenterItem;
 			_painter = (SubPlanPainter)presenterItem.Painter;
-			_presenterItem.Title = (presenterItem.Element as ElementSubPlan).Caption;
+			_presenterItem.Title = (presenterItem.Element as IElementSubPlan).Caption;
 			_presenterItem.PlanViewModel = PlanTreeViewModel.Current.AllPlans.FirstOrDefault(x => x.Plan.UID == PlanUID);
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = null;
 			_presenterItem.Cursor = Cursors.Hand;
 			//_presenterItem.DoubleClickEvent += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
-			_presenterItem.ClickEvent += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
+			_presenterItem.ClickEvent += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((IElementSubPlan)_presenterItem.Element).PlanUID);
 			ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
 		}
 
@@ -98,4 +97,5 @@ namespace PlansModule.Designer
 			return new MonitorSubPlanToolTipViewModel(PlanViewModel);
 		}
 	}
+
 }

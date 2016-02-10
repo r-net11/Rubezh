@@ -24,6 +24,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlGKDoorTemplate { get; set; }
 		public DataTemplate ControlPumpStationTemplate { get; set; }
 		public DataTemplate ControlMPTTemplate { get; set; }
+		public DataTemplate ControlOpcDaTagTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgramTemplate { get; set; }
@@ -36,9 +37,10 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlVisualTemplate { get; set; }
 		public DataTemplate ControlPlanTemplate { get; set; }
 		public DataTemplate ShowDialogTemplate { get; set; }
+		public DataTemplate CloseDialogTemplate { get; set; }
 		public DataTemplate ControlDelayTemplate { get; set; }
 		public DataTemplate ShowPropertyTemplate { get; set; }
-		public DataTemplate ExportJournalTemplate { get; set;}
+		public DataTemplate ExportJournalTemplate { get; set; }
 		public DataTemplate GenerateGuidTemplate { get; set; }
 		public DataTemplate ExportOrganisationTemplate { get; set; }
 		public DataTemplate ExportConfigurationTemplate { get; set; }
@@ -51,6 +53,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate StopRecordTemplate { get; set; }
 		public DataTemplate RviAlarmTemplate { get; set; }
 		public DataTemplate NowTemplate { get; set; }
+		public DataTemplate HttpRequestTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -94,6 +97,8 @@ namespace AutomationModule.ViewModels
 				return ControlMPTTemplate;
 			if (item is ControlDelayStepViewModel)
 				return ControlDelayTemplate;
+			if (item is ControlOpcDaTagStepViewModel)
+				return ControlOpcDaTagTemplate;
 			if (item is GetObjectPropertyStepViewModel)
 				return GetObjectPropertyTemplate;
 			if (item is SendEmailStepViewModel)
@@ -118,6 +123,8 @@ namespace AutomationModule.ViewModels
 				return ControlPlanTemplate;
 			if (item is ShowDialogStepViewModel)
 				return ShowDialogTemplate;
+			if (item is CloseDialogStepViewModel)
+				return CloseDialogTemplate;
 			if (item is ShowPropertyStepViewModel)
 				return ShowPropertyTemplate;
 			if (item is ExportJournalStepViewModel)
@@ -146,6 +153,8 @@ namespace AutomationModule.ViewModels
 				return RviAlarmTemplate;
 			if (item is NowStepViewModel)
 				return NowTemplate;
+			if (item is HttpRequestStepViewModel)
+				return HttpRequestTemplate;
 			return null;
 		}
 	}

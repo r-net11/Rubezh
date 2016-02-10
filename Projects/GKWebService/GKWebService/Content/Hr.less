@@ -43,6 +43,10 @@
 				background-image: url("Image/Icon/Menu/edit/Filter.png");
 			}
 
+			&.archive {
+                background-image: url('Image/Icon/Menu/archive.png');
+			}
+
 			&.print {
 				background-image: url("Image/Icon/Menu/fine/Print.png");
 			}
@@ -53,6 +57,14 @@
 
 			&.paste {
 				background-image: url("Image/Icon/Menu/edit/Paste.png");
+			}
+
+			&.load {
+                background-image: url('Image/Icon/Hr/load.png');
+			}
+
+			&.chiefw {
+				background-image: url("Image/Icon/Hr/ChiefW.png");
 			}
         }           
 }
@@ -82,23 +94,31 @@
     color: white;
     border: 1px solid black;
     padding: 5px 0 5px 5px;
-}
 
-.HrCardDoorsPanel span
-{
-    float:left;
-    margin-bottom:10px;
-    width:100px;
-}
+    img {
+        display:block;
+        width: 200px;
+        height: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    span
+    {
+        float:left;
+        margin-bottom:10px;
+        width:100px;
+    }
 
-.HrCardDoorsPanel label
-{
-    width:100px;
-}
+    label
+    {
+        width:100px;
+    }
 
-.HrCardDoorsPanel div div
-{
-    clear:left;
+    div div div
+    {
+        clear:left;
+    }
 }
 
 ul.SelectableList {
@@ -124,7 +144,20 @@ ul.SelectableList {
     }
 }
 
-div#EmployeeCardDetailsDoor {
+ul#OrganisationList {
+    height:600px;
+    width:200px;
+    float:left;
+    span.IsDeleted {
+        color: grey;
+    }
+}
+
+ul#OrganisationUsers, ul#OrganisationDoors {
+    height:570px;
+}
+
+div#EmployeeCardDetailsDoor, div#AccessTemplateDetailsDoor{
     width:100%;
     label{
         width:100%;
@@ -136,5 +169,22 @@ div#EmployeeCardDetailsDoor {
     span{
         color:white;
         font-weight:normal;
+    }
+}
+
+div#PhotoSelection {
+    width:100%;
+    >div {
+        width: 100%;
+    }
+    img {
+        display:block;
+        width: 300px;
+        height: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #PhotoSelectionToolbar .icon{
+        float: right;
     }
 }

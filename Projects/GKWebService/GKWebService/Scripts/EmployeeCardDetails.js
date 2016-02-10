@@ -52,7 +52,7 @@
                 }
 
                 self.IsGuest(self.ParentViewModel.IsGuest());
-                self.CanChangeCardType(!self.IsGuest());
+                self.CanChangeCardType(!self.IsGuest() && app.Menu.HR.IsEmployeesEditCardTypeAllowed());
                 self.SelectedGCCardType(self.Card.GKCardType());
 
                 if (self.SelectedScheduleNo()) {
@@ -64,14 +64,17 @@
                     }
                 }
 
-                if (self.SelectedAccessTemplate()) {
+                if (self.SelectedAccessTemplateId()) {
                     var selectItem = ko.utils.arrayFirst($('ul#EmployeeCardDetailsTemplates li'), function(element) {
-                        return ko.dataFor(element).UID() === self.SelectedAccessTemplate().UID();
+                        return ko.dataFor(element).UID() === self.SelectedAccessTemplateId();
                     });
                     $(selectItem).addClass("selected");
                 } else {
                     
                 }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                ShowError(xhr.responseText);
             }
         });
     };
@@ -137,9 +140,9 @@
                 self.EmployeeCardDetailsClose();
                 self.ParentViewModel.EmployeeCards.ReloadCards();
             },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert("request failed");
-            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                ShowError(xhr.responseText);
+            }
         });
     };
 
@@ -200,7 +203,7 @@
     self.AvailableAccessTemplateClick = function(data, e, template) {
         $('ul#EmployeeCardDetailsTemplates li').removeClass("selected");
         $(e.currentTarget).parent().addClass("selected");
-        self.SelectedAccessTemplate(template);
+        self.SelectedAccessTemplateId(template.UID());
     };
 
     return self;

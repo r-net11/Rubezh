@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Documents;
 using RubezhAPI.GK;
-using RubezhClient;
 using GKImitator.Processor;
 using GKProcessor;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.Journal;
 using System.Collections.Generic;
 using System.Diagnostics;
 using RubezhDAL.DataClasses;
@@ -57,8 +54,20 @@ namespace GKImitator.ViewModels
 			}
 		}
 
+		public void RecalculateCurrentLogic()
+		{
+			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == GKBase.GKDescriptorNo);
+			if (descriptorViewModel != null)
+			{
+				descriptorViewModel.RecalculateLogic();
+			}
+		}
+
+		List<Tuple<int, int>> usersCurrentZones { get; set; }
 		void RecalculateLogic()
 		{
+			if (Regime == Regime.Ignore)
+				return;
 			var stack = new List<int>();
 			var stateBitVales = new Dictionary<GKStateBit, bool>();
 
@@ -72,9 +81,9 @@ namespace GKImitator.ViewModels
 				var descriptorNo = formulaOperation.SecondOperand;
 				DescriptorViewModel descriptorViewModel = null;
 				if (IsKauDecriptor)
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
 				else
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
 
 				switch (formulaOperation.FormulaOperationType)
 				{
@@ -157,6 +166,11 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.PUTP:
+						var cardNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						var zoneNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						usersCurrentZones.Add(new Tuple<int, int> (cardNo, zoneNo));
 						break;
 
 					case FormulaOperationType.OR:
@@ -266,6 +280,14 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.TSTP:
+						cardNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						zoneNo = formulaOperation.SecondOperand;
+						var userCurrentZoneNo = usersCurrentZones.FirstOrDefault(x => x.Item1 == cardNo).Item2;
+						if (userCurrentZoneNo != zoneNo)
+							stack.AddRange(new List<int>{cardNo, 1});
+						else
+							stack.Add(0);
 						break;
 
 					case FormulaOperationType.CMPKOD:
@@ -299,6 +321,7 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.ACS:
+					case FormulaOperationType.ACSP:
 						var level = formulaOperation.FirstOperand;
 
 						var isAccess = false;
@@ -341,7 +364,10 @@ namespace GKImitator.ViewModels
 							}
 						}
 
-						stack.Add(isAccess ? 1 : 0);
+						if (formulaOperation.FormulaOperationType == FormulaOperationType.ACS)
+							stack.Add(isAccess ? 1 : 0);
+						else
+							stack.AddRange(new List<int>{CurrentCardNo, isAccess ? 1 : 0});
 
 						break;
 
@@ -377,35 +403,50 @@ namespace GKImitator.ViewModels
 						}
 						break;
 
-					case FormulaOperationType.ACSP:
-						break;
-
 					case FormulaOperationType.PUTMEMB:
+						var newZoneNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						cardNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						usersCurrentZones.RemoveAll(x => x.Item1 == cardNo);
+						usersCurrentZones.Add(new Tuple<int, int>(cardNo, newZoneNo));
 						break;
 
 					case FormulaOperationType.GETMEMB:
+						zoneNo = usersCurrentZones.FirstOrDefault(x => x.Item1 == CurrentCardNo).Item2;
+						stack.AddRange(new List<int> { CurrentCardNo, zoneNo });
 						break;
 				}
 
-				Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", stack));
+				if (formulaOperation.FormulaOperationType == FormulaOperationType.PUTBIT)
+					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", (GKStateBit) formulaOperation.FirstOperand));
+				else
+					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", stack));
 			}
 
 			var hasZoneBitsChanged = false;
 			if (GKBase is GKZone)
 			{
-				if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
+				if (stateBitVales.Any(x => x.Key == GKStateBit.Fire2 && x.Value))
 				{
 					stateBitVales[GKStateBit.Fire1] = false;
 					stateBitVales[GKStateBit.Attention] = false;
 					hasZoneBitsChanged = true;
 				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
+				else if (stateBitVales.Any(x => x.Key == GKStateBit.Fire1 && x.Value))
 				{
 					stateBitVales[GKStateBit.Attention] = false;
 					hasZoneBitsChanged = true;
 				}
-				else if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
+				else if (stateBitVales.Any(x => x.Key == GKStateBit.Attention && x.Value))
 				{
+					hasZoneBitsChanged = true;
+				}
+				else
+				{
+					stateBitVales[GKStateBit.Attention] = false;
+					stateBitVales[GKStateBit.Fire1] = false;
+					stateBitVales[GKStateBit.Fire2] = false;
 					hasZoneBitsChanged = true;
 				}
 			}
@@ -444,9 +485,55 @@ namespace GKImitator.ViewModels
 							OnTurnOffNow();
 						}
 					}
-					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention)
+					if (stateBitVale.Key == GKStateBit.Fire1)
 					{
 						if (Regime == Regime.Automatic)
+						{
+							OnSetFire1();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.SetRegime_Manual)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnSetManualRegime();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.SetRegime_Automatic)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnSetAutomaticRegime();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.TurnOn_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOn();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.TurnOff_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOff();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.Stop_InManual)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnPauseTurnOn();
+						}
+					}
+					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention)
+					{
+						var oNstateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.On);
+						var attentionStateBit = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Attention);
+						var fire1 = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
+						if (Regime == Regime.Automatic && oNstateBit != null && oNstateBit.IsActive
+							&& attentionStateBit != null && !attentionStateBit.IsActive && fire1 != null && !fire1.IsActive)
 						{
 							SetGuardAlarm();
 						}

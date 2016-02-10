@@ -94,7 +94,6 @@
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
-    <Content Include="Data\FiresecDataBaseStructureSql.sql" />
     <Content Include="Data\License.rtf" />
     <Content Include="Data\NewFolder.ico" />
     <Content Include="Data\Up.ico" />

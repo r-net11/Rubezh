@@ -1,8 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
@@ -10,8 +6,12 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Journal;
-using System;
+using RubezhAPI.Models;
+using RubezhClient;
 using RviClient;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 
 namespace VideoModule.ViewModels
@@ -20,6 +20,10 @@ namespace VideoModule.ViewModels
 	{
 		public Camera Camera { get; private set; }
 		public string RviRTSP { get; private set; }
+		public int Width { get; private set; }
+		public int Height { get; private set; }
+		public int MarginLeft { get; private set; }
+		public int MarginTop { get; private set; }
 
 		public CameraDetailsViewModel(Camera camera)
 		{
@@ -36,7 +40,13 @@ namespace VideoModule.ViewModels
 			SelectedPreset = Presets.FirstOrDefault();
 
 			if (Camera != null)
+			{
 				RviRTSP = Camera.RviRTSP;
+				Width = Camera.ShowDetailsWidth;
+				Height = Camera.ShowDetailsHeight;
+				MarginLeft = Camera.ShowDetailsMarginLeft;
+				MarginTop = Camera.ShowDetailsMarginTop;
+			}
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -94,7 +104,7 @@ namespace VideoModule.ViewModels
 					JournalSubsystemType = JournalSubsystemType.Video,
 					JournalObjectType = JournalObjectType.VideoDevice,
 					ObjectUID = Camera.UID,
-					ObjectName = Camera.Name,
+					ObjectName = Camera.PresentationName,
 				};
 				ClientManager.FiresecService.AddJournalItem(journalItem);
 			}

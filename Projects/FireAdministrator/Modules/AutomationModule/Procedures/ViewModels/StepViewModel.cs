@@ -1,20 +1,18 @@
-﻿using RubezhAPI.Automation;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common.TreeList;
+using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
 	public class StepViewModel : TreeNodeViewModel<StepViewModel>
 	{
 		public ProcedureStep Step { get; private set; }
-		public StepsViewModel StepsViewModel { get; private set; }
 		public Procedure Procedure { get; private set; }
 		public string ImageSource { get; private set; }
 
-		public StepViewModel(StepsViewModel stepsViewModel, ProcedureStep step, Procedure procedure)
+		public StepViewModel(ProcedureStep step, Procedure procedure)
 		{
 			Procedure = procedure;
-			StepsViewModel = stepsViewModel;
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if ((step.ProcedureStepType == ProcedureStepType.ControlDirection)
@@ -22,7 +20,8 @@ namespace AutomationModule.ViewModels
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlPumpStation) || (step.ProcedureStepType == ProcedureStepType.ControlMPT)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay) || (step.ProcedureStepType == ProcedureStepType.Ptz)
-				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm))
+				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlOpcDaTagGet) || (step.ProcedureStepType == ProcedureStepType.ControlOpcDaTagSet))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
@@ -116,6 +115,14 @@ namespace AutomationModule.ViewModels
 					Content = new ControlMPTStepViewModel(this);
 					break;
 
+				case ProcedureStepType.ControlOpcDaTagGet:
+					Content = new ControlOpcDaTagStepViewModel(this, ControlElementType.Get);
+					break;
+
+				case ProcedureStepType.ControlOpcDaTagSet:
+					Content = new ControlOpcDaTagStepViewModel(this, ControlElementType.Set);
+					break;
+
 				case ProcedureStepType.GetObjectProperty:
 					Content = new GetObjectPropertyStepViewModel(this);
 					break;
@@ -166,6 +173,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ShowDialog:
 					Content = new ShowDialogStepViewModel(this);
+					break;
+
+				case ProcedureStepType.CloseDialog:
+					Content = new CloseDialogStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ShowProperty:
@@ -222,6 +233,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.Now:
 					Content = new NowStepViewModel(this);
+					break;
+
+				case ProcedureStepType.HttpRequest:
+					Content = new HttpRequestStepViewModel(this);
 					break;
 			}
 			UpdateContent();

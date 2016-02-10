@@ -357,14 +357,14 @@ namespace AutomationModule.ViewModels
 			{
 				var description = "";
 				if (!IsList)
-					description = AutomationHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
+					description = GetStringValueHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
 				else
 				{
 					if (Argument.ExplicitValues.Count == 0)
 						return "Пустой список";
 					foreach (var explicitValue in Argument.ExplicitValues)
 					{
-						description += AutomationHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
+						description += GetStringValueHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
 					}
 				}
 				description = description.TrimEnd(',', ' ');
@@ -384,7 +384,7 @@ namespace AutomationModule.ViewModels
 					return "<" + SelectedVariable.Variable.Name + ">";
 				}
 
-				return !IsList ? AutomationHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType) : "Список";
+				return !IsList ? GetStringValueHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType) : "Список";
 			}
 		}
 

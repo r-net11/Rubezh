@@ -9,6 +9,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 		<TextBlock Grid.Row="0" Grid.Column="0" Text="Правило генерации названия компонента" Style="{DynamicResource TextBlockDetailsStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
         <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding NameGenerationTypes}" SelectedItem="{Binding SelectedNameGenerationType}" Margin="2">
@@ -18,5 +19,8 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-    </Grid>
+
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Записывать только конфигурацию ГК" Style="{DynamicResource TextBlockDetailsStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
+		<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding OnlyGKDeviceConfiguration}" VerticalAlignment="Center" Margin="2" />
+	</Grid>
 </UserControl>

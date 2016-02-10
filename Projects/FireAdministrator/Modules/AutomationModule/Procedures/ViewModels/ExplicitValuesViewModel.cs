@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 using RubezhAPI.Automation;
-using Infrastructure.Common;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace AutomationModule.ViewModels
@@ -14,7 +15,9 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitValuesViewModel()
 		{
+			EditStringCommand = new RelayCommand(OnEditString);
 			EditListCommand = new RelayCommand(OnEditList);
+			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 			ExplicitValue = new ExplicitValueViewModel();
@@ -23,6 +26,7 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitValuesViewModel(ExplicitValue explicitValue, List<ExplicitValue> explicitValues, bool isList, ExplicitType explicitType, EnumType enumType, ObjectType objectType)
 		{
+			EditStringCommand = new RelayCommand(OnEditString);
 			EditListCommand = new RelayCommand(OnEditList);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
@@ -53,14 +57,26 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		bool _isSimpleType = true;
+		public bool IsSimpleType
+		{
+			get { return _isSimpleType; }
+			set
+			{
+				_isSimpleType = value;
+				OnPropertyChanged(() => IsSimpleType);
+			}
+		}
+
 		ExplicitType _explicitType;
 		public ExplicitType ExplicitType
 		{
 			get { return _explicitType; }
 			set
 			{
-				if(_explicitType != value)
+				if (_explicitType != value)
 				{
+					IsSimpleType = value != ExplicitType.Object;
 					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 					ExplicitValue = new ExplicitValueViewModel();
 				}
@@ -107,6 +123,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public RelayCommand EditStringCommand { get; private set; }
+		void OnEditString()
+		{
+			var stringDetailsViewModel = new StringDetailsViewModel(ExplicitValue.StringValue);
+			if (DialogService.ShowModalWindow(stringDetailsViewModel))
+				ExplicitValue.StringValue = stringDetailsViewModel.StringValue;
+		}
+
 		public RelayCommand EditListCommand { get; private set; }
 		void OnEditList()
 		{
@@ -116,6 +140,14 @@ namespace AutomationModule.ViewModels
 					return;
 			if (explicitValues != null)
 				ExplicitValues = new ObservableCollection<ExplicitValueViewModel>(explicitValues);
+			OnPropertyChanged(() => ExplicitValues);
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var explicitValueViewModel = new ExplicitValueViewModel();
+			ExplicitValues.Add(explicitValueViewModel);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
@@ -130,7 +162,7 @@ namespace AutomationModule.ViewModels
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
 			if (IsList)
-				{
+			{
 				var explicitValues = ExplicitValues.ToList();
 				ProcedureHelper.SelectObjects(ObjectType, ref explicitValues);
 				if (explicitValues != null)

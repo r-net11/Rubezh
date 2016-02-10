@@ -53,9 +53,23 @@ namespace PlansModule.Designer
 			Add(presenterItem);
 			return presenterItem;
 		}
-		public MonitorSubPlanPresenterItem CreateMonitorPresenterItem(ElementBase elementBase)
+		public MonitorSubPlanPresenterItem CreateMonitorPresenterItem(ElementRectangleSubPlan elementBase)
 		{
 			var presenterItem = new MonitorSubPlanPresenterItem(elementBase);
+			Add(presenterItem);
+			return presenterItem;
+		}
+
+		public MonitorSubPlanPresenterItem CreateMonitorPresenterItem(ElementPolygonSubPlan elementBase)
+		{
+			var presenterItem = new MonitorSubPlanPresenterItem(elementBase);
+			Add(presenterItem);
+			return presenterItem;
+		}
+
+		public MonitorTextBoxPresenterItem CreateMonitorTextBoxPresenterItem(ElementTextBox elementBase)
+		{
+			var presenterItem = new MonitorTextBoxPresenterItem(elementBase);
 			Add(presenterItem);
 			return presenterItem;
 		}

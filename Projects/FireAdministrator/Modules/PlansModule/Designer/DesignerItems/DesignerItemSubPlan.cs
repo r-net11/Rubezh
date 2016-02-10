@@ -10,28 +10,28 @@ namespace PlansModule.Designer.DesignerItems
 		public DesignerItemSubPlan(ElementBase element)
 			: base(element)
 		{
-			if (Element is ElementSubPlan)
+			if (Element is IElementSubPlan)
 			{
-				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
+				Title = Helper.GetSubPlanTitle((IElementSubPlan)Element);
 				Group = Helper.SubPlanAlias;
 			}
 		}
 		protected override Infrastructure.Common.Windows.ViewModels.SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
-			if (Element is ElementSubPlan)
-				return new SubPlanPropertiesViewModel(Element as ElementSubPlan);
+			if (Element is IElementSubPlan)
+				return new SubPlanPropertiesViewModel(Element as IElementSubPlan);
 			return base.CreatePropertiesViewModel();
 		}
 		public override void UpdateElementProperties()
 		{
-			if (Element is ElementSubPlan)
-				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
+			if (Element is IElementSubPlan)
+				Title = Helper.GetSubPlanTitle((IElementSubPlan)Element);
 			base.UpdateElementProperties();
 		}
 		protected override void SetIsMouseOver(bool value)
 		{
-			if (Element is ElementSubPlan)
-				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
+			if (Element is IElementSubPlan)
+				Title = Helper.GetSubPlanTitle((IElementSubPlan)Element);
 			base.SetIsMouseOver(value);
 		}
 	}

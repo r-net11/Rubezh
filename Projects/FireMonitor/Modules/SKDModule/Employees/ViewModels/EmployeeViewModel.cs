@@ -17,10 +17,7 @@ namespace SKDModule.ViewModels
 			get 
 			{
 				var isWithDeleted = (ParentViewModel as EmployeesViewModel).IsWithDeleted;
-				if (!IsOrganisation && (isWithDeleted || !IsDepartmentDeleted))
-					return IsOrganisation ? "" : Model.DepartmentName;
-				else
-					return "";
+				return !IsOrganisation && (isWithDeleted || !IsDepartmentDeleted) ? Model.DepartmentName : "";
 			}
 		}
 		public string PositionName
@@ -28,10 +25,7 @@ namespace SKDModule.ViewModels
 			get 
 			{
 				var isWithDeleted = (ParentViewModel as EmployeesViewModel).IsWithDeleted;
-				if (!IsOrganisation && (isWithDeleted || !IsPositionDeleted))
-					return Model.PositionName;
-				else
-					return "";
+				return !IsOrganisation && (isWithDeleted || !IsPositionDeleted) ? Model.PositionName : "";
 			}
 		}
 		public string FirstName

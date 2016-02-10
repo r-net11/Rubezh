@@ -15,6 +15,14 @@
 		<Views:DirectionPropertiesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationPropertiesViewModel}">
+		<Views:PumpStationPropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:MPTPropertiesViewModel}">
+		<Views:MPTPropertiesView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:DelayPropertiesViewModel}">
 		<Views:DelayPropertiesView />
 	</DataTemplate>

@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
+﻿using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
 
 namespace SKDModule.ViewModels
 {
@@ -100,7 +101,7 @@ namespace SKDModule.ViewModels
 			var scheduleModels = GKScheduleHelper.GetSchedules();
 			if (scheduleModels == null)
 				scheduleModels = new List<GKSchedule>();
-			foreach (var schedule in scheduleModels.OrderBy(x=>x.No))
+			foreach (var schedule in scheduleModels.OrderBy(x => x.No))
 			{
 				GKSchedules.Add(schedule);
 			}
@@ -151,6 +152,16 @@ namespace SKDModule.ViewModels
 			{
 				_gkLevel = value;
 				OnPropertyChanged(() => GKLevel);
+			}
+		}
+
+		public bool IsGKLevelEditable
+		{
+			get
+			{
+				if (Organisation.MaxGKLevel > 0)
+					return true;
+				else return false;
 			}
 		}
 
@@ -350,14 +361,14 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 			}
-	
+
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
 			}
-			
+
 			if (_employee.Type == PersonType.Guest)
 				Card.GKCardType = GKCardType.Employee;
 			else
@@ -401,16 +412,17 @@ namespace SKDModule.ViewModels
 		{
 			if (Number <= 0 || Number > Int32.MaxValue)
 			{
-				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
+				MessageBoxService.ShowWarning(String.Format("Номер карты должен быть задан в пределах 1 ... {0}", Int32.MaxValue - 1));
 				return false;
 			}
 
-			if (GKLevel < 0 || GKLevel > 255)
+			if (GKLevel < 0 || GKLevel > Organisation.MaxGKLevel)
 			{
-				MessageBoxService.ShowWarning("Уровень доступа должен быть в пределах от 0 до 255");
+				MessageBoxService.ShowWarning(String.Format("Уровень доступа должен быть в пределах от 0 до {0}", Organisation.MaxGKLevel.ToString()));
 				return false;
 			}
 			return true;
+
 		}
 	}
 }

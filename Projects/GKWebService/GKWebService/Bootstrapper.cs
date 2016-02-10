@@ -1,20 +1,31 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using GKProcessor;
+using GKWebService.DataProviders;
+using GKWebService.DataProviders.MPTHubs;
+using GKWebService.Models;
+using Infrastructure.Common;
+using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhClient;
-using GKProcessor;
-using Infrastructure.Common;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using RubezhAPI.Journal;
+using System.Linq;
+using System.Threading;
+using GKWebService.DataProviders.FireZones;
+using GKWebService.DataProviders.PumpStations;
 
 namespace GKWebService
 {
 	public static class Bootstrapper
 	{
-		public static void Run() {
-		    SubscribeOnServiceStateEvents();
+		private static object syncBootstrapper = new object();
+
+		public static void Run()
+		{
+
+			SubscribeOnServiceStateEvents();
 
 			for (int i = 1; i <= 10; i++)
 			{
@@ -28,44 +39,48 @@ namespace GKWebService
 					return;
 				}
 			}
-            
+
 			InitServer();
 		}
 
-	    private static void InitServer() {
-	        InitializeGk();
-	        ClientManager.StartPoll();
-	    }
-
-	    private static void SubscribeOnServiceStateEvents() {
-	        SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
-            SafeFiresecService.ConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
-	    }
-
-	    private static void SafeFiresecServiceOnConnectionAppeared() {
-            //InitServer();
-            //PlansUpdater.Instance.
-	    }
-
-	    private static void SafeFiresecServiceOnConfigurationChangedEvent() {
-            //InitServer();
-	    }
-
-	    static void InitializeGk()
+		private static void InitServer()
 		{
-			ClientManager.GetConfiguration("Sergey_GKOPC/Configuration");
-            
+			InitializeGK();
+			ClientManager.StartPoll();
+		}
+
+		private static void SubscribeOnServiceStateEvents()
+		{
+			SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
+			SafeFiresecService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
+		}
+
+		private static void SafeFiresecServiceOnConnectionAppeared()
+		{
+			//InitServer();
+			//PlansUpdater.Instance.
+		}
+
+		private static void SafeFiresecServiceOnConfigurationChangedEvent()
+		{
+			//InitServer();
+		}
+
+		static void InitializeGK()
+		{
+			ClientManager.GetConfiguration("GKWEB/Configuration");
+
 			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
 			InitializeStates();
 
-			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGkCallbackResult);
-			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGkCallbackResult);
+			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			//SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
-			//SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
+			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnNewJournalItem);
+			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnNewJournalItem);
 
 			ShowAllObjects();
 		}
@@ -73,15 +88,19 @@ namespace GKWebService
 		static void InitializeStates()
 		{
 			var gkStates = ClientManager.FiresecService.GKGetStates();
-			CopyGkStates(gkStates);
+			CopyGKStates(gkStates);
 		}
 
-		static void OnGkCallbackResult(GKCallbackResult gkCallbackResult)
+		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
-			CopyGkStates(gkCallbackResult.GKStates);
+			CopyGKStates(gkCallbackResult.GKStates);
+			if (AlarmsUpdaterHub.Instance != null)
+			{
+				AlarmsUpdaterHub.Instance.BroadcastAlarms();
+			}
 		}
 
-		static void CopyGkStates(GKStates gkStates)
+		static void CopyGKStates(GKStates gkStates)
 		{
 			foreach (var remoteDeviceState in gkStates.DeviceStates)
 			{
@@ -89,6 +108,10 @@ namespace GKWebService
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
+					if (DevicesHub.Instance!= null)
+					{
+						DevicesHub.Instance.DevicesUpdate(device);
+					}
 				}
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)
@@ -97,6 +120,10 @@ namespace GKWebService
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
+				    if (FireZonesUpdaterHub.Instance != null)
+				    {
+				        FireZonesUpdaterHub.Instance.BroadcastFireZone(zone);
+				    }
 				}
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
@@ -105,6 +132,10 @@ namespace GKWebService
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
+					if (DirectionsUpdaterHub.Instance != null)
+					{
+						DirectionsUpdaterHub.Instance.BroadcastDirection(direction);
+					}
 				}
 			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)
@@ -113,6 +144,8 @@ namespace GKWebService
 				if (pumpStation != null)
 				{
 					remotePumpStationState.CopyTo(pumpStation.State);
+					if (PumpStationsHub.Instance != null)
+						PumpStationsHub.Instance.PumpStationstUpdate(pumpStation);
 				}
 			}
 			foreach (var delayState in gkStates.DelayStates)
@@ -123,6 +156,8 @@ namespace GKWebService
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
+					if (DelaysUpdaterHub.Instance != null)
+						DelaysUpdaterHub.Instance.DelayUpdate(new Delay(delay));
 				}
 			}
 			foreach (var remotePimState in gkStates.PimStates)
@@ -141,6 +176,10 @@ namespace GKWebService
 				if (mpt != null)
 				{
 					mptState.CopyTo(mpt.State);
+					if (MptUpdaterHub.Instance != null)
+					{
+						MptUpdaterHub.Instance.MptUpdate(mpt);
+					}
 				}
 			}
 			foreach (var guardZoneState in gkStates.GuardZoneStates)
@@ -161,46 +200,46 @@ namespace GKWebService
 			}
 		}
 
-		static void OnNewJournalItem(JournalItem journalItem)
+		static void OnNewJournalItem(List<JournalItem> journalItems, bool boool)
 		{
-			var journalItemViewModel = new JournalItemViewModel(journalItem);
-			Trace.WriteLine("");
+			if (JournalUpdaterHub.Instance != null)
+				JournalUpdaterHub.Instance.BroadcastNewJournalItems(journalItems);
 		}
 
 		static void ShowAllObjects()
 		{
-            //foreach(var device in GKManager.Devices)
-            //{
-            //    Trace.WriteLine(device.PresentationName);
-            //}
-            //foreach (var zone in GKManager.Zones)
-            //{
-            //    Trace.WriteLine(zone.PresentationName);
-            //}
-            //foreach (var direction in GKManager.Directions)
-            //{
-            //    Trace.WriteLine(direction.PresentationName);
-            //}
-            //foreach (var delay in GKManager.Delays)
-            //{
-            //    Trace.WriteLine(delay.PresentationName);
-            //}
-            //foreach (var mpt in GKManager.MPTs)
-            //{
-            //    Trace.WriteLine(mpt.PresentationName);
-            //}
-            //foreach (var pumpStation in GKManager.PumpStations)
-            //{
-            //    Trace.WriteLine(pumpStation.PresentationName);
-            //}
-            //foreach (var guardZone in GKManager.GuardZones)
-            //{
-            //    Trace.WriteLine(guardZone.PresentationName);
-            //}
-            //foreach (var door in GKManager.Doors)
-            //{
-            //    Trace.WriteLine(door.PresentationName);
-            //}
+			//foreach(var device in GKManager.Devices)
+			//{
+			//    Trace.WriteLine(device.PresentationName);
+			//}
+			//foreach (var zone in GKManager.Zones)
+			//{
+			//    Trace.WriteLine(zone.PresentationName);
+			//}
+			//foreach (var direction in GKManager.Directions)
+			//{
+			//    Trace.WriteLine(direction.PresentationName);
+			//}
+			//foreach (var delay in GKManager.Delays)
+			//{
+			//    Trace.WriteLine(delay.PresentationName);
+			//}
+			//foreach (var mpt in GKManager.MPTs)
+			//{
+			//    Trace.WriteLine(mpt.PresentationName);
+			//}
+			//foreach (var pumpStation in GKManager.PumpStations)
+			//{
+			//    Trace.WriteLine(pumpStation.PresentationName);
+			//}
+			//foreach (var guardZone in GKManager.GuardZones)
+			//{
+			//    Trace.WriteLine(guardZone.PresentationName);
+			//}
+			//foreach (var door in GKManager.Doors)
+			//{
+			//    Trace.WriteLine(door.PresentationName);
+			//}
 		}
 	}
 }

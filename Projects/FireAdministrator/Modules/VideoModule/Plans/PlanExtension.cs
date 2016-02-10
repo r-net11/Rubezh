@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
 using Infrastructure.Client.Plans;
+using Infrastructure.Events;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using VideoModule.Plans.Designer;
 using VideoModule.Plans.ViewModels;
 using VideoModule.ViewModels;
-using Infrastructure.Events;
-using Infrustructure.Plans.Interfaces;
 
 namespace VideoModule.Plans
 {
@@ -118,7 +117,7 @@ namespace VideoModule.Plans
 			if (typeof(TItem) == typeof(Camera))
 			{
 				var camera = item as Camera;
-				designerItem.Title = camera == null ? "Неизвестная камера" : camera.Name;
+				designerItem.Title = camera == null ? "Неизвестная камера" : camera.PresentationName;
 			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);

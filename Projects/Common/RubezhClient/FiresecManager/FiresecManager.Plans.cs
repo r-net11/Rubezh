@@ -5,6 +5,7 @@ using Common;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using Infrustructure.Plans.Elements;
+using RubezhAPI;
 
 namespace RubezhClient
 {
@@ -17,11 +18,17 @@ namespace RubezhClient
                 foreach (var Plan in PlansConfiguration.AllPlans)
                 {
                     var keys = PlansConfiguration.AllPlans.Select(item => item.UID).ToList();
-                    var elementSubPlans = new List<ElementSubPlan>();
+                    var elementSubPlans = new List<ElementRectangleSubPlan>();
                     foreach (var elementSubPlan in Plan.ElementSubPlans)
                         if (keys.Contains(elementSubPlan.PlanUID))
                             elementSubPlans.Add(elementSubPlan);
                     Plan.ElementSubPlans = elementSubPlans;
+
+					var elementPolygonSubPlans = new List<ElementPolygonSubPlan>();
+					foreach (var elementSubPlan in Plan.ElementPolygonSubPlans)
+						if (keys.Contains(elementSubPlan.PlanUID))
+							elementPolygonSubPlans.Add(elementSubPlan);
+					Plan.ElementPolygonSubPlans = elementPolygonSubPlans;
 
                     keys = GKManager.Zones.Select(item => item.UID).ToList();
                     var elementRectangleGKZones = new List<ElementRectangleGKZone>();

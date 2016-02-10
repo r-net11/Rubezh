@@ -44,6 +44,10 @@
     <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="OpcClientSdk40, Version=7.1.0.1, Culture=neutral, PublicKeyToken=aaf49bf92e1a676f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\zabelloda\Documents\Downloads\NET40\NET40\OpcClientSdk40.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
@@ -69,6 +73,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Technosoftware.Logging40">
+      <HintPath>C:\Users\petrovdy\Documents\OPC DA AE HDA Client SDK .NET\binaries\NET40\Technosoftware.Logging40.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
@@ -87,6 +94,8 @@
     <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
+    <Compile Include="Events\ShowOpcDaClientEvent.cs" />
+    <Compile Include="Events\ShowOpcTechnosoftwareEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="Events\ShowOPCServersEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
@@ -109,6 +118,37 @@
     <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObjectSelection\ViewModels\MPTSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\PumpStationSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\MPTViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\PumpStationViewModel.cs" />
+    <Compile Include="ObjectSelection\Views\MPTSelectionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\PumpStationSelectionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientAddingServersViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientEditingTagsViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientElementViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientMenuViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientReadWriteTagsViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaClientViewModel.cs" />
+    <Compile Include="OpcDaClient\Views\OpcDaClientAddingServersView.xaml.cs">
+      <DependentUpon>OpcDaClientAddingServersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\Views\OpcDaClientEditingTagsView.xaml.cs">
+      <DependentUpon>OpcDaClientEditingTagsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\Views\OpcDaClientMenuView.xaml.cs">
+      <DependentUpon>OpcDaClientMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\Views\OpcDaClientReadWriteView.xaml.cs">
+      <DependentUpon>OpcDaClientReadWriteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaClient\Views\OpcDaClientView.xaml.cs">
+      <DependentUpon>OpcDaClientView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OPCServers\ViewModels\Client.cs" />
     <Compile Include="OPCServers\ViewModels\ConfigClass.cs" />
     <Compile Include="OPCServers\ViewModels\TagViewModel.cs" />
@@ -116,6 +156,20 @@
     <Compile Include="OPCServers\ViewModels\OPCTagViewModel.cs" />
     <Compile Include="OPCServers\Views\OPCSelectTagsView.xaml.cs">
       <DependentUpon>OPCSelectTagsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareTagValueBaseViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareTagValueBoolViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareMenuViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftwareViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\ViewModels\OpcTechnosoftWriteTagsViewModel.cs" />
+    <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftwareMenuView.xaml.cs">
+      <DependentUpon>OpcTechnosoftwareMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftwareView.xaml.cs">
+      <DependentUpon>OpcTechnosoftwareView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcTechnosoftware\Views\OpcTechnosoftWriteTagsView.xaml.cs">
+      <DependentUpon>OpcTechnosoftWriteTagsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\AutomationPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
@@ -144,8 +198,10 @@
     </Compile>
     <Compile Include="Steps\ViewModels\ControlDelayStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlMPTStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\HttpRequestStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPumpStationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlGKDoorStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlOpcDaTagStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
@@ -192,6 +248,7 @@
     <Compile Include="Steps\ViewModels\RunProgramStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetJournalItemGuidStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\CloseDialogStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowDialogStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowMessageStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetValueStepViewModel.cs" />
@@ -229,11 +286,11 @@
     <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
       <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs">
-      <DependentUpon>ControlMPTStepView.xaml</DependentUpon>
+    <Compile Include="Steps\Views\HttpRequestStepView.xaml.cs">
+      <DependentUpon>HttpRequestStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Steps\Views\ControlPumpStationStepView.xaml.cs">
-      <DependentUpon>ControlPumpStationStepView.xaml</DependentUpon>
+    <Compile Include="Steps\Views\ControlOpcDaTagStepView.xaml.cs">
+      <DependentUpon>ControlOpcDaTagStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlDirectionStepView.xaml.cs">
       <DependentUpon>ControlDirectionStepView.xaml</DependentUpon>
@@ -297,6 +354,9 @@
     </Compile>
     <Compile Include="Steps\Views\SetJournalItemGuidStepView.xaml.cs">
       <DependentUpon>SetJournalItemGuidStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\CloseDialogStepView.xaml.cs">
+      <DependentUpon>CloseDialogStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ShowDialogStepView.xaml.cs">
       <DependentUpon>ShowDialogStepView.xaml</DependentUpon>
@@ -430,6 +490,12 @@
     <Compile Include="Steps\Views\NowStepView.xaml.cs">
       <DependentUpon>NowStepView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\Views\ControlMPTStepView.xaml.cs">
+      <DependentUpon>ControlMPTStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlPumpStationStepView.xaml.cs">
+      <DependentUpon>ControlPumpStationStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
     <Compile Include="Validation\ProcedureStepValidationError.cs" />
     <Compile Include="Validation\ProcedureValidationError.cs" />
@@ -534,9 +600,57 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ObjectSelection\Views\MPTSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\PumpStationSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcDaClient\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientAddingServersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientEditingTagsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientReadWriteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaClient\Views\OpcDaClientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OPCServers\Views\OPCSelectTagsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcTechnosoftware\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcTechnosoftware\Views\OpcTechnosoftwareMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcTechnosoftware\Views\OpcTechnosoftwareView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcTechnosoftware\Views\OpcTechnosoftWriteTagsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -582,11 +696,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Steps\Views\ControlMPTStepView.xaml">
+    <Page Include="Steps\Views\HttpRequestStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Steps\Views\ControlPumpStationStepView.xaml">
+    <Page Include="Steps\Views\ControlOpcDaTagStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -637,6 +751,10 @@
     <Page Include="Steps\Views\SetJournalItemGuidStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\CloseDialogStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ShowDialogStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -858,6 +976,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Steps\Views\ControlMPTStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlPumpStationStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Sounds\Views\SoundsMenuView.xaml">
@@ -870,6 +996,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="OpcTechnosoftware\Models\" />
     <Folder Include="Procedures\Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

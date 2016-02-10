@@ -70,8 +70,11 @@
     <Compile Include="Elements\IElementRectangle.cs" />
     <Compile Include="Elements\IElementDirection.cs" />
     <Compile Include="Elements\IElementBackground.cs" />
+    <Compile Include="Elements\IElementSubPlan.cs" />
     <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Elements\IElementMPT.cs" />
+    <Compile Include="Elements\PlanElementBindingItem.cs" />
+    <Compile Include="Elements\RGPointCollection.cs" />
     <Compile Include="Events\PlansConfigurationChangedEvent.cs" />
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
@@ -126,6 +129,7 @@
     <Compile Include="Painters\RectangleZonePainter.cs" />
     <Compile Include="Painters\SubPlanPainter.cs" />
     <Compile Include="Painters\TextBlockPainter.cs" />
+    <Compile Include="Painters\TextBoxPainter.cs" />
     <Compile Include="Presenter\BaseMonitor.cs" />
     <Compile Include="Presenter\BorderPainter.cs" />
     <Compile Include="Presenter\PresenterItem.cs" />

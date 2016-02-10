@@ -10,17 +10,10 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Строка подключения к БД" VerticalAlignment="Center" />
-		<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding DbConnectionString, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsSetConnectionString}" />
-		
-		<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Тип базы данных" VerticalAlignment="Center" />
-		<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left"  ItemsSource="{Binding DbTypes}" SelectedItem="{Binding SelectedDbType}">
+
+		<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Тип базы данных" VerticalAlignment="Center" />
+		<ComboBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left"  ItemsSource="{Binding DbTypes}" SelectedItem="{Binding SelectedDbType}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" />
@@ -28,81 +21,74 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Grid Grid.Row="4" Grid.ColumnSpan="2" Visibility="{Binding IsMsSQL, Converter={StaticResource BoolToVisibilityConverter}}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Задать параметры строки подключения" VerticalAlignment="Center" />
-			<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsCreateConnectionString}" />
-			
-			<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Адрес" VerticalAlignment="Center" />
-			<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding DataSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCreateConnectionString}" />
-			
-			<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Название БД" VerticalAlignment="Center" />
-			<TextBox Grid.Row="3" Grid.Column="1" Margin="2" 
-					 Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCreateConnectionString}" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Задать параметры строки подключения" VerticalAlignment="Center" />
+		<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsCreateConnectionString}" />
 
-			<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Аунтефикация SQL" VerticalAlignment="Center" />
-			<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsSQLAuthentication}" IsEnabled="{Binding IsCreateConnectionString}" />
-			
-			<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" VerticalAlignment="Center" />
-			<TextBox Grid.Row="5" Grid.Column="1" Margin="2" 
-					 Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCanSetLogin}" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Строка подключения к БД" VerticalAlignment="Center" 
+				   Visibility="{Binding IsSetConnectionString, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<TextBox Grid.Row="2" Grid.Column="1" Margin="2" 
+				 Text="{Binding DbConnectionString, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsSetConnectionString, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-			<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" VerticalAlignment="Center" />
-			<TextBox Grid.Row="6" Grid.Column="1" Margin="2" 
-					 Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCanSetLogin}" />
-		</Grid>
+		<Grid Grid.Row="2" Grid.ColumnSpan="2" Visibility="{Binding IsCreateConnectionString, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid Visibility="{Binding IsMsSQL, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Адрес" VerticalAlignment="Center" />
+				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding DataSource, UpdateSourceTrigger=PropertyChanged}" />
 
-		<Grid Grid.Row="4" Grid.ColumnSpan="2" Visibility="{Binding IsPostgres, Converter={StaticResource BoolToVisibilityConverter}}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Задать параметры строки подключения" VerticalAlignment="Center" />
-			<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsCreateConnectionString}" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Название БД" VerticalAlignment="Center" />
+				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}" />
 
-			<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Сервер" VerticalAlignment="Center" />
-			<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCreateConnectionString}" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Аутентификация SQL" VerticalAlignment="Center" />
+				<CheckBox Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsSQLAuthentication}" />
 
-			<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт" VerticalAlignment="Center" />
-			<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCreateConnectionString}" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" VerticalAlignment="Center" />
+				<TextBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCanSetLogin}" />
 
-			<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Название БД" VerticalAlignment="Center" />
-			<TextBox Grid.Row="3" Grid.Column="1" Margin="2" 
-					 Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCreateConnectionString}" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" VerticalAlignment="Center" />
+				<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCanSetLogin}" />
+			</Grid>
 
-			<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Аунтефикация SQL" VerticalAlignment="Center" />
-			<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsSQLAuthentication}" IsEnabled="{Binding IsCreateConnectionString}" />
+			<Grid Visibility="{Binding IsPostgres, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Сервер" VerticalAlignment="Center" />
+				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" />
 
-			<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" VerticalAlignment="Center" />
-			<TextBox Grid.Row="5" Grid.Column="1" Margin="2" 
-					 Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCanSetLogin}" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт" VerticalAlignment="Center" />
+				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" />
 
-			<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" VerticalAlignment="Center" />
-			<TextBox Grid.Row="6" Grid.Column="1" Margin="2" 
-					 Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCanSetLogin}" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Название БД" VerticalAlignment="Center" />
+				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}" />
+
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Аутентификация SQL" VerticalAlignment="Center" />
+				<CheckBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding IsSQLAuthentication}" />
+
+				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" VerticalAlignment="Center" />
+				<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
+
+				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" VerticalAlignment="Center" />
+				<TextBox Grid.Row="5" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCanSetLogin}" />
+			</Grid>
 		</Grid>
 	</Grid>
 </UserControl>

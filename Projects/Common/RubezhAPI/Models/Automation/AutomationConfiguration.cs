@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using RubezhAPI.Models;
 
 namespace RubezhAPI.Automation
 {
@@ -32,6 +32,9 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public List<Variable> GlobalVariables { get; set; }
+
+		[DataMember]
+		public List<OpcDaServer> OpcDaTsServers { get; set; }
 
 		public void UpdateConfiguration()
 		{
@@ -363,9 +366,23 @@ namespace RubezhAPI.Automation
 						InvalidateArgument(procedure, controlPlanArguments.ValueArgument);
 					}
 					break;
-				case ProcedureStepType.ShowDialog:
+				case ProcedureStepType.ControlOpcDaTagGet:
+				case ProcedureStepType.ControlOpcDaTagSet:
+					var server = OpcDaTsServers.FirstOrDefault(x => x.Uid == step.ControlOpcDaTagArguments.OpcDaServerUID);
+					if (server == null)
 					{
+						step.ControlOpcDaTagArguments.OpcDaServerUID = Guid.Empty;
+						step.ControlOpcDaTagArguments.OpcDaTagUID = Guid.Empty;
 					}
+					else if (server.Tags.All(x => x.Uid != step.ControlOpcDaTagArguments.OpcDaTagUID))
+						step.ControlOpcDaTagArguments.OpcDaTagUID = Guid.Empty;
+					InvalidateArgument(procedure, step.ControlOpcDaTagArguments.ValueArgument);
+					break;
+				case ProcedureStepType.ShowDialog:
+					InvalidateArgument(procedure, step.ShowDialogArguments.WindowIDArgument);
+					break;
+				case ProcedureStepType.CloseDialog:
+					InvalidateArgument(procedure, step.CloseDialogArguments.WindowIDArgument);
 					break;
 				case ProcedureStepType.GenerateGuid:
 					InvalidateArgument(procedure, step.GenerateGuidArguments.ResultArgument);
@@ -403,6 +420,12 @@ namespace RubezhAPI.Automation
 					}
 				case ProcedureStepType.Now:
 					InvalidateArgument(procedure, step.NowArguments.ResultArgument);
+					break;
+				case ProcedureStepType.HttpRequest:
+					var httpRequestArguments = step.HttpRequestArguments;
+					InvalidateArgument(procedure, httpRequestArguments.UrlArgument);
+					InvalidateArgument(procedure, httpRequestArguments.ContentArgument);
+					InvalidateArgument(procedure, httpRequestArguments.ResponseArgument);
 					break;
 			}
 		}

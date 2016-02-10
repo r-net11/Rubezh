@@ -16,16 +16,12 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
 
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Описание" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
-
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Количество последних записей" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding LastItemsCount}" Minimum="10" Maximum="100" Margin="2" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Событие" DataContext="{Binding NamesViewModel}">

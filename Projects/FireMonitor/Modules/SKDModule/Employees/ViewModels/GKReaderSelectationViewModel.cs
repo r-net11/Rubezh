@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using RubezhClient;
+using RubezhAPI;
 
 namespace SKDModule.ViewModels
 {

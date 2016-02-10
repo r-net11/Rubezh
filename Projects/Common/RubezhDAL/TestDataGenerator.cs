@@ -1,13 +1,10 @@
 ﻿using RubezhAPI;
-using RubezhClient;
+using RubezhAPI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using EntityFramework.BulkInsert.Extensions;
-using System.Data.SqlClient;
-using EntityFramework.BulkInsert.Providers;
 using Infrastructure.Common;
 
 namespace RubezhDAL.DataClasses
@@ -21,23 +18,19 @@ namespace RubezhDAL.DataClasses
             Context = dbService.Context;
             _dbService = dbService;
         }
-        public OperationResult GenerateTestData(bool isAscending)
+        public OperationResult<bool> GenerateTestData(bool isAscending)
         {
-            try
+            return DbServiceHelper.InTryCatch(() =>
             {
                 var cards = TestEmployeeCards();
                 TestCardDoors(cards, true);
-                return new OperationResult();
-            }
-            catch (Exception e)
-            {
-                return new OperationResult(e.Message);
-            }
+				return true;
+            });
         }
 
-        public OperationResult GenerateJournal()
+        public OperationResult<bool> GenerateJournal()
         {
-            try
+            return DbServiceHelper.InTryCatch(() =>
             {
 				var random = new Random();
                 //var journals = new List<Journal>();
@@ -76,13 +69,9 @@ namespace RubezhDAL.DataClasses
 				_dbService.JournalTranslator.AddRange(journals);
 				//Context.BulkInsert(journals);
                 //Context.SaveChanges();
-                return new OperationResult();
-            }
-            catch (Exception e)
-            {
-                return new OperationResult(e.Message);
-            }
-        }
+                return true;
+            });
+		}
 
         public List<Guid> GetEmployeeCards()
         {
@@ -95,8 +84,8 @@ namespace RubezhDAL.DataClasses
 			int totalOrganisations = 1;
 			int positionsPerOrganisation = 1000;
 			int rootDepartmentsPerOrganisation = 100;
-			int employeesPerOrganisation = 6500;
-			int cardsPerEmployee = 1;
+			int employeesPerOrganisation = 6600;
+			int cardsPerEmployee = 10;
 
 			int cardNumber = 0;
 			Context.Configuration.AutoDetectChangesEnabled = false;
@@ -161,7 +150,7 @@ namespace RubezhDAL.DataClasses
 				departments.AddRange(opranisationDepartments);
             }
 
-			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			switch (GlobalSettingsHelper.GlobalSettings.DbSettings.DbType)
 			{
 				case DbType.MsSql:
 					Context.BulkInsert(positions);
@@ -207,7 +196,7 @@ namespace RubezhDAL.DataClasses
 					cardDoors.Add(cardDoor);
                 }
             }
-			switch (GlobalSettingsHelper.GlobalSettings.DbType)
+			switch (GlobalSettingsHelper.GlobalSettings.DbSettings.DbType)
 			{
 				case DbType.MsSql:
 					Context.BulkInsert(cardDoors);
@@ -290,9 +279,9 @@ namespace RubezhDAL.DataClasses
             };
         }
 
-        public OperationResult GenerateEmployeeDays()
+        public OperationResult<bool> GenerateEmployeeDays()
         {
-            try
+            return DbServiceHelper.InTryCatch(() =>
             {
                 var result = new List<EmployeeDay>();
                 var employees = Context.Employees.Where(x => !x.IsDeleted);
@@ -333,7 +322,7 @@ namespace RubezhDAL.DataClasses
                             var dayIntervalParts = scheduleScheme.ScheduleDays.FirstOrDefault(x => x.Number == dayNo).DayInterval.DayIntervalParts;
                             foreach (var dayIntervalPart in dayIntervalParts)
                             {
-								employeeDay.DayIntervalsString += dayIntervalPart.BeginTimeSpan + "-" + dayIntervalPart.EndTimeSpan + ";";
+								employeeDay.DayIntervalsString += dayIntervalPart.BeginTimeTotalSeconds + "-" + dayIntervalPart.EndTimeTotalSeconds + ";";
                             }
                             employee.LastEmployeeDayUpdate = employeeDay.Date;
                             Context.SaveChanges();
@@ -342,12 +331,8 @@ namespace RubezhDAL.DataClasses
                     }
                 }
                 Context.EmployeeDays.AddRange(result);
-                return new OperationResult();
-            }
-            catch (Exception e)
-            {
-                return new OperationResult(e.Message);
-            }
+                return true;
+            });
         }
     }
 }

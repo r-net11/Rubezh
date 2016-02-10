@@ -62,6 +62,7 @@
     <Compile Include="Administrator\GKFileInfo.cs" />
     <Compile Include="Administrator\GKFileReaderWriter.cs" />
     <Compile Include="Administrator\KauDescriptorsReader.cs" />
+    <Compile Include="Administrator\MirrorDescriptorsReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
     <Compile Include="Administrator\GKSKDHelper.cs" />
     <Compile Include="Administrator\GKAutoSearchHelper.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorEnter.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorExit.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaHelper.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\MirrorDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PumpStationDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\MPTDescriptor.cs" />
@@ -163,6 +165,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Sending\SendClient.cs" />
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
     <Compile Include="Watcher\LifeTimeWatcher.cs" />

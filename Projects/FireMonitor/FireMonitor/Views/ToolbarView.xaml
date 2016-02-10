@@ -12,8 +12,8 @@
 				<RowDefinition />
 				<RowDefinition Height="40" />
 			</Grid.RowDefinitions>
-			<TextBlock Name="_textBlock" Grid.Row="0" FontFamily="Arial" Style="{DynamicResource TextBlockDetailsStyle}" FontSize="23" Margin="15 0" />
-			<ItemsControl Grid.Row="1" VerticalAlignment="Center" Focusable="False" ItemsSource="{Binding ToolbarItems}" Margin="10 0">
+			<TextBlock Name="_textBlock" Grid.Row="0" FontFamily="Arial" Style="{DynamicResource TextBlockDetailsStyle}" FontSize="23" Margin="5 0" />
+			<ItemsControl Grid.Row="1" VerticalAlignment="Center" Focusable="False" ItemsSource="{Binding ToolbarItems}" Margin="2 0">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal" />

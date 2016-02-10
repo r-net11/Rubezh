@@ -101,6 +101,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
+    <Reference Include="OpcClientSdk40">
+      <HintPath>..\..\..\3rdParty\OPC\OpcClientSdk40.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -149,6 +152,8 @@
     <Compile Include="FiresecManager\SKDHelpers\OrganisationHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DocumentTypeHelper.cs" />
+    <Compile Include="GetStringValueHelper.cs" />
+    <Compile Include="Service\ISafeFiresecService.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\SafeFiresecService.GK.cs" />
     <Compile Include="Service\FileHelper.cs" />

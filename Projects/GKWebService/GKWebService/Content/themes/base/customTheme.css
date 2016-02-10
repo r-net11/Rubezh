@@ -396,13 +396,18 @@
 /* Out color-profile framework values
 ----------------------------------------*/
 
-[data-bind="visible:pages.Report"], 
+[data-bind="visible:pages.Journal"], 
 [data-bind="visible:pages.Archive"], 
 [data-bind="visible:pages.HR"], 
 [data-bind="visible:pages.State"], 
 [data-bind="visible:pages.Device"],
 [data-bind="visible:pages.Plan"],
-[data-bind="visible:pages.FireZones"]{
+[data-bind="visible:pages.FireZones"],
+[data-bind="visible:pages.Directions"],
+[data-bind="visible:pages.Delays"],
+[data-bind="visible:pages.MPTs"],
+[data-bind="visible:pages.PumpStations"]
+{
 	margin:10px 10px 0 0;
 }
 

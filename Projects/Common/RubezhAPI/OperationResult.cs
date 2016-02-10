@@ -17,9 +17,8 @@ namespace RubezhAPI
 			Errors = new List<string>();
 		}
 
-		public OperationResult(T result)
+		public OperationResult(T result) : this()
 		{
-			Errors = new List<string>();
 			Result = result;
 		}
 
@@ -71,45 +70,5 @@ namespace RubezhAPI
 			operationResult.Result = result;
 			return operationResult;
 		}
-	}
-
-	[DataContract]
-	[Serializable]
-	public class OperationResult
-	{
-		public OperationResult()
-		{
-			HasError = false;
-			Warnings = new List<string>();
-		}
-
-		public OperationResult(string error) 
-			: this()
-		{
-			HasError = true;
-			Error = error;
-		}
-
-		public OperationResult(List<string> errors)
-		{
-			if (errors != null && errors.Count > 0)
-			{
-				HasError = true;
-				Error = String.Join("\n", errors);
-			}
-			else
-				HasError = false;
-		}
-
-		[DataMember]
-		public bool HasError { get; set; }
-
-		[DataMember]
-		public string Error { get; set; }
-
-		[DataMember]
-		public List<string> Warnings { get; set; }
-
-		public bool HasWarnings { get { return Warnings.Count > 0; } }
 	}
 }

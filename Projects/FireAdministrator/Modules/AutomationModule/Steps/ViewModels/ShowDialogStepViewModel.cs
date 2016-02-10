@@ -1,19 +1,23 @@
-﻿using System;
+﻿using RubezhAPI.Automation;
+using RubezhClient;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhAPI.Automation;
-using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
 	public class ShowDialogStepViewModel : BaseStepViewModel
 	{
 		public ShowDialogArguments ShowDialogArguments { get; private set; }
+		public ArgumentViewModel WindowUIDArgument { get; private set; }
 
 		public ShowDialogStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
 			ShowDialogArguments = stepViewModel.Step.ShowDialogArguments;
+			IsServerContext = Procedure.ContextType == ContextType.Server;
+			WindowUIDArgument = new ArgumentViewModel(ShowDialogArguments.WindowIDArgument, stepViewModel.Update, UpdateContent);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowDialogArguments.LayoutFilter);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 
@@ -174,7 +178,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return string.Format("Открыть диалог: {0} {1}", SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModalWindow ? "(модальный)" : "(не модальный)");
+				return string.Format("Открыть диалог: {0} {1}; ID={2}", SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModalWindow ? "(модальный)" : "(не модальный)", WindowUIDArgument.Description);
 			}
 		}
 
@@ -192,8 +196,7 @@ namespace AutomationModule.ViewModels
 		{
 			Layouts = new ObservableCollection<LayoutViewModel>(ClientManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ShowDialogArguments.Layout);
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowDialogArguments.LayoutFilter);
-			IsServerContext = Procedure.ContextType == ContextType.Server;
+			WindowUIDArgument.Update(Procedure, ExplicitType.String);
 		}
 	}
 }

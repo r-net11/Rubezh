@@ -5,6 +5,11 @@ using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
 using PlansModule.InstrumentAdorners;
+using Infrastructure;
+using System.Linq;
+using Infrastructure.Designer.Events;
+using System;
+using RubezhClient;
 
 namespace PlansModule.ViewModels
 {
@@ -18,14 +23,25 @@ namespace PlansModule.ViewModels
 			PlansViewModel = plansViewModel;
 			DesignerCanvas = new DesignerCanvas(this);
 			DesignerCanvas.Toolbox.IsRightPanel = true;
-			DesignerCanvas.Toolbox.RegisterInstruments(new[]{
+			DesignerCanvas.Toolbox.RegisterInstruments(new[]
+			{
 				new InstrumentViewModel()
 				{
 					ImageSource="Subplan",
 					ToolTip="Ссылка на план",
 					Index = 1000,
-					Adorner = new SubPlanAdorner(DesignerCanvas),
-				}});
+					Adorner = new SubPlanRectangleAdorner(DesignerCanvas),
+					GroupIndex = 1000,
+				},
+				new InstrumentViewModel()
+				{
+					ImageSource="Subplan",
+					ToolTip="Ссылка на план",
+					Index = 1001,
+					Adorner = new SubPlanPolygonAdorner(DesignerCanvas),
+					GroupIndex = 1000,
+				},
+			});
 			AllowScalePoint = true;
 			FullScreenSize = true;
 		}

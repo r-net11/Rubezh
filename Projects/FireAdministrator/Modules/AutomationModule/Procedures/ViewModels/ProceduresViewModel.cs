@@ -1,22 +1,23 @@
+using AutomationModule.Plans;
+using Common;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
+using RubezhAPI.Automation;
+using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using Common;
-using RubezhAPI.Automation;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
-using RubezhClient;
-using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
 	public class ProceduresViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
+		public static ProcedureStep StepToCopy { get; set; }
 		public static ProceduresViewModel Current { get; private set; }
 		public ProceduresViewModel()
 		{
@@ -240,6 +241,10 @@ namespace AutomationModule.ViewModels
 					ReplaceVariableUid(step.ControlPlanArguments.ValueArgument, dictionary);
 					break;
 				case ProcedureStepType.ShowDialog:
+					ReplaceVariableUid(step.ShowDialogArguments.WindowIDArgument, dictionary);
+					break;
+				case ProcedureStepType.CloseDialog:
+					ReplaceVariableUid(step.CloseDialogArguments.WindowIDArgument, dictionary);
 					break;
 				case ProcedureStepType.GenerateGuid:
 					ReplaceVariableUid(step.GenerateGuidArguments.ResultArgument, dictionary);
@@ -265,6 +270,11 @@ namespace AutomationModule.ViewModels
 					break;
 				case ProcedureStepType.Now:
 					ReplaceVariableUid(step.NowArguments.ResultArgument, dictionary);
+					break;
+				case ProcedureStepType.HttpRequest:
+					ReplaceVariableUid(step.HttpRequestArguments.UrlArgument, dictionary);
+					ReplaceVariableUid(step.HttpRequestArguments.ContentArgument, dictionary);
+					ReplaceVariableUid(step.HttpRequestArguments.ResponseArgument, dictionary);
 					break;
 			}
 			foreach (var childStep in step.Children)
@@ -293,6 +303,7 @@ namespace AutomationModule.ViewModels
 			var procedureViewModel = new ProcedureViewModel(clone);
 			ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureViewModel.Procedure);
 			Procedures.Add(procedureViewModel);
+			AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 			SelectedProcedure = procedureViewModel;
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
@@ -311,6 +322,7 @@ namespace AutomationModule.ViewModels
 				ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
 				var procedureViewModel = new ProcedureViewModel(procedureDetailsViewModel.Procedure);
 				Procedures.Add(procedureViewModel);
+				AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 				SelectedProcedure = procedureViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
@@ -323,6 +335,7 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
 			{
 				SelectedProcedure.Update(procedureDetailsViewModel.Procedure);
+				procedureDetailsViewModel.Procedure.OnChanged();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -341,11 +354,13 @@ namespace AutomationModule.ViewModels
 		{
 			var index = Procedures.IndexOf(SelectedProcedure);
 			ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
+			SelectedProcedure.Procedure.OnChanged();
 			Procedures.Remove(SelectedProcedure);
 			index = Math.Min(index, Procedures.Count - 1);
 			if (index > -1)
 				SelectedProcedure = Procedures[index];
 			ServiceFactory.SaveService.AutomationChanged = true;
+			AutomationPlanExtension.Instance.Cache.BuildSafe<Procedure>();
 		}
 		bool CanDelete()
 		{

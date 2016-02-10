@@ -34,7 +34,7 @@ namespace GKWebService.Models
 
 		public List<AccessTemplate> AvailableAccessTemplates { get; set; }
 
-		public AccessTemplate SelectedAccessTemplate { get; set; }
+		public Guid? SelectedAccessTemplateId { get; set; }
 
 		public bool IsGuest { get; set; }
 		
@@ -73,15 +73,15 @@ namespace GKWebService.Models
 				})
 				.ToList();
 
-			if (SelectedAccessTemplate != null)
+			if (SelectedAccessTemplateId != null)
 			{
-				if (SelectedAccessTemplate.UID.Equals(Guid.Empty))
+				if (SelectedAccessTemplateId.Equals(Guid.Empty))
 				{
 					Card.AccessTemplateUID = null;
 				}
 				else
 				{
-					Card.AccessTemplateUID = SelectedAccessTemplate.UID;
+					Card.AccessTemplateUID = SelectedAccessTemplateId;
 				}
 			}
 

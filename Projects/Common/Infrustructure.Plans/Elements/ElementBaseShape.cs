@@ -10,10 +10,32 @@ namespace Infrustructure.Plans.Elements
 		public ElementBaseShape()
 		{
 			Points = new System.Windows.Media.PointCollection();
+			RGPoints = new RGPointCollection();
 		}
 
 		[DataMember]
 		public PointCollection Points { get; set; }
+
+		[DataMember]
+		public RGPointCollection RGPoints { get; set; }
+
+		public void LoadRGPoints()
+		{
+			Points = new PointCollection();
+			foreach(var point in RGPoints.Points)
+			{
+				Points.Add(new Point(point.X, point.Y));
+			}
+		}
+
+		public void SaveRGPoints()
+		{
+			RGPoints = new RGPointCollection();
+			foreach(var point in Points)
+			{
+				RGPoints.Points.Add(new RGPoint() { X = point.X, Y = point.Y });
+			}
+		}
 
 		public override Rect GetRectangle()
 		{

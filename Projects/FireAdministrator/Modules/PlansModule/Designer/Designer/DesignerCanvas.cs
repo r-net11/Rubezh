@@ -16,8 +16,8 @@ namespace PlansModule.Designer
 			: base(planDesignerViewModel)
 		{
 			var editItem = DesignerCanvasHelper.BuildMenuItem(
-				"Редактировать", 
-				"BEdit", 
+				"Редактировать",
+				"BEdit",
 				planDesignerViewModel.PlansViewModel.EditCommand
 			);
 			ContextMenu.Items.Add(editItem);
@@ -47,8 +47,12 @@ namespace PlansModule.Designer
 				Plan.ElementPolylines.Add(elementBase as ElementPolyline);
 			else if (elementBase is ElementTextBlock)
 				Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
-			else if (elementBase is ElementSubPlan)
-				Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
+			else if (elementBase is ElementTextBox)
+				Plan.ElementTextBoxes.Add(elementBase as ElementTextBox);
+			else if (elementBase is ElementRectangleSubPlan)
+				Plan.ElementSubPlans.Add(elementBase as ElementRectangleSubPlan);
+			else if (elementBase is ElementPolygonSubPlan)
+				Plan.ElementPolygonSubPlans.Add(elementBase as ElementPolygonSubPlan);
 			else
 				((PlanDesignerViewModel)PlanDesignerViewModel).PlansViewModel.ElementAdded(elementBase);
 
@@ -66,8 +70,12 @@ namespace PlansModule.Designer
 				Plan.ElementPolylines.Remove(elementBase as ElementPolyline);
 			else if (elementBase is ElementTextBlock)
 				Plan.ElementTextBlocks.Remove(elementBase as ElementTextBlock);
-			else if (elementBase is ElementSubPlan)
-				Plan.ElementSubPlans.Remove(elementBase as ElementSubPlan);
+			else if (elementBase is ElementTextBox)
+				Plan.ElementTextBoxes.Remove(elementBase as ElementTextBox);
+			else if (elementBase is ElementRectangleSubPlan)
+				Plan.ElementSubPlans.Remove(elementBase as ElementRectangleSubPlan);
+			else if (elementBase is ElementPolygonSubPlan)
+				Plan.ElementPolygonSubPlans.Remove(elementBase as ElementPolygonSubPlan);
 			else
 				((PlanDesignerViewModel)PlanDesignerViewModel).PlansViewModel.ElementRemoved(elementBase);
 		}

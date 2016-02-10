@@ -38,7 +38,7 @@ namespace LayoutModule.ViewModels
 		}
 		private void Initialize()
 		{
-			Content = LayoutPartDescriptionViewModel.LayoutPartDescription.CreateContent(LayoutPart.Properties) ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource };
+			Content = LayoutPartDescriptionViewModel.LayoutPartDescription.CreateContent((ILayoutProperties)LayoutPart.Properties) ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource };
 			ConfigureCommand = new RelayCommand(OnConfigureCommand, CanConfigureCommand);
 			UpdateTitle();
 		}

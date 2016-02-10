@@ -1,20 +1,19 @@
-﻿using System;
-using System.Windows;
-using Common;
+﻿using Common;
 using FireAdministrator.ViewModels;
-using RubezhAPI;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKProcessor;
 using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Client;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
+using RubezhAPI;
 using RubezhAPI.Automation;
-using Infrastructure.Automation;
+using RubezhClient;
+using System;
+using System.Windows;
 
 namespace FireAdministrator
 {
@@ -29,6 +28,8 @@ namespace FireAdministrator
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin())
 			{
+				Login = ServiceFactory.StartupService.Login;
+				Password = ServiceFactory.StartupService.Password;
 				try
 				{
 					ServiceFactory.StartupService.DoStep("Загрузка лицензии");
@@ -47,23 +48,13 @@ namespace FireAdministrator
 					ClientManager.GetConfiguration("Administrator/Configuration");
 					ProcedureExecutionContext.Initialize(
 						ContextType.Client,
-						ClientManager.SystemConfiguration,
-						ClientManager.SecurityConfiguration
+						() => { return ClientManager.SystemConfiguration; }
 						);
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
-					if (ClientManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
-					{
-						MessageBoxService.Show("Нет прав на работу с программой");
-						ClientManager.Disconnect();
-						if (Application.Current != null)
-							Application.Current.Shutdown();
-						return;
-					}
-					else if (Application.Current != null)
+					if (Application.Current != null)
 					{
 						var shell = new AdministratorShellViewModel();
 						shell.LogoSource = "rubezhLogo";
@@ -82,7 +73,8 @@ namespace FireAdministrator
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
 
 					SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
-					
+					SafeFiresecService.RestartEvent += () => { ApplicationService.Invoke(Restart); };
+
 					MutexHelper.KeepAlive();
 				}
 				catch (StartupCancellationException)
@@ -109,7 +101,29 @@ namespace FireAdministrator
 		void OnConfigurationChanged()
 		{
 			ClientManager.GetLicense();
-			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
+		}
+		void Restart()
+		{
+			Restart(Login, Password);
+		}
+		public void Restart(string login = null, string password = null)
+		{
+			using (new WaitWrapper())
+			{
+				ApplicationService.ApplicationWindow.IsEnabled = false;
+				ServiceFactory.ContentService.Invalidate();
+				ClientManager.FiresecService.StopPoll();
+				LoadingErrorManager.Clear();
+				ApplicationService.CloseAllWindows();
+				ServiceFactory.Layout.Close();
+				ApplicationService.ShutDown();
+			}
+			if (login != null && password != null)
+			{
+				Login = login;
+				Password = password;
+			}
+			RestartApplication();
 		}
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
 		{
@@ -147,7 +161,6 @@ namespace FireAdministrator
 			LoadingErrorManager.Clear();
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 			ServiceFactory.ContentService.Invalidate();
-			ProcedureExecutionContext.UpdateConfiguration(ClientManager.SystemConfiguration, ClientManager.SecurityConfiguration);
 			InitializeModules();
 			LoadingService.Close();
 		}

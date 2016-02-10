@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Perimeter" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Perimeter" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" />
+  <xs:complexType name="ServerListIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q1:DocumentInBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ServerListIn" nillable="true" type="tns:ServerListIn" />
+  <xs:complexType name="ServerListOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q2:DocumentOutBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ServerList" nillable="true" type="tns:ArrayOfServer" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ServerListOut" nillable="true" type="tns:ServerListOut" />
+  <xs:complexType name="ArrayOfServer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Server" nillable="true" type="tns:Server" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfServer" nillable="true" type="tns:ArrayOfServer" />
+  <xs:complexType name="Server">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IP" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Port" type="xs:unsignedShort" />
+      <xs:element minOccurs="0" name="Protocol" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Url" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Server" nillable="true" type="tns:Server" />
+  <xs:complexType name="ServerPollIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q3:DocumentInBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ServerPollIn" nillable="true" type="tns:ServerPollIn" />
+  <xs:complexType name="ServerPollOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q4:DocumentOutBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ServerPollOut" nillable="true" type="tns:ServerPollOut" />
+</xs:schema>

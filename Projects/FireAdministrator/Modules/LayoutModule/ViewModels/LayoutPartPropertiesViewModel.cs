@@ -11,7 +11,7 @@ namespace LayoutModule.ViewModels
 		public LayoutPartViewModel LayoutPartViewModel { get; private set; }
 		public LayoutPartPropertiesViewModel(LayoutPartViewModel layoutPartViewModel)
 		{
-			Title = "Свойства элемента";
+			Title = string.Format("Свойства элемента: {0}", layoutPartViewModel.Title);
 			LayoutPartViewModel = layoutPartViewModel;
 			LayoutSize = LayoutPartViewModel.GetSize();
 			using (new WaitWrapper())

@@ -3,15 +3,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using RubezhAPI;
 using RubezhClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;
 using Microsoft.Win32;
-using System.Collections.ObjectModel;
 
 namespace SettingsModule.ViewModels
 {
@@ -36,7 +33,6 @@ namespace SettingsModule.ViewModels
 
 			GetServerAuto();
 			GetGKOpcServerAuto();
-			Monitor_HidePlansTree = GlobalSettingsHelper.GlobalSettings.Monitor_HidePlansTree;
 			Monitor_F1_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F1_Enabled;
 			Monitor_F2_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled;
 			Monitor_F3_Enabled = GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled;
@@ -226,18 +222,6 @@ namespace SettingsModule.ViewModels
 				return false;
 			}
 		}
-
-		bool _monitor_HidePlansTree;
-		public bool Monitor_HidePlansTree
-		{
-			get { return _monitor_HidePlansTree; }
-			set
-			{
-				_monitor_HidePlansTree = value;
-				OnPropertyChanged(() => Monitor_HidePlansTree);
-			}
-		}
-
 		bool _monitor_F1_Enabled;
 		public bool Monitor_F1_Enabled
 		{
@@ -447,7 +431,6 @@ namespace SettingsModule.ViewModels
 		{
 			SetServerAuto();
 			SetGKOpcServerAuto();
-			GlobalSettingsHelper.GlobalSettings.Monitor_HidePlansTree = Monitor_HidePlansTree;
 			GlobalSettingsHelper.GlobalSettings.Monitor_F1_Enabled = Monitor_F1_Enabled;
 			GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled = Monitor_F2_Enabled;
 			GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled = Monitor_F3_Enabled;

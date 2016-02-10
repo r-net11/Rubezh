@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -102,6 +102,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.ControlPlanGet),
 							new StepTypeViewModel(ProcedureStepType.ControlPlanSet),
 							new StepTypeViewModel(ProcedureStepType.ShowDialog),
+							new StepTypeViewModel(ProcedureStepType.CloseDialog),
 							new StepTypeViewModel(ProcedureStepType.ShowProperty)
 						}),
 					new StepTypeViewModel("Служебные функции", "/Controls;component/StepIcons/Exit.png",
@@ -146,9 +147,16 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.RviAlarm),
 								}),
 						}),
+					new StepTypeViewModel("OPC DA Сервер", "/Controls;component/StepIcons/Control.png",
+						new List<StepTypeViewModel>
+						{
+							new StepTypeViewModel(ProcedureStepType.ControlOpcDaTagGet),
+							new StepTypeViewModel(ProcedureStepType.ControlOpcDaTagSet)
+						}),
 					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",
 						new List<StepTypeViewModel>
 						{
+							new StepTypeViewModel(ProcedureStepType.HttpRequest),
 							new StepTypeViewModel(ProcedureStepType.ExportJournal),
 							new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
 							new StepTypeViewModel(ProcedureStepType.ExportOrganisation),

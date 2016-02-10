@@ -115,9 +115,9 @@ namespace GKWebService.DataProviders.Plan
 
 		private PlanElement LoadPlanRoot(RubezhAPI.Models.Plan plan) {
 			return new PlanElement {
-				Border = InernalConverter.ConvertColor(Colors.Black),
+				Border = InternalConverter.ConvertColor(Colors.Black),
 				BorderThickness = 0,
-				Fill = InernalConverter.ConvertColor(plan.BackgroundColor),
+				Fill = InternalConverter.ConvertColor(plan.BackgroundColor),
 				Id = plan.UID,
 				Name = plan.Caption,
 				Path =
@@ -245,7 +245,7 @@ namespace GKWebService.DataProviders.Plan
 			}
 			drawing.Freeze();
 
-			return InernalConverter.XamlDrawingToPngBase64String(width, height, drawing);
+			return InternalConverter.XamlDrawingToPngBase64String(width, height, drawing);
 		}
 
 		#region ctor, props

@@ -7,6 +7,7 @@ using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models.Layouts;
 using System.Windows;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

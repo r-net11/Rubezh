@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -34,6 +34,7 @@ namespace SKDModule.ViewModels
 			{
 				Title = string.Format("Свойства организации: {0}", organisation.Name);
 				OrganisationDetails = OrganisationHelper.GetDetails(organisation.UID);
+
 			}
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(OrganisationDetails.ChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
@@ -45,7 +46,8 @@ namespace SKDModule.ViewModels
 			Name = OrganisationDetails.Name;
 			Description = OrganisationDetails.Description;
 			Phone = OrganisationDetails.Phone;
-			if(OrganisationDetails.Photo != null)
+			MaxGKLevel = Organisation.MaxGKLevel.ToString();
+			if (OrganisationDetails.Photo != null)
 				PhotoData = OrganisationDetails.Photo.Data;
 		}
 
@@ -63,7 +65,19 @@ namespace SKDModule.ViewModels
 					UID = OrganisationDetails.UID,
 					DoorUIDs = OrganisationDetails.DoorUIDs,
 					UserUIDs = OrganisationDetails.UserUIDs,
+					MaxGKLevel = OrganisationDetails.MaxGKLevel,
 				};
+			}
+		}
+
+		string _maxGKLevel;
+		public string MaxGKLevel
+		{
+			get { return _maxGKLevel; }
+			set
+			{
+				_maxGKLevel = value;
+				OnPropertyChanged(() => MaxGKLevel);
 			}
 		}
 
@@ -101,6 +115,7 @@ namespace SKDModule.ViewModels
 		}
 
 		string _phone;
+
 		public string Phone
 		{
 			get { return _phone; }
@@ -126,6 +141,14 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Название организации совпадает с введенным ранее");
 				return false;
 			}
+
+			int maxGkLevel = 0;
+			if (!int.TryParse(MaxGKLevel, out maxGkLevel) || maxGkLevel < 0 || maxGkLevel > 255)
+			{
+				MessageBoxService.ShowWarning("Поле 'Максимальный уровень доступа' должно содержать только цифры и иметь значение в диапазоне от 0 до 255");
+				return false;
+			}
+			OrganisationDetails.MaxGKLevel = maxGkLevel;
 
 			OrganisationDetails.Name = Name;
 			OrganisationDetails.Description = Description;

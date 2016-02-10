@@ -1,14 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Automation;
+using Infrastructure.Common.Services;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.Models;
 using RubezhClient;
 using System.Collections.Generic;
-using Infrustructure.Plans.Elements;
-using Infrastructure.Common.Services;
-using Infrustructure.Plans.Events;
-using RubezhAPI;
-using Infrastructure.Automation;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -19,7 +19,8 @@ namespace AutomationModule.ViewModels
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 		public ControlElementType ControlElementType { get; private set; }
 
-		public ControlPlanStepViewModel(StepViewModel stepViewModel, ControlElementType controlElementType) : base(stepViewModel)
+		public ControlPlanStepViewModel(StepViewModel stepViewModel, ControlElementType controlElementType)
+			: base(stepViewModel)
 		{
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
 			ControlElementType = controlElementType;
@@ -155,19 +156,20 @@ namespace AutomationModule.ViewModels
 					ElementPropertyType.Left, 
 					ElementPropertyType.Top 
 				};
-			if (element.ElementType == typeof(ElementRectangleGKZone) ||
-				element.ElementType == typeof(ElementRectangleGKGuardZone) ||
-				element.ElementType == typeof(ElementRectangleGKSKDZone) ||
-				element.ElementType == typeof(ElementRectangleGKDirection) ||
-				element.ElementType == typeof(ElementRectangleGKMPT) ||
-				element.ElementType == typeof(ElementRectangleGKDelay) ||
-				element.ElementType == typeof(ElementPolygonGKZone) ||
-				element.ElementType == typeof(ElementPolygonGKGuardZone) ||
-				element.ElementType == typeof(ElementPolygonGKSKDZone) ||
-				element.ElementType == typeof(ElementPolygonGKDirection) ||
-				element.ElementType == typeof(ElementPolygonGKMPT) ||
-				element.ElementType == typeof(ElementPolygonGKDelay) ||
-				element.ElementType == typeof(ElementSubPlan))
+			if (element.ElementType == typeof(ElementRectangleGKZone)
+				|| element.ElementType == typeof(ElementRectangleGKGuardZone)
+				|| element.ElementType == typeof(ElementRectangleGKSKDZone)
+				|| element.ElementType == typeof(ElementRectangleGKDirection)
+				|| element.ElementType == typeof(ElementRectangleGKMPT)
+				|| element.ElementType == typeof(ElementRectangleGKDelay)
+				|| element.ElementType == typeof(ElementPolygonGKZone)
+				|| element.ElementType == typeof(ElementPolygonGKGuardZone)
+				|| element.ElementType == typeof(ElementPolygonGKSKDZone)
+				|| element.ElementType == typeof(ElementPolygonGKDirection)
+				|| element.ElementType == typeof(ElementPolygonGKMPT)
+				|| element.ElementType == typeof(ElementPolygonGKDelay)
+				|| element.ElementType == typeof(ElementRectangleSubPlan)
+				|| element.ElementType == typeof(ElementPolygonSubPlan))
 				return new ObservableCollection<ElementPropertyType> 
 				{ 
 					ElementPropertyType.IsVisible, 

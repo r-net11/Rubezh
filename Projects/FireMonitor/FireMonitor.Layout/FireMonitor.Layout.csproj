@@ -82,44 +82,13 @@
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="MonitorLayoutModule.cs" />
-    <Compile Include="ViewModels\ContentPartViewModel.cs" />
-    <Compile Include="ViewModels\LayoutContainer.cs" />
-    <Compile Include="ViewModels\LayoutDialogViewModel.cs" />
-    <Compile Include="ViewModels\TemplateContainerPartViewModel.cs" />
-    <Compile Include="ViewModels\ImagePartViewModel.cs" />
-    <Compile Include="ViewModels\EmptyPartViewModel.cs" />
-    <Compile Include="ViewModels\LayoutPartViewModel.cs" />
-    <Compile Include="ViewModels\LayoutUpdateStrategy.cs" />
     <Compile Include="ViewModels\MonitorLayoutShellViewModel.cs" />
-    <Compile Include="ViewModels\NavigationPartViewModel.cs" />
     <Compile Include="ViewModels\SelectLayoutViewModel.cs" />
-    <Compile Include="ViewModels\TimePresenterViewModel.cs" />
-    <Compile Include="Views\ContentPartView.xaml.cs">
-      <DependentUpon>ContentPartView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmptyPartView.xaml.cs">
-      <DependentUpon>EmptyPartView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ImagePartView.xaml.cs">
-      <DependentUpon>ImagePartView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LayoutPartView.xaml.cs">
-      <DependentUpon>LayoutPartView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LayoutDialogView.xaml.cs">
-      <DependentUpon>LayoutDialogView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MonitorLayoutShellView.xaml.cs">
       <DependentUpon>MonitorLayoutShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SelectLayoutView.xaml.cs">
       <DependentUpon>SelectLayoutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TemplateContainerPartView.xaml.cs">
-      <DependentUpon>TemplateContainerPartView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TimePresenterView.xaml.cs">
-      <DependentUpon>TimePresenterView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -156,11 +125,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
-      <Name>Common %28Common\Common%29</Name>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Controls\Controls.csproj">
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj">
+      <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
+      <Name>Infrastructure.Automation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhLicense\RubezhLicense.csproj">
       <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
@@ -168,11 +141,11 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhClient\RubezhClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
-      <Name>FiresecClient</Name>
+      <Name>RubezhClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
+      <Name>RubezhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
@@ -202,26 +175,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ContentPartView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EmptyPartView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ImagePartView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LayoutPartView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LayoutDialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MonitorLayoutShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -229,14 +182,6 @@
     <Page Include="Views\SelectLayoutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TemplateContainerPartView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TimePresenterView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup />

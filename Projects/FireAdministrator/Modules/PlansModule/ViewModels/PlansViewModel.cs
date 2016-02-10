@@ -20,6 +20,9 @@ using Infrastructure.Events;
 using Infrastructure.Common.Navigation;
 using System.Windows.Input;
 using Controls.Menu.ViewModels;
+using System.Threading;
+using Infrastructure.Common.Services;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.ViewModels
 {
@@ -51,7 +54,7 @@ namespace PlansModule.ViewModels
 			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
 			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
-				if (e.Element is ElementSubPlan)
+				if (e.Element is IElementSubPlan)
 				{
 					e.DesignerItem = new DesignerItemSubPlan(e.Element);
 					e.DesignerItem.IconSource = "/Controls;component/Images/CMap.png";
@@ -88,14 +91,7 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
-			{
-				if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
-					plan.BackgroundImageSource = null;
-				Helper.UpgradeBackground(plan);
-				foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-					Helper.UpgradeBackground(elementBase);
-			}
+			Helper.ThreadMetod();
 			SelectedPlan = null;
 			Plans = new ObservableCollection<PlanViewModel>();
 			foreach (var plan in ClientManager.PlansConfiguration.Plans)
@@ -154,10 +150,20 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedPlan = value;
+				if (value != null)
+				{
+					if (value.Plan != null && !Helper.Plans.Contains(value.Plan))
+					{
+						Helper.Plan = value.Plan;
+						Helper.Flag = false;
+					}
+				}
 				OnPropertyChanged(() => SelectedPlan);
 				DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null && SelectedPlan.PlanFolder == null;
 				PlanDesignerViewModel.Save();
 				PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);
+				if (!Helper.WiteHandle.SafeWaitHandle.IsClosed && !Helper.Flag)
+					Helper.WiteHandle.Set();
 				ElementsViewModel.Update();
 				DesignerCanvas.Toolbox.SetDefault();
 				DesignerCanvas.DeselectAll();
@@ -311,6 +317,7 @@ namespace PlansModule.ViewModels
 			if (plan != null)
 				SelectedPlan = plan;
 		}
+
 		private void OnShowElement(ShowOnPlanArgs<Guid> arg)
 		{
 			DesignerCanvas.Toolbox.SetDefault();
@@ -353,7 +360,9 @@ namespace PlansModule.ViewModels
 				foreach (var device in devices)
 				{
 					DesignerCanvas.RemoveDesignerItem(device);
+					ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { device });
 				}
+
 			}
 		}
 
@@ -401,9 +410,14 @@ namespace PlansModule.ViewModels
 		private void ClearReferences(Plan plan)
 		{
 			foreach (var p in ClientManager.PlansConfiguration.AllPlans)
+			{
 				foreach (var subPlan in p.ElementSubPlans)
 					if (subPlan.PlanUID == plan.UID)
 						Helper.SetSubPlan(subPlan);
+				foreach (var subPlan in p.ElementPolygonSubPlans)
+					if (subPlan.PlanUID == plan.UID)
+						Helper.SetSubPlan(subPlan);
+			}
 		}
 
 		private static void MoveItem<T>(ObservableCollection<T> parent, T item, int increment)

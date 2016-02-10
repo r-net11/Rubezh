@@ -8,6 +8,7 @@ using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -141,7 +142,7 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
-				GKManager.AddDeviceToGuardZone(availabledeviceViewModel.GuardZoneDevice.Device, Zone, availabledeviceViewModel.GuardZoneDevice);
+				GKManager.AddDeviceToGuardZone(Zone, availabledeviceViewModel.GuardZoneDevice);
 			}
 
 			SelectedDevice = Devices.FirstOrDefault();

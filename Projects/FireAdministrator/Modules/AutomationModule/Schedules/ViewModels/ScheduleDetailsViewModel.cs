@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Automation;
 using System.Linq;
+using RubezhClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -21,7 +22,7 @@ namespace AutomationModule.ViewModels
 			Title = "Добавить элемент расписания";
 			Schedule = new AutomationSchedule();
 			var i = 0;
-			do { i++; } while (ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Any(x => x.Name == Schedule.Name + i));
+			do { i++; } while (ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Any(x => x.Name == Schedule.Name + i));
 			Name = Schedule.Name = Schedule.Name + i;
 		}
 
@@ -43,7 +44,7 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
-			if (ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Any(x => x.Name == Name && x.Uid != Schedule.Uid))
+			if (ClientManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Any(x => x.Name == Name && x.Uid != Schedule.Uid))
 			{
 				MessageBoxService.ShowWarning("Расписание с таким именем уже существует");
 				return false;

@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using RubezhClient;
+using RubezhAPI;
 
 namespace GKModule.ViewModels
 {

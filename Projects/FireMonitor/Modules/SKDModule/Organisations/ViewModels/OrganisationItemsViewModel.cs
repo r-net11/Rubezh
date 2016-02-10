@@ -4,6 +4,7 @@ using RubezhAPI.SKD;
 using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -35,25 +36,25 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectAllCommand { get; private set; }
 		void OnSelectAll()
 		{
-			foreach (var item in Items)
+			foreach (var item in Items.Where(x => x.CanChange))
 			{
 				item.IsChecked = true;
 			}
 		}
-		
+
 		public RelayCommand SelectNoneCommand { get; private set; }
 		void OnSelectNone()
 		{
-			foreach (var item in Items)
+			foreach (var item in Items.Where(x => x.CanChange))
 			{
 				item.IsChecked = false;
 			}
 		}
 
 		bool _canSelect;
-		public bool CanSelect 
-		{ 
-			get { return _canSelect; } 
+		public bool CanSelect
+		{
+			get { return _canSelect; }
 			set
 			{
 				_canSelect = value;

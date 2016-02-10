@@ -9,10 +9,9 @@ namespace Infrastructure.Client.Plans
 	{
 		public static IEnumerable<ElementBase> Enumerate(Plan plan)
 		{
-			foreach (var elementPrimitives in EnumeratePrimitives(plan))
-							yield return elementPrimitives;
-			foreach (var elementSubPlan in plan.ElementSubPlans)
-				yield return elementSubPlan;
+			return EnumeratePrimitives(plan)
+				.Union(plan.ElementSubPlans)
+				.Union(plan.ElementPolygonSubPlans);
 		}
 
 		public static IEnumerable<ElementBase> EnumeratePrimitives(Plan plan)
@@ -21,6 +20,7 @@ namespace Infrastructure.Client.Plans
 				.Concat(plan.ElementRectangles)
 				.Concat(plan.ElementEllipses)
 				.Concat(plan.ElementTextBlocks)
+				.Concat(plan.ElementTextBoxes)
 				.Concat(plan.ElementPolygons)
 				.Concat(plan.ElementPolylines);
 		}

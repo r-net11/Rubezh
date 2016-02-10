@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
 using AutomationModule.Events;
 using AutomationModule.Layout.ViewModels;
 using AutomationModule.Plans;
 using AutomationModule.Validation;
 using AutomationModule.ViewModels;
-using RubezhAPI;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -16,6 +11,11 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using System;
+using System.Collections.Generic;
 
 namespace AutomationModule
 {
@@ -27,6 +27,8 @@ namespace AutomationModule
 		private SchedulesViewModel _schedulesViewModel;
 		private GlobalVariablesViewModel _globalVariablesViewModel;
 		private AutomationPlanExtension _planExtension;
+		private OpcTechnosoftwareViewModel _opcTechnosoftwareViewModel;
+		private OpcDaClientViewModel _opcDaClientViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -36,6 +38,8 @@ namespace AutomationModule
 			_schedulesViewModel = new SchedulesViewModel();
 			_globalVariablesViewModel = new GlobalVariablesViewModel();
 			_planExtension = new AutomationPlanExtension(_proceduresViewModel);
+			_opcTechnosoftwareViewModel = new OpcTechnosoftwareViewModel();
+			_opcDaClientViewModel = new OpcDaClientViewModel();
 		}
 
 		public override void Initialize()
@@ -44,13 +48,20 @@ namespace AutomationModule
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			_soundsViewModel.Initialize();
 			_opcServersViewModel.Initialize();
+			//_opcDaServersViewModel.Initialize();
 			_proceduresViewModel.Initialize();
 			_schedulesViewModel.Initialize();
 			_globalVariablesViewModel.Initialize();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
+		}
+
+		public override void RegisterPlanExtension()
+		{
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();
+			_opcTechnosoftwareViewModel.Initialize();
+			_opcDaClientViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -63,7 +74,10 @@ namespace AutomationModule
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music"),
-							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2")
+							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2"),
+							//new NavigationItem<ShowOpcDaServersEvent, Guid>(_opcDaServersViewModel, "OPC DA Серверы", "Settings2"),
+							new NavigationItem<ShowOpcTechnosoftwareEvent, Guid>(_opcTechnosoftwareViewModel, "OPC DA on Technosoftware", "Settings2"),
+							new NavigationItem<ShowOpcDaClientEvent, Guid>(_opcDaClientViewModel, "OPC DA Клиент", "Settings2")
 						}) { IsExpanded = true },
 				};
 		}
@@ -83,6 +97,8 @@ namespace AutomationModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml");
 		}
 
 		public IEnumerable<IValidationError> Validate()
@@ -95,13 +111,10 @@ namespace AutomationModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выпонить процедуру", "BProcedures.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выполнить процедуру", "BProcedures.png")
 			{
 				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
-#if DEBUG
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");
-#endif
 		}
 
 		#endregion

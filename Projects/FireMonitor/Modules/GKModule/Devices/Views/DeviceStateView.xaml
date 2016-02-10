@@ -6,8 +6,12 @@
 		<ItemsControl ItemsSource="{Binding StateClasses}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Orientation="Horizontal">
-						<Image Width="16" Height="16" VerticalAlignment="Center" >
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Image Grid.Column="0" Width="16" Height="16" VerticalAlignment="Center" >
 							<Image.Source>
 								<MultiBinding Converter="{StaticResource XStateClassToIconConverter2}" >
 									<Binding Path="StateClass" />
@@ -15,18 +19,22 @@
 								</MultiBinding>
 							</Image.Source>
 						</Image>
-						<TextBlock Text="{Binding StateClassName}" VerticalAlignment="Center" Margin="5 1 1 1" />
-					</StackPanel>
+						<TextBlock Grid.Column="1" Text="{Binding StateClassName}" VerticalAlignment="Center" Margin="5 1 1 1" TextWrapping="Wrap" />
+					</Grid>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 		<ItemsControl ItemsSource="{Binding AdditionalStates}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Orientation="Horizontal">
-						<Image Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-						<TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontStyle="Italic" Margin="5 1 1 1" />
-					</StackPanel>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Image Grid.Column="0" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+						<TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" FontStyle="Italic" Margin="5 1 1 1" TextWrapping="Wrap" />
+					</Grid>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

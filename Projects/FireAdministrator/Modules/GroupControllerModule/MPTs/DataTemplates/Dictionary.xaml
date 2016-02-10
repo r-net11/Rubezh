@@ -8,8 +8,8 @@
 		<Views:MPTDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MPTDeviceTypeSelectationViewModel}">
-		<Views:MPTDeviceTypeSelectationView />
+	<DataTemplate DataType="{x:Type ViewModels:MPTDeviceSelectationViewModel}">
+		<Views:MPTDeviceSelectationView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:MPTDevicePropertiesViewModel}">

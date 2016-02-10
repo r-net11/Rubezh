@@ -13,18 +13,18 @@ namespace GKWebService.Controllers
         [HttpGet]
         public JsonResult GetArchive()
         {
-            List<ReportModel> list = new List<ReportModel>();
+            List<JournalModel> list = new List<JournalModel>();
 
             for (int i = 0; i < 10; i++)
             {
-                list.Add(new ReportModel()
-                {
-                    Desc = "Описание" + i.ToString(),
-                    DeviceDate = DateTime.Now,
-                    Name = "Назваине" + i.ToString(),
-                    Object = "Объект" + i.ToString(),
-                    SystemDate = DateTime.Now
-                });
+                //list.Add(new JournalModel()
+                //{
+					//Desc = "Описание" + i.ToString(),
+					//DeviceDate = DateTime.Now,
+					//Name = "Назваине" + i.ToString(),
+					//Object = "Объект" + i.ToString(),
+					//SystemDate = DateTime.Now
+                //});
             }
 
             return Json(list);

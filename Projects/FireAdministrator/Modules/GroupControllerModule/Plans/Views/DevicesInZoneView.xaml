@@ -2,8 +2,9 @@
 
 	<DataGrid IsReadOnly="False" ItemsSource="{Binding DeviceInZones}">
 		<DataGrid.Columns>
-			<DataGridCheckBoxColumn Width="Auto" Binding="{Binding IsActive}" Header="Изменить" />
-			<DataGridTemplateColumn Width="Auto" Header="Устройство">
+			<DataGridCheckBoxColumn Width="Auto" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" Header="Изменить" />
+            <DataGridCheckBoxColumn Width="Auto" Binding="{Binding AllowBeOutsideZone, UpdateSourceTrigger=PropertyChanged}" Header="Запомнить" />
+            <DataGridTemplateColumn Width="Auto" Header="Устройство">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -23,16 +24,16 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="*" Header="Зона после">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Visibility="{Binding HasNewZone, Converter={StaticResource BoolToVisibilityConverter}}"/>
-							<TextBlock Text="{Binding NewZoneName}" VerticalAlignment="Center"/>
-						</StackPanel>
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
-		</DataGrid.Columns>
+            <DataGridTemplateColumn Width="*" Header="Зона после">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Visibility="{Binding HasNewZone, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding NewZoneName}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
 	</DataGrid>
 </UserControl>

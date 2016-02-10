@@ -1,10 +1,13 @@
-﻿using System;
+﻿using RubezhAPI.Journal;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using RubezhAPI.Journal;
-using RubezhAPI.Models;
-using RubezhAPI.License;
+using RubezhAPI.Automation;
+using OpcClientSdk;
+using OpcClientSdk.Da;
 
 namespace RubezhAPI
 {
@@ -17,48 +20,54 @@ namespace RubezhAPI
 		/// </summary>
 		/// <param name="uid">Уникальный идентификатор клиента</param>
 		/// <param name="clientCredentials">Данные подключаемого клиента</param>
-		/// <param name="isNew">Признак того, что это новое подключение, а не переподключение</param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
+		OperationResult<bool> Connect(ClientCredentials clientCredentials);
 
 		/// <summary>
 		/// Отсоединение от сервиса
 		/// </summary>
 		/// <param name="uid">Идентификатор клиента</param>
 		[OperationContract(IsOneWay = true)]
-		void Disconnect(Guid uid);
+		void Disconnect(Guid clientUID);
 
 		[OperationContract]
-		OperationResult<ServerState> GetServerState();
+		OperationResult<ServerState> GetServerState(Guid clientUID);
 
 		/// <summary>
 		/// Поллинг сервера с запросом результатов изменения
 		/// Метод реализует концепцию лонг-пол. Т.е. возвращает результат сразу, если есть изменения. Если изменений нет, то он блокируется либо до истечения таймаута в несколько минут, либо до изменения состояния объектов или появлении нового события. Поллинг сервера с запросом результатов изменения
 		/// </summary>
 		/// <param name="uid">Идентификатор клиента</param>
+		/// <param name="callbackIndex">Индекс последнего обработанного сообщения</param>
 		/// <returns></returns>
 		[OperationContract]
-		List<CallbackResult> Poll(Guid uid);
+		PollResult Poll(Guid clientUID, int callbackIndex);
+
+		[OperationContract(IsOneWay = true)]
+		void LayoutChanged(Guid clientUID, Guid layoutUID);
 
 		[OperationContract]
-		string Test(string arg);
+		string Test(Guid clientUID, string arg);
 
 		[OperationContract]
-		SecurityConfiguration GetSecurityConfiguration();
+		OperationResult<SecurityConfiguration> GetSecurityConfiguration(Guid clientUID);
 
 		[OperationContract]
-		string Ping();
+		void SetSecurityConfiguration(Guid clientUID, SecurityConfiguration securityConfiguration);
 
 		[OperationContract]
-		OperationResult ResetDB();
+		string Ping(Guid clientUID);
+
+		[OperationContract]
+		OperationResult<bool> ResetDB(Guid clientUID);
 
 		/// <summary>
 		/// Запрос данных лицензии
 		/// </summary>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<FiresecLicenseInfo> GetLicenseInfo();
+		OperationResult<FiresecLicenseInfo> GetLicenseInfo(Guid clientUID);
 		#endregion
 
 		#region Journal
@@ -67,7 +76,7 @@ namespace RubezhAPI
 		/// </summary>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<DateTime> GetMinJournalDateTime();
+		OperationResult<DateTime> GetMinJournalDateTime(Guid clientUID);
 
 		/// <summary>
 		/// Запрос отфильтрованного списка событий
@@ -75,7 +84,10 @@ namespace RubezhAPI
 		/// <param name="journalFilter"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter journalFilter);
+		OperationResult<List<JournalItem>> GetFilteredJournalItems(Guid clientUID, JournalFilter journalFilter);
+
+		[OperationContract]
+		OperationResult<bool> BeginGetJournal(JournalFilter journalFilter, Guid clentUid, Guid journalClientUid);
 
 		/// <summary>
 		/// Добавление записи в журнал событий
@@ -83,7 +95,7 @@ namespace RubezhAPI
 		/// <param name="journalItem"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> AddJournalItem(JournalItem journalItem);
+		OperationResult<bool> AddJournalItem(Guid clientUID, JournalItem journalItem);
 
 		/// <summary>
 		/// Запрос списка событий на определенной странице
@@ -92,7 +104,7 @@ namespace RubezhAPI
 		/// <param name="page"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<List<JournalItem>> GetArchivePage(JournalFilter filter, int page);
+		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clentUid);
 
 		/// <summary>
 		/// Запрос количества страниц событий по заданному фильтру
@@ -100,30 +112,79 @@ namespace RubezhAPI
 		/// <param name="filter"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<int> GetArchiveCount(JournalFilter filter);
+		OperationResult<int> GetArchiveCount(Guid clientUID, JournalFilter filter);
 		#endregion
 
 		#region Files
 		[OperationContract]
-		List<string> GetFileNamesList(string directory);
+		List<string> GetFileNamesList(Guid clientUID, string directory);
 
 		[OperationContract]
-		Dictionary<string, string> GetDirectoryHash(string directory);
+		Dictionary<string, string> GetDirectoryHash(Guid clientUID, string directory);
 
 		[OperationContract]
-		Stream GetServerAppDataFile(string dirAndFileName);
+		Stream GetServerAppDataFile(Guid clientUID, string dirAndFileName);
 
 		[OperationContract]
-		Stream GetServerFile(string filePath);
+		Stream GetServerFile(Guid clientUID, string filePath);
 
 		[OperationContract]
-		Stream GetConfig();
+		Stream GetConfig(Guid clientUID);
 
 		[OperationContract]
 		void SetRemoteConfig(Stream stream);
 
 		[OperationContract]
-		void SetLocalConfig();
+		void SetLocalConfig(Guid clientUID);
+		#endregion
+
+		#region OPC DA
+
+		/// <summary>
+		/// Возвращает список имен OPC DA серверов, 
+		/// зарегистрированных в системе
+		/// </summary>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcDaServer[]> GetOpcDaServers(Guid clientUID);
+
+		/// <summary>
+		/// Возвращает структуру сервера (группы и теги) для указанного сервера
+		/// </summary>
+		/// <param name="clientUID"></param>
+		/// <param name="server">Наименование сервера</param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server);
+
+		/// <summary>
+		/// Возвращает описание и текущий статус сервера
+		/// </summary>
+		/// <param name="clientUID"></param>
+		/// <param name="server"></param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server);
+
+		/// <summary>
+		/// Возвращает значения тегов
+		/// </summary>
+		/// <param name="clientUID"></param>
+		/// <param name="server"></param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
+
+		/// <summary>
+		/// Записывает новое значение указанных тегов
+		/// </summary>
+		/// <param name="clientUID"></param>
+		/// <param name="serverId"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		[OperationContract]
+		OperationResult<bool> WriteOpcDaTag(Guid clientUID, Guid serverId, object value);
+		
 		#endregion
 	}
 }

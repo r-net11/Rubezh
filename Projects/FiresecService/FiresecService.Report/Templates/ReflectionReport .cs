@@ -7,7 +7,7 @@ using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using RubezhDAL;
-using RubezhClient;
+using RubezhAPI;
 using RubezhAPI.GK;
 
 namespace FiresecService.Report.Templates
@@ -52,57 +52,57 @@ namespace FiresecService.Report.Templates
 			{
 				foreach (var mirrorItem in GKManager.Devices.Where(x => x.Parent != null && x.Parent.UID == mirror.Mirror))
 				{
-					if (mirrorItem.GKMirrorItem.Zones.Count > 0)
+					if (mirrorItem.GKReflectionItem.Zones.Count > 0)
 					{
-						mirrorItem.GKMirrorItem.Zones.ForEach(x =>
+						mirrorItem.GKReflectionItem.Zones.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});	
 					}
 
-					if (mirrorItem.GKMirrorItem.Delays.Count > 0)
+					if (mirrorItem.GKReflectionItem.Delays.Count > 0)
 					{
-						mirrorItem.GKMirrorItem.Delays.ForEach(x =>
+						mirrorItem.GKReflectionItem.Delays.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKMirrorItem.Devices.Count > 0)
+					if (mirrorItem.GKReflectionItem.Devices.Count > 0)
 					{
-						mirrorItem.GKMirrorItem.Devices.ForEach(x =>
+						mirrorItem.GKReflectionItem.Devices.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKMirrorItem.Diretions.Count > 0)
+					if (mirrorItem.GKReflectionItem.Diretions.Count > 0)
 					{
-						mirrorItem.GKMirrorItem.Diretions.ForEach(x =>
+						mirrorItem.GKReflectionItem.Diretions.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKMirrorItem.GuardZones.Count > 0)
+					if (mirrorItem.GKReflectionItem.GuardZones.Count > 0)
 					{
-						mirrorItem.GKMirrorItem.GuardZones.ForEach(x =>
+						mirrorItem.GKReflectionItem.GuardZones.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKMirrorItem.MPTs.Count > 0)
+					if (mirrorItem.GKReflectionItem.MPTs.Count > 0)
 					{
-						mirrorItem.GKMirrorItem.MPTs.ForEach(x =>
+						mirrorItem.GKReflectionItem.MPTs.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
 					}
 
-					if (mirrorItem.GKMirrorItem.NSs.Count > 0)
+					if (mirrorItem.GKReflectionItem.NSs.Count > 0)
 					{
-						mirrorItem.GKMirrorItem.NSs.ForEach(x =>
+						mirrorItem.GKReflectionItem.NSs.ForEach(x =>
 						{
 							AddRow(x, ds, mirrorItem.Address);
 						});
