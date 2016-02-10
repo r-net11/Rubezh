@@ -513,6 +513,7 @@ namespace FiresecAPI.SKD
 				{
 					if (totalPresentTime == default(TimeSpan))
 					{
+						el.TimeTrackPartType = TimeTrackType.Overtime;
 						resultCollection.Add(el);
 						continue;
 					}
