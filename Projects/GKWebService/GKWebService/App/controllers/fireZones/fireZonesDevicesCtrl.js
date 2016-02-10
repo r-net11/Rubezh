@@ -83,7 +83,10 @@
                                 State: element.State,
                                 GKDescriptorNo: element.GKDescriptorNo,
                                 Properties: element.Properties,
-                                MeasureParameters: element.MeasureParameters
+                                MeasureParameters: element.MeasureParameters,
+                                IsBiStateControl: element.IsBiStateControl,
+                                IsTriStateControl: element.IsTriStateControl,
+                                HasReset: element.HasReset
                         });
                         }
                     }

@@ -1,7 +1,7 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('fireZonesDevicesDetailsCtrl',
-        function ($scope, uiGridConstants, $uibModalInstance, device) {
+        function ($scope, $http, uiGridConstants, $uibModalInstance, device) {
             $scope.device = device;
 
             $scope.$on('devicesChanged', function (event, args) {
@@ -55,6 +55,18 @@
             };
             $scope.gridMeasurements.data = device.MeasureParameters;
 
+
+            $scope.SetIgnoreState = function () {
+                $http.post('Devices/SetIgnoreState', { id: $scope.device.UID });
+            };
+
+            $scope.SetAutomaticState = function () {
+                $http.post('Devices/SetAutomaticState', { id: $scope.device.UID });
+            };
+
+            $scope.Reset = function () {
+                $http.post('Devices/Reset', { id: $scope.device.UID });
+            };
 
             $scope.Show = function () {
 

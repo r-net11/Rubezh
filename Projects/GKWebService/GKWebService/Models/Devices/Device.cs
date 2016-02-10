@@ -6,6 +6,8 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RubezhAPI.Models;
+using RubezhClient;
 
 namespace GKWebService.Models
 {
@@ -59,6 +61,11 @@ namespace GKWebService.Models
 			Properties = device.Properties;
 			DriverProperties = device.Driver.Properties;
 			MeasureParameters = device.Driver.MeasureParameters;
+
+			IsTriStateControl = device.Driver.IsControlDevice && ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
+			IsBiStateControl = device.Driver.IsDeviceOnShleif && !device.Driver.IsControlDevice &&
+			                   ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
+			HasReset = device.DriverType == GKDriverType.RSR2_MAP4;
 		}
 
 
@@ -101,5 +108,9 @@ namespace GKWebService.Models
 		public List<GKMeasureParameter> MeasureParameters { get; set; }
 
 		public string NsLogic { get; set; }
+
+		public Boolean IsBiStateControl { get; set; }
+		public Boolean IsTriStateControl { get; set; }
+		public Boolean HasReset { get; set; }
 	}
 }
