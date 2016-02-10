@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using System.Drawing.Text;
+using DevExpress.XtraReports.UI;
 using FiresecAPI.SKD.ReportFilters;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,10 @@ using System.Text;
 
 namespace FiresecService.Report.Templates
 {
-	public abstract partial class BaseReport : DevExpress.XtraReports.UI.XtraReport, IFilteredReport
+	public abstract partial class BaseReport : XtraReport, IFilteredReport
 	{
-		private float _topMargin;
-		private float _bottomMargin;
+		private readonly float _topMargin;
+		private readonly float _bottomMargin;
 
 		protected BaseReport()
 		{
@@ -28,7 +29,7 @@ namespace FiresecService.Report.Templates
 			get { return ""; }
 		}
 
-		protected SKDReportFilter Filter { get; private set; }
+
 
 		protected T GetFilter<T>()
 			where T : SKDReportFilter
@@ -37,6 +38,8 @@ namespace FiresecService.Report.Templates
 		}
 
 		#region IFilteredReport Members
+
+		public SKDReportFilter Filter { get; private set; }
 
 		public virtual void ApplyFilter(SKDReportFilter filter)
 		{
@@ -52,18 +55,24 @@ namespace FiresecService.Report.Templates
 			TopMargin.HeightF = _topMargin;
 			BottomMargin.HeightF = _bottomMargin;
 
-			ReportName.Value = Filter.PrintFilterNameInHeader ? string.Format("{0} ({1})", ReportTitle, Filter.Name) : ReportTitle;
-			FilterName.Value = Filter.Name;
-			Timestamp.Value = Filter.Timestamp;
-			UserName.Value = Filter.User;
-			var periodFilter = Filter as IReportFilterPeriod;
-			if (periodFilter != null)
-				Period.Value = string.Format("c {0:dd.MM.yyyy HH:mm:ss} по {1:dd.MM.yyyy HH:mm:ss}", periodFilter.DateTimeFrom, periodFilter.DateTimeTo);
+			if (Filter != null)
+			{
+				ReportName.Value = Filter.PrintFilterNameInHeader
+					? string.Format("{0} ({1})", ReportTitle, Filter.Name)
+					: ReportTitle;
+				FilterName.Value = Filter.Name;
+				Timestamp.Value = Filter.Timestamp;
+				UserName.Value = Filter.User;
+				var periodFilter = Filter as IReportFilterPeriod;
+				if (periodFilter != null)
+					Period.Value = string.Format("c {0:dd.MM.yyyy HH:mm:ss} по {1:dd.MM.yyyy HH:mm:ss}", periodFilter.DateTimeFrom,
+						periodFilter.DateTimeTo);
 
-			lTimestamp.Visible = Filter.PrintDate;
-			lFilterName.Visible = Filter.PrintFilterName;
-			lPeriod.Visible = Filter.PrintPeriod && periodFilter != null;
-			lUserName.Visible = Filter.PrintUser;
+				lTimestamp.Visible = Filter.PrintDate;
+				lFilterName.Visible = Filter.PrintFilterName;
+				lPeriod.Visible = Filter.PrintPeriod && periodFilter != null;
+				lUserName.Visible = Filter.PrintUser;
+			}
 
 			if (!lFilterName.Visible)
 				TopMargin.HeightF -= lFilterName.HeightF;
@@ -124,6 +133,7 @@ namespace FiresecService.Report.Templates
 
 		protected virtual void ApplySort()
 		{
+			if (Filter == null) return;
 			if (string.IsNullOrEmpty(Filter.SortColumn) && DataSet.Tables.Contains(DataMember))
 			{
 				var table = DataSet.Tables[DataMember];
@@ -150,40 +160,6 @@ namespace FiresecService.Report.Templates
 			if (rowView == null)
 				return default(T);
 			return rowView.Row as T;
-		}
-
-		protected void FillTestData(int count = 20)
-		{
-			if (!DataSet.Tables.Contains(DataMember))
-				throw new ApplicationException();
-			var dt = DataSet.Tables[DataMember];
-			FillTestData(dt, count);
-		}
-
-		protected void FillTestData(DataTable table, int count)
-		{
-			for (int i = 0; i < count; i++)
-			{
-				var row = table.NewRow();
-				foreach (DataColumn column in table.Columns)
-				{
-					if (column.DataType == typeof(string))
-						row[column] = string.Format("{0} {1}", column.ColumnName, i);
-					else if (column.DataType == typeof(int) || column.DataType == typeof(long))
-						row[column] = i;
-					else if (column.DataType == typeof(double) || column.DataType == typeof(decimal))
-						row[column] = i;
-					else if (column.DataType == typeof(DateTime))
-						row[column] = DateTime.Today.AddDays(-i);
-					else if (column.DataType == typeof(TimeSpan))
-						row[column] = new TimeSpan(i, i + 1, i + 2);
-					else if (column.DataType == typeof(bool))
-						row[column] = i % 2 == 0;
-					else if (column.DataType == typeof(Guid))
-						row[column] = Guid.NewGuid();
-				}
-				table.Rows.Add(row);
-			}
 		}
 
 		protected void PrintFilter()

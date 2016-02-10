@@ -152,6 +152,9 @@ namespace FiresecAPI.Automation
 		StopRecord,
 
 		[DescriptionAttribute("Вызвать тревогу в RVI Оператор")]
-		RviAlarm
+		RviAlarm,
+
+		[Description("Экспорт отчета")]
+		ExportReport
 	}
 }

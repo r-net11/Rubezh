@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+	[KnownType(typeof(EmployeeZonesReportFilter))]
 	public class EmployeeZonesReportFilter : SKDReportFilter, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZone
 	{
 		public EmployeeZonesReportFilter()
@@ -12,6 +14,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			UseCurrentDate = true;
 			IsEmployee = true;
 			ReportDateTime = DateTime.Now;
+			ReportType = ReportType.EmployeeZonesReport;
 		}
 
 		#region IReportFilterOrganisation Members

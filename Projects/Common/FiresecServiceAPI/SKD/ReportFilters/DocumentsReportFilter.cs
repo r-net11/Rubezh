@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+	[KnownType(typeof(DocumentsReportFilter))]
 	public class DocumentsReportFilter : SKDReportFilter, IReportFilterPeriod, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterEmployee
 	{
 		public DocumentsReportFilter()
@@ -13,6 +15,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			Presence = true;
 			Abcense = true;
 			AbcenseReasonable = true;
+			ReportType = ReportType.DocumentsReport;
 		}
 
 		#region IReportFilterPeriod Members

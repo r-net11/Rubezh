@@ -154,6 +154,8 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Enums\ReportFormatEnum.cs" />
+    <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />

@@ -84,6 +84,7 @@
     <Compile Include="Synchronisers\OrganisationSynchroniser.cs" />
     <Compile Include="Synchronisers\PassJounalSynchroniser.cs" />
     <Compile Include="Synchronisers\PositionSynchroniser.cs" />
+    <Compile Include="Synchronisers\ReportSynchroniser.cs" />
     <Compile Include="Translators\AdditionalColumnTranslator.cs" />
     <Compile Include="Translators\AdditionalColumnTypeTranslator.cs" />
     <Compile Include="Translators\AttachmentTranslator.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Translators\MetadataTranslator.cs" />
     <Compile Include="Translators\PassJournalTranslator.cs" />
     <Compile Include="Translators\PassCardTemplateTranslator.cs" />
+    <Compile Include="Translators\ReportFiltersTranslator.cs" />
     <Compile Include="Translators\TimeTrackDocumentTypeTranslator.cs" />
     <Compile Include="Translators\NightSettingsTranslator.cs" />
     <Compile Include="Translators\ScheduleZoneTranslator.cs" />
@@ -165,8 +167,8 @@
     </None>
     <None Include="DataAccess\SKD.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>SKD.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>SKD1.designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

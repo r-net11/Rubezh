@@ -1,9 +1,23 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+	[KnownType(typeof(SKDReportFilter))]
+	[KnownType(typeof(CardsReportFilter))]
+	[KnownType(typeof(DepartmentsReportFilter))]
+	[KnownType(typeof(DisciplineReportFilter))]
+	[KnownType(typeof(DocumentsReportFilter))]
+	[KnownType(typeof(DoorsReportFilter))]
+	[KnownType(typeof(EmployeeReportFilter))]
+	[KnownType(typeof(EmployeeRootReportFilter))]
+	[KnownType(typeof(EmployeeZonesReportFilter))]
+	[KnownType(typeof(EventsReportFilter))]
+	[KnownType(typeof(PositionsReportFilter))]
+	[KnownType(typeof(SchedulesReportFilter))]
+	[KnownType(typeof(WorkingTimeReportFilter))]
 	public class SKDReportFilter
 	{
 		public SKDReportFilter()
@@ -41,6 +55,9 @@ namespace FiresecAPI.SKD.ReportFilters
 		public Guid UserUID { get; set; }
 
 		[DataMember]
+		public ReportType ReportType { get; set; }
+
+		[DataMember]
 		public string SortColumn { get; set; }
 
 		[DataMember]
@@ -64,5 +81,10 @@ namespace FiresecAPI.SKD.ReportFilters
 		public bool IsDefault { get { return Name == DefaultFilterName; } }
 
 		private string DefaultFilterName { get { return "По умолчанию"; } }
+
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }

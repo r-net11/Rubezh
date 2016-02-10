@@ -194,6 +194,14 @@ namespace FiresecService.Service
 
 		#endregion Automation
 
+		#region Reporting
+
+		public OperationResult<List<string>>  GetAllReportNames()
+		{
+			return SafeOperationCall(() => FiresecService.GetAllReportNames(), "GetAllReportNames");
+		}
+		#endregion
+
 		/// <summary>
 		/// Проверяет доступность СУБД MS SQL Server
 		/// </summary>

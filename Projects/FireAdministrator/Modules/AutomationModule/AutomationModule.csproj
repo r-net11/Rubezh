@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -127,6 +128,7 @@
     <Compile Include="Steps\ViewModels\ExportJournalStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportOrganisationStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExportReportStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GenerateGuidStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetJournalItemStepViewModel.cs" />
@@ -251,6 +253,9 @@
     </Compile>
     <Compile Include="Steps\Views\ExportOrganisationStepView.xaml.cs">
       <DependentUpon>ExportOrganisationStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExportReportStepView.xaml.cs">
+      <DependentUpon>ExportReportStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\GenerateGuidStepView.xaml.cs">
       <DependentUpon>GenerateGuidStepView.xaml</DependentUpon>
@@ -538,6 +543,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ExportOrganisationStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExportReportStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

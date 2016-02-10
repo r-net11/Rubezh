@@ -3,6 +3,7 @@ using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecAPI.Models
 {

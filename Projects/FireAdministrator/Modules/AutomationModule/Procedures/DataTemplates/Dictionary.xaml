@@ -63,7 +63,7 @@
 	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
 		<Views:DoorSelectionView />
 	</DataTemplate>
-	
+
 	<DataTemplate DataType="{x:Type ViewModels:OrganisationSelectionViewModel}">
 		<Views:OrganisationSelectionView />
 	</DataTemplate>
@@ -138,6 +138,10 @@
 
 	<DataTemplate x:Key="sendEmailTemplate">
 		<Views:SendEmailStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="exportReportStepViewTemplate">
+		<Views:ExportReportStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="exportJournalTemplate">
@@ -274,5 +278,6 @@
 		ShowPropertyTemplate="{StaticResource showPropertyTemplate}"
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		StartRecordTemplate="{StaticResource startRecordTemplate}"
-		StopRecordTemplate="{StaticResource stopRecordTemplate}" />
+		StopRecordTemplate="{StaticResource stopRecordTemplate}"
+		ExportReportStepTemplate="{StaticResource exportReportStepViewTemplate}"/>
 </ResourceDictionary>

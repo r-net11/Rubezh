@@ -4,8 +4,11 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecService.Report.Helpers;
 using Infrastructure.Common;
 using SKDDriver;
+using SKDDriver.Synchronisers;
 using SKDDriver.Translators;
 using System;
 using System.Collections.Generic;
@@ -2025,14 +2028,6 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult GenerateTestData(int employeeCount)
-		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.EmployeeTranslator.GenerateTestData(employeeCount);
-			}
-		}
-
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
 			using (var journalTranslator = new JournalTranslator())
@@ -2107,6 +2102,11 @@ namespace FiresecService.Service
 		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
 		{
 			return ConfigurationSynchroniser.Export(filter);
+		}
+
+		public OperationResult ExportReport(ReportExportFilter filter)
+		{
+			return ReportingHelpers.ExportReport(filter);
 		}
 
 		#endregion Export

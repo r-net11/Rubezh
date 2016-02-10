@@ -82,6 +82,12 @@ namespace FiresecAPI
 
 		#endregion Files
 
+		#region Reporting
+
+		[OperationContract]
+		OperationResult<List<string>> GetAllReportNames();
+		#endregion
+
 		/// <summary>
 		/// Проверяет доступность СУБД MS SQL Server
 		/// </summary>

@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="FiresecServer\Templates\EmployeeRootReportTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\ReportingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FiresecService\FiresecService.Report\FiresecService.Report.csproj">

@@ -1,8 +1,13 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using FiresecAPI.Enums;
+using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecAPI
 {
@@ -408,9 +413,6 @@ namespace FiresecAPI
 		OperationResult GenerateEmployeeDays();
 
 		[OperationContract]
-		OperationResult GenerateTestData(int employeeCount);
-
-		[OperationContract]
 		OperationResult SaveJournalVideoUID(Guid journaItemUID, Guid videoUID, Guid cameraUID);
 
 		[OperationContract]
@@ -437,6 +439,83 @@ namespace FiresecAPI
 		OperationResult ExportConfiguration(ConfigurationExportFilter filter);
 
 		#endregion Export
+
+		#region Reporting
+
+		[OperationContract]
+		[ServiceKnownType(typeof(SKDReportFilter))]
+		[ServiceKnownType(typeof(CardsReportFilter))]
+		[ServiceKnownType(typeof(DepartmentsReportFilter))]
+		[ServiceKnownType(typeof(DisciplineReportFilter))]
+		[ServiceKnownType(typeof(DocumentsReportFilter))]
+		[ServiceKnownType(typeof(DoorsReportFilter))]
+		[ServiceKnownType(typeof(EmployeeAccessReportFilter))]
+		[ServiceKnownType(typeof(EmployeeDoorsReportFilter))]
+		[ServiceKnownType(typeof(EmployeeReportFilter))]
+		[ServiceKnownType(typeof(EmployeeRootReportFilter))]
+		[ServiceKnownType(typeof(EmployeeZonesReportFilter))]
+		[ServiceKnownType(typeof(EventsReportFilter))]
+		[ServiceKnownType(typeof(PositionsReportFilter))]
+		[ServiceKnownType(typeof(SchedulesReportFilter))]
+		[ServiceKnownType(typeof(WorkingTimeReportFilter))]
+		OperationResult<bool> SaveReportFilter(SKDReportFilter filter, User user);
+
+		[OperationContract]
+		OperationResult<bool> RemoveReportFilter(SKDReportFilter filter, User user);
+
+		[OperationContract]
+		[ServiceKnownType(typeof(SKDReportFilter))]
+		[ServiceKnownType(typeof(CardsReportFilter))]
+		[ServiceKnownType(typeof(DepartmentsReportFilter))]
+		[ServiceKnownType(typeof(DisciplineReportFilter))]
+		[ServiceKnownType(typeof(DocumentsReportFilter))]
+		[ServiceKnownType(typeof(DoorsReportFilter))]
+		[ServiceKnownType(typeof(EmployeeAccessReportFilter))]
+		[ServiceKnownType(typeof(EmployeeDoorsReportFilter))]
+		[ServiceKnownType(typeof(EmployeeReportFilter))]
+		[ServiceKnownType(typeof(EmployeeRootReportFilter))]
+		[ServiceKnownType(typeof(EmployeeZonesReportFilter))]
+		[ServiceKnownType(typeof(EventsReportFilter))]
+		[ServiceKnownType(typeof(PositionsReportFilter))]
+		[ServiceKnownType(typeof(SchedulesReportFilter))]
+		[ServiceKnownType(typeof(WorkingTimeReportFilter))]
+		OperationResult<List<SKDReportFilter>> GetReportFiltersByType(User user, ReportType type);
+		[OperationContract]
+		[ServiceKnownType(typeof(SKDReportFilter))]
+		[ServiceKnownType(typeof(CardsReportFilter))]
+		[ServiceKnownType(typeof(DepartmentsReportFilter))]
+		[ServiceKnownType(typeof(DisciplineReportFilter))]
+		[ServiceKnownType(typeof(DocumentsReportFilter))]
+		[ServiceKnownType(typeof(DoorsReportFilter))]
+		[ServiceKnownType(typeof(EmployeeAccessReportFilter))]
+		[ServiceKnownType(typeof(EmployeeDoorsReportFilter))]
+		[ServiceKnownType(typeof(EmployeeReportFilter))]
+		[ServiceKnownType(typeof(EmployeeRootReportFilter))]
+		[ServiceKnownType(typeof(EmployeeZonesReportFilter))]
+		[ServiceKnownType(typeof(EventsReportFilter))]
+		[ServiceKnownType(typeof(PositionsReportFilter))]
+		[ServiceKnownType(typeof(SchedulesReportFilter))]
+		[ServiceKnownType(typeof(WorkingTimeReportFilter))]
+		OperationResult<List<SKDReportFilter>> GetReportFiltersForUser(User user);
+
+		[OperationContract]
+		[ServiceKnownType(typeof(SKDReportFilter))]
+		[ServiceKnownType(typeof(CardsReportFilter))]
+		[ServiceKnownType(typeof(DepartmentsReportFilter))]
+		[ServiceKnownType(typeof(DisciplineReportFilter))]
+		[ServiceKnownType(typeof(DocumentsReportFilter))]
+		[ServiceKnownType(typeof(DoorsReportFilter))]
+		[ServiceKnownType(typeof(EmployeeAccessReportFilter))]
+		[ServiceKnownType(typeof(EmployeeDoorsReportFilter))]
+		[ServiceKnownType(typeof(EmployeeReportFilter))]
+		[ServiceKnownType(typeof(EmployeeRootReportFilter))]
+		[ServiceKnownType(typeof(EmployeeZonesReportFilter))]
+		[ServiceKnownType(typeof(EventsReportFilter))]
+		[ServiceKnownType(typeof(PositionsReportFilter))]
+		[ServiceKnownType(typeof(SchedulesReportFilter))]
+		[ServiceKnownType(typeof(WorkingTimeReportFilter))]
+		OperationResult<List<SKDReportFilter>> GetAllFilters();
+		#endregion
 
 		/// <summary>
 		/// Выгружает файл на Сервер приложений

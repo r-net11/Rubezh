@@ -207,11 +207,14 @@
       <DependentUpon>DoorsDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="DataProvider.cs" />
+    <Compile Include="Export\ReportExporter.cs" />
+    <Compile Include="Helpers\ReportingHelpers.cs" />
     <Compile Include="Model\DeletableObjectInfo.cs" />
     <Compile Include="Model\EmployeeInfo.cs" />
     <Compile Include="Model\ObjectInfo.cs" />
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="Model\TreeItemObject.cs" />
+    <Compile Include="ReportFactory.cs" />
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="Templates\EmployeeRootReport.cs">
       <SubType>Component</SubType>
