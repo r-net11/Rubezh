@@ -1,5 +1,4 @@
 ﻿using Common;
-using Infrastructure.Common;
 using RubezhAPI;
 using System;
 using System.ServiceModel;
@@ -46,10 +45,11 @@ namespace RubezhClient
 
 		private IFiresecService DoCreate(TimeSpan operationTimeout)
 		{
-			if (_serverAddress.StartsWith("net.pipe:"))
-			{
-				
-			}
+			//if (_serverAddress.StartsWith("net.pipe:"))
+			//{
+			//if (!ServerLoadHelper.Load())
+			//	BalloonHelper.ShowFromAdm("Не удается соединиться с сервером");
+			//}
 
 			IFiresecService firesecService = _channelFactory.CreateChannel();
 			(firesecService as IContextChannel).OperationTimeout = operationTimeout;

@@ -43,6 +43,7 @@ namespace GKWebService.Models
 			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore);
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 			Properties = device.Properties;
+			MeasureParameters = device.Driver.MeasureParameters;
 		}
 
 				
@@ -72,6 +73,7 @@ namespace GKWebService.Models
 		public int Level { get; set; }
 		public List<GKProperty> Properties { get; set; }
 		public string Logic { get; set; }
+		public List<GKMeasureParameter> MeasureParameters { get; set; }
 
 		public string NsLogic { get; set; }
 	}

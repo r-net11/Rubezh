@@ -10,6 +10,9 @@
                 enableSorting: false,
                 multiSelect: false,
                 enableColumnMenus: false,
+                onRegisterApi: function (gridApi) {
+                    $scope.gridApi = gridApi;
+                },
                 columnDefs: [
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/Icon/GK/Blue_Direction.png" />{{row.entity[col.field]}}</div>' },
                     { field: 'Name', minWidth: 210, width: 310, displayName: 'Направление', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.directionClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
@@ -47,6 +50,15 @@
 
             $http.get('Directions/GetDirections').success(function (data, status, headers, config) {
                 $scope.gridOptions.data = data;
+            });
+
+            $scope.$on('showGKDirection', function (event, args) {
+                for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+                    if ($scope.gridOptions.data[i].UID === args) {
+                        $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
+                        break;
+                    }
+                }
             });
         }]
     );

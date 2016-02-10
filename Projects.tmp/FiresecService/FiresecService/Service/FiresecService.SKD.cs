@@ -545,9 +545,9 @@ namespace FiresecService.Service
 				return OperationResult<bool>.FromError(errors, !saveResult.HasError);
 			}
 		}
-		public OperationResult<bool> MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate accessTemplate)
+		public OperationResult<List<string>> MarkDeletedAccessTemplate(Guid clientUID, AccessTemplate accessTemplate)
 		{
-			var operationResult = new OperationResult<bool>();
+			var operationResult = new OperationResult<List<string>>();
 			var warnings = new List<string>();
 			AddJournalMessage(JournalEventNameType.Удаление_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
@@ -558,7 +558,7 @@ namespace FiresecService.Service
 					var cards = cardsResult.Result;
 					var removeFromCardsResult = databaseService.CardTranslator.RemoveAccessTemplate(cards.Select(x => x.UID).ToList());
 					if (removeFromCardsResult.HasError)
-						return removeFromCardsResult;
+						return OperationResult<List<string>>.FromError(removeFromCardsResult.Error);
 					var cardsToUpdate = cards.Where(x => x.CardDoors.Count > 0).ToList();
 					foreach (var card in cardsToUpdate)
 					{
@@ -572,8 +572,8 @@ namespace FiresecService.Service
 				}
 				var markDeletedResult = databaseService.AccessTemplateTranslator.MarkDeleted(accessTemplate.UID);
 				if (markDeletedResult.HasError)
-					operationResult = OperationResult<bool>.FromError(markDeletedResult.Error);
-				operationResult.Warnings = warnings;
+					operationResult = OperationResult<List<string>>.FromError(markDeletedResult.Error);
+				operationResult = new OperationResult<List<string>>(warnings);
 				return operationResult;
 			}
 		}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 
 namespace GKWebService.Models.GK.Alarms
@@ -13,6 +14,8 @@ namespace GKWebService.Models.GK.Alarms
 		public List<AlarmViewModel> Alarms { get; set; }
 
 		public bool CanResetAll { get; set; }
+
+		public bool CanResetIgnoreAll { get; set; }
 
 		public AlarmsViewModel()
 		{
@@ -263,6 +266,7 @@ namespace GKWebService.Models.GK.Alarms
 		public void UpdateAlarms(List<Alarm> alarms)
 		{
 			CanResetAll = (GetAlarmsToResetCount() > 0);
+			CanResetIgnoreAll = GetCanResetIgnoreAll();
 
 			foreach (var alarm in alarms)
 			{
@@ -297,6 +301,138 @@ namespace GKWebService.Models.GK.Alarms
 				{
 					ClientManager.FiresecService.GKReset(door);
 				}
+			}
+		}
+
+		public static void ResetIgnoreAll()
+		{
+			foreach (var device in GKManager.Devices)
+			{
+				if (!device.Driver.IsDeviceOnShleif)
+					continue;
+
+				if (device.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(device);
+				}
+			}
+
+			foreach (var zone in GKManager.Zones)
+			{
+				if (zone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(zone);
+				}
+			}
+
+			foreach (var guardZones in GKManager.GuardZones)
+			{
+				if (guardZones.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(guardZones);
+				}
+			}
+
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(door);
+				}
+			}
+
+			foreach (var direction in GKManager.Directions)
+			{
+				if (direction.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(direction);
+				}
+			}
+
+			foreach (var pumpStation in GKManager.PumpStations)
+			{
+				if (pumpStation.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(pumpStation);
+				}
+			}
+
+			foreach (var mpt in GKManager.MPTs)
+			{
+				if (mpt.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				}
+			}
+
+			foreach (var delay in GKManager.Delays)
+			{
+				if (delay.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(delay);
+				}
+			}
+		}
+
+		public static bool GetCanResetIgnoreAll()
+		{
+			try
+			{
+				foreach (var device in GKManager.Devices)
+				{
+					if (!device.Driver.IsDeviceOnShleif)
+						continue;
+
+					if (device.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var zone in GKManager.Zones)
+				{
+					if (zone.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var guardZone in GKManager.GuardZones)
+				{
+					if (guardZone.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var door in GKManager.Doors)
+				{
+					if (door.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var direction in GKManager.Directions)
+				{
+					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var pumpStation in GKManager.PumpStations)
+				{
+					if (pumpStation.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var mpt in GKManager.MPTs)
+				{
+					if (mpt.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var delay in GKManager.Delays)
+				{
+					if (delay.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+				return false;
+			}
+			catch
+			{
+				return false;
 			}
 		}
 	}

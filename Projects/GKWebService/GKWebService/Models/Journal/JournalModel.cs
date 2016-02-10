@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using RubezhAPI;
 using RubezhAPI.Journal;
+using GKWebService.Controllers;
 
 namespace GKWebService.Models
 {
@@ -34,24 +35,7 @@ namespace GKWebService.Models
 			DeviceDate = x.DeviceDateTime.ToString();
 			Subsystem = x.JournalSubsystemType.ToDescription();
 			User = x.UserName;
-			switch (x.JournalSubsystemType)
-			{
-				case JournalSubsystemType.System:
-					SubsystemImage = "PC";
-					break;
-				case JournalSubsystemType.GK:
-					SubsystemImage = "Chip";
-					break;
-				case JournalSubsystemType.SKD:
-					SubsystemImage = "Controller";
-					break;
-				case JournalSubsystemType.Video:
-					SubsystemImage = "Camera";
-					break;
-				default:
-					SubsystemImage = "no";
-					break;
-			}
+			SubsystemImage = JournalController.GetSubsystemImage(x.JournalSubsystemType);
 		}
     }
 }

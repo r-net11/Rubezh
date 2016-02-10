@@ -1,32 +1,39 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using RviClient.RVIServiceReference;
+﻿using Infrastructure.Common.TreeList;
+using RubezhAPI.Models;
+using System;
 
 namespace VideoModule.ViewModels
 {
-	public class DeviceViewModel : BaseViewModel
+	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
-		public DeviceViewModel(Device device, Channel channel, int streamNo, bool isEnabled)
+		public bool IsEnabled { get; set; }
+		public string Name { get; private set; }
+		public string Address { get; private set; }
+		public Guid CameraUid { get; private set; }
+		public Camera Camera { get; private set; }
+		public bool IsCamera { get; private set; }
+		public DeviceViewModel(Camera camera)
 		{
-			Device = device;
-			Channel = channel;
-			StreamNo = streamNo;
-
-			DeviceName = device.Name + " (" + "поток " + StreamNo + ")";
-			DeviceIP = device.Ip;
-			ChannalNumber = channel.Number;
-			ChannalName = channel.Name;
-			IsEnabled = isEnabled;
+			Camera = camera;
+			Name = camera.Name;
+			CameraUid = camera.UID;
+			IsCamera = true;
+			IsChecked = camera.IsAddedInConfiguration;
+			IsEnabled = !camera.IsAddedInConfiguration;
 		}
-
-		public int StreamNo { get; private set; }
-		public Device Device { get; private set; }
-		public Channel Channel { get; private set; }
-
-		public string DeviceName { get; private set; }
-		public string DeviceIP { get; private set; }
-		public int ChannalNumber { get; private set; }
-		public string ChannalName { get; private set; }
-
+		public DeviceViewModel(RviServer server)
+		{
+			Name = server.Name;
+		}
+		public DeviceViewModel(RviDevice device)
+		{
+			Name = device.Name;
+			Address = device.Ip;
+		}
+		public DeviceViewModel(RviChannel channel)
+		{
+			Name = channel.Name;
+		}
 		bool _isChecked;
 		public bool IsChecked
 		{
@@ -37,7 +44,5 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => IsChecked);
 			}
 		}
-
-		public bool IsEnabled { get; private set; }
 	}
 }

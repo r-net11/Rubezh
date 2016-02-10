@@ -32,5 +32,12 @@ namespace RubezhAPI.Models
 		public int VideoMarginLeft { get; set; }
 		[DataMember]
 		public int VideoMarginTop { get; set; }
+		public string Url
+		{
+			get
+			{
+				return string.Format("net.tcp://{0}:{1}/Integration", Ip, Port);
+			}
+		}
 	}
 }

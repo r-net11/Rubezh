@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models;
+using RubezhClient;
+using RviClient;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
-using RviClient.RVIServiceReference;
-using RviClient;
-using Infrastructure.Common.Windows;
-using RubezhAPI.Models;
-using Infrastructure.Common;
 
 namespace VideoModule.ViewModels
 {
@@ -16,72 +15,67 @@ namespace VideoModule.ViewModels
 		public DeviceSelectionViewModel()
 		{
 			Title = "Устройства";
-			Devices = GetDevices();
+			RviServers = new List<RviServer>();
+			Cameras = new List<DeviceViewModel>();
+			Devices = new ObservableCollection<DeviceViewModel>();
+			GetRviConfiguration();
+			BuildTree();
 		}
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
-
+		public List<RviServer> RviServers { get; private set; }
+		List<DeviceViewModel> Cameras { get; }
 		protected override bool Save()
 		{
+			foreach (var device in Cameras)
+			{
+				device.Camera.IsAddedInConfiguration = device.IsChecked;
+			}
 			return true;
 		}
-
 		public List<Camera> GetCameras()
 		{
-			var cameras = new List<Camera>();
-			foreach (var device in Devices)
-			{
-				if (device.IsChecked)
-				{
-					var stream = device.Channel.Streams[device.StreamNo];
-					if (stream != null)
-					{
-						var camera = new Camera();
-						camera.Name = device.DeviceName;
-						camera.StreamNo = device.StreamNo;
-						camera.Ip = device.Device.Ip;
-						camera.RviDeviceUID = device.Device.Guid;
-						camera.RviChannelNo = device.Channel.Number;
-						camera.RviRTSP = stream.Rtsp;
-						camera.RviChannelName = device.Channel.Name;
-						camera.CountPresets = device.Channel.CountPresets;
-						camera.CountTemplateBypass = device.Channel.CountTemplateBypass;
-						camera.CountTemplatesAutoscan = device.Channel.CountTemplatesAutoscan;
-						cameras.Add(camera);
-					}
-				}
-			}
-			return cameras;
+			return Cameras.Select(x => x.Camera).ToList();
 		}
-		ObservableCollection<DeviceViewModel> GetDevices()
+		void GetRviConfiguration()
 		{
-			var result = new ObservableCollection<DeviceViewModel>();
 			WaitHelper.Execute(() =>
 			{
-				List<Device> devices = null;
+				var rviSettings = ClientManager.SystemConfiguration.RviSettings;
 				try
 				{
-					devices = RviClientHelper.GetDevices(ClientManager.SystemConfiguration.RviSettings);
+					RviServers = RviClientHelper.GetServers(rviSettings.Url, rviSettings.Login, rviSettings.Password);
 				}
 				catch
 				{
 					MessageBoxService.ShowWarning("Возникла ошибка при получении списка устройств");
 					return;
 				}
-				foreach (var device in devices)
+			});
+		}
+		void BuildTree()
+		{
+			foreach (var rviServer in RviServers)
+			{
+				var serverViewModel = new DeviceViewModel(rviServer);
+				Devices.Add(serverViewModel);
+				foreach (var device in rviServer.RviDevices)
 				{
-					foreach (var channel in device.Channels)
+					var deviceViewModel = new DeviceViewModel(device);
+					serverViewModel.AddChild(deviceViewModel);
+					foreach (var channel in device.RviChannels)
 					{
-						foreach (var stream in channel.Streams)
+						var channelViewModel = new DeviceViewModel(channel);
+						deviceViewModel.AddChild(channelViewModel);
+						foreach (var camera in channel.Cameras)
 						{
-							var existingCamera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number && x.StreamNo == stream.Number);
-							var deviceViewModel = new DeviceViewModel(device, channel, stream.Number, existingCamera == null);
-							result.Add(deviceViewModel);
+							var cameraViewModel = new DeviceViewModel(camera);
+							channelViewModel.AddChild(cameraViewModel);
+							Cameras.Add(cameraViewModel);
 						}
 					}
 				}
-			});
-			return result;
+			}
 		}
 	}
 }
