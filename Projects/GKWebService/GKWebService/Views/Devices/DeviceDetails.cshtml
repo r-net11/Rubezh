@@ -16,23 +16,34 @@
         <div style="clear: left">
         </div>
         <uib-tabset>
-            <uib-tab heading="Управление" ng-if="device.IsTriStateControl">
+            <uib-tab heading="Управление" ng-if="device.IsTriStateControl || true">
                 <div style="background: #698ebe; padding: 5px">
-                    <div style="background: #fff; height: 300px">
-                        Автоматика Ручное Отключение
+                    <img ng-src="/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png" />
+                    <span style="font-weight: bold; font-size: large">Режим {{device.ControlRegimeName}}</span>
+                    <div style="background: #fff; height: 280px">
+                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
+                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
+                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
+                       
+                         <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="TurnOn()" ng-disabled="!device.IsControlRegime">Пуск</div>
+                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="TurnOnNow()" ng-disabled="!device.IsControlRegime">Пуск немедленно</div>
+                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="ForbidStart()" ng-disabled="!device.IsControlRegime">Останов пуска</div>
+                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="TurnOff()" ng-disabled="!device.IsControlRegime">Выключить немедленно</div>
                     </div>
+
+                   
                 </div>
             </uib-tab>
             <uib-tab heading="Управление" ng-if="device.IsBiStateControl">
                 <div style="background: #698ebe; padding: 5px">
                     <div style="background: #fff; text-align: center; height: 300px">
-                        <div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px;" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
                         <div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
+                        <div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px;" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
                         <div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px" ng-click="Reset()" ng-show="device.HasReset" ng-disabled="!device.CanReset">Сбросить</div>
                     </div>
                 </div>
             </uib-tab>
-            <uib-tab heading="Свойства">
+            <uib-tab heading="Свойства" ng-if="true">
                 <div style="background: #698ebe; padding: 5px">
                     <div style="background: #fff; height: 300px">
                         <div>
@@ -63,7 +74,7 @@
                     </div>
                 </div>
             </uib-tab>
-            <uib-tab heading="Параметры">
+            <uib-tab heading="Параметры" ng-if="true">
                 <div style="background: #698ebe; padding: 5px">
                     <div ui-grid="gridParameters" style="height: 300px;" ui-grid-selection></div>
                 </div>
