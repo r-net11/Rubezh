@@ -40,6 +40,7 @@
 			this.Disconnect = new System.Windows.Forms.Button();
 			this.Connect = new System.Windows.Forms.Button();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.Test = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.tabPage0.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -110,6 +111,7 @@
 			this.tableLayoutPanel1.ColumnCount = 2;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel1.Controls.Add(this.Test, 0, 2);
 			this.tableLayoutPanel1.Controls.Add(this.StartPoll, 1, 1);
 			this.tableLayoutPanel1.Controls.Add(this.Poll, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this.Disconnect, 1, 0);
@@ -117,18 +119,19 @@
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 2;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel1.RowCount = 3;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(609, 448);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// StartPoll
 			// 
 			this.StartPoll.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.StartPoll.Location = new System.Drawing.Point(307, 227);
+			this.StartPoll.Location = new System.Drawing.Point(307, 152);
 			this.StartPoll.Name = "StartPoll";
-			this.StartPoll.Size = new System.Drawing.Size(299, 218);
+			this.StartPoll.Size = new System.Drawing.Size(299, 143);
 			this.StartPoll.TabIndex = 3;
 			this.StartPoll.Text = "StartPoll";
 			this.StartPoll.UseVisualStyleBackColor = true;
@@ -137,9 +140,9 @@
 			// Poll
 			// 
 			this.Poll.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Poll.Location = new System.Drawing.Point(3, 227);
+			this.Poll.Location = new System.Drawing.Point(3, 152);
 			this.Poll.Name = "Poll";
-			this.Poll.Size = new System.Drawing.Size(298, 218);
+			this.Poll.Size = new System.Drawing.Size(298, 143);
 			this.Poll.TabIndex = 2;
 			this.Poll.Text = "Poll";
 			this.Poll.UseVisualStyleBackColor = true;
@@ -150,7 +153,7 @@
 			this.Disconnect.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.Disconnect.Location = new System.Drawing.Point(307, 3);
 			this.Disconnect.Name = "Disconnect";
-			this.Disconnect.Size = new System.Drawing.Size(299, 218);
+			this.Disconnect.Size = new System.Drawing.Size(299, 143);
 			this.Disconnect.TabIndex = 1;
 			this.Disconnect.Text = "Disconnect";
 			this.Disconnect.UseVisualStyleBackColor = true;
@@ -161,7 +164,7 @@
 			this.Connect.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.Connect.Location = new System.Drawing.Point(3, 3);
 			this.Connect.Name = "Connect";
-			this.Connect.Size = new System.Drawing.Size(298, 218);
+			this.Connect.Size = new System.Drawing.Size(298, 143);
 			this.Connect.TabIndex = 0;
 			this.Connect.Text = "Connect";
 			this.Connect.UseVisualStyleBackColor = true;
@@ -176,6 +179,17 @@
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// Test
+			// 
+			this.Test.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Test.Location = new System.Drawing.Point(3, 301);
+			this.Test.Name = "Test";
+			this.Test.Size = new System.Drawing.Size(298, 144);
+			this.Test.TabIndex = 4;
+			this.Test.Text = "Test";
+			this.Test.UseVisualStyleBackColor = true;
+			this.Test.Click += new System.EventHandler(this.Test_Click);
 			// 
 			// Form1
 			// 
@@ -208,6 +222,7 @@
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.Button Test;
 	}
 }
 
