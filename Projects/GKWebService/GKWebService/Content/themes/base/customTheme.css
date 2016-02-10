@@ -404,7 +404,10 @@
 [data-bind="visible:pages.Plan"],
 [data-bind="visible:pages.FireZones"],
 [data-bind="visible:pages.Directions"],
-[data-bind="visible:pages.Delays"]{
+[data-bind="visible:pages.Delays"],
+[data-bind="visible:pages.MPTs"],
+[data-bind="visible:pages.PumpStations"]
+{
 	margin:10px 10px 0 0;
 }
 
