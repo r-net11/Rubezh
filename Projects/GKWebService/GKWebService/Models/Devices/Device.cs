@@ -19,6 +19,8 @@ namespace GKWebService.Models
 			ImageSource = device.ImageSource.Replace("/Controls;component/", "");
 			Address = device.DottedPresentationAddress;
 			Description = device.Description;
+			Logic = GKManager.GetPresentationLogic(device.Logic);
+			NsLogic = GKManager.GetPresentationLogic(device.NSLogic);
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
@@ -68,6 +70,9 @@ namespace GKWebService.Models
 		public int HoldDelay { get; set; }
 		public bool HasHoldDelay { get; set; }
 		public int Level { get; set; }
-		public List<GKProperty> Properties { get; set; } 
+		public List<GKProperty> Properties { get; set; }
+		public string Logic { get; set; }
+
+		public string NsLogic { get; set; }
 	}
 }
