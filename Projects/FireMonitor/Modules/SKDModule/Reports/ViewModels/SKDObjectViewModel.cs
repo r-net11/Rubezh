@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using Controls.Converters;
+﻿using Controls.Converters;
+using Infrastructure.Common.TreeList;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
-using RubezhAPI.SKD;
-using Infrastructure.Common.TreeList;
+using System;
+using System.Linq;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -27,7 +26,7 @@ namespace SKDModule.Reports.ViewModels
 			JournalObjectType = journalObjectType;
 			Name = journalObjectType.ToDescription();
 			IsObjectGroup = true;
-			switch(journalObjectType)
+			switch (journalObjectType)
 			{
 				case JournalObjectType.GKDevice:
 					ImageSource = "/Controls;component/GKIcons/RSR2_RM_1.png";
@@ -77,10 +76,10 @@ namespace SKDModule.Reports.ViewModels
 			UID = gkBase.UID;
 			ImageSource = gkBase.ImageSource;
 		}
-		
+
 		public SKDObjectViewModel(Camera camera)
 		{
-			Name = camera.Name;
+			Name = camera.PresentationName;
 			UID = camera.UID;
 			ImageSource = "/Controls;component/Images/Camera.png";
 		}

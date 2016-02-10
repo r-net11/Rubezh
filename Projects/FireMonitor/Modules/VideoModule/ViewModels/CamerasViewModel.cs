@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhClient;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhClient;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 
 namespace VideoModule.ViewModels
 {
@@ -22,11 +18,7 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
-			{
-				var cameraViewModel = new CameraViewModel(camera);
-				Cameras.Add(cameraViewModel);
-			}
+			BuildTree();
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
@@ -48,6 +40,45 @@ namespace VideoModule.ViewModels
 		{
 			if (cameraUID != Guid.Empty)
 				SelectedCamera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
+		}
+		void BuildTree()
+		{
+			var servers = ClientManager.SystemConfiguration.RviServers;
+			foreach (var server in servers)
+			{
+				var serverViewModel = new CameraViewModel(server.Name, string.Empty);
+				foreach (var device in server.RviDevices)
+				{
+					var deviceViewModel = new CameraViewModel(device.Name, device.Ip);
+					foreach (var channel in device.RviChannels)
+					{
+						var channelViewModel = new CameraViewModel(channel.Name, string.Empty);
+						foreach (var stream in channel.Cameras)
+						{
+							if (stream.IsAddedInConfiguration)
+							{
+								var streamViewModel = new CameraViewModel(stream.Name, string.Empty, stream);
+								if (!channelViewModel.Children.Contains(streamViewModel))
+								{
+									channelViewModel.AddChild(streamViewModel);
+									if (!deviceViewModel.Children.Contains(channelViewModel))
+									{
+										deviceViewModel.AddChild(channelViewModel);
+										if (!serverViewModel.Children.Contains(deviceViewModel))
+										{
+											serverViewModel.AddChild(deviceViewModel);
+											if (!Cameras.Contains(serverViewModel))
+											{
+												Cameras.Add(serverViewModel);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

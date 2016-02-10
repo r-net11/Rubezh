@@ -19,6 +19,8 @@ namespace GKWebService.Models
 			ImageSource = device.ImageSource.Replace("/Controls;component/", "");
 			Address = device.DottedPresentationAddress;
 			Description = device.Description;
+			Logic = GKManager.GetPresentationLogic(device.Logic);
+			NsLogic = GKManager.GetPresentationLogic(device.NSLogic);
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
@@ -56,6 +58,7 @@ namespace GKWebService.Models
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 			Properties = device.Properties;
 			DriverProperties = device.Driver.Properties;
+			MeasureParameters = device.Driver.MeasureParameters;
 		}
 
 
@@ -94,5 +97,9 @@ namespace GKWebService.Models
 		public bool IsFireAndGuard { get; set; }
 
 		public string GuardPresentationZone { get; set; }
+		public string Logic { get; set; }
+		public List<GKMeasureParameter> MeasureParameters { get; set; }
+
+		public string NsLogic { get; set; }
 	}
 }

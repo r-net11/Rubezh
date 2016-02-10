@@ -1,11 +1,31 @@
 ﻿(function () {
     angular.module('gkApp.controllers').controller('journalFilterCtrl',
         function ($scope, $http, $uibModal, $uibModalInstance, $timeout, filter, uiGridTreeBaseService) {
+        	$scope.toggleRow = function (gridApi, row, evt) {
+        		uiGridTreeBaseService.toggleRowTreeState(gridApi.grid, row, evt);
+        	};
+
+        	$scope.beginDate = {
+        		date: new Date(),
+        		isOpened: false,
+        		open: function () {
+        			$scope.beginDate.isOpened = true;
+        		}
+        	}
+
+        	$scope.endDate = {
+        		date: new Date(),
+        		isOpened: false,
+        		open: function () {
+        			$scope.endDate.isOpened = true;
+        		}
+        	}
+
         	var objectsNameTemplate =
 				"<div class=\"ui-grid-cell-contents\">\
         			<div style=\"float:left;\" class=\"ui-grid-tree-base-row-header-buttons\" \
         				ng-class=\"{'ui-grid-tree-base-header': row.treeLevel > -1 }\" \
-        				ng-click=\"grid.appScope.objectsToggleRow(row,evt)\">\
+        				ng-click=\"grid.appScope.toggleRow(grid.appScope.objectsGridApi, row,evt)\">\
         					<i ng-class=\"{\
         							'ui-grid-icon-minus-squared': ((grid.options.showTreeExpandNoChildren && row.treeLevel > -1) || (row.treeNode.children && row.treeNode.children.length > 0))\
 										&& row.treeNode.state === 'expanded', \
@@ -36,33 +56,11 @@
         		}
         	};
 
-        	$scope.objectsToggleRow = function (row, evt) {
-        		uiGridTreeBaseService.toggleRowTreeState($scope.objectsGridApi.grid, row, evt);
-        	};
-
-        	$http.get('Journal/GetFilterObjects')
-				.success(function (data) {
-					data.forEach(function (item) {
-						item.$$treeLevel = item.Level;
-					})
-					$scope.objectsGrid.data = data;
-					$timeout(function () {
-						if (filter && filter.ObjectUids)
-							for (var i in $scope.objectsGrid.data) {
-								var row = $scope.objectsGrid.data[i];
-								for (var j in filter.ObjectUids) {
-									if (row.UID == filter.ObjectUids[j])
-										$scope.objectsGridApi.selection.selectRow(row);
-								}
-							}
-					}, 100);
-				});
-
         	var eventsNameTemplate =
 				"<div class=\"ui-grid-cell-contents\">\
         			<div style=\"float:left;\" class=\"ui-grid-tree-base-row-header-buttons\" \
         				ng-class=\"{'ui-grid-tree-base-header': row.treeLevel > -1 }\" \
-        				ng-click=\"grid.appScope.eventsToggleRow(row,evt)\">\
+        				ng-click=\"grid.appScope.toggleRow(grid.appScope.eventsGridApi, row,evt)\">\
         					<i ng-class=\"{\
         							'ui-grid-icon-minus-squared': ((grid.options.showTreeExpandNoChildren && row.treeLevel > -1) || (row.treeNode.children && row.treeNode.children.length > 0))\
 										&& row.treeNode.state === 'expanded', \
@@ -78,7 +76,7 @@
         			</div>\
         		</div>";
 
-			$scope.eventsGrid = {
+        	$scope.eventsGrid = {
         		enableSorting: false,
         		enableFiltering: false,
         		showTreeExpandNoChildren: false,
@@ -93,16 +91,28 @@
         		}
         	};
 
-        	$scope.eventsToggleRow = function (row, evt) {
-        		uiGridTreeBaseService.toggleRowTreeState($scope.eventsGridApi.grid, row, evt);
-        	};
-
-        	$http.get('Journal/GetFilterEvents')
+        	$http.get('Journal/GetFilter')
 				.success(function (data) {
-					data.forEach(function (item) {
+					$scope.minDate = data.MinDate;
+					$scope.maxDate = data.MaxDate;
+					data.Objects.forEach(function (item) {
 						item.$$treeLevel = item.Level;
 					})
-					$scope.eventsGrid.data = data;
+					$scope.objectsGrid.data = data.Objects;
+					$timeout(function () {
+						if (filter && filter.ObjectUids)
+							for (var i in $scope.objectsGrid.data) {
+								var row = $scope.objectsGrid.data[i];
+								for (var j in filter.ObjectUids) {
+									if (row.UID == filter.ObjectUids[j])
+										$scope.objectsGridApi.selection.selectRow(row);
+								}
+							}
+					}, 100);
+					data.Events.forEach(function (item) {
+						item.$$treeLevel = item.Level;
+					})
+					$scope.eventsGrid.data = data.Events;
 					$timeout(function () {
 						if (filter && filter.Events)
 							for (var i in $scope.eventsGrid.data) {
@@ -115,6 +125,7 @@
 							}
 					}, 100);
 				});
+        	
 
         	$scope.ok = function () {
         		$uibModalInstance.close(createFilter());
@@ -136,9 +147,13 @@
 				events.forEach(function (item) {
 					filter.Events.push({
 						Type: item.Type,
-						Value: item.Value
+						Value: item.Value,
 					});
 				});
+				$scope.beginDate.date.setSeconds(0, 0);
+				filter.BeginDate = $scope.beginDate.date;
+				$scope.endDate.date.setSeconds(0, 0);
+				filter.EndDate = $scope.endDate.date;
 				return filter;
 			}
         });

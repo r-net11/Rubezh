@@ -18,14 +18,14 @@
         <uib-tabset>
             <uib-tab heading="Управление" ng-if="false">
                 <div style="background: #698ebe; padding: 5px">
-                    <div style="background: #fff">
-                        
+                    <div style="background: #fff; height: 300px">
+
                     </div>
                 </div>
             </uib-tab>
             <uib-tab heading="Свойства">
                 <div style="background: #698ebe; padding: 5px">
-                    <div style="background: #fff">
+                    <div style="background: #fff; height: 300px">
                         <div>
                             <span style="font-weight: bold; width: 110px; color: black">Устройство:</span>
                             <img style="margin: 2px; vertical-align: middle" height="16" width="16" ng-src="/Content/Image/{{device.ImageSource}}" />
@@ -56,14 +56,12 @@
             </uib-tab>
             <uib-tab heading="Параметры">
                 <div style="background: #698ebe; padding: 5px">
-                    <div ui-grid="gridOptions" style="height: 0%;" ui-grid-selection></div>
+                    <div ui-grid="gridParameters" style="height: 300px;" ui-grid-selection></div>
                 </div>
             </uib-tab>
-            <uib-tab heading="Измерения" ng-if="false">
+            <uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0">
                 <div style="background: #698ebe; padding: 5px">
-                    <div style="background: #fff">
-
-                    </div>
+                    <div ui-grid="gridMeasurements" style="height: 300px;" ui-grid-selection></div>
                 </div>
             </uib-tab>
         </uib-tabset>
