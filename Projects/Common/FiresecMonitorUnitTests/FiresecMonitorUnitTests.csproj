@@ -58,6 +58,7 @@
     <Compile Include="FireMonitorTests\DayTimeTrack\ApplyDeviationPoliticsTests.cs" />
     <Compile Include="FireMonitorTests\DayTimeTrack\SetBackgroundColor.cs" />
     <Compile Include="FireMonitorTests\DayTimeTrack\SetLetterCodeTests.cs" />
+    <Compile Include="FireMonitorTests\DayTimeTrack\TransferPresentToOvertimeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
