@@ -2,6 +2,8 @@
 using Controls.Converters;
 using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
 
 namespace GKWebService.Models.FireZone
 {
@@ -62,8 +64,11 @@ namespace GKWebService.Models.FireZone
 							 .ToString()
 							 .Substring(3) + "'";
 			StateMessage = gkZone.State.StateClass.ToDescription();
-			CanSetIgnore = gkZone.State.StateClass == XStateClass.Norm;
-			CanResetIgnore = gkZone.State.StateClass == XStateClass.Ignore;
+			CanSetIgnore = !gkZone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			CanResetIgnore = gkZone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			CanResetFire = gkZone.State.StateClasses.Contains(XStateClass.Fire2) 
+				|| gkZone.State.StateClasses.Contains(XStateClass.Fire1) 
+				|| gkZone.State.StateClasses.Contains(XStateClass.Attention);
 			GKDescriptorNo = gkZone.GKDescriptorNo;
 		}
 	}

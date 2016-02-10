@@ -37,9 +37,9 @@
 				});
 			});
 
-			function ChangeDevices(device) {
+			function changeDevices(device) {
 				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-					if ($scope.gridOptions.data[i].UID == device.UID) {
+					if ($scope.gridOptions.data[i].UID === device.UID) {
 						$scope.gridOptions.data[i].ImageSource = device.ImageSource;
 						$scope.gridOptions.data[i].StateIcon = device.StateIcon;
 						break;
@@ -48,7 +48,7 @@
 			};
 
 			$scope.$on('devicesChanged', function (event, args) {
-				ChangeDevices(args);
+				changeDevices(args);
 				$scope.$apply();
 			});
 
@@ -80,7 +80,7 @@
 			$scope.findDevice = function (deviceId) {
 
 				for (var i in $scope.gridOptions.data) {
-					if ($scope.gridOptions.data[i].UID == deviceId)
+					if ($scope.gridOptions.data[i].UID === deviceId)
 						return $scope.gridOptions.data[i];
 				}
 

@@ -16,10 +16,19 @@
         <div style="clear: left">
         </div>
         <uib-tabset>
-            <uib-tab heading="Управление" ng-if="false">
+            <uib-tab heading="Управление" ng-if="device.IsTriStateControl">
                 <div style="background: #698ebe; padding: 5px">
                     <div style="background: #fff; height: 300px">
-
+                        Автоматика Ручное Отключение
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="Управление" ng-if="device.IsBiStateControl">
+                <div style="background: #698ebe; padding: 5px">
+                    <div style="background: #fff; text-align: center; height: 300px">
+                        <div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px;" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
+                        <div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
+                        <div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px" ng-click="Reset()" ng-show="device.HasReset" ng-disabled="!device.CanReset">Сбросить</div>
                     </div>
                 </div>
             </uib-tab>
