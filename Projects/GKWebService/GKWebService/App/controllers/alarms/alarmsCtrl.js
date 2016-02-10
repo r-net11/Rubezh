@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
-        ['$scope', '$http', '$uibModal', '$window', 'broadcastService',
-        function ($scope, $http, $uibModal, $window, broadcastService) {
+        ['$scope', '$http', '$uibModal', '$window', 'broadcastService', 'constants',
+        function ($scope, $http, $uibModal, $window, broadcastService, constants) {
             $scope.gridOptions = {
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
@@ -116,29 +116,54 @@
             $scope.objectClick = function(alarm) {
                 // TODO: Исправить когда меню переведём на ангулар
                 angular.element(".menu .group-control").parent().addClass('clicked');
-                if (alarm.GkBaseEntityObjectType === 0) {
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .device")[0] }, 'Device');
                     broadcastService.send('showGKDevice', alarm.GkBaseEntityUID);
                 }
-                if (alarm.GkBaseEntityObjectType === 1) {
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.zone) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .zone")[0] }, 'FireZones');
                     broadcastService.send('showGKZone', alarm.GkBaseEntityUID);
                 }
-                if (alarm.GkBaseEntityObjectType === 7) {
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.guardZone) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .guardZone")[0] }, 'GuardZone');
                     broadcastService.send('showGKGuardZone', alarm.GkBaseEntityUID);
                 }
-                if (alarm.GkBaseEntityObjectType === 2) {
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.direction) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .direction")[0] }, 'Directions');
                     broadcastService.send('showGKDirection', alarm.GkBaseEntityUID);
                 }
-                if (alarm.GkBaseEntityObjectType === 4) {
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.mpt) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .MPTs")[0] }, 'MPTs');
                     broadcastService.send('showGKMPT', alarm.GkBaseEntityUID);
                 }
-                if (alarm.GkBaseEntityObjectType === 5) {
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.delay) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .delays")[0] }, 'Delays');
                     broadcastService.send('showGKDelay', alarm.GkBaseEntityUID);
+                }
+                // TODO: Дополнить здесь обработку кликов на объекты при создании новых страниц объектов
+            };
+
+            $scope.showPropertiesClick = function (alarm) {
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {
+                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.zone) {
+                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.guardZone) {
+                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.direction) {
+                    broadcastService.send('showDirectionDetails', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.mpt) {
+                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.delay) {
+                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.pumpStation) {
+                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
                 }
             };
         }]
