@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Archive";
+    Layout = null;
+}
+
+
+<div class="archive" data-bind="with: Archive">
+    <div class="archive_param">
+        <div class="filter"></div>
+        <div class="refresh"></div>
+        <div class="left_left"></div>
+        <div class="left"></div>
+        <div class="cur_page"></div>
+        <div class="delimiter">/</div>
+        <div class="total_page"></div>
+        <div class="right"></div>
+        <div class="right_right"></div>
+        <div class="right"></div>
+        <div>Количество записей:</div>
+        <div class="total_rec"></div>
+        <div class="edit"></div>
+    </div>
+    <div>
+    <table id="jqGridArchive"></table>
+    <div id="jqGridArchivePager"></div>
+    </div>
+    <div class="report_item_info">
+        <div>
+            <label>Дата в системе</label>
+            <label data-bind="text: SystemDate"></label>
+        </div>
+        <div>
+            <label>Дата в приборе</label>
+            <label data-bind="text: DeviceDate"></label>
+        </div>
+        <div>
+            <label>Событие</label>
+            <label data-bind="text: Name"></label>
+        </div>
+        <div>
+            <label>Уточнение</label>
+            <label data-bind="text: Desc"></label>
+        </div>
+        <div>
+            <label>Пользователь</label>
+            <label>Администратор</label>
+        </div>
+        <div>
+            <label>Подсистема</label>
+            <label>Система</label>
+        </div>
+    </div>
+</div>
+

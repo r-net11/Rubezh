@@ -1,0 +1,153 @@
+﻿using GKWebService.DataProviders.SKD;
+using GKWebService.Models;
+using GKWebService.Utils;
+using RubezhAPI;
+using RubezhAPI.Journal;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
+using System.Threading;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+
+namespace GKWebService.Controllers
+{
+	public class JournalController : Controller
+	{
+		public ActionResult Index()
+		{
+			return View();
+		}
+
+		public ActionResult JournalFilter()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public JsonResult GetJournal(GKWebService.Models.JournalFilter filter)
+		{
+			var journalFilter = new RubezhAPI.Journal.JournalFilter();
+			if (filter != null)
+			{
+				if (filter.ObjectUids != null)
+					journalFilter.ObjectUIDs = filter.ObjectUids;
+				if(filter.Events != null)
+				{
+					foreach (var filterEvent in filter.Events)
+					{
+						switch (filterEvent.Type)
+						{
+							case 0:
+								journalFilter.JournalSubsystemTypes.Add((JournalSubsystemType)filterEvent.Value);
+								break;
+							case 1:
+								journalFilter.JournalEventNameTypes.Add((JournalEventNameType)filterEvent.Value);
+								break;
+							case 2:
+								journalFilter.JournalEventDescriptionTypes.Add((JournalEventDescriptionType)filterEvent.Value);
+								break;
+							default:
+								break;
+						}
+					}
+				}
+				
+			};
+			var apiItems = JournalHelper.Get(journalFilter);
+			var list = apiItems.Select(x => new JournalModel(x)).ToList();
+			return Json(list, JsonRequestBehavior.AllowGet);
+		}
+
+		public JsonResult GetFilter()
+		{
+			var result = new JournalFilterJson
+			{
+				MinDate = DateTime.Now.AddDays(-7),
+				MaxDate = DateTime.Now,
+				Events = GetFilterEvents(),
+				Objects = GetFilterObjects()
+			};
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
+
+		List<JournalFilterObject> GetFilterObjects()
+		{
+			var result = new List<JournalFilterObject>();
+			result.Add(new JournalFilterObject(new Guid("98BEF3DB-0E77-4AB4-BCFB-917918DFC726"), "Icon/SubsystemTypes/Chip.png", "ГК", 0));
+			result.Add(new JournalFilterObject(new Guid("DBC956A1-37BD-433E-97F0-99D2BC27741F"), "GKIcons/GKRele.png", "Устройства", 1));
+			BuildDeviceTree(GKManager.DeviceConfiguration.RootDevice, null, result);
+			result.Add(new JournalFilterObject(new Guid("F28203B1-3DE1-48B6-B0AB-C65C9DAF9AC4"), "Images/Zone.png", "Зоны", 1));
+			result.AddRange(GKManager.Zones.Select(x => new JournalFilterObject(x.UID, "Images/Zone.png", x.PresentationName, 2)));
+			result.Add(new JournalFilterObject(new Guid("D0676597-5CF8-4969-8F74-7BF2831BF8D4"), "Images/BDirection.png", "Направления", 1));
+			result.AddRange(GKManager.Directions.Select(x => new JournalFilterObject( x.UID, "Images/BDirection.png", x.PresentationName, 2)));
+			result.Add(new JournalFilterObject(new Guid("AD76FEE7-BE53-48A4-8B92-802303ECA801"), "Images/BMPT.png", "МПТ", 1));
+			result.AddRange(GKManager.MPTs.Select(x => new JournalFilterObject(x.UID, "Images/BMPT.png", x.PresentationName, 2)));
+			result.Add(new JournalFilterObject(new Guid("022EF437-56FB-4060-AB03-256B3F206F2A"), "Images/BPumpStation.png", "Насосные станции", 1));
+			result.AddRange(GKManager.PumpStations.Select(x => new JournalFilterObject(x.UID, "Images/BPumpStation.png", x.PresentationName, 2)));
+			result.Add(new JournalFilterObject(new Guid("367BC728-2997-48FD-92C0-F527C30DCF0C"), "Images/Delay.png", "Задержки", 1));
+			result.AddRange(GKManager.Delays.Select(x => new JournalFilterObject(x.UID, "Images/Delay.png", x.PresentationName, 2)));
+			result.Add(new JournalFilterObject(new Guid("37293547-A1AB-4547-8E67-D5993A628CEE"), "Images/GuardZone.png", "Охранные зоны", 1));
+			result.AddRange(GKManager.GuardZones.Select(x => new JournalFilterObject(x.UID, "Images/GuardZone.png", x.PresentationName, 2)));
+			result.Add(new JournalFilterObject(new Guid("0191FEF3-7EE5-4D88-99FC-B91B5D9C4B51"), "Images/SKDZone.png", "Зоны СКД", 1));
+			result.AddRange(GKManager.SKDZones.Select(x => new JournalFilterObject(x.UID, "Images/SKDZone.png", x.PresentationName, 2)));
+			result.Add(new JournalFilterObject(new Guid("24D0399E-7BF4-4042-82D7-1B0B79DF5CDA"), "Images/Door.png", "Точки доступа", 1));
+			result.AddRange(GKManager.Doors.Select(x => new JournalFilterObject(x.UID, "Images/Door.png", x.PresentationName, 2)));
+			result.Add(new JournalFilterObject(new Guid("D8997692-0858-43CA-88B5-4AFB537D2BE2"), "Images/BVideo.png", "Видео", 0));
+			result.Add(new JournalFilterObject(new Guid("DBC956A1-37BD-433E-97F0-99D2BC27741F"), "Images/BVideo.png", "Видеоустройства", 1));
+			result.AddRange(ClientManager.SystemConfiguration.Cameras.Select(x => new JournalFilterObject(x.UID, "Images/BVideo.png", x.PresentationName, 2)));
+			return result;
+		}
+
+		List<JournalFilterEvent> GetFilterEvents()
+		{
+			var result = new List<JournalFilterEvent>();
+			foreach (JournalSubsystemType journalSubsystemType in Enum.GetValues(typeof(JournalSubsystemType)))
+			{
+				result.Add(new JournalFilterEvent(0, (int)journalSubsystemType, journalSubsystemType.ToDescription(), "Icon/SubsystemTypes/" + GetSubsystemImage(journalSubsystemType) + ".png", 0));
+				foreach (JournalEventNameType journalEventNameType in Enum.GetValues(typeof(JournalEventNameType)))
+				{
+					if(EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType) == journalSubsystemType)
+						result.Add(new JournalFilterEvent(1, (int)journalEventNameType, journalEventNameType.ToDescription(), "Icon/GKStateIcons/" + EventDescriptionAttributeHelper.ToStateClass(journalEventNameType) + ".png", 1));
+					foreach (JournalEventDescriptionType journalEventDescriptionType in Enum.GetValues(typeof(JournalEventDescriptionType)))
+					{
+						if (EventDescriptionAttributeHelper.ToName(journalEventDescriptionType) == journalEventNameType.ToDescription())
+							result.Add(new JournalFilterEvent(2, (int)journalEventDescriptionType, journalEventDescriptionType.ToDescription(), "Images/blank.png", 2));
+					}
+				}
+			}
+			return result;
+		}
+
+		void BuildDeviceTree(RubezhAPI.GK.GKDevice apiDevice, JournalFilterObject parent, List<JournalFilterObject> devices)
+		{
+			var device = new JournalFilterObject(apiDevice.UID, apiDevice.ImageSource.Replace("/Controls;component/", ""), apiDevice.PresentationName, parent != null ? parent.Level + 1 : 2);
+			devices.Add(device);
+			foreach (var child in apiDevice.Children)
+			{
+				BuildDeviceTree(child, device, devices);
+			}
+		}
+
+		public static string GetSubsystemImage(JournalSubsystemType journalSubsystemType)
+		{
+			switch (journalSubsystemType)
+			{
+				case JournalSubsystemType.System:
+					return "PC";
+				case JournalSubsystemType.GK:
+					return "Chip";
+				case JournalSubsystemType.SKD:
+					return "Controller";
+				case JournalSubsystemType.Video:
+					return "Camera";
+				default:
+					return "no";
+			}
+		}
+	}
+}
