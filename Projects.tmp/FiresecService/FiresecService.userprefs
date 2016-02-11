@@ -1,33 +1,10 @@
 ﻿<Properties StartupItem="FiresecService/FiresecService.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../Common/Common/WCF/BindingHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Common/RubezhAPI/IFiresecService.cs">
     <Files>
-      <File FileName="FiresecService/Service/SafeFiresecService.cs" Line="1" Column="1" />
-      <File FileName="../Common/GKProcessor/Watcher/TimeSynchronisationHelper.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhDAL/Synchronisers/OrganisationSynchroniser.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhDAL/Translators/HR/PassCardTemplateTranslator.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/IFiresecService.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.Poll.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.Files.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.Authentication.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.Automation.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.GK.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.Journal.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.OpcDa.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.SKD.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.SKD.TimeInterval.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Bootstrapper.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhDAL/DbService.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhDAL/DbServiceHelper.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecServiceManager.cs" Line="1" Column="1" />
-      <File FileName="../Common/Common/SafeContext.cs" Line="1" Column="1" />
-      <File FileName="../Common/Common/WCF/BindingHelper.cs" Line="30" Column="20" />
-      <File FileName="FiresecService/Service/ClientsManager.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/ViewModels/MainViewModel.cs" Line="1" Column="1" />
-      <File FileName="../Common/Infrastructure.Automation/ProcedurePropertyCache.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/CallbackManager.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Processor/GKProcessor.cs" Line="1" Column="1" />
+      <File FileName="FiresecService/Bootstrapper.cs" Line="57" Column="30" />
+      <File FileName="FiresecService/Service/FiresecServiceManager.cs" Line="36" Column="7" />
+      <File FileName="../Common/RubezhAPI/IFiresecService.cs" Line="24" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

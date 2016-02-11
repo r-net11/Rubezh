@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('fireZonesCtrl',
-        ['$scope', '$http', '$timeout', '$uibModal', 'signalrFireZonesService', 'broadcastService',
-        function ($scope, $http, $timeout, $uibModal, signalrFireZonesService, broadcastService) {
+        ['$scope', '$http', '$timeout', '$uibModal', 'uiGridConstants', 'signalrFireZonesService', 'broadcastService',
+        function ($scope, $http, $timeout, $uibModal, uiGridConstants, signalrFireZonesService, broadcastService) {
             $scope.gridOptions = {
                 enableRowHeaderSelection: false,
                 enableSorting: false,
@@ -12,6 +12,7 @@
                 enableColumnMenus: false,
                 enableRowSelection: true,
                 noUnselect: true,
+                enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
                 columnDefs: [
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}"/>{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.fireZonesClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
@@ -38,6 +39,7 @@
             $scope.fireZonesClick = function (fireZone) {
                 var modalInstance = $uibModal.open({
                     animation: false,
+                    size: 'rbzh',
                     templateUrl: 'FireZones/FireZonesDetails',
                     controller: 'fireZonesDetailsCtrl',
                     resolve: {
@@ -68,6 +70,23 @@
                 gridApi.selection.on.rowSelectionChanged($scope, $scope.changeZone);
             };
 
+            $scope.$on('showGKZone', function (event, args) {
+                for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+                    if ($scope.gridOptions.data[i].Uid === args) {
+                        $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
+                        break;
+                    }
+                }
+            });
+
+            $scope.$on('showGKZoneDetails', function (event, args) {
+                for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+                    if ($scope.gridOptions.data[i].Uid === args) {
+                        $scope.fireZonesClick($scope.gridOptions.data[i]);
+                        break;
+                    }
+                }
+            });
         }]
     );
 }());

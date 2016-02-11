@@ -33,7 +33,7 @@ namespace FiresecService.Service
 				{
 					CreateTcpEndpoint();
 				}
-				CreateNetPipesEndpoint();
+				//CreateNetPipesEndpoint();
 				ServiceHost.Open();
 			}
 			catch (Exception e)

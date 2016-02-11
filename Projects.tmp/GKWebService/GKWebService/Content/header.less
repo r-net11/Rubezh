@@ -1,0 +1,140 @@
+﻿/* Header
+-----------------------------------------------------------------------------*/
+.header {
+	height: 80px;
+	background: @dark-blue;
+	color: white;
+	min-width: 1100px;
+
+	.left {
+		display: inline-block;
+		width: 222px;
+		margin: 6px 0 0 5px;
+
+		.time {
+			font-size: 20px;
+			margin-bottom: 10px;
+			margin-top: 10px;
+			padding-left: 10px;
+		}
+
+		.icons {
+			overflow: hidden;
+			padding: 0 0 0 5px;
+
+			.icon {
+				width: 20px;
+				height: 20px;
+				background-size: 20px 20px;
+				background-repeat: no-repeat;
+				background-position: center;
+				float: left;
+				padding: 5px;
+				border-radius: 5px;
+				margin-right: 10px;
+				-moz-box-sizing: content-box;
+				-webkit-box-sizing: content-box;
+				box-sizing: content-box;
+
+				&:hover {
+					background-color: @orange;
+				}
+
+				&.mute {
+					background-image: url("Image/Icon/Header/sound-on.png");
+
+					&.off {
+						background-image: url("Image/Icon/Header/sound-off.png");
+					}
+				}
+
+				&.connect {
+					background-image: url("Image/Icon/Header/connection-indicator.png");
+					width: 40px;
+					height: 20px;
+					padding: 5px 5px;
+					background-size: 40px 13px;
+				}
+
+				&.change-user {
+					background-image: url("Image/Icon/Header/user.png");
+				}
+
+				&.activation {
+					background-image: url("Image/Icon/Header/window-normal.png");
+				}
+
+				&.plan {
+					background-image: url("Image/Icon/Header/map-on.png");
+				}
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+
+	.right {
+		display: inline-block;
+		margin: 12px 0 0 0;
+		min-width: 800px;
+
+		.icon {
+			width: 40px;
+			height: 40px;
+			background-size: 40px 40px;
+			background-repeat: no-repeat;
+			background-position: center;
+			float: left;
+			padding: 10px;
+			border-radius: 5px;
+			border: 2px solid @light-blue;
+			margin-right: 10px;
+			-moz-box-sizing: content-box;
+			-webkit-box-sizing: content-box;
+			box-sizing: content-box;
+
+			&.mpt {
+				background-image: url("Image/Icon/Alarms/mpt.png");
+			}
+
+			&.shield {
+				background-image: url("Image/Icon/Alarms/shield.png");
+			}
+
+			&.fire2 {
+				background-image: url("Image/Icon/Alarms/fire2.png");
+			}
+
+			&.fire {
+				background-image: url("Image/Icon/Alarms/fire.png");
+			}
+
+			&.attention {
+				background-image: url("Image/Icon/Alarms/attention.png");
+			}
+
+			&.failure {
+				background-image: url("Image/Icon/Alarms/failure.png");
+			}
+
+			&.off {
+				background-image: url("Image/Icon/Alarms/off.png");
+			}
+
+			&.auto {
+				background-image: url("Image/Icon/Alarms/auto.png");
+			}
+
+			&.service {
+				background-image: url("Image/Icon/Alarms/service.png");
+			}
+
+			&.onOff {
+				background-image: url("Image/Icon/Alarms/onOff.png");
+			}
+		}
+	}
+}
+

@@ -182,10 +182,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\app.js" />
+    <Content Include="App\constants.js" />
     <Content Include="App\controllers\alarms\alarmsCtrl.js" />
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
+    <Content Include="App\controllers\archive\archiveCtrl.js" />
+    <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
+    <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
     <Content Include="App\controllers\devices\devicesCtrl.js" />
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
@@ -196,11 +200,13 @@
     <Content Include="App\controllers\fireZones\fireZonesDevicesDetailsCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
     <Content Include="App\controllers\journal\journalFilterCtrl.js" />
-    <Content Include="App\controllers\journal\journalProperties.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
     <Content Include="App\controllers\planCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationDetailsCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationDevicesCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
@@ -211,6 +217,7 @@
     <Content Include="App\services\signalrDirectionsService.js" />
     <Content Include="App\services\signalrFireZonesService.js" />
     <Content Include="App\services\signalrMPTsService.js" />
+    <Content Include="App\services\signalrPumpStationService.js" />
     <Content Include="App\services\signalrService.js" />
     <Content Include="App\signalr\plansUpdaterHub.js" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -415,6 +422,7 @@
     <Resource Include="Content\Image\Images\SKDZone.png" />
     <Resource Include="Content\Image\Images\BVideo.png" />
     <Resource Include="Content\Image\Images\blank.png" />
+    <Content Include="Content\Image\Images\BReset.png" />
     <Content Include="Content\Image\Images\Zone.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
@@ -564,6 +572,7 @@
     <Content Include="Content\ui-grid.less" />
     <Content Include="Content\bootstrap.less" />
     <Content Include="Content\alarmBtn.less" />
+    <Content Include="Content\devices.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -641,6 +650,7 @@
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\PumpStationsController.cs" />
     <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
     <Compile Include="DataProviders\DevicesHub.cs" />
@@ -648,6 +658,7 @@
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
+    <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
@@ -678,6 +689,7 @@
     <Compile Include="Models\Journal\JournalFilterEvent.cs" />
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
+    <Compile Include="Models\PumpStation\PumpStation.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
@@ -775,12 +787,10 @@
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
     <Content Include="Views\Cards\Index.cshtml" />
     <Content Include="Views\Delays\Delays.cshtml" />
-    <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Journal\Index.cshtml" />
     <Content Include="Views\Delays\DelayDetails.cshtml" />
-    <Content Include="Views\MPTs\Index.cshtml" />
     <Content Include="Views\Journal\JournalFilter.cshtml" />
     <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <Content Include="Views\FireZones\Index.cshtml" />
@@ -789,6 +799,12 @@
     <Content Include="Views\Alarms\Index.cshtml" />
     <Content Include="Views\Alarms\Alarms.cshtml" />
     <Content Include="Views\Devices\DeviceDetails.cshtml" />
+    <Content Include="Views\Archive\Index.cshtml" />
+    <Content Include="Views\Archive\ArchiveFilter.cshtml" />
+    <Content Include="Views\PumpStations\PumpStations.cshtml" />
+    <Content Include="Views\PumpStations\PumpStationDetails.cshtml" />
+    <Content Include="Views\Home\MPTs.cshtml" />
+    <Content Include="Views\MPTs\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -799,7 +815,6 @@
   <ItemGroup>
     <Folder Include="App\controllers\MPTDevice\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Archive\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />

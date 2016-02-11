@@ -1,9 +1,18 @@
 ﻿
 @{
-    Layout = null;
+	Layout = null;
 }
 
 
 <div ng-controller="devicesCtrl">
-    <div ui-grid="gridOptions" style="width: 100%; height: auto;" ui-grid-tree-view id="devicesGrid"></div>
+	
+	<div ui-grid="gridOptions" style="width: 100%; height: auto;" ui-grid-tree-view ui-grid-selection id="devicesGrid"></div>
+
+	<div class="device-params" ng-show="selectedDevice">
+		<div class="device-title block">
+			{{ selectedDevice.Name }}
+		</div>
+		<div>{{selectedDevice.State}}</div>
+	</div>
+
 </div>

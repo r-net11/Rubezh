@@ -104,7 +104,7 @@ namespace VideoModule.ViewModels
 					JournalSubsystemType = JournalSubsystemType.Video,
 					JournalObjectType = JournalObjectType.VideoDevice,
 					ObjectUID = Camera.UID,
-					ObjectName = Camera.Name,
+					ObjectName = Camera.PresentationName,
 				};
 				ClientManager.FiresecService.AddJournalItem(journalItem);
 			}
