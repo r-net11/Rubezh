@@ -25,6 +25,7 @@ using GKWebService.Models.Plan.PlanElement.Hint;
 using GKWebService.Utils;
 using ImageMagick;
 using Infrustructure.Plans.Elements;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -115,7 +116,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				Width = elem.Width,
 				Height = elem.Height,
 				HasOverlay = true,
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Orange),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = elem.Left,
 				Y = elem.Top
 			};
@@ -177,7 +178,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				Width = rect.Width,
 				Height = rect.Height,
 				HasOverlay = true,
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Orange),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = rect.Left,
 				Y = rect.Top,
 				Name = elem.PresentationName
@@ -207,11 +208,11 @@ namespace GKWebService.Models.Plan.PlanElement
 				showHint = (bool)GetProperty(elem, "ShowTooltip");
 			}
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(pt, PathKind.ClosedLine),
-				Border = InernalConverter.ConvertColor(elem.BorderColor),
-				Fill = InernalConverter.ConvertColor(elem.BackgroundColor),
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Orange),
-				FillMouseOver = InernalConverter.ConvertColor(elem.BackgroundColor),
+				Path = InternalConverter.PointsToPath(pt, PathKind.ClosedLine),
+				Border = InternalConverter.ConvertColor(elem.BorderColor),
+				Fill = InternalConverter.ConvertColor(elem.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
+				FillMouseOver = InternalConverter.ConvertColor(elem.BackgroundColor),
 				Name = elem.PresentationName,
 				Id = elem.UID,
 				Hint = showHint ? GetElementHint(elem) : null,
@@ -237,11 +238,11 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				rect.BottomLeft
 			};
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(pt, PathKind.Ellipse),
-				Border = InernalConverter.ConvertColor(item.BorderColor),
-				Fill = InernalConverter.ConvertColor(item.BackgroundColor),
-				BorderMouseOver = InernalConverter.ConvertColor(item.BorderColor),
-				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
+				Path = InternalConverter.PointsToPath(pt, PathKind.Ellipse),
+				Border = InternalConverter.ConvertColor(item.BorderColor),
+				Fill = InternalConverter.ConvertColor(item.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor),
+				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = item.ShowTooltip ? GetElementHint(item) : null,
@@ -259,11 +260,11 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				showHint = (bool)GetProperty(item, "ShowTooltip");
 			}
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(item.Points, PathKind.ClosedLine),
-				Border = InernalConverter.ConvertColor(item.BorderColor),
-				Fill = InernalConverter.ConvertColor(item.BackgroundColor),
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Orange),
-				FillMouseOver = InernalConverter.ConvertColor(item.BackgroundColor),
+				Path = InternalConverter.PointsToPath(item.Points, PathKind.ClosedLine),
+				Border = InternalConverter.ConvertColor(item.BorderColor),
+				Fill = InternalConverter.ConvertColor(item.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
+				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				BorderThickness = item.BorderThickness,
@@ -276,11 +277,11 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 
 		public static PlanElement FromPolyline(ElementPolyline elem) {
 			var shape = new PlanElement {
-				Path = InernalConverter.PointsToPath(elem.Points, PathKind.Line),
-				Border = InernalConverter.ConvertColor(elem.BorderColor),
+				Path = InternalConverter.PointsToPath(elem.Points, PathKind.Line),
+				Border = InternalConverter.ConvertColor(elem.BorderColor),
 				Fill = System.Drawing.Color.Transparent,
-				BorderMouseOver = InernalConverter.ConvertColor(elem.BorderColor),
-				FillMouseOver = InernalConverter.ConvertColor(elem.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(elem.BorderColor),
+				FillMouseOver = InternalConverter.ConvertColor(elem.BackgroundColor),
 				Name = elem.PresentationName,
 				Id = elem.UID,
 				Hint = elem.ShowTooltip ? GetElementHint(elem) : null,
@@ -353,7 +354,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Height = elem.Height,
 				Name = elem.PresentationName,
 				HasOverlay = true,
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Orange),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = elem.Left,
 				Y = elem.Top
 			};
@@ -420,8 +421,8 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 
 			var shape = new PlanElement {
 				Path = path,
-				Border = InernalConverter.ConvertColor(Colors.Transparent),
-				Fill = InernalConverter.ConvertColor(item.ForegroundColor),
+				Border = InternalConverter.ConvertColor(Colors.Transparent),
+				Fill = InternalConverter.ConvertColor(item.ForegroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				Hint = (item as ElementBase) != null && showHint ? GetElementHint((ElementBase)item) : null,
@@ -452,8 +453,8 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Path = flatten.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture),
 				Border = System.Drawing.Color.FromKnownColor(color1),
 				Fill = System.Drawing.Color.FromKnownColor(color2),
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
-				FillMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Transparent),
+				FillMouseOver = InternalConverter.ConvertColor(Colors.Transparent),
 				Name = item.PresentationName,
 				BorderThickness = item.BorderThickness,
 				Type = ShapeTypes.Path.ToString(),
@@ -469,8 +470,8 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Path = flatten.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture),
 				Border = System.Drawing.Color.FromKnownColor(color1),
 				Fill = System.Drawing.Color.FromKnownColor(color2),
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
-				FillMouseOver = InernalConverter.ConvertColor(Colors.Transparent),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Transparent),
+				FillMouseOver = InternalConverter.ConvertColor(Colors.Transparent),
 				Name = item.PresentationName,
 				BorderThickness = item.BorderThickness,
 				Type = ShapeTypes.Path.ToString(),
@@ -486,7 +487,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Height = 30,
 				Name = item.PresentationName,
 				HasOverlay = true,
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Orange),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = rect.Left,
 				Y = rect.Top
 			};
@@ -525,7 +526,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Height = 14,
 				HasOverlay = true,
 				Name = item.PresentationName,
-				BorderMouseOver = InernalConverter.ConvertColor(Colors.Orange),
+				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = item.Left - 7,
 				Y = item.Top - 7,
 			};
@@ -549,7 +550,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 			var stateClasses = new string[state.StateClasses.Count];
 			for (var index = 0; index < state.StateClasses.Count; index++) {
 				var stateClass = state.StateClasses[index];
-				stateClasses[index] = InernalConverter.GetStateClassName(stateClass);
+				stateClasses[index] = InternalConverter.GetStateClassName(stateClass);
 			}
 
 			ElementGKDevice elemDevice = null;
@@ -572,7 +573,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Picture = pic,
 				Name = elemDevice != null ? elemDevice.PresentationName : device.PresentationName,
 				HintPic = elemDevice != null ? GetElementHintIcon(elemDevice).Item1 : null,
-				StateClass = InernalConverter.GetStateClassName(state.StateClass),
+				StateClass = InternalConverter.GetStateClassName(state.StateClass),
 				StateClasses = stateClasses,
 				state.AdditionalStates
 			};
@@ -602,7 +603,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 					using (var stream = new MemoryStream(imageBytes)) {
 						surface = (Canvas)XamlServices.Load(stream);
 					}
-					var pngBitmap = surface != null ? InernalConverter.XamlCanvasToPngBitmap(surface) : null;
+					var pngBitmap = surface != null ? InternalConverter.XamlCanvasToPngBitmap(surface) : null;
 					if (pngBitmap == null) {
 						continue;
 					}

@@ -723,9 +723,8 @@
     <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
     <Compile Include="Models\SKD\Employees\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Utils\ErrorHandlerAttribute.cs" />
-    <Compile Include="Utils\InternalConverter.cs" />
     <Compile Include="Models\Plan\PlanElement\PlanElement.cs" />
-    <Compile Include="Utils\InernalConverter.cs" />
+    <Compile Include="Utils\InternalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdaterHub.cs" />
@@ -741,16 +740,13 @@
     <Compile Include="Models\ShortEmployeeCardModel.cs" />
     <Compile Include="Models\ShortEmployeeModel.cs" />
     <Compile Include="Models\Plan\PlanSimpl.cs" />
-    <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\Plan\PlanElement\Shape.cs" />
     <Compile Include="Models\Plan\PlanElement\ShapeTypesEnum.cs" />
     <Compile Include="Models\Plan\PlanElement\Hint\HintLine.cs" />
     <Compile Include="Models\Journal\JournalModel.cs" />
-    <Compile Include="Models\Plan\Shape.cs" />
-    <Compile Include="Models\Plan\ShapeTypesEnum.cs" />
-    <Compile Include="Models\Plan\HintLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\InternalConverterOld.cs" />
     <Compile Include="Utils\JsonNetResult .cs" />
     <Compile Include="Utils\StaTaskScheduler.cs" />
   </ItemGroup>
@@ -828,7 +824,6 @@
     <Folder Include="App\controllers\MPTDevice\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\Plan\PlanElement\Visual\" />
-    <Folder Include="Models\SKD\Employees\" />
     <Folder Include="Views\Archive\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\Plans\" />
