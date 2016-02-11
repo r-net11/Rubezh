@@ -60,6 +60,15 @@
                     }
                 }
             });
+
+            $scope.$on('showDirectionDetails', function (event, args) {
+                for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+                    if ($scope.gridOptions.data[i].UID === args) {
+                        $scope.directionClick($scope.gridOptions.data[i]);
+                        break;
+                    }
+                }
+            });
         }]
     );
 

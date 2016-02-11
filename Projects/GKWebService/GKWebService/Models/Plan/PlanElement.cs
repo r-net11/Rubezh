@@ -356,7 +356,9 @@ namespace GKWebService.Models.Plan
 				{
 					return string.Empty;
 				}
-				var path = string.Format(@"C:\tmpImage{0}.gif", Guid.NewGuid());
+				var tempFilename = System.IO.Path.GetTempPath();
+
+				var path = string.Format(@"{0}tmpImage{1}.gif", tempFilename, Guid.NewGuid());
 				collection.Write(path);
 				using (var fstream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{

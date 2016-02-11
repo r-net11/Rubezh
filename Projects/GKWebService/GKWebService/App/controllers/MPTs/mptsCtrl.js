@@ -85,5 +85,14 @@
                        }
                    }
                });
+
+               $scope.$on('showMPTDetails', function (event, args) {
+                   for (var i = 0; i < $scope.uiGrid.data.length; i++) {
+                       if ($scope.uiGrid.data[i].UID === args) {
+                           $scope.mptClick($scope.uiGrid.data[i]);
+                           break;
+                       }
+                   }
+               });
     }]);
 }());

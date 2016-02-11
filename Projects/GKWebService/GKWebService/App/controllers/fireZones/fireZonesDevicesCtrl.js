@@ -66,7 +66,7 @@
 
             $scope.$on('selectedZoneChanged', function (event, args) {
                 $http.get('FireZones/GetDevicesByZoneUID/' + args
-                ).success(function(data, status, headers, config) {
+                ).success(function (data, status, headers, config) {
                     $scope.gridOptions.data = [];
                     for (var i in data) {
                         var item = data[i].DeviceList;
@@ -83,12 +83,20 @@
                                 State: element.State,
                                 GKDescriptorNo: element.GKDescriptorNo,
                                 Properties: element.Properties,
-                                MeasureParameters: element.MeasureParameters
-                        });
+                                MeasureParameters: element.MeasureParameters,
+                                IsBiStateControl: element.IsBiStateControl,
+                                IsTriStateControl: element.IsTriStateControl,
+                                HasReset: element.HasReset,
+                                CanSetIgnoreState: element.CanSetIgnoreState,
+                                CanSetAutomaticState: element.CanSetAutomaticState,
+                                CanReset: element.CanReset,
+                                ControlRegimeIcon: element.ControlRegimeIcon,
+                                ControlRegimeName: element.ControlRegimeName
+                            });
                         }
                     }
                     //Раскрываем дерево после загрузки
-                    $timeout(function() {
+                    $timeout(function () {
                         $scope.expandAll();
                     });
                 });
