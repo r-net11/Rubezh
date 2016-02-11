@@ -58,5 +58,14 @@
 			        }
 			    }
 			});
+
+			$scope.$on('showDelayDetails', function (event, args) {
+			    for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+			        if ($scope.gridOptions.data[i].Uid === args) {
+			            $scope.pumpStationClick($scope.gridOptions.data[i]);
+			            break;
+			        }
+			    }
+			});
 		}]);
 }());

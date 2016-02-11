@@ -78,6 +78,15 @@
                     }
                 }
             });
+
+            $scope.$on('showGKZoneDetails', function (event, args) {
+                for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+                    if ($scope.gridOptions.data[i].Uid === args) {
+                        $scope.fireZonesClick($scope.gridOptions.data[i]);
+                        break;
+                    }
+                }
+            });
         }]
     );
 }());

@@ -49,7 +49,7 @@
                                         </div>'
                     },
                     {
-                        field: 'ObjectName', width: 200, displayName: 'Команды', enableFiltering: false,
+                        field: 'ObjectName', width: 300, displayName: 'Команды', enableFiltering: false,
                         cellTemplate: '<div ng-style="!row.isSelected && {\'background-color\': row.entity.AlarmColor}" class="ui-grid-cell-contents">\
                                             <a href="#" style="padding-right: 3px" ng-click="grid.appScope.journalClick(row.entity)">\
                                                 Журнал\
@@ -145,22 +145,22 @@
 
             $scope.showPropertiesClick = function (alarm) {
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {
-                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                    broadcastService.send('showDeviceDetails', alarm.GkBaseEntityUID);
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.zone) {
-                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                    broadcastService.send('showGKZoneDetails', alarm.GkBaseEntityUID);
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.guardZone) {
-                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                    broadcastService.send('showGuardZoneDetails', alarm.GkBaseEntityUID);
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.direction) {
                     broadcastService.send('showDirectionDetails', alarm.GkBaseEntityUID);
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.mpt) {
-                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                    broadcastService.send('showMPTDetails', alarm.GkBaseEntityUID);
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.delay) {
-                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                    broadcastService.send('showDelayDetails', alarm.GkBaseEntityUID);
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.pumpStation) {
                     broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
