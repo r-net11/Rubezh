@@ -65,8 +65,6 @@ namespace GKWebService.Models
 
 		public List<GKProperty> Properties { get; set; }
 
-		public List<GKDriverProperty> DriverProperties { get; set; }
-
 		public bool IsZoneOrLogic { get; set; }
 
 		public string PresentationZone { get; set; }
@@ -134,7 +132,6 @@ namespace GKWebService.Models
 			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore) && device.State.StateClass != XStateClass.ConnectionLost;
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 			Properties = device.Properties;
-			DriverProperties = device.Driver.Properties;
 			MeasureParameters = device.Driver.MeasureParameters;
 
 			IsTriStateControl = device.Driver.IsControlDevice && ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
