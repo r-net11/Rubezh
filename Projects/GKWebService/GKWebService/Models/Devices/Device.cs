@@ -128,9 +128,10 @@ namespace GKWebService.Models
 			//ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string)new DeviceControlRegimeToIconConverter().Convert(controlRegime)) ?? string.Empty).Item1;
 			ControlRegimeName = controlRegime.ToDescription();
 			ControlRegimeIcon = (new DeviceControlRegimeToIconConverter()).Convert(controlRegime);
-			CanSetAutomaticState = (controlRegime != DeviceControlRegime.Automatic);
-			CanSetManualState = (controlRegime != DeviceControlRegime.Manual);
-			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore);
+			CanSetAutomaticState = (controlRegime != DeviceControlRegime.Automatic) &&
+			                       device.State.StateClass != XStateClass.ConnectionLost;
+			CanSetManualState = (controlRegime != DeviceControlRegime.Manual) && device.State.StateClass != XStateClass.ConnectionLost; 
+			CanSetIgnoreState = (controlRegime != DeviceControlRegime.Ignore) && device.State.StateClass != XStateClass.ConnectionLost;
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 			Properties = device.Properties;
 			DriverProperties = device.Driver.Properties;
