@@ -5,22 +5,6 @@
         		uiGridTreeBaseService.toggleRowTreeState(gridApi.grid, row, evt);
         	};
 
-        	$scope.beginDate = {
-        		date: new Date(),
-        		isOpened: false,
-        		open: function () {
-        			$scope.beginDate.isOpened = true;
-        		}
-        	}
-
-        	$scope.endDate = {
-        		date: new Date(),
-        		isOpened: false,
-        		open: function () {
-        			$scope.endDate.isOpened = true;
-        		}
-        	}
-
         	var objectsNameTemplate =
 				"<div class=\"ui-grid-cell-contents\">\
         			<div style=\"float:left;\" class=\"ui-grid-tree-base-row-header-buttons\" \
@@ -99,6 +83,10 @@
 						item.$$treeLevel = item.Level;
 					})
 					$scope.objectsGrid.data = data.Objects;
+					data.Events.forEach(function (item) {
+						item.$$treeLevel = item.Level;
+					})
+					$scope.eventsGrid.data = data.Events;
 					$timeout(function () {
 						if (filter && filter.ObjectUids)
 							for (var i in $scope.objectsGrid.data) {
@@ -108,12 +96,6 @@
 										$scope.objectsGridApi.selection.selectRow(row);
 								}
 							}
-					}, 100);
-					data.Events.forEach(function (item) {
-						item.$$treeLevel = item.Level;
-					})
-					$scope.eventsGrid.data = data.Events;
-					$timeout(function () {
 						if (filter && filter.Events)
 							for (var i in $scope.eventsGrid.data) {
 								var row = $scope.eventsGrid.data[i];
@@ -150,10 +132,6 @@
 						Value: item.Value,
 					});
 				});
-				$scope.beginDate.date.setSeconds(0, 0);
-				filter.BeginDate = $scope.beginDate.date;
-				$scope.endDate.date.setSeconds(0, 0);
-				filter.EndDate = $scope.endDate.date;
 				return filter;
 			}
         });

@@ -182,8 +182,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\app.js" />
+    <Content Include="App\constants.js" />
     <Content Include="App\controllers\alarms\alarmsCtrl.js" />
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
+    <Content Include="App\controllers\archive\archiveCtrl.js" />
+    <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
     <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
@@ -809,6 +812,8 @@
     <Content Include="Views\Alarms\Index.cshtml" />
     <Content Include="Views\Alarms\Alarms.cshtml" />
     <Content Include="Views\Devices\DeviceDetails.cshtml" />
+    <Content Include="Views\Archive\Index.cshtml" />
+    <Content Include="Views\Archive\ArchiveFilter.cshtml" />
     <Content Include="Views\PumpStations\PumpStations.cshtml" />
     <Content Include="Views\PumpStations\PumpStationDetails.cshtml" />
     <Content Include="Views\Home\MPTs.cshtml" />
@@ -824,7 +829,6 @@
     <Folder Include="App\controllers\MPTDevice\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\Plan\PlanElement\Visual\" />
-    <Folder Include="Views\Archive\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />

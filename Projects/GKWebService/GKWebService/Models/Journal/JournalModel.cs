@@ -26,16 +26,19 @@ namespace GKWebService.Models
 
         public string User { get; set; }
 
+		public Guid ObjectUid { get; set; }
+
 		public JournalModel(JournalItem x)
 		{
 			Desc = x.JournalEventDescriptionType.ToDescription();
 			SystemDate = x.SystemDateTime.ToString();
 			Name = x.JournalEventNameType.ToDescription();
-			Object = x.JournalObjectType.ToDescription();
+			Object = x.ObjectName;
 			DeviceDate = x.DeviceDateTime.ToString();
 			Subsystem = x.JournalSubsystemType.ToDescription();
 			User = x.UserName;
 			SubsystemImage = JournalController.GetSubsystemImage(x.JournalSubsystemType);
+			ObjectUid = x.ObjectUID;
 		}
     }
 }

@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -72,14 +73,19 @@ namespace GKModule.ViewModels
 			{
 				ElementBase elementBase;
 				var elementUnion = plan.ElementUnion;
-				if (Alarm.GkBaseEntity != null)
+				var gkBaseEntity = Alarm.GkBaseEntity as IPlanPresentable;
+				if (gkBaseEntity != null)
 				{
-					elementBase = elementUnion.FirstOrDefault(x => x.UID == Alarm.GkBaseEntity.UID);
-					if (elementBase != null)
+					foreach (var planElementUID in gkBaseEntity.PlanElementUIDs)
 					{
-						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-						alarmPlanViewModel.GkBaseEntity = Alarm.GkBaseEntity;
-						Plans.Add(alarmPlanViewModel);
+						elementBase = elementUnion.FirstOrDefault(x => x.UID == planElementUID);
+						if (elementBase != null)
+						{
+							var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+							alarmPlanViewModel.GkBaseEntity = Alarm.GkBaseEntity;
+							Plans.Add(alarmPlanViewModel);
+							break;
+						}
 					}
 				}
 			}

@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKProcessor", "..\Common\GK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhClient", "..\Common\RubezhClient\RubezhClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecServer", "FiresecServer\FiresecServer.csproj", "{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,14 @@ Global
 		{F46953E0-CA12-4659-AE8C-88241B541F6C}.Release|x64.ActiveCfg = Release|Any CPU
 		{F46953E0-CA12-4659-AE8C-88241B541F6C}.Release|x86.ActiveCfg = Release|x86
 		{F46953E0-CA12-4659-AE8C-88241B541F6C}.Release|x86.Build.0 = Release|x86
+		{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}.Release|x64.ActiveCfg = Release|Any CPU
+		{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
