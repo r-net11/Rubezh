@@ -62,6 +62,15 @@
             }
         });
 
+        $scope.$on('showGKPumpStation', function (event, args) {
+            for (var i = 0; i < $scope.uiGrid.data.length; i++) {
+                if ($scope.uiGrid.data[i].UID === args) {
+                    $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
+                    break;
+                }
+            }
+        });
+
         $scope.$on('showPumpStationDetails', function (event, args) {
             for (var i = 0; i < $scope.uiGrid.data.length; i++) {
                 if ($scope.uiGrid.data[i].UID === args) {
