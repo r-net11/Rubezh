@@ -89,10 +89,16 @@
                                 HasReset: element.HasReset,
                                 CanSetIgnoreState: element.CanSetIgnoreState,
                                 CanSetAutomaticState: element.CanSetAutomaticState,
+                                CanSetManualState: element.CanSetManualState,
                                 CanReset: element.CanReset,
                                 ControlRegimeIcon: element.ControlRegimeIcon,
-                                ControlRegimeName: element.ControlRegimeName
-                            });
+                                ControlRegimeName: element.ControlRegimeName,
+                                IsControlRegime: element.IsControlRegime,
+                                HasOnDelay: element.HasOnDelay,
+                                OnDelay: element.OnDelay,
+                                HasHoldDelay: element.HasHoldDelay,
+                                HoldDelay: element.HoldDelay
+                        });
                         }
                     }
                     //Раскрываем дерево после загрузки

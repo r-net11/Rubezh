@@ -68,6 +68,26 @@
                 $http.post('Devices/Reset', { id: $scope.device.UID });
             };
 
+            $scope.SetManualState = function () {
+                $http.post('Devices/SetManualState', { id: $scope.device.UID });
+            };
+
+            $scope.TurnOn = function () {
+                $http.post('Devices/TurnOn', { id: $scope.device.UID });
+            };
+
+            $scope.TurnOnNow = function () {
+                $http.post('Devices/TurnOnNow', { id: $scope.device.UID });
+            };
+
+            $scope.ForbidStart = function () {
+                $http.post('Devices/ForbidStart', { id: $scope.device.UID });
+            };
+
+            $scope.TurnOff = function () {
+                $http.post('Devices/TurnOff', { id: $scope.device.UID });
+            };
+
             $scope.Show = function () {
 
             };
