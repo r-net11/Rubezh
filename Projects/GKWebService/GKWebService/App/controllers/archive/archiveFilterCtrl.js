@@ -1,9 +1,25 @@
 ﻿(function () {
-    angular.module('gkApp.controllers').controller('journalFilterCtrl',
+    angular.module('gkApp.controllers').controller('archiveFilterCtrl',
         function ($scope, $http, $uibModal, $uibModalInstance, $timeout, filter, uiGridTreeBaseService) {
         	$scope.toggleRow = function (gridApi, row, evt) {
         		uiGridTreeBaseService.toggleRowTreeState(gridApi.grid, row, evt);
         	};
+
+        	$scope.beginDate = {
+        		date: filter && filter.BeginDate ? filter.BeginDate : new Date(),
+        		isOpened: false,
+        		open: function () {
+        			$scope.beginDate.isOpened = true;
+        		}
+        	}
+
+        	$scope.endDate = {
+        		date: filter && filter.EndDate ? filter.EndDate : new Date(),
+        		isOpened: false,
+        		open: function () {
+        			$scope.endDate.isOpened = true;
+        		}
+        	}
 
         	var objectsNameTemplate =
 				"<div class=\"ui-grid-cell-contents\">\
@@ -75,7 +91,7 @@
         		}
         	};
 
-        	$http.get('Journal/GetFilter')
+        	$http.get('Archive/GetFilter')
 				.success(function (data) {
 					$scope.minDate = data.MinDate;
 					$scope.maxDate = data.MaxDate;
@@ -132,6 +148,10 @@
 						Value: item.Value,
 					});
 				});
+				$scope.beginDate.date.setSeconds(0, 0);
+				filter.BeginDate = $scope.beginDate.date;
+				$scope.endDate.date.setSeconds(0, 0);
+				filter.EndDate = $scope.endDate.date;
 				return filter;
 			}
         });
