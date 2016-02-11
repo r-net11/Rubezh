@@ -88,7 +88,7 @@ namespace FiresecService.ViewModels
 			var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					Clients.Remove(connectionViewModel);
-			Console.WriteLine ("Disconnected: {0}/{1}/{2}", connectionViewModel.ClientCredentials.ClientIpAddressAndPort, connectionViewModel.ClientType, connectionViewModel.FriendlyUserName);
+			Console.WriteLine ("[{3}]Disconnected: {0}/{1}/{2}", connectionViewModel.ClientCredentials.ClientIpAddressAndPort, connectionViewModel.ClientType, connectionViewModel.FriendlyUserName, DateTime.Now);
 		}
 		public void EditClient(Guid uid, string userName)
 		{
