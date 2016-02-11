@@ -107,7 +107,7 @@
                             <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
                             <li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
 							<li><a class="zone" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
-                            <li><a class="params" href="" data-bind="click: function(data, event){PageClick(data, event, 'PumpStations'); }"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
+                            <li><a class="pumpStations" href="" data-bind="click: function(data, event){PageClick(data, event, 'PumpStations'); }"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
                            	<li><a class="direction" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
 							<li><a class="delays" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Delays'); } "><span class="icon delays"></span><span class="text">Задержки</span></a></li>
                             <li><a class="MPTs" href="" data-bind="click: function(data,event) { PageClick(data, event, 'MPTs'); } "><span class="icon delays"></span><span class="text">МПТ</span></a></li>
@@ -182,7 +182,8 @@
     <script src="~/App/services/signalrDevicesService.js"></script>
 	<script src="~/App/controllers/delays/delaysCtrl.js"></script>
 	<script src="~/App/controllers/delays/delayDetailsCtrl.js"></script>
-	<script src="~/App/controllers/journal/journalProperties.js"></script>
+	<script src="~/App/controllers/archive/archiveCtrl.js"></script>
+	<script src="~/App/controllers/archive/archiveFilterCtrl.js"></script>
 	<script src="~/App/controllers/journal/journalCtrl.js"></script>
 	<script src="~/App/controllers/journal/journalFilterCtrl.js"></script>
     <script src="~/App/controllers/devices/devicesCtrl.js"></script>

@@ -2658,6 +2658,24 @@
   <ItemGroup>
     <Resource Include="StepIcons\CloseDialog.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_IOLIT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_ABPC.png" />
+    <Resource Include="GKIcons\RSR2_ABShS.png" />
+    <Resource Include="GKIcons\RSR2_HandDetectorEridan.png" />
+    <Resource Include="GKIcons\RSR2_HeatDetectorEridan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_ABTK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_ABShS_Group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_ABTK_Group.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

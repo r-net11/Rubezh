@@ -140,8 +140,18 @@
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .delays")[0] }, 'Delays');
                     broadcastService.send('showGKDelay', alarm.GkBaseEntityUID);
                 }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.pumpStation) {
+                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .pumpStations")[0] }, 'PumpStations');
+                    broadcastService.send('showGKPumpStation', alarm.GkBaseEntityUID);
+                }
                 // TODO: Дополнить здесь обработку кликов на объекты при создании новых страниц объектов
             };
+
+            $scope.journalClick = function (alarm) {
+                // TODO: Исправить когда меню переведём на ангулар
+                $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .archive")[0] }, 'Archive');
+                broadcastService.send('showArchive', alarm.GkBaseEntityUID);
+            }
 
             $scope.showPropertiesClick = function (alarm) {
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {
