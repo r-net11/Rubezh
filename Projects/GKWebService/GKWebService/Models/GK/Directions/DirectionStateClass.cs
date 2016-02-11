@@ -16,10 +16,9 @@ namespace GKWebService.Models
 		public string Name { get; set; }
 
 		public DirectionStateClass()
-		{
+		{ 
 			
 		}
-
 		public DirectionStateClass(XStateClass stateClass)
 		{
 			Name = stateClass.ToDescription();
