@@ -112,5 +112,9 @@
 		$scope.showSelectedRow = function () {
 			$scope.selectedRow = $scope.gridApi.selection.getSelectedRows()[0]
 		};
+
+		$scope.$on('showArchive', function (event, args) {
+		    getByUid(args);
+		});
 	});
 }());
