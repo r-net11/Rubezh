@@ -168,5 +168,29 @@ namespace RubezhAPI.GK
 
 		[Description("Световой оповещатель комбинированный")]
 		RSR2_OPKZ = 81,
+
+        [Description("АБПЦ R2")]
+        RSR2_ABPC = 82,
+
+        [Description("АБШС R2")]
+        RSR2_ABShS = 83,
+
+        [Description("АБШС-2 R2")]
+        RSR2_ABShS_Group = 84,
+
+        [Description("АБТК R2")]
+        RSR2_ABTK = 85,
+
+        [Description("АБТК-2 R2")]
+        RSR2_ABTK_Group = 86,
+
+        [Description("ИПТЭ R2")]
+        RSR2_HeatDetectorEridan = 87,
+
+        [Description("ИПРЭ R2")]
+        RSR2_HandDetectorEridan = 88,
+
+        [Description("ИОЛИТ R2")]
+        RSR2_IOLIT = 89,
 	}
 }
