@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A135A543-8B1D-4775-BBCD-B0AB37589087}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{0BB8CC58-AA89-449A-A40B-550A19E3AE6F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FiresecClient</RootNamespace>
-    <AssemblyName>FiresecClient</AssemblyName>
+    <RootNamespace>FiresecServer</RootNamespace>
+    <AssemblyName>FiresecServer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -42,68 +42,25 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
+    <Compile Include="FiresecService2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
-      <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>
-      <Name>GKProcessor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj">
-      <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
-      <Name>Infrastructure.Automation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
-      <Name>Infrastructure.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
       <Name>RubezhAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\RubezhClient\RubezhClient.csproj">
-      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
-      <Name>RubezhClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\RubezhDAL\RubezhDAL.csproj">
-      <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
-      <Name>RubezhDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\RubezhLicense\RubezhLicense.csproj">
-      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
-      <Name>RubezhLicense</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\RviClient\RviClient.csproj">
-      <Project>{112658eb-3244-4922-aef7-6376e688b7a7}</Project>
-      <Name>RviClient</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
