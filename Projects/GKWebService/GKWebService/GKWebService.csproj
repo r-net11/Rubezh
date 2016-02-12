@@ -771,7 +771,7 @@
     <Content Include="Views\Hr\Index.cshtml" />
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
-    <Content Include="Views\Home\Plan.cshtml" />
+    <Content Include="Views\Plans\Index.cshtml" />
     <Content Include="Views\Hr\HrDepartments.cshtml" />
     <Content Include="Views\Hr\Positions.cshtml" />
     <Content Include="Views\Hr\AdditionalColumnTypes.cshtml" />
@@ -835,7 +835,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\Plan\PlanElement\Visual\" />
     <Folder Include="Views\Employee\" />
-    <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>

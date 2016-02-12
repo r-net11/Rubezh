@@ -6,7 +6,11 @@
         	};
 
         	$scope.beginDate = {
-        		date: filter && filter.BeginDate ? filter.BeginDate : new Date(),
+        		date: filter && filter.BeginDate ? filter.BeginDate : (function () {
+        			var date = new Date();
+        			date.setDate(date.getDate() - 7);
+        			return date;
+        		}()),
         		isOpened: false,
         		open: function () {
         			$scope.beginDate.isOpened = true;
@@ -53,6 +57,7 @@
         		columnDefs: [{ name: 'Объект', width: 500, cellTemplate: objectsNameTemplate }],
         		onRegisterApi: function (gridApi) {
         			$scope.objectsGridApi = gridApi;
+        			gridApi.selection.on.rowSelectionChanged($scope, $scope.objectsSetChildren);
         		}
         	};
 
@@ -88,6 +93,7 @@
         		columnDefs: [{ name: 'Событие', width: 500, cellTemplate: eventsNameTemplate }],
         		onRegisterApi: function (gridApi) {
         			$scope.eventsGridApi = gridApi;
+        			gridApi.selection.on.rowSelectionChanged($scope, $scope.eventsSetChildren);
         		}
         	};
 
@@ -116,9 +122,8 @@
 							for (var i in $scope.eventsGrid.data) {
 								var row = $scope.eventsGrid.data[i];
 								for (var j in filter.Events) {
-									if (row.Type == filter.Events[j].Type && row.Value == filter.Events[j].Value) {
+									if (row.Type == filter.Events[j].Type && row.Value == filter.Events[j].Value) 
 										$scope.eventsGridApi.selection.selectRow(row);
-									}
 								}
 							}
 					}, 100);
@@ -130,7 +135,15 @@
         	};
 
         	$scope.cancel = function () {
-        		$uibModalInstance.dismiss('cancel');
+        		$uibModalInstance.dismiss();
+        	};
+
+        	$scope.reset = function () {
+        		$scope.objectsGridApi.selection.clearSelectedRows();
+        		$scope.eventsGridApi.selection.clearSelectedRows();
+        		$scope.endDate.date = new Date();
+        		$scope.beginDate.date = new Date();
+        		$scope.beginDate.date.setDate($scope.beginDate.date.getDate() - 7);
         	};
 
         	var createFilter = function() {
@@ -153,6 +166,29 @@
 				$scope.endDate.date.setSeconds(0, 0);
 				filter.EndDate = $scope.endDate.date;
 				return filter;
-			}
+        	}
+
+        	$scope.objectsSetChildren = function (row) {
+        		showSelectedRow(row, $scope.objectsGrid, $scope.objectsGridApi);
+        	};
+
+        	$scope.eventsSetChildren = function (row) {
+        		showSelectedRow(row, $scope.eventsGrid, $scope.eventsGridApi);
+        	};
+
+        	var showSelectedRow = function (row, gridOptions, gridApi) {
+        		var index = gridOptions.data.indexOf(row.entity) + 1;
+        		var item = gridOptions.data[index];
+        		if (!item)
+        			return;
+        		while (item.Level > row.entity.Level) {
+					if(row.isSelected)
+						gridApi.selection.selectRow(item);
+					else
+						gridApi.selection.unSelectRow(item);
+					index++;
+					item = gridOptions.data[index];
+				}
+        	};
         });
 }());
