@@ -13,12 +13,12 @@ namespace RubezhAPI
 	{
 		[OperationContract]
 		OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args);
-		[OperationContract(IsOneWay = true)]
+		[OperationContract]
 		[ServiceKnownType(typeof(Color))]
 		void ProcedureCallbackResponse(Guid clientUID, Guid callbackUID, object value);
 		[OperationContract]
 		ProcedureProperties GetProperties(Guid clientUID, Guid layoutUID);
-		[OperationContract(IsOneWay = true)]
+		[OperationContract]
 		[ServiceKnownType(typeof(Color))]
 		void SetVariableValue(Guid clientUID, Guid variableUid, object value);
 		[OperationContract]

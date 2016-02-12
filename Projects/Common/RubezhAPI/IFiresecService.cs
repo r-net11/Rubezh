@@ -1,13 +1,12 @@
-﻿using RubezhAPI.Journal;
+﻿using OpcClientSdk;
+using RubezhAPI.Automation;
+using RubezhAPI.Journal;
 using RubezhAPI.License;
 using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using RubezhAPI.Automation;
-using OpcClientSdk;
-using OpcClientSdk.Da;
 
 namespace RubezhAPI
 {
@@ -28,7 +27,7 @@ namespace RubezhAPI
 		/// Отсоединение от сервиса
 		/// </summary>
 		/// <param name="uid">Идентификатор клиента</param>
-		[OperationContract(IsOneWay = true)]
+		[OperationContract]
 		void Disconnect(Guid clientUID);
 
 		[OperationContract]
@@ -44,7 +43,7 @@ namespace RubezhAPI
 		[OperationContract]
 		PollResult Poll(Guid clientUID, int callbackIndex);
 
-		[OperationContract(IsOneWay = true)]
+		[OperationContract]
 		void LayoutChanged(Guid clientUID, Guid layoutUID);
 
 		[OperationContract]
@@ -184,7 +183,7 @@ namespace RubezhAPI
 		/// <returns></returns>
 		[OperationContract]
 		OperationResult<bool> WriteOpcDaTag(Guid clientUID, Guid serverId, object value);
-		
+
 		#endregion
 	}
 }
