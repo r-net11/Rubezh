@@ -35,7 +35,7 @@
             };
 
 
-            function ChangeDevices(device) {
+            function changeDevices(device) {
                 for (var i = 0; i < $scope.gridOptions.data.length; i++) {
                     if ($scope.gridOptions.data[i].UID === device.UID) {
                         $scope.gridOptions.data[i].ImageSource = device.ImageSource;
@@ -46,7 +46,7 @@
             };
 
             $scope.$on('devicesChanged', function (event, args) {
-                ChangeDevices(args);
+                changeDevices(args);
                 $scope.$apply();
             });
 
@@ -89,10 +89,16 @@
                                 HasReset: element.HasReset,
                                 CanSetIgnoreState: element.CanSetIgnoreState,
                                 CanSetAutomaticState: element.CanSetAutomaticState,
+                                CanSetManualState: element.CanSetManualState,
                                 CanReset: element.CanReset,
                                 ControlRegimeIcon: element.ControlRegimeIcon,
-                                ControlRegimeName: element.ControlRegimeName
-                            });
+                                ControlRegimeName: element.ControlRegimeName,
+                                IsControlRegime: element.IsControlRegime,
+                                HasOnDelay: element.HasOnDelay,
+                                OnDelay: element.OnDelay,
+                                HasHoldDelay: element.HasHoldDelay,
+                                HoldDelay: element.HoldDelay
+                        });
                         }
                     }
                     //Раскрываем дерево после загрузки

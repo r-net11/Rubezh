@@ -7,7 +7,7 @@
             var startTestBroadcast = function () {
                 plansUpdater.startTestBroadcast(); //Calling a server method
             };
-
+            
             //declaring the hub connection
             plansUpdater = new Hub('plansUpdater', {
 
@@ -20,11 +20,22 @@
                     },
                     'updateDeviceState': function (stateData) {
                         var uid = stateData.Id.replace(" ", "-");
-                        $("#" + uid).attr("href", "data:image/gif;base64," + stateData.Picture);
+                        $("image[subElementId=" + uid + "]").attr("href", "data:image/gif;base64," + stateData.Picture);
+						uid = stateData.Id.replace(" ", "-") + "GroupElement";
+						var mainLine = { };
+	                    mainLine.Icon = stateData.HintPic;
+	                    mainLine.Text = stateData.Name;
+	                    var stateHintLines = [];
+	                    stateHintLines[0] = mainLine;
+						stateData.StateClasses.forEach(function(item, i, arr) {
+							var stateLine = {};
+							stateLine.Text = item;
+							stateHintLines.push(stateLine);
+						});
+	                    $("rect[subElementId=" + uid + "]").trigger( "updateHint", [stateHintLines] );
+						
                     },
                     'updateHint': function (stateData) {
-
-
                     }
                 },
 
@@ -61,7 +72,6 @@
                     }
                 }
             });
-
             return {
                 startTest: startTestBroadcast
             };
