@@ -63,15 +63,15 @@
                             <span style="font-weight: bold; width: 110px; color: black">{{device.Name}}</span>
                         </div>
                         <div>
-                            <span style="font-weight: bold; width: 110px; color: black">Подключено к:</span>
+                            <span style="font-weight: bold; width: 110px; color: black">Подключено к:  </span>
+                            <img style="margin: 2px; vertical-align: middle" height="16" width="16" ng-src="/Content/Image/{{device.ParentAllOptions.ImageSource}}"/>
+                            <span style="font-weight: bold; width: 110px; color: black"> {{device.ParentAllOptions.Name}}</span>
                         </div>
                         <div>
-                            <span style="font-weight: bold; width: 110px; color: black">Название в ГК:</span>
-                            <span style="font-weight: bold; width: 110px; color: black">{{device.Name}}</span>
+                            <span style="font-weight: bold; width: 110px; color: black">Название в ГК:      {{device.Name}}</span>
                         </div>
                         <div>
-                            <span style="font-weight: bold; width: 110px; color: black">Номер в ГК:</span>
-                            <span style="font-weight: bold; width: 110px; color: black">{{device.GKDescriptorNo}}</span>
+                            <span style="font-weight: bold; width: 110px; color: black">Номер в ГК:     {{device.GKDescriptorNo}}</span>
                         </div>
                         <div>
                             <span style="font-weight: bold; width: 110px; color: black">Проектный адрес:</span>

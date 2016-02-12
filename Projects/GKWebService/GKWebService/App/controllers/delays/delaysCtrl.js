@@ -39,6 +39,7 @@
 					animation: false,
 					templateUrl: 'Delays/DelayDetails',
 					controller: 'delayDetailsCtrl',
+					backdrop: false,
 					resolve: {
 						delay: function () {
 							return delay;

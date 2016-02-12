@@ -284,4 +284,32 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="AlarmSetChannel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="document" nillable="true" type="q41:AlarmSetChannelIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AlarmSetChannelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="AlarmSetChannelResult" nillable="true" type="q42:AlarmSetChannelOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AlarmDisableChannel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="document" nillable="true" type="q43:AlarmDisableChannelIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AlarmDisableChannelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="AlarmDisableChannelResult" nillable="true" type="q44:AlarmDisableChannelOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

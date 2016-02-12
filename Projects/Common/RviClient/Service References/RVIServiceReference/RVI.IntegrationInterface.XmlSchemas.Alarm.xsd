@@ -71,4 +71,42 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="AlarmRuleCheckExistOut" nillable="true" type="tns:AlarmRuleCheckExistOut" />
+  <xs:complexType name="AlarmSetChannelIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q7:DocumentInBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ChannelNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="DeviceGuid" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AlarmSetChannelIn" nillable="true" type="tns:AlarmSetChannelIn" />
+  <xs:complexType name="AlarmSetChannelOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q8:DocumentOutBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AlarmSetChannelOut" nillable="true" type="tns:AlarmSetChannelOut" />
+  <xs:complexType name="AlarmDisableChannelIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q9="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q9:DocumentInBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ChannelNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="DeviceGuid" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AlarmDisableChannelIn" nillable="true" type="tns:AlarmDisableChannelIn" />
+  <xs:complexType name="AlarmDisableChannelOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q10:DocumentOutBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AlarmDisableChannelOut" nillable="true" type="tns:AlarmDisableChannelOut" />
 </xs:schema>

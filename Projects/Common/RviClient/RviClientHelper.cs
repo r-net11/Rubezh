@@ -181,7 +181,6 @@ namespace RviClient
 									RviDeviceUID = device.Guid,
 									RviChannelNo = channel.Number,
 									RviChannelName = channel.Name,
-									RviRTSP = stream.Rtsp,
 									CountPresets = channel.CountPresets,
 									CountTemplateBypass = channel.CountTemplateBypass,
 									CountTemplatesAutoscan = channel.CountTemplatesAutoscan
