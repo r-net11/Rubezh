@@ -54,7 +54,7 @@
                 var modalInstance = $uibModal.open({
                     animation: false,
                     templateUrl: 'Devices/DeviceDetails',
-                    controller: 'fireZonesDevicesDetailsCtrl',
+                    controller: 'devicesDetailsCtrl',
                     size: 'rbzh',
                     resolve: {
                         device: function () {

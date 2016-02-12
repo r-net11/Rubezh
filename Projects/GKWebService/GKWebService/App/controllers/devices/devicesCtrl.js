@@ -5,7 +5,17 @@
 		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', 'broadcastService', function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, broadcastService) {
 
 			$scope.deviceClick = function(device) {
-				$scope.selectedDevice = device.entity;
+			    var modalInstance = $uibModal.open({
+			        animation: false,
+			        templateUrl: 'Devices/DeviceDetails',
+			        controller: 'devicesDetailsCtrl',
+			        size: 'rbzh',
+			        resolve: {
+			            device: function () {
+			                return device.entity;
+			            }
+			        }
+			    });
 			}
 
 			$scope.deviceSelect = function (device) {
