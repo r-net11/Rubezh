@@ -64,6 +64,16 @@
                 });
             };
 
+            var GetParentByUID = function(uid) {
+                for (var i in $scope.gridOptions.data) {
+                    var item = $scope.gridOptions.data[i];
+                    if (item.UID === uid) {
+                        return item;
+                    }
+                }
+                return null;
+            };
+
             $scope.$on('selectedZoneChanged', function (event, args) {
                 $http.get('FireZones/GetDevicesByZoneUID/' + args
                 ).success(function (data, status, headers, config) {
@@ -97,7 +107,9 @@
                                 HasOnDelay: element.HasOnDelay,
                                 OnDelay: element.OnDelay,
                                 HasHoldDelay: element.HasHoldDelay,
-                                HoldDelay: element.HoldDelay
+                                HoldDelay: element.HoldDelay,
+                                ParentUID: element.ParentUID,
+                                ParentAllOptions: GetParentByUID(element.ParentUID)
                         });
                         }
                     }
