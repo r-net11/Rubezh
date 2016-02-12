@@ -45,7 +45,12 @@
                     {
                          field: 'Plans', width: 200, displayName: 'План', enableFiltering: false,
                          cellTemplate: '<div ng-style="!row.isSelected && {\'background-color\': row.entity.AlarmColor}" class="ui-grid-cell-contents">\
-                                                {{row.entity[col.field]}}\
+                                                <span style="padding-right: 3px" ng-repeat="plan in row.entity.Plans">\
+                                                    <img style="vertical-align: middle; padding-right: 2px" width="16" ng-src="/Content/Image/Images/CMap.png"/>\
+                                                    <a href="#" ng-click="grid.appScope.planClick(plan)">\
+                                                        {{plan.Name}}\
+                                                    </a>\
+                                                </span>\
                                         </div>'
                     },
                     {
