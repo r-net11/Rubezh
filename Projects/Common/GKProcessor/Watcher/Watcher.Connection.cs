@@ -53,14 +53,14 @@ namespace GKProcessor
 						}
 					}
 
-					foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() < 0x17))
+					foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() < 0x19))
 					{
 						descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = !isConnected;
 					}
 
 				    if (ReservedWatcher == null)
 				    {
-                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x17))
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x19))
                         {
                             descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = !isConnected;
                         }
@@ -68,7 +68,7 @@ namespace GKProcessor
 
 				    if (ReservedWatcher != null && !ReservedWatcher.IsConnected && !IsConnected)
 				    {
-                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x17))
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x19))
                         {
                             descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = true;
                             descriptor.GKBase.GetInternalState(!UseReservedIp).IsConnectionLost = true;
@@ -78,7 +78,7 @@ namespace GKProcessor
 
                     if (ReservedWatcher != null && (ReservedWatcher.IsConnected || IsConnected))
                     {
-                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x17))
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x19))
                         {
                             descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = false;
                             descriptor.GKBase.GetInternalState(!UseReservedIp).IsConnectionLost = false;

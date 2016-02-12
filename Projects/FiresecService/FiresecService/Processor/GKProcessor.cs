@@ -66,7 +66,7 @@ namespace FiresecService
 		                    LastIds.FirstOrDefault(x => x.Item1 == journalItem.GkUid && x.Item2 == journalItem.KauNo);
 		                if (currentId != null)
 		                    LastIds.Remove(currentId);
-		                if (journalItem.GkUid != Guid.Empty && journalItem.KauNo != 0)
+                        if (journalItem.GkUid != Guid.Empty && journalItem.KauNo != 0 && journalItem.KauNo != 1)
 		                    LastIds.Add(new Tuple<Guid, int, int>(journalItem.GkUid, journalItem.KauNo,
 		                        journalItem.KauJournalRecordNo));
 		            }

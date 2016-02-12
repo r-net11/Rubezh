@@ -241,7 +241,7 @@ namespace GKProcessor
                     {
                         deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice, !UseReservedIp);
                         IsOtherPingFailure = string.IsNullOrEmpty(deviceInfo);
-                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x17))
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() >= 0x19))
                         {
                             descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = IsPingFailure && IsOtherPingFailure;
                             descriptor.GKBase.GetInternalState(UseReservedIp).IsInitialState = !(IsPingFailure && IsOtherPingFailure);
@@ -259,7 +259,7 @@ namespace GKProcessor
 						else
 							AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, JournalEventDescriptionType.Старт_мониторинга);
 
-                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() < 0x17))
+                        foreach (var descriptor in GkDatabase.Descriptors.FindAll(x => x.GetDescriptorNo() < 0x19))
 						{
 							descriptor.GKBase.GetInternalState(UseReservedIp).IsConnectionLost = IsPingFailure;
 							descriptor.GKBase.GetInternalState(UseReservedIp).IsInitialState = !IsPingFailure;
@@ -526,7 +526,7 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(GKBase gkBase, bool overrideExistingDeviceStates = true)
 		{
-            if (!IsPingFailure || gkBase.GKDescriptorNo < 0x17)
+            if (!IsPingFailure || gkBase.GKDescriptorNo < 0x19)
                 AddObjectStateToGKStates(GKCallbackResult.GKStates, gkBase, overrideExistingDeviceStates, UseReservedIp);
 		}
 

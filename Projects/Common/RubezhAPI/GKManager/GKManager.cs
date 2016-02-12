@@ -217,14 +217,20 @@ namespace RubezhAPI
         public static GKDevice GetDevice(Guid uid, bool isReserved)
         {
             var device = Devices.FirstOrDefault(x => x.UID == uid);
+
+            if (device != null && device.KAUParent != null && device.KAUParent.IntAddress == 2)
+            {
+                
+            }
             if (device != null)
             {
-                if (isReserved && device.GKParent != null) // Если пришел ответ по резервному адресу
+                var kauParent = Devices.LastOrDefault(x => x.Driver.IsKau);
+                if (isReserved && device.KAUParent != kauParent) // Если пришел ответ по резервному адресу
                 {
                     if (device.GKDescriptorNo == 0)
-                        device = Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.GKParent != null && x.GKParent.Address == device.GKParent.GetReservedIpAddress());
+                        device = Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.GKParent != null && x.GKParent.Address == device.GKParent.GetReservedIpAddress() && x.IntAddress == device.IntAddress);
                     else
-                        device = Devices.FirstOrDefault(x => x.GKDescriptorNo == device.GKDescriptorNo && x.GKParent != null && x.GKParent.Address == device.GKParent.GetReservedIpAddress());
+                        device = Devices.FirstOrDefault(x => x.GKDescriptorNo == device.GKDescriptorNo && x.GKParent != null && x.GKParent.Address == device.GKParent.GetReservedIpAddress() && x.IntAddress == device.IntAddress);
                 }
             }
             return device;
