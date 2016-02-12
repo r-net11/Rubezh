@@ -45,6 +45,7 @@
                 animation: false,
                 templateUrl: 'PumpStations/PumpStationDetails',
                 controller: 'pumpStationDetailsCtrl',
+                backdrop: false,
                 resolve: {
                     pumpStation: function () {
                         return pumpStation;
