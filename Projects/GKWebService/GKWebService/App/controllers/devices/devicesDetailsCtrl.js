@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('gkApp.controllers').controller('fireZonesDevicesDetailsCtrl',
+    angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
         function ($scope, $http, uiGridConstants, $uibModalInstance, device) {
             $scope.device = device;
 

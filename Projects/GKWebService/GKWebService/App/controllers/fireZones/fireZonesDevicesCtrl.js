@@ -22,8 +22,10 @@
                 ]
             };
 
+
             $scope.expandAll = function () {
-                $scope.gridApi.treeBase.expandAllRows();
+                if ($scope.gridOptions.data.length)
+                    $scope.gridApi.treeBase.expandAllRows();
             };
 
             $scope.toggleRow = function (row, evt) {
@@ -54,7 +56,7 @@
                 var modalInstance = $uibModal.open({
                     animation: false,
                     templateUrl: 'Devices/DeviceDetails',
-                    controller: 'fireZonesDevicesDetailsCtrl',
+                    controller: 'devicesDetailsCtrl',
                     size: 'rbzh',
                     resolve: {
                         device: function () {
@@ -62,6 +64,16 @@
                         }
                     }
                 });
+            };
+
+            var GetParentByUID = function(uid) {
+                for (var i in $scope.gridOptions.data) {
+                    var item = $scope.gridOptions.data[i];
+                    if (item.UID === uid) {
+                        return item;
+                    }
+                }
+                return null;
             };
 
             $scope.$on('selectedZoneChanged', function (event, args) {
@@ -97,7 +109,9 @@
                                 HasOnDelay: element.HasOnDelay,
                                 OnDelay: element.OnDelay,
                                 HasHoldDelay: element.HasHoldDelay,
-                                HoldDelay: element.HoldDelay
+                                HoldDelay: element.HoldDelay,
+                                ParentUID: element.ParentUID,
+                                ParentAllOptions: GetParentByUID(element.ParentUID)
                         });
                         }
                     }

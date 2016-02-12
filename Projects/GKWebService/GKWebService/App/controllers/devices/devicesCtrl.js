@@ -4,11 +4,22 @@
 	var app = angular.module('gkApp.controllers').controller('devicesCtrl',
 		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', 'broadcastService', function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, broadcastService) {
 
-			$scope.deviceClick = function(device) {
-				$scope.selectedDevice = device.entity;
+			$scope.deviceClick = function (device) {
+				var modalInstance = $uibModal.open({
+					animation: false,
+					templateUrl: 'Devices/DeviceDetails',
+					controller: 'devicesDetailsCtrl',
+					size: 'rbzh',
+					resolve: {
+						device: function () {
+							return device.entity;
+						}
+					}
+				});
 			}
 
 			$scope.deviceSelect = function (device) {
+				console.debug(device.entity);
 				$scope.selectedDevice = device.entity;
 			}
 
