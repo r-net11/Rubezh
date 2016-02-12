@@ -19,6 +19,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xaml;
+using Controls;
 using GKWebService.DataProviders.Plan;
 using GKWebService.DataProviders.Resources;
 using GKWebService.Models.Plan.PlanElement.Hint;
@@ -54,6 +55,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			var type = objectToCheck.GetType();
 			return type.GetProperty(properyName) != null;
 		}
+
 		public static object GetProperty(object objectToCheck, string properyName) {
 			var type = objectToCheck.GetType();
 			return type.GetProperty(properyName).GetValue(objectToCheck);
@@ -63,7 +65,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			if (elem is ElementEllipse) {
 				return null;
 			}
-			bool showState = false;
+			var showState = false;
 			if (HasProperty(elem, "ShowState")) {
 				showState = (bool)GetProperty(elem, "ShowState");
 			}
@@ -124,12 +126,9 @@ namespace GKWebService.Models.Plan.PlanElement
 			return planElement;
 		}
 
-		public static PlanElement FromPolygon(ElementBasePolygon elem)
-		{
-				
-
+		public static PlanElement FromPolygon(ElementBasePolygon elem) {
 			var rect = elem.GetRectangle();
-			bool showState = false;
+			var showState = false;
 			if (HasProperty(elem, "ShowState")) {
 				showState = (bool)GetProperty(elem, "ShowState");
 			}
@@ -188,10 +187,10 @@ namespace GKWebService.Models.Plan.PlanElement
 		}
 
 		private static PlanElement FromRectangleSimple(ElementBaseRectangle elem, bool mouseOver) {
-			
-				var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
-				{
-					Debug.WriteLine(string.Format("App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState().ToString()));
+			var result = Dispatcher.CurrentDispatcher.Invoke(
+				() => {
+					Debug.WriteLine(
+						"App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState());
 					return elem.GetRectangle();
 				});
 			var rect = result;
@@ -202,7 +201,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				rect.BottomLeft
 			};
 
-			bool showHint = true;
+			var showHint = true;
 
 			if (HasProperty(elem, "ShowTooltip")) {
 				showHint = (bool)GetProperty(elem, "ShowTooltip");
@@ -224,12 +223,12 @@ namespace GKWebService.Models.Plan.PlanElement
 		}
 
 		public static PlanElement FromEllipse(ElementEllipse item) {
-
-var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
-				{
-					Debug.WriteLine(string.Format("App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState().ToString()));
+			var result = Dispatcher.CurrentDispatcher.Invoke(
+				() => {
+					Debug.WriteLine(
+						"App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState());
 					return item.GetRectangle();
-				});				
+				});
 			var rect = result;
 			var pt = new PointCollection {
 				rect.TopLeft,
@@ -254,7 +253,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 		}
 
 		public static PlanElement FromPolygonSimple(ElementBasePolygon item, bool mouseOver) {
-			bool showHint = true;
+			var showHint = true;
 
 			if (HasProperty(item, "ShowTooltip")) {
 				showHint = (bool)GetProperty(item, "ShowTooltip");
@@ -293,7 +292,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 		}
 
 		/// <summary>
-		/// Создает SVG-группу из ElementTextBlock
+		///     Создает SVG-группу из ElementTextBlock
 		/// </summary>
 		/// <param name="elem">ElementTextBlock</param>
 		/// <returns>групповой PlanElement</returns>
@@ -328,7 +327,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 		}
 
 		/// <summary>
-		/// Создает SVG-группу из ElementProcedure
+		///     Создает SVG-группу из ElementProcedure
 		/// </summary>
 		/// <param name="elem">ElementProcedure</param>
 		/// <returns></returns>
@@ -363,7 +362,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 		}
 
 		/// <summary>
-		/// Рендерит IElementTextBlock
+		///     Рендерит IElementTextBlock
 		/// </summary>
 		/// <param name="item">Элемент</param>
 		/// <param name="size">Размеры контейнера</param>
@@ -378,9 +377,9 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 			var text = new FormattedText(
 				item.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
 				new Typeface(fontFamily, fontStyle, fontWeight, FontStretches.Normal), item.FontSize, new SolidColorBrush(item.ForegroundColor)) {
-				Trimming = TextTrimming.WordEllipsis,
-				MaxLineCount = item.WordWrap ? int.MaxValue : 1
-			};
+					Trimming = TextTrimming.WordEllipsis,
+					MaxLineCount = item.WordWrap ? int.MaxValue : 1
+				};
 			// Делаем первый рендер без трансформаций
 			var pathGeometry = text.BuildGeometry(new Point(left + item.BorderThickness, top + item.BorderThickness));
 			// Добавляем Scale-трансформацию, если включен Stretch, либо Translate-трансформацию
@@ -395,23 +394,23 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				double offsetY = 0;
 				switch (item.TextAlignment) {
 					case 1: {
-							offsetX = size.Width - item.BorderThickness * 2 - text.Width;
-							break;
-						}
+						offsetX = size.Width - item.BorderThickness * 2 - text.Width;
+						break;
+					}
 					case 2: {
-							offsetX = (size.Width - item.BorderThickness * 2 - text.Width) / 2;
-							break;
-						}
+						offsetX = (size.Width - item.BorderThickness * 2 - text.Width) / 2;
+						break;
+					}
 				}
 				switch (item.VerticalAlignment) {
 					case 1: {
-							offsetY = (size.Height - item.BorderThickness * 2 - text.Height) / 2;
-							break;
-						}
+						offsetY = (size.Height - item.BorderThickness * 2 - text.Height) / 2;
+						break;
+					}
 					case 2: {
-							offsetY = size.Height - item.BorderThickness * 2 - text.Height;
-							break;
-						}
+						offsetY = size.Height - item.BorderThickness * 2 - text.Height;
+						break;
+					}
 				}
 
 				pathGeometry.Transform = new TranslateTransform(offsetX, offsetY);
@@ -435,12 +434,13 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 
 		public static PlanElement FromGkDoor(ElementGKDoor item) {
 			var strings = EmbeddedResourceLoader.LoadResource("GKWebService.Content.SvgIcons.GKDoor.txt")
-												.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
-				{
-					Debug.WriteLine(string.Format("App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState().ToString()));
+			                                    .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+			var result = Dispatcher.CurrentDispatcher.Invoke(
+				() => {
+					Debug.WriteLine(
+						"App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState());
 					return item.GetRectangle();
-			});
+				});
 			var rect = result;
 			var geometry = Geometry.Parse(strings[0]);
 			var flatten = geometry.GetFlattenedPathGeometry();
@@ -503,7 +503,6 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 			}
 
 			// Создаем элемент плана
-			// Ширину и высоту задаем 500, т.к. знаем об этом
 			var shape = new PlanElement {
 				Id = item.DeviceUID,
 				SubElementId = item.DeviceUID.ToString(),
@@ -516,10 +515,11 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Type = ShapeTypes.GkDevice.ToString(),
 				HasOverlay = false
 			};
+			// Добавляем рамку хинта
 			var planElement = new PlanElement {
 				ChildElements = new[] { shape },
 				Id = item.DeviceUID,
-				SubElementId = item.DeviceUID.ToString() + "GroupElement",
+				SubElementId = item.DeviceUID + "GroupElement",
 				Hint = GetElementHint(item),
 				Type = ShapeTypes.Group.ToString(),
 				Width = 14,
@@ -528,39 +528,40 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Name = item.PresentationName,
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = item.Left - 7,
-				Y = item.Top - 7,
+				Y = item.Top - 7
 			};
 			return planElement;
 		}
 
 		public static void UpdateDeviceState(GKState state) {
 			if (state.BaseObjectType != GKBaseObjectType.Device) {
-				return;
+				throw new ArgumentException(@"BaseObjectType должен быть GKBaseObjectType.Device", "state");
 			}
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == state.UID);
+			if (device == null) {
+				throw new Exception(string.Format("Устройство {0} не найдено.", state.UID));
+			}
+
 			// Получаем обновленную картинку устройства
-			var getPictureTask = Task.Factory.StartNewSta(()=> GetDeviceStatePic(device, state));
+			var getPictureTask = Task.Factory.StartNewSta(() => GetDeviceStatePic(device, state));
 			Task.WaitAll();
 			var pic = getPictureTask.Result;
 			if (pic == null) {
-				return;
+				throw new Exception(string.Format("Картинка для состояния устройства {0} не найдена.", device.UID));
 			}
 
 			// Получаем названия для состояний
 			var stateClasses = new string[state.StateClasses.Count];
 			for (var index = 0; index < state.StateClasses.Count; index++) {
 				var stateClass = state.StateClasses[index];
-				stateClasses[index] = InternalConverter.GetStateClassName(stateClass);
+				stateClasses[index] = stateClass.ToDescription();
 			}
 
 			ElementGKDevice elemDevice = null;
 
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
-			{
-				foreach (var elementGkDevice in plan.ElementGKDevices)
-				{
-					if (elementGkDevice.UID == state.UID)
-					{
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans) {
+				foreach (var elementGkDevice in plan.ElementGKDevices) {
+					if (elementGkDevice.UID == state.UID) {
 						elemDevice = elementGkDevice;
 						break;
 					}
@@ -573,7 +574,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 				Picture = pic,
 				Name = elemDevice != null ? elemDevice.PresentationName : device.PresentationName,
 				HintPic = elemDevice != null ? GetElementHintIcon(elemDevice).Item1 : null,
-				StateClass = InternalConverter.GetStateClassName(state.StateClass),
+				StateClass = state.StateClass.ToDescription(),
 				StateClasses = stateClasses,
 				state.AdditionalStates
 			};
@@ -634,150 +635,181 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 		private static ElementHint GetElementHint(ElementBase element) {
 			var hint = new ElementHint();
 
-			var asDoor = element as ElementGKDoor;
-			if (asDoor != null) {
-				var door = GKManager.Doors.FirstOrDefault(d => d.UID == asDoor.DoorUID);
-				if (door != null) {
-					if (door.PresentationName != null) {
-						hint.StateHintLines.Add(new HintLine { Text = door.PresentationName, Icon = GetElementHintIcon(asDoor).Item1 });
-					}
-				}
-			}
+			//var asDoor = element as ElementGKDoor;
+			//if (asDoor != null) {
+			//	var door = GKManager.Doors.FirstOrDefault(d => d.UID == asDoor.DoorUID);
+			//	if (door != null) {
+			//		if (door.PresentationName != null) {
+			//			hint.StateHintLines.Add(new HintLine { Text = door.PresentationName, Icon = GetElementHintIcon(asDoor).Item1 });
+			//		}
+			//	}
+			//}
 
-			var asZone = element as IElementZone;
-			if (asZone != null) {
-				if (element is ElementRectangleGKZone) {
-					var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-					if (zone != null && zone.PresentationName != null) {
-						hint.StateHintLines.Add(
-							new HintLine {
-								Text = zone.PresentationName,
-								Icon = new Func<string>(
-								() => {
-									var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
-									var imageData = GetImageResource(imagePath);
-									return imageData.Item1;
-								}).Invoke()
-							});
+			//var asZone = element as IElementZone;
+			//if (asZone != null) {
+			//	if (element is ElementRectangleGKZone) {
+			//		var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			//		if (zone != null && zone.PresentationName != null) {
+			//			hint.StateHintLines.Add(
+			//				new HintLine {
+			//					Text = zone.PresentationName,
+			//					Icon = new Func<string>(
+			//					() => {
+			//						var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
+			//						var imageData = GetImageResource(imagePath);
+			//						return imageData.Item1;
+			//					}).Invoke()
+			//				});
 
-					}
-				}
-				if (element is ElementPolygonGKZone) {
-					var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-					if (zone != null) {
-						if (zone.PresentationName != null) {
-							hint.StateHintLines.Add(
-								new HintLine {
-									Text = zone.PresentationName,
-									Icon = new Func<string>(
-									() => {
-										var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
-										var imageData = GetImageResource(imagePath);
-										return imageData.Item1;
-									}).Invoke()
-								});
+			//		}
+			//	}
+			//	if (element is ElementPolygonGKZone) {
+			//		var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			//		if (zone != null) {
+			//			if (zone.PresentationName != null) {
+			//				hint.StateHintLines.Add(
+			//					new HintLine {
+			//						Text = zone.PresentationName,
+			//						Icon = new Func<string>(
+			//						() => {
+			//							var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
+			//							var imageData = GetImageResource(imagePath);
+			//							return imageData.Item1;
+			//						}).Invoke()
+			//					});
 
-						}
-					}
-				}
-				if (element is ElementRectangleGKGuardZone
-					|| element is ElementPolygonGKGuardZone) {
-					var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-					if (zone != null) {
-						if (zone.PresentationName != null) {
-							hint.StateHintLines.Add(new HintLine {
-								Text = zone.PresentationName,
-								Icon = new Func<string>(
-									() => {
-										var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
-										var imageData = GetImageResource(imagePath);
-										return imageData.Item1;
-									}).Invoke()
-							});
-						}
-					}
-				}
-				if (element is ElementRectangleGKSKDZone
-					|| element is ElementPolygonGKSKDZone) {
-					var zone = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-					if (zone != null) {
-						if (zone.PresentationName != null) {
-							hint.StateHintLines.Add(new HintLine {
-								Text = zone.PresentationName,
-								Icon = new Func<string>(
-									() => {
-										var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
-										var imageData = GetImageResource(imagePath);
-										return imageData.Item1;
-									}).Invoke()
-							});
-						}
-					}
-				}
-			}
-			var asMpt = element as IElementMPT;
-			if (asMpt != null) {
-				var mpt = GKManager.MPTs.FirstOrDefault(m => m.UID == asMpt.MPTUID);
-				if (mpt != null) {
-					if (mpt.PresentationName != null) {
-						hint.StateHintLines.Add(new HintLine {
-							Text = mpt.PresentationName,
-							Icon = new Func<string>(
-									() => {
-										var imagePath = "Images/MPT.png";
-										var imageData = GetImageResource(imagePath);
-										return imageData.Item1;
-									}).Invoke()
-						});
-					}
-				}
-			}
-			var asDelay = element as IElementDelay;
-			if (asDelay != null) {
-				var delay = GKManager.Delays.FirstOrDefault(m => m.UID == asDelay.DelayUID);
-				if (delay != null) {
-					if (delay.PresentationName != null) {
-						hint.StateHintLines.Add(new HintLine {
-							Text = delay.PresentationName,
-							Icon = new Func<string>(
-									() => {
-										var imagePath = delay.ImageSource.Replace("/Controls;component/", "");
-										var imageData = GetImageResource(imagePath);
-										return imageData.Item1;
-									}).Invoke()
-						});
-					}
-				}
-			}
-			var asDirection = element as IElementDirection;
-			if (asDirection != null) {
-				var direction = GKManager.Directions.FirstOrDefault(
-					d => d.UID == asDirection.DirectionUID);
-				if (direction != null) {
-					if (direction.PresentationName != null) {
-						hint.StateHintLines.Add(new HintLine {
-							Text = direction.PresentationName,
-							Icon = new Func<string>(
-									() => {
-										var imagePath = direction.ImageSource.Replace("/Controls;component/", "");
-										var imageData = GetImageResource(imagePath);
-										return imageData.Item1;
-									}).Invoke()
-						});
-					}
-				}
-			}
+			//			}
+			//		}
+			//	}
+			//	if (element is ElementRectangleGKGuardZone
+			//		|| element is ElementPolygonGKGuardZone) {
+			//		var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			//		if (zone != null) {
+			//			if (zone.PresentationName != null) {
+			//				hint.StateHintLines.Add(new HintLine {
+			//					Text = zone.PresentationName,
+			//					Icon = new Func<string>(
+			//						() => {
+			//							var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
+			//							var imageData = GetImageResource(imagePath);
+			//							return imageData.Item1;
+			//						}).Invoke()
+			//				});
+			//			}
+			//		}
+			//	}
+			//	if (element is ElementRectangleGKSKDZone
+			//		|| element is ElementPolygonGKSKDZone) {
+			//		var zone = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			//		if (zone != null) {
+			//			if (zone.PresentationName != null) {
+			//				hint.StateHintLines.Add(new HintLine {
+			//					Text = zone.PresentationName,
+			//					Icon = new Func<string>(
+			//						() => {
+			//							var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
+			//							var imageData = GetImageResource(imagePath);
+			//							return imageData.Item1;
+			//						}).Invoke()
+			//				});
+			//			}
+			//		}
+			//	}
+			//}
+			//var asMpt = element as IElementMPT;
+			//if (asMpt != null) {
+			//	var mpt = GKManager.MPTs.FirstOrDefault(m => m.UID == asMpt.MPTUID);
+			//	if (mpt != null) {
+			//		if (mpt.PresentationName != null) {
+			//			hint.StateHintLines.Add(new HintLine {
+			//				Text = mpt.PresentationName,
+			//				Icon = new Func<string>(
+			//						() => {
+			//							var imagePath = "Images/MPT.png";
+			//							var imageData = GetImageResource(imagePath);
+			//							return imageData.Item1;
+			//						}).Invoke()
+			//			});
+			//		}
+			//	}
+			//}
+			//var asDelay = element as IElementDelay;
+			//if (asDelay != null) {
+			//	var delay = GKManager.Delays.FirstOrDefault(m => m.UID == asDelay.DelayUID);
+			//	if (delay != null) {
+			//		if (delay.PresentationName != null) {
+			//			hint.StateHintLines.Add(new HintLine {
+			//				Text = delay.PresentationName,
+			//				Icon = new Func<string>(
+			//						() => {
+			//							var imagePath = delay.ImageSource.Replace("/Controls;component/", "");
+			//							var imageData = GetImageResource(imagePath);
+			//							return imageData.Item1;
+			//						}).Invoke()
+			//			});
+			//		}
+			//	}
+			//}
+			//var asDirection = element as IElementDirection;
+			//if (asDirection != null) {
+			//	var direction = GKManager.Directions.FirstOrDefault(
+			//		d => d.UID == asDirection.DirectionUID);
+			//	if (direction != null) {
+			//		if (direction.PresentationName != null) {
+			//			hint.StateHintLines.Add(new HintLine {
+			//				Text = direction.PresentationName,
+			//				Icon = new Func<string>(
+			//						() => {
+			//							var imagePath = direction.ImageSource.Replace("/Controls;component/", "");
+			//							var imageData = GetImageResource(imagePath);
+			//							return imageData.Item1;
+			//						}).Invoke()
+			//			});
+			//		}
+			//	}
+			//}
 			var asDevice = element as ElementGKDevice;
 			if (asDevice != null) {
 				var device = GKManager.Devices.FirstOrDefault(
 					d => d.UID == asDevice.DeviceUID);
 				if (device != null
-					&& device.PresentationName != null) {
+				    && device.PresentationName != null) {
 					hint.StateHintLines.Add(new HintLine { Text = device.PresentationName, Icon = GetElementHintIcon(asDevice).Item1 });
+
+					//Получаем источник иконки для основного класса
+					var iconSourceForStateClass = device.State.StateClass.ToIconSource();
+
+					// Добавляем основное состояние
+					//hint.StateHintLines.Add(
+					//	new HintLine {
+					//		Text = device.State.StateClass.ToString(),
+					//		Icon = iconSourceForStateClass != null ? GetImageResource(iconSourceForStateClass.Replace("/Controls;component/", "")).Item1 : null
+					//	});
+					// Добавляем состояния
+					foreach (var stateClass in device.State.StateClasses) {
+						//Получаем источник иконки для основного класса
+						var iconSourceForStateClasses = stateClass.ToIconSource();
+						hint.StateHintLines.Add(
+							new HintLine {
+								Text = stateClass.ToDescription(),
+								Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
+						});
+					}
+					// Добавляем доп. состояния
+					//foreach (var stateClass in device.State.AdditionalStates) {
+					//	//Получаем источник иконки для основного класса
+					//	var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
+					//	hint.StateHintLines.Add(
+					//		new HintLine {
+					//			Text = stateClass.Name,
+					//			Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
+					//	});
+					//}
 				}
 			}
 			return hint;
 		}
+
 		private static Tuple<string, Size> GetElementHintIcon(ElementBasePoint item) {
 			var imagePath = string.Empty;
 
@@ -822,7 +854,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 		/// <param name="resName">Путь к ресурсу формата GKIcons/RSR2_Bush_Fire.png</param>
 		/// <returns></returns>
 		private static Tuple<string, Size> GetImageResource(string resName) {
-			var assembly = Assembly.GetAssembly(typeof(Controls.AlarmButton));
+			var assembly = Assembly.GetAssembly(typeof (AlarmButton));
 			var name =
 				assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(".resources", StringComparison.Ordinal));
 			var resourceStream = assembly.GetManifestResourceStream(name);
@@ -852,6 +884,7 @@ var result = System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
 
 			return new Tuple<string, Size>(Convert.ToBase64String(byteArray), value1.Size);
 		}
+
 		#endregion
 	}
 }

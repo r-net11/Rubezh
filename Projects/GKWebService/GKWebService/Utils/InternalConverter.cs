@@ -223,12 +223,6 @@ namespace GKWebService.Utils
 			return color;
 		}
 
-		internal static string GetStateClassName(XStateClass stateClass) {
-			var type = typeof(XStateClass);
-			var memInfo = type.GetMember(stateClass.ToString());
-			var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-			return ((DescriptionAttribute)attributes[0]).Description;
-		}
 	}
 
 	public enum PathKind

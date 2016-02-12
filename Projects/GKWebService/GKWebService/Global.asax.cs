@@ -24,8 +24,6 @@ namespace GKWebService
 			bootstrapperThread.Start();
 
 			Application["bootstrapperThread"] = bootstrapperThread;
-
-			PlansDataProvider.Instance.GetInfo();
 		}
 
 		protected void Application_End() {
