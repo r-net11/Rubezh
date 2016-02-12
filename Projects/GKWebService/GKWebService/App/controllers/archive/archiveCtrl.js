@@ -65,10 +65,6 @@
 			]
 		};
 
-		$scope.test = function () {
-			getByUid($scope.gridOptions.data[0].ObjectUid);
-		}
-
 		$scope.showFilter = function () {
 			var modalInstance = $uibModal.open({
 				animation: false,
@@ -109,8 +105,8 @@
 			setPage($scope.MaxPage);
 		}
 
-		$scope.showSelectedRow = function () {
-			$scope.selectedRow = $scope.gridApi.selection.getSelectedRows()[0]
+		$scope.showSelectedRow = function (row) {
+			$scope.selectedRow = row.entity;
 		};
 	});
 }());
