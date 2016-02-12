@@ -22,8 +22,10 @@
                 ]
             };
 
+
             $scope.expandAll = function () {
-                $scope.gridApi.treeBase.expandAllRows();
+                if ($scope.gridOptions.data.length)
+                    $scope.gridApi.treeBase.expandAllRows();
             };
 
             $scope.toggleRow = function (row, evt) {
