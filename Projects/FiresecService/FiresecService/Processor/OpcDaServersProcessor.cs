@@ -276,8 +276,32 @@ namespace FiresecService.Processor
 
 			if (value.GetType().ToString() != opcTag.TypeNameOfValue)
 			{
-				error = "Тип данный заначения тега не соответствует заданному";
-				return false;
+				try
+				{
+					if (opcTag.TypeNameOfValue == typeof(int).ToString())
+					{
+						value = Convert.ToInt32(value);
+					}
+					else if (opcTag.TypeNameOfValue == typeof(double).ToString())
+					{
+						value = Convert.ToDouble(value);
+					}
+					else if (opcTag.TypeNameOfValue == typeof(float).ToString())
+					{
+						value = Convert.ToSingle(value);
+					}
+					else
+					{
+						error = "Тип данный заначения тега не соответствует заданному. Не удалось привести типы";
+						return false;
+					}
+				}
+				catch (Exception ex)
+				{
+					error = String.Format("Тип данный заначения тега не соответствует заданному. Не удалось привести типы. {0}", 
+						ex.Message);
+					return false;
+				}
 			}
 
 			var subscription = server.Item2;
