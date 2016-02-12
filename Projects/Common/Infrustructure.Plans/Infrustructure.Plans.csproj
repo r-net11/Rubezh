@@ -70,9 +70,11 @@
     <Compile Include="Elements\IElementRectangle.cs" />
     <Compile Include="Elements\IElementDirection.cs" />
     <Compile Include="Elements\IElementBackground.cs" />
+    <Compile Include="Elements\IElementSubPlan.cs" />
     <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Elements\IElementMPT.cs" />
     <Compile Include="Elements\PlanElementBindingItem.cs" />
+    <Compile Include="Elements\RGPointCollection.cs" />
     <Compile Include="Events\PlansConfigurationChangedEvent.cs" />
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />

@@ -1,26 +1,27 @@
-﻿using System;
+﻿using DeviceControls;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using System.Windows.Media;
-using DeviceControls;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
-using System.Collections.Generic;
-using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
 	public class DeviceDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
+		string _savedSelectedMeasureParameterName;
 		public GKDevice Device { get; private set; }
 		public GKState State
 		{
@@ -121,6 +122,18 @@ namespace GKModule.ViewModels
 		{
 			get { return Device.Driver.MeasureParameters.Where(x => !x.IsDelay && !x.IsNotVisible).Count() > 0 || Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV; }
 		}
+		MeasureParameterViewModel _selectedMeasureParemeter;
+		public MeasureParameterViewModel SelectedMeasureParameter
+		{
+			get { return _selectedMeasureParemeter; }
+			set
+			{
+				_selectedMeasureParemeter = value;
+				if (value != null)
+					_savedSelectedMeasureParameterName = value.Name;
+				OnPropertyChanged(() => SelectedMeasureParameter);
+			}
+		}
 
 		void StartMeasureParametersMonitoring()
 		{
@@ -165,6 +178,7 @@ namespace GKModule.ViewModels
 					StringValue = measureParameter.StringValue
 				};
 				MeasureParameters.Add(measureParameterViewModel);
+				SelectedMeasureParameter = _measureParameters.FirstOrDefault(x => x.Name == _savedSelectedMeasureParameterName);
 			}
 		}
 		#endregion

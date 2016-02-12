@@ -1,0 +1,17 @@
+﻿
+@{
+	Layout = null;
+}
+
+<div ng-controller="devicesCtrl">
+
+	<devices-grid on-click="deviceClick" on-select="deviceSelect"></devices-grid>
+
+	<div class="device-params" ng-show="selectedDevice">
+		<div class="device-title block">
+			{{ selectedDevice.Name }}
+		</div>
+		<div>{{selectedDevice.State}}</div>
+	</div>
+</div>
+

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Controls.Converters;
+﻿using Controls.Converters;
+using Infrastructure.Common.TreeList;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.SKD;
-using Infrastructure.Common.TreeList;
+using System;
+using System.Linq;
 
 namespace JournalModule.ViewModels
 {
@@ -25,7 +23,7 @@ namespace JournalModule.ViewModels
 			JournalObjectType = journalObjectType;
 			Name = journalObjectType.ToDescription();
 			IsObjectGroup = true;
-			switch(journalObjectType)
+			switch (journalObjectType)
 			{
 				case JournalObjectType.GKDevice:
 					ImageSource = "/Controls;component/GKIcons/RSR2_RM_1.png";
@@ -78,7 +76,7 @@ namespace JournalModule.ViewModels
 
 		public FilterObjectViewModel(RubezhAPI.Models.Camera camera)
 		{
-			Name = camera.Name;
+			Name = camera.PresentationName;
 			UID = camera.UID;
 			ImageSource = "/Controls;component/Images/Camera.png";
 		}

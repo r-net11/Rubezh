@@ -1,29 +1,10 @@
 ﻿<Properties StartupItem="FiresecService/FiresecService.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FiresecService/Bootstrapper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Common/RubezhAPI/IFiresecService.cs">
     <Files>
-      <File FileName="FiresecService/Bootstrapper.cs" Line="56" Column="28" />
-      <File FileName="FiresecService/App.xaml.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Program.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.OpcDa.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/SafeFiresecService.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Service/FiresecService.Files.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/ViewModels/LicenseViewModel.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/ViewModels/NotifyIconService.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/ViewModels/MainViewModel.cs" Line="1" Column="1" />
-      <File FileName="../Common/Infrastructure.Common/Windows/ViewModels/MessageBoxViewModel.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhDAL/Context/Configuration.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhDAL/Context/DatabaseContext.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhDAL/Context/NonClusteredPrimaryKeyCSharpMigrationCodeGenerator.cs" Line="1" Column="1" />
-      <File FileName="../Common/Infrastructure.Common/Services/Resources/IResourceService.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Processor/ConfigurationCashHelper.cs" Line="1" Column="1" />
-      <File FileName="FiresecService/Processor/FiresecLicenseProcessor.cs" Line="1" Column="1" />
-      <File FileName="../Common/Infrastructure.Common/AppDataFolderHelper.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhAPI/License/LicenseManager.cs" Line="1" Column="1" />
-      <File FileName="../Common/RubezhLicense/RubezhLicenseManager.cs" Line="1" Column="1" />
-      <File FileName="../Common/Infrastructure.Common/UACHelper.cs" Line="1" Column="1" />
-      <File FileName="../Common/Infrastructure.Common/LoadHelper/ServerLoadHelper.cs" Line="1" Column="1" />
-      <File FileName="../Common/Common/WCF/BindingHelper.cs" Line="1" Column="1" />
+      <File FileName="FiresecService/Bootstrapper.cs" Line="57" Column="30" />
+      <File FileName="FiresecService/Service/FiresecServiceManager.cs" Line="36" Column="7" />
+      <File FileName="../Common/RubezhAPI/IFiresecService.cs" Line="24" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

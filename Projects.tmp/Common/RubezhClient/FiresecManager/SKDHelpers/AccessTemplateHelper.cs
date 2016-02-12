@@ -27,7 +27,7 @@ namespace RubezhClient.SKDHelpers
 		public static bool MarkDeleted(AccessTemplate accessTemplate)
 		{
 			var result = ClientManager.FiresecService.MarkDeletedAccessTemplate(accessTemplate);
-			return Common.ShowErrorIfExists(result);
+			return Common.ShowErrorIfExists(result) != null;
 		}
 
 		public static bool Restore(AccessTemplate accessTemplate)

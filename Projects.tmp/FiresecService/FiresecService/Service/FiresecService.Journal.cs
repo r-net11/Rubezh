@@ -42,6 +42,13 @@ namespace FiresecService.Service
 			{
 				AutomationProcessor.RunOnJournal(journalItem, user, clientUID);
 			}
+			foreach (var journalItem in journalItems) 
+			{
+				var foregroundColor = Console.ForegroundColor;
+				Console.ForegroundColor = ConsoleColor.Yellow;
+				Console.WriteLine ("Journal: {0}", journalItem.JournalEventNameType.ToDescription ());
+				Console.ForegroundColor = foregroundColor;
+			}
 		}
 
 		public OperationResult<bool> AddJournalItem(Guid clientUID, JournalItem journalItem)

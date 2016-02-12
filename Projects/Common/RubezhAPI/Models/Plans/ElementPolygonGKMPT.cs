@@ -17,6 +17,9 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public Guid MPTUID { get; set; }
 
+		[DataMember()]
+		public bool ShowState { get; set; }
+
 		#region IPrimitive Members
 
 		[XmlIgnore]

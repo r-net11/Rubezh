@@ -79,29 +79,22 @@ namespace FiresecService.ViewModels
 
 		public void AddClient(ClientCredentials clientCredentials)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var connectionViewModel = new ClientViewModel(clientCredentials);
+			var connectionViewModel = new ClientViewModel(clientCredentials);
 				Clients.Add(connectionViewModel);
-			}));
+			Console.WriteLine ("Connected: {0}/{1}/{2}", clientCredentials.ClientIpAddressAndPort, clientCredentials.ClientType, clientCredentials.FriendlyUserName);
 		}
 		public void RemoveClient(Guid uid)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
+			var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					Clients.Remove(connectionViewModel);
-			}));
+			Console.WriteLine ("[{3}]Disconnected: {0}/{1}/{2}", connectionViewModel.ClientCredentials.ClientIpAddressAndPort, connectionViewModel.ClientType, connectionViewModel.FriendlyUserName, DateTime.Now);
 		}
 		public void EditClient(Guid uid, string userName)
 		{
-			_dispatcher.BeginInvoke((Action)(() =>
-			{
-				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
+			var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					connectionViewModel.FriendlyUserName = userName;
-			}));
 		}
 		#endregion Clients
 
@@ -228,9 +221,7 @@ namespace FiresecService.ViewModels
 
 		void On_GKLifecycleChangedEvent(GKLifecycleInfo gkLifecycleInfo)
 		{
-			_dispatcher.Invoke((Action)(() =>
-			{
-				var gkLifecycleViewModel = GKLifecycles.FirstOrDefault(x => x.GKLifecycleInfo.UID == gkLifecycleInfo.UID);
+			var gkLifecycleViewModel = GKLifecycles.FirstOrDefault(x => x.GKLifecycleInfo.UID == gkLifecycleInfo.UID);
 				if (gkLifecycleViewModel == null)
 				{
 					gkLifecycleViewModel = AddGKViewModel(gkLifecycleInfo);
@@ -239,8 +230,6 @@ namespace FiresecService.ViewModels
 				{
 					gkLifecycleViewModel.Update(gkLifecycleInfo);
 				}
-				//SelectedGKViewModel = gkViewModel;
-			}));
 		}
 
 		GKLifecycleViewModel AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
@@ -258,9 +247,7 @@ namespace FiresecService.ViewModels
 
 		public void OnPoll(Guid uid)
 		{
-			_dispatcher.Invoke((Action)(() =>
-				{
-					var now = DateTime.Now;
+			var now = DateTime.Now;
 					var clientInfo = FiresecService.Service.ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
 					var client = clientInfo == null ? "" : string.Format("{0} / {1} / {2}", clientInfo.ClientCredentials.ClientType.ToDescription(), clientInfo.ClientCredentials.ClientIpAddress, clientInfo.ClientCredentials.FriendlyUserName);
 					var clientPoll = ClientPolls.FirstOrDefault(x => x.Client == client && x.UID == uid);
@@ -273,8 +260,6 @@ namespace FiresecService.ViewModels
 					if (clientInfo != null)
 						clientPoll.CallbackIndex = clientInfo.CallbackIndex;
 					clientPoll.LastPollTime = now;
-
-				}));
 		}
 		#endregion
 

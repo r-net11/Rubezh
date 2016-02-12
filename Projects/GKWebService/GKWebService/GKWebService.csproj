@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>5</LangVersion>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <PublishDatabases>true</PublishDatabases>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -178,6 +181,47 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\app.js" />
+    <Content Include="App\constants.js" />
+    <Content Include="App\controllers\alarms\alarmsCtrl.js" />
+    <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
+    <Content Include="App\controllers\archive\archiveCtrl.js" />
+    <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
+    <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
+    <Content Include="App\controllers\delays\delaysCtrl.js" />
+    <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
+    <Content Include="App\controllers\devices\devicesGridCtrl.js" />
+    <Content Include="App\controllers\devices\devicesCtrl.js" />
+    <Content Include="App\controllers\directionsUpdaterHub.js" />
+    <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
+    <Content Include="App\controllers\directions\directionsCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDevicesDetailsCtrl.js" />
+    <Content Include="App\controllers\journal\journalCtrl.js" />
+    <Content Include="App\controllers\journal\journalFilterCtrl.js" />
+    <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
+    <Content Include="App\controllers\MPTs\mptsCtrl.js" />
+    <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
+    <Content Include="App\controllers\planCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationDetailsCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationDevicesCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
+    <Content Include="App\controllers\signalrCtrl.js" />
+    <Content Include="App\directives\alarmBtn.js" />
+    <Content Include="App\directives\d3Plan.js" />
+    <Content Include="App\directives\devicesGrid.js" />
+    <Content Include="App\services\broadcastService.js" />
+    <Content Include="App\services\signalrAlarmsService.js" />
+    <Content Include="App\services\signalrDevicesService.js" />
+    <Content Include="App\services\signalrDelaysService.js" />
+    <Content Include="App\services\signalrDirectionsService.js" />
+    <Content Include="App\services\signalrFireZonesService.js" />
+    <Content Include="App\services\signalrMPTsService.js" />
+    <Content Include="App\services\signalrPumpStationService.js" />
+    <Content Include="App\services\signalrService.js" />
+    <Content Include="App\signalr\plansUpdaterHub.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -208,16 +252,78 @@
     <Content Include="Content\Hr.min.css">
       <DependentUpon>Hr.css</DependentUpon>
     </Content>
+    <Content Include="Content\Image\GKIcons\1.png" />
+    <Content Include="Content\Image\GKIcons\ControlDevicesMirror.png" />
+    <Content Include="Content\Image\GKIcons\DetectorDevicesMirror.png" />
+    <Content Include="Content\Image\GKIcons\DirectionsMirror.png" />
+    <Content Include="Content\Image\GKIcons\FirefightingZonesMirror.png" />
+    <Content Include="Content\Image\GKIcons\FireZonesMirror.png" />
+    <Content Include="Content\Image\GKIcons\GK.png" />
+    <Content Include="Content\Image\GKIcons\GKIndicator.png" />
+    <Content Include="Content\Image\GKIcons\GKIndicatorsGroup.png" />
+    <Content Include="Content\Image\GKIcons\GKLine.png" />
+    <Content Include="Content\Image\GKIcons\GKMirror.png" />
+    <Content Include="Content\Image\GKIcons\GKRelaysGroup.png" />
+    <Content Include="Content\Image\GKIcons\GKRele.png" />
+    <Content Include="Content\Image\GKIcons\GuardZonesMirror.png" />
+    <Content Include="Content\Image\GKIcons\KAU.png" />
+    <Content Include="Content\Image\GKIcons\KAUIndicator.png" />
+    <Content Include="Content\Image\GKIcons\KAU_Shleif.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_AM_1.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_AM_2.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_AM_4.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Bush_Drenazh.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Bush_Fire.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Bush_Jokey.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Bush_Shuv.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Buz_KV.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Buz_KVDU.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Buz_KVMV.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_CardReader.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_CodeReader.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_CombinedDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_GKMirrorItem.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_GuardDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_GuardDetectorSound.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_HandDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_HeatDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_KAU.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_KAU_Shleif.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MAP4.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MAP4_Group.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MDU.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MDU24.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MP.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MVK8.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MVK8_Group.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MVP.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MVP_Part.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPK.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPKS.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPKZ.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPS.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPSZ.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPZ.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_RM_1.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_RM_2.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_RM_4.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_SmokeDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_SmokeDetector2.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Valve_DU.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Valve_KV.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Valve_KVMV.png" />
+    <Content Include="Content\Image\GKIcons\System.png" />
     <Content Include="Content\Image\Icon\Alarms\attention.png" />
-    <Content Include="Content\Image\Icon\Alarms\auto.png" />
+    <Content Include="Content\Image\Icon\Alarms\autoOff.png" />
     <Content Include="Content\Image\Icon\Alarms\failure.png" />
-    <Content Include="Content\Image\Icon\Alarms\fire.png" />
+    <Content Include="Content\Image\Icon\Alarms\fire1.png" />
     <Content Include="Content\Image\Icon\Alarms\fire2.png" />
-    <Content Include="Content\Image\Icon\Alarms\mpt.png" />
-    <Content Include="Content\Image\Icon\Alarms\off.png" />
-    <Content Include="Content\Image\Icon\Alarms\onOff.png" />
+    <Content Include="Content\Image\Icon\Alarms\NPTOn.png" />
+    <Content Include="Content\Image\Icon\Alarms\Ignore.png" />
+    <Content Include="Content\Image\Icon\Alarms\Turning.png" />
+    <Content Include="Content\Image\Icon\Alarms\ResetAlarmText.png" />
     <Content Include="Content\Image\Icon\Alarms\service.png" />
-    <Content Include="Content\Image\Icon\Alarms\shield.png" />
+    <Content Include="Content\Image\Icon\Alarms\GuardAlarm.png" />
     <Content Include="Content\Image\Icon\Archive\filter.png" />
     <Content Include="Content\Image\Icon\Archive\left.png" />
     <Content Include="Content\Image\Icon\Archive\leftLeft.png" />
@@ -254,8 +360,12 @@
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InAutomatic.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InManual.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\Unknown.png" />
+    <Resource Include="Content\Image\Images\BDirection.png" />
     <Content Include="Content\Image\Icon\GK\BJournal.png" />
     <Content Include="Content\Image\Icon\GK\Blue_Direction.png" />
+    <Content Include="Content\Image\Icon\GK\BMPT.png" />
+    <Resource Include="Content\Image\Images\Code.png" />
+    <Resource Include="Content\Image\Images\Delay.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
@@ -306,6 +416,16 @@
     <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\no.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\PC.png" />
+    <Resource Include="Content\Image\Images\Door.png" />
+    <Resource Include="Content\Image\Images\GuardZone.png" />
+    <Resource Include="Content\Image\Images\BMPT.png" />
+    <Resource Include="Content\Image\Images\Pim.png" />
+    <Resource Include="Content\Image\Images\BPumpStation.png" />
+    <Resource Include="Content\Image\Images\SKDZone.png" />
+    <Resource Include="Content\Image\Images\BVideo.png" />
+    <Resource Include="Content\Image\Images\blank.png" />
+    <Content Include="Content\Image\Images\BReset.png" />
+    <Content Include="Content\Image\Images\Zone.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
       <DependentUpon>main.less</DependentUpon>
@@ -358,33 +478,21 @@
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-signalr-hub.js" />
     <Content Include="Scripts\angular-signalr-hub.min.js" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.css" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.js" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.min.css" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.min.js" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap-theme.css" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap-theme.min.css" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap.css" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap.min.css" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\app\app.js" />
-    <Content Include="Scripts\app\controllers\delays\delayDetailsCtrl.js" />
-    <Content Include="Scripts\app\controllers\directions\directionsCtrl.js" />
-    <Content Include="Scripts\app\controllers\directions\directionDetailsCtrl.js" />
-    <Content Include="Scripts\app\controllers\journal\journalFilterCtrl.js" />
-    <Content Include="Scripts\app\controllers\mptsCtrl.js" />
-    <Content Include="Scripts\app\controllers\delays\delaysCtrl.js" />
-    <Content Include="Scripts\app\controllers\devicesCtrl.js" />
-    <Content Include="Scripts\app\controllers\directionsUpdaterHub.js" />
-    <Content Include="Scripts\app\controllers\journal\journalCtrl.js" />
-    <Content Include="Scripts\app\controllers\MPTsUpdateHub.js" />
-    <Content Include="Scripts\app\controllers\signalrCtrl.js" />
-    <Content Include="Scripts\app\controllers\planCtrl.js" />
-    <Content Include="Scripts\app\controllers\zonesCtrl.js" />
-    <Content Include="Scripts\app\directives\d3Plan.js" />
-    <Content Include="Scripts\app\directives\ngJqGrid.js" />
-    <Content Include="Scripts\app\services\broadcastService.js" />
-    <Content Include="Scripts\app\services\signalrDirectionsService.js" />
-    <Content Include="Scripts\app\services\signalrFireZonesService.js" />
-    <Content Include="Scripts\app\services\signalrService.js" />
-    <Content Include="Scripts\app\signalr\plansUpdaterHub.js" />
+    <Content Include="App\services\signalrJournalService.js" />
     <Content Include="Scripts\archive.js" />
     <Content Include="Content\header.less" />
     <Content Include="Content\vars.less" />
@@ -468,11 +576,17 @@
     <Content Include="Content\SaveCancelPopup.less" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\d3\LICENSE" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap-theme.css.map" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap-theme.min.css.map" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap.css.map" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap.min.css.map" />
     <Content Include="Content\ui-grid.woff" />
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
     <Content Include="Content\ui-grid.less" />
     <Content Include="Content\bootstrap.less" />
+    <Content Include="Content\alarmBtn.less" />
+    <Content Include="Content\devices.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -534,23 +648,39 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccessTemplatesController.cs" />
+    <Compile Include="Controllers\AlarmsController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DelaysController.cs" />
+    <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\FireZonesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
+    <Compile Include="Controllers\MPTsController.cs" />
     <Compile Include="Controllers\JournalController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
-    <Compile Include="DataProviders\Delays\DelaysHub.cs" />
+    <Compile Include="Controllers\PumpStationsController.cs" />
+    <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
+    <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
+    <Compile Include="DataProviders\DevicesHub.cs" />
+    <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
-    <Compile Include="DataProviders\FireZones\FireZonesDataProvider.cs" />
-    <Compile Include="DataProviders\FireZones\FireZonesUpdater.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
+    <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
+    <Compile Include="Models\Devices\Device.cs" />
+    <Compile Include="Models\Journal\JournalFilter.cs" />
+    <Compile Include="Models\GK\Alarms\Alarm.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmGroupViewModel.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmsViewModel.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmTypeToColorConverter.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmViewModel.cs" />
     <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
     <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
     <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
@@ -563,13 +693,17 @@
     <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
+    <Compile Include="Models\GK\Delay\DelayStateClass.cs" />
     <Compile Include="Models\GK\DeviceControlRegime.cs" />
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
-    <Compile Include="Models\DelayViewModel.cs" />
+    <Compile Include="Models\GK\Delay\Delay.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
-    <Compile Include="Models\MPTModel.cs" />
+    <Compile Include="Models\Journal\JournalFilterEvent.cs" />
+    <Compile Include="Models\Journal\JournalFilterObject.cs" />
+    <Compile Include="Models\MPT\MPTModel.cs" />
+    <Compile Include="Models\PumpStation\PumpStation.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
@@ -577,7 +711,6 @@
     <Compile Include="Models\SKD\Cards\CardViewModel.cs" />
     <Compile Include="Models\SKD\Common\CopyHelper.cs" />
     <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
-    <Compile Include="Models\FireZone\Device.cs" />
     <Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
     <Compile Include="Models\FireZone\FireZone.cs" />
     <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
@@ -595,6 +728,7 @@
     <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
     <Compile Include="Models\SKD\Employees\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Utils\ErrorHandlerAttribute.cs" />
+    <Compile Include="Models\Plan\PlanElement\PlanElement.cs" />
     <Compile Include="Utils\InternalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
@@ -605,19 +739,19 @@
     <Compile Include="JournalItemViewModel.cs" />
     <Compile Include="Models\AccessDoorModel.cs" />
     <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
-    <Compile Include="Models\Plan\ElementHint.cs" />
+    <Compile Include="Models\Plan\PlanElement\Hint\ElementHint.cs" />
     <Compile Include="Models\EmployeeCardModel.cs" />
     <Compile Include="Models\GKControllerModel.cs" />
     <Compile Include="Models\ShortEmployeeCardModel.cs" />
     <Compile Include="Models\ShortEmployeeModel.cs" />
-    <Compile Include="Models\Plan\PlanElement.cs" />
     <Compile Include="Models\Plan\PlanSimpl.cs" />
-    <Compile Include="Models\ReportModel.cs" />
-    <Compile Include="Models\Plan\Shape.cs" />
-    <Compile Include="Models\Plan\ShapeTypesEnum.cs" />
-    <Compile Include="Models\Plan\HintLine.cs" />
+    <Compile Include="Models\Plan\PlanElement\Shape.cs" />
+    <Compile Include="Models\Plan\PlanElement\ShapeTypesEnum.cs" />
+    <Compile Include="Models\Plan\PlanElement\Hint\HintLine.cs" />
+    <Compile Include="Models\Journal\JournalModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\InternalConverterOld.cs" />
     <Compile Include="Utils\JsonNetResult .cs" />
     <Compile Include="Utils\StaTaskScheduler.cs" />
   </ItemGroup>
@@ -629,8 +763,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\State.cshtml" />
-    <Content Include="Views\Home\Device.cshtml" />
+    <Content Include="Views\Devices\Index.cshtml" />
     <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
     <Content Include="Views\Hr\HrEmployees.cshtml" />
@@ -646,7 +779,6 @@
     <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\Employees\EmployeeDetails.cshtml" />
     <Content Include="Views\Hr\HrFilter.cshtml" />
-    <Content Include="Views\Home\FireZones.cshtml" />
     <Content Include="Views\Employees\EmployeeCardDetails.cshtml" />
     <Content Include="Views\Employees\CardRemovalReason.cshtml" />
     <Content Include="Views\Departments\Index.cshtml" />
@@ -670,12 +802,24 @@
     <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
     <Content Include="Views\Cards\Index.cshtml" />
     <Content Include="Views\Delays\Delays.cshtml" />
-    <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\Directions\Index.cshtml" />
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Journal\Index.cshtml" />
     <Content Include="Views\Delays\DelayDetails.cshtml" />
     <Content Include="Views\Journal\JournalFilter.cshtml" />
+    <Content Include="Views\MPTs\MPTDetails.cshtml" />
+    <Content Include="Views\FireZones\Index.cshtml" />
+    <Content Include="Views\FireZones\FireZonesDetails.cshtml" />
+    <Content Include="Views\Alarms\AlarmGroups.cshtml" />
+    <Content Include="Views\Alarms\Index.cshtml" />
+    <Content Include="Views\Alarms\Alarms.cshtml" />
+    <Content Include="Views\Devices\DeviceDetails.cshtml" />
+    <Content Include="Views\Archive\Index.cshtml" />
+    <Content Include="Views\Archive\ArchiveFilter.cshtml" />
+    <Content Include="Views\PumpStations\PumpStations.cshtml" />
+    <Content Include="Views\PumpStations\PumpStationDetails.cshtml" />
+    <Content Include="Views\Home\MPTs.cshtml" />
+    <Content Include="Views\MPTs\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -684,10 +828,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App\controllers\MPTDevice\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Archive\" />
+    <Folder Include="Models\Plan\PlanElement\Visual\" />
     <Folder Include="Views\Employee\" />
-    <Folder Include="Views\FireZones\" />
     <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />
   </ItemGroup>
@@ -736,7 +880,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>64778</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:64726/</IISUrl>
+          <IISUrl>http://localhost:64726</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

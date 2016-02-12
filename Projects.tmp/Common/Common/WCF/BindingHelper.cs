@@ -39,12 +39,12 @@ namespace Common
 
 		public static NetTcpBinding CreateNetTcpBinding()
 		{
-			var binding = new NetTcpBinding(SecurityMode.Message);
-			binding.OpenTimeout = TimeSpan.FromMinutes(10);
-			binding.SendTimeout = TimeSpan.FromMinutes(10);
-			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
+			var binding = new NetTcpBinding();
+			binding.OpenTimeout = TimeSpan.FromMinutes(11);
+			binding.SendTimeout = TimeSpan.FromMinutes(12);
+			binding.ReceiveTimeout = TimeSpan.FromMinutes(13);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
-			binding.ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas ();
+			binding.ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas();
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
@@ -55,20 +55,20 @@ namespace Common
 			return binding;
 		}
 
-		public static WSHttpBinding CreateWSHttpBinding()
+		public static Binding CreateWSHttpBinding()
 		{
-			var binding = new WSHttpBinding(SecurityMode.None);
+			var binding = new BasicHttpBinding();
 			binding.OpenTimeout = TimeSpan.FromMinutes(10);
 			binding.SendTimeout = TimeSpan.FromMinutes(10);
 			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
-			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			//binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
-			binding.Security.Mode = SecurityMode.None;
+			//binding.Security.Mode = SecurityMode.None;
 			return binding;
 		}
 	}

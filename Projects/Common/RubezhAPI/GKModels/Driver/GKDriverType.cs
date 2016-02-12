@@ -171,5 +171,29 @@ namespace RubezhAPI.GK
 
         [Description("Составной ГК")]
         MultiGK = 82,
+
+        [Description("АБПЦ R2")]
+        RSR2_ABPC = 83,
+
+        [Description("АБШС R2")]
+        RSR2_ABShS = 84,
+
+        [Description("АБШС-2 R2")]
+        RSR2_ABShS_Group = 85,
+
+        [Description("АБТК R2")]
+        RSR2_ABTK = 86,
+
+        [Description("АБТК-2 R2")]
+        RSR2_ABTK_Group = 87,
+
+        [Description("ИПТЭ R2")]
+        RSR2_HeatDetectorEridan = 88,
+
+        [Description("ИПРЭ R2")]
+        RSR2_HandDetectorEridan = 89,
+
+        [Description("ИОЛИТ R2")]
+        RSR2_IOLIT = 90,
 	}
 }

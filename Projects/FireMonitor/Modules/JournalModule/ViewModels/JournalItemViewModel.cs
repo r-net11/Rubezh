@@ -234,7 +234,7 @@ namespace JournalModule.ViewModels
 					Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (Camera != null)
 					{
-						ObjectName = Camera.Name;
+						ObjectName = Camera.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowCameraEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 					}

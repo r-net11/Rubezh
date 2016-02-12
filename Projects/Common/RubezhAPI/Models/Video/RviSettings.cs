@@ -24,5 +24,20 @@ namespace RubezhAPI.Models
 
 		[DataMember]
 		public string Password { get; set; }
+		[DataMember]
+		public int VideoWidth { get; set; }
+		[DataMember]
+		public int VideoHeight { get; set; }
+		[DataMember]
+		public int VideoMarginLeft { get; set; }
+		[DataMember]
+		public int VideoMarginTop { get; set; }
+		public string Url
+		{
+			get
+			{
+				return string.Format("net.tcp://{0}:{1}/Integration", Ip, Port);
+			}
+		}
 	}
 }

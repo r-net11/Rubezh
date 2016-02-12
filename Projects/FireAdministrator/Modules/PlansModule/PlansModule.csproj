@@ -141,7 +141,8 @@
     <Compile Include="Designer\DesignerItems\DesignerItemSubPlan.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\Helper.cs" />
-    <Compile Include="Designer\InstrumentAdorners\SubPlanAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\SubPlanPolygonAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\SubPlanRectangleAdorner.cs" />
     <Compile Include="ElementProperties\ViewModels\FolderPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\SubPlanPropertiesViewModel.cs" />

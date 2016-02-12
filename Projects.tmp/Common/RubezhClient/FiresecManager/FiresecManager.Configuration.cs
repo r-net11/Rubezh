@@ -63,6 +63,8 @@ namespace RubezhClient
 				}
 				Directory.CreateDirectory(configDirectory);
 				Directory.CreateDirectory(contentDirectory);
+				//if (ServiceFactoryBase.ContentService != null)
+				//	ServiceFactoryBase.ContentService.Invalidate();
 
 				if (ConnectionSettingsManager.IsRemote)
 				{
@@ -71,7 +73,7 @@ namespace RubezhClient
 					var stream = FiresecService.GetConfig();
 					CopyStream(stream, configFileStream);
 					LoadFromZipFile(configFileName);
-					
+
 					var result = FiresecService.GetSecurityConfiguration();
 					if (!result.HasError && result.Result != null)
 					{
@@ -115,6 +117,7 @@ namespace RubezhClient
 				if (LayoutsConfiguration == null)
 					LayoutsConfiguration = new LayoutsConfiguration();
 				LayoutsConfiguration.Update();
+				//PlansConfiguration.Update();
 				SystemConfiguration.UpdateConfiguration();
 				GKDriversCreator.Create();
 				GKManager.UpdateConfiguration();
@@ -130,85 +133,11 @@ namespace RubezhClient
 
 		public static void UpdatePlansConfiguration()
 		{
-			try
-			{
-				GKManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.MPTs.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-
-				SystemConfiguration.Cameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
-				SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
-
-				var gkDeviceMap = new Dictionary<Guid, GKDevice>();
-				foreach (var device in GKManager.Devices)
-				{
-					if (!gkDeviceMap.ContainsKey(device.UID))
-						gkDeviceMap.Add(device.UID, device);
-				}
-				var gkZoneMap = new Dictionary<Guid, GKZone>();
-				foreach (var zone in GKManager.Zones)
-				{
-					if (!gkZoneMap.ContainsKey(zone.UID))
-						gkZoneMap.Add(zone.UID, zone);
-				}
-				var gkGuardZoneMap = new Dictionary<Guid, GKGuardZone>();
-				foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
-				{
-					if (!gkGuardZoneMap.ContainsKey(guardZone.UID))
-						gkGuardZoneMap.Add(guardZone.UID, guardZone);
-				}
-				var gkDirectionMap = new Dictionary<Guid, GKDirection>();
-				foreach (var direction in GKManager.Directions)
-				{
-					if (!gkDirectionMap.ContainsKey(direction.UID))
-						gkDirectionMap.Add(direction.UID, direction);
-				}
-				var gkDelayMap = new Dictionary<Guid, GKDelay>();
-				foreach (var delay in GKManager.Delays)
-				{
-					if (!gkDelayMap.ContainsKey(delay.UID))
-						gkDelayMap.Add(delay.UID, delay);
-				}
-				var gkMPTMap = new Dictionary<Guid, GKMPT>();
-				foreach (var mpt in GKManager.MPTs)
-				{
-					if (!gkMPTMap.ContainsKey(mpt.UID))
-						gkMPTMap.Add(mpt.UID, mpt);
-				}
-				var gkDoorMap = new Dictionary<Guid, GKDoor>();
-				foreach (var door in GKManager.Doors)
-				{
-					if (!gkDoorMap.ContainsKey(door.UID))
-						gkDoorMap.Add(door.UID, door);
-				}
-
-				var cameraMap = new Dictionary<Guid, Camera>();
-				foreach (var camera in SystemConfiguration.Cameras)
-				{
-					if (!cameraMap.ContainsKey(camera.UID))
-						cameraMap.Add(camera.UID, camera);
-				}
-
-				var procedureMap = new Dictionary<Guid, Procedure>();
-				foreach (var procedure in ClientManager.SystemConfiguration.AutomationConfiguration.Procedures)
-				{
-					if (!procedureMap.ContainsKey(procedure.Uid))
-						procedureMap.Add(procedure.Uid, procedure);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "ClientManager.UpdatePlansConfiguration");
-				LoadingErrorManager.Add(e);
-			}
+			
 		}
 
 		public static void InvalidateContent()
 		{
-
 		}
 	}
 }

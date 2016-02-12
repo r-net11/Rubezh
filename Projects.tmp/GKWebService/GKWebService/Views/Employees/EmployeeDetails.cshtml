@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "EmployeeDetails";
+    Layout = null;
+}
+
+
+<div id="employee-details-box" class="save-cancel-popup" data-bind="with: HR.Employees.EmployeeDetails">
+    <div class="title-bar">
+        <span data-bind="text: Title"></span>
+        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: EmployeeDetailsClose" /></a>
+    </div>
+    <div data-bind="with: Employee">
+        <form id="Employee" data-bind="submit: $parent.SaveEmployee">
+            <ul class="tab">
+                <li class="active"><a href="" data-bind="click: function(data,event) { $parent.EmployeeDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
+                <li><a href="" data-bind="click: function(data,event) { $parent.EmployeeDetailsPageClick(data, event, 'Document'); }"><span>Документ</span></a></li>
+                <li><a href="" data-bind="click: function(data,event) { $parent.EmployeeDetailsPageClick(data, event, 'Photo'); }"><span>Фото</span></a></li>
+            </ul>
+
+            <div class="data-input" data-bind="visible:$parent.employeeDetailsPages.General">
+                <label for="LastName"><span>Фамилия</span><input type="text" name="LastName" id="LastName" data-bind="value: LastName" value="" /></label>
+                <label for="FirstName"><span>Имя</span><input type="text" name="FirstName" id="FirstName" data-bind="value: FirstName" value="" /></label>
+                <label for="SecondName"><span>Отчество</span><input type="text" name="SecondName" data-bind="value: SecondName" value="" /></label>
+                <label for="Position" data-bind="visible: $parent.IsEmployee"><span>Должность</span><a id="Position" href=""><span data-bind="click: $parent.SelectPosition, text: $parent.IsPositionSelected() ? PositionName() : 'Нажмите для выбора должности'"></span></a></label>
+                <label for="Department"><span>Подразделение</span><a id="Department" href=""><span data-bind="click: $parent.SelectDepartment, text: $parent.IsDepartmentSelected() ? DepartmentName() : 'Нажмите для выбора подразделения'"></span></a></label>
+                <label for="Escort" data-bind="visible: !$parent.IsEmployee()"><span>Сопровождающий</span><a id="Escort" href=""><span data-bind="click: $parent.SelectEscort, text: $parent.IsEscortSelected() ? EscortName() : 'Нажмите для выбора сопровождающего'"></span></a></label>
+                <label for="Description" data-bind="visible: !$parent.IsEmployee()"><span>Примечание</span><input type="text" name="Description" data-bind="value: Description" value="" /></label>
+                <label for="Schedule" data-bind="visible: $parent.IsEmployee"><span>График работы</span><a id="Schedule" href=""><span data-bind="click: $parent.SelectSchedule, text: $parent.IsScheduleSelected() ? $parent.ScheduleName() : 'Нажмите для выбора графика работы'"></span></a></label>
+                <label for="CredentialsStartDate" data-bind="visible: $parent.IsEmployee"><span>Учётные данные действуют с</span><input type="text" id="CredentialsStartDate" name="CredentialsStartDate" data-bind="datepicker: CredentialsStartDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
+                <label for="TabelNo" data-bind="visible: $parent.IsEmployee"><span>Табельный номер</span><input type="text" name="TabelNo" data-bind="value: TabelNo" value="" /></label>
+                <label for="Phone"><span>Телефон</span><input type="text" name="Phone" data-bind="value: Phone" value="" /></label>
+                <label data-bind="visible: $parent.IsEmployee"><span>Руководитель организации</span><input type="checkbox" name="IsOrganisationChief" data-bind="checked: $parent.IsOrganisationChief" value=""></label><br>
+                <label data-bind="visible: $parent.IsEmployee"><span>Руководитель отдела кадров</span><input type="checkbox" name="IsOrganisationHRChief" data-bind="checked: $parent.IsOrganisationHRChief" value="" /></label><br>
+            </div>
+            <div class="data-input" data-bind="visible:$parent.employeeDetailsPages.Document">
+                <label for="DocumentNumber"><span>Номер</span><input type="text" name="DocumentNumber" data-bind="value: DocumentNumber" value="" /></label>
+                <label for="BirthPlace"><span>Место рождения</span><input type="text" name="BirthPlace" data-bind="value: BirthPlace" value="" /></label>
+                <label for="BirthDate"><span>Дата рождения</span><input type="text" id="BirthDate" name="BirthDate" data-bind="datepicker: BirthDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
+                <label for="GivenBy"><span>Кем выдан</span><input type="text" name="GivenBy" data-bind="value: DocumentGivenBy" value="" /></label>
+                <label for="GivenDate"><span>Дата выдачи</span><input type="text" id="GivenDate" name="GivenDate" data-bind="datepicker: DocumentGivenDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
+                <label for="ValidTo"><span>Документ действителен до</span><input type="text" id="ValidTo" name="ValidTo" data-bind="datepicker: DocumentValidTo, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
+                <label for="Citizenship"><span>Гражданство</span><input type="text" name="Citizenship" data-bind="value: Citizenship" value="" /></label>
+                <label for="Gender">
+                    <span>Пол</span>
+                    <select name="Gender" data-bind="value: Gender">
+                        <option value="Male">Мужской</option>
+                        <option value="Female">Женский</option>
+                    </select>
+                </label>
+                <label for="DocumentType">
+                    <span>Тип документа</span>
+                    <select name="DocumentType" data-bind="value: DocumentType">
+                        <option value="Passport">Паспорт РФ</option>
+                        <option value="ForeignPassport">Паспорт иного государства</option>
+                    </select>
+                </label>
+            </div>
+            <div class="data-input" data-bind="visible:$parent.employeeDetailsPages.Photo">
+                <div data-bind="template: { name: 'PhotoSelectionTemplate', data: {PhotoData: $parent.PhotoData} }"></div>
+            </div>
+            <button class="submit ok-cancel-button" type="submit">OK</button>
+            <label data-bind="text: $parent.SaveError"></label>
+        </form>
+    </div>
+</div>
