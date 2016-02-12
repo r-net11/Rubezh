@@ -10,21 +10,10 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public ActionResult Device()
-		{
-			return View();
-		}
-
 		public ActionResult Archive()
 		{
 			return View();
 		}
-
-		public ActionResult Plan()
-		{
-			return View();
-		}
-
 
 		public ActionResult MPTs()
 		{

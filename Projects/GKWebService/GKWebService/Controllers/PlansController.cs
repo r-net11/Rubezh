@@ -19,6 +19,11 @@ namespace GKWebService.Controllers
 {
 	public class PlansController : Controller
 	{
+		public ActionResult Index()
+		{
+			return View();
+		}
+
 		[HttpGet]
 		public ActionResult List()
 		{

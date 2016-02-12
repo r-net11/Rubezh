@@ -5,11 +5,12 @@
 
 	// Получение размеров окна
 	function getViewPortSize() {
-		var header = $('header[class="' + 'header"]');
+		var header = $('div[class="' + 'container"]');
 		var sidebar = $('aside[class="' + 'left-sidebar"]');
+		var plansList = $('div[id="' + 'plansGrid"]')[0];
 
 		var dim = Object.create(Object.prototype, {
-			width: { writable: true, configurable: true, value: header.width() - sidebar.width() }
+			width: { writable: true, configurable: true, value: header.width() - sidebar.width() - plansList.offsetWidth - 10 }
 		});
 		return dim;
 	}
@@ -245,8 +246,8 @@
 		if (data == null)
 			return;
 
-		// Получаем ширину области контента, в которой будем размещать svg и вычитаем ширину суммарных полей (по 30 слева и справа)
-		var renderWidth = Math.round(getViewPortSize().width) - 30;
+		// Получаем ширину области контента, в которой будем размещать svg
+		var renderWidth = Math.round(getViewPortSize().width);
 
 		// Сравниваем с шириной плана в масштабе 100% и расчитываем коэффициент scale, который будет у нас на старте
 		var calculatedScale = renderWidth / data.Width;
@@ -315,13 +316,13 @@
 
 
 					// Перерисовка канвы при изменении размеров окна
-					//window.onresize = function () { return scope.$apply(); };
-					//scope.$watch(function() {
-					//         return angular.element(window)[0].innerWidth;
-					//    }, function() {
-					//         return scope.render(scope.d3Data);
-					//    }
-					//);
+					window.onresize = function () { return scope.$apply(); };
+					scope.$watch(function() {
+					         return angular.element(window)[0].innerWidth;
+					    }, function() {
+					         return scope.render(scope.d3Data);
+					    }
+					);
 
 					// Перерисовка канвы при изменении входных данных
 					scope.$watch("d3Data", function() { return scope.render(); }, true);
