@@ -9,7 +9,8 @@
 </div>
 <br/>
 <div>
-    <div ng-controller="fireZonesDevicesCtrl">
-        <div ui-grid="gridOptions" style="width: 100%; height: 0%;" ui-grid-tree-view id="devices"></div>
+    <div ng-controller="devicesCtrl">
+	    @*<div ui-grid="gridOptions" style="width: 100%; height: 0%;" ui-grid-tree-view id="devices"></div>*@
+		<devices-grid on-click="deviceClick" on-select="deviceSelect"></devices-grid>
     </div>
 </div>
