@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-	var app = angular.module('gkApp.controllers').controller('devicesCtrl',
+	var app = angular.module('gkApp.controllers').controller('fireZonesDevicesCtrl',
 		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', 'broadcastService', function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, broadcastService) {
 
 			$scope.deviceClick = function (device) {
@@ -37,20 +37,24 @@
 				$scope.$apply();
 			});
 
-			$http.get('Devices/GetDevicesList').success(function (data, status, headers, config) {
+			$scope.$on('selectedZoneChanged', function (event, args) {
+				$http.get('FireZones/GetDevicesByZoneUID/' + args
+	            ).success(function (data, status, headers, config) {
+	            	$scope.data = [];
+	            	for (var i in data) {
+	            		$scope.data[i] = data[i].DeviceList[0];
+	            	};
+	            	for (var i in $scope.data) {
+	            		$scope.data[i].$$treeLevel = data.length - $scope.data[i].Level - 1;
+	            	};
 
-				$scope.data = data;
 
-				for (var i in $scope.data) {
-					$scope.data[i].$$treeLevel = $scope.data[i].Level;
-				}
-
-				$scope.gridOptions.data = $scope.data;
-
-				$timeout(function () {
-					$scope.expandAll();
-				});
+	            	$scope.gridOptions.data = $scope.data;
+	            	//Раскрываем дерево после загрузки
+	            	$timeout(function () {
+	            		$scope.expandAll();
+	            	});
+	            });
 			});
-
 		}]);
 }());
