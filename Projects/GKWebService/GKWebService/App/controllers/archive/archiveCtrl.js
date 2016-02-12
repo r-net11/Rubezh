@@ -34,6 +34,11 @@
 		$scope.MaxPage = 1;
 		requestMaxPage($scope.filter);
 		setPage(1);
+
+		var coloredCellTemplate =
+			'<div ng-style="!row.isSelected && {\'background-color\': row.entity.Color}" class="ui-grid-cell-contents">\
+				{{row.entity[col.field]}}\
+			</div>';
 		
 		$scope.gridOptions = {
 			enableRowSelection: true,
@@ -49,25 +54,21 @@
 				gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
 			},
 			columnDefs: [
-				{ name: 'Дата в системе', field: 'SystemDate' },
-				{ name: 'Дата в приборе', field: 'DeviceDate' },
-				{ name: 'Название', field: 'Name' },
-				{ name: 'Уточнение', field: 'Desc' },
-				{ name: 'Объект', field: 'Object' },
+				{ name: 'Дата в системе', field: 'SystemDate', cellTemplate: coloredCellTemplate },
+				{ name: 'Дата в приборе', field: 'DeviceDate', cellTemplate: coloredCellTemplate },
+				{ name: 'Название', field: 'Name', cellTemplate: coloredCellTemplate },
+				{ name: 'Уточнение', field: 'Desc', cellTemplate: coloredCellTemplate },
+				{ name: 'Объект', field: 'Object', cellTemplate: coloredCellTemplate },
 				{
 					name: 'Подсистема',
 					cellTemplate:
-						'<div class="ui-grid-cell-contents">\
+						'<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
 							<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="/Content/Image/Icon/SubsystemTypes/{{row.entity.SubsystemImage}}.png" />\
 							{{row.entity.Subsystem}}\
 						</div>'
 				}
 			]
 		};
-
-		$scope.test = function () {
-			getByUid($scope.gridOptions.data[0].ObjectUid);
-		}
 
 		$scope.showFilter = function () {
 			var modalInstance = $uibModal.open({
@@ -109,8 +110,8 @@
 			setPage($scope.MaxPage);
 		}
 
-		$scope.showSelectedRow = function () {
-			$scope.selectedRow = $scope.gridApi.selection.getSelectedRows()[0]
+		$scope.showSelectedRow = function (row) {
+			$scope.selectedRow = row.entity;
 		};
 
 		$scope.$on('showArchive', function (event, args) {
