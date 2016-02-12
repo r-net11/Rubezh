@@ -336,10 +336,9 @@ namespace GKModule
                         kauChild.Parent = multiGK;
                     }
                 }
-                else
-                    return;
             }
-            GKManager.DeviceConfiguration.RootDevice.Children.Add(multiGK);
+            if (multiGK.Driver != null)
+                GKManager.DeviceConfiguration.RootDevice.Children.Add(multiGK);
         }
 
 		#region ILayoutProviderModule Members
