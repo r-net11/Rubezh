@@ -42,6 +42,7 @@
                     size: 'rbzh',
                     templateUrl: 'FireZones/FireZonesDetails',
                     controller: 'fireZonesDetailsCtrl',
+                    backdrop: false,
                     resolve: {
                         fireZone: function () {
                             return fireZone;

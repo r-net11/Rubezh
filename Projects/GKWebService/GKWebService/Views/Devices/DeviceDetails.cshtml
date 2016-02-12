@@ -10,28 +10,39 @@
     <div>
         <img style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left" ng-src="/Content/Image/{{device.ImageSource}}" />
         <div style="float: left">
-            <img style="margin: 2px; vertical-align: middle" ng-src="/Content/Image/Icon/GKStateIcons/{{device.StateIcon}}.png" />
+            <img style="margin: 2px; vertical-align: middle" ng-src="/Content/Image/Icon/GKStateIcons/{{device.StateIcon}}.png"/>
             {{device.State}}
+        </div>
+        <div style="float: right">
+            <div ng-show="device.HasOnDelay">
+                <span style="color: red;">Задержка на включение</span> <br />
+                <span style="color: red;">{{device.OnDelay}} сек</span>
+            </div>
+            <div ng-show="direction.HasHoldDelay">
+                <span style="color: red;">Удержание</span> <br />
+                <span style="color: red;">{{device.HoldDelay}} сек</span>
+            </div>
         </div>
         <div style="clear: left">
         </div>
         <uib-tabset>
-            <uib-tab heading="Управление" ng-if="device.IsTriStateControl || true">
+            <uib-tab heading="Управление" ng-if="device.IsTriStateControl">
                 <div style="background: #698ebe; padding: 5px">
                     <img ng-src="/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png" />
                     <span style="font-weight: bold; font-size: large">Режим {{device.ControlRegimeName}}</span>
                     <div style="background: #fff; height: 280px">
-                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
-                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
-                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
-                       
-                         <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="TurnOn()" ng-disabled="!device.IsControlRegime">Пуск</div>
-                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="TurnOnNow()" ng-disabled="!device.IsControlRegime">Пуск немедленно</div>
-                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="ForbidStart()" ng-disabled="!device.IsControlRegime">Останов пуска</div>
-                        <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 1px" ng-click="TurnOff()" ng-disabled="!device.IsControlRegime">Выключить немедленно</div>
+                        <div style="float: left; width: 50%">
+                            <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
+                            <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
+                            <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
+                        </div>
+                        <div style="float: left; width: 50%; background: #fff">
+                            <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="TurnOn()" ng-disabled="!device.IsControlRegime">Пуск</div>
+                            <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="TurnOnNow()" ng-disabled="!device.IsControlRegime">Пуск немедленно</div>
+                            <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="ForbidStart()" ng-disabled="!device.IsControlRegime">Останов пуска</div>
+                            <div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="TurnOff()" ng-disabled="!device.IsControlRegime">Выключить немедленно</div>
+                        </div>
                     </div>
-
-                   
                 </div>
             </uib-tab>
             <uib-tab heading="Управление" ng-if="device.IsBiStateControl">
@@ -52,15 +63,15 @@
                             <span style="font-weight: bold; width: 110px; color: black">{{device.Name}}</span>
                         </div>
                         <div>
-                            <span style="font-weight: bold; width: 110px; color: black">Подключено к:</span>
+                            <span style="font-weight: bold; width: 110px; color: black">Подключено к:  </span>
+                            <img style="margin: 2px; vertical-align: middle" height="16" width="16" ng-src="/Content/Image/{{device.ParentAllOptions.ImageSource}}"/>
+                            <span style="font-weight: bold; width: 110px; color: black"> {{device.ParentAllOptions.Name}}</span>
                         </div>
                         <div>
-                            <span style="font-weight: bold; width: 110px; color: black">Название в ГК:</span>
-                            <span style="font-weight: bold; width: 110px; color: black">{{device.Name}}</span>
+                            <span style="font-weight: bold; width: 110px; color: black">Название в ГК:      {{device.Name}}</span>
                         </div>
                         <div>
-                            <span style="font-weight: bold; width: 110px; color: black">Номер в ГК:</span>
-                            <span style="font-weight: bold; width: 110px; color: black">{{device.GKDescriptorNo}}</span>
+                            <span style="font-weight: bold; width: 110px; color: black">Номер в ГК:     {{device.GKDescriptorNo}}</span>
                         </div>
                         <div>
                             <span style="font-weight: bold; width: 110px; color: black">Проектный адрес:</span>

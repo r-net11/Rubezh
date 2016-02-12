@@ -45,9 +45,6 @@ namespace RubezhAPI.Models
 		public int RviChannelNo { get; set; }
 
 		[DataMember]
-		public string RviRTSP { get; set; }
-
-		[DataMember]
 		public string RviChannelName { get; set; }
 
 		[DataMember]

@@ -197,7 +197,7 @@
     <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
-    <Content Include="App\controllers\fireZones\fireZonesDevicesDetailsCtrl.js" />
+    <Content Include="App\controllers\devices\devicesDetailsCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
     <Content Include="App\controllers\journal\journalFilterCtrl.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
@@ -210,6 +210,9 @@
     <Content Include="App\controllers\signalrCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
+    <Content Include="App\directives\modaless.js" />
+    <Content Include="App\directives\devicesGrid.js" />
+    <Content Include="App\directives\modalDraggable.js" />
     <Content Include="App\services\broadcastService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
@@ -423,6 +426,7 @@
     <Resource Include="Content\Image\Images\BVideo.png" />
     <Resource Include="Content\Image\Images\blank.png" />
     <Content Include="Content\Image\Images\BReset.png" />
+    <Resource Include="Content\Image\Images\CMap.png" />
     <Content Include="Content\Image\Images\Zone.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
@@ -476,6 +480,14 @@
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-signalr-hub.js" />
     <Content Include="Scripts\angular-signalr-hub.min.js" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.css" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.js" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.min.css" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.min.js" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap-theme.css" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap-theme.min.css" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap.css" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap.min.css" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
@@ -566,6 +578,10 @@
     <Content Include="Content\SaveCancelPopup.less" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\d3\LICENSE" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap-theme.css.map" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap-theme.min.css.map" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap.css.map" />
+    <Content Include="Scripts\angular-ui-tree\bootstrap.min.css.map" />
     <Content Include="Content\ui-grid.woff" />
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
@@ -660,6 +676,7 @@
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Devices\Device.cs" />
+    <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
@@ -714,6 +731,7 @@
     <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
     <Compile Include="Models\SKD\Employees\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Utils\ErrorHandlerAttribute.cs" />
+    <Compile Include="Models\Plan\PlanElement\PlanElement.cs" />
     <Compile Include="Utils\InternalConverter.cs" />
     <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
     <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
@@ -724,19 +742,19 @@
     <Compile Include="JournalItemViewModel.cs" />
     <Compile Include="Models\AccessDoorModel.cs" />
     <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
-    <Compile Include="Models\Plan\ElementHint.cs" />
+    <Compile Include="Models\Plan\PlanElement\Hint\ElementHint.cs" />
     <Compile Include="Models\EmployeeCardModel.cs" />
     <Compile Include="Models\GKControllerModel.cs" />
     <Compile Include="Models\ShortEmployeeCardModel.cs" />
     <Compile Include="Models\ShortEmployeeModel.cs" />
-    <Compile Include="Models\Plan\PlanElement.cs" />
     <Compile Include="Models\Plan\PlanSimpl.cs" />
+    <Compile Include="Models\Plan\PlanElement\Shape.cs" />
+    <Compile Include="Models\Plan\PlanElement\ShapeTypesEnum.cs" />
+    <Compile Include="Models\Plan\PlanElement\Hint\HintLine.cs" />
     <Compile Include="Models\Journal\JournalModel.cs" />
-    <Compile Include="Models\Plan\Shape.cs" />
-    <Compile Include="Models\Plan\ShapeTypesEnum.cs" />
-    <Compile Include="Models\Plan\HintLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\InternalConverterOld.cs" />
     <Compile Include="Utils\JsonNetResult .cs" />
     <Compile Include="Utils\StaTaskScheduler.cs" />
   </ItemGroup>
@@ -815,6 +833,7 @@
   <ItemGroup>
     <Folder Include="App\controllers\MPTDevice\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Plan\PlanElement\Visual\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\Plans\" />
     <Folder Include="Views\Report\" />

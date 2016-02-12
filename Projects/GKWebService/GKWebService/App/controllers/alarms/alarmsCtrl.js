@@ -45,7 +45,12 @@
                     {
                          field: 'Plans', width: 200, displayName: 'План', enableFiltering: false,
                          cellTemplate: '<div ng-style="!row.isSelected && {\'background-color\': row.entity.AlarmColor}" class="ui-grid-cell-contents">\
-                                                {{row.entity[col.field]}}\
+                                                <span style="padding-right: 3px" ng-repeat="plan in row.entity.Plans">\
+                                                    <img style="vertical-align: middle; padding-right: 2px" width="16" ng-src="/Content/Image/Images/CMap.png"/>\
+                                                    <a href="#" ng-click="grid.appScope.planClick(plan)">\
+                                                        {{plan.Name}}\
+                                                    </a>\
+                                                </span>\
                                         </div>'
                     },
                     {
@@ -140,8 +145,18 @@
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .delays")[0] }, 'Delays');
                     broadcastService.send('showGKDelay', alarm.GkBaseEntityUID);
                 }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.pumpStation) {
+                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .pumpStations")[0] }, 'PumpStations');
+                    broadcastService.send('showGKPumpStation', alarm.GkBaseEntityUID);
+                }
                 // TODO: Дополнить здесь обработку кликов на объекты при создании новых страниц объектов
             };
+
+            $scope.journalClick = function (alarm) {
+                // TODO: Исправить когда меню переведём на ангулар
+                $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .archive")[0] }, 'Archive');
+                broadcastService.send('showArchive', alarm.GkBaseEntityUID);
+            }
 
             $scope.showPropertiesClick = function (alarm) {
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {

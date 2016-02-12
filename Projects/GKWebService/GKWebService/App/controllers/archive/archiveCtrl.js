@@ -108,5 +108,9 @@
 		$scope.showSelectedRow = function (row) {
 			$scope.selectedRow = row.entity;
 		};
+
+		$scope.$on('showArchive', function (event, args) {
+		    getByUid(args);
+		});
 	});
 }());
