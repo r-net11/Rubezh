@@ -425,6 +425,7 @@
     <Resource Include="Content\Image\Images\BVideo.png" />
     <Resource Include="Content\Image\Images\blank.png" />
     <Content Include="Content\Image\Images\BReset.png" />
+    <Resource Include="Content\Image\Images\CMap.png" />
     <Content Include="Content\Image\Images\Zone.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
@@ -674,6 +675,7 @@
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Devices\Device.cs" />
+    <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />

@@ -24,6 +24,7 @@
 					columnDefs: [
 						{ field: 'Name', width: 300, displayName: 'Устройство', cellTemplate: template },
 						{ field: 'Address', displayName: 'Адрес', width: 100 },
+						{ field: 'PresentationZone', displayName: 'Зона или логика', width: 300 },
 						{ field: 'Description', displayName: 'Примечание', width: $(window).width() - 650 }
 					]
 				};

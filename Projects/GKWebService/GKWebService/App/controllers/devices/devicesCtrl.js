@@ -22,6 +22,21 @@
 				$scope.selectedDevice = device.entity;
 			}
 
+			function changeDevices(device) {
+				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+					if ($scope.gridOptions.data[i].UID === device.UID) {
+						$scope.gridOptions.data[i].ImageSource = device.ImageSource;
+						$scope.gridOptions.data[i].StateIcon = device.StateIcon;
+						break;
+					}
+				}
+			};
+
+			$scope.$on('devicesChanged', function (event, args) {
+				changeDevices(args);
+				$scope.$apply();
+			});
+
 			$http.get('Devices/GetDevicesList').success(function (data, status, headers, config) {
 
 				$scope.data = data;
