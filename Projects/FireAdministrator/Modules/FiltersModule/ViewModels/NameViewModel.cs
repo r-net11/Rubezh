@@ -18,6 +18,7 @@ namespace FiltersModule.ViewModels
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
+		public bool IsSubsystem { get; private set; }
 
 		public NameViewModel(JournalSubsystemType journalSubsystemType)
 		{
@@ -25,6 +26,7 @@ namespace FiltersModule.ViewModels
 			Name = journalSubsystemType.ToDescription();
 			var converter = new JournalSubsystemTypeToIconConverter();
 			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
+			IsSubsystem = true;
 		}
 
 		public NameViewModel(JournalEventNameType journalEventNameType)
@@ -47,13 +49,8 @@ namespace FiltersModule.ViewModels
 						ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
 				}
 			}
-		}
 
-		public NameViewModel(JournalEventDescriptionType journalEventDescriptionType, string name)
-		{
-			JournalEventDescriptionType = journalEventDescriptionType;
-			Name = name;
-			ImageSource = "/Controls;component/Images/Blank.png";
+			IsSubsystem = false;
 		}
 
 		bool _isChecked;
