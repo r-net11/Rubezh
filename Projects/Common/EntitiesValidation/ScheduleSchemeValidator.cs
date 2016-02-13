@@ -35,7 +35,7 @@ namespace EntitiesValidation
 			}
 
 			// Дневные графики не пересекуются
-			return new OperationResult<List<DayInterval>>();
+			return new OperationResult<List<DayInterval>>(new List<DayInterval>());
 		}
 	}
 }
