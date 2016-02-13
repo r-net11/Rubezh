@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EntitiesValidation;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
@@ -11,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using DayInterval = FiresecAPI.SKD.DayInterval;
 using DayIntervalPart = FiresecAPI.SKD.DayIntervalPart;
+using DayIntervalPartValidator = FiresecService.Service.Validators.DayIntervalPartValidator;
+using DayIntervalValidator = FiresecService.Service.Validators.DayIntervalValidator;
 using Holiday = FiresecAPI.SKD.Holiday;
 using Schedule = FiresecAPI.SKD.Schedule;
 using ScheduleScheme = FiresecAPI.SKD.ScheduleScheme;
@@ -240,10 +243,18 @@ namespace FiresecService.Service
 			OperationResult operationResult;
 			using (var databaseService = new SKDDatabaseService())
 			{
+				// Валидируем Схему графика работы
+				operationResult = ScheduleDayIntervalValidator.ValidateAddingOrEditing(item);
+				if (operationResult.HasError)
+					return operationResult;
+				
+				// Сохраняем изменения в БД
 				operationResult = databaseService.ScheduleDayIntervalTranslator.Save(item);
 			}
+			// Если ошибок нет, то оставляем соответствующее сообщение в журнале событий
 			if (!operationResult.HasError)
 				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, name, uid: item.UID);
+			
 			return operationResult;
 		}
 

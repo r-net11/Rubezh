@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Collections.Generic;
+using FiresecAPI.SKD;
 using System;
 using System.Linq;
 using OperationResult = FiresecAPI.OperationResult;
@@ -54,6 +55,30 @@ namespace SKDDriver.Translators
 		public DayInterval GetDayInterval(DayIntervalPart dayIntervalPart)
 		{
 			return Translate(Context.DayIntervals.FirstOrDefault(x => x.UID == dayIntervalPart.DayIntervalUID));
+		}
+
+		/// <summary>
+		/// Получает коллекцию дневных графиков для схемы графика работы,
+		/// отсортированную по порядку
+		/// </summary>
+		/// <param name="scheduleScheme">Схема графика работы</param>
+		/// <returns>Коллекция дневных графиков</returns>
+		public IEnumerable<DayInterval> GetDayIntervals(ScheduleScheme scheduleScheme)
+		{
+			var dayIntervalUids = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID)
+				.OrderBy(y => y.Number)
+				.Select(z => z.DayIntervalUID);
+
+
+			var dayIntervals = (from guid in dayIntervalUids
+					 select Context.DayIntervals.FirstOrDefault(x => x.UID == guid)
+					 into result
+					 select result
+					 ).ToList();
+
+			var translatedDayIntervals = dayIntervals.Select(dayInterval => dayInterval == null ? null : Translate(dayInterval)).ToList();
+
+			return translatedDayIntervals;
 		}
 	}
 }
