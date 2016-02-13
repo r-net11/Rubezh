@@ -45,6 +45,7 @@ namespace FiltersModule.ViewModels
 
 		void Initialize(JournalFilter filter)
 		{
+			// Подсистема
 			foreach (var journalSubsystemTypes in filter.JournalSubsystemTypes)
 			{
 				var filterNameViewModel = RootNames.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == journalSubsystemTypes);
@@ -53,6 +54,22 @@ namespace FiltersModule.ViewModels
 					filterNameViewModel.IsChecked = true;
 				}
 			}
+
+			// Тип события
+			var allJournalEventNameTypes = new List<NameViewModel>();
+			foreach (var rootName in RootNames)
+			{
+				allJournalEventNameTypes.AddRange(rootName.Children.ToList());	
+			}
+			foreach (var journalEventNameType in filter.JournalEventNameTypes)
+			{
+				var filterNameViewModel = allJournalEventNameTypes.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
+				if (filterNameViewModel != null)
+				{
+					filterNameViewModel.IsChecked = true;
+				}
+			}
+
 		}
 
 		public ArchiveFilter GetModel()
