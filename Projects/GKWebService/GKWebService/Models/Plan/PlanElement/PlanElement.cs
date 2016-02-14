@@ -30,6 +30,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
+using Color = System.Drawing.Color;
 using Point = System.Windows.Point;
 using Size = System.Drawing.Size;
 
@@ -377,9 +378,9 @@ namespace GKWebService.Models.Plan.PlanElement
 			var text = new FormattedText(
 				item.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
 				new Typeface(fontFamily, fontStyle, fontWeight, FontStretches.Normal), item.FontSize, new SolidColorBrush(item.ForegroundColor)) {
-					Trimming = TextTrimming.WordEllipsis,
-					MaxLineCount = item.WordWrap ? int.MaxValue : 1
-				};
+				Trimming = TextTrimming.WordEllipsis,
+				MaxLineCount = item.WordWrap ? int.MaxValue : 1
+			};
 			// Делаем первый рендер без трансформаций
 			var pathGeometry = text.BuildGeometry(new Point(left + item.BorderThickness, top + item.BorderThickness));
 			// Добавляем Scale-трансформацию, если включен Stretch, либо Translate-трансформацию
@@ -394,23 +395,23 @@ namespace GKWebService.Models.Plan.PlanElement
 				double offsetY = 0;
 				switch (item.TextAlignment) {
 					case 1: {
-						offsetX = size.Width - item.BorderThickness * 2 - text.Width;
-						break;
-					}
+							offsetX = size.Width - item.BorderThickness * 2 - text.Width;
+							break;
+						}
 					case 2: {
-						offsetX = (size.Width - item.BorderThickness * 2 - text.Width) / 2;
-						break;
-					}
+							offsetX = (size.Width - item.BorderThickness * 2 - text.Width) / 2;
+							break;
+						}
 				}
 				switch (item.VerticalAlignment) {
 					case 1: {
-						offsetY = (size.Height - item.BorderThickness * 2 - text.Height) / 2;
-						break;
-					}
+							offsetY = (size.Height - item.BorderThickness * 2 - text.Height) / 2;
+							break;
+						}
 					case 2: {
-						offsetY = size.Height - item.BorderThickness * 2 - text.Height;
-						break;
-					}
+							offsetY = size.Height - item.BorderThickness * 2 - text.Height;
+							break;
+						}
 				}
 
 				pathGeometry.Transform = new TranslateTransform(offsetX, offsetY);
@@ -434,7 +435,7 @@ namespace GKWebService.Models.Plan.PlanElement
 
 		public static PlanElement FromGkDoor(ElementGKDoor item) {
 			var strings = EmbeddedResourceLoader.LoadResource("GKWebService.Content.SvgIcons.GKDoor.txt")
-			                                    .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+												.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 			var result = Dispatcher.CurrentDispatcher.Invoke(
 				() => {
 					Debug.WriteLine(
@@ -599,35 +600,36 @@ namespace GKWebService.Models.Plan.PlanElement
 			using (var collection = new MagickImageCollection()) {
 				foreach (var frame in stateWithPic.Frames) {
 					var frame1 = frame;
+					frame1.Image = frame1.Image.Replace("#000000", "#FF0F0F0F");
 					Canvas surface;
 					var imageBytes = Encoding.Unicode.GetBytes(frame1.Image ?? "");
 					using (var stream = new MemoryStream(imageBytes)) {
 						surface = (Canvas)XamlServices.Load(stream);
+						if (surface == null) {
+							continue;
+						}
+						//surface.Background = new SolidColorBrush(Colors.Transparent);
 					}
-					var pngBitmap = surface != null ? InternalConverter.XamlCanvasToPngBitmap(surface) : null;
+					var pngBitmap = InternalConverter.XamlCanvasToPngBitmap(surface);
 					if (pngBitmap == null) {
 						continue;
 					}
 					var img = new MagickImage(pngBitmap) {
 						AnimationDelay = frame.Duration / 10,
 						HasAlpha = true,
-						AlphaColor = MagickColor.Transparent,
-						BackgroundColor = MagickColor.Transparent
+						AlphaColor = new MagickColor(Color.Empty),
+						BackgroundColor = new MagickColor(Color.Empty)
 					};
 					collection.Add(img);
 				}
 				if (collection.Count == 0) {
 					return string.Empty;
 				}
-				var path = string.Format(@"C:\tmpImage{0}.gif", Guid.NewGuid());
-				collection.Write(path);
-				using (var fstream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)) {
-					using (var stream = new MemoryStream()) {
-						fstream.CopyTo(stream);
-						bytes = stream.ToArray();
-					}
+
+				using (var stream = new MemoryStream()) {
+					collection.Write(stream, MagickFormat.Gif);
+					bytes = stream.ToArray();
 				}
-				File.Delete(path);
 			}
 			return Convert.ToBase64String(bytes);
 		}
@@ -773,7 +775,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				var device = GKManager.Devices.FirstOrDefault(
 					d => d.UID == asDevice.DeviceUID);
 				if (device != null
-				    && device.PresentationName != null) {
+					&& device.PresentationName != null) {
 					hint.StateHintLines.Add(new HintLine { Text = device.PresentationName, Icon = GetElementHintIcon(asDevice).Item1 });
 
 					//Получаем источник иконки для основного класса
@@ -793,18 +795,18 @@ namespace GKWebService.Models.Plan.PlanElement
 							new HintLine {
 								Text = stateClass.ToDescription(),
 								Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
-						});
+							});
 					}
 					// Добавляем доп. состояния
-					//foreach (var stateClass in device.State.AdditionalStates) {
-					//	//Получаем источник иконки для основного класса
-					//	var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
-					//	hint.StateHintLines.Add(
-					//		new HintLine {
-					//			Text = stateClass.Name,
-					//			Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
-					//	});
-					//}
+					foreach (var stateClass in device.State.AdditionalStates) {
+						//Получаем источник иконки для основного класса
+						var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
+						hint.StateHintLines.Add(
+							new HintLine {
+								Text = stateClass.Name,
+								Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
+							});
+					}
 				}
 			}
 			return hint;
@@ -854,7 +856,7 @@ namespace GKWebService.Models.Plan.PlanElement
 		/// <param name="resName">Путь к ресурсу формата GKIcons/RSR2_Bush_Fire.png</param>
 		/// <returns></returns>
 		private static Tuple<string, Size> GetImageResource(string resName) {
-			var assembly = Assembly.GetAssembly(typeof (AlarmButton));
+			var assembly = Assembly.GetAssembly(typeof(AlarmButton));
 			var name =
 				assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(".resources", StringComparison.Ordinal));
 			var resourceStream = assembly.GetManifestResourceStream(name);
