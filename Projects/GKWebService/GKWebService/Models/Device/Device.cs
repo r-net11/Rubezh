@@ -45,7 +45,7 @@ namespace GKWebService.Models
 
 		public ushort GKDescriptorNo { get; set; }
 
-		public List<DirectionStateClass> StateClasses { get; set; }
+		public List<StateClass> StateClasses { get; set; }
 
 		public string DelayRegime { get; set; }
 
@@ -101,7 +101,7 @@ namespace GKWebService.Models
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
-			StateClasses = device.State.StateClasses.Select(x => new DirectionStateClass(x)).ToList();
+			StateClasses = device.State.StateClasses.Select(x => new StateClass(x)).ToList();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(device.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 			HasOnDelay = device.State.StateClasses.Contains(XStateClass.TurningOn) && device.State.OnDelay > 0;

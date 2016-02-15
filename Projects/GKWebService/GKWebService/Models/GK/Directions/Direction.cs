@@ -30,7 +30,7 @@ namespace GKWebService.Models
 			State = stateClass.ToDescription();
 			StateIcon = stateClass.ToString();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(stateClass, null, null, null).ToString().Substring(3) + "'";
-			StateClasses = stateClasses.Select(x => new DirectionStateClass(x)).ToList();
+			StateClasses = stateClasses.Select(x => new StateClass(x)).ToList();
 
 			OnDelay = gkDirection.State.OnDelay;
 			HoldDelay = gkDirection.State.HoldDelay;
@@ -60,7 +60,7 @@ namespace GKWebService.Models
 		public string State { get; set; }
 		public string StateIcon { get; set; }
 		public string StateColor { get; set; }
-		public List<DirectionStateClass> StateClasses { get; set; }
+		public List<StateClass> StateClasses { get; set; }
 
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }

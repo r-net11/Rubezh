@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading;
 using GKWebService.DataProviders.FireZones;
 using GKWebService.DataProviders.PumpStations;
+using GKWebService.DataProviders.DoorsHub;
 
 namespace GKWebService
 {
@@ -188,14 +189,18 @@ namespace GKWebService
 				if (guardZone != null)
 				{
 					guardZoneState.CopyTo(guardZone.State);
+					if(GuardZonesHub.Instance!= null)
+						GuardZonesHub.Instance.GuardZoneUpdate(guardZone);
 				}
 			}
 			foreach (var doorState in gkStates.DoorStates)
 			{
-				var door = GKManager.MPTs.FirstOrDefault(x => x.UID == doorState.UID);
+				var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorState.UID);
 				if (door != null)
 				{
 					doorState.CopyTo(door.State);
+					if (DoorsHub.Instance != null)
+						DoorsHub.Instance.DoorUpdate(door);
 				}
 			}
 		}
