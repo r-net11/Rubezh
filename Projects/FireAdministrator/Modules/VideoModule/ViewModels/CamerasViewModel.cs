@@ -48,18 +48,18 @@ namespace VideoModule.ViewModels
 			var servers = ClientManager.SystemConfiguration.RviServers;
 			foreach (var server in servers)
 			{
-				var serverViewModel = new CameraViewModel(this, server.Name, string.Empty);
+				var serverViewModel = new CameraViewModel(server.Name, string.Empty);
 				foreach (var device in server.RviDevices)
 				{
-					var deviceViewModel = new CameraViewModel(this, device.Name, device.Ip);
+					var deviceViewModel = new CameraViewModel(device.Name, device.Ip);
 					foreach (var channel in device.RviChannels)
 					{
-						var channelViewModel = new CameraViewModel(this, channel.Name, string.Empty);
+						var channelViewModel = new CameraViewModel(channel.Name, string.Empty);
 						foreach (var camera in channel.Cameras)
 						{
 							if (camera.IsAddedInConfiguration)
 							{
-								var cameraViewModel = new CameraViewModel(this, camera);
+								var cameraViewModel = new CameraViewModel(this, camera, camera.Name);
 								AllCameras.Add(cameraViewModel);
 								if (!channelViewModel.Children.Contains(cameraViewModel))
 								{
@@ -122,7 +122,7 @@ namespace VideoModule.ViewModels
 		void OnDelete()
 		{
 			var camera = SelectedCamera.Camera;
-			Cameras.Remove(SelectedCamera);
+			SelectedCamera.Parent.RemoveChild(SelectedCamera);
 			ClientManager.SystemConfiguration.Cameras.Remove(camera);
 			camera.OnChanged();
 			ServiceFactory.SaveService.CamerasChanged = true;

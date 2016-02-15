@@ -20,17 +20,17 @@ namespace VideoModule.ViewModels
 		public string PresentationName { get; private set; }
 		public string PresentationAddress { get; private set; }
 
-		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
+		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera, string presentationName)
 		{
 			_camerasViewModel = camerasViewModel;
 			Camera = camera;
-			PresentationName = camera.Name;
+			PresentationName = presentationName;
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand,
 				CanAllowMultipleVizualizationCommand);
 		}
-		public CameraViewModel(CamerasViewModel camerasViewModel, string presentationName, string presentationAddress)
+		public CameraViewModel(string presentationName, string presentationAddress)
 		{
 			PresentationName = presentationName;
 			PresentationAddress = presentationAddress;
