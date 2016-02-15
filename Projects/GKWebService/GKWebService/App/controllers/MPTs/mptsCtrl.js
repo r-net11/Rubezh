@@ -34,7 +34,7 @@
                        gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
                    },
                    columnDefs:
-                     [{ field: 'No', displayName: 'No', width: 50,  cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/Icon/GK/BMPT.png" />{{row.entity[col.field]}}</div>' },
+                     [{ field: 'No', displayName: 'No', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
                       { field: 'Name', displayName: 'МПТ', width: 450, cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.mptClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
                       { field: 'Delay', displayName: 'Задержка', width: 200 }],
                };
