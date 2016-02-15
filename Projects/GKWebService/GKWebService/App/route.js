@@ -21,7 +21,7 @@
             url: "/pumpStations/:uid",
             templateUrl: "/PumpStations/PumpStations"
         }).state('directions', {
-            url: "/directions/:v",
+            url: "/directions/:uid",
             templateUrl: "/Directions/Index"
         }).state('delays', {
             url: "/delays/:uid",
@@ -44,6 +44,9 @@
         }).state('doors', {
             url: "/doors/:uid",
             templateUrl: "/Doors/Door"
+        }).state('hr', {
+            url: "/hr",
+            //templateUrl: "/Hr/Index"
         });
     });
 
