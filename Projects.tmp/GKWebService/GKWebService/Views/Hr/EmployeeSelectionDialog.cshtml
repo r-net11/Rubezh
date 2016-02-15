@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "EmployeeSelectionDialog";
+    Layout = null;
+}
+
+<div id="employee-selection-box" class="save-cancel-popup" data-bind="with: HR.Common.EmployeeSelectionDialog">
+    <div class="title-bar">
+        <span>Выбор сотрудника</span>
+        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: Close" /></a>
+    </div>
+    <div>
+        <form id="EmployeeSelectionDialogForm" data-bind="submit: Save">
+            <ul id="EmployeeSelectionDialogList" class="SelectableList" data-bind="foreach: Employees">
+                <li>
+                    <div data-bind="click: function(data,event) { $parent.EmployeeClick(data, event, $data); return true; }">
+                        <label>
+                            <span data-bind="text: Name"></span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+            <button class="submit ok-cancel-button" type="submit">OK</button>
+        </form>
+    </div>
+</div>
+        

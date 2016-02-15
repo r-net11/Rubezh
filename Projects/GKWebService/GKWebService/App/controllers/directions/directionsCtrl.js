@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('directionsCtrl',
-        ['$scope', '$http', '$uibModal', 'signalrDirectionsService',
-        function ($scope, $http, $uibModal, signalrDirectionsService) {
+        ['$scope', '$http', '$uibModal', '$document', 'signalrDirectionsService',
+        function ($scope, $http, $uibModal, $document, signalrDirectionsService) {
             $scope.gridOptions = {
                 enableRowHeaderSelection: false,
                 enableSorting: false,
@@ -40,6 +40,8 @@
                     animation: false,
                     templateUrl: 'Directions/DirectionDetails',
                     controller: 'directionDetailsCtrl',
+                    backdrop: false,
+                    size: 'rbzh',
                     resolve: {
                         direction: function () {
                             return direction;
@@ -48,9 +50,15 @@
                 });
             };
 
-            $http.get('Directions/GetDirections').success(function (data, status, headers, config) {
-                $scope.gridOptions.data = data;
-            });
+            $http.get('Directions/GetDirections').then(
+                function (response) {
+                    $scope.gridOptions.data = response.data;
+                },
+                function (response) {
+                    // TODO: Нужно реализовать общее окно для отображения ошибок
+                    alert(response.data.errorText);
+                }
+            );
 
             $scope.$on('showGKDirection', function (event, args) {
                 for (var i = 0; i < $scope.gridOptions.data.length; i++) {

@@ -1,15 +1,11 @@
 ﻿@{
-    Layout = null;
+	Layout = null;
 }
 
-<div>
-    <div ng-controller="fireZonesCtrl">
-        <div ui-grid="gridOptions" style="width: 100%; height: 0%;" ui-grid-selection ui-grid-resize-columns></div>
-    </div>
+<div ng-controller="fireZonesCtrl">
+	<div ui-grid="gridOptions" style="width: 100%; height: auto;" ui-grid-selection ui-grid-resize-columns></div>
 </div>
-<br/>
-<div>
-    <div ng-controller="fireZonesDevicesCtrl">
-        <div ui-grid="gridOptions" style="width: 100%; height: 0%;" ui-grid-tree-view id="devices"></div>
-    </div>
+<br />
+<div ng-controller="devicesCtrl">
+	<devices-grid on-click="deviceClick" on-select="deviceSelect" is-full=false></devices-grid>
 </div>

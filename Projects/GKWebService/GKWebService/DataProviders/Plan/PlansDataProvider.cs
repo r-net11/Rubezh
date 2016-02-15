@@ -3,63 +3,39 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media;
 using GKWebService.Models.Plan;
+using GKWebService.Models.Plan.PlanElement;
 using GKWebService.Utils;
 using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
 using RubezhAPI.GK;
+using RubezhAPI.Models;
 using RubezhClient;
 
 #endregion
 
 namespace GKWebService.DataProviders.Plan
 {
+	/// <summary>
+	///     Провайдер планов. Предоставляет планы в готовом для сериализации виде.
+	/// </summary>
 	public class PlansDataProvider
 	{
-		public void LoadPlans() {
-			if (ClientManager.PlansConfiguration == null
-			    || ClientManager.PlansConfiguration.Plans == null) {
-				return;
-			}
-			var plans = ClientManager.PlansConfiguration.Plans;
-			Plans = new List<PlanSimpl>();
-			foreach (var plan in plans) {
-				LoadPlan(plan);
-			}
-			SafeFiresecService.GKCallbackResultEvent += OnServiceCallback;
-		}
-
-		private void LoadPlan(RubezhAPI.Models.Plan plan) {
-			// Корень плана
-			var planToAdd = new PlanSimpl {
-				Name = plan.Caption,
-				Uid = plan.UID,
-				Description = plan.Description,
-				Width = plan.Width,
-				Height = plan.Height,
-				Elements = new List<PlanElement>()
-			};
-
-			// Добавляем сам план с фоном и все элементы
-			var planRootElement = LoadPlanRoot(plan);
-			planToAdd.Elements.Add(planRootElement);
-			var planSubElements = LoadPlanSubElements(plan);
-			planToAdd.Elements.AddRange(planSubElements);
-
-			Plans.Add(planToAdd);
-		}
-
+		/// <summary>
+		///     Загрузка корневого элемента плана (фон).
+		/// </summary>
+		/// <param name="plan">Объект плана.</param>
+		/// <returns>Корневой элемент плана.</returns>
 		private PlanElement LoadPlanRoot(RubezhAPI.Models.Plan plan) {
-			var hint = new ElementHint();
-			hint.StateHintLines.Add(new HintLine { Text = plan.Description });
 			return new PlanElement {
-				Border = InternalConverter.ConvertColor(Colors.Black),
+				Border = InternalConverterOld.ConvertColor(Colors.Black),
 				BorderThickness = 0,
-				Fill = InternalConverter.ConvertColor(plan.BackgroundColor),
+				Fill = InternalConverterOld.ConvertColor(plan.BackgroundColor),
 				Id = plan.UID,
 				Name = plan.Caption,
-				Hint = hint,
 				Path =
 					"M 0 0 L " + plan.Width + " 0 L " + plan.Width +
 					" " + plan.Height +
@@ -74,115 +50,80 @@ namespace GKWebService.DataProviders.Plan
 			};
 		}
 
+		/// <summary>
+		///     Загрузка всех элементов плана (помимо корневого).
+		/// </summary>
+		/// <param name="plan">Объект плана.</param>
+		/// <returns>Коллекция элементов плана.</returns>
 		private IEnumerable<PlanElement> LoadPlanSubElements(RubezhAPI.Models.Plan plan) {
-			var rectangles = LoadRectangleElements(plan);
-			var polygons = LoadPolygonElements(plan);
-			var polylines = LoadPolyLineElements(plan);
-			var ellipses = LoadEllipseElements(plan);
-			var textBlocks = LoadTextBlockElements(plan);
-			var doors = LoadDoorElements(plan);
-			var devices = plan.ElementGKDevices.Select(PlanElement.FromDevice);
+			//var rectangles = LoadRectangleElements(plan);
+			//var polygons = LoadPolygonElements(plan);
+			//var polylines = LoadPolyLineElements(plan);
+			//var ellipses = LoadEllipseElements(plan);
+			//var textBlocks = LoadStaticTextElements(plan);
+			//var doors = LoadDoorElements(plan);
+			var devices = LoadDeviceElements(plan);
+			//return textBlocks.Concat(rectangles).Concat(ellipses).Concat(doors).Concat(devices);
 
-			return rectangles.Concat(polygons).Concat(polylines).Concat(ellipses).Concat(textBlocks).Concat(doors).Concat(devices);
+
+			return devices;
 		}
 
-		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan) {
-			var polygons =
-				(from rect in plan.ElementPolygons
-				 select rect as ElementBasePolygon)
-					.Union
-					(
-						from rect in plan.ElementPolygonGKZones
-						select rect as ElementBasePolygon)
-					.Union
-					(
-						from rect in plan.ElementPolygonGKDelays
-						select rect as ElementBasePolygon)
-					.Union
-					(
-						from rect in plan.ElementPolygonGKDirections
-						select rect as ElementBasePolygon)
-					.Union
-					(
-						from rect in plan.ElementPolygonGKGuardZones
-						select rect as ElementBasePolygon)
-					.Union
-					(
-						from rect in plan.ElementPolygonGKMPTs
-						select rect as ElementBasePolygon)
-					.Union
-					(
-						from rect in plan.ElementPolygonGKSKDZones
-						select rect as ElementBasePolygon);
-
-			// Конвертим зоны-полигоны
-			return polygons.Select(PlanElement.FromPolygon);
-		}
-
+		/// <summary>
+		///     Загрузка всех прямоугольных элементов плана, базирующихся на ElementBaseRectangle, кроме тех, которые реализуют
+		///     IElementTextBlock
+		/// </summary>
+		/// <param name="plan">Объект плана.</param>
+		/// <returns>Коллекция элементов плана.</returns>
 		private IEnumerable<PlanElement> LoadRectangleElements(RubezhAPI.Models.Plan plan) {
-			var rectangles =
-				(from rect in plan.ElementRectangles
-				 select rect as ElementBaseRectangle)
-					.Union
-					(
-						from rect in plan.ElementRectangleGKZones
-						select rect as ElementBaseRectangle)
-					.Union
-					(
-						from rect in plan.ElementRectangleGKDelays
-						select rect as ElementBaseRectangle)
-					.Union
-					(
-						from rect in plan.ElementRectangleGKDirections
-						select rect as ElementBaseRectangle)
-					.Union
-					(
-						from rect in plan.ElementRectangleGKGuardZones
-						select rect as ElementBaseRectangle)
-					.Union
-					(
-						from rect in plan.ElementRectangleGKMPTs
-						select rect as ElementBaseRectangle)
-					.Union
-					(
-						from rect in plan.ElementRectangleGKSKDZones
-						select rect as ElementBaseRectangle);
-
-			// Конвертим зоны-прямоугольники
-			return rectangles.ToList().Select(PlanElement.FromRectangle);
+			return
+				plan.AllElements.Where(elem => elem is ElementBaseRectangle && !(elem is IElementTextBlock))
+				    .Select(elem => PlanElement.FromRectangle(elem as ElementBaseRectangle))
+				    .Where(elem => elem != null);
 		}
 
 		private IEnumerable<PlanElement> LoadPolyLineElements(RubezhAPI.Models.Plan plan) {
-			var polylines = (from line in plan.ElementPolylines
-			                 select line as ElementBasePolyline);
+			return plan.ElementPolylines.Select(PlanElement.FromPolyline);
+		}
 
-			// Конвертим зоны-полигоны
-			return polylines.Select(PlanElement.FromPolyline);
+		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan) {
+			return plan.AllElements.Where(elem => elem is ElementBasePolygon).Select(elem => PlanElement.FromPolygon(elem as ElementBasePolygon));
 		}
 
 		private IEnumerable<PlanElement> LoadEllipseElements(RubezhAPI.Models.Plan plan) {
-			// Конвертим зоны-эллипсы
-			return plan.ElementEllipses.ToList().Select(PlanElement.FromEllipse);
+			return plan.ElementEllipses.Select(PlanElement.FromEllipse);
 		}
 
-		private IEnumerable<PlanElement> LoadTextBlockElements(RubezhAPI.Models.Plan plan) {
-			// Конвертим текстблоки
-			return
-				plan.ElementTextBlocks.ToList()
-				    .Select(PlanElement.FromRectangle)
-				    .Union(plan.ElementTextBlocks.ToList().Select(PlanElement.FromTextBlocks));
+		/// <summary>
+		///     Преобразует статические текcтовые элементы
+		///     (ElementTextBlock, ElementProcedure).
+		/// </summary>
+		/// <param name="plan">План</param>
+		/// <returns>Элемент-группа, содержащий групповой элемент, внутри которого текст и прямоугольник.</returns>
+		private IEnumerable<PlanElement> LoadStaticTextElements(RubezhAPI.Models.Plan plan) {
+			var textBlockElements = plan.ElementTextBlocks;
+			var procedureElements = plan.AllElements.OfType<ElementProcedure>();
+			return textBlockElements.Select(
+				PlanElement.FromTextBlock)
+			                        .Where(elem => elem != null)
+			                        .Union(procedureElements.Select(PlanElement.FromProcedure).Where(elem => elem != null));
+		}
+
+		private IEnumerable<PlanElement> LoadDeviceElements(RubezhAPI.Models.Plan plan) {
+			return plan.ElementGKDevices.Select(PlanElement.FromDevice);
 		}
 
 		private IEnumerable<PlanElement> LoadDoorElements(RubezhAPI.Models.Plan plan) {
-			// Конвертим зоны-прямоугольники
-			return plan.ElementGKDoors.ToList().SelectMany(PlanElement.FromGkDoor);
+			return plan.ElementGKDoors.ToList().Select(PlanElement.FromGkDoor);
 		}
 
+		/// <summary>
+		/// Обработка событий изменения состояния элементов.
+		/// </summary>
+		/// <param name="obj">Информация об изменении состояния.</param>
 		private void OnServiceCallback(GKCallbackResult obj) {
 			var states = obj.GKStates;
-			foreach (var state in states.DeviceStates) {
-				PlanElement.UpdateDeviceState(state);
-			}
+			Parallel.ForEach(states.DeviceStates, PlanElement.UpdateDeviceState);
 			//foreach (var state in states.DelayStates) {
 			//}
 			//foreach (var state in states.DirectionStates) {
@@ -209,20 +150,95 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="height">Высота плана</param>
 		/// <returns></returns>
 		private string RenderPlanBackgound(Guid? source, int width, int height) {
-			Drawing drawing;
+			Drawing drawing = null;
+			Canvas canvas = null;
 			if (source.HasValue) {
-				drawing = _contentService.GetDrawing(source.Value);
-				if (drawing == null) {
-					return string.Empty;
+				try {
+					drawing = _contentService.GetDrawing(source.Value);
+				}
+				catch (Exception) {
+					canvas = _contentService.GetObject<Canvas>(source.Value);
+					if (canvas == null) {
+						return string.Empty;
+					}
 				}
 			}
 			else {
 				return string.Empty;
 			}
+			if (drawing == null) {
+				return canvas == null ? string.Empty : InternalConverter.XamlCanvasToPngBase64(canvas, width, height);
+			}
 			drawing.Freeze();
 
-			return InternalConverter.XamlDrawingToPngBase64String(width, height, drawing);
+			return InternalConverterOld.XamlDrawingToPngBase64String(width, height, drawing);
 		}
+
+		#region Deferred Loading
+
+		/// <summary>
+		///     Получить список планов в текущей конфигурации.
+		/// </summary>
+		/// <returns>Иерархический список планов.</returns>
+		public IEnumerable<PlanSimpl> GetPlansList() {
+			if (ClientManager.PlansConfiguration == null
+			    || ClientManager.PlansConfiguration.Plans == null) {
+				return null;
+			}
+			var plans = ClientManager.PlansConfiguration.Plans;
+			return plans.Select(GetPlanInfo).ToList();
+		}
+
+		/// <summary>
+		///     Рекурсивно получить основную информацию о плане и вложенных планах.
+		/// </summary>
+		/// <param name="plan">Объект плана.</param>
+		/// <returns>Основная информация о плане, включая вложенные планы.</returns>
+		private PlanSimpl GetPlanInfo(RubezhAPI.Models.Plan plan) {
+			// Корень плана
+			return new PlanSimpl {
+				Name = plan.Caption,
+				Uid = plan.UID,
+				Description = plan.Description,
+				Width = plan.Width,
+				Height = plan.Height,
+				NestedPlans = plan.Children != null ? plan.Children.Select(GetPlanInfo) : null,
+				ParentUid = plan.Parent != null ? plan.Parent.UID : (Guid?)null,
+				IsFolder = plan is PlanFolder
+			};
+		}
+
+		/// <summary>
+		///     Полная загрузка плана.
+		/// </summary>
+		/// <param name="planId">UID плана.</param>
+		/// <returns>Готовая к сериализации полная информация о плане.</returns>
+		public PlanSimpl GetPlan(Guid planId) {
+			var plan = ClientManager.PlansConfiguration.Plans.FirstOrDefault(p => p.UID == planId);
+			// Корень плана
+			if (plan == null) {
+				throw new KeyNotFoundException(string.Format("План с ID {0} не найден, либо недоступен.", planId));
+			}
+
+			var planToAdd = new PlanSimpl {
+				Name = plan.Caption,
+				Uid = plan.UID,
+				Description = plan.Description,
+				Width = plan.Width,
+				Height = plan.Height,
+				Elements = new List<PlanElement>()
+			};
+
+			// Добавляем сам план с фоном и все элементы
+			var planRootElement = LoadPlanRoot(plan);
+			planToAdd.Elements.Add(planRootElement);
+			var planSubElements = LoadPlanSubElements(plan);
+			planToAdd.Elements.AddRange(planSubElements);
+
+			return planToAdd;
+		}
+
+		#endregion
 
 		#region ctor, props
 
@@ -230,8 +246,8 @@ namespace GKWebService.DataProviders.Plan
 		private readonly ContentService _contentService;
 
 		private PlansDataProvider() {
-			Plans = new List<PlanSimpl>();
-			_contentService = new ContentService("GKOPC");
+			_contentService = new ContentService("Sergey_GKOPC");
+			SafeFiresecService.GKCallbackResultEvent += OnServiceCallback;
 		}
 
 		public static PlansDataProvider Instance {
@@ -242,8 +258,6 @@ namespace GKWebService.DataProviders.Plan
 				return _instance = new PlansDataProvider();
 			}
 		}
-
-		public List<PlanSimpl> Plans { get; set; }
 
 		#endregion
 	}

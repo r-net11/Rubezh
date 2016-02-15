@@ -129,6 +129,9 @@
     <None Include="Service References\RVIServiceReference\RVI.IntegrationInterface.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmDisableChannelOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRuleCheckExistOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -136,6 +139,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRulesOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmSetChannelOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.ChannelStreamingStartOut.datasource">

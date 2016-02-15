@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "EmployeeCardDetails";
+    Layout = null;
+}
+
+<div id="employee-card-details-box" class="save-cancel-popup" data-bind="with: HR.Employees.EmployeeCardDetails">
+    <div class="title-bar">
+        <span data-bind="text: Title"></span>
+        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: EmployeeCardDetailsClose" /></a>
+    </div>
+    <div>
+        <form id="EmployeeCard" data-bind="submit: SaveEmployeeCard">
+            <ul class="tab">
+                <li class="active"><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
+                <li data-bind="visible: CanSelectGKControllers"><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'GKControllers'); }"><span>Контроллеры</span></a></li>
+                <li><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'AccessDoors'); }"><span>Точки доступа</span></a></li>
+                <li><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'AccessTemplates'); }"><span>Шаблон доступа</span></a></li>
+            </ul>
+
+            <div class="data-input" data-bind="visible:employeeCardDetailsPages.General">
+                <label for="GKCardType" data-bind="visible: CanChangeCardType">
+                    <span>Тип пропуска</span>
+                    <select name="GKCardType" data-bind="value: SelectedGCCardType">
+                        <option value=0>Сотрудник</option>
+                        <option value=1>Оператор</option>
+                        <option value=2>Администратор</option>
+                        <option value=3>Инсталлятор</option>
+                        <option value=4>Изготовитель</option>
+                    </select>
+                </label>
+                <label for="EndDate"><span>Конец действия</span><input type="text" id="EndDate" name="EndDate" data-bind="datepicker: Card.EndDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
+                <label for="GKLevel"><span>Уровень доступа</span><input type="number" name="GKLevel" data-bind="value: Card.GKLevel" value="" /></label>
+                <label for="GKSchedule">
+                    <span>График доступа</span>
+                    <select name="GKSchedule" data-bind="options: Schedules, optionsText: function(item) {return item.No() + ' ' + item.Name();}, value: SelectedSchedule, optionsCaption: ''"></select>
+                </label>
+                <label for="Number"><span>Номер</span><input type="number" name="Number" data-bind="value: Card.Number, enable: IsNewCard() && !UseStopList()" value="" /></label>
+                <label for="StopListCard">
+                    <span><input type="checkbox" id="UseStopList" data-bind="checked: UseStopList, enable: IsNewCard" value=""><label for="UseStopList">Из списка деактивированных</label></span>
+                    <select name="StopListCard" data-bind="options: StopListCards, optionsText: 'Number', value: SelectedStopListCard, enable: IsNewCard() && UseStopList()"></select>
+                </label>
+                <label for="ChangeReader">
+                    <span><input type="checkbox" id="UseReader" data-bind="checked: UseReader, enable: IsNewCard" value=""><label for="UseReader">От контрольного считывателя</label></span>
+                    <a id="ChangeReader" href=""><span data-bind="click: ChangeReaderClick, enable: IsNewCard">Нажмите для выбора считывателя</span></a>
+                </label>
+                <label for="ShowUSBCardReader">
+                    <span></span>
+                    <input class="ok-cancel-button" type="button" name="ShowUSBCardReader" data-bind="click: ShowUSBCardReaderClick, enable: IsNewCard" value="От USB-считывателя" />
+                </label>
+            </div>
+            <div data-bind="visible:employeeCardDetailsPages.GKControllers">
+                <ul class="SelectableList" data-bind="foreach: AvailableGKControllers">
+                    <li>
+                        <div>
+                            <label>
+                                <input type="checkbox" data-bind="checked: IsChecked" value="">
+                                <span data-bind="text: PresentationName"></span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div data-bind="visible:employeeCardDetailsPages.AccessDoors">
+                <ul id="EmployeeCardDetailsDoors" class="SelectableList" data-bind="foreach: Doors">
+                    <li>
+                        <div data-bind="click: function(data,event) { $parent.DoorClick(data, event, $data); return true; }">
+                            <img src="~/Content/Image/Icon/Hr/Door.png" />
+                            <input type="checkbox" data-bind="checked: IsChecked" value="">
+                            <span data-bind="text: PresentationName"></span>
+                        </div>
+                    </li>
+                </ul>
+                <div id="EmployeeCardDetailsDoor" data-bind="visible:SelectedDoor()">
+                    <label for="EnterSchedule">
+                        <span>Временной критерий для входа</span><br />
+                        <select name="EnterSchedule" data-bind="options: SelectedDoor() ? SelectedDoor().EnterSchedules : null, optionsText: 'Name', value: SelectedDoor() ? SelectedDoor().SelectedEnterSchedule : null, enable: SelectedDoor() ? SelectedDoor().IsChecked : false"></select>
+                    </label>
+                    <br />
+                    <label for="ExitSchedule" data-bind="visible: SelectedDoor() ? SelectedDoor().HasExit : false">
+                        <span>Временной критерий для выхода</span><br />
+                        <select name="ExitSchedule" data-bind="options: SelectedDoor() ? SelectedDoor().ExitSchedules : null, optionsText: 'Name', value: SelectedDoor() ? SelectedDoor().SelectedExitSchedule : null, enable: SelectedDoor() ? SelectedDoor().IsChecked : false"></select>
+                    </label>
+                </div>
+            </div>
+            <div data-bind="visible:employeeCardDetailsPages.AccessTemplates">
+                <ul id="EmployeeCardDetailsTemplates" class="SelectableList" data-bind="foreach: AvailableAccessTemplates">
+                    <li>
+                        <div data-bind="click: function(data,event) { $parent.AvailableAccessTemplateClick(data, event, $data);}">
+                            <label>
+                                <img src="~/Content/Image/Icon/Hr/zone.png" />
+                                <span data-bind="text: Name"></span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <button class="submit ok-cancel-button" type="button" data-bind="click: SaveEmployeeCard">OK</button>
+        </form>
+    </div>
+</div>

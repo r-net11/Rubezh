@@ -41,7 +41,11 @@ namespace RubezhAPI
 		/// </summary>
 		[DataMember]
 		public GKCallbackResult GKCallbackResult { get; set; }
-
+		/// <summary>
+		/// Изменения, связанные с Rvi
+		/// </summary>
+		[DataMember]
+		public RviCallbackResult RviCallbackResult { get; set; }
 		/// <summary>
 		/// Изменения параметров устройств ГК
 		/// </summary>
@@ -59,6 +63,7 @@ namespace RubezhAPI
 	{
 		GKProgress,
 		GKObjectStateChanged,
+		RviObjectStateChanged,
 		GKPropertyChanged,
 		NewEvents,
 		UpdateEvents,

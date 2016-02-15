@@ -1,0 +1,96 @@
+﻿.alarmBtn {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    background: url('Image/Icon/Alarms/ResetAlarmText.png');
+    background-repeat: no-repeat;
+    background-position: 7px 7px;
+    -moz-background-size: 50px 50px;
+    -o-background-size: 50px 50px;
+    -webkit-background-size: 50px 50px;
+    background-size: 50px 50px;
+}
+
+.alarmBtnHighlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.67) 0, rgba(255, 255, 255, 0.53) 49%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0) 100%);
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.67) 0, rgba(255, 255, 255, 0.53) 49%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0) 100%);
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0.67) 0, rgba(255, 255, 255, 0.53) 49%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.67) 0, rgba(255, 255, 255, 0.53) 49%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+.alarmBtnGlow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    animation-name: alarmBtnGlowKeyframes;
+    animation-duration: .5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    pointer-events: none;
+}
+
+.alarmBtnCount {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 64px;
+    text-align: right;
+}
+
+.alarmBtnCount span {
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: normal;
+    margin: 5px;
+}
+
+@keyframes alarmBtnGlowKeyframes {
+    from {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    to {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+}
+
+.alarmBtnHighlight:active,
+.alarmBtnHighlight.active {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+} 
+
+.alarmBtn.disabled,
+.alarmBtn[disabled] {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    pointer-events: none;
+}
+
+.alarmBtn.disabled .alarmBtnHighlight,
+.alarmBtn[disabled] .alarmBtnHighlight {
+    opacity: 1.0;
+    filter: alpha(opacity=100);
+    pointer-events: none;
+}
+
+.alarmBtn.disabled .alarmBtnGlow,
+.alarmBtn[disabled] .alarmBtnGlow {
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -webkit-animation-play-state: paused; 
+    animation-play-state: paused;
+    pointer-events: none;
+}

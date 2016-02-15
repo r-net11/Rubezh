@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace RubezhAPI.Journal
 {
@@ -22,6 +24,7 @@ namespace RubezhAPI.Journal
 			EmployeeUIDs = new List<Guid>();
 			Users = new List<string>();
 			LastItemsCount = DefaultLastItemsCount;
+			PageSize = 100;
 		}
 
 		[DataMember]

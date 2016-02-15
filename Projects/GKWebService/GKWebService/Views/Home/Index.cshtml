@@ -4,7 +4,8 @@
 @*@using System.Web.Optimization*@
 
 <div>
-	<div data-bind="visible:pages.Plan">@Html.Action("Plan")</div>
+	<div data-bind="visible:pages.Archive">@Html.Action("Index","Archive")</div>
+	<div data-bind="visible:pages.Plan">@Html.Action("Index", "Plans")</div>
 	<div data-bind="visible:pages.HR"><div id="HR"></div></div>
     <div data-bind="visible:pages.State">@Html.Action("Alarms", "Alarms")</div>
     <div data-bind="visible:pages.Device">@Html.Action("Index", "Devices")</div>
@@ -16,7 +17,6 @@
     <div data-bind="visible:pages.Delays">@Html.Action("Delays", "Delays")</div>
     <div data-bind="visible:pages.MPTs">@Html.Action("Index", "MPTs")</div>
     <div data-bind="visible:pages.Doors">@Html.Action("Door", "Doors")</div>
-	<div data-bind="visible:pages.Archive">@Html.Action("Archive")</div>
 
     
 </div>

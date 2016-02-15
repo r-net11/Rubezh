@@ -131,6 +131,7 @@ namespace FiresecService.Service
 			GKProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
 			AutomationProcessor.SetNewConfig();
+			RviProcessor.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
 			OpcDaServersProcessor.SetNewConfig();
 			OpcDaHelper.UpdateTagList(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers);

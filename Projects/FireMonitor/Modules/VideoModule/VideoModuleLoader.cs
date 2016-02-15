@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
-using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -15,13 +7,21 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using VideoModule.Plans;
 using VideoModule.ViewModels;
-using RubezhAPI.License;
 
 namespace VideoModule
 {
-	public class VideoModuleLoader : ModuleBase, ILayoutProviderModule
+	public partial class VideoModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		CamerasViewModel CamerasViewModel;
 		NavigationItem _videoNavigationItem;
@@ -84,8 +84,12 @@ namespace VideoModule
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, "Список камер", "Video1.png", (p) => CamerasViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, "Одна камера", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Раскладка камер", "Video1.png", (p) => new LayoutMultiCameraViewModel()); 
+			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Раскладка камер", "Video1.png", (p) => new LayoutMultiCameraViewModel());
 		}
 		#endregion
+		public override void AfterInitialize()
+		{
+			RviAfterInitialize();
+		}
 	}
 }

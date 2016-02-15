@@ -1,0 +1,852 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EFAD2894-B3F5-4923-824D-318E7C9DF1E1}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GKWebService</RootNamespace>
+    <AssemblyName>GKWebService</AssemblyName>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TargetFrameworkProfile />
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>5</LangVersion>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <PublishDatabases>true</PublishDatabases>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f">
+      <HintPath>..\packages\Unity.Mvc.4.0.1\lib\net45\Microsoft.Practices.Unity.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\packages\WebActivatorEx.2.1.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET-Q16-AnyCPU">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0101\lib\net40-client\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App\app.js" />
+    <Content Include="App\controllers\alarms\alarmsCtrl.js" />
+    <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
+    <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
+    <Content Include="App\controllers\delays\delaysCtrl.js" />
+    <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
+    <Content Include="App\controllers\devices\devicesCtrl.js" />
+    <Content Include="App\controllers\directionsUpdaterHub.js" />
+    <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
+    <Content Include="App\controllers\directions\directionsCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDevicesDetailsCtrl.js" />
+    <Content Include="App\controllers\journal\journalCtrl.js" />
+    <Content Include="App\controllers\journal\journalFilterCtrl.js" />
+    <Content Include="App\controllers\MPTs\mptsCtrl.js" />
+    <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
+    <Content Include="App\controllers\planCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationDetailsCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationDevicesCtrl.js" />
+    <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
+    <Content Include="App\controllers\signalrCtrl.js" />
+    <Content Include="App\directives\alarmBtn.js" />
+    <Content Include="App\directives\d3Plan.js" />
+    <Content Include="App\services\broadcastService.js" />
+    <Content Include="App\services\signalrAlarmsService.js" />
+    <Content Include="App\services\signalrDevicesService.js" />
+    <Content Include="App\services\signalrDelaysService.js" />
+    <Content Include="App\services\signalrDirectionsService.js" />
+    <Content Include="App\services\signalrFireZonesService.js" />
+    <Content Include="App\services\signalrMPTsService.js" />
+    <Content Include="App\services\signalrPumpStationService.js" />
+    <Content Include="App\services\signalrService.js" />
+    <Content Include="App\signalr\plansUpdaterHub.js" />
+    <Content Include="Content\favicon\android-chrome-36x36.png" />
+    <Content Include="Content\favicon\android-chrome-48x48.png" />
+    <Content Include="Content\favicon\android-chrome-72x72.png" />
+    <Content Include="Content\favicon\android-chrome-96x96.png" />
+    <Content Include="Content\favicon\apple-touch-icon-114x114.png" />
+    <Content Include="Content\favicon\apple-touch-icon-120x120.png" />
+    <Content Include="Content\favicon\apple-touch-icon-57x57.png" />
+    <Content Include="Content\favicon\apple-touch-icon-60x60.png" />
+    <Content Include="Content\favicon\apple-touch-icon-72x72.png" />
+    <Content Include="Content\favicon\apple-touch-icon-76x76.png" />
+    <Content Include="Content\favicon\apple-touch-icon-precomposed.png" />
+    <Content Include="Content\favicon\apple-touch-icon.png" />
+    <Content Include="Content\favicon\browserconfig.xml" />
+    <Content Include="Content\favicon\favicon-16x16.png" />
+    <Content Include="Content\favicon\favicon-32x32.png" />
+    <Content Include="Content\favicon\favicon-96x96.png" />
+    <Content Include="Content\favicon\favicon.ico" />
+    <Content Include="Content\favicon\mstile-150x150.png" />
+    <Content Include="Content\favicon\mstile-310x150.png" />
+    <Content Include="Content\favicon\mstile-70x70.png" />
+    <Content Include="Content\Hr.css">
+      <DependentUpon>Hr.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Hr.min.css">
+      <DependentUpon>Hr.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Image\GKIcons\1.png" />
+    <Content Include="Content\Image\GKIcons\ControlDevicesMirror.png" />
+    <Content Include="Content\Image\GKIcons\DetectorDevicesMirror.png" />
+    <Content Include="Content\Image\GKIcons\DirectionsMirror.png" />
+    <Content Include="Content\Image\GKIcons\FirefightingZonesMirror.png" />
+    <Content Include="Content\Image\GKIcons\FireZonesMirror.png" />
+    <Content Include="Content\Image\GKIcons\GK.png" />
+    <Content Include="Content\Image\GKIcons\GKIndicator.png" />
+    <Content Include="Content\Image\GKIcons\GKIndicatorsGroup.png" />
+    <Content Include="Content\Image\GKIcons\GKLine.png" />
+    <Content Include="Content\Image\GKIcons\GKMirror.png" />
+    <Content Include="Content\Image\GKIcons\GKRelaysGroup.png" />
+    <Content Include="Content\Image\GKIcons\GKRele.png" />
+    <Content Include="Content\Image\GKIcons\GuardZonesMirror.png" />
+    <Content Include="Content\Image\GKIcons\KAU.png" />
+    <Content Include="Content\Image\GKIcons\KAUIndicator.png" />
+    <Content Include="Content\Image\GKIcons\KAU_Shleif.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_AM_1.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_AM_2.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_AM_4.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Bush_Drenazh.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Bush_Fire.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Bush_Jokey.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Bush_Shuv.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Buz_KV.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Buz_KVDU.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Buz_KVMV.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_CardReader.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_CodeReader.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_CombinedDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_GKMirrorItem.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_GuardDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_GuardDetectorSound.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_HandDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_HeatDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_KAU.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_KAU_Shleif.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MAP4.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MAP4_Group.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MDU.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MDU24.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MP.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MVK8.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MVK8_Group.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MVP.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_MVP_Part.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPK.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPKS.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPKZ.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPS.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPSZ.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_OPZ.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_RM_1.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_RM_2.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_RM_4.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_SmokeDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_SmokeDetector2.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Valve_DU.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Valve_KV.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_Valve_KVMV.png" />
+    <Content Include="Content\Image\GKIcons\System.png" />
+    <Content Include="Content\Image\Icon\Alarms\attention.png" />
+    <Content Include="Content\Image\Icon\Alarms\autoOff.png" />
+    <Content Include="Content\Image\Icon\Alarms\failure.png" />
+    <Content Include="Content\Image\Icon\Alarms\fire1.png" />
+    <Content Include="Content\Image\Icon\Alarms\fire2.png" />
+    <Content Include="Content\Image\Icon\Alarms\NPTOn.png" />
+    <Content Include="Content\Image\Icon\Alarms\Ignore.png" />
+    <Content Include="Content\Image\Icon\Alarms\Turning.png" />
+    <Content Include="Content\Image\Icon\Alarms\ResetAlarmText.png" />
+    <Content Include="Content\Image\Icon\Alarms\service.png" />
+    <Content Include="Content\Image\Icon\Alarms\GuardAlarm.png" />
+    <Content Include="Content\Image\Icon\Archive\filter.png" />
+    <Content Include="Content\Image\Icon\Archive\left.png" />
+    <Content Include="Content\Image\Icon\Archive\leftLeft.png" />
+    <Content Include="Content\Image\Icon\Archive\refresh.png" />
+    <Content Include="Content\Image\Icon\Archive\right.png" />
+    <Content Include="Content\Image\Icon\Archive\rightRight.png" />
+    <Resource Include="Content\Image\Icon\Hr\Card.png" />
+    <Resource Include="Content\Image\Icon\Hr\Employee.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Attention.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\AutoOff.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\ConnectionLost.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\DBMissmatch.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Failure.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Fire1.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Fire2.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\HasNoLicense.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Ignore.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Info.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Manual.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\no.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Norm.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\NPTOn.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Off.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\On.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Service.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\State1.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\State2.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TechnologicalRegime.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Test.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurningOff.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurningOn.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurnOff_InAutomatic.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurnOff_InManual.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InAutomatic.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InManual.png" />
+    <Content Include="Content\Image\Icon\GKStateIcons\Unknown.png" />
+    <Resource Include="Content\Image\Images\BDirection.png" />
+    <Content Include="Content\Image\Icon\GK\BJournal.png" />
+    <Content Include="Content\Image\Icon\GK\Blue_Direction.png" />
+    <Content Include="Content\Image\Icon\GK\BMPT.png" />
+    <Resource Include="Content\Image\Images\Code.png" />
+    <Resource Include="Content\Image\Images\Delay.png" />
+    <Content Include="Content\Image\Icon\Header\close_pop.png" />
+    <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
+    <Content Include="Content\Image\Icon\Header\map-off.png" />
+    <Content Include="Content\Image\Icon\Header\map-on.png" />
+    <Content Include="Content\Image\Icon\Header\sound-off.png" />
+    <Content Include="Content\Image\Icon\Header\sound-on.png" />
+    <Content Include="Content\Image\Icon\Header\user.png" />
+    <Content Include="Content\Image\Icon\Header\window-normal.png" />
+    <Resource Include="Content\Image\Icon\Hr\Organisation.png" />
+    <Resource Include="Content\Image\Icon\Hr\Door.png" />
+    <Resource Include="Content\Image\Icon\Hr\zone.png" />
+    <Resource Include="Content\Image\Icon\Hr\Chief.png" />
+    <Resource Include="Content\Image\Icon\Hr\AccessTemplate.png" />
+    <Content Include="Content\Image\Icon\Hr\ChiefW.png" />
+    <Content Include="Content\Image\Icon\Hr\Department.png" />
+    <Resource Include="Content\Image\Icon\Hr\Position.png" />
+    <Resource Include="Content\Image\Icon\Hr\SKDUser.png" />
+    <Resource Include="Content\Image\Icon\Hr\load.png" />
+    <Resource Include="Content\Image\Icon\Hr\Lock.png" />
+    <Content Include="Content\Image\Icon\Menu\archive.png" />
+    <Content Include="Content\Image\Icon\Menu\Bug.png" />
+    <Content Include="Content\Image\Icon\Menu\delays.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Copy.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Delete.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Edit.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Filter.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Paste.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\Redo.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\alarm.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\archive.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\book.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\bug.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\dailySchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\file.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\holidays.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\levels.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\Print.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\skd.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\timeTrack.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\tree.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\weeklySchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\workSchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\levels.png" />
+    <Content Include="Content\Image\Icon\Menu\tree.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Camera.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Chip.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\no.png" />
+    <Content Include="Content\Image\Icon\SubsystemTypes\PC.png" />
+    <Resource Include="Content\Image\Images\Door.png" />
+    <Resource Include="Content\Image\Images\GuardZone.png" />
+    <Resource Include="Content\Image\Images\BMPT.png" />
+    <Resource Include="Content\Image\Images\Pim.png" />
+    <Resource Include="Content\Image\Images\BPumpStation.png" />
+    <Resource Include="Content\Image\Images\SKDZone.png" />
+    <Resource Include="Content\Image\Images\BVideo.png" />
+    <Resource Include="Content\Image\Images\blank.png" />
+    <Content Include="Content\Image\Images\BReset.png" />
+    <Content Include="Content\Image\Images\Zone.png" />
+    <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
+    <Content Include="Content\main.css">
+      <DependentUpon>main.less</DependentUpon>
+    </Content>
+    <Content Include="Content\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <EmbeddedResource Include="Content\SvgIcons\GKDoor.txt" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\customTheme.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Global.asax" />
+    <Content Include="App\services\signalrJournalService.js" />
+    <Content Include="Scripts\archive.js" />
+    <Content Include="Content\header.less" />
+    <Content Include="Content\vars.less" />
+    <Content Include="Content\main.less" />
+    <Content Include="Content\menu.less" />
+    <Content Include="Content\logon.less" />
+    <Content Include="Content\journal.less" />
+    <Content Include="Content\archive.less" />
+    <Content Include="Content\tab.less" />
+    <Content Include="Content\favicon\manifest.json" />
+    <Content Include="Scripts\Clock.js" />
+    <Content Include="Scripts\EmployeeCardDetails.js" />
+    <Content Include="Scripts\HrFilter.js" />
+    <Content Include="Scripts\EmployeeDetails.js" />
+    <Content Include="Scripts\HR.js" />
+    <Content Include="Scripts\HrEmployees.js" />
+    <Content Include="Scripts\HrEmployeeCards.js" />
+    <Content Include="Scripts\i18n\datepicker-ru.js" />
+    <Content Include="Scripts\i18n\grid.locale-ar.js" />
+    <Content Include="Scripts\i18n\grid.locale-bg.js" />
+    <Content Include="Scripts\i18n\grid.locale-bg1251.js" />
+    <Content Include="Scripts\i18n\grid.locale-cat.js" />
+    <Content Include="Scripts\i18n\grid.locale-cn.js" />
+    <Content Include="Scripts\i18n\grid.locale-cs.js" />
+    <Content Include="Scripts\i18n\grid.locale-da.js" />
+    <Content Include="Scripts\i18n\grid.locale-de.js" />
+    <Content Include="Scripts\i18n\grid.locale-dk.js" />
+    <Content Include="Scripts\i18n\grid.locale-el.js" />
+    <Content Include="Scripts\i18n\grid.locale-en.js" />
+    <Content Include="Scripts\i18n\grid.locale-es.js" />
+    <Content Include="Scripts\i18n\grid.locale-fa.js" />
+    <Content Include="Scripts\i18n\grid.locale-fi.js" />
+    <Content Include="Scripts\i18n\grid.locale-fr.js" />
+    <Content Include="Scripts\i18n\grid.locale-gl.js" />
+    <Content Include="Scripts\i18n\grid.locale-he.js" />
+    <Content Include="Scripts\i18n\grid.locale-hr.js" />
+    <Content Include="Scripts\i18n\grid.locale-hr1250.js" />
+    <Content Include="Scripts\i18n\grid.locale-hu.js" />
+    <Content Include="Scripts\i18n\grid.locale-id.js" />
+    <Content Include="Scripts\i18n\grid.locale-is.js" />
+    <Content Include="Scripts\i18n\grid.locale-it.js" />
+    <Content Include="Scripts\i18n\grid.locale-ja.js" />
+    <Content Include="Scripts\i18n\grid.locale-kr.js" />
+    <Content Include="Scripts\i18n\grid.locale-lt.js" />
+    <Content Include="Scripts\i18n\grid.locale-mne.js" />
+    <Content Include="Scripts\i18n\grid.locale-nl.js" />
+    <Content Include="Scripts\i18n\grid.locale-no.js" />
+    <Content Include="Scripts\i18n\grid.locale-pl.js" />
+    <Content Include="Scripts\i18n\grid.locale-pt-br.js" />
+    <Content Include="Scripts\i18n\grid.locale-pt.js" />
+    <Content Include="Scripts\i18n\grid.locale-ro.js" />
+    <Content Include="Scripts\i18n\grid.locale-ru.js" />
+    <Content Include="Scripts\i18n\grid.locale-sk.js" />
+    <Content Include="Scripts\i18n\grid.locale-sr-latin.js" />
+    <Content Include="Scripts\i18n\grid.locale-sr.js" />
+    <Content Include="Scripts\i18n\grid.locale-sv.js" />
+    <Content Include="Scripts\i18n\grid.locale-th.js" />
+    <Content Include="Scripts\i18n\grid.locale-tr.js" />
+    <Content Include="Scripts\i18n\grid.locale-tw.js" />
+    <Content Include="Scripts\i18n\grid.locale-ua.js" />
+    <Content Include="Scripts\i18n\grid.locale-vi.js" />
+    <Content Include="Content\plan.less" />
+    <Content Include="Content\Hr.less" />
+    <Content Include="Content\Hr.css.map">
+      <DependentUpon>Hr.css</DependentUpon>
+    </Content>
+    <Content Include="Content\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
+    <Content Include="Content\SaveCancelPopup.less" />
+    <Content Include="Content\ui-grid.less" />
+    <Content Include="Content\bootstrap.less" />
+    <Content Include="Content\alarmBtn.less" />
+    <Content Include="Content\devices.less" />
+    <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\jquery.jqGrid.src.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Scripts\less.min.js" />
+    <Content Include="Scripts\Main.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
+    <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />
+    <Content Include="Scripts\SKD\Cards\CardsViewModel.js" />
+    <Content Include="Scripts\SKD\Common\PhotoSelectionViewModel.js" />
+    <Content Include="Scripts\SKD\Common\EmployeesFilterViewModel.js" />
+    <Content Include="Scripts\SKD\Common\PositionsFilterViewModel.js" />
+    <Content Include="Scripts\SKD\Common\EmployeeSelectionDialogViewModel.js" />
+    <Content Include="Scripts\SKD\Common\OrganisationsFilterViewModel.js" />
+    <Content Include="Scripts\SKD\Common\DepartmentsFilterViewModel.js" />
+    <Content Include="Scripts\SKD\Departments\DepartmentDetailsViewModel.js" />
+    <Content Include="Scripts\SKD\Departments\DepartmentEmployeeListViewModel.js" />
+    <Content Include="Scripts\SKD\Departments\DepartmentsViewModel.js" />
+    <Content Include="Scripts\SKD\Employees\ScheduleSelectionViewModel.js" />
+    <Content Include="Scripts\SKD\Employees\PositionSelectionViewModel.js" />
+    <Content Include="Scripts\SKD\Employees\DepartmentSelectionViewModel.js" />
+    <Content Include="Scripts\SKD\Employees\CardRemovalReasonViewModel.js" />
+    <Content Include="Scripts\SKD\Organisations\OrganisationsViewModel.js" />
+    <Content Include="Scripts\SKD\Organisations\OrganisationDetailsViewModel.js" />
+    <Content Include="Scripts\SKD\Positions\PositionEmployeeListViewModel.js" />
+    <Content Include="Scripts\SKD\Positions\PositionDetailsViewModel.js" />
+    <Content Include="Scripts\SKD\Positions\PositionsViewModel.js" />
+    <Content Include="Scripts\tooltips.js" />
+    <Content Include="Scripts\ui-grid.js" />
+    <Content Include="Scripts\ui-grid.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App\Constants.js" />
+    <Content Include="App\controllers\MPTs\DevicesMPTCtrl.js" />
+    <Content Include="Scripts\d3Tip.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="web.config" />
+    <Content Include="Scripts\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\d3\d3.js" />
+    <Content Include="Scripts\d3\d3.min.js" />
+    <None Include="Scripts\d3\LICENSE" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <None Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <None Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css" />
+    <None Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css" />
+    <None Include="Content\bootstrap.min.css.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\ui-grid.css" />
+    <Content Include="Content\ui-grid.eot" />
+    <Content Include="Content\ui-grid.min.css" />
+    <Content Include="Content\ui-grid.svg" />
+    <Content Include="Content\ui-grid.ttf" />
+    <Content Include="Content\ui-grid.woff" />
+    <Content Include="Scripts\angular-signalr-hub.js" />
+    <Content Include="Scripts\angular-signalr-hub.min.js" />
+    <Content Include="Scripts\jquery-2.2.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.2.0.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.js" />
+    <None Include="Scripts\jquery-2.2.0.min.map" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <None Include="Scripts\angular.min.js.map" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Controllers\AccessTemplatesController.cs" />
+    <Compile Include="Controllers\AlarmsController.cs" />
+    <Compile Include="Controllers\ArchiveController.cs" />
+    <Compile Include="Controllers\CardsController.cs" />
+    <Compile Include="Controllers\DelaysController.cs" />
+    <Compile Include="Controllers\DevicesController.cs" />
+    <Compile Include="Controllers\DirectionsController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\FireZonesController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HrController.cs" />
+    <Compile Include="Controllers\MPTsController.cs" />
+    <Compile Include="Controllers\JournalController.cs" />
+    <Compile Include="Controllers\OrganisationsController.cs" />
+    <Compile Include="Controllers\PlansController.cs" />
+    <Compile Include="Controllers\PositionsController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\PumpStationsController.cs" />
+    <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
+    <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
+    <Compile Include="DataProviders\DevicesHub.cs" />
+    <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
+    <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
+    <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
+    <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
+    <Compile Include="Models\Devices\Device.cs" />
+    <Compile Include="Models\Journal\JournalFilter.cs" />
+    <Compile Include="Models\GK\Alarms\Alarm.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmGroupViewModel.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmsViewModel.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmTypeToColorConverter.cs" />
+    <Compile Include="Models\GK\Alarms\AlarmViewModel.cs" />
+    <Compile Include="DataProviders\MPTHubs\MPTHub.cs" />
+    <Compile Include="DataProviders\Resources\EmbeddedResourceLoader.cs" />
+    <Compile Include="DataProviders\SKD\AccessTemplateHelper.cs" />
+    <Compile Include="DataProviders\SKD\CardHelper.cs" />
+    <Compile Include="DataProviders\SKD\Common.cs" />
+    <Compile Include="DataProviders\SKD\DepartmentHelper.cs" />
+    <Compile Include="DataProviders\SKD\EmployeeHelper.cs" />
+    <Compile Include="DataProviders\SKD\GKScheduleHelper.cs" />
+    <Compile Include="DataProviders\SKD\JournalHelper.cs" />
+    <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
+    <Compile Include="DataProviders\SKD\PositionHelper.cs" />
+    <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
+    <Compile Include="Models\GK\Delay\DelayStateClass.cs" />
+    <Compile Include="Models\GK\DeviceControlRegime.cs" />
+    <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
+    <Compile Include="Models\GK\Directions\Direction.cs" />
+    <Compile Include="Models\GK\Delay\Delay.cs" />
+    <Compile Include="Models\FireZone\DeviceNode.cs" />
+    <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
+    <Compile Include="Models\Journal\JournalFilterEvent.cs" />
+    <Compile Include="Models\Journal\JournalFilterObject.cs" />
+    <Compile Include="Models\MPT\MPTModel.cs" />
+    <Compile Include="Models\PumpStation\PumpStation.cs" />
+    <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
+    <Compile Include="Models\SKD\AccessTemplates\AccessTemplateViewModel.cs" />
+    <Compile Include="Models\SKD\Cards\CardsViewModel.cs" />
+    <Compile Include="Models\SKD\Cards\CardViewModel.cs" />
+    <Compile Include="Models\SKD\Common\CopyHelper.cs" />
+    <Compile Include="Models\SKD\Common\DetailsValidateHelper.cs" />
+    <Compile Include="Models\SKD\Common\OrganisationBaseViewModel.cs" />
+    <Compile Include="Models\FireZone\FireZone.cs" />
+    <Compile Include="Models\SKD\Common\OrganisationElementBaseViewModel.cs" />
+    <Compile Include="Models\SKD\Departments\DepartmentDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Employees\EmployeeDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Employees\EmployeesViewModel.cs" />
+    <Compile Include="Models\SKD\Employees\EmployeeViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationDoorViewModel.cs" />
+    <Compile Include="Models\SKD\Organisations\OrganisationUserViewModel.cs" />
+    <Compile Include="Models\SKD\Positions\PositionDetailsViewModel.cs" />
+    <Compile Include="Models\SKD\Positions\PositionsViewModel.cs" />
+    <Compile Include="Models\SKD\Departments\DepartmentsViewModel.cs" />
+    <Compile Include="Models\SKD\Positions\PositionViewModel.cs" />
+    <Compile Include="Models\SKD\Departments\DepartmentViewModel.cs" />
+    <Compile Include="Models\SKD\Employees\DepartmentSelectionItemViewModel.cs" />
+    <Compile Include="Utils\ErrorHandlerAttribute.cs" />
+    <Compile Include="Utils\InternalConverter.cs" />
+    <Compile Include="DataProviders\Plan\PlansDataProvider.cs" />
+    <Compile Include="DataProviders\Plan\PlansUpdater.cs" />
+    <Compile Include="DataProviders\Plan\PlansUpdaterHub.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="JournalItemViewModel.cs" />
+    <Compile Include="Models\AccessDoorModel.cs" />
+    <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
+    <Compile Include="Models\Plan\ElementHint.cs" />
+    <Compile Include="Models\EmployeeCardModel.cs" />
+    <Compile Include="Models\GKControllerModel.cs" />
+    <Compile Include="Models\ShortEmployeeCardModel.cs" />
+    <Compile Include="Models\ShortEmployeeModel.cs" />
+    <Compile Include="Models\Plan\PlanElement.cs" />
+    <Compile Include="Models\Plan\PlanSimpl.cs" />
+    <Compile Include="Models\Journal\JournalModel.cs" />
+    <Compile Include="Models\Plan\Shape.cs" />
+    <Compile Include="Models\Plan\ShapeTypesEnum.cs" />
+    <Compile Include="Models\Plan\HintLine.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="Utils\JsonNetResult .cs" />
+    <Compile Include="Utils\StaTaskScheduler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Devices\Index.cshtml" />
+    <Content Include="Views\Home\Archive.cshtml" />
+    <Content Include="Views\Hr\Index.cshtml" />
+    <Content Include="Views\Hr\HrEmployees.cshtml" />
+    <Content Include="Scripts\jquery.min.map" />
+    <Content Include="Views\Home\Plan.cshtml" />
+    <Content Include="Views\Hr\HrDepartments.cshtml" />
+    <Content Include="Views\Hr\Positions.cshtml" />
+    <Content Include="Views\Hr\AdditionalColumnTypes.cshtml" />
+    <Content Include="Views\Hr\Cards.cshtml" />
+    <Content Include="Views\Hr\AccessTemplates.cshtml" />
+    <Content Include="Views\Hr\PassCardTemplates.cshtml" />
+    <Content Include="Views\Hr\Organisations.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Employees\EmployeeDetails.cshtml" />
+    <Content Include="Views\Hr\HrFilter.cshtml" />
+    <Content Include="Views\Employees\EmployeeCardDetails.cshtml" />
+    <Content Include="Views\Employees\CardRemovalReason.cshtml" />
+    <Content Include="Views\Departments\Index.cshtml" />
+    <Content Include="Views\Departments\DepartmentDetails.cshtml" />
+    <Content Include="Views\Employees\DepartmentSelection.cshtml" />
+    <Content Include="Views\Hr\EmployeeSelectionDialog.cshtml" />
+    <Content Include="Views\Departments\DepartmentEmployeeList.cshtml" />
+    <Content Include="Views\Positions\Index.cshtml" />
+    <Content Include="Views\Positions\PositionDetails.cshtml" />
+    <Content Include="Views\Positions\PositionEmployeeList.cshtml" />
+    <Content Include="Views\Organisations\Index.cshtml" />
+    <Content Include="Views\Organisations\OrganisationDetails.cshtml" />
+    <Content Include="Views\Hr\OrganisationsFilter.cshtml" />
+    <Content Include="Views\Hr\DepartmentsFilter.cshtml" />
+    <Content Include="Views\Hr\PositionsFilter.cshtml" />
+    <Content Include="Views\Hr\EmployeesFilter.cshtml" />
+    <Content Include="Views\Hr\PhotoSelection.cshtml" />
+    <Content Include="Views\Employees\PositionSelection.cshtml" />
+    <Content Include="Views\Employees\ScheduleSelection.cshtml" />
+    <Content Include="Views\AccessTemplates\Index.cshtml" />
+    <Content Include="Views\AccessTemplates\AccessTemplateDetails.cshtml" />
+    <Content Include="Views\Cards\Index.cshtml" />
+    <Content Include="Views\Delays\Delays.cshtml" />
+    <Content Include="Views\Directions\Index.cshtml" />
+    <Content Include="Views\Directions\DirectionDetails.cshtml" />
+    <Content Include="Views\Journal\Index.cshtml" />
+    <Content Include="Views\Delays\DelayDetails.cshtml" />
+    <Content Include="Views\Journal\JournalFilter.cshtml" />
+    <Content Include="Views\MPTs\MPTDetails.cshtml" />
+    <Content Include="Views\FireZones\Index.cshtml" />
+    <Content Include="Views\FireZones\FireZonesDetails.cshtml" />
+    <Content Include="Views\Alarms\AlarmGroups.cshtml" />
+    <Content Include="Views\Alarms\Index.cshtml" />
+    <Content Include="Views\Alarms\Alarms.cshtml" />
+    <Content Include="Views\Devices\DeviceDetails.cshtml" />
+    <Content Include="Views\PumpStations\PumpStations.cshtml" />
+    <Content Include="Views\PumpStations\PumpStationDetails.cshtml" />
+    <Content Include="Views\Home\MPTs.cshtml" />
+    <Content Include="Views\MPTs\Index.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App\controllers\MPTDevice\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\Archive\" />
+    <Folder Include="Views\Employee\" />
+    <Folder Include="Views\Plans\" />
+    <Folder Include="Views\Report\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhClient\RubezhClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>RubezhClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>RubezhAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
+      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
+      <Name>GKProcessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>64778</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:64726</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>

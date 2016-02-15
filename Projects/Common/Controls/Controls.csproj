@@ -131,6 +131,7 @@
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\MultiParameterConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
+    <Compile Include="Converters\RviStatusToIconConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\StringToSingleLineString.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
@@ -2657,6 +2658,35 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StepIcons\CloseDialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RviStatusIcons\Connected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RviStatusIcons\Connecting.png" />
+    <Resource Include="RviStatusIcons\Error.png" />
+    <Resource Include="RviStatusIcons\Unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_IOLIT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_ABPC.png" />
+    <Resource Include="GKIcons\RSR2_ABShS.png" />
+    <Resource Include="GKIcons\RSR2_HandDetectorEridan.png" />
+    <Resource Include="GKIcons\RSR2_HeatDetectorEridan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_ABTK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_ABShS_Group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_ABTK_Group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RviStatusIcons\ConnectionLost.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

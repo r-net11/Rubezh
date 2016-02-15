@@ -75,7 +75,7 @@ namespace GKWebService.Controllers
 			return Json(result, JsonRequestBehavior.AllowGet);
 		}
 
-		List<JournalFilterObject> GetFilterObjects()
+		public static List<JournalFilterObject> GetFilterObjects()
 		{
 			var result = new List<JournalFilterObject>();
 			result.Add(new JournalFilterObject(new Guid("98BEF3DB-0E77-4AB4-BCFB-917918DFC726"), "Icon/SubsystemTypes/Chip.png", "ГК", 0));
@@ -103,7 +103,7 @@ namespace GKWebService.Controllers
 			return result;
 		}
 
-		List<JournalFilterEvent> GetFilterEvents()
+		public static List<JournalFilterEvent> GetFilterEvents()
 		{
 			var result = new List<JournalFilterEvent>();
 			foreach (JournalSubsystemType journalSubsystemType in Enum.GetValues(typeof(JournalSubsystemType)))
@@ -123,7 +123,7 @@ namespace GKWebService.Controllers
 			return result;
 		}
 
-		void BuildDeviceTree(RubezhAPI.GK.GKDevice apiDevice, JournalFilterObject parent, List<JournalFilterObject> devices)
+		static void BuildDeviceTree(RubezhAPI.GK.GKDevice apiDevice, JournalFilterObject parent, List<JournalFilterObject> devices)
 		{
 			var device = new JournalFilterObject(apiDevice.UID, apiDevice.ImageSource.Replace("/Controls;component/", ""), apiDevice.PresentationName, parent != null ? parent.Level + 1 : 2);
 			devices.Add(device);

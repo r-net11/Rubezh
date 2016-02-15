@@ -7,6 +7,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
+using Infrustructure.Plans.Interfaces;
 
 namespace GKWebService.Models.GK.Alarms
 {
@@ -40,6 +41,8 @@ namespace GKWebService.Models.GK.Alarms
 
 		public bool CanShowProperties { get; set; }
 
+		public List<PlanLinkViewModel> Plans { get; set; }
+
 		public AlarmViewModel()
 		{
 		}
@@ -60,6 +63,7 @@ namespace GKWebService.Models.GK.Alarms
 			CanTurnOnAutomatic = GetCanTurnOnAutomatic();
 			CanShowProperties = GetCanShowProperties();
 			AlarmColor = new AlarmTypeToColorConverter().Convert(alarm.AlarmType);
+			InitializePlans();
 		}
 
 		public void Reset()
@@ -215,6 +219,31 @@ namespace GKWebService.Models.GK.Alarms
 		bool GetCanShowProperties()
 		{
 			return Alarm.GkBaseEntity != null;
+		}
+
+		void InitializePlans()
+		{
+			Plans = new List<PlanLinkViewModel>();
+
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			{
+				var elementUnion = plan.ElementUnion;
+				var gkBaseEntity = Alarm.GkBaseEntity as IPlanPresentable;
+				if (gkBaseEntity != null)
+				{
+					foreach (var planElementUID in gkBaseEntity.PlanElementUIDs)
+					{
+						var elementBase = elementUnion.FirstOrDefault(x => x.UID == planElementUID);
+						if (elementBase != null)
+						{
+							var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+							alarmPlanViewModel.GkBaseEntityUID = Alarm.GkBaseEntity.UID;
+							Plans.Add(alarmPlanViewModel);
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 }

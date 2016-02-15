@@ -1,0 +1,17 @@
+﻿
+@{
+    Layout = null;
+}
+
+<script type="text/html" id="PhotoSelectionTemplate">
+    <div id="PhotoSelection">
+        <div>
+            <img data-bind="attr: {src: PhotoData}" />
+        </div>
+        <div class="HrToolbar" id="PhotoSelectionToolbar">
+            <div class="icon delete" data-bind="click: function(data,event) { $root.HR.Common.PhotoSelection.RemoveClick(data, event, PhotoData); }"></div>
+            <div class="icon load" data-bind="click: function(data,event) { $root.HR.Common.PhotoSelection.OpenClick(data, event, PhotoData); }"></div>
+            <input type="file" id="OpenPhoto" data-bind="event: { change: function() { $root.HR.Common.PhotoSelection.Load($element) } }, visible:false" />
+        </div>
+    </div>
+</script>

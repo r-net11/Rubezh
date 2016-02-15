@@ -68,5 +68,60 @@ namespace GKWebService.Controllers
 			}
 			return new JsonResult();
 		}
+
+		[HttpPost]
+		public JsonResult SetManualState(Guid id)
+		{
+			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
+			if (device != null)
+			{
+				ClientManager.FiresecService.GKSetManualRegime(device);
+			}
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult TurnOn(Guid id)
+		{
+			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
+			if (device != null)
+			{
+				ClientManager.FiresecService.GKTurnOn(device);
+			}
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult TurnOnNow(Guid id)
+		{
+			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
+			if (device != null)
+			{
+				ClientManager.FiresecService.GKTurnOnNow(device);
+			}
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult ForbidStart(Guid id)
+		{
+			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
+			if (device != null)
+			{
+				ClientManager.FiresecService.GKStop(device);
+			}
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		public JsonResult TurnOff(Guid id)
+		{
+			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
+			if (device != null)
+			{
+				ClientManager.FiresecService.GKTurnOff(device);
+			}
+			return new JsonResult();
+		}
 	}
 }

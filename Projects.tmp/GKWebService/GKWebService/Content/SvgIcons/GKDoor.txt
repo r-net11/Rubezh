@@ -1,0 +1,6 @@
+﻿M 0,0 L 0,22 L 22,22 L 22,0 L 0,0z
+Black
+Gray
+M 22,22 L 30,30 L 30,8 L 22,0 L 22,22z
+Black
+Orange

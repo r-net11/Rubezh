@@ -19,7 +19,6 @@ namespace VideoModule.ViewModels
 	public class CameraDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public Camera Camera { get; private set; }
-		public string RviRTSP { get; private set; }
 		public int Width { get; private set; }
 		public int Height { get; private set; }
 		public int MarginLeft { get; private set; }
@@ -41,7 +40,6 @@ namespace VideoModule.ViewModels
 
 			if (Camera != null)
 			{
-				RviRTSP = Camera.RviRTSP;
 				Width = Camera.ShowDetailsWidth;
 				Height = Camera.ShowDetailsHeight;
 				MarginLeft = Camera.ShowDetailsMarginLeft;

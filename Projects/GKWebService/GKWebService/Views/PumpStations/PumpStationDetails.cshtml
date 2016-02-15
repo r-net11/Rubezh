@@ -3,90 +3,92 @@
 }
 
 
-<div class="modal-header">
-    <a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
-    <h3 class="modal-title">{{pumpStation.Name}}</h3>
-</div>
-<div class="modal-body">
-    <div>
+<div modal-draggable modaless>
+    <div class="modal-header">
+        <a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+        <h3 class="modal-title">{{pumpStation.Name}}</h3>
+    </div>
+    <div class="modal-body">
         <div>
-            <div ng-style="{'background-color': pumpStation.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
-            <div style="float: left; width: 300px">
-                <ul>
-                    <li ng-repeat="stateClass in pumpStation.StateClasses">
-                        <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{stateClass.IconData}}.png" />
-                        {{stateClass.Name}}
-<li>
-                </ul>
-            </div>
-            <div style="float: left">
-                <div ng-show="pumpStation.HasOnDelay">
-                    <span>Задержка на включение</span> <br />
-                    <span>{{pumpStation.OnDelay}}</span><span> сек</span>
+            <div>
+                <div ng-style="{'background-color': pumpStation.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
+                <div style="float: left; width: 300px">
+                    <ul>
+                        <li ng-repeat="stateClass in pumpStation.StateClasses">
+                            <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{stateClass.IconData}}.png" />
+                            {{stateClass.Name}}
+                        <li>
+                    </ul>
                 </div>
-                <div ng-show="pumpStation.HasHoldDelay">
+                <div style="float: left">
+                    <div ng-show="pumpStation.HasOnDelay">
+                        <span>Задержка на включение</span> <br />
+                        <span>{{pumpStation.OnDelay}}</span><span> сек</span>
+                    </div>
+                    <div ng-show="pumpStation.HasHoldDelay">
                     <span>Время тушения</span> <br />
-                    <span>{{pumpStation.HoldDelay}}</span><span> сек</span>
+                        <span>{{pumpStation.HoldDelay}}</span><span> сек</span>
+                    </div>
+                </div>
+                <div style="clear: left">
                 </div>
             </div>
-            <div style="clear: left">
-            </div>
+            <uib-tabset>
+                <uib-tab heading="Управление">
+                    <div>
+                        <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{pumpStation.ControlRegimeIcon}}.png" />
+                        <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
+                        <span style="font-weight: bold; font-size: large; margin: 5px">{{pumpStation.ControlRegimeName}}</span>
+                    </div>
+                    <div style="background: #fff">
+                        <div style="float: left; width: 50%">
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetAutomaticState()" ng-disabled="!pumpStation.CanSetAutomaticState">Автоматика</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetManualState()" ng-disabled="!pumpStation.CanSetManualState">Ручное</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetIgnoreState()" ng-disabled="!pumpStation.CanSetIgnoreState">Отключение</div>
+                        </div>
+                        <div style="float: left; width: 50%; background: #fff">
+                            <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="TurnOn()" ng-disabled="!pumpStation.IsControlRegime">Пуск</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOnNow()" ng-disabled="!pumpStation.IsControlRegime">Пуск немедленно</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOff()" ng-disabled="!pumpStation.IsControlRegime">Стоп</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="ForbidStart()" ng-disabled="!pumpStation.IsControlRegime">Останов пуска</div>
+                        </div>
+                        <div style="clear: left">
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Свойства">
+                    <div style="background: #fff; color: #000; height: 248px">
+                        <div>
+                            <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png" />
+                            <a href="#" ng-click="Show()">{{pumpStation.Name}}</a>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
+                            <span style="margin: 2px; font-weight: bold">{{pumpStation.GKDescriptorNo}}</span>
+                        </div>
+                        <div>
+                            <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                            <a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                        </div>
+                        <div>
+                            <span>Задержка: </span>
+                            <span>{{pumpStation.Delay}}</span>
+                        </div>
+                        <div>
+                            <span>Время тушения: </span>
+                            <span>{{pumpStation.Hold}}</span>
+                        </div>
+                        <div>
+                            <span>Количество основных насосов: </span>
+                            <span>{{pumpStation.NSPumpsCount}}</span>
+                        </div>
+                        <div>
+                            <span>Время разновременного пуска: </span>
+                            <span>{{pumpStation.NSDeltaTime}}</span>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
         </div>
-        <uib-tabset>
-            <uib-tab heading="Управление">
-                <div>
-                    <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{pumpStation.ControlRegimeIcon}}.png" />
-                    <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
-                    <span style="font-weight: bold; font-size: large; margin: 5px">{{pumpStation.ControlRegimeName}}</span>
-                </div>
-                <div style="background: #fff">
-                    <div style="float: left; width: 50%">
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetAutomaticState()" ng-disabled="!pumpStation.CanSetAutomaticState">Автоматика</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetManualState()" ng-disabled="!pumpStation.CanSetManualState">Ручное</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetIgnoreState()" ng-disabled="!pumpStation.CanSetIgnoreState">Отключение</div>
-                    </div>
-                    <div style="float: left; width: 50%; background: #fff">
-                        <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="TurnOn()" ng-disabled="!pumpStation.IsControlRegime">Пуск</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOnNow()" ng-disabled="!pumpStation.IsControlRegime">Пуск немедленно</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOff()" ng-disabled="!pumpStation.IsControlRegime">Стоп</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="ForbidStart()" ng-disabled="!pumpStation.IsControlRegime">Останов пуска</div>
-                    </div>
-                    <div style="clear: left">
-                    </div>
-                </div>
-            </uib-tab>
-            <uib-tab heading="Свойства">
-                <div style="background: #fff; color: #000; height: 248px">
-                    <div>
-                        <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png" />
-                        <a href="#" ng-click="Show()">{{pumpStation.Name}}</a>
-                    </div>
-                    <div>
-                        <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-                        <span style="margin: 2px; font-weight: bold">{{pumpStation.GKDescriptorNo}}</span>
-                    </div>
-                    <div>
-                        <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-                        <a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-                    </div>
-                    <div>
-                        <span>Задержка: </span>
-                        <span>{{pumpStation.Delay}}</span>
-                    </div>
-                    <div>
-                        <span>Время тушения: </span>
-                        <span>{{pumpStation.Hold}}</span>
-                    </div>
-                    <div>
-                        <span>Количество основных насосов: </span>
-                        <span>{{pumpStation.NSPumpsCount}}</span>
-                    </div>
-                    <div>
-                        <span>Время разновременного пуска: </span>
-                        <span>{{pumpStation.NSDeltaTime}}</span>
-                    </div>
-                </div>
-            </uib-tab>
-        </uib-tabset>
     </div>
 </div>

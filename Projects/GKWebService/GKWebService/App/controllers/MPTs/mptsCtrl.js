@@ -69,6 +69,7 @@
                        animation: false,
                        templateUrl: 'MPTs/MPTDetails',
                        controller: 'mptsDetailsCtrl',
+                       backdrop: false,
                        resolve: {
                            mpt: function () {
                                return mpt;

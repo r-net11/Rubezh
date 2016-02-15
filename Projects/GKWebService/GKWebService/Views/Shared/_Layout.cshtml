@@ -108,7 +108,7 @@
                             <li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
 							<li><a class="zone" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
                             <li><a class="guardZone" href="" data-bind="click: function(data,event) { PageClick(data, event, 'GuardZones'); } "><span class="icon firezones"></span><span class="text">Охранные зоны</span></a></li>
-                            <li><a class="params" href="" data-bind="click: function(data, event){PageClick(data, event, 'PumpStations'); }"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
+                            <li><a class="pumpStations" href="" data-bind="click: function(data, event){PageClick(data, event, 'PumpStations'); }"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
                            	<li><a class="direction" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
 							<li><a class="delays" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Delays'); } "><span class="icon delays"></span><span class="text">Задержки</span></a></li>
                             <li><a class="MPTs" href="" data-bind="click: function(data,event) { PageClick(data, event, 'MPTs'); } "><span class="icon delays"></span><span class="text">МПТ</span></a></li>
@@ -153,6 +153,8 @@
 	<script src="~/Scripts/d3/d3.min.js"></script>
 	<script src="~/Scripts/d3tip.js"></script>
 	<script src="~/Scripts/ui-grid.min.js"></script>
+	<script src="~/Scripts/angular-ui-tree/angular-ui-tree.js"></script>
+
 
 	<script src="~/App/app.js"></script>
     <script src="~/App/constants.js"></script>
@@ -160,6 +162,8 @@
 	<script src="~/App/controllers/planCtrl.js"></script>
 	<script src="~/App/directives/d3Plan.js"></script>
     <script src="~/App/directives/alarmBtn.js"></script>
+    <script src="~/App/directives/modalDraggable.js"></script>
+    <script src="~/App/directives/modaless.js"></script>
     <script src="~/App/services/broadcastService.js"></script>
     <script src="~/App/services/signalrAlarmsService.js"></script>
 	<script src="~/App/services/signalrService.js"></script>
@@ -171,15 +175,12 @@
     <script src="~/App/services/signalrPumpStationService.js"></script>
     <script src="~/App/services/signalrGuardZonesService.js"></script>
     <script src="~/App/services/signalrDoorsService.js"></script>
-
     <script src="~/App/controllers/Doors/doorsCtrl.js"></script>
     <script src="~/App/controllers/Doors/doorDetailsCtrl.js"></script>
     <script src="~/App/controllers/GuardZones/guardZonesCtrl.js"></script>
     <script src="~/App/controllers/GuardZones/guardZoneDetailsCtrl.js"></script>
     <script src="~/App/controllers/fireZones/fireZonesCtrl.js"></script>
-    <script src="~/App/controllers/fireZones/fireZonesDevicesCtrl.js"></script>
-    <script src="~/App/controllers/fireZones/fireZonesDetailsCtrl.js"></script>
-    <script src="~/App/controllers/fireZones/fireZonesDevicesDetailsCtrl.js"></script>
+	<script src="~/App/controllers/fireZones/fireZonesDetailsCtrl.js"></script>
     <script src="~/App/controllers/PumpStations/pumpStationDevicesCtrl.js"></script>
     <script src="~/App/controllers/PumpStations/pumpStationsCtrl.js"></script>
     <script src="~/App/controllers/PumpStations/pumpStationDetailsCtrl.js"></script>
@@ -190,10 +191,13 @@
     <script src="~/App/services/signalrDevicesService.js"></script>
 	<script src="~/App/controllers/delays/delaysCtrl.js"></script>
 	<script src="~/App/controllers/delays/delayDetailsCtrl.js"></script>
-	<script src="~/App/controllers/journal/journalProperties.js"></script>
+	<script src="~/App/controllers/archive/archiveCtrl.js"></script>
+	<script src="~/App/controllers/archive/archiveFilterCtrl.js"></script>
 	<script src="~/App/controllers/journal/journalCtrl.js"></script>
 	<script src="~/App/controllers/journal/journalFilterCtrl.js"></script>
     <script src="~/App/controllers/devices/devicesCtrl.js"></script>
+    <script src="~/App/controllers/devices/devicesDetailsCtrl.js"></script>
+	<script src="~/App/directives/devicesGrid.js"></script>
 	<script src="~/App/controllers/devices/deviceParametersCtrl.js"></script>
     <script src="~/App/controllers/alarms/alarmGroupsCtrl.js"></script>
     <script src="~/App/controllers/alarms/alarmsCtrl.js"></script>

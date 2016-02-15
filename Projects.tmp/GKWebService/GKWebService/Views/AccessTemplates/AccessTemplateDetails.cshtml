@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+}
+
+<script type="text/html" id="AccessTemplateDetailsTemplate">
+    <div id="accessTemplate-details-box" class="save-cancel-popup">
+        <div class="title-bar">
+            <span data-bind="text: Title"></span>
+            <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: AccessTemplateDetailsClose"/></a>
+        </div>
+        <div>
+            <form id="AccessTemplate" data-bind="submit: SaveAccessTemplate">
+                <ul class="tab">
+                    <li class="active"><a href="" data-bind="click: function(data,event) { AccessTemplateDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
+                    <li><a href="" data-bind="click: function(data,event) { AccessTemplateDetailsPageClick(data, event, 'AccessDoors'); }"><span>Точки доступа</span></a></li>
+                </ul>
+                <div class="data-input" data-bind="visible:accessTemplateDetailsPages.General, with: AccessTemplate">
+                    <label for="Name"><span>Название</span><input type="text" name="Name" id="Name" data-bind="value: Name" value=""/></label>
+                    <label for="Description"><span>Примечание</span><input type="text" name="Description" id="Description" data-bind="value: Description" value=""/></label>
+                </div>
+                <div data-bind="visible:accessTemplateDetailsPages.AccessDoors">
+                    <ul id="AccessTemplateDetailsDoors" class="SelectableList" data-bind="foreach: Doors">
+                        <li>
+                            <div data-bind="click: function(data,event) { $parent.DoorClick(data, event, $data); return true; }">
+                                <img src="Content/Image/Icon/Hr/Door.png" />
+                                <input type="checkbox" data-bind="checked: IsChecked" value="">
+                                <span data-bind="text: PresentationName"></span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div id="AccessTemplateDetailsDoor" data-bind="visible:SelectedDoor(), with:SelectedDoor">
+                        <label for="EnterSchedule">
+                            <span>Временной критерий для входа</span><br />
+                            <select name="EnterSchedule" data-bind="options: EnterSchedules, optionsText: 'Name', value: SelectedEnterSchedule, enable: IsChecked"></select>
+                        </label>
+                        <br />
+                        <label for="ExitSchedule" data-bind="visible: HasExit">
+                            <span>Временной критерий для выхода</span><br />
+                            <select name="ExitSchedule" data-bind="options: ExitSchedules, optionsText: 'Name', value: SelectedExitSchedule, enable: IsChecked"></select>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="submit ok-cancel-button" type="submit">OK</button>
+            </form>
+        </div>
+    </div>
+</script>
+
+<div data-bind="template: { name: 'AccessTemplateDetailsTemplate', data: HR.AccessTemplates.AccessTemplateDetails}"></div>

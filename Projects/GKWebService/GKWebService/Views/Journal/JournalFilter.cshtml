@@ -4,37 +4,6 @@
 
 <div class="modal-body">
 	<uib-tabset>
-		<uib-tab heading="Дата">
-			<div style="display:block; width:100%; padding:0 0 0 15px"  class="clearfix">
-				<p style=" float:left;padding: 13px;line-height: 70px;">C</p>
-				<uib-timepicker ng-model="beginDate.date" show-meridian="false" style="float: left;"></uib-timepicker>
-				<div class="col-md-6" style="position:relative; float:left; top:32px">
-					<p class=" input-group">
-						<input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="beginDate.date" is-open="beginDate.isOpened" min-date="minDate" max-date="maxDate" close-text="Close" />
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="beginDate.open()">
-								<i class="glyphicon glyphicon-calendar"></i>
-							</button>
-						</span>
-					</p>
-				</div>
-			</div>
-
-			<div style="display:block; width:100%; padding:0 0 0 15px" class="clearfix">
-				<p style=" float:left;padding: 13px;line-height: 70px;">До</p>
-				<uib-timepicker ng-model="endDate.date" show-meridian="false" style="float: left;"></uib-timepicker>
-				<div class="col-md-6 clearfix" style="position:relative; float:left; top:32px">
-					<p class="input-group">
-						<input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="endDate.date" is-open="endDate.isOpened" min-date="minDate" max-date="maxDate" close-text="Close" />
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="endDate.open()">
-								<i class="glyphicon glyphicon-calendar"></i>
-							</button>
-						</span>
-					</p>
-				</div>
-			</div>
-		</uib-tab>
 		<uib-tab heading="Объект">
 			<div ui-grid="objectsGrid" ui-grid-tree-view ui-grid-selection></div>
 		</uib-tab>

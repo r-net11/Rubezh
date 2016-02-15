@@ -11,6 +11,7 @@ namespace GKWebService.Models
 		public List<InputFilterEvent> Events { get; set; }
 		public DateTime? BeginDate { get; set; }
 		public DateTime? EndDate { get; set; }
+		public int? Page { get; set; }
 	}
 
 	public class InputFilterEvent

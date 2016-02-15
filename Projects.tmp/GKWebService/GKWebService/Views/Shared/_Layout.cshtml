@@ -1,0 +1,226 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<title>Оперативная задача Глобал</title>
+
+	<link rel="apple-touch-icon" sizes="57x57" href="~/Content/favicon/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="~/Content/favicon/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="~/Content/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="~/Content/favicon/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="~/Content/favicon/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="~/Content/favicon/apple-touch-icon-120x120.png">
+	<link rel="icon" type="image/png" href="~/Content/favicon/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="~/Content/favicon/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="~/Content/favicon/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="~/Content/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+
+	<link href="~/Content/themes/base/all.css"
+		  rel="stylesheet">
+	@Styles.Render("~/Content/css")
+
+    <link href="~/Content/ui-grid.css" rel="stylesheet" />
+	<link rel="stylesheet/less" type="text/css" href="~/Content/main.less" />
+	<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet">
+	<link href="~/Content/themes/base/customTheme.css"
+		  rel="stylesheet">
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	@*@Scripts.Render("~/bundles/libs")*@
+</head>
+<body ng-app="gkApp">
+	<div class="wrapper">
+    		<header class="header">
+			<div class="left" data-bind="with: Header">
+
+
+				<div id="login-box" class="login-popup">
+					<div class="title-bar">
+						<span>Оперативная задача Глобал</span>
+						<a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: LogonClose" /></a>
+					</div>
+					<div class="signin">
+						<fieldset class="textbox">
+
+							<label class="username">
+								<input id="username" data-bind="value: login" name="username" value="" type="text" autocomplete="on" placeholder="Логин">
+							</label>
+							<label class="password">
+								<input id="password" data-bind="value: password" name="password" value="" type="password" placeholder="Пароль">
+							</label>
+
+							<button class="submit button" type="button" data-bind="click: Enter">Войти</button>
+							<label data-bind="text: logon_error"></label>
+
+						</fieldset>
+					</div>
+				</div>
+
+				<div id="question-box" class="save-cancel-popup">
+					<div class="title-bar">
+						<span>Оперативная задача Глобал</span>
+						<a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: QuestionBox.Close" /></a>
+					</div>
+					<fieldset class="textbox">
+						<div>
+							<label data-bind="text: QuestionBox.Message"></label>
+						</div>
+						<button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.OnYesClick">Да</button>
+						<button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.Close">Нет</button>
+					</fieldset>
+				</div>
+
+				<div id="clockbox" class="time"></div>
+				<div class="icons">
+					<div class="icon mute" data-bind="css:{'off': isSound}, click: SoundClick"></div>
+					<div class="icon connect on"></div>
+					<div class="icon change-user on" dialog_id="#login-box" data-bind="click: LogonClick"></div>
+					<div class="icon activation on"></div>
+					<div class="icon plan on"></div>
+				</div>
+			</div>
+		    <div class="right">
+		        @Html.Action("AlarmGroups", "Alarms")
+		    </div>
+		</header><!-- .header-->
+
+		<div class="middle" data-bind="with: Menu">
+			<div class="container">
+				<main class="content">
+					@RenderBody()
+				</main><!-- .content -->
+			</div><!-- .container-->
+
+			<aside class="left-sidebar">
+				<ul class="menu">
+					<li>
+						<a class="group-control" href="#" data-bind="click: MenuClick"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
+                        <ul>
+							<li class="state" data-bind="css:{'active': StatePageOpened}"><a id="menuState" href="" data-bind="click: function(data,event) { PageClick(data, event, 'State'); } "><span class="icon state"></span><span class="text">Состояния</span></a></li>
+                            <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
+                            <li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
+							<li><a class="zone" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
+                            <li><a class="params" href="" data-bind="click: function(data, event){PageClick(data, event, 'PumpStations'); }"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
+                           	<li><a class="direction" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
+							<li><a class="delays" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Delays'); } "><span class="icon delays"></span><span class="text">Задержки</span></a></li>
+                            <li><a class="MPTs" href="" data-bind="click: function(data,event) { PageClick(data, event, 'MPTs'); } "><span class="icon delays"></span><span class="text">МПТ</span></a></li>
+                        </ul>
+					</li>
+					<li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Journal'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
+					<li><a class="archive" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"><span class="icon archive"></span><span class="text">Архив</span></a></li>
+					<li><a class="reports" href="" data-bind="click: MenuClick"><span class="icon reports"></span><span class="text">Отчёты</span></a></li>
+					<li class="SKD has-sub last">
+						<a data-bind="click: MenuClick"><span class="icon SKD"></span><span class="text">СКД</span></a>
+						<ul>
+							<li>
+								<a class="file"
+								   href=""
+								   data-bind="click: function(data,event) { PageClick(data, event, 'HR'); }"><span class="icon file"></span><span class="text">Картотека</span></a>
+							</li>
+						</ul>
+					</li>
+					<li><a class="plan" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Plan'); }"><span class="icon archive"></span><span class="text">Планы</span></a></li>
+				</ul>
+			</aside><!-- .left-sidebar -->
+
+		</div><!-- .middle-->
+
+	</div><!-- .wrapper -->
+	@*<script src="~/Scripts/jquery-2.1.4.min.js"></script>*@
+
+	<script src="~/Scripts/less.min.js"></script>
+	<script src="~/Scripts/knockout-3.3.0.js"></script>
+	<script src="~/Scripts/knockout.mapping-latest.js"></script>
+	<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+	<script src="~/Scripts/moment.min.js"></script>
+	<script src="~/Scripts/jquery.jqGrid.min.js"></script>
+	<script src="~/Scripts/i18n/grid.locale-ru.js"></script>
+	<script src="~/scripts/i18n/datepicker-ru.js"></script>
+
+	<script src="~/Scripts/angular.js"></script>
+	<script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+	<script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+	<script src="~/Scripts/angular-signalr-hub.js"></script>
+	<script src="~/Scripts/d3/d3.min.js"></script>
+	<script src="~/Scripts/d3tip.js"></script>
+	<script src="~/Scripts/ui-grid.min.js"></script>
+
+	<script src="~/App/app.js"></script>
+    <script src="~/App/constants.js"></script>
+    <script src="~/App/controllers/signalrCtrl.js"></script>
+	<script src="~/App/controllers/planCtrl.js"></script>
+	<script src="~/App/directives/d3Plan.js"></script>
+    <script src="~/App/directives/alarmBtn.js"></script>
+    <script src="~/App/services/broadcastService.js"></script>
+    <script src="~/App/services/signalrAlarmsService.js"></script>
+	<script src="~/App/services/signalrService.js"></script>
+	<script src="~/App/services/signalrDelaysService.js"></script>
+    <script src="~/App/services/signalrDirectionsService.js"></script>
+	<script src="~/App/services/signalrJournalService.js"></script>
+    <script src="~/App/services/signalrFireZonesService.js"></script>
+    <script src="~/App/services/signalrMPTsService.js"></script>
+    <script src="~/App/services/signalrPumpStationService.js"></script>
+
+    <script src="~/App/controllers/fireZones/fireZonesCtrl.js"></script>
+    <script src="~/App/controllers/fireZones/fireZonesDevicesCtrl.js"></script>
+    <script src="~/App/controllers/fireZones/fireZonesDetailsCtrl.js"></script>
+    <script src="~/App/controllers/fireZones/fireZonesDevicesDetailsCtrl.js"></script>
+    <script src="~/App/controllers/PumpStations/pumpStationDevicesCtrl.js"></script>
+    <script src="~/App/controllers/PumpStations/pumpStationsCtrl.js"></script>
+    <script src="~/App/controllers/PumpStations/pumpStationDetailsCtrl.js"></script>
+    <script src="~/App/controllers/directions/directionsCtrl.js"></script>
+    <script src="~/App/controllers/directions/directionDetailsCtrl.js"></script>
+    <script src="~/App/controllers/MPTs/mptsDetailsCtrl.js"></script>
+    <script src="~/App/controllers/MPTs/mptsCtrl.js"></script>
+    <script src="~/App/services/signalrDevicesService.js"></script>
+	<script src="~/App/controllers/delays/delaysCtrl.js"></script>
+	<script src="~/App/controllers/delays/delayDetailsCtrl.js"></script>
+	<script src="~/App/controllers/journal/journalProperties.js"></script>
+	<script src="~/App/controllers/journal/journalCtrl.js"></script>
+	<script src="~/App/controllers/journal/journalFilterCtrl.js"></script>
+    <script src="~/App/controllers/devices/devicesCtrl.js"></script>
+	<script src="~/App/controllers/devices/deviceParametersCtrl.js"></script>
+    <script src="~/App/controllers/alarms/alarmGroupsCtrl.js"></script>
+    <script src="~/App/controllers/alarms/alarmsCtrl.js"></script>
+    <script src="~/App/controllers/MPTs/devicesMPTCtrl.js"></script>
+	@*<script src="~/Scripts/report.js"></script>*@
+	<script src="~/Scripts/archive.js"></script>
+	<script src="~/Scripts/HR.js"></script>
+	<script src="~/Scripts/HrFilter.js"></script>
+	<script src="~/Scripts/HrEmployees.js"></script>
+	<script src="~/Scripts/EmployeeDetails.js"></script>
+	<script src="~/Scripts/EmployeeCardDetails.js"></script>
+	<script src="~/Scripts/SKD/Employees/DepartmentSelectionViewModel.js"></script>
+	<script src="~/Scripts/SKD/Employees/PositionSelectionViewModel.js"></script>
+	<script src="~/Scripts/SKD/Employees/ScheduleSelectionViewModel.js"></script>
+	<script src="~/Scripts/SKD/Employees/CardRemovalReasonViewModel.js"></script>
+	<script src="~/Scripts/HrEmployeeCards.js"></script>
+	<script src="~/Scripts/SKD/Departments/DepartmentsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Departments/DepartmentDetailsViewModel.js"></script> 
+	<script src="~/Scripts/SKD/Common/EmployeeSelectionDialogViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/PhotoSelectionViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/OrganisationsFilterViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/DepartmentsFilterViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/PositionsFilterViewModel.js"></script>
+	<script src="~/Scripts/SKD/Common/EmployeesFilterViewModel.js"></script>
+	<script src="~/Scripts/SKD/Departments/DepartmentEmployeeListViewModel.js"></script>
+	<script src="~/Scripts/SKD/Positions/PositionsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Positions/PositionDetailsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Positions/PositionEmployeeListViewModel.js"></script>
+	<script src="~/Scripts/SKD/Cards/CardsViewModel.js"></script>
+	<script src="~/Scripts/SKD/AccessTemplates/AccessTemplatesViewModel.js"></script>
+	<script src="~/Scripts/SKD/AccessTemplates/AccessTemplateDetailsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Organisations/OrganisationsViewModel.js"></script>
+	<script src="~/Scripts/SKD/Organisations/OrganisationDetailsViewModel.js"></script>
+	<script src="~/Scripts/Main.js"></script>
+	<script src="~/Scripts/Clock.js"></script>
+	<script src="~/Scripts/tooltips.js"></script>
+</body>
+</html>
