@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
+using EntitiesValidation;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -103,6 +106,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			// Выполняем валидацию схемы графика работ с типом "Сменный"
+			if (Model.Type == ScheduleSchemeType.SlideDay)
+			{
+				var validationResult = ValidateDayIntervalsIntersection();
+				if (validationResult.HasError)
+				{
+					MessageBoxService.ShowWarning(String.Format("{0}\n\n{1}", "Нельзя удалить выбранный дневной график!", validationResult.Error), null, 420, 200);
+					return;
+				}
+			}
+
 			var number = SelectedSheduleDayInterval.Model.Number;
 			if (SheduleDayIntervalHelper.Remove(SelectedSheduleDayInterval.Model, Model.Name))
 			{
@@ -129,6 +143,21 @@ namespace SKDModule.ViewModels
 		{
 			Model.DaysCount = Model.DayIntervals.Count;
 			ScheduleSchemeHelper.Save(Model, false);
+		}
+
+		private OperationResult ValidateDayIntervalsIntersection()
+		{
+			var dayIntervals = (
+				from scheduleDayInterval in SheduleDayIntervals
+				where scheduleDayInterval != SelectedSheduleDayInterval
+				select scheduleDayInterval.SelectedDayInterval).ToList();
+
+			var validationResult = ScheduleSchemeValidator.ValidateDayIntervalsIntersecion(dayIntervals);
+			if (validationResult.HasError)
+				return new OperationResult(validationResult.Error);
+
+			// Нет пересечений
+			return new OperationResult();
 		}
 	}
 }

@@ -263,10 +263,18 @@ namespace FiresecService.Service
 			OperationResult operationResult;
 			using (var databaseService = new SKDDatabaseService())
 			{
+				// Валидируем Схему графика работы
+				operationResult = ScheduleDayIntervalValidator.ValidateDeleting(uid);
+				if (operationResult.HasError)
+					return operationResult;
+
+				// Сохраняем изменения в БД
 				operationResult = databaseService.ScheduleDayIntervalTranslator.Delete(uid);
 			}
+			// Если ошибок нет, то оставляем соответствующее сообщение в журнале событий
 			if (!operationResult.HasError)
 				AddJournalMessage(JournalEventNameType.Удаление_графика_работы_сотрудника, name);
+
 			return operationResult;
 		}
 
