@@ -20,6 +20,7 @@ namespace GKWebService.Models
 			No = mpt.No;
 			GKDescriptorNo = mpt.GKDescriptorNo;
 			Name = mpt.Name;
+			ImageSource = mpt.ImageSource.Replace("/Controls;component/", "");
 			OnClausesGroup = GKManager.GetPresentationLogic(mpt.MptLogic.OnClausesGroup);
 			StopClausesGroup = GKManager.GetPresentationLogic(mpt.MptLogic.StopClausesGroup);
 			OffClausesGroup = GKManager.GetPresentationLogic(mpt.MptLogic.OffClausesGroup);
@@ -29,7 +30,7 @@ namespace GKWebService.Models
 
 			State = mpt.State.StateClass.ToDescription();
 			StateIcon = mpt.State.StateClass.ToString();
-			StateClasses = mpt.State.StateClasses.Select(x => new DirectionStateClass(x)).ToList();
+			StateClasses = mpt.State.StateClasses.Select(x => new StateClass(x)).ToList();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(mpt.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 			HasOnDelay = mpt.State.StateClasses.Contains(XStateClass.TurningOn) && mpt.State.OnDelay > 0;
@@ -63,7 +64,7 @@ namespace GKWebService.Models
 		public string ControlRegimeIcon { get; set; }
 		public bool HasOnDelay { get; set; }
 		public ushort GKDescriptorNo { get; set; }
-		public List<DirectionStateClass> StateClasses { get; set; }
+		public List<StateClass> StateClasses { get; set; }
 
 		public string DelayRegime { get; set; }
 		public string StateColor { get; set; }
@@ -81,5 +82,6 @@ namespace GKWebService.Models
 		public string StopClausesGroup { get; set; }
 
 		public string OffClausesGroup { get; set; }
+		public string ImageSource { get; set; }
 	}
 }
