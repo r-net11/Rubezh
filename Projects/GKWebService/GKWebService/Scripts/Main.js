@@ -100,7 +100,7 @@ function HeaderIconsViewModel() {
 		});
 	}
 
-	//self.LogonClick();
+    self.LogonClick();
 
 	return self;
 }

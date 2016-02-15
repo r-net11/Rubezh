@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
-        ['$scope', '$http', '$uibModal', '$window', 'broadcastService', 'constants',
-        function ($scope, $http, $uibModal, $window, broadcastService, constants) {
+        ['$scope', '$http', '$uibModal', '$window', '$stateParams', 'broadcastService', 'constants',
+        function ($scope, $http, $uibModal, $window, $stateParams, broadcastService, constants) {
             $scope.gridOptions = {
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
@@ -82,20 +82,14 @@
                 $scope.$apply();
             });
 
-            $scope.$on('alarmsShowClick', function (event, args) {
-                // TODO: Исправить когда меню переведём на ангулар
-                angular.element(".menu .group-control").parent().addClass('clicked');
-                $window.app.Menu.PageClick(null, { currentTarget: angular.element("#menuState")[0] }, 'State');
+            //$scope.$on('alarmsShowClick', function (event, args) {
+                $scope.groupControlClicked = true;
 
-                $scope.gridOptions.enableFiltering = true;
-                $scope.term = args;
-                $scope.gridApi.grid.refresh();
-            });
+                $scope.term = $stateParams.alarmType;
+                $scope.gridOptions.enableFiltering = ($stateParams.alarmType ? true : false);
 
-            $scope.menuStateClick = function() {
-                $scope.gridOptions.enableFiltering = false;
-                $scope.gridApi.grid.refresh();
-            };
+                //$scope.gridApi.grid.refresh();
+            //});
 
             $http.get('Alarms/GetAlarms').success(function (data, status, headers, config) {
                 $scope.model = data;

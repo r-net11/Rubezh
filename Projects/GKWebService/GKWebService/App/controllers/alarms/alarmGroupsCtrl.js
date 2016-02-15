@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module("gkApp").controller("alarmGroupsCtrl",
-        ['$scope', '$http', '$sce', 'signalrAlarmsService', 'broadcastService',
-            function ($scope, $http, $sce, signalrAlarmsService, broadcastService) {
+        ['$scope', '$http', '$sce', '$state', 'signalrAlarmsService', 'broadcastService',
+            function ($scope, $http, $sce, $state, signalrAlarmsService, broadcastService) {
                 $scope.resetTooltip = $sce.trustAsHtml('<img width="16" src="/Content/Image/Images/BReset.png" /> <span>Сбросить все</span>');
                 
                 $http.get('Alarms/GetAlarmGroups').success(function (data, status, headers, config) {
@@ -17,8 +17,9 @@
                     $scope.$apply();
                 });
 
-                $scope.ShowClick = function(group) {
-                    broadcastService.send('alarmsShowClick', group.AlarmType);
+                $scope.ShowClick = function (group) {
+                    $state.go('state', { alarmType: group.AlarmType });
+                    //broadcastService.send('alarmsShowClick', group.AlarmType);
                 };
 
                 $scope.resetClick = function () {

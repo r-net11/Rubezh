@@ -1,0 +1,44 @@
+﻿(function () {
+    'use strict';
+
+    angular.module("gkApp").config(function ($stateProvider, $urlRouterProvider) {
+
+        $urlRouterProvider.otherwise("/");
+
+        $stateProvider.state('state', {
+            url: "/state/:alarmType",
+            templateUrl: "/Alarms/Alarms"
+        }).state('device', {
+            url: "/devices/:uid",
+            templateUrl: "/Devices/Index"
+        }).state('params', {
+            url: "/params/:uid",
+            templateUrl: "/params/Index"
+        }).state('fireZones', {
+            url: "/fireZones/:uid",
+            templateUrl: "/FireZones/Index"
+        }).state('pumpStations', {
+            url: "/pumpStations/:uid",
+            templateUrl: "/PumpStations/PumpStations"
+        }).state('directions', {
+            url: "/directions/:v",
+            templateUrl: "/Directions/Index"
+        }).state('delays', {
+            url: "/delays/:uid",
+            templateUrl: "/Delays/Delays"
+        }).state('MPTs', {
+            url: "/MPTs/:uid",
+            templateUrl: "/MPTs/Index"
+        }).state('journal', {
+            url: "/journal/:uid",
+            templateUrl: "/Journal/Index"
+        }).state('archive', {
+            url: "/archive/:uid",
+            templateUrl: "/Archive/Index"
+        }).state('plan', {
+            url: "/plan/:uid",
+            templateUrl: "/Plans/Index"
+        });
+    });
+
+}());
