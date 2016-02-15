@@ -19,7 +19,6 @@ namespace VideoModule.ViewModels
 		public bool IsCamera { get { return Camera != null; } }
 		public string PresentationName { get; private set; }
 		public string PresentationAddress { get; private set; }
-
 		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera, string presentationName)
 		{
 			_camerasViewModel = camerasViewModel;
@@ -35,8 +34,6 @@ namespace VideoModule.ViewModels
 			PresentationName = presentationName;
 			PresentationAddress = presentationAddress;
 		}
-
-
 		public void Update()
 		{
 			OnPropertyChanged(() => Camera);

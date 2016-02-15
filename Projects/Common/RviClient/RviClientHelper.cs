@@ -168,6 +168,7 @@ namespace RviClient
 							{
 								StreamNo = stream.Number,
 								Ip = device.Ip,
+								RviServerUrl = url,
 								RviDeviceName = device.Name,
 								RviDeviceUID = device.Guid,
 								RviChannelNo = channel.Number,
