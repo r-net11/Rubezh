@@ -197,7 +197,6 @@
     <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
     <Content Include="App\controllers\devices\devicesDetailsCtrl.js" />
-    <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
     <Content Include="App\controllers\journal\journalFilterCtrl.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
