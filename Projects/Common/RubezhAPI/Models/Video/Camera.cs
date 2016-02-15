@@ -61,6 +61,8 @@ namespace RubezhAPI.Models
 		public int ShowDetailsHeight { get; set; }
 		[DataMember]
 		public bool IsAddedInConfiguration { get; set; }
+		[DataMember]
+		public string RviServerUrl { get; set; }
 		public int ShowDetailsMarginLeft { get; set; }
 		public int ShowDetailsMarginTop { get; set; }
 
