@@ -4,20 +4,3 @@
 @*@using System.Web.Optimization*@
 
 <div ui-view></div>
-<div>
-	<div data-bind="visible:pages.Archive">@Html.Action("Index","Archive")</div>
-	<div data-bind="visible:pages.Plan">@Html.Action("Index", "Plans")</div>
-	<div data-bind="visible:pages.HR"><div id="HR"></div></div>
-    <div data-bind="visible:pages.State">@Html.Action("Alarms", "Alarms")</div>
-    <div data-bind="visible:pages.Device">@Html.Action("Index", "Devices")</div>
-	<div data-bind="visible:pages.Journal">@Html.Action("Index", "Journal")</div>
-    <div data-bind="visible:pages.FireZones">@Html.Action("Index", "FireZones")</div>
-    <div data-bind="visible:pages.GuardZones">@Html.Action("Guard", "GuardZones")</div>
-    <div data-bind="visible:pages.PumpStations">@Html.Action("PumpStations", "PumpStations")</div>
-    <div data-bind="visible:pages.Directions">@Html.Action("Index", "Directions")</div>
-    <div data-bind="visible:pages.Delays">@Html.Action("Delays", "Delays")</div>
-    <div data-bind="visible:pages.MPTs">@Html.Action("Index", "MPTs")</div>
-    <div data-bind="visible:pages.Doors">@Html.Action("Door", "Doors")</div>
-
-    
-</div>

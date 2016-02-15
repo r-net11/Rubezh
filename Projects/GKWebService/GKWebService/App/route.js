@@ -38,6 +38,12 @@
         }).state('plan', {
             url: "/plan/:uid",
             templateUrl: "/Plans/Index"
+        }).state('guardZone', {
+            url: "/guardZone/:uid",
+            templateUrl: "/GuardZones/Guard"
+        }).state('doors', {
+            url: "/doors/:uid",
+            templateUrl: "/Doors/Door"
         });
     });
 
