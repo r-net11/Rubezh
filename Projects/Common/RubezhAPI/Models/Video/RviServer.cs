@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -17,10 +18,17 @@ namespace RubezhAPI.Models
 		public string Url { get; set; }
 		[DataMember]
 		public List<RviDevice> RviDevices { get; set; }
+		public RviStatus Status { get; set; }
 		[XmlIgnore]
 		public string Name
 		{
 			get { return string.Format("Сервер ({0}:{1})", Ip, Port); }
+		}
+		public event Action StatusChanged;
+		public void OnStatusChanged()
+		{
+			if (StatusChanged != null)
+				StatusChanged();
 		}
 	}
 }

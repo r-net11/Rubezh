@@ -14,18 +14,48 @@ namespace VideoModule.ViewModels
 	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
 		public Camera Camera { get; set; }
+		public RviServer RviServer { get; private set; }
+		public RviDevice RviDevice { get; private set; }
 		public string PresentationName { get; private set; }
 		public string PresentationAddress { get; private set; }
+		public RviStatus Status { get; private set; }
+		public bool StatusVisibility { get { return RviServer != null || RviDevice != null; } }
 		public List<CameraViewModel> VisualCameraViewModels;
-		public CameraViewModel(string presentationName, string presentationAddress, Camera camera = null)
+		public CameraViewModel()
 		{
 			VisualCameraViewModels = new List<CameraViewModel>();
-			Camera = camera;
-			PresentationName = presentationName;
-			PresentationAddress = presentationAddress;
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => Camera != null && Camera.PlanElementUIDs.Count > 0);
+			Status = RviStatus.Unknown;
+		}
+		public CameraViewModel(string presentationName, Camera camera = null) : this()
+		{
+			Camera = camera;
+			PresentationName = presentationName;
+		}
+		public CameraViewModel(RviDevice rviDevice) : this()
+		{
+			RviDevice = rviDevice;
+			PresentationName = rviDevice.Name;
+			PresentationAddress = rviDevice.Ip;
+			rviDevice.StatusChanged += OnDeviceStatusChanged;
+		}
+		public CameraViewModel(RviServer rviServer) : this()
+		{
+			RviServer = rviServer;
+			PresentationName = rviServer.Name;
+			rviServer.StatusChanged += OnServerStatusChanged;
+		}
+		void OnServerStatusChanged()
+		{
+			Status = RviServer.Status;
+			OnPropertyChanged(() => Status);
+		}
+		void OnDeviceStatusChanged()
+		{
+			Status = RviDevice.Status;
+			OnPropertyChanged(() => Status);
 		}
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()

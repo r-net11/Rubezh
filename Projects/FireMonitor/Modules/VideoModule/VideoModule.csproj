@@ -97,6 +97,7 @@
     <Compile Include="Plans\Designer\CameraPainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
+    <Compile Include="VideoModuleLoader.Subscribe.cs" />
     <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />

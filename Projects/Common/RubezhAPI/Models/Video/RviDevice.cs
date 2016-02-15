@@ -19,5 +19,12 @@ namespace RubezhAPI.Models
 		public string Name { get; set; }
 		[DataMember]
 		public List<RviChannel> RviChannels { get; set; }
+		public RviStatus Status { get; set; }
+		public event Action StatusChanged;
+		public void OnStatusChanged()
+		{
+			if (StatusChanged != null)
+				StatusChanged();
+		}
 	}
 }
