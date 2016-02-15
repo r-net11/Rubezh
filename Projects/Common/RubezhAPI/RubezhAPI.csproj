@@ -171,6 +171,7 @@
     <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="Models\Video\RviChannel.cs" />
     <Compile Include="Models\Video\RviDevice.cs" />
+    <Compile Include="Models\Video\RviStatus.cs" />
     <Compile Include="Models\Video\RviServer.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlOpcDaTagArguments.cs" />
@@ -299,6 +300,8 @@
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
     <Compile Include="Models\Video\CameraState.cs" />
     <Compile Include="Models\Video\RviSettings.cs" />
+    <Compile Include="RviCallbackResult.cs" />
+    <Compile Include="RviState.cs" />
     <Compile Include="ServerState.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterReflection.cs" />

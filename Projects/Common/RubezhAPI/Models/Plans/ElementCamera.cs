@@ -8,6 +8,8 @@ namespace RubezhAPI.Models
 	[DataContract]
 	public class ElementCamera : ElementBasePoint, IElementReference
 	{
+		private int rotation = 0;
+
 		public ElementCamera()
 		{
 			CameraUID = Guid.Empty;
@@ -16,6 +18,13 @@ namespace RubezhAPI.Models
 
 		[DataMember]
 		public Guid CameraUID { get; set; }
+
+		[DataMember()]
+		public int Rotation
+		{
+			get { return this.rotation; }
+			set { this.rotation = Math.Max(Math.Min(360, value), 0); }
+		}
 
 		public override void UpdateZLayer()
 		{

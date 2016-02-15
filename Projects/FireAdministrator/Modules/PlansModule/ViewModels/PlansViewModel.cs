@@ -352,18 +352,27 @@ namespace PlansModule.ViewModels
 		}
 		private void OnRemoveElementDevice(Guid deviceUID)
 		{
-			foreach (var plan in this.Plans)
+			IEnumerable<ElementGKDevice> allDevices = this.Plans
+				.SelectMany(plan => this.GetAllChildren(plan))
+				.SelectMany(plan => plan.Plan.ElementGKDevices)
+				.Where(device => device.DeviceUID == deviceUID)
+				.ToArray();
+			foreach (var device in allDevices)
 			{
-				IEnumerable<ElementGKDevice> devices = plan.Plan.ElementGKDevices
-					.Where(device => device.DeviceUID == deviceUID)
-					.ToArray();
-				foreach (var device in devices)
-				{
-					DesignerCanvas.RemoveDesignerItem(device);
-					ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { device });
-				}
-
+				DesignerCanvas.RemoveDesignerItem(device);
+				ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { device });
 			}
+		}
+
+		/// <summary>
+		/// Retrieves a Plan an all its Child Plans.
+		/// </summary>
+		/// <param name="plan">Plan to get Children for.</param>
+		/// <returns>Collection of Plans.</returns>
+		private IEnumerable<PlanViewModel> GetAllChildren(PlanViewModel plan)
+		{
+			return new PlanViewModel[] { plan }
+				.Union(plan.Children.SelectMany(child => this.GetAllChildren(child)));
 		}
 
 		private void OnShowDevices(List<Guid> deviceUIDs)

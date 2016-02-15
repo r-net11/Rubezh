@@ -68,10 +68,10 @@ namespace RubezhAPI
 			device.OnChanged();
 		}
 
-		public static void AddDeviceToGuardZone(GKGuardZone guardZone ,GKGuardZoneDevice guardZoneDevice)
+		public static void AddDeviceToGuardZone(GKGuardZone guardZone, GKGuardZoneDevice guardZoneDevice)
 		{
 			var device = guardZoneDevice.Device;
-				guardZone.GuardZoneDevices.Add(guardZoneDevice);
+			guardZone.GuardZoneDevices.Add(guardZoneDevice);
 			if (!device.GuardZones.Contains(guardZone))
 				device.GuardZones.Add(guardZone);
 			if (!device.InputDependentElements.Contains(guardZone))
@@ -119,10 +119,9 @@ namespace RubezhAPI
 		/// <param name="device"></param>
 		public static List<GKDevice> RemoveDevice(GKDevice device)
 		{
-			//var allDevices = device.AllChildrenAndSelf;
+			List<GKDevice> deviceAndChildren = new List<GKDevice>(device.AllChildrenAndSelf);
 			foreach (var deviceItem in device.AllChildrenAndSelf)
 			{
-				//var parentDevice = device.Parent;
 				deviceItem.Parent.Children.Remove(deviceItem);
 				Devices.Remove(deviceItem);
 
@@ -143,10 +142,9 @@ namespace RubezhAPI
 				{
 					x.InputDependentElements.Remove(deviceItem);
 					x.Invalidate(DeviceConfiguration);
-					x.OnChanged();
 				});
 			}
-			return device.AllChildrenAndSelf;
+			return deviceAndChildren;
 		}
 
 		#region RebuildRSR2Addresses
@@ -227,8 +225,8 @@ namespace RubezhAPI
 		public static GKDevice ChangeDriver(GKDevice device, GKDriver driver)
 		{
 			var count = device.AllChildren.Where(y => !y.Driver.IsGroupDevice && y.Driver.HasAddress).Count();
-						if (!device.Driver.IsGroupDevice && device.Driver.HasAddress)
-							count += 1;
+			if (!device.Driver.IsGroupDevice && device.Driver.HasAddress)
+				count += 1;
 			if ((GetAddress(device.KAUShleifParent.AllChildren) - count) + Math.Max(1, (int)driver.GroupDeviceChildrenCount) > 255)
 				return null;
 

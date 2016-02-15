@@ -56,6 +56,7 @@
 	<Converters:StringToSingleLineString x:Key="StringToSingleLineString" />
 	<Converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
 	<Converters:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
+	<Converters:RviStatusToIconConverter x:Key="RviStatusToIconConverter" />
 	<Converters:EnumToItemsSourceConverter x:Key="EnumToItemsSourceConverter" />
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
