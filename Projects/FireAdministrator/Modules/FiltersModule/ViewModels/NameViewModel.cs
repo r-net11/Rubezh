@@ -13,7 +13,6 @@ namespace FiltersModule.ViewModels
 	{
 		public JournalSubsystemType JournalSubsystemType { get; private set; }
 		public JournalEventNameType JournalEventNameType { get; private set; }
-		public JournalEventDescriptionType JournalEventDescriptionType { get; private set; }
 
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
