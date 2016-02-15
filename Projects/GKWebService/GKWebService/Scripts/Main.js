@@ -10,11 +10,13 @@ function MenuViewModel() {
 		HR: ko.observable(false),
 		Archive: ko.observable(false),
 		Plan: ko.observable(false),
-       	FireZones: ko.observable(false),
+		FireZones: ko.observable(false),
+		GuardZones: ko.observable(false),
      	Directions: ko.observable(false),
      	Delays: ko.observable(false),
      	MPTs: ko.observable(false),
-        PumpStations: ko.observable(false)
+     	PumpStations: ko.observable(false),
+	    Doors: ko.observable(false)
 	};
 
 	self.StatePageOpened = ko.observable(false);

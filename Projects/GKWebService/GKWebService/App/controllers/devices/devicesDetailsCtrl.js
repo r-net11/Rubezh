@@ -1,108 +1,104 @@
 ﻿(function () {
 
-    angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
+	angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
         function ($scope, $http, uiGridConstants, $uibModalInstance, device) {
-            $scope.device = device;
+        	$scope.device = device;
 
-            $scope.$on('devicesChanged', function (event, args) {
-                if (args.UID === $scope.device.UID) {
-                    $scope.device = args;
-                    $scope.$apply();
-                };
-            });
+        	$scope.$on('devicesChanged', function (event, args) {
+        		if (args.UID === $scope.device.UID) {
+        			$scope.device = args;
+        			$scope.$apply();
+        		};
+        	});
 
-            var template = '<div align="center" style="color: black; font-weight: bold">{{row.entity[col.field]}}</div>';
-            $scope.gridParameters = {
-                data: [],
-                enableRowHeaderSelection: false,
-                enableSorting: false,
-                multiSelect: false,
-                enableColumnMenus: false,
-                enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
-                enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
-                rowHeight: 35,
-                columnDefs: [{ field: 'Name', displayName: 'Параметр', cellTemplate: template }, { field: 'Value', displayName: 'Значение', cellTemplate: template }]
-            };
+        	function gridConfig(data) {
+        		var config = {};
+        		var tmp = '<div align="center" style="color: black; font-weight: bold">{{row.entity[col.field]}}</div>';
+        		config.data = data;
+        		config.enableRowHeaderSelection = false;
+        		config.enableSorting = false;
+        		config.multiSelect = false;
+        		config.enableColumnMenus = false;
+        		config.enableVerticalScrollbar = uiGridConstants.scrollbars.NEVER;
+        		config.enableHorizontalScrollbar = uiGridConstants.scrollbars.NEVER;
+        		config.rowHeight = 35;
+        		config.columnDefs = [
+					{ field: 'Name', displayName: 'Параметр', cellTemplate: tmp },
+					{ field: 'Value', displayName: 'Значение', cellTemplate: tmp }
+        		];
+        		return config;
+        	}
 
-            for (var i in device.Properties) {
-                if (device.Properties[i].DriverProperty.IsAUParameter) {
-                    var name = device.Properties[i].DriverProperty.Caption;
-                    var value = device.Properties[i].Value;
-                    if (device.Properties[i].DriverProperty.Parameters.length === 0) {
-                        value = device.Properties[i].DriverProperty.Multiplier > 0 ? value / device.Properties[i].DriverProperty.Multiplier : value;
-                    }
-                    else {
-                        for (var j in device.Properties[i].DriverProperty.Parameters) {
-                            if (device.Properties[i].DriverProperty.Parameters[j].Value === device.Properties[i].Value) {
-                                value = device.Properties[i].DriverProperty.Parameters[j].Name;
-                            }
-                        }
-                    }
-                    $scope.gridParameters.data[i] = { Name: name, Value: value };
-                }
-            };
+        	$scope.gridMeasurements = gridConfig(device.MeasureParameters);
 
-            $scope.gridMeasurements = {
-                data: [],
-                enableRowHeaderSelection: false,
-                enableSorting: false,
-                multiSelect: false,
-                enableColumnMenus: false,
-                enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
-                enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
-                rowHeight: 35,
-                columnDefs: [{ field: 'Name', displayName: 'Параметр', cellTemplate: template }, { field: 'Value', displayName: 'Значение', cellTemplate: template }]
-            };
-            $scope.gridMeasurements.data = device.MeasureParameters;
+        	var parameters = [];
+        	for (var i in device.Properties) {
+        		if (device.Properties[i].DriverProperty.IsAUParameter) {
+        			var name = device.Properties[i].DriverProperty.Caption;
+        			var value = device.Properties[i].Value;
+        			if (device.Properties[i].DriverProperty.Parameters.length === 0) {
+        				value = device.Properties[i].DriverProperty.Multiplier > 0 ? value / device.Properties[i].DriverProperty.Multiplier : value;
+        			}
+        			else {
+        				for (var j in device.Properties[i].DriverProperty.Parameters) {
+        					if (device.Properties[i].DriverProperty.Parameters[j].Value === device.Properties[i].Value) {
+        						value = device.Properties[i].DriverProperty.Parameters[j].Name;
+        					}
+        				}
+        			}
+        			parameters[i] = { Name: name, Value: value };
+        		}
+        	};
 
+        	$scope.gridParameters = gridConfig(parameters);
 
-            $scope.SetIgnoreState = function () {
-                $http.post('Devices/SetIgnoreState', { id: $scope.device.UID });
-            };
+        	$scope.SetIgnoreState = function () {
+        		$http.post('Devices/SetIgnoreState', { id: $scope.device.UID });
+        	};
 
-            $scope.SetAutomaticState = function () {
-                $http.post('Devices/SetAutomaticState', { id: $scope.device.UID });
-            };
+        	$scope.SetAutomaticState = function () {
+        		$http.post('Devices/SetAutomaticState', { id: $scope.device.UID });
+        	};
 
-            $scope.Reset = function () {
-                $http.post('Devices/Reset', { id: $scope.device.UID });
-            };
+        	$scope.Reset = function () {
+        		$http.post('Devices/Reset', { id: $scope.device.UID });
+        	};
 
-            $scope.SetManualState = function () {
-                $http.post('Devices/SetManualState', { id: $scope.device.UID });
-            };
+        	$scope.SetManualState = function () {
+        		$http.post('Devices/SetManualState', { id: $scope.device.UID });
+        	};
 
-            $scope.TurnOn = function () {
-                $http.post('Devices/TurnOn', { id: $scope.device.UID });
-            };
+        	$scope.TurnOn = function () {
+        		$http.post('Devices/TurnOn', { id: $scope.device.UID });
+        	};
 
-            $scope.TurnOnNow = function () {
-                $http.post('Devices/TurnOnNow', { id: $scope.device.UID });
-            };
+        	$scope.TurnOnNow = function () {
+        		$http.post('Devices/TurnOnNow', { id: $scope.device.UID });
+        	};
 
-            $scope.ForbidStart = function () {
-                $http.post('Devices/ForbidStart', { id: $scope.device.UID });
-            };
+        	$scope.ForbidStart = function () {
+        		$http.post('Devices/ForbidStart', { id: $scope.device.UID });
+        	};
 
-            $scope.TurnOff = function () {
-                $http.post('Devices/TurnOff', { id: $scope.device.UID });
-            };
+        	$scope.TurnOff = function () {
+        		$http.post('Devices/TurnOff', { id: $scope.device.UID });
+        	};
 
-            $scope.Show = function () {
+        	$scope.Show = function () {
 
-            };
+        	};
 
-            $scope.ShowJournal = function () {
+        	$scope.ShowJournal = function () {
 
-            };
+        	};
 
-            $scope.ok = function () {
-                $uibModalInstance.close();
-            };
+        	$scope.ok = function () {
+        		$uibModalInstance.close();
+        	};
 
-            $scope.cancel = function () {
-                $uibModalInstance.dismiss('cancel');
-            };
+        	$scope.cancel = function () {
+        		$uibModalInstance.dismiss('cancel');
+        	};
         }
     );
 }());

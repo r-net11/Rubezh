@@ -50,6 +50,10 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ImageResizer, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageResizer.4.0.5\lib\net45\ImageResizer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Magick.NET-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
       <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET-AnyCPU.dll</HintPath>
       <Private>True</Private>
@@ -194,10 +198,14 @@
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
     <Content Include="App\controllers\directions\directionsCtrl.js" />
+    <Content Include="App\controllers\Doors\doorDetailsCtrl.js" />
+    <Content Include="App\controllers\Doors\doorsCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
     <Content Include="App\controllers\devices\devicesDetailsCtrl.js" />
-    <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
+    <Content Include="App\controllers\GuardZones\guardZoneDetailsCtrl.js" />
+    <Content Include="App\controllers\GuardZones\guardZoneDevicesCtrl.js" />
+    <Content Include="App\controllers\GuardZones\guardZonesCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
     <Content Include="App\controllers\journal\journalFilterCtrl.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
@@ -220,7 +228,9 @@
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
+    <Content Include="App\services\signalrDoorsService.js" />
     <Content Include="App\services\signalrFireZonesService.js" />
+    <Content Include="App\services\signalrGuardZonesService.js" />
     <Content Include="App\services\signalrMPTsService.js" />
     <Content Include="App\services\signalrPumpStationService.js" />
     <Content Include="App\services\signalrService.js" />
@@ -658,8 +668,10 @@
     <Compile Include="Controllers\DelaysController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
+    <Compile Include="Controllers\DoorsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\FireZonesController.cs" />
+    <Compile Include="Controllers\GuardZonesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\MPTsController.cs" />
@@ -674,11 +686,15 @@
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
+    <Compile Include="DataProviders\DoorsHub\DoorsHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="DataProviders\GuardZones\GuardZonesHub.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
-    <Compile Include="Models\Devices\Device.cs" />
+    <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Door\Door.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
+    <Compile Include="Models\GuardZones\GuardZone.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
@@ -704,7 +720,7 @@
     <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\GK\Delay\Delay.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
-    <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
+    <Compile Include="Models\GK\Directions\StateClass.cs" />
     <Compile Include="Models\Journal\JournalFilterEvent.cs" />
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
@@ -825,6 +841,10 @@
     <Content Include="Views\PumpStations\PumpStationDetails.cshtml" />
     <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\MPTs\Index.cshtml" />
+    <Content Include="Views\GuardZones\Guard.cshtml" />
+    <Content Include="Views\GuardZones\GuardZoneDetails.cshtml" />
+    <Content Include="Views\Doors\Door.cshtml" />
+    <Content Include="Views\Doors\DoorDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

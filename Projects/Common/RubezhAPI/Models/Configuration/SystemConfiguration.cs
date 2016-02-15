@@ -54,5 +54,14 @@ namespace RubezhAPI.Models
 				return cameras;
 			}
 		}
+		public List<RviDevice> RviDevices
+		{
+			get
+			{
+				var devices = new List<RviDevice>();
+				RviServers.ForEach(server => devices.AddRange(server.RviDevices));
+				return devices;
+			}
+		}
 	}
 }

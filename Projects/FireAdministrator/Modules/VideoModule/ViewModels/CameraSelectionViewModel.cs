@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
 using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace VideoModule.ViewModels
 {
@@ -14,7 +14,7 @@ namespace VideoModule.ViewModels
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var cam in ClientManager.SystemConfiguration.Cameras)
 			{
-				var cameraViewModel = new CameraViewModel(null, cam);
+				var cameraViewModel = new CameraViewModel(null, cam, cam.Name);
 				Cameras.Add(cameraViewModel);
 			}
 

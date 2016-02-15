@@ -30,14 +30,13 @@
                { field: 'Hold', displayName: 'Время тушения', widtd: 200 }],
         };
 
-        $scope.showSelectedRow = function () {
-            var uid = $scope.gridApi.selection.getSelectedRows()[0].UID;
+        $scope.showSelectedRow = function (row) {
            $scope.selectedRow = {
-                startLogic : $scope.gridApi.selection.getSelectedRows()[0].StartLogic,
-                stopLogic: $scope.gridApi.selection.getSelectedRows()[0].StopLogic,
-                automaticOffLogic: $scope.gridApi.selection.getSelectedRows()[0].AutomaticOffLogic
+               startLogic: row.entity.StartLogic,
+               stopLogic: row.entity.StopLogic,
+               automaticOffLogic: row.entity.AutomaticOffLogic
             }
-            broadcastService.send('pumpStationDevicesChanged', uid);
+           broadcastService.send('pumpStationDevicesChanged', row.entity.UID);
         };
 
         $scope.pumpStationClick = function (pumpStation) {

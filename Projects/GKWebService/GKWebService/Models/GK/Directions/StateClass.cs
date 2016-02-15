@@ -9,18 +9,17 @@ using RubezhAPI.GK;
 
 namespace GKWebService.Models
 {
-	public class DirectionStateClass
+	public class StateClass
 	{
 		public string IconData { get; set; }
 
 		public string Name { get; set; }
 
-		public DirectionStateClass()
-		{
+		public StateClass()
+		{ 
 			
 		}
-
-		public DirectionStateClass(XStateClass stateClass)
+		public StateClass(XStateClass stateClass)
 		{
 			Name = stateClass.ToDescription();
 			IconData = stateClass.ToString();

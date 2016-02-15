@@ -13,6 +13,7 @@ namespace RubezhClient
 	{
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
+		public static event Action<RviCallbackResult> RviCallbackResultEvent;
 		public static event Action<GKPropertyChangedCallback> GKPropertyChangedEvent;
 		public static event Action<CallbackOperationResult> CallbackOperationResultEvent;
 		public static event Action<AutomationCallbackResult> AutomationEvent;
@@ -109,6 +110,11 @@ namespace RubezhClient
 						case CallbackResultType.GKObjectStateChanged:
 							if (GKCallbackResultEvent != null)
 								GKCallbackResultEvent(callbackResult.GKCallbackResult);
+							break;
+
+						case CallbackResultType.RviObjectStateChanged:
+							if (RviCallbackResultEvent != null)
+								RviCallbackResultEvent(callbackResult.RviCallbackResult);
 							break;
 
 						case CallbackResultType.GKPropertyChanged:

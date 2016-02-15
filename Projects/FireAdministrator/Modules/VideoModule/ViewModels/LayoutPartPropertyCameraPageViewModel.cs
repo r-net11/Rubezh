@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Common.Services.Layout;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using Infrastructure.Common.Services.Layout;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace VideoModule.ViewModels
 {
@@ -22,7 +22,7 @@ namespace VideoModule.ViewModels
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
-				var cameraViewModel = new CameraViewModel(CamerasViewModel.Current, camera);
+				var cameraViewModel = new CameraViewModel(CamerasViewModel.Current, camera, camera.PresentationName);
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();

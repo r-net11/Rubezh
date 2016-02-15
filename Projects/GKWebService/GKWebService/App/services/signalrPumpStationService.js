@@ -3,7 +3,7 @@
 
     var app = angular.module('gkApp.services')
         .factory('signalrPumpStatoinsService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
-            var mptsUpdater = new Hub('pumpStationsUpdater', {
+            var pumpStationsUpdater = new Hub('pumpStationsUpdater', {
                 listeners: {
                     'pumpStationstUpdate': function (mpt) {
                         broadcastService.send('pumpStationsChanged', mpt);

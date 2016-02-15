@@ -2,48 +2,52 @@
 	x:Class="VideoModule.Views.CamerasView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:converters="clr-namespace:VideoModule.Converters">
 	<UserControl.Resources>
 		<converters:CameraViewModelNameComparer x:Key="CamerasViewModelNameComparer" />
 		<converters:CamerasViewModelAddressComparer x:Key="CamerasViewModelAddressComparer" />
 	</UserControl.Resources>
-	<TreeList
+	<tree:TreeList
 		Focusable="True" 
 		SelectedTreeNode="{Binding SelectedCamera, Mode=TwoWay, NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
 		Source="{Binding Cameras}"
 		tree:SortBehavior.CanUserSortColumns="True">
-		<TreeList.View>
+		<tree:TreeList.View>
 			<GridView>
 				<GridView.Columns>
-                    <GridViewColumn
+					<GridViewColumn
 						ListViewLayoutManager.StarWidth="1" 
 						Header="Камера"
 						tree:SortBehavior.SortComparer="{StaticResource CamerasViewModelNameComparer}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Grid Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Background="{DynamicResource BVideo}" />
-                                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<StackPanel Orientation="Horizontal">
+										<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" 
+											   Source="{Binding Status, Converter={StaticResource RviStatusToIconConverter}}" 
+											   Visibility="{Binding StatusVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Grid Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Background="{DynamicResource BVideo}" />
+										<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
 											<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 												<TextBlock Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged}" >
-                                                    <TextBlock.ContextMenu>
-                                                        <ContextMenu>
-                                                            <IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap" Text="Показать на плане" />
-                                                            <IconedMenuItem Command="{Binding ShowJournalCommand}" ImageSource="BJournal" Text="Показать связанные события" />
-                                                            <IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings" Text="Свойства" />
-                                                        </ContextMenu>
-                                                    </TextBlock.ContextMenu>
+													<TextBlock.ContextMenu>
+														<ContextMenu>
+															<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap" Text="Показать на плане" />
+															<IconedMenuItem Command="{Binding ShowJournalCommand}" ImageSource="BJournal" Text="Показать связанные события" />
+															<IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings" Text="Свойства" />
+														</ContextMenu>
+													</TextBlock.ContextMenu>
 												</TextBlock>
 											</Hyperlink>
 										</TextBlock>
-                                    </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn
+									</StackPanel>
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn
 						ListViewLayoutManager.StarWidth="1"
 						Header="Адрес"
 						tree:SortBehavior.SortComparer="{StaticResource CamerasViewModelAddressComparer}">
@@ -55,6 +59,6 @@
 					</GridViewColumn>
 				</GridView.Columns>
 			</GridView>
-		</TreeList.View>
-	</TreeList>
+		</tree:TreeList.View>
+	</tree:TreeList>
 </UserControl>

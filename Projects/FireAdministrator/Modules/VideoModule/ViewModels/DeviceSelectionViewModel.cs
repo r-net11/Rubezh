@@ -44,7 +44,7 @@ namespace VideoModule.ViewModels
 				var rviSettings = ClientManager.SystemConfiguration.RviSettings;
 				try
 				{
-					RviServers = RviClientHelper.GetServers(rviSettings.Url, rviSettings.Login, rviSettings.Password);
+					RviServers = RviClientHelper.GetServers(rviSettings.Url, rviSettings.Login, rviSettings.Password, ClientManager.SystemConfiguration.Cameras);
 				}
 				catch
 				{
