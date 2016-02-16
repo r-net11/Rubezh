@@ -81,11 +81,21 @@ namespace Controls
 				if (!maskExpression.IsMatch(proposedText))
 					e.Handled = true;
 			}
-			if (e.Key == Key.Back || e.Key == Key.Delete)
+			if (e.Key == Key.Back)
 			{
 				string proposedText;
-				if (textBox.SelectionLength == 0)
+				if (textBox.SelectionLength == 0 && textBox.CaretIndex - 1 >= 0)
 					proposedText = textBox.Text.Remove(textBox.CaretIndex - 1);
+				else
+					proposedText = GetProposedText(textBox, "");
+				if (!maskExpression.IsMatch(proposedText))
+					e.Handled = true;
+			}
+			if (e.Key == Key.Delete)
+			{
+				string proposedText;
+				if (textBox.SelectionLength == 0 && textBox.CaretIndex < textBox.Text.Length)
+					proposedText = textBox.Text.Remove(textBox.CaretIndex);
 				else
 					proposedText = GetProposedText(textBox, "");
 				if (!maskExpression.IsMatch(proposedText))
