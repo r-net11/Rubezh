@@ -199,6 +199,7 @@ namespace RviClient
 			}
 			return rviDevices;
 		}
+		[DebuggerStepThrough]
 		static List<Device> GetDevices(string url, string login, string password)
 		{
 			var devices = new List<Device>();
