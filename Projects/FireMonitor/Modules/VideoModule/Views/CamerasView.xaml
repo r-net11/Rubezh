@@ -11,7 +11,7 @@
 	</UserControl.Resources>
 	<tree:TreeList
 		Focusable="True" 
-		SelectedTreeNode="{Binding SelectedCamera, Mode=TwoWay, NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+		SelectedTreeNode="{Binding SelectedCamera, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
 		Source="{Binding Cameras}"
 		tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
