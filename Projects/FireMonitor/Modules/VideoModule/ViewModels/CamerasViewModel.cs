@@ -52,7 +52,7 @@ namespace VideoModule.ViewModels
 					var deviceViewModel = new CameraViewModel(device);
 					foreach (var channel in device.RviChannels)
 					{
-						var channelViewModel = new CameraViewModel(channel.Name);
+						var channelViewModel = new CameraViewModel(channel);
 						foreach (var stream in channel.Cameras)
 						{
 							if (stream.IsAddedInConfiguration)
