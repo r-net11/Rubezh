@@ -37,5 +37,19 @@ namespace FiresecAPI.SKD
 				return false;
 			return true;
 		}
+
+		public static DayIntervalPart GetDayIntervalPartInNextDayInterval(this DayIntervalPart dayIntervalPart)
+		{
+			if (dayIntervalPart.TransitionType != DayIntervalPartTransitionType.Night)
+				// Временной интервал без перехода. На следующий день ничего не переходит.
+				return null;
+
+			return new DayIntervalPart
+			{
+				BeginTime = new TimeSpan(0, 0, 0),
+				EndTime = new TimeSpan(dayIntervalPart.EndTime.Hours, dayIntervalPart.EndTime.Minutes, dayIntervalPart.EndTime.Seconds),
+				TransitionType = DayIntervalPartTransitionType.Day
+			};
+		}
 	}
 }

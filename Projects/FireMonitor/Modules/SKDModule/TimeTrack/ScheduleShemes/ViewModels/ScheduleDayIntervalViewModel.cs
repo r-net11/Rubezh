@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using EntitiesValidation;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -68,13 +73,28 @@ namespace SKDModule.ViewModels
 
 		public void SetDayInterval(DayInterval dayInterval)
 		{
+			var canSave = true;
 			if (SelectedDayInterval != dayInterval)
 			{
 				_selectedDayInterval = dayInterval ?? DayIntervals[0];
 				if (_initialized || Model.DayIntervalUID != _selectedDayInterval.UID)
 				{
 					Model.DayIntervalUID = _selectedDayInterval.UID;
-					SheduleDayIntervalHelper.Save(Model, _scheduleScheme.Name);
+
+					// Валидируем дневные графики на пересечение
+					if (_scheduleScheme.Model.Type == ScheduleSchemeType.SlideDay)
+					{
+						var validationResult = ValidateDayIntervalIntersection(dayInterval);
+						if (validationResult.HasError)
+						{
+							canSave = false;
+							MessageBoxService.ShowWarning(String.Format("{0}\n\n{1}", "Выбранный дневной график не будет сохранен!", validationResult.Error), null, 420, 200);
+						}
+					}
+					
+					// Сохраняем выбранный дневной график в БД
+					if (canSave)
+						SheduleDayIntervalHelper.Save(Model, _scheduleScheme.Name);
 				}
 			}
 			OnPropertyChanged(() => SelectedDayInterval);
@@ -90,6 +110,23 @@ namespace SKDModule.ViewModels
 		{
 			if (e.PropertyName == "DayIntervals")
 				Update();
+		}
+
+		private OperationResult ValidateDayIntervalIntersection(DayInterval dayInterval)
+		{
+			var dayIntervals = new List<DayInterval>();
+
+			foreach (var sheduleDayInterval in _scheduleScheme.SheduleDayIntervals)
+			{
+				dayIntervals.Add(sheduleDayInterval == this ? dayInterval : sheduleDayInterval.SelectedDayInterval);
+			}
+
+			var validationResult = ScheduleSchemeValidator.ValidateDayIntervalsIntersecion(dayIntervals);
+			if (validationResult.HasError)
+				return new OperationResult(validationResult.Error);
+			
+			// Нет пересечений
+			return new OperationResult();
 		}
 	}
 }

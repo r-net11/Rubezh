@@ -175,6 +175,7 @@
     <Compile Include="PatchManager\PatchManager.cs" />
     <Compile Include="Service\Validators\DayIntervalPartValidator.cs" />
     <Compile Include="Service\Validators\DayIntervalValidator.cs" />
+    <Compile Include="Service\Validators\ScheduleDayIntervalValidator.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />

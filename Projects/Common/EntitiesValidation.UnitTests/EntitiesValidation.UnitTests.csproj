@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="DayIntervalPartValidatorUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScheduleSchemeValidatorUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntitiesValidation\EntitiesValidation.csproj">
