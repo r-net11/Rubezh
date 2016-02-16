@@ -85,6 +85,9 @@ namespace GKWebService.Models
 
 		public Boolean HasReset { get; set; }
 
+		public string ActionType { get; set; }
+
+
 		public Device(GKDevice device)
 		{
 			UID = device.UID;

@@ -29,7 +29,7 @@
             });
 
             $scope.showSelectedRow = function (row) {
-                broadcastService.send('changedGuardZoneDevices', row.entity.UID);
+                broadcastService.send('guard', row.entity.UID);
             };
 
             $scope.$on('guardZoneChanged', function (event, args) {
