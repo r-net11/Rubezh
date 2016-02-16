@@ -13,7 +13,7 @@ namespace GKWebService.DataProviders.PumpStations
 	[HubName("pumpStationsUpdater")]
 	public class PumpStationsHub : Hub
 	{
-		public static PumpStationsHub Instance { get; set; }
+		public static PumpStationsHub Instance { get; private set; }
 
 		public PumpStationsHub()
 		{

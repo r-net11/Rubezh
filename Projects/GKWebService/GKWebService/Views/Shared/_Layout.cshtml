@@ -98,35 +98,35 @@
 				</main><!-- .content -->
 			</div><!-- .container-->
 
-			<aside class="left-sidebar">
+			<aside class="left-sidebar" ng-controller="navCtrl">
 				<ul class="menu">
-					<li>
-						<a class="group-control" href="#" data-bind="click: MenuClick"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
+					<li ng-class="{clicked: groupControlClicked}">
+						<a class="group-control" href="" ng-click="groupControlClicked = !groupControlClicked"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
                         <ul>
-							<li class="state" data-bind="css:{'active': StatePageOpened}"><a id="menuState" href="" data-bind="click: function(data,event) { PageClick(data, event, 'State'); } "><span class="icon state"></span><span class="text">Состояния</span></a></li>
-                            <li><a class="device" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Device'); } "><span class="icon device"></span><span class="text">Устройства</span></a></li>
-                            <li><a class="params" href=""><span class="icon params"></span><span class="text">Параметры</span></a></li>
-							<li><a class="zone" href="" data-bind="click: function(data,event) { PageClick(data, event, 'FireZones'); } "><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
-                            <li><a class="pumpStations" href="" data-bind="click: function(data, event){PageClick(data, event, 'PumpStations'); }"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
-                           	<li><a class="direction" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Directions'); } "><span class="icon firezones"></span><span class="text">Направления</span></a></li>
-							<li><a class="delays" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Delays'); } "><span class="icon delays"></span><span class="text">Задержки</span></a></li>
-                            <li><a class="MPTs" href="" data-bind="click: function(data,event) { PageClick(data, event, 'MPTs'); } "><span class="icon delays"></span><span class="text">МПТ</span></a></li>
+							<li ng-class="{active: isPageActive('state')}"><a ui-sref="state({alarmType: ''})"><span class="icon state"></span><span class="text">Состояния</span></a></li>
+                            <li ng-class="{active: isPageActive('device')}"><a ui-sref="device({uid: ''})"><span class="icon device"></span><span class="text">Устройства</span></a></li>
+                            <li ng-class="{active: isPageActive('params')}"><a ui-sref="params({uid: ''})"><span class="icon params"></span><span class="text">Параметры</span></a></li>
+							<li ng-class="{active: isPageActive('fireZones')}"><a ui-sref="fireZones({uid: ''})"><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
+                            <li ng-class="{active: isPageActive('pumpStations')}"><a ui-sref="pumpStations({uid: ''})"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
+                            <li ng-class="{active: isPageActive('guardZone')}"><a ui-sref="guardZone({uid: ''})"><span class="icon firezones"></span><span class="text">Охранные зоны</span></a></li>
+                           	<li ng-class="{active: isPageActive('directions')}"><a ui-sref="directions({uid: ''})"><span class="icon firezones"></span><span class="text">Направления</span></a></li>
+							<li ng-class="{active: isPageActive('delays')}"><a ui-sref="delays({uid: ''})"><span class="icon delays"></span><span class="text">Задержки</span></a></li>
+                            <li ng-class="{active: isPageActive('MPTs')}"><a ui-sref="MPTs({uid: ''})"><span class="icon delays"></span><span class="text">МПТ</span></a></li>
+                            <li ng-class="{active: isPageActive('doors')}"><a ui-sref="doors({uid: ''})"><span class="icon delays"></span><span class="text">Точки доступа</span></a></li>
                         </ul>
 					</li>
-					<li class="event-log"><a href="" data-bind="click: function(data,event) { PageClick(data, event, 'Journal'); }"><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
-					<li><a class="archive" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Archive'); }"><span class="icon archive"></span><span class="text">Архив</span></a></li>
-					<li><a class="reports" href="" data-bind="click: MenuClick"><span class="icon reports"></span><span class="text">Отчёты</span></a></li>
-					<li class="SKD has-sub last">
-						<a data-bind="click: MenuClick"><span class="icon SKD"></span><span class="text">СКД</span></a>
+					<li class="event-log" ng-class="{active: isPageActive('journal')}"><a ui-sref='journal'><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
+					<li ng-class="{active: isPageActive('archive')}"><a ui-sref='archive'><span class="icon archive"></span><span class="text">Архив</span></a></li>
+					<li ng-class="{active: isPageActive('reports')}"><a ui-sref='reports'><span class="icon reports"></span><span class="text">Отчёты</span></a></li>
+					<li class="SKD has-sub last" ng-class="{clicked: skdClicked}">
+						<a ng-click="skdClicked = !skdClicked"><span class="icon SKD"></span><span class="text">СКД</span></a>
 						<ul>
-							<li>
-								<a class="file"
-								   href=""
-								   data-bind="click: function(data,event) { PageClick(data, event, 'HR'); }"><span class="icon file"></span><span class="text">Картотека</span></a>
+							<li ng-class="{active: isPageActive('hr')}">
+								<a class="hr" ui-sref='hr'><span class="icon file"></span><span class="text">Картотека</span></a>
 							</li>
 						</ul>
 					</li>
-					<li><a class="plan" href="" data-bind="click: function(data,event) { PageClick(data, event, 'Plan'); }"><span class="icon archive"></span><span class="text">Планы</span></a></li>
+					<li ng-class="{active: isPageActive('plan')}"><a ui-sref='plan'><span class="icon archive"></span><span class="text">Планы</span></a></li>
 				</ul>
 			</aside><!-- .left-sidebar -->
 
@@ -152,10 +152,12 @@
 	<script src="~/Scripts/d3tip.js"></script>
 	<script src="~/Scripts/ui-grid.min.js"></script>
 	<script src="~/Scripts/angular-ui-tree/angular-ui-tree.js"></script>
-
+    <script src="~/Scripts/angular-ui-router.min.js"></script>
 
 	<script src="~/App/app.js"></script>
     <script src="~/App/constants.js"></script>
+    <script src="~/App/route.js"></script>
+
     <script src="~/App/controllers/signalrCtrl.js"></script>
 	<script src="~/App/controllers/planCtrl.js"></script>
 	<script src="~/App/directives/d3Plan.js"></script>
@@ -171,6 +173,13 @@
     <script src="~/App/services/signalrFireZonesService.js"></script>
     <script src="~/App/services/signalrMPTsService.js"></script>
     <script src="~/App/services/signalrPumpStationService.js"></script>
+    <script src="~/App/services/signalrGuardZonesService.js"></script>
+    <script src="~/App/controllers/navCtrl.js"></script>
+    <script src="~/App/services/signalrDoorsService.js"></script>
+    <script src="~/App/controllers/Doors/doorsCtrl.js"></script>
+    <script src="~/App/controllers/Doors/doorDetailsCtrl.js"></script>
+    <script src="~/App/controllers/GuardZones/guardZonesCtrl.js"></script>
+    <script src="~/App/controllers/GuardZones/guardZoneDetailsCtrl.js"></script>
     <script src="~/App/controllers/fireZones/fireZonesCtrl.js"></script>
 	<script src="~/App/controllers/fireZones/fireZonesDetailsCtrl.js"></script>
     <script src="~/App/controllers/PumpStations/pumpStationDevicesCtrl.js"></script>

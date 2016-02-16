@@ -11,17 +11,16 @@
 			</ContextMenu>
 		</DataGrid.ContextMenu>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Width="250" Header="Камера">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
+            <DataGridTemplateColumn Header="Камера" Width="*">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Grid Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Background="{DynamicResource BVideo}" />
-							<TextBlock Text="{Binding  Camera.Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" />
-						</StackPanel>
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
-			<DataGridTextColumn Width="100" Header="Адрес" Binding="{Binding PresentationAddress}" />
-		</DataGrid.Columns>
+                            <TextBlock Text="{Binding  PresentationName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
 	</DataGrid>
 </UserControl>

@@ -43,7 +43,7 @@ namespace GKWebService.Controllers
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
-
+		[HttpPost]
 		public JsonResult SetAutomaticState(Guid id)
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
