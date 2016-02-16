@@ -36,14 +36,16 @@ namespace FiresecService.Service.Validators
 					if (dayIntervalTranslatorGetSingle.HasError)
 						return new OperationResult(dayIntervalTranslatorGetSingle.Error);
 
+					var addingOrEditingDayInterval = dayIntervalTranslatorGetSingle.Result ?? DayIntervalCreator.CreateDayIntervalNever();
+
 					// Получаем уже существующие в схеме графика работы дневные графики
 					var dayIntervals = databaseService.DayIntervalTranslator.GetDayIntervals(scheduleScheme).ToList();
 
 					// Добавляем новый дневной график или редактируем существующий?
 					if (scheduleDayInterval.Number >= dayIntervals.Count)
-						dayIntervals.Add(dayIntervalTranslatorGetSingle.Result);
+						dayIntervals.Add(addingOrEditingDayInterval);
 					else
-						dayIntervals[scheduleDayInterval.Number] = dayIntervalTranslatorGetSingle.Result;
+						dayIntervals[scheduleDayInterval.Number] = addingOrEditingDayInterval;
 
 					// Валидируем соседние дневные графики на факт пересечения интервалов
 					return ValidateDayIntervalsIntersecion(dayIntervals);

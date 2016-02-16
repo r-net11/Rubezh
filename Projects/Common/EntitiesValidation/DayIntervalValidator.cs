@@ -18,10 +18,6 @@ namespace EntitiesValidation
 		/// Содержит список интервалов Дневного графика 2, с которыми пересекается интервал с переходом из Дневного графика 1</returns>
 		public static OperationResult<List<DayIntervalPart>> ValidateIntersection(DayInterval dayInterval1, DayInterval dayInterval2)
 		{
-			// Если хотябы один из дневных графиков - график "Никогда", то пересечений быть не может.
-			if (dayInterval1 == null || dayInterval2 == null)
-				return new OperationResult<List<DayIntervalPart>>(new List<DayIntervalPart>());
-
 			// Согласно бизнесу может быть только один интервал с переходом
 			var dayInterval1LastDayIntervalPart = dayInterval1.DayIntervalParts.FirstOrDefault(x => x.TransitionType == DayIntervalPartTransitionType.Night);
 

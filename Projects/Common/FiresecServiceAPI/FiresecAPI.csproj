@@ -301,6 +301,7 @@
     <Compile Include="SKD\Settings\AppServerSettings.cs" />
     <Compile Include="SKD\Settings\ValidationErrorType.cs" />
     <Compile Include="SKD\SKDManager\CommonChinaControllerHelper.cs" />
+    <Compile Include="SKD\TimeTrack\DayIntervalCreator.cs" />
     <Compile Include="SKD\TimeTrack\DayIntervalPartExtensions.cs" />
     <Compile Include="SKD\TimeTrack\DayTimeTrackPart.cs" />
     <Compile Include="SKD\TimeTrack\Enums\DocumentType.cs" />

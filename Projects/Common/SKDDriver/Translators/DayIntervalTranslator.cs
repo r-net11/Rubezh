@@ -76,7 +76,7 @@ namespace SKDDriver.Translators
 					 select result
 					 ).ToList();
 
-			var translatedDayIntervals = dayIntervals.Select(dayInterval => dayInterval == null ? null : Translate(dayInterval)).ToList();
+			var translatedDayIntervals = dayIntervals.Select(dayInterval => dayInterval == null ? DayIntervalCreator.CreateDayIntervalNever() : Translate(dayInterval)).ToList();
 
 			return translatedDayIntervals;
 		}
