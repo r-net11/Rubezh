@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EntitiesValidation;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using SKDDriver;
@@ -41,6 +42,12 @@ namespace FiresecService.Service.Validators
 
 			// Валидация по связям
 			validationResult = ValidateAddingComplex(dayIntervalPart);
+			if (validationResult.HasError)
+				return validationResult;
+
+			// Валидация сменного графика работы на пересечение дневных графиков
+			validationResult = ValidateDayIntervalsIntersectionOnAdding(dayIntervalPart);
+
 			return validationResult;
 		}
 
@@ -58,6 +65,11 @@ namespace FiresecService.Service.Validators
 
 			// Валидация по связям
 			validationResult = ValidateEditingComplex(dayIntervalPart);
+			if (validationResult.HasError)
+				return validationResult;
+
+			// Валидация сменного графика работы на пересечение дневных графиков
+			validationResult = ValidateDayIntervalsIntersectionOnEditing(dayIntervalPart);
 			return validationResult;
 		}
 
@@ -173,6 +185,42 @@ namespace FiresecService.Service.Validators
 			return new OperationResult();
 		}
 
+		private static OperationResult ValidateDayIntervalsIntersectionOnAdding(DayIntervalPart dayIntervalPart)
+		{
+			var sb = new StringBuilder();
+
+			using (var databaseService = new SKDDatabaseService())
+			{
+				// Для интервала дневного графика получаем связанные схемы графика работы с типом "Сменный"
+				var scheduleSchemes = databaseService.ScheduleSchemeTranslator.GetScheduleSchemes(dayIntervalPart).Where(x => x.Type == ScheduleSchemeType.SlideDay);
+				
+				// Проводим валидацию каждой найденной схемы графика работы
+				foreach (var scheduleScheme in scheduleSchemes)
+				{
+					// Получаем дневные графики для схемы графика работы
+					var dayIntervals = databaseService.DayIntervalTranslator.GetDayIntervals(scheduleScheme).ToList();
+
+					// В дневной график добавляем новый временной интервал
+					var editedDayInterval = dayIntervals.FirstOrDefault(y => y.UID == dayIntervalPart.DayIntervalUID);
+					editedDayInterval.DayIntervalParts.Add(dayIntervalPart);
+
+					// Проводим валидацию дневных интервалов текущей схемы графика работы на пересечение
+					var validationResult = ScheduleSchemeValidator.ValidateDayIntervalsIntersecion(dayIntervals);
+					if (validationResult.HasError)
+					{
+						sb.AppendLine(String.Format("Пересечение дневных графиков в схеме графика работы '{0}'", scheduleScheme.Name));
+						sb.AppendLine(validationResult.Error);
+					}
+				}
+			}
+
+			if (sb.Length > 0)
+				return new OperationResult(sb.ToString());
+
+			// Дневные графики не пересекаются
+			return new OperationResult();
+		}
+
 		private static OperationResult ValidateEditingCommon(DayIntervalPart dayIntervalPart)
 		{
 			// Базовая валидация
@@ -242,6 +290,43 @@ namespace FiresecService.Service.Validators
 
 				return new OperationResult();
 			}
+		}
+
+		private static OperationResult ValidateDayIntervalsIntersectionOnEditing(DayIntervalPart dayIntervalPart)
+		{
+			var sb = new StringBuilder();
+
+			using (var databaseService = new SKDDatabaseService())
+			{
+				// Для интервала дневного графика получаем связанные схемы графика работы с типом "Сменный"
+				var scheduleSchemes = databaseService.ScheduleSchemeTranslator.GetScheduleSchemes(dayIntervalPart).Where(x => x.Type == ScheduleSchemeType.SlideDay);
+
+				// Проводим валидацию каждой найденной схемы графика работы
+				foreach (var scheduleScheme in scheduleSchemes)
+				{
+					// Получаем дневные графики для схемы графика работы
+					var dayIntervals = databaseService.DayIntervalTranslator.GetDayIntervals(scheduleScheme).ToList();
+
+					// В модифицированном дневном графике заменяем старый временной интервал на новый
+					var editedDayInterval = dayIntervals.FirstOrDefault(y => y.UID == dayIntervalPart.DayIntervalUID);
+					var index = editedDayInterval.DayIntervalParts.IndexOf(editedDayInterval.DayIntervalParts.FirstOrDefault(x => x.UID == dayIntervalPart.UID));
+					editedDayInterval.DayIntervalParts[index] = dayIntervalPart;
+
+					// Проводим валидацию дневных интервалов текущей схемы графика работы на пересечение
+					var validationResult = ScheduleSchemeValidator.ValidateDayIntervalsIntersecion(dayIntervals);
+					if (validationResult.HasError)
+					{
+						sb.AppendLine(String.Format("Пересечение дневных графиков в схеме графика работы '{0}'", scheduleScheme.Name));
+						sb.AppendLine(validationResult.Error);
+					}
+				}
+			}
+
+			if (sb.Length > 0)
+				return new OperationResult(sb.ToString());
+
+			// Дневные графики не пересекаются
+			return new OperationResult();
 		}
 
 		/// <summary>
