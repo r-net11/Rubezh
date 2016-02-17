@@ -21,15 +21,12 @@ namespace FiresecService.Presenters
 		{
 			View = view;
 
-			_clients = new List<ClientViewModel>();
-			//Clients = new ObservableCollection<ClientViewModel>();
-			//Clients.CollectionChanged += Clients_CollectionChanged;
+			_clients = new List<Client>();
 			_bindingSourceClients = new BindingSource();
 			_bindingSourceClients.DataSource = null;
 			_bindingSourceClients.DataSource = _clients;
 			_bindingSourceClients.ListChanged += EventHandler_bindingSourceClients_ListChanged;
 
-			//Logs = new ObservableCollection<LogViewModel>();
 			_logs = new List<LogViewModel>();
 			_bindingSourceLogs = new BindingSource();
 			_bindingSourceLogs.DataSource = null;
@@ -41,7 +38,6 @@ namespace FiresecService.Presenters
 			_bindingSourceLifecycle.DataSource = _gkLifecycles;
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 
-			//ClientPolls = new ObservableCollection<ClientPollViewModel>();
 			ClientPolls = new List<ClientPolling>();
 			_bindingSourceClientPolls = new BindingSource();
 			_bindingSourceClientPolls.DataSource = null;
@@ -178,22 +174,20 @@ namespace FiresecService.Presenters
 		#region Clients
 
 		BindingSource _bindingSourceClients;
-		List<ClientViewModel> _clients;
+		List<Client> _clients;
 
 		//public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
-		ClientViewModel _selectedClient;
-		public ClientViewModel SelectedClient
+		Client _selectedClient;
+		public Client SelectedClient
 		{
 			get 
 			{
-				//return _selectedClient;
-				return (ClientViewModel)_bindingSourceClients.Current;
+				return (Client)_bindingSourceClients.Current;
 			}
 			set
 			{
 				_selectedClient = value;
-				//OnPropertyChanged(() => SelectedClient);
 			}
 		}
 
@@ -201,8 +195,7 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var connectionViewModel = new ClientViewModel(clientCredentials);
-				//Clients.Add(connectionViewModel);
+				var connectionViewModel = new Client(clientCredentials);
 				_bindingSourceClients.Add(connectionViewModel);
 			}));
 		}
@@ -210,10 +203,6 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				//var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
-				//if (connectionViewModel != null)
-				//	Clients.Remove(connectionViewModel);
-
 				var connectionViewModel = _clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					_bindingSourceClients.Remove(connectionViewModel);
@@ -223,7 +212,6 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				//var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				var connectionViewModel = _clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					connectionViewModel.FriendlyUserName = userName;
@@ -259,7 +247,7 @@ namespace FiresecService.Presenters
 					{
 						foreach (var item in e.NewItems)
 						{
-							_bindingSourceClients.Add((ClientViewModel)item);
+							_bindingSourceClients.Add((Client)item);
 						}
 						break;
 					}
@@ -267,7 +255,7 @@ namespace FiresecService.Presenters
 					{
 						foreach (var item in e.OldItems)
 						{
-							_bindingSourceClients.Remove((ClientViewModel)item);
+							_bindingSourceClients.Remove((Client)item);
 						}
 						break;
 					}

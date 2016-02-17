@@ -165,7 +165,7 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Models\ClientPolling.cs" />
-    <Compile Include="Models\ClientViewModel.cs" />
+    <Compile Include="Models\Client.cs" />
     <Compile Include="Models\GKLifecycleViewModel.cs" />
     <Compile Include="Models\LicenseViewModel.cs" />
     <Compile Include="Models\ServerTasksViewModel.cs" />
