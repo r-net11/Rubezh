@@ -5,6 +5,7 @@ using System.Linq;
 using AutomationModule.ViewModels;
 using FiresecAPI;
 using FiresecAPI.Automation;
+using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -101,6 +102,10 @@ namespace AutomationModule
 			if (typeof(T) == typeof(EnumType))
 				return new ObservableCollection<T>(GetEnumList<T>());
 
+			// Из JournalEventDescriptionType нам нужно не все
+			if (typeof(T) == typeof(JournalEventDescriptionType))
+				return new ObservableCollection<T>(GetEnumList<T>());
+
 			return new ObservableCollection<T>(Enum.GetValues(typeof(T)).Cast<T>().ToList());
 		}
 
@@ -112,9 +117,21 @@ namespace AutomationModule
 				var enumTypes = Enum.GetValues(typeof(EnumType)).Cast<EnumType>().Where(e =>
 					e != EnumType.StateType
 					&& e != EnumType.DriverType
-					&& e != EnumType.JournalEventDescriptionType
 					&& e != EnumType.JournalObjectType);
 				return new List<T>(enumTypes.Cast<T>().ToList());
+			}
+			
+			// Из JournalEventDescriptionType нам нужно не все
+			if (typeof (T) == typeof (JournalEventDescriptionType))
+			{
+				var journalEventDescriptionTypes = Enum.GetValues(typeof(JournalEventDescriptionType)).Cast<JournalEventDescriptionType>().Where(e =>
+					e == JournalEventDescriptionType.NULL
+					|| e == JournalEventDescriptionType.Метод_открытия_Пароль
+					|| e == JournalEventDescriptionType.Метод_открытия_Карта
+					|| e == JournalEventDescriptionType.Метод_открытия_Сначала_карта
+					|| e == JournalEventDescriptionType.Метод_открытия_Удаленно
+					|| e == JournalEventDescriptionType.Метод_открытия_Кнопка);
+				return new List<T>(journalEventDescriptionTypes.Cast<T>().ToList());
 			}
 			
 			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
