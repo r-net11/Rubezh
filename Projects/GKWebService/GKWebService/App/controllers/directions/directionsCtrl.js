@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('directionsCtrl',
-        ['$scope', '$http', '$uibModal', '$document', 'signalrDirectionsService',
-        function ($scope, $http, $uibModal, $document, signalrDirectionsService) {
+        ['$scope', '$http', '$uibModal', '$document', '$timeout', '$stateParams', 'signalrDirectionsService',
+        function ($scope, $http, $uibModal, $document, $timeout, $stateParams, signalrDirectionsService) {
             $scope.gridOptions = {
                 enableRowHeaderSelection: false,
                 enableSorting: false,
@@ -53,6 +53,9 @@
             $http.get('Directions/GetDirections').then(
                 function (response) {
                     $scope.gridOptions.data = response.data;
+                    if ($stateParams.uid) {
+                        $timeout(function() { $scope.selectRowById($stateParams.uid) });
+                    }
                 },
                 function (response) {
                     // TODO: Нужно реализовать общее окно для отображения ошибок
@@ -60,14 +63,14 @@
                 }
             );
 
-            $scope.$on('showGKDirection', function (event, args) {
+            $scope.selectRowById = function(uid) {
                 for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-                    if ($scope.gridOptions.data[i].UID === args) {
+                    if ($scope.gridOptions.data[i].UID === uid) {
                         $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
                         break;
                     }
                 }
-            });
+            }
 
             $scope.$on('showDirectionDetails', function (event, args) {
                 for (var i = 0; i < $scope.gridOptions.data.length; i++) {

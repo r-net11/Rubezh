@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class GKLifecycleViewModel : BaseViewModel
 	{

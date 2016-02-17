@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using Common;
-using FiresecService.ViewModels;
+using FiresecService.Models;
 using Infrastructure.Common;
 using FiresecService.Presenters;
 using System.Windows.Forms;

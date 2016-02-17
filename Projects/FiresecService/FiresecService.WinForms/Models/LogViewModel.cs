@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
-	public class LogViewModel
+	public class Log
 	{
-		public LogViewModel(string message, bool isError)
+		public Log(string message, bool isError)
 		{
 			Message = message;
 			IsError = isError;
