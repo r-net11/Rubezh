@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('fireZonesCtrl',
-        ['$scope', '$http', '$timeout', '$uibModal', 'uiGridConstants', 'signalrFireZonesService', 'broadcastService',
-        function ($scope, $http, $timeout, $uibModal, uiGridConstants, signalrFireZonesService, broadcastService) {
+        ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'uiGridConstants', 'signalrFireZonesService', 'broadcastService',
+        function ($scope, $http, $timeout, $uibModal, $stateParams, uiGridConstants, signalrFireZonesService, broadcastService) {
             $scope.gridOptions = {
                 enableRowHeaderSelection: false,
                 enableSorting: false,
@@ -59,8 +59,12 @@
                 $scope.gridOptions.data = data;
                 //Выбираем первую строку после загрузки данных
                 $timeout(function () {
-                    if ($scope.gridApi.selection.selectRow) {
-                        $scope.gridApi.selection.selectRow($scope.gridOptions.data[0]);
+                    if ($stateParams.uid) {
+                        $scope.selectRowById($stateParams.uid);
+                    } else {
+                        if ($scope.gridApi.selection.selectRow) {
+                            $scope.gridApi.selection.selectRow($scope.gridOptions.data[0]);
+                        }
                     }
                 });
             });
@@ -71,14 +75,14 @@
                 gridApi.selection.on.rowSelectionChanged($scope, $scope.changeZone);
             };
 
-            $scope.$on('showGKZone', function (event, args) {
+            $scope.selectRowById = function (uid) {
                 for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-                    if ($scope.gridOptions.data[i].Uid === args) {
+                    if ($scope.gridOptions.data[i].Uid === uid) {
                         $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
                         break;
                     }
                 }
-            });
+            }
 
             $scope.$on('showGKZoneDetails', function (event, args) {
                 for (var i = 0; i < $scope.gridOptions.data.length; i++) {

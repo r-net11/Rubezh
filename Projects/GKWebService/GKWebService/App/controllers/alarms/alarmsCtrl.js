@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
-        ['$scope', '$http', '$uibModal', '$window', '$stateParams', 'broadcastService', 'constants',
-        function ($scope, $http, $uibModal, $window, $stateParams, broadcastService, constants) {
+        ['$scope', '$http', '$uibModal', '$window', '$state', '$stateParams', 'broadcastService', 'constants',
+        function ($scope, $http, $uibModal, $window, $state, $stateParams, broadcastService, constants) {
             $scope.gridOptions = {
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
@@ -82,14 +82,9 @@
                 $scope.$apply();
             });
 
-            //$scope.$on('alarmsShowClick', function (event, args) {
-                $scope.groupControlClicked = true;
+            $scope.term = $stateParams.alarmType;
+            $scope.gridOptions.enableFiltering = ($stateParams.alarmType ? true : false);
 
-                $scope.term = $stateParams.alarmType;
-                $scope.gridOptions.enableFiltering = ($stateParams.alarmType ? true : false);
-
-                //$scope.gridApi.grid.refresh();
-            //});
 
             $http.get('Alarms/GetAlarms').success(function (data, status, headers, config) {
                 $scope.model = data;
@@ -114,34 +109,27 @@
 
             $scope.objectClick = function(alarm) {
                 // TODO: Исправить когда меню переведём на ангулар
-                angular.element(".menu .group-control").parent().addClass('clicked');
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {
                     $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .device")[0] }, 'Device');
                     broadcastService.send('showGKDevice', alarm.GkBaseEntityUID);
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.zone) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .zone")[0] }, 'FireZones');
-                    broadcastService.send('showGKZone', alarm.GkBaseEntityUID);
+                    $state.go('fireZones', { uid: alarm.GkBaseEntityUID });
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.guardZone) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .guardZone")[0] }, 'GuardZone');
-                    broadcastService.send('showGKGuardZone', alarm.GkBaseEntityUID);
+                    $state.go('guardZone', { uid: alarm.GkBaseEntityUID });
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.direction) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .direction")[0] }, 'Directions');
-                    broadcastService.send('showGKDirection', alarm.GkBaseEntityUID);
+                    $state.go('directions', { uid: alarm.GkBaseEntityUID });
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.mpt) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .MPTs")[0] }, 'MPTs');
-                    broadcastService.send('showGKMPT', alarm.GkBaseEntityUID);
+                    $state.go('MPTs', { uid: alarm.GkBaseEntityUID });
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.delay) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .delays")[0] }, 'Delays');
-                    broadcastService.send('showGKDelay', alarm.GkBaseEntityUID);
+                    $state.go('delays', { uid: alarm.GkBaseEntityUID });
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.pumpStation) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .pumpStations")[0] }, 'PumpStations');
-                    broadcastService.send('showGKPumpStation', alarm.GkBaseEntityUID);
+                    $state.go('pumpStations', { uid: alarm.GkBaseEntityUID });
                 }
                 // TODO: Дополнить здесь обработку кликов на объекты при создании новых страниц объектов
             };

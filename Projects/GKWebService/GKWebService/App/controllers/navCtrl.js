@@ -18,7 +18,17 @@
 
             $rootScope.$on('$stateChangeStart',
                 function(event, toState, toParams, fromState, fromParams, options) {
-                    if (toState.name === 'state') {
+                    // Раскрываем узел главного меню "Групповой контроллер" при переходе программно из другого пункта меню
+                    if (toState.name === 'state' ||
+                        toState.name === 'fireZones' ||
+                        toState.name === 'device' ||
+                        toState.name === 'params' ||
+                        toState.name === 'pumpStations' ||
+                        toState.name === 'delays' ||
+                        toState.name === 'MPTs' ||
+                        toState.name === 'guardZone' ||
+                        toState.name === 'doors' ||
+                        toState.name === 'directions') {
                         $scope.groupControlClicked = true;
                     }
 
