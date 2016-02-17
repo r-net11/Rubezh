@@ -46,6 +46,7 @@ namespace AutomationModule.ViewModels
 			JournalEventNameTypeValues = ProcedureHelper.GetEnumObs<JournalEventNameType>();
 			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
 			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
+			CardTypeValues = ProcedureHelper.GetEnumObs<CardType>();
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}
@@ -216,6 +217,17 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.JournalObjectTypeValue = value;
 				OnPropertyChanged(() => PermissionTypeValue);
+			}
+		}
+
+		public ObservableCollection<CardType> CardTypeValues { get; private set; }
+		public CardType CardTypeValue
+		{
+			get { return ExplicitValue.CardTypeValue; }
+			set
+			{
+				ExplicitValue.CardTypeValue = value;
+				OnPropertyChanged(() => CardTypeValue);
 			}
 		}
 

@@ -23,6 +23,9 @@ namespace FiresecAPI.Automation
 		JournalObjectType,
 
 		[DescriptionAttribute("Цвет")]
-		ColorType
+		ColorType,
+
+		[DescriptionAttribute("Тип пропуска")]
+		CardType
 	}
 }
