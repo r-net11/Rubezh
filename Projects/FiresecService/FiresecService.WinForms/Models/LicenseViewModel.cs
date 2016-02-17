@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using RubezhAPI.License;
 using System;
 using System.IO;
+using System.Windows.Forms;
 
 namespace FiresecService.ViewModels
 {
@@ -39,7 +40,6 @@ namespace FiresecService.ViewModels
 			InitialKey = LicenseManager.InitialKey.ToString();
 			LicenseInfo = LicenseManager.CurrentLicenseInfo;
 			LicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
-			LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
 		}
 		
         string GetLicensePath()
@@ -47,14 +47,13 @@ namespace FiresecService.ViewModels
             return AppDataFolderHelper.GetFile("FiresecService.license");
         }
 
-        public RelayCommand LoadLicenseCommand { get; private set; }
-        void OnLoadLicenseCommand()
+        public void OnLoadLicenseCommand()
         {
             var openFileDialog = new OpenFileDialog()
             {
                 Filter = "Файл лицензии (*.license)|*.license"
             };
-            if (openFileDialog.ShowDialog().Value)
+            if (DialogResult.OK == openFileDialog.ShowDialog())
             {
 				if (!LicenseManager.CheckLicense(openFileDialog.FileName))
                 {

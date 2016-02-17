@@ -24,7 +24,6 @@ namespace FiresecService.ViewModels
 			IpAddress = clientCredentials.ClientIpAddressAndPort;
 			if (IpAddress.StartsWith("127.0.0.1"))
 				IpAddress = "localhost";
-			RemoveCommand = new RelayCommand(OnRemove);
 		}
 
 		string _friendlyUserName;
@@ -38,7 +37,6 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы действительно хотите отключить клиента <{0} / {1} / {2}> от сервера?", ClientType, IpAddress, FriendlyUserName)))

@@ -53,7 +53,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Server.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -125,12 +126,9 @@
       <HintPath>..\..\..\3rdParty\SQL_SMO\Microsoft.SqlServer.SqlEnum.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Npgsql.EntityFrameworkLegacy">
-      <HintPath>..\..\..\3rdParty\Npgsql\Npgsql.EntityFrameworkLegacy.dll</HintPath>
-    </Reference>
     <Reference Include="OpcClientSdk40, Version=7.1.0.1, Culture=neutral, PublicKeyToken=aaf49bf92e1a676f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\petrovdy\Documents\OPC DA AE HDA Client SDK .NET\binaries\NET40\OpcClientSdk40.dll</HintPath>
+      <HintPath>..\..\..\3rdParty\OPC\OpcClientSdk40.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -160,18 +158,13 @@
       <HintPath>..\..\..\3rdParty\OPC\Technosoftware.Logging40.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Models\ClientPollViewModel.cs" />
+    <Compile Include="Models\ClientPolling.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
     <Compile Include="Models\GKLifecycleViewModel.cs" />
     <Compile Include="Models\LicenseViewModel.cs" />
@@ -189,7 +182,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\FiresecService.OpcDa.cs" />
+    <Compile Include="Service\FiresecService.OpcDa.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Service\SafeFiresecService.SKD.TimeTrack.cs" />
     <Compile Include="Service\FiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\FiresecService.GK.cs" />
@@ -211,6 +206,8 @@
     <Compile Include="Views\MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\TypeConverters\BooleanTypeConverter.cs" />
+    <Compile Include="Views\TypeConverters\EnumTypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -319,12 +316,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Server.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Firesec.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="mscoree">
       <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -341,9 +332,7 @@
   <ItemGroup>
     <None Include="Resources\Server.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="OpcClientSdk40.dll" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

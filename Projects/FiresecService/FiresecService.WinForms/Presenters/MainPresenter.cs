@@ -42,7 +42,7 @@ namespace FiresecService.Presenters
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 
 			//ClientPolls = new ObservableCollection<ClientPollViewModel>();
-			ClientPolls = new List<ClientPollViewModel>();
+			ClientPolls = new List<ClientPolling>();
 			_bindingSourceClientPolls = new BindingSource();
 			_bindingSourceClientPolls.DataSource = null;
 			_bindingSourceClientPolls.DataSource = ClientPolls;
@@ -346,7 +346,7 @@ namespace FiresecService.Presenters
 		#region Polling
 
 		//public ObservableCollection<ClientPollViewModel> ClientPolls { get; private set; }
-		List<ClientPollViewModel> ClientPolls { get; set; }
+		List<ClientPolling> ClientPolls { get; set; }
 		BindingSource _bindingSourceClientPolls;
 
 		public void OnPoll(Guid uid)
@@ -361,7 +361,7 @@ namespace FiresecService.Presenters
 				var clientPoll = ClientPolls.FirstOrDefault(x => x.Client == client && x.UID == uid);
 				if (clientPoll == null)
 				{
-					clientPoll = new ClientPollViewModel { UID = uid, Client = client };
+					clientPoll = new ClientPolling { UID = uid, Client = client };
 					clientPoll.FirstPollTime = now;
 					//ClientPolls.Add(clientPoll);
 					_bindingSourceClientPolls.Add(clientPoll);
@@ -418,7 +418,7 @@ namespace FiresecService.Presenters
 
 		void EventHandler_View_ClickLoadLicense(object sender, EventArgs e)
 		{
-			LicenseViewModel.LoadLicenseCommand.Execute();
+			LicenseViewModel.OnLoadLicenseCommand();
 		}
 
 		void EventHandler_LicenseViewModel_PropertyChanged(object sender, 

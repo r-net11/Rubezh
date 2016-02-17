@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Threading;
-using Controls.Converters;
+using FiresecService.Views.TypeConverters;
 using System.Windows.Data;
 
 namespace FiresecService.Views
@@ -143,10 +143,10 @@ namespace FiresecService.Views
 
 		public LicenseMode LicenseMode 
 		{
-			set 
+			set
 			{
-				var converter = new EnumToDescriptionConverter();
-				_labelLicenseStatus.Text = converter.Convert(value, typeof(LicenseMode), null, null).ToString(); 
+				var converter = new EnumTypeConverter(typeof(LicenseMode));
+				_labelLicenseStatus.Text = converter.ConvertToString(value);
 			}
 		}
 		public int RemoteClientsCount 
@@ -160,40 +160,40 @@ namespace FiresecService.Views
 		{
 			set 
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelFirefighting.Text = converter.Convert(value, null, null, null).ToString(); 
+				var converter = new BooleanTypeConverter();
+				_labelFirefighting.Text = converter.ConvertToString(value);
 			} 
 		}
 		public bool HasGuard 
 		{
 			set
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelSecurity.Text = converter.Convert(value, null, null, null).ToString();
+				var converter = new BooleanTypeConverter();
+				_labelSecurity.Text = converter.ConvertToString(value);
 			}
 		}
 		public bool HasSKD 
 		{
 			set
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelAccess.Text = converter.Convert(value, null, null, null).ToString();
+				var converter = new BooleanTypeConverter();
+				_labelAccess.Text = converter.ConvertToString(value);
 			} 
 		}
 		public bool HasVideo 
 		{
 			set
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelVideo.Text = converter.Convert(value, null, null, null).ToString();
+				var converter = new BooleanTypeConverter();
+				_labelVideo.Text = converter.ConvertToString(value);
 			} 
 		}
 		public bool HasOpcServer 
 		{
 			set
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelOpcServer.Text = converter.Convert(value, null, null, null).ToString();
+				var converter = new BooleanTypeConverter();
+				_labelOpcServer.Text = converter.ConvertToString(value);
 			} 
 		}
 		public string InitialKey 
