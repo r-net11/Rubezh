@@ -168,7 +168,8 @@
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\GKLifecycle.cs" />
     <Compile Include="Models\License.cs" />
-    <Compile Include="Models\ServerTasksViewModel.cs" />
+    <Compile Include="Models\ServerTaskModel.cs" />
+    <Compile Include="Models\ServerTasksModel.cs" />
     <Compile Include="Presenters\ApplicationPresenter.cs" />
     <Compile Include="Presenters\LogViewModel.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />

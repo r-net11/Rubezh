@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecService.Views;
 using FiresecService.ViewModels;
-using System.Windows.Threading;
-using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using RubezhAPI;
 using RubezhAPI.Models;
@@ -43,7 +40,7 @@ namespace FiresecService.Presenters
 			_bindingSourceClientPolls.DataSource = null;
 			_bindingSourceClientPolls.DataSource = ClientPolls;
 
-			ServerTasks = new List<ServerTaskViewModel>();
+			ServerTasks = new List<ServerTaskModel>();
 			_bindingSourceOperations = new BindingSource();
 			_bindingSourceOperations.DataSource = null;
 			_bindingSourceOperations.DataSource = ServerTasks;
@@ -365,7 +362,7 @@ namespace FiresecService.Presenters
 		#region Operations
 		
 		//public ServerTasksViewModel ServerTasksViewModel { get; private set; }
-		List<ServerTaskViewModel> ServerTasks { get; set; }
+		List<ServerTaskModel> ServerTasks { get; set; }
 
 		BindingSource _bindingSourceOperations;
 
@@ -373,15 +370,16 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var serverTaskViewModel = new ServerTaskViewModel(serverTask);
+				var serverTaskViewModel = new ServerTaskModel(serverTask);
 				_bindingSourceOperations.Add(serverTaskViewModel);
 			}));
 		}
+
 		public void RemoveTask(ServerTask serverTask)
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
+				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.Task.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
 					//ServerTasks.Remove(serverTaskViewModel);
 					_bindingSourceOperations.Remove(serverTaskViewModel);
@@ -391,9 +389,9 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
+				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.Task.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
-					serverTaskViewModel.ServerTask = serverTask;
+					serverTaskViewModel.Task = serverTask;
 			}));
 		}
 
