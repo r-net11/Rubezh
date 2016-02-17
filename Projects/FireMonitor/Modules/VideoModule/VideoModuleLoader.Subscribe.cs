@@ -43,7 +43,6 @@ namespace VideoModule
 						{
 							server.Status = remoteRviState.Status;
 							server.OnStatusChanged();
-
 						}
 					}
 				}
