@@ -1,9 +1,5 @@
-﻿using RubezhLicense;
-using FiresecService.Processor;
+﻿using FiresecService.Processor;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Microsoft.Win32;
 using RubezhAPI.License;
 using System;
 using System.IO;
@@ -11,37 +7,18 @@ using System.Windows.Forms;
 
 namespace FiresecService.ViewModels
 {
-    public class LicenseViewModel : BaseViewModel
-    {
-		string _initialKey;
-		public string InitialKey
-		{
-			get { return _initialKey; }
-			set
-			{
-				_initialKey = value;
-				OnPropertyChanged(() => InitialKey);
-			}
-		}
-
-		FiresecLicenseInfo _licenseInfo;
-		public FiresecLicenseInfo LicenseInfo
-		{
-			get { return _licenseInfo; }
-			set 
-			{ 
-				_licenseInfo = value;
-				OnPropertyChanged(() => LicenseInfo);
-			}
-		}
-
-		public LicenseViewModel()
+	public class License
+	{
+		public License()
 		{
 			InitialKey = LicenseManager.InitialKey.ToString();
 			LicenseInfo = LicenseManager.CurrentLicenseInfo;
 			LicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
 		}
-		
+
+		public string InitialKey { get; set; }
+		public FiresecLicenseInfo LicenseInfo { get; set; }
+	
         string GetLicensePath()
         {
             return AppDataFolderHelper.GetFile("FiresecService.license");
@@ -57,7 +34,7 @@ namespace FiresecService.ViewModels
             {
 				if (!LicenseManager.CheckLicense(openFileDialog.FileName))
                 {
-                    MessageBoxService.ShowError("Некорректный файл лицензии");
+					MessageBox.Show("Некорректный файл лицензии", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 try
@@ -66,7 +43,7 @@ namespace FiresecService.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + e.Message);
+					MessageBox.Show("Ошибка копирования файла лицензии.\n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 				FiresecLicenseProcessor.SetLicense(LicenseManager.TryLoad(GetLicensePath()));
             }
@@ -75,6 +52,17 @@ namespace FiresecService.ViewModels
 		void FiresecLicenseManager_LicenseChanged()
 		{
 			LicenseInfo = LicenseManager.CurrentLicenseInfo;
+			OnLicenseChanged();
 		}
+
+		void OnLicenseChanged()
+		{
+			if (LicenseChanged != null)
+			{
+				LicenseChanged(this, new EventArgs());
+			}
+		}
+
+		public event EventHandler LicenseChanged;
     }
 }

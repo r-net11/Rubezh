@@ -48,9 +48,8 @@ namespace FiresecService.Presenters
 			_bindingSourceOperations.DataSource = null;
 			_bindingSourceOperations.DataSource = ServerTasks;
 
-			LicenseViewModel = new LicenseViewModel();
-			LicenseViewModel.PropertyChanged += EventHandler_LicenseViewModel_PropertyChanged;
-			LicenseManager.LicenseChanged += EventHandler_LicenseManager_LicenseChanged;
+			License = new License();
+			License.LicenseChanged += EventHandler_License_LicenseChanged;
 
 			View.Title = "Сервер приложений Глобал";
 			View.CommandDisconnectActivated += EventHandler_View_CommandDisconnectActivated;
@@ -60,14 +59,14 @@ namespace FiresecService.Presenters
 			View.GkLifecyclesContext = _bindingSourceLifecycle;
 			View.ClientPollsContext = _bindingSourceClientPolls;
 			View.OperationsContext = _bindingSourceOperations;
-			View.LicenseMode = LicenseViewModel.LicenseInfo.LicenseMode;
-			View.RemoteClientsCount = LicenseViewModel.LicenseInfo.RemoteClientsCount;
-			View.HasFirefighting = LicenseViewModel.LicenseInfo.HasFirefighting;
-			View.HasGuard = LicenseViewModel.LicenseInfo.HasGuard;
-			View.HasSKD = LicenseViewModel.LicenseInfo.HasSKD;
-			View.HasVideo = LicenseViewModel.LicenseInfo.HasVideo;
-			View.HasOpcServer = LicenseViewModel.LicenseInfo.HasOpcServer;
-			View.InitialKey = LicenseViewModel.InitialKey;
+			View.LicenseMode = License.LicenseInfo.LicenseMode;
+			View.RemoteClientsCount = License.LicenseInfo.RemoteClientsCount;
+			View.HasFirefighting = License.LicenseInfo.HasFirefighting;
+			View.HasGuard = License.LicenseInfo.HasGuard;
+			View.HasSKD = License.LicenseInfo.HasSKD;
+			View.HasVideo = License.LicenseInfo.HasVideo;
+			View.HasOpcServer = License.LicenseInfo.HasOpcServer;
+			View.InitialKey = License.InitialKey;
 			View.ClickLoadLicense += EventHandler_View_ClickLoadLicense;
 
 			LastLog = String.Empty;
@@ -402,32 +401,25 @@ namespace FiresecService.Presenters
 
 		#region License
 		
-		public LicenseViewModel LicenseViewModel { get; private set; }
+		public License License { get; private set; }
 
 		void EventHandler_View_ClickLoadLicense(object sender, EventArgs e)
 		{
-			LicenseViewModel.OnLoadLicenseCommand();
+			License.OnLoadLicenseCommand();
 		}
 
-		void EventHandler_LicenseViewModel_PropertyChanged(object sender, 
-			System.ComponentModel.PropertyChangedEventArgs e)
+		void EventHandler_License_LicenseChanged(object sender, EventArgs e)
 		{
-			var target = (LicenseViewModel)sender;
-			
-			if (e.PropertyName == "LicenseInfo")
-			{
-				View.LicenseMode = target.LicenseInfo.LicenseMode;
-				View.RemoteClientsCount = target.LicenseInfo.RemoteClientsCount;
-				View.HasFirefighting = target.LicenseInfo.HasFirefighting;
-				View.HasGuard = target.LicenseInfo.HasGuard;
-				View.HasSKD = target.LicenseInfo.HasSKD;
-				View.HasVideo = target.LicenseInfo.HasVideo;
-				View.HasOpcServer = target.LicenseInfo.HasOpcServer;
-			}
-		}
+			var target = (License)sender;
 
-		void EventHandler_LicenseManager_LicenseChanged()
-		{
+			View.LicenseMode = target.LicenseInfo.LicenseMode;
+			View.RemoteClientsCount = target.LicenseInfo.RemoteClientsCount;
+			View.HasFirefighting = target.LicenseInfo.HasFirefighting;
+			View.HasGuard = target.LicenseInfo.HasGuard;
+			View.HasSKD = target.LicenseInfo.HasSKD;
+			View.HasVideo = target.LicenseInfo.HasVideo;
+			View.HasOpcServer = target.LicenseInfo.HasOpcServer;
+
 			View.Title = LicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
 				"Сервер приложений Глобал [Демонстрационный режим]" :
 				"Сервер приложений Глобал";
