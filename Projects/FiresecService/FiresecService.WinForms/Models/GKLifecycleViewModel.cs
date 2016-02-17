@@ -1,6 +1,5 @@
 ﻿using RubezhAPI.GK;
 using GKProcessor;
-using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,16 +8,14 @@ using System.Text;
 
 namespace FiresecService.ViewModels
 {
-	public class GKLifecycleViewModel : BaseViewModel
+	public class GKLifecycle
 	{
-		public GKLifecycleInfo GKLifecycleInfo { get; private set; }
-
-		public GKLifecycleViewModel(GKLifecycleInfo gkLifecycleInfo)
+		public GKLifecycle(GKLifecycleInfo gkLifecycleInfo)
 		{
 			GKLifecycleInfo = gkLifecycleInfo;
 			Update(gkLifecycleInfo);
 		}
-
+		public GKLifecycleInfo GKLifecycleInfo { get; private set; }
 		public void Update(GKLifecycleInfo gkLifecycleInfo)
 		{
 			Time = System.DateTime.Now.TimeOfDay.ToString(@"hh\:mm\:ss");
@@ -34,60 +31,10 @@ namespace FiresecService.ViewModels
 			Progress = gkLifecycleInfo.Progress;
 			Items = gkLifecycleInfo.DetalisationItems;
 		}
-
-		string _address;
-		public string Address
-		{
-			get { return _address; }
-			set
-			{
-				_address = value;
-				OnPropertyChanged(() => Address);
-			}
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
-
-		string _progress;
-		public string Progress
-		{
-			get { return _progress; }
-			set
-			{
-				_progress = value;
-				OnPropertyChanged(() => Progress);
-			}
-		}
-
-		string _time;
-		public string Time
-		{
-			get { return _time; }
-			set
-			{
-				_time = value;
-				OnPropertyChanged(() => Time);
-			}
-		}
-
-		List<string> _items;
-		public List<string> Items
-		{
-			get { return _items; }
-			set
-			{
-				_items = value;
-				OnPropertyChanged(() => Items);
-			}
-		}
+		public string Address { get; set; }
+		public string Name { get; set; }
+		public string Progress { get; set; }
+		public string Time { get; set; }
+		public List<string> Items { get; set; }
 	}
 }

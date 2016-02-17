@@ -32,7 +32,7 @@ namespace FiresecService.Presenters
 			_bindingSourceLogs.DataSource = null;
 			_bindingSourceLogs.DataSource = _logs;
 
-			_gkLifecycles = new List<GKLifecycleViewModel>();
+			_gkLifecycles = new List<GKLifecycle>();
 			_bindingSourceLifecycle = new BindingSource();
 			_bindingSourceLifecycle.DataSource = null;
 			_bindingSourceLifecycle.DataSource = _gkLifecycles;
@@ -269,8 +269,8 @@ namespace FiresecService.Presenters
 
 		BindingSource _bindingSourceLifecycle;
 
-		List<GKLifecycleViewModel> _gkLifecycles;
-		public List<GKLifecycleViewModel> GKLifecycles
+		List<GKLifecycle> _gkLifecycles;
+		public List<GKLifecycle> GKLifecycles
 		{
 			get { return _gkLifecycles; }
 			set
@@ -318,9 +318,9 @@ namespace FiresecService.Presenters
 			}));
 		}
 
-		GKLifecycleViewModel AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
+		GKLifecycle AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
 		{
-			var gkViewModel = new GKLifecycleViewModel(gkLifecycleInfo);
+			var gkViewModel = new GKLifecycle(gkLifecycleInfo);
 			//GKLifecycles.Insert(0, gkViewModel);
 			_bindingSourceLifecycle.Insert(0, gkViewModel);
 			if (GKLifecycles.Count > 20)
