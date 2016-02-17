@@ -13,6 +13,11 @@
                     console.error(error);
                 }
             });
+
+            if (fireZonesUpdater.connection.state === $.signalR.connectionState.connected) {
+            	fireZonesUpdater.connection.stop().start();
+            }
+
             return {
             };
         }]);

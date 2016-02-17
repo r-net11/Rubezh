@@ -2,8 +2,8 @@
 	'use strict';
 
 	var app = angular.module('gkApp.controllers').controller('devicesCtrl',
-		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', 'broadcastService',
-			function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, broadcastService) {
+		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', 'signalrDevicesService', 'broadcastService',
+			function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, signalrDevicesService, broadcastService) {
 
 				$scope.deviceClick = function(device) {
 					if (device.entity.ParentUID != undefined) {
@@ -40,6 +40,10 @@
 							$scope.gridOptions.data[i].StateIcon = device.StateIcon;
 							break;
 						}
+					}
+
+					if ($scope.selectedDevice.UID === device.UID) {
+						$scope.selectedDevice = device;
 					}
 				};
 
