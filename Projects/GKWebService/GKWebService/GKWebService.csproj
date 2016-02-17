@@ -509,7 +509,6 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="App\services\signalrJournalService.js" />
-    <Content Include="Scripts\archive.js" />
     <Content Include="Content\header.less" />
     <Content Include="Content\vars.less" />
     <Content Include="Content\main.less" />

@@ -1,6 +1,7 @@
 ﻿(function () {
 	'use strict';
-	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants, signalrJournalService) {
+
+	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $timeout, uiGridConstants, $uibModal, signalrJournalService, broadcastService) {
 		var requestJournalItems = function (filter) {
 			$http.post("Journal/GetJournal", filter)
 				.success(function (data) {
