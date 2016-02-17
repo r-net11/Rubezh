@@ -602,6 +602,7 @@
     <Content Include="Content\bootstrap.less" />
     <Content Include="Content\alarmBtn.less" />
     <Content Include="Content\devices.less" />
+    <Content Include="Content\common.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
