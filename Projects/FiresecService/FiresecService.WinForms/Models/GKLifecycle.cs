@@ -2,7 +2,7 @@
 using GKProcessor;
 using System.Collections.Generic;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class GKLifecycle
 	{

@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class License
 	{

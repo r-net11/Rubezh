@@ -1,4 +1,4 @@
-﻿using FiresecService.ViewModels;
+﻿using FiresecService.Models;
 using RubezhAPI.License;
 using System;
 using System.Collections.Generic;

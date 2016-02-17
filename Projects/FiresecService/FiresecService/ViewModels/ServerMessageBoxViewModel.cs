@@ -2,7 +2,7 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class ServerMessageBoxViewModel : MessageBoxViewModel
 	{

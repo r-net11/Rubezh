@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecService.Views;
-using FiresecService.ViewModels;
+using FiresecService.Models;
 using System.Windows.Forms;
 using RubezhAPI;
 using RubezhAPI.Models;
@@ -24,7 +24,7 @@ namespace FiresecService.Presenters
 			_bindingSourceClients.DataSource = _clients;
 			_bindingSourceClients.ListChanged += EventHandler_bindingSourceClients_ListChanged;
 
-			_logs = new List<LogViewModel>();
+			_logs = new List<Log>();
 			_bindingSourceLogs = new BindingSource();
 			_bindingSourceLogs.DataSource = null;
 			_bindingSourceLogs.DataSource = _logs;
@@ -78,7 +78,7 @@ namespace FiresecService.Presenters
 
 		#region Logs
 		//public ObservableCollection<LogViewModel> Logs { get; private set; }
-		List<LogViewModel> _logs;
+		List<Log> _logs;
 		BindingSource _bindingSourceLogs;
 
 		public string LastLog
@@ -92,7 +92,7 @@ namespace FiresecService.Presenters
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
 				LastLog = message;
-				var logViewModel = new LogViewModel(message, isError);
+				var logViewModel = new Log(message, isError);
 				//Logs.Add(logViewModel);
 				//if (Logs.Count > 1000)
 				//	Logs.RemoveAt(0);

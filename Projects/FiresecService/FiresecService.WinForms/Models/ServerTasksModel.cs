@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Threading;
 using FiresecService;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class ServerTasksModel
 	{
