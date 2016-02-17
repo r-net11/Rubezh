@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 			AddedDevices = new List<DeviceViewModel>();
 			if (ParentDevice.IsConnectedToKAU)
 			{
-				RealParentDevice = ParentDevice.MVPPartParent == null ? ParentDevice.KAUShleifParent : ParentDevice.MVPPartParent;
+                RealParentDevice = ParentDevice.MVPPartParent ?? ParentDevice.MRKParent ?? ParentDevice.KAUShleifParent;
 				Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => RealParentDevice.Driver.Children.Contains(x.DriverType)));
 				SelectedDriver = Drivers.FirstOrDefault();
 				MinAddress = 1;
