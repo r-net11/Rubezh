@@ -4,11 +4,12 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKImitator.ViewModels
 {
-	public partial class DescriptorViewModel : BaseViewModel
+	public partial class DescriptorViewModel
 	{
 		void AddStateBit(GKStateBit stateBit, bool isActive = false)
 		{
-			StateBits.Add(new StateBitViewModel(this, stateBit, isActive));
+            if(StateBits.All(x => x.StateBit != stateBit))
+                StateBits.Add(new StateBitViewModel(this, stateBit, isActive));
 		}
 
 		public bool GetStateBit(GKStateBit stateBit)

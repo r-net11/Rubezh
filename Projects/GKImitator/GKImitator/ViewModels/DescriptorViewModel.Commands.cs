@@ -5,8 +5,8 @@ using System.Windows.Input;
 
 namespace GKImitator.ViewModels
 {
-	public partial class DescriptorViewModel : BaseViewModel
-	{
+	public partial class DescriptorViewModel
+    {
 		public void ClientCommand(GKStateBit stateBit)
 		{
 			switch (stateBit)

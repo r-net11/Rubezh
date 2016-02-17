@@ -199,43 +199,49 @@ namespace RviClient
 			}
 			return rviDevices;
 		}
+		[DebuggerStepThrough]
 		static List<Device> GetDevices(string url, string login, string password)
 		{
 			var devices = new List<Device>();
-			using (IntegrationClient client = CreateIntegrationClient(url))
+			try
 			{
-				var sessionUID = Guid.NewGuid();
+				using (IntegrationClient client = CreateIntegrationClient(url))
+				{
+					var sessionUID = Guid.NewGuid();
 
-				var sessionInitialiazationIn = new SessionInitialiazationIn();
-				sessionInitialiazationIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				sessionInitialiazationIn.Login = login;
-				sessionInitialiazationIn.Password = password;
-				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
-				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
+					var sessionInitialiazationIn = new SessionInitialiazationIn();
+					sessionInitialiazationIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					sessionInitialiazationIn.Login = login;
+					sessionInitialiazationIn.Password = password;
+					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+					//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
 
-				var perimeterIn = new PerimeterIn();
-				perimeterIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var perimeterOut = client.GetPerimeter(perimeterIn);
-				if (perimeterOut.Devices != null)
-				{
-					devices = perimeterOut.Devices.ToList();
+					var perimeterIn = new PerimeterIn();
+					perimeterIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var perimeterOut = client.GetPerimeter(perimeterIn);
+					if (perimeterOut.Devices != null)
+					{
+						devices = perimeterOut.Devices.ToList();
+					}
+					var sessionCloseIn = new SessionCloseIn();
+					sessionCloseIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var sessionCloseOut = client.SessionClose(sessionCloseIn);
 				}
-				var sessionCloseIn = new SessionCloseIn();
-				sessionCloseIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
 			}
+			catch (Exception)
+			{ }
 			return devices;
 		}
 

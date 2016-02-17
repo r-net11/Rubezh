@@ -26,7 +26,9 @@ function MenuViewModel() {
 			self.pages[propertyName](false);
 		}
 
-		self.pages[page](!self.pages[page]());
+        if (page) {
+            self.pages[page](!self.pages[page]());
+        }
 		$('ul.menu li').removeClass("active");
 		$(e.currentTarget).parent().addClass("active");
 

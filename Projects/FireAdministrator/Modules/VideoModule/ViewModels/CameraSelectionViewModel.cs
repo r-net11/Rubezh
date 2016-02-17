@@ -14,7 +14,7 @@ namespace VideoModule.ViewModels
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var cam in ClientManager.SystemConfiguration.Cameras)
 			{
-				var cameraViewModel = new CameraViewModel(null, cam, cam.Name);
+				var cameraViewModel = new CameraViewModel(null, cam, cam.PresentationName);
 				Cameras.Add(cameraViewModel);
 			}
 

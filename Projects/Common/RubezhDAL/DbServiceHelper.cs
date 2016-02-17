@@ -57,6 +57,8 @@ namespace RubezhDAL.DataClasses
 
 		static string CreateMsSQLConnectionString(DbSettings dbSettings)
 		{
+			if (dbSettings.IsFullConnectionString)
+				return dbSettings.ConnectionString;
 			var builder = new SqlConnectionStringBuilder();
 			builder.DataSource = dbSettings.DataSource;
 			builder.InitialCatalog = dbSettings.DbName;

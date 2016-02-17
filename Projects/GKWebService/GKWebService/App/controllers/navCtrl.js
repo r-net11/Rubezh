@@ -20,13 +20,13 @@
                 function(event, toState, toParams, fromState, fromParams, options) {
                     if (toState.name === 'state') {
                         $scope.groupControlClicked = true;
-                        return;
                     }
 
                     if (toState.name === 'hr') {
                         // TODO: исправить, когда переведём картотеку на ангулар
                         $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .hr")[0] }, 'HR');
-                        return;
+                    } else {
+                        $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .undefined")[0] }, null);
                     }
                 });
         }]
