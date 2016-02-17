@@ -276,13 +276,26 @@ namespace GKModule.ViewModels
 			{
 				oldAlarm = SelectedAlarm.Alarm.Clone();
 			}
-			Alarms.Clear();
-			foreach (var alarm in alarms)
+			for (int i = 0; i < alarms.Count; i++)
 			{
+				var alarm = alarms[i];
 				if (!sortingAlarmType.HasValue || sortingAlarmType.Value == alarm.AlarmType)
 				{
-					var alarmViewModel = new AlarmViewModel(alarm);
-					Alarms.Add(alarmViewModel);
+					var alarmViewModel = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(alarm));
+					if (alarmViewModel == null)
+					{
+						var newAlarmViewModel = new AlarmViewModel(alarm);
+						Alarms.Insert(i, newAlarmViewModel);
+					}
+				}
+			}
+			for (int i = 0; i < Alarms.Count; i++)
+			{
+				var alarm = alarms.FirstOrDefault(x => x.IsEqualTo(Alarms[i].Alarm));
+				if (alarm == null)
+				{
+					Alarms.RemoveAt(i);
+					i--;
 				}
 			}
 			if (oldAlarm != null)
