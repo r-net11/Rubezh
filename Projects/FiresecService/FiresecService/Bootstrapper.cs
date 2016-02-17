@@ -2,7 +2,7 @@
 using FiresecService.Processor;
 using FiresecService.Report;
 using FiresecService.Service;
-using FiresecService.ViewModels;
+using FiresecService.Models;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;

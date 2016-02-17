@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class MainViewModel : ApplicationViewModel
 	{
@@ -24,7 +24,7 @@ namespace FiresecService.ViewModels
 			Current = this;
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
-			ServerTasksViewModel = new ViewModels.ServerTasksViewModel();
+			ServerTasksViewModel = new Models.ServerTasksViewModel();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			Logs = new ObservableCollection<LogViewModel>();
 			GKLifecycles = new ObservableCollection<GKLifecycleViewModel>();

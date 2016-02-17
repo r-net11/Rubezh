@@ -6,7 +6,7 @@ using RubezhAPI;
 using RubezhAPI.Models;
 using System;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class ClientViewModel : BaseViewModel
 	{

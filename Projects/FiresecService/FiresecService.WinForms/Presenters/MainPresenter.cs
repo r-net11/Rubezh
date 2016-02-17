@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecService.Views;
-using FiresecService.ViewModels;
-using System.Windows.Threading;
-using System.Collections.ObjectModel;
+using FiresecService.Models;
 using System.Windows.Forms;
 using RubezhAPI;
 using RubezhAPI.Models;
@@ -21,40 +18,35 @@ namespace FiresecService.Presenters
 		{
 			View = view;
 
-			_clients = new List<ClientViewModel>();
-			//Clients = new ObservableCollection<ClientViewModel>();
-			//Clients.CollectionChanged += Clients_CollectionChanged;
+			_clients = new List<Client>();
 			_bindingSourceClients = new BindingSource();
 			_bindingSourceClients.DataSource = null;
 			_bindingSourceClients.DataSource = _clients;
 			_bindingSourceClients.ListChanged += EventHandler_bindingSourceClients_ListChanged;
 
-			//Logs = new ObservableCollection<LogViewModel>();
-			_logs = new List<LogViewModel>();
+			_logs = new List<Log>();
 			_bindingSourceLogs = new BindingSource();
 			_bindingSourceLogs.DataSource = null;
 			_bindingSourceLogs.DataSource = _logs;
 
-			_gkLifecycles = new List<GKLifecycleViewModel>();
+			_gkLifecycles = new List<GKLifecycle>();
 			_bindingSourceLifecycle = new BindingSource();
 			_bindingSourceLifecycle.DataSource = null;
 			_bindingSourceLifecycle.DataSource = _gkLifecycles;
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 
-			//ClientPolls = new ObservableCollection<ClientPollViewModel>();
-			ClientPolls = new List<ClientPollViewModel>();
+			ClientPolls = new List<ClientPolling>();
 			_bindingSourceClientPolls = new BindingSource();
 			_bindingSourceClientPolls.DataSource = null;
 			_bindingSourceClientPolls.DataSource = ClientPolls;
 
-			ServerTasks = new List<ServerTaskViewModel>();
+			ServerTasks = new List<ServerTaskModel>();
 			_bindingSourceOperations = new BindingSource();
 			_bindingSourceOperations.DataSource = null;
 			_bindingSourceOperations.DataSource = ServerTasks;
 
-			LicenseViewModel = new LicenseViewModel();
-			LicenseViewModel.PropertyChanged += EventHandler_LicenseViewModel_PropertyChanged;
-			LicenseManager.LicenseChanged += EventHandler_LicenseManager_LicenseChanged;
+			License = new License();
+			License.LicenseChanged += EventHandler_License_LicenseChanged;
 
 			View.Title = "Сервер приложений Глобал";
 			View.CommandDisconnectActivated += EventHandler_View_CommandDisconnectActivated;
@@ -64,14 +56,14 @@ namespace FiresecService.Presenters
 			View.GkLifecyclesContext = _bindingSourceLifecycle;
 			View.ClientPollsContext = _bindingSourceClientPolls;
 			View.OperationsContext = _bindingSourceOperations;
-			View.LicenseMode = LicenseViewModel.LicenseInfo.LicenseMode;
-			View.RemoteClientsCount = LicenseViewModel.LicenseInfo.RemoteClientsCount;
-			View.HasFirefighting = LicenseViewModel.LicenseInfo.HasFirefighting;
-			View.HasGuard = LicenseViewModel.LicenseInfo.HasGuard;
-			View.HasSKD = LicenseViewModel.LicenseInfo.HasSKD;
-			View.HasVideo = LicenseViewModel.LicenseInfo.HasVideo;
-			View.HasOpcServer = LicenseViewModel.LicenseInfo.HasOpcServer;
-			View.InitialKey = LicenseViewModel.InitialKey;
+			View.LicenseMode = License.LicenseInfo.LicenseMode;
+			View.RemoteClientsCount = License.LicenseInfo.RemoteClientsCount;
+			View.HasFirefighting = License.LicenseInfo.HasFirefighting;
+			View.HasGuard = License.LicenseInfo.HasGuard;
+			View.HasSKD = License.LicenseInfo.HasSKD;
+			View.HasVideo = License.LicenseInfo.HasVideo;
+			View.HasOpcServer = License.LicenseInfo.HasOpcServer;
+			View.InitialKey = License.InitialKey;
 			View.ClickLoadLicense += EventHandler_View_ClickLoadLicense;
 
 			LastLog = String.Empty;
@@ -86,7 +78,7 @@ namespace FiresecService.Presenters
 
 		#region Logs
 		//public ObservableCollection<LogViewModel> Logs { get; private set; }
-		List<LogViewModel> _logs;
+		List<Log> _logs;
 		BindingSource _bindingSourceLogs;
 
 		public string LastLog
@@ -100,7 +92,7 @@ namespace FiresecService.Presenters
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
 				LastLog = message;
-				var logViewModel = new LogViewModel(message, isError);
+				var logViewModel = new Log(message, isError);
 				//Logs.Add(logViewModel);
 				//if (Logs.Count > 1000)
 				//	Logs.RemoveAt(0);
@@ -178,22 +170,20 @@ namespace FiresecService.Presenters
 		#region Clients
 
 		BindingSource _bindingSourceClients;
-		List<ClientViewModel> _clients;
+		List<Client> _clients;
 
 		//public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
-		ClientViewModel _selectedClient;
-		public ClientViewModel SelectedClient
+		Client _selectedClient;
+		public Client SelectedClient
 		{
 			get 
 			{
-				//return _selectedClient;
-				return (ClientViewModel)_bindingSourceClients.Current;
+				return (Client)_bindingSourceClients.Current;
 			}
 			set
 			{
 				_selectedClient = value;
-				//OnPropertyChanged(() => SelectedClient);
 			}
 		}
 
@@ -201,8 +191,7 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var connectionViewModel = new ClientViewModel(clientCredentials);
-				//Clients.Add(connectionViewModel);
+				var connectionViewModel = new Client(clientCredentials);
 				_bindingSourceClients.Add(connectionViewModel);
 			}));
 		}
@@ -210,10 +199,6 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				//var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
-				//if (connectionViewModel != null)
-				//	Clients.Remove(connectionViewModel);
-
 				var connectionViewModel = _clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					_bindingSourceClients.Remove(connectionViewModel);
@@ -223,7 +208,6 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				//var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				var connectionViewModel = _clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					connectionViewModel.FriendlyUserName = userName;
@@ -259,7 +243,7 @@ namespace FiresecService.Presenters
 					{
 						foreach (var item in e.NewItems)
 						{
-							_bindingSourceClients.Add((ClientViewModel)item);
+							_bindingSourceClients.Add((Client)item);
 						}
 						break;
 					}
@@ -267,7 +251,7 @@ namespace FiresecService.Presenters
 					{
 						foreach (var item in e.OldItems)
 						{
-							_bindingSourceClients.Remove((ClientViewModel)item);
+							_bindingSourceClients.Remove((Client)item);
 						}
 						break;
 					}
@@ -281,8 +265,8 @@ namespace FiresecService.Presenters
 
 		BindingSource _bindingSourceLifecycle;
 
-		List<GKLifecycleViewModel> _gkLifecycles;
-		public List<GKLifecycleViewModel> GKLifecycles
+		List<GKLifecycle> _gkLifecycles;
+		public List<GKLifecycle> GKLifecycles
 		{
 			get { return _gkLifecycles; }
 			set
@@ -330,9 +314,9 @@ namespace FiresecService.Presenters
 			}));
 		}
 
-		GKLifecycleViewModel AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
+		GKLifecycle AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
 		{
-			var gkViewModel = new GKLifecycleViewModel(gkLifecycleInfo);
+			var gkViewModel = new GKLifecycle(gkLifecycleInfo);
 			//GKLifecycles.Insert(0, gkViewModel);
 			_bindingSourceLifecycle.Insert(0, gkViewModel);
 			if (GKLifecycles.Count > 20)
@@ -346,7 +330,7 @@ namespace FiresecService.Presenters
 		#region Polling
 
 		//public ObservableCollection<ClientPollViewModel> ClientPolls { get; private set; }
-		List<ClientPollViewModel> ClientPolls { get; set; }
+		List<ClientPolling> ClientPolls { get; set; }
 		BindingSource _bindingSourceClientPolls;
 
 		public void OnPoll(Guid uid)
@@ -361,7 +345,7 @@ namespace FiresecService.Presenters
 				var clientPoll = ClientPolls.FirstOrDefault(x => x.Client == client && x.UID == uid);
 				if (clientPoll == null)
 				{
-					clientPoll = new ClientPollViewModel { UID = uid, Client = client };
+					clientPoll = new ClientPolling { UID = uid, Client = client };
 					clientPoll.FirstPollTime = now;
 					//ClientPolls.Add(clientPoll);
 					_bindingSourceClientPolls.Add(clientPoll);
@@ -378,7 +362,7 @@ namespace FiresecService.Presenters
 		#region Operations
 		
 		//public ServerTasksViewModel ServerTasksViewModel { get; private set; }
-		List<ServerTaskViewModel> ServerTasks { get; set; }
+		List<ServerTaskModel> ServerTasks { get; set; }
 
 		BindingSource _bindingSourceOperations;
 
@@ -386,15 +370,16 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var serverTaskViewModel = new ServerTaskViewModel(serverTask);
+				var serverTaskViewModel = new ServerTaskModel(serverTask);
 				_bindingSourceOperations.Add(serverTaskViewModel);
 			}));
 		}
+
 		public void RemoveTask(ServerTask serverTask)
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
+				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.Task.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
 					//ServerTasks.Remove(serverTaskViewModel);
 					_bindingSourceOperations.Remove(serverTaskViewModel);
@@ -404,9 +389,9 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.ServerTask.UID == serverTask.UID);
+				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.Task.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
-					serverTaskViewModel.ServerTask = serverTask;
+					serverTaskViewModel.Task = serverTask;
 			}));
 		}
 
@@ -414,32 +399,25 @@ namespace FiresecService.Presenters
 
 		#region License
 		
-		public LicenseViewModel LicenseViewModel { get; private set; }
+		public License License { get; private set; }
 
 		void EventHandler_View_ClickLoadLicense(object sender, EventArgs e)
 		{
-			LicenseViewModel.LoadLicenseCommand.Execute();
+			License.OnLoadLicenseCommand();
 		}
 
-		void EventHandler_LicenseViewModel_PropertyChanged(object sender, 
-			System.ComponentModel.PropertyChangedEventArgs e)
+		void EventHandler_License_LicenseChanged(object sender, EventArgs e)
 		{
-			var target = (LicenseViewModel)sender;
-			
-			if (e.PropertyName == "LicenseInfo")
-			{
-				View.LicenseMode = target.LicenseInfo.LicenseMode;
-				View.RemoteClientsCount = target.LicenseInfo.RemoteClientsCount;
-				View.HasFirefighting = target.LicenseInfo.HasFirefighting;
-				View.HasGuard = target.LicenseInfo.HasGuard;
-				View.HasSKD = target.LicenseInfo.HasSKD;
-				View.HasVideo = target.LicenseInfo.HasVideo;
-				View.HasOpcServer = target.LicenseInfo.HasOpcServer;
-			}
-		}
+			var target = (License)sender;
 
-		void EventHandler_LicenseManager_LicenseChanged()
-		{
+			View.LicenseMode = target.LicenseInfo.LicenseMode;
+			View.RemoteClientsCount = target.LicenseInfo.RemoteClientsCount;
+			View.HasFirefighting = target.LicenseInfo.HasFirefighting;
+			View.HasGuard = target.LicenseInfo.HasGuard;
+			View.HasSKD = target.LicenseInfo.HasSKD;
+			View.HasVideo = target.LicenseInfo.HasVideo;
+			View.HasOpcServer = target.LicenseInfo.HasOpcServer;
+
 			View.Title = LicenseManager.CurrentLicenseInfo.LicenseMode == LicenseMode.Demonstration ?
 				"Сервер приложений Глобал [Демонстрационный режим]" :
 				"Сервер приложений Глобал";

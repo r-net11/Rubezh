@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Threading;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class ServerTasksViewModel : BaseViewModel
 	{
