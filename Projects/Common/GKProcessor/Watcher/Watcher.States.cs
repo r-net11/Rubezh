@@ -391,6 +391,10 @@ namespace GKProcessor
 				{
 					OnObjectStateChanged(pim);
 				}
+				foreach (var pim in GKManager.GlobalPims.Where(x => x.GkDatabaseParent == gkControllerDevice))
+				{
+					OnObjectStateChanged(pim);
+				}
 				foreach (var guardZone in GKManager.GuardZones.Where(x => x.GkDatabaseParent == gkControllerDevice))
 				{
 					OnObjectStateChanged(guardZone);

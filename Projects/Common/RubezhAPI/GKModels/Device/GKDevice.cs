@@ -86,7 +86,7 @@ namespace RubezhAPI.GK
 				switch (DriverType)
 				{
 					case GKDriverType.DetectorDevicesMirror:
-						CreatReflectionDevices(deviceConfiguration);
+						CreatReflectionDevices(deviceConfiguration, true);
 						break;
 					case GKDriverType.ControlDevicesMirror:
 						CreatReflectionDevices(deviceConfiguration);
@@ -159,7 +159,7 @@ namespace RubezhAPI.GK
 			}
 		}
 		
-		void CreatReflectionDevices(GKDeviceConfiguration deviceConfiguration)
+		void CreatReflectionDevices(GKDeviceConfiguration deviceConfiguration, bool isDetectorMirror = false)
 		{
 			var _device = new List<GKDevice>();
 			GKReflectionItem.DeviceUIDs.ForEach(x =>
@@ -169,6 +169,8 @@ namespace RubezhAPI.GK
 				{
 					_device.Add(device);
 					AddDependentElement(device);
+                    if (!isDetectorMirror)
+                        device.AddDependentElement(this);
 				}
 			});
 			GKReflectionItem.Devices = new List<GKDevice>(_device);
@@ -184,6 +186,7 @@ namespace RubezhAPI.GK
 				{
 					_direction.Add(direction);
 					AddDependentElement(direction);
+					direction.AddDependentElement(this);
 				}
 			});
 			GKReflectionItem.Diretions = new List<GKDirection>(_direction);
@@ -200,6 +203,7 @@ namespace RubezhAPI.GK
 				{
 					_zone.Add(zone);
 					AddDependentElement(zone);
+					zone.AddDependentElement(this);
 				}
 			});
 			GKReflectionItem.Zones = new List<GKZone>(_zone);

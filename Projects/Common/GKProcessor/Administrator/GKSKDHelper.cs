@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -279,7 +275,7 @@ namespace GKProcessor
 						}
 					}
 				}
-				
+
 				if (progressCallback.IsCanceled)
 				{
 					return OperationResult<List<GKUser>>.FromError("Операция отменена", users);
@@ -318,10 +314,10 @@ namespace GKProcessor
 			return new OperationResult<List<GKUser>>(users);
 		}
 
-        public static OperationResult<int> GetUsersCount(GKDevice device, GKProgressCallback progressCallback = null)
-        {
-            if(progressCallback != null)
-                progressCallback = GKProcessorManager.StartProgress("Подсчёт числа пользователей на приборе", "", 16, true, GKProgressClientType.Administrator);
+		public static OperationResult<int> GetUsersCount(GKDevice device, GKProgressCallback progressCallback = null)
+		{
+			if (progressCallback != null)
+				progressCallback = GKProcessorManager.StartProgress("Подсчёт числа пользователей на приборе", "", 16, true, GKProgressClientType.Administrator);
 			int minNo = 0;
 			int maxNo = 65535;
 			int currentNo = 65535 / 2;
@@ -346,24 +342,24 @@ namespace GKProcessor
 				delta = delta / 2;
 				if (delta == 0)
 					delta = 1;
-                if (progressCallback != null)
-                {
-                    GKProcessorManager.DoProgress("", progressCallback);
-                    if(progressCallback.IsCanceled)
-                        return OperationResult<int>.FromError("Операция отменена");
-                }
-            }
-            if (progressCallback != null)
-                GKProcessorManager.StopProgress(progressCallback);
-            return new OperationResult<int>(minNo);
+				if (progressCallback != null)
+				{
+					GKProcessorManager.DoProgress("", progressCallback);
+					if (progressCallback.IsCanceled)
+						return OperationResult<int>.FromError("Операция отменена");
+				}
+			}
+			if (progressCallback != null)
+				GKProcessorManager.StopProgress(progressCallback);
+			return new OperationResult<int>(minNo);
 		}
 
 		public static bool RemoveAllUsers(GKDevice device, int usersCount, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			var removeAllUsersInternalResult = RemoveAllUsersInternal(device, usersCount, progressCallback);
-            if(removeAllUsersInternalResult.HasError)
-                return false;
-            var cardsCount = removeAllUsersInternalResult.Result;
+			if (removeAllUsersInternalResult.HasError)
+				return false;
+			var cardsCount = removeAllUsersInternalResult.Result;
 			if (cardsCount == 0)
 				return false;
 
@@ -456,30 +452,30 @@ namespace GKProcessor
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-                int oldUsersCount = -1;
-                var getUsersCountResult = GetUsersCount(device, progressCallback);
-                if (getUsersCountResult.HasError)
-                    return OperationResult<bool>.FromError(getUsersCountResult.Error);
-                oldUsersCount = getUsersCountResult.Result;
-                var removeAllUsersInternalResult = RemoveAllUsersInternal(device, oldUsersCount, progressCallback);
-                if(removeAllUsersInternalResult.HasError)
-                    return OperationResult<bool>.FromError(removeAllUsersInternalResult.Error);
-                progressCallback = GKProcessorManager.StartProgress("Запись пользователей", "", users.Count, true, GKProgressClientType.Administrator);
-                ushort gkNo = 0;
-                foreach (var user in users.OrderBy(x => x.Password))
-                {
-                    user.GkNo = gkNo++;
-                    AddOrEditUser(user, device);
-                    if (progressCallback.IsCanceled)
-                    {
-                        return OperationResult<bool>.FromError("Операция отменена");
-                    }
-                    GKProcessorManager.DoProgress("Пользователь " + gkNo, progressCallback);
-                }
-                GKProcessorManager.StopProgress(progressCallback);
-                return new OperationResult<bool>(true);
+				int oldUsersCount = -1;
+				var getUsersCountResult = GetUsersCount(device, progressCallback);
+				if (getUsersCountResult.HasError)
+					return OperationResult<bool>.FromError(getUsersCountResult.Error);
+				oldUsersCount = getUsersCountResult.Result;
+				var removeAllUsersInternalResult = RemoveAllUsersInternal(device, oldUsersCount, progressCallback);
+				if (removeAllUsersInternalResult.HasError)
+					return OperationResult<bool>.FromError(removeAllUsersInternalResult.Error);
+				progressCallback = GKProcessorManager.StartProgress("Запись пользователей", "", users.Count, true, GKProgressClientType.Administrator);
+				ushort gkNo = 0;
+				foreach (var user in users.OrderBy(x => x.Password))
+				{
+					user.GkNo = gkNo++;
+					AddOrEditUser(user, device);
+					if (progressCallback.IsCanceled)
+					{
+						return OperationResult<bool>.FromError("Операция отменена");
+					}
+					GKProcessorManager.DoProgress("Пользователь " + gkNo, progressCallback);
+				}
+				GKProcessorManager.StopProgress(progressCallback);
+				return new OperationResult<bool>(true);
 			}
-            return OperationResult<bool>.FromError("Устройство не найдено");
+			return OperationResult<bool>.FromError("Устройство не найдено");
 		}
 
 		/// <summary>
@@ -491,11 +487,11 @@ namespace GKProcessor
 		/// <returns></returns>
 		static OperationResult<int> RemoveAllUsersInternal(GKDevice device, int usersCount, GKProgressCallback progressCallback = null)
 		{
-            progressCallback = GKProcessorManager.StartProgress("Удаление пользователей", "", usersCount, true, GKProgressClientType.Administrator);
-            int cardsCount = 0;
+			progressCallback = GKProcessorManager.StartProgress("Удаление пользователей", "", usersCount, true, GKProgressClientType.Administrator);
+			int cardsCount = 0;
 			for (int no = 1; no <= usersCount; no++)
 			{
-                var bytes = new List<byte>();
+				var bytes = new List<byte>();
 				bytes.Add(0);
 				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
 
@@ -535,14 +531,14 @@ namespace GKProcessor
 				}
 
 				cardsCount++;
-                if (progressCallback != null)
-                {
-                    GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
-                    if(progressCallback.IsCanceled)
-                        return OperationResult<int>.FromError("Операция отменена", cardsCount);
-                }
+				if (progressCallback != null)
+				{
+					GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
+					if (progressCallback.IsCanceled)
+						return OperationResult<int>.FromError("Операция отменена", cardsCount);
+				}
 			}
-            GKProcessorManager.StopProgress(progressCallback);
+			GKProcessorManager.StopProgress(progressCallback);
 			return new OperationResult<int>(cardsCount);
 		}
 	}
