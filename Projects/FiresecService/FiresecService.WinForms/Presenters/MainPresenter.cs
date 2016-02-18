@@ -9,13 +9,16 @@ using RubezhAPI.Models;
 using FiresecService.Service;
 using GKProcessor;
 using RubezhAPI.License;
+using System.Windows.Threading;
 
 namespace FiresecService.Presenters
 {
-	public class MainPresenter : ApplicationPresenter
+	public class MainPresenter
 	{
 		public MainPresenter(IMainView view)
 		{
+			FormDispatcher = Dispatcher.CurrentDispatcher;
+
 			View = view;
 
 			_clients = new List<Client>();
@@ -71,6 +74,10 @@ namespace FiresecService.Presenters
 		}
 
 		#region Fields And Properties
+
+		public static MainPresenter Current { get; set; }
+
+		public Dispatcher FormDispatcher { get; private set; }
 
 		public IMainView View { get; private set; }
 
