@@ -648,6 +648,18 @@ namespace RubezhAPI.GK
 			}
 		}
 
+        [XmlIgnore]
+        public GKDevice MRKParent
+        {
+            get
+            {
+                var allParents = AllParents;
+                allParents.Add(this);
+                return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_MRK);
+            }
+        }
+
+
 		[XmlIgnore]
 		public GKDevice MirrorParent
 		{

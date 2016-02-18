@@ -9,20 +9,22 @@ using RubezhAPI.Models;
 using FiresecService.Service;
 using GKProcessor;
 using RubezhAPI.License;
+using System.Windows.Threading;
 
 namespace FiresecService.Presenters
 {
-	public class MainPresenter : ApplicationPresenter
+	public class MainPresenter
 	{
 		public MainPresenter(IMainView view)
 		{
+			FormDispatcher = Dispatcher.CurrentDispatcher;
+
 			View = view;
 
 			_clients = new List<Client>();
 			_bindingSourceClients = new BindingSource();
 			_bindingSourceClients.DataSource = null;
 			_bindingSourceClients.DataSource = _clients;
-			_bindingSourceClients.ListChanged += EventHandler_bindingSourceClients_ListChanged;
 
 			_logs = new List<Log>();
 			_bindingSourceLogs = new BindingSource();
@@ -72,12 +74,16 @@ namespace FiresecService.Presenters
 
 		#region Fields And Properties
 
+		public static MainPresenter Current { get; set; }
+
+		public Dispatcher FormDispatcher { get; private set; }
+
 		public IMainView View { get; private set; }
 
 		#endregion
 
 		#region Logs
-		//public ObservableCollection<LogViewModel> Logs { get; private set; }
+
 		List<Log> _logs;
 		BindingSource _bindingSourceLogs;
 
@@ -93,9 +99,6 @@ namespace FiresecService.Presenters
 			{
 				LastLog = message;
 				var logViewModel = new Log(message, isError);
-				//Logs.Add(logViewModel);
-				//if (Logs.Count > 1000)
-				//	Logs.RemoveAt(0);
 				_bindingSourceLogs.Add(logViewModel);
 				if (_bindingSourceLogs.Count > 1000)
 					_bindingSourceLogs.RemoveAt(0);
@@ -133,12 +136,10 @@ namespace FiresecService.Presenters
 		string _localAddress;
 		public string LocalAddress
 		{
-			get { return _localAddress; }
 			set
 			{
 				_localAddress = value;
 				View.LocalAddress = _localAddress;
-				//OnPropertyChanged(() => LocalAddress);
 			}
 		}
 
@@ -150,7 +151,6 @@ namespace FiresecService.Presenters
 			{
 				_remoteAddress = value;
 				View.RemoteAddress = _remoteAddress;
-				//OnPropertyChanged(() => RemoteAddress);
 			}
 		}
 
@@ -162,7 +162,6 @@ namespace FiresecService.Presenters
 			{
 				_reportAddress = value;
 				View.ReportAddress = _reportAddress;
-				//OnPropertyChanged(() => ReportAddress);
 			}
 		}
 		#endregion Address
@@ -171,8 +170,6 @@ namespace FiresecService.Presenters
 
 		BindingSource _bindingSourceClients;
 		List<Client> _clients;
-
-		//public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
 		Client _selectedClient;
 		public Client SelectedClient
@@ -193,6 +190,7 @@ namespace FiresecService.Presenters
 			{
 				var connectionViewModel = new Client(clientCredentials);
 				_bindingSourceClients.Add(connectionViewModel);
+				View.EnableMenuDisconnect = _bindingSourceClients.Count > 0;
 			}));
 		}
 		public void RemoveClient(Guid uid)
@@ -202,6 +200,7 @@ namespace FiresecService.Presenters
 				var connectionViewModel = _clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					_bindingSourceClients.Remove(connectionViewModel);
+				View.EnableMenuDisconnect = _bindingSourceClients.Count > 0;
 			}));
 		}
 		public void EditClient(Guid uid, string userName)
@@ -228,37 +227,6 @@ namespace FiresecService.Presenters
 			}
 		}
 
-		void EventHandler_bindingSourceClients_ListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
-		{
-			BindingSource control = (BindingSource)sender;
-			View.EnableMenuDisconnect = control.Count > 0;
-		}
-
-		void EventHandler_Clients_CollectionChanged(object sender,
-			System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-		{
-			switch (e.Action)
-			{
-				case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-					{
-						foreach (var item in e.NewItems)
-						{
-							_bindingSourceClients.Add((Client)item);
-						}
-						break;
-					}
-				case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-					{
-						foreach (var item in e.OldItems)
-						{
-							_bindingSourceClients.Remove((Client)item);
-						}
-						break;
-					}
-			}
-
-		}
-
 		#endregion Clients
 
 		#region GK Lifecycle
@@ -274,28 +242,6 @@ namespace FiresecService.Presenters
 				_gkLifecycles = value;
 			}
 		}
-
-		//ObservableCollection<GKLifecycleViewModel> _gkLifecycles;
-		//public ObservableCollection<GKLifecycleViewModel> GKLifecycles
-		//{
-		//	get { return _gkLifecycles; }
-		//	set
-		//	{
-		//		_gkLifecycles = value;
-		//		OnPropertyChanged(() => GKLifecycles);
-		//	}
-		//}
-
-		//GKLifecycleViewModel _selectedGKLifecycle;
-		//public GKLifecycleViewModel SelectedGKLifecycle
-		//{
-		//	get { return _selectedGKLifecycle; }
-		//	set
-		//	{
-		//		_selectedGKLifecycle = value;
-		//		OnPropertyChanged(() => SelectedGKLifecycle);
-		//	}
-		//}
 
 		void On_GKLifecycleChangedEvent(GKLifecycleInfo gkLifecycleInfo)
 		{
@@ -329,7 +275,6 @@ namespace FiresecService.Presenters
 
 		#region Polling
 
-		//public ObservableCollection<ClientPollViewModel> ClientPolls { get; private set; }
 		List<ClientPolling> ClientPolls { get; set; }
 		BindingSource _bindingSourceClientPolls;
 
@@ -347,13 +292,13 @@ namespace FiresecService.Presenters
 				{
 					clientPoll = new ClientPolling { UID = uid, Client = client };
 					clientPoll.FirstPollTime = now;
-					//ClientPolls.Add(clientPoll);
 					_bindingSourceClientPolls.Add(clientPoll);
 				}
 				if (clientInfo != null)
 					clientPoll.CallbackIndex = clientInfo.CallbackIndex;
 				clientPoll.LastPollTime = now;
-
+				_bindingSourceClientPolls.EndEdit();
+				_bindingSourceClientPolls.ResetBindings(false);
 			}));
 		}
 
@@ -361,7 +306,6 @@ namespace FiresecService.Presenters
 
 		#region Operations
 		
-		//public ServerTasksViewModel ServerTasksViewModel { get; private set; }
 		List<ServerTaskModel> ServerTasks { get; set; }
 
 		BindingSource _bindingSourceOperations;
@@ -370,8 +314,8 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var serverTaskViewModel = new ServerTaskModel(serverTask);
-				_bindingSourceOperations.Add(serverTaskViewModel);
+				var serverTaskModel = new ServerTaskModel(serverTask);
+				_bindingSourceOperations.Add(serverTaskModel);
 			}));
 		}
 
@@ -381,7 +325,6 @@ namespace FiresecService.Presenters
 			{
 				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.Task.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
-					//ServerTasks.Remove(serverTaskViewModel);
 					_bindingSourceOperations.Remove(serverTaskViewModel);
 			}));
 		}

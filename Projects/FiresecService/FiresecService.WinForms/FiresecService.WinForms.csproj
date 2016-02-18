@@ -53,8 +53,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\Server.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -170,8 +169,7 @@
     <Compile Include="Models\License.cs" />
     <Compile Include="Models\ServerTaskModel.cs" />
     <Compile Include="Models\ServerTasksModel.cs" />
-    <Compile Include="Presenters\ApplicationPresenter.cs" />
-    <Compile Include="Models\LogViewModel.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Presenters\UILoger.cs" />
     <Compile Include="ProcedureHelper.cs" />
