@@ -225,31 +225,6 @@ namespace FiresecService.Presenters
 			View.EnableMenuDisconnect = control.Count > 0;
 		}
 
-		void EventHandler_Clients_CollectionChanged(object sender,
-			System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-		{
-			switch (e.Action)
-			{
-				case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-					{
-						foreach (var item in e.NewItems)
-						{
-							_bindingSourceClients.Add((Client)item);
-						}
-						break;
-					}
-				case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-					{
-						foreach (var item in e.OldItems)
-						{
-							_bindingSourceClients.Remove((Client)item);
-						}
-						break;
-					}
-			}
-
-		}
-
 		#endregion Clients
 
 		#region GK Lifecycle
