@@ -32,6 +32,11 @@
                     }
                 }
             });
+
+            if (guardZonesUpdater.connection.state === $.signalR.connectionState.connected) {
+                guardZonesUpdater.connection.stop().start();
+            }
+
             return {};
         }]);
 }());
