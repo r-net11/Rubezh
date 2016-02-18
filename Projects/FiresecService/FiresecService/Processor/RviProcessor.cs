@@ -52,20 +52,14 @@ namespace FiresecService
 							var newDevices = RviClientHelper.GetRviDevicesWithoutChannels(server.Url, rviSettings.Login, rviSettings.Password);
 							foreach (var newDevice in newDevices)
 							{
-								var oldDevice = server.RviDevices.FirstOrDefault(x => x.Uid != newDevice.Uid);
-								if (oldDevice != null)
-								{
+								if (server.RviDevices.Any(x => x.Uid == newDevice.Uid))
 									CreateRviDeviceCallbackResult(newDevice, newDevice.Status);
-								}
 							}
 						}
 						else
 						{
 							CreateRviServerCallbackResult(server, RviStatus.ConnectionLost);
-							foreach (var rviDevice in server.RviDevices)
-							{
-								CreateRviDeviceCallbackResult(rviDevice, RviStatus.ConnectionLost);
-							}
+							server.RviDevices.ForEach(rviDevice => CreateRviDeviceCallbackResult(rviDevice, RviStatus.ConnectionLost));
 						}
 					}
 				}
