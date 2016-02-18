@@ -25,7 +25,6 @@ namespace FiresecService.Presenters
 			_bindingSourceClients = new BindingSource();
 			_bindingSourceClients.DataSource = null;
 			_bindingSourceClients.DataSource = _clients;
-			_bindingSourceClients.ListChanged += EventHandler_bindingSourceClients_ListChanged;
 
 			_logs = new List<Log>();
 			_bindingSourceLogs = new BindingSource();
@@ -191,6 +190,7 @@ namespace FiresecService.Presenters
 			{
 				var connectionViewModel = new Client(clientCredentials);
 				_bindingSourceClients.Add(connectionViewModel);
+				View.EnableMenuDisconnect = _bindingSourceClients.Count > 0;
 			}));
 		}
 		public void RemoveClient(Guid uid)
@@ -200,6 +200,7 @@ namespace FiresecService.Presenters
 				var connectionViewModel = _clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					_bindingSourceClients.Remove(connectionViewModel);
+				View.EnableMenuDisconnect = _bindingSourceClients.Count > 0;
 			}));
 		}
 		public void EditClient(Guid uid, string userName)
@@ -224,12 +225,6 @@ namespace FiresecService.Presenters
 			{
 				ClientsManager.Remove(connection.UID);
 			}
-		}
-
-		void EventHandler_bindingSourceClients_ListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
-		{
-			BindingSource control = (BindingSource)sender;
-			View.EnableMenuDisconnect = control.Count > 0;
 		}
 
 		#endregion Clients
