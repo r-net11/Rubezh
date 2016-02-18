@@ -316,12 +316,15 @@ namespace FiresecService.Views
 				HeaderText = "Название",
 				DataPropertyName = "Message"
 			});
+
 			_dataGridViewLog.Columns.Add(new DataGridViewTextBoxColumn()
 			{
 				Name = "_dataGridViewColumnDate",
 				HeaderText = "Дата",
-				DataPropertyName = "DateTime"
+				DataPropertyName = "DateTime",
+				DefaultCellStyle = new DataGridViewCellStyle { Format = "dd.MM.yyyy HH:mm:ss" }
 			});
+
 			_dataGridViewLog.Columns.Add(new DataGridViewCheckBoxColumn()
 			{
 				Name = "_dataGridViewCheckBoxColumnIsError",
@@ -481,14 +484,18 @@ namespace FiresecService.Views
 			{
 				Name = "_dataGridViewColumnFirstPollTime",
 				HeaderText = "Первый полинг",
-				DataPropertyName = "FirstPollTime"
+				DataPropertyName = "FirstPollTime",
+				DefaultCellStyle = new DataGridViewCellStyle{ Format = "dd.MM.yyyy HH:mm:ss" }
 			});
+
 			_dataGridViewPolling.Columns.Add(new DataGridViewTextBoxColumn()
 			{
 				Name = "_dataGridViewColumnLastPollTime",
 				HeaderText = "Последний полинг",
-				DataPropertyName = "LastPollTime"
+				DataPropertyName = "LastPollTime",
+				DefaultCellStyle = new DataGridViewCellStyle{ Format = "dd.MM.yyyy HH:mm:ss" }
 			});
+
 			_dataGridViewPolling.Columns.Add(new DataGridViewTextBoxColumn()
 			{
 				Name = "_dataGridViewColumnCallbackIndex",
