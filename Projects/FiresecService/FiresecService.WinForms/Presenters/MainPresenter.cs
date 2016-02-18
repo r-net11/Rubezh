@@ -133,12 +133,10 @@ namespace FiresecService.Presenters
 		string _localAddress;
 		public string LocalAddress
 		{
-			get { return _localAddress; }
 			set
 			{
 				_localAddress = value;
 				View.LocalAddress = _localAddress;
-				//OnPropertyChanged(() => LocalAddress);
 			}
 		}
 
