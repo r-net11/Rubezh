@@ -450,7 +450,7 @@ namespace FiresecService.Views
 
 			#region Polling
 
-			_tabPagePolling = new TabPage() { Name = "_tabPagePolling", Text = "Поллинг" };
+			_tabPagePolling = new TabPage() { Name = "_tabPagePolling", Text = "Полинг" };
 			_tabControlMain.TabPages.Add(_tabPagePolling);
 
 			_dataGridViewPolling = new DataGridView()

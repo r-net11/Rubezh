@@ -98,7 +98,7 @@ namespace FiresecService.Processor
 						msg.Append(String.Format("ItemName={0} ClientHandle={1} Description={2}; ",
 							error.ItemName, error.ClientHandle, error.Result.Description()));
 					}
-					throw new InvalidOperationException(msg.ToString());
+					//throw new InvalidOperationException(msg.ToString());
 				}
 
 				subscription.DataChangedEvent += EventHandler_Subscription_DataChangedEvent;
