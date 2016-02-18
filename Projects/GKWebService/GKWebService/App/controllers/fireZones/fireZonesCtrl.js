@@ -5,6 +5,7 @@
     var app = angular.module('gkApp.controllers').controller('fireZonesCtrl',
         ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'uiGridConstants', 'signalrFireZonesService', 'broadcastService',
         function ($scope, $http, $timeout, $uibModal, $stateParams, uiGridConstants, signalrFireZonesService, broadcastService) {
+	        var fireCountWidth = Math.round(($(window).width() - 525) / 2);
             $scope.gridOptions = {
                 enableRowHeaderSelection: false,
                 enableSorting: false,
@@ -16,8 +17,8 @@
                 columnDefs: [
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 60, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}"/>{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 190, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.fireZonesClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
-                    { field: 'Fire1Count', displayName: 'Количество датчиков для перевода в Пожар1:', width: Math.round(($(window).width() - 525) / 2) },
-                    { field: 'Fire2Count', displayName: 'Количество датчиков для перевода в Пожар2:', width: Math.round(($(window).width() - 525) / 2) }
+                    { field: 'Fire1Count', displayName: 'Количество датчиков для перевода в Пожар1:', width: fireCountWidth },
+                    { field: 'Fire2Count', displayName: 'Количество датчиков для перевода в Пожар2:', width: fireCountWidth }
                 ]
             };
 
@@ -37,7 +38,7 @@
             });
 
             $scope.fireZonesClick = function (fireZone) {
-                var modalInstance = $uibModal.open({
+					$uibModal.open({
                     animation: false,
                     size: 'rbzh',
                     templateUrl: 'FireZones/FireZonesDetails',
@@ -55,7 +56,7 @@
                 broadcastService.send('selectedZoneChanged', row.entity.Uid);
             }
 
-            $http.get('FireZones/GetFireZonesData').success(function (data, status, headers, config) {
+            $http.get('FireZones/GetFireZonesData').success(function (data) {
                 $scope.gridOptions.data = data;
                 //Выбираем первую строку после загрузки данных
                 $timeout(function () {

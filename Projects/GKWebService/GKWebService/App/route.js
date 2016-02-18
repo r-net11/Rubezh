@@ -45,7 +45,7 @@
             url: "/doors/:uid",
             templateUrl: "/Doors/Door"
         }).state('hr', {
-            url: "/hr",
+            url: "/hr"//,
             //templateUrl: "/Hr/Index"
         });
     });
