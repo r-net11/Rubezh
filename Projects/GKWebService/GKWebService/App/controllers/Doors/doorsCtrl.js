@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
-    app.controller('doorsCtrl', ['$scope', '$http', '$uibModal', 'signalrDoorsService', 'broadcastService',
-        function ($scope, $http, $uibModal, signalrDoorsService, broadcastService) {
+    app.controller('doorsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrDoorsService', 'broadcastService',
+        function ($scope, $http, $timeout, $uibModal, $stateParams, signalrDoorsService, broadcastService) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -23,6 +23,9 @@
                     { field: 'Desription', width: Math.round(($(window).width() - 525) / 2), displayName: 'Примечание' }
                 ]
             };
+
+            $scope.showSelectedRow = function (row) {
+            }
 
             $scope.$on('doorChanged', function (event, args) {
                 for (var i in $scope.uiGrid.data) {
@@ -50,6 +53,25 @@
 
             $http.get('Doors/GetDoors').success(function (data) {
                 $scope.uiGrid.data = data;
+
+                $timeout(function () {
+                    if ($stateParams.uid) {
+                        $scope.selectRowById($stateParams.uid);
+                    } else {
+                        if ($scope.gridApi.selection.selectRow) {
+                            $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
+                        }
+                    }
+                });
             });
+
+            $scope.selectRowById = function (uid) {
+                for (var i = 0; i < $scope.uiGrid.data.length; i++) {
+                    if ($scope.uiGrid.data[i].UID === uid) {
+                        $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
+                        break;
+                    }
+                }
+            }
         }]);
 }());

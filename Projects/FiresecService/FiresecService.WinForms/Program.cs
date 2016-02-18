@@ -34,12 +34,12 @@ namespace FiresecService
 			var menuItem = new ToolStripMenuItem();
 			menuItem.Name = "_ToolStripMenuItemShowWindow";
 			menuItem.Text = "Показать";
-			menuItem.Click += EventHandler_MenuItem_Click;
+			menuItem.Click += EventHandler_MenuItemShowWindow_Click;
 			_contextMenuNotifyIcon.Items.Add(menuItem);
 			menuItem = new ToolStripMenuItem();
 			menuItem.Name = "_ToolStripMenuItemExit";
 			menuItem.Text = "Выход";
-			menuItem.Click += EventHandler_MenuItem_Click;
+			menuItem.Click += EventHandler_MenuItemExit_Click;
 			_contextMenuNotifyIcon.Items.Add(menuItem);
 
 			SystemTray = new NotifyIcon();
@@ -90,28 +90,20 @@ namespace FiresecService
 			Application.Exit();
 		}
 
-		static void EventHandler_MenuItem_Click(object sender, EventArgs e)
+		static void EventHandler_MenuItemShowWindow_Click(object sender, EventArgs e)
 		{
-			ToolStripMenuItem item = (ToolStripMenuItem)sender;
-			switch (item.Name)
+			if (AppContext.MainForm.Visible == false)
 			{
-				case "_ToolStripMenuItemShowWindow":
-					{
-						if (AppContext.MainForm.Visible == false)
-						{
-							AppContext.MainForm.StartPosition = FormStartPosition.CenterScreen;
-							AppContext.MainForm.WindowState = FormWindowState.Normal;
-							AppContext.MainForm.ShowInTaskbar = true;
-							AppContext.MainForm.Visible = true;
-						}
-						break;
-					}
-				case "_ToolStripMenuItemExit":
-					{
-						Application.Exit();
-						break;
-					}
+				AppContext.MainForm.StartPosition = FormStartPosition.CenterScreen;
+				AppContext.MainForm.WindowState = FormWindowState.Normal;
+				AppContext.MainForm.ShowInTaskbar = true;
+				AppContext.MainForm.Visible = true;
 			}
+		}
+
+		static void EventHandler_MenuItemExit_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
 		}
 
 		/// <summary>

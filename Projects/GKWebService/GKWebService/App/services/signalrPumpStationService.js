@@ -32,6 +32,11 @@
                     }
                 }
             });
+
+            if (pumpStationsUpdater.connection.state === $.signalR.connectionState.connected) {
+                pumpStationsUpdater.connection.stop().start();
+            }
+
             return {};
         }]);
 }());

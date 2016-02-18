@@ -110,8 +110,7 @@
             $scope.objectClick = function(alarm) {
                 // TODO: Исправить когда меню переведём на ангулар
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .device")[0] }, 'Device');
-                    broadcastService.send('showGKDevice', alarm.GkBaseEntityUID);
+                    $state.go('device', { uid: alarm.GkBaseEntityUID });
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.zone) {
                     $state.go('fireZones', { uid: alarm.GkBaseEntityUID });
@@ -130,6 +129,9 @@
                 }
                 if (alarm.GkBaseEntityObjectType === constants.gkObjectType.pumpStation) {
                     $state.go('pumpStations', { uid: alarm.GkBaseEntityUID });
+                }
+                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.door) {
+                    $state.go('doors', { uid: alarm.GkBaseEntityUID });
                 }
                 // TODO: Дополнить здесь обработку кликов на объекты при создании новых страниц объектов
             };
