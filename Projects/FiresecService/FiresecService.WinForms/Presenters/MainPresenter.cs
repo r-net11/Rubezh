@@ -297,7 +297,8 @@ namespace FiresecService.Presenters
 				if (clientInfo != null)
 					clientPoll.CallbackIndex = clientInfo.CallbackIndex;
 				clientPoll.LastPollTime = now;
-
+				_bindingSourceClientPolls.EndEdit();
+				_bindingSourceClientPolls.ResetBindings(false);
 			}));
 		}
 
