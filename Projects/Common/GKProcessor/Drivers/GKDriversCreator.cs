@@ -89,14 +89,6 @@ namespace GKProcessor
 			{
 				mvpPartDriver.Children.Add(driver);
 			}
-            var mrk = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_MRK);
-            mrk.Children.Add(GKDriverType.RK_HandDetector);
-            mrk.Children.Add(GKDriverType.RK_SmokeDetector);
-            mrk.Children.Add(GKDriverType.RK_HeatDetector);
-            mrk.Children.Add(GKDriverType.RK_RM);
-            mrk.Children.Add(GKDriverType.RK_AM);
-            mrk.Children.Add(GKDriverType.RK_OPK);
-            mrk.Children.Add(GKDriverType.RK_OPZ);
 		}
 
 		static void AddDriverToKau(GKDriver driver)

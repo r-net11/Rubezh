@@ -16,6 +16,14 @@ namespace GKProcessor
                 ShortName = "МРК-R2",
 				IsPlaceable = true
 			};
+
+			driver.Children.Add(GKDriverType.RK_HandDetector);
+			driver.Children.Add(GKDriverType.RK_SmokeDetector);
+			driver.Children.Add(GKDriverType.RK_HeatDetector);
+			driver.Children.Add(GKDriverType.RK_RM);
+			driver.Children.Add(GKDriverType.RK_AM);
+			driver.Children.Add(GKDriverType.RK_OPK);
+			driver.Children.Add(GKDriverType.RK_OPZ);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
