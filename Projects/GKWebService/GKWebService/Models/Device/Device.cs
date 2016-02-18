@@ -11,7 +11,7 @@ using RubezhClient;
 
 namespace GKWebService.Models
 {
-	public class Device
+	public class Device : GKBaseModel
 	{
 		public string MPTDeviceType { get; set; }
 
@@ -19,13 +19,9 @@ namespace GKWebService.Models
 
 		public string Description { get; set; }
 
-		public Guid UID { get; set; }
-
 		public Guid? ParentUID { get; set; }
 
 		public int No { get; set; }
-
-		public string Name { get; set; }
 
 		public string StateIcon { get; set; }
 
@@ -50,8 +46,6 @@ namespace GKWebService.Models
 		public string DelayRegime { get; set; }
 
 		public string StateColor { get; set; }
-
-		public string ImageSource { get; set; }
 
 		public string State { get; set; }
 
@@ -86,12 +80,10 @@ namespace GKWebService.Models
 		public Boolean HasReset { get; set; }
 
 		public Device(GKDevice device)
+			: base(device)
 		{
-			UID = device.UID;
 			ParentUID = device.Parent != null ? device.Parent.UID : (Guid?)null;
 			GKDescriptorNo = device.GKDescriptorNo;
-			Name = device.PresentationName;
-			ImageSource = device.ImageSource.Replace("/Controls;component/", "");
 			Address = device.DottedPresentationAddress;
 			Description = device.Description;
 			Logic = GKManager.GetPresentationLogic(device.Logic);
