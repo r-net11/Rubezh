@@ -50,13 +50,12 @@ namespace FiresecService
 						{
 							CreateRviServerCallbackResult(server, RviStatus.Connected);
 							var newDevices = RviClientHelper.GetRviDevicesWithoutChannels(server.Url, rviSettings.Login, rviSettings.Password);
-							foreach (var device in newDevices)
+							foreach (var newDevice in newDevices)
 							{
-								var oldDevice = server.RviDevices.FirstOrDefault(x => x.Uid != device.Uid && x.Status != device.Status);
+								var oldDevice = server.RviDevices.FirstOrDefault(x => x.Uid != newDevice.Uid);
 								if (oldDevice != null)
 								{
-									oldDevice.Status = RviStatus.Connected;
-									CreateRviDeviceCallbackResult(oldDevice, RviStatus.Connected);
+									CreateRviDeviceCallbackResult(newDevice, newDevice.Status);
 								}
 							}
 						}
@@ -65,7 +64,6 @@ namespace FiresecService
 							CreateRviServerCallbackResult(server, RviStatus.ConnectionLost);
 							foreach (var rviDevice in server.RviDevices)
 							{
-								rviDevice.Status = RviStatus.ConnectionLost;
 								CreateRviDeviceCallbackResult(rviDevice, RviStatus.ConnectionLost);
 							}
 						}
