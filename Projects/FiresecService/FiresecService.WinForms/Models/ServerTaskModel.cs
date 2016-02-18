@@ -15,6 +15,6 @@ namespace FiresecService.Models
 			Task = serverTask;
 		}
 
-		public string Name { get; private set; }
+		public string Name { get { return Task.Name; } }
 	}
 }

@@ -313,8 +313,8 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.BeginInvoke((Action)(() =>
 			{
-				var serverTaskViewModel = new ServerTaskModel(serverTask);
-				_bindingSourceOperations.Add(serverTaskViewModel);
+				var serverTaskModel = new ServerTaskModel(serverTask);
+				_bindingSourceOperations.Add(serverTaskModel);
 			}));
 		}
 
