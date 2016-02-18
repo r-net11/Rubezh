@@ -188,6 +188,19 @@ namespace AutomationModule
 					return true;
 				}
 			}
+
+			if (objectType == ObjectType.User)
+			{
+				var userSelectionViewModel = new UserSelectionViewModel(currentExplicitValue.User);
+				if (DialogService.ShowModalWindow(userSelectionViewModel))
+				{
+					currentExplicitValue.UidValue = userSelectionViewModel.SelectedUser == null
+						? Guid.Empty
+						: userSelectionViewModel.SelectedUser.User.UID;
+					return true;
+				}
+			}
+
 			return false;
 		}
 
