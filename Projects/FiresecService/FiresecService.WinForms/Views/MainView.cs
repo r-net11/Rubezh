@@ -139,7 +139,9 @@ namespace FiresecService.Views
 		Label _labelAccess;
 		Label _labelVideo;
 		Label _labelOpcServer;
-		Label _labelLincenseKey;
+		Label _labelLicenseKey;
+		Button _buttonLoadLicense;
+		Button _buttonCopyLicense;
 
 		public LicenseMode LicenseMode 
 		{
@@ -198,7 +200,7 @@ namespace FiresecService.Views
 		}
 		public string InitialKey 
 		{
-			set { _labelLincenseKey.Text = value; }
+			set { _labelLicenseKey.Text = value; }
 		}
 		
 		// Сторока состояния окна
@@ -677,25 +679,39 @@ namespace FiresecService.Views
 			};
 			groupBox.Controls.Add(label);
 
-			_labelLincenseKey = new Label
+			_labelLicenseKey = new Label
 			{
 				Name = "_labelLicenseKeyValue",
 				Text = "License Key",
 				AutoSize = true,
 				Font = font,
 			};
-			groupBox.Controls.Add(_labelLincenseKey);
+			groupBox.Controls.Add(_labelLicenseKey);
 
-			var button = new Button
+			_buttonLoadLicense = new Button
 			{
-				Name = "_buttonLoadLincense",
+				Name = "_buttonLoadLicense",
 				Text = "Загрузить лицензию",
 				AutoSize = true
 			};
-			button.Click += EventHandler_buttonLoadLicense_Click;
-			groupBox.Controls.Add(button);
+			_buttonLoadLicense.Click += EventHandler_buttonLoadLicense_Click;
+			groupBox.Controls.Add(_buttonLoadLicense);
+
+			_buttonCopyLicense = new Button
+			{
+				Name = "_buttonCopyLicense",
+				Text = "Копировать ключ",
+				AutoSize = true
+			};
+			_buttonCopyLicense.Click += EventHandler_buttonCopyLicense_Click;
+			groupBox.Controls.Add(_buttonCopyLicense);
 
 			#endregion
+		}
+
+		void EventHandler_buttonCopyLicense_Click(object sender, EventArgs e)
+		{
+			Clipboard.SetText(_labelLicenseKey.Text);
 		}
 
 		void EventHandler_buttonLoadLicense_Click(object sender, EventArgs e)
@@ -773,15 +789,18 @@ namespace FiresecService.Views
 			groupBoxLoadingLicense.Top += groupBoxLicense.Height;
 			groupBoxLoadingLicense.Width = groupBoxLicense.Width;
 
-			var labelLincenseKey = (Label)groupBoxLoadingLicense.Controls["_labelLicenseKey"];
-			labelLincenseKey.Location = new Point(groupBoxLoadingLicense.Left,
+			var labelLicenseKey = (Label)groupBoxLoadingLicense.Controls["_labelLicenseKey"];
+			labelLicenseKey.Location = new Point(groupBoxLoadingLicense.Left,
 				groupBoxLoadingLicense.Padding.Top);
-			var button = (Button)groupBoxLoadingLicense.Controls["_buttonLoadLincense"];
-			_labelLincenseKey.Location = new Point(labelLincenseKey.Left + labelLincenseKey.Width + 10,
-				labelLincenseKey.Top);
-			button.Location = new Point(labelLincenseKey.Left,
-				_labelLincenseKey.Top + _labelLincenseKey.Height);
-			groupBoxLoadingLicense.Height = _labelLincenseKey.Height + button.Height + groupBoxLoadingLicense.Padding.Top
+			var button = (Button)groupBoxLoadingLicense.Controls["_buttonLoadLicense"];
+			_labelLicenseKey.Location = new Point(labelLicenseKey.Left + labelLicenseKey.Width + 10,
+				labelLicenseKey.Top);
+			button.Location = new Point(labelLicenseKey.Left,
+				_labelLicenseKey.Top + _labelLicenseKey.Height);
+			button = (Button)groupBoxLoadingLicense.Controls["_buttonCopyLicense"];
+			button.Location = new Point(labelLicenseKey.Left + _buttonLoadLicense.Width + 10,
+				_labelLicenseKey.Top + _labelLicenseKey.Height);
+			groupBoxLoadingLicense.Height = _labelLicenseKey.Height + button.Height + groupBoxLoadingLicense.Padding.Top
 				+ groupBoxLoadingLicense.Padding.Bottom;
 		}
 
