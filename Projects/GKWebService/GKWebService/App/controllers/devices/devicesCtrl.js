@@ -2,8 +2,8 @@
 	'use strict';
 
 	var app = angular.module('gkApp.controllers').controller('devicesCtrl',
-		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', 'signalrDevicesService', 'broadcastService',
-			function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, signalrDevicesService, broadcastService) {
+		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', '$stateParams', 'signalrDevicesService', 'broadcastService',
+			function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, $stateParams, signalrDevicesService, broadcastService) {
 
 				$scope.deviceClick = function(device) {
 					if (device.entity.ParentUID != undefined) {
@@ -53,15 +53,21 @@
 				});
 
 				$http.get('Devices/GetDevicesList').success(function (data) {
-					if ($scope.isFull === "true") {
-						$scope.data = data;
-						for (var i in $scope.data) {
-							$scope.data[i].$$treeLevel = $scope.data[i].Level;
-							$scope.data[i].ParentObject = getDeviceByUid($scope.data[i].ParentUID);
-						}
-						$scope.gridOptions.data = $scope.data;
-						$timeout(function () { $scope.expandAll(); });
-					}
+				    if ($scope.isFull === "true") {
+				        $scope.data = data;
+				        for (var i in $scope.data) {
+				            $scope.data[i].$$treeLevel = $scope.data[i].Level;
+				            $scope.data[i].ParentObject = getDeviceByUid($scope.data[i].ParentUID);
+				        }
+				        $scope.gridOptions.data = $scope.data;
+				        $timeout(function() {
+				            $scope.expandAll();
+				            if ($stateParams.uid) {
+				                var device = getDeviceByUid($stateParams.uid);
+				                $scope.gridApi.selection.selectRow(device);
+                            }
+				        });
+				    }
 				});
 
 				$scope.$on('selectedZoneChanged', function (event, args) {
