@@ -77,7 +77,7 @@ namespace FiresecService.Presenters
 		#endregion
 
 		#region Logs
-		//public ObservableCollection<LogViewModel> Logs { get; private set; }
+
 		List<Log> _logs;
 		BindingSource _bindingSourceLogs;
 
@@ -93,9 +93,6 @@ namespace FiresecService.Presenters
 			{
 				LastLog = message;
 				var logViewModel = new Log(message, isError);
-				//Logs.Add(logViewModel);
-				//if (Logs.Count > 1000)
-				//	Logs.RemoveAt(0);
 				_bindingSourceLogs.Add(logViewModel);
 				if (_bindingSourceLogs.Count > 1000)
 					_bindingSourceLogs.RemoveAt(0);
@@ -148,7 +145,6 @@ namespace FiresecService.Presenters
 			{
 				_remoteAddress = value;
 				View.RemoteAddress = _remoteAddress;
-				//OnPropertyChanged(() => RemoteAddress);
 			}
 		}
 
@@ -160,7 +156,6 @@ namespace FiresecService.Presenters
 			{
 				_reportAddress = value;
 				View.ReportAddress = _reportAddress;
-				//OnPropertyChanged(() => ReportAddress);
 			}
 		}
 		#endregion Address
@@ -169,8 +164,6 @@ namespace FiresecService.Presenters
 
 		BindingSource _bindingSourceClients;
 		List<Client> _clients;
-
-		//public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
 		Client _selectedClient;
 		public Client SelectedClient
@@ -273,28 +266,6 @@ namespace FiresecService.Presenters
 			}
 		}
 
-		//ObservableCollection<GKLifecycleViewModel> _gkLifecycles;
-		//public ObservableCollection<GKLifecycleViewModel> GKLifecycles
-		//{
-		//	get { return _gkLifecycles; }
-		//	set
-		//	{
-		//		_gkLifecycles = value;
-		//		OnPropertyChanged(() => GKLifecycles);
-		//	}
-		//}
-
-		//GKLifecycleViewModel _selectedGKLifecycle;
-		//public GKLifecycleViewModel SelectedGKLifecycle
-		//{
-		//	get { return _selectedGKLifecycle; }
-		//	set
-		//	{
-		//		_selectedGKLifecycle = value;
-		//		OnPropertyChanged(() => SelectedGKLifecycle);
-		//	}
-		//}
-
 		void On_GKLifecycleChangedEvent(GKLifecycleInfo gkLifecycleInfo)
 		{
 			FormDispatcher.Invoke((Action)(() =>
@@ -327,7 +298,6 @@ namespace FiresecService.Presenters
 
 		#region Polling
 
-		//public ObservableCollection<ClientPollViewModel> ClientPolls { get; private set; }
 		List<ClientPolling> ClientPolls { get; set; }
 		BindingSource _bindingSourceClientPolls;
 
@@ -345,7 +315,6 @@ namespace FiresecService.Presenters
 				{
 					clientPoll = new ClientPolling { UID = uid, Client = client };
 					clientPoll.FirstPollTime = now;
-					//ClientPolls.Add(clientPoll);
 					_bindingSourceClientPolls.Add(clientPoll);
 				}
 				if (clientInfo != null)
@@ -359,7 +328,6 @@ namespace FiresecService.Presenters
 
 		#region Operations
 		
-		//public ServerTasksViewModel ServerTasksViewModel { get; private set; }
 		List<ServerTaskModel> ServerTasks { get; set; }
 
 		BindingSource _bindingSourceOperations;
@@ -379,7 +347,6 @@ namespace FiresecService.Presenters
 			{
 				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.Task.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
-					//ServerTasks.Remove(serverTaskViewModel);
 					_bindingSourceOperations.Remove(serverTaskViewModel);
 			}));
 		}
