@@ -691,6 +691,7 @@
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Device\Device.cs" />
     <Compile Include="Models\Door\Door.cs" />
+    <Compile Include="Models\GK\GKBase.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\GuardZones\GuardZone.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />

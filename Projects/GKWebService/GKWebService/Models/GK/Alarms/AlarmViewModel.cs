@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Controls.Converters;
+using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -17,19 +18,11 @@ namespace GKWebService.Models.GK.Alarms
 
 		public GKAlarmType AlarmType { get; set; }
 
-		public Guid GkBaseEntityUID { get; set; }
-
-		public GKBaseObjectType GkBaseEntityObjectType { get; set; }
+		public GKBaseModel GkEntity { get; set; }
 
 		public string AlarmImageSource { get; set; }
 
 		public string AlarmName { get; set; }
-
-		public string ObjectName { get; set; }
-
-		public string ObjectImageSource { get; set; }
-
-		public string ObjectStateClass { get; set; }
 
 		public string AlarmColor { get; set; }
 
@@ -50,14 +43,10 @@ namespace GKWebService.Models.GK.Alarms
 		public AlarmViewModel(Alarm alarm)
 		{
 			Alarm = alarm;
-			GkBaseEntityUID = alarm.GkBaseEntity.UID;
-			GkBaseEntityObjectType = alarm.GkBaseEntity.ObjectType;
 			AlarmType = alarm.AlarmType;
             AlarmImageSource = ((string)new AlarmTypeToBIconConverter().Convert(alarm.AlarmType, null, null, null)).Substring(36).Replace(".png", "");
 			AlarmName = alarm.AlarmType.ToDescription();
-            ObjectName = alarm.GkBaseEntity.PresentationName;
-			ObjectImageSource = alarm.GkBaseEntity.ImageSource.Substring(20).Replace(".png", "");
-			ObjectStateClass = alarm.GkBaseEntity.State.StateClass.ToString();
+			GkEntity = GetGkEntity();
 			CanReset = GetCanReset();
 			CanResetIgnore = GetCanResetIgnore();
 			CanTurnOnAutomatic = GetCanTurnOnAutomatic();
@@ -66,11 +55,58 @@ namespace GKWebService.Models.GK.Alarms
 			InitializePlans();
 		}
 
+		private GKBaseModel GetGkEntity()
+		{
+			GKDevice device;
+			GKZone zone;
+			GKGuardZone guardZone;
+			GKDirection direction;
+			GKPumpStation pumpStation;
+			GKMPT mpt;
+			GKDelay delay;
+			GKDoor door;
+
+			if ((device = Alarm.GkBaseEntity as GKDevice) != null)
+			{
+				return new Device(device);
+			}
+			if ((zone = Alarm.GkBaseEntity as GKZone) != null)
+			{
+				return new FireZone.FireZone(zone);
+			}
+			if ((guardZone = Alarm.GkBaseEntity as GKGuardZone) != null)
+			{
+				return new GuardZones.GuardZone(guardZone);
+			}
+			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
+			{
+				return new Direction(direction);
+			}
+			if ((pumpStation = Alarm.GkBaseEntity as GKPumpStation) != null)
+			{
+				return new PumpStation.PumpStation(pumpStation);
+			}
+			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
+			{
+				return new MPTModel(mpt);
+			}
+			if ((delay = Alarm.GkBaseEntity as GKDelay) != null)
+			{
+				return new Delay(delay);
+			}
+			if ((door = Alarm.GkBaseEntity as GKDoor) != null)
+			{
+				return new Door.Door(door);
+			}
+
+			throw new InvalidOperationException("Не найден GkBaseEntity");
+		}
+
 		public void Reset()
 		{
-			if (GkBaseEntityObjectType == GKBaseObjectType.Zone)
+			if (GkEntity.ObjectType == GKBaseObjectType.Zone)
 			{
-				var zone = new GKZone {UID = GkBaseEntityUID};
+				var zone = new GKZone {UID = GkEntity.UID};
 				switch (AlarmType)
 				{
 					case GKAlarmType.Fire1:
@@ -83,9 +119,9 @@ namespace GKWebService.Models.GK.Alarms
 				}
 			}
 
-			if (GkBaseEntityObjectType == GKBaseObjectType.GuardZone)
+			if (GkEntity.ObjectType == GKBaseObjectType.GuardZone)
 			{
-				var guardZone = new GKGuardZone { UID = GkBaseEntityUID };
+				var guardZone = new GKGuardZone { UID = GkEntity.UID };
 				switch (AlarmType)
 				{
 					case GKAlarmType.GuardAlarm:
@@ -94,15 +130,15 @@ namespace GKWebService.Models.GK.Alarms
 				}
 			}
 
-			if (GkBaseEntityObjectType == GKBaseObjectType.Device)
+			if (GkEntity.ObjectType == GKBaseObjectType.Device)
 			{
-				var device = new GKDevice { UID = GkBaseEntityUID };
+				var device = new GKDevice { UID = GkEntity.UID };
 				ClientManager.FiresecService.GKReset(device);
 			}
 
-			if (GkBaseEntityObjectType == GKBaseObjectType.Door)
+			if (GkEntity.ObjectType == GKBaseObjectType.Door)
 			{
-				var door = new GKDoor { UID = GkBaseEntityUID };
+				var door = new GKDoor { UID = GkEntity.UID };
 				switch (AlarmType)
 				{
 					case GKAlarmType.GuardAlarm:
@@ -115,7 +151,7 @@ namespace GKWebService.Models.GK.Alarms
 		public void ResetIgnore()
 		{
 			var alarms = AlarmsViewModel.OnGKObjectsStateChanged(null);
-			var alarm = alarms.FirstOrDefault(a => a.GkBaseEntity.UID == GkBaseEntityUID);
+			var alarm = alarms.FirstOrDefault(a => a.GkBaseEntity.UID == GkEntity.UID);
 			if (alarm != null)
 			{
 				if (alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))

@@ -12,9 +12,10 @@ using System.Windows.Documents;
 
 namespace GKWebService.Models
 {
-	public class MPTModel
+	public class MPTModel : GKBaseModel
 	{
 		public MPTModel(GKMPT mpt)
+			: base(mpt)
 		{
 			UID = mpt.UID;
 			No = mpt.No;
