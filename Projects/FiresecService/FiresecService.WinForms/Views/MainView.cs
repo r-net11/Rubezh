@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Threading;
 using FiresecService.Views.TypeConverters;
 using System.Windows.Data;
+using FiresecService.Models;
 
 namespace FiresecService.Views
 {
@@ -71,6 +72,7 @@ namespace FiresecService.Views
 				_dataGridViewLog.DataSource = null;
 				_dataGridViewLog.DataSource = value;
 			}
+			get { return (BindingSource)_dataGridViewLog.DataSource; }
 		}
 		
 		// Вкладка "Статус"
@@ -253,7 +255,8 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				ReadOnly = true
 			};
 			_dataGridViewConnections.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -303,7 +306,9 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				RowsDefaultCellStyle = new DataGridViewCellStyle(),
+				ReadOnly = true
 			};
 			_dataGridViewLog.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -317,6 +322,14 @@ namespace FiresecService.Views
 				HeaderText = "Дата",
 				DataPropertyName = "DateTime"
 			});
+			_dataGridViewLog.Columns.Add(new DataGridViewCheckBoxColumn()
+			{
+				Name = "_dataGridViewCheckBoxColumnIsError",
+				HeaderText = "Ошибка",
+				DataPropertyName = "IsError",
+				Visible = false
+			});
+			_dataGridViewLog.RowsAdded += EventHandler_dataGridViewLog_RowsAdded;
 			_tabPageLog.Controls.Add(_dataGridViewLog);
 
 			#endregion
@@ -404,7 +417,8 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				ReadOnly = true
 			};
 			_dataGridViewGkLifecycles.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -448,7 +462,8 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				ReadOnly = true
 			};
 			_dataGridViewPolling.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -498,7 +513,8 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				ReadOnly = true
 			};
 			_dataGridViewOperations.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -707,6 +723,15 @@ namespace FiresecService.Views
 			groupBox.Controls.Add(_buttonCopyLicense);
 
 			#endregion
+
+		}
+
+		void EventHandler_dataGridViewLog_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+		{
+			var control = (DataGridView)sender;
+			var row = control.Rows[e.RowIndex];
+			var cell = (DataGridViewCheckBoxCell)row.Cells["_dataGridViewCheckBoxColumnIsError"];
+			row.DefaultCellStyle.BackColor = (bool)cell.Value ? Color.Red : (new DataGridViewCellStyle()).BackColor;
 		}
 
 		void EventHandler_buttonCopyLicense_Click(object sender, EventArgs e)
