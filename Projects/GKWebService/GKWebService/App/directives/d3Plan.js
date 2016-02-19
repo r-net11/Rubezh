@@ -6,7 +6,7 @@
 	// Получение размеров окна
 	function getViewPortSize() {
 		var header = $('div[class="' + 'container"]');
-		var sidebar = $('aside[class="' + 'left-sidebar"]');
+		var sidebar = $('aside[class="' + 'left-sidebar ng-scope"]');
 		var plansList = $('div[id="' + 'plansGrid"]')[0];
 
 		var dim = Object.create(Object.prototype, {
@@ -356,6 +356,16 @@
 
 					// Функция отрисовки канвы
 					scope.render = function () { renderSvg(tip, scope, iElement[0]); };
+
+					scope.$on('updateDeviceState', function (event, stateData) {
+						var uid = stateData.Id.replace(" ", "-");
+						console.log("Updating pic on:", uid);
+                        $("image[subElementId=" + uid + "]").attr("href", "data:image/gif;base64," + stateData.Picture);
+						uid = stateData.Id.replace(" ", "-") + "GroupElement";
+						console.log("Triggering hint update on:", uid);
+	                    $("rect[subElementId=" + uid + "]").trigger( "updateHint", stateData.Hint );
+
+            });
 				}
 			};
 		}
