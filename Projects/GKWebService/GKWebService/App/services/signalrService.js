@@ -20,20 +20,11 @@
                     },
                     'updateDeviceState': function (stateData) {
                         var uid = stateData.Id.replace(" ", "-");
+						console.log("Updating pic on:", uid);
                         $("image[subElementId=" + uid + "]").attr("href", "data:image/gif;base64," + stateData.Picture);
 						uid = stateData.Id.replace(" ", "-") + "GroupElement";
-						var mainLine = { };
-	                    mainLine.Icon = stateData.HintPic;
-	                    mainLine.Text = stateData.Name;
-	                    var stateHintLines = [];
-	                    stateHintLines[0] = mainLine;
-						stateData.StateClasses.forEach(function(item, i, arr) {
-							var stateLine = {};
-							stateLine.Text = item;
-							stateHintLines.push(stateLine);
-						});
-	                    $("rect[subElementId=" + uid + "]").trigger( "updateHint", [stateHintLines] );
-						
+						console.log("Triggering hint update on:", uid);
+	                    $("rect[subElementId=" + uid + "]").trigger( "updateHint", stateData.Hint );
                     },
                     'updateHint': function (stateData) {
                     }
