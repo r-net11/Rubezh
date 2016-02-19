@@ -213,6 +213,18 @@ namespace AutomationModule
 				}
 			}
 
+			if (objectType == ObjectType.Visitor)
+			{
+				var visitorSelectionViewModel = new VisitorSelectionViewModel(currentExplicitValue.Visitor);
+				if (DialogService.ShowModalWindow(visitorSelectionViewModel))
+				{
+					currentExplicitValue.UidValue = visitorSelectionViewModel.SelectedVisitor == null
+						? Guid.Empty
+						: visitorSelectionViewModel.SelectedVisitor.Uid;
+					return true;
+				}
+			}
+
 			return false;
 		}
 

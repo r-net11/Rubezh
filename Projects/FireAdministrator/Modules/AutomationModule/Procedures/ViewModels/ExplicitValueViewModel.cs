@@ -24,6 +24,7 @@ namespace AutomationModule.ViewModels
 		public Organisation Organisation { get; private set; }
 		public User User { get; private set; }
 		public ShortEmployee Employee { get; private set; }
+		public ShortEmployee Visitor { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
 		public Action UpdateObjectHandler { get; set; }
@@ -62,6 +63,7 @@ namespace AutomationModule.ViewModels
 			Organisation = OrganisationHelper.GetSingle(uidValue);
 			User = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == uidValue);
 			Employee = EmployeeHelper.Get(new EmployeeFilter {PersonType = PersonType.Employee, LogicalDeletationType = LogicalDeletationType.Active}).FirstOrDefault(x => x.UID == uidValue);
+			Visitor = EmployeeHelper.Get(new EmployeeFilter { PersonType = PersonType.Guest, LogicalDeletationType = LogicalDeletationType.Active }).FirstOrDefault(x => x.UID == uidValue);
 			base.OnPropertyChanged(() => PresentationName);
 		}
 
@@ -83,6 +85,8 @@ namespace AutomationModule.ViewModels
 					return User.Name;
 				if (Employee != null)
 					return Employee.FIO;
+				if (Visitor != null)
+					return Visitor.FIO;
 				
 				return "Null";
 			}
@@ -250,7 +254,8 @@ namespace AutomationModule.ViewModels
 					&& (SKDDoor == null)
 					&& (Organisation == null)
 					&& (User == null)
-					&& (Employee == null));
+					&& (Employee == null)
+					&& (Visitor == null));
 			}
 			set
 			{
@@ -263,6 +268,7 @@ namespace AutomationModule.ViewModels
 					Organisation = null;
 					User = null;
 					Employee = null;
+					Visitor = null;
 				}
 			}
 		}
