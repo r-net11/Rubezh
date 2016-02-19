@@ -902,6 +902,7 @@ namespace FiresecService.Views
 			if (ClickLoadLicense != null)
 				ClickLoadLicense(this, new EventArgs());
 		}
+
 		#endregion
 
 		#region Events

@@ -31,7 +31,7 @@ namespace FiresecService.Presenters
 			_bindingSourceLogs.DataSource = null;
 			_bindingSourceLogs.DataSource = _logs;
 
-			_gkLifecycles = new List<GKLifecycle>();
+			_gkLifecycles = new System.ComponentModel.BindingList<GKLifecycle>();
 			_bindingSourceLifecycle = new BindingSource();
 			_bindingSourceLifecycle.DataSource = null;
 			_bindingSourceLifecycle.DataSource = _gkLifecycles;
@@ -233,8 +233,8 @@ namespace FiresecService.Presenters
 
 		BindingSource _bindingSourceLifecycle;
 
-		List<GKLifecycle> _gkLifecycles;
-		public List<GKLifecycle> GKLifecycles
+		System.ComponentModel.BindingList<GKLifecycle> _gkLifecycles;
+		public System.ComponentModel.BindingList<GKLifecycle> GKLifecycles
 		{
 			get { return _gkLifecycles; }
 			set
@@ -247,26 +247,23 @@ namespace FiresecService.Presenters
 		{
 			FormDispatcher.Invoke((Action)(() =>
 			{
-				var gkLifecycleViewModel = GKLifecycles.FirstOrDefault(x => x.GKLifecycleInfo.UID == gkLifecycleInfo.UID);
-				if (gkLifecycleViewModel == null)
+				var gkLifecycle = GKLifecycles.FirstOrDefault(x => x.GKLifecycleInfo.UID == gkLifecycleInfo.UID);
+				if (gkLifecycle == null)
 				{
-					gkLifecycleViewModel = AddGKViewModel(gkLifecycleInfo);
+					gkLifecycle = AddGKViewModel(gkLifecycleInfo);
 				}
 				else
 				{
-					gkLifecycleViewModel.Update(gkLifecycleInfo);
+					gkLifecycle.Update(gkLifecycleInfo);
 				}
-				//SelectedGKViewModel = gkViewModel;
 			}));
 		}
 
 		GKLifecycle AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
 		{
 			var gkViewModel = new GKLifecycle(gkLifecycleInfo);
-			//GKLifecycles.Insert(0, gkViewModel);
 			_bindingSourceLifecycle.Insert(0, gkViewModel);
 			if (GKLifecycles.Count > 20)
-				//GKLifecycles.RemoveAt(20);
 				_bindingSourceLifecycle.RemoveAt(20);
 			return gkViewModel;
 		}
