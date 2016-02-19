@@ -60,15 +60,14 @@
                    }
                };
 
-               $scope.showSelectedRow = function () {
-                   var uid = $scope.gridApi.selection.getSelectedRows()[0].UID;
+               $scope.showSelectedRow = function (row) {
                    $scope.selectedRow =
                    {
-                       'onClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].OnClausesGroup,
-                       'offClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].OffClausesGroup,
-                       'stopClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].StopClausesGroup
+                       'onClausesGroup': row.entity.OnClausesGroup,
+                       'offClausesGroup': row.entity.OffClausesGroup,
+                       'stopClausesGroup': row.entity.StopClausesGroup
                    }
-                   broadcastService.send('mptDevicesChanged', uid);
+                   broadcastService.send('mptDevicesChanged', row.entity.UID);
                };
                
                $scope.mptClick = function (mpt) {

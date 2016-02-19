@@ -123,7 +123,9 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="obj">Информация об изменении состояния.</param>
 		private void OnServiceCallback(GKCallbackResult obj) {
 			var states = obj.GKStates;
-			Parallel.ForEach(states.DeviceStates, PlanElement.UpdateDeviceState);
+			foreach (var gkState in states.DeviceStates) {
+				PlanElement.UpdateDeviceState(gkState);
+			}
 			//foreach (var state in states.DelayStates) {
 			//}
 			//foreach (var state in states.DirectionStates) {

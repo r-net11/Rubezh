@@ -28,9 +28,6 @@ namespace RubezhAPI.Models
 		public int StreamNo { get; set; }
 
 		[DataMember]
-		public int ChannelNumber { get; set; }
-
-		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		[DataMember]

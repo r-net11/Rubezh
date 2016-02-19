@@ -39,7 +39,7 @@
 
             function ChangeDevices(device) {
                 for (var i = 0; i < $scope.uiGrid.data.length; i++) {
-                    if ($scope.uiGrid.data[i].UID == device.UID) {
+                    if ($scope.uiGrid.data[i].UID === device.UID) {
                         var mptState = $scope.uiGrid.data[i].MPTDeviceType;
                         $scope.uiGrid.data[i] = device;
                         $scope.uiGrid.data[i].MPTDeviceType = mptState;
@@ -56,7 +56,7 @@
 
             $scope.$on('mptDevicesChanged', function (event, args) {
                 $http.get('MPTs/GetMPTDevices/' + args
-              ).success(function (data, status, headers, config) {
+              ).success(function (data) {
                   $scope.uiGrid.data = data;
               });
             });

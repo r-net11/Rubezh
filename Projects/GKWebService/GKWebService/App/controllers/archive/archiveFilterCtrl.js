@@ -40,7 +40,7 @@
         					</i> &nbsp;\
         			</div>\
 					<div ng-style=\"{'color': 'black'}\">\
-						<img style=\"vertical-align: middle; margin-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
+						<img class=\"treeImage\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
         				{{row.entity.Name}}\
         			</div>\
         		</div>";
@@ -76,7 +76,7 @@
         					</i> &nbsp;\
         			</div>\
 					<div ng-style=\"{'color': 'black'}\">\
-						<img style=\"vertical-align: middle; margin-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
+						<img class=\"treeImage\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
         				{{row.entity.Name}}\
         			</div>\
         		</div>";
