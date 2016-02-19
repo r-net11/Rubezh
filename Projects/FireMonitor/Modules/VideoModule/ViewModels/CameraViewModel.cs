@@ -46,7 +46,7 @@ namespace VideoModule.ViewModels
 		{
 			RviServer = rviServer;
 			Status = rviServer.Status;
-			PresentationName = rviServer.Name;
+			PresentationName = rviServer.PresentationName;
 			rviServer.StatusChanged += OnServerStatusChanged;
 		}
 		void OnServerStatusChanged()

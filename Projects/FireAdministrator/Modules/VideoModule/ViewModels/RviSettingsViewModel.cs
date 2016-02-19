@@ -3,11 +3,11 @@ using RubezhAPI.Models;
 
 namespace VideoModule.ViewModels
 {
-	public class SettingsSelectionViewModel : SaveCancelDialogViewModel
+	public class RviSettingsViewModel : SaveCancelDialogViewModel
 	{
 		public RviSettings RviSettings { get; private set; }
 
-		public SettingsSelectionViewModel(RviSettings rviSettings)
+		public RviSettingsViewModel(RviSettings rviSettings)
 		{
 			Title = "Настройки";
 			RviSettings = rviSettings;
