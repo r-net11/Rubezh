@@ -24,10 +24,12 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-@font-face{
-	/*add link to Segoe UI*/ 
+
+@font-face {
+	/*add link to Segoe UI*/
 	/*add some nice font here*/
 }
+
 body {
 	line-height: 1;
 	background-color: #266199;
@@ -82,9 +84,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 	width: 100%;
 	float: left;
 	overflow: hidden;
-	margin-right:-100%;
-	margin-top:10px;
+	margin-right: -100%;
+	margin-top: 10px;
 }
+
 .content {
 	padding: 0 0 0 216px;
 }
@@ -97,18 +100,18 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 	width: 230px;
 	position: relative;
 	background: #266199;
-    color: white;
+	color: white;
 }
 
 
 div.disabled {
-    opacity: 0.5;
+	opacity: 0.5;
 }
 
 
 .modal-rbzh {
-        width: 420px !important;
-    }
+	width: 450px !important;
+}
 
 .ui-grid-cell-focus {
 	background-color: inherit !important;
