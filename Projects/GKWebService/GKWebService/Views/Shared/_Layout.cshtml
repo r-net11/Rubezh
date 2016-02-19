@@ -103,6 +103,7 @@
 					<li ng-class="{clicked: groupControlClicked}">
 						<a class="group-control" href="" ng-click="groupControlClicked = !groupControlClicked"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
                         <ul>
+                            <li ng-class="{active: isPageActive('MPTs')}"><a ui-sref="MPTs({uid: ''})"><span class="icon delays"></span><span class="text">МПТ</span></a></li>
 							<li ng-class="{active: isPageActive('state')}"><a ui-sref="state({alarmType: ''})"><span class="icon state"></span><span class="text">Состояния</span></a></li>
                             <li ng-class="{active: isPageActive('device')}"><a ui-sref="device({uid: ''})"><span class="icon device"></span><span class="text">Устройства</span></a></li>
                             <li ng-class="{active: isPageActive('params')}"><a ui-sref="params({uid: ''})"><span class="icon params"></span><span class="text">Параметры</span></a></li>
@@ -111,7 +112,6 @@
                             <li ng-class="{active: isPageActive('guardZone')}"><a ui-sref="guardZone({uid: ''})"><span class="icon firezones"></span><span class="text">Охранные зоны</span></a></li>
                            	<li ng-class="{active: isPageActive('directions')}"><a ui-sref="directions({uid: ''})"><span class="icon firezones"></span><span class="text">Направления</span></a></li>
 							<li ng-class="{active: isPageActive('delays')}"><a ui-sref="delays({uid: ''})"><span class="icon delays"></span><span class="text">Задержки</span></a></li>
-                            <li ng-class="{active: isPageActive('MPTs')}"><a ui-sref="MPTs({uid: ''})"><span class="icon delays"></span><span class="text">МПТ</span></a></li>
                             <li ng-class="{active: isPageActive('doors')}"><a ui-sref="doors({uid: ''})"><span class="icon delays"></span><span class="text">Точки доступа</span></a></li>
                         </ul>
 					</li>
@@ -174,6 +174,7 @@
     <script src="~/App/services/signalrMPTsService.js"></script>
     <script src="~/App/services/signalrPumpStationService.js"></script>
     <script src="~/App/services/signalrGuardZonesService.js"></script>
+
     <script src="~/App/controllers/navCtrl.js"></script>
     <script src="~/App/services/signalrDoorsService.js"></script>
     <script src="~/App/controllers/Doors/doorsCtrl.js"></script>
@@ -182,6 +183,7 @@
     <script src="~/App/controllers/GuardZones/guardZoneDetailsCtrl.js"></script>
     <script src="~/App/controllers/fireZones/fireZonesCtrl.js"></script>
 	<script src="~/App/controllers/fireZones/fireZonesDetailsCtrl.js"></script>
+    <script src="~/App/services/signalrGuardZonesService.js"></script>
     <script src="~/App/controllers/GuardZones/guardZoneDevicesCtrl.js"></script>
     <script src="~/App/controllers/PumpStations/pumpStationDevicesCtrl.js"></script>
     <script src="~/App/controllers/PumpStations/pumpStationsCtrl.js"></script>

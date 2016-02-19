@@ -19,11 +19,38 @@ namespace GKWebService.Models.Door
 			No = door.No;
 			GKDescriptorNo = door.GKDescriptorNo;
 			Name = door.Name;
-			DoorType = door.DoorType.ToDescription();
+			DoorTypeString = door.DoorType.ToDescription();
+			DoorType = door.DoorType;
 			FullCanControl = ClientManager.CheckPermission(PermissionType.Oper_Full_Door_Control);
 			CanControl = ClientManager.CheckPermission(PermissionType.Oper_Door_Control);
 			Desription = door.Description;
 			ImageSource = door.ImageSource.Replace("/Controls;component/", "");
+			if (door.EnterDevice != null)
+				EnterDevice = new DoorDevice(door.EnterDevice);
+			if (door.ExitDevice != null)
+				ExitDevice = new DoorDevice(door.ExitDevice);
+			if (door.EnterButton != null)
+				EnterButton = new DoorDevice(door.EnterButton);
+			if (door.ExitButton != null)
+				ExitButton = new DoorDevice(door.ExitButton);
+			if (door.LockDevice != null)
+				ExitButton = new DoorDevice(door.LockDevice);
+			if (door.LockDeviceExit != null)
+				ExitButton = new DoorDevice(door.LockDeviceExit);
+			if (door.LockControlDevice != null)
+				ExitButton = new DoorDevice(door.LockControlDevice);
+			if (door.LockControlDeviceExit != null)
+				ExitButton = new DoorDevice(door.LockControlDeviceExit);
+			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
+			if (zone != null)
+				ExitZone = new Tuple<string, Guid>(zone.PresentationName, zone.UID);
+			 zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
+			if (zone != null)
+				EnterZone = new Tuple<string, Guid>(zone.PresentationName, zone.UID);
+			OpenRegimeLogic = GKManager.GetPresentationLogic(door.OpenRegimeLogic);
+			NormRegimeLogic = GKManager.GetPresentationLogic(door.NormRegimeLogic);
+			CloseRegimeLogic = GKManager.GetPresentationLogic(door.CloseRegimeLogic);
+
 			
 			State = door.State.StateClass.ToDescription();
 			StateIcon = door.State.StateClass.ToString();
@@ -72,10 +99,31 @@ namespace GKWebService.Models.Door
 		public bool FullCanControl { get; set; }
 		public bool CanControl { get; set; }
 
-		public string DoorType { get; set; }
+		public string DoorTypeString { get; set; }
 
 		public string Desription { get; set; }
 
 		public string ImageSource { get; set; }
+
+		public DoorDevice EnterDevice { get; private set; }
+		public DoorDevice ExitDevice { get; private set; }
+		public DoorDevice EnterButton { get; private set; }
+		public DoorDevice ExitButton { get; private set; }
+		public DoorDevice LockDevice { get; private set; }
+		public DoorDevice LockDeviceExit { get; private set; }
+		public DoorDevice LockControlDevice { get; private set; }
+		public DoorDevice LockControlDeviceExit { get; private set; }
+
+		public string OpenRegimeLogic { get; set; }
+
+		public string NormRegimeLogic { get; set; }
+
+		public string CloseRegimeLogic { get; set; }
+
+		public GKDoorType DoorType { get; set; }
+
+		public Tuple<string, Guid> ExitZone { get; set; }
+
+		public Tuple<string, Guid> EnterZone { get; set; }
 	}
 }

@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
-    app.controller('doorsCtrl', ['$scope', '$http', '$uibModal', 'signalrDoorsService', 'broadcastService',
-        function ($scope, $http, $uibModal, signalrDoorsService, broadcastService) {
+    app.controller('doorsCtrl', ['$scope', '$http','$timeout', '$uibModal', 'signalrDoorsService', 'broadcastService',
+        function ($scope, $http, $timeout, $uibModal, signalrDoorsService, broadcastService) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -19,7 +19,7 @@
                 columnDefs: [
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.doorClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
-                    { field: 'DoorType', width: Math.round(($(window).width() - 525) / 2), displayName: 'Тип точки доступа' },
+                    { field: 'DoorTypeString', width: Math.round(($(window).width() - 525) / 2), displayName: 'Тип точки доступа' },
                     { field: 'Desription', width: Math.round(($(window).width() - 525) / 2), displayName: 'Примечание' }
                 ]
             };
@@ -33,6 +33,64 @@
                     }
                 }
             });
+
+            $scope.showSelectedRow = function (row) {
+
+                $scope.selectedRow = {
+                    OneWay: row.entity.DoorType === 0,
+                    TwoWay: row.entity.DoorType === 1,
+                    Turnstile: row.entity.DoorType === 2,
+                    Barrier: row.entity.DoorType === 3,
+                    AirlockBooth: row.entity.DoorType === 4,
+                    exitDevice: row.entity.ExitDevice,
+                    exitDeviceShow: row.entity.ExitDevice != null,
+                    enterDevice: row.entity.EnterDevice,
+                    enterDeviceShow: row.entity.EnterDevice !== null,
+                    enterButton: row.entity.EnterButton,
+                    enterButtonShow: row.entity.EnterButton != null,
+                    exitButton: row.entity.ExitButton,
+                    exitButtonShow: row.entity.ExitButton != null,
+                    lockDevice: row.entity.LockDevice,
+                    lockDeviceShow: row.entity.LockDevice != null,
+                    lockDeviceExit: row.entity.LockDeviceExit,
+                    lockDeviceExitShow: row.entity.LockDeviceExit != null,
+                    lockControlDevice: row.entity.LockControlDevice,
+                    lockControlDeviceShow: row.entity.LockControlDevice != null,
+                    lockControlDeviceExit: row.entity.LockControlDeviceExit,
+                    lockControlDeviceExitShow: row.entity.LockControlDeviceExit != null,
+                    enterZone: row.entity.EnterZone,
+                    enterZoneShow: row.entity.EnterZone!= null,
+                    exitZone: row.entity.ExitZone,
+                    exitZoneShow: row.entity.ExitZone != null,
+                    openRegimeLogic: row.entity.OpenRegimeLogic,
+                    normRegimeLogic: row.entity.NormRegimeLogic,
+                    closeRegimeLogic: row.entity.CloseRegimeLogic
+                }
+            };
+
+            $scope.ShowDevice = function (value) {
+               
+               
+            }
+
+            //$scope.getDescription = function () {
+            //    if ($scope.selectedRow !== undefined) {
+            //        if ($scope.selectedRow.OneWay || $scope.selectedRow.TwoWay)
+            //            return 'Замок: ';
+            //        if ($scope.selectedRow.AirlockBooth || $scope.selectedRow.Turnstile)
+            //            return 'Реле на вход: ';
+            //    }
+            //};
+
+            //$scope.$on('deviceChanged', function (event, args) {
+            //    if(  $scope.selectedRow.exitDeviceShow && $scope.selectedRow.exitDevice.UID === args.UID)
+            //        deviceChange($scope.selectedRow.exitDeviceShow, args)
+
+            //});
+
+            //function deviceChange(obj1, obj2) {
+                
+            //}
 
             $scope.doorClick = function (door) {
                 var modalInstance = $uibModal.open({
@@ -50,6 +108,13 @@
 
             $http.get('Doors/GetDoors').success(function (data) {
                 $scope.uiGrid.data = data;
+                $timeout(function () {
+                    if ($scope.gridApi.selection.selectRow) {
+                        $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
+                    }
+                });
+                
             });
+
         }]);
 }());
