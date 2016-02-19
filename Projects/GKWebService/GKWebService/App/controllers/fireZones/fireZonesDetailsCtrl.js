@@ -1,8 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('fireZonesDetailsCtrl',
-        function ($scope, $uibModalInstance, $http, fireZone) {
-            $scope.fireZone = fireZone;
+        function ($scope, $uibModalInstance, $http, entity) {
+            $scope.fireZone = entity;
 
             $scope.$on('fireZonesChanged', function (event, args) {
                 if (args.Uid === $scope.fireZone.Uid) {

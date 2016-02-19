@@ -1,8 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('mptsDetailsCtrl',
-        function ($scope, $uibModalInstance, $http, mpt) {
-            $scope.mpt = mpt;
+        function ($scope, $uibModalInstance, $http, entity) {
+            $scope.mpt = entity;
 
             $scope.$on('mptChanged', function (event, args) {
                 if (args.UID === $scope.mpt.UID) {

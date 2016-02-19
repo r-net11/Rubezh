@@ -1,10 +1,10 @@
 ﻿(function () {
-    angular.module('gkApp.controllers').controller('guardZoneDetailsCtrl', function ($scope, $http, $uibModalInstance, guardZone) {
+    angular.module('gkApp.controllers').controller('guardZoneDetailsCtrl', function ($scope, $http, $uibModalInstance, entity) {
 
-        $scope.guardZone = guardZone;
+        $scope.guardZone = entity;
         $scope.$on('fireZonesChanged', function (event, args) {
-            if (args.Uid === $scope.fireZone.Uid) {
-                $scope.guardZone = guardZone;
+            if (args.Uid === $scope.guardZone.Uid) {
+                $scope.guardZone = args;
                 $scope.$apply();
             };
         });

@@ -1,7 +1,7 @@
 ﻿(function () {
 
-    angular.module('gkApp.controllers').controller('pumpStationDetailsCtrl', function ($scope, $uibModalInstance, $http, pumpStation) {
-        $scope.pumpStation = pumpStation;
+    angular.module('gkApp.controllers').controller('pumpStationDetailsCtrl', function ($scope, $uibModalInstance, $http, entity) {
+        $scope.pumpStation = entity;
 
         $scope.$on('pumpStationsChanged', function (event, args) {
             if (args.UID === $scope.pumpStation.UID) {

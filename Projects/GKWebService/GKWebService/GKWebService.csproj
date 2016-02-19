@@ -224,6 +224,7 @@
     <Content Include="App\directives\modalDraggable.js" />
     <Content Include="App\route.js" />
     <Content Include="App\services\broadcastService.js" />
+    <Content Include="App\services\dialogService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />

@@ -1,9 +1,9 @@
 ﻿(function () {
-    angular.module('gkApp').controller('doorDetailsCtrl', function ($scope, $uibModalInstance, $http, door) {
+    angular.module('gkApp').controller('doorDetailsCtrl', function ($scope, $uibModalInstance, $http, entity) {
 
-        $scope.door = door;
+        $scope.door = entity;
         $scope.$on('doorChanged', function (event, args) {
-            if (args.UID === door.UID) {
+            if (args.UID === $scope.door.UID) {
                 $scope.door = args;
                 $scope.$apply();
             };

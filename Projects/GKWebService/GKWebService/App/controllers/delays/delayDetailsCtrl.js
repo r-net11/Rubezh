@@ -1,8 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('delayDetailsCtrl',
-		function ($scope, $uibModalInstance, $http, delay) {
-			$scope.delay = delay;
+		function ($scope, $uibModalInstance, $http, entity) {
+		    $scope.delay = entity;
 
 			$scope.$on('delayChanged', function (event, args) {
 				if (args.Uid === $scope.delay.Uid) {

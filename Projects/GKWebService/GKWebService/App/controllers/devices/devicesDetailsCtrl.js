@@ -1,8 +1,8 @@
 ﻿(function () {
 
 	angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
-        function ($scope, $http, uiGridConstants, $uibModalInstance, device) {
-        	$scope.device = device;
+        function ($scope, $http, uiGridConstants, $uibModalInstance, entity) {
+        	$scope.device = entity;
 
         	$scope.$on('devicesChanged', function (event, args) {
         		if (args.UID === $scope.device.UID) {
@@ -27,22 +27,22 @@
         		return config;
         	}
 
-        	$scope.gridMeasurements = gridConfig(device.MeasureParameters, [
+        	$scope.gridMeasurements = gridConfig($scope.device.MeasureParameters, [
 					{ field: 'Name', displayName: 'Измерение', cellTemplate: tmp }
         	]);
 
         	var parameters = [];
-        	for (var i in device.Properties) {
-        		if (device.Properties[i].DriverProperty.IsAUParameter) {
-        			var name = device.Properties[i].DriverProperty.Caption;
-        			var value = device.Properties[i].Value;
-        			if (device.Properties[i].DriverProperty.Parameters.length === 0) {
-        				value = device.Properties[i].DriverProperty.Multiplier > 0 ? value / device.Properties[i].DriverProperty.Multiplier : value;
+        	for (var i in $scope.device.Properties) {
+        	    if ($scope.device.Properties[i].DriverProperty.IsAUParameter) {
+        	        var name = $scope.device.Properties[i].DriverProperty.Caption;
+        	        var value = $scope.device.Properties[i].Value;
+        	        if ($scope.device.Properties[i].DriverProperty.Parameters.length === 0) {
+        	            value = $scope.device.Properties[i].DriverProperty.Multiplier > 0 ? value / $scope.device.Properties[i].DriverProperty.Multiplier : value;
         			}
         			else {
-        				for (var j in device.Properties[i].DriverProperty.Parameters) {
-        					if (device.Properties[i].DriverProperty.Parameters[j].Value === device.Properties[i].Value) {
-        						value = device.Properties[i].DriverProperty.Parameters[j].Name;
+        	            for (var j in $scope.device.Properties[i].DriverProperty.Parameters) {
+        	                if ($scope.device.Properties[i].DriverProperty.Parameters[j].Value === $scope.device.Properties[i].Value) {
+        	                    value = $scope.device.Properties[i].DriverProperty.Parameters[j].Name;
         					}
         				}
         			}
