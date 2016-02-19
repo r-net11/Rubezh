@@ -201,6 +201,18 @@ namespace AutomationModule
 				}
 			}
 
+			if (objectType == ObjectType.Employee)
+			{
+				var employeeSelectionViewModel = new EmployeeSelectionViewModel(currentExplicitValue.Employee);
+				if (DialogService.ShowModalWindow(employeeSelectionViewModel))
+				{
+					currentExplicitValue.UidValue = employeeSelectionViewModel.SelectedEmployee == null
+						? Guid.Empty
+						: employeeSelectionViewModel.SelectedEmployee.Uid;
+					return true;
+				}
+			}
+
 			return false;
 		}
 

@@ -21,5 +21,8 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Пользователь")]
 		User,
+
+		[DescriptionAttribute("Сотрудник")]
+		Employee,
 	}
 }

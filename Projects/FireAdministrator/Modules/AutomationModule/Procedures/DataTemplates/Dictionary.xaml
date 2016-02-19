@@ -72,6 +72,10 @@
 		<Views:UserSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:EmployeeSelectionViewModel}">
+		<Views:EmployeeSelectionView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>

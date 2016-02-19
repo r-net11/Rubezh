@@ -91,10 +91,15 @@
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\EmployeeSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\UserSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\UserViewModel.cs" />
+    <Compile Include="ObjectSelection\Views\EmployeeSelectionView.xaml.cs">
+      <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
       <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
     </Compile>
@@ -487,6 +492,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\EmployeeSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
