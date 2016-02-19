@@ -8,7 +8,7 @@ using RubezhAPI.License;
 using System;
 using System.IO;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
     public class LicenseViewModel : BaseViewModel
     {

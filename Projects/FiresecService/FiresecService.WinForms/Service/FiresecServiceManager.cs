@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using Common;
-using FiresecService.ViewModels;
+using FiresecService.Models;
 using Infrastructure.Common;
 using FiresecService.Presenters;
 using System.Windows.Forms;
@@ -24,12 +24,10 @@ namespace FiresecService.Service
 
 				if (!GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections)
 				{
-					//MainViewModel.SetRemoteAddress("<Не разрешено>");
 					MainPresenter.SetRemoteAddress("<Не разрешено>");
 				}
 				else if (!UACHelper.IsAdministrator)
 				{
-					//MainViewModel.SetRemoteAddress("<Нет прав администратора>");
 					MainPresenter.SetRemoteAddress("<Нет прав администратора>");
 				}
 				else
@@ -42,13 +40,10 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
-				//BalloonHelper.ShowFromServer("Ошибка при запуске хоста сервиса \n" + e.Message);
 				Program.ShowBalloonTip(5000, "Ошибка", 
 					"Ошибка при запуске хоста сервиса \n" + e.Message, ToolTipIcon.Error);
 				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
-				//MainViewModel.SetLocalAddress("<Ошибка>");
 				MainPresenter.SetLocalAddress("<Ошибка>");
-				//MainViewModel.SetRemoteAddress("<Ошибка>");
 				MainPresenter.SetRemoteAddress("<Ошибка>");
 			}
 		}
@@ -60,7 +55,6 @@ namespace FiresecService.Service
 				var address = "net.pipe://127.0.0.1/FiresecService/";
 				ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService", 
 					Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(address));
-				//MainViewModel.SetLocalAddress(address);
 				MainPresenter.SetLocalAddress(address);
 			}
 			catch (Exception e)

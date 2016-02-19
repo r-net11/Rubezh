@@ -11,9 +11,10 @@
         		};
         	});
 
-        	function gridConfig(data) {
+        	var tmp = '<div align="center" style="color: black; font-weight: bold">{{row.entity[col.field]}}</div>';
+
+        	function gridConfig(data, colDefs) {
         		var config = {};
-        		var tmp = '<div align="center" style="color: black; font-weight: bold">{{row.entity[col.field]}}</div>';
         		config.data = data;
         		config.enableRowHeaderSelection = false;
         		config.enableSorting = false;
@@ -22,14 +23,13 @@
         		config.enableVerticalScrollbar = uiGridConstants.scrollbars.NEVER;
         		config.enableHorizontalScrollbar = uiGridConstants.scrollbars.NEVER;
         		config.rowHeight = 35;
-        		config.columnDefs = [
-					{ field: 'Name', displayName: 'Параметр', cellTemplate: tmp },
-					{ field: 'Value', displayName: 'Значение', cellTemplate: tmp }
-        		];
+        		config.columnDefs = colDefs;
         		return config;
         	}
 
-        	$scope.gridMeasurements = gridConfig(device.MeasureParameters);
+        	$scope.gridMeasurements = gridConfig(device.MeasureParameters, [
+					{ field: 'Name', displayName: 'Измерение', cellTemplate: tmp }
+        	]);
 
         	var parameters = [];
         	for (var i in device.Properties) {
@@ -50,7 +50,10 @@
         		}
         	};
 
-        	$scope.gridParameters = gridConfig(parameters);
+        	$scope.gridParameters = gridConfig(parameters, [
+					{ field: 'Name', displayName: 'Параметр', cellTemplate: tmp },
+					{ field: 'Value', displayName: 'Значение', cellTemplate: tmp }
+        	]);
 
         	$scope.SetIgnoreState = function () {
         		$http.post('Devices/SetIgnoreState', { id: $scope.device.UID });

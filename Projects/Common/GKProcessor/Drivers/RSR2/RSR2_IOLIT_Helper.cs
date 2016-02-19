@@ -29,10 +29,30 @@ namespace GKProcessor
                 Caption = "Чуствительность",
                 Default = 0,
                 IsLowByte = true,
-                Mask = 0x03
+                Mask = 0x0F
             };
-            GKDriversHelper.AddPropertyParameter(property1, "Полная", 0);
+            GKDriversHelper.AddPropertyParameter(property1, "100%", 0);
+            GKDriversHelper.AddPropertyParameter(property1, "75%", 1);
+            GKDriversHelper.AddPropertyParameter(property1, "50%", 2);
+            GKDriversHelper.AddPropertyParameter(property1, "25%", 3);
             driver.Properties.Add(property1);
+
+            var property11 = new GKDriverProperty()
+            {
+                No = 0,
+                Name = "Режим",
+                Caption = "Режим",
+                Default = 0,
+                IsLowByte = true,
+                Mask = 0xF0
+            };
+            GKDriversHelper.AddPropertyParameter(property11, "Основной Т1 с фиксац. тревоги", 0);
+            GKDriversHelper.AddPropertyParameter(property11, "Основной Т1 без фиксац. тревоги", 1);
+            GKDriversHelper.AddPropertyParameter(property11, "Основной Т2 с фиксац. тревоги", 2);
+            GKDriversHelper.AddPropertyParameter(property11, "Основной Т2 без фиксац. тревоги", 3);
+            GKDriversHelper.AddPropertyParameter(property11, "Вспышка с интер. 0.1 с", 4);
+            GKDriversHelper.AddPropertyParameter(property11, "Вспышка с интер. 0.5 с", 5);
+            driver.Properties.Add(property11);
 
 			return driver;
 		}

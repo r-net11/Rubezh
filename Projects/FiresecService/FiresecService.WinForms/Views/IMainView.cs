@@ -1,4 +1,4 @@
-﻿using FiresecService.ViewModels;
+﻿using FiresecService.Models;
 using RubezhAPI.License;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace FiresecService.Views
 		/// <summary>
 		/// Заголовок окна
 		/// </summary>
-		string Title { get; set; }
+		string Title { set; }
 		/// <summary>
 		/// Status bar: Последение событие сервера
 		/// </summary>

@@ -10,6 +10,11 @@
 					}
 				}
 			});
+
+			if (delaysHub.connection.state === $.signalR.connectionState.connected) {
+			    delaysHub.connection.stop().start();
+			}
+
 			return {};
 		}]);
 }());

@@ -75,6 +75,14 @@ namespace GKProcessor
             AddDriverToKau(RSR2_HeatDetectorEridan_Helper.Create());
             AddDriverToKau(RSR2_HandDetectorEridan_Helper.Create());
             AddDriverToKau(RSR2_IOLIT_Helper.Create());
+            AddDriverToKau(RSR2_MRK_Helper.Create());
+            GKManager.DriversConfiguration.Drivers.Add(RK_HandDetector_Helper.Create());
+            GKManager.DriversConfiguration.Drivers.Add(RK_SmokeDetector_Helper.Create());
+            GKManager.DriversConfiguration.Drivers.Add(RK_HeatDetector_Helper.Create());
+            GKManager.DriversConfiguration.Drivers.Add(RK_RM_Helper.Create());
+            GKManager.DriversConfiguration.Drivers.Add(RK_AM_Helper.Create());
+            GKManager.DriversConfiguration.Drivers.Add(RK_OPK_Helper.Create());
+            GKManager.DriversConfiguration.Drivers.Add(RK_OPZ_Helper.Create());
 			var kauShleifDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			var mvpPartDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_MVP_Part);
 			foreach (var driver in kauShleifDriver.Children)

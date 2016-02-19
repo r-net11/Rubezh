@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using GKImitator.Processor;
 using GKProcessor;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-	public partial class DescriptorViewModel : BaseViewModel
+    public partial class DescriptorViewModel : BaseViewModel
 	{
 		public BaseDescriptor GKBaseDescriptor { get; private set; }
 		public BaseDescriptor KauBaseDescriptor { get; private set; }
@@ -189,7 +189,7 @@ namespace GKImitator.ViewModels
 			result.AddRange(GKBaseDescriptor.Description);
 
 			var serialNo = 0;
-			result.AddRange(IntToBytes((int)serialNo));
+			result.AddRange(IntToBytes(serialNo));
 
 			result.AddRange(IntToBytes(StatesToInt()));
 

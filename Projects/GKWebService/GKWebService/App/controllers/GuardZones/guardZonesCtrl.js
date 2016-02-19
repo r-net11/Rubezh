@@ -1,8 +1,8 @@
 ﻿(function () {
     'use strict';
     var app = angular.module('gkApp.controllers');
-    app.controller('guardZonesCtrl', ['$scope', '$http', '$uibModal', 'signalrGuardZonesService', 'broadcastService',
-    function ($scope, $http, $uibModal, signalrGuardZonesService, broadcastService) {
+    app.controller('guardZonesCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrGuardZonesService', 'broadcastService',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrGuardZonesService, broadcastService) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -26,6 +26,15 @@
             };
             $http.get('GuardZones/GetGuardZones').success(function (data) {
                 $scope.uiGrid.data = data;
+                $timeout(function () {
+                    if ($stateParams.uid) {
+                        $scope.selectRowById($stateParams.uid);
+                    } else {
+                        if ($scope.gridApi.selection.selectRow) {
+                            $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
+                        }
+                    }
+                });
             });
 
             $scope.showSelectedRow = function (row) {
@@ -41,6 +50,15 @@
                     }
                 }
             });
+
+            $scope.selectRowById = function (uid) {
+                for (var i = 0; i < $scope.uiGrid.data.length; i++) {
+                    if ($scope.uiGrid.data[i].UID === uid) {
+                        $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
+                        break;
+                    }
+                }
+            }
 
             $scope.guardZoneClick = function (guardZone) {
                 var modalInstance = $uibModal.open({

@@ -2,13 +2,20 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers');
-    app.controller('mptsCtrl', ['$scope', '$http', '$uibModal', 'signalrMPTsService','broadcastService',
-    function ($scope, $http, $uibModal, signalrMPTsService, broadcastService) {
+    app.controller('mptsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrMPTsService', 'broadcastService',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrMPTsService, broadcastService) {
 
                $http.get('MPTs/GetMPTsData').success(function (data) {
                    $scope.uiGrid.data = data;
-                   if ($scope.gridApi.selection.selectRow) 
-                       $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
+                   $timeout(function () {
+                       if ($stateParams.uid) {
+                           $scope.selectRowById($stateParams.uid);
+                       } else {
+                           if ($scope.gridApi.selection.selectRow) {
+                               $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
+                           }
+                       }
+                   });
                });
 
                function ChangeMPT(mpt) {
@@ -43,15 +50,15 @@
                    ChangeMPT(args);
                    $scope.$apply();    
                });
-                
-               $scope.$on('showGKMPT', function (event, args) {
-                   for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-                       if ($scope.uiGrid.data[i].UID === args) {
+
+               $scope.selectRowById = function (uid) {
+                   for (var i = 0; i < $scope.uiGrid.data.length; i++) {
+                       if ($scope.uiGrid.data[i].UID === uid) {
                            $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
                            break;
                        }
                    }
-               });
+               };
 
                $scope.showSelectedRow = function (row) {
                    $scope.selectedRow =
@@ -76,15 +83,6 @@
                        }
                    });
                };
-
-               $scope.$on('showGKMPT', function (event, args) {
-                   for (var i = 0; i < $scope.uiGrid.data.length; i++) {
-                       if ($scope.uiGrid.data[i].UID === args) {
-                           $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
-                           break;
-                       }
-                   }
-               });
 
                $scope.$on('showMPTDetails', function (event, args) {
                    for (var i = 0; i < $scope.uiGrid.data.length; i++) {

@@ -1,9 +1,7 @@
 ﻿using RubezhAPI.GK;
-using System;
 using RubezhAPI.Journal;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.Serialization;
 
 namespace RubezhAPI
@@ -42,7 +40,7 @@ namespace RubezhAPI
 
 		[DataMember]
 		public Guid ClientUid { get; set; }
-		 
+
 	}
 
 	public enum CallbackOperationResultType

@@ -72,6 +72,11 @@
                     }
                 }
             });
+
+            if (plansUpdater.connection.state === $.signalR.connectionState.connected) {
+                plansUpdater.connection.stop().start();
+            }
+
             return {
                 startTest: startTestBroadcast
             };

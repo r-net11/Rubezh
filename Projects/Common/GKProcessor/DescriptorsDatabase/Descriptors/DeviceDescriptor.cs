@@ -287,6 +287,8 @@ namespace GKProcessor
 		void CreateOnDevices(GKMPT mpt)
 		{
 			Formula.AddGetBit(GKStateBit.TurningOn, mpt);
+			Formula.AddGetBit(GKStateBit.On, mpt);
+			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 			Formula.AddGetBit(GKStateBit.Off, mpt);
 			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);

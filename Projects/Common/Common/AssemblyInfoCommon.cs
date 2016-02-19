@@ -6,7 +6,3 @@ using System.Windows;
 [assembly: AssemblyVersion("2.1.7.3")]
 [assembly: AssemblyTrademark("http://www.rubezh.ru/")]
 [assembly: AssemblyCulture("")]
-[assembly: ThemeInfo(
-	ResourceDictionaryLocation.None,
-	ResourceDictionaryLocation.SourceAssembly
-)]

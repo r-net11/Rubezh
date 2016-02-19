@@ -14,7 +14,6 @@ namespace GKProcessor
                 UID = new Guid("7C464C3A-DDC5-496A-9747-4CA93B774DCA"),
 				Name = "Адресный барьер шлейфа сигнализации",
                 ShortName = "АБШС-R2",
-				HasGuardZone = true,
 				HasZone = true,
 				IsPlaceable = true
 			};

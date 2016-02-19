@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Threading;
-using Controls.Converters;
+using FiresecService.Views.TypeConverters;
 using System.Windows.Data;
+using FiresecService.Models;
 
 namespace FiresecService.Views
 {
@@ -71,6 +72,7 @@ namespace FiresecService.Views
 				_dataGridViewLog.DataSource = null;
 				_dataGridViewLog.DataSource = value;
 			}
+			get { return (BindingSource)_dataGridViewLog.DataSource; }
 		}
 		
 		// Вкладка "Статус"
@@ -139,14 +141,16 @@ namespace FiresecService.Views
 		Label _labelAccess;
 		Label _labelVideo;
 		Label _labelOpcServer;
-		Label _labelLincenseKey;
+		Label _labelLicenseKey;
+		Button _buttonLoadLicense;
+		Button _buttonCopyLicense;
 
 		public LicenseMode LicenseMode 
 		{
-			set 
+			set
 			{
-				var converter = new EnumToDescriptionConverter();
-				_labelLicenseStatus.Text = converter.Convert(value, typeof(LicenseMode), null, null).ToString(); 
+				var converter = new EnumTypeConverter(typeof(LicenseMode));
+				_labelLicenseStatus.Text = converter.ConvertToString(value);
 			}
 		}
 		public int RemoteClientsCount 
@@ -160,45 +164,45 @@ namespace FiresecService.Views
 		{
 			set 
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelFirefighting.Text = converter.Convert(value, null, null, null).ToString(); 
+				var converter = new BooleanTypeConverter();
+				_labelFirefighting.Text = converter.ConvertToString(value);
 			} 
 		}
 		public bool HasGuard 
 		{
 			set
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelSecurity.Text = converter.Convert(value, null, null, null).ToString();
+				var converter = new BooleanTypeConverter();
+				_labelSecurity.Text = converter.ConvertToString(value);
 			}
 		}
 		public bool HasSKD 
 		{
 			set
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelAccess.Text = converter.Convert(value, null, null, null).ToString();
+				var converter = new BooleanTypeConverter();
+				_labelAccess.Text = converter.ConvertToString(value);
 			} 
 		}
 		public bool HasVideo 
 		{
 			set
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelVideo.Text = converter.Convert(value, null, null, null).ToString();
+				var converter = new BooleanTypeConverter();
+				_labelVideo.Text = converter.ConvertToString(value);
 			} 
 		}
 		public bool HasOpcServer 
 		{
 			set
 			{
-				var converter = (IValueConverter)(new BoolToYesNoConverter());
-				_labelOpcServer.Text = converter.Convert(value, null, null, null).ToString();
+				var converter = new BooleanTypeConverter();
+				_labelOpcServer.Text = converter.ConvertToString(value);
 			} 
 		}
 		public string InitialKey 
 		{
-			set { _labelLincenseKey.Text = value; }
+			set { _labelLicenseKey.Text = value; }
 		}
 		
 		// Сторока состояния окна
@@ -251,7 +255,8 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				ReadOnly = true
 			};
 			_dataGridViewConnections.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -301,7 +306,9 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				RowsDefaultCellStyle = new DataGridViewCellStyle(),
+				ReadOnly = true
 			};
 			_dataGridViewLog.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -309,12 +316,23 @@ namespace FiresecService.Views
 				HeaderText = "Название",
 				DataPropertyName = "Message"
 			});
+
 			_dataGridViewLog.Columns.Add(new DataGridViewTextBoxColumn()
 			{
 				Name = "_dataGridViewColumnDate",
 				HeaderText = "Дата",
-				DataPropertyName = "DateTime"
+				DataPropertyName = "DateTime",
+				DefaultCellStyle = new DataGridViewCellStyle { Format = "dd.MM.yyyy HH:mm:ss" }
 			});
+
+			_dataGridViewLog.Columns.Add(new DataGridViewCheckBoxColumn()
+			{
+				Name = "_dataGridViewCheckBoxColumnIsError",
+				HeaderText = "Ошибка",
+				DataPropertyName = "IsError",
+				Visible = false
+			});
+			_dataGridViewLog.RowsAdded += EventHandler_dataGridViewLog_RowsAdded;
 			_tabPageLog.Controls.Add(_dataGridViewLog);
 
 			#endregion
@@ -402,7 +420,8 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				ReadOnly = true
 			};
 			_dataGridViewGkLifecycles.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -434,7 +453,7 @@ namespace FiresecService.Views
 
 			#region Polling
 
-			_tabPagePolling = new TabPage() { Name = "_tabPagePolling", Text = "Поллинг" };
+			_tabPagePolling = new TabPage() { Name = "_tabPagePolling", Text = "Полинг" };
 			_tabControlMain.TabPages.Add(_tabPagePolling);
 
 			_dataGridViewPolling = new DataGridView()
@@ -446,7 +465,8 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				ReadOnly = true
 			};
 			_dataGridViewPolling.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -464,14 +484,18 @@ namespace FiresecService.Views
 			{
 				Name = "_dataGridViewColumnFirstPollTime",
 				HeaderText = "Первый полинг",
-				DataPropertyName = "FirstPollTime"
+				DataPropertyName = "FirstPollTime",
+				DefaultCellStyle = new DataGridViewCellStyle{ Format = "dd.MM.yyyy HH:mm:ss" }
 			});
+
 			_dataGridViewPolling.Columns.Add(new DataGridViewTextBoxColumn()
 			{
 				Name = "_dataGridViewColumnLastPollTime",
 				HeaderText = "Последний полинг",
-				DataPropertyName = "LastPollTime"
+				DataPropertyName = "LastPollTime",
+				DefaultCellStyle = new DataGridViewCellStyle{ Format = "dd.MM.yyyy HH:mm:ss" }
 			});
+
 			_dataGridViewPolling.Columns.Add(new DataGridViewTextBoxColumn()
 			{
 				Name = "_dataGridViewColumnCallbackIndex",
@@ -496,7 +520,8 @@ namespace FiresecService.Views
 				AutoGenerateColumns = false,
 				AllowUserToAddRows = false,
 				AllowUserToDeleteRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+				ReadOnly = true
 			};
 			_dataGridViewOperations.Columns.Add(new DataGridViewTextBoxColumn()
 			{
@@ -677,25 +702,48 @@ namespace FiresecService.Views
 			};
 			groupBox.Controls.Add(label);
 
-			_labelLincenseKey = new Label
+			_labelLicenseKey = new Label
 			{
 				Name = "_labelLicenseKeyValue",
 				Text = "License Key",
 				AutoSize = true,
 				Font = font,
 			};
-			groupBox.Controls.Add(_labelLincenseKey);
+			groupBox.Controls.Add(_labelLicenseKey);
 
-			var button = new Button
+			_buttonLoadLicense = new Button
 			{
-				Name = "_buttonLoadLincense",
+				Name = "_buttonLoadLicense",
 				Text = "Загрузить лицензию",
 				AutoSize = true
 			};
-			button.Click += EventHandler_buttonLoadLicense_Click;
-			groupBox.Controls.Add(button);
+			_buttonLoadLicense.Click += EventHandler_buttonLoadLicense_Click;
+			groupBox.Controls.Add(_buttonLoadLicense);
+
+			_buttonCopyLicense = new Button
+			{
+				Name = "_buttonCopyLicense",
+				Text = "Копировать ключ",
+				AutoSize = true
+			};
+			_buttonCopyLicense.Click += EventHandler_buttonCopyLicense_Click;
+			groupBox.Controls.Add(_buttonCopyLicense);
 
 			#endregion
+
+		}
+
+		void EventHandler_dataGridViewLog_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+		{
+			var control = (DataGridView)sender;
+			var row = control.Rows[e.RowIndex];
+			var cell = (DataGridViewCheckBoxCell)row.Cells["_dataGridViewCheckBoxColumnIsError"];
+			row.DefaultCellStyle.BackColor = (bool)cell.Value ? Color.Red : (new DataGridViewCellStyle()).BackColor;
+		}
+
+		void EventHandler_buttonCopyLicense_Click(object sender, EventArgs e)
+		{
+			Clipboard.SetText(_labelLicenseKey.Text);
 		}
 
 		void EventHandler_buttonLoadLicense_Click(object sender, EventArgs e)
@@ -773,15 +821,18 @@ namespace FiresecService.Views
 			groupBoxLoadingLicense.Top += groupBoxLicense.Height;
 			groupBoxLoadingLicense.Width = groupBoxLicense.Width;
 
-			var labelLincenseKey = (Label)groupBoxLoadingLicense.Controls["_labelLicenseKey"];
-			labelLincenseKey.Location = new Point(groupBoxLoadingLicense.Left,
+			var labelLicenseKey = (Label)groupBoxLoadingLicense.Controls["_labelLicenseKey"];
+			labelLicenseKey.Location = new Point(groupBoxLoadingLicense.Left,
 				groupBoxLoadingLicense.Padding.Top);
-			var button = (Button)groupBoxLoadingLicense.Controls["_buttonLoadLincense"];
-			_labelLincenseKey.Location = new Point(labelLincenseKey.Left + labelLincenseKey.Width + 10,
-				labelLincenseKey.Top);
-			button.Location = new Point(labelLincenseKey.Left,
-				_labelLincenseKey.Top + _labelLincenseKey.Height);
-			groupBoxLoadingLicense.Height = _labelLincenseKey.Height + button.Height + groupBoxLoadingLicense.Padding.Top
+			var button = (Button)groupBoxLoadingLicense.Controls["_buttonLoadLicense"];
+			_labelLicenseKey.Location = new Point(labelLicenseKey.Left + labelLicenseKey.Width + 10,
+				labelLicenseKey.Top);
+			button.Location = new Point(labelLicenseKey.Left,
+				_labelLicenseKey.Top + _labelLicenseKey.Height);
+			button = (Button)groupBoxLoadingLicense.Controls["_buttonCopyLicense"];
+			button.Location = new Point(labelLicenseKey.Left + _buttonLoadLicense.Width + 10,
+				_labelLicenseKey.Top + _labelLicenseKey.Height);
+			groupBoxLoadingLicense.Height = _labelLicenseKey.Height + button.Height + groupBoxLoadingLicense.Padding.Top
 				+ groupBoxLoadingLicense.Padding.Bottom;
 		}
 

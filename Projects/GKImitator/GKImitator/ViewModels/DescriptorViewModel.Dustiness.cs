@@ -4,8 +4,8 @@ using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-	public partial class DescriptorViewModel : BaseViewModel
-	{
+	public partial class DescriptorViewModel
+    {
 		public void InitializeDustiness()
 		{
 			SetPreDustinessCommand = new RelayCommand(OnSetPreDustiness);

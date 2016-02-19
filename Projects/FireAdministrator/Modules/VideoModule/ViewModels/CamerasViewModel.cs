@@ -125,8 +125,9 @@ namespace VideoModule.ViewModels
 			var server = ClientManager.SystemConfiguration.RviServers.First(x => x.Url == camera.RviServerUrl);
 			var device = server.RviDevices.First(x => x.Uid == camera.RviDeviceUID);
 			var channel = device.RviChannels.First(x => x.Number == camera.RviChannelNo);
-			channel.Cameras.Remove(camera);
+			channel.Cameras.First(x => x.StreamNo == camera.StreamNo).IsAddedInConfiguration = false;
 			RemoveFromTree(SelectedCamera);
+			ClientManager.SystemConfiguration.Cameras.Remove(camera);
 			camera.OnChanged();
 			ServiceFactory.SaveService.CamerasChanged = true;
 			SelectedCamera = Cameras.FirstOrDefault();

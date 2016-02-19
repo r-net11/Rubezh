@@ -11,9 +11,10 @@ using GKWebService.Models.GK;
 
 namespace GKWebService.Models.Door
 {
-	public class Door
+	public class Door : GKBaseModel
 	{
 		public Door(GKDoor door)
+			: base(door)
 		{
 			UID = door.UID;
 			No = door.No;

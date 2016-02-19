@@ -11,7 +11,7 @@ using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-	public partial class DescriptorViewModel : BaseViewModel
+	public partial class DescriptorViewModel
 	{
 		public BaseDescriptor LogicDescriptor { get; private set; }
 		public List<FormulaOperation> FormulaOperations { get; protected set; }

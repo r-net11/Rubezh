@@ -326,6 +326,20 @@ namespace GKProcessor
                         if (bitArray[0])
                             AddAdditionalState(XStateClass.Failure, "Токопотребление");
                         break;
+
+                    case GKDriverType.RK_HandDetector:
+                    case GKDriverType.RK_SmokeDetector:
+                    case GKDriverType.RK_HeatDetector:
+                    case GKDriverType.RK_RM:
+                    case GKDriverType.RK_AM:
+                    case GKDriverType.RK_OPK:
+                    case GKDriverType.RK_OPZ:
+                        bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+                        if (bitArray[0])
+                            AddAdditionalState(XStateClass.Failure, "Питание 1");
+                        if (bitArray[1])
+                            AddAdditionalState(XStateClass.Failure, "Питание 2");
+                        break;
                 }
 			}
 			else

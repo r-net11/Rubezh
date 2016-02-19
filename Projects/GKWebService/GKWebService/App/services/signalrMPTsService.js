@@ -32,6 +32,11 @@
                     }
                 }
             });
+
+            if (mptsUpdater.connection.state === $.signalR.connectionState.connected) {
+                mptsUpdater.connection.stop().start();
+            }
+
             return {};
         }]);
 }());

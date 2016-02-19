@@ -192,5 +192,29 @@ namespace RubezhAPI.GK
 
         [Description("ИОЛИТ R2")]
         RSR2_IOLIT = 89,
+
+        [Description("МРК R2")]
+        RSR2_MRK = 90,
+
+        [Description("ИПР RK")]
+        RK_HandDetector = 91,
+
+        [Description("ИПД RK")]
+        RK_SmokeDetector = 92,
+
+        [Description("ИПТ RK")]
+        RK_HeatDetector = 93,
+
+        [Description("РМ RK")]
+        RK_RM = 94,
+
+        [Description("АМ RK")]
+        RK_AM = 95,
+
+        [Description("ОПК RK")]
+        RK_OPK = 96,
+
+        [Description("ОПЗ RK")]
+        RK_OPZ = 97,
 	}
 }

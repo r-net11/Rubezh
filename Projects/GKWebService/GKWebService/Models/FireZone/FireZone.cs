@@ -7,7 +7,7 @@ using RubezhClient;
 
 namespace GKWebService.Models.FireZone
 {
-	public class FireZone
+	public class FireZone : GKBaseModel
 	{
 		/// <summary>
 		/// Количество датчиков для перевода в Пожар1
@@ -51,6 +51,7 @@ namespace GKWebService.Models.FireZone
 		public ushort GKDescriptorNo { get; set; }
 
 		public FireZone(GKZone gkZone)
+			: base(gkZone)
 		{
 			StateIcon = Convert.ToString(gkZone.State.StateClass);
 			Name = gkZone.Name;
