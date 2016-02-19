@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RubezhAPI.GK;
 
 namespace GKProcessor
@@ -16,6 +17,15 @@ namespace GKProcessor
 		{
 			Devices = new List<GKDevice>();
 			Descriptors = new List<BaseDescriptor>();
+		}
+
+		protected void RestructCollection(List<GKDevice> devices)
+		{
+			var gkRelays = devices.FindAll(x => x.DriverType == GKDriverType.GKRele);
+			var gkRelaysIndecses = new List<Tuple<GKDevice, int>>();
+			gkRelays.ForEach(x => gkRelaysIndecses.Add(new Tuple<GKDevice, int>(x, devices.IndexOf(x) - 5)));
+			gkRelays.ForEach(x => devices.Remove(x));
+			gkRelaysIndecses.ForEach(x => devices.Insert(x.Item2, x.Item1));
 		}
 
 		public abstract void BuildObjects();
