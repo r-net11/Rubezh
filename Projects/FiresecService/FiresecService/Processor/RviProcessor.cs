@@ -37,29 +37,30 @@ namespace FiresecService
 			AutoResetEvent = new AutoResetEvent(false);
 			while (true)
 			{
+				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
+				{
+					return;
+				}
 				if (ConfigurationCashHelper.SystemConfiguration != null && ConfigurationCashHelper.SystemConfiguration.RviSettings != null && ConfigurationCashHelper.SystemConfiguration.RviServers != null)
 				{
 					var rviSettings = ConfigurationCashHelper.SystemConfiguration.RviSettings;
-					if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
-					{
-						return;
-					}
 					foreach (var server in ConfigurationCashHelper.SystemConfiguration.RviServers)
 					{
-						if (RviClientHelper.IsConnected(server.Url, rviSettings.Login, rviSettings.Password))
+						bool isNotConnected;
+						var newDevices = RviClientHelper.GetRviDevicesWithoutChannels(server.Url, rviSettings.Login, rviSettings.Password, out isNotConnected);
+						if (isNotConnected)
+						{
+							CreateRviServerCallbackResult(server, RviStatus.ConnectionLost);
+							server.RviDevices.ForEach(rviDevice => CreateRviDeviceCallbackResult(rviDevice, RviStatus.ConnectionLost));
+						}
+						else
 						{
 							CreateRviServerCallbackResult(server, RviStatus.Connected);
-							var newDevices = RviClientHelper.GetRviDevicesWithoutChannels(server.Url, rviSettings.Login, rviSettings.Password);
 							foreach (var newDevice in newDevices)
 							{
 								if (server.RviDevices.Any(x => x.Uid == newDevice.Uid))
 									CreateRviDeviceCallbackResult(newDevice, newDevice.Status);
 							}
-						}
-						else
-						{
-							CreateRviServerCallbackResult(server, RviStatus.ConnectionLost);
-							server.RviDevices.ForEach(rviDevice => CreateRviDeviceCallbackResult(rviDevice, RviStatus.ConnectionLost));
 						}
 					}
 				}

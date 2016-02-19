@@ -4,15 +4,15 @@ using System;
 
 namespace VideoModule.ViewModels
 {
-	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
+	public class RviDeviceViewModel : TreeNodeViewModel<RviDeviceViewModel>
 	{
-		public bool IsEnabled { get; set; }
+		public bool IsEnabled { get; private set; }
 		public string Name { get; private set; }
 		public string Address { get; private set; }
 		public Guid CameraUid { get; private set; }
 		public Camera Camera { get; private set; }
 		public bool IsCamera { get; private set; }
-		public DeviceViewModel(Camera camera)
+		public RviDeviceViewModel(Camera camera)
 		{
 			Camera = camera;
 			Name = camera.Name;
@@ -21,16 +21,16 @@ namespace VideoModule.ViewModels
 			IsChecked = camera.IsAddedInConfiguration;
 			IsEnabled = !camera.IsAddedInConfiguration;
 		}
-		public DeviceViewModel(RviServer server)
+		public RviDeviceViewModel(RviServer server)
 		{
-			Name = server.Name;
+			Name = server.PresentationName;
 		}
-		public DeviceViewModel(RviDevice device)
+		public RviDeviceViewModel(RviDevice device)
 		{
 			Name = device.Name;
 			Address = device.Ip;
 		}
-		public DeviceViewModel(RviChannel channel)
+		public RviDeviceViewModel(RviChannel channel)
 		{
 			Name = channel.Name;
 		}
