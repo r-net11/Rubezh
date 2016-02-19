@@ -46,7 +46,7 @@
                     Barrier: row.entity.DoorType === 3,
                     AirlockBooth: row.entity.DoorType === 4,
                     exitDevice: row.entity.ExitDevice,
-                    exitDeviceShow: row.entity.ExitDevice != null,
+                    exitDeviceShow: Boolean(row.entity.ExitDevice),
                     enterDevice: row.entity.EnterDevice,
                     enterDeviceShow: row.entity.EnterDevice !== null,
                     enterButton: row.entity.EnterButton,
