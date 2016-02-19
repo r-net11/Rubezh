@@ -4,8 +4,8 @@
 		'<a href="#" ng-click="grid.appScope.showDetailsDelay(row.entity)">{{row.entity.Name}}</a></div>';
 
 	var delaysApp = angular.module("gkApp.controllers");
-	delaysApp.controller('delaysCtrl', ['$scope', '$http', '$uibModal', '$stateParams', '$timeout', 'signalrDelaysService',
-		function ($scope, $http, $uibModal, $stateParams, $timeout) {
+	delaysApp.controller('delaysCtrl', ['$scope', '$http', '$uibModal', '$stateParams', '$timeout', 'signalrDelaysService', 'dialogService', 'constants',
+	    function ($scope, $http, $uibModal, $stateParams, $timeout, signalrDelaysService, dialogService, constants) {
 			function ChangeDelay(delay)
 			{
 				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
@@ -44,17 +44,7 @@
 			});
 
 			$scope.showDetailsDelay = function (delay) {
-				$uibModal.open({
-					animation: false,
-					templateUrl: 'Delays/DelayDetails',
-					controller: 'delayDetailsCtrl',
-					backdrop: false,
-					resolve: {
-						delay: function () {
-							return delay;
-						}
-					},
-				});
+			    dialogService.showWindow(constants.gkObject.delay, delay);
 			};
 		    $scope.$on('delayChanged', function(event, args) {
 		        ChangeDelay(args);
@@ -69,14 +59,5 @@
 			        }
 			    }
 			};
-
-			$scope.$on('showDelayDetails', function (event, args) {
-			    for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-			        if ($scope.gridOptions.data[i].Uid === args) {
-			            $scope.pumpStationClick($scope.gridOptions.data[i]);
-			            break;
-			        }
-			    }
-			});
 		}]);
 }());

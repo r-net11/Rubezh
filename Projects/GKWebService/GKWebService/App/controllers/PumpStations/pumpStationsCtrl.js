@@ -3,8 +3,8 @@
 
 
     var app = angular.module('gkApp.controllers');
-    app.controller('pumpStationsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrPumpStatoinsService', 'broadcastService',
-    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrPumpStatoinsService, broadcastService) {
+    app.controller('pumpStationsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrPumpStatoinsService', 'broadcastService', 'dialogService', 'constants',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrPumpStatoinsService, broadcastService, dialogService, constants) {
 
         $http.get('PumpStations/GetPumpStations').success(function (data) {
             $scope.uiGrid.data = data;
@@ -50,17 +50,7 @@
         };
 
         $scope.pumpStationClick = function (pumpStation) {
-            $uibModal.open({
-                animation: false,
-                templateUrl: 'PumpStations/PumpStationDetails',
-                controller: 'pumpStationDetailsCtrl',
-                backdrop: false,
-                resolve: {
-                    pumpStation: function () {
-                        return pumpStation;
-                    }
-                }
-            });
+            dialogService.showWindow(constants.gkObject.pumpStation, pumpStation);
         };
 
         $scope.$on('pumpStationsChanged', function (event, args) {
@@ -80,16 +70,5 @@
                 }
             }
         };
-
-        $scope.$on('showPumpStationDetails', function (event, args) {
-            for (var i = 0; i < $scope.uiGrid.data.length; i++) {
-                if ($scope.uiGrid.data[i].UID === args) {
-                    $scope.pumpStationClick($scope.uiGrid.data[i]);
-                    break;
-                }
-            }
-        });
-
     }]);
-
 }());

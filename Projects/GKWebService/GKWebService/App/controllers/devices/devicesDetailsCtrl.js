@@ -1,7 +1,8 @@
 ﻿(function () {
 
 	angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
-        function ($scope, $http, uiGridConstants, $uibModalInstance, entity) {
+        ['$scope', '$http', 'uiGridConstants', '$uibModalInstance', 'signalrDevicesService', 'entity',
+        function ($scope, $http, uiGridConstants, $uibModalInstance, signalrDevicesService, entity) {
         	$scope.device = entity;
 
         	$scope.$on('devicesChanged', function (event, args) {
@@ -102,6 +103,6 @@
         	$scope.cancel = function () {
         		$uibModalInstance.dismiss('cancel');
         	};
-        }
+        }]
     );
 }());

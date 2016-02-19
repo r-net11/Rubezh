@@ -1,7 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('delayDetailsCtrl',
-		function ($scope, $uibModalInstance, $http, entity) {
+		['$scope', '$uibModalInstance', '$http', 'signalrDelaysService', 'entity',
+        function ($scope, $uibModalInstance, $http, signalrDelaysService, entity) {
 		    $scope.delay = entity;
 
 			$scope.$on('delayChanged', function (event, args) {
@@ -40,6 +41,10 @@
 			$scope.ShowJournal = function () {
 
 			};
-		}
+
+			$scope.cancel = function () {
+			    $uibModalInstance.dismiss('cancel');
+			};
+        }]
 	);
 }());

@@ -2,8 +2,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers');
-    app.controller('mptsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrMPTsService', 'broadcastService',
-    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrMPTsService, broadcastService) {
+    app.controller('mptsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrMPTsService', 'broadcastService', 'dialogService', 'constants',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrMPTsService, broadcastService, dialogService, constants) {
 
                $http.get('MPTs/GetMPTsData').success(function (data) {
                    $scope.uiGrid.data = data;
@@ -71,26 +71,7 @@
                };
                
                $scope.mptClick = function (mpt) {
-                   $uibModal.open({
-                       animation: false,
-                       templateUrl: 'MPTs/MPTDetails',
-                       controller: 'mptsDetailsCtrl',
-                       backdrop: false,
-                       resolve: {
-                           mpt: function () {
-                               return mpt;
-                           }
-                       }
-                   });
+                   dialogService.showWindow(constants.gkObject.mpt, mpt);
                };
-
-               $scope.$on('showMPTDetails', function (event, args) {
-                   for (var i = 0; i < $scope.uiGrid.data.length; i++) {
-                       if ($scope.uiGrid.data[i].UID === args) {
-                           $scope.mptClick($scope.uiGrid.data[i]);
-                           break;
-                       }
-                   }
-               });
     }]);
 }());

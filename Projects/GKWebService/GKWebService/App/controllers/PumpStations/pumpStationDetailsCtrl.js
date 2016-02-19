@@ -1,6 +1,8 @@
 ﻿(function () {
 
-    angular.module('gkApp.controllers').controller('pumpStationDetailsCtrl', function ($scope, $uibModalInstance, $http, entity) {
+    angular.module('gkApp.controllers').controller('pumpStationDetailsCtrl',
+    ['$scope', '$uibModalInstance', '$http', 'signalrPumpStatoinsService', 'entity',
+    function ($scope, $uibModalInstance, $http, signalrPumpStatoinsService, entity) {
         $scope.pumpStation = entity;
 
         $scope.$on('pumpStationsChanged', function (event, args) {
@@ -53,6 +55,6 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
-    }
+    }]
     );
 }());

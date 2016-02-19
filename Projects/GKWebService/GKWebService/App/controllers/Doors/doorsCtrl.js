@@ -1,7 +1,8 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
-    app.controller('doorsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrDoorsService', 'broadcastService',
-        function ($scope, $http, $timeout, $uibModal, $stateParams, signalrDoorsService, broadcastService) {
+    app.controller('doorsCtrl',
+        ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrDoorsService', 'broadcastService', 'dialogService', 'constants',
+        function ($scope, $http, $timeout, $uibModal, $stateParams, signalrDoorsService, broadcastService, dialogService, constants) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -96,17 +97,7 @@
             //}
 
             $scope.doorClick = function (door) {
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    size: 'rbzh',
-                    templateUrl: 'Doors/DoorDetails',
-                    controller: 'doorDetailsCtrl',
-                    resolve: {
-                        door: function () {
-                            return door;
-                        }
-                    }
-                });
+                dialogService.showWindow(constants.gkObject.door, door);
             };
 
             $http.get('Doors/GetDoors').success(function (data) {

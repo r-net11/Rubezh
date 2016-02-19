@@ -1,7 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('fireZonesDetailsCtrl',
-        function ($scope, $uibModalInstance, $http, entity) {
+        ['$scope', '$uibModalInstance', '$http', 'signalrFireZonesService', 'entity',
+        function ($scope, $uibModalInstance, $http, signalrFireZonesService, entity) {
             $scope.fireZone = entity;
 
             $scope.$on('fireZonesChanged', function (event, args) {
@@ -38,6 +39,6 @@
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
-        }
+        }]
     );
 }());

@@ -1,7 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('mptsDetailsCtrl',
-        function ($scope, $uibModalInstance, $http, entity) {
+        ['$scope', '$uibModalInstance', '$http', 'signalrMPTsService', 'entity',
+        function ($scope, $uibModalInstance, $http, signalrMPTsService, entity) {
             $scope.mpt = entity;
 
             $scope.$on('mptChanged', function (event, args) {
@@ -54,6 +55,6 @@
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
-        }
+        }]
     );
 }());

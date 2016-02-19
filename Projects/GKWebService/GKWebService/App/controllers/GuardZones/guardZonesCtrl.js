@@ -1,8 +1,8 @@
 ﻿(function () {
     'use strict';
     var app = angular.module('gkApp.controllers');
-    app.controller('guardZonesCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrGuardZonesService', 'broadcastService',
-    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrGuardZonesService, broadcastService) {
+    app.controller('guardZonesCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrGuardZonesService', 'broadcastService', 'dialogService', 'constants',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrGuardZonesService, broadcastService, dialogService, constants) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -61,17 +61,7 @@
             }
 
             $scope.guardZoneClick = function (guardZone) {
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    size: 'rbzh',
-                    templateUrl: 'GuardZones/GuardZoneDetails',
-                    controller: 'guardZoneDetailsCtrl',
-                    resolve: {
-                        guardZone: function () {
-                            return guardZone;
-                        }
-                    }
-                });
+                dialogService.showWindow(constants.gkObject.guardZone, guardZone);
             };
 
         }]);

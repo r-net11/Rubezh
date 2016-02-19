@@ -2,22 +2,12 @@
 	'use strict';
 
 	var app = angular.module('gkApp.controllers').controller('devicesCtrl',
-		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', '$stateParams', 'signalrDevicesService', 'broadcastService',
-			function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, $stateParams, signalrDevicesService, broadcastService) {
+		['$scope', '$http', '$timeout', 'uiGridTreeBaseService', '$uibModal', '$stateParams', 'signalrDevicesService', 'broadcastService', 'dialogService', 'constants',
+			function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, $stateParams, signalrDevicesService, broadcastService, dialogService, constants) {
 
 				$scope.deviceClick = function (device) {
 					if (device.entity.ParentUID != undefined) {
-						$uibModal.open({
-							animation: false,
-							templateUrl: 'Devices/DeviceDetails',
-							controller: 'devicesDetailsCtrl',
-							size: 'rbzh',
-							resolve: {
-								device: function () {
-									return device.entity;
-								}
-							}
-						});
+					    dialogService.showWindow(constants.gkObject.device, device.entity);
 					}
 				};
 
