@@ -5,7 +5,7 @@ using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-	public partial class DescriptorViewModel : BaseViewModel
+	public partial class DescriptorViewModel
 	{
 		public void InitializeTest()
 		{
@@ -14,11 +14,9 @@ namespace GKImitator.ViewModels
 			ResetTestCommand = new RelayCommand(OnResetTest);
 		}
 
-		public bool HasTestButton { get; private set; }
-		public bool HasTestLaser { get; private set; }
-		public bool HasResetTest { get; private set; }
+		public bool HasTest { get; private set; }
 
-		public RelayCommand TestButtonCommand { get; private set; }
+        public RelayCommand TestButtonCommand { get; private set; }
 		void OnTestButton()
 		{
 			SetStateBit(GKStateBit.Test, true);

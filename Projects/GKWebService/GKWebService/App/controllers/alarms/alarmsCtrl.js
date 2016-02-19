@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
-        ['$scope', '$http', '$uibModal', '$window', 'broadcastService', 'constants',
-        function ($scope, $http, $uibModal, $window, broadcastService, constants) {
+        ['$scope', '$http', '$uibModal', '$window', '$state', '$stateParams', 'broadcastService', 'constants',
+        function ($scope, $http, $uibModal, $window, $state, $stateParams, broadcastService, constants) {
             $scope.gridOptions = {
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
@@ -33,12 +33,12 @@
                                            {{row.entity[col.field]}}</div>'
                     },
                     {
-                        field: 'ObjectName', minWidth: 200, width: 310, displayName: 'Объект', enableFiltering: false,
+                        field: 'GkEntity.Name', minWidth: 200, width: 310, displayName: 'Объект', enableFiltering: false,
                         cellTemplate: '<div ng-style="!row.isSelected && {\'background-color\': row.entity.AlarmColor}" class="ui-grid-cell-contents">\
                                             <a href="#" ng-click="grid.appScope.objectClick(row.entity)">\
-                                                <img style="vertical-align: middle; padding-right: 3px" width="16" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.ObjectStateClass}}.png"/>\
-                                                <img style="vertical-align: middle; padding-right: 3px" width="16" ng-src="/Content/Image/{{row.entity.ObjectImageSource}}.png"/>\
-                                                {{row.entity[col.field]}}\
+                                                <img style="vertical-align: middle; padding-right: 3px" width="16" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.GkEntity.StateClass}}.png"/>\
+                                                <img style="vertical-align: middle; padding-right: 3px" width="16" ng-src="/Content/Image/{{row.entity.GkEntity.ImageSource}}"/>\
+                                                {{row.entity.GkEntity.Name}}\
                                             </a>\
                                         </div>'
                     },
@@ -54,7 +54,7 @@
                                         </div>'
                     },
                     {
-                        field: 'ObjectName', width: 300, displayName: 'Команды', enableFiltering: false,
+                        field: 'GkEntity.Name', width: 300, displayName: 'Команды', enableFiltering: false,
                         cellTemplate: '<div ng-style="!row.isSelected && {\'background-color\': row.entity.AlarmColor}" class="ui-grid-cell-contents">\
                                             <a href="#" style="padding-right: 3px" ng-click="grid.appScope.journalClick(row.entity)">\
                                                 Журнал\
@@ -82,20 +82,9 @@
                 $scope.$apply();
             });
 
-            $scope.$on('alarmsShowClick', function (event, args) {
-                // TODO: Исправить когда меню переведём на ангулар
-                angular.element(".menu .group-control").parent().addClass('clicked');
-                $window.app.Menu.PageClick(null, { currentTarget: angular.element("#menuState")[0] }, 'State');
+            $scope.term = $stateParams.alarmType;
+            $scope.gridOptions.enableFiltering = ($stateParams.alarmType ? true : false);
 
-                $scope.gridOptions.enableFiltering = true;
-                $scope.term = args;
-                $scope.gridApi.grid.refresh();
-            });
-
-            $scope.menuStateClick = function() {
-                $scope.gridOptions.enableFiltering = false;
-                $scope.gridApi.grid.refresh();
-            };
 
             $http.get('Alarms/GetAlarms').success(function (data, status, headers, config) {
                 $scope.model = data;
@@ -120,34 +109,29 @@
 
             $scope.objectClick = function(alarm) {
                 // TODO: Исправить когда меню переведём на ангулар
-                angular.element(".menu .group-control").parent().addClass('clicked');
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .device")[0] }, 'Device');
-                    broadcastService.send('showGKDevice', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.device) {
+                    $state.go('device', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.zone) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .zone")[0] }, 'FireZones');
-                    broadcastService.send('showGKZone', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.zone) {
+                    $state.go('fireZones', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.guardZone) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .guardZone")[0] }, 'GuardZone');
-                    broadcastService.send('showGKGuardZone', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.guardZone) {
+                    $state.go('guardZone', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.direction) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .direction")[0] }, 'Directions');
-                    broadcastService.send('showGKDirection', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.direction) {
+                    $state.go('directions', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.mpt) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .MPTs")[0] }, 'MPTs');
-                    broadcastService.send('showGKMPT', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.mpt) {
+                    $state.go('MPTs', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.delay) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .delays")[0] }, 'Delays');
-                    broadcastService.send('showGKDelay', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.delay) {
+                    $state.go('delays', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.pumpStation) {
-                    $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .pumpStations")[0] }, 'PumpStations');
-                    broadcastService.send('showGKPumpStation', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.pumpStation) {
+                    $state.go('pumpStations', { uid: alarm.GkEntity.UID });
+                }
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.door) {
+                    $state.go('doors', { uid: alarm.GkEntity.UID });
                 }
                 // TODO: Дополнить здесь обработку кликов на объекты при создании новых страниц объектов
             };
@@ -155,30 +139,41 @@
             $scope.journalClick = function (alarm) {
                 // TODO: Исправить когда меню переведём на ангулар
                 $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .archive")[0] }, 'Archive');
-                broadcastService.send('showArchive', alarm.GkBaseEntityUID);
+                broadcastService.send('showArchive', alarm.GkEntity.UID);
             }
 
             $scope.showPropertiesClick = function (alarm) {
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.device) {
-                    broadcastService.send('showDeviceDetails', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.device) {
+                    broadcastService.send('showDeviceDetails', alarm.GkEntity.UID);
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.zone) {
-                    broadcastService.send('showGKZoneDetails', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.zone) {
+                    broadcastService.send('showGKZoneDetails', alarm.GkEntity.UID);
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.guardZone) {
-                    broadcastService.send('showGuardZoneDetails', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.guardZone) {
+                    broadcastService.send('showGuardZoneDetails', alarm.GkEntity.UID);
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.direction) {
-                    broadcastService.send('showDirectionDetails', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.direction) {
+                    var modalInstance = $uibModal.open({
+                        animation: false,
+                        templateUrl: 'Directions/DirectionDetails',
+                        controller: 'directionDetailsCtrl',
+                        backdrop: false,
+                        size: 'rbzh',
+                        resolve: {
+                            direction: function () {
+                                return alarm.GkEntity;
+                            }
+                        }
+                    });
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.mpt) {
-                    broadcastService.send('showMPTDetails', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.mpt) {
+                    broadcastService.send('showMPTDetails', alarm.GkEntity.UID);
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.delay) {
-                    broadcastService.send('showDelayDetails', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.delay) {
+                    broadcastService.send('showDelayDetails', alarm.GkEntity.UID);
                 }
-                if (alarm.GkBaseEntityObjectType === constants.gkObjectType.pumpStation) {
-                    broadcastService.send('showPumpStationDetails', alarm.GkBaseEntityUID);
+                if (alarm.GkEntity.ObjectType === constants.gkObjectType.pumpStation) {
+                    broadcastService.send('showPumpStationDetails', alarm.GkEntity.UID);
                 }
             };
         }]

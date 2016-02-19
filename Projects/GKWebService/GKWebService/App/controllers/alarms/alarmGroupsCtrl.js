@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module("gkApp").controller("alarmGroupsCtrl",
-        ['$scope', '$http', '$sce', 'signalrAlarmsService', 'broadcastService',
-            function ($scope, $http, $sce, signalrAlarmsService, broadcastService) {
-                $scope.resetTooltip = $sce.trustAsHtml('<img width="16" src="/Content/Image/Images/BReset.png" /> <span>Сбросить все</span>');
+        ['$scope', '$http', '$sce', '$state', 'signalrAlarmsService', 'broadcastService',
+            function ($scope, $http, $sce, $state, signalrAlarmsService, broadcastService) {
+            	$scope.resetTooltip = $sce.trustAsHtml('<span class="tooltipLine" style="background-image: url(/Content/Image/Images/BReset.png);">Сбросить все</span>');
                 
                 $http.get('Alarms/GetAlarmGroups').success(function (data, status, headers, config) {
                     $scope.initData(data);
@@ -17,8 +17,9 @@
                     $scope.$apply();
                 });
 
-                $scope.ShowClick = function(group) {
-                    broadcastService.send('alarmsShowClick', group.AlarmType);
+                $scope.ShowClick = function (group) {
+                    $state.go('state', { alarmType: group.AlarmType });
+                    //broadcastService.send('alarmsShowClick', group.AlarmType);
                 };
 
                 $scope.resetClick = function () {
@@ -32,9 +33,9 @@
                 };
 
                 $scope.getGroupTooltip = function (group) {
-                    var result = '<img width="16" src="/Content/Image/Icon/GKStateIcons/' + group.AlarmImageSource + '.png"/> <span>' + group.AlarmName + '</span><br/>';
+                	var result = '<span class="tooltipLine" style="background-image: url(/Content/Image/Icon/GKStateIcons/' + group.AlarmImageSource + '.png)">' + group.AlarmName + '</span>';
                     angular.forEach(group.Alarms, function (alarm) {
-                        result += '<img width="16" src="/Content/Image/' + alarm.ObjectImageSource + '.png"/> <span>' + alarm.ObjectName + '</span><br/>';
+                    	result += '<span class="tooltipLine"style="background-image: url(/Content/Image/' + alarm.ObjectImageSource + '.png)">' + alarm.ObjectName + '</span>';
                     });
                     return $sce.trustAsHtml(result);
                 };

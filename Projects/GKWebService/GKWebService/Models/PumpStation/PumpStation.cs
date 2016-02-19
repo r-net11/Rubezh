@@ -10,9 +10,10 @@ using GKWebService.Models.GK;
 
 namespace GKWebService.Models.PumpStation
 {
-	public class PumpStation
+	public class PumpStation : GKBaseModel
 	{
 		public PumpStation(GKPumpStation pumpStation)
+			: base(pumpStation)
 		{
 			UID = pumpStation.UID;
 			No = pumpStation.No;
@@ -26,10 +27,11 @@ namespace GKWebService.Models.PumpStation
 			DelayRegime = pumpStation.DelayRegime.ToDescription();
 			NSPumpsCount = pumpStation.NSPumpsCount;
 			NSDeltaTime = pumpStation.NSDeltaTime;
+			ImageSource = pumpStation.ImageSource.Replace("/Controls;component/", "");
 
 			State = pumpStation.State.StateClass.ToDescription();
 			StateIcon = pumpStation.State.StateClass.ToString();
-			StateClasses = pumpStation.State.StateClasses.Select(x => new DirectionStateClass(x)).ToList();
+			StateClasses = pumpStation.State.StateClasses.Select(x => new StateClass(x)).ToList();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(pumpStation.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 			HasOnDelay = pumpStation.State.StateClasses.Contains(XStateClass.TurningOn) && pumpStation.State.OnDelay > 0;
@@ -63,7 +65,7 @@ namespace GKWebService.Models.PumpStation
 		public string ControlRegimeIcon { get; set; }
 		public bool HasOnDelay { get; set; }
 		public ushort GKDescriptorNo { get; set; }
-		public List<DirectionStateClass> StateClasses { get; set; }
+		public List<StateClass> StateClasses { get; set; }
 
 		public string DelayRegime { get; set; }
 		public string StateColor { get; set; }
@@ -85,5 +87,7 @@ namespace GKWebService.Models.PumpStation
 		public int NSPumpsCount { get; set; }
 
 		public int NSDeltaTime { get; set; }
+
+		public string ImageSource { get; set; }
 	}
 }

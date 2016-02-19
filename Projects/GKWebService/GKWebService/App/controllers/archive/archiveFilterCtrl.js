@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('gkApp.controllers').controller('archiveFilterCtrl',
+	angular.module('gkApp.controllers').controller('archiveFilterCtrl',
         function ($scope, $http, $uibModal, $uibModalInstance, $timeout, filter, uiGridTreeBaseService) {
         	$scope.toggleRow = function (gridApi, row, evt) {
         		uiGridTreeBaseService.toggleRowTreeState(gridApi.grid, row, evt);
@@ -40,7 +40,7 @@
         					</i> &nbsp;\
         			</div>\
 					<div ng-style=\"{'color': 'black'}\">\
-						<img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
+						<img style=\"vertical-align: middle; margin-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
         				{{row.entity.Name}}\
         			</div>\
         		</div>";
@@ -54,7 +54,7 @@
         		enableRowSelection: true,
         		enableSelectAll: true,
         		multiSelect: true,
-        		columnDefs: [{ name: 'Объект', width: 500, cellTemplate: objectsNameTemplate }],
+        		columnDefs: [{ name: 'Объект', width: '100%', cellTemplate: objectsNameTemplate }],
         		onRegisterApi: function (gridApi) {
         			$scope.objectsGridApi = gridApi;
         			gridApi.selection.on.rowSelectionChanged($scope, $scope.objectsSetChildren);
@@ -76,7 +76,7 @@
         					</i> &nbsp;\
         			</div>\
 					<div ng-style=\"{'color': 'black'}\">\
-						<img style=\"vertical-align: middle; padding-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
+						<img style=\"vertical-align: middle; margin-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
         				{{row.entity.Name}}\
         			</div>\
         		</div>";
@@ -122,13 +122,13 @@
 							for (var i in $scope.eventsGrid.data) {
 								var row = $scope.eventsGrid.data[i];
 								for (var j in filter.Events) {
-									if (row.Type == filter.Events[j].Type && row.Value == filter.Events[j].Value) 
+									if (row.Type == filter.Events[j].Type && row.Value == filter.Events[j].Value)
 										$scope.eventsGridApi.selection.selectRow(row);
 								}
 							}
 					}, 100);
 				});
-        	
+
 
         	$scope.ok = function () {
         		$uibModalInstance.close(createFilter());
@@ -146,26 +146,26 @@
         		$scope.beginDate.date.setDate($scope.beginDate.date.getDate() - 7);
         	};
 
-        	var createFilter = function() {
+        	var createFilter = function () {
         		var filter = {};
         		var objects = $scope.objectsGridApi.selection.getSelectedRows();
-				filter.ObjectUids = [];
-				objects.forEach(function (item) {
-					filter.ObjectUids.push(item.UID);
-				});
-				var events = $scope.eventsGridApi.selection.getSelectedRows();
-				filter.Events = [];
-				events.forEach(function (item) {
-					filter.Events.push({
-						Type: item.Type,
-						Value: item.Value,
-					});
-				});
-				$scope.beginDate.date.setSeconds(0, 0);
-				filter.BeginDate = $scope.beginDate.date;
-				$scope.endDate.date.setSeconds(0, 0);
-				filter.EndDate = $scope.endDate.date;
-				return filter;
+        		filter.ObjectUids = [];
+        		objects.forEach(function (item) {
+        			filter.ObjectUids.push(item.UID);
+        		});
+        		var events = $scope.eventsGridApi.selection.getSelectedRows();
+        		filter.Events = [];
+        		events.forEach(function (item) {
+        			filter.Events.push({
+        				Type: item.Type,
+        				Value: item.Value,
+        			});
+        		});
+        		$scope.beginDate.date.setSeconds(0, 0);
+        		filter.BeginDate = $scope.beginDate.date;
+        		$scope.endDate.date.setSeconds(0, 0);
+        		filter.EndDate = $scope.endDate.date;
+        		return filter;
         	}
 
         	$scope.objectsSetChildren = function (row) {
@@ -182,13 +182,13 @@
         		if (!item)
         			return;
         		while (item.Level > row.entity.Level) {
-					if(row.isSelected)
-						gridApi.selection.selectRow(item);
-					else
-						gridApi.selection.unSelectRow(item);
-					index++;
-					item = gridOptions.data[index];
-				}
+        			if (row.isSelected)
+        				gridApi.selection.selectRow(item);
+        			else
+        				gridApi.selection.unSelectRow(item);
+        			index++;
+        			item = gridOptions.data[index];
+        		}
         	};
         });
 }());

@@ -4,8 +4,8 @@
 		'<a href="#" ng-click="grid.appScope.showDetailsDelay(row.entity)">{{row.entity.Name}}</a></div>';
 
 	var delaysApp = angular.module("gkApp.controllers");
-	delaysApp.controller('delaysCtrl', ['$scope', '$http', '$uibModal', 'signalrDelaysService',
-		function ($scope, $http, $uibModal) {
+	delaysApp.controller('delaysCtrl', ['$scope', '$http', '$uibModal', '$stateParams', '$timeout', 'signalrDelaysService',
+		function ($scope, $http, $uibModal, $stateParams, $timeout) {
 			function ChangeDelay(delay)
 			{
 				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
@@ -32,6 +32,15 @@
 
 			$http.get("Delays/GetDelays").success(function (data) {
 				$scope.gridOptions.data = data;
+				$timeout(function () {
+				    if ($stateParams.uid) {
+				        $scope.selectRowById($stateParams.uid);
+				    } else {
+				        if ($scope.gridApi.selection.selectRow) {
+				            $scope.gridApi.selection.selectRow($scope.gridOptions.data[0]);
+				        }
+				    }
+				});
 			});
 
 			$scope.showDetailsDelay = function (delay) {
@@ -47,18 +56,19 @@
 					},
 				});
 			};
-			$scope.$on('delayChanged', function (event, args) {
-				ChangeDelay(args);
-				$scope.$apply();
-			})
-			$scope.$on('showGKDelay', function (event, args) {
-			    for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-			        if ($scope.gridOptions.data[i].Uid === args) {
+		    $scope.$on('delayChanged', function(event, args) {
+		        ChangeDelay(args);
+		        $scope.$apply();
+		    });
+
+		    $scope.selectRowById = function (uid) {
+		        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
+		            if ($scope.gridOptions.data[i].Uid === uid) {
 			            $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
 			            break;
 			        }
 			    }
-			});
+			};
 
 			$scope.$on('showDelayDetails', function (event, args) {
 			    for (var i = 0; i < $scope.gridOptions.data.length; i++) {

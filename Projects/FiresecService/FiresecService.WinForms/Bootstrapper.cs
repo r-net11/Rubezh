@@ -90,12 +90,12 @@ namespace FiresecService
 				if (ReportServiceManager.Run())
 				{
 					UILogger.Log("Сервис отчетов запущен: " + ConnectionSettingsManager.ReportServerAddress);
-					//MainViewModel.SetReportAddress(ConnectionSettingsManager.ReportServerAddress);
+					MainPresenter.SetReportAddress(ConnectionSettingsManager.ReportServerAddress);
 				}
 				else
 				{
 					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
-					//MainViewModel.SetReportAddress("<Ошибка>");
+					MainPresenter.SetReportAddress("<Ошибка>");
 				}
 
 				AutomationProcessor.Start();

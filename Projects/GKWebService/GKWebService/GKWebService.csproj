@@ -194,15 +194,20 @@
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
     <Content Include="App\controllers\directions\directionsCtrl.js" />
+    <Content Include="App\controllers\Doors\doorDetailsCtrl.js" />
+    <Content Include="App\controllers\Doors\doorsCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
     <Content Include="App\controllers\devices\devicesDetailsCtrl.js" />
-    <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
+    <Content Include="App\controllers\GuardZones\guardZoneDetailsCtrl.js" />
+    <Content Include="App\controllers\GuardZones\guardZoneDevicesCtrl.js" />
+    <Content Include="App\controllers\GuardZones\guardZonesCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
     <Content Include="App\controllers\journal\journalFilterCtrl.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
+    <Content Include="App\controllers\navCtrl.js" />
     <Content Include="App\controllers\planCtrl.js" />
     <Content Include="App\controllers\PumpStations\pumpStationDetailsCtrl.js" />
     <Content Include="App\controllers\PumpStations\pumpStationDevicesCtrl.js" />
@@ -213,12 +218,15 @@
     <Content Include="App\directives\modaless.js" />
     <Content Include="App\directives\devicesGrid.js" />
     <Content Include="App\directives\modalDraggable.js" />
+    <Content Include="App\route.js" />
     <Content Include="App\services\broadcastService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
+    <Content Include="App\services\signalrDoorsService.js" />
     <Content Include="App\services\signalrFireZonesService.js" />
+    <Content Include="App\services\signalrGuardZonesService.js" />
     <Content Include="App\services\signalrMPTsService.js" />
     <Content Include="App\services\signalrPumpStationService.js" />
     <Content Include="App\services\signalrService.js" />
@@ -480,6 +488,8 @@
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-signalr-hub.js" />
     <Content Include="Scripts\angular-signalr-hub.min.js" />
+    <Content Include="Scripts\angular-ui-router.js" />
+    <Content Include="Scripts\angular-ui-router.min.js" />
     <Content Include="Scripts\angular-ui-tree\angular-ui-tree.css" />
     <Content Include="Scripts\angular-ui-tree\angular-ui-tree.js" />
     <Content Include="Scripts\angular-ui-tree\angular-ui-tree.min.css" />
@@ -495,7 +505,6 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="App\services\signalrJournalService.js" />
-    <Content Include="Scripts\archive.js" />
     <Content Include="Content\header.less" />
     <Content Include="Content\vars.less" />
     <Content Include="Content\main.less" />
@@ -589,6 +598,7 @@
     <Content Include="Content\bootstrap.less" />
     <Content Include="Content\alarmBtn.less" />
     <Content Include="Content\devices.less" />
+    <Content Include="Content\common.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -610,10 +620,6 @@
     <Content Include="Scripts\less.min.js" />
     <Content Include="Scripts\Main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\moment-with-locales.js" />
-    <Content Include="Scripts\moment-with-locales.min.js" />
-    <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />
     <Content Include="Scripts\SKD\Cards\CardsViewModel.js" />
@@ -656,8 +662,10 @@
     <Compile Include="Controllers\DelaysController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
+    <Compile Include="Controllers\DoorsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\FireZonesController.cs" />
+    <Compile Include="Controllers\GuardZonesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\MPTsController.cs" />
@@ -672,11 +680,16 @@
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
+    <Compile Include="DataProviders\DoorsHub\DoorsHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="DataProviders\GuardZones\GuardZonesHub.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
-    <Compile Include="Models\Devices\Device.cs" />
+    <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Door\Door.cs" />
+    <Compile Include="Models\GK\GKBase.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
+    <Compile Include="Models\GuardZones\GuardZone.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
@@ -702,7 +715,7 @@
     <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\GK\Delay\Delay.cs" />
     <Compile Include="Models\FireZone\DeviceNode.cs" />
-    <Compile Include="Models\GK\Directions\DirectionStateClass.cs" />
+    <Compile Include="Models\GK\Directions\StateClass.cs" />
     <Compile Include="Models\Journal\JournalFilterEvent.cs" />
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
@@ -823,6 +836,10 @@
     <Content Include="Views\PumpStations\PumpStationDetails.cshtml" />
     <Content Include="Views\Home\MPTs.cshtml" />
     <Content Include="Views\MPTs\Index.cshtml" />
+    <Content Include="Views\GuardZones\Guard.cshtml" />
+    <Content Include="Views\GuardZones\GuardZoneDetails.cshtml" />
+    <Content Include="Views\Doors\Door.cshtml" />
+    <Content Include="Views\Doors\DoorDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

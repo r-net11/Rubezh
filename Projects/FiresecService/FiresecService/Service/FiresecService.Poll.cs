@@ -14,7 +14,7 @@ namespace FiresecService.Service
 	{
 		public PollResult Poll(Guid clientUID, int callbackIndex)
 		{
-			global::FiresecService.ViewModels.MainViewModel.Current.OnPoll(clientUID);
+			global::FiresecService.Models.MainViewModel.Current.OnPoll(clientUID);
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
 			if (clientInfo != null)
 			{
@@ -62,6 +62,15 @@ namespace FiresecService.Service
 				GKCallbackResult = gkCallbackResult
 			};
 			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other);
+		}
+		public static void NotifyRviObjectStateChanged(RviCallbackResult rviCallbackResult)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.RviObjectStateChanged,
+				RviCallbackResult = rviCallbackResult
+			};
+			CallbackManager.Add(callbackResult, ClientType.Monitor);
 		}
 
 		public static void NotifyAutomation(AutomationCallbackResult automationCallbackResult, Guid? clientUID)

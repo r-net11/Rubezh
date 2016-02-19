@@ -2,6 +2,7 @@
 using RubezhAPI.Journal;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.Models
 {
@@ -39,20 +40,20 @@ namespace RubezhAPI.Models
 		public void UpdateConfiguration()
 		{
 			AutomationConfiguration.UpdateConfiguration();
+
+			RviDevices = new List<RviDevice>();
+			RviServers.ForEach(server => RviDevices.AddRange(server.RviDevices));
+			Cameras = new List<Camera>();
+			RviDevices.ForEach(device => device.RviChannels.ForEach(channel => Cameras.AddRange(channel.Cameras)));
 		}
 
 		public override bool ValidateVersion()
 		{
 			return true;
 		}
-		public List<Camera> Cameras
-		{
-			get
-			{
-				var cameras = new List<Camera>();
-				RviServers.ForEach(server => server.RviDevices.ForEach(device => device.RviChannels.ForEach(channel => cameras.AddRange(channel.Cameras))));
-				return cameras;
-			}
-		}
+		[XmlIgnore]
+		public List<Camera> Cameras { get; set; }
+		[XmlIgnore]
+		public List<RviDevice> RviDevices { get; set; }
 	}
 }

@@ -1,82 +1,101 @@
 ﻿.modal-header {
-    color: #fff;
-    padding: 7px;
-    border-bottom: 0;
+	color: #fff;
+	padding: 7px;
+	border-bottom: 0;
 	.titleGradient;
 }
 
 .modal-content {
-    color: #fff;
-    border: 1px solid #000;
-    border-radius: 0px;
+	color: #fff;
+	border: 1px solid #000;
+	border-radius: 0;
 }
 
 .modal-body {
-    background: @dark-blue;
+	background: @dark-blue;
 }
 
 .nav-tabs {
-  border-bottom: 0px;
+	border-bottom: 0;
 }
 
-.nav-tabs > li > a{
-    color: #fff;
-    border: 0;
-    .blueGradientBackground;
+.nav-tabs > li > a {
+	color: #fff;
+	border: 0;
+	.blueGradientBackground;
 }
 
 .nav > li > a {
-  padding: 4px;
+	padding: 6px 12px;
+	font-size: 14px;
+	font-weight: 400;
 }
 
 .nav-tabs > li > a:hover {
-  .orangeGradientBackground;
+	.orangeGradientBackground;
 }
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-    color: #fff;
-    border: 0;
-    .orangeGradientBackground;
+	color: #fff;
+	border: 0;
+	.orangeGradientBackground;
 }
 
 .tab-content {
-    background: @light-blue;
+	background: @light-blue;
 }
 
-.btn {
-    border: 0; 
+.btn, .form-control {
+	border: 1px solid transparent;
 }
+
 
 .btn-primary {
-    .blueGradientBackground;
+	.blueGradientBackground;
 }
 
 .btn-primary:hover {
-    .orangeGradientBackground;
+	.orangeGradientBackground;
 }
 
 .close {
-  filter: alpha(opacity=100);
-  opacity: 1;
+	filter: alpha(opacity=100);
+	opacity: 1;
 }
 
 .close:hover,
 .close:focus {
-  filter: alpha(opacity=100);
-  opacity: 1;
+	filter: alpha(opacity=100);
+	opacity: 1;
 }
 
 .close img {
-  width: 22px;
+	width: 22px;
 }
 
 .tooltip .tooltip-inner {
-    color: #000000;
-    background-color: #D3D3D3;
+	color: #000000;
+	background-color: #D3D3D3;
 }
 
+.tooltipLine {
+	background-color: #bfbfbf;
+	border-radius: 3px;
+	margin: 5px;
+	background-position: 5px center;
+	background-size: 16px;
+	background-repeat: no-repeat;
+	padding: 5px 5px 5px 25px;
+	display: block;
+}
+
+
 .tooltip .tooltip-arrow {
-    display: none;
+	display: none;
+}
+
+.btn-link {
+	color: white;
 }

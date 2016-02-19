@@ -1,20 +1,19 @@
-﻿using GKWebService.DataProviders.FireZones;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using GKWebService.Models;
 using RubezhAPI.Automation;
 using GKWebService.Models.FireZone;
+using Microsoft.Ajax.Utilities;
+using RubezhAPI.GK;
 
 namespace GKWebService.Controllers
 {
 	public class FireZonesController : Controller
 	{
-		// GET: FireZones
 		public ActionResult Index()
 		{
 			return View();
@@ -40,43 +39,31 @@ namespace GKWebService.Controllers
 		}
 
 		/// <summary>
-		/// Метод, предоставляющий данные об устройствах для конкретной зоны
+		/// Метод, предоставляющий данные об устройствах по UID зоны
 		/// </summary>
-		public JsonResult GetDevicesByZoneUID(Guid id)
+		public JsonResult GetDevicesByZoneUid(Guid id)
 		{
-			var listTree = new List<DeviceNode>();
-			var data = new DeviceNode();
-			int level = 0;
-
-			var firstZone = GKManager.Zones.FirstOrDefault(zone => zone.UID == id);
-			if (firstZone != null)
-			{
-				var devices = firstZone.Devices;
-
-				foreach (var remoteDevice in devices)
+			var list = new List<Device>();
+			var zone = GKManager.Zones.FirstOrDefault(x => x.UID == id);
+			if (zone != null)
+				foreach (var remoteDevice in (zone.Devices).Reverse<GKDevice>())
 				{
-					data.DeviceList.Add(new Device(remoteDevice)
+					var currentDevice = remoteDevice;
+					int depth = 0;
+					while (currentDevice != null)
 					{
-						Level = level
-					});
-				}
-
-				listTree.Add(data);
-				var device = devices.FirstOrDefault();
-				while (device != null && device.Parent != null)
-				{
-					level++;
-					var item = new DeviceNode();
-					device = device.Parent;
-					item.DeviceList.Add(new Device(device)
+						depth++;
+						currentDevice = currentDevice.Parent;
+					}
+					currentDevice = remoteDevice;
+					for (int i = 1; i < depth + 1; i++)
 					{
-						Level = level
-					});
-					listTree.Add(item);
+						var device = new Device(currentDevice) {Level = depth - i};
+						list.Insert(0, device);
+						currentDevice = currentDevice.Parent;
+					}
 				}
-			}
-			listTree.Reverse();
-			return Json(listTree, JsonRequestBehavior.AllowGet);
+			return Json(list.DistinctBy(x => x.UID).ToList(), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

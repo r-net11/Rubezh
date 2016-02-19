@@ -36,7 +36,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
-			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
+            driver.AvailableCommandBits.Add(GKStateBit.Stop_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 2, "Питание, В", 80, 0, 100).Multiplier = 10;

@@ -3,188 +3,197 @@
 }
 
 .HrToolbar {
-    display: inline-block;
-    margin: 6px 0 0 5px;
-	    .icon {
-			width: 32px;
-			height: 32px;
-			background-size: 32px 32px;
-			background-repeat: no-repeat;
-			background-position: center;
-			float: left;
-			padding: 5px;
-			border-radius: 5px;
-			margin-right: 10px;
-			-moz-box-sizing: content-box;
-			-webkit-box-sizing: content-box;
-			box-sizing: content-box;
+	display: inline-block;
+	margin: 6px 0 0 5px;
 
-			&:hover {
-				background-color: @orange;
-			}
+	.icon {
+		width: 32px;
+		height: 32px;
+		background-size: 32px 32px;
+		background-repeat: no-repeat;
+		background-position: center;
+		float: left;
+		padding: 5px;
+		border-radius: 5px;
+		margin-right: 10px;
+		-moz-box-sizing: content-box;
+		-webkit-box-sizing: content-box;
+		box-sizing: content-box;
 
-			&.add {
-				background-image: url("Image/Icon/Menu/edit/Add.png");
-			}
+		&:hover {
+			background-color: @orange;
+		}
 
-			&.delete {
-				background-image: url("Image/Icon/Menu/edit/Delete.png");
-			}
+		&.add {
+			background-image: url("Image/Icon/Menu/edit/Add.png");
+		}
 
-			&.edit {
-				background-image: url("Image/Icon/Menu/edit/Edit.png");
-			}
+		&.delete {
+			background-image: url("Image/Icon/Menu/edit/Delete.png");
+		}
 
-			&.redo {
-				background-image: url("Image/Icon/Menu/edit/Redo.png");
-			}
+		&.edit {
+			background-image: url("Image/Icon/Menu/edit/Edit.png");
+		}
 
-			&.filter {
-				background-image: url("Image/Icon/Menu/edit/Filter.png");
-			}
+		&.redo {
+			background-image: url("Image/Icon/Menu/edit/Redo.png");
+		}
 
-			&.archive {
-                background-image: url('Image/Icon/Menu/archive.png');
-			}
+		&.filter {
+			background-image: url("Image/Icon/Menu/edit/Filter.png");
+		}
 
-			&.print {
-				background-image: url("Image/Icon/Menu/fine/Print.png");
-			}
+		&.archive {
+			background-image: url('Image/Icon/Menu/archive.png');
+		}
 
-			&.copy {
-				background-image: url("Image/Icon/Menu/edit/Copy.png");
-			}
+		&.print {
+			background-image: url("Image/Icon/Menu/fine/Print.png");
+		}
 
-			&.paste {
-				background-image: url("Image/Icon/Menu/edit/Paste.png");
-			}
+		&.copy {
+			background-image: url("Image/Icon/Menu/edit/Copy.png");
+		}
 
-			&.load {
-                background-image: url('Image/Icon/Hr/load.png');
-			}
+		&.paste {
+			background-image: url("Image/Icon/Menu/edit/Paste.png");
+		}
 
-			&.chiefw {
-				background-image: url("Image/Icon/Hr/ChiefW.png");
-			}
-        }           
+		&.load {
+			background-image: url('Image/Icon/Hr/load.png');
+		}
+
+		&.chiefw {
+			background-image: url("Image/Icon/Hr/ChiefW.png");
+		}
+	}
 }
 
-.HrCardsPanel
-{
-    float: left;
+.HrCardsPanel {
+	float: left;
 	width: 100px;
 	position: relative;
-    color: white;
-    li a{
-        color: white;
-    }
-    li.active a{
-        color: orange;
-        font-weight: bold;
-    }
+	color: white;
+
+	li a {
+		color: white;
+	}
+
+	li.active a {
+		color: orange;
+		font-weight: bold;
+	}
 }
 
-.HrCardDoorsPanel
-{
-    float: left;
-    width: 1000px;
-    background: #5980b2;
-    margin: 5px 0 0 200px;
-    border-radius: 5px;
-    color: white;
-    border: 1px solid black;
-    padding: 5px 0 5px 5px;
+.HrCardDoorsPanel {
+	float: left;
+	width: 1000px;
+	background: #5980b2;
+	margin: 5px 0 0 200px;
+	border-radius: 5px;
+	color: white;
+	border: 1px solid black;
+	padding: 5px 0 5px 5px;
 
-    img {
-        display:block;
-        width: 200px;
-        height: 200px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    span
-    {
-        float:left;
-        margin-bottom:10px;
-        width:100px;
-    }
+	img {
+		display: block;
+		width: 200px;
+		height: 200px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 
-    label
-    {
-        width:100px;
-    }
+	span {
+		float: left;
+		margin-bottom: 10px;
+		width: 100px;
+	}
 
-    div div div
-    {
-        clear:left;
-    }
+	label {
+		width: 100px;
+	}
+
+	div div div {
+		clear: left;
+	}
 }
 
 ul.SelectableList {
-    border:1px solid black;
-    border-radius: 5px;
-    background: white;
-    height:200px;
-    color:black;
-    white-space:nowrap;
-    overflow:auto;
-    span {
-        color:black;
-        font-weight:normal;
-    }
-    div {
-        width:100%;
-    }
-    li.selected{
-        .orangeGradientBackground;
-        span {
-            color:white;
-        }
-    }
+	border: 1px solid black;
+	border-radius: 5px;
+	background: white;
+	height: 200px;
+	color: black;
+	white-space: nowrap;
+	overflow: auto;
+
+	span {
+		color: black;
+		font-weight: normal;
+	}
+
+	div {
+		width: 100%;
+	}
+
+	li.selected {
+		.orangeGradientBackground;
+
+		span {
+			color: white;
+		}
+	}
 }
 
 ul#OrganisationList {
-    height:600px;
-    width:200px;
-    float:left;
-    span.IsDeleted {
-        color: grey;
-    }
+	height: 600px;
+	width: 200px;
+	float: left;
+
+	span.IsDeleted {
+		color: grey;
+	}
 }
 
 ul#OrganisationUsers, ul#OrganisationDoors {
-    height:570px;
+	height: 570px;
 }
 
-div#EmployeeCardDetailsDoor, div#AccessTemplateDetailsDoor{
-    width:100%;
-    label{
-        width:100%;
-    }
-    select, option{
-        width:100%;
-        font-weight:normal;
-    }
-    span{
-        color:white;
-        font-weight:normal;
-    }
+div#EmployeeCardDetailsDoor, div#AccessTemplateDetailsDoor {
+	width: 100%;
+
+	label {
+		width: 100%;
+	}
+
+	select, option {
+		width: 100%;
+		font-weight: normal;
+	}
+
+	span {
+		color: white;
+		font-weight: normal;
+	}
 }
 
 div#PhotoSelection {
-    width:100%;
-    >div {
-        width: 100%;
-    }
-    img {
-        display:block;
-        width: 300px;
-        height: 300px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    #PhotoSelectionToolbar .icon{
-        float: right;
-    }
+	width: 100%;
+
+	> div {
+		width: 100%;
+	}
+
+	img {
+		display: block;
+		width: 300px;
+		height: 300px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	#PhotoSelectionToolbar .icon {
+		float: right;
+	}
 }

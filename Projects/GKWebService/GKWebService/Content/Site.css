@@ -83,6 +83,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 	float: left;
 	overflow: hidden;
 	margin-right:-100%;
+	margin-top:10px;
 }
 .content {
 	padding: 0 0 0 216px;
@@ -108,3 +109,7 @@ div.disabled {
 .modal-rbzh {
         width: 420px !important;
     }
+
+.ui-grid-cell-focus {
+	background-color: inherit !important;
+}

@@ -93,8 +93,8 @@ namespace Infrastructure.Automation
 
 		public static void SetNewConfig()
 		{
-			Start();
 			Stop();
+			Start();
 		}
 
 		static void CheckProcedureThread()

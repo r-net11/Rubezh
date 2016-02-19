@@ -10,11 +10,13 @@ function MenuViewModel() {
 		HR: ko.observable(false),
 		Archive: ko.observable(false),
 		Plan: ko.observable(false),
-       	FireZones: ko.observable(false),
+		FireZones: ko.observable(false),
+		GuardZones: ko.observable(false),
      	Directions: ko.observable(false),
      	Delays: ko.observable(false),
      	MPTs: ko.observable(false),
-        PumpStations: ko.observable(false)
+     	PumpStations: ko.observable(false),
+	    Doors: ko.observable(false)
 	};
 
 	self.StatePageOpened = ko.observable(false);
@@ -24,7 +26,9 @@ function MenuViewModel() {
 			self.pages[propertyName](false);
 		}
 
-		self.pages[page](!self.pages[page]());
+        if (page) {
+            self.pages[page](!self.pages[page]());
+        }
 		$('ul.menu li').removeClass("active");
 		$(e.currentTarget).parent().addClass("active");
 
@@ -100,7 +104,7 @@ function HeaderIconsViewModel() {
 		});
 	}
 
-	//self.LogonClick();
+    self.LogonClick();
 
 	return self;
 }
@@ -113,7 +117,6 @@ var app = new function AppViewModel() {
 
 	self.Header.QuestionBox = QuestionBoxViewModel();
 
-	self.Menu.Archive = ArchiveViewModel();
 	self.Menu.HR = HRViewModel(self.Menu);
 
 	return self;

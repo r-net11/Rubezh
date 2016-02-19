@@ -7,7 +7,7 @@ using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-	public partial class DescriptorViewModel : BaseViewModel
+	public partial class DescriptorViewModel
 	{
 		public void InitializeFire()
 		{
@@ -16,16 +16,14 @@ namespace GKImitator.ViewModels
 			SetFireTemperatureGradientCommand = new RelayCommand(OnSetFireTemperatureGradient, CanSetFire);
 			SetFireHeandDetectorCommand = new RelayCommand(OnSetFireHeandDetector, CanSetFire);
 			ResetFireCommand = new RelayCommand(OnResetFire, CanSetFire);
-
 			SetFire1Command = new RelayCommand(OnSetFire1, CanSetFire);
 			SetFire2Command = new RelayCommand(OnSetFire2, CanSetFire);
-			ResetFire12Command = new RelayCommand(OnResetFire12, CanSetFire);
 		}
 
 		public bool HasSetFireSmoke { get; private set; }
 		public bool HasSetFireTemperature { get; private set; }
 		public bool HasSetFireTemperatureGradient { get; private set; }
-		public bool HasSetFireHeandDetector { get; private set; }
+		public bool HasSetFireHandDetector { get; private set; }
 		public bool HasResetFire { get; private set; }
 
 		public RelayCommand SetFireSmokeCommand { get; private set; }
@@ -98,16 +96,6 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.Fire1, false);
 			SetStateBit(GKStateBit.Fire2, true);
 			var journalItem = new ImitatorJournalItem(2, 3, 0, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
-		}
-
-		public RelayCommand ResetFire12Command { get; private set; }
-		void OnResetFire12()
-		{
-			SetStateBit(GKStateBit.Fire1, false);
-			SetStateBit(GKStateBit.Fire2, false);
-			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
 		}

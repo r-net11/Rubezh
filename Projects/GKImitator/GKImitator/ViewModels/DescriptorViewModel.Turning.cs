@@ -2,12 +2,11 @@
 using RubezhAPI.GK;
 using GKImitator.Processor;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-	public partial class DescriptorViewModel : BaseViewModel
+	public partial class DescriptorViewModel
 	{
 		public bool HasOnDelay { get; private set; }
 		public bool HasHoldDelay { get; private set; }
@@ -66,14 +65,12 @@ namespace GKImitator.ViewModels
 			if (mpt != null)
 			{
 				OnDelay = (ushort)mpt.Delay;
-				HoldDelay = (ushort)mpt.Hold;
-				DelayRegime = mpt.DelayRegime;
 			}
 			var pumpStation = GKBase as GKPumpStation;
 			if (pumpStation != null)
 			{
-				OnDelay = (ushort)pumpStation.Delay;
-				HoldDelay = (ushort)pumpStation.Hold;
+				OnDelay = pumpStation.Delay;
+				HoldDelay = pumpStation.Hold;
 				DelayRegime = pumpStation.DelayRegime;
 			}
 			var delay = GKBase as GKDelay;
@@ -171,8 +168,7 @@ namespace GKImitator.ViewModels
 				if (CurrentOnDelay == 0)
 				{
 					TurningState = TurningState.None;
-					var changed = false;
-					changed = SetStateBit(GKStateBit.On, true) || changed;
+				    bool changed = SetStateBit(GKStateBit.On, true);
 					changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
 					changed = SetStateBit(GKStateBit.Off, false) || changed;
 					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
@@ -204,22 +200,13 @@ namespace GKImitator.ViewModels
 					{
 						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
 						{
-							TurnOff();
+							TurnOffNow();
 						}
 						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
 						{
-							TurnOn();
+							TurnOnNow();
 						}
 					}
-					//else
-					//{
-					//	if (OffDelay > 0)
-					//	{
-					//		CurrentOffDelay = OffDelay;
-					//		TurningState = TurningState.TurningOff;
-					//		TurnOff();
-					//	}
-					//}
 				}
 				else
 				{
@@ -232,8 +219,7 @@ namespace GKImitator.ViewModels
 				if (CurrentOffDelay == 0)
 				{
 					TurningState = TurningState.None;
-					var changed = false;
-					changed = SetStateBit(GKStateBit.On, false) || changed;
+				    var changed = SetStateBit(GKStateBit.On, false);
 					changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
 					changed = SetStateBit(GKStateBit.Off, true) || changed;
 					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
@@ -302,6 +288,11 @@ namespace GKImitator.ViewModels
 			{
 				TurnOnNow();
 			}
+            if (HoldDelay > 0)
+            {
+                TurningState = TurningState.Holding;
+                CurrentHoldDelay = HoldDelay;
+            }
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
@@ -356,8 +347,7 @@ namespace GKImitator.ViewModels
 			}
 			else
 			{
-				var changed = false;
-				changed = SetStateBit(GKStateBit.On, false) || changed;
+			    var changed = SetStateBit(GKStateBit.On, false);
 				changed = SetStateBit(GKStateBit.TurningOn, true) || changed;
 				changed = SetStateBit(GKStateBit.Off, false) || changed;
 				changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
@@ -376,9 +366,7 @@ namespace GKImitator.ViewModels
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
-			var changed = false;
-
-			changed = SetStateBit(GKStateBit.On, true) || changed;
+			var changed = SetStateBit(GKStateBit.On, true);
 			changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
 			changed = SetStateBit(GKStateBit.Off, false) || changed;
 			changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
@@ -387,11 +375,6 @@ namespace GKImitator.ViewModels
 			{
 				AddJournalItem(journalItem);
 				RecalculateOutputLogic();
-			}
-			if (HoldDelay > 0)
-			{
-				TurningState = TurningState.Holding;
-				CurrentHoldDelay = HoldDelay;
 			}
 		}
 
@@ -405,8 +388,7 @@ namespace GKImitator.ViewModels
 			}
 			else
 			{
-				var changed = false;
-				changed = SetStateBit(GKStateBit.On, false) || changed;
+			    var changed = SetStateBit(GKStateBit.On, false);
 				changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
 				changed = SetStateBit(GKStateBit.Off, false) || changed;
 				changed = SetStateBit(GKStateBit.TurningOff, true) || changed;
@@ -428,8 +410,7 @@ namespace GKImitator.ViewModels
 			CurrentOnDelay = 0;
 			CurrentHoldDelay = 0;
 			CurrentOffDelay = 0;
-			var changed = false;
-			changed = SetStateBit(GKStateBit.On, false) || changed;
+			var changed = SetStateBit(GKStateBit.On, false);
 			changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
 			changed = SetStateBit(GKStateBit.Off, true) || changed;
 			changed = SetStateBit(GKStateBit.TurningOff, false) || changed;

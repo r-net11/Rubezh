@@ -11,16 +11,15 @@ using GKWebService.Converters;
 
 namespace GKWebService.Models
 {
-	public class Direction
+	public class Direction : GKBaseModel
 	{
 		public Direction(GKDirection gkDirection)
+			: base(gkDirection)
 		{
 			var stateClass = gkDirection.State.StateClass;
 			var stateClasses = gkDirection.State.StateClasses;
 
-			UID = gkDirection.UID;
 			No = gkDirection.No;
-			Name = gkDirection.Name;
 			Delay = gkDirection.Delay;
 			Hold = gkDirection.Hold;
 			DelayRegime = gkDirection.DelayRegime.ToDescription();
@@ -30,7 +29,7 @@ namespace GKWebService.Models
 			State = stateClass.ToDescription();
 			StateIcon = stateClass.ToString();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(stateClass, null, null, null).ToString().Substring(3) + "'";
-			StateClasses = stateClasses.Select(x => new DirectionStateClass(x)).ToList();
+			StateClasses = stateClasses.Select(x => new StateClass(x)).ToList();
 
 			OnDelay = gkDirection.State.OnDelay;
 			HoldDelay = gkDirection.State.HoldDelay;
@@ -48,9 +47,7 @@ namespace GKWebService.Models
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 		}
 
-		public Guid UID { get; set; }
 		public int No { get; set; }
-		public string Name { get; set; }
 		public ushort GKDescriptorNo { get; set; }
 		public ushort Delay { get; set; }
 		public ushort Hold { get; set; }
@@ -60,7 +57,7 @@ namespace GKWebService.Models
 		public string State { get; set; }
 		public string StateIcon { get; set; }
 		public string StateColor { get; set; }
-		public List<DirectionStateClass> StateClasses { get; set; }
+		public List<StateClass> StateClasses { get; set; }
 
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }

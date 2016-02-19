@@ -3,11 +3,21 @@
 
 
     var app = angular.module('gkApp.controllers');
-    app.controller('pumpStationsCtrl', ['$scope', '$http', '$uibModal', 'signalrPumpStatoinsService', 'broadcastService',
-    function ($scope, $http, $uibModal, signalrPumpStatoinsService, broadcastService) {
+    app.controller('pumpStationsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrPumpStatoinsService', 'broadcastService',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrPumpStatoinsService, broadcastService) {
 
         $http.get('PumpStations/GetPumpStations').success(function (data) {
             $scope.uiGrid.data = data;
+
+            $timeout(function () {
+                if ($stateParams.uid) {
+                    $scope.selectRowById($stateParams.uid);
+                } else {
+                    if ($scope.gridApi.selection.selectRow) {
+                        $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
+                    }
+                }
+            });
         });
 
         $scope.uiGrid = {
@@ -30,14 +40,13 @@
                { field: 'Hold', displayName: 'Время тушения', widtd: 200 }],
         };
 
-        $scope.showSelectedRow = function () {
-            var uid = $scope.gridApi.selection.getSelectedRows()[0].UID;
+        $scope.showSelectedRow = function (row) {
            $scope.selectedRow = {
-                startLogic : $scope.gridApi.selection.getSelectedRows()[0].StartLogic,
-                stopLogic: $scope.gridApi.selection.getSelectedRows()[0].StopLogic,
-                automaticOffLogic: $scope.gridApi.selection.getSelectedRows()[0].AutomaticOffLogic
+               startLogic: row.entity.StartLogic,
+               stopLogic: row.entity.StopLogic,
+               automaticOffLogic: row.entity.AutomaticOffLogic
             }
-            broadcastService.send('pumpStationDevicesChanged', uid);
+           broadcastService.send('pumpStationDevicesChanged', row.entity.UID);
         };
 
         $scope.pumpStationClick = function (pumpStation) {
@@ -63,14 +72,14 @@
             }
         });
 
-        $scope.$on('showGKPumpStation', function (event, args) {
+        $scope.selectRowById = function (uid) {
             for (var i = 0; i < $scope.uiGrid.data.length; i++) {
-                if ($scope.uiGrid.data[i].UID === args) {
+                if ($scope.uiGrid.data[i].UID === uid) {
                     $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
                     break;
                 }
             }
-        });
+        };
 
         $scope.$on('showPumpStationDetails', function (event, args) {
             for (var i = 0; i < $scope.uiGrid.data.length; i++) {

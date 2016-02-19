@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using System;
 
-namespace FiresecService.ViewModels
+namespace FiresecService.Models
 {
 	public class ClientPollViewModel : BaseViewModel
 	{

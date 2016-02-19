@@ -2,7 +2,7 @@
 using FiresecService.Processor;
 using FiresecService.Report;
 using FiresecService.Service;
-using FiresecService.ViewModels;
+using FiresecService.Models;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
@@ -110,6 +110,7 @@ namespace FiresecService
 				}
 
 				AutomationProcessor.Start();
+				RviProcessor.Start();
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnServerRun();
@@ -167,16 +168,16 @@ namespace FiresecService
 
 			foreach (var variable in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
+				{
+					CallbackUID = Guid.NewGuid(),
+					ContextType = ContextType.Server,
+					AutomationCallbackType = AutomationCallbackType.GlobalVariable,
+					Data = new GlobalVariableCallBackData
 					{
-						CallbackUID = Guid.NewGuid(),
-						ContextType = ContextType.Server,
-						AutomationCallbackType = AutomationCallbackType.GlobalVariable,
-						Data = new GlobalVariableCallBackData
-						{
-							VariableUID = variable.Uid,
-							Value = variable.Value
-						}
-					}, clientUID);
+						VariableUID = variable.Uid,
+						Value = variable.Value
+					}
+				}, clientUID);
 		}
 
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)
