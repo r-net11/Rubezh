@@ -80,6 +80,9 @@ namespace FiresecService.Views
 		Label _labelServerLocalAddress;
 		Label _labelServerRemoteAddress;
 		Label _labelReportServerAddress;
+		ContextMenuStrip _contexMenuStripServerLocalAddressCopyToClipboard;
+		ContextMenuStrip _contexMenuStripRemoteAddressCopyToClipboard;
+		ContextMenuStrip _contexMenuStripReportServerAddressCopyToClipboard;
 
 		public string LocalAddress
 		{
@@ -342,6 +345,28 @@ namespace FiresecService.Views
 			_tabPageStatus = new TabPage() { Name = "_tabPageStatus", Text = "Статус" };
 			_tabControlMain.TabPages.Add(_tabPageStatus);
 
+			_contexMenuStripServerLocalAddressCopyToClipboard = new ContextMenuStrip();
+			var menuItem = new ToolStripMenuItem();
+			menuItem.Name = "_ToolStripMenuItemServerLocalAddressCopyToClipboard";
+			menuItem.Text = "Копировать";
+			menuItem.Click += EventHandler_MenuItemServerLocalAddressCopyToClipboard_Click;
+			_contexMenuStripServerLocalAddressCopyToClipboard.Items.Add(menuItem);
+
+			_contexMenuStripRemoteAddressCopyToClipboard = new ContextMenuStrip();
+			menuItem = new ToolStripMenuItem();
+			menuItem.Name = "_ToolStripMenuItemRemoteAddressCopyToClipboard";
+			menuItem.Text = "Копировать";
+			menuItem.Click += EventHandler_MenuItemRemoteAddressCopyToClipboard_Click;
+			_contexMenuStripRemoteAddressCopyToClipboard.Items.Add(menuItem);
+
+			_contexMenuStripReportServerAddressCopyToClipboard = new ContextMenuStrip();
+			menuItem = new ToolStripMenuItem();
+			menuItem.Name = "_ToolStripMenuItemReportServerAddressCopyToClipboard";
+			menuItem.Text = "Копировать";
+			menuItem.Click += EventHandler_MenuItemReportServerAddressCopyToClipboard_Click;
+			_contexMenuStripReportServerAddressCopyToClipboard.Items.Add(menuItem);
+
+
 			var font = new Font(Label.DefaultFont.FontFamily, 10, FontStyle.Bold); 
 
 			var label = new Label()
@@ -360,7 +385,8 @@ namespace FiresecService.Views
 				Text = String.Empty,
 				Font = font,
 				AutoSize = true,
-				Location = new Point(label.Location.X + label.Width + 10, label.Location.Y)
+				Location = new Point(label.Location.X + label.Width + 10, label.Location.Y),
+				ContextMenuStrip = _contexMenuStripServerLocalAddressCopyToClipboard
 			};
 			_tabPageStatus.Controls.Add(_labelServerLocalAddress);
 
@@ -380,7 +406,8 @@ namespace FiresecService.Views
 				Text = String.Empty,
 				Font = font,
 				AutoSize = true,
-				Location = new Point(label.Location.X + label.Width + 10, label.Location.Y)
+				Location = new Point(label.Location.X + label.Width + 10, label.Location.Y),
+				ContextMenuStrip = _contexMenuStripRemoteAddressCopyToClipboard
 			};
 			_tabPageStatus.Controls.Add(_labelServerRemoteAddress);
 
@@ -400,7 +427,8 @@ namespace FiresecService.Views
 				Text = String.Empty,
 				Font = font,
 				AutoSize = true,
-				Location = new Point(label.Location.X + label.Width + 10, label.Location.Y)
+				Location = new Point(label.Location.X + label.Width + 10, label.Location.Y),
+				ContextMenuStrip = _contexMenuStripReportServerAddressCopyToClipboard
 			};
 			_tabPageStatus.Controls.Add(_labelReportServerAddress);
 
@@ -733,6 +761,21 @@ namespace FiresecService.Views
 
 		}
 
+		void EventHandler_MenuItemReportServerAddressCopyToClipboard_Click(object sender, EventArgs e)
+		{
+			Clipboard.SetText(_labelReportServerAddress.Text);
+		}
+
+		void EventHandler_MenuItemRemoteAddressCopyToClipboard_Click(object sender, EventArgs e)
+		{
+			Clipboard.SetText(_labelServerRemoteAddress.Text);
+		}
+
+		void EventHandler_MenuItemServerLocalAddressCopyToClipboard_Click(object sender, EventArgs e)
+		{
+			Clipboard.SetText(_labelServerLocalAddress.Text);
+		}
+
 		void EventHandler_dataGridViewLog_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
 		{
 			var control = (DataGridView)sender;
@@ -859,6 +902,7 @@ namespace FiresecService.Views
 			if (ClickLoadLicense != null)
 				ClickLoadLicense(this, new EventArgs());
 		}
+
 		#endregion
 
 		#region Events

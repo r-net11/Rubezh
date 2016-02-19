@@ -24,9 +24,9 @@
 	select {
 		color: black;
 		border-radius: 4px;
-		border:none;
+		border: none;
 		padding: 1px 0;
-		min-width:250px;
+		min-width: 250px;
 		width: 100%;
 	}
 
@@ -34,7 +34,7 @@
 		color: black;
 		border-radius: 4px;
 		border: none;
-		min-width:250px;
+		min-width: 250px;
 		width: 100%;
 		padding: 2px 4px;
 	}
@@ -56,4 +56,35 @@
 	em {
 		font-style: italic;
 	}
+}
+
+.deviceDetailsTab {
+	background: #698ebe;
+	padding: 5px;
+	> div:not(.ui-grid){
+		height: 300px;
+		background: #fff;
+		padding: 10px;
+
+	}
+
+	> div {
+		height: 300px;
+	}
+	.deviceProperties{
+		>div>span{
+			color:black;
+			width:45%;
+			display:inline-table;
+			font-weight:bold;
+			vertical-align: middle;
+		}
+	}
+}
+
+.btn-control {
+	height: 45px;
+	width: 47%;
+	margin: 4px;
+	display:inline-block;
 }

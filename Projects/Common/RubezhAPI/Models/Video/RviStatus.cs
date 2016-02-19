@@ -5,7 +5,6 @@
 		Connected,
 		Connecting,
 		ConnectionLost,
-		Error,
-		Unknown
+		Error
 	}
 }

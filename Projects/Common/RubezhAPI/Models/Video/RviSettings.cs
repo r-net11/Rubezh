@@ -7,10 +7,10 @@ namespace RubezhAPI.Models
 	{
 		public RviSettings()
 		{
-			Ip = "172.16.5.7";
+			Ip = "localhost";
 			Port = 8000;
-			Login = "admin";
-			Password = "admin";
+			Login = "strazh";
+			Password = "strazh12345";
 		}
 
 		[DataMember]

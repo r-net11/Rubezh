@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services')
-        .factory('signalrService', ['$rootScope', 'Hub', '$timeout', function ($rootScope, Hub, $timeout) {
+        .factory('signalrService', ['$rootScope', 'Hub', 'broadcastService', function ($rootScope, Hub, broadcastService) {
             var plansUpdater;
             var startTestBroadcast = function () {
                 plansUpdater.startTestBroadcast(); //Calling a server method
@@ -19,21 +19,7 @@
                             + '</strong>');
                     },
                     'updateDeviceState': function (stateData) {
-                        var uid = stateData.Id.replace(" ", "-");
-                        $("image[subElementId=" + uid + "]").attr("href", "data:image/gif;base64," + stateData.Picture);
-						uid = stateData.Id.replace(" ", "-") + "GroupElement";
-						var mainLine = { };
-	                    mainLine.Icon = stateData.HintPic;
-	                    mainLine.Text = stateData.Name;
-	                    var stateHintLines = [];
-	                    stateHintLines[0] = mainLine;
-						stateData.StateClasses.forEach(function(item, i, arr) {
-							var stateLine = {};
-							stateLine.Text = item;
-							stateHintLines.push(stateLine);
-						});
-	                    $("rect[subElementId=" + uid + "]").trigger( "updateHint", [stateHintLines] );
-						
+						broadcastService.send('updateDeviceState', stateData);
                     },
                     'updateHint': function (stateData) {
                     }
