@@ -216,5 +216,8 @@ namespace RubezhAPI.GK
 
         [Description("ОПЗ RK")]
         RK_OPZ = 97,
+
+		[Description("УДП R2")]
+		RSR2_Button = 98,
 	}
 }

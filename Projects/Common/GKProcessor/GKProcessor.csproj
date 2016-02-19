@@ -128,6 +128,7 @@
     <Compile Include="Drivers\RSR2\RSR2_ABTK_Group_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_ABTK_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_2_Group_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Button_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KVDU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KVMV_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HandDetectorEridan_Helper.cs" />
