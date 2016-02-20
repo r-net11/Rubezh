@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="Converters\XStateClassToPlanColorConverter.cs" />
     <Compile Include="Designer\FlushAdorner.cs" />
+    <Compile Include="Designer\MonitorPolygonSubplanPainter.cs" />
     <Compile Include="Designer\MonitorTextBoxPainter.cs" />
     <Compile Include="Designer\PresenterCanvas.cs" />
     <Compile Include="Primitives\PrimitivePainter.cs" />
