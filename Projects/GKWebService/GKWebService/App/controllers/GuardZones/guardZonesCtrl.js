@@ -37,6 +37,11 @@
                 });
             });
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = (window.innerHeight - 115)/2;
+            	return "height:" + ctrlHeight + "px; margin-bottom:10px;";
+            }();
+
             $scope.showSelectedRow = function (row) {
                 broadcastService.send('guard', row.entity.UID);
             };

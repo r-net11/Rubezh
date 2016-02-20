@@ -31,6 +31,11 @@
 					]
 				};
 
+				$scope.gridStyle = function () {
+					var ctrlHeight = window.innerHeight - 215;
+					return "height:" + ctrlHeight + "px";
+				}();
+
 				$scope.expandAll = function () {
 					$scope.gridApi.treeBase.expandAllRows();
 				};
@@ -53,7 +58,7 @@
 			},
 			restrict: 'E',
 			transclude: false,
-			template: '<div ui-grid="gridOptions" style="width: 100%; height: auto" ui-grid-tree-view ui-grid-selection></div>'
+			template: '<div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-tree-view ui-grid-selection></div>'
 		};
 	});
 }());

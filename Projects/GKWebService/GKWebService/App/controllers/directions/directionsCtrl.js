@@ -24,6 +24,12 @@
                 ]
             };
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = window.innerHeight - 100;
+            	return "height:" + ctrlHeight + "px";
+            }();
+
+
             $scope.$on('directionChanged', function (event, args) {
                 var data = $scope.gridOptions.data;
                 for (var i = 0, len = data.length; i < len; i++) {

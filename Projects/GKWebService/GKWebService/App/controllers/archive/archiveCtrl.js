@@ -41,7 +41,7 @@
 			'<div ng-style="!row.isSelected && {\'background-color\': row.entity.Color}" class="ui-grid-cell-contents">\
 				{{row.entity[col.field]}}\
 			</div>';
-		
+
 		$scope.gridOptions = {
 			enableRowSelection: true,
 			enableRowHeaderSelection: false,
@@ -78,6 +78,11 @@
 				}
 			]
 		};
+
+		$scope.gridStyle = function () {
+			var ctrlHeight = window.innerHeight - 270;
+			return "height:" + ctrlHeight + "px";
+		}();
 
 		$scope.showFilter = function () {
 			var modalInstance = $uibModal.open({

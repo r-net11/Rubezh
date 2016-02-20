@@ -76,6 +76,11 @@
                 ]
             };
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = window.innerHeight - 170;
+            	return "height:" + ctrlHeight + "px";
+            }();
+
             $scope.$on('alarmsChanged', function (event, args) {
                 $scope.model = args.alarms;
                 $scope.gridOptions.data = $scope.model.Alarms;

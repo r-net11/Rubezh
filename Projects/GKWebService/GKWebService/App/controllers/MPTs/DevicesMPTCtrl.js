@@ -23,6 +23,11 @@
 
             };
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = window.innerHeight - 170;
+            	return "height:" + ctrlHeight + "px";
+            }();
+
             $scope.deviceClick = function (device) {
                 var modalInstance = $uibModal.open({
                     animation: false,

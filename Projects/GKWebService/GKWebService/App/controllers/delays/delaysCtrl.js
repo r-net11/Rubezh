@@ -30,6 +30,11 @@
 				]
 			};
 
+			$scope.gridStyle = function () {
+				var ctrlHeight = window.innerHeight - 100;
+				return "height:" + ctrlHeight + "px";
+			}();
+
 			$http.get("Delays/GetDelays").success(function (data) {
 				$scope.gridOptions.data = data;
 				$timeout(function () {

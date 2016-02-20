@@ -40,6 +40,11 @@
                { field: 'Hold', displayName: 'Время тушения', widtd: 200 }],
         };
 
+        $scope.gridStyle = function () {
+        	var ctrlHeight = window.innerHeight - 170;
+        	return "height:" + ctrlHeight + "px";
+        }();
+
         $scope.showSelectedRow = function (row) {
            $scope.selectedRow = {
                startLogic: row.entity.StartLogic,

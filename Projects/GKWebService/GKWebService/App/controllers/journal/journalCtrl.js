@@ -54,6 +54,11 @@
 			]
 		};
 
+		$scope.gridStyle = function () {
+			var ctrlHeight = window.innerHeight - 270;
+			return "height:" + ctrlHeight + "px";
+		}();
+
 		$scope.showFilter = function () {
 			var modalInstance = $uibModal.open({
 				animation: false,
