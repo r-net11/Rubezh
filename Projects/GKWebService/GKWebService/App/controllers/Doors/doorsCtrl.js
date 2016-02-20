@@ -25,6 +25,11 @@
                 ]
             };
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = window.innerHeight - 265;
+            	return "height:" + ctrlHeight + "px";
+            }();
+
             $scope.showSelectedRow = function (row) {
             }
 

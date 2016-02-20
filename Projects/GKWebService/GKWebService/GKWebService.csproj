@@ -203,7 +203,6 @@
     <Content Include="App\controllers\GuardZones\guardZoneDevicesCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZonesCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
-    <Content Include="App\controllers\journal\journalFilterCtrl.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
@@ -599,6 +598,8 @@
     <Content Include="Content\alarmBtn.less" />
     <Content Include="Content\devices.less" />
     <Content Include="Content\common.less" />
+    <Content Include="Content\pumpStations.less" />
+    <Content Include="Content\mpts.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -753,7 +754,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="JournalItemViewModel.cs" />
     <Compile Include="Models\AccessDoorModel.cs" />
     <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
     <Compile Include="Models\Plan\PlanElement\Hint\ElementHint.cs" />
@@ -781,7 +781,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Devices\Index.cshtml" />
-    <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
@@ -823,7 +822,6 @@
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Journal\Index.cshtml" />
     <Content Include="Views\Delays\DelayDetails.cshtml" />
-    <Content Include="Views\Journal\JournalFilter.cshtml" />
     <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <Content Include="Views\FireZones\Index.cshtml" />
     <Content Include="Views\FireZones\FireZonesDetails.cshtml" />

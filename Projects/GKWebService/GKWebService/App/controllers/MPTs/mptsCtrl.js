@@ -18,6 +18,11 @@
                    });
                });
 
+               $scope.gridStyle = function () {
+               	var ctrlHeight = window.innerHeight - 170;
+               	return "height:" + ctrlHeight + "px";
+               }();
+
                function ChangeMPT(mpt) {
                    for (var i = 0; i < $scope.uiGrid.data.length; i++) {
                        if ($scope.uiGrid.data[i].UID === mpt.UID) {

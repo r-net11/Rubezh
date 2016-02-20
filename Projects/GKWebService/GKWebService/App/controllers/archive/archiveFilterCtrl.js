@@ -1,10 +1,14 @@
 ﻿(function () {
 	angular.module('gkApp.controllers').controller('archiveFilterCtrl',
-        function ($scope, $http, $uibModal, $uibModalInstance, $timeout, filter, uiGridTreeBaseService) {
+        function ($scope, $http, $uibModal, $uibModalInstance, $timeout, filter, uiGridTreeBaseService, isArchive) {
         	$scope.toggleRow = function (gridApi, row, evt) {
         		uiGridTreeBaseService.toggleRowTreeState(gridApi.grid, row, evt);
         	};
 
+        	$scope.isArchive = isArchive;
+        	if (!isArchive)
+        		$scope.objectsTabActive = true;
+        	
         	$scope.beginDate = {
         		date: filter && filter.BeginDate ? filter.BeginDate : (function () {
         			var date = new Date();
@@ -112,6 +116,10 @@
 					$timeout(function () {
 						if (filter && filter.ObjectUids)
 							for (var i in $scope.objectsGrid.data) {
+								var item = $scope.objectsGridApi.grid.renderContainers.body.visibleRowCache[i];
+								if (item) {
+									$scope.objectsGridApi.treeBase.toggleRowTreeState(item);
+								}
 								var row = $scope.objectsGrid.data[i];
 								for (var j in filter.ObjectUids) {
 									if (row.UID == filter.ObjectUids[j])
@@ -190,5 +198,5 @@
         			item = gridOptions.data[index];
         		}
         	};
-        });
+		});
 }());

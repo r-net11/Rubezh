@@ -1,4 +1,5 @@
 ﻿(function () {
+
 	'use strict';
 
 	var app = angular.module('gkApp.controllers').controller('devicesCtrl',
@@ -42,6 +43,7 @@
 						for (var i in $scope.data) {
 							$scope.data[i].$$treeLevel = $scope.data[i].Level;
 							$scope.data[i].ParentObject = getDeviceByUid($scope.data[i].ParentUID);
+
 						}
 						$scope.gridOptions.data = $scope.data;
 						$timeout(function () {
@@ -65,6 +67,7 @@
 							};
 
 							$scope.gridOptions.data = $scope.data;
+							
 							$timeout(function () { $scope.expandAll(); });
 						});
 					}

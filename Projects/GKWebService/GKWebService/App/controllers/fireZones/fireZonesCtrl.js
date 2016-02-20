@@ -22,6 +22,11 @@
         		]
         	};
 
+        	$scope.gridStyle = function () {
+        		var ctrlHeight = (window.innerHeight - 100)/2;
+        		return "height:" + ctrlHeight + "px";
+        	}();
+
         	$scope.$on('fireZonesChanged', function (event, args) {
         		for (var i in $scope.gridOptions.data) {
         			if (args.Uid === $scope.gridOptions.data[i].Uid) {
