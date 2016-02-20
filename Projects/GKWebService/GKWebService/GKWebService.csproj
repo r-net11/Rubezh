@@ -199,6 +199,7 @@
     <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
     <Content Include="App\controllers\devices\devicesDetailsCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZoneDetailsCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZoneDevicesCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZonesCtrl.js" />
@@ -225,6 +226,7 @@
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
     <Content Include="App\services\signalrDoorsService.js" />
+    <Content Include="App\services\signalrFireZonesDevicesService.js" />
     <Content Include="App\services\signalrFireZonesService.js" />
     <Content Include="App\services\signalrGuardZonesService.js" />
     <Content Include="App\services\signalrMPTsService.js" />
@@ -716,7 +718,6 @@
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\GK\Delay\Delay.cs" />
-    <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\StateClass.cs" />
     <Compile Include="Models\Journal\JournalFilterEvent.cs" />
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
