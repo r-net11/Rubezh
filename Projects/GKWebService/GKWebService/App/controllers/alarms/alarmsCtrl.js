@@ -108,7 +108,6 @@
             };
 
             $scope.objectClick = function(alarm) {
-                // TODO: Исправить когда меню переведём на ангулар
                 if (alarm.GkEntity.ObjectType === constants.gkObject.device.type) {
                     $state.go('device', { uid: alarm.GkEntity.UID });
                 }
@@ -133,13 +132,10 @@
                 if (alarm.GkEntity.ObjectType === constants.gkObject.door.type) {
                     $state.go('doors', { uid: alarm.GkEntity.UID });
                 }
-                // TODO: Дополнить здесь обработку кликов на объекты при создании новых страниц объектов
             };
 
             $scope.journalClick = function (alarm) {
-                // TODO: Исправить когда меню переведём на ангулар
-                $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .archive")[0] }, 'Archive');
-                broadcastService.send('showArchive', alarm.GkEntity.UID);
+                $state.go('archive', { uid: alarm.GkEntity.UID });
             }
 
             $scope.showPropertiesClick = function (alarm) {

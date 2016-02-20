@@ -77,9 +77,7 @@ namespace GKWebService.Models.Door
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 
 		}
-		public Guid UID { get; set; }
 		public int No { get; set; }
-		public string Name { get; set; }
 		public String OnClausesGroup { get; set; }
 		public string StateIcon { get; set; }
 		public bool CanSetAutomaticState { get; set; }
@@ -103,8 +101,6 @@ namespace GKWebService.Models.Door
 		public string DoorTypeString { get; set; }
 
 		public string Desription { get; set; }
-
-		public string ImageSource { get; set; }
 
 		public DoorDevice EnterDevice { get; private set; }
 		public DoorDevice ExitDevice { get; private set; }
