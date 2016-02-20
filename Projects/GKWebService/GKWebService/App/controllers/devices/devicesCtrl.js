@@ -8,7 +8,7 @@
 
 				$scope.deviceClick = function (device) {
 					if (device.entity.ParentUID != undefined) {
-					    dialogService.showWindow(constants.gkObject.device, device.entity);
+						dialogService.showWindow(constants.gkObject.device, device.entity);
 					}
 				};
 
@@ -38,39 +38,20 @@
 				});
 
 				$http.get('Devices/GetDevicesList').success(function (data) {
-					if ($scope.isFull === "true") {
-						$scope.data = data;
-						for (var i in $scope.data) {
-							$scope.data[i].$$treeLevel = $scope.data[i].Level;
-							$scope.data[i].ParentObject = getDeviceByUid($scope.data[i].ParentUID);
+					$scope.data = data;
+					for (var i in $scope.data) {
+						$scope.data[i].$$treeLevel = $scope.data[i].Level;
+						$scope.data[i].ParentObject = getDeviceByUid($scope.data[i].ParentUID);
 
+					}
+					$scope.gridOptions.data = $scope.data;
+					$timeout(function () {
+						$scope.expandAll();
+						if ($stateParams.uid) {
+							var device = getDeviceByUid($stateParams.uid);
+							$scope.gridApi.selection.selectRow(device);
 						}
-						$scope.gridOptions.data = $scope.data;
-						$timeout(function () {
-							$scope.expandAll();
-							if ($stateParams.uid) {
-								var device = getDeviceByUid($stateParams.uid);
-								$scope.gridApi.selection.selectRow(device);
-							}
-						});
-					}
-				});
-
-				$scope.$on('selectedZoneChanged', function (event, args) {
-					if ($scope.isFull === "false") {
-						$http.get('FireZones/GetDevicesByZoneUid/' + args
-						).success(function (data) {
-							$scope.data = data;
-							for (var i in $scope.data) {
-								$scope.data[i].$$treeLevel = $scope.data[i].Level;
-								$scope.data[i].ParentObject = getDeviceByUid($scope.data[i].ParentUID);
-							};
-
-							$scope.gridOptions.data = $scope.data;
-							
-							$timeout(function () { $scope.expandAll(); });
-						});
-					}
+					});
 				});
 			}]);
 }());

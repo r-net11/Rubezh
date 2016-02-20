@@ -9,10 +9,9 @@
 			link: function (scope, element, attrs) {
 				scope.onClick = attrs['onClick'];
 				scope.onSelect = attrs['onSelect'];
-				scope.isFull = attrs['isFull'];
 			},
 			controller: function ($scope, $attrs, uiGridTreeBaseService, uiGridConstants) {
-				var width = $(window).width() - ($attrs.isFull === "true" ? 925 : 625);
+				var width = $(window).width() - 925;
 				$scope.gridOptions = {
 					enableSorting: false,
 					enableFiltering: false,
@@ -26,7 +25,7 @@
 					columnDefs: [
 						{ field: 'Name', width: 350, displayName: 'Устройство', cellTemplate: template },
 						{ field: 'Address', displayName: 'Адрес', width: 100 },
-						{ field: 'PresentationZone', displayName: 'Зона или логика', width: 300, visible: $attrs.isFull === "true" },
+						{ field: 'PresentationZone', displayName: 'Зона или логика', width: 300 },
 						{ field: 'Description', displayName: 'Примечание', width: width }
 					]
 				};
