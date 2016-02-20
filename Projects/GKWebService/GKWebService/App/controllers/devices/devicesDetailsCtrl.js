@@ -1,8 +1,8 @@
 ﻿(function () {
 
 	angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
-        ['$scope', '$http', 'uiGridConstants', '$uibModalInstance', 'signalrDevicesService', 'entity',
-        function ($scope, $http, uiGridConstants, $uibModalInstance, signalrDevicesService, entity) {
+        ['$scope', '$http', 'uiGridConstants', '$uibModalInstance', '$state', 'signalrDevicesService', 'entity',
+        function ($scope, $http, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
         	$scope.device = entity;
 
         	$scope.$on('devicesChanged', function (event, args) {
@@ -89,11 +89,11 @@
         	};
 
         	$scope.Show = function () {
-
+        	    $state.go('device', { uid: $scope.device.UID });
         	};
 
         	$scope.ShowJournal = function () {
-
+        	    $state.go('archive', { uid: $scope.device.UID });
         	};
 
         	$scope.ok = function () {

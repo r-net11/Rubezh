@@ -1,7 +1,7 @@
 ﻿(function () {
     angular.module('gkApp').controller('doorDetailsCtrl',
-    ['$scope', '$uibModalInstance', '$http', 'signalrDoorsService', 'entity',
-        function($scope, $uibModalInstance, $http, signalrDoorsService, entity) {
+    ['$scope', '$uibModalInstance', '$http', '$state', 'signalrDoorsService', 'entity',
+        function ($scope, $uibModalInstance, $http, $state, signalrDoorsService, entity) {
 
             $scope.door = entity;
             $scope.$on('doorChanged', function(event, args) {
@@ -52,11 +52,11 @@
             };
 
             $scope.Show = function() {
-
+                $state.go('doors', { uid: $scope.door.UID });
             };
 
             $scope.ShowJournal = function() {
-
+                $state.go('archive', { uid: $scope.door.UID });
             };
 
             $scope.ok = function() {

@@ -1,7 +1,7 @@
 ﻿(function () {
     angular.module('gkApp.controllers').controller('guardZoneDetailsCtrl',
-    ['$scope', '$http', '$uibModalInstance', 'signalrGuardZonesService', 'entity',
-    function ($scope, $http, $uibModalInstance, signalrGuardZonesService, entity) {
+    ['$scope', '$http', '$uibModalInstance', '$state', 'signalrGuardZonesService', 'entity',
+    function ($scope, $http, $uibModalInstance, $state, signalrGuardZonesService, entity) {
 
         $scope.guardZone = entity;
         $scope.$on('guardZoneChanged', function (event, args) {
@@ -41,11 +41,11 @@
 
 
         $scope.Show = function () {
-
+            $state.go('guardZone', { uid: $scope.guardZone.UID });
         };
 
         $scope.ShowJournal = function () {
-
+            $state.go('archive', { uid: $scope.guardZone.UID });
         };
 
         $scope.ok = function () {

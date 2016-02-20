@@ -1,6 +1,6 @@
 ﻿(function () {
 	'use strict';
-	angular.module('gkApp.controllers').controller('archiveCtrl', function ($scope, $http, $uibModal, uiGridConstants) {
+	angular.module('gkApp.controllers').controller('archiveCtrl', function ($scope, $http, $uibModal, $stateParams, uiGridConstants) {
 		var requestJournalItems = function (filter) {
 			$http.post("Archive/GetArchive", filter)
 				.success(function (data) {
@@ -30,12 +30,17 @@
 			requestMaxPage($scope.filter);
 			setPage(1);
 		}
-		$scope.filter = {};
-		$scope.filter.endDate = new Date();
-		$scope.filter.beginDate = new Date();
-		$scope.filter.beginDate.setDate($scope.filter.beginDate.getDate() - 7);
-		requestMaxPage($scope.filter);
-		setPage(1);
+
+		if ($stateParams.uid) {
+		    getByUid($stateParams.uid);
+		} else {
+		    $scope.filter = {};
+		    $scope.filter.endDate = new Date();
+		    $scope.filter.beginDate = new Date();
+		    $scope.filter.beginDate.setDate($scope.filter.beginDate.getDate() - 7);
+		    requestMaxPage($scope.filter);
+		    setPage(1);
+		}
 
 		var coloredCellTemplate =
 			'<div ng-style="!row.isSelected && {\'background-color\': row.entity.Color}" class="ui-grid-cell-contents">\
