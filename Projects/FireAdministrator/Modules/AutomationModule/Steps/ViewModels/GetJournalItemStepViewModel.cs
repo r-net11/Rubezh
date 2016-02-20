@@ -30,6 +30,9 @@ namespace AutomationModule.ViewModels
 				explicitType = ExplicitType.DateTime;
 			if (SelectedJournalColumnType == JournalColumnType.JournalObjectUid)
 				explicitType = ExplicitType.String;
+			// Номер карты
+			if (SelectedJournalColumnType == JournalColumnType.CardNo)
+				explicitType = ExplicitType.Integer;
 			ResultArgument.Update(Procedure, explicitType, enumType);
 		}
 

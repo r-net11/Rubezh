@@ -785,6 +785,10 @@ namespace FiresecService
 					value = JournalItem.JournalObjectType;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
 					value = JournalItem.ObjectUID.ToString();
+				// Номер пропуска
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardNo)
+					value = JournalItem.CardNo;
+				
 				SetValue(resultVariable, value);
 			}
 		}

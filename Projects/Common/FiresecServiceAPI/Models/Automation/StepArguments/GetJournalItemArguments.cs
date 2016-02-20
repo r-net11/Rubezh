@@ -21,21 +21,33 @@ namespace FiresecAPI.Automation
 	public enum JournalColumnType
 	{
 		[Description("Дата на устройстве")]
-		DeviceDateTime,
+		DeviceDateTime = 0,
 
 		[Description("Дата в системе")]
-		SystemDateTime,
+		SystemDateTime = 1,
 
-		[Description("Название")]
-		JournalEventNameType,
+		[Description("Название события")]
+		JournalEventNameType = 2,
 
 		[Description("Уточнение")]
-		JournalEventDescriptionType,
+		JournalEventDescriptionType = 3,
 
 		[Description("Тип объекта")]
-		JournalObjectType,
+		JournalObjectType = 4,
 
 		[Description("Идентификатор объекта")]
-		JournalObjectUid,
+		JournalObjectUid = 5,
+
+		//[Description("Сотрудник")]
+		//EmployeeUid = 6,
+
+		//[Description("Посетитель")]
+		//VisitorUid = 7,
+
+		[Description("Номер пропуска")]
+		CardNo = 8,
+
+		//[Description("Тип пропуска")]
+		//CardType = 9,
 	}
 }
