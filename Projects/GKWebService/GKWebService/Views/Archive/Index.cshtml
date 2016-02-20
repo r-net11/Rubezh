@@ -2,6 +2,11 @@
 	ViewBag.Title = "Journal";
 	Layout = null;
 }
+<style>
+	input[type=number]::-webkit-inner-spin-button {
+		display: none;
+	}
+</style>
 
 <div>
 	<div ng-controller="archiveCtrl">
@@ -10,7 +15,8 @@
 				<button ng-click="showFilter()" class="btn btn-default"><span class="glyphicon glyphicon-filter"></span></button>
 				<button ng-click="firstPage()" class="btn btn-default"><span class="glyphicon glyphicon-fast-backward"></span></button>
 				<button ng-click="previousPage()" class="btn btn-default"><span class="glyphicon glyphicon-step-backward"></span></button>
-				<button class="btn btn-default"><span>{{filter.Page}}/{{MaxPage}}</span></button>
+				<input type="number" class="btn btn-default" ng-model="filter.Page" min="1" max="{{MaxPage}}" ng-change="pageNumberChanged(filter.Page)" required>
+				<button class="btn btn-default"><span>/{{MaxPage}}</span></button>
 				<button ng-click="nextPage()" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
 				<button ng-click="lastPage()" class="btn btn-default"><span class="glyphicon glyphicon-fast-forward"></span></button>
 			</div>

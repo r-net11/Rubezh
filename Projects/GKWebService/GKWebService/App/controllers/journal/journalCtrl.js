@@ -34,7 +34,14 @@
 				{ name: 'Дата в приборе', field: 'DeviceDate', cellTemplate: coloredCellTemplate },
 				{ name: 'Название', field: 'Name', cellTemplate: coloredCellTemplate },
 				{ name: 'Уточнение', field: 'Desc', cellTemplate: coloredCellTemplate },
-				{ name: 'Объект', field: 'Object', cellTemplate: coloredCellTemplate },
+				{
+					name: 'Объект',
+					cellTemplate:
+						'<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
+							<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.ObjectImageSource}}" />\
+							{{row.entity.ObjectName}}\
+						</div>'
+				},
 				{
 					name: 'Подсистема',
 					field: 'Subsystem',
@@ -50,12 +57,15 @@
 		$scope.showFilter = function () {
 			var modalInstance = $uibModal.open({
 				animation: false,
-				templateUrl: 'Journal/JournalFilter',
-				controller: 'journalFilterCtrl',
+				templateUrl: 'Archive/ArchiveFilter',
+				controller: 'archiveFilterCtrl',
 				resolve: {
 					filter: function () {
 						return $scope.filter;
-					}
+					},
+					isArchive: function () {
+						return false;
+					},
 				},
 			});
 			modalInstance.result.then(function (journalFilter) {
