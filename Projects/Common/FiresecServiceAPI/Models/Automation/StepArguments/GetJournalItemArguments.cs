@@ -41,8 +41,8 @@ namespace FiresecAPI.Automation
 		[Description("Сотрудник")]
 		EmployeeUid = 6,
 
-		//[Description("Посетитель")]
-		//VisitorUid = 7,
+		[Description("Посетитель")]
+		VisitorUid = 7,
 
 		[Description("Номер пропуска")]
 		CardNo = 8,

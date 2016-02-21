@@ -798,6 +798,18 @@ namespace FiresecService
 						}
 					}
 				}
+				// Посетитель
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.VisitorUid)
+				{
+					using (var databaseService = new SKDDatabaseService())
+					{
+						var employeeTranslatorGetSingle = databaseService.EmployeeTranslator.GetSingle(JournalItem.EmployeeUID);
+						if (!employeeTranslatorGetSingle.HasError && employeeTranslatorGetSingle.Result.Type == PersonType.Guest)
+						{
+							value = JournalItem.EmployeeUID;
+						}
+					}
+				}
 				// Номер пропуска
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardNo)
 					value = JournalItem.CardNo;

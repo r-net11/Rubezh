@@ -33,6 +33,9 @@ namespace AutomationModule.ViewModels
 			// Сотрудник
 			if (SelectedJournalColumnType == JournalColumnType.EmployeeUid)
 				explicitType = ExplicitType.Object;
+			// Посетитель
+			if (SelectedJournalColumnType == JournalColumnType.VisitorUid)
+				explicitType = ExplicitType.Object;
 			// Номер карты
 			if (SelectedJournalColumnType == JournalColumnType.CardNo)
 				explicitType = ExplicitType.Integer;
