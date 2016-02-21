@@ -25,34 +25,20 @@
         		]
         	};
 
-        	function getDeviceByUid(uid) {
-        		for (var i in $scope.data) {
-        			if ($scope.data[i].UID === uid)
-        				return $scope.data[i];
-        		}
-        	};
-
         	$scope.gridStyle = function () {
         		var ctrlHeight = (window.innerHeight - 100) / 2;
         		return "height:" + ctrlHeight + "px";
         	}();
 
-
         	$scope.$on('selectedZoneChanged', function (event, args) {
-        		$http.get('FireZones/GetDevicesByZoneUid/' + args
-		        ).success(function (data) {
-		        	$scope.data = data;
-		        	for (var i in $scope.data) {
-		        		$scope.data[i].ParentObject = getDeviceByUid($scope.data[i].ParentUID);
-		        	};
-
-		        	$scope.gridOptions.data = $scope.data;
-		        });
+        		$http.get('FireZones/GetDevicesByZoneUid/' + args).success(function (data) {
+        			$scope.gridOptions.data = data;
+        		});
         	});
 
         	$scope.devicesClick = function (device) {
-        		dialogService.showWindow(constants.gkObject.device, device.entity);
-        	};
+		        dialogService.showWindow(constants.gkObject.device, device.entity);
+	        };
 
         	function changeDevices(device) {
         		for (var i = 0; i < $scope.gridOptions.data.length; i++) {
