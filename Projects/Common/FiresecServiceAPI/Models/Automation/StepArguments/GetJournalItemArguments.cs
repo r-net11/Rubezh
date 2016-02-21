@@ -38,8 +38,8 @@ namespace FiresecAPI.Automation
 		[Description("Идентификатор объекта")]
 		JournalObjectUid = 5,
 
-		//[Description("Сотрудник")]
-		//EmployeeUid = 6,
+		[Description("Сотрудник")]
+		EmployeeUid = 6,
 
 		//[Description("Посетитель")]
 		//VisitorUid = 7,

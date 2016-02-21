@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.Automation;
 using FiresecService.Service;
+using SKDDriver;
 using SKDDriver.Translators;
 using System;
 using System.Collections.Generic;
@@ -785,6 +786,18 @@ namespace FiresecService
 					value = JournalItem.JournalObjectType;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
 					value = JournalItem.ObjectUID.ToString();
+				// Сотрудник
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.EmployeeUid)
+				{
+					using (var databaseService = new SKDDatabaseService())
+					{
+						var employeeTranslatorGetSingle = databaseService.EmployeeTranslator.GetSingle(JournalItem.EmployeeUID);
+						if (!employeeTranslatorGetSingle.HasError && employeeTranslatorGetSingle.Result.Type == PersonType.Employee)
+						{
+							value = JournalItem.EmployeeUID;
+						}
+					}
+				}
 				// Номер пропуска
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardNo)
 					value = JournalItem.CardNo;
