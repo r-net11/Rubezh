@@ -50,6 +50,9 @@
 						if ($stateParams.uid) {
 							var device = getDeviceByUid($stateParams.uid);
 							$scope.gridApi.selection.selectRow(device);
+						    $timeout(function() {
+						        $scope.gridApi.core.scrollTo(device, $scope.gridOptions.columnDefs[0]);
+						    });
 						}
 					});
 				});

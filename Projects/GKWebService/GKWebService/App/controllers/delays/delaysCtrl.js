@@ -60,6 +60,7 @@
 		        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
 		            if ($scope.gridOptions.data[i].Uid === uid) {
 			            $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
+			            $scope.gridApi.core.scrollTo($scope.gridOptions.data[i], $scope.gridOptions.columnDefs[0]);
 			            break;
 			        }
 			    }

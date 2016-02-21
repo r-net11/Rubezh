@@ -71,6 +71,7 @@
             for (var i = 0; i < $scope.uiGrid.data.length; i++) {
                 if ($scope.uiGrid.data[i].UID === uid) {
                     $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
+                    $scope.gridApi.core.scrollTo($scope.uiGrid.data[i], $scope.uiGrid.columnDefs[0]);
                     break;
                 }
             }

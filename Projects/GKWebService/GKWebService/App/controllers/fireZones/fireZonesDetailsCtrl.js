@@ -1,7 +1,7 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('fireZonesDetailsCtrl',
-        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrFireZonesService', 'entity'
+        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrFireZonesService', 'entity',
         function ($scope, $uibModalInstance, $http, $state, signalrFireZonesService, entity) {
             $scope.fireZone = entity;
 
