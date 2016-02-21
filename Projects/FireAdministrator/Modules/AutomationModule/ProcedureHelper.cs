@@ -259,6 +259,8 @@ namespace AutomationModule
 							result = explicitValue.JournalObjectTypeValue.ToDescription();
 						if (enumType == EnumType.ColorType)
 							result = explicitValue.ColorValue.ToString();
+						if (enumType == EnumType.CardType)
+							result = explicitValue.CardTypeValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:
