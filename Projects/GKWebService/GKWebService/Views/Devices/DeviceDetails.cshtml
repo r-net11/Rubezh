@@ -88,8 +88,8 @@
 				</uib-tab>
 				<uib-tab heading="Параметры" ng-if="device.Properties.length > 0">
 					<div class="deviceDetailsTab">
-						<div style="clear: left">
-							<table style="text-align:center;width:100%">
+						<div class="tables">
+							<table style="text-align: center; width: 100%">
 								<thead>
 									<tr style="background-color: #698EBE">
 										<td style="border: 1px solid black">Параметр</td>
@@ -98,8 +98,8 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="item in device.parameters">
-										<td style="color:#000000;border: 1px solid">{{item.Name}}</td>
-										<td style="color:#000000;border: 1px solid">{{item.Value}}</td>
+										<td style="color: #000000; border: 1px solid">{{item.Name}}</td>
+										<td style="color: #000000; border: 1px solid">{{item.Value}}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -108,8 +108,8 @@
 				</uib-tab>
 				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0">
 					<div class="deviceDetailsTab">
-						<div style="clear: left">
-							<table style="text-align:center;width:100%">
+						<div class="tables">
+							<table style="text-align: center; width: 100%">
 								<thead>
 									<tr style="background-color: #698EBE">
 										<td style="border: 1px solid black">Измерение</td>
@@ -117,10 +117,10 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="item in device.MeasureParameters">
-										<td style="color:#000000;border: 1px solid">{{item.Name}}</td>
+										<td style="color: #000000; border: 1px solid">{{item.Name}}</td>
 									</tr>
 								</tbody>
-							</table>
+							</table>	
 						</div>
 					</div>
 				</uib-tab>
