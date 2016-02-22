@@ -222,6 +222,7 @@
     <Content Include="App\services\broadcastService.js" />
     <Content Include="App\services\dialogService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
+    <Content Include="App\services\signalrConfigService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
@@ -679,6 +680,7 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\PumpStationsController.cs" />
     <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
+    <Compile Include="DataProviders\ConfigHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />

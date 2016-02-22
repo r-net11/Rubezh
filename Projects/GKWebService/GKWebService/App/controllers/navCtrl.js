@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('navCtrl',
-        ['$scope', '$location', '$state', '$rootScope', '$window',
-        function ($scope, $location, $state, $rootScope, $window) {
+        ['$scope', '$location', '$state', '$rootScope', '$window', 'signalrConfigService',
+        function ($scope, $location, $state, $rootScope, $window, signalrConfigService) {
             $scope.pageClick = function(page) {
             };
 
