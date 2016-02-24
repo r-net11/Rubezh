@@ -61,7 +61,7 @@
 			// Задаем обработку клика на элемент меню
 			.on("click", function (d) {
 				// Открываем модальное окно
-				scope.ShowModal("lg", item.Name);
+				scope.ShowModal("lg", item);
 				// Закрываем контекстное меню, т.к. по нему кликнули
 				d3.select(".context-menu").style("display", "none");
 				return d;

@@ -49,6 +49,8 @@ namespace GKWebService.Models.Plan.PlanElement
 
 		public IEnumerable<Shape> ChildElements { get; set; }
 
+		public Device Device { get; set; }
+
 		#endregion
 
 		#region Methods
@@ -528,6 +530,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				Height = 14,
 				HasOverlay = true,
 				Name = device.PresentationName,
+				Device = new Device(device),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = item.Left - 7,
 				Y = item.Top - 7
