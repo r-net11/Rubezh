@@ -1,8 +1,8 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
     app.controller('doorsCtrl',
-        ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrDoorsService', 'broadcastService', 'dialogService', 'constants',
-        function ($scope, $http, $timeout, $uibModal, $stateParams, signalrDoorsService, broadcastService, dialogService, constants) {
+        ['$scope', '$http', '$timeout', '$uibModal', '$state', '$stateParams', 'signalrDoorsService', 'broadcastService', 'dialogService', 'constants',
+        function ($scope, $http, $timeout, $uibModal, $state,  $stateParams, signalrDoorsService, broadcastService, dialogService, constants) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -95,7 +95,7 @@
             //    if(  $scope.selectedRow.exitDeviceShow && $scope.selectedRow.exitDevice.UID === args.UID)
             //        deviceChange($scope.selectedRow.exitDeviceShow, args)
 
-            });
+            //});
 
             //function deviceChange(obj1, obj2) {
                 
