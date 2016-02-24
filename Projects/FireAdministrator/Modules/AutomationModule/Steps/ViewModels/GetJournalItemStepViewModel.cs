@@ -39,6 +39,9 @@ namespace AutomationModule.ViewModels
 			// Номер карты
 			if (SelectedJournalColumnType == JournalColumnType.CardNo)
 				explicitType = ExplicitType.Integer;
+			// Тип карты
+			if (SelectedJournalColumnType == JournalColumnType.CardType)
+				enumType = EnumType.CardType;
 			ResultArgument.Update(Procedure, explicitType, enumType);
 		}
 

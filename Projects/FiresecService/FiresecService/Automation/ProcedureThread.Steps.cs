@@ -813,7 +813,19 @@ namespace FiresecService
 				// Номер пропуска
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardNo)
 					value = JournalItem.CardNo;
-				
+				// Тип пропуска
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardType)
+				{
+					using (var databaseService = new SKDDatabaseService())
+					{
+						var cardTranslatorGet = databaseService.CardTranslator.Get(JournalItem.CardNo);
+						if (!cardTranslatorGet.HasError)
+						{
+							value = cardTranslatorGet.Result.CardType;
+						}
+					}
+				}
+
 				SetValue(resultVariable, value);
 			}
 		}
@@ -1001,6 +1013,8 @@ namespace FiresecService
 					target.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)propertyValue;
 				if (target.EnumType == EnumType.ColorType)
 					target.ExplicitValue.ColorValue = (Color)propertyValue;
+				if (target.EnumType == EnumType.CardType)
+					target.ExplicitValue.CardTypeValue = (CardType)propertyValue;
 			}
 		}
 
@@ -1059,6 +1073,8 @@ namespace FiresecService
 					result = explicitValue.JournalObjectTypeValue;
 				if (enumType == EnumType.ColorType)
 					result = explicitValue.ColorValue.ToString();
+				if (enumType == EnumType.CardType)
+					result = explicitValue.CardTypeValue;
 			}
 			return (T)result;
 		}

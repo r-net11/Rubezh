@@ -47,7 +47,7 @@ namespace FiresecAPI.Automation
 		[Description("Номер пропуска")]
 		CardNo = 8,
 
-		//[Description("Тип пропуска")]
-		//CardType = 9,
+		[Description("Тип пропуска")]
+		CardType = 9,
 	}
 }
