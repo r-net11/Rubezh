@@ -37,9 +37,9 @@ CREATE PROCEDURE [dbo].[DropColumnDefaultConstraint]
 AS
 BEGIN
 DECLARE @ConstraintName nvarchar(200)
-SELECT @ConstraintName = Name 
+SELECT @ConstraintName = Name
 FROM SYS.DEFAULT_CONSTRAINTS
-WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName) 
+WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName)
 AND PARENT_COLUMN_ID = (
     SELECT column_id FROM sys.columns
     WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
@@ -117,7 +117,7 @@ GO
 CREATE TABLE [dbo].[Attachment](
 	[UID] [uniqueidentifier] NOT NULL,
 	[Name] [varchar](255) NOT NULL,
- CONSTRAINT [PK_Attachment] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Attachment] PRIMARY KEY CLUSTERED
 (
 	[UID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -518,6 +518,19 @@ CONSTRAINT [PK_PassJournalMetadata] PRIMARY KEY CLUSTERED
 (
 [UID] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+CREATE TABLE [dbo].[Filters]
+(
+[UID] UNIQUEIDENTIFIER NOT NULL,
+[UserID] UNIQUEIDENTIFIER NOT NULL,
+[Name] NVARCHAR(50) NOT NULL,
+[Type] int NOT NULL,
+[XMLContent] NVARCHAR(MAX) NULL,
+CONSTRAINT [PK_Filters] PRIMARY KEY CLUSTERED
+(
+	[UID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 CREATE TABLE Patches (Id nvarchar(100) not null)
@@ -990,6 +1003,8 @@ INSERT INTO Patches (Id) VALUES
 ('SP_CreateOrganisationsTimeTrackDocumentTypes_Added')
 INSERT INTO Patches (Id) VALUES
 ('OrganisationsTimeTrackDocumentTypes_Created')
+INSERT INTO Patches (Id) VALUES
+('FiltersTableAdded')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();

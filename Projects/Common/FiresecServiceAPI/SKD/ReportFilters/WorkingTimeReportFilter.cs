@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+	[KnownType(typeof(WorkingTimeReportFilter))]
 	public class WorkingTimeReportFilter : SKDReportFilter, IReportFilterPeriod, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployee
 	{
+		public WorkingTimeReportFilter()
+		{
+			ReportType = ReportType.WorkingTimeReport;
+		}
+
 		#region IReportFilterOrganisation Members
 
 		[DataMember]

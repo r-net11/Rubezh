@@ -17,36 +17,11 @@ namespace AutomationModule.ViewModels
 			StepsViewModel = stepsViewModel;
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			ImageSource = GetImageForStep(step);
+			ImageSource = ProcedureHelper.GetIconForProcedure(step.ProcedureStepType);
 			Content = GetContentForStep(step);
 
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
-		}
-
-		private string GetImageForStep(ProcedureStep step)
-		{
-			switch (step.ProcedureStepType)
-			{
-				case ProcedureStepType.RviAlarm:
-				case ProcedureStepType.StopRecord:
-				case ProcedureStepType.StartRecord:
-				case ProcedureStepType.Ptz:
-				case ProcedureStepType.ControlSKDZone:
-				case ProcedureStepType.ControlSKDDevice:
-				case ProcedureStepType.ControlDoor:
-					return "/Controls;component/StepIcons/Control.png";
-				case ProcedureStepType.ExportOrganisationList:
-				case ProcedureStepType.ExportOrganisation:
-				case ProcedureStepType.ExportConfiguration:
-				case ProcedureStepType.ExportJournal:
-					return "/Controls;component/StepIcons/Export.png";
-				case ProcedureStepType.ImportOrganisationList:
-				case ProcedureStepType.ImportOrganisation:
-					return "/Controls;component/StepIcons/Import.png";
-				default:
-					return "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
-			}
 		}
 
 		private BaseStepViewModel GetContentForStep(ProcedureStep step)
@@ -154,6 +129,9 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.SetJournalItemGuid:
 					return new SetJournalItemGuidStepViewModel(this);
+
+				case ProcedureStepType.ExportReport:
+					return new ExportReportStepViewModel(this);
 
 				case ProcedureStepType.ExportJournal:
 					return new ExportJournalStepViewModel(this);

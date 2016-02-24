@@ -1,4 +1,6 @@
 ﻿using System;
+using FiresecAPI.Enums;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecAPI.SKD
 {
@@ -144,7 +146,7 @@ namespace FiresecAPI.SKD
 		public string OrganisationExternalKey { get; set; }
 	}
 
-	public class ExportCard// : IExportItem
+	public class ExportCard
 	{
 		public Guid UID { get; set; }
 
@@ -210,6 +212,22 @@ namespace FiresecAPI.SKD
 		public bool IsExportDoors { get; set; }
 	}
 
+	public class ReportExportFilter
+	{
+		public string Path { get; set; }
+		public DateTime StartDate { get; set; }
+		public DateTime EndDate { get; set; }
+		public SKDReportFilter ReportFilter { get; set; }
+		public ReportType ReportType { get; set; }
+		public ReportPeriodType ReportPeriodType { get; set; }
+		public ReportFormatEnum ReportFormat { get; set; }
+		public EndDateType ReportEndDateType { get; set; }
+		public bool IsFilterNameInHeader { get; set; }
+		public bool IsShowArchive { get; set; }
+		public bool IsUseExpirationDate { get; set; }
+		public bool IsUseDateTimeNow { get; set; }
+	}
+
 	public class ImportFilter
 	{
 		public bool IsWithDeleted { get; set; }
@@ -226,10 +244,5 @@ namespace FiresecAPI.SKD
 		bool IsDeleted { get; set; }
 
 		DateTime RemovalDate { get; set; }
-	}
-
-	public interface IExportFilter
-	{
-		string Name { get; set; }
 	}
 }

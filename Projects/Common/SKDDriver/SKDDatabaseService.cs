@@ -90,6 +90,7 @@ namespace SKDDriver
 				PassJournalTranslator = new PassJournalTranslator();
 			}
 			AttachmentTranslator = new AttachmentTranslator(this);
+			ReportFiltersTranslator = new ReportFiltersTranslator(this);
 		}
 
 		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
@@ -141,6 +142,8 @@ namespace SKDDriver
 		public PassJournalTranslator PassJournalTranslator { get; private set; }
 
 		public AttachmentTranslator AttachmentTranslator { get; private set; }
+
+		public ReportFiltersTranslator ReportFiltersTranslator { get; private set; }
 
 		public void Dispose()
 		{

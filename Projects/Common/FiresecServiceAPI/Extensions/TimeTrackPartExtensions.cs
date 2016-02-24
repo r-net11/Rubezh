@@ -14,7 +14,7 @@ namespace FiresecAPI.Extensions
 		/// <param name="first">Первый интервал</param>
 		/// <param name="second">Второй интервал</param>
 		/// <returns>true - интервалы пересекаются. false - интервалы не пересекаются</returns>
-		public static bool IsIntersect(this TimeTrackPart first, TimeTrackPart second) //TODO:Need tests
+		public static bool IsIntersect(this TimeTrackPart first, TimeTrackPart second)
 		{
 			if (first == null || second == null) return false;
 
@@ -28,7 +28,7 @@ namespace FiresecAPI.Extensions
 		/// <param name="first">Первый интервал</param>
 		/// <param name="second">Второй интервал</param>
 		/// <returns>true - интервалы пересекаются. false - интервалы не пересекаются</returns>
-		public static bool IsIntersectTimeOfDay(this TimeTrackPart first, TimeTrackPart second) //TODO:Need tests
+		public static bool IsIntersectTimeOfDay(this TimeTrackPart first, TimeTrackPart second)
 		{
 			if (first == null || !first.ExitDateTime.HasValue || second == null || !second.ExitDateTime.HasValue) return false;
 

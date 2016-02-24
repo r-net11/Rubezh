@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+	[KnownType(typeof(EmployeeAccessReportFilter))]
 	public class EmployeeAccessReportFilter : SKDReportFilter, IReportFilterPassCardType, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZone, IReportFilterEmployee
 	{
 		public EmployeeAccessReportFilter()
@@ -16,6 +18,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			PassCardPermanent = true;
 			PassCardTemprorary = true;
 			IsEmployee = true;
+			ReportType = ReportType.EmployeeAccessReport;
 		}
 
 		#region IReportFilterPassCardType Members

@@ -1,9 +1,15 @@
-﻿using Common;
+﻿using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Threading.Tasks;
+using Common;
 using FiresecAPI;
+using FiresecAPI.Enums;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecService.Service
 {
@@ -613,6 +619,34 @@ namespace FiresecService.Service
 
 		#endregion </Пароли замков>
 
+		#region Reporting
+
+		public OperationResult<bool> SaveReportFilter(SKDReportFilter filter, User user)
+		{
+			return SafeContext.Execute(() => FiresecService.SaveReportFilter(filter, user));
+		}
+
+		public OperationResult<bool> RemoveReportFilter(SKDReportFilter filter, User user)
+		{
+			return SafeContext.Execute(() => FiresecService.RemoveReportFilter(filter, user));
+		}
+
+		public OperationResult<List<SKDReportFilter>> GetReportFiltersByType(User user, ReportType type)
+		{
+			return SafeContext.Execute(() => FiresecService.GetReportFiltersByType(user, type));
+		}
+
+		public OperationResult<List<SKDReportFilter>> GetAllFilters()
+		{
+			return SafeContext.Execute(() => FiresecService.GetAllFilters());
+		}
+
+		public OperationResult<List<SKDReportFilter>> GetReportFiltersForUser(User user)
+		{
+			return SafeContext.Execute(() => FiresecService.GetReportFiltersForUser(user));
+		}
+		#endregion
+
 		public OperationResult ResetSKDDatabase()
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.ResetSKDDatabase());
@@ -621,11 +655,6 @@ namespace FiresecService.Service
 		public OperationResult GenerateEmployeeDays()
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateEmployeeDays());
-		}
-
-		public OperationResult GenerateTestData(int employeeCount)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.GenerateTestData(employeeCount));
 		}
 
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
@@ -668,6 +697,11 @@ namespace FiresecService.Service
 		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportConfiguration(filter));
+		}
+
+		public OperationResult ExportReport(ReportExportFilter filter)
+		{
+			return SafeContext.Execute(() => FiresecService.ExportReport(filter));
 		}
 
 		#endregion Export

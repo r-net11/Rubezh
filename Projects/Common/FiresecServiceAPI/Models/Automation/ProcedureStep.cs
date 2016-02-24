@@ -51,6 +51,7 @@ namespace FiresecAPI.Automation
 			StartRecordArguments = new StartRecordArguments();
 			StopRecordArguments = new StopRecordArguments();
 			RviAlarmArguments = new RviAlarmArguments();
+			ExportReportArguments = new ExportReportArguments();
 		}
 
 		[XmlIgnore]
@@ -187,5 +188,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public RviAlarmArguments RviAlarmArguments { get; set; }
+
+		[DataMember]
+		public ExportReportArguments ExportReportArguments { get; set; }
 	}
 }

@@ -18,7 +18,7 @@
 			<RowDefinition Height="50" />
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="200" MinHeight="150"/>
+			<RowDefinition Height="300" MinHeight="150"/>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="Add"  />

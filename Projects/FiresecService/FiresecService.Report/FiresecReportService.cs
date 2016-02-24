@@ -20,5 +20,10 @@ namespace FiresecService.Report
 		{
 			base.StopBuild(documentId);
 		}
+
+		public override ExportId StartExport(DocumentId documentId, DocumentExportArgs exportArgs)
+		{
+			return base.StartExport(documentId, exportArgs);
+		}
 	}
 }

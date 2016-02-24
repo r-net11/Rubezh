@@ -386,8 +386,6 @@ namespace FiresecService
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
-			//if (device != null)
-			//	return device;
 			if (sKDDevice != null)
 				return sKDDevice;
 			if (sKDZone != null)
@@ -856,8 +854,6 @@ namespace FiresecService
 					MinDate = minDate,
 					Path = path
 				});
-			//if (result.HasError)
-			//    BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
 		}
 
 		private void ExportOrganisation(ProcedureStep procedureStep)
@@ -873,8 +869,6 @@ namespace FiresecService
 					OrganisationUID = organisationUID,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
 		}
 
 		private void ExportOrganisationList(ProcedureStep procedureStep)
@@ -888,8 +882,6 @@ namespace FiresecService
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
 		}
 
 		private void ExportConfiguration(ProcedureStep procedureStep)
@@ -907,8 +899,37 @@ namespace FiresecService
 					IsExportZones = isExportZones,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
+		}
+
+		private void ExportReport(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ExportReportArguments;
+			var endDate = GetValue<DateTime>(arguments.EndDate);
+			var startDate = GetValue<DateTime>(arguments.StartDate);
+			var path = GetValue<string>(arguments.FilePath);
+			var reportFilter = arguments.ReportFilter;
+			var reportType = arguments.ReportType;
+			var reportFormat = arguments.ReportFormat;
+			var isFilterNameInHeader = arguments.IsFilterNameInHeader;
+			var isShowArchive = arguments.IsUseArchive;
+			var isUseExpirationDate = arguments.IsUseExpirationDate;
+			var endDateType = arguments.ReportEndDateType;
+			FiresecServiceManager.SafeFiresecService.ExportReport(
+				new ReportExportFilter
+				{
+					EndDate = endDate,
+					StartDate = startDate,
+					Path = path,
+					ReportFilter = reportFilter,
+					ReportType = reportType,
+					ReportFormat = reportFormat,
+					IsFilterNameInHeader = isFilterNameInHeader,
+					IsShowArchive = isShowArchive,
+					IsUseExpirationDate = isUseExpirationDate,
+					ReportEndDateType = endDateType,
+					IsUseDateTimeNow = arguments.IsUseDateTimeNow,
+					ReportPeriodType = arguments.ReportPeriodType
+				});
 		}
 
 		private void ImportOrganisation(ProcedureStep procedureStep)

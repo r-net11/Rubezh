@@ -79,4 +79,5 @@ namespace SKDDriver.DataAccess
 	}
 
 	public partial class Attachment : IDatabaseElement { }
+	public partial class Filters : IDatabaseElement { }
 }

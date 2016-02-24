@@ -375,6 +375,9 @@ namespace FiresecService
 				case ProcedureStepType.RviAlarm:
 					RviAlarm(procedureStep);
 					break;
+				case ProcedureStepType.ExportReport:
+					ExportReport(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

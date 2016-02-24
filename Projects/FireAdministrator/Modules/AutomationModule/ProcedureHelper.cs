@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using AutomationModule.ViewModels;
+﻿using AutomationModule.ViewModels;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Elements;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Property = FiresecAPI.Automation.Property;
 
 namespace AutomationModule
@@ -50,9 +49,9 @@ namespace AutomationModule
 			return elements;
 		}
 
-		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType ExplicitType, ObjectType objectType, bool isList)
+		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType, bool isList)
 		{
-			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == ExplicitType && x.ObjectType == objectType && x.IsList == isList);
+			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType && x.ObjectType == objectType && x.IsList == isList);
 		}
 
 		public static List<Variable> GetAllVariables(List<Variable> allVariables, List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes, bool? isList = null)
@@ -84,13 +83,13 @@ namespace AutomationModule
 			return new List<Property>();
 		}
 
-		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType ExplicitType)
+		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType explicitType)
 		{
-			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object) || ExplicitType == ExplicitType.Enum)
+			if ((explicitType == ExplicitType.Integer) || (explicitType == ExplicitType.DateTime) || (explicitType == ExplicitType.Object) || explicitType == ExplicitType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
-			if ((ExplicitType == ExplicitType.Boolean) || (ExplicitType == ExplicitType.Object))
+			if ((explicitType == ExplicitType.Boolean) || (explicitType == ExplicitType.Object))
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
-			if (ExplicitType == ExplicitType.String)
+			if (explicitType == ExplicitType.String)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };
 			return new List<ConditionType>();
 		}
@@ -116,7 +115,7 @@ namespace AutomationModule
 					&& e != EnumType.JournalObjectType);
 				return new List<T>(enumTypes.Cast<T>().ToList());
 			}
-			
+
 			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 		}
 
@@ -242,6 +241,32 @@ namespace AutomationModule
 				}
 			}
 			return ExplicitTypes;
+		}
+
+		public static string GetIconForProcedure(ProcedureStepType procedureStepType)
+		{
+			switch (procedureStepType)
+			{
+				case ProcedureStepType.RviAlarm:
+				case ProcedureStepType.StopRecord:
+				case ProcedureStepType.StartRecord:
+				case ProcedureStepType.Ptz:
+				case ProcedureStepType.ControlSKDZone:
+				case ProcedureStepType.ControlSKDDevice:
+				case ProcedureStepType.ControlDoor:
+					return "/Controls;component/StepIcons/Control.png";
+				case ProcedureStepType.ExportReport:
+				case ProcedureStepType.ExportOrganisationList:
+				case ProcedureStepType.ExportConfiguration:
+				case ProcedureStepType.ExportOrganisation:
+				case ProcedureStepType.ExportJournal:
+					return "/Controls;component/StepIcons/Export.png";
+				case ProcedureStepType.ImportOrganisationList:
+				case ProcedureStepType.ImportOrganisation:
+					return "/Controls;component/StepIcons/Import.png";
+				default:
+					return "/Controls;component/StepIcons/" + procedureStepType + ".png";
+			}
 		}
 	}
 }

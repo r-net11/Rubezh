@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+	[KnownType(typeof(EmployeeRootReportFilter))]
 	public class EmployeeRootReportFilter : SKDReportFilter, IReportFilterPeriod, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZone
 	{
 		public EmployeeRootReportFilter()
 		{
 			IsEmployee = true;
+			ReportType = ReportType.EmployeeRootReport;
 		}
 
 		#region IReportFilterOrganisation Members

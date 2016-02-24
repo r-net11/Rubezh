@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 using FiresecAPI.SKD.ReportFilters;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.SKDReports;
-using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ReportsModule.ViewModels
 {
 	public class FilterMainPageViewModel : FilterContainerViewModel
 	{
-		private Action<SKDReportFilter> _updateFilterAction;
-		private Action<SKDReportFilter> _loadFilterAction;
-		private Type _filterType;
+		private readonly Action<SKDReportFilter> _updateFilterAction;
+		private readonly Action<SKDReportFilter> _loadFilterAction;
+		private readonly Type _filterType;
 		private bool _isLoaded;
-		private SKDReportFilter _filter;
+		private readonly SKDReportFilter _filter;
 		public FilterMainPageViewModel(FilterModel model, SKDReportFilter filter, Action<SKDReportFilter> loadFilterAction, Action<SKDReportFilter> updateFilterAction)
 		{
 			_isLoaded = false;
@@ -31,11 +33,9 @@ namespace ReportsModule.ViewModels
 			SaveFilterCommand = new RelayCommand(OnSaveFilter, CanSaveFilter);
 			RemoveFilterCommand = new RelayCommand(OnRemoveFilter, CanRemoveFilter);
 			_filterType = filter.GetType();
-			Filters = new ObservableCollection<SKDReportFilter>(ClientSettings.ReportFilters.Filters.Where(f => f.GetType() == _filterType));
+			Filters = new ObservableCollection<SKDReportFilter>(FiresecManager.FiresecService.GetReportFiltersByType(FiresecManager.CurrentUser, ((SKDReportFilter)Activator.CreateInstance(_filterType)).ReportType).Result);
 			Filters.Insert(0, (SKDReportFilter)Activator.CreateInstance(_filterType));
-			SelectedFilter = Filters.FirstOrDefault(f => f.Name == filter.Name);
-			if (SelectedFilter == null)
-				SelectedFilter = Filters[0];
+			SelectedFilter = Filters.FirstOrDefault(f => f.Name == filter.Name) ?? Filters[0];
 			_isLoaded = true;
 		}
 
@@ -78,15 +78,18 @@ namespace ReportsModule.ViewModels
 			var filter = (SKDReportFilter)Activator.CreateInstance(_filterType);
 			_updateFilterAction(filter);
 			filter.Name = FilterName.Trim();
-			var existFilter = ClientSettings.ReportFilters.Filters.FirstOrDefault(f => f.GetType() == _filterType && f.Name == FilterName);
+			var existFilter = Filters.FirstOrDefault(x => x.GetType() == _filterType && x.Name == FilterName);
 			if (existFilter != null)
 			{
-				ClientSettings.ReportFilters.Filters.Remove(existFilter);
 				Filters.Remove(existFilter);
 			}
-			ClientSettings.ReportFilters.Filters.Add(filter);
-			Filters.Add(filter);
-			SelectedFilter = filter;
+
+			var saveResult = FiresecManager.FiresecService.SaveReportFilter(filter, FiresecManager.CurrentUser);
+			if (saveResult.Result)
+			{
+				Filters.Add(filter);
+				SelectedFilter = filter;
+			}
 			_isLoaded = true;
 		}
 		private bool CanSaveFilter()
@@ -96,8 +99,10 @@ namespace ReportsModule.ViewModels
 		public RelayCommand RemoveFilterCommand { get; private set; }
 		private void OnRemoveFilter()
 		{
-			if (ClientSettings.ReportFilters.Filters.Contains(SelectedFilter))
-				ClientSettings.ReportFilters.Filters.Remove(SelectedFilter);
+			var removeResult = FiresecManager.FiresecService.RemoveReportFilter(SelectedFilter, FiresecManager.CurrentUser);
+
+			if (!removeResult.Result) return;
+
 			Filters.Remove(SelectedFilter);
 			SelectedFilter = Filters[0];
 		}
@@ -249,7 +254,6 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
-		//public DateTime MaxDate { get { return DateTime.Now; } }
 		public DateTime MaxDate { get { return DateTime.Today.AddDays(1).AddSeconds(-1); } }
 
 		private bool _hasArchive;
@@ -270,7 +274,7 @@ namespace ReportsModule.ViewModels
 			{
 				_useArchive = value;
 				OnPropertyChanged(() => UseArchive);
-				ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Publish(value);
+				ServiceFactoryBase.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Publish(value);
 			}
 		}
 

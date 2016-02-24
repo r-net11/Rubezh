@@ -1253,7 +1253,7 @@ INSERT INTO Patches (Id) VALUES ('NullableDocumentType')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'NullableBirthDate')
-BEGIN 
+BEGIN
 ALTER TABLE Employee ALTER COLUMN BirthDate datetime NULL
 INSERT INTO Patches (Id) VALUES ('NullableBirthDate')
 END
@@ -1287,15 +1287,15 @@ BEGIN
 AS
 BEGIN
 DECLARE @ConstraintName nvarchar(200)
-SELECT @ConstraintName = Name 
+SELECT @ConstraintName = Name
 FROM SYS.DEFAULT_CONSTRAINTS
-WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName) 
+WHERE PARENT_OBJECT_ID = OBJECT_ID(@tableName)
 AND PARENT_COLUMN_ID = (
     SELECT column_id FROM sys.columns
     WHERE NAME = @columnName AND object_id = OBJECT_ID(@tableName))
 IF @ConstraintName IS NOT NULL
     EXEC(''ALTER TABLE ''+@tableName+'' DROP CONSTRAINT '' + @ConstraintName)
-END'	
+END'
 	INSERT INTO Patches (Id) VALUES ('DropColumnDefaultConstraint')
 END
 GO
@@ -1320,7 +1320,7 @@ GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledAllowLate')
 BEGIN
 	ALTER TABLE [Schedule] ADD [IsEnabledAllowLate] bit NOT NULL DEFAULT 0
-	INSERT INTO Patches (Id) VALUES ('AddIsEnabledAllowLate') 
+	INSERT INTO Patches (Id) VALUES ('AddIsEnabledAllowLate')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledAllowEarlyLeave')
@@ -1336,7 +1336,7 @@ BEGIN
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsEnabledOvertime')
-BEGIN 
+BEGIN
 	ALTER TABLE [Schedule] ADD [IsEnabledOvertime] bit NOT NULL DEFAULT 0
 	INSERT INTO Patches (Id) VALUES ('AddIsEnabledOvertime')
 END
@@ -1349,9 +1349,9 @@ END
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='CreateGKMetadata')
 	BEGIN
-		IF EXISTS(SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'dbo' 
+		IF EXISTS(SELECT *
+                 FROM INFORMATION_SCHEMA.TABLES
+                 WHERE TABLE_SCHEMA = 'dbo'
                  AND  TABLE_NAME = 'GKMetadata')
 			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='CreateGKMetadata'
@@ -1359,9 +1359,9 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='CreateGKMetadata')
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata')
 	BEGIN
-		IF EXISTS(SELECT * 
-					 FROM INFORMATION_SCHEMA.TABLES 
-					 WHERE TABLE_SCHEMA = 'dbo' 
+		IF EXISTS(SELECT *
+					 FROM INFORMATION_SCHEMA.TABLES
+					 WHERE TABLE_SCHEMA = 'dbo'
 					 AND  TABLE_NAME = 'GKMetadata')
 			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='Recreate_GKMetadata'
@@ -1369,9 +1369,9 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata')
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata2')
 	BEGIN
-		IF EXISTS(SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'dbo' 
+		IF EXISTS(SELECT *
+                 FROM INFORMATION_SCHEMA.TABLES
+                 WHERE TABLE_SCHEMA = 'dbo'
                  AND  TABLE_NAME = 'GKMetadata')
 			DROP TABLE GKMetadata
 		DELETE FROM Patches WHERE Id='Recreate_GKMetadata2'
@@ -1379,9 +1379,9 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='Recreate_GKMetadata2')
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards')
 	BEGIN
-		IF EXISTS(SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'dbo' 
+		IF EXISTS(SELECT *
+                 FROM INFORMATION_SCHEMA.TABLES
+                 WHERE TABLE_SCHEMA = 'dbo'
                  AND  TABLE_NAME = 'GKCards')
 			DROP TABLE GKCards
 		DELETE FROM Patches WHERE Id='GKCards'
@@ -1389,9 +1389,9 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards')
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards_Table')
 	BEGIN
-		IF EXISTS(SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'dbo' 
+		IF EXISTS(SELECT *
+                 FROM INFORMATION_SCHEMA.TABLES
+                 WHERE TABLE_SCHEMA = 'dbo'
                  AND  TABLE_NAME = 'GKCards')
 			DROP TABLE GKCards
 		DELETE FROM Patches WHERE Id='GKCards_Table'
@@ -1399,9 +1399,9 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='GKCards_Table')
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='GKCardType')
 	BEGIN
-		IF EXISTS(SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'dbo' 
+		IF EXISTS(SELECT *
+                 FROM INFORMATION_SCHEMA.TABLES
+                 WHERE TABLE_SCHEMA = 'dbo'
                  AND  TABLE_NAME = 'GKCards')
 			DROP TABLE GKCards
 		DELETE FROM Patches WHERE Id='GKCardType'
@@ -1409,9 +1409,9 @@ IF EXISTS(SELECT * FROM Patches WHERE Id='GKCardType')
 GO
 IF EXISTS(SELECT * FROM Patches WHERE Id='RemoveGKCardTypeColumn')
 	BEGIN
-		IF EXISTS(SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'dbo' 
+		IF EXISTS(SELECT *
+                 FROM INFORMATION_SCHEMA.TABLES
+                 WHERE TABLE_SCHEMA = 'dbo'
                  AND  TABLE_NAME = 'GKCards')
 			DROP TABLE GKCards
 		DELETE FROM Patches WHERE Id='RemoveGKCardTypeColumn'
@@ -1430,28 +1430,28 @@ GO
 IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME='GKSchedule')
 	BEGIN
 		IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE OBJECT_NAME(referenced_object_id) = 'GKSchedule')
-			BEGIN 
+			BEGIN
 				DECLARE @stmt VARCHAR(300);
- 
-				-- Cursor to generate ALTER TABLE DROP CONSTRAINT statements  
+
+				-- Cursor to generate ALTER TABLE DROP CONSTRAINT statements
 				DECLARE cur CURSOR FOR
 				SELECT 'ALTER TABLE ' + OBJECT_SCHEMA_NAME(parent_object_id) + '.' + OBJECT_NAME(parent_object_id) +
 				' DROP CONSTRAINT ' + name
-				FROM sys.foreign_keys 
+				FROM sys.foreign_keys
 				WHERE	OBJECT_NAME(referenced_object_id) = 'GKSchedule';
- 
+
 				OPEN cur;
 				FETCH cur INTO @stmt;
- 
-				-- Drop each found foreign key constraint 
+
+				-- Drop each found foreign key constraint
 				WHILE @@FETCH_STATUS = 0
 					BEGIN
 					EXEC (@stmt);
 					FETCH cur INTO @stmt;
 					END
- 
+
 					CLOSE cur;
-					DEALLOCATE cur; 
+					DEALLOCATE cur;
 				END
 			END
 	GO
@@ -1517,7 +1517,7 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddIsNightSettingsEnabledColumn
 		ALTER TABLE [NightSettings] ADD [IsNightSettingsEnabled] bit NOT NULL DEFAULT 0
 		INSERT INTO Patches (Id) VALUES ('AddIsNightSettingsEnabledColumn')
 	END
-GO 
+GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Attachment')
 BEGIN
 	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Attachment')
@@ -1525,7 +1525,7 @@ BEGIN
 		CREATE TABLE [dbo].[Attachment](
 			[UID] [uniqueidentifier] NOT NULL,
 			[Name] [varchar](255) NOT NULL,
-		CONSTRAINT [PK_Attachment] PRIMARY KEY CLUSTERED 
+		CONSTRAINT [PK_Attachment] PRIMARY KEY CLUSTERED
 		(
 			[UID] ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -1654,7 +1654,7 @@ BEGIN
 	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Отстранение от работы (недопущение к работе) с оплатой (пособием) в соответствии с законодательством'', N''НО'', 34, 3, @organisationUID, 1)
 	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Отстранение от работы (недопущение к работе) по причинам, предусмотренным законодательством, без начисления заработной платы'', N''НБ'', 35, 2, @organisationUID, 1)
 	INSERT INTO TimeTrackDocumentType ([UID],[Name],[ShortName],[DocumentCode],[DocumentType],[OrganisationUID],[IsSystem]) VALUES(NEWID(), N''Время приостановки работы в случае задержки выплаты заработной платы'', N''НЗ'', 36, 3, @organisationUID, 1)
-END'	
+END'
 	INSERT INTO Patches (Id) VALUES ('SP_CreateOrganisationTimeTrackDocumentTypes_Added')
 END
 GO
@@ -1679,7 +1679,7 @@ BEGIN
 		FETCH NEXT FROM @OrganisationCursor INTO @OrganisationUID
 	END
 	CLOSE @OrganisationCursor
-END'	
+END'
 	INSERT INTO Patches (Id) VALUES ('SP_CreateOrganisationsTimeTrackDocumentTypes_Added')
 END
 GO
@@ -1688,5 +1688,25 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationsTimeTrackDocumentT
 BEGIN
 	EXEC [dbo].[CreateOrganisationsTimeTrackDocumentTypes]
 	INSERT INTO Patches (Id) VALUES ('OrganisationsTimeTrackDocumentTypes_Created')
+END
+GO
+
+--****************************************************************************************Release 1.0.2*********************************************************************
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FiltersTableAdded')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Filters')
+	CREATE TABLE [dbo].[Filters]
+	(
+			[UID] UNIQUEIDENTIFIER NOT NULL,
+			[UserID] UNIQUEIDENTIFIER NOT NULL,
+			[Name] NVARCHAR(50) NOT NULL,
+			[Type] int NOT NULL,
+			[XMLContent] NVARCHAR(MAX) NULL,
+		CONSTRAINT [PK_Filters] PRIMARY KEY CLUSTERED
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	INSERT INTO Patches (Id) VALUES ('FiltersTableAdded')
 END
 GO

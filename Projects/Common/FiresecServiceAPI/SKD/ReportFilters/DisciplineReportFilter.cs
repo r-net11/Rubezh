@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+	[KnownType(typeof(DisciplineReportFilter))]
 	public class DisciplineReportFilter : SKDReportFilter, IReportFilterPeriod, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterEmployee, IReportFilterScheduleScheme
 	{
 		public DisciplineReportFilter()
@@ -14,6 +16,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			ShowAbsence = true;
 			ShowOvertime = true;
 			ShowAllViolation = true;
+			ReportType = ReportType.DisciplineReport;
 		}
 
 		#region IReportFilterPeriod Members

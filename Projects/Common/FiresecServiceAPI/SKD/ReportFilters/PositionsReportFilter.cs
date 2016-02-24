@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+	[KnownType(typeof(PositionsReportFilter))]
 	public class PositionsReportFilter : SKDReportFilter, IReportFilterOrganisation, IReportFilterPosition, IReportFilterArchive
 	{
+		public PositionsReportFilter()
+		{
+			ReportType = ReportType.PositionsReport;
+		}
+
 		#region IReportFilterOrganisation Members
 
 		[DataMember]

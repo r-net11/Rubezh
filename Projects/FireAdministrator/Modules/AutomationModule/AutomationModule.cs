@@ -13,6 +13,7 @@ using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
@@ -29,7 +30,6 @@ namespace AutomationModule
 
 		public override void CreateViewModels()
 		{
-			//FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 			_soundsViewModel = new SoundsViewModel();
 			_proceduresViewModel = new ProceduresViewModel();
 			_schedulesViewModel = new SchedulesViewModel();
@@ -47,7 +47,7 @@ namespace AutomationModule
 			_globalVariablesViewModel.Initialize();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			_planExtension.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
+			ServiceFactoryBase.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -55,7 +55,7 @@ namespace AutomationModule
 			return new List<NavigationItem>
 				{
 					new NavigationItem(ModuleType.ToDescription(), "tree",
-						new List<NavigationItem>()
+						new List<NavigationItem>
 						{
 							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
@@ -94,7 +94,7 @@ namespace AutomationModule
 		{
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выпонить процедуру", "BProcedures.png")
 			{
-				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
+				Factory = p => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
 #if DEBUG
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");

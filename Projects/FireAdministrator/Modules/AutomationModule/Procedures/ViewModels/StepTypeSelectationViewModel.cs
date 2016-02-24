@@ -130,6 +130,7 @@ namespace AutomationModule.ViewModels
 					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",
 						new List<StepTypeViewModel>
 						{
+							new StepTypeViewModel(ProcedureStepType.ExportReport),
 							new StepTypeViewModel(ProcedureStepType.ExportJournal),
 							new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
 							new StepTypeViewModel(ProcedureStepType.ExportOrganisation),

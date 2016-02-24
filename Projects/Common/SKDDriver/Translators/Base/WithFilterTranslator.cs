@@ -43,19 +43,6 @@ namespace SKDDriver
 				return new List<TableT>();
 			var query = GetQuery(filter);
 			return query.ToList();
-			//var result = new List<TableT>();
-			//int skipCount = 0;
-			//var itemsQuant = new List<TableT>();
-			//bool isContinue = true;
-			//while (isContinue)
-			//{
-			//    itemsQuant = query.Skip(skipCount).Take(2000).ToList();
-			//    skipCount += 2000;
-			//    result.AddRange(itemsQuant);
-			//    if (itemsQuant.Count() < 2000)
-			//        isContinue = false;
-			//}
-			//return result;
 		}
 
 		public virtual OperationResult<IEnumerable<ApiT>> Get(FilterT filter)

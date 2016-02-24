@@ -1,24 +1,25 @@
-﻿using System.Collections.ObjectModel;
-using Common;
+﻿using Common;
 using FiresecAPI.SKD.ReportFilters;
-using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace ReportsModule.ViewModels
 {
 	public class SKDReportFilterViewModel : SaveCancelDialogViewModel
 	{
 		public SKDReportFilter Filter { get; private set; }
-		FilterModel _model;
+		readonly FilterModel _model;
 
 		public SKDReportFilterViewModel(SKDReportFilter filter, FilterModel model)
 		{
 			Title = "Настройки отчета";
 			_model = model;
 			Filter = filter;
-			Pages = new ObservableCollection<FilterContainerViewModel>();
-			Pages.Add(new FilterMainPageViewModel(model, Filter, LoadFilter, UpdateFilter));
+			Pages = new ObservableCollection<FilterContainerViewModel>
+			{
+				new FilterMainPageViewModel(model, Filter, LoadFilter, UpdateFilter)
+			};
 			model.Pages.ForEach(page => { if (page.IsActive) Pages.Add(page); });
 			if (model.AllowSort)
 				Pages.Add(new FilterSortPageViewModel(model.Columns));

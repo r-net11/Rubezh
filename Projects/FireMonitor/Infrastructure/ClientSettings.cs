@@ -16,7 +16,6 @@ namespace Infrastructure
 		public static readonly string MultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("MultiLayoutCameraSettings.xml");
 		public static readonly string RviMultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("RviMultiLayoutCameraSettings.xml");
 		public static readonly string SKDSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("SKDSettings.xml");
-		public static readonly string RepoftFiltersFileName = AppDataFolderHelper.GetMonitorSettingsPath("ReportFilters.xml");
 
 		static ArchiveDefaultState _archiveDefaultState;
 		public static ArchiveDefaultState ArchiveDefaultState
@@ -39,13 +38,6 @@ namespace Infrastructure
 			set { _skdSettings = value; }
 		}
 
-		static SKDReportFilters _reportFilters;
-		public static SKDReportFilters ReportFilters
-		{
-			get { return _reportFilters ?? (_reportFilters = new SKDReportFilters()); }
-			set { _reportFilters = value; }
-		}
-
 		public static void LoadSettings()
 		{
 			try
@@ -53,7 +45,6 @@ namespace Infrastructure
 				LoadArchiveDefaultState();
 				LoadRviCameraSettings();
 				LoadSKDSettings();
-				LoadSKDReportFilters();
 			}
 			catch (Exception e)
 			{
@@ -71,7 +62,6 @@ namespace Infrastructure
 				SaveArchiveDefaultState();
 				SaveRviCameraSettings();
 				SaveSKDSettings();
-				SaveSKDReportFilters();
 			}
 			catch (Exception e)
 			{
@@ -154,28 +144,6 @@ namespace Infrastructure
 			{
 				var xmlSerializer = new XmlSerializer(typeof(SKDSettings));
 				xmlSerializer.Serialize(fileStream, SKDSettings);
-			}
-		}
-
-		static void LoadSKDReportFilters()
-		{
-			if (File.Exists(RepoftFiltersFileName))
-			{
-				using (var fileStream = new FileStream(RepoftFiltersFileName, FileMode.Open))
-				{
-					var xmlSerializer = new XmlSerializer(typeof(SKDReportFilters));
-					ReportFilters = (SKDReportFilters)xmlSerializer.Deserialize(fileStream);
-				}
-			}
-			else
-				ReportFilters = new SKDReportFilters();
-		}
-		static void SaveSKDReportFilters()
-		{
-			using (var fileStream = new FileStream(RepoftFiltersFileName, FileMode.Create))
-			{
-				var xmlSerializer = new XmlSerializer(typeof(SKDReportFilters));
-				xmlSerializer.Serialize(fileStream, ReportFilters);
 			}
 		}
 	}

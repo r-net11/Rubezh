@@ -9,6 +9,7 @@ using FiresecAPI.SKD.ReportFilters;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -23,8 +24,8 @@ namespace ReportsModule.ViewModels
 		private DispatcherTimer _timer;
 		public SKDReportPresenterViewModel()
 		{
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
 			RefreshReportCommand = new RelayCommand(OnRefreshReport, CanRefreshReport);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
@@ -40,7 +41,7 @@ namespace ReportsModule.ViewModels
 			var endpoint = new EndpointAddress(reportServerAddress);
 			var binding = BindingHelper.CreateBindingFromAddress(reportServerAddress);
 			var factory = new ReportServiceClientFactory(endpoint, binding);
-			Model = new XReportServicePreviewModel()
+			Model = new XReportServicePreviewModel
 			{
 				ServiceClientFactory = factory,
 				IsParametersPanelVisible = false,
