@@ -1,8 +1,8 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
     app.controller('doorsCtrl',
-        ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrDoorsService', 'broadcastService', 'dialogService', 'constants',
-        function ($scope, $http, $timeout, $uibModal, $stateParams, signalrDoorsService, broadcastService, dialogService, constants) {
+        ['$scope', '$http', '$timeout', '$uibModal', '$state', '$stateParams', 'signalrDoorsService', 'broadcastService', 'dialogService', 'constants',
+        function ($scope, $http, $timeout, $uibModal, $state,  $stateParams, signalrDoorsService, broadcastService, dialogService, constants) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -52,25 +52,25 @@
                     Barrier: row.entity.DoorType === 3,
                     AirlockBooth: row.entity.DoorType === 4,
                     exitDevice: row.entity.ExitDevice,
-                    exitDeviceShow: Boolean(row.entity.ExitDevice),
+                    exitDeviceShow: !!row.entity.ExitDevice,
                     enterDevice: row.entity.EnterDevice,
-                    enterDeviceShow: row.entity.EnterDevice !== null,
+                    enterDeviceShow: !!row.entity.EnterDevice,
                     enterButton: row.entity.EnterButton,
-                    enterButtonShow: row.entity.EnterButton != null,
+                    enterButtonShow: !!row.entity.EnterButton,
                     exitButton: row.entity.ExitButton,
-                    exitButtonShow: row.entity.ExitButton != null,
+                    exitButtonShow: !!row.entity.ExitButton,
                     lockDevice: row.entity.LockDevice,
-                    lockDeviceShow: row.entity.LockDevice != null,
+                    lockDeviceShow: !!row.entity.LockDevice,
                     lockDeviceExit: row.entity.LockDeviceExit,
-                    lockDeviceExitShow: row.entity.LockDeviceExit != null,
+                    lockDeviceExitShow: !!row.entity.LockDeviceExit,
                     lockControlDevice: row.entity.LockControlDevice,
-                    lockControlDeviceShow: row.entity.LockControlDevice != null,
+                    lockControlDeviceShow: !!row.entity.LockControlDevice,
                     lockControlDeviceExit: row.entity.LockControlDeviceExit,
-                    lockControlDeviceExitShow: row.entity.LockControlDeviceExit != null,
+                    lockControlDeviceExitShow: !!row.entity.LockControlDeviceExit,
                     enterZone: row.entity.EnterZone,
-                    enterZoneShow: row.entity.EnterZone!= null,
+                    enterZoneShow: !!row.entity.EnterZone,
                     exitZone: row.entity.ExitZone,
-                    exitZoneShow: row.entity.ExitZone != null,
+                    exitZoneShow: !!row.entity.ExitZone,
                     openRegimeLogic: row.entity.OpenRegimeLogic,
                     normRegimeLogic: row.entity.NormRegimeLogic,
                     closeRegimeLogic: row.entity.CloseRegimeLogic
@@ -78,8 +78,8 @@
             };
 
             $scope.ShowDevice = function (value) {
-               
-               
+                //if ((enterZoneShow || exitZoneShow) && (value === enterZone.Item2 || value == exitZone.Item2))
+                $state.go('device', { uid: value });
             }
 
             //$scope.getDescription = function () {
