@@ -419,11 +419,13 @@
     <Content Include="Content\Image\Icon\Menu\fine\MPT.png" />
     <Content Include="Content\Image\Icon\Menu\fine\plans.png" />
     <Content Include="Content\Image\Icon\Menu\fine\Print.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\PumpStation.png" />
     <Content Include="Content\Image\Icon\Menu\fine\skd.png" />
     <Content Include="Content\Image\Icon\Menu\fine\timeTrack.png" />
     <Content Include="Content\Image\Icon\Menu\fine\tree.png" />
     <Content Include="Content\Image\Icon\Menu\fine\weeklySchedule.png" />
     <Content Include="Content\Image\Icon\Menu\fine\workSchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\zones.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Camera.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Chip.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
