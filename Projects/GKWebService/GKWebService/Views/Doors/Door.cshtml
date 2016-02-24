@@ -1,85 +1,87 @@
 ﻿@{
-	Layout = null;
+    Layout = null;
 }
 
 <div ng-controller="doorsCtrl">
-	<div ui-grid="uiGrid" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns style="{{gridStyle}}"></div>
-	<div class="report_item_info">
-		<div>
-			<span>Устройство на вход: </span>
-			<span ng-show="selectedRow.enterDeviceShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.enterDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.enterDevice.ImageSource}}" />{{selectedRow.enterDevice.Name}}</a></span>
-		</div>
-		<div>
-			<span>Устройство на выход: </span>
-			<span ng-show="selectedRow.exitDeviceShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.exitDevice.UID)"><img style="vertical-align: bottom; width: 16px; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.exitDevice.ImageSource}}" />{{selectedRow.exitDevice.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.AirlockBooth">
-			<span>Кнопка на вход: </span>
-			<span ng-show="selectedRow.enterButtonShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.enterButton.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.enterButton.ImageSource}}" />{{selectedRow.enterButton.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.AirlockBooth">
-			<span>Кнопка на выход: </span>
-			<span ng-show="selectedRow.exitButtonShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.exitButton.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.exitButton.ImageSource}}" />{{selectedRow.exitButton.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.OneWay || selectedRow.TwoWay">
-			<span>Замок: </span>
-			<span ng-show="selectedRow.lockDeviceShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.AirlockBooth || selectedRow.Turnstile">
-			<span>Реле на вход: </span>
-			<span ng-show="selectedRow.lockDeviceShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.Barrier">
-			<span>Реле на открытие: </span>
-			<span ng-show="selectedRow.lockDeviceShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.AirlockBooth || selectedRow.Turnstile">
-			<span>Реле на выход: </span>
-			<span ng-show="selectedRow.lockDeviceExitShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockDeviceExit.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDeviceExit.ImageSource}}" />{{selectedRow.lockDeviceExit.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.Barrier">
-			<span>Реле на закрытие: </span>
-			<span ng-show="selectedRow.lockDeviceExitShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockDeviceExit.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDeviceExit.ImageSource}}" />{{selectedRow.lockDeviceExit.Name}}</a></span>
-		</div>
-		<div ng-show="!selectedRow.Turnstile && !selectedRow.Barriery">
-			<span>Датчик контроля двери: </span>
-			<span ng-show="selectedRow.lockControlDeviceShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.Turnstile">
-			<span>Датчик проворота: </span>
-			<span ng-show="selectedRow.lockControlDeviceShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.Barriery">
-			<span>Датчик контроля на въезд: </span>
-			<span ng-show="selectedRow.lockControlDeviceShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.AirlockBooth">
-			<span>Датчик контроля двери на выход: </span>
-			<span ng-show="selectedRow.lockControlDeviceExitShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockControlDeviceExit.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDeviceExit.ImageSource}}" />{{selectedRow.lockControlDeviceExit.Name}}</a></span>
-		</div>
-		<div ng-show="selectedRow.Barriery">
-			<span>Датчик контроля на выезд: </span>
-			<span ng-show="selectedRow.lockControlDeviceExitShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.lockControlDeviceExit.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDeviceExit.ImageSource}}" />{{selectedRow.lockControlDeviceExit.Name}}</a></span>
-		</div>
-		<div>
-			<span>Зона входа: </span>
-			<span ng-show="selectedRow.enterZoneShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.enterZone.Item2)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/Images/SKDZone.png" />{{selectedRow.enterZone.Item1}}</a></span>
-		</div>
-		<div ng-show="!selectedRow.OneWay">
-			<span>Зона выхода: </span>
-			<span ng-show="selectedRow.exitZoneShow"><a href="#" style="color:white" ng-click="ShowDevice(selectedRow.exitZone.Item2)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/Images/SKDZone.png" />{{selectedRow.exitZone.Item1}}</a></span>
-		</div>
-		<div>
-			<span>Условие для перевода в режим всегда открыто: </span>
-			<span>{{selectedRow.openRegimeLogic}}</span>
-		</div>
-		<div>
-			<span>Условие для перевода в режим норма: </span>
-			<span>{{selectedRow.normRegimeLogic}}</span>
-		</div>
-		<div>
-			<span>Условие для перевода в режим всегда закрыто: </span>
-			<span>{{selectedRow.closeRegimeLogic}}</span>
-		</div>
-	</div>
-</div>
+    <div ui-grid="uiGrid" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns style="{{gridStyle}}"></div>
+    <div class="deviceWindow" >
+        <div class="deviceProperties">
+            <div>
+                <span>Устройство на вход: </span>
+                <span ng-show="!!selectedRow.enterDevice"><a href="#" ng-click="ShowDevice(selectedRow.enterDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.enterDevice.ImageSource}}" />{{selectedRow.enterDevice.Name}}</a></span>
+            </div>
+            <div>
+                <span>Устройство на выход: </span>
+                <span ng-show="!!selectedRow.exitDevice"><a href="#" ng-click="ShowDevice(selectedRow.exitDevice.UID)"><img style="vertical-align: bottom; width: 16px; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.exitDevice.ImageSource}}" />{{selectedRow.exitDevice.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.AirlockBooth">
+                <span>Кнопка на вход: </span>
+                <span ng-show="!!selectedRow.enterButton"><a href="#" ng-click="ShowDevice(selectedRow.enterButton.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.enterButton.ImageSource}}" />{{selectedRow.enterButton.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.AirlockBooth">
+                <span>Кнопка на выход: </span>
+                <span ng-show="!!selectedRow.exitButton"><a href="#" ng-click="ShowDevice(selectedRow.exitButton.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.exitButton.ImageSource}}" />{{selectedRow.exitButton.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.OneWay || selectedRow.TwoWay">
+                <span>Замок: </span>
+                <span ng-show="!!selectedRow.lockDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.AirlockBooth || selectedRow.Turnstile">
+                <span>Реле на вход: </span>
+                <span ng-show="!!selectedRow.lockDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.Barrier">
+                <span>Реле на открытие: </span>
+                <span ng-show="!!selectedRow.lockDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.AirlockBooth || selectedRow.Turnstile">
+                <span>Реле на выход: </span>
+                <span ng-show="!!selectedRow.lockDeviceExit"><a href="#" ng-click="ShowDevice(selectedRow.lockDeviceExit.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDeviceExit.ImageSource}}" />{{selectedRow.lockDeviceExit.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.Barrier">
+                <span>Реле на закрытие: </span>
+                <span ng-show="!!selectedRow.lockDeviceExit"><a href="#" ng-click="ShowDevice(selectedRow.lockDeviceExit.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDeviceExit.ImageSource}}" />{{selectedRow.lockDeviceExit.Name}}</a></span>
+            </div>
+            <div ng-show="!selectedRow.Turnstile && !selectedRow.Barriery">
+                <span>Датчик контроля двери: </span>
+                <span ng-show="!!selectedRow.lockControlDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.Turnstile">
+                <span>Датчик проворота: </span>
+                <span ng-show="!!selectedRow.lockControlDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.Barriery">
+                <span>Датчик контроля на въезд: </span>
+                <span ng-show="!!selectedRow.lockControlDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.AirlockBooth">
+                <span>Датчик контроля двери на выход: </span>
+                <span ng-show="!!selectedRow.lockControlDeviceExit"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDeviceExit.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDeviceExit.ImageSource}}" />{{selectedRow.lockControlDeviceExit.Name}}</a></span>
+            </div>
+            <div ng-show="selectedRow.Barriery">
+                <span>Датчик контроля на выезд: </span>
+                <span ng-show="!!selectedRow.lockControlDeviceExit"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDeviceExit.UID)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDeviceExit.ImageSource}}" />{{selectedRow.lockControlDeviceExit.Name}}</a></span>
+            </div>
+            <div>
+                <span>Зона входа: </span>
+                <span ng-show="!!selectedRow.enterZone"><a href="#" ng-click="ShowDevice(selectedRow.enterZone.Item2)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/Images/SKDZone.png" />{{selectedRow.enterZone.Item1}}</a></span>
+            </div>
+            <div ng-show="!selectedRow.OneWay">
+                <span>Зона выхода: </span>
+                <span ng-show="!!selectedRow.exitZone"><a href="#" ng-click="ShowDevice(selectedRow.exitZone.Item2)"><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/Images/SKDZone.png" />{{selectedRow.exitZone.Item1}}</a></span>
+            </div>
+            <div>
+                <span>Условие для перевода в режим всегда открыто: </span>
+                <span>{{selectedRow.openRegimeLogic}}</span>
+            </div>
+            <div>
+                <span>Условие для перевода в режим норма: </span>
+                <span>{{selectedRow.normRegimeLogic}}</span>
+            </div>
+            <div>
+                <span>Условие для перевода в режим всегда закрыто: </span>
+                <span>{{selectedRow.closeRegimeLogic}}</span>
+            </div>
+        </div>
+    </div>
+    </div>

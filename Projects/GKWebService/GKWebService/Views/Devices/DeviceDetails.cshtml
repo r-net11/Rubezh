@@ -83,30 +83,13 @@
 						</div>
 					</div>
 				</uib-tab>
-				<uib-tab heading="Параметры" ng-if="device.Properties.length > 0">
+				<uib-tab heading="Параметры" ng-if="device.Properties.length > 0" select="onTabSelected()">
 					<div class="detailsTab">
-						<table>
-							<tr>
-								<td>Параметр</td>
-								<td>Значение</td>
-							</tr>
-							<tr ng-repeat="item in parameters">
-								<td>{{item.Name}}</td>
-								<td>{{item.Value}}</td>
-							</tr>
-						</table>
-					</div>
+						<div ui-grid="gridParameters" ui-grid-selection></div>
 				</uib-tab>
-				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0">
+				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0" select="onTabSelected()">
 					<div class="detailsTab">
-						<table>
-							<tr>
-								<td>Измерение</td>
-							</tr>
-							<tr ng-repeat="item in device.MeasureParameters">
-								<td>{{item.Name}}</td>
-							</tr>
-						</table>
+						<div ui-grid="gridMeasurements" ui-grid-selection></div>
 					</div>
 				</uib-tab>
 			</uib-tabset>

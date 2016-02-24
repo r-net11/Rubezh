@@ -1,4 +1,9 @@
-﻿.device-params {
+﻿.ui-grid {
+	margin-bottom: 20px;
+}
+
+
+.device-params {
 	color: white;
 	.blueGradientBackground;
 	min-height: 100px;
@@ -55,5 +60,29 @@
 
 	em {
 		font-style: italic;
+	}
+}
+.deviceWindow {
+	margin-top: 5px;
+	border-radius: 5px;
+	background: white;
+	padding: 5px;
+		> div:not(.ui-grid){
+		height: auto;
+		background: #fff;
+		padding: 10px;
+
+	> div {
+		height: 300px;
+	}
+
+	.deviceProperties{
+		>div>span{
+			color:black;
+			width:45%;
+			display:inline-table;
+			font-weight:bold;
+			vertical-align:super;
+		}
 	}
 }
