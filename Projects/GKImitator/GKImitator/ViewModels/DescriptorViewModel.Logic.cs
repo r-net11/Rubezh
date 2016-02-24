@@ -81,7 +81,7 @@ namespace GKImitator.ViewModels
 				var descriptorNo = formulaOperation.SecondOperand;
 				DescriptorViewModel descriptorViewModel = null;
 				if (IsKauDecriptor)
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand); // TODO проверить для больше чем одного КАУ
 				else
 					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
 
