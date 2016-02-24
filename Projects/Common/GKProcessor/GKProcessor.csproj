@@ -136,6 +136,8 @@
     <Compile Include="Drivers\RSR2\RSR2_IOLIT_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MDU24_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MRK_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MVK2_Group_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MVK4_Group_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_OPKS_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_OPKZ_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_OPSZ_Group_Helper.cs" />
