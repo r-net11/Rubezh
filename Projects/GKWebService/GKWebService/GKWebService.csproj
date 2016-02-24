@@ -193,7 +193,8 @@
     <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
-    <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
+    <Content Include="App\controllers\deviceParameters\deviceParametersDetailsCtrl.js" />
+    <Content Include="App\controllers\deviceParameters\deviceParametersCtrl.js" />
     <Content Include="App\controllers\devices\devicesCtrl.js" />
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
@@ -225,6 +226,7 @@
     <Content Include="App\route.js" />
     <Content Include="App\services\broadcastService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
+    <Content Include="App\services\signalrDeviceParametersService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
@@ -668,6 +670,7 @@
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DelaysController.cs" />
+    <Compile Include="Controllers\DeviceParametersController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\DoorsController.cs" />
@@ -685,6 +688,7 @@
     <Compile Include="Controllers\PumpStationsController.cs" />
     <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
+    <Compile Include="DataProviders\DeviceParametersHub\DeviceParametersUpdaterHub.cs" />
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
@@ -694,6 +698,7 @@
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Device\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Models\Door\Door.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\GuardZones\GuardZone.cs" />
@@ -847,6 +852,7 @@
     <Content Include="Views\GuardZones\GuardZoneDetails.cshtml" />
     <Content Include="Views\Doors\Door.cshtml" />
     <Content Include="Views\Doors\DoorDetails.cshtml" />
+    <Content Include="Views\DeviceParameters\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

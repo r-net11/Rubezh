@@ -13,7 +13,7 @@
             templateUrl: "/Devices/Index"
         }).state('params', {
             url: "/params/:uid",
-            templateUrl: "/params/Index"
+            templateUrl: "/DeviceParameters/Index"
         }).state('fireZones', {
             url: "/fireZones/:uid",
             templateUrl: "/FireZones/Index"
