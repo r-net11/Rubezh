@@ -21,6 +21,11 @@
                    { field: 'NsLogic', displayName: 'Дополнительное условие включения', width: 400 }]
                  };
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = window.innerHeight - 170;
+            	return "height:" + ctrlHeight + "px";
+            }();
+
             $scope.pumpClick = function (device) {
                 var modalInstance = $uibModal.open({
                     animation: false,

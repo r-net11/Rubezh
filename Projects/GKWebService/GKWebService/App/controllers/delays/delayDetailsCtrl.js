@@ -1,8 +1,9 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('delayDetailsCtrl',
-		function ($scope, $uibModalInstance, $http, delay) {
-			$scope.delay = delay;
+		['$scope', '$uibModalInstance', '$http', '$state', 'signalrDelaysService', 'entity',
+        function ($scope, $uibModalInstance, $http, $state, signalrDelaysService, entity) {
+		    $scope.delay = entity;
 
 			$scope.$on('delayChanged', function (event, args) {
 				if (args.Uid === $scope.delay.Uid) {
@@ -34,12 +35,16 @@
 				$http.post('Delays/TurnOff', { id: $scope.delay.Uid });
 			};
 			$scope.Show = function () {
-
+			    $state.go('delays', { uid: $scope.delay.UID });
 			};
 
 			$scope.ShowJournal = function () {
-
+			    $state.go('archive', { uid: $scope.delay.UID });
 			};
-		}
+
+			$scope.cancel = function () {
+			    $uibModalInstance.dismiss('cancel');
+			};
+        }]
 	);
 }());

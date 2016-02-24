@@ -1,10 +1,12 @@
 ﻿(function () {
-    angular.module('gkApp.controllers').controller('guardZoneDetailsCtrl', function ($scope, $http, $uibModalInstance, guardZone) {
+    angular.module('gkApp.controllers').controller('guardZoneDetailsCtrl',
+    ['$scope', '$http', '$uibModalInstance', '$state', 'signalrGuardZonesService', 'entity',
+    function ($scope, $http, $uibModalInstance, $state, signalrGuardZonesService, entity) {
 
-        $scope.guardZone = guardZone;
-        $scope.$on('fireZonesChanged', function (event, args) {
-            if (args.Uid === $scope.fireZone.Uid) {
-                $scope.guardZone = guardZone;
+        $scope.guardZone = entity;
+        $scope.$on('guardZoneChanged', function (event, args) {
+            if (args.Uid === $scope.guardZone.Uid) {
+                $scope.guardZone = args;
                 $scope.$apply();
             };
         });
@@ -39,11 +41,11 @@
 
 
         $scope.Show = function () {
-
+            $state.go('guardZone', { uid: $scope.guardZone.UID });
         };
 
         $scope.ShowJournal = function () {
-
+            $state.go('archive', { uid: $scope.guardZone.UID });
         };
 
         $scope.ok = function () {
@@ -53,5 +55,5 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
-    });
+    }]);
 }())

@@ -123,6 +123,7 @@
     <Compile Include="Painters\PainterHelper.cs" />
     <Compile Include="Painters\PointPainter.cs" />
     <Compile Include="Painters\PolygonPainter.cs" />
+    <Compile Include="Painters\PolygonSubPlanPainter.cs" />
     <Compile Include="Painters\PolygonZonePainter.cs" />
     <Compile Include="Painters\PolylinePainter.cs" />
     <Compile Include="Painters\RectanglePainter.cs" />

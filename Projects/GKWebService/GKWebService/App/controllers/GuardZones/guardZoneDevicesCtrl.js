@@ -21,6 +21,11 @@
                 ]
             };
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = (window.innerHeight - 115) / 2;
+            	return "height:" + ctrlHeight + "px";
+            }();
+
             $scope.$on('guard', function (event, args) {
                 var t = 'ddd';
                 $http.get('GuardZones/GetGuardZoneDevices/' + args).success(function (data) {

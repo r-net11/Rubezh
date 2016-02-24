@@ -1,8 +1,9 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('mptsDetailsCtrl',
-        function ($scope, $uibModalInstance, $http, mpt) {
-            $scope.mpt = mpt;
+        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrMPTsService', 'entity',
+        function ($scope, $uibModalInstance, $http, $state, signalrMPTsService, entity) {
+            $scope.mpt = entity;
 
             $scope.$on('mptChanged', function (event, args) {
                 if (args.UID === $scope.mpt.UID) {
@@ -40,11 +41,11 @@
             };
 
             $scope.Show = function () {
-
+                $state.go('MPTs', { uid: $scope.mpt.UID });
             };
 
             $scope.ShowJournal = function () {
-
+                $state.go('archive', { uid: $scope.mpt.UID });
             };
 
             $scope.ok = function () {
@@ -54,6 +55,6 @@
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
-        }
+        }]
     );
 }());

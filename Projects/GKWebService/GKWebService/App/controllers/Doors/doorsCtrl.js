@@ -1,7 +1,8 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
-    app.controller('doorsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', '$state', 'signalrDoorsService', 'broadcastService',
-        function ($scope, $http, $timeout, $uibModal, $stateParams, $state, signalrDoorsService, broadcastService) {
+    app.controller('doorsCtrl',
+        ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrDoorsService', 'broadcastService', 'dialogService', 'constants',
+        function ($scope, $http, $timeout, $uibModal, $stateParams, signalrDoorsService, broadcastService, dialogService, constants) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -23,6 +24,11 @@
                     { field: 'Desription', width: Math.round(($(window).width() - 525) / 2), displayName: 'Примечание' }
                 ]
             };
+
+            $scope.gridStyle = function () {
+            	var ctrlHeight = window.innerHeight - 265;
+            	return "height:" + ctrlHeight + "px";
+            }();
 
             $scope.showSelectedRow = function (row) {
             }
@@ -85,10 +91,9 @@
             //    }
             //};
 
-            $scope.$on('deviceChanged', function (event, args) {
-                foreach
-                if(  !!$scope.uiGrid.exitDeviceShow && $scope.selectedRow.exitDevice.UID === args.UID)
-                    deviceChange($scope.selectedRow.exitDeviceShow, args)
+            //$scope.$on('deviceChanged', function (event, args) {
+            //    if(  $scope.selectedRow.exitDeviceShow && $scope.selectedRow.exitDevice.UID === args.UID)
+            //        deviceChange($scope.selectedRow.exitDeviceShow, args)
 
             });
 
@@ -97,17 +102,7 @@
             //}
 
             $scope.doorClick = function (door) {
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    size: 'rbzh',
-                    templateUrl: 'Doors/DoorDetails',
-                    controller: 'doorDetailsCtrl',
-                    resolve: {
-                        door: function () {
-                            return door;
-                        }
-                    }
-                });
+                dialogService.showWindow(constants.gkObject.door, door);
             };
 
             $http.get('Doors/GetDoors').success(function (data) {
@@ -128,6 +123,7 @@
                 for (var i = 0; i < $scope.uiGrid.data.length; i++) {
                     if ($scope.uiGrid.data[i].UID === uid) {
                         $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
+                        $scope.gridApi.core.scrollTo($scope.uiGrid.data[i], $scope.uiGrid.columnDefs[0]);
                         break;
                     }
                 }

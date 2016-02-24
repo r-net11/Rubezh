@@ -1,8 +1,8 @@
 ﻿(function () {
     'use strict';
     var app = angular.module('gkApp.controllers');
-    app.controller('guardZonesCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrGuardZonesService', 'broadcastService',
-    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrGuardZonesService, broadcastService) {
+    app.controller('guardZonesCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrGuardZonesService', 'broadcastService', 'dialogService', 'constants',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrGuardZonesService, broadcastService, dialogService, constants) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -37,6 +37,11 @@
                 });
             });
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = (window.innerHeight - 115)/2;
+            	return "height:" + ctrlHeight + "px; margin-bottom:10px;";
+            }();
+
             $scope.showSelectedRow = function (row) {
                 broadcastService.send('guard', row.entity.UID);
             };
@@ -55,23 +60,14 @@
                 for (var i = 0; i < $scope.uiGrid.data.length; i++) {
                     if ($scope.uiGrid.data[i].UID === uid) {
                         $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
+                        $scope.gridApi.core.scrollTo($scope.uiGrid.data[i], $scope.uiGrid.columnDefs[0]);
                         break;
                     }
                 }
             }
 
             $scope.guardZoneClick = function (guardZone) {
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    size: 'rbzh',
-                    templateUrl: 'GuardZones/GuardZoneDetails',
-                    controller: 'guardZoneDetailsCtrl',
-                    resolve: {
-                        guardZone: function () {
-                            return guardZone;
-                        }
-                    }
-                });
+                dialogService.showWindow(constants.gkObject.guardZone, guardZone);
             };
 
         }]);

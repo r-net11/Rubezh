@@ -3,8 +3,8 @@
 	'use strict';
 
 	var app = angular.module('gkApp.controllers').controller('fireZonesCtrl',
-        ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'uiGridConstants', 'signalrFireZonesService', 'broadcastService',
-        function ($scope, $http, $timeout, $uibModal, $stateParams, uiGridConstants, signalrFireZonesService, broadcastService) {
+        ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'uiGridConstants', 'signalrFireZonesService', 'broadcastService', 'dialogService', 'constants',
+        function ($scope, $http, $timeout, $uibModal, $stateParams, uiGridConstants, signalrFireZonesService, broadcastService, dialogService, constants) {
         	var fireCountWidth = Math.round(($(window).width() - 525) / 2);
         	$scope.gridOptions = {
         		enableRowHeaderSelection: false,
@@ -22,6 +22,11 @@
         		]
         	};
 
+        	$scope.gridStyle = function () {
+        		var ctrlHeight = (window.innerHeight - 100)/2;
+        		return "height:" + ctrlHeight + "px";
+        	}();
+
         	$scope.$on('fireZonesChanged', function (event, args) {
         		for (var i in $scope.gridOptions.data) {
         			if (args.Uid === $scope.gridOptions.data[i].Uid) {
@@ -38,18 +43,7 @@
         	});
 
         	$scope.fireZonesClick = function (fireZone) {
-        		$uibModal.open({
-        			animation: false,
-        			size: 'rbzh',
-        			templateUrl: 'FireZones/FireZonesDetails',
-        			controller: 'fireZonesDetailsCtrl',
-        			backdrop: false,
-        			resolve: {
-        				fireZone: function () {
-        					return fireZone;
-        				}
-        			}
-        		});
+        	    dialogService.showWindow(constants.gkObject.zone, fireZone);
         	};
 
         	$scope.changeZone = function (row) {
@@ -89,20 +83,11 @@
         		for (var i = 0; i < $scope.gridOptions.data.length; i++) {
         			if ($scope.gridOptions.data[i].Uid === uid) {
         				$scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
-        				break;
-        			}
+        				$scope.gridApi.core.scrollTo($scope.gridOptions.data[i], $scope.gridOptions.columnDefs[0]);
+			            break;
+			        }
         		}
         	}
-
-        	$scope.$on('showGKZoneDetails', function (event, args) {
-        		for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-        			if ($scope.gridOptions.data[i].Uid === args) {
-        				$scope.fireZonesClick($scope.gridOptions.data[i]);
-        				break;
-        			}
-        		}
-        	});
-
         }]
     );
 }());

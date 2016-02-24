@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
-        ['$scope', '$http', '$uibModal', '$window', '$state', '$stateParams', 'broadcastService', 'constants',
-        function ($scope, $http, $uibModal, $window, $state, $stateParams, broadcastService, constants) {
+        ['$scope', '$http', '$window', '$state', '$stateParams', 'broadcastService', 'constants', 'dialogService',
+        function ($scope, $http, $window, $state, $stateParams, broadcastService, constants, dialogService) {
             $scope.gridOptions = {
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
@@ -76,6 +76,11 @@
                 ]
             };
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = window.innerHeight - 170;
+            	return "height:" + ctrlHeight + "px";
+            }();
+
             $scope.$on('alarmsChanged', function (event, args) {
                 $scope.model = args.alarms;
                 $scope.gridOptions.data = $scope.model.Alarms;
@@ -108,72 +113,60 @@
             };
 
             $scope.objectClick = function(alarm) {
-                // TODO: Исправить когда меню переведём на ангулар
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.device) {
+                if (alarm.GkEntity.ObjectType === constants.gkObject.device.type) {
                     $state.go('device', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.zone) {
+                if (alarm.GkEntity.ObjectType === constants.gkObject.zone.type) {
                     $state.go('fireZones', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.guardZone) {
+                if (alarm.GkEntity.ObjectType === constants.gkObject.guardZone.type) {
                     $state.go('guardZone', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.direction) {
+                if (alarm.GkEntity.ObjectType === constants.gkObject.direction.type) {
                     $state.go('directions', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.mpt) {
+                if (alarm.GkEntity.ObjectType === constants.gkObject.mpt.type) {
                     $state.go('MPTs', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.delay) {
+                if (alarm.GkEntity.ObjectType === constants.gkObject.delay.type) {
                     $state.go('delays', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.pumpStation) {
+                if (alarm.GkEntity.ObjectType === constants.gkObject.pumpStation.type) {
                     $state.go('pumpStations', { uid: alarm.GkEntity.UID });
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.door) {
+                if (alarm.GkEntity.ObjectType === constants.gkObject.door.type) {
                     $state.go('doors', { uid: alarm.GkEntity.UID });
                 }
-                // TODO: Дополнить здесь обработку кликов на объекты при создании новых страниц объектов
             };
 
             $scope.journalClick = function (alarm) {
-                // TODO: Исправить когда меню переведём на ангулар
-                $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .archive")[0] }, 'Archive');
-                broadcastService.send('showArchive', alarm.GkEntity.UID);
+                $state.go('archive', { uid: alarm.GkEntity.UID });
             }
 
             $scope.showPropertiesClick = function (alarm) {
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.device) {
-                    broadcastService.send('showDeviceDetails', alarm.GkEntity.UID);
+                if (alarm.GkEntity.ObjectType === constants.gkObject.device.type) {
+                    dialogService.showWindow(constants.gkObject.device, alarm.GkEntity);
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.zone) {
-                    broadcastService.send('showGKZoneDetails', alarm.GkEntity.UID);
+                if (alarm.GkEntity.ObjectType === constants.gkObject.zone.type) {
+                    dialogService.showWindow(constants.gkObject.zone, alarm.GkEntity);
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.guardZone) {
-                    broadcastService.send('showGuardZoneDetails', alarm.GkEntity.UID);
+                if (alarm.GkEntity.ObjectType === constants.gkObject.guardZone.type) {
+                    dialogService.showWindow(constants.gkObject.guardZone, alarm.GkEntity);
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.direction) {
-                    var modalInstance = $uibModal.open({
-                        animation: false,
-                        templateUrl: 'Directions/DirectionDetails',
-                        controller: 'directionDetailsCtrl',
-                        backdrop: false,
-                        size: 'rbzh',
-                        resolve: {
-                            direction: function () {
-                                return alarm.GkEntity;
-                            }
-                        }
-                    });
+                if (alarm.GkEntity.ObjectType === constants.gkObject.direction.type) {
+                    dialogService.showWindow(constants.gkObject.direction, alarm.GkEntity);
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.mpt) {
-                    broadcastService.send('showMPTDetails', alarm.GkEntity.UID);
+                if (alarm.GkEntity.ObjectType === constants.gkObject.mpt.type) {
+                    dialogService.showWindow(constants.gkObject.mpt, alarm.GkEntity);
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.delay) {
-                    broadcastService.send('showDelayDetails', alarm.GkEntity.UID);
+                if (alarm.GkEntity.ObjectType === constants.gkObject.delay.type) {
+                    dialogService.showWindow(constants.gkObject.delay, alarm.GkEntity);
                 }
-                if (alarm.GkEntity.ObjectType === constants.gkObjectType.pumpStation) {
-                    broadcastService.send('showPumpStationDetails', alarm.GkEntity.UID);
+                if (alarm.GkEntity.ObjectType === constants.gkObject.pumpStation.type) {
+                    dialogService.showWindow(constants.gkObject.pumpStation, alarm.GkEntity);
+                }
+                if (alarm.GkEntity.ObjectType === constants.gkObject.door.type) {
+                    dialogService.showWindow(constants.gkObject.door, alarm.GkEntity);
                 }
             };
         }]

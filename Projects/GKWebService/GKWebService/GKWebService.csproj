@@ -199,11 +199,11 @@
     <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
     <Content Include="App\controllers\devices\devicesDetailsCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZoneDetailsCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZoneDevicesCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZonesCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
-    <Content Include="App\controllers\journal\journalFilterCtrl.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
@@ -220,11 +220,14 @@
     <Content Include="App\directives\modalDraggable.js" />
     <Content Include="App\route.js" />
     <Content Include="App\services\broadcastService.js" />
+    <Content Include="App\services\dialogService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
+    <Content Include="App\services\signalrConfigService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
     <Content Include="App\services\signalrDoorsService.js" />
+    <Content Include="App\services\signalrFireZonesDevicesService.js" />
     <Content Include="App\services\signalrFireZonesService.js" />
     <Content Include="App\services\signalrGuardZonesService.js" />
     <Content Include="App\services\signalrMPTsService.js" />
@@ -598,6 +601,8 @@
     <Content Include="Content\alarmBtn.less" />
     <Content Include="Content\devices.less" />
     <Content Include="Content\common.less" />
+    <Content Include="Content\pumpStations.less" />
+    <Content Include="Content\mpts.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -675,6 +680,7 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\PumpStationsController.cs" />
     <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
+    <Compile Include="DataProviders\ConfigHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
@@ -714,7 +720,6 @@
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\GK\Delay\Delay.cs" />
-    <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\StateClass.cs" />
     <Compile Include="Models\Journal\JournalFilterEvent.cs" />
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
@@ -752,7 +757,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="JournalItemViewModel.cs" />
     <Compile Include="Models\AccessDoorModel.cs" />
     <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
     <Compile Include="Models\Plan\PlanElement\Hint\ElementHint.cs" />
@@ -780,7 +784,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Devices\Index.cshtml" />
-    <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
@@ -822,7 +825,6 @@
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Journal\Index.cshtml" />
     <Content Include="Views\Delays\DelayDetails.cshtml" />
-    <Content Include="Views\Journal\JournalFilter.cshtml" />
     <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <Content Include="Views\FireZones\Index.cshtml" />
     <Content Include="Views\FireZones\FireZonesDetails.cshtml" />

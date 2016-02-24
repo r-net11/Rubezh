@@ -112,6 +112,7 @@ namespace VideoModule.ViewModels
 			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
 				ClientManager.SystemConfiguration.RviServers = devicesViewModel.RviServers;
+				ClientManager.SystemConfiguration.UpdateRviConfiguration();
 				Initialize();
 				ServiceFactory.SaveService.CamerasChanged = true;
 				PlanExtension.Instance.Cache.BuildSafe<Camera>();

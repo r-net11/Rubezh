@@ -6,7 +6,7 @@
 
 <div>
     <div id="pageStates" style="overflow: hidden" ng-controller="alarmsCtrl">
-        <div ui-grid="gridOptions" style="width: 100%; height: 600px" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns></div>
+        <div ui-grid="gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns style="{{gridStyle}}"></div>
         <div class="btn btn-primary" style="float: right" ng-click="resetIgnoreAll()" ng-disabled="!model.CanResetIgnoreAll">Снять все отключения</div>
     </div>
 </div>
