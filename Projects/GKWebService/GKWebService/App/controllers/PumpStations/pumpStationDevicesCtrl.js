@@ -21,19 +21,6 @@
                    { field: 'NsLogic', displayName: 'Дополнительное условие включения', width: 400 }]
                  };
 
-            //$scope.pumpClick = function (mpt) {
-            //    $uibModal.open({
-            //        animation: false,
-            //        templateUrl: 'MPTs/MPTDetails',
-            //        controller: 'mptsDetailsCtrl',
-            //        resolve: {
-            //            mpt: function () {
-            //                return mpt;
-            //            }
-            //        }
-            //    });
-            //};
-
             $scope.pumpClick = function (device) {
                 var modalInstance = $uibModal.open({
                     animation: false,
