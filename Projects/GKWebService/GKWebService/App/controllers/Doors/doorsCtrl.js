@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
     app.controller('doorsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', '$state', 'signalrDoorsService', 'broadcastService',
-        function ($scope, $http, $timeout, $uibModal, $stateParams,$state, signalrDoorsService, broadcastService) {
+        function ($scope, $http, $timeout, $uibModal, $stateParams, $state, signalrDoorsService, broadcastService) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
