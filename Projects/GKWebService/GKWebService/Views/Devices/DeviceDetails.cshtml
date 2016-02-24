@@ -54,43 +54,45 @@
 				</uib-tab>
 				<uib-tab heading="Свойства" ng-if="true">
 					<div class="detailsTab">
-						<div>
-							<span>Устройство:</span>
-							<span class="labelImage" style="background-image:url(/Content/Image/{{device.ImageSource}})">{{device.Name}}</span>
-						</div>
-						<div>
-							<span>Подключено к:</span>
-							<span class="labelImage" style="background-image:url(/Content/Image/{{device.ParentObject.ImageSource}})">{{device.ParentObject.Name}}</span>
-						</div>
-						<div>
-							<span>Название в ГК:</span>
-							<span>{{device.Name}}</span>
-						</div>
-						<div>
-							<span>Номер в ГК:</span>
-							<span>{{device.GKDescriptorNo}}</span>
-						</div>
-						<div>
-							<span>Проектный адрес:</span>
-							<span></span>
-						</div>
-						<div ng-show="device.PresentationZone != ''">
-							<span>Зона: </span>
-							<span class="labelImage" style="background-image:url(/Content/Image/Images/Zone.png)">{{device.PresentationZone}}</span>
-						</div>
-						<div>
-							<a class="labelImage" href="#" ng-click="ShowJournal()" style="background-image:url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
+						<div class="properties">
+							<div>
+								<span>Устройство:</span>
+								<span class="labelImage" style="background-image: url(/Content/Image/{{device.ImageSource}})">{{device.Name}}</span>
+							</div>
+							<div>
+								<span>Подключено к:</span>
+								<span class="labelImage" style="background-image: url(/Content/Image/{{device.ParentObject.ImageSource}})">{{device.ParentObject.Name}}</span>
+							</div>
+							<div>
+								<span>Название в ГК:</span>
+								<span>{{device.Name}}</span>
+							</div>
+							<div>
+								<span>Номер в ГК:</span>
+								<span>{{device.GKDescriptorNo}}</span>
+							</div>
+							<div>
+								<span>Проектный адрес:</span>
+								<span></span>
+							</div>
+							<div ng-show="device.PresentationZone != ''">
+								<span>Зона: </span>
+								<span class="labelImage" style="background-image: url(/Content/Image/Images/Zone.png)">{{device.PresentationZone}}</span>
+							</div>
+							<div>
+								<a class="labelImage" href="#" ng-click="ShowJournal()" style="background-image: url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
+							</div>
 						</div>
 					</div>
 				</uib-tab>
 				<uib-tab heading="Параметры" ng-if="device.Properties.length > 0" select="onTabSelected()">
 					<div class="detailsTab">
-						<div ui-grid="gridParameters" ui-grid-selection></div>
+						<div ui-grid="gridParameters" ui-grid-selection style="height: inherit"></div>
 					</div>
 				</uib-tab>
 				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0" select="onTabSelected()">
 					<div class="detailsTab">
-						<div ui-grid="gridMeasurements" ui-grid-selection></div>
+						<div ui-grid="gridMeasurements" ui-grid-selection style="height: inherit"></div>
 					</div>
 				</uib-tab>
 			</uib-tabset>
