@@ -2,14 +2,14 @@
 	'use strict';
 
 	var app = angular.module('gkApp.services')
-        .factory('signalrConfigService', ['Hub', function (Hub) {
+        .factory('signalrConfigService', ['Hub', 'dialogService', 'constants', function (Hub, dialogService, constants) {
 
         	var configUpdater = new Hub('configUpdater',
 			{
 				logging: true,
 				listeners: {
 					'configUpdate': function () {
-						location.reload();
+						dialogService.showWindow(constants.gkObject.restart);
 					}
 				}
 			});
