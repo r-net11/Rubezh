@@ -1,9 +1,4 @@
-﻿.ui-grid {
-	margin-bottom: 20px;
-}
-
-
-.device-params {
+﻿﻿.device-params {
 	color: white;
 	.blueGradientBackground;
 	min-height: 100px;
@@ -44,45 +39,38 @@
 		padding: 2px 4px;
 	}
 
-	table {
-		width: 100%;
-		max-width: 1000px;
-
-		td {
-			padding: 4px 10px 4px 0;
-			max-width: 250px;
-		}
-
-		td:first-child {
-			text-align: right;
-		}
-	}
 
 	em {
 		font-style: italic;
 	}
 }
-.deviceWindow {
-	margin-top: 5px;
-	border-radius: 5px;
-	background: white;
+
+.deviceDetailsTab {
+	background: #698ebe;
 	padding: 5px;
-		> div:not(.ui-grid){
-		height: auto;
+	> div:not(.ui-grid){
 		background: #fff;
 		padding: 10px;
-
-	> div {
-		height: 300px;
 	}
 
+	/*> div {
+		height: 300px;
+	}*/
 	.deviceProperties{
 		>div>span{
 			color:black;
 			width:45%;
 			display:inline-table;
 			font-weight:bold;
-			vertical-align:super;
+			vertical-align: middle;
 		}
 	}
+}
+
+.btn-control {
+	height: 45px;
+	width: 47%;
+	margin: 4px;
+	display:inline-block;
+	display: inline-block;
 }
