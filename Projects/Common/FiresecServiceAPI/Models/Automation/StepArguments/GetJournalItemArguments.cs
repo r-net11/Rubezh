@@ -38,16 +38,19 @@ namespace FiresecAPI.Automation
 		[Description("Идентификатор объекта")]
 		JournalObjectUid = 5,
 
+		[Description("Пользователь")]
+		UserUid = 6,
+
 		[Description("Сотрудник")]
-		EmployeeUid = 6,
+		EmployeeUid = 7,
 
 		[Description("Посетитель")]
-		VisitorUid = 7,
+		VisitorUid = 8,
 
 		[Description("Номер пропуска")]
-		CardNo = 8,
+		CardNo = 9,
 
 		[Description("Тип пропуска")]
-		CardType = 9,
+		CardType = 10,
 	}
 }

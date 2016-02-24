@@ -30,6 +30,9 @@ namespace AutomationModule.ViewModels
 				explicitType = ExplicitType.DateTime;
 			if (SelectedJournalColumnType == JournalColumnType.JournalObjectUid)
 				explicitType = ExplicitType.String;
+			// Пользователь
+			if (SelectedJournalColumnType == JournalColumnType.UserUid)
+				explicitType = ExplicitType.Object;
 			// Сотрудник
 			if (SelectedJournalColumnType == JournalColumnType.EmployeeUid)
 				explicitType = ExplicitType.Object;

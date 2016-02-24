@@ -786,6 +786,17 @@ namespace FiresecService
 					value = JournalItem.JournalObjectType;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
 					value = JournalItem.ObjectUID.ToString();
+				// Пользователь
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.UserUid)
+				{
+					if (!string.IsNullOrEmpty(JournalItem.UserName) && JournalItem.EmployeeUID == Guid.Empty)
+					{
+						var user =	FiresecServiceManager.SafeFiresecService.GetSecurityConfiguration()
+								.Users.FirstOrDefault(u => u.Name == JournalItem.UserName);
+						if (user != null)
+							value = user.UID;
+					}
+				}
 				// Сотрудник
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.EmployeeUid)
 				{
