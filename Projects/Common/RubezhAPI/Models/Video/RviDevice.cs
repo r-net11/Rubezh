@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.Models
 {
@@ -19,6 +20,7 @@ namespace RubezhAPI.Models
 		public string Name { get; set; }
 		[DataMember]
 		public List<RviChannel> RviChannels { get; set; }
+		[XmlIgnore]
 		public RviStatus Status { get; set; }
 		public event Action StatusChanged;
 		public void OnStatusChanged()

@@ -40,11 +40,8 @@ namespace RubezhAPI.Models
 		public void UpdateConfiguration()
 		{
 			AutomationConfiguration.UpdateConfiguration();
+			UpdateRviConfiguration();
 
-			RviDevices = new List<RviDevice>();
-			RviServers.ForEach(server => RviDevices.AddRange(server.RviDevices));
-			Cameras = new List<Camera>();
-			RviDevices.ForEach(device => device.RviChannels.ForEach(channel => Cameras.AddRange(channel.Cameras)));
 		}
 
 		public override bool ValidateVersion()
@@ -55,5 +52,12 @@ namespace RubezhAPI.Models
 		public List<Camera> Cameras { get; set; }
 		[XmlIgnore]
 		public List<RviDevice> RviDevices { get; set; }
+		public void UpdateRviConfiguration()
+		{
+			RviDevices = new List<RviDevice>();
+			RviServers.ForEach(server => RviDevices.AddRange(server.RviDevices));
+			Cameras = new List<Camera>();
+			RviDevices.ForEach(device => device.RviChannels.ForEach(channel => Cameras.AddRange(channel.Cameras)));
+		}
 	}
 }

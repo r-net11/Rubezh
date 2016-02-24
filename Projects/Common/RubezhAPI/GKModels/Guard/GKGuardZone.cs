@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using Common;
+using Infrustructure.Plans.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Common;
-using RubezhAPI;
-using Infrustructure.Plans.Interfaces;
-using System.Linq;
 
 namespace RubezhAPI.GK
 {

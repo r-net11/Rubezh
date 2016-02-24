@@ -33,6 +33,12 @@
                     }
                 }
             });
+
+            if (directionsUpdater.connection.state === $.signalR.connectionState.connected) {
+                directionsUpdater.connection.stop().start();
+            }
+
+
             return {
             };
         }]);

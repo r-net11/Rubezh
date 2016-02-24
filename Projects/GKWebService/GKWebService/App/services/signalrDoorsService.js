@@ -29,6 +29,12 @@
                 }
             }
         });
+
+        if (doorsUpdater.connection.state === $.signalR.connectionState.connected) {
+            doorsUpdater.connection.stop().start();
+        }
+
+
         return {};
     }]);
 }());

@@ -9,9 +9,10 @@ using System.Linq;
 
 namespace GKWebService.Models.GuardZones
 {
-	public class GuardZone
+	public class GuardZone : GKBaseModel
 	{
 		public GuardZone(GKGuardZone guardZone)
+			: base(guardZone)
 		{ 
 			UID = guardZone.UID;
 			No = guardZone.No;

@@ -1,10 +1,10 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 using DeviceControls;
-using RubezhAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
-using System;
+using RubezhAPI.Models;
 
 namespace VideoModule.Plans.Designer
 {
@@ -18,6 +18,12 @@ namespace VideoModule.Plans.Designer
 			_elementCamera = elementCamera;
 			_toolTip = new ImageTextTooltipViewModel();
 			_toolTip.ImageSource = "/Controls;component/Images/BVideo.png";
+		}
+
+		public override void Transform()
+		{
+			_rotateTransform.Angle = _elementCamera.Rotation;
+			base.Transform();
 		}
 
 		protected override Brush GetBrush()

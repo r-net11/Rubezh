@@ -1,7 +1,9 @@
 ﻿(function () {
 
-    angular.module('gkApp.controllers').controller('pumpStationDetailsCtrl', function ($scope, $uibModalInstance, $http, pumpStation) {
-        $scope.pumpStation = pumpStation;
+    angular.module('gkApp.controllers').controller('pumpStationDetailsCtrl',
+    ['$scope', '$uibModalInstance', '$http', '$state', 'signalrPumpStatoinsService', 'entity',
+    function ($scope, $uibModalInstance, $http, $state, signalrPumpStatoinsService, entity) {
+        $scope.pumpStation = entity;
 
         $scope.$on('pumpStationsChanged', function (event, args) {
             if (args.UID === $scope.pumpStation.UID) {
@@ -39,11 +41,11 @@
         };
 
         $scope.Show = function () {
-
+            $state.go('pumpStations', { uid: $scope.pumpStation.UID });
         };
 
         $scope.ShowJournal = function () {
-
+            $state.go('archive', { uid: $scope.pumpStation.UID });
         };
 
         $scope.ok = function () {
@@ -53,6 +55,6 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
-    }
+    }]
     );
 }());

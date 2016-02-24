@@ -65,11 +65,13 @@ namespace RviClient
 			var client = new IntegrationVideoStreamingClient(binding, endpointAddress);
 			return client;
 		}
-		[DebuggerStepThrough]
-		public static bool IsConnected(string url, string login, string password)
+		public static List<RviServer> GetServers(string url, string login, string password, List<Camera> existingCameras)
 		{
+			List<RviServer> rviServers = new List<RviServer>();
 			try
 			{
+				Server[] servers = null;
+				bool isNotConnected;
 				using (IntegrationClient client = CreateIntegrationClient(url))
 				{
 					var sessionUID = Guid.NewGuid();
@@ -83,6 +85,19 @@ namespace RviClient
 					sessionInitialiazationIn.Login = login;
 					sessionInitialiazationIn.Password = password;
 					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+					//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
+
+					var serverListIn = new ServerListIn();
+					serverListIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var serverListOut = client.GetServerList(serverListIn);
+					if (serverListOut != null)
+					{
+						servers = serverListOut.ServerList;
+					}
 
 					var sessionCloseIn = new SessionCloseIn();
 					sessionCloseIn.Header = new HeaderRequest()
@@ -91,69 +106,25 @@ namespace RviClient
 						Session = sessionUID
 					};
 					var sessionCloseOut = client.SessionClose(sessionCloseIn);
-				}
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-		}
-		public static List<RviServer> GetServers(string url, string login, string password, List<Camera> existingCameras)
-		{
-			Server[] servers = null;
-			List<RviServer> rviServers = new List<RviServer>();
-
-			using (IntegrationClient client = CreateIntegrationClient(url))
-			{
-				var sessionUID = Guid.NewGuid();
-
-				var sessionInitialiazationIn = new SessionInitialiazationIn();
-				sessionInitialiazationIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				sessionInitialiazationIn.Login = login;
-				sessionInitialiazationIn.Password = password;
-				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
-				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
-
-				var serverListIn = new ServerListIn();
-				serverListIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var serverListOut = client.GetServerList(serverListIn);
-				if (serverListOut != null)
-				{
-					servers = serverListOut.ServerList;
-				}
-
-				var sessionCloseIn = new SessionCloseIn();
-				sessionCloseIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
-				foreach (var server in servers)
-				{
-					var rviServer = new RviServer { Ip = server.IP, Port = server.Port, Protocol = server.Protocol, Url = server.Url };
-					rviServer.RviDevices = GetRviDevices(server.Url, login, password, existingCameras);
-					rviServers.Add(rviServer);
+					foreach (var server in servers)
+					{
+						var rviServer = new RviServer { Ip = server.IP, Port = server.Port, Protocol = server.Protocol, Url = server.Url };
+						rviServer.RviDevices = GetRviDevices(server.Url, login, password, existingCameras, out isNotConnected);
+						rviServer.Status = isNotConnected ? RviStatus.ConnectionLost : RviStatus.Connected;
+						rviServers.Add(rviServer);
+					}
 				}
 			}
+			catch (Exception) { }
 			return rviServers;
 		}
-		static List<RviDevice> GetRviDevices(string url, string login, string password, List<Camera> existingCameras)
+		static List<RviDevice> GetRviDevices(string url, string login, string password, List<Camera> existingCameras, out bool isNotConnected)
 		{
-			var devices = GetDevices(url, login, password);
+			var devices = GetDevices(url, login, password, out isNotConnected);
 			var rviDevices = new List<RviDevice>();
 			foreach (var device in devices)
 			{
-				var rviDevice = new RviDevice { Uid = device.Guid, Ip = device.Ip, Name = device.Name, Status = GetRviStatus(device.Status) };
+				var rviDevice = new RviDevice { Uid = device.Guid, Ip = device.Ip, Name = device.Name, Status = ConvertToRviStatus(device.Status) };
 				rviDevices.Add(rviDevice);
 				foreach (var channel in device.Channels)
 				{
@@ -188,21 +159,22 @@ namespace RviClient
 			}
 			return rviDevices;
 		}
-		public static List<RviDevice> GetRviDevicesWithoutChannels(string url, string login, string password)
+		public static List<RviDevice> GetRviDevicesWithoutChannels(string url, string login, string password, out bool isNotConnected)
 		{
-			var devices = GetDevices(url, login, password);
+			var devices = GetDevices(url, login, password, out isNotConnected);
 			var rviDevices = new List<RviDevice>();
 			foreach (var device in devices)
 			{
-				var rviDevice = new RviDevice { Uid = device.Guid, Ip = device.Ip, Name = device.Name, Status = GetRviStatus(device.Status) };
+				var rviDevice = new RviDevice { Uid = device.Guid, Ip = device.Ip, Name = device.Name, Status = ConvertToRviStatus(device.Status) };
 				rviDevices.Add(rviDevice);
 			}
 			return rviDevices;
 		}
 		[DebuggerStepThrough]
-		static List<Device> GetDevices(string url, string login, string password)
+		static List<Device> GetDevices(string url, string login, string password, out bool isNotConnected)
 		{
 			var devices = new List<Device>();
+			isNotConnected = false;
 			try
 			{
 				using (IntegrationClient client = CreateIntegrationClient(url))
@@ -241,7 +213,9 @@ namespace RviClient
 				}
 			}
 			catch (Exception)
-			{ }
+			{
+				isNotConnected = true;
+			}
 			return devices;
 		}
 
@@ -471,8 +445,9 @@ namespace RviClient
 		{
 			ipEndPoint = null;
 			vendorId = -1;
+			bool isNotConnected;
 
-			var devices = GetDevices(rviSettings.Url, rviSettings.Login, rviSettings.Password);
+			var devices = GetDevices(rviSettings.Url, rviSettings.Login, rviSettings.Password, out isNotConnected);
 			var device = devices.FirstOrDefault(d => d.Guid == camera.RviDeviceUID);
 
 			if (device == null)
@@ -584,7 +559,7 @@ namespace RviClient
 			}
 			output.Close();
 		}
-		static RviStatus GetRviStatus(DeviceStatus deviceStatus)
+		static RviStatus ConvertToRviStatus(DeviceStatus deviceStatus)
 		{
 			switch (deviceStatus)
 			{
@@ -593,9 +568,8 @@ namespace RviClient
 				case DeviceStatus.Connecting:
 					return RviStatus.Connecting;
 				case DeviceStatus.Error:
-					return RviStatus.Error;
 				default:
-					return RviStatus.Unknown;
+					return RviStatus.Error;
 			}
 		}
 	}

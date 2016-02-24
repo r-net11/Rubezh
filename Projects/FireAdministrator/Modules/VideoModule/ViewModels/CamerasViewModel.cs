@@ -48,7 +48,7 @@ namespace VideoModule.ViewModels
 			var servers = ClientManager.SystemConfiguration.RviServers;
 			foreach (var server in servers)
 			{
-				var serverViewModel = new CameraViewModel(server.Name, string.Empty);
+				var serverViewModel = new CameraViewModel(server.PresentationName, string.Empty);
 				foreach (var device in server.RviDevices)
 				{
 					var deviceViewModel = new CameraViewModel(device.Name, device.Ip);
@@ -108,10 +108,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var devicesViewModel = new DeviceSelectionViewModel();
+			var devicesViewModel = new RviDeviceSelectionViewModel();
 			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
 				ClientManager.SystemConfiguration.RviServers = devicesViewModel.RviServers;
+				ClientManager.SystemConfiguration.UpdateRviConfiguration();
 				Initialize();
 				ServiceFactory.SaveService.CamerasChanged = true;
 				PlanExtension.Instance.Cache.BuildSafe<Camera>();
@@ -166,7 +167,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand SettingsCommand { get; private set; }
 		void OnSettings()
 		{
-			var settingsSelectionViewModel = new SettingsSelectionViewModel(ClientManager.SystemConfiguration.RviSettings);
+			var settingsSelectionViewModel = new RviSettingsViewModel(ClientManager.SystemConfiguration.RviSettings);
 			if (DialogService.ShowModalWindow(settingsSelectionViewModel))
 			{
 				ClientManager.SystemConfiguration.RviSettings = settingsSelectionViewModel.RviSettings;

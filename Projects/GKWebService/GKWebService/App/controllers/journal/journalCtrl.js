@@ -1,6 +1,7 @@
 ﻿(function () {
 	'use strict';
-	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $uibModal, uiGridConstants, signalrJournalService) {
+
+	angular.module('gkApp.controllers').controller('journalCtrl', function ($scope, $http, $timeout, uiGridConstants, $uibModal, signalrJournalService, broadcastService) {
 		var requestJournalItems = function (filter) {
 			$http.post("Journal/GetJournal", filter)
 				.success(function (data) {
@@ -33,7 +34,14 @@
 				{ name: 'Дата в приборе', field: 'DeviceDate', cellTemplate: coloredCellTemplate },
 				{ name: 'Название', field: 'Name', cellTemplate: coloredCellTemplate },
 				{ name: 'Уточнение', field: 'Desc', cellTemplate: coloredCellTemplate },
-				{ name: 'Объект', field: 'Object', cellTemplate: coloredCellTemplate },
+				{
+					name: 'Объект',
+					cellTemplate:
+						'<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
+							<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.ObjectImageSource}}" />\
+							{{row.entity.ObjectName}}\
+						</div>'
+				},
 				{
 					name: 'Подсистема',
 					field: 'Subsystem',
@@ -46,15 +54,23 @@
 			]
 		};
 
+		$scope.gridStyle = function () {
+			var ctrlHeight = window.innerHeight - 270;
+			return "height:" + ctrlHeight + "px";
+		}();
+
 		$scope.showFilter = function () {
 			var modalInstance = $uibModal.open({
 				animation: false,
-				templateUrl: 'Journal/JournalFilter',
-				controller: 'journalFilterCtrl',
+				templateUrl: 'Archive/ArchiveFilter',
+				controller: 'archiveFilterCtrl',
 				resolve: {
 					filter: function () {
 						return $scope.filter;
-					}
+					},
+					isArchive: function () {
+						return false;
+					},
 				},
 			});
 			modalInstance.result.then(function (journalFilter) {

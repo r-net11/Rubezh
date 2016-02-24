@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace GKWebService.Models
 {
-	public class Delay
+	public class Delay : GKBaseModel
 	{
 		public int Number { get; set; }
 		public string Name { get; set; }
@@ -31,6 +31,7 @@ namespace GKWebService.Models
 		public ushort HoldTime { get; set; }
 		public string Uid { get; set; }
 		public Delay(GKDelay gkDelay)
+			: base(gkDelay)
 		{
 			Number = gkDelay.No;
 			Name = gkDelay.Name;

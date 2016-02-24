@@ -66,7 +66,9 @@ namespace GKWebService
 
 		private static void SafeFiresecServiceOnConfigurationChangedEvent()
 		{
-			//InitServer();
+			InitServer();
+			if (ConfigHub.Instance != null) 
+				ConfigHub.Instance.ConfigHubUpdate();
 		}
 
 		static void InitializeGK()

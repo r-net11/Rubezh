@@ -10,9 +10,10 @@ using GKWebService.Models.GK;
 
 namespace GKWebService.Models.PumpStation
 {
-	public class PumpStation
+	public class PumpStation : GKBaseModel
 	{
 		public PumpStation(GKPumpStation pumpStation)
+			: base(pumpStation)
 		{
 			UID = pumpStation.UID;
 			No = pumpStation.No;

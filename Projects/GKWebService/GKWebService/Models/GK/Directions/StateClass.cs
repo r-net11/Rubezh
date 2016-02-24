@@ -23,6 +23,7 @@ namespace GKWebService.Models
 		{
 			Name = stateClass.ToDescription();
 			IconData = stateClass.ToString();
+
 		}
 	}
 }

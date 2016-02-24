@@ -39,31 +39,15 @@ namespace GKWebService.Controllers
 		}
 
 		/// <summary>
-		/// Метод, предоставляющий данные об устройствах по UID зоны
+		/// Метод, предоставляющий данные об устройствах по UID пожарной зоны
 		/// </summary>
 		public JsonResult GetDevicesByZoneUid(Guid id)
 		{
 			var list = new List<Device>();
 			var zone = GKManager.Zones.FirstOrDefault(x => x.UID == id);
 			if (zone != null)
-				foreach (var remoteDevice in (zone.Devices).Reverse<GKDevice>())
-				{
-					var currentDevice = remoteDevice;
-					int depth = 0;
-					while (currentDevice != null)
-					{
-						depth++;
-						currentDevice = currentDevice.Parent;
-					}
-					currentDevice = remoteDevice;
-					for (int i = 1; i < depth + 1; i++)
-					{
-						var device = new Device(currentDevice) {Level = depth - i};
-						list.Insert(0, device);
-						currentDevice = currentDevice.Parent;
-					}
-				}
-			return Json(list.DistinctBy(x => x.UID).ToList(), JsonRequestBehavior.AllowGet);
+				list.AddRange(zone.Devices.Select(remoteDevice => new Device(remoteDevice)));
+			return Json(list, JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

@@ -2688,6 +2688,16 @@
   <ItemGroup>
     <Resource Include="RviStatusIcons\ConnectionLost.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RK_AM.png" />
+    <Resource Include="GKIcons\RK_HandDetector.png" />
+    <Resource Include="GKIcons\RK_HeatDetector.png" />
+    <Resource Include="GKIcons\RK_OPK.png" />
+    <Resource Include="GKIcons\RK_OPZ.png" />
+    <Resource Include="GKIcons\RK_RM.png" />
+    <Resource Include="GKIcons\RK_SmokeDetector.png" />
+    <Resource Include="GKIcons\RSR2_MRK.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
