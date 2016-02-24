@@ -84,8 +84,7 @@
 				.attr("y", item.Y)
 				.attr("width", item.Width)
 				.attr("height", item.Height)
-				.attr("id", function (d) { return item.Id.replace(" ", "-") })
-				.attr("subElementId", function (d) { return item.Id.replace(" ", "-") });
+				.attr("id", function(d) { return item.Id.replace(" ", "-") });
 		} else {
 			svg.append("image").attr("xlink:href", "data:image/png;base64," + item.Image)
 			.attr("x", item.X)
@@ -93,7 +92,6 @@
 			.attr("width", item.Width)
 			.attr("height", item.Height)
 			.attr("id", function (d) { return item.Id.replace(" ", "-") })
-			.attr("subElementId", function (d) { return item.Id.replace(" ", "-") })
 			// Обработка события наведения мыши
 			.on("mouseover", function (d) {
 				var id = document.getElementById(item.Id.replace(" ", "-"));
@@ -116,7 +114,6 @@
 				.attr("width", item.Width)
 				.attr("height", item.Height)
 				.attr("id", function (d) { return item.Id.replace(" ", "-") })
-				.attr("subElementId", function (d) { return item.Id.replace(" ", "-") })
 				.on("updateImage", function (data, e, k) {
 				console.log("Updating gif on:", item.Id);
 				item.Image = data.Image;
@@ -185,7 +182,6 @@
 			.attr("fill", "none")
 			.attr("pointer-events", "all")
 			.attr("id", function (d) { return item.Id.replace(" ", "-") + "GroupElement" })
-			.attr("subElementId", function () { return item.Id.replace(" ", "-") + "GroupElement" })
 			// Обработка события наведения мыши
 			.on("mouseover", function (d) {
 				if (item.HasOverlay && item.BorderMouseOver) {
@@ -346,7 +342,7 @@
 
 					scope.$on('updateDeviceState', function (event, stateData) {
 						var uid = stateData.Id.replace(" ", "-");
-						var imageElement = d3.select($("image[subElementId=" + uid + "]")[0]);
+						var imageElement = d3.select($("image[id=" + uid + "]")[0]);
 						if (imageElement && imageElement.length > 0 && imageElement[0][0]) {
 							imageElement.on('updateImage')({
 								Image: stateData.Picture
@@ -354,7 +350,7 @@
 						}
 						var groupElementUid = stateData.Id.replace(" ", "-") + "GroupElement";
 						console.log("Triggering hint update on:", groupElementUid);
-						var groupElement = d3.select($("rect[subElementId=" + groupElementUid + "]")[0]);
+						var groupElement = d3.select($("rect[id=" + groupElementUid + "]")[0]);
 						if (groupElement && groupElement.length > 0 && groupElement[0][0]) {
 							groupElement.on('updateHint')({
 								hint: stateData.Hint
