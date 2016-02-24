@@ -96,12 +96,20 @@
         		$http.post('Devices/TurnOff', { id: $scope.device.UID });
         	};
 
-        	$scope.Show = function () {
+        	$scope.ShowJournal = function () {
+        		$state.go('archive', { uid: $scope.device.UID });
+        	};
+			
+        	$scope.ShowDevice = function () {
         		$state.go('device', { uid: $scope.device.UID });
         	};
 
-        	$scope.ShowJournal = function () {
-        		$state.go('archive', { uid: $scope.device.UID });
+        	$scope.ShowParentDevice = function () {
+        		$state.go('device', { uid: $scope.device.ParentUID });
+        	};
+
+        	$scope.ShowZone = function () {
+        		$state.go('fireZones', { uid: $scope.device.ZoneUID });
         	};
 
         	$scope.ok = function () {

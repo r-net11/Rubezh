@@ -57,11 +57,11 @@
 						<div class="properties">
 							<div>
 								<span>Устройство:</span>
-								<span class="labelImage" style="background-image: url(/Content/Image/{{device.ImageSource}})">{{device.Name}}</span>
+								<a class="labelImage" href="#" ng-click="ShowDevice()" style="background-image: url(/Content/Image/{{device.ImageSource}})">{{device.Name}}</a>
 							</div>
 							<div>
 								<span>Подключено к:</span>
-								<span class="labelImage" style="background-image: url(/Content/Image/{{device.ParentImage}})">{{device.ParentName}}</span>
+								<a class="labelImage" href="#" ng-click="ShowParentDevice()" style="background-image: url(/Content/Image/{{device.ParentImage}})">{{device.ParentName}}</a>
 							</div>
 							<div>
 								<span>Название в ГК:</span>
@@ -77,7 +77,7 @@
 							</div>
 							<div ng-show="device.PresentationZone != ''">
 								<span>Зона: </span>
-								<span class="labelImage" style="background-image: url(/Content/Image/Images/Zone.png)">{{device.PresentationZone}}</span>
+								<a class="labelImage" href="#" ng-click="ShowZone()" style="background-image: url(/Content/Image/Images/Zone.png)">{{device.PresentationZone}}</a>
 							</div>
 							<div>
 								<a class="labelImage" href="#" ng-click="ShowJournal()" style="background-image: url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>

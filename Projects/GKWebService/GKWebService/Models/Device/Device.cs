@@ -19,6 +19,8 @@ namespace GKWebService.Models
 
 		public string Description { get; set; }
 
+		public Guid? ZoneUID { get; set; }
+		
 		public Guid? ParentUID { get; set; }
 
 		public string ParentName { get; set; }
@@ -97,6 +99,8 @@ namespace GKWebService.Models
 			Description = device.Description;
 			Logic = GKManager.GetPresentationLogic(device.Logic);
 			NsLogic = GKManager.GetPresentationLogic(device.NSLogic);
+
+			ZoneUID = device.ZoneUIDs.FirstOrDefault();
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
