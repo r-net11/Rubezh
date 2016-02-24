@@ -189,7 +189,8 @@
     <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
-    <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
+    <Content Include="App\controllers\deviceParameters\deviceParametersDetailsCtrl.js" />
+    <Content Include="App\controllers\deviceParameters\deviceParametersCtrl.js" />
     <Content Include="App\controllers\devices\devicesCtrl.js" />
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
@@ -223,6 +224,7 @@
     <Content Include="App\services\broadcastService.js" />
     <Content Include="App\services\dialogService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
+    <Content Include="App\services\signalrDeviceParametersService.js" />
     <Content Include="App\services\signalrConfigService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
@@ -417,11 +419,13 @@
     <Content Include="Content\Image\Icon\Menu\fine\MPT.png" />
     <Content Include="Content\Image\Icon\Menu\fine\plans.png" />
     <Content Include="Content\Image\Icon\Menu\fine\Print.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\PumpStation.png" />
     <Content Include="Content\Image\Icon\Menu\fine\skd.png" />
     <Content Include="Content\Image\Icon\Menu\fine\timeTrack.png" />
     <Content Include="Content\Image\Icon\Menu\fine\tree.png" />
     <Content Include="Content\Image\Icon\Menu\fine\weeklySchedule.png" />
     <Content Include="Content\Image\Icon\Menu\fine\workSchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\zones.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Camera.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Chip.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
@@ -668,6 +672,7 @@
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DelaysController.cs" />
+    <Compile Include="Controllers\DeviceParametersController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\DoorsController.cs" />
@@ -686,6 +691,7 @@
     <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
     <Compile Include="DataProviders\ConfigHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
+    <Compile Include="DataProviders\DeviceParametersHub\DeviceParametersUpdaterHub.cs" />
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
@@ -695,6 +701,7 @@
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Device\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Models\Door\Door.cs" />
     <Compile Include="Models\Door\DoorDevice.cs" />
     <Compile Include="Models\GK\GKBase.cs" />
@@ -846,6 +853,7 @@
     <Content Include="Views\GuardZones\GuardZoneDetails.cshtml" />
     <Content Include="Views\Doors\Door.cshtml" />
     <Content Include="Views\Doors\DoorDetails.cshtml" />
+    <Content Include="Views\DeviceParameters\Index.cshtml" />
     <Content Include="Views\Home\RestartDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
