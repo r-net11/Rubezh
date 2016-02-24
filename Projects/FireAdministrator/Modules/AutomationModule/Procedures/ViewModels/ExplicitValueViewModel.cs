@@ -84,9 +84,9 @@ namespace AutomationModule.ViewModels
 				if (User != null)
 					return User.Name;
 				if (Employee != null)
-					return Employee.FIO;
+					return string.Format(@"{0} \ {1}", Employee.OrganisationName, Employee.FIO);
 				if (Visitor != null)
-					return Visitor.FIO;
+					return string.Format(@"{0} \ {1}", Visitor.OrganisationName, Visitor.FIO);
 				
 				return "Null";
 			}
