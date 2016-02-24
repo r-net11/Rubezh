@@ -1,8 +1,8 @@
 ﻿(function () {
 
 	angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
-        ['$scope', '$http', 'uiGridConstants', '$uibModalInstance', '$state', 'signalrDevicesService', 'entity',
-        function ($scope, $http, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
+        ['$scope', '$http', '$timeout', 'uiGridConstants', '$uibModalInstance', '$state', 'signalrDevicesService', 'entity',
+        function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
         	$scope.device = entity;
 
         	$scope.$on('devicesChanged', function (event, args) {
@@ -36,20 +36,20 @@
         	var parameters = [];
 
         	for (var i in $scope.device.Properties) {
-        	    if ($scope.device.Properties[i].DriverProperty.IsAUParameter) {
-        	        var name = $scope.device.Properties[i].DriverProperty.Caption;
-        	        var value = $scope.device.Properties[i].Value;
-        	        if ($scope.device.Properties[i].DriverProperty.Parameters.length === 0) {
-        	            value = $scope.device.Properties[i].DriverProperty.Multiplier > 0 ? value / $scope.device.Properties[i].DriverProperty.Multiplier : value;
+        		if ($scope.device.Properties[i].DriverProperty.IsAUParameter) {
+        			var name = $scope.device.Properties[i].DriverProperty.Caption;
+        			var value = $scope.device.Properties[i].Value;
+        			if ($scope.device.Properties[i].DriverProperty.Parameters.length === 0) {
+        				value = $scope.device.Properties[i].DriverProperty.Multiplier > 0 ? value / $scope.device.Properties[i].DriverProperty.Multiplier : value;
         			}
         			else {
-        	            for (var j in $scope.device.Properties[i].DriverProperty.Parameters) {
-        	                if ($scope.device.Properties[i].DriverProperty.Parameters[j].Value === $scope.device.Properties[i].Value) {
-        	                    value = $scope.device.Properties[i].DriverProperty.Parameters[j].Name;
+        				for (var j in $scope.device.Properties[i].DriverProperty.Parameters) {
+        					if ($scope.device.Properties[i].DriverProperty.Parameters[j].Value === $scope.device.Properties[i].Value) {
+        						value = $scope.device.Properties[i].DriverProperty.Parameters[j].Name;
         					}
         				}
-        	        }
-        	        parameters[i] = { Name: name, Value: value };
+        			}
+        			parameters[i] = { Name: name, Value: value };
         		}
         	};
 
@@ -57,6 +57,12 @@
 					{ field: 'Name', displayName: 'Параметр', cellTemplate: tmp },
 					{ field: 'Value', displayName: 'Значение', cellTemplate: tmp }
         	]);
+
+        	$scope.onTabSelected = function() {
+		         $timeout(function() {
+			          $(window).resize();
+		         });
+	        }
 
         	$scope.SetIgnoreState = function () {
         		$http.post('Devices/SetIgnoreState', { id: $scope.device.UID });
@@ -91,11 +97,11 @@
         	};
 
         	$scope.Show = function () {
-        	    $state.go('device', { uid: $scope.device.UID });
+        		$state.go('device', { uid: $scope.device.UID });
         	};
 
         	$scope.ShowJournal = function () {
-        	    $state.go('archive', { uid: $scope.device.UID });
+        		$state.go('archive', { uid: $scope.device.UID });
         	};
 
         	$scope.ok = function () {

@@ -86,12 +86,12 @@
 						</div>
 					</div>
 				</uib-tab>
-				<uib-tab heading="Параметры" ng-if="device.Properties.length > 0">
+				<uib-tab heading="Параметры" ng-if="device.Properties.length > 0" select="onTabSelected()">
 					<div class="deviceDetailsTab">
 						<div ui-grid="gridParameters" ui-grid-selection></div>
 					</div>
 				</uib-tab>
-				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0">
+				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0" select="onTabSelected()">
 					<div class="deviceDetailsTab">
 						<div ui-grid="gridMeasurements" ui-grid-selection></div>
 					</div>
