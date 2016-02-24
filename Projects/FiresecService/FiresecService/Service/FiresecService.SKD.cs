@@ -8,7 +8,6 @@ using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.Helpers;
 using Infrastructure.Common;
 using SKDDriver;
-using SKDDriver.Synchronisers;
 using SKDDriver.Translators;
 using System;
 using System.Collections.Generic;
