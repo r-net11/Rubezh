@@ -12,22 +12,22 @@
         		};
         	});
 
-        	$scope.device.parameters = [];
-        	for (var i in $scope.device.Properties) {
-        	    if ($scope.device.Properties[i].DriverProperty.IsAUParameter) {
-        	        var name = $scope.device.Properties[i].DriverProperty.Caption;
-        	        var value = $scope.device.Properties[i].Value;
-        	        if ($scope.device.Properties[i].DriverProperty.Parameters.length === 0) {
-        	            value = $scope.device.Properties[i].DriverProperty.Multiplier > 0 ? value / $scope.device.Properties[i].DriverProperty.Multiplier : value;
+        	$scope.parameters = [];
+        	for (var i in entity.Properties) {
+        	    if (entity.Properties[i].DriverProperty.IsAUParameter) {
+        	        var name = entity.Properties[i].DriverProperty.Caption;
+        	        var value = entity.Properties[i].Value;
+        	        if (entity.Properties[i].DriverProperty.Parameters.length === 0) {
+        	            value = entity.Properties[i].DriverProperty.Multiplier > 0 ? value / entity.Properties[i].DriverProperty.Multiplier : value;
         			}
         			else {
-        	            for (var j in $scope.device.Properties[i].DriverProperty.Parameters) {
-        	                if ($scope.device.Properties[i].DriverProperty.Parameters[j].Value === $scope.device.Properties[i].Value) {
-        	                    value = $scope.device.Properties[i].DriverProperty.Parameters[j].Name;
+        	            for (var j in entity.Properties[i].DriverProperty.Parameters) {
+        	                if (entity.Properties[i].DriverProperty.Parameters[j].Value === entity.Properties[i].Value) {
+        	                    value = entity.Properties[i].DriverProperty.Parameters[j].Name;
         					}
         				}
         			}
-        	        $scope.device.parameters[i] = { Name: name, Value: value };
+        	        $scope.parameters[i] = { Name: name, Value: value };
         		}
         	};
 
