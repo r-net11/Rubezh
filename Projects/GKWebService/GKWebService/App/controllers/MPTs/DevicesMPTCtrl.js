@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('devicesMPTCtrl',
-        ['$scope', '$http', '$uibModal', 'signalrDevicesService',
-        function ($scope, $http, $uibModal, signalrDevicesService) {
+        ['$scope', '$http', '$uibModal', 'signalrDevicesService', 'dialogService', 'constants',
+        function ($scope, $http, $uibModal, signalrDevicesService, dialogService, constants) {
 
             $scope.uiGrid = {
                 enableRowSelection: true,
@@ -16,10 +16,10 @@
                 enableColumnResizing: true,
                 enableColumnMenus: false,
                 columnDefs:
-                  [{ field: 'MPTDeviceType', displayName: 'Тип', width: 100 },
-                   { field: 'Name', displayName: 'Устройство', width: 450, cellTemplate: '<div class="ui-grid-cell-contents" style="float:left" ><a href="#" ng-click="grid.appScope.deviceClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle" width="16px" height="16px" ng-src="/Content/Image/{{row.entity.ImageSource}}" /> {{row.entity[col.field]}}</a></div>' },
-                   { field: 'Address', displayName: 'Адрес', width: 100 },
-                   { field: 'Description', displayName: 'Описание', width: 100 }]
+                  [{ field: 'MPTDeviceType', displayName: 'Тип', width: 200 },
+                   { field: 'Name', displayName: 'Устройство', width: 350, cellTemplate: '<div class="ui-grid-cell-contents" style="float:left" ><a href="#" ng-click="grid.appScope.deviceClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle" width="16px" height="16px" ng-src="/Content/Image/{{row.entity.ImageSource}}" /> {{row.entity[col.field]}}</a></div>' },
+                   { field: 'Address', displayName: 'Адрес', width: 150 },
+                   { field: 'Description', displayName: 'Описание', enableColumnResizing: false }]
 
             };
 
@@ -29,17 +29,7 @@
             }();
 
             $scope.deviceClick = function (device) {
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    templateUrl: 'Devices/DeviceDetails',
-                    controller: 'devicesDetailsCtrl',
-                    size: 'rbzh',
-                    resolve: {
-                        device: function () {
-                            return device;
-                        }
-                    }
-                });
+                dialogService.showWindow(constants.gkObject.device, device);
             };
 
             function ChangeDevices(device) {

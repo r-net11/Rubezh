@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('pumpStationDevicesCtrl',
-        ['$scope', '$http', '$uibModal', 'signalrDevicesService',
-        function ($scope, $http, $uibModal, signalrDevicesService) {
+        ['$scope', '$http', '$uibModal', 'signalrDevicesService', 'dialogService', 'constants',
+        function ($scope, $http, $uibModal, signalrDevicesService, dialogService, constants) {
 
             $scope.uiGrid = {
                 enableRowSelection: true,
@@ -27,17 +27,8 @@
             }();
 
             $scope.pumpClick = function (device) {
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    templateUrl: 'Devices/DeviceDetails',
-                    controller: 'devicesDetailsCtrl',
-                    size: 'rbzh',
-                    resolve: {
-                        device: function () {
-                            return device;
-                        }
-                    }
-                });
+              
+                dialogService.showWindow(constants.gkObject.device, device);
             };
 
             function ChangeDevices(device) {
