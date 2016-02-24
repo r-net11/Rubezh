@@ -5,8 +5,8 @@
 
 <div>
 	<div ng-controller="journalCtrl">
-		<div class="tab-menu">
-			<button ng-click="showFilter()" class="btn btn-default"><span class="glyphicon glyphicon-filter"></span></button>
+		<div class="toolbar">
+			<button ng-click="showFilter()" class="icon filter"></button>
 		</div>
 		<div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-auto-resize ui-grid-selection></div>
 

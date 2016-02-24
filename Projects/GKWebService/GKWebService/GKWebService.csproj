@@ -398,6 +398,10 @@
     <Resource Include="Content\Image\Icon\Hr\load.png" />
     <Resource Include="Content\Image\Icon\Hr\Lock.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
+    <Content Include="Content\Image\Icon\Menu\edit\appbar.control.fastforward.svg" />
+    <Content Include="Content\Image\Icon\Menu\edit\appbar.control.fastforward.variant.svg" />
+    <Content Include="Content\Image\Icon\Menu\edit\appbar.control.rewind.svg" />
+    <Content Include="Content\Image\Icon\Menu\edit\appbar.control.rewind.variant.svg" />
     <Content Include="Content\Image\Icon\Menu\edit\Copy.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Delete.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Edit.png" />
