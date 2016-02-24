@@ -212,6 +212,7 @@
     <Content Include="App\controllers\PumpStations\pumpStationDetailsCtrl.js" />
     <Content Include="App\controllers\PumpStations\pumpStationDevicesCtrl.js" />
     <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
+    <Content Include="App\controllers\restart\restartDetailsCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
@@ -438,6 +439,10 @@
     <Content Include="Content\Image\Images\BReset.png" />
     <Resource Include="Content\Image\Images\CMap.png" />
     <Content Include="Content\Image\Images\Zone.png" />
+    <Content Include="Content\Image\MessageBox\BWatch.png" />
+    <Content Include="Content\Image\MessageBox\information.png" />
+    <Content Include="Content\Image\MessageBox\question.png" />
+    <Content Include="Content\Image\MessageBox\warning.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
       <DependentUpon>main.less</DependentUpon>
@@ -842,6 +847,7 @@
     <Content Include="Views\GuardZones\GuardZoneDetails.cshtml" />
     <Content Include="Views\Doors\Door.cshtml" />
     <Content Include="Views\Doors\DoorDetails.cshtml" />
+    <Content Include="Views\Home\RestartDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

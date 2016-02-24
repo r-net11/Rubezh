@@ -58,7 +58,12 @@
                 type: 10,
                 detailsTemplate: '',
                 detailsCtrl: ''
-            }
+            },
+			restart: {
+				type: 11,
+				detailsTemplate: 'Home/RestartDetails',
+				detailsCtrl: 'restartDetailsCtrl'
+			}
         }
     });
 }());
