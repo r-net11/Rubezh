@@ -8,7 +8,7 @@
 			logging: true,
 			listeners: {
 				'devicesUpdate': function (device) {
-					broadcastService.send('devicesChanged', device);
+					broadcastService.send('signalrDevicesService.devicesChanged', device);
 				}
 			}
 		});
@@ -17,6 +17,10 @@
 			devicesHub.connection.stop().start();
 		}
 
-		return {};
+		return {
+			onDeviceChanged: function (fnc) {
+				broadcastService.on('signalrDevicesService.devicesChanged', fnc);
+			}
+		};
 	}]);
 }());

@@ -28,11 +28,10 @@
 			</div>
 			<uib-tabset>
 				<uib-tab heading="Управление" ng-if="device.IsTriStateControl">
-					<div class="deviceDetailsTab">
+					<div class="detailsTab">
 						<div>
 							<div>
-								<img ng-src="/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png" />
-								<span style="font-weight: bold; color:black; font-size: large">Режим {{device.ControlRegimeName}}</span>
+								<span class="labelImage-md" style="background-image:url(/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png)">Режим {{device.ControlRegimeName}}</span>
 							</div>
 							<div class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
 							<div class="btn btn-primary btn-control" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
@@ -45,7 +44,7 @@
 					</div>
 				</uib-tab>
 				<uib-tab heading="Управление" ng-if="device.IsBiStateControl">
-					<div class="deviceDetailsTab">
+					<div class="detailsTab">
 						<div>
 							<div class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
 							<div class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
@@ -54,45 +53,42 @@
 					</div>
 				</uib-tab>
 				<uib-tab heading="Свойства" ng-if="true">
-					<div class="deviceDetailsTab">
-						<div class="deviceProperties">
-							<div>
-								<span>Устройство:</span>
-								<span class="labelImage" style="background-image:url(/Content/Image/{{device.ImageSource}})">{{device.Name}}</span>
-							</div>
-							<div>
-								<span>Подключено к:</span>
-								<span class="labelImage" style="background-image:url(/Content/Image/{{device.ParentObject.ImageSource}})">{{device.ParentObject.Name}}</span>
-							</div>
-							<div>
-								<span>Название в ГК:</span>
-								<span>{{device.Name}}</span>
-							</div>
-							<div>
-								<span>Номер в ГК:</span>
-								<span>{{device.GKDescriptorNo}}</span>
-							</div>
-							<div>
-								<span>Проектный адрес:</span>
-								<span></span>
-							</div>
-							<div ng-show="device.PresentationZone != ''">
-								<span>Зона: </span>
-								<span class="labelImage" style="background-image:url(/Content/Image/Images/Zone.png)">{{device.PresentationZone}}</span>
-							</div>
-							<div>
-								<a class="labelImage" href="#" ng-click="ShowJournal()" style="background-image:url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
-							</div>
+					<div class="detailsTab">
+						<div>
+							<span>Устройство:</span>
+							<span class="labelImage" style="background-image:url(/Content/Image/{{device.ImageSource}})">{{device.Name}}</span>
+						</div>
+						<div>
+							<span>Подключено к:</span>
+							<span class="labelImage" style="background-image:url(/Content/Image/{{device.ParentObject.ImageSource}})">{{device.ParentObject.Name}}</span>
+						</div>
+						<div>
+							<span>Название в ГК:</span>
+							<span>{{device.Name}}</span>
+						</div>
+						<div>
+							<span>Номер в ГК:</span>
+							<span>{{device.GKDescriptorNo}}</span>
+						</div>
+						<div>
+							<span>Проектный адрес:</span>
+							<span></span>
+						</div>
+						<div ng-show="device.PresentationZone != ''">
+							<span>Зона: </span>
+							<span class="labelImage" style="background-image:url(/Content/Image/Images/Zone.png)">{{device.PresentationZone}}</span>
+						</div>
+						<div>
+							<a class="labelImage" href="#" ng-click="ShowJournal()" style="background-image:url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
 						</div>
 					</div>
 				</uib-tab>
 				<uib-tab heading="Параметры" ng-if="device.Properties.length > 0" select="onTabSelected()">
-					<div class="deviceDetailsTab">
+					<div class="detailsTab">
 						<div ui-grid="gridParameters" ui-grid-selection></div>
-					</div>
 				</uib-tab>
 				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0" select="onTabSelected()">
-					<div class="deviceDetailsTab">
+					<div class="detailsTab">
 						<div ui-grid="gridMeasurements" ui-grid-selection></div>
 					</div>
 				</uib-tab>

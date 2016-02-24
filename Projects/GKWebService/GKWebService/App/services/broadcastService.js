@@ -6,6 +6,9 @@
         return {
             send: function (msg, data) {
                 $rootScope.$broadcast(msg, data);
+            },
+            on: function (msg, fnc) {
+            	$rootScope.$on(msg, fnc);
             }
         }
     });

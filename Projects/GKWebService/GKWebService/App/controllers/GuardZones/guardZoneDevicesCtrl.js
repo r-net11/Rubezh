@@ -1,6 +1,6 @@
 ﻿(function () {
-    angular.module('gkApp.controllers').controller('guardZoneDevicesCtrl', ['$scope', '$http', '$uibModal', 'signalrDevicesService',
-        function ($scope, $http, $uibModal, signalrDevicesService) {
+    angular.module('gkApp.controllers').controller('guardZoneDevicesCtrl', ['$scope', '$http', '$uibModal', 'signalrDevicesService', 'dialogService', 'constants',
+        function ($scope, $http, $uibModal, signalrDevicesService, dialogService, constants) {
 
             $scope.uiGrid = {
                 enableRowSelection: true,
@@ -16,14 +16,14 @@
                    { field: 'Address', displayName: 'Адрес', width: 100 },
                    { field: 'Logic', displayName: 'Логика', width: 150 },
                    { field: 'ActionType', displayName: 'Функция', width: 150 },
-                   { field: 'Description', displayName: 'Описание'}
+                   { field: 'Description', displayName: 'Описание' }
 
                 ]
             };
 
             $scope.gridStyle = function () {
-            	var ctrlHeight = (window.innerHeight - 115) / 2;
-            	return "height:" + ctrlHeight + "px";
+                var ctrlHeight = (window.innerHeight - 115) / 2;
+                return "height:" + ctrlHeight + "px";
             }();
 
             $scope.$on('guard', function (event, args) {
@@ -34,17 +34,7 @@
             });
 
             $scope.deviceClick = function (device) {
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    templateUrl: 'Devices/DeviceDetails',
-                    controller: 'devicesDetailsCtrl',
-                    size: 'rbzh',
-                    resolve: {
-                        device: function () {
-                            return device;
-                        }
-                    }
-                });
+                dialogService.showWindow(constants.gkObject.device, device);
             };
 
             function ChangeDevices(device) {
