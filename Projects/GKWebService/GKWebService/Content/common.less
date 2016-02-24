@@ -28,11 +28,70 @@
 	width: 16px;
 	height: 16px;
 }
-.labelImage{
+
+.labelImage {
 	background-position: 5px center;
-    background-size: 16px;
-    background-repeat: no-repeat;
-    padding: 5px 5px 5px 25px;
-    display: inline-block;
-    color: black;
+	background-size: 16px;
+	background-repeat: no-repeat;
+	padding: 5px 5px 5px 25px;
+	display: inline-block;
+	color: black;
+}
+
+.labelImage-md {
+	background-position: 5px center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+	padding: 5px 5px 5px 30px;
+	display: block;
+	color: black;
+	font-size: large;
+	margin-bottom: 5px;
+}
+
+
+.modal-content {
+
+	.detailsTab {
+		background: #FFF;
+		padding: 5px;
+		margin: 5px;
+		display: inline-block;
+		height: 300px;
+		width: 408px;
+		overflow-y: scroll;
+
+		> div > span {
+			color: black;
+			width: 45%;
+			display: inline-table;
+			font-weight: bold;
+			vertical-align: middle;
+		}
+
+		> table {
+			text-align: center;
+			width: 100%;
+			tr:first-child {
+				background-color: #698EBE;
+				td {
+					border: 1px solid black;
+					color:white;
+				}
+			}
+			tr{
+				td {
+					border: 1px solid black;
+					color:black;
+				}
+			 }
+		}
+	}
+}
+
+.btn-control {
+	height: 45px;
+	width: 47%;
+	margin: 4px;
+	display: inline-block;
 }
