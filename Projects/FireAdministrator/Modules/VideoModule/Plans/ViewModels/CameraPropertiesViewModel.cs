@@ -23,6 +23,7 @@ namespace VideoModule.Plans.ViewModels
 			Cameras = camerasViewModel.Cameras;
 			AllCameras = camerasViewModel.AllCameras;
 			SelectedCamera = AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == elementCamera.CameraUID);
+			Rotation = elementCamera.Rotation;
 		}
 
 		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
@@ -38,6 +39,17 @@ namespace VideoModule.Plans.ViewModels
 			}
 		}
 
+		private int _rotation = 0;
+		public int Rotation
+		{
+			get { return _rotation; }
+			set
+			{
+				_rotation = value;
+				OnPropertyChanged(() => Rotation);
+			}
+		}
+
 		protected override bool Save()
 		{
 			Guid cameraUID = _elementCamera.CameraUID;
@@ -46,6 +58,7 @@ namespace VideoModule.Plans.ViewModels
 			if (cameraUID != _elementCamera.CameraUID)
 				Update(cameraUID);
 			_camerasViewModel.SelectedCamera = Update(_elementCamera.CameraUID);
+			_elementCamera.Rotation = this.Rotation;
 			return base.Save();
 		}
 		CameraViewModel Update(Guid cameraUID)

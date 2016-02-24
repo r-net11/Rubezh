@@ -2,7 +2,7 @@
 	"use strict";
 
 	var app = angular.module("gkApp.controllers").controller("PlanCtrl", [
-		"$scope", "plansListFactory", "dataFactory", "$modal", function($scope, plansListFactory, dataFactory, $modal) {
+		"$scope", "plansListFactory", "dataFactory", "$modal", "broadcastService", function($scope, plansListFactory, dataFactory, $modal, broadcastService) {
 			// Задаем модальное окно для контекстного меню фигуры
 			$scope.modal = {
 				instance: null
@@ -15,7 +15,10 @@
 					scope: $scope
 				});
 			};
-			$scope.LoadPlan = function(planId) { dataFactory.getShapesData(planId, function(results) { $scope.d3Data = results; }); };
+			$scope.LoadPlan = function(planId) { dataFactory.getShapesData(planId, function(results) {
+				$scope.d3Data = results;
+				broadcastService.send('planLoad');
+			}); };
 			plansListFactory.getPlansList(function(results) {
 				if (results.length > 0)
 					$scope.PlansList = results;
