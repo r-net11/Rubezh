@@ -64,7 +64,9 @@ namespace GKWebService
 
 		private static void SafeFiresecServiceOnConfigurationChangedEvent()
 		{
-			//InitServer();
+			InitServer();
+			if (ConfigHub.Instance != null) 
+				ConfigHub.Instance.ConfigHubUpdate();
 		}
 
 		static void InitializeGK()
@@ -109,7 +111,7 @@ namespace GKWebService
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
-					if (DevicesHub.Instance!= null)
+					if (DevicesHub.Instance != null)
 					{
 						DevicesHub.Instance.DevicesUpdate(device);
 					}
@@ -121,10 +123,10 @@ namespace GKWebService
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
-				    if (FireZonesUpdaterHub.Instance != null)
-				    {
-				        FireZonesUpdaterHub.Instance.BroadcastFireZone(zone);
-				    }
+					if (FireZonesUpdaterHub.Instance != null)
+					{
+						FireZonesUpdaterHub.Instance.BroadcastFireZone(zone);
+					}
 				}
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
@@ -189,7 +191,7 @@ namespace GKWebService
 				if (guardZone != null)
 				{
 					guardZoneState.CopyTo(guardZone.State);
-					if(GuardZonesHub.Instance!= null)
+					if (GuardZonesHub.Instance != null)
 						GuardZonesHub.Instance.GuardZoneUpdate(guardZone);
 				}
 			}

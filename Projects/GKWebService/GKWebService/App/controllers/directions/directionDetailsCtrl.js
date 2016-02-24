@@ -1,8 +1,9 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('directionDetailsCtrl',
-        function ($scope, $uibModalInstance, $http, direction) {
-            $scope.direction = direction;
+        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrDirectionsService', 'entity',
+        function ($scope, $uibModalInstance, $http, $state, signalrDirectionsService, entity) {
+            $scope.direction = entity;
 
             $scope.$on('directionChanged', function (event, args) {
                 if (args.UID === $scope.direction.UID) {
@@ -40,11 +41,11 @@
             };
 
             $scope.Show = function () {
-                
+                $state.go('directions', { uid: $scope.direction.UID });
             };
 
             $scope.ShowJournal = function() {
-
+                $state.go('archive', { uid: $scope.direction.UID });
             };
 
             $scope.ok = function () {
@@ -54,6 +55,6 @@
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
-        }
+        }]
     );
 }());

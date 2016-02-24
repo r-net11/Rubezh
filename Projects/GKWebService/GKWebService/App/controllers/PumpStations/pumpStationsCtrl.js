@@ -3,8 +3,8 @@
 
 
     var app = angular.module('gkApp.controllers');
-    app.controller('pumpStationsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrPumpStatoinsService', 'broadcastService',
-    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrPumpStatoinsService, broadcastService) {
+    app.controller('pumpStationsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrPumpStatoinsService', 'broadcastService', 'dialogService', 'constants',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrPumpStatoinsService, broadcastService, dialogService, constants) {
 
         $http.get('PumpStations/GetPumpStations').success(function (data) {
             $scope.uiGrid.data = data;
@@ -40,6 +40,11 @@
                { field: 'Hold', displayName: 'Время тушения', widtd: 200 }],
         };
 
+        $scope.gridStyle = function () {
+        	var ctrlHeight = window.innerHeight - 170;
+        	return "height:" + ctrlHeight + "px";
+        }();
+
         $scope.showSelectedRow = function (row) {
            $scope.selectedRow = {
                startLogic: row.entity.StartLogic,
@@ -50,17 +55,7 @@
         };
 
         $scope.pumpStationClick = function (pumpStation) {
-            $uibModal.open({
-                animation: false,
-                templateUrl: 'PumpStations/PumpStationDetails',
-                controller: 'pumpStationDetailsCtrl',
-                backdrop: false,
-                resolve: {
-                    pumpStation: function () {
-                        return pumpStation;
-                    }
-                }
-            });
+            dialogService.showWindow(constants.gkObject.pumpStation, pumpStation);
         };
 
         $scope.$on('pumpStationsChanged', function (event, args) {
@@ -76,20 +71,10 @@
             for (var i = 0; i < $scope.uiGrid.data.length; i++) {
                 if ($scope.uiGrid.data[i].UID === uid) {
                     $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
+                    $scope.gridApi.core.scrollTo($scope.uiGrid.data[i], $scope.uiGrid.columnDefs[0]);
                     break;
                 }
             }
         };
-
-        $scope.$on('showPumpStationDetails', function (event, args) {
-            for (var i = 0; i < $scope.uiGrid.data.length; i++) {
-                if ($scope.uiGrid.data[i].UID === args) {
-                    $scope.pumpStationClick($scope.uiGrid.data[i]);
-                    break;
-                }
-            }
-        });
-
     }]);
-
 }());

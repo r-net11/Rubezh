@@ -7,12 +7,12 @@ namespace Infrustructure.Plans.Painters
 {
 	public class PointPainter : RectanglePainter
 	{
-		private TranslateTransform _transform;
+		protected TranslateTransform _translateTransform = new TranslateTransform();
+		protected RotateTransform _rotateTransform = new RotateTransform();
 
 		public PointPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
 			: base(designerCanvas, element)
 		{
-			_transform = new TranslateTransform();
 		}
 
 		protected override RectangleGeometry CreateGeometry()
@@ -26,22 +26,31 @@ namespace Infrustructure.Plans.Painters
 		public override void Transform()
 		{
 			CalculateRectangle();
-			_transform.X = Rect.Left;
-			_transform.Y = Rect.Top;
+			_translateTransform.X = Rect.Left;
+			_translateTransform.Y = Rect.Top;
 		}
 		protected override void InnerDraw(DrawingContext drawingContext)
 		{
-			drawingContext.PushTransform(_transform);
+			drawingContext.PushTransform(_translateTransform);
+			drawingContext.PushTransform(_rotateTransform);
 			base.InnerDraw(drawingContext);
+			drawingContext.Pop();
 			drawingContext.Pop();
 		}
 		public override bool HitTest(System.Windows.Point point)
 		{
-			return base.HitTest(_transform.Inverse.Transform(point));
+			point = _translateTransform.Inverse.Transform(point);
+			point = _rotateTransform.Inverse.Transform(point);
+			return base.HitTest(point);
 		}
 		public override Rect Bounds
 		{
-			get { return _transform.TransformBounds(DesignerCanvas.PainterCache.PointGeometry.Rect); }
+			get
+			{
+				return _translateTransform.TransformBounds(
+					_rotateTransform.TransformBounds(
+						DesignerCanvas.PainterCache.PointGeometry.Rect));
+			}
 		}
 	}
 }

@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('directionsCtrl',
-        ['$scope', '$http', '$uibModal', '$document', '$timeout', '$stateParams', 'signalrDirectionsService',
-        function ($scope, $http, $uibModal, $document, $timeout, $stateParams, signalrDirectionsService) {
+        ['$scope', '$http', '$uibModal', '$document', '$timeout', '$stateParams', 'signalrDirectionsService', 'dialogService', 'constants',
+        function ($scope, $http, $uibModal, $document, $timeout, $stateParams, signalrDirectionsService, dialogService, constants) {
             $scope.gridOptions = {
                 enableRowHeaderSelection: false,
                 enableSorting: false,
@@ -24,6 +24,12 @@
                 ]
             };
 
+            $scope.gridStyle = function () {
+            	var ctrlHeight = window.innerHeight - 100;
+            	return "height:" + ctrlHeight + "px";
+            }();
+
+
             $scope.$on('directionChanged', function (event, args) {
                 var data = $scope.gridOptions.data;
                 for (var i = 0, len = data.length; i < len; i++) {
@@ -36,18 +42,7 @@
             });
 
             $scope.directionClick = function (direction) {
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    templateUrl: 'Directions/DirectionDetails',
-                    controller: 'directionDetailsCtrl',
-                    backdrop: false,
-                    size: 'rbzh',
-                    resolve: {
-                        direction: function () {
-                            return direction;
-                        }
-                    }
-                });
+                dialogService.showWindow(constants.gkObject.direction, direction);
             };
 
             $http.get('Directions/GetDirections').then(
@@ -67,19 +62,11 @@
                 for (var i = 0; i < $scope.gridOptions.data.length; i++) {
                     if ($scope.gridOptions.data[i].UID === uid) {
                         $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
+                        $scope.gridApi.core.scrollTo($scope.gridOptions.data[i], $scope.gridOptions.columnDefs[0]);
                         break;
                     }
                 }
             }
-
-            $scope.$on('showDirectionDetails', function (event, args) {
-                for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-                    if ($scope.gridOptions.data[i].UID === args) {
-                        $scope.directionClick($scope.gridOptions.data[i]);
-                        break;
-                    }
-                }
-            });
         }]
     );
 

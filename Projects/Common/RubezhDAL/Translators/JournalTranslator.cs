@@ -230,16 +230,18 @@ namespace RubezhDAL.DataClasses
 		IQueryable<Journal> BuildArchiveQuery(JournalFilter filter)
 		{
 			IQueryable<Journal> result = Context.Journals;
+			List<int> names = null;
+			List<int> descriptions = null;
 			if (filter.JournalEventNameTypes.Count > 0)
-			{
-				var names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
-				result = result.Where(x => names.Contains(x.Name));
-			}
+				names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
 			if (filter.JournalEventDescriptionTypes.Count > 0)
-			{
-				var descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
+				descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
+			if (names.IsNotNullOrEmpty() && descriptions.IsNotNullOrEmpty())
+				result = result.Where(x => names.Contains(x.Name) || descriptions.Contains(x.Description));
+			else if (names.IsNotNullOrEmpty())
+				result = result.Where(x => names.Contains(x.Name));
+			else if (descriptions.IsNotNullOrEmpty())
 				result = result.Where(x => descriptions.Contains(x.Description));
-			}
 			if (filter.JournalObjectTypes.Count > 0)
 			{
 				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();

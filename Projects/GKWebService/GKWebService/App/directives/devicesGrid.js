@@ -9,10 +9,9 @@
 			link: function (scope, element, attrs) {
 				scope.onClick = attrs['onClick'];
 				scope.onSelect = attrs['onSelect'];
-				scope.isFull = attrs['isFull'];
 			},
 			controller: function ($scope, $attrs, uiGridTreeBaseService, uiGridConstants) {
-				var width = $(window).width() - ($attrs.isFull === "true" ? 925 : 625);
+				var width = $(window).width() - 925;
 				$scope.gridOptions = {
 					enableSorting: false,
 					enableFiltering: false,
@@ -26,10 +25,15 @@
 					columnDefs: [
 						{ field: 'Name', width: 350, displayName: 'Устройство', cellTemplate: template },
 						{ field: 'Address', displayName: 'Адрес', width: 100 },
-						{ field: 'PresentationZone', displayName: 'Зона или логика', width: 300, visible: $attrs.isFull === "true" },
+						{ field: 'PresentationZone', displayName: 'Зона или логика', width: 300 },
 						{ field: 'Description', displayName: 'Примечание', width: width }
 					]
 				};
+
+				$scope.gridStyle = function () {
+					var ctrlHeight = window.innerHeight - 215;
+					return "height:" + ctrlHeight + "px";
+				}();
 
 				$scope.expandAll = function () {
 					$scope.gridApi.treeBase.expandAllRows();
@@ -53,7 +57,7 @@
 			},
 			restrict: 'E',
 			transclude: false,
-			template: '<div ui-grid="gridOptions" style="width: 100%; height: auto" ui-grid-tree-view ui-grid-selection></div>'
+			template: '<div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-tree-view ui-grid-selection></div>'
 		};
 	});
 }());

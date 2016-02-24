@@ -2,8 +2,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers');
-    app.controller('mptsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrMPTsService', 'broadcastService',
-    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrMPTsService, broadcastService) {
+    app.controller('mptsCtrl', ['$scope', '$http', '$timeout', '$uibModal', '$stateParams', 'signalrMPTsService', 'broadcastService', 'dialogService', 'constants',
+    function ($scope, $http, $timeout, $uibModal, $stateParams, signalrMPTsService, broadcastService, dialogService, constants) {
 
                $http.get('MPTs/GetMPTsData').success(function (data) {
                    $scope.uiGrid.data = data;
@@ -17,6 +17,11 @@
                        }
                    });
                });
+
+               $scope.gridStyle = function () {
+               	var ctrlHeight = window.innerHeight - 170;
+               	return "height:" + ctrlHeight + "px";
+               }();
 
                function ChangeMPT(mpt) {
                    for (var i = 0; i < $scope.uiGrid.data.length; i++) {
@@ -55,43 +60,24 @@
                    for (var i = 0; i < $scope.uiGrid.data.length; i++) {
                        if ($scope.uiGrid.data[i].UID === uid) {
                            $scope.gridApi.selection.selectRow($scope.uiGrid.data[i]);
+                           $scope.gridApi.core.scrollTo($scope.uiGrid.data[i], $scope.uiGrid.columnDefs[0]);
                            break;
                        }
                    }
                };
 
-               $scope.showSelectedRow = function () {
-                   var uid = $scope.gridApi.selection.getSelectedRows()[0].UID;
+               $scope.showSelectedRow = function (row) {
                    $scope.selectedRow =
                    {
-                       'onClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].OnClausesGroup,
-                       'offClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].OffClausesGroup,
-                       'stopClausesGroup': $scope.gridApi.selection.getSelectedRows()[0].StopClausesGroup
+                       'onClausesGroup': row.entity.OnClausesGroup,
+                       'offClausesGroup': row.entity.OffClausesGroup,
+                       'stopClausesGroup': row.entity.StopClausesGroup
                    }
-                   broadcastService.send('mptDevicesChanged', uid);
+                   broadcastService.send('mptDevicesChanged', row.entity.UID);
                };
                
                $scope.mptClick = function (mpt) {
-                   $uibModal.open({
-                       animation: false,
-                       templateUrl: 'MPTs/MPTDetails',
-                       controller: 'mptsDetailsCtrl',
-                       backdrop: false,
-                       resolve: {
-                           mpt: function () {
-                               return mpt;
-                           }
-                       }
-                   });
+                   dialogService.showWindow(constants.gkObject.mpt, mpt);
                };
-
-               $scope.$on('showMPTDetails', function (event, args) {
-                   for (var i = 0; i < $scope.uiGrid.data.length; i++) {
-                       if ($scope.uiGrid.data[i].UID === args) {
-                           $scope.mptClick($scope.uiGrid.data[i]);
-                           break;
-                       }
-                   }
-               });
     }]);
 }());

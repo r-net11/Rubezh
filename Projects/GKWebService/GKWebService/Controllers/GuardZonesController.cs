@@ -37,7 +37,7 @@ namespace GKWebService.Controllers
 			List<Device> data = new List<Device>();
 			var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == id);
 			if (guardZone != null)
-				guardZone.GuardZoneDevices.ForEach(x => data.Add(new Device(x.Device)));
+				guardZone.GuardZoneDevices.ForEach(x => data.Add(new Device(x.Device) {ActionType = x.ActionType.ToDescription()}));
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
