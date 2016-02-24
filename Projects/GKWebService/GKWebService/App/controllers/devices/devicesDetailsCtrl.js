@@ -58,11 +58,11 @@
 					{ field: 'Value', displayName: 'Значение', cellTemplate: tmp }
         	]);
 
-        	$scope.onTabSelected = function() {
-		         $timeout(function() {
-			          $(window).resize();
-		         });
-	        }
+        	$scope.onTabSelected = function () {
+        		$timeout(function () {
+        			$(window).resize();
+        		});
+        	}
 
         	$scope.SetIgnoreState = function () {
         		$http.post('Devices/SetIgnoreState', { id: $scope.device.UID });
