@@ -63,16 +63,11 @@ namespace VideoModule.ViewModels
 				{
 					var deviceViewModel = new RviDeviceViewModel(device);
 					serverViewModel.AddChild(deviceViewModel);
-					foreach (var channel in device.RviChannels)
+					foreach (var camera in device.Cameras)
 					{
-						var channelViewModel = new RviDeviceViewModel(channel);
-						deviceViewModel.AddChild(channelViewModel);
-						foreach (var camera in channel.Cameras)
-						{
-							var cameraViewModel = new RviDeviceViewModel(camera);
-							channelViewModel.AddChild(cameraViewModel);
-							Cameras.Add(cameraViewModel);
-						}
+						var cameraViewModel = new RviDeviceViewModel(camera);
+						deviceViewModel.AddChild(cameraViewModel);
+						Cameras.Add(cameraViewModel);
 					}
 				}
 			}

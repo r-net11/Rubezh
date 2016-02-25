@@ -1,0 +1,13 @@
+﻿
+@{
+	Layout = null;
+}
+
+
+<div ng-controller="deviceParametersCtrl">
+	<div ui-grid="gridOptions" style="width: 100%; height: auto;" ui-grid-selection ui-grid-resize-columns></div>
+</div>
+
+<div ng-controller="deviceParametersDetailsCtrl">
+	<div ui-grid="gridOptions" style="width: 100%; height: auto;" ui-grid-selection ui-grid-resize-columns ng-show="selectedDeviceUID"></div>
+</div>

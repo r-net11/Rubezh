@@ -21,7 +21,7 @@
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.doorClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
                     { field: 'DoorTypeString', width: Math.round(($(window).width() - 525) / 2), displayName: 'Тип точки доступа' },
-                    { field: 'Desription', width: Math.round(($(window).width() - 525) / 2), displayName: 'Примечание' }
+                    { field: 'Desription', enableColumnResizing: false, displayName: 'Примечание' }
                 ]
             };
 
@@ -52,25 +52,15 @@
                     Barrier: row.entity.DoorType === 3,
                     AirlockBooth: row.entity.DoorType === 4,
                     exitDevice: row.entity.ExitDevice,
-                    exitDeviceShow: !!row.entity.ExitDevice,
                     enterDevice: row.entity.EnterDevice,
-                    enterDeviceShow: !!row.entity.EnterDevice,
                     enterButton: row.entity.EnterButton,
-                    enterButtonShow: !!row.entity.EnterButton,
                     exitButton: row.entity.ExitButton,
-                    exitButtonShow: !!row.entity.ExitButton,
                     lockDevice: row.entity.LockDevice,
-                    lockDeviceShow: !!row.entity.LockDevice,
                     lockDeviceExit: row.entity.LockDeviceExit,
-                    lockDeviceExitShow: !!row.entity.LockDeviceExit,
                     lockControlDevice: row.entity.LockControlDevice,
-                    lockControlDeviceShow: !!row.entity.LockControlDevice,
                     lockControlDeviceExit: row.entity.LockControlDeviceExit,
-                    lockControlDeviceExitShow: !!row.entity.LockControlDeviceExit,
                     enterZone: row.entity.EnterZone,
-                    enterZoneShow: !!row.entity.EnterZone,
                     exitZone: row.entity.ExitZone,
-                    exitZoneShow: !!row.entity.ExitZone,
                     openRegimeLogic: row.entity.OpenRegimeLogic,
                     normRegimeLogic: row.entity.NormRegimeLogic,
                     closeRegimeLogic: row.entity.CloseRegimeLogic

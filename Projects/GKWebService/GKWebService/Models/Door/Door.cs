@@ -35,13 +35,13 @@ namespace GKWebService.Models.Door
 			if (door.ExitButton != null)
 				ExitButton = new DoorDevice(door.ExitButton);
 			if (door.LockDevice != null)
-				ExitButton = new DoorDevice(door.LockDevice);
+				LockDevice = new DoorDevice(door.LockDevice);
 			if (door.LockDeviceExit != null)
-				ExitButton = new DoorDevice(door.LockDeviceExit);
+				LockDeviceExit = new DoorDevice(door.LockDeviceExit);
 			if (door.LockControlDevice != null)
-				ExitButton = new DoorDevice(door.LockControlDevice);
+				LockControlDevice = new DoorDevice(door.LockControlDevice);
 			if (door.LockControlDeviceExit != null)
-				ExitButton = new DoorDevice(door.LockControlDeviceExit);
+				LockControlDeviceExit = new DoorDevice(door.LockControlDeviceExit);
 			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
 			if (zone != null)
 				ExitZone = new Tuple<string, Guid>(zone.PresentationName, zone.UID);

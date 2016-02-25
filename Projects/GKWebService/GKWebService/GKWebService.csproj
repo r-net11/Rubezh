@@ -189,7 +189,8 @@
     <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
-    <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
+    <Content Include="App\controllers\deviceParameters\deviceParametersDetailsCtrl.js" />
+    <Content Include="App\controllers\deviceParameters\deviceParametersCtrl.js" />
     <Content Include="App\controllers\devices\devicesCtrl.js" />
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
@@ -212,6 +213,7 @@
     <Content Include="App\controllers\PumpStations\pumpStationDetailsCtrl.js" />
     <Content Include="App\controllers\PumpStations\pumpStationDevicesCtrl.js" />
     <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
+    <Content Include="App\controllers\restart\restartDetailsCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
@@ -223,6 +225,7 @@
     <Content Include="App\services\dialogService.js" />
     <Content Include="App\services\journalService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
+    <Content Include="App\services\signalrDeviceParametersService.js" />
     <Content Include="App\services\signalrConfigService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
@@ -397,9 +400,6 @@
     <Resource Include="Content\Image\Icon\Hr\SKDUser.png" />
     <Resource Include="Content\Image\Icon\Hr\load.png" />
     <Resource Include="Content\Image\Icon\Hr\Lock.png" />
-    <Content Include="Content\Image\Icon\Menu\archive.png" />
-    <Content Include="Content\Image\Icon\Menu\Bug.png" />
-    <Content Include="Content\Image\Icon\Menu\delays.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Copy.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Delete.png" />
@@ -412,17 +412,21 @@
     <Content Include="Content\Image\Icon\Menu\fine\book.png" />
     <Content Include="Content\Image\Icon\Menu\fine\bug.png" />
     <Content Include="Content\Image\Icon\Menu\fine\dailySchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\directions.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\Door.png" />
     <Content Include="Content\Image\Icon\Menu\fine\file.png" />
     <Content Include="Content\Image\Icon\Menu\fine\holidays.png" />
     <Content Include="Content\Image\Icon\Menu\fine\levels.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\MPT.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\plans.png" />
     <Content Include="Content\Image\Icon\Menu\fine\Print.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\PumpStation.png" />
     <Content Include="Content\Image\Icon\Menu\fine\skd.png" />
     <Content Include="Content\Image\Icon\Menu\fine\timeTrack.png" />
     <Content Include="Content\Image\Icon\Menu\fine\tree.png" />
     <Content Include="Content\Image\Icon\Menu\fine\weeklySchedule.png" />
     <Content Include="Content\Image\Icon\Menu\fine\workSchedule.png" />
-    <Content Include="Content\Image\Icon\Menu\levels.png" />
-    <Content Include="Content\Image\Icon\Menu\tree.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\zones.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Camera.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Chip.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
@@ -439,6 +443,10 @@
     <Content Include="Content\Image\Images\BReset.png" />
     <Resource Include="Content\Image\Images\CMap.png" />
     <Content Include="Content\Image\Images\Zone.png" />
+    <Content Include="Content\Image\MessageBox\BWatch.png" />
+    <Content Include="Content\Image\MessageBox\information.png" />
+    <Content Include="Content\Image\MessageBox\question.png" />
+    <Content Include="Content\Image\MessageBox\warning.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
       <DependentUpon>main.less</DependentUpon>
@@ -665,6 +673,7 @@
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DelaysController.cs" />
+    <Compile Include="Controllers\DeviceParametersController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\DoorsController.cs" />
@@ -683,6 +692,7 @@
     <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
     <Compile Include="DataProviders\ConfigHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
+    <Compile Include="DataProviders\DeviceParametersHub\DeviceParametersUpdaterHub.cs" />
     <Compile Include="DataProviders\DevicesHub.cs" />
     <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
@@ -692,6 +702,7 @@
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Device\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Models\Door\Door.cs" />
     <Compile Include="Models\Door\DoorDevice.cs" />
     <Compile Include="Models\GK\GKBase.cs" />
@@ -843,6 +854,8 @@
     <Content Include="Views\GuardZones\GuardZoneDetails.cshtml" />
     <Content Include="Views\Doors\Door.cshtml" />
     <Content Include="Views\Doors\DoorDetails.cshtml" />
+    <Content Include="Views\DeviceParameters\Index.cshtml" />
+    <Content Include="Views\Home\RestartDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

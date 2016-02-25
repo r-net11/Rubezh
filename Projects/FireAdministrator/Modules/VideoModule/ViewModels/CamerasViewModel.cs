@@ -52,28 +52,24 @@ namespace VideoModule.ViewModels
 				foreach (var device in server.RviDevices)
 				{
 					var deviceViewModel = new CameraViewModel(device.Name, device.Ip);
-					foreach (var channel in device.RviChannels)
+					foreach (var camera in device.Cameras)
 					{
-						var channelViewModel = new CameraViewModel(channel.Name, string.Empty);
-						foreach (var camera in channel.Cameras)
+						var cameraViewModel = new CameraViewModel(this, camera, camera.Name);
+						if (camera.IsAddedInConfiguration)
 						{
-							if (camera.IsAddedInConfiguration)
+							AllCameras.Add(cameraViewModel);
+							if (!cameraViewModel.Children.Contains(cameraViewModel))
 							{
-								var cameraViewModel = new CameraViewModel(this, camera, camera.Name);
-								AllCameras.Add(cameraViewModel);
-								if (!channelViewModel.Children.Contains(cameraViewModel))
+								cameraViewModel.AddChild(cameraViewModel);
+								if (!deviceViewModel.Children.Contains(cameraViewModel))
 								{
-									channelViewModel.AddChild(cameraViewModel);
-									if (!deviceViewModel.Children.Contains(channelViewModel))
+									deviceViewModel.AddChild(cameraViewModel);
+									if (!serverViewModel.Children.Contains(deviceViewModel))
 									{
-										deviceViewModel.AddChild(channelViewModel);
-										if (!serverViewModel.Children.Contains(deviceViewModel))
+										serverViewModel.AddChild(deviceViewModel);
+										if (!Cameras.Contains(serverViewModel))
 										{
-											serverViewModel.AddChild(deviceViewModel);
-											if (!Cameras.Contains(serverViewModel))
-											{
-												Cameras.Add(serverViewModel);
-											}
+											Cameras.Add(serverViewModel);
 										}
 									}
 								}
@@ -125,8 +121,7 @@ namespace VideoModule.ViewModels
 			var camera = SelectedCamera.Camera;
 			var server = ClientManager.SystemConfiguration.RviServers.First(x => x.Url == camera.RviServerUrl);
 			var device = server.RviDevices.First(x => x.Uid == camera.RviDeviceUID);
-			var channel = device.RviChannels.First(x => x.Number == camera.RviChannelNo);
-			channel.Cameras.First(x => x.StreamNo == camera.StreamNo).IsAddedInConfiguration = false;
+			device.Cameras.First(x => x.Number == camera.Number).IsAddedInConfiguration = false;
 			RemoveFromTree(SelectedCamera);
 			ClientManager.SystemConfiguration.Cameras.Remove(camera);
 			camera.OnChanged();

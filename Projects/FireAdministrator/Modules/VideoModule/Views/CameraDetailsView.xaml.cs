@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Common;
+using MediaSourcePlayer.MediaSource;
+using System;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using Common;
-using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
@@ -25,8 +25,10 @@ namespace VideoModule.Views
 
 			viewModel.Play -= ViewModelOnPlay;
 			viewModel.Play += ViewModelOnPlay;
+			viewModel.Stop -= ViewModelOnStop;
+			viewModel.Stop += ViewModelOnStop;
 		}
-		private void ViewModelOnPlay(object sender, EventArgs eventArgs)
+		void ViewModelOnPlay(object sender, EventArgs eventArgs)
 		{
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
@@ -47,16 +49,23 @@ namespace VideoModule.Views
 				Logger.Error(e);
 			}
 		}
-		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+		void ViewModelOnStop(object sender, EventArgs eventArgs)
 		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
-
+			PlayerStop();
+		}
+		void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+		{
+			PlayerStop();
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
 				return;
 
 			viewModel.Play -= ViewModelOnPlay;
+		}
+		void PlayerStop()
+		{
+			MediaSourcePlayer.Stop();
+			MediaSourcePlayer.Close();
 		}
 	}
 }

@@ -1,9 +1,9 @@
-﻿using System.Linq;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
 using RviClient;
+using System.Linq;
 using System.Net;
 
 namespace VideoModule.ViewModels
@@ -25,7 +25,7 @@ namespace VideoModule.ViewModels
 		{
 			if (Camera != null)
 			{
-				return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, Camera, out ipEndPoint, out vendorId);
+				return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, Camera.SelectedRviStream, out ipEndPoint, out vendorId);
 			}
 			ipEndPoint = null;
 			vendorId = int.MinValue;

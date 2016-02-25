@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using GKWebService.DataProviders.DeviceParametersHub;
 using GKWebService.DataProviders.FireZones;
 using GKWebService.DataProviders.PumpStations;
 using GKWebService.DataProviders.DoorsHub;
@@ -30,7 +31,8 @@ namespace GKWebService
 
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = ClientManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
+				var message = ClientManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress,
+					GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
 				if (message == null)
 					break;
 				Thread.Sleep(5000);
@@ -85,18 +87,27 @@ namespace GKWebService
 			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnNewJournalItem);
 			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnNewJournalItem);
 
+			SafeFiresecService.GKPropertyChangedEvent += GKPropertyChangedEvent;
+
 			ShowAllObjects();
+		}
+
+		private static void GKPropertyChangedEvent(GKPropertyChangedCallback obj)
+		{
+
 		}
 
 		static void InitializeStates()
 		{
 			var gkStates = ClientManager.FiresecService.GKGetStates();
 			CopyGKStates(gkStates);
+			CopyDeviceMeasureParametersStates(gkStates);
 		}
 
 		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
 			CopyGKStates(gkCallbackResult.GKStates);
+			CopyDeviceMeasureParametersStates(gkCallbackResult.GKStates);
 			if (AlarmsUpdaterHub.Instance != null)
 			{
 				AlarmsUpdaterHub.Instance.BroadcastAlarms();
@@ -203,6 +214,27 @@ namespace GKWebService
 					doorState.CopyTo(door.State);
 					if (DoorsHub.Instance != null)
 						DoorsHub.Instance.DoorUpdate(door);
+				}
+			}
+		}
+
+		static void CopyDeviceMeasureParametersStates(GKStates gkStates)
+		{
+			foreach (var deviceMeasureParameter in gkStates.DeviceMeasureParameters)
+			{
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceMeasureParameter.DeviceUID);
+				if (device != null)
+				{
+					var diff = device.State.XMeasureParameterValues.Where(p => deviceMeasureParameter.MeasureParameterValues.Any(
+						l => p.Name == l.Name && p.StringValue != l.StringValue));
+
+					if (device.State.XMeasureParameterValues.Count != deviceMeasureParameter.MeasureParameterValues.Count || diff.Count() > 0)
+					{
+						device.State.XMeasureParameterValues = deviceMeasureParameter.MeasureParameterValues;
+
+						if (DeviceParametersUpdaterHub.Instance != null)
+							DeviceParametersUpdaterHub.Instance.DeviceParameterUpdate(deviceMeasureParameter);
+					}
 				}
 			}
 		}

@@ -12,6 +12,7 @@ namespace GKWebService.Controllers
 {
 	public class PlansController : Controller
 	{
+		[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
 		public ActionResult Index() {
 			return View();
 		}
@@ -21,6 +22,7 @@ namespace GKWebService.Controllers
 		/// </summary>
 		/// <returns>Список планов, где могут быть планы-папки, у которых могут быть планы-потомки.</returns>
 		[HttpGet]
+		[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
 		public ActionResult List() {
 			var result = PlansDataProvider.Instance.GetPlansList();
 			return Json(result, JsonRequestBehavior.AllowGet);
@@ -32,6 +34,7 @@ namespace GKWebService.Controllers
 		/// <param name="planGuid">UID плана</param>
 		/// <returns>План с UID = <paramref name="planGuid" /></returns>
 		[HttpGet]
+		[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
 		public ActionResult GetPlan(Guid planGuid) {
 			var task = Task.Factory.StartNewSta(() => PlansDataProvider.Instance.GetPlan(planGuid));
 			Task.WaitAll();

@@ -20,7 +20,7 @@
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}"/>{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.guardZoneClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
                     { field: 'SetDelay', enableColumnResizing: false, displayName: 'Задержка на постановку' },
-                    { field: 'ResetDelay', enableColumnResizing: false, displayName: 'Задержка на снятие' },
+                    { field: 'ResetDelay', displayName: 'Задержка на снятие' },
                     { field: 'AlarmDelay', enableColumnResizing: false, displayName: 'Задержка на вызов тревоги' },
                 ]
             };
