@@ -112,7 +112,7 @@
 					return null;
 				};
 
-				$http.get('DeviceParameters/GetDeviceParameters').success(function (data) {
+				$http.get('DeviceParameters/GetDevicesList').success(function (data) {
 					$scope.data = data;
 					for (var i in $scope.data) {
 						$scope.data[i].$$treeLevel = $scope.data[i].Level;

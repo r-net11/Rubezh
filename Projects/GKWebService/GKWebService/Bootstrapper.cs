@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using GKWebService.DataProviders.DeviceParametersHub;
+using GKWebService.DataProviders.Devices;
 using GKWebService.DataProviders.FireZones;
 using GKWebService.DataProviders.PumpStations;
 using GKWebService.DataProviders.DoorsHub;

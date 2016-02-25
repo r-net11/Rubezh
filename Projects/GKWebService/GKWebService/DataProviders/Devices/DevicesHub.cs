@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using GKWebService.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using RubezhAPI.GK;
-using GKWebService.Models;
 
-namespace GKWebService.DataProviders
+namespace GKWebService.DataProviders.Devices
 {
 	[HubName("devicesUpdater")]
 	public class DevicesHub : Hub
