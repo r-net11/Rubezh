@@ -38,6 +38,7 @@
 				<File Id="Administrator.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 				<File Id="Administrator.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RviClient.dll" Name="RviClient.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
 
 			<Component Id="Administrator.DB" Guid="5619BD45-25EA-4635-8BBA-4D8E81F06B2F">
