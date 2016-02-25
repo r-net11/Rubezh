@@ -94,10 +94,7 @@ namespace RviClient
 						Session = sessionUID
 					};
 					var serverListOut = client.GetServerList(serverListIn);
-					if (serverListOut != null)
-					{
-						servers = serverListOut.ServerList;
-					}
+					servers = serverListOut.ServerList;
 
 					var sessionCloseIn = new SessionCloseIn();
 					sessionCloseIn.Header = new HeaderRequest()
