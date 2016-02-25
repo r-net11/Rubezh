@@ -176,27 +176,42 @@
         		return filter;
         	}
 
+        	var isUpdateChildren = true;
+
         	$scope.objectsSetChildren = function (row) {
-        		showSelectedRow(row, $scope.objectsGrid, $scope.objectsGridApi);
+				showSelectedRow(row, $scope.objectsGrid, $scope.objectsGridApi);
+				isUpdateChildren = true;
         	};
 
         	$scope.eventsSetChildren = function (row) {
         		showSelectedRow(row, $scope.eventsGrid, $scope.eventsGridApi);
+        		isUpdateChildren = true;
         	};
 
-        	var showSelectedRow = function (row, gridOptions, gridApi) {
+			var showSelectedRow = function (row, gridOptions, gridApi) {
         		var index = gridOptions.data.indexOf(row.entity) + 1;
         		var item = gridOptions.data[index];
         		if (!item)
         			return;
-        		while (item.Level > row.entity.Level) {
-        			if (row.isSelected)
-        				gridApi.selection.selectRow(item);
-        			else
-        				gridApi.selection.unSelectRow(item);
-        			index++;
+        		if (isUpdateChildren)
+        			while (item.Level > row.entity.Level) {
+        				if (row.isSelected)
+        					gridApi.selection.selectRow(item);
+        				if (!row.isSelected)
+        					gridApi.selection.unSelectRow(item);
+        				index++;
+        				item = gridOptions.data[index];
+        			}
+        		if (!row.isSelected) {
+        			index = gridOptions.data.indexOf(row.entity);
         			item = gridOptions.data[index];
+        			while (item.Level >= row.entity.Level) {
+						index--;
+        				item = gridOptions.data[index];
+        			}
+        			isUpdateChildren = false;
+        			gridApi.selection.unSelectRow(item);
         		}
-        	};
+			};
 		});
 }());
