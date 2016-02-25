@@ -37,7 +37,7 @@
               [{ field: 'No', displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/Icon/GK/BMPT.png" />{{row.entity[col.field]}}</div>' },
                { field: 'Name', displayName: 'НС', width: 450, cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.pumpStationClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
                { field: 'Delay', displayName: 'Задержка', width: 200 },
-               { field: 'Hold', displayName: 'Время тушения', widtd: 200 }],
+               { field: 'Hold', displayName: 'Время тушения', enableColumnResizing: false }],
         };
 
         $scope.gridStyle = function () {

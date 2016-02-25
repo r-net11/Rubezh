@@ -48,9 +48,15 @@
             $http.get('Directions/GetDirections').then(
                 function (response) {
                     $scope.gridOptions.data = response.data;
-                    if ($stateParams.uid) {
-                        $timeout(function() { $scope.selectRowById($stateParams.uid) });
-                    }
+                    $timeout(function () {
+                        if ($stateParams.uid)
+                            $scope.selectRowById($stateParams.uid);
+                        else {
+                            if ($scope.gridApi.selection.selectRow)
+                                $scope.gridApi.selection.selectRow($scope.gridOptions.data[0]);
+                        }
+
+                    });
                 },
                 function (response) {
                     // TODO: Нужно реализовать общее окно для отображения ошибок

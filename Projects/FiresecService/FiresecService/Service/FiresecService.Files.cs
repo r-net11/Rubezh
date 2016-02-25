@@ -90,6 +90,11 @@ namespace FiresecService.Service
 			if (!Directory.Exists(configDirectory))
 				Directory.CreateDirectory(configDirectory);
 
+			if (Directory.Exists(Path.Combine(configDirectory, "Content")))
+				Directory.Delete(Path.Combine(configDirectory, "Content"), true);
+			if (!Directory.Exists(Path.Combine(configDirectory, "Content")))
+				Directory.CreateDirectory(Path.Combine(configDirectory, "Content"));
+
 			foreach (var fileName in Directory.GetFiles(newConfigDirectory))
 			{
 				var file = Path.GetFileName(fileName);

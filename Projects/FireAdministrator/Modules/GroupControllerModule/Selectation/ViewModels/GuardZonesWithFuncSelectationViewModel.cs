@@ -41,6 +41,7 @@ namespace GKModule.ViewModels
 					deviceGuardZone.GuardZone = zone;
 					deviceGuardZone.GuardZoneUID = zone.UID;
 					deviceGuardZone.ActionType = guardZoneDevice.ActionType;
+					deviceGuardZone.CodeReaderSettings = guardZoneDevice.CodeReaderSettings;
 					DeviceGuardZones.Add(new DeviceGuardZoneViewModel(deviceGuardZone, device));
 				}
 			}
