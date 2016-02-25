@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using GKWebService.DataProviders.Devices;
+using GKWebService.Models;
 using RubezhAPI;
-using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhClient;
 
@@ -12,7 +12,6 @@ namespace GKWebService.Controllers
 {
 	public class DevicesController : Controller
 	{
-
 		public ActionResult Index()
 		{
 			return View();
@@ -23,7 +22,7 @@ namespace GKWebService.Controllers
 		/// </summary>
 		public JsonResult GetDevicesList()
 		{
-			return Json(DevicesDataProvider.Instance.GetDevices(), JsonRequestBehavior.AllowGet);
+			return Json(BuildTreeList(GKManager.DeviceConfiguration.RootDevice), JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult DeviceDetails()
@@ -31,19 +30,12 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		/// <summary>
-		/// Метод, предоставляющий данные об устройствах 
-		/// </summary>
-		public JsonResult GetDeviceParameters()
-		{
-			return Json(DevicesDataProvider.Instance.GetDevices(), JsonRequestBehavior.AllowGet);
-		}
-
 		[HttpPost]
 		public JsonResult SetAutomaticState(Guid id)
 		{
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
-			if (device != null){
+			if (device != null)
+			{
 				ClientManager.FiresecService.GKSetAutomaticRegime(device);
 			}
 			return new JsonResult();
@@ -53,7 +45,8 @@ namespace GKWebService.Controllers
 		public JsonResult SetIgnoreState(Guid id)
 		{
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
-			if (device != null){
+			if (device != null)
+			{
 				ClientManager.FiresecService.GKSetIgnoreRegime(device);
 			}
 			return new JsonResult();
@@ -63,7 +56,8 @@ namespace GKWebService.Controllers
 		public JsonResult Reset(Guid id)
 		{
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
-			if (device != null){
+			if (device != null)
+			{
 				ClientManager.FiresecService.GKReset(device);
 			}
 			return new JsonResult();
@@ -122,6 +116,20 @@ namespace GKWebService.Controllers
 				ClientManager.FiresecService.GKTurnOff(device);
 			}
 			return new JsonResult();
+		}
+
+		private List<Device> BuildTreeList(GKDevice device, int level = 0)
+		{
+			var list = new List<Device>();
+			list.Add(new Device(device)
+			{
+				Level = level,
+			});
+			foreach (var child in device.Children)
+			{
+				list.AddRange(BuildTreeList(child, level + 1));
+			}
+			return list;
 		}
 	}
 }

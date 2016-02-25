@@ -693,8 +693,7 @@
     <Compile Include="DataProviders\ConfigHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
     <Compile Include="DataProviders\DeviceParametersHub\DeviceParametersUpdaterHub.cs" />
-    <Compile Include="DataProviders\DevicesHub.cs" />
-    <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
+    <Compile Include="DataProviders\Devices\DevicesHub.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\DoorsHub\DoorsHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
