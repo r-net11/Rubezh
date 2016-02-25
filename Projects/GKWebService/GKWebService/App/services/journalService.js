@@ -1,5 +1,6 @@
 ﻿(function () {
-	app.factory('journalService', function () {
+	var app = angular.module('gkApp.services')
+	.factory('journalService', function () {
 		return {
 			createGridOptions: function (scope) {
 				scope.showSelectedRow = function (row) {
