@@ -19,28 +19,22 @@ namespace GKImitator.ViewModels
         public RelayCommand TestButtonCommand { get; private set; }
 		void OnTestButton()
 		{
-			SetStateBit(GKStateBit.Test, true);
 			var journalItem = new ImitatorJournalItem(2, 6, 1, 1);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Test, true, journalItem);
 		}
 
 		public RelayCommand TestLaserCommand { get; private set; }
 		void OnTestLaser()
 		{
-			SetStateBit(GKStateBit.Test, true);
 			var journalItem = new ImitatorJournalItem(2, 6, 2, 1);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Test, true, journalItem);
 		}
 
 		public RelayCommand ResetTestCommand { get; private set; }
 		void OnResetTest()
 		{
-			SetStateBit(GKStateBit.Test, false);
 			var journalItem = new ImitatorJournalItem(2, 6, 0, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Test, false, journalItem);
 		}
 	}
 }

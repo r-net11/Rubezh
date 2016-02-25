@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using RubezhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
@@ -22,7 +23,7 @@ namespace GKImitator.ViewModels
 			return false;
 		}
 
-		public bool SetStateBit(GKStateBit stateBit, bool value)
+		public bool SetStateBit(GKStateBit stateBit, bool value, ImitatorJournalItem additionalJournalItem = null)
 		{
 			var stateBitViewModel = StateBits.FirstOrDefault(x => x.StateBit == stateBit);
 			if (stateBitViewModel != null)
@@ -30,6 +31,7 @@ namespace GKImitator.ViewModels
 				if (stateBitViewModel.IsActive != value)
 				{
 					stateBitViewModel.IsActive = value;
+					OnStateBitChanged(stateBit, value, additionalJournalItem);
 					return true;
 				}
 			}

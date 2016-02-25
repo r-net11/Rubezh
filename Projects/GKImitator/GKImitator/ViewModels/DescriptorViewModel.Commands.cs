@@ -77,7 +77,6 @@ namespace GKImitator.ViewModels
 						OnResetFire();
 					break;
 			}
-			RecalculateOutputLogic();
 		}
 	}
 }
