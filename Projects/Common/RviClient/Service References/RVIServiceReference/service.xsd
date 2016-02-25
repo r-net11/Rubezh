@@ -4,6 +4,7 @@
   <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Perimeter" />
   <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Alarm" />
   <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Video" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" />
   <xs:element name="SessionInitialiazation">
     <xs:complexType>
       <xs:sequence>
@@ -309,6 +310,62 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Alarm" minOccurs="0" name="AlarmDisableChannelResult" nillable="true" type="q44:AlarmDisableChannelOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetClientList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" minOccurs="0" name="document" nillable="true" type="q45:ClientListIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetClientListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" minOccurs="0" name="GetClientListResult" nillable="true" type="q46:ClientListOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLoginList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" minOccurs="0" name="document" nillable="true" type="q47:LoginListIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLoginListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" minOccurs="0" name="GetLoginListResult" nillable="true" type="q48:LoginListOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetWindowList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" minOccurs="0" name="document" nillable="true" type="q49:WindowListIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetWindowListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" minOccurs="0" name="GetWindowListResult" nillable="true" type="q50:WindowListOut" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OpenWindow">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" minOccurs="0" name="document" nillable="true" type="q51:OpenWindowIn" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OpenWindowResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" minOccurs="0" name="OpenWindowResult" nillable="true" type="q52:OpenWindowOut" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -69,9 +69,9 @@
   </wsdl:binding>
   <wsdl:service name="IntegrationVideoStreaming">
     <wsdl:port name="NetTcpBinding_IIntegrationVideoStreaming" binding="tns:NetTcpBinding_IIntegrationVideoStreaming">
-      <soap12:address location="net.tcp://192.168.21.38:8001/IntegrationVideoStreaming" />
+      <soap12:address location="net.tcp://localhost:8000/IntegrationVideoStreaming" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://192.168.21.38:8001/IntegrationVideoStreaming</wsa10:Address>
+        <wsa10:Address>net.tcp://localhost:8000/IntegrationVideoStreaming</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

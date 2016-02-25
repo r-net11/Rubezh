@@ -20,6 +20,8 @@
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Alarm" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Video" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IIntegration_SessionInitialiazation_InputMessage">
@@ -154,6 +156,30 @@
   <wsdl:message name="IIntegration_AlarmDisableChannel_OutputMessage">
     <wsdl:part name="parameters" element="tns:AlarmDisableChannelResponse" />
   </wsdl:message>
+  <wsdl:message name="IIntegration_GetClientList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetClientList" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_GetClientList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetClientListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_GetLoginList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLoginList" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_GetLoginList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLoginListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_GetWindowList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetWindowList" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_GetWindowList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetWindowListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_OpenWindow_InputMessage">
+    <wsdl:part name="parameters" element="tns:OpenWindow" />
+  </wsdl:message>
+  <wsdl:message name="IIntegration_OpenWindow_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OpenWindowResponse" />
+  </wsdl:message>
   <wsdl:portType name="IIntegration">
     <wsdl:operation name="SessionInitialiazation">
       <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/SessionInitialiazation" message="tns:IIntegration_SessionInitialiazation_InputMessage" />
@@ -242,6 +268,22 @@
     <wsdl:operation name="AlarmDisableChannel">
       <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/AlarmDisableChannel" message="tns:IIntegration_AlarmDisableChannel_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/AlarmDisableChannelResponse" message="tns:IIntegration_AlarmDisableChannel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetClientList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/GetClientList" message="tns:IIntegration_GetClientList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/GetClientListResponse" message="tns:IIntegration_GetClientList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLoginList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/GetLoginList" message="tns:IIntegration_GetLoginList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/GetLoginListResponse" message="tns:IIntegration_GetLoginList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWindowList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/GetWindowList" message="tns:IIntegration_GetWindowList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/GetWindowListResponse" message="tns:IIntegration_GetWindowList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenWindow">
+      <wsdl:input wsaw:Action="http://tempuri.org/IIntegration/OpenWindow" message="tns:IIntegration_OpenWindow_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IIntegration/OpenWindowResponse" message="tns:IIntegration_OpenWindow_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IIntegration" type="tns:IIntegration">
@@ -446,12 +488,48 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetClientList">
+      <soap12:operation soapAction="http://tempuri.org/IIntegration/GetClientList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLoginList">
+      <soap12:operation soapAction="http://tempuri.org/IIntegration/GetLoginList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWindowList">
+      <soap12:operation soapAction="http://tempuri.org/IIntegration/GetWindowList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenWindow">
+      <soap12:operation soapAction="http://tempuri.org/IIntegration/OpenWindow" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="Integration">
     <wsdl:port name="NetTcpBinding_IIntegration" binding="tns:NetTcpBinding_IIntegration">
-      <soap12:address location="net.tcp://192.168.21.38:8001/Integration" />
+      <soap12:address location="net.tcp://localhost:8000/Integration" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://192.168.21.38:8001/Integration</wsa10:Address>
+        <wsa10:Address>net.tcp://localhost:8000/Integration</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>
