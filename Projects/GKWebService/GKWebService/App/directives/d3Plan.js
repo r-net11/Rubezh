@@ -61,7 +61,7 @@
 			// Задаем обработку клика на элемент меню
 			.on("click", function (d) {
 				// Открываем модальное окно
-				scope.ShowModal("lg", item.Name);
+				scope.ShowModal("lg", item);
 				// Закрываем контекстное меню, т.к. по нему кликнули
 				d3.select(".context-menu").style("display", "none");
 				return d;
@@ -84,8 +84,7 @@
 				.attr("y", item.Y)
 				.attr("width", item.Width)
 				.attr("height", item.Height)
-				.attr("id", function(d) { return item.Id.replace(" ", "-")})
-				.attr("subElementId", function(d) { return item.Id.replace(" ", "-") });
+				.attr("id", function(d) { return item.Id.replace(" ", "-") });
 		} else {
 			svg.append("image").attr("xlink:href", "data:image/png;base64," + item.Image)
 			.attr("x", item.X)
@@ -93,7 +92,6 @@
 			.attr("width", item.Width)
 			.attr("height", item.Height)
 			.attr("id", function (d) { return item.Id.replace(" ", "-") })
-			.attr("subElementId", function (d) { return item.Id.replace(" ", "-") })
 			// Обработка события наведения мыши
 			.on("mouseover", function (d) {
 				var id = document.getElementById(item.Id.replace(" ", "-"));
@@ -110,32 +108,18 @@
 
 	function renderGifImageElement(item, i, svg, tip, menuItems, scope, isGroupElement) {
 		if (isGroupElement === true) {
-			svg.append("image").attr("xlink:href", "data:image/gif;base64," + item.Image)
+			var image = svg.append("image").attr("xlink:href", "data:image/gif;base64," + item.Image)
 				.attr("x", item.X)
 				.attr("y", item.Y)
 				.attr("width", item.Width)
 				.attr("height", item.Height)
-				.attr("id", function(d) { return item.Id.replace(" ", "-") })
-				.attr("subElementId", function(d) { return item.Id.replace(" ", "-") });
-		} else {
-					svg.append("image").attr("xlink:href", "data:image/gif;base64," + item.Image)
-			.attr("x", item.X)
-			.attr("y", item.Y)
-			.attr("width", item.Width)
-			.attr("height", item.Height)
-			.attr("id", function (d) { return item.Id.replace(" ", "-") })
-			.attr("subElementId", function (d) { return item.Id.replace(" ", "-") })
-			// Обработка события наведения мыши
-			.on("mouseover", function (d) {
-				var id = document.getElementById(item.Id.replace(" ", "-"));
-				tip.show(renderTipContent(item.Hint.StateHintLines), id);
-			})
-			// Обработка события прекращения наведения мыши
-			.on("mouseout", function (d) { tip.hide(); })
-			// Обработка события левого клика мыши
-			.on("click", function (d) { })
-			// Обработка события вызова контекстного меню
-			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); });
+				.attr("id", function (d) { return item.Id.replace(" ", "-") })
+				.on("updateImage", function (data, e, k) {
+				console.log("Updating gif on:", item.Id);
+				item.Image = data.Image;
+					image.attr("xlink:href", "data:image/gif;base64," + data.Image);
+				});
+
 		}
 	}
 
@@ -198,7 +182,6 @@
 			.attr("fill", "none")
 			.attr("pointer-events", "all")
 			.attr("id", function (d) { return item.Id.replace(" ", "-") + "GroupElement" })
-			.attr("subElementId", function () { return item.Id.replace(" ", "-") + "GroupElement" })
 			// Обработка события наведения мыши
 			.on("mouseover", function (d) {
 				if (item.HasOverlay && item.BorderMouseOver) {
@@ -218,11 +201,11 @@
 			// Обработка события левого клика мыши
 			.on("click", function (d) { })
 			// Обработка события вызова контекстного меню
-			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); });
-		$("rect[subElementId=" + item.Id.replace(" ", "-") + "GroupElement" + "]").on("updateHint", function (e, hint) {
-			console.log("Updating hint on:", item.Id, item.Text);
-			item.Hint = hint;
-		});
+			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); })
+			.on("updateHint", function (data) {
+				console.log("Updating hint on:", item.Id, item.Text);
+				item.Hint = data.hint;
+			});
 	}
 
 	// Отрисовка одного элемента на канве
@@ -352,20 +335,28 @@
 					);
 
 					// Перерисовка канвы при изменении входных данных
-					scope.$watch("d3Data", function () { return scope.render(); }, true);
+					scope.$on("planLoad", function (event, data) { return scope.render(); });
 
 					// Функция отрисовки канвы
 					scope.render = function () { renderSvg(tip, scope, iElement[0]); };
 
 					scope.$on('updateDeviceState', function (event, stateData) {
 						var uid = stateData.Id.replace(" ", "-");
-						console.log("Updating pic on:", uid);
-                        $("image[subElementId=" + uid + "]").attr("href", "data:image/gif;base64," + stateData.Picture);
-						uid = stateData.Id.replace(" ", "-") + "GroupElement";
-						console.log("Triggering hint update on:", uid);
-	                    $("rect[subElementId=" + uid + "]").trigger( "updateHint", stateData.Hint );
-
-            });
+						var imageElement = d3.select($("image[id=" + uid + "]")[0]);
+						if (imageElement && imageElement.length > 0 && imageElement[0][0]) {
+							imageElement.on('updateImage')({
+								Image: stateData.Picture
+							});
+						}
+						var groupElementUid = stateData.Id.replace(" ", "-") + "GroupElement";
+						console.log("Triggering hint update on:", groupElementUid);
+						var groupElement = d3.select($("rect[id=" + groupElementUid + "]")[0]);
+						if (groupElement && groupElement.length > 0 && groupElement[0][0]) {
+							groupElement.on('updateHint')({
+								hint: stateData.Hint
+							});
+						}
+					});
 				}
 			};
 		}

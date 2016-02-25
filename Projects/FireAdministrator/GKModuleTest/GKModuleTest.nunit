@@ -1,0 +1,6 @@
+﻿<NUnitProject>
+  <Settings processModel="Default" domainUsage="Default" appbase="D:\Repos\RubezhGlobal\Projects\FireAdministrator\GKModuleTest" activeconfig="Nunit" />
+  <Config name="Nunit" appbase="D:\Repos\RubezhGlobal\Projects\FireAdministrator\GKModuleTest\bin\Release">
+    <assembly path="..\GKModuleTest\bin\Debug\GKModuleTest.dll" />
+  </Config>
+</NUnitProject>

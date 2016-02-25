@@ -30,10 +30,6 @@ namespace VideoModule.ViewModels
 			Camera = camera;
 			PresentationName = presentationName;
 		}
-		public CameraViewModel(RviChannel channel) : this()
-		{
-			PresentationName = channel.Name;
-		}
 		public CameraViewModel(RviDevice rviDevice) : this()
 		{
 			RviDevice = rviDevice;

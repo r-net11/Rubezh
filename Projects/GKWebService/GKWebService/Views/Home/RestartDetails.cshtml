@@ -1,0 +1,22 @@
+﻿@{
+	Layout = null;
+}
+
+<div modal-draggable modaless>
+	<div class="modal-header">
+		<a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()"/></a>
+		<h3 class="modal-title">Глобал</h3>
+	</div>
+	<div class="modal-body">
+		<div>
+			<img style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left" ng-src="/Content/Image/MessageBox/warning.png"/>
+		</div>
+		Конфигурация на сервере изменилась<br />
+		- Нажмите ДА, чтобы перезагрузить приложение<br />
+		- Нажмите НЕТ, чтобы сохранить изменения<br />
+		Приложениее будет автоматически перезагружено!
+		<uib-progressbar value="time" type="warning" max="max"></uib-progressbar>
+		<div class="btn btn-primary btn-control" ng-click="ok()" >Да</div>
+		<div class="btn btn-primary btn-control" ng-click="cancel()">Нет</div>
+	</div>
+</div>

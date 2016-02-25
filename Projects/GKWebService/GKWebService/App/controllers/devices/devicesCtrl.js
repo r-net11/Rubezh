@@ -30,9 +30,13 @@
 							break;
 						}
 					}
+
+					if ($scope.selectedDevice && $scope.selectedDevice.UID === device.UID) {
+						$scope.selectedDevice = device;
+					}
 				};
 
-				$scope.$on('devicesChanged', function (event, args) {
+				signalrDevicesService.onDeviceChanged(function (event, args) {
 					changeDevices(args);
 					$scope.$apply();
 				});

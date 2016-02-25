@@ -15,9 +15,14 @@
 				}
 			}
 			$scope.gridOptions = {
-				enableSorting: false,
-				enableColumnResizing: true,
-				enableColumnMenus: false,
+			    enableRowSelection: true,
+			    enableRowHeaderSelection: false,
+			    multiSelect: false,
+			    modifierKeysToMultiSelect: true,
+			    noUnselect: true,
+			    enableSorting: false,
+			    enableColumnResizing: true,
+			    enableColumnMenus: false,
 				onRegisterApi: function (gridApi) {
 				    $scope.gridApi = gridApi;
 				},

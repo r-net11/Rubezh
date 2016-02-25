@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Operator" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ClientListIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q1:DocumentInBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ClientListIn" nillable="true" type="tns:ClientListIn" />
+  <xs:complexType name="ClientListOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q2:DocumentOutBase">
+        <xs:sequence>
+          <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IP" nillable="true" type="q3:ArrayOfstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ClientListOut" nillable="true" type="tns:ClientListOut" />
+  <xs:complexType name="LoginListIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q4:DocumentInBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LoginListIn" nillable="true" type="tns:LoginListIn" />
+  <xs:complexType name="LoginListOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q5:DocumentOutBase">
+        <xs:sequence>
+          <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Login" nillable="true" type="q6:ArrayOfstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LoginListOut" nillable="true" type="tns:LoginListOut" />
+  <xs:complexType name="WindowListIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q7:DocumentInBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="WindowListIn" nillable="true" type="tns:WindowListIn" />
+  <xs:complexType name="WindowListOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q8:DocumentOutBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Window" nillable="true" type="tns:ArrayOfWindowClient" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="WindowListOut" nillable="true" type="tns:WindowListOut" />
+  <xs:complexType name="ArrayOfWindowClient">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="WindowClient" nillable="true" type="tns:WindowClient" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfWindowClient" nillable="true" type="tns:ArrayOfWindowClient" />
+  <xs:complexType name="WindowClient">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Guid" type="ser:guid" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WindowClient" nillable="true" type="tns:WindowClient" />
+  <xs:complexType name="OpenWindowIn">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q9="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q9:DocumentInBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="GuidWindow" type="ser:guid" />
+          <xs:element minOccurs="0" name="IP" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Monitor" nillable="true" type="tns:Monitor" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OpenWindowIn" nillable="true" type="tns:OpenWindowIn" />
+  <xs:complexType name="Monitor">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Number" type="xs:int" />
+      <xs:element minOccurs="0" name="X" type="xs:double" />
+      <xs:element minOccurs="0" name="Y" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Monitor" nillable="true" type="tns:Monitor" />
+  <xs:complexType name="OpenWindowOut">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Common" base="q10:DocumentOutBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OpenWindowOut" nillable="true" type="tns:OpenWindowOut" />
+</xs:schema>

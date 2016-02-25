@@ -94,10 +94,7 @@ namespace RviClient
 						Session = sessionUID
 					};
 					var serverListOut = client.GetServerList(serverListIn);
-					if (serverListOut != null)
-					{
-						servers = serverListOut.ServerList;
-					}
+					servers = serverListOut.ServerList;
 
 					var sessionCloseIn = new SessionCloseIn();
 					sessionCloseIn.Header = new HeaderRequest()
@@ -122,40 +119,41 @@ namespace RviClient
 		{
 			var devices = GetDevices(url, login, password, out isNotConnected);
 			var rviDevices = new List<RviDevice>();
+			var newCameras = new List<Camera>();
 			foreach (var device in devices)
 			{
 				var rviDevice = new RviDevice { Uid = device.Guid, Ip = device.Ip, Name = device.Name, Status = ConvertToRviStatus(device.Status) };
 				rviDevices.Add(rviDevice);
 				foreach (var channel in device.Channels)
 				{
-					var rviChannel = new RviChannel { Name = channel.Name, Number = channel.Number, Vendor = channel.Vendor };
-					rviDevice.RviChannels.Add(rviChannel);
+					var camera = new Camera
+					{
+						UID = channel.Guid,
+						Name = channel.Name,
+						RviServerUrl = url,
+						RviDeviceName = device.Name,
+						RviDeviceUID = device.Guid,
+						Number = channel.Number,
+						Vendor = channel.Vendor,
+						CountPresets = channel.CountPresets,
+						CountTemplateBypass = channel.CountTemplateBypass,
+						CountTemplatesAutoscan = channel.CountTemplatesAutoscan
+					};
 					foreach (var stream in channel.Streams)
 					{
-						var existingCamera = existingCameras.FirstOrDefault(x => x.IsAddedInConfiguration && x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number && x.StreamNo == stream.Number);
-						if (existingCamera == null)
-						{
-							var camera = new Camera
-							{
-								StreamNo = stream.Number,
-								Ip = device.Ip,
-								RviServerUrl = url,
-								RviDeviceName = device.Name,
-								RviDeviceUID = device.Guid,
-								RviChannelNo = channel.Number,
-								RviChannelName = channel.Name,
-								CountPresets = channel.CountPresets,
-								CountTemplateBypass = channel.CountTemplateBypass,
-								CountTemplatesAutoscan = channel.CountTemplatesAutoscan
-							};
-							rviChannel.Cameras.Add(camera);
-						}
-						else
-						{
-							rviChannel.Cameras.Add(existingCamera);
-						}
+						var rviStream = new RviStream { Number = stream.Number, RviDeviceUid = device.Guid, RviChannelNumber = channel.Number };
+						camera.RviStreams.Add(rviStream);
 					}
+					camera.SelectedRviStreamNumber = camera.RviStreams.First().Number;
+					rviDevice.Cameras.Add(camera);
+					newCameras.Add(camera);
 				}
+			}
+			foreach (var existingCamera in existingCameras)
+			{
+				var camera = newCameras.FirstOrDefault(newCamera => newCamera.UID == existingCamera.UID);
+				if (camera != null)
+					camera.IsAddedInConfiguration = existingCamera.IsAddedInConfiguration;
 			}
 			return rviDevices;
 		}
@@ -244,13 +242,13 @@ namespace RviClient
 
 				var snapshotUID = new Guid();
 				snapshotDoIn.DeviceGuid = camera.RviDeviceUID;
-				snapshotDoIn.ChannelNumber = camera.RviChannelNo;
+				snapshotDoIn.ChannelNumber = camera.Number;
 				snapshotDoIn.EventGuid = snapshotUID;
 				var snapshotDoOut = client.SnapshotDo(new SnapshotDoIn());
 
 				var snapshotImageIn = new SnapshotImageIn();
 				snapshotImageIn.DeviceGuid = camera.RviDeviceUID;
-				snapshotImageIn.ChannelNumber = camera.RviChannelNo;
+				snapshotImageIn.ChannelNumber = camera.Number;
 				snapshotImageIn.EventGuid = snapshotUID;
 				snapshotImageIn.Header = new HeaderRequest()
 				{
@@ -287,7 +285,7 @@ namespace RviClient
 
 				var ptzPresetIn = new PtzPresetIn();
 				ptzPresetIn.DeviceGuid = camera.RviDeviceUID;
-				ptzPresetIn.ChannelNumber = camera.RviChannelNo;
+				ptzPresetIn.ChannelNumber = camera.Number;
 				ptzPresetIn.Number = number;
 				ptzPresetIn.Header = new HeaderRequest()
 				{
@@ -326,7 +324,7 @@ namespace RviClient
 
 					var videoRecordStartIn = new VideoRecordStartIn();
 					videoRecordStartIn.DeviceGuid = camera.RviDeviceUID;
-					videoRecordStartIn.ChannelNumber = camera.RviChannelNo;
+					videoRecordStartIn.ChannelNumber = camera.Number;
 					videoRecordStartIn.EventGuid = eventUID;
 					videoRecordStartIn.TimeOut = timeout;
 					videoRecordStartIn.Header = new HeaderRequest()
@@ -371,7 +369,7 @@ namespace RviClient
 
 					var videoRecordStopIn = new VideoRecordStopIn();
 					videoRecordStopIn.DeviceGuid = camera.RviDeviceUID;
-					videoRecordStopIn.ChannelNumber = camera.RviChannelNo;
+					videoRecordStopIn.ChannelNumber = camera.Number;
 					videoRecordStopIn.EventGuid = eventUID;
 					videoRecordStopIn.Header = new HeaderRequest()
 					{
@@ -417,7 +415,7 @@ namespace RviClient
 					{
 						System.IO.Stream stream = null;
 						var requestUID = new Guid();
-						var result = streamingClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
+						var result = streamingClient.GetVideoFile(camera.Number, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
 						var videoFileStream = File.Create(videoPath);
 						CopyStream(stream, videoFileStream);
 					}
@@ -437,23 +435,23 @@ namespace RviClient
 			catch (CommunicationException e)
 			{
 				Logger.Error(e, "RViClientHelper.GetVideoFile");
-				errorInformation = "Видео не получено. Проверьте запущен ли RVi Оператор, правильно ли указаны логин и пароль.";
+				errorInformation = "Видео не получено. Проверьте запущен ли сервер RVi, правильно ли указаны логин и пароль.";
 				return false;
 			}
 		}
-		public static bool PrepareToTranslation(RviSettings rviSettings, Camera camera, out IPEndPoint ipEndPoint, out int vendorId)
+		public static bool PrepareToTranslation(RviSettings rviSettings, RviStream rviStream, out IPEndPoint ipEndPoint, out int vendorId)
 		{
 			ipEndPoint = null;
 			vendorId = -1;
 			bool isNotConnected;
 
 			var devices = GetDevices(rviSettings.Url, rviSettings.Login, rviSettings.Password, out isNotConnected);
-			var device = devices.FirstOrDefault(d => d.Guid == camera.RviDeviceUID);
+			var device = devices.FirstOrDefault(d => d.Guid == rviStream.RviDeviceUid);
 
 			if (device == null)
 				return false;
 
-			var channel = device.Channels.FirstOrDefault(ch => ch.Number == camera.RviChannelNo);
+			var channel = device.Channels.FirstOrDefault(ch => ch.Number == rviStream.RviChannelNumber);
 
 			if (channel == null)
 				return false;
@@ -480,7 +478,7 @@ namespace RviClient
 					Header = new HeaderRequest() { Request = new Guid(), Session = sessionUID },
 					DeviceGuid = device.Guid,
 					ChannelNumber = channel.Number,
-					StreamNumber = camera.StreamNo
+					StreamNumber = rviStream.Number
 				});
 
 				var sessionCloseIn = new SessionCloseIn();
