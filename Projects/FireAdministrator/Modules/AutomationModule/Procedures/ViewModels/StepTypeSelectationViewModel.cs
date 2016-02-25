@@ -77,7 +77,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.SetValue),
 							new StepTypeViewModel(ProcedureStepType.IncrementValue),
 							new StepTypeViewModel(ProcedureStepType.Random),
-							new StepTypeViewModel(ProcedureStepType.GenerateGuid),
+							new StepTypeViewModel(ProcedureStepType.GetDateTimeNow),
+							new StepTypeViewModel(ProcedureStepType.GenerateGuid)
 						}),
 						new StepTypeViewModel("Интерактивная логика", "/Controls;component/StepIcons/PlaySound.png",
 						new List<StepTypeViewModel>
@@ -89,7 +90,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.ControlVisualSet),
 							new StepTypeViewModel(ProcedureStepType.ControlPlanGet),
 							new StepTypeViewModel(ProcedureStepType.ControlPlanSet),
-							new StepTypeViewModel(ProcedureStepType.ShowDialog),
+							new StepTypeViewModel(ProcedureStepType.ShowDialog)
 						}),
 					new StepTypeViewModel("Служебные функции", "/Controls;component/StepIcons/Exit.png",
 						new List<StepTypeViewModel>

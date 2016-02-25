@@ -236,6 +236,10 @@
 		<Views:RviAlarmStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="getDateTimeNowTemplate">
+		<Views:GetDateTimeNowStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		x:Key="stepTypeTemplateSelector"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
@@ -279,5 +283,6 @@
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		StartRecordTemplate="{StaticResource startRecordTemplate}"
 		StopRecordTemplate="{StaticResource stopRecordTemplate}"
-		ExportReportStepTemplate="{StaticResource exportReportStepViewTemplate}"/>
+		ExportReportStepTemplate="{StaticResource exportReportStepViewTemplate}"
+		GetDateTimeNowTemplate="{StaticResource getDateTimeNowTemplate}"/>
 </ResourceDictionary>

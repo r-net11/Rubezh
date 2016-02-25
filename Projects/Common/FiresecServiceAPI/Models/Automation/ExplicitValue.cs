@@ -14,7 +14,7 @@ namespace FiresecAPI.Automation
 		{
 			DateTimeValue = DateTime.Now;
 			IntValue = 0;
-			StringValue = "";
+			StringValue = string.Empty;
 			ColorValue = new Color();
 			UidValue = Guid.Empty;
 		}
@@ -27,6 +27,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public DateTime DateTimeValue { get; set; }
+
+		[DataMember]
+		public TimeSpan TimeSpanValue { get; set; }
 
 		[DataMember]
 		public Guid UidValue { get; set; }

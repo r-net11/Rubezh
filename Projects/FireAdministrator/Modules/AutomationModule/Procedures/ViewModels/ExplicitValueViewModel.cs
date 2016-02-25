@@ -98,6 +98,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public TimeSpan TimeSpanValue
+		{
+			get { return ExplicitValue.TimeSpanValue; }
+			set
+			{
+				ExplicitValue.TimeSpanValue = value;
+				OnPropertyChanged(() => TimeSpanValue);
+			}
+		}
+
 		public int IntValue
 		{
 			get { return ExplicitValue.IntValue; }

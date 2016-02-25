@@ -131,6 +131,7 @@
     <Compile Include="Steps\ViewModels\ExportReportStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GenerateGuidStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetDateTimeNowStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetJournalItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
@@ -259,6 +260,9 @@
     </Compile>
     <Compile Include="Steps\Views\GenerateGuidStepView.xaml.cs">
       <DependentUpon>GenerateGuidStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetDateTimeNowStepView.xaml.cs">
+      <DependentUpon>GetDateTimeNowStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationListStepView.xaml.cs">
       <DependentUpon>ImportOrganisationListStepView.xaml</DependentUpon>
@@ -553,6 +557,10 @@
     <Page Include="Steps\Views\GenerateGuidStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GetDateTimeNowStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ImportOrganisationListStepView.xaml">
       <SubType>Designer</SubType>

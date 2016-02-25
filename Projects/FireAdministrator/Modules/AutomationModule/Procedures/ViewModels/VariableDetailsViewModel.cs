@@ -10,41 +10,17 @@ namespace AutomationModule.ViewModels
 {
 	public class VariableDetailsViewModel : SaveCancelDialogViewModel
 	{
-		readonly bool automationChanged;
+		private readonly bool _automationChanged;
+
+		#region Properties
 		public ExplicitValuesViewModel ExplicitValuesViewModel { get; protected set; }
+
 		public Variable Variable { get; private set; }
+
 		public bool IsEditMode { get; set; }
 
-		public VariableDetailsViewModel(Variable variable, string defaultName = "", string title = "")
-		{
-			automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			Title = title;
-			Name = defaultName;
-			ExplicitValuesViewModel = new ExplicitValuesViewModel();
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(ProcedureHelper.GetEnumList<ExplicitType>(),
-				ProcedureHelper.GetEnumList<EnumType>(), ProcedureHelper.GetEnumList<ObjectType>()));
-			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
-			if (variable != null)
-				Copy(variable);
-		}
-
-		void Copy(Variable variable)
-		{
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType>{variable.ExplicitType},
-				new List<EnumType> { variable.EnumType }, new List<ObjectType> { variable.ObjectType }));
-			var explicitTypeViewModel = ExplicitTypes.FirstOrDefault();
-			if (explicitTypeViewModel != null)
-			{
-				SelectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
-				if (SelectedExplicitType != null) SelectedExplicitType.ExpandToThis();
-			}
-			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.ExplicitValue, variable.ExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
-			Name = variable.Name;
-			IsEditMode = true;
-			IsReference = variable.IsReference;
-		}
-
 		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; set; }
+
 		ExplicitTypeViewModel _selectedExplicitType;
 		public ExplicitTypeViewModel SelectedExplicitType
 		{
@@ -93,10 +69,54 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => IsReference);
 			}
 		}
+		public bool IsRealType
+		{
+			get
+			{
+				if (SelectedExplicitType == null)
+					return false;
+
+				if (SelectedExplicitType.ExplicitType != ExplicitType.Enum
+					&& SelectedExplicitType.ExplicitType != ExplicitType.Object)
+					return true;
+
+				return SelectedExplicitType.Parent != null;
+			}
+		}
+		#endregion
+
+		public VariableDetailsViewModel(Variable variable, string defaultName = null, string title = null)
+		{
+			_automationChanged = ServiceFactory.SaveService.AutomationChanged;
+			Title = title;
+			Name = defaultName;
+			ExplicitValuesViewModel = new ExplicitValuesViewModel();
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(ProcedureHelper.GetEnumList<ExplicitType>(),
+				ProcedureHelper.GetEnumList<EnumType>(), ProcedureHelper.GetEnumList<ObjectType>()));
+			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
+			if (variable != null)
+				Copy(variable);
+		}
+
+		void Copy(Variable variable)
+		{
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType>{variable.ExplicitType},
+				new List<EnumType> { variable.EnumType }, new List<ObjectType> { variable.ObjectType }));
+			var explicitTypeViewModel = ExplicitTypes.FirstOrDefault();
+			if (explicitTypeViewModel != null)
+			{
+				SelectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
+				if (SelectedExplicitType != null) SelectedExplicitType.ExpandToThis();
+			}
+			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.ExplicitValue, variable.ExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
+			Name = variable.Name;
+			IsEditMode = true;
+			IsReference = variable.IsReference;
+		}
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
+			ServiceFactory.SaveService.AutomationChanged = _automationChanged;
 			return base.OnClosing(isCanceled);
 		}
 
@@ -123,19 +143,6 @@ namespace AutomationModule.ViewModels
 		protected override bool CanSave()
 		{
 			return IsRealType;
-		}
-
-		public bool IsRealType
-		{
-			get
-			{
-				if (SelectedExplicitType == null)
-					return false;
-				if (SelectedExplicitType.ExplicitType == ExplicitType.Enum || SelectedExplicitType.ExplicitType == ExplicitType.Object)
-					if (SelectedExplicitType.Parent == null)
-						return false;
-				return true;
-			}
 		}
 	}
 }

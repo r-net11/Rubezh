@@ -16,13 +16,12 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-
 			<TreeList
-					Grid.RowSpan="2"
-					Focusable="True"
-					SelectedTreeNode="{Binding SelectedExplicitType}"
-					SelectionMode="Single"
-					Source="{Binding ExplicitTypes}">
+				Grid.RowSpan="2"
+				Focusable="True"
+				SelectedTreeNode="{Binding SelectedExplicitType}"
+				SelectionMode="Single"
+				Source="{Binding ExplicitTypes}">
 				<TreeList.View>
 					<GridView>
 						<GridViewColumn Width="250" Header="Тип">
@@ -30,14 +29,14 @@
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
 										<Image
-												Width="24"
-												Margin="2"
-												VerticalAlignment="Center"
-												Source="/Controls;component/Images/GlobalVariable.png" />
+											Width="24"
+											Margin="2"
+											VerticalAlignment="Center"
+											Source="/Controls;component/Images/GlobalVariable.png" />
 										<TextBlock
-												HorizontalAlignment="Stretch"
-												VerticalAlignment="Center"
-												Text="{Binding Name}" />
+											HorizontalAlignment="Stretch"
+											VerticalAlignment="Center"
+											Text="{Binding Name}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
@@ -45,36 +44,28 @@
 					</GridView>
 				</TreeList.View>
 			</TreeList>
-
 			<StackPanel
-					Grid.Row="0"
-					Grid.Column="2"
-					HorizontalAlignment="Stretch"
-					Orientation="Vertical"
-					Visibility="{Binding IsRealType,
-				                                 Converter={StaticResource BoolToVisibilityConverter}}">
+				Grid.Column="2"
+				HorizontalAlignment="Stretch"
+				Orientation="Vertical"
+				Visibility="{Binding IsRealType, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel
-						Height="28"
-						Margin="2"
-						HorizontalAlignment="Right"
-						Orientation="Horizontal">
+					Height="28"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Orientation="Horizontal">
 					<Label Content="Имя" />
 					<TextBox
-							Width="200"
-							Margin="2"
-							Text="{Binding Name,
-						                        UpdateSourceTrigger=PropertyChanged}" />
+						Width="200"
+						Margin="2"
+						Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 				</StackPanel>
 			</StackPanel>
-
 			<Views:ExplicitValuesView
-					Grid.Row="1"
-					Grid.Column="2"
-					DataContext="{Binding ExplicitValuesViewModel}"
-					Visibility="{Binding RelativeSource={RelativeSource FindAncestor,
-				                                                                              AncestorType={x:Type UserControl}},
-				                                               Path=DataContext.IsRealType,
-				                                               Converter={StaticResource BoolToVisibilityConverter}}" />
+				Grid.Row="1"
+				Grid.Column="2"
+				DataContext="{Binding ExplicitValuesViewModel}"
+				Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.IsRealType, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</Grid>
 	</Border>
 </UserControl>

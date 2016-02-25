@@ -4,22 +4,25 @@ namespace FiresecAPI.Automation
 {
 	public enum ExplicitType
 	{
-		[DescriptionAttribute("Целое")]
+		[Description("Целое")]
 		Integer,
 
-		[DescriptionAttribute("Логическое")]
+		[Description("Логическое")]
 		Boolean,
 
-		[DescriptionAttribute("Дата и время")]
+		[Description("Дата и время")]
 		DateTime,
 
-		[DescriptionAttribute("Строка")]
+		[Description("Время")]
+		Time,
+
+		[Description("Строка")]
 		String,
 
-		[DescriptionAttribute("Объектная ссылка")]
+		[Description("Объектная ссылка")]
 		Object,
 
-		[DescriptionAttribute("Перечисление")]
+		[Description("Перечисление")]
 		Enum
 	}
 }

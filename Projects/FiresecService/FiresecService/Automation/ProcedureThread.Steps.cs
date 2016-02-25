@@ -1,6 +1,9 @@
-﻿using FiresecAPI;
+﻿using Common;
+using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
+using FiresecAPI.Enums;
+using FiresecAPI.Extensions;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
@@ -51,10 +54,10 @@ namespace FiresecService
 			var showMessageArguments = procedureStep.ShowMessageArguments;
 			var messageValue = GetValue<object>(showMessageArguments.MessageArgument);
 			var message = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
-			var automationCallbackResult = new AutomationCallbackResult()
+			var automationCallbackResult = new AutomationCallbackResult
 			{
 				AutomationCallbackType = AutomationCallbackType.Message,
-				Data = new MessageCallbackData()
+				Data = new MessageCallbackData
 				{
 					IsModalWindow = showMessageArguments.IsModalWindow,
 					Message = message,
@@ -73,10 +76,10 @@ namespace FiresecService
 
 		private void ShowDialog(ProcedureStep procedureStep)
 		{
-			var automationCallbackResult = new AutomationCallbackResult()
+			var automationCallbackResult = new AutomationCallbackResult
 			{
 				AutomationCallbackType = AutomationCallbackType.Dialog,
-				Data = new DialogCallbackData()
+				Data = new DialogCallbackData
 				{
 					IsModalWindow = procedureStep.ShowDialogArguments.IsModalWindow,
 					Layout = procedureStep.ShowDialogArguments.Layout,
@@ -97,10 +100,10 @@ namespace FiresecService
 		private void ShowProperty(ProcedureStep procedureStep)
 		{
 			var showPropertyArguments = procedureStep.ShowPropertyArguments;
-			var automationCallbackResult = new AutomationCallbackResult()
+			var automationCallbackResult = new AutomationCallbackResult
 			{
 				AutomationCallbackType = AutomationCallbackType.Property,
-				Data = new PropertyCallBackData()
+				Data = new PropertyCallBackData
 				{
 					ObjectType = showPropertyArguments.ObjectType,
 					ObjectUid = showPropertyArguments.ObjectArgument.ExplicitValue.UidValue
@@ -120,29 +123,31 @@ namespace FiresecService
 			var eMailAddressTo = GetValue<string>(sendEmailArguments.EMailAddressToArgument);
 			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
-			var Smtp = new SmtpClient(smtp, port);
-			Smtp.Credentials = new NetworkCredential(login, password);
-			var Message = new MailMessage();
-			Message.From = new MailAddress(eMailAddressFrom);
-			Message.To.Add(new MailAddress(eMailAddressTo));
-			Message.Subject = title;
-			Message.Body = content;
+			using (var Smtp = new SmtpClient(smtp, port) {Credentials = new NetworkCredential(login, password)})
+			{
+				var message = new MailMessage {From = new MailAddress(eMailAddressFrom)};
+				message.To.Add(new MailAddress(eMailAddressTo));
+				message.Subject = title;
+				message.Body = content;
 
-			try
-			{
-				Smtp.Send(Message);
-			}
-			catch
-			{
+				try
+				{
+					Smtp.Send(message);
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e);
+					throw;
+				}
 			}
 		}
 
 		private void PlaySound(ProcedureStep procedureStep)
 		{
-			var automationCallbackResult = new AutomationCallbackResult()
+			var automationCallbackResult = new AutomationCallbackResult
 			{
 				AutomationCallbackType = AutomationCallbackType.Sound,
-				Data = new SoundCallbackData()
+				Data = new SoundCallbackData
 				{
 					SoundUID = procedureStep.SoundArguments.SoundUid,
 				},
@@ -172,10 +177,10 @@ namespace FiresecService
 				default:
 					return;
 			}
-			var automationCallbackResult = new AutomationCallbackResult()
+			var automationCallbackResult = new AutomationCallbackResult
 			{
 				AutomationCallbackType = callbackType,
-				Data = new VisualPropertyCallbackData()
+				Data = new VisualPropertyCallbackData
 				{
 					LayoutPart = procedureStep.ControlVisualArguments.LayoutPart,
 					Property = procedureStep.ControlVisualArguments.Property.Value,
@@ -209,10 +214,10 @@ namespace FiresecService
 				value = GetValue<object>(controlPlanArguments.ValueArgument);
 			}
 
-			var automationCallbackResult = new AutomationCallbackResult()
+			var automationCallbackResult = new AutomationCallbackResult
 			{
 				AutomationCallbackType = callbackType,
-				Data = new PlanCallbackData()
+				Data = new PlanCallbackData
 				{
 					PlanUid = controlPlanArguments.PlanUid,
 					ElementUid = controlPlanArguments.ElementUid,
@@ -244,78 +249,93 @@ namespace FiresecService
 			switch (arithmeticArguments.ExplicitType)
 			{
 				case ExplicitType.Boolean:
-					{
-						variable1 = GetValue<bool>(arithmeticArguments.Argument1);
-						variable2 = GetValue<bool>(arithmeticArguments.Argument2);
-						bool result = false;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.And)
-							result = (bool)variable1 & (bool)variable2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
-							result = (bool)variable1 || (bool)variable2;
-						if (resultVariable != null)
-							resultVariable.ExplicitValue.BoolValue = result;
-						break;
-					}
+				{
+					variable1 = GetValue<bool>(arithmeticArguments.Argument1);
+					variable2 = GetValue<bool>(arithmeticArguments.Argument2);
+					bool result = false;
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.And)
+						result = (bool) variable1 & (bool) variable2;
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
+						result = (bool) variable1 || (bool) variable2;
+					if (resultVariable != null)
+						resultVariable.ExplicitValue.BoolValue = result;
+					break;
+				}
 
 				case ExplicitType.Integer:
-					{
-						variable1 = GetValue<int>(arithmeticArguments.Argument1);
-						variable2 = GetValue<int>(arithmeticArguments.Argument2);
-						int result = 0;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							result = (int)variable1 + (int)variable2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-							result = (int)variable1 - (int)variable2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
-							result = (int)variable1 * (int)variable2;
-						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)variable2 != 0))
-							result = (int)variable1 / (int)variable2;
-						if (resultVariable != null)
-							resultVariable.ExplicitValue.IntValue = result;
-						break;
-					}
+				{
+					variable1 = GetValue<int>(arithmeticArguments.Argument1);
+					variable2 = GetValue<int>(arithmeticArguments.Argument2);
+					int result = 0;
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+						result = (int) variable1 + (int) variable2;
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+						result = (int) variable1 - (int) variable2;
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
+						result = (int) variable1*(int) variable2;
+					if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int) variable2 != 0))
+						result = (int) variable1/(int) variable2;
+					if (resultVariable != null)
+						resultVariable.ExplicitValue.IntValue = result;
+					break;
+				}
 
 				case ExplicitType.DateTime:
+				{
+					variable1 = GetValue<DateTime>(arithmeticArguments.Argument1);
+					variable2 = new TimeSpan();
+					switch (arithmeticArguments.TimeType)
 					{
-						variable1 = GetValue<DateTime>(arithmeticArguments.Argument1);
-						variable2 = new TimeSpan();
-						switch (arithmeticArguments.TimeType)
-						{
-							case TimeType.Sec:
-								variable2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
-								break;
+						case TimeType.Sec:
+							variable2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
+							break;
 
-							case TimeType.Min:
-								variable2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
-								break;
+						case TimeType.Min:
+							variable2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
+							break;
 
-							case TimeType.Hour:
-								variable2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Argument2));
-								break;
+						case TimeType.Hour:
+							variable2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Argument2));
+							break;
 
-							case TimeType.Day:
-								variable2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Argument2));
-								break;
-						}
-						var result = new DateTime();
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							result = (DateTime)variable1 + (TimeSpan)variable2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-							result = (DateTime)variable1 - (TimeSpan)variable2;
-
-						if (resultVariable != null)
-							resultVariable.ExplicitValue.DateTimeValue = result;
-						break;
+						case TimeType.Day:
+							variable2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Argument2));
+							break;
 					}
+					var result = new DateTime();
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+						result = (DateTime) variable1 + (TimeSpan) variable2;
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+						result = (DateTime) variable1 - (TimeSpan) variable2;
+
+					if (resultVariable != null)
+						resultVariable.ExplicitValue.DateTimeValue = result;
+					break;
+				}
+				case ExplicitType.Time:
+				{
+					variable1 = GetValue<TimeSpan>(arithmeticArguments.Argument1);
+					variable2 = GetValue<TimeSpan>(arithmeticArguments.Argument2);
+
+					var result = new TimeSpan();
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+						result = (TimeSpan) variable1 + (TimeSpan) variable2;
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+						result = (TimeSpan) variable1 - (TimeSpan) variable2;
+
+					if (resultVariable != null)
+						resultVariable.ExplicitValue.TimeSpanValue = result.WithoutDays();
+					break;
+				}
 				case ExplicitType.String:
-					{
-						variable1 = GetValue<string>(arithmeticArguments.Argument1);
-						variable2 = GetValue<string>(arithmeticArguments.Argument2);
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat((string)variable1, (string)variable2);
-						break;
-					}
+				{
+					variable1 = GetValue<string>(arithmeticArguments.Argument1);
+					variable2 = GetValue<string>(arithmeticArguments.Argument2);
+					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.StringValue = String.Concat((string) variable1, (string) variable2);
+					break;
+				}
 			}
 		}
 
@@ -381,19 +401,18 @@ namespace FiresecService
 
 		private object InitializeItem(Guid itemUid)
 		{
-			//		var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
-			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
-			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
+			var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
+			var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
-			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
-			if (sKDDevice != null)
-				return sKDDevice;
-			if (sKDZone != null)
-				return sKDZone;
+			var skdDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
+			if (skdDevice != null)
+				return skdDevice;
+			if (skdZone != null)
+				return skdZone;
 			if (camera != null)
 				return camera;
-			if (sKDDoor != null)
-				return sKDDoor;
+			if (skdDoor != null)
+				return skdDoor;
 			return null;
 		}
 
@@ -447,65 +466,66 @@ namespace FiresecService
 			}
 		}
 
-		private bool? Compare(object param1, object param2, ConditionType conditionType)
+		private static bool? Compare(object param1, object param2, ConditionType conditionType) //TODO: Move to extensions
 		{
 			if (param1.GetType() != param2.GetType())
 				return null;
+
 			if (param1.GetType().IsEnum || param1 is int)
-			{
-				return (((conditionType == ConditionType.IsEqual) && ((int)param1 == (int)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((int)param1 != (int)param2))
-					|| ((conditionType == ConditionType.IsMore) && ((int)param1 > (int)param2))
-					|| ((conditionType == ConditionType.IsNotMore) && ((int)param1 <= (int)param2))
-					|| ((conditionType == ConditionType.IsLess) && ((int)param1 < (int)param2))
-					|| ((conditionType == ConditionType.IsNotLess) && ((int)param1 >= (int)param2)));
-			}
+				return (conditionType == ConditionType.IsEqual && (int) param1 == (int) param2)
+				       || (conditionType == ConditionType.IsNotEqual && (int) param1 != (int) param2)
+				       || (conditionType == ConditionType.IsMore && (int) param1 > (int) param2)
+				       || (conditionType == ConditionType.IsNotMore && (int) param1 <= (int) param2)
+				       || (conditionType == ConditionType.IsLess && (int) param1 < (int) param2)
+				       || (conditionType == ConditionType.IsNotLess && (int) param1 >= (int) param2);
 
 			if (param1 is DateTime)
-			{
-				return (((conditionType == ConditionType.IsEqual) && ((DateTime)param1 == (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((DateTime)param1 != (DateTime)param2))
-					|| ((conditionType == ConditionType.IsMore) && ((DateTime)param1 > (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotMore) && ((DateTime)param1 <= (DateTime)param2))
-					|| ((conditionType == ConditionType.IsLess) && ((DateTime)param1 < (DateTime)param2))
-					|| ((conditionType == ConditionType.IsNotLess) && ((DateTime)param1 >= (DateTime)param2)));
-			}
+				return (conditionType == ConditionType.IsEqual && (DateTime) param1 == (DateTime) param2)
+				       || (conditionType == ConditionType.IsNotEqual && (DateTime) param1 != (DateTime) param2)
+				       || (conditionType == ConditionType.IsMore && (DateTime) param1 > (DateTime) param2)
+				       || (conditionType == ConditionType.IsNotMore && (DateTime) param1 <= (DateTime) param2)
+				       || (conditionType == ConditionType.IsLess && (DateTime) param1 < (DateTime) param2)
+				       || (conditionType == ConditionType.IsNotLess && (DateTime) param1 >= (DateTime) param2);
+
+			if (param1 is TimeSpan)
+				return (conditionType == ConditionType.IsEqual && (TimeSpan) param1 == (TimeSpan) param2)
+				       || (conditionType == ConditionType.IsNotEqual && (TimeSpan) param1 != (TimeSpan) param2)
+				       || (conditionType == ConditionType.IsMore && (TimeSpan) param1 > (TimeSpan) param2)
+				       || (conditionType == ConditionType.IsNotMore && (TimeSpan) param1 <= (TimeSpan) param2)
+				       || (conditionType == ConditionType.IsLess && (TimeSpan) param1 < (TimeSpan) param2)
+				       || (conditionType == ConditionType.IsNotLess && (TimeSpan) param1 >= (TimeSpan) param2);
 
 			if (param1 is string)
-			{
-				return (((conditionType == ConditionType.IsEqual) && ((string)param1 == (string)param2))
-					|| ((conditionType == ConditionType.IsNotEqual) && ((string)param1 != (string)param2))
-					|| ((conditionType == ConditionType.StartsWith) && (((string)param1).StartsWith((string)param2)))
-					|| ((conditionType == ConditionType.EndsWith) && (((string)param1).EndsWith((string)param2)))
-					|| ((conditionType == ConditionType.Contains) && (((string)param1).Contains((string)param2))));
-			}
+				return (conditionType == ConditionType.IsEqual && (string) param1 == (string) param2)
+				       || (conditionType == ConditionType.IsNotEqual && (string) param1 != (string) param2)
+				       || (conditionType == ConditionType.StartsWith && ((string) param1).StartsWith((string) param2))
+				       || (conditionType == ConditionType.EndsWith && ((string) param1).EndsWith((string) param2))
+				       || (conditionType == ConditionType.Contains && ((string) param1).Contains((string) param2));
+
 			if (param1 is bool)
-			{
-				return (((conditionType == ConditionType.IsEqual) && ((bool)param1 == (bool)param2))
-						|| ((conditionType == ConditionType.IsNotEqual) && ((bool)param1 != (bool)param2)));
-			}
+				return (conditionType == ConditionType.IsEqual && (bool) param1 == (bool) param2)
+				       || (conditionType == ConditionType.IsNotEqual && (bool) param1 != (bool) param2);
+
 			return null;
 		}
 
 		public void SetJournalItemGuid(ProcedureStep procedureStep)
 		{
 			var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
-			if (JournalItem != null)
+
+			if (JournalItem == null) return;
+
+			using (var journalTranslator = new JournalTranslator())
 			{
-				using (var journalTranslator = new JournalTranslator())
-				{
-					var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
-					Guid eventUID;
-					if (CheckGuid(eventUIDString))
-					{
-						eventUID = new Guid(eventUIDString);
-					}
-					else
-					{
-						return;
-					}
-					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
-				}
+				var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
+				Guid eventUID;
+
+				if (CheckGuid(eventUIDString))
+					eventUID = new Guid(eventUIDString);
+				else
+					return;
+
+				journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
 			}
 		}
 
@@ -534,7 +554,7 @@ namespace FiresecService
 				}
 				JournalItem.VideoUID = eventUID;
 				JournalItem.CameraUID = cameraUID;
-				FiresecService.Service.FiresecService.NotifyNewJournalItems(new List<JournalItem>() { JournalItem });
+				Service.FiresecService.NotifyNewJournalItems(new List<JournalItem> { JournalItem });
 			}
 			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
 			RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
@@ -559,7 +579,6 @@ namespace FiresecService
 			if (camera == null)
 				return;
 			var ptzNumber = GetValue<int>(ptzArguments.PtzNumberArgument);
-			//RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber - 1);
 			RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber);
 		}
 
@@ -696,33 +715,35 @@ namespace FiresecService
 		{
 			var changeListArguments = procedureStep.ChangeListArguments;
 			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == changeListArguments.ListArgument.VariableUid);
-			var variable = new Variable();
-			variable.ExplicitType = changeListArguments.ItemArgument.ExplicitType;
-			variable.EnumType = changeListArguments.ItemArgument.EnumType;
-			variable.ObjectType = changeListArguments.ItemArgument.ObjectType;
+			var variable = new Variable
+			{
+				ExplicitType = changeListArguments.ItemArgument.ExplicitType,
+				EnumType = changeListArguments.ItemArgument.EnumType,
+				ObjectType = changeListArguments.ItemArgument.ObjectType
+			};
 			var itemValue = GetValue<object>(changeListArguments.ItemArgument);
 			SetValue(variable, itemValue);
 			var explicitValue = variable.ExplicitValue;
-			if (listVariable != null)
+
+			if (listVariable == null) return;
+
+			switch (changeListArguments.ChangeType)
 			{
-				switch (changeListArguments.ChangeType)
-				{
-					case ChangeType.AddLast:
-						listVariable.ExplicitValues.Add(explicitValue);
-						break;
+				case ChangeType.AddLast:
+					listVariable.ExplicitValues.Add(explicitValue);
+					break;
 
-					case ChangeType.RemoveFirst:
-						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
-							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
-								changeListArguments.ListArgument.EnumType)));
-						break;
+				case ChangeType.RemoveFirst:
+					listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
+						(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
+							changeListArguments.ListArgument.EnumType)));
+					break;
 
-					case ChangeType.RemoveAll:
-						listVariable.ExplicitValues.RemoveAll(
-							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
-								changeListArguments.ListArgument.EnumType)));
-						break;
-				}
+				case ChangeType.RemoveAll:
+					listVariable.ExplicitValues.RemoveAll(
+						(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
+							changeListArguments.ListArgument.EnumType)));
+					break;
 			}
 		}
 
@@ -749,18 +770,18 @@ namespace FiresecService
 			var getListItemArgument = procedureStep.GetListItemArguments;
 			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
 			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
-			if ((itemVariable != null) && (listVariable != null))
+
+			if (itemVariable == null || listVariable == null) return;
+
+			if (getListItemArgument.PositionType == PositionType.First)
+				SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+			if (getListItemArgument.PositionType == PositionType.Last)
+				SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+			if (getListItemArgument.PositionType == PositionType.ByIndex)
 			{
-				if (getListItemArgument.PositionType == PositionType.First)
-					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
-				if (getListItemArgument.PositionType == PositionType.Last)
-					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
-				if (getListItemArgument.PositionType == PositionType.ByIndex)
-				{
-					var indexValue = GetValue<int>(getListItemArgument.IndexArgument);
-					if (listVariable.ExplicitValues.Count > indexValue)
-						SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType));
-				}
+				var indexValue = GetValue<int>(getListItemArgument.IndexArgument);
+				if (listVariable.ExplicitValues.Count > indexValue)
+					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType));
 			}
 		}
 
@@ -787,7 +808,7 @@ namespace FiresecService
 			}
 		}
 
-		private bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
+		private bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType) //TODO: add Time
 		{
 			if (explicitType == ExplicitType.Integer)
 				return explicitValue1.IntValue == explicitValue2.IntValue;
@@ -797,6 +818,8 @@ namespace FiresecService
 				return explicitValue1.BoolValue == explicitValue2.BoolValue;
 			if (explicitType == ExplicitType.DateTime)
 				return explicitValue1.DateTimeValue == explicitValue2.DateTimeValue;
+			if (explicitType == ExplicitType.Time)
+				return explicitValue1.TimeSpanValue == explicitValue2.TimeSpanValue;
 			if (explicitType == ExplicitType.Enum)
 			{
 				if (enumType == EnumType.StateType)
@@ -832,9 +855,31 @@ namespace FiresecService
 				targetVariable.ExplicitValue.StringValue = value.GetType().IsEnum ? ((Enum)value).ToDescription() : value.ToString();
 			}
 			else
-				PropertyCopy.Copy(
-					sourceVariable != null ? sourceVariable.ExplicitValue : setValueArguments.SourceArgument.ExplicitValue,
-					targetVariable.ExplicitValue);
+				PropertyCopy.Copy(sourceVariable != null
+								? sourceVariable.ExplicitValue
+								: setValueArguments.SourceArgument.ExplicitValue,
+								targetVariable.ExplicitValue);
+		}
+
+		private void GetDateTimeNowStep(ProcedureStep procedureStep)
+		{
+			var getDateTimeNowArguments = procedureStep.GetDateTimeNowArguments;
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == getDateTimeNowArguments.Result.VariableUid);
+
+			if (resultVariable == null) return;
+
+			switch (getDateTimeNowArguments.RoundingType)
+			{
+				case RoundingType.None:
+					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay;
+					break;
+				case RoundingType.RoundToHour:
+					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds().WithoutSeconds().WithoutMinutes();
+					break;
+				case RoundingType.RoundToMin:
+					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds().WithoutSeconds();
+					break;
+			}
 		}
 
 		private void ExportJournal(ProcedureStep procedureStep)
@@ -845,7 +890,7 @@ namespace FiresecService
 			var minDate = GetValue<DateTime>(arguments.MinDateArgument);
 			var maxDate = GetValue<DateTime>(arguments.MaxDateArgument);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ExportJournal(
+			FiresecServiceManager.SafeFiresecService.ExportJournal(
 				new JournalExportFilter
 				{
 					IsExportJournal = isExportJournal,
@@ -862,7 +907,7 @@ namespace FiresecService
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var organisationUID = GetValue<Guid>(arguments.Organisation);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisation(
+			FiresecServiceManager.SafeFiresecService.ExportOrganisation(
 				new ExportFilter
 				{
 					IsWithDeleted = isWithDeleted,
@@ -876,7 +921,7 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisationList(
+			FiresecServiceManager.SafeFiresecService.ExportOrganisationList(
 				new ExportFilter
 				{
 					IsWithDeleted = isWithDeleted,
@@ -891,7 +936,7 @@ namespace FiresecService
 			var isExportDoors = GetValue<bool>(arguments.IsExportDoors);
 			var isExportZones = GetValue<bool>(arguments.IsExportZones);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ExportConfiguration(
+			FiresecServiceManager.SafeFiresecService.ExportConfiguration(
 				new ConfigurationExportFilter
 				{
 					IsExportDevices = isExportDevices,
@@ -904,29 +949,19 @@ namespace FiresecService
 		private void ExportReport(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ExportReportArguments;
-			var endDate = GetValue<DateTime>(arguments.EndDate);
-			var startDate = GetValue<DateTime>(arguments.StartDate);
-			var path = GetValue<string>(arguments.FilePath);
-			var reportFilter = arguments.ReportFilter;
-			var reportType = arguments.ReportType;
-			var reportFormat = arguments.ReportFormat;
-			var isFilterNameInHeader = arguments.IsFilterNameInHeader;
-			var isShowArchive = arguments.IsUseArchive;
-			var isUseExpirationDate = arguments.IsUseExpirationDate;
-			var endDateType = arguments.ReportEndDateType;
 			FiresecServiceManager.SafeFiresecService.ExportReport(
 				new ReportExportFilter
 				{
-					EndDate = endDate,
-					StartDate = startDate,
-					Path = path,
-					ReportFilter = reportFilter,
-					ReportType = reportType,
-					ReportFormat = reportFormat,
-					IsFilterNameInHeader = isFilterNameInHeader,
-					IsShowArchive = isShowArchive,
-					IsUseExpirationDate = isUseExpirationDate,
-					ReportEndDateType = endDateType,
+					EndDate = GetValue<DateTime>(arguments.EndDate),
+					StartDate = GetValue<DateTime>(arguments.StartDate),
+					Path = GetValue<string>(arguments.FilePath),
+					ReportFilter = arguments.ReportFilter,
+					ReportType = arguments.ReportType,
+					ReportFormat = arguments.ReportFormat,
+					IsFilterNameInHeader = arguments.IsFilterNameInHeader,
+					IsShowArchive = arguments.IsUseArchive,
+					IsUseExpirationDate = arguments.IsUseExpirationDate,
+					ReportEndDateType = arguments.ReportEndDateType,
 					IsUseDateTimeNow = arguments.IsUseDateTimeNow,
 					ReportPeriodType = arguments.ReportPeriodType
 				});
@@ -937,14 +972,12 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisation(
+			FiresecServiceManager.SafeFiresecService.ImportOrganisation(
 				new ImportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
 		}
 
 		private void ImportOrganisationList(ProcedureStep procedureStep)
@@ -952,14 +985,12 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisationList(
+			FiresecServiceManager.SafeFiresecService.ImportOrganisationList(
 				new ImportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
-			//if (result.HasError)
-			//    MessageBoxService.Show(result.Error);
 		}
 
 		private void SetValue(Argument argument, object propertyValue)
@@ -979,6 +1010,8 @@ namespace FiresecService
 				target.ExplicitValue.BoolValue = Convert.ToBoolean(propertyValue);
 			if (target.ExplicitType == ExplicitType.DateTime)
 				target.ExplicitValue.DateTimeValue = Convert.ToDateTime(propertyValue);
+			if (target.ExplicitType == ExplicitType.Time)
+				target.ExplicitValue.TimeSpanValue = Convert.ToDateTime(propertyValue).TimeOfDay;
 			if (target.ExplicitType == ExplicitType.Enum)
 			{
 				if (target.EnumType == EnumType.StateType)
@@ -1019,9 +1052,7 @@ namespace FiresecService
 		{
 			var guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
 				"^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);
-			if (!String.IsNullOrEmpty(guidString) && guidRegEx.IsMatch(guidString))
-				return true;
-			return false;
+			return !String.IsNullOrEmpty(guidString) && guidRegEx.IsMatch(guidString);
 		}
 
 		private T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
@@ -1037,6 +1068,8 @@ namespace FiresecService
 				result = explicitValue.StringValue;
 			if (explicitType == ExplicitType.Object)
 				result = explicitValue.UidValue;
+			if (explicitType == ExplicitType.Time)
+				result = explicitValue.TimeSpanValue;
 			if (explicitType == ExplicitType.Enum)
 			{
 				if (enumType == EnumType.StateType)

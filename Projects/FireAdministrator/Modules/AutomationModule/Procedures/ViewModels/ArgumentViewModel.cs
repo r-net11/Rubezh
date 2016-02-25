@@ -115,10 +115,17 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddVariableCommand { get; private set; }
 		void OnAddVariable()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, SelectedVariableScope == VariableScope.LocalVariable ? "локальная переменная" : "глобальная переменная",
-				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную");
-			variableDetailsViewModel.IsList = IsList;
-			variableDetailsViewModel.ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes);
+			var defaultName = SelectedVariableScope == VariableScope.LocalVariable
+				? "локальная переменная"
+				: "глобальная переменная";
+			var title = SelectedVariableScope == VariableScope.LocalVariable
+				? "Добавить локальную переменную"
+				: "Добавить глобальную переменную";
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, defaultName, title)
+			{
+				IsList = IsList,
+				ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes)
+			};
 			var explicitTypeViewModel = variableDetailsViewModel.ExplicitTypes.FirstOrDefault();
 			if (explicitTypeViewModel != null)
 				variableDetailsViewModel.SelectedExplicitType = explicitTypeViewModel.GetAllChildren().FirstOrDefault(x => x.IsRealType);

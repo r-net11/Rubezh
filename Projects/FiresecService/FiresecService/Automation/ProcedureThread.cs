@@ -378,6 +378,9 @@ namespace FiresecService
 				case ProcedureStepType.ExportReport:
 					ExportReport(procedureStep);
 					break;
+				case ProcedureStepType.GetDateTimeNow:
+					GetDateTimeNowStep(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

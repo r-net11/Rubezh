@@ -27,9 +27,13 @@
 					<TextBox Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Width="200" Margin="2" />
 				</StackPanel>
 
-				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" HorizontalAlignment="Right" Height="28"  >
+				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" HorizontalAlignment="Right" Height="28">
 					<Label Content="Значение" />
 					<extToolkit:DateTimePicker Value = "{Binding ExplicitValue.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Time}}" HorizontalAlignment="Right" Height="28">
+					<Label Content="Значение" />
+					<xc:TimeSpanUpDown Value = "{Binding ExplicitValue.TimeSpanValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
@@ -144,7 +148,7 @@
 									Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}"/>
 								<extToolkit:DateTimePicker Grid.Column="1" Value = "{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right"
 									Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" />
-								<extToolkit:IntegerUpDown Grid.Column="1" Width="200" Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Right" 
+								<extToolkit:IntegerUpDown Grid.Column="1" Width="200" Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Right"
 									Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}" />
 								<TextBox Grid.Column="1"  Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" VerticalContentAlignment="Center"
 									Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}"/>
