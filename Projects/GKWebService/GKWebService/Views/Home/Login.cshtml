@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <span>Оперативная задача Глобал</span>
+</div>
+<div class="modal-body">
+    <div >
+        <form name="form" ng-submit="vm.login()" role="form">
+            <div class="form-group">
+                <input class="form-control" ng-model="user.name" autofocus autocomplete="on" placeholder="Логин">
+            </div>
+            
+            <div class="form-group">
+                <input class="form-control" ng-model="password" type="password" placeholder="Пароль">
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-primary" ng-click="Enter()">Войти</button>
+            </div>
+            
+            <label>{{error}}</label>
+</form>
+    </div>
+</div>
+
+

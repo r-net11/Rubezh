@@ -187,6 +187,7 @@
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\archive\archiveCtrl.js" />
     <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
+    <Content Include="App\controllers\Common\loginCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
     <Content Include="App\controllers\deviceParameters\deviceParametersDetailsCtrl.js" />
@@ -855,6 +856,7 @@
     <Content Include="Views\Doors\DoorDetails.cshtml" />
     <Content Include="Views\DeviceParameters\Index.cshtml" />
     <Content Include="Views\Home\RestartDetails.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
