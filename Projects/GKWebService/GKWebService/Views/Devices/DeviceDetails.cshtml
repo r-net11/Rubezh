@@ -30,9 +30,7 @@
 				<uib-tab heading="Управление" ng-if="device.IsTriStateControl">
 					<div class="detailsTab">
 						<div>
-							<div>
-								<span class="labelImage-md" style="background-image:url(/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png)">Режим {{device.ControlRegimeName}}</span>
-							</div>
+							<span class="labelImage-md" style="background-image:url(/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png)">Режим {{device.ControlRegimeName}}</span>
 							<div class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
 							<div class="btn btn-primary btn-control" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
 							<div class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
