@@ -119,6 +119,11 @@ namespace GKImitator.ViewModels
 					journalItem = new ImitatorJournalItem(2, 10, 2, 0);
 				}
 
+				if (stateBit == GKStateBit.Attention)
+				{
+					journalItem = new ImitatorJournalItem(2, 4, 0, 0);
+				}
+
 				AddJournalItem(journalItem);
 				RecalculateOutputLogic();
 			}

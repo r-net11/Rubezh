@@ -183,11 +183,11 @@ namespace GKImitator.ViewModels
 					{
 						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
 						{
-							TurnOffNow();
+							TurnOff();
 						}
 						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
 						{
-							TurnOnNow();
+							TurnOn();
 						}
 					}
 				}
@@ -311,18 +311,18 @@ namespace GKImitator.ViewModels
 			else
 			{
 				var changed = SetStateBit(GKStateBit.On, false);
-				changed = SetStateBit(GKStateBit.TurningOn, true) || changed;
 				changed = SetStateBit(GKStateBit.Off, false) || changed;
 				changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+				changed = SetStateBit(GKStateBit.TurningOn, true) || changed;
 			}
 		}
 
 		void TurnOnNow()
 		{
-			var changed = SetStateBit(GKStateBit.On, true);
-			changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+			var changed = SetStateBit(GKStateBit.TurningOn, false);
 			changed = SetStateBit(GKStateBit.Off, false) || changed;
 			changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+			changed = SetStateBit(GKStateBit.On, true) || changed;
 		}
 
 		void TurnOff()
