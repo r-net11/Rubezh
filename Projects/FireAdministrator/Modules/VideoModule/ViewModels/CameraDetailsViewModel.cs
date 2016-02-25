@@ -4,6 +4,8 @@ using RubezhAPI.Models;
 using RubezhClient;
 using RviClient;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace VideoModule.ViewModels
@@ -12,10 +14,14 @@ namespace VideoModule.ViewModels
 	{
 		public Camera Camera { get; private set; }
 		public event EventHandler Play;
+		public event EventHandler Stop;
 		public CameraDetailsViewModel(Camera camera)
 		{
 			Title = "Свойства камеры";
 			Camera = camera;
+			RviStreams = new List<RviStreamViewModel>();
+			camera.RviStreams.ForEach(rviStream => RviStreams.Add(new RviStreamViewModel(rviStream)));
+			SelectedRviStream = RviStreams.FirstOrDefault(x => x.StreamNumber == camera.SelectedRviStreamNumber);
 			ShowDetailsWidth = Camera.ShowDetailsWidth.ToString();
 			ShowDetailsHeight = Camera.ShowDetailsHeight.ToString();
 			ShowDetailsMarginLeft = Camera.ShowDetailsMarginLeft.ToString();
@@ -63,26 +69,40 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => ShowDetailsMarginTop);
 			}
 		}
-		protected virtual void RaisePlay()
+		public List<RviStreamViewModel> RviStreams { get; private set; }
+		private RviStreamViewModel _selectedRviStream;
+		public RviStreamViewModel SelectedRviStream
 		{
-			var temp = Play;
-			if (temp != null)
-				temp(this, EventArgs.Empty);
+			get { return _selectedRviStream; }
+			set
+			{
+				_selectedRviStream = value;
+				OnStop();
+				OnPlay();
+				OnPropertyChanged(() => SelectedRviStream);
+			}
 		}
-		private bool _canPlay;
 		public RelayCommand PlayCommand { get; private set; }
-		private void OnPlay()
+		void OnPlay()
 		{
-			RaisePlay();
+			if (Play != null)
+				Play(this, EventArgs.Empty);
 			_canPlay = false;
 		}
-		public bool CanPlay()
+		bool _canPlay;
+		bool CanPlay()
 		{
 			return _canPlay;
 		}
+		void OnStop()
+		{
+			if (Stop != null)
+				Stop(this, EventArgs.Empty);
+		}
 		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
 		{
-			return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, Camera, out ipEndPoint, out vendorId);
+			var selectedRviStream = Camera.RviStreams.FirstOrDefault(x => x.Number == SelectedRviStream.StreamNumber);
+			return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, selectedRviStream, out ipEndPoint, out vendorId);
 		}
 		protected override bool Save()
 		{
@@ -90,6 +110,7 @@ namespace VideoModule.ViewModels
 			Camera.ShowDetailsHeight = int.Parse(ShowDetailsHeight);
 			Camera.ShowDetailsMarginLeft = int.Parse(ShowDetailsMarginLeft);
 			Camera.ShowDetailsMarginTop = int.Parse(ShowDetailsMarginTop);
+			Camera.SelectedRviStreamNumber = SelectedRviStream.StreamNumber;
 			return base.Save();
 		}
 	}

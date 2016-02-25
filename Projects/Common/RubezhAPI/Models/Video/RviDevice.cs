@@ -10,7 +10,7 @@ namespace RubezhAPI.Models
 	{
 		public RviDevice()
 		{
-			RviChannels = new List<RviChannel>();
+			Cameras = new List<Camera>();
 		}
 		[DataMember]
 		public Guid Uid { get; set; }
@@ -19,7 +19,7 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public string Name { get; set; }
 		[DataMember]
-		public List<RviChannel> RviChannels { get; set; }
+		public List<Camera> Cameras { get; set; }
 		[XmlIgnore]
 		public RviStatus Status { get; set; }
 		public event Action StatusChanged;

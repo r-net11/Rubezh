@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
     <Compile Include="ViewModels\PreviewViewModel.cs" />
     <Compile Include="ViewModels\RviSettingsViewModel.cs" />
+    <Compile Include="ViewModels\RviStreamViewModel.cs" />
     <Compile Include="Views\CameraSelectionView.xaml.cs">
       <DependentUpon>CameraSelectionView.xaml</DependentUpon>
     </Compile>

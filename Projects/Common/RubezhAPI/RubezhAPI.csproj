@@ -169,10 +169,10 @@
     <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
     <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
-    <Compile Include="Models\Video\RviChannel.cs" />
     <Compile Include="Models\Video\RviDevice.cs" />
     <Compile Include="Models\Video\RviStatus.cs" />
     <Compile Include="Models\Video\RviServer.cs" />
+    <Compile Include="Models\Video\RviStream.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlOpcDaTagArguments.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
