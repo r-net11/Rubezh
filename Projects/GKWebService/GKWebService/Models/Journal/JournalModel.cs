@@ -11,7 +11,7 @@ using RubezhClient;
 
 namespace GKWebService.Models
 {
-    public class JournalModel
+   public class JournalModel
     {
 		public string DeviceDate { get; set; }
 		public string SystemDate { get; set; }
@@ -19,11 +19,11 @@ namespace GKWebService.Models
         public string Desc { get; set; }
 		public string ObjectName { get; set; }
 		public string ObjectImageSource { get; set; }
-        public string Subsystem { get; set; }
-		public string SubsystemImage { get; set; }
-		public string User { get; set; }
+        public string User { get; set; }
 		public Guid ObjectUid { get; set; }
 		public string Color { get; set; }
+		public JournalObjectType ObjectType { get; set; }
+		public string Subsystem { get; set; }
 
 		public JournalModel(JournalItem journalItem)
 		{
@@ -31,13 +31,12 @@ namespace GKWebService.Models
 			SystemDate = journalItem.SystemDateTime.ToString();
 			Name = journalItem.JournalEventNameType.ToDescription();
 			DeviceDate = journalItem.DeviceDateTime.ToString();
-			Subsystem = journalItem.JournalSubsystemType.ToDescription();
 			User = journalItem.UserName;
-			SubsystemImage = JournalController.GetSubsystemImage(journalItem.JournalSubsystemType);
 			ObjectUid = journalItem.ObjectUID;
 			Color = GetStateColor(journalItem);
-
+			ObjectType = journalItem.JournalObjectType;
 			ObjectImageSource = "/Content/Image/Images/Blank.png";
+			Subsystem = journalItem.JournalSubsystemType.ToDescription();
 
 			switch (journalItem.JournalObjectType)
 			{
@@ -65,7 +64,7 @@ namespace GKWebService.Models
 					{
 						ObjectName = direction.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/Blue_Direction.png";
+					ObjectImageSource = "/Content/Image/Images/BDirection.png";
 					break;
 
 				case JournalObjectType.GKPumpStation:
@@ -175,7 +174,7 @@ namespace GKWebService.Models
 					{
 						ObjectName = camera.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/Camera.png";
+					ObjectImageSource = "/Content/Image/Images/BVideo.png";
 					break;
 
 				case JournalObjectType.None:

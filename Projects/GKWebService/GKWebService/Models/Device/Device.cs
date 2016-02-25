@@ -19,7 +19,13 @@ namespace GKWebService.Models
 
 		public string Description { get; set; }
 
+		public Guid? ZoneUID { get; set; }
+		
 		public Guid? ParentUID { get; set; }
+
+		public string ParentName { get; set; }
+
+		public string ParentImage { get; set; }
 
 		public int No { get; set; }
 
@@ -86,11 +92,15 @@ namespace GKWebService.Models
 			: base(device)
 		{
 			ParentUID = device.Parent != null ? device.Parent.UID : (Guid?)null;
+			ParentName = device.Parent != null ? device.Parent.PresentationName : String.Empty;
+			ParentImage = device.Parent != null ? device.Parent.ImageSource.Replace("/Controls;component/", "") : String.Empty;
 			GKDescriptorNo = device.GKDescriptorNo;
 			Address = device.DottedPresentationAddress;
 			Description = device.Description;
 			Logic = GKManager.GetPresentationLogic(device.Logic);
 			NsLogic = GKManager.GetPresentationLogic(device.NSLogic);
+
+			ZoneUID = device.ZoneUIDs.FirstOrDefault();
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
@@ -118,7 +128,6 @@ namespace GKWebService.Models
 			var controlRegime = device.State.StateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore
 				: !device.State.StateClasses.Contains(XStateClass.AutoOff) ? DeviceControlRegime.Automatic : DeviceControlRegime.Manual;
-			//ControlRegimeIcon = "data:image/gif;base64," + InternalConverter.GetImageResource(((string)new DeviceControlRegimeToIconConverter().Convert(controlRegime)) ?? string.Empty).Item1;
 			ControlRegimeName = controlRegime.ToDescription();
 			ControlRegimeIcon = (new DeviceControlRegimeToIconConverter()).Convert(controlRegime);
 			CanSetAutomaticState = (controlRegime != DeviceControlRegime.Automatic) &&

@@ -2,7 +2,6 @@
 	Layout = null;
 }
 
-
 <div modal-draggable modaless>
 	<div class="modal-header">
 		<a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
@@ -48,27 +47,25 @@
 				</uib-tab>
 				<uib-tab heading="Свойства">
 					<div class="detailsTab">
-						<div>
+						<div class="properties">
 							<a href="#" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)" ng-click="Show()">{{mpt.Name}}</a>
-						</div>
-						<div>
-							<span>Номер в ГК:</span>
-							<span>{{mpt.GKDescriptorNo}}</span>
-						</div>
-						<div>
+							<div>
+								<span>Номер в ГК:</span>
+								<span>{{mpt.GKDescriptorNo}}</span>
+							</div>
 							<a href="#" class="labelImage" ng-click="ShowJournal()" style="background-image:url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
-						</div>
-						<div>
-							<span>Задержка: </span>
-							<span>{{mpt.Delay}}</span>
-						</div>
-						<div>
-							<span>Удержание: </span>
-							<span>{{mpt.Hold}}</span>
-						</div>
-						<div>
-							<span>Режим после удержания: </span>
-							<span>{{mpt.DelayRegime}}</span>
+							<div>
+								<span>Задержка: </span>
+								<span>{{mpt.Delay}}</span>
+							</div>
+							<div>
+								<span>Удержание: </span>
+								<span>{{mpt.Hold}}</span>
+							</div>
+							<div>
+								<span>Режим после удержания: </span>
+								<span>{{mpt.DelayRegime}}</span>
+							</div>
 						</div>
 					</div>
 				</uib-tab>

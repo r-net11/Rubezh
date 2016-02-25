@@ -12,7 +12,7 @@ namespace VideoModule.Converters
 		{
 			var camera = value as Camera;
 			if (camera != null && ClientManager.SystemConfiguration.Cameras.Any(x => x.Ip == camera.Ip))
-				return string.Format("{0} (канал {1}, поток {2})", camera.Ip, camera.RviChannelNo + 1, camera.StreamNo);
+				return string.Format("{0} ({1}. {2})", camera.Ip, camera.RviDeviceName, camera.Name);
 			return "<нет>";
 		}
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

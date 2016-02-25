@@ -103,7 +103,6 @@ namespace Infrastructure.Automation
 				typeName = typeName.Remove(typeName.Length - 2);
 			var explicitType = OpcDaHelper.GetExplicitType(typeName);
 			ExplicitType = explicitType.HasValue ? explicitType.Value : ExplicitType.String;
-
 		}
 
 		public void SetValue(object value)
@@ -111,7 +110,9 @@ namespace Infrastructure.Automation
 			object result;
 			var isOk = TryConvert(value, ExplicitType, IsArray, out result);
 			if (isOk)
+			{
 				Value = result;
+			}
 		}
 
 		bool TryConvert(object value, ExplicitType resultType, bool resultIsArray, out object result)

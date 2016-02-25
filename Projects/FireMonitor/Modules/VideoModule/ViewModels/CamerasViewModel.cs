@@ -50,32 +50,26 @@ namespace VideoModule.ViewModels
 				foreach (var device in server.RviDevices)
 				{
 					var deviceViewModel = new CameraViewModel(device);
-					foreach (var channel in device.RviChannels)
+					foreach (var camera in device.Cameras)
 					{
-						var channelViewModel = new CameraViewModel(channel);
-						foreach (var stream in channel.Cameras)
+						var cameraViewModel = new CameraViewModel(camera.Name, camera);
+						if (camera.IsAddedInConfiguration)
 						{
-							if (stream.IsAddedInConfiguration)
+							if (!deviceViewModel.Children.Contains(cameraViewModel))
 							{
-								var streamViewModel = new CameraViewModel(stream.Name, stream);
-								if (!channelViewModel.Children.Contains(streamViewModel))
+								deviceViewModel.AddChild(cameraViewModel);
+								if (!serverViewModel.Children.Contains(deviceViewModel))
 								{
-									channelViewModel.AddChild(streamViewModel);
-									if (!deviceViewModel.Children.Contains(channelViewModel))
+									serverViewModel.AddChild(deviceViewModel);
+									if (!Cameras.Contains(serverViewModel))
 									{
-										deviceViewModel.AddChild(channelViewModel);
-										if (!serverViewModel.Children.Contains(deviceViewModel))
-										{
-											serverViewModel.AddChild(deviceViewModel);
-											if (!Cameras.Contains(serverViewModel))
-											{
-												Cameras.Add(serverViewModel);
-											}
-										}
+										Cameras.Add(serverViewModel);
 									}
 								}
 							}
+
 						}
+
 					}
 				}
 			}

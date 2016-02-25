@@ -56,6 +56,14 @@
 		<Views:ProcedureLayoutsSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:OpcDaTagFileterSectionViewModel}">
+		<Views:OpcDaTagFilterSectionView />
+	</DataTemplate>
+		
+	<DataTemplate DataType="{x:Type ViewModels:OpcDaTagFilterCreationViewModel}">
+		<Views:OpcDaTagFilterCreationView />
+	</DataTemplate>
+	
 	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>

@@ -30,10 +30,6 @@ namespace VideoModule.ViewModels
 			Name = device.Name;
 			Address = device.Ip;
 		}
-		public RviDeviceViewModel(RviChannel channel)
-		{
-			Name = channel.Name;
-		}
 		bool _isChecked;
 		public bool IsChecked
 		{

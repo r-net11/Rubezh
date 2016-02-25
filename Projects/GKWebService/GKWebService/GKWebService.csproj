@@ -223,6 +223,7 @@
     <Content Include="App\route.js" />
     <Content Include="App\services\broadcastService.js" />
     <Content Include="App\services\dialogService.js" />
+    <Content Include="App\services\journalService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
     <Content Include="App\services\signalrDeviceParametersService.js" />
     <Content Include="App\services\signalrConfigService.js" />
@@ -692,8 +693,7 @@
     <Compile Include="DataProviders\ConfigHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
     <Compile Include="DataProviders\DeviceParametersHub\DeviceParametersUpdaterHub.cs" />
-    <Compile Include="DataProviders\DevicesHub.cs" />
-    <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
+    <Compile Include="DataProviders\Devices\DevicesHub.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\DoorsHub\DoorsHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />

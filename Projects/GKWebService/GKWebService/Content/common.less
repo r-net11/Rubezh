@@ -13,14 +13,14 @@
 		float: left;
 		padding: 5px;
 		border-radius: 5px;
-		border-color:transparent;
-		background-color:transparent;
+		border-color: transparent;
+		background-color: transparent;
 		margin-right: 10px;
 		-moz-box-sizing: content-box;
 		-webkit-box-sizing: content-box;
 		box-sizing: content-box;
-		color:white;
-		font-size:x-large;
+		color: white;
+		font-size: x-large;
 
 		&:hover {
 			background-color: @orange;
@@ -127,38 +127,18 @@
 
 	.detailsTab {
 		background: #FFF;
-		padding: 5px;
 		margin: 5px;
 		display: inline-block;
+		width: 97.5%;
 		height: 300px;
-		width: 408px;
-		overflow-y: scroll;
 
-		> div > span {
+		.properties > div > span {
+			margin-left: 5px;
 			color: black;
 			width: 45%;
 			display: inline-table;
 			font-weight: bold;
 			vertical-align: middle;
 		}
-
-		> table {
-			text-align: center;
-			width: 100%;
-			tr:first-child {
-				background-color: #698EBE;
-				td {
-					border: 1px solid black;
-					color:white;
-				}
-			}
-			tr{
-				td {
-					border: 1px solid black;
-					color:black;
-				}
-			 }
-		}
 	}
 }
-

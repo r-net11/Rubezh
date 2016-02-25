@@ -1,6 +1,6 @@
 ﻿(function () {
 	'use strict';
-	angular.module('gkApp.controllers').controller('archiveCtrl', function ($scope, $http, $uibModal, $stateParams, uiGridConstants) {
+	angular.module('gkApp.controllers').controller('archiveCtrl', function ($scope, $http, $uibModal, $stateParams, uiGridConstants, dialogService, constants, journalService) {
 		var requestJournalItems = function (filter) {
 			$http.post("Archive/GetArchive", filter)
 				.success(function (data) {
@@ -42,47 +42,7 @@
 		    setPage(1);
 		}
 
-		var coloredCellTemplate =
-			'<div ng-style="!row.isSelected && {\'background-color\': row.entity.Color}" class="ui-grid-cell-contents">\
-				{{row.entity[col.field]}}\
-			</div>';
-
-		$scope.gridOptions = {
-			enableRowSelection: true,
-			enableRowHeaderSelection: false,
-			multiSelect: false,
-			modifierKeysToMultiSelect: true,
-			noUnselect: true,
-			enableSorting: false,
-			enableColumnResizing: true,
-			enableColumnMenus: false,
-			onRegisterApi: function(gridApi) {
-				$scope.gridApi = gridApi;
-				gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
-			},
-			columnDefs: [
-				{ name: 'Дата в системе', field: 'SystemDate', cellTemplate: coloredCellTemplate },
-				{ name: 'Дата в приборе', field: 'DeviceDate', cellTemplate: coloredCellTemplate },
-				{ name: 'Название', field: 'Name', cellTemplate: coloredCellTemplate },
-				{ name: 'Уточнение', field: 'Desc', cellTemplate: coloredCellTemplate },
-				{
-					name: 'Объект',
-					cellTemplate:
-						'<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
-							<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.ObjectImageSource}}" />\
-							{{row.entity.ObjectName}}\
-						</div>'
-				},
-				{
-					name: 'Подсистема',
-					cellTemplate:
-						'<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
-							<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="/Content/Image/Icon/SubsystemTypes/{{row.entity.SubsystemImage}}.png" />\
-							{{row.entity.Subsystem}}\
-						</div>'
-				}
-			]
-		};
+		$scope.gridOptions = journalService.createGridOptions($scope);
 
 		$scope.gridStyle = function () {
 			var ctrlHeight = window.innerHeight - 270;
@@ -132,10 +92,6 @@
 			setPage($scope.MaxPage);
 		}
 
-		$scope.showSelectedRow = function (row) {
-			$scope.selectedRow = row.entity;
-		};
-
 		$scope.$on('showArchive', function (event, args) {
 		    getByUid(args);
 		});
@@ -148,6 +104,37 @@
 			if ($scope.filter.Page < 1)
 				$scope.filter.Page = 1;
 			setPage($scope.filter.Page);
+		};
+
+		$scope.showPropertiesClick = function (alarm) {
+			$http.post("Journal/GetModelBase", { uid: alarm.ObjectUid, objectType: alarm.ObjectType}).success(function (modelBase) {
+				if (modelBase) {
+					if (modelBase.ObjectType === constants.gkObject.device.type) {
+						dialogService.showWindow(constants.gkObject.device, modelBase);
+					}
+					if (modelBase.ObjectType === constants.gkObject.zone.type) {
+						dialogService.showWindow(constants.gkObject.zone, modelBase);
+					}
+					if (modelBase.ObjectType === constants.gkObject.guardZone.type) {
+						dialogService.showWindow(constants.gkObject.guardZone, modelBase);
+					}
+					if (modelBase.ObjectType === constants.gkObject.direction.type) {
+						dialogService.showWindow(constants.gkObject.direction, modelBase);
+					}
+					if (modelBase.ObjectType === constants.gkObject.mpt.type) {
+						dialogService.showWindow(constants.gkObject.mpt, modelBase);
+					}
+					if (modelBase.ObjectType === constants.gkObject.delay.type) {
+						dialogService.showWindow(constants.gkObject.delay, modelBase);
+					}
+					if (modelBase.ObjectType === constants.gkObject.pumpStation.type) {
+						dialogService.showWindow(constants.gkObject.pumpStation, modelBase);
+					}
+					if (modelBase.ObjectType === constants.gkObject.door.type) {
+						dialogService.showWindow(constants.gkObject.door, modelBase);
+					}
+				}
+			});
 		};
 	});
 }());
