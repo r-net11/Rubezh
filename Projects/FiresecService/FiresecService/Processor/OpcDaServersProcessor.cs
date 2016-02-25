@@ -1,4 +1,5 @@
-﻿using Infrastructure.Automation;
+﻿using FiresecService.Models;
+using Infrastructure.Automation;
 using OpcClientSdk;
 using OpcClientSdk.Da;
 using RubezhAPI.Automation;
@@ -31,11 +32,19 @@ namespace FiresecService.Processor
 
 		public static void Start()
 		{
+			var servers = GetOpcDaServers();
+
 			OpcDaServers =
 				ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.ToArray();
 
 			foreach (var server in OpcDaServers)
 			{
+				if (!servers.Any(x => x.Url == server.Url))
+				{
+					UILogger.Log(string.Format("Не удалось запусть OPC DA сервер {0}. Сервер не найден", server.Url), true);
+					//MainViewModel.SetReportAddress("<Ошибка>");
+					continue;
+				}
 				var url = new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, server.Url);
 				var opcServer = new TsCDaServer();
 				opcServer.Connect(url, null);
