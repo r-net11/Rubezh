@@ -30,9 +30,6 @@
             	return "height:" + ctrlHeight + "px";
             }();
 
-            $scope.showSelectedRow = function (row) {
-            }
-
             $scope.$on('doorChanged', function (event, args) {
                 for (var i in $scope.uiGrid.data) {
                     if (args.UID === $scope.uiGrid.data[i].UID) {
