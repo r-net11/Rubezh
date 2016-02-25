@@ -92,10 +92,25 @@
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\VisitorSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\EmployeeSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\VisitorViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\UserSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\UserViewModel.cs" />
+    <Compile Include="ObjectSelection\Views\VisitorSelectionView.xaml.cs">
+      <DependentUpon>VisitorSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\EmployeeSelectionView.xaml.cs">
+      <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
       <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\UserSelectionView.xaml.cs">
+      <DependentUpon>UserSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\AutomationPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
@@ -490,9 +505,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ObjectSelection\Views\VisitorSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\EmployeeSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ObjectSelection\Views\OrganisatonSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\UserSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

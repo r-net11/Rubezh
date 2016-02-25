@@ -22,6 +22,9 @@ namespace AutomationModule.ViewModels
 		public Camera Camera { get; private set; }
 		public SKDDoor SKDDoor { get; private set; }
 		public Organisation Organisation { get; private set; }
+		public User User { get; private set; }
+		public ShortEmployee Employee { get; private set; }
+		public ShortEmployee Visitor { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
 		public Action UpdateObjectHandler { get; set; }
@@ -46,6 +49,7 @@ namespace AutomationModule.ViewModels
 			JournalEventNameTypeValues = ProcedureHelper.GetEnumObs<JournalEventNameType>();
 			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
 			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
+			CardTypeValues = ProcedureHelper.GetEnumObs<CardType>();
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}
@@ -57,6 +61,9 @@ namespace AutomationModule.ViewModels
 			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
 			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			Organisation = OrganisationHelper.GetSingle(uidValue);
+			User = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == uidValue);
+			Employee = EmployeeHelper.Get(new EmployeeFilter {PersonType = PersonType.Employee, LogicalDeletationType = LogicalDeletationType.Active}).FirstOrDefault(x => x.UID == uidValue);
+			Visitor = EmployeeHelper.Get(new EmployeeFilter { PersonType = PersonType.Guest, LogicalDeletationType = LogicalDeletationType.Active }).FirstOrDefault(x => x.UID == uidValue);
 			base.OnPropertyChanged(() => PresentationName);
 		}
 
@@ -74,6 +81,13 @@ namespace AutomationModule.ViewModels
 					return SKDDoor.PresentationName;
 				if (Organisation != null)
 					return Organisation.Name;
+				if (User != null)
+					return User.Name;
+				if (Employee != null)
+					return string.Format(@"{0} \ {1}", Employee.OrganisationName, Employee.FIO);
+				if (Visitor != null)
+					return string.Format(@"{0} \ {1}", Visitor.OrganisationName, Visitor.FIO);
+				
 				return "Null";
 			}
 		}
@@ -219,16 +233,43 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<CardType> CardTypeValues { get; private set; }
+		public CardType CardTypeValue
+		{
+			get { return ExplicitValue.CardTypeValue; }
+			set
+			{
+				ExplicitValue.CardTypeValue = value;
+				OnPropertyChanged(() => CardTypeValue);
+			}
+		}
+
 		public bool IsEmpty
 		{
 			get
 			{
-				return ((SKDDevice == null) && (SKDZone == null) && (Camera == null) && (SKDDoor == null) && (Organisation == null));
+				return ((SKDDevice == null)
+					&& (SKDZone == null)
+					&& (Camera == null)
+					&& (SKDDoor == null)
+					&& (Organisation == null)
+					&& (User == null)
+					&& (Employee == null)
+					&& (Visitor == null));
 			}
 			set
 			{
 				if (value)
-					SKDDevice = null; SKDZone = null; Camera = null; SKDDoor = null; Organisation = null;
+				{
+					SKDDevice = null;
+					SKDZone = null;
+					Camera = null;
+					SKDDoor = null;
+					Organisation = null;
+					User = null;
+					Employee = null;
+					Visitor = null;
+				}
 			}
 		}
 

@@ -231,6 +231,22 @@ namespace SKDDriver
 			}
 		}
 
+		public OperationResult<SKDCard> Get(int cardNo)
+		{
+			try
+			{
+				var card = Table.FirstOrDefault(x => x.Number == cardNo);
+				if (card == null)
+					return OperationResult<SKDCard>.FromError("Карта не найдена");
+
+				return new OperationResult<SKDCard>(Translate(card));
+			}
+			catch (Exception e)
+			{
+				return OperationResult<SKDCard>.FromError(e.Message);
+			}
+		}
+
 		public virtual OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
 		{
 			try

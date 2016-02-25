@@ -17,6 +17,15 @@ namespace FiresecAPI.Automation
 		Door,
 
 		[DescriptionAttribute("Организация")]
-		Organisation
+		Organisation,
+
+		[DescriptionAttribute("Пользователь")]
+		User,
+
+		[DescriptionAttribute("Сотрудник")]
+		Employee,
+
+		[DescriptionAttribute("Посетитель")]
+		Visitor
 	}
 }

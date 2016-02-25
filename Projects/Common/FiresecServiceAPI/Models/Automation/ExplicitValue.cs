@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using System;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using FiresecAPI.SKD;
 
 namespace FiresecAPI.Automation
 {
@@ -51,5 +52,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Color ColorValue { get; set; }
+
+		[DataMember]
+		public CardType CardTypeValue { get; set; }
 	}
 }

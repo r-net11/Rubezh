@@ -2,7 +2,7 @@
 {
 	public enum JournalEventDescriptionType
 	{
-		[EventDescriptionAttribute("")]
+		[EventDescriptionAttribute("NULL")]
 		NULL = 0,
 
 		[EventDescriptionAttribute("Добавление или редактирование", JournalEventNameType.Редактирование_сотрудника, JournalEventNameType.Редактирование_отдела, JournalEventNameType.Редактирование_должности, JournalEventNameType.Редактирование_шаблона_доступа, JournalEventNameType.Редактирование_организации, JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventNameType.Редактирование_дневного_графика, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы_сотрудника, JournalEventNameType.Редактирование_праздничного_дня)]

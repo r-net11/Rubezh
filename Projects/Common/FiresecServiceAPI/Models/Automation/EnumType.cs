@@ -16,13 +16,16 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Название события")]
 		JournalEventNameType,
 
-		[DescriptionAttribute("Уточнение события")]
+		[DescriptionAttribute("Уточнение")]
 		JournalEventDescriptionType,
 
 		[DescriptionAttribute("Тип объекта")]
 		JournalObjectType,
 
 		[DescriptionAttribute("Цвет")]
-		ColorType
+		ColorType,
+
+		[DescriptionAttribute("Тип пропуска")]
+		CardType
 	}
 }

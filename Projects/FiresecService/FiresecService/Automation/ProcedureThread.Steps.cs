@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.Automation;
 using FiresecService.Service;
+using SKDDriver;
 using SKDDriver.Translators;
 using System;
 using System.Collections.Generic;
@@ -783,6 +784,57 @@ namespace FiresecService
 					value = JournalItem.JournalObjectType;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
 					value = JournalItem.ObjectUID.ToString();
+				// Пользователь
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.UserUid)
+				{
+					if (!string.IsNullOrEmpty(JournalItem.UserName) && JournalItem.EmployeeUID == Guid.Empty)
+					{
+						var user =	FiresecServiceManager.SafeFiresecService.GetSecurityConfiguration()
+								.Users.FirstOrDefault(u => u.Name == JournalItem.UserName);
+						if (user != null)
+							value = user.UID;
+					}
+				}
+				// Сотрудник
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.EmployeeUid)
+				{
+					using (var databaseService = new SKDDatabaseService())
+					{
+						var employeeTranslatorGetSingle = databaseService.EmployeeTranslator.GetSingle(JournalItem.EmployeeUID);
+						if (!employeeTranslatorGetSingle.HasError && employeeTranslatorGetSingle.Result.Type == PersonType.Employee)
+						{
+							value = JournalItem.EmployeeUID;
+						}
+					}
+				}
+				// Посетитель
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.VisitorUid)
+				{
+					using (var databaseService = new SKDDatabaseService())
+					{
+						var employeeTranslatorGetSingle = databaseService.EmployeeTranslator.GetSingle(JournalItem.EmployeeUID);
+						if (!employeeTranslatorGetSingle.HasError && employeeTranslatorGetSingle.Result.Type == PersonType.Guest)
+						{
+							value = JournalItem.EmployeeUID;
+						}
+					}
+				}
+				// Номер пропуска
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardNo)
+					value = JournalItem.CardNo;
+				// Тип пропуска
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardType)
+				{
+					using (var databaseService = new SKDDatabaseService())
+					{
+						var cardTranslatorGet = databaseService.CardTranslator.Get(JournalItem.CardNo);
+						if (!cardTranslatorGet.HasError)
+						{
+							value = cardTranslatorGet.Result.CardType;
+						}
+					}
+				}
+
 				SetValue(resultVariable, value);
 			}
 		}
@@ -993,6 +1045,8 @@ namespace FiresecService
 					target.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)propertyValue;
 				if (target.EnumType == EnumType.ColorType)
 					target.ExplicitValue.ColorValue = (Color)propertyValue;
+				if (target.EnumType == EnumType.CardType)
+					target.ExplicitValue.CardTypeValue = (CardType)propertyValue;
 			}
 		}
 
@@ -1051,6 +1105,8 @@ namespace FiresecService
 					result = explicitValue.JournalObjectTypeValue;
 				if (enumType == EnumType.ColorType)
 					result = explicitValue.ColorValue.ToString();
+				if (enumType == EnumType.CardType)
+					result = explicitValue.CardTypeValue;
 			}
 			return (T)result;
 		}

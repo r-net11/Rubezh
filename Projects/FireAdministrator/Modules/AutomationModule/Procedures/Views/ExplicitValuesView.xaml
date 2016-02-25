@@ -83,6 +83,14 @@
 					</ComboBox>
 					<xc:ColorPicker SelectedColor="{Binding ExplicitValue.ColorValue, UpdateSourceTrigger=PropertyChanged}" Width="200"
 						Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}"/>
+					<ComboBox ItemsSource="{Binding ExplicitValue.CardTypeValues}" SelectedItem="{Binding ExplicitValue.CardTypeValue, UpdateSourceTrigger=PropertyChanged}"
+					Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.CardType}}" Width="200">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}" HorizontalAlignment="Right" Height="28">
@@ -199,6 +207,14 @@
 									</ComboBox>
 									<xc:ColorPicker SelectedColor="{Binding ExplicitValue.ColorValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right"
 										Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}"/>
+									<ComboBox ItemsSource="{Binding ExplicitValue.CardTypeValues}" SelectedItem="{Binding ExplicitValue.CardTypeValue, UpdateSourceTrigger=PropertyChanged}"
+										Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.CardType}}" Width="200" Margin="2" HorizontalAlignment="Right">
+										<ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+									</ComboBox>
 								</StackPanel>
 							</Grid>
 						</DataTemplate>
