@@ -19,6 +19,7 @@ namespace RubezhAPI.Automation
 			FiltersUids = new List<Guid>();
 			IsActive = true;
 			PlanElementUIDs = new List<Guid>();
+			OpcDaTagFiltersUids = new List<Guid>();
 		}
 
 		[DataMember]
@@ -59,6 +60,9 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public bool IsSync { get; set; }
+
+		[DataMember]
+		public List<Guid> OpcDaTagFiltersUids { get; set; }
 
 		#region IIdentity Members
 

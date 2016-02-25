@@ -345,7 +345,6 @@ namespace FiresecService.Processor
 
 			if (values.Length > 0)
 			{
-
 				foreach (var result in values)
 				{
 					var tag = _tags.FirstOrDefault(tg => tg.ServerName == server.Item1.ServerName &&
@@ -357,6 +356,7 @@ namespace FiresecService.Processor
 						tag.Value = result.Value;
 						tag.OperationResult = result.Result.IsSuccess();
 						OpcDaHelper.OnReadTagValue(tag.Uid, tag.Value);
+						AutomationProcessor.RunOnOpcTagFilters(null, null);
 					}
 				}
 			}

@@ -14,6 +14,7 @@ namespace Infrastructure.Automation
 		static ConcurrentDictionary<Guid, ProcedureThread> _procedureThreads;
 		static AutoResetEvent _resetEvent;
 		static Thread _checkThread;
+		static List<OpcDaTagFilter> _opcDaTagFilters;
 
 		public static void RunOnJournal(JournalItem journalItem, User user, Guid? clientUID)
 		{
@@ -50,6 +51,32 @@ namespace Infrastructure.Automation
 			}
 		}
 
+		public static void RunOnOpcTagFilters(User user, Guid? clientUID)
+		{
+			if (ProcedureExecutionContext.SystemConfiguration == null)
+				return;
+
+			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration
+				.Procedures.Where(x => x.ContextType == ProcedureExecutionContext.ContextType))
+			{
+				foreach (var filterUid in procedure.OpcDaTagFiltersUids)
+				{
+					OpcDaTagFilter opcTagFilter = _opcDaTagFilters.FirstOrDefault(x => x.UID == filterUid);
+
+					if (opcTagFilter != null)
+					{
+						var value = OpcDaHelper.GetTagValue(opcTagFilter.TagUID);
+						if (opcTagFilter.CheckCondition(value))
+						{
+							opcTagFilter.Value = value;
+							//clientUID = Guid.Parse("aefd988b-39f2-47e2-80ee-2622750b34a7");
+							RunProcedure(procedure, new List<Argument>(), null, user, null, clientUID);
+						}
+					}
+				}
+			}
+		}
+
 		public static void RunOnServerRun()
 		{
 			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) RunProcedure(x, new List<Argument>(), null, null); });
@@ -69,6 +96,14 @@ namespace Infrastructure.Automation
 		{
 			_procedureThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
 			_resetEvent = new AutoResetEvent(false);
+
+			_opcDaTagFilters = new List<OpcDaTagFilter>();
+			foreach (var filter in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters)
+			{
+				_opcDaTagFilters.Add(new OpcDaTagFilter(filter.UID, filter.Name, filter.Description,
+					filter.TagUID, filter.Hysteresis, filter.ValueType));
+			}
+
 			_checkThread = new Thread(CheckProcedureThread)
 			{
 				Name = "CheckProcedureThread",
@@ -78,6 +113,8 @@ namespace Infrastructure.Automation
 
 		public static void Stop()
 		{
+			_opcDaTagFilters.Clear();
+
 			foreach (var procedureThread in _procedureThreads.Values)
 			{
 				procedureThread.IsTimeOut = true;

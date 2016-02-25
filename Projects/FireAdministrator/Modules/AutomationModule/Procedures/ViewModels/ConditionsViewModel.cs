@@ -17,6 +17,8 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			AddOpcTagFilterCommand = new RelayCommand(OnAddOpcTagFilter);
+			DeleteOpcTagFilterCommand = new RelayCommand(OnDeleteOpcTagFilter, CanDeleteOpcTagFilter);
 			Initialize();
 		}
 
@@ -31,6 +33,16 @@ namespace AutomationModule.ViewModels
 					Filters.Add(filterViewModel);
 				}
 			}
+
+			OpcTagFilters = new ObservableCollection<OpcTagFilterViewModel>();
+			foreach (var opcFilter in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters)
+			{
+				if (Procedure.OpcDaTagFiltersUids.Contains(opcFilter.UID))
+				{
+					var opcFilterViewModel = new OpcTagFilterViewModel(opcFilter);
+					OpcTagFilters.Add(opcFilterViewModel);
+				}
+			}
 		}
 
 		public ObservableCollection<FilterViewModel> Filters { get; private set; }
@@ -43,6 +55,19 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedFilter = value;
 				OnPropertyChanged(() => SelectedFilter);
+			}
+		}
+
+		public ObservableCollection<OpcTagFilterViewModel> OpcTagFilters { get; private set; }
+
+		OpcTagFilterViewModel _selectedOpcDaTagFilter;
+		public OpcTagFilterViewModel SelectedOpcDaTagFilter
+		{
+			get { return _selectedOpcDaTagFilter; }
+			set
+			{
+				_selectedOpcDaTagFilter = value;
+				OnPropertyChanged(() => SelectedOpcDaTagFilter);
 			}
 		}
 
@@ -77,6 +102,37 @@ namespace AutomationModule.ViewModels
 		bool CanDelete()
 		{
 			return SelectedFilter != null;
+		}
+
+		public RelayCommand AddOpcTagFilterCommand { get; private set; }
+		void OnAddOpcTagFilter()
+		{
+			var opcDaTagFileterSectionViewModel = new OpcDaTagFileterSectionViewModel(Procedure);
+			if (DialogService.ShowModalWindow(opcDaTagFileterSectionViewModel))
+			{
+				if (Procedure.OpcDaTagFiltersUids.Any(s => 
+					s == opcDaTagFileterSectionViewModel.SelectedFilter.OpcTagFilter.UID))
+					return;
+				Procedure.OpcDaTagFiltersUids.Add(opcDaTagFileterSectionViewModel.SelectedFilter.OpcTagFilter.UID);
+				OpcTagFilters.Add(opcDaTagFileterSectionViewModel.SelectedFilter);
+				SelectedOpcDaTagFilter = opcDaTagFileterSectionViewModel.SelectedFilter;
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		public RelayCommand DeleteOpcTagFilterCommand { get; private set; }
+		void OnDeleteOpcTagFilter()
+		{
+			Procedure.OpcDaTagFiltersUids.Remove(SelectedOpcDaTagFilter.OpcTagFilter.UID);
+			ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
+				.Remove(SelectedOpcDaTagFilter.OpcTagFilter);
+			OpcTagFilters.Remove(SelectedOpcDaTagFilter);
+			SelectedOpcDaTagFilter = OpcTagFilters.FirstOrDefault();
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+		bool CanDeleteOpcTagFilter()
+		{
+			return SelectedOpcDaTagFilter != null;
 		}
 	}
 }

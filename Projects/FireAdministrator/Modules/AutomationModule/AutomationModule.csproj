@@ -182,11 +182,20 @@
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\OpcDaTagFileterSectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\OpcDaTagFilterCreationViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\OpcTagFilterViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ElementViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureLayoutsSelectionViewModel.cs" />
+    <Compile Include="Procedures\Views\OpcDaTagFilterCreationView.xaml.cs">
+      <DependentUpon>OpcDaTagFilterCreationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\OpcDaTagFilterSectionView.xaml.cs">
+      <DependentUpon>OpcDaTagFilterSectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\ProcedureLayoutsSelectionView.xaml.cs">
       <DependentUpon>ProcedureLayoutsSelectionView.xaml</DependentUpon>
     </Compile>
@@ -667,6 +676,14 @@
     <Page Include="Procedures\Views\ArgumentsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\OpcDaTagFilterCreationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\OpcDaTagFilterSectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\ProcedureLayoutsSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
