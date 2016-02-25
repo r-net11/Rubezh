@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using Common;
 using FiresecAPI.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -17,91 +18,58 @@ namespace FiltersModule.ViewModels
 			Initialize(filter);
 		}
 
+		private IEnumerable<NameViewModel> GetEventsByType(JournalSubsystemType inputType)
+		{
+			return (Enum.GetValues(typeof(JournalEventNameType))
+				.Cast<JournalEventNameType>()
+				.Where(x => x != JournalEventNameType.NULL)
+				.Where(journalEventNameType => journalEventNameType.GetAttributeOfType<EventNameAttribute>().JournalSubsystemType == inputType)
+				.Select(journalEventNameType => new NameViewModel(journalEventNameType)))
+				.OrderBy(x => x.Name)
+				.ToList();
+		}
+
 		void BuildTree()
 		{
-			RootNames = new ObservableCollection<NameViewModel>();
-			AllNames = new List<NameViewModel>();
-
-			var systemViewModel = new NameViewModel(JournalSubsystemType.System);
-			systemViewModel.IsExpanded = true;
-			RootNames.Add(systemViewModel);
-
-			var skdViewModel = new NameViewModel(JournalSubsystemType.SKD);
-			skdViewModel.IsExpanded = true;
-			RootNames.Add(skdViewModel);
-
-			foreach (JournalEventNameType journalEventNameType in Enum.GetValues(typeof(JournalEventNameType)))
+			RootNames = new ObservableCollection<NameViewModel>
 			{
-				var nameViewModel = new NameViewModel(journalEventNameType);
-				if (nameViewModel.JournalEventNameType == JournalEventNameType.NULL)
-					continue;
+				new NameViewModel(JournalSubsystemType.System) {IsExpanded = true},
+				new NameViewModel(JournalSubsystemType.SKD) {IsExpanded = true},
+				new NameViewModel(JournalSubsystemType.Video) {IsExpanded = true},
+			};
 
-				AllNames.Add(nameViewModel);
-
-				switch (nameViewModel.JournalSubsystemType)
-				{
-					case JournalSubsystemType.System:
-						systemViewModel.AddChild(nameViewModel);
-						break;
-
-					case JournalSubsystemType.SKD:
-						skdViewModel.AddChild(nameViewModel);
-						break;
-				}
-			}
-
-			foreach (JournalEventDescriptionType journalEventDescriptionType in Enum.GetValues(typeof(JournalEventDescriptionType)))
-			{
-				FieldInfo fieldInfo = journalEventDescriptionType.GetType().GetField(journalEventDescriptionType.ToString());
-				if (fieldInfo != null)
-				{
-					EventDescriptionAttribute[] eventDescriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
-					if (eventDescriptionAttributes.Length > 0)
-					{
-						EventDescriptionAttribute eventDescriptionAttribute = eventDescriptionAttributes[0];
-						foreach (var journalEventNameType in eventDescriptionAttribute.JournalEventNameTypes)
-						{
-							var eventViewModel = AllNames.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
-							if (eventViewModel != null)
-							{
-								var descriptionViewModel = new NameViewModel(journalEventDescriptionType, eventDescriptionAttribute.Name);
-								eventViewModel.AddChild(descriptionViewModel);
-								AllNames.Add(descriptionViewModel);
-							}
-						}
-					}
-				}
-			}
+			RootNames[0].AddChildren(GetEventsByType(JournalSubsystemType.System));
+			RootNames[1].AddChildren(GetEventsByType(JournalSubsystemType.SKD));
+			RootNames[2].AddChildren(GetEventsByType(JournalSubsystemType.Video));
 		}
 
 		void Initialize(JournalFilter filter)
 		{
-			AllNames.ForEach(x => x.IsChecked = false);
-			foreach (var journalEventNameType in filter.JournalEventNameTypes)
-			{
-				var nameViewModel = AllNames.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
-				if (nameViewModel != null)
-				{
-					nameViewModel.IsChecked = true;
-				}
-			}
-			foreach (var journalEventDescriptionType in filter.JournalEventDescriptionTypes)
-			{
-				var descriptionViewModel = AllNames.FirstOrDefault(x => x.JournalEventDescriptionType == journalEventDescriptionType);
-				if (descriptionViewModel != null)
-				{
-					descriptionViewModel.IsChecked = true;
-					descriptionViewModel.Parent.IsExpanded = true;
-				}
-			}
+			// Подсистема
 			foreach (var journalSubsystemTypes in filter.JournalSubsystemTypes)
 			{
-				var subsystemViewModel = RootNames.FirstOrDefault(x => x.JournalSubsystemType == journalSubsystemTypes);
-				if (subsystemViewModel != null)
+				var filterNameViewModel = RootNames.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == journalSubsystemTypes);
+				if (filterNameViewModel != null)
 				{
-					subsystemViewModel.IsChecked = true;
+					filterNameViewModel.IsChecked = true;
 				}
 			}
+
+			// Тип события
+			var allJournalEventNameTypes = new List<NameViewModel>();
+			foreach (var rootName in RootNames)
+			{
+				allJournalEventNameTypes.AddRange(rootName.Children.ToList());	
+			}
+			foreach (var journalEventNameType in filter.JournalEventNameTypes)
+			{
+				var filterNameViewModel = allJournalEventNameTypes.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
+				if (filterNameViewModel != null)
+				{
+					filterNameViewModel.IsChecked = true;
+				}
+			}
+
 		}
 
 		public ArchiveFilter GetModel()
@@ -121,23 +89,11 @@ namespace FiltersModule.ViewModels
 						{
 							filter.JournalEventNameTypes.Add(nameViewModel.JournalEventNameType);
 						}
-						else
-						{
-							foreach (var descriptionViewModel in nameViewModel.Children)
-							{
-								if (descriptionViewModel.IsChecked)
-								{
-									filter.JournalEventDescriptionTypes.Add(descriptionViewModel.JournalEventDescriptionType);
-								}
-							}
-						}
 					}
 				}
 			}
 			return filter;
 		}
-
-		public List<NameViewModel> AllNames;
 
 		public ObservableCollection<NameViewModel> RootNames { get; private set; }
 
