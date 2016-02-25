@@ -14,7 +14,6 @@ namespace RubezhAPI.Models
 	{
 		public Camera()
 		{
-			UID = Guid.NewGuid();
 			PlanElementUIDs = new List<Guid>();
 			AllowMultipleVizualization = false;
 			CameraState = new CameraState(this);

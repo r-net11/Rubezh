@@ -119,41 +119,41 @@ namespace RviClient
 		{
 			var devices = GetDevices(url, login, password, out isNotConnected);
 			var rviDevices = new List<RviDevice>();
+			var newCameras = new List<Camera>();
 			foreach (var device in devices)
 			{
 				var rviDevice = new RviDevice { Uid = device.Guid, Ip = device.Ip, Name = device.Name, Status = ConvertToRviStatus(device.Status) };
 				rviDevices.Add(rviDevice);
 				foreach (var channel in device.Channels)
 				{
-					var existingCamera = existingCameras.FirstOrDefault(x => x.IsAddedInConfiguration && x.RviDeviceUID == device.Guid && x.Number == channel.Number);
-
-					if (existingCamera == null)
+					var camera = new Camera
 					{
-						var camera = new Camera
-						{
-							Name = channel.Name,
-							RviServerUrl = url,
-							RviDeviceName = device.Name,
-							RviDeviceUID = device.Guid,
-							Number = channel.Number,
-							Vendor = channel.Vendor,
-							CountPresets = channel.CountPresets,
-							CountTemplateBypass = channel.CountTemplateBypass,
-							CountTemplatesAutoscan = channel.CountTemplatesAutoscan
-						};
-						foreach (var stream in channel.Streams)
-						{
-							var rviStream = new RviStream { Number = stream.Number, RviDeviceUid = device.Guid, RviChannelNumber = channel.Number };
-							camera.RviStreams.Add(rviStream);
-						}
-						camera.SelectedRviStreamNumber = camera.RviStreams.First().Number;
-						rviDevice.Cameras.Add(camera);
-					}
-					else
+						UID = channel.Guid,
+						Name = channel.Name,
+						RviServerUrl = url,
+						RviDeviceName = device.Name,
+						RviDeviceUID = device.Guid,
+						Number = channel.Number,
+						Vendor = channel.Vendor,
+						CountPresets = channel.CountPresets,
+						CountTemplateBypass = channel.CountTemplateBypass,
+						CountTemplatesAutoscan = channel.CountTemplatesAutoscan
+					};
+					foreach (var stream in channel.Streams)
 					{
-						rviDevice.Cameras.Add(existingCamera);
+						var rviStream = new RviStream { Number = stream.Number, RviDeviceUid = device.Guid, RviChannelNumber = channel.Number };
+						camera.RviStreams.Add(rviStream);
 					}
+					camera.SelectedRviStreamNumber = camera.RviStreams.First().Number;
+					rviDevice.Cameras.Add(camera);
+					newCameras.Add(camera);
 				}
+			}
+			foreach (var existingCamera in existingCameras)
+			{
+				var camera = newCameras.FirstOrDefault(newCamera => newCamera.UID == existingCamera.UID);
+				if (camera != null)
+					camera.IsAddedInConfiguration = existingCamera.IsAddedInConfiguration;
 			}
 			return rviDevices;
 		}

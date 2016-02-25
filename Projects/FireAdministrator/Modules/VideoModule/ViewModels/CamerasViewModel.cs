@@ -109,6 +109,7 @@ namespace VideoModule.ViewModels
 			{
 				ClientManager.SystemConfiguration.RviServers = devicesViewModel.RviServers;
 				ClientManager.SystemConfiguration.UpdateRviConfiguration();
+				ClientManager.UpdatePlansConfiguration();
 				Initialize();
 				ServiceFactory.SaveService.CamerasChanged = true;
 				PlanExtension.Instance.Cache.BuildSafe<Camera>();
@@ -121,7 +122,7 @@ namespace VideoModule.ViewModels
 			var camera = SelectedCamera.Camera;
 			var server = ClientManager.SystemConfiguration.RviServers.First(x => x.Url == camera.RviServerUrl);
 			var device = server.RviDevices.First(x => x.Uid == camera.RviDeviceUID);
-			device.Cameras.First(x => x.Number == camera.Number).IsAddedInConfiguration = false;
+			device.Cameras.First(x => x.UID == camera.UID).IsAddedInConfiguration = false;
 			RemoveFromTree(SelectedCamera);
 			ClientManager.SystemConfiguration.Cameras.Remove(camera);
 			camera.OnChanged();
