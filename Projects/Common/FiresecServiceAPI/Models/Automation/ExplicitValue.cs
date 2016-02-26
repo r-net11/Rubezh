@@ -55,5 +55,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public CardType CardTypeValue { get; set; }
+
+		[DataMember]
+		public FiresecAPI.Automation.Enums.AccessState? AccessStateValue { get; set; }
 	}
 }

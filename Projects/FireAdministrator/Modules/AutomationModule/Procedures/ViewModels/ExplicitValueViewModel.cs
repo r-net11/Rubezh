@@ -50,6 +50,7 @@ namespace AutomationModule.ViewModels
 			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
 			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
 			CardTypeValues = ProcedureHelper.GetEnumObs<CardType>();
+			AccessStateValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.AccessState>();
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}
@@ -241,6 +242,17 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.CardTypeValue = value;
 				OnPropertyChanged(() => CardTypeValue);
+			}
+		}
+
+		public ObservableCollection<FiresecAPI.Automation.Enums.AccessState> AccessStateValues { get; private set; }
+		public FiresecAPI.Automation.Enums.AccessState? AccessStateValue
+		{
+			get { return ExplicitValue.AccessStateValue; }
+			set
+			{
+				ExplicitValue.AccessStateValue = value;
+				OnPropertyChanged(() => AccessStateValue);
 			}
 		}
 

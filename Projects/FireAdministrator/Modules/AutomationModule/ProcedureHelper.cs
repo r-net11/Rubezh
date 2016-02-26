@@ -260,6 +260,8 @@ namespace AutomationModule
 							result = explicitValue.ColorValue.ToString();
 						if (enumType == EnumType.CardType)
 							result = explicitValue.CardTypeValue.ToDescription();
+						if (enumType == EnumType.AccessState)
+							result = explicitValue.AccessStateValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:

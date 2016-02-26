@@ -26,6 +26,9 @@ namespace FiresecAPI.Automation
 		ColorType,
 
 		[DescriptionAttribute("Тип пропуска")]
-		CardType
+		CardType,
+
+		[DescriptionAttribute("Режим доступа")]
+		AccessState
 	}
 }
