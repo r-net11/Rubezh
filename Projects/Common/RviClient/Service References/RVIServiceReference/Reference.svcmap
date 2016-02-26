@@ -18,17 +18,20 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://localhost:8000/Integration/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://192.168.11.4:8000/Integration/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="37890f78-8082-4be3-8783-1ff923c1fee8" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="f4c71099-b5e9-4ae0-a9c9-142c88a2935d" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="d20b2ad5-bdd2-4a8e-8382-eb34f86ddab9" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
-    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.xsd" MetadataType="Schema" ID="529292f3-7865-43c1-8879-ec05fc72a005" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
-    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd" MetadataType="Schema" ID="f7f5d259-2e83-43dc-9d18-121c61302d24" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
-    <MetadataFile FileName="RVI_VSS.IntegrationInterface.xsd" MetadataType="Schema" ID="227aa206-9ebc-46ab-86cf-b3b9638b9410" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
-    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Alarm.xsd" MetadataType="Schema" ID="d3740a9c-5e7d-48b1-bded-913f81f49274" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
-    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Video.xsd" MetadataType="Schema" ID="c55f3ed0-4e89-4b25-896a-e5d5c162059f" SourceId="1" SourceUrl="net.tcp://localhost:8000/Integration/mex" />
+    <MetadataFile FileName="service11.wsdl" MetadataType="Wsdl" ID="e3e6f68f-e158-4e35-bfdd-4e5a7f794d5c" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="service22.xsd" MetadataType="Schema" ID="7d9723cb-b4be-4717-9217-6e730a248e9a" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="service23.xsd" MetadataType="Schema" ID="99cf0763-c055-4f25-9690-7b24a6ddd754" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas1.xsd" MetadataType="Schema" ID="dbec3c25-ccfe-41a6-9084-8bc1c8f74b2d" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Common1.xsd" MetadataType="Schema" ID="b95e868a-9363-4238-b10c-4826edeb1ea6" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Perimeter.xsd" MetadataType="Schema" ID="60938fe7-cfd6-4005-aeb8-f81b02392e2b" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface1.xsd" MetadataType="Schema" ID="15ac931c-e0b8-496b-adc1-1b9a7afbd6d8" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Alarm1.xsd" MetadataType="Schema" ID="28305ec8-ab2d-441f-9084-447aa960f886" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Video1.xsd" MetadataType="Schema" ID="2e240498-fd49-4af2-93f4-d5f5b0148e45" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="RVI.IntegrationInterface.XmlSchemas.Operator.xsd" MetadataType="Schema" ID="8d12a1b4-34fa-4195-a92a-742878405df5" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="1367fe1f-c6d7-4ac8-803b-87491a8c2f64" SourceId="1" SourceUrl="http://192.168.11.4:8000/Integration/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
