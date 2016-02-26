@@ -50,6 +50,9 @@ namespace GKImitator.ViewModels
 		void OnEnter()
 		{
 			DescriptorViewModel.CurrentCardNo = CardNo;
+			var backgroundWorker = new BackgroundWorker();
+			backgroundWorker.DoWork += backgroundWorker_DoWork;
+			backgroundWorker.RunWorkerAsync();
 			switch (SelectedEnterType)
 			{
 				case GKCodeReaderEnterType.CodeOnly:
@@ -70,10 +73,6 @@ namespace GKImitator.ViewModels
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, true);
 					break;
 			}
-			
-			var backgroundWorker = new BackgroundWorker();
-			backgroundWorker.DoWork += backgroundWorker_DoWork;
-			backgroundWorker.RunWorkerAsync();
 		}
 
 		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)

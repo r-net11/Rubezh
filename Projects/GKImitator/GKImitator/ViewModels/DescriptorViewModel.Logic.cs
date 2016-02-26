@@ -492,6 +492,13 @@ namespace GKImitator.ViewModels
 							OnSetFire1();
 						}
 					}
+					if (stateBitVale.Key == GKStateBit.Fire2)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnSetFire2();
+						}
+					}
 					if (stateBitVale.Key == GKStateBit.SetRegime_Manual)
 					{
 						if (Regime == Regime.Automatic)

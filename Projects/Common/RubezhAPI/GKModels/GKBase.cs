@@ -276,6 +276,8 @@ namespace RubezhAPI.GK
 						guardZoneDevice.Device.LinkToDescriptor(guardZone);
 					}
 				}
+				if (guardZone.Pim != null)
+					guardZone.Pim.LinkToDescriptor(guardZone);
 			}
 
 			var door = this as GKDoor;
@@ -301,6 +303,41 @@ namespace RubezhAPI.GK
 				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
 				door.LinkToDescriptor(door);
+				if (door.PimCrossing != null)
+				{
+					if (door.LockControlDevice != null)
+						door.PimCrossing.LinkToDescriptor(door.LockControlDevice);
+					if (door.LockControlDeviceExit != null)
+						door.PimCrossing.LinkToDescriptor(door.LockControlDeviceExit);
+					door.PimCrossing.LinkToDescriptor(door.PimCrossing);
+					door.PimCrossing.LinkToDescriptor(door);
+				}
+				if (door.PimEnter != null)
+				{
+					if (door.EnterDevice != null)
+						door.PimEnter.LinkToDescriptor(door.EnterDevice);
+					if (door.ExitDevice != null)
+						door.PimEnter.LinkToDescriptor(door.ExitDevice);
+					if (door.EnterButton != null)
+						door.PimEnter.LinkToDescriptor(door.EnterButton);
+					if (door.ExitButton != null)
+						door.PimEnter.LinkToDescriptor(door.ExitButton);
+					door.PimEnter.LinkToDescriptor(door);
+					door.PimEnter.LinkToDescriptor(door.PimEnter);
+				}
+				if (door.PimExit != null)
+				{
+					if (door.EnterDevice != null)
+						door.PimExit.LinkToDescriptor(door.EnterDevice);
+					if (door.ExitDevice != null)
+						door.PimExit.LinkToDescriptor(door.ExitDevice);
+					if (door.EnterButton != null)
+						door.PimExit.LinkToDescriptor(door.EnterButton);
+					if (door.ExitButton != null)
+						door.PimExit.LinkToDescriptor(door.ExitButton);
+					door.PimExit.LinkToDescriptor(door);
+					door.PimExit.LinkToDescriptor(door.PimExit);
+				}
 			}
 		}
 

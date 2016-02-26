@@ -256,11 +256,11 @@ namespace GKImitator.ViewModels
 			if (stateBit == GKStateBit.TurnOn_InManual)
 				return HasTurnOn && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive);
 			if (stateBit == GKStateBit.TurnOnNow_InManual)
-				return HasTurnOnNow && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive);
+				return HasTurnOnNow && onState != null && !onState.IsActive;
 			if (stateBit == GKStateBit.TurnOff_InManual)
 				return HasTurnOff && offState != null && !offState.IsActive && (turningOffState == null || !turningOffState.IsActive);
 			if (stateBit == GKStateBit.TurnOffNow_InManual)
-				return HasTurnOffNow && offState != null && !offState.IsActive && (turningOffState == null || !turningOffState.IsActive);
+				return HasTurnOffNow && offState != null && !offState.IsActive;
 			if (stateBit == GKStateBit.Fire1)
 				return HasFire12 && fire1State != null && !fire1State.IsActive;
 			if (stateBit == GKStateBit.Fire2)
@@ -281,7 +281,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand TurnOffNowCommand { get; private set; }
 		void OnTurnOffNow()
 		{
-			if (CanDo(GKStateBit.TurnOff_InManual))
+			if (CanDo(GKStateBit.TurnOffNow_InManual))
 			{
 				TurnOffNow();
 			}

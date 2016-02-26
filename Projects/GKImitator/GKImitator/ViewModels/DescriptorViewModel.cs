@@ -88,6 +88,8 @@ namespace GKImitator.ViewModels
 					{
 						CurrentOffDelay = OffDelay;
 						TurningState = TurningState.TurningOff;
+						SetStateBit(GKStateBit.Fire1, false);
+						SetStateBit(GKStateBit.Fire2, false);
 					}
 				}
 

@@ -46,7 +46,8 @@ namespace GKImitator.ViewModels
 						{
 							foreach (var descriptor in Descriptors)
 							{
-								descriptor.CheckDelays();
+								if (!(descriptor.GKBase is GKPim))
+									descriptor.CheckDelays();
 							}
 						}
 						));

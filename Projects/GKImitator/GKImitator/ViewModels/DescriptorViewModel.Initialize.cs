@@ -105,13 +105,17 @@ namespace GKImitator.ViewModels
 				HasTurnOn = true;
 				HasTurnOnNow = true;
 				HasTurnOff = true;
+				HasTurnOffNow = true;
 				AddStateBit(GKStateBit.On);
 				AddStateBit(GKStateBit.Off, true);
 				AddStateBit(GKStateBit.TurningOn);
 				AddStateBit(GKStateBit.TurningOff);
-				HasOnDelay = true;
-				HasHoldDelay = true;
-				HasOffDelay = true;
+				AddStateBit(GKStateBit.Fire1);
+				AddStateBit(GKStateBit.Fire2);
+				HasFire12 = true;
+				OnDelay = 1;
+				HoldDelay = 1;
+				OffDelay = 1;
 			}
 
 			if (GKBase is GKDoor)
