@@ -120,8 +120,9 @@ namespace JournalModule.ViewModels
 				return false;
 			if (Filter.JournalEventDescriptionTypes.Count > 0 && !Filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
 				return false;
-			if (Filter.JournalObjectTypes.Count > 0 && !Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType)
-				&& Filter.ObjectUIDs.Count > 0 && !Filter.ObjectUIDs.Contains(journalItem.ObjectUID))
+			if (Filter.JournalObjectTypes.Count > 0 && Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
+				return true;
+			if (Filter.ObjectUIDs.Count > 0 && !Filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 				return false;
 			return true;
 		}
