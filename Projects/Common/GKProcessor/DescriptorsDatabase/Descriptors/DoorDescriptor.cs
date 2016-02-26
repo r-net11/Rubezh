@@ -48,8 +48,8 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door);
-				Formula.AddPutBit(GKStateBit.TurnOn_InManual, Door);
+				Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Door);
+				Formula.AddPutBit(GKStateBit.TurnOnNow_InManual, Door);
 				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}
@@ -62,8 +62,8 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
-				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Door);
+				Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Door);
+				Formula.AddPutBit(GKStateBit.TurnOffNow_InManual, Door);
 				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}
@@ -79,8 +79,8 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
-				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Door);
+				Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Door);
+				Formula.AddPutBit(GKStateBit.TurnOffNow_InManual, Door);
 				Formula.AddPutBit(GKStateBit.SetRegime_Automatic, Door);
 				Formula.Add(FormulaOperationType.EXIT);
 			}

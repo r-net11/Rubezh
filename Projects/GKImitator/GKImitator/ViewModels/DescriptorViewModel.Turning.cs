@@ -164,10 +164,10 @@ namespace GKImitator.ViewModels
 			{
 				if (CurrentOnDelay == 0)
 				{
-					bool changed = SetStateBit(GKStateBit.On, true);
-					changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+					bool changed = SetStateBit(GKStateBit.TurningOn, false);
 					changed = SetStateBit(GKStateBit.Off, false) || changed;
 					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+					changed = SetStateBit(GKStateBit.On, true) || changed;
 				}
 				else
 				{
@@ -203,8 +203,8 @@ namespace GKImitator.ViewModels
 				{
 					var changed = SetStateBit(GKStateBit.On, false);
 					changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
-					changed = SetStateBit(GKStateBit.Off, true) || changed;
 					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+					changed = SetStateBit(GKStateBit.Off, true) || changed;
 				}
 				else
 				{
@@ -254,17 +254,17 @@ namespace GKImitator.ViewModels
 			var fire1State = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
 			var fire2State = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire2);
 			if (stateBit == GKStateBit.TurnOn_InManual)
-				return HasTurnOn && onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive);
+				return onState != null && !onState.IsActive && (turningOnState == null || !turningOnState.IsActive);
 			if (stateBit == GKStateBit.TurnOnNow_InManual)
-				return HasTurnOnNow && onState != null && !onState.IsActive;
+				return onState != null && !onState.IsActive;
 			if (stateBit == GKStateBit.TurnOff_InManual)
-				return HasTurnOff && offState != null && !offState.IsActive && (turningOffState == null || !turningOffState.IsActive);
+				return offState != null && !offState.IsActive && (turningOffState == null || !turningOffState.IsActive);
 			if (stateBit == GKStateBit.TurnOffNow_InManual)
-				return HasTurnOffNow && offState != null && !offState.IsActive;
+				return offState != null && !offState.IsActive;
 			if (stateBit == GKStateBit.Fire1)
-				return HasFire12 && fire1State != null && !fire1State.IsActive;
+				return fire1State != null && !fire1State.IsActive;
 			if (stateBit == GKStateBit.Fire2)
-				return HasFire12 && fire2State != null && !fire2State.IsActive;
+				return fire2State != null && !fire2State.IsActive;
 			return false;
 		}
 
@@ -344,8 +344,8 @@ namespace GKImitator.ViewModels
 		{
 			var changed = SetStateBit(GKStateBit.On, false);
 			changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
-			changed = SetStateBit(GKStateBit.Off, true) || changed;
 			changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+			changed = SetStateBit(GKStateBit.Off, true) || changed;
 		}
 
 		void SetGuardAlarm()
@@ -355,8 +355,8 @@ namespace GKImitator.ViewModels
 
 			if (GuardZoneAlarmDelay > 0)
 			{
-				SetStateBit(GKStateBit.Attention, true);
 				SetStateBit(GKStateBit.Fire1, false);
+				SetStateBit(GKStateBit.Attention, true);
 				var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
 				AddJournalItem(journalItem);
 				IsSettingGuardAlarm = true;

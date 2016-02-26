@@ -168,8 +168,8 @@ namespace GKImitator.ViewModels
 		{
 			Regime = Regime.Automatic;
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
-			SetStateBit(GKStateBit.Norm, true, journalItem);
 			SetStateBit(GKStateBit.Ignore, false);
+			SetStateBit(GKStateBit.Norm, true, journalItem);
 		}
 
 		public bool CanSetAutomaticRegime
@@ -198,10 +198,10 @@ namespace GKImitator.ViewModels
 		{
 			Regime = Regime.Ignore;
 			SetStateBit(GKStateBit.Norm, false);
-			SetStateBit(GKStateBit.Ignore, true);
 			SetStateBit(GKStateBit.Attention, false);
 			SetStateBit(GKStateBit.Fire1, false);
 			SetStateBit(GKStateBit.Fire2, false);
+			SetStateBit(GKStateBit.Ignore, true);
 		}
 
 		public bool CanSetIgnoreRegime

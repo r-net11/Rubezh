@@ -471,6 +471,13 @@ namespace GKImitator.ViewModels
 							OnTurnOnNow();
 						}
 					}
+					if (stateBitVale.Key == GKStateBit.TurnOnNow_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOnNow();
+						}
+					}
 					if (stateBitVale.Key == GKStateBit.TurnOff_InAutomatic)
 					{
 						if (Regime == Regime.Automatic)
@@ -481,6 +488,13 @@ namespace GKImitator.ViewModels
 					if (stateBitVale.Key == GKStateBit.TurnOffNow_InAutomatic)
 					{
 						if (Regime == Regime.Automatic)
+						{
+							OnTurnOffNow();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.TurnOffNow_InManual)
+					{
+						if (Regime == Regime.Manual)
 						{
 							OnTurnOffNow();
 						}

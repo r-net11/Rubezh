@@ -56,15 +56,15 @@ namespace GKImitator.ViewModels
 			switch (SelectedEnterType)
 			{
 				case GKCodeReaderEnterType.CodeOnly:
-					DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
+					DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
 					break;
 
 				case GKCodeReaderEnterType.CodeAndOne:
 					DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
-					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, true);
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
+					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, true);
 					break;
 
 				case GKCodeReaderEnterType.CodeAndTwo:

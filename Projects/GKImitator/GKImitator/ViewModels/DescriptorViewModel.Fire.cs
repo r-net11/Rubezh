@@ -44,16 +44,16 @@ namespace GKImitator.ViewModels
 		void OnSetFireTemperatureGradient()
 		{
 			var journalItem = new ImitatorJournalItem(2, 2, 4, 0);
-			SetStateBit(GKStateBit.Fire1, true, journalItem);
 			SetStateBit(GKStateBit.Norm, false);
+			SetStateBit(GKStateBit.Fire1, true, journalItem);
 		}
 
 		public RelayCommand SetFireHeandDetectorCommand { get; private set; }
 		void OnSetFireHeandDetector()
 		{
 			var journalItem = new ImitatorJournalItem(2, 3, 1, 0);
-			SetStateBit(GKStateBit.Fire2, true, journalItem);
 			SetStateBit(GKStateBit.Norm, false);
+			SetStateBit(GKStateBit.Fire2, true, journalItem);
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }
@@ -72,9 +72,9 @@ namespace GKImitator.ViewModels
 		{
 			if(CanDo(GKStateBit.Fire1))
 			{
-				SetStateBit(GKStateBit.Fire1, true);
 				SetStateBit(GKStateBit.Fire2, false);
 				SetStateBit(GKStateBit.Norm, false);
+				SetStateBit(GKStateBit.Fire1, true);
 			}
 		}
 
@@ -84,8 +84,8 @@ namespace GKImitator.ViewModels
 			if (CanDo(GKStateBit.Fire2))
 			{
 				SetStateBit(GKStateBit.Fire1, false);
-				SetStateBit(GKStateBit.Fire2, true);
 				SetStateBit(GKStateBit.Norm, false);
+				SetStateBit(GKStateBit.Fire2, true);
 			}
 		}
 
