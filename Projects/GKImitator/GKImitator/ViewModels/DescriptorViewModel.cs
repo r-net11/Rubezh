@@ -13,7 +13,7 @@ using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-    public partial class DescriptorViewModel : BaseViewModel
+	public partial class DescriptorViewModel : BaseViewModel
 	{
 		public BaseDescriptor GKBaseDescriptor { get; private set; }
 		public BaseDescriptor KauBaseDescriptor { get; private set; }

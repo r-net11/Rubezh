@@ -9,8 +9,8 @@ namespace GKImitator.ViewModels
 	{
 		void AddStateBit(GKStateBit stateBit, bool isActive = false)
 		{
-            if(StateBits.All(x => x.StateBit != stateBit))
-                StateBits.Add(new StateBitViewModel(this, stateBit, isActive));
+			if(StateBits.All(x => x.StateBit != stateBit))
+				StateBits.Add(new StateBitViewModel(this, stateBit, isActive));
 		}
 
 		public bool GetStateBit(GKStateBit stateBit)

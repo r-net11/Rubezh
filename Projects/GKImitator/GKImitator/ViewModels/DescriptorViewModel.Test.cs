@@ -16,7 +16,7 @@ namespace GKImitator.ViewModels
 
 		public bool HasTest { get; private set; }
 
-        public RelayCommand TestButtonCommand { get; private set; }
+		public RelayCommand TestButtonCommand { get; private set; }
 		void OnTestButton()
 		{
 			var journalItem = new ImitatorJournalItem(2, 6, 1, 1);
