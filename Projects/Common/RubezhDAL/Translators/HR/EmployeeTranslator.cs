@@ -100,7 +100,7 @@ namespace RubezhDAL.DataClasses
 				TabelNo = tableItem.TabelNo,
 				CredentialsStartDate = tableItem.CredentialsStartDate,
 				EscortUID = tableItem.EscortUID,
-                EscortName = tableItem.Escort != null ? tableItem.Escort.LastName + " " + tableItem.Escort.FirstName + " " + tableItem.Escort.SecondName : null,
+				EscortName = tableItem.Escort != null ? tableItem.Escort.LastName + " " + tableItem.Escort.FirstName + " " + tableItem.Escort.SecondName : null,
 				DocumentNumber = tableItem.DocumentNumber,
 				BirthDate = tableItem.BirthDate,
 				BirthPlace = tableItem.BirthPlace,

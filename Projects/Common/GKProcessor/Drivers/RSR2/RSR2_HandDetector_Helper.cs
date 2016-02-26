@@ -20,7 +20,7 @@ namespace GKProcessor
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			return driver;
 		}

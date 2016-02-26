@@ -21,7 +21,7 @@ namespace GKProcessor
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);

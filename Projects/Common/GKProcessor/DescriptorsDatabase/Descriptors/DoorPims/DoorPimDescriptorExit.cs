@@ -43,7 +43,7 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) ||
-			    (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+				(DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
 				return;

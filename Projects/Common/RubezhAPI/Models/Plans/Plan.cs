@@ -102,8 +102,8 @@ namespace RubezhAPI.Models
 		public List<ElementPolyline> ElementPolylines { get; set; }
 		[DataMember]
 		public List<ElementRectangleSubPlan> ElementSubPlans { get; set; }
-        [DataMember()]
-        public List<ElementPolygonSubPlan> ElementPolygonSubPlans { get; set; }
+		[DataMember()]
+		public List<ElementPolygonSubPlan> ElementPolygonSubPlans { get; set; }
 		[DataMember]
 		public List<ElementGKDevice> ElementGKDevices { get; set; }
 		[DataMember]

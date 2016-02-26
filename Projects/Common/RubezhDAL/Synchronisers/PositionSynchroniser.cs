@@ -51,5 +51,5 @@ namespace RubezhDAL.DataClasses
 		{
 			tableItem.OrganisationUID = hrCash.OrganisationUID;
 		}
-    }
+	}
 }

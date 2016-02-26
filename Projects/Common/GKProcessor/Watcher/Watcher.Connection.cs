@@ -36,7 +36,7 @@ namespace GKProcessor
 					};
 					//var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 					//if (!string.IsNullOrEmpty(gkIpAddress))
-					//    journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
+					//	journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 					AddJournalItem(journalItem);
 
 					IsConnected = isConnected;

@@ -17,7 +17,7 @@ namespace RubezhDAL
 		string Name { get { return "PassJournal"; } }
 		public string NameXml { get { return Name + ".xml"; } }
 
-        public PassJounalSynchroniser(DbSet<PassJournal> table)
+		public PassJounalSynchroniser(DbSet<PassJournal> table)
 		{
 			_Table = table;
 		}
@@ -28,7 +28,7 @@ namespace RubezhDAL
 			{
 				if (!Directory.Exists(filter.Path))
 					throw new Exception("Папка не существует");
-                var tableItems = _Table.Where(x => x.EnterTime >= filter.MinDate.CheckDate() & x.EnterTime <= filter.MaxDate.CheckDate());
+				var tableItems = _Table.Where(x => x.EnterTime >= filter.MinDate.CheckDate() & x.EnterTime <= filter.MaxDate.CheckDate());
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))

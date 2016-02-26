@@ -3,7 +3,7 @@ using System;
 
 namespace GKProcessor
 {
-    public static class RSR2_ABShS_Helper
+	public static class RSR2_ABShS_Helper
 	{
 		public static GKDriver Create()
 		{
@@ -11,9 +11,9 @@ namespace GKProcessor
 			{
 				DriverTypeNo = 0x13,
 				DriverType = GKDriverType.RSR2_ABShS,
-                UID = new Guid("7C464C3A-DDC5-496A-9747-4CA93B774DCA"),
+				UID = new Guid("7C464C3A-DDC5-496A-9747-4CA93B774DCA"),
 				Name = "Адресный барьер шлейфа сигнализации",
-                ShortName = "АБШС-R2",
+				ShortName = "АБШС-R2",
 				HasZone = true,
 				IsPlaceable = true
 			};
@@ -30,7 +30,7 @@ namespace GKProcessor
 			{
 				No = 0,
 				Name = "Нагрузка",
-                Caption = "Нагрузка",
+				Caption = "Нагрузка",
 				Default = 0
 			};
 			var property1Parameter1 = new GKDriverPropertyParameter()
@@ -46,7 +46,7 @@ namespace GKProcessor
 			property1.Parameters.Add(property1Parameter1);
 			property1.Parameters.Add(property1Parameter2);
 			driver.Properties.Add(property1);
-            return driver;
+			return driver;
 		}
 	}
 }

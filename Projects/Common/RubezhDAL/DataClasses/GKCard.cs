@@ -18,6 +18,6 @@ namespace RubezhDAL.DataClasses
 
 		public int UserType { get; set; }
 		[MaxLength(50)]
-        public string FIO { get; set; }
+		public string FIO { get; set; }
 	}
 }
