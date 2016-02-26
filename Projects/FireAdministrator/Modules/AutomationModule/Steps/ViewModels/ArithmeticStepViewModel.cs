@@ -100,6 +100,8 @@ namespace AutomationModule.ViewModels
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add };
 				if (value == ExplicitType.Integer)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub, ArithmeticOperationType.Multi, ArithmeticOperationType.Div };
+				if(value == ExplicitType.Time)
+					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub };
 				OnPropertyChanged(() => ArithmeticOperationTypes);
 				OnPropertyChanged(() => SelectedExplicitType);
 				UpdateContent();

@@ -52,6 +52,8 @@ namespace FiresecAPI.Automation
 			StopRecordArguments = new StopRecordArguments();
 			RviAlarmArguments = new RviAlarmArguments();
 			ExportReportArguments = new ExportReportArguments();
+			GetDateTimeNowArguments = new GetDateTimeNowArguments();
+
 		}
 
 		[XmlIgnore]
@@ -191,5 +193,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ExportReportArguments ExportReportArguments { get; set; }
+
+		[DataMember]
+		public GetDateTimeNowArguments GetDateTimeNowArguments { get; set; }
 	}
 }

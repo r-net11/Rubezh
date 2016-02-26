@@ -4,157 +4,160 @@ namespace FiresecAPI.Automation
 {
 	public enum ProcedureStepType
 	{
-		[DescriptionAttribute("Условие")]
+		[Description("Условие")]
 		If,
 
-		[DescriptionAttribute("Выполняется")]
+		[Description("Выполняется")]
 		IfYes,
 
-		[DescriptionAttribute("Не выполняется")]
+		[Description("Не выполняется")]
 		IfNo,
 
-		[DescriptionAttribute("Цикл по списку")]
+		[Description("Цикл по списку")]
 		Foreach,
 
-		[DescriptionAttribute("Цикл со счетчиком (For)")]
+		[Description("Цикл со счетчиком (For)")]
 		For,
 
-		[DescriptionAttribute("Цикл с условием (While)")]
+		[Description("Цикл с условием (While)")]
 		While,
 
-		[DescriptionAttribute("выйти из цикла")]
+		[Description("Выйти из цикла")]
 		Break,
 
-		[DescriptionAttribute("продолжить цикл")]
+		[Description("Продолжить цикл")]
 		Continue,
 
-		[DescriptionAttribute("Тело цикла")]
+		[Description("Тело цикла")]
 		ForeachBody,
 
-		[DescriptionAttribute("Функция выбора процедуры")]
+		[Description("Функция выбора процедуры")]
 		ProcedureSelection,
 
-		[DescriptionAttribute("Получить значение свойства объекта")]
+		[Description("Получить значение свойства объекта")]
 		GetObjectProperty,
 
-		[DescriptionAttribute("Проигрывание звука")]
+		[Description("Проигрывание звука")]
 		PlaySound,
 
-		[DescriptionAttribute("Арифметическая операция")]
+		[Description("Арифметическая операция")]
 		Arithmetics,
 
-		[DescriptionAttribute("Найти объекты")]
+		[Description("Найти объекты")]
 		FindObjects,
 
-		[DescriptionAttribute("Изменение списка")]
+		[Description("Изменение списка")]
 		ChangeList,
 
-		[DescriptionAttribute("Проверка прав")]
+		[Description("Проверка прав")]
 		CheckPermission,
 
-		[DescriptionAttribute("Получить значение журнала")]
+		[Description("Получить значение журнала")]
 		GetJournalItem,
 
-		[DescriptionAttribute("Получить размер списка")]
+		[Description("Получить размер списка")]
 		GetListCount,
 
-		[DescriptionAttribute("Получить элемент списка")]
+		[Description("Получить элемент списка")]
 		GetListItem,
 
-		[DescriptionAttribute("Показать сообщение")]
+		[Description("Показать сообщение")]
 		ShowMessage,
 
-		[DescriptionAttribute("Добавить запись в журнал")]
+		[Description("Добавить запись в журнал")]
 		AddJournalItem,
 
-		[DescriptionAttribute("Выход из процедуры")]
+		[Description("Выход из процедуры")]
 		Exit,
 
-		[DescriptionAttribute("Задание значения переменной")]
+		[Description("Задание значения переменной")]
 		SetValue,
 
-		[DescriptionAttribute("Запуск программы")]
+		[Description("Запуск программы")]
 		RunProgram,
 
-		[DescriptionAttribute("Инкремент значения переменной")]
+		[Description("Инкремент значения переменной")]
 		IncrementValue,
 
-		[DescriptionAttribute("Отправить сообщение по электронной почте")]
+		[Description("Отправить сообщение по электронной почте")]
 		SendEmail,
 
-		[DescriptionAttribute("Пауза")]
+		[Description("Пауза")]
 		Pause,
 
-		[DescriptionAttribute("Случайное значение")]
+		[Description("Случайное значение")]
 		Random,
 
-		[DescriptionAttribute("Управление устройством СКД")]
+		[Description("Управление устройством СКД")]
 		ControlSKDDevice,
 
-		[DescriptionAttribute("Управление зоной СКД")]
+		[Description("Управление зоной СКД")]
 		ControlSKDZone,
 
-		[DescriptionAttribute("Управление точкой доступа")]
+		[Description("Управление точкой доступа")]
 		ControlDoor,
 
-		[DescriptionAttribute("Чтение свойства визуального элемента")]
+		[Description("Чтение свойства визуального элемента")]
 		ControlVisualGet,
 
-		[DescriptionAttribute("Установка свойства визуального элемента")]
+		[Description("Установка свойства визуального элемента")]
 		ControlVisualSet,
 
-		[DescriptionAttribute("Чтение свойства элементами плана")]
+		[Description("Чтение свойства элементами плана")]
 		ControlPlanGet,
 
-		[DescriptionAttribute("Установка свойства элементами плана")]
+		[Description("Установка свойства элементами плана")]
 		ControlPlanSet,
 
-		[DescriptionAttribute("Показать диалоговую форму")]
+		[Description("Показать диалоговую форму")]
 		ShowDialog,
 
-		[DescriptionAttribute("Показать свойство объекта")]
+		[Description("Показать свойство объекта")]
 		ShowProperty,
 
-		[DescriptionAttribute("Генерировать идентификатор")]
+		[Description("Генерировать идентификатор")]
 		GenerateGuid,
 
-		[DescriptionAttribute("Назначить идентификатор события")]
+		[Description("Назначить идентификатор события")]
 		SetJournalItemGuid,
 
-		[DescriptionAttribute("")]
+		[Description("")]
 		DoAction,
 
-		[DescriptionAttribute("Экспорт организации")]
+		[Description("Экспорт организации")]
 		ExportOrganisation,
 
-		[DescriptionAttribute("Экспорт списка организаций")]
+		[Description("Экспорт списка организаций")]
 		ExportOrganisationList,
 
-		[DescriptionAttribute("Экспорт конфигурации")]
+		[Description("Экспорт конфигурации")]
 		ExportConfiguration,
 
-		[DescriptionAttribute("Экспорт журнала")]
+		[Description("Экспорт журнала")]
 		ExportJournal,
 
-		[DescriptionAttribute("Импорт организации")]
+		[Description("Импорт организации")]
 		ImportOrganisation,
 
-		[DescriptionAttribute("Импорт списка организаций")]
+		[Description("Импорт списка организаций")]
 		ImportOrganisationList,
 
-		[DescriptionAttribute("Управление PTZ камерой")]
+		[Description("Управление PTZ камерой")]
 		Ptz,
 
-		[DescriptionAttribute("Начать запись")]
+		[Description("Начать запись")]
 		StartRecord,
 
-		[DescriptionAttribute("Остановить запись")]
+		[Description("Остановить запись")]
 		StopRecord,
 
-		[DescriptionAttribute("Вызвать тревогу в RVI Оператор")]
+		[Description("Вызвать тревогу в RVI Оператор")]
 		RviAlarm,
 
 		[Description("Экспорт отчета")]
-		ExportReport
+		ExportReport,
+
+		[Description("Получить текущее время")]
+		GetDateTimeNow
 	}
 }

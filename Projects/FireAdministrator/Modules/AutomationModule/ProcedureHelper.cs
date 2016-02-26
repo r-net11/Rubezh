@@ -86,12 +86,39 @@ namespace AutomationModule
 
 		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType explicitType)
 		{
-			if ((explicitType == ExplicitType.Integer) || (explicitType == ExplicitType.DateTime) || (explicitType == ExplicitType.Object) || explicitType == ExplicitType.Enum)
-				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
-			if ((explicitType == ExplicitType.Boolean) || (explicitType == ExplicitType.Object))
-				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
+			if (explicitType == ExplicitType.Integer
+				|| explicitType == ExplicitType.DateTime
+				|| explicitType == ExplicitType.Object
+				|| explicitType == ExplicitType.Enum
+				|| explicitType == ExplicitType.Time)
+				return new List<ConditionType>
+				{
+					ConditionType.IsEqual,
+					ConditionType.IsNotEqual,
+					ConditionType.IsMore,
+					ConditionType.IsNotMore,
+					ConditionType.IsLess,
+					ConditionType.IsNotLess
+				};
+
+			if (explicitType == ExplicitType.Boolean
+				|| explicitType == ExplicitType.Object)
+				return new List<ConditionType>
+				{
+					ConditionType.IsEqual,
+					ConditionType.IsNotEqual
+				};
+
 			if (explicitType == ExplicitType.String)
-				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };
+				return new List<ConditionType>
+				{
+					ConditionType.IsEqual,
+					ConditionType.IsNotEqual,
+					ConditionType.StartsWith,
+					ConditionType.EndsWith,
+					ConditionType.Contains
+				};
+
 			return new List<ConditionType>();
 		}
 
@@ -268,6 +295,9 @@ namespace AutomationModule
 						result = new ExplicitValueViewModel(explicitValue).PresentationName;
 						ServiceFactory.SaveService.AutomationChanged = automationChanged;
 					}
+					break;
+				case ExplicitType.Time:
+					result = explicitValue.TimeSpanValue.ToString();
 					break;
 			}
 			return result;

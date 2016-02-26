@@ -156,6 +156,8 @@
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="Enums\ReportFormatEnum.cs" />
     <Compile Include="Enums\ReportType.cs" />
+    <Compile Include="Enums\RoundingType.cs" />
+    <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
@@ -173,6 +175,7 @@
     <Compile Include="Models\Automation\StepArguments\ExportJournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GenerateGuidArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetDateTimeNowArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetJournalItemArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetListCountArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetListItemArguments.cs" />

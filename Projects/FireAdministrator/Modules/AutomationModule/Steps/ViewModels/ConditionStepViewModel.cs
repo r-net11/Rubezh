@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 			ConditionArguments = stepViewModel.Step.ConditionArguments;
 			Conditions = new ObservableCollection<ConditionViewModel>();
 			ConditionArguments.Conditions.ForEach(condition => Conditions.Add(new ConditionViewModel(condition, Procedure, stepViewModel.Update, UpdateContent)));
-			if (Conditions.Count == 0)
+			if (Conditions.Any())
 			{
 				var condition = new Condition();
 				ConditionArguments.Conditions.Add(condition);
@@ -75,7 +75,7 @@ namespace AutomationModule.ViewModels
 		{
 			get { return Conditions.Count > 1; }
 		}
-		
+
 		public override void UpdateContent()
 		{
 			foreach (var conditionViewModel in Conditions)
@@ -91,12 +91,12 @@ namespace AutomationModule.ViewModels
 			{
 				var conditionViewModel = Conditions.FirstOrDefault();
 				if (conditionViewModel == null)
-					return "";
+					return string.Empty;
 
 				var var1 = conditionViewModel.Argument1.Description;
 				var var2 = conditionViewModel.Argument2.Description;
 
-				var op = "";
+				var op = string.Empty;
 				switch (conditionViewModel.SelectedConditionType)
 				{
 					case ConditionType.IsEqual:
@@ -118,7 +118,7 @@ namespace AutomationModule.ViewModels
 						op = "≤";
 						break;
 				}
-				var end = "";
+				var end = string.Empty;
 				if (Conditions.Count > 1)
 					end = JoinOperator == JoinOperator.And ? "и ..." : "или ...";
 

@@ -17,7 +17,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var description = "";
+				var description = string.Empty;
 				if (!Variable.IsList)
 					description = ProcedureHelper.GetStringValue(Variable.ExplicitValue, Variable.ExplicitType, Variable.EnumType);
 				else
@@ -46,9 +46,7 @@ namespace AutomationModule.ViewModels
 
 		public override string ToString()
 		{
-			if (Variable != null)
-				return Variable.Name;
-			return "";
+			return Variable != null ? Variable.Name : string.Empty;
 		}
 
 		public void Update()
