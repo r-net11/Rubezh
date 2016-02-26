@@ -2,104 +2,98 @@
 	Layout = null;
 }
 
-<div class="modal-header">
-	<a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
-	<h3 class="modal-title">{{device.Name}}</h3>
-</div>
-<div class="modal-body">
-	<div>
-		<img style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left" ng-src="/Content/Image/{{device.ImageSource}}" />
-		<div style="float: left">
-			<img style="margin: 2px; vertical-align: middle" ng-src="/Content/Image/Icon/GKStateIcons/{{device.StateIcon}}.png" />
-			{{device.State}}
-		</div>
-		<div style="float: right">
-			<div ng-show="device.HasOnDelay">
-				<span style="color: red;">Задержка на включение</span> <br />
-				<span style="color: red;">{{device.OnDelay}} сек</span>
+<div modal-draggable modaless>
+	<div class="modal-header">
+		<a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+		<h3 class="modal-title">{{device.Name}}</h3>
+	</div>
+	<div class="modal-body">
+		<div>
+			<img style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left" ng-src="/Content/Image/{{device.ImageSource}}" />
+			<div style="float: left; margin: 5px;">
+				<img style="margin: 2px; vertical-align: middle" ng-src="/Content/Image/Icon/GKStateIcons/{{device.StateIcon}}.png" />
+				{{device.State}}
 			</div>
-			<div ng-show="direction.HasHoldDelay">
-				<span style="color: red;">Удержание</span> <br />
-				<span style="color: red;">{{device.HoldDelay}} сек</span>
+			<div style="float: right">
+				<div ng-show="device.HasOnDelay">
+					<span style="color: red;">Задержка на включение</span> <br />
+					<span style="color: red;">{{device.OnDelay}} сек</span>
+				</div>
+				<div ng-show="direction.HasHoldDelay">
+					<span style="color: red;">Удержание</span> <br />
+					<span style="color: red;">{{device.HoldDelay}} сек</span>
+				</div>
 			</div>
+			<div style="clear: left">
+			</div>
+			<uib-tabset>
+				<uib-tab heading="Управление" ng-if="device.IsTriStateControl">
+					<div class="detailsTab">
+						<div>
+							<span class="labelImage-md" style="background-image:url(/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png)">Режим {{device.ControlRegimeName}}</span>
+							<div class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
+							<div class="btn btn-primary btn-control" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
+							<div class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
+							<div class="btn btn-primary btn-control" ng-click="TurnOn()" ng-disabled="!device.IsControlRegime">Пуск</div>
+							<div class="btn btn-primary btn-control" ng-click="TurnOnNow()" ng-disabled="!device.IsControlRegime">Пуск немедленно</div>
+							<div class="btn btn-primary btn-control" ng-click="ForbidStart()" ng-disabled="!device.IsControlRegime">Останов пуска</div>
+							<div class="btn btn-primary btn-control" ng-click="TurnOff()" ng-disabled="!device.IsControlRegime">Выключить немедленно</div>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab heading="Управление" ng-if="device.IsBiStateControl">
+					<div class="detailsTab">
+						<div>
+							<div class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
+							<div class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
+							<div class="btn btn-primary btn-control" ng-click="Reset()" ng-show="device.HasReset" ng-disabled="!device.CanReset">Сбросить</div>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab heading="Свойства" ng-if="true">
+					<div class="detailsTab">
+						<div class="properties">
+							<div>
+								<span>Устройство:</span>
+								<a class="labelImage" href="#" ng-click="ShowDevice()" style="background-image: url(/Content/Image/{{device.ImageSource}})">{{device.Name}}</a>
+							</div>
+							<div>
+								<span>Подключено к:</span>
+								<a class="labelImage" href="#" ng-click="ShowParentDevice()" style="background-image: url(/Content/Image/{{device.ParentImage}})">{{device.ParentName}}</a>
+							</div>
+							<div>
+								<span>Название в ГК:</span>
+								<span>{{device.Name}}</span>
+							</div>
+							<div>
+								<span>Номер в ГК:</span>
+								<span>{{device.GKDescriptorNo}}</span>
+							</div>
+							<div>
+								<span>Проектный адрес:</span>
+								<span></span>
+							</div>
+							<div ng-show="device.PresentationZone != ''">
+								<span>Зона: </span>
+								<a class="labelImage" href="#" ng-click="ShowZone()" style="background-image: url(/Content/Image/Images/Zone.png)">{{device.PresentationZone}}</a>
+							</div>
+							<div>
+								<a class="labelImage" href="#" ng-click="ShowJournal()" style="background-image: url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
+							</div>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab heading="Параметры" ng-if="device.Properties.length > 0" select="onTabSelected()">
+					<div class="detailsTab">
+						<div ui-grid="gridParameters" ui-grid-selection style="height: inherit"></div>
+					</div>
+				</uib-tab>
+				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0" select="onTabSelected()">
+					<div class="detailsTab">
+						<div ui-grid="gridMeasurements" ui-grid-selection style="height: inherit"></div>
+					</div>
+				</uib-tab>
+			</uib-tabset>
 		</div>
-		<div style="clear: left">
-		</div>
-		<uib-tabset>
-			<uib-tab heading="Управление" ng-if="device.IsTriStateControl">
-				<div style="background: #698ebe; padding: 5px">
-					<img ng-src="/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png" />
-					<span style="font-weight: bold; font-size: large">Режим {{device.ControlRegimeName}}</span>
-					<div style="background: #fff; height: 280px">
-						<div style="float: left; width: 50%">
-							<div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
-							<div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
-							<div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
-						</div>
-						<div style="float: left; width: 50%; background: #fff">
-							<div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="TurnOn()" ng-disabled="!device.IsControlRegime">Пуск</div>
-							<div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="TurnOnNow()" ng-disabled="!device.IsControlRegime">Пуск немедленно</div>
-							<div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="ForbidStart()" ng-disabled="!device.IsControlRegime">Останов пуска</div>
-							<div class="btn btn-primary" style="height: 45px; width: 185px; margin: 2px" ng-click="TurnOff()" ng-disabled="!device.IsControlRegime">Выключить немедленно</div>
-						</div>
-					</div>
-				</div>
-			</uib-tab>
-			<uib-tab heading="Управление" ng-if="device.IsBiStateControl">
-				<div style="background: #698ebe; padding: 5px">
-					<div style="background: #fff; text-align: center; height: 300px">
-						<div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
-						<div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px;" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
-						<div class=" btn btn-primary" style="height: 45px; width: 195px; margin: 4px" ng-click="Reset()" ng-show="device.HasReset" ng-disabled="!device.CanReset">Сбросить</div>
-					</div>
-				</div>
-			</uib-tab>
-			<uib-tab heading="Свойства" ng-if="true">
-				<div style="background: #698ebe; padding: 5px">
-					<div style="background: #fff; height: 300px">
-						<div>
-							<span style="font-weight: bold; width: 110px; color: black">Устройство:</span>
-							<img style="margin: 2px; vertical-align: middle" height="16" width="16" ng-src="/Content/Image/{{device.ImageSource}}" />
-							<span style="font-weight: bold; width: 110px; color: black">{{device.Name}}</span>
-						</div>
-						<div>
-							<span style="font-weight: bold; width: 110px; color: black">Подключено к:  </span>
-							<img style="margin: 2px; vertical-align: middle" height="16" width="16" ng-src="/Content/Image/{{device.ParentObject.ImageSource}}" />
-							<span style="font-weight: bold; width: 110px; color: black"> {{device.ParentObject.Name}}</span>
-						</div>
-						<div>
-							<span style="font-weight: bold; width: 110px; color: black">Название в ГК:      {{device.Name}}</span>
-						</div>
-						<div>
-							<span style="font-weight: bold; width: 110px; color: black">Номер в ГК:     {{device.GKDescriptorNo}}</span>
-						</div>
-						<div>
-							<span style="font-weight: bold; width: 110px; color: black">Проектный адрес:</span>
-						</div>
-						<div ng-show="device.PresentationZone != ''">
-							<span style="font-weight: bold; width: 110px; color: black">Зона: </span>
-							<img style="margin: 2px; vertical-align: middle" height="16" width="16" ng-src="/Content/Image/Images/Zone.png" />
-							<span style="font-weight: bold; width: 110px; color: black"> {{device.PresentationZone}}</span>
-						</div>
-						<div>
-							<img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-							<a href="#" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-						</div>
-						<div style="clear: left">
-						</div>
-					</div>
-				</div>
-			</uib-tab>
-			<uib-tab heading="Параметры" ng-if="device.Properties.length > 0">
-				<div style="background: #698ebe; padding: 5px">
-					<div ui-grid="gridParameters" style="height: 300px;" ui-grid-selection></div>
-				</div>
-			</uib-tab>
-			<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0">
-				<div style="background: #698ebe; padding: 5px">
-					<div ui-grid="gridMeasurements" style="height: 300px;" ui-grid-selection></div>
-				</div>
-			</uib-tab>
-		</uib-tabset>
 	</div>
 </div>

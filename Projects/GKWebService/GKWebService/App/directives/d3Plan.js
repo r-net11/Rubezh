@@ -6,7 +6,7 @@
 	// Получение размеров окна
 	function getViewPortSize() {
 		var header = $('div[class="' + 'container"]');
-		var sidebar = $('aside[class="' + 'left-sidebar"]');
+		var sidebar = $('aside[class="' + 'left-sidebar ng-scope"]');
 		var plansList = $('div[id="' + 'plansGrid"]')[0];
 
 		var dim = Object.create(Object.prototype, {
@@ -61,7 +61,7 @@
 			// Задаем обработку клика на элемент меню
 			.on("click", function (d) {
 				// Открываем модальное окно
-				scope.ShowModal("lg", item.Name);
+				scope.ShowModal("lg", item);
 				// Закрываем контекстное меню, т.к. по нему кликнули
 				d3.select(".context-menu").style("display", "none");
 				return d;
@@ -77,35 +77,21 @@
 		d3.event.preventDefault();
 	}
 
-	function renderPngImageElement(item, i, svg, tip, menuItems, scope) {
-		svg.append("image").attr("xlink:href", "data:image/png;base64," + item.Image)
-			.attr("x", item.X)
-			.attr("y", item.Y)
-			.attr("width", item.Width)
-			.attr("height", item.Height)
-			.attr("id", function (d) { return item.Id.replace(" ", "-") + i })
-			.attr("subElementId", function (d) { return item.Id.replace(" ", "-") })
-			// Обработка события наведения мыши
-			.on("mouseover", function (d) {
-				var id = document.getElementById(item.Id.replace(" ", "-") + i);
-				tip.show(renderTipContent(item.Hint.StateHintLines), id);
-			})
-			// Обработка события прекращения наведения мыши
-			.on("mouseout", function (d) { tip.hide(); })
-			// Обработка события левого клика мыши
-			.on("click", function (d) { })
-			// Обработка события вызова контекстного меню
-			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); });
-	}
-
-	function renderGifImageElement(item, i, svg, tip, menuItems, scope) {
-		svg.append("image").attr("xlink:href", "data:image/gif;base64," + item.Image)
+	function renderPngImageElement(item, i, svg, tip, menuItems, scope, isGroupElement) {
+		if (isGroupElement === true) {
+			svg.append("image").attr("xlink:href", "data:image/png;base64," + item.Image)
+				.attr("x", item.X)
+				.attr("y", item.Y)
+				.attr("width", item.Width)
+				.attr("height", item.Height)
+				.attr("id", function(d) { return item.Id.replace(" ", "-") });
+		} else {
+			svg.append("image").attr("xlink:href", "data:image/png;base64," + item.Image)
 			.attr("x", item.X)
 			.attr("y", item.Y)
 			.attr("width", item.Width)
 			.attr("height", item.Height)
 			.attr("id", function (d) { return item.Id.replace(" ", "-") })
-			.attr("subElementId", function (d) { return item.Id.replace(" ", "-") })
 			// Обработка события наведения мыши
 			.on("mouseover", function (d) {
 				var id = document.getElementById(item.Id.replace(" ", "-"));
@@ -117,16 +103,42 @@
 			.on("click", function (d) { })
 			// Обработка события вызова контекстного меню
 			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); });
+		}
 	}
 
-	function renderPathElement(item, i, svg, tip, menuItems, scope) {
-		svg.append("svg:path")
+	function renderGifImageElement(item, i, svg, tip, menuItems, scope, isGroupElement) {
+		if (isGroupElement === true) {
+			var image = svg.append("image").attr("xlink:href", "data:image/gif;base64," + item.Image)
+				.attr("x", item.X)
+				.attr("y", item.Y)
+				.attr("width", item.Width)
+				.attr("height", item.Height)
+				.attr("id", function (d) { return item.Id.replace(" ", "-") })
+				.on("updateImage", function (data, e, k) {
+				console.log("Updating gif on:", item.Id);
+				item.Image = data.Image;
+					image.attr("xlink:href", "data:image/gif;base64," + data.Image);
+				});
+
+		}
+	}
+
+	function renderPathElement(item, i, svg, tip, menuItems, scope, isGroupElement) {
+		if (isGroupElement === true) {
+			svg.append("svg:path")
+				.attr("d", item.Path)
+				.attr("shape-rendering", "geometricPrecision") // Установка качественной отрисовки принудительно
+				.style("stroke-width", item.BorderThickness)
+				.style("stroke", "rgba(" + item.Border.R + "," + item.Border.G + "," + item.Border.B + "," + item.Border.A + ")")
+				.style("fill", "rgba(" + item.Fill.R + "," + item.Fill.G + "," + item.Fill.B + "," + item.Fill.A + ")");
+		} else {
+			svg.append("svg:path")
 			.attr("d", item.Path)
 			.attr("shape-rendering", "geometricPrecision") // Установка качественной отрисовки принудительно
 			.style("stroke-width", item.BorderThickness)
 			.style("stroke", "rgba(" + item.Border.R + "," + item.Border.G + "," + item.Border.B + "," + item.Border.A + ")")
 			.style("fill", "rgba(" + item.Fill.R + "," + item.Fill.G + "," + item.Fill.B + "," + item.Fill.A + ")")
-			.attr("id", function (d) { return item.Id.replace(" ", "-") + i })
+			.attr("id", function (d) { return item.Id.replace(" ", "-"); })
 			// Обработка события наведения мыши
 			.on("mouseover", function (d) {
 				if (item.Type === "Plan" || !item.HasOverlay)
@@ -136,7 +148,7 @@
 					d3.select(this).style("stroke-width", 1);
 				if (!item.Hint)
 					return;
-				var id = document.getElementById(item.Id.replace(" ", "-") + i);
+				var id = document.getElementById(item.Id.replace(" ", "-"));
 				tip.show(renderTipContent(item.Hint.StateHintLines), id);
 			})
 			// Обработка события прекращения наведения мыши
@@ -156,11 +168,12 @@
 					return;
 				elementOnContextMenu(item, menuItems, scope);
 			});
+		}
 	}
 
 	function renderGroup(item, i, svg, tip, menuItems, scope) {
 		var group = svg.append("g");
-		item.ChildElements.forEach(function (childItem, j, arr) { renderShape(childItem, j, group, null, scope); });
+		item.ChildElements.forEach(function (childItem, j, arr) { renderShape(childItem, j, group, null, scope, true); });
 		group.append("svg:rect")
 			.attr("width", item.Width)
 			.attr("height", item.Height)
@@ -168,8 +181,7 @@
 			.attr("y", item.Y)
 			.attr("fill", "none")
 			.attr("pointer-events", "all")
-			.attr("id", function (d) { return item.Id.replace(" ", "-") + i })
-			.attr("subElementId", function () { return item.Id.replace(" ", "-") + "GroupElement" })
+			.attr("id", function (d) { return item.Id.replace(" ", "-") + "GroupElement" })
 			// Обработка события наведения мыши
 			.on("mouseover", function (d) {
 				if (item.HasOverlay && item.BorderMouseOver) {
@@ -178,7 +190,7 @@
 				}
 				if (!item.Hint)
 					return;
-				var id = document.getElementById(item.Id.replace(" ", "-") + i);
+				var id = document.getElementById(item.Id.replace(" ", "-") + "GroupElement");
 				tip.show(renderTipContent(item.Hint.StateHintLines), id);
 			})
 			// Обработка события прекращения наведения мыши
@@ -189,22 +201,15 @@
 			// Обработка события левого клика мыши
 			.on("click", function (d) { })
 			// Обработка события вызова контекстного меню
-			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); });
-		$("rect[subElementId=" + item.Id.replace(" ", "-") + "GroupElement" + "]").on("updateHint", function (e, stateHintLines) {
-			item.Hint.StateHintLines = [];
-			var linesCount = stateHintLines.length;
-			if (linesCount && linesCount > 0) {
-				for (var i = 0; i < linesCount; i++)
-					item.Hint.StateHintLines.push(stateHintLines[i]);
-			}
-			else
-				item.Hint.StateHintLines.push({ Icon: stateHintLines.Icon, Text: stateHintLines.Text });
-
-		});
+			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); })
+			.on("updateHint", function (data) {
+				console.log("Updating hint on:", item.Id, item.Text);
+				item.Hint = data.hint;
+			});
 	}
 
 	// Отрисовка одного элемента на канве
-	function renderShape(item, i, svg, tip, scope) {
+	function renderShape(item, i, svg, tip, scope, isGroupElement) {
 
 		// Создаем элементы меню
 		var menuItems = ["Свойства..."];
@@ -222,20 +227,19 @@
 				case "Plan":
 					{
 						if (item.Image === "")
-							renderPathElement(item, i, svg, tip, menuItems, scope);
+							renderPathElement(item, i, svg, tip, menuItems, scope, isGroupElement);
 						else
-							renderPngImageElement(item, i, svg, tip, menuItems, scope);
+							renderPngImageElement(item, i, svg, tip, menuItems, scope, isGroupElement);
 						break;
 					}
 				case "GkDevice":
 					{
-						renderGifImageElement(item, i, svg, tip, menuItems, scope);
+						renderGifImageElement(item, i, svg, tip, menuItems, scope, isGroupElement);
 						break;
 					}
 				case "Path":
 					{
-						renderPathElement(item, i, svg, tip, menuItems, scope);
-
+						renderPathElement(item, i, svg, tip, menuItems, scope, isGroupElement);
 						break;
 					}
 				default:
@@ -331,10 +335,28 @@
 					);
 
 					// Перерисовка канвы при изменении входных данных
-					scope.$watch("d3Data", function () { return scope.render(); }, true);
+					scope.$on("planLoad", function (event, data) { return scope.render(); });
 
 					// Функция отрисовки канвы
 					scope.render = function () { renderSvg(tip, scope, iElement[0]); };
+
+					scope.$on('updateDeviceState', function (event, stateData) {
+						var uid = stateData.Id.replace(" ", "-");
+						var imageElement = d3.select($("image[id=" + uid + "]")[0]);
+						if (imageElement && imageElement.length > 0 && imageElement[0][0]) {
+							imageElement.on('updateImage')({
+								Image: stateData.Picture
+							});
+						}
+						var groupElementUid = stateData.Id.replace(" ", "-") + "GroupElement";
+						console.log("Triggering hint update on:", groupElementUid);
+						var groupElement = d3.select($("rect[id=" + groupElementUid + "]")[0]);
+						if (groupElement && groupElement.length > 0 && groupElement[0][0]) {
+							groupElement.on('updateHint')({
+								hint: stateData.Hint
+							});
+						}
+					});
 				}
 			};
 		}

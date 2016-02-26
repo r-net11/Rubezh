@@ -30,10 +30,6 @@ namespace VideoModule.ViewModels
 			Camera = camera;
 			PresentationName = presentationName;
 		}
-		public CameraViewModel(RviChannel channel) : this()
-		{
-			PresentationName = channel.Name;
-		}
 		public CameraViewModel(RviDevice rviDevice) : this()
 		{
 			RviDevice = rviDevice;
@@ -46,7 +42,7 @@ namespace VideoModule.ViewModels
 		{
 			RviServer = rviServer;
 			Status = rviServer.Status;
-			PresentationName = rviServer.Name;
+			PresentationName = rviServer.PresentationName;
 			rviServer.StatusChanged += OnServerStatusChanged;
 		}
 		void OnServerStatusChanged()

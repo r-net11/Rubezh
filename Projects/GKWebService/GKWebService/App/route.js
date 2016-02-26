@@ -5,7 +5,18 @@
 
         $urlRouterProvider.otherwise("/");
 
-        $stateProvider.state('state', {
+        $stateProvider.state('login', {
+            url: "/login",
+            onEnter: ['$uibModal', function ($uibModal) {
+                $uibModal.open({
+                    templateUrl: '/Home/Login',
+                    controller: 'loginCtrl',
+                    backdrop: 'static',
+                    size: 'rbzh',
+                    keyboard: false
+                });
+            }]
+        }).state('state', {
             url: "/state/:alarmType",
             templateUrl: "/Alarms/Alarms"
         }).state('device', {
@@ -13,7 +24,7 @@
             templateUrl: "/Devices/Index"
         }).state('params', {
             url: "/params/:uid",
-            templateUrl: "/params/Index"
+            templateUrl: "/DeviceParameters/Index"
         }).state('fireZones', {
             url: "/fireZones/:uid",
             templateUrl: "/FireZones/Index"
@@ -45,7 +56,7 @@
             url: "/doors/:uid",
             templateUrl: "/Doors/Door"
         }).state('hr', {
-            url: "/hr",
+            url: "/hr"//,
             //templateUrl: "/Hr/Index"
         });
     });

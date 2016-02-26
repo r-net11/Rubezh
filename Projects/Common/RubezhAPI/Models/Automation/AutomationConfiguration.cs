@@ -16,6 +16,7 @@ namespace RubezhAPI.Automation
 			AutomationSounds = new List<AutomationSound>();
 			OPCServers = new List<OPCServer>();
 			GlobalVariables = new List<Variable>();
+			OpcDaTagFilters = new List<OpcDaTagFilter>();
 		}
 
 		[DataMember]
@@ -35,6 +36,9 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public List<OpcDaServer> OpcDaTsServers { get; set; }
+
+		[DataMember]
+		public List<OpcDaTagFilter> OpcDaTagFilters { get; set; }
 
 		public void UpdateConfiguration()
 		{

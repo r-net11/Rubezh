@@ -103,7 +103,13 @@ namespace FiresecService
 
 		static void EventHandler_MenuItemExit_Click(object sender, EventArgs e)
 		{
-			Application.Exit();
+			var result = MessageBox.Show("Вы уверены, что хотите остановить сервер?", "Глобал",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			
+			if (result == DialogResult.Yes)
+			{
+				Application.Exit();
+			}
 		}
 
 		/// <summary>

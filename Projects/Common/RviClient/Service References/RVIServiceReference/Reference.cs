@@ -43,6 +43,10 @@ namespace RviClient.RVIServiceReference {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmSetChannelIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmDisableChannelIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.ChannelStreamingStartIn))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.ClientListIn))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.LoginListIn))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.WindowListIn))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.OpenWindowIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.SessionInitialiazationIn))]
     public partial class DocumentInBase : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -725,6 +729,102 @@ namespace RviClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ClientListIn", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class ClientListIn : RviClient.RVIServiceReference.DocumentInBase {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LoginListIn", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class LoginListIn : RviClient.RVIServiceReference.DocumentInBase {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="WindowListIn", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class WindowListIn : RviClient.RVIServiceReference.DocumentInBase {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="OpenWindowIn", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class OpenWindowIn : RviClient.RVIServiceReference.DocumentInBase {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid GuidWindowField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IPField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LoginField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private RviClient.RVIServiceReference.Monitor MonitorField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid GuidWindow {
+            get {
+                return this.GuidWindowField;
+            }
+            set {
+                if ((this.GuidWindowField.Equals(value) != true)) {
+                    this.GuidWindowField = value;
+                    this.RaisePropertyChanged("GuidWindow");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string IP {
+            get {
+                return this.IPField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IPField, value) != true)) {
+                    this.IPField = value;
+                    this.RaisePropertyChanged("IP");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Login {
+            get {
+                return this.LoginField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LoginField, value) != true)) {
+                    this.LoginField = value;
+                    this.RaisePropertyChanged("Login");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public RviClient.RVIServiceReference.Monitor Monitor {
+            get {
+                return this.MonitorField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MonitorField, value) != true)) {
+                    this.MonitorField = value;
+                    this.RaisePropertyChanged("Monitor");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="SessionInitialiazationIn", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionInitialiazationIn : RviClient.RVIServiceReference.DocumentInBase {
@@ -762,6 +862,84 @@ namespace RviClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Monitor", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class Monitor : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double XField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double YField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Number {
+            get {
+                return this.NumberField;
+            }
+            set {
+                if ((this.NumberField.Equals(value) != true)) {
+                    this.NumberField = value;
+                    this.RaisePropertyChanged("Number");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double X {
+            get {
+                return this.XField;
+            }
+            set {
+                if ((this.XField.Equals(value) != true)) {
+                    this.XField = value;
+                    this.RaisePropertyChanged("X");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Y {
+            get {
+                return this.YField;
+            }
+            set {
+                if ((this.YField.Equals(value) != true)) {
+                    this.YField = value;
+                    this.RaisePropertyChanged("Y");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="DocumentOutBase", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Commo" +
         "n")]
     [System.SerializableAttribute()]
@@ -786,6 +964,10 @@ namespace RviClient.RVIServiceReference {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmSetChannelOut))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.AlarmDisableChannelOut))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.ChannelStreamingStartOut))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.ClientListOut))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.LoginListOut))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.WindowListOut))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.OpenWindowOut))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RviClient.RVIServiceReference.SessionInitialiazationOut))]
     public partial class DocumentOutBase : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -1345,6 +1527,86 @@ namespace RviClient.RVIServiceReference {
                 }
             }
         }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ClientListOut", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class ClientListOut : RviClient.RVIServiceReference.DocumentOutBase {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string[] IPField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string[] IP {
+            get {
+                return this.IPField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IPField, value) != true)) {
+                    this.IPField = value;
+                    this.RaisePropertyChanged("IP");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LoginListOut", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class LoginListOut : RviClient.RVIServiceReference.DocumentOutBase {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string[] LoginField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string[] Login {
+            get {
+                return this.LoginField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LoginField, value) != true)) {
+                    this.LoginField = value;
+                    this.RaisePropertyChanged("Login");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="WindowListOut", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class WindowListOut : RviClient.RVIServiceReference.DocumentOutBase {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private RviClient.RVIServiceReference.WindowClient[] WindowField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public RviClient.RVIServiceReference.WindowClient[] Window {
+            get {
+                return this.WindowField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WindowField, value) != true)) {
+                    this.WindowField = value;
+                    this.RaisePropertyChanged("Window");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="OpenWindowOut", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class OpenWindowOut : RviClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -2036,6 +2298,68 @@ namespace RviClient.RVIServiceReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="WindowClient", Namespace="http://schemas.datacontract.org/2004/07/RVI.IntegrationInterface.XmlSchemas.Opera" +
+        "tor")]
+    [System.SerializableAttribute()]
+    public partial class WindowClient : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid GuidField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid Guid {
+            get {
+                return this.GuidField;
+            }
+            set {
+                if ((this.GuidField.Equals(value) != true)) {
+                    this.GuidField = value;
+                    this.RaisePropertyChanged("Guid");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="RVIServiceReference.IIntegration")]
     public interface IIntegration {
@@ -2105,6 +2429,18 @@ namespace RviClient.RVIServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIntegration/AlarmDisableChannel", ReplyAction="http://tempuri.org/IIntegration/AlarmDisableChannelResponse")]
         RviClient.RVIServiceReference.AlarmDisableChannelOut AlarmDisableChannel(RviClient.RVIServiceReference.AlarmDisableChannelIn document);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIntegration/GetClientList", ReplyAction="http://tempuri.org/IIntegration/GetClientListResponse")]
+        RviClient.RVIServiceReference.ClientListOut GetClientList(RviClient.RVIServiceReference.ClientListIn document);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIntegration/GetLoginList", ReplyAction="http://tempuri.org/IIntegration/GetLoginListResponse")]
+        RviClient.RVIServiceReference.LoginListOut GetLoginList(RviClient.RVIServiceReference.LoginListIn document);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIntegration/GetWindowList", ReplyAction="http://tempuri.org/IIntegration/GetWindowListResponse")]
+        RviClient.RVIServiceReference.WindowListOut GetWindowList(RviClient.RVIServiceReference.WindowListIn document);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIntegration/OpenWindow", ReplyAction="http://tempuri.org/IIntegration/OpenWindowResponse")]
+        RviClient.RVIServiceReference.OpenWindowOut OpenWindow(RviClient.RVIServiceReference.OpenWindowIn document);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -2220,6 +2556,22 @@ namespace RviClient.RVIServiceReference {
         
         public RviClient.RVIServiceReference.AlarmDisableChannelOut AlarmDisableChannel(RviClient.RVIServiceReference.AlarmDisableChannelIn document) {
             return base.Channel.AlarmDisableChannel(document);
+        }
+        
+        public RviClient.RVIServiceReference.ClientListOut GetClientList(RviClient.RVIServiceReference.ClientListIn document) {
+            return base.Channel.GetClientList(document);
+        }
+        
+        public RviClient.RVIServiceReference.LoginListOut GetLoginList(RviClient.RVIServiceReference.LoginListIn document) {
+            return base.Channel.GetLoginList(document);
+        }
+        
+        public RviClient.RVIServiceReference.WindowListOut GetWindowList(RviClient.RVIServiceReference.WindowListIn document) {
+            return base.Channel.GetWindowList(document);
+        }
+        
+        public RviClient.RVIServiceReference.OpenWindowOut OpenWindow(RviClient.RVIServiceReference.OpenWindowIn document) {
+            return base.Channel.OpenWindow(document);
         }
     }
 }

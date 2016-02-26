@@ -27,12 +27,12 @@
 		<Views:PreviewView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SettingsSelectionViewModel}">
-		<Views:SettingsSelectionView />
+	<DataTemplate DataType="{x:Type ViewModels:RviSettingsViewModel}">
+		<Views:RviSettingsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DeviceSelectionViewModel}">
-		<Views:DeviceSelectionView />
+	<DataTemplate DataType="{x:Type ViewModels:RviDeviceSelectionViewModel}">
+		<Views:RviDeviceSelectionView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:CameraSelectionViewModel}">

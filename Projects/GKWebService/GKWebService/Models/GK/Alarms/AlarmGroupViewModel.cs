@@ -53,8 +53,8 @@ namespace GKWebService.Models.GK.Alarms
 		}
 		public ShortAlarmObject(AlarmViewModel model)
 		{
-			ObjectName = model.ObjectName;
-			ObjectImageSource = model.ObjectImageSource;
+			ObjectName = model.GkEntity.Name;
+			ObjectImageSource = model.GkEntity.ImageSource;
 		}
 	}
 }

@@ -5,12 +5,32 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="50" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="50" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
 			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}" IsReadOnly="False">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Название" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Grid VerticalAlignment="Center" Width="16" Height="16" Background="{DynamicResource BlueFilter}" Margin="2 0 0 0" />
+								<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<StackPanel Grid.Row="2" Orientation="Horizontal">
+			<ToolBarButton Command="{Binding AddOpcTagFilterCommand}" ToolTip="Добавить OPC DA тег" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить OPC DA тег" ImageSource="Delete"  />
+		</StackPanel>
+		<DataGrid Grid.Row="3" ItemsSource="{Binding OpcTagFilters}" SelectedItem="{Binding SelectedOpcDaTagFilter}" IsReadOnly="False">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Название" Width="*">
 					<DataGridTemplateColumn.CellTemplate>

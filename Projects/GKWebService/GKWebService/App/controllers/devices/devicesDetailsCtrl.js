@@ -1,8 +1,9 @@
 ﻿(function () {
 
 	angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
-        function ($scope, $http, uiGridConstants, $uibModalInstance, device) {
-        	$scope.device = device;
+        ['$scope', '$http', '$timeout', 'uiGridConstants', '$uibModalInstance', '$state', 'signalrDevicesService', 'entity',
+        function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
+        	$scope.device = entity;
 
         	$scope.$on('devicesChanged', function (event, args) {
         		if (args.UID === $scope.device.UID) {
@@ -11,9 +12,10 @@
         		};
         	});
 
-        	function gridConfig(data) {
+        	var tmp = '<div align="center" style="color: black; font-weight: bold">{{row.entity[col.field]}}</div>';
+
+        	function gridConfig(data, colDefs) {
         		var config = {};
-        		var tmp = '<div align="center" style="color: black; font-weight: bold">{{row.entity[col.field]}}</div>';
         		config.data = data;
         		config.enableRowHeaderSelection = false;
         		config.enableSorting = false;
@@ -22,27 +24,28 @@
         		config.enableVerticalScrollbar = uiGridConstants.scrollbars.NEVER;
         		config.enableHorizontalScrollbar = uiGridConstants.scrollbars.NEVER;
         		config.rowHeight = 35;
-        		config.columnDefs = [
-					{ field: 'Name', displayName: 'Параметр', cellTemplate: tmp },
-					{ field: 'Value', displayName: 'Значение', cellTemplate: tmp }
-        		];
+        		config.columnDefs = colDefs;
         		return config;
         	}
 
-        	$scope.gridMeasurements = gridConfig(device.MeasureParameters);
+        	$scope.gridMeasurements = gridConfig($scope.device.MeasureParameters, [
+					{ field: 'Name', displayName: 'Параметр', cellTemplate: tmp },
+					{ field: 'Value', displayName: 'Значение', cellTemplate: tmp }
+        	]);
 
         	var parameters = [];
-        	for (var i in device.Properties) {
-        		if (device.Properties[i].DriverProperty.IsAUParameter) {
-        			var name = device.Properties[i].DriverProperty.Caption;
-        			var value = device.Properties[i].Value;
-        			if (device.Properties[i].DriverProperty.Parameters.length === 0) {
-        				value = device.Properties[i].DriverProperty.Multiplier > 0 ? value / device.Properties[i].DriverProperty.Multiplier : value;
+
+        	for (var i in $scope.device.Properties) {
+        		if ($scope.device.Properties[i].DriverProperty.IsAUParameter) {
+        			var name = $scope.device.Properties[i].DriverProperty.Caption;
+        			var value = $scope.device.Properties[i].Value;
+        			if ($scope.device.Properties[i].DriverProperty.Parameters.length === 0) {
+        				value = $scope.device.Properties[i].DriverProperty.Multiplier > 0 ? value / $scope.device.Properties[i].DriverProperty.Multiplier : value;
         			}
         			else {
-        				for (var j in device.Properties[i].DriverProperty.Parameters) {
-        					if (device.Properties[i].DriverProperty.Parameters[j].Value === device.Properties[i].Value) {
-        						value = device.Properties[i].DriverProperty.Parameters[j].Name;
+        				for (var j in $scope.device.Properties[i].DriverProperty.Parameters) {
+        					if ($scope.device.Properties[i].DriverProperty.Parameters[j].Value === $scope.device.Properties[i].Value) {
+        						value = $scope.device.Properties[i].DriverProperty.Parameters[j].Name;
         					}
         				}
         			}
@@ -50,7 +53,16 @@
         		}
         	};
 
-        	$scope.gridParameters = gridConfig(parameters);
+        	$scope.gridParameters = gridConfig(parameters, [
+					{ field: 'Name', displayName: 'Параметр', cellTemplate: tmp },
+					{ field: 'Value', displayName: 'Значение', cellTemplate: tmp }
+        	]);
+
+        	$scope.onTabSelected = function () {
+        		$timeout(function () {
+        			$(window).resize();
+        		});
+        	}
 
         	$scope.SetIgnoreState = function () {
         		$http.post('Devices/SetIgnoreState', { id: $scope.device.UID });
@@ -84,12 +96,20 @@
         		$http.post('Devices/TurnOff', { id: $scope.device.UID });
         	};
 
-        	$scope.Show = function () {
-
+        	$scope.ShowJournal = function () {
+        		$state.go('archive', { uid: $scope.device.UID });
+        	};
+			
+        	$scope.ShowDevice = function () {
+        		$state.go('device', { uid: $scope.device.UID });
         	};
 
-        	$scope.ShowJournal = function () {
+        	$scope.ShowParentDevice = function () {
+        		$state.go('device', { uid: $scope.device.ParentUID });
+        	};
 
+        	$scope.ShowZone = function () {
+        		$state.go('fireZones', { uid: $scope.device.ZoneUID });
         	};
 
         	$scope.ok = function () {
@@ -99,6 +119,6 @@
         	$scope.cancel = function () {
         		$uibModalInstance.dismiss('cancel');
         	};
-        }
+        }]
     );
 }());

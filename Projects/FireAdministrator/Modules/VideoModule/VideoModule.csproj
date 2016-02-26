@@ -113,13 +113,14 @@
     <Compile Include="ViewModels\CamerasViewModel.cs" />
     <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
     <Compile Include="ViewModels\CamerasSelectionViewModel.cs" />
-    <Compile Include="ViewModels\DeviceSelectionViewModel.cs" />
-    <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\RviDeviceSelectionViewModel.cs" />
+    <Compile Include="ViewModels\RviDeviceViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
     <Compile Include="ViewModels\PreviewViewModel.cs" />
-    <Compile Include="ViewModels\SettingsSelectionViewModel.cs" />
+    <Compile Include="ViewModels\RviSettingsViewModel.cs" />
+    <Compile Include="ViewModels\RviStreamViewModel.cs" />
     <Compile Include="Views\CameraSelectionView.xaml.cs">
       <DependentUpon>CameraSelectionView.xaml</DependentUpon>
     </Compile>
@@ -135,8 +136,8 @@
     <Compile Include="Views\CamerasSelectionView.xaml.cs">
       <DependentUpon>CamerasSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DeviceSelectionView.xaml.cs">
-      <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
+    <Compile Include="Views\RviDeviceSelectionView.xaml.cs">
+      <DependentUpon>RviDeviceSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartCameraView.xaml.cs">
       <DependentUpon>LayoutPartCameraView.xaml</DependentUpon>
@@ -147,8 +148,8 @@
     <Compile Include="Views\PreviewView.xaml.cs">
       <DependentUpon>PreviewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsSelectionView.xaml.cs">
-      <DependentUpon>SettingsSelectionView.xaml</DependentUpon>
+    <Compile Include="Views\RviSettingsView.xaml.cs">
+      <DependentUpon>RviSettingsView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -189,7 +190,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DeviceSelectionView.xaml">
+    <Page Include="Views\RviDeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,7 +206,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsSelectionView.xaml">
+    <Page Include="Views\RviSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

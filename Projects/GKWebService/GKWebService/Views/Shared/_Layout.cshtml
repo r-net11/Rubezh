@@ -26,7 +26,7 @@
 		  rel="stylesheet">
 	@Styles.Render("~/Content/css")
 
-    <link href="~/Content/ui-grid.css" rel="stylesheet" />
+	<link href="~/Content/ui-grid.css" rel="stylesheet" />
 	<link rel="stylesheet/less" type="text/css" href="~/Content/main.less" />
 	<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet">
 	<link href="~/Content/themes/base/customTheme.css"
@@ -37,31 +37,9 @@
 </head>
 <body ng-app="gkApp">
 	<div class="wrapper">
-    		<header class="header">
+		<header class="header">
 			<div class="left" data-bind="with: Header">
 
-
-				<div id="login-box" class="login-popup">
-					<div class="title-bar">
-						<span>Оперативная задача Глобал</span>
-						<a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: LogonClose" /></a>
-					</div>
-					<div class="signin">
-						<fieldset class="textbox">
-
-							<label class="username">
-								<input id="username" data-bind="value: login" name="username" value="" type="text" autocomplete="on" placeholder="Логин">
-							</label>
-							<label class="password">
-								<input id="password" data-bind="value: password" name="password" value="" type="password" placeholder="Пароль">
-							</label>
-
-							<button class="submit button" type="button" data-bind="click: Enter">Войти</button>
-							<label data-bind="text: logon_error"></label>
-
-						</fieldset>
-					</div>
-				</div>
 
 				<div id="question-box" class="save-cancel-popup">
 					<div class="title-bar">
@@ -86,9 +64,9 @@
 					<div class="icon plan on"></div>
 				</div>
 			</div>
-		    <div class="right">
-		        @Html.Action("AlarmGroups", "Alarms")
-		    </div>
+			<div class="right">
+				@Html.Action("AlarmGroups", "Alarms")
+			</div>
 		</header><!-- .header-->
 
 		<div class="middle" data-bind="with: Menu">
@@ -100,24 +78,25 @@
 
 			<aside class="left-sidebar" ng-controller="navCtrl">
 				<ul class="menu">
+					<li ng-class="{active: isPageActive('plan')}"><a ui-sref='plan'><span class="icon plans"></span><span class="text">Графические планы</span></a></li>
 					<li ng-class="{clicked: groupControlClicked}">
 						<a class="group-control" href="" ng-click="groupControlClicked = !groupControlClicked"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
-                        <ul>
+						<ul>
 							<li ng-class="{active: isPageActive('state')}"><a ui-sref="state({alarmType: ''})"><span class="icon state"></span><span class="text">Состояния</span></a></li>
-                            <li ng-class="{active: isPageActive('device')}"><a ui-sref="device({uid: ''})"><span class="icon device"></span><span class="text">Устройства</span></a></li>
-                            <li ng-class="{active: isPageActive('params')}"><a ui-sref="params({uid: ''})"><span class="icon params"></span><span class="text">Параметры</span></a></li>
+							<li ng-class="{active: isPageActive('device')}"><a ui-sref="device({uid: ''})"><span class="icon device"></span><span class="text">Устройства</span></a></li>
+							<li ng-class="{active: isPageActive('params')}"><a ui-sref="params({uid: ''})"><span class="icon params"></span><span class="text">Параметры</span></a></li>
 							<li ng-class="{active: isPageActive('fireZones')}"><a ui-sref="fireZones({uid: ''})"><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
-                            <li ng-class="{active: isPageActive('pumpStations')}"><a ui-sref="pumpStations({uid: ''})"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
-                            <li ng-class="{active: isPageActive('guardZone')}"><a ui-sref="guardZone({uid: ''})"><span class="icon firezones"></span><span class="text">Охранные зоны</span></a></li>
-                           	<li ng-class="{active: isPageActive('directions')}"><a ui-sref="directions({uid: ''})"><span class="icon firezones"></span><span class="text">Направления</span></a></li>
+							<li ng-class="{active: isPageActive('guardZone')}"><a ui-sref="guardZone({uid: ''})"><span class="icon firezones"></span><span class="text">Охранные зоны</span></a></li>
+							<li ng-class="{active: isPageActive('directions')}"><a ui-sref="directions({uid: ''})"><span class="icon directions"></span><span class="text">Направления</span></a></li>
 							<li ng-class="{active: isPageActive('delays')}"><a ui-sref="delays({uid: ''})"><span class="icon delays"></span><span class="text">Задержки</span></a></li>
-                            <li ng-class="{active: isPageActive('MPTs')}"><a ui-sref="MPTs({uid: ''})"><span class="icon delays"></span><span class="text">МПТ</span></a></li>
-                            <li ng-class="{active: isPageActive('doors')}"><a ui-sref="doors({uid: ''})"><span class="icon delays"></span><span class="text">Точки доступа</span></a></li>
-                        </ul>
+							<li ng-class="{active: isPageActive('pumpStations')}"><a ui-sref="pumpStations({uid: ''})"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
+							<li ng-class="{active: isPageActive('MPTs')}"><a ui-sref="MPTs({uid: ''})"><span class="icon mpt"></span><span class="text">МПТ</span></a></li>
+							<li ng-class="{active: isPageActive('doors')}"><a ui-sref="doors({uid: ''})"><span class="icon doors"></span><span class="text">Точки доступа</span></a></li>
+						</ul>
 					</li>
 					<li class="event-log" ng-class="{active: isPageActive('journal')}"><a ui-sref='journal'><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
 					<li ng-class="{active: isPageActive('archive')}"><a ui-sref='archive'><span class="icon archive"></span><span class="text">Архив</span></a></li>
-					<li ng-class="{active: isPageActive('reports')}"><a ui-sref='reports'><span class="icon reports"></span><span class="text">Отчёты</span></a></li>
+					@*<li ng-class="{active: isPageActive('reports')}"><a ui-sref='reports'><span class="icon reports"></span><span class="text">Отчёты</span></a></li>*@
 					<li class="SKD has-sub last" ng-class="{clicked: skdClicked}">
 						<a ng-click="skdClicked = !skdClicked"><span class="icon SKD"></span><span class="text">СКД</span></a>
 						<ul>
@@ -126,7 +105,6 @@
 							</li>
 						</ul>
 					</li>
-					<li ng-class="{active: isPageActive('plan')}"><a ui-sref='plan'><span class="icon archive"></span><span class="text">Планы</span></a></li>
 				</ul>
 			</aside><!-- .left-sidebar -->
 
@@ -151,57 +129,68 @@
 	<script src="~/Scripts/d3tip.js"></script>
 	<script src="~/Scripts/ui-grid.min.js"></script>
 	<script src="~/Scripts/angular-ui-tree/angular-ui-tree.js"></script>
-    <script src="~/Scripts/angular-ui-router.min.js"></script>
+	<script src="~/Scripts/angular-ui-router.min.js"></script>
 
 	<script src="~/App/app.js"></script>
-    <script src="~/App/constants.js"></script>
-    <script src="~/App/route.js"></script>
+	<script src="~/App/constants.js"></script>
+	<script src="~/App/route.js"></script>
 
-    <script src="~/App/controllers/signalrCtrl.js"></script>
+	<script src="~/App/controllers/signalrCtrl.js"></script>
 	<script src="~/App/controllers/planCtrl.js"></script>
 	<script src="~/App/directives/d3Plan.js"></script>
-    <script src="~/App/directives/alarmBtn.js"></script>
-    <script src="~/App/directives/modalDraggable.js"></script>
-    <script src="~/App/directives/modaless.js"></script>
-    <script src="~/App/services/broadcastService.js"></script>
-    <script src="~/App/services/signalrAlarmsService.js"></script>
+	<script src="~/App/directives/alarmBtn.js"></script>
+	<script src="~/App/directives/modalDraggable.js"></script>
+	<script src="~/App/directives/modaless.js"></script>
+	<script src="~/App/services/broadcastService.js"></script>
+	<script src="~/App/services/signalrAlarmsService.js"></script>
 	<script src="~/App/services/signalrService.js"></script>
+	<script src="~/App/services/signalrDeviceParametersService.js"></script>
 	<script src="~/App/services/signalrDelaysService.js"></script>
-    <script src="~/App/services/signalrDirectionsService.js"></script>
+	<script src="~/App/services/signalrDirectionsService.js"></script>
 	<script src="~/App/services/signalrJournalService.js"></script>
-    <script src="~/App/services/signalrFireZonesService.js"></script>
-    <script src="~/App/services/signalrMPTsService.js"></script>
-    <script src="~/App/services/signalrPumpStationService.js"></script>
-    <script src="~/App/services/signalrGuardZonesService.js"></script>
-    <script src="~/App/controllers/navCtrl.js"></script>
-    <script src="~/App/services/signalrDoorsService.js"></script>
-    <script src="~/App/controllers/Doors/doorsCtrl.js"></script>
-    <script src="~/App/controllers/Doors/doorDetailsCtrl.js"></script>
-    <script src="~/App/controllers/GuardZones/guardZonesCtrl.js"></script>
-    <script src="~/App/controllers/GuardZones/guardZoneDetailsCtrl.js"></script>
-    <script src="~/App/controllers/fireZones/fireZonesCtrl.js"></script>
+	<script src="~/App/services/signalrFireZonesService.js"></script>
+	<script src="~/App/services/signalrFireZonesDevicesService.js"></script>
+	<script src="~/App/services/signalrMPTsService.js"></script>
+	<script src="~/App/services/signalrPumpStationService.js"></script>
+	<script src="~/App/services/signalrGuardZonesService.js"></script>
+	<script src="~/App/services/dialogService.js"></script>
+	<script src="~/App/services/journalService.js"></script>
+	<script src="~/App/services/signalrConfigService.js"></script>
+
+	<script src="~/App/services/signalrDoorsService.js"></script>
+	<script src="~/App/controllers/navCtrl.js"></script>
+    <script src="~/App/controllers/Common/loginCtrl.js"></script>
+	<script src="~/App/controllers/Doors/doorsCtrl.js"></script>
+	<script src="~/App/controllers/Doors/doorDetailsCtrl.js"></script>
+	<script src="~/App/controllers/GuardZones/guardZonesCtrl.js"></script>
+	<script src="~/App/controllers/GuardZones/guardZoneDetailsCtrl.js"></script>
+	<script src="~/App/controllers/fireZones/fireZonesCtrl.js"></script>
+	<script src="~/App/controllers/fireZones/fireZonesDevicesCtrl.js"></script>
 	<script src="~/App/controllers/fireZones/fireZonesDetailsCtrl.js"></script>
-    <script src="~/App/controllers/PumpStations/pumpStationDevicesCtrl.js"></script>
-    <script src="~/App/controllers/PumpStations/pumpStationsCtrl.js"></script>
-    <script src="~/App/controllers/PumpStations/pumpStationDetailsCtrl.js"></script>
-    <script src="~/App/controllers/directions/directionsCtrl.js"></script>
-    <script src="~/App/controllers/directions/directionDetailsCtrl.js"></script>
-    <script src="~/App/controllers/MPTs/mptsDetailsCtrl.js"></script>
-    <script src="~/App/controllers/MPTs/mptsCtrl.js"></script>
-    <script src="~/App/services/signalrDevicesService.js"></script>
+	<script src="~/App/services/signalrGuardZonesService.js"></script>
+	<script src="~/App/controllers/GuardZones/guardZoneDevicesCtrl.js"></script>
+	<script src="~/App/controllers/PumpStations/pumpStationDevicesCtrl.js"></script>
+	<script src="~/App/controllers/PumpStations/pumpStationsCtrl.js"></script>
+	<script src="~/App/controllers/PumpStations/pumpStationDetailsCtrl.js"></script>
+	<script src="~/App/controllers/directions/directionsCtrl.js"></script>
+	<script src="~/App/controllers/directions/directionDetailsCtrl.js"></script>
+	<script src="~/App/controllers/MPTs/mptsDetailsCtrl.js"></script>
+	<script src="~/App/controllers/MPTs/mptsCtrl.js"></script>
+	<script src="~/App/services/signalrDevicesService.js"></script>
 	<script src="~/App/controllers/delays/delaysCtrl.js"></script>
 	<script src="~/App/controllers/delays/delayDetailsCtrl.js"></script>
 	<script src="~/App/controllers/archive/archiveCtrl.js"></script>
 	<script src="~/App/controllers/archive/archiveFilterCtrl.js"></script>
 	<script src="~/App/controllers/journal/journalCtrl.js"></script>
-	<script src="~/App/controllers/journal/journalFilterCtrl.js"></script>
-    <script src="~/App/controllers/devices/devicesCtrl.js"></script>
-    <script src="~/App/controllers/devices/devicesDetailsCtrl.js"></script>
+	<script src="~/App/controllers/devices/devicesCtrl.js"></script>
+	<script src="~/App/controllers/devices/devicesDetailsCtrl.js"></script>
+	<script src="~/App/controllers/deviceParameters/deviceParametersCtrl.js"></script>
+	<script src="~/App/controllers/deviceParameters/deviceParametersDetailsCtrl.js"></script>
 	<script src="~/App/directives/devicesGrid.js"></script>
-	<script src="~/App/controllers/devices/deviceParametersCtrl.js"></script>
-    <script src="~/App/controllers/alarms/alarmGroupsCtrl.js"></script>
-    <script src="~/App/controllers/alarms/alarmsCtrl.js"></script>
-    <script src="~/App/controllers/MPTs/devicesMPTCtrl.js"></script>
+	<script src="~/App/controllers/alarms/alarmGroupsCtrl.js"></script>
+	<script src="~/App/controllers/alarms/alarmsCtrl.js"></script>
+	<script src="~/App/controllers/MPTs/devicesMPTCtrl.js"></script>
+	<script src="~/App/controllers/restart/restartDetailsCtrl.js"></script>
 	@*<script src="~/Scripts/report.js"></script>*@
 	<script src="~/Scripts/HR.js"></script>
 	<script src="~/Scripts/HrFilter.js"></script>
@@ -214,7 +203,7 @@
 	<script src="~/Scripts/SKD/Employees/CardRemovalReasonViewModel.js"></script>
 	<script src="~/Scripts/HrEmployeeCards.js"></script>
 	<script src="~/Scripts/SKD/Departments/DepartmentsViewModel.js"></script>
-	<script src="~/Scripts/SKD/Departments/DepartmentDetailsViewModel.js"></script> 
+	<script src="~/Scripts/SKD/Departments/DepartmentDetailsViewModel.js"></script>
 	<script src="~/Scripts/SKD/Common/EmployeeSelectionDialogViewModel.js"></script>
 	<script src="~/Scripts/SKD/Common/PhotoSelectionViewModel.js"></script>
 	<script src="~/Scripts/SKD/Common/OrganisationsFilterViewModel.js"></script>

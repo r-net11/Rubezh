@@ -25,6 +25,7 @@ using GKWebService.DataProviders.Resources;
 using GKWebService.Models.Plan.PlanElement.Hint;
 using GKWebService.Utils;
 using ImageMagick;
+using ImageProcessor.Imaging.Formats;
 using Infrustructure.Plans.Elements;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -47,6 +48,8 @@ namespace GKWebService.Models.Plan.PlanElement
 		public ElementHint Hint { get; set; }
 
 		public IEnumerable<Shape> ChildElements { get; set; }
+
+		public Device Device { get; set; }
 
 		#endregion
 
@@ -505,9 +508,9 @@ namespace GKWebService.Models.Plan.PlanElement
 
 			// Создаем элемент плана
 			var shape = new PlanElement {
-				Id = item.DeviceUID,
-				SubElementId = item.DeviceUID.ToString(),
-				Name = item.PresentationName,
+				Id = device.UID,
+				SubElementId = device.UID.ToString(),
+				Name = device.PresentationName,
 				Image = GetDeviceStatePic(device, device.State),
 				X = item.Left - 7,
 				Y = item.Top - 7,
@@ -519,14 +522,15 @@ namespace GKWebService.Models.Plan.PlanElement
 			// Добавляем рамку хинта
 			var planElement = new PlanElement {
 				ChildElements = new[] { shape },
-				Id = item.DeviceUID,
-				SubElementId = item.DeviceUID + "GroupElement",
+				Id = device.UID,
+				SubElementId = device.UID + "GroupElement",
 				Hint = GetElementHint(item),
 				Type = ShapeTypes.Group.ToString(),
 				Width = 14,
 				Height = 14,
 				HasOverlay = true,
-				Name = item.PresentationName,
+				Name = device.PresentationName,
+				Device = new Device(device),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = item.Left - 7,
 				Y = item.Top - 7
@@ -545,39 +549,39 @@ namespace GKWebService.Models.Plan.PlanElement
 
 			// Получаем обновленную картинку устройства
 			var getPictureTask = Task.Factory.StartNewSta(() => GetDeviceStatePic(device, state));
-			Task.WaitAll();
+			Task.WaitAll(getPictureTask);
 			var pic = getPictureTask.Result;
-			if (pic == null) {
-				throw new Exception(string.Format("Картинка для состояния устройства {0} не найдена.", device.UID));
+
+			var hint = new ElementHint();
+
+			var hintImageSource = device.ImageSource.Replace("/Controls;component/", "");
+			hint.StateHintLines.Add(new HintLine { Text = device.PresentationName, Icon = (hintImageSource.Trim() != string.Empty) ? GetImageResource(hintImageSource).Item1 : null });
+
+			// Добавляем состояния
+			foreach (var stateClass in device.State.StateClasses) {
+				//Получаем источник иконки для основного класса
+				var iconSourceForStateClasses = stateClass.ToIconSource();
+				hint.StateHintLines.Add(
+					new HintLine {
+						Text = stateClass.ToDescription(),
+						Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
+					});
 			}
-
-			// Получаем названия для состояний
-			var stateClasses = new string[state.StateClasses.Count];
-			for (var index = 0; index < state.StateClasses.Count; index++) {
-				var stateClass = state.StateClasses[index];
-				stateClasses[index] = stateClass.ToDescription();
+			// Добавляем доп. состояния
+			foreach (var stateClass in device.State.AdditionalStates) {
+				//Получаем источник иконки для основного класса
+				var iconSourceForAdditionalStateClasses = stateClass.StateClass.ToIconSource();
+				hint.StateHintLines.Add(
+					new HintLine {
+						Text = stateClass.Name,
+						Icon = iconSourceForAdditionalStateClasses != null ? GetImageResource(iconSourceForAdditionalStateClasses.Replace("/Controls;component/", "")).Item1 : null
+					});
 			}
-
-			ElementGKDevice elemDevice = null;
-
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans) {
-				foreach (var elementGkDevice in plan.ElementGKDevices) {
-					if (elementGkDevice.UID == state.UID) {
-						elemDevice = elementGkDevice;
-						break;
-					}
-				}
-			}
-
 			// Собираем обновление для передачи
 			var statusUpdate = new {
 				Id = state.UID,
 				Picture = pic,
-				Name = elemDevice != null ? elemDevice.PresentationName : device.PresentationName,
-				HintPic = elemDevice != null ? GetElementHintIcon(elemDevice).Item1 : null,
-				StateClass = state.StateClass.ToDescription(),
-				StateClasses = stateClasses,
-				state.AdditionalStates
+				Hint = hint
 			};
 			PlansUpdater.Instance.UpdateDeviceState(statusUpdate);
 		}
@@ -594,7 +598,6 @@ namespace GKWebService.Models.Plan.PlanElement
 			if (stateWithPic == null) {
 				return null;
 			}
-
 			// Перебираем кадры в состоянии и генерируем gif картинку
 			byte[] bytes;
 			using (var collection = new MagickImageCollection()) {
@@ -605,31 +608,33 @@ namespace GKWebService.Models.Plan.PlanElement
 					var imageBytes = Encoding.Unicode.GetBytes(frame1.Image ?? "");
 					using (var stream = new MemoryStream(imageBytes)) {
 						surface = (Canvas)XamlServices.Load(stream);
-						if (surface == null) {
-							continue;
-						}
-						//surface.Background = new SolidColorBrush(Colors.Transparent);
 					}
-					var pngBitmap = InternalConverter.XamlCanvasToPngBitmap(surface);
+					var pngBitmap = surface != null ? InternalConverter.XamlCanvasToPngBitmap(surface) : null;
 					if (pngBitmap == null) {
 						continue;
 					}
 					var img = new MagickImage(pngBitmap) {
 						AnimationDelay = frame.Duration / 10,
-						HasAlpha = true,
-						AlphaColor = new MagickColor(Color.Empty),
-						BackgroundColor = new MagickColor(Color.Empty)
+						HasAlpha = true
 					};
 					collection.Add(img);
 				}
 				if (collection.Count == 0) {
 					return string.Empty;
 				}
+				//Optionally reduce colors
+				QuantizeSettings settings = new QuantizeSettings { Colors = 256 };
+				collection.Quantize(settings);
 
-				using (var stream = new MemoryStream()) {
-					collection.Write(stream, MagickFormat.Gif);
-					bytes = stream.ToArray();
+				// Optionally optimize the images (images should have the same size).
+				collection.Optimize();
+
+				using (var str = new MemoryStream()) {
+					collection.Write(str,MagickFormat.Gif);
+					bytes = str.ToArray();
 				}
+				
+
 			}
 			return Convert.ToBase64String(bytes);
 		}
@@ -778,15 +783,6 @@ namespace GKWebService.Models.Plan.PlanElement
 					&& device.PresentationName != null) {
 					hint.StateHintLines.Add(new HintLine { Text = device.PresentationName, Icon = GetElementHintIcon(asDevice).Item1 });
 
-					//Получаем источник иконки для основного класса
-					var iconSourceForStateClass = device.State.StateClass.ToIconSource();
-
-					// Добавляем основное состояние
-					//hint.StateHintLines.Add(
-					//	new HintLine {
-					//		Text = device.State.StateClass.ToString(),
-					//		Icon = iconSourceForStateClass != null ? GetImageResource(iconSourceForStateClass.Replace("/Controls;component/", "")).Item1 : null
-					//	});
 					// Добавляем состояния
 					foreach (var stateClass in device.State.StateClasses) {
 						//Получаем источник иконки для основного класса
@@ -823,15 +819,6 @@ namespace GKWebService.Models.Plan.PlanElement
 					return null;
 				}
 
-				var deviceConfig =
-					GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
-				if (deviceConfig == null) {
-					return null;
-				}
-
-				var stateWithPic =
-					deviceConfig.States.FirstOrDefault(s => s.StateClass == device.State.StateClass) ??
-					deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
 				imagePath = device.ImageSource.Replace("/Controls;component/", "");
 			}
 			var gkDoor = item as ElementGKDoor;

@@ -1,25 +1,144 @@
-﻿.tab-menu {
-	margin:0 0 10px 0;
+﻿
+/*Buttons, iconed buttons and panels*/
+
+.toolbar {
+	display: inline-block;
+
+	.icon {
+		width: 32px;
+		height: 32px;
+		background-size: 32px 32px;
+		background-repeat: no-repeat;
+		background-position: center;
+		float: left;
+		padding: 5px;
+		border-radius: 5px;
+		border-color: transparent;
+		background-color: transparent;
+		margin-right: 10px;
+		-moz-box-sizing: content-box;
+		-webkit-box-sizing: content-box;
+		box-sizing: content-box;
+		color: white;
+		font-size: x-large;
+
+		&:hover {
+			background-color: @orange;
+		}
+
+		&.add {
+			background-image: url("Image/Icon/Menu/edit/Add.png");
+		}
+
+		&.delete {
+			background-image: url("Image/Icon/Menu/edit/Delete.png");
+		}
+
+		&.edit {
+			background-image: url("Image/Icon/Menu/edit/Edit.png");
+		}
+
+		&.redo {
+			background-image: url("Image/Icon/Menu/edit/Redo.png");
+		}
+
+		&.filter {
+			background-image: url("Image/Icon/Menu/edit/Filter.png");
+		}
+
+		&.archive {
+			background-image: url('Image/Icon/Menu/archive.png');
+		}
+
+		&.print {
+			background-image: url("Image/Icon/Menu/fine/Print.png");
+		}
+
+		&.copy {
+			background-image: url("Image/Icon/Menu/edit/Copy.png");
+		}
+
+		&.paste {
+			background-image: url("Image/Icon/Menu/edit/Paste.png");
+		}
+	}
 }
+
+.btn-control {
+	height: 45px;
+	width: 47%;
+	margin: 4px;
+	display: inline-block;
+}
+
+.tab-menu {
+	margin: 0 0 10px 0;
+}
+
 .modal-footer {
 	padding: 0 15px 15px 15px;
 	background: #266199;
-    border: 0;
+	border: 0;
 }
 
-
-
 .vertical-align {
-  display: flex;
-  -ms-flex-direction: row;
-  -webkit-flex-direction: row;
-  flex-direction: row;
+	display: flex;
+	-ms-flex-direction: row;
+	-webkit-flex-direction: row;
+	flex-direction: row;
 }
 
 .vertical-align > [class^="col-"],
 .vertical-align > [class*=" col-"] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
+.treeImage {
+	vertical-align: middle;
+	margin-right: 3px;
+	width: 16px;
+	height: 16px;
+}
+
+.labelImage {
+	background-position: 5px center;
+	background-size: 16px;
+	background-repeat: no-repeat;
+	padding: 5px 5px 5px 25px;
+	display: inline-block;
+	color: black;
+}
+
+.labelImage-md {
+	background-position: 5px center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+	padding: 5px 5px 5px 30px;
+	display: block;
+	color: black;
+	font-size: large;
+	margin-bottom: 5px;
+}
+
+
+.modal-content {
+
+	.detailsTab {
+		background: #FFF;
+		margin: 5px;
+		display: inline-block;
+		width: 97.5%;
+		height: 300px;
+
+		.properties > div > span {
+			margin-left: 5px;
+			color: black;
+			width: 45%;
+			display: inline-table;
+			font-weight: bold;
+			vertical-align: middle;
+		}
+	}
+}

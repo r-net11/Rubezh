@@ -1,10 +1,14 @@
 ﻿(function () {
 	angular.module('gkApp.controllers').controller('archiveFilterCtrl',
-        function ($scope, $http, $uibModal, $uibModalInstance, $timeout, filter, uiGridTreeBaseService) {
+        function ($scope, $http, $uibModal, $uibModalInstance, $timeout, filter, uiGridTreeBaseService, isArchive) {
         	$scope.toggleRow = function (gridApi, row, evt) {
         		uiGridTreeBaseService.toggleRowTreeState(gridApi.grid, row, evt);
         	};
 
+        	$scope.isArchive = isArchive;
+        	if (!isArchive)
+        		$scope.objectsTabActive = true;
+        	
         	$scope.beginDate = {
         		date: filter && filter.BeginDate ? filter.BeginDate : (function () {
         			var date = new Date();
@@ -40,7 +44,7 @@
         					</i> &nbsp;\
         			</div>\
 					<div ng-style=\"{'color': 'black'}\">\
-						<img style=\"vertical-align: middle; margin-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
+						<img class=\"treeImage\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
         				{{row.entity.Name}}\
         			</div>\
         		</div>";
@@ -76,7 +80,7 @@
         					</i> &nbsp;\
         			</div>\
 					<div ng-style=\"{'color': 'black'}\">\
-						<img style=\"vertical-align: middle; margin-right: 3px\" width=\"16px\" height=\"16px\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
+						<img class=\"treeImage\" ng-src=\"Content/Image/{{row.entity.ImageSource}}\"/>\
         				{{row.entity.Name}}\
         			</div>\
         		</div>";
@@ -112,6 +116,10 @@
 					$timeout(function () {
 						if (filter && filter.ObjectUids)
 							for (var i in $scope.objectsGrid.data) {
+								var item = $scope.objectsGridApi.grid.renderContainers.body.visibleRowCache[i];
+								if (item) {
+									$scope.objectsGridApi.treeBase.toggleRowTreeState(item);
+								}
 								var row = $scope.objectsGrid.data[i];
 								for (var j in filter.ObjectUids) {
 									if (row.UID == filter.ObjectUids[j])
@@ -168,27 +176,42 @@
         		return filter;
         	}
 
+        	var isUpdateChildren = true;
+
         	$scope.objectsSetChildren = function (row) {
-        		showSelectedRow(row, $scope.objectsGrid, $scope.objectsGridApi);
+				showSelectedRow(row, $scope.objectsGrid, $scope.objectsGridApi);
+				isUpdateChildren = true;
         	};
 
         	$scope.eventsSetChildren = function (row) {
         		showSelectedRow(row, $scope.eventsGrid, $scope.eventsGridApi);
+        		isUpdateChildren = true;
         	};
 
-        	var showSelectedRow = function (row, gridOptions, gridApi) {
+			var showSelectedRow = function (row, gridOptions, gridApi) {
         		var index = gridOptions.data.indexOf(row.entity) + 1;
         		var item = gridOptions.data[index];
         		if (!item)
         			return;
-        		while (item.Level > row.entity.Level) {
-        			if (row.isSelected)
-        				gridApi.selection.selectRow(item);
-        			else
-        				gridApi.selection.unSelectRow(item);
-        			index++;
+        		if (isUpdateChildren)
+        			while (item.Level > row.entity.Level) {
+        				if (row.isSelected)
+        					gridApi.selection.selectRow(item);
+        				if (!row.isSelected)
+        					gridApi.selection.unSelectRow(item);
+        				index++;
+        				item = gridOptions.data[index];
+        			}
+        		if (!row.isSelected) {
+        			index = gridOptions.data.indexOf(row.entity);
         			item = gridOptions.data[index];
+        			while (item.Level >= row.entity.Level) {
+						index--;
+        				item = gridOptions.data[index];
+        			}
+        			isUpdateChildren = false;
+        			gridApi.selection.unSelectRow(item);
         		}
-        	};
-        });
+			};
+		});
 }());

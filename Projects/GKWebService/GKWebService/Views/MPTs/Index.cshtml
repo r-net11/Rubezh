@@ -4,8 +4,8 @@
 }
 <div>
 <div ng-controller="mptsCtrl">
-    <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-selection  style=" width: 50%; height: auto;"></div>
-    <div class="report_item_info" style=" width: 50%;">
+    <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-selection style="{{gridStyle}}"></div>
+    <div class="report_item_info">
         <div>
             <label>Условие для включения: </label>
             <label ng-bind="selectedRow.onClausesGroup" }></label>
@@ -20,10 +20,7 @@
         </div>
     </div>
 </div>
-<br />
-    <div>
         <div ng-controller="devicesMPTCtrl">
-            <div ui-grid="uiGrid" style="width: 50%; height: auto;"></div>
+            <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-selection style="{{gridStyle}}"></div>
         </div>
-    </div>
 </div>

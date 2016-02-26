@@ -1,11 +1,16 @@
 ﻿using GKWebService.DataProviders.SKD;
 using GKWebService.Models;
+using GKWebService.Models.Door;
+using GKWebService.Models.FireZone;
+using GKWebService.Models.PumpStation;
 using GKWebService.Utils;
 using RubezhAPI;
+using RubezhAPI.Automation;
 using RubezhAPI.Journal;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -148,6 +153,54 @@ namespace GKWebService.Controllers
 				default:
 					return "no";
 			}
+		}
+
+
+
+		[HttpPost]
+		public JsonResult GetModelBase(Guid uid, int objectType)
+		{
+			GKBaseModel result = null;
+			switch ((JournalObjectType)objectType)
+			{
+				case JournalObjectType.GKDevice:
+					var device = GKManager.Devices.FirstOrDefault(x => x.UID == uid);
+					if(device != null)
+						result = new Device(device);
+					break;
+				case JournalObjectType.GKZone:
+					var gkZone = GKManager.Zones.FirstOrDefault(x => x.UID == uid);
+					if (gkZone != null)
+						result = new FireZone(gkZone);
+					break;
+				case JournalObjectType.GKDirection:
+					var direction = GKManager.Directions.FirstOrDefault(x => x.UID == uid);
+					if (direction != null)
+						result = new Direction(direction);
+					break;
+				case JournalObjectType.GKMPT:
+					var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == uid);
+					if (mpt != null)
+						result = new MPTModel(mpt);
+					break;
+				case JournalObjectType.GKPumpStation:
+					var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == uid);
+					if (pumpStation != null)
+						result = new PumpStation(pumpStation);
+					break;
+				case JournalObjectType.GKDelay:
+					var delay = GKManager.Delays.FirstOrDefault(x => x.UID == uid);
+					if (delay != null)
+						result = new Delay(delay);
+					break;
+				case JournalObjectType.GKDoor:
+					var door = GKManager.Doors.FirstOrDefault(x => x.UID == uid);
+					if (door != null)
+						result = new Door(door);
+					break;
+			}
+			Trace.WriteLine(result.UID);
+			return Json(result, JsonRequestBehavior.AllowGet);
 		}
 	}
 }

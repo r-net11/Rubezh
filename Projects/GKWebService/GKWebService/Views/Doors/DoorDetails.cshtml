@@ -2,7 +2,7 @@
     Layout = null;
 }
 
-
+<div modal-draggable modaless>
 <div class="modal-header">
     <a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
     <h3 class="modal-title">{{door.Name}}</h3>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </uib-tab>
-            <uib-tab heading="Управление" ng-show="{{door.CanControl}}">
+            <uib-tab heading="Управление" ng-show="door.CanControl">
                 <div style="background: #fff">
                     <div style="float: left; width: 100%">
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeNorm()">Установить режим Норма</div>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </uib-tab>
-            <uib-tab heading="Расширенное управление" ng-show="{{door.FullCanControl}}">
+            <uib-tab heading="Расширенное управление" ng-show="door.FullCanControl">
                 <div>
                     <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{door.ControlRegimeIcon}}.png" />
                     <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
@@ -84,4 +84,5 @@
             </uib-tab>
         </uib-tabset>
     </div>
+</div>
 </div>

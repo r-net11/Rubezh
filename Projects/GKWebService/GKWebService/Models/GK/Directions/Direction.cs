@@ -11,16 +11,15 @@ using GKWebService.Converters;
 
 namespace GKWebService.Models
 {
-	public class Direction
+	public class Direction : GKBaseModel
 	{
 		public Direction(GKDirection gkDirection)
+			: base(gkDirection)
 		{
 			var stateClass = gkDirection.State.StateClass;
 			var stateClasses = gkDirection.State.StateClasses;
 
-			UID = gkDirection.UID;
 			No = gkDirection.No;
-			Name = gkDirection.Name;
 			Delay = gkDirection.Delay;
 			Hold = gkDirection.Hold;
 			DelayRegime = gkDirection.DelayRegime.ToDescription();
@@ -48,9 +47,7 @@ namespace GKWebService.Models
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 		}
 
-		public Guid UID { get; set; }
 		public int No { get; set; }
-		public string Name { get; set; }
 		public ushort GKDescriptorNo { get; set; }
 		public ushort Delay { get; set; }
 		public ushort Hold { get; set; }

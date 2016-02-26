@@ -10,7 +10,12 @@ namespace GKWebService.Controllers
 			return View();
 		}
 
-		public ActionResult Archive()
+		public ActionResult Login()
+		{
+			return View();
+		}
+
+		public ActionResult RestartDetails()
 		{
 			return View();
 		}

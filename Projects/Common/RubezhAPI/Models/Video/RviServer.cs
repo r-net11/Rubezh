@@ -18,9 +18,10 @@ namespace RubezhAPI.Models
 		public string Url { get; set; }
 		[DataMember]
 		public List<RviDevice> RviDevices { get; set; }
+		[XmlIgnore]
 		public RviStatus Status { get; set; }
 		[XmlIgnore]
-		public string Name
+		public string PresentationName
 		{
 			get { return string.Format("Сервер ({0}:{1})", Ip, Port); }
 		}

@@ -50,16 +50,12 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ImageResizer, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ImageResizer.4.0.5\lib\net45\ImageResizer.dll</HintPath>
+    <Reference Include="ImageProcessor, Version=2.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageProcessor.2.3.3.0\lib\net45\ImageProcessor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Magick.NET-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET-AnyCPU.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Magick.NET.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET.Core.dll</HintPath>
+    <Reference Include="Magick.NET-Q8-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.0.0.0102\lib\net40-client\Magick.NET-Q8-AnyCPU.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -191,9 +187,11 @@
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\archive\archiveCtrl.js" />
     <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
+    <Content Include="App\controllers\Common\loginCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
-    <Content Include="App\controllers\devices\deviceParametersCtrl.js" />
+    <Content Include="App\controllers\deviceParameters\deviceParametersDetailsCtrl.js" />
+    <Content Include="App\controllers\deviceParameters\deviceParametersCtrl.js" />
     <Content Include="App\controllers\devices\devicesCtrl.js" />
     <Content Include="App\controllers\directionsUpdaterHub.js" />
     <Content Include="App\controllers\directions\directionDetailsCtrl.js" />
@@ -203,11 +201,11 @@
     <Content Include="App\controllers\fireZones\fireZonesCtrl.js" />
     <Content Include="App\controllers\fireZones\fireZonesDetailsCtrl.js" />
     <Content Include="App\controllers\devices\devicesDetailsCtrl.js" />
+    <Content Include="App\controllers\fireZones\fireZonesDevicesCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZoneDetailsCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZoneDevicesCtrl.js" />
     <Content Include="App\controllers\GuardZones\guardZonesCtrl.js" />
     <Content Include="App\controllers\journal\journalCtrl.js" />
-    <Content Include="App\controllers\journal\journalFilterCtrl.js" />
     <Content Include="App\controllers\MPTs\devicesMPTCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsCtrl.js" />
     <Content Include="App\controllers\MPTs\mptsDetailsCtrl.js" />
@@ -216,6 +214,7 @@
     <Content Include="App\controllers\PumpStations\pumpStationDetailsCtrl.js" />
     <Content Include="App\controllers\PumpStations\pumpStationDevicesCtrl.js" />
     <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
+    <Content Include="App\controllers\restart\restartDetailsCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
@@ -224,17 +223,21 @@
     <Content Include="App\directives\modalDraggable.js" />
     <Content Include="App\route.js" />
     <Content Include="App\services\broadcastService.js" />
+    <Content Include="App\services\dialogService.js" />
+    <Content Include="App\services\journalService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
+    <Content Include="App\services\signalrDeviceParametersService.js" />
+    <Content Include="App\services\signalrConfigService.js" />
     <Content Include="App\services\signalrDevicesService.js" />
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
     <Content Include="App\services\signalrDoorsService.js" />
+    <Content Include="App\services\signalrFireZonesDevicesService.js" />
     <Content Include="App\services\signalrFireZonesService.js" />
     <Content Include="App\services\signalrGuardZonesService.js" />
     <Content Include="App\services\signalrMPTsService.js" />
     <Content Include="App\services\signalrPumpStationService.js" />
     <Content Include="App\services\signalrService.js" />
-    <Content Include="App\signalr\plansUpdaterHub.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -398,9 +401,6 @@
     <Resource Include="Content\Image\Icon\Hr\SKDUser.png" />
     <Resource Include="Content\Image\Icon\Hr\load.png" />
     <Resource Include="Content\Image\Icon\Hr\Lock.png" />
-    <Content Include="Content\Image\Icon\Menu\archive.png" />
-    <Content Include="Content\Image\Icon\Menu\Bug.png" />
-    <Content Include="Content\Image\Icon\Menu\delays.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Add.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Copy.png" />
     <Content Include="Content\Image\Icon\Menu\edit\Delete.png" />
@@ -413,17 +413,21 @@
     <Content Include="Content\Image\Icon\Menu\fine\book.png" />
     <Content Include="Content\Image\Icon\Menu\fine\bug.png" />
     <Content Include="Content\Image\Icon\Menu\fine\dailySchedule.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\directions.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\Door.png" />
     <Content Include="Content\Image\Icon\Menu\fine\file.png" />
     <Content Include="Content\Image\Icon\Menu\fine\holidays.png" />
     <Content Include="Content\Image\Icon\Menu\fine\levels.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\MPT.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\plans.png" />
     <Content Include="Content\Image\Icon\Menu\fine\Print.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\PumpStation.png" />
     <Content Include="Content\Image\Icon\Menu\fine\skd.png" />
     <Content Include="Content\Image\Icon\Menu\fine\timeTrack.png" />
     <Content Include="Content\Image\Icon\Menu\fine\tree.png" />
     <Content Include="Content\Image\Icon\Menu\fine\weeklySchedule.png" />
     <Content Include="Content\Image\Icon\Menu\fine\workSchedule.png" />
-    <Content Include="Content\Image\Icon\Menu\levels.png" />
-    <Content Include="Content\Image\Icon\Menu\tree.png" />
+    <Content Include="Content\Image\Icon\Menu\fine\zones.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Camera.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Chip.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
@@ -440,6 +444,10 @@
     <Content Include="Content\Image\Images\BReset.png" />
     <Resource Include="Content\Image\Images\CMap.png" />
     <Content Include="Content\Image\Images\Zone.png" />
+    <Content Include="Content\Image\MessageBox\BWatch.png" />
+    <Content Include="Content\Image\MessageBox\information.png" />
+    <Content Include="Content\Image\MessageBox\question.png" />
+    <Content Include="Content\Image\MessageBox\warning.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
       <DependentUpon>main.less</DependentUpon>
@@ -603,6 +611,8 @@
     <Content Include="Content\alarmBtn.less" />
     <Content Include="Content\devices.less" />
     <Content Include="Content\common.less" />
+    <Content Include="Content\pumpStations.less" />
+    <Content Include="Content\mpts.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -664,6 +674,7 @@
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DelaysController.cs" />
+    <Compile Include="Controllers\DeviceParametersController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\DoorsController.cs" />
@@ -680,9 +691,10 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\PumpStationsController.cs" />
     <Compile Include="DataProviders\Alarms\AlarmsUpdaterHub.cs" />
+    <Compile Include="DataProviders\ConfigHub.cs" />
     <Compile Include="DataProviders\Delays\DelaysUpdaterHub.cs" />
-    <Compile Include="DataProviders\DevicesHub.cs" />
-    <Compile Include="DataProviders\Devices\DevicesDataProvider.cs" />
+    <Compile Include="DataProviders\DeviceParametersHub\DeviceParametersUpdaterHub.cs" />
+    <Compile Include="DataProviders\Devices\DevicesHub.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\DoorsHub\DoorsHub.cs" />
     <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
@@ -690,7 +702,10 @@
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Device\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Models\Door\Door.cs" />
+    <Compile Include="Models\Door\DoorDevice.cs" />
+    <Compile Include="Models\GK\GKBase.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\GuardZones\GuardZone.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />
@@ -717,7 +732,6 @@
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />
     <Compile Include="Models\GK\Delay\Delay.cs" />
-    <Compile Include="Models\FireZone\DeviceNode.cs" />
     <Compile Include="Models\GK\Directions\StateClass.cs" />
     <Compile Include="Models\Journal\JournalFilterEvent.cs" />
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
@@ -755,7 +769,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="JournalItemViewModel.cs" />
     <Compile Include="Models\AccessDoorModel.cs" />
     <Compile Include="Models\ReadOnlyAccessDoorModel.cs" />
     <Compile Include="Models\Plan\PlanElement\Hint\ElementHint.cs" />
@@ -783,7 +796,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Devices\Index.cshtml" />
-    <Content Include="Views\Home\Archive.cshtml" />
     <Content Include="Views\Hr\Index.cshtml" />
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
@@ -825,7 +837,6 @@
     <Content Include="Views\Directions\DirectionDetails.cshtml" />
     <Content Include="Views\Journal\Index.cshtml" />
     <Content Include="Views\Delays\DelayDetails.cshtml" />
-    <Content Include="Views\Journal\JournalFilter.cshtml" />
     <Content Include="Views\MPTs\MPTDetails.cshtml" />
     <Content Include="Views\FireZones\Index.cshtml" />
     <Content Include="Views\FireZones\FireZonesDetails.cshtml" />
@@ -843,6 +854,9 @@
     <Content Include="Views\GuardZones\GuardZoneDetails.cshtml" />
     <Content Include="Views\Doors\Door.cshtml" />
     <Content Include="Views\Doors\DoorDetails.cshtml" />
+    <Content Include="Views\DeviceParameters\Index.cshtml" />
+    <Content Include="Views\Home\RestartDetails.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
