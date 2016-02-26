@@ -144,7 +144,7 @@ namespace RviClient
 						var rviStream = new RviStream { Number = stream.Number, RviDeviceUid = device.Guid, RviChannelNumber = channel.Number };
 						camera.RviStreams.Add(rviStream);
 					}
-					camera.SelectedRviStreamNumber = camera.RviStreams.First().Number;
+					camera.SelectedRviStreamNumber = camera.RviStreams.Count > 0 ? camera.RviStreams.First().Number : 0;
 					rviDevice.Cameras.Add(camera);
 					newCameras.Add(camera);
 				}
