@@ -95,5 +95,6 @@ namespace GKImitator.ViewModels
 			return ignoreState == null || !ignoreState.IsActive;
 		}
 		public bool HasFire12 { get; private set; }
+		public bool HasAlarm { get; private set; }
 	}
 }

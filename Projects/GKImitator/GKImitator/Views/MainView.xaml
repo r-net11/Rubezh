@@ -115,6 +115,9 @@
 					<Button Content="Сработка-1" Command="{Binding SetFire1Command}" Width="200" Margin="2" />
 					<Button Content="Сработка-2" Command="{Binding SetFire2Command}" Width="200" Margin="2" />
 				</StackPanel>
+				<StackPanel Visibility="{Binding HasAlarm, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Orientation="Horizontal">
+					<Button Content="Тревога" Command="{Binding SetFire1Command}" Width="200" Margin="2" />
+				</StackPanel>
 
 				<Button Content="Измерения" Command="{Binding ShowMeasureCommand}" Visibility="{Binding HasMeasure, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />
 				<Button Content="Параметры" Command="{Binding ShowParametersCommand}" Visibility="{Binding HasParameters, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="100" Margin="2" />

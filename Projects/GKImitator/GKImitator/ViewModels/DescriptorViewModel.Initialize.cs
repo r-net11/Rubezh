@@ -134,7 +134,7 @@ namespace GKImitator.ViewModels
 				HasHoldDelay = true;
 				HasOffDelay = true;
 				HasReset = true;
-				HasFire12 = true;
+				HasAlarm = true;
 			}
 
 			if (GKBase is GKGuardZone)
