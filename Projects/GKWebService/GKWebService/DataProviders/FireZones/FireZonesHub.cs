@@ -6,11 +6,11 @@ using RubezhAPI.GK;
 namespace GKWebService.DataProviders.FireZones
 {
     [HubName("fireZonesUpdater")]
-    public class FireZonesUpdaterHub : Hub
+    public class FireZonesHub : Hub
     {
-        public static FireZonesUpdaterHub Instance { get; private set; }
+        public static FireZonesHub Instance { get; private set; }
 
-        public FireZonesUpdaterHub()
+        public FireZonesHub()
 		{
 			Instance = this;
 		}
