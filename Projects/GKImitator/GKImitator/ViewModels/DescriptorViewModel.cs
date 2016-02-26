@@ -8,11 +8,12 @@ using GKProcessor;
 using Infrastructure.Common;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows;
+using RubezhAPI.Journal;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-    public partial class DescriptorViewModel : BaseViewModel
+	public partial class DescriptorViewModel : BaseViewModel
 	{
 		public BaseDescriptor GKBaseDescriptor { get; private set; }
 		public BaseDescriptor KauBaseDescriptor { get; private set; }
@@ -47,6 +48,86 @@ namespace GKImitator.ViewModels
 			for (int i = 0; i < 10; i++)
 			{
 				AdditionalShortParameters.Add(0);
+			}
+		}
+
+		void OnStateBitChanged(GKStateBit stateBit, bool isActive, ImitatorJournalItem additionalJournalItem = null)
+		{
+			if (isActive)
+			{
+				CurrentOnDelay = 0;
+				CurrentOffDelay = 0;
+				CurrentHoldDelay = 0;
+				TurningState = TurningState.None;
+				var journalItem = new ImitatorJournalItem();
+
+				if (stateBit == GKStateBit.On)
+				{
+					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 9, 2, 0);
+					if (HoldDelay != 0)
+					{
+						CurrentHoldDelay = HoldDelay;
+						TurningState = TurningState.Holding;
+					}
+				}
+
+				if (stateBit == GKStateBit.TurningOn)
+				{
+					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 9, 4, 0);
+					if (OnDelay != 0)
+					{
+						CurrentOnDelay = OnDelay;
+						TurningState = TurningState.TurningOn;
+					}
+				}
+
+				if (stateBit == GKStateBit.TurningOff)
+				{
+					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 9, 5, 0);
+					if (OffDelay != 0)
+					{
+						CurrentOffDelay = OffDelay;
+						TurningState = TurningState.TurningOff;
+						SetStateBit(GKStateBit.Fire1, false);
+						SetStateBit(GKStateBit.Fire2, false);
+					}
+				}
+
+				if (stateBit == GKStateBit.Off)
+				{
+					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 9, 3, 3);
+					SetStateBit(GKStateBit.Attention, false);
+					SetStateBit(GKStateBit.Fire1, false);
+					SetStateBit(GKStateBit.Fire2, false);
+				}
+
+				if (stateBit == GKStateBit.Norm)
+				{
+					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 14, 0, 0);
+				}
+
+				if (stateBit == GKStateBit.Fire1)
+				{
+					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 2, 0, 0);
+				}
+
+				if (stateBit == GKStateBit.Fire2)
+				{
+					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 3, 0, 0);
+				}
+
+				if (stateBit == GKStateBit.Ignore)
+				{
+					journalItem = new ImitatorJournalItem(2, 10, 2, 0);
+				}
+
+				if (stateBit == GKStateBit.Attention)
+				{
+					journalItem = new ImitatorJournalItem(2, 4, 0, 0);
+				}
+
+				AddJournalItem(journalItem);
+				RecalculateOutputLogic();
 			}
 		}
 
@@ -86,12 +167,9 @@ namespace GKImitator.ViewModels
 		void OnSetAutomaticRegime()
 		{
 			Regime = Regime.Automatic;
-			SetStateBit(GKStateBit.Norm, true);
-			SetStateBit(GKStateBit.Ignore, false);
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
-			RecalculateCurrentLogic();
+			SetStateBit(GKStateBit.Ignore, false);
+			SetStateBit(GKStateBit.Norm, true, journalItem);
 		}
 
 		public bool CanSetAutomaticRegime
@@ -120,13 +198,10 @@ namespace GKImitator.ViewModels
 		{
 			Regime = Regime.Ignore;
 			SetStateBit(GKStateBit.Norm, false);
-			SetStateBit(GKStateBit.Ignore, true);
 			SetStateBit(GKStateBit.Attention, false);
 			SetStateBit(GKStateBit.Fire1, false);
 			SetStateBit(GKStateBit.Fire2, false);
-			var journalItem = new ImitatorJournalItem(2, 10, 2, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Ignore, true);
 		}
 
 		public bool CanSetIgnoreRegime

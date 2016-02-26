@@ -3,7 +3,7 @@ using System;
 
 namespace GKProcessor
 {
-    public static class RK_OPZ_Helper
+	public static class RK_OPZ_Helper
 	{
 		public static GKDriver Create()
 		{
@@ -37,7 +37,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
-            GKDriversHelper.AddRadioChanelProperties(driver);
+			GKDriversHelper.AddRadioChanelProperties(driver);
 			GKDriversHelper.AddIntProprety(driver, 3, "Задержка на включение, с", 0, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 4, "Время удержания, с", 0, 0, 65535);
 

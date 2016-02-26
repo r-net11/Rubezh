@@ -3,7 +3,7 @@ using RubezhAPI.GK;
 
 namespace GKProcessor
 {
-    public static class RK_HandDetector_Helper
+	public static class RK_HandDetector_Helper
 	{
 		public static GKDriver Create()
 		{
@@ -20,8 +20,8 @@ namespace GKProcessor
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
-            GKDriversHelper.AddRadioChanelProperties(driver);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddRadioChanelProperties(driver);
 
 			return driver;
 		}

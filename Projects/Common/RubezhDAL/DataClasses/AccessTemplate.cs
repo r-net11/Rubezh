@@ -29,13 +29,13 @@ namespace RubezhDAL.DataClasses
 		public Organisation Organisation { get; set; }
 		#endregion
 
-        [InverseProperty("AccessTemplate")]
+		[InverseProperty("AccessTemplate")]
 		public ICollection<Card> Cards { get; set; }
 
 		//public ICollection<PendingCard> PendingCards { get; set; }
 
-        [InverseProperty("AccessTemplate")]
-        public ICollection<CardDoor> CardDoors { get; set; }
+		[InverseProperty("AccessTemplate")]
+		public ICollection<CardDoor> CardDoors { get; set; }
 
 		//public ICollection<CardGKControllerUID> CardGKControllerUIDs { get; set; }
 	}

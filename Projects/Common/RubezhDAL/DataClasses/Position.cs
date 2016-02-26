@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RubezhDAL.DataClasses
 {
-    public class Position : IOrganisationItem, IExternalKey
+	public class Position : IOrganisationItem, IExternalKey
 	{
 		public Position()
 		{
@@ -29,7 +29,7 @@ namespace RubezhDAL.DataClasses
 		public Guid? PhotoUID { get; set; }
 		public Photo Photo { get; set; }
 
-        [InverseProperty("Position")]
+		[InverseProperty("Position")]
 		public ICollection<Employee> Employees { get; set; }
 		[MaxLength(50)]
 		public string ExternalKey { get; set; }

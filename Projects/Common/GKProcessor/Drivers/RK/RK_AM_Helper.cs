@@ -3,7 +3,7 @@ using RubezhAPI.GK;
 
 namespace GKProcessor
 {
-    public static class RK_AM_Helper
+	public static class RK_AM_Helper
 	{
 		public static GKDriver Create()
 		{
@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RK_AM,
 				UID = new Guid("FE25BE41-EBE9-4469-A176-47F3F4EF7D05"),
 				Name = "Метка адресная радиоканальная АМ-RK",
-                ShortName = "АМ-RK",
+				ShortName = "АМ-RK",
 				HasGuardZone = true,
 				HasZone = true,
 				IsPlaceable = true
@@ -23,8 +23,8 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
-            GKDriversHelper.AddRadioChanelProperties(driver);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddRadioChanelProperties(driver);
 
 			var property1 = new GKDriverProperty()
 			{

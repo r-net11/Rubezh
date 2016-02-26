@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using RubezhAPI.GK;
 using RubezhAPI;
 
@@ -16,13 +18,7 @@ namespace GKProcessor
 			RootDevice = gkControllerDevice;
 
 			AddDevice(gkControllerDevice);
-			foreach (var device in gkControllerDevice.AllChildren)
-			{
-				if (device.DriverType == GKDriverType.GKIndicator || device.DriverType == GKDriverType.GKRele)
-				{
-					AddDevice(device);
-				}
-			}
+			gkControllerDevice.AllChildren.FindAll(x => (x.DriverType == GKDriverType.GKIndicator || x.DriverType == GKDriverType.GKRele) && x.AllParents.All(y => y.DriverType != GKDriverType.GKMirror)).ForEach(AddDevice);
 			Devices.ForEach(x => x.GkDatabaseParent = RootDevice);
 
 			GlobalPim = new GKPim { Name = "Автоматика" + "(" + gkControllerDevice.PresentationName + ")", IsGlobalPim = true };
@@ -41,8 +37,8 @@ namespace GKProcessor
 		public override void BuildObjects()
 		{
 			Descriptors = new List<BaseDescriptor>();
-
 			AddKauDevices();
+			RestructCollection(Devices);
 
 			foreach (var device in Devices)
 			{

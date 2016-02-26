@@ -204,7 +204,7 @@ namespace GKProcessor
 								}
 							}
 
-                            using (var databaseService = new RubezhDAL.DataClasses.DbService())
+							using (var databaseService = new RubezhDAL.DataClasses.DbService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
 								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);

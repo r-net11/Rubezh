@@ -28,7 +28,7 @@ namespace Infrastructure.Common
 			get { return LoadingErrors.Count > 0; }
 		}
 
-        public static new string ToString()
+		public static new string ToString()
 		{
 			if (LoadingErrors.Count == 0)
 				return null;

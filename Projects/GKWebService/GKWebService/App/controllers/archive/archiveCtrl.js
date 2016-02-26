@@ -1,6 +1,6 @@
 ﻿(function () {
 	'use strict';
-	angular.module('gkApp.controllers').controller('archiveCtrl', function ($scope, $http, $uibModal, $stateParams, uiGridConstants, dialogService, constants, journalService) {
+	angular.module('gkApp.controllers').controller('archiveCtrl', function ($scope, $http, $uibModal, $stateParams, journalService) {
 		var requestJournalItems = function (filter) {
 			$http.post("Archive/GetArchive", filter)
 				.success(function (data) {
@@ -104,37 +104,6 @@
 			if ($scope.filter.Page < 1)
 				$scope.filter.Page = 1;
 			setPage($scope.filter.Page);
-		};
-
-		$scope.showPropertiesClick = function (alarm) {
-			$http.post("Journal/GetModelBase", { uid: alarm.ObjectUid, objectType: alarm.ObjectType}).success(function (modelBase) {
-				if (modelBase) {
-					if (modelBase.ObjectType === constants.gkObject.device.type) {
-						dialogService.showWindow(constants.gkObject.device, modelBase);
-					}
-					if (modelBase.ObjectType === constants.gkObject.zone.type) {
-						dialogService.showWindow(constants.gkObject.zone, modelBase);
-					}
-					if (modelBase.ObjectType === constants.gkObject.guardZone.type) {
-						dialogService.showWindow(constants.gkObject.guardZone, modelBase);
-					}
-					if (modelBase.ObjectType === constants.gkObject.direction.type) {
-						dialogService.showWindow(constants.gkObject.direction, modelBase);
-					}
-					if (modelBase.ObjectType === constants.gkObject.mpt.type) {
-						dialogService.showWindow(constants.gkObject.mpt, modelBase);
-					}
-					if (modelBase.ObjectType === constants.gkObject.delay.type) {
-						dialogService.showWindow(constants.gkObject.delay, modelBase);
-					}
-					if (modelBase.ObjectType === constants.gkObject.pumpStation.type) {
-						dialogService.showWindow(constants.gkObject.pumpStation, modelBase);
-					}
-					if (modelBase.ObjectType === constants.gkObject.door.type) {
-						dialogService.showWindow(constants.gkObject.door, modelBase);
-					}
-				}
-			});
 		};
 	});
 }());

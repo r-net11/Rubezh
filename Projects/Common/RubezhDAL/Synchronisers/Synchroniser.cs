@@ -18,16 +18,16 @@ namespace RubezhDAL.DataClasses
 	{
 		protected DbSet<TTableItem> _Table;
 		protected DbService _DatabaseService;
-        protected DatabaseContext Context;
+		protected DatabaseContext Context;
 		protected abstract string Name { get; }
 		protected abstract string XmlHeaderName { get; }
 		public string NameXml { get { return Name +  ".xml"; } }
 
-        public Synchroniser(DbSet<TTableItem> table, DbService databaseService)
+		public Synchroniser(DbSet<TTableItem> table, DbService databaseService)
 		{
 			_Table = table;
 			_DatabaseService = databaseService;
-            Context = databaseService.Context;
+			Context = databaseService.Context;
 		}
 
 		public OperationResult<List<TExportItem>> Get(ExportFilter filter)
@@ -38,7 +38,7 @@ namespace RubezhDAL.DataClasses
 					item.ExternalKey = item.UID.ToString("N");
 				Context.SaveChanges();
 				var result = new List<TExportItem>();
-                var tableItems = GetFilteredItems(filter);
+				var tableItems = GetFilteredItems(filter);
 				foreach (var item in tableItems)
 				{
 					var exportItem = Translate(item);
@@ -115,7 +115,7 @@ namespace RubezhDAL.DataClasses
 				{
 					UpdateForignKeys(exportItem, tableItem, hrCash);
 				}
-                Context.SaveChanges();
+				Context.SaveChanges();
 			}
 		}
 
@@ -166,15 +166,15 @@ namespace RubezhDAL.DataClasses
 		public abstract void TranslateBack(TExportItem exportItem, TTableItem tableItem);
 		protected virtual IQueryable<TTableItem> GetFilteredItems(ExportFilter filter)
 		{
-            var result = GetTableItems().Where(x => x != null);
-            if(!filter.IsWithDeleted)
+			var result = GetTableItems().Where(x => x != null);
+			if(!filter.IsWithDeleted)
 				result = result.Where(x => !x.IsDeleted);
 			return result;
 		}
-        protected virtual IQueryable<TTableItem> GetTableItems()
-        {
-            return _Table;
-        }
+		protected virtual IQueryable<TTableItem> GetTableItems()
+		{
+			return _Table;
+		}
 
 		protected Guid GetUID(Guid? uid)
 		{

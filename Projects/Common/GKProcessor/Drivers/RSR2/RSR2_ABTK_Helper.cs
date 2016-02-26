@@ -11,9 +11,9 @@ namespace GKProcessor
 			{
 				DriverTypeNo = 0x14,
 				DriverType = GKDriverType.RSR2_ABTK,
-                UID = new Guid("45BA7A5E-BF4B-4F63-B80E-95FE422DC70D"),
+				UID = new Guid("45BA7A5E-BF4B-4F63-B80E-95FE422DC70D"),
 				Name = "Адресный барьер термокабеля",
-                ShortName = "АБТК-R2",
+				ShortName = "АБТК-R2",
 				HasZone = true,
 				IsPlaceable = true
 			};
@@ -22,7 +22,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 
-            driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Расстояние, м", InternalName = "Distance" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Расстояние, м", InternalName = "Distance" });
 			return driver;
 		}
 	}

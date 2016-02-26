@@ -1,12 +1,10 @@
 ﻿using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhDAL.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace GKImitator.ViewModels
@@ -51,38 +49,30 @@ namespace GKImitator.ViewModels
 		public RelayCommand EnterCommand { get; private set; }
 		void OnEnter()
 		{
+			DescriptorViewModel.CurrentCardNo = CardNo;
+			var backgroundWorker = new BackgroundWorker();
+			backgroundWorker.DoWork += backgroundWorker_DoWork;
+			backgroundWorker.RunWorkerAsync();
 			switch (SelectedEnterType)
 			{
 				case GKCodeReaderEnterType.CodeOnly:
-					DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
-					var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
-					DescriptorViewModel.AddJournalItem(journalItem);
+					DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
 					break;
 
 				case GKCodeReaderEnterType.CodeAndOne:
 					DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
-					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, true);
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
-					journalItem = new ImitatorJournalItem(2, 2, 0, 0);
-					DescriptorViewModel.AddJournalItem(journalItem);
+					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, true);
 					break;
 
 				case GKCodeReaderEnterType.CodeAndTwo:
 					DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
 					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, true);
-					journalItem = new ImitatorJournalItem(2, 3, 0, 0);
-					DescriptorViewModel.AddJournalItem(journalItem);
 					break;
 			}
-			DescriptorViewModel.CurrentCardNo = CardNo;
-			DescriptorViewModel.RecalculateOutputLogic();
-
-			var backgroundWorker = new BackgroundWorker();
-			backgroundWorker.DoWork += backgroundWorker_DoWork;
-			backgroundWorker.RunWorkerAsync();
 		}
 
 		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -91,10 +81,7 @@ namespace GKImitator.ViewModels
 			DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
 			DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
 			DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
-			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
-			DescriptorViewModel.AddJournalItem(journalItem);
 			DescriptorViewModel.CurrentCardNo = 0;
-			DescriptorViewModel.RecalculateOutputLogic();
 		}
 	}
 }
