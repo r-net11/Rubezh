@@ -923,7 +923,7 @@ namespace FiresecService
 			switch (getDateTimeNowArguments.RoundingType)
 			{
 				case RoundingType.None:
-					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay;
+					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds();
 					break;
 				case RoundingType.RoundToHour:
 					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds().WithoutSeconds().WithoutMinutes();
