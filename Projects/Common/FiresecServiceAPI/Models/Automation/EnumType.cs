@@ -29,6 +29,9 @@ namespace FiresecAPI.Automation
 		CardType,
 
 		[DescriptionAttribute("Режим доступа")]
-		AccessState
+		AccessState,
+
+		[DescriptionAttribute("Статус двери")]
+		DoorStatus
 	}
 }

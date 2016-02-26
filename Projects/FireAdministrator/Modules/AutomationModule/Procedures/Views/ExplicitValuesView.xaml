@@ -100,6 +100,15 @@
 							</DataTemplate>
 						</FeaturedComboBox.ItemTemplate>
 					</FeaturedComboBox>
+					<FeaturedComboBox ItemsSource="{Binding ExplicitValue.DoorStatusValues}" SelectedItem="{Binding ExplicitValue.DoorStatusValue, UpdateSourceTrigger=PropertyChanged}"
+						CanSelectNullItem="True" NullValueText="NULL"
+						Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DoorStatus}}" Width="200">
+						<FeaturedComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+							</DataTemplate>
+						</FeaturedComboBox.ItemTemplate>
+					</FeaturedComboBox>
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}" HorizontalAlignment="Right" Height="28">
@@ -227,6 +236,15 @@
 									<FeaturedComboBox ItemsSource="{Binding ExplicitValue.AccessStateValues}" SelectedItem="{Binding ExplicitValue.AccessStateValue, UpdateSourceTrigger=PropertyChanged}"
 										CanSelectNullItem="True" NullValueText="NULL"
 										Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.AccessState}}" Width="200" Margin="2" HorizontalAlignment="Right">
+										<FeaturedComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+											</DataTemplate>
+										</FeaturedComboBox.ItemTemplate>
+									</FeaturedComboBox>
+									<FeaturedComboBox ItemsSource="{Binding ExplicitValue.DoorStatusValues}" SelectedItem="{Binding ExplicitValue.DoorStatusValue, UpdateSourceTrigger=PropertyChanged}"
+										CanSelectNullItem="True" NullValueText="NULL"
+										Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DoorStatus}}" Width="200" Margin="2" HorizontalAlignment="Right">
 										<FeaturedComboBox.ItemTemplate>
 											<DataTemplate>
 												<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

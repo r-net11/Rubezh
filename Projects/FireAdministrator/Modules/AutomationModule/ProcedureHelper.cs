@@ -262,6 +262,8 @@ namespace AutomationModule
 							result = explicitValue.CardTypeValue.ToDescription();
 						if (enumType == EnumType.AccessState)
 							result = explicitValue.AccessStateValue.ToDescription();
+						if (enumType == EnumType.DoorStatus)
+							result = explicitValue.DoorStatusValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:
