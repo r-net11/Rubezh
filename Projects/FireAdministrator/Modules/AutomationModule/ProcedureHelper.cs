@@ -266,6 +266,8 @@ namespace AutomationModule
 							result = explicitValue.DoorStatusValue.ToDescription();
 						if (enumType == EnumType.BreakInStatus)
 							result = explicitValue.BreakInStatusValue.ToDescription();
+						if (enumType == EnumType.ConnectionStatus)
+							result = explicitValue.ConnectionStatusValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:

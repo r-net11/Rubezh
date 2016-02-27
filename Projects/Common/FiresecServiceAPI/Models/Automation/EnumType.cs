@@ -35,6 +35,9 @@ namespace FiresecAPI.Automation
 		DoorStatus,
 
 		[DescriptionAttribute("Статус по взлому")]
-		BreakInStatus
+		BreakInStatus,
+
+		[DescriptionAttribute("Статус соединения")]
+		ConnectionStatus
 	}
 }

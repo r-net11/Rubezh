@@ -53,6 +53,7 @@ namespace AutomationModule.ViewModels
 			AccessStateValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.AccessState>();
 			DoorStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.DoorStatus>();
 			BreakInStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.BreakInStatus>();
+			ConnectionStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.ConnectionStatus>();
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}
@@ -277,6 +278,17 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.BreakInStatusValue = value;
 				OnPropertyChanged(() => BreakInStatusValue);
+			}
+		}
+
+		public ObservableCollection<FiresecAPI.Automation.Enums.ConnectionStatus> ConnectionStatusValues { get; private set; }
+		public FiresecAPI.Automation.Enums.ConnectionStatus? ConnectionStatusValue
+		{
+			get { return ExplicitValue.ConnectionStatusValue; }
+			set
+			{
+				ExplicitValue.ConnectionStatusValue = value;
+				OnPropertyChanged(() => ConnectionStatusValue);
 			}
 		}
 

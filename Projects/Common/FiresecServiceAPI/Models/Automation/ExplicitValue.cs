@@ -64,5 +64,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public FiresecAPI.Automation.Enums.BreakInStatus? BreakInStatusValue { get; set; }
+
+		[DataMember]
+		public FiresecAPI.Automation.Enums.ConnectionStatus? ConnectionStatusValue { get; set; }
 	}
 }
