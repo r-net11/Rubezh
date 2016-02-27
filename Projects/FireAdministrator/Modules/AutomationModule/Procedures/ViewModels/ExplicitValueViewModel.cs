@@ -52,6 +52,7 @@ namespace AutomationModule.ViewModels
 			CardTypeValues = ProcedureHelper.GetEnumObs<CardType>();
 			AccessStateValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.AccessState>();
 			DoorStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.DoorStatus>();
+			BreakInStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.BreakInStatus>();
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}
@@ -264,7 +265,18 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ExplicitValue.DoorStatusValue = value;
-				OnPropertyChanged(() => AccessStateValue);
+				OnPropertyChanged(() => DoorStatusValue);
+			}
+		}
+
+		public ObservableCollection<FiresecAPI.Automation.Enums.BreakInStatus> BreakInStatusValues { get; private set; }
+		public FiresecAPI.Automation.Enums.BreakInStatus? BreakInStatusValue
+		{
+			get { return ExplicitValue.BreakInStatusValue; }
+			set
+			{
+				ExplicitValue.BreakInStatusValue = value;
+				OnPropertyChanged(() => BreakInStatusValue);
 			}
 		}
 

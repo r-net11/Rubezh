@@ -61,5 +61,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public FiresecAPI.Automation.Enums.DoorStatus? DoorStatusValue { get; set; }
+
+		[DataMember]
+		public FiresecAPI.Automation.Enums.BreakInStatus? BreakInStatusValue { get; set; }
 	}
 }

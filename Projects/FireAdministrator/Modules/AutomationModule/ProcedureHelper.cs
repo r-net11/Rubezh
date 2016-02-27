@@ -264,6 +264,8 @@ namespace AutomationModule
 							result = explicitValue.AccessStateValue.ToDescription();
 						if (enumType == EnumType.DoorStatus)
 							result = explicitValue.DoorStatusValue.ToDescription();
+						if (enumType == EnumType.BreakInStatus)
+							result = explicitValue.BreakInStatusValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:
