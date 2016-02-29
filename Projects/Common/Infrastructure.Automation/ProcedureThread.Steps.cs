@@ -335,6 +335,23 @@ namespace Infrastructure.Automation
 							resultVariable.ExplicitValue.IntValue = result;
 						break;
 					}
+				case ExplicitType.Float:
+					{
+						value1 = GetValue<double>(arithmeticArguments.Argument1);
+						value2 = GetValue<double>(arithmeticArguments.Argument2);
+						double result = 0;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (double)value1 + (double)value2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (double)value1 - (double)value2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
+							result = (double)value1 * (double)value2;
+						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)value2 != 0))
+							result = (double)value1 / (double)value2;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.FloatValue = result;
+						break;
+					}
 
 				case ExplicitType.DateTime:
 					{
@@ -1148,7 +1165,7 @@ namespace Infrastructure.Automation
 		{
 			var incrementValueArguments = procedureStep.IncrementValueArguments;
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
-			var value = GetValue<int>(incrementValueArguments.ResultArgument);
+			var value = GetValue<double>(incrementValueArguments.ResultArgument);
 			if (incrementValueArguments.IncrementType == IncrementType.Inc)
 				ProcedureExecutionContext.SetVariableValue(variable, value + 1, ClientUID);
 			else
@@ -1267,6 +1284,8 @@ namespace Infrastructure.Automation
 		{
 			if (explicitType == ExplicitType.Integer)
 				return explicitValue1.IntValue == explicitValue2.IntValue;
+			if (explicitType == ExplicitType.Float)
+				return explicitValue1.FloatValue == explicitValue2.FloatValue;
 			if (explicitType == ExplicitType.String)
 				return explicitValue1.StringValue == explicitValue2.StringValue;
 			if (explicitType == ExplicitType.Boolean)
@@ -1374,6 +1393,10 @@ namespace Infrastructure.Automation
 				ProcedureExecutionContext.GetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid));
 			if (result is string && typeof(T) == typeof(Guid))
 				result = CheckGuid(result.ToString()) ? new Guid(result.ToString()) : Guid.Empty;
+			if (result is int && typeof(T) == typeof(double))
+				result = Convert.ToDouble(result);
+			if (result is double && typeof(T) == typeof(int))
+				result = Convert.ToInt32(Math.Round((double)result));
 			return (T)result;
 		}
 

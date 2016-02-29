@@ -18,6 +18,8 @@ namespace RubezhClient
 					return explicitValue.DateTimeValue.ToString();
 				case ExplicitType.Integer:
 					return explicitValue.IntValue.ToString();
+				case ExplicitType.Float:
+					return explicitValue.FloatValue.ToString();
 				case ExplicitType.String:
 					return explicitValue.StringValue;
 				case ExplicitType.Enum:

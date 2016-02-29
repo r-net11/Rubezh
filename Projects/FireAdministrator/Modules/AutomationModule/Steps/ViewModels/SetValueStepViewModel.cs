@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Automation;
 using RubezhAPI.Automation;
-using Infrastructure.Automation;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
@@ -11,7 +11,8 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel SourceArgument { get; private set; }
 		public ArgumentViewModel TargetArgument { get; private set; }
 
-		public SetValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public SetValueStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
 			SetValueArguments = stepViewModel.Step.SetValueArguments;
 			SourceArgument = new ArgumentViewModel(SetValueArguments.SourceArgument, stepViewModel.Update, UpdateContent);
@@ -75,13 +76,18 @@ namespace AutomationModule.ViewModels
 				SourceArgument.Update(Procedure, AutomationHelper.GetEnumList<ExplicitType>(), isList: false);
 				SourceArgument.ExplicitType = ExplicitType.String;
 			}
+			else if (SelectedExplicitType == ExplicitType.Integer || SelectedExplicitType == ExplicitType.Float)
+			{
+				SourceArgument.Update(Procedure, new List<ExplicitType> { ExplicitType.Integer, ExplicitType.Float }, isList: false);
+				SourceArgument.ExplicitType = ExplicitType.Float;
+			}
 			else
 				SourceArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);
 		}
 
-		public override string Description 
-		{ 
-			get { return TargetArgument.Description + " = " + SourceArgument.Description; } 
+		public override string Description
+		{
+			get { return TargetArgument.Description + " = " + SourceArgument.Description; }
 		}
 	}
 }

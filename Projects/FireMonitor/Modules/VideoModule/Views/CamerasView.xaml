@@ -28,6 +28,12 @@
 										<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" 
 											   Source="{Binding Status, Converter={StaticResource RviStatusToIconConverter}}" 
 											   Visibility="{Binding StatusVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" 
+											   Source="/Controls;component/RviStatusIcons/IsRecordOnline.png" 
+											   Visibility="{Binding IsRecordOnline,Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" 
+											   Source="/Controls;component/RviStatusIcons/IsOnGuard.png" 
+											   Visibility="{Binding IsOnGuard,Converter={StaticResource BoolToVisibilityConverter}}" />
 										<Grid Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Background="{DynamicResource BVideo}" />
 										<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
 											<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">

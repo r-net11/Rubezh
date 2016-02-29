@@ -210,18 +210,14 @@ namespace RubezhDAL.DataClasses
 				var subsystems = filter.JournalSubsystemTypes.Select(x => (int)x).ToList();
 				result = result.Where(x => subsystems.Contains(x.Subsystem));
 			}
-			if (filter.JournalObjectTypes.Count > 0)
+			if (filter.ObjectUIDs.Count > 0)
+			{
+				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
+			}
+			else if (filter.JournalObjectTypes.Count > 0)
 			{
 				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();
 				result = result.Where(x => objects.Contains(x.ObjectType));
-			}
-			if (filter.ObjectUIDs.Count > 0)
-			{
-				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
-			}
-			if (filter.ObjectUIDs.Count > 0)
-			{
-				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
 			}
 			result = result.OrderByDescending(x => x.SystemDate).Take(filter.LastItemsCount);
 			return result;
