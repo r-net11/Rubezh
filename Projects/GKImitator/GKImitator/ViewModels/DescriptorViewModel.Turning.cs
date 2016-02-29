@@ -352,8 +352,6 @@ namespace GKImitator.ViewModels
 		{
 			if (GetStateBit(GKStateBit.Attention) || GetStateBit(GKStateBit.Fire1))
 				return;
-
-			SetStateBit(GKStateBit.Norm, false);
 			if (GuardZoneAlarmDelay > 0)
 			{
 				SetStateBit(GKStateBit.Fire1, false);
