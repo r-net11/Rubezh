@@ -303,7 +303,7 @@ namespace RubezhAPI.GK
 				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
 				door.LinkToDescriptor(door);
-				if (door.PimCrossing != null)
+				if (door.DoorType == GKDoorType.Barrier && door.PimCrossing != null)
 				{
 					if (door.LockControlDevice != null)
 						door.PimCrossing.LinkToDescriptor(door.LockControlDevice);
@@ -312,7 +312,7 @@ namespace RubezhAPI.GK
 					door.PimCrossing.LinkToDescriptor(door.PimCrossing);
 					door.PimCrossing.LinkToDescriptor(door);
 				}
-				if (door.PimEnter != null)
+				if (door.DoorType == GKDoorType.AirlockBooth && door.PimEnter != null)
 				{
 					if (door.EnterDevice != null)
 						door.PimEnter.LinkToDescriptor(door.EnterDevice);
