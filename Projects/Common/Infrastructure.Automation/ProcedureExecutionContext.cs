@@ -65,6 +65,8 @@ namespace Infrastructure.Automation
 					return explicitValue.DateTimeValue;
 				case ExplicitType.Integer:
 					return explicitValue.IntValue;
+				case ExplicitType.Float:
+					return explicitValue.FloatValue;
 				case ExplicitType.String:
 					return explicitValue.StringValue;
 				case ExplicitType.Object:
@@ -102,6 +104,8 @@ namespace Infrastructure.Automation
 					return explicitValues.Select(x => (object)x.DateTimeValue).ToArray();
 				case ExplicitType.Integer:
 					return explicitValues.Select(x => (object)x.IntValue).ToArray();
+				case ExplicitType.Float:
+					return explicitValues.Select(x => (object)x.FloatValue).ToArray();
 				case ExplicitType.String:
 					return explicitValues.Select(x => (object)x.StringValue).ToArray();
 				case ExplicitType.Object:
@@ -140,6 +144,8 @@ namespace Infrastructure.Automation
 
 				if (target.ExplicitType == ExplicitType.Integer)
 					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { IntValue = Convert.ToInt32(x) }).ToList();
+				if (target.ExplicitType == ExplicitType.Float)
+					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { FloatValue = Convert.ToDouble(x) }).ToList();
 				if (target.ExplicitType == ExplicitType.String)
 					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { StringValue = Convert.ToString(x) }).ToList();
 				if (target.ExplicitType == ExplicitType.Boolean)
@@ -170,6 +176,8 @@ namespace Infrastructure.Automation
 			{
 				if (target.ExplicitType == ExplicitType.Integer)
 					target.ExplicitValue.IntValue = Convert.ToInt32(value);
+				if (target.ExplicitType == ExplicitType.Float)
+					target.ExplicitValue.FloatValue = Convert.ToDouble(value);
 				if (target.ExplicitType == ExplicitType.String)
 					target.ExplicitValue.StringValue = Convert.ToString(value);
 				if (target.ExplicitType == ExplicitType.Boolean)

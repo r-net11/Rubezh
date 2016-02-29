@@ -152,8 +152,8 @@ namespace Infrastructure.Automation
 
 		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType ExplicitType)
 		{
-			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) ||
-				(ExplicitType == ExplicitType.Object) || ExplicitType == ExplicitType.Enum)
+			if (ExplicitType == ExplicitType.Integer || ExplicitType == ExplicitType.Float ||
+				ExplicitType == ExplicitType.DateTime || ExplicitType == ExplicitType.Enum)
 				return new List<ConditionType>
 				{
 					ConditionType.IsEqual,
@@ -223,6 +223,8 @@ namespace Infrastructure.Automation
 					return explicitValue.DateTimeValue.ToString();
 				case ExplicitType.Integer:
 					return explicitValue.IntValue.ToString();
+				case ExplicitType.Float:
+					return explicitValue.FloatValue.ToString();
 				case ExplicitType.String:
 					return explicitValue.StringValue;
 				case ExplicitType.Enum:

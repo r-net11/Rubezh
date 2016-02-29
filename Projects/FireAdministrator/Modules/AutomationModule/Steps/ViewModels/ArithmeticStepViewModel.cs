@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Automation;
 using RubezhAPI.Automation;
-using Infrastructure.Automation;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -37,6 +38,13 @@ namespace AutomationModule.ViewModels
 					Argument1.ExplicitType = ExplicitType.String;
 					Argument2.Update(Procedure, AutomationHelper.GetEnumList<ExplicitType>(), isList: false);
 					Argument2.ExplicitType = ExplicitType.String;
+					break;
+				case ExplicitType.Float:
+					var explicitTypes = new List<ExplicitType> { ExplicitType.Integer, ExplicitType.Float };
+					Argument1.Update(Procedure, explicitTypes, isList: false);
+					Argument1.ExplicitType = ExplicitType.Float;
+					Argument2.Update(Procedure, explicitTypes, isList: false);
+					Argument2.ExplicitType = ExplicitType.Float;
 					break;
 				default:
 					Argument1.Update(Procedure, SelectedExplicitType, isList: false);
@@ -114,7 +122,7 @@ namespace AutomationModule.ViewModels
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub };
 				if (value == ExplicitType.String)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add };
-				if (value == ExplicitType.Integer)
+				if (value == ExplicitType.Integer || value == ExplicitType.Float)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub, ArithmeticOperationType.Multi, ArithmeticOperationType.Div };
 				OnPropertyChanged(() => ArithmeticOperationTypes);
 				OnPropertyChanged(() => SelectedExplicitType);

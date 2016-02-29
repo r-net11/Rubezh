@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace RubezhAPI.Automation
@@ -18,7 +15,7 @@ namespace RubezhAPI.Automation
 			Name = string.Empty;
 			Description = string.Empty;
 		}
-		public OpcDaTagFilter(Guid filterGuid, string name, string description, Guid tagUid, uint hysteresis, ExplicitType valueType)
+		public OpcDaTagFilter(Guid filterGuid, string name, string description, Guid tagUid, double hysteresis, ExplicitType valueType)
 		{
 			UID = filterGuid;
 			TagUID = tagUid;
@@ -31,6 +28,7 @@ namespace RubezhAPI.Automation
 				case ExplicitType.Boolean: { Value = false; break; }
 				case ExplicitType.DateTime: { Value = DateTime.Now; break; }
 				case ExplicitType.Integer: { Value = (Int32)0; break; }
+				case ExplicitType.Float: { Value = (Double)0; break; }
 				case ExplicitType.String: { Value = String.Empty; break; }
 				default:
 					{
@@ -51,7 +49,7 @@ namespace RubezhAPI.Automation
 		[DataMember]
 		public Guid TagUID { get; set; }
 		[DataMember]
-		public uint Hysteresis { get; set; }
+		public double Hysteresis { get; set; }
 		[DataMember]
 		public ExplicitType ValueType { get; set; }
 		[XmlIgnore]
@@ -91,6 +89,19 @@ namespace RubezhAPI.Automation
 						}
 						return false;
 					}
+				case ExplicitType.Float:
+					{
+						var max = System.Convert.ToDouble(Value) + Hysteresis;
+						var min = System.Convert.ToDouble(Value) - Hysteresis;
+						var current = System.Convert.ToDouble(tagValue);
+
+						if ((current > max) || (current < min))
+						{
+							Value = current;
+							return true;
+						}
+						return false;
+					}
 				case ExplicitType.String:
 					{
 						return !((string)Value).Equals(tagValue);
@@ -118,6 +129,7 @@ namespace RubezhAPI.Automation
 					return ExplicitType.DateTime;
 				case "System.Double":
 				case "System.Single":
+					return ExplicitType.Float;
 				case "System.Int16":
 				case "System.Int32":
 					return ExplicitType.Integer;
