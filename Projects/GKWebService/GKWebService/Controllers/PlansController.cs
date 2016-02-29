@@ -10,6 +10,7 @@ using GKWebService.DataProviders.Plan;
 
 namespace GKWebService.Controllers
 {
+	[Authorize]
 	public class PlansController : Controller
 	{
 		[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]

@@ -16,6 +16,9 @@
                     keyboard: false
                 });
             }]
+        }).state('home', {
+            url: '',
+            //template: '<ui-view/>'
         }).state('state', {
             url: "/state/:alarmType",
             templateUrl: "/Alarms/Alarms"

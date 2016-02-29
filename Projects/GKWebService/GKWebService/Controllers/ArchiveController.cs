@@ -13,7 +13,8 @@ using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
-    public class ArchiveController : Controller
+	[Authorize]
+	public class ArchiveController : Controller
     {
 		public ActionResult Index()
 		{
