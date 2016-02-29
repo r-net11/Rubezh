@@ -67,7 +67,7 @@ namespace VideoModule.ViewModels
 		void OnAdd()
 		{
 			var devicesViewModel = new DeviceSelectionViewModel();
-			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(devicesViewModel))
+			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
 				foreach (var camera in devicesViewModel.GetCameras())
 				{
@@ -96,7 +96,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			Infrastructure.Common.Windows.DialogService.ShowModalWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
+			DialogService.ShowModalWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
 		}
 
 		bool CanEditDelete()
@@ -108,7 +108,7 @@ namespace VideoModule.ViewModels
 		void OnSettings()
 		{
 			var settingsSelectionViewModel = new SettingsSelectionViewModel(FiresecManager.SystemConfiguration.RviSettings);
-			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(settingsSelectionViewModel))
+			if (DialogService.ShowModalWindow(settingsSelectionViewModel))
 			{
 				FiresecManager.SystemConfiguration.RviSettings = settingsSelectionViewModel.RviSettings;
 				ServiceFactory.SaveService.CamerasChanged = true;
