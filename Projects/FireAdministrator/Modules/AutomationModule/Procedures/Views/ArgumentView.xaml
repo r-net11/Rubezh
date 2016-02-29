@@ -105,7 +105,7 @@
 					</Button>
 				</DockPanel>
 				<extToolkit:DateTimePicker Width="200" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" Value="{Binding ExplicitValue.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:TimeSpanUpDown Width="200" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Time}}" Value="{Binding ExplicitValue.TimeSpanValue, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:TimeSpanUpDown Width="200" Height="25" VerticalAlignment="Center" Margin="2" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Time}}" Value="{Binding ExplicitValue.TimeSpanValue, UpdateSourceTrigger=PropertyChanged}" />
 				<StackPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}">
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.StateTypeValues}" SelectedItem="{Binding ExplicitValue.StateTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}">
 						<ComboBox.ItemTemplate>
