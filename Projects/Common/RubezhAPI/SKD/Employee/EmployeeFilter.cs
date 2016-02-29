@@ -63,24 +63,24 @@ namespace RubezhAPI.SKD
 		}
 	}
 
-    public class HRFilter
-    {
-        public HRFilter()
-        {
-            EmployeeFilter = new EmployeeFilter();
-            DepartmentFilter = new DepartmentFilter();
-            PositionFilter = new PositionFilter();
-            AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter();
-            AccessTemplateFilter = new AccessTemplateFilter();
-            PassCardTemplateFilter = new PassCardTemplateFilter();
-            CardFilter = new CardFilter();
-        }
-        public EmployeeFilter EmployeeFilter { get; set; }
-        public DepartmentFilter DepartmentFilter { get; set; }
-        public PositionFilter PositionFilter { get; set; }
-        public AdditionalColumnTypeFilter AdditionalColumnTypeFilter { get; set; }
-        public AccessTemplateFilter AccessTemplateFilter { get; set; }
-        public PassCardTemplateFilter PassCardTemplateFilter { get; set; }
-        public CardFilter CardFilter { get; set; }
-    }
+	public class HRFilter
+	{
+		public HRFilter()
+		{
+			EmployeeFilter = new EmployeeFilter();
+			DepartmentFilter = new DepartmentFilter();
+			PositionFilter = new PositionFilter();
+			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter();
+			AccessTemplateFilter = new AccessTemplateFilter();
+			PassCardTemplateFilter = new PassCardTemplateFilter();
+			CardFilter = new CardFilter();
+		}
+		public EmployeeFilter EmployeeFilter { get; set; }
+		public DepartmentFilter DepartmentFilter { get; set; }
+		public PositionFilter PositionFilter { get; set; }
+		public AdditionalColumnTypeFilter AdditionalColumnTypeFilter { get; set; }
+		public AccessTemplateFilter AccessTemplateFilter { get; set; }
+		public PassCardTemplateFilter PassCardTemplateFilter { get; set; }
+		public CardFilter CardFilter { get; set; }
+	}
 }

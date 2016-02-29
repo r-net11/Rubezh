@@ -10,13 +10,13 @@ using System.Data.Entity;
 
 namespace RubezhDAL
 {
-    public class DepartmentSynchroniser : Synchroniser<RubezhAPI.SKD.ExportDepartment, Department>
+	public class DepartmentSynchroniser : Synchroniser<RubezhAPI.SKD.ExportDepartment, Department>
 	{
 		public DepartmentSynchroniser(DbSet<Department> table, DbService databaseService) : base(table, databaseService) { }
 
-        public override RubezhAPI.SKD.ExportDepartment Translate(Department item)
+		public override RubezhAPI.SKD.ExportDepartment Translate(Department item)
 		{
-            return new RubezhAPI.SKD.ExportDepartment 
+			return new RubezhAPI.SKD.ExportDepartment 
 			{ 
 				Name = item.Name, 
 				Description = item.Description,	
@@ -34,14 +34,14 @@ namespace RubezhDAL
 			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 
-        protected override void UpdateForignKeys(RubezhAPI.SKD.ExportDepartment exportItem, Department tableItem, OrganisationHRCash hrCash)
+		protected override void UpdateForignKeys(RubezhAPI.SKD.ExportDepartment exportItem, Department tableItem, OrganisationHRCash hrCash)
 		{
 			tableItem.OrganisationUID = hrCash.OrganisationUID;
 			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, hrCash.Departments);
 			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, hrCash.Employees);
 		}
 
-        public override void TranslateBack(RubezhAPI.SKD.ExportDepartment exportItem, Department tableItem)
+		public override void TranslateBack(RubezhAPI.SKD.ExportDepartment exportItem, Department tableItem)
 		{
 			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description; 
@@ -50,9 +50,9 @@ namespace RubezhDAL
 			tableItem.RemovalDate = exportItem.RemovalDate;
 		}
 
-        protected override void BeforeSave(List<RubezhAPI.SKD.ExportDepartment> exportItems)
+		protected override void BeforeSave(List<RubezhAPI.SKD.ExportDepartment> exportItems)
 		{
-            var resultList = new List<RubezhAPI.SKD.ExportDepartment>();
+			var resultList = new List<RubezhAPI.SKD.ExportDepartment>();
 			resultList = exportItems.Where(x => !exportItems.Any(y => y.ExternalKey == x.ParentDepartmentExternalKey)).ToList();
 			while (resultList.Count < exportItems.Count)
 			{
@@ -61,7 +61,7 @@ namespace RubezhDAL
 			exportItems = resultList;
 		}
 
-        List<RubezhAPI.SKD.ExportDepartment> GetChildrenList(List<RubezhAPI.SKD.ExportDepartment> parentList, List<RubezhAPI.SKD.ExportDepartment> allList)
+		List<RubezhAPI.SKD.ExportDepartment> GetChildrenList(List<RubezhAPI.SKD.ExportDepartment> parentList, List<RubezhAPI.SKD.ExportDepartment> allList)
 		{
 			var result = allList.Where(x => parentList.Any(y => y.ExternalKey == x.ParentDepartmentExternalKey)).ToList();
 			return result;

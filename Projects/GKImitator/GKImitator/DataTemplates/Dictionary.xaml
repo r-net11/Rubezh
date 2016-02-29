@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:GKImitator.Views"
-                    xmlns:ViewModels="clr-namespace:GKImitator.ViewModels">
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:GKImitator.Views"
+					xmlns:ViewModels="clr-namespace:GKImitator.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:MainViewModel}">
-        <Views:MainView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:MainViewModel}">
+		<Views:MainView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:DevicePropertiesViewModel}">
 		<Views:DevicePropertiesView />
@@ -27,17 +27,17 @@
 		<Views:DelayPropertiesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardZonePropertiesViewModel}">
-        <Views:GuardZonePropertiesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:GuardZonePropertiesViewModel}">
+		<Views:GuardZonePropertiesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorPropertiesViewModel}">
-        <Views:DoorPropertiesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DoorPropertiesViewModel}">
+		<Views:DoorPropertiesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CodePropertiesViewModel}">
-        <Views:CodePropertiesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:CodePropertiesViewModel}">
+		<Views:CodePropertiesView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:MeasureViewModel}">
 		<Views:MeasureView />

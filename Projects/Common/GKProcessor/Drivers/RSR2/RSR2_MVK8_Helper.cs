@@ -100,6 +100,8 @@ namespace GKProcessor
 			driver.Properties.Add(property4);
 
 			GKDriversHelper.AddIntProprety(driver, 5, "Норма питания, В", 80, 0, 280).Multiplier = 10;
+			GKDriversHelper.AddIntProprety(driver, 6, "Порог КЗ, мА", 500, 5, 2000);
+			GKDriversHelper.AddIntProprety(driver, 7, "Порог обрыва, мА", 5, 5, 2000);
 
 			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true, IsNotVisible = true });
 			driver.MeasureParameters.Add(new GKMeasureParameter { No = 2, Name = "Отсчет удержания, с", IsDelay = true, IsNotVisible = true });

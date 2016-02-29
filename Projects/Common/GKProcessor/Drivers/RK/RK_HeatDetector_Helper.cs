@@ -3,7 +3,7 @@ using System;
 
 namespace GKProcessor
 {
-    public class RK_HeatDetector_Helper
+	public class RK_HeatDetector_Helper
 	{
 		public static GKDriver Create()
 		{
@@ -22,7 +22,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 
-            GKDriversHelper.AddRadioChanelProperties(driver);
+			GKDriversHelper.AddRadioChanelProperties(driver);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог срабатывания по температуре, °C", 70, 54, 85);
 			GKDriversHelper.AddIntProprety(driver, 4, "Порог срабатывания по градиенту температуры, °C/мин", 5, 1, 50).Multiplier = 10;
 

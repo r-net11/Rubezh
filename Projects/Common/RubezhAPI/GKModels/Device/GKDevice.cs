@@ -169,8 +169,8 @@ namespace RubezhAPI.GK
 				{
 					_device.Add(device);
 					AddDependentElement(device);
-                    if (!isDetectorMirror)
-                        device.AddDependentElement(this);
+					if (!isDetectorMirror)
+						device.AddDependentElement(this);
 				}
 			});
 			GKReflectionItem.Devices = new List<GKDevice>(_device);
@@ -652,16 +652,16 @@ namespace RubezhAPI.GK
 			}
 		}
 
-        [XmlIgnore]
-        public GKDevice MRKParent
-        {
-            get
-            {
-                var allParents = AllParents;
-                allParents.Add(this);
-                return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_MRK);
-            }
-        }
+		[XmlIgnore]
+		public GKDevice MRKParent
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_MRK);
+			}
+		}
 
 
 		[XmlIgnore]

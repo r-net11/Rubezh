@@ -21,7 +21,6 @@
         		config.enableSorting = false;
         		config.multiSelect = false;
         		config.enableColumnMenus = false;
-        		config.enableVerticalScrollbar = uiGridConstants.scrollbars.NEVER;
         		config.enableHorizontalScrollbar = uiGridConstants.scrollbars.NEVER;
         		config.rowHeight = 35;
         		config.columnDefs = colDefs;

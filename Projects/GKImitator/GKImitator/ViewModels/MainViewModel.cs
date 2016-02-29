@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using GKImitator.Processor;
 using RubezhAPI.GK;
 using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
@@ -46,7 +48,8 @@ namespace GKImitator.ViewModels
 						{
 							foreach (var descriptor in Descriptors)
 							{
-								descriptor.CheckDelays();
+								if (!(descriptor.GKBase is GKPim) && !(descriptor.GKBase is GKDoor && descriptor.Regime == Regime.Manual))
+									descriptor.CheckDelays();
 							}
 						}
 						));

@@ -35,18 +35,18 @@ namespace RubezhDAL.DataClasses
 				//var journals = new List<Journal>();
 				//for (int i = 0; i < 1500000; i++)
 				//{
-				//    var journal = new Journal
-				//    {
-				//        UID = Guid.NewGuid(),
-				//        CardNo = 1,
-				//        Description = 1,
-				//        Name = 1,
-				//        ObjectType = 1,
-				//        ObjectUID = Guid.Empty,
-				//        Subsystem = 1,
-				//        SystemDate = DateTime.Now,
-				//    };
-				//    journals.Add(journal);    
+				//	var journal = new Journal
+				//	{
+				//		UID = Guid.NewGuid(),
+				//		CardNo = 1,
+				//		Description = 1,
+				//		Name = 1,
+				//		ObjectType = 1,
+				//		ObjectUID = Guid.Empty,
+				//		Subsystem = 1,
+				//		SystemDate = DateTime.Now,
+				//	};
+				//	journals.Add(journal);	
 				//}
 				var journals = new List<RubezhAPI.Journal.JournalItem>();
 				for (int i = 0; i < 25000; i++)

@@ -62,6 +62,7 @@ namespace RubezhAPI.Automation
 						case ExplicitType.Boolean: return ExplicitValues.Select(x => (object)x.BoolValue).ToArray();
 						case ExplicitType.DateTime: return ExplicitValues.Select(x => (object)x.DateTimeValue).ToArray();
 						case ExplicitType.Integer: return ExplicitValues.Select(x => (object)x.IntValue).ToArray();
+						case ExplicitType.Float: return ExplicitValues.Select(x => (object)x.FloatValue).ToArray();
 						case ExplicitType.String: return ExplicitValues.Select(x => (object)x.StringValue).ToArray();
 						case ExplicitType.Object: return ExplicitValues.Select(x => (object)x.UidValue).ToArray();
 						case ExplicitType.Enum:
@@ -86,6 +87,7 @@ namespace RubezhAPI.Automation
 						case ExplicitType.Boolean: return ExplicitValue.BoolValue;
 						case ExplicitType.DateTime: return ExplicitValue.DateTimeValue;
 						case ExplicitType.Integer: return ExplicitValue.IntValue;
+						case ExplicitType.Float: return ExplicitValue.FloatValue;
 						case ExplicitType.String: return ExplicitValue.StringValue;
 						case ExplicitType.Object: return ExplicitValue.UidValue;
 						case ExplicitType.Enum:

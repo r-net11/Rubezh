@@ -2699,6 +2699,13 @@
     <Resource Include="GKIcons\RSR2_MRK.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MVK2_Group.png" />
+    <Resource Include="GKIcons\RSR2_MVK4_Group.png" />
+  </ItemGroup>
+    <ItemGroup>
     <Resource Include="RviStatusIcons\IsRecordOnline.png" />
   </ItemGroup>
   <ItemGroup>

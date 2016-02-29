@@ -10,8 +10,8 @@ namespace RubezhAPI.Automation
 		{
 			Uid = Guid.NewGuid().ToString();
 			Name = "Название OPC Тега";
-            NodeNum = "Идентификатор ноды";
-		    Value = "Какое-то значение";
+			NodeNum = "Идентификатор ноды";
+			Value = "Какое-то значение";
 
 		}
 
@@ -21,11 +21,11 @@ namespace RubezhAPI.Automation
 		[DataMember]
 		public string NodeNum { get; set; }
 
-        [DataMember]
-        public string SessionUrl { get; set; }
+		[DataMember]
+		public string SessionUrl { get; set; }
 
-        [DataMember]
-        public string Value { get; set; }
+		[DataMember]
+		public string Value { get; set; }
 
 		[DataMember]
 		public string Uid { get; set; }

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-    public abstract class OrganisationFilterBase : IsDeletedFilter
+	public abstract class OrganisationFilterBase : IsDeletedFilter
 	{
 		[DataMember]
 		public List<Guid> OrganisationUIDs { get; set; }
@@ -17,6 +17,6 @@ namespace RubezhAPI.SKD
 			: base()
 		{
 			OrganisationUIDs = new List<Guid>();
-        }
+		}
 	}
 }

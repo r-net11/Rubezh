@@ -22,7 +22,7 @@ namespace RubezhDAL
 
 		public JounalSynchroniser(DbService dbService)
 		{
-            Context = dbService.Context;
+			Context = dbService.Context;
 			_Table = Context.Journals;
 		}
 

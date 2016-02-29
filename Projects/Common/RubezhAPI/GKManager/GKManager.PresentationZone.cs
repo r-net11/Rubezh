@@ -48,7 +48,7 @@ namespace RubezhAPI
 					foreach (var item in device.GKReflectionItem.Devices)
 					   {
 						stringbuilderDevice.Append(item.PresentationName + (item == device.GKReflectionItem.Devices.LastOrDefault()?"" :", ")); 
-	                   }
+					   }
 					list.Add(stringbuilderDevice);
 				}
 				if (device.GKReflectionItem.Delays != null && device.GKReflectionItem.Delays.Count>0)

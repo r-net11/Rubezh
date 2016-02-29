@@ -141,10 +141,16 @@ namespace Infrastructure.Automation
 						result = value;
 					break;
 				case ExplicitType.Integer:
-					if (valueTypeName == "System.Double" || valueTypeName == "System.Single" || valueTypeName == "System.Int16" || valueTypeName == "System.Int32")
+					if (valueTypeName == "System.Int16" || valueTypeName == "System.Int32")
 						result = resultIsArray ?
 							(object)((IEnumerable)value).Cast<Int32>() :
 							Convert.ToInt32(value);
+					break;
+				case ExplicitType.Float:
+					if (valueTypeName == "System.Double" || valueTypeName == "System.Single")
+						result = resultIsArray ?
+							(object)((IEnumerable)value).Cast<Double>() :
+							Convert.ToDouble(value);
 					break;
 				case ExplicitType.String:
 					result = resultIsArray ?

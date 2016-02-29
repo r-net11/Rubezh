@@ -36,10 +36,10 @@ namespace RubezhAPI.Journal
 
 		public static List<JournalDetalisationItem> StringToList(string detalisation)
 		{
-            var result = new List<JournalDetalisationItem>();
-            if (detalisation == null)
-                return result;
-            var detalisationStringsItems = detalisation.Split(new string[] { "$" }, StringSplitOptions.RemoveEmptyEntries);
+			var result = new List<JournalDetalisationItem>();
+			if (detalisation == null)
+				return result;
+			var detalisationStringsItems = detalisation.Split(new string[] { "$" }, StringSplitOptions.RemoveEmptyEntries);
 			
 			foreach (var detSubString in detalisationStringsItems)
 			{
