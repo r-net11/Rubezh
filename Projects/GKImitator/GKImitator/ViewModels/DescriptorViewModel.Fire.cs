@@ -30,6 +30,7 @@ namespace GKImitator.ViewModels
 		void OnSetFireSmoke()
 		{
 			var journalItem = new ImitatorJournalItem(2, 2, 2, 0);
+			SetStateBit(GKStateBit.Norm, false);
 			SetStateBit(GKStateBit.Fire1, true, journalItem);
 		}
 
@@ -37,6 +38,7 @@ namespace GKImitator.ViewModels
 		void OnSetFireTemperature()
 		{
 			var journalItem = new ImitatorJournalItem(2, 2, 3, 0);
+			SetStateBit(GKStateBit.Norm, false);
 			SetStateBit(GKStateBit.Fire1, true, journalItem);
 		}
 
