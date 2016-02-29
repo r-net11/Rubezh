@@ -94,7 +94,7 @@ namespace FiresecService
 						if (employeeUID != Guid.Empty)
 						{
 							var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
-							if (employee != null)
+							if (employee != null && employee.Result != null)
 							{
 								journalItem.UserName = employee.Result.Name;
 							}
@@ -118,7 +118,7 @@ namespace FiresecService
 			}
 
 			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
-			
+
 			// Фиксируем информацию о событии в БД журнала событий
 			Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
