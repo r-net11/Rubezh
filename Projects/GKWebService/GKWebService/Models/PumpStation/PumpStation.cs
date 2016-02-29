@@ -19,9 +19,9 @@ namespace GKWebService.Models.PumpStation
 			No = pumpStation.No;
 			GKDescriptorNo = pumpStation.GKDescriptorNo;
 			Name = pumpStation.Name;
-			StartLogic = GKManager.GetPresentationLogic(pumpStation.StartLogic);
-			StopLogic = GKManager.GetPresentationLogic(pumpStation.StopLogic);
-			AutomaticOffLogic = GKManager.GetPresentationLogic(pumpStation.AutomaticOffLogic);
+			StartLogic = GKManager.GetPresentationLogic(pumpStation.StartLogic.OnClausesGroup);
+			StopLogic = GKManager.GetPresentationLogic(pumpStation.StopLogic.OnClausesGroup);
+			AutomaticOffLogic = GKManager.GetPresentationLogic(pumpStation.AutomaticOffLogic.OnClausesGroup);
 			Delay = pumpStation.Delay;
 			Hold = pumpStation.Hold;
 			DelayRegime = pumpStation.DelayRegime.ToDescription();

@@ -48,9 +48,9 @@ namespace GKWebService.Models.Door
 			 zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
 			if (zone != null)
 				EnterZone = new Tuple<string, Guid>(zone.PresentationName, zone.UID);
-			OpenRegimeLogic = GKManager.GetPresentationLogic(door.OpenRegimeLogic);
-			NormRegimeLogic = GKManager.GetPresentationLogic(door.NormRegimeLogic);
-			CloseRegimeLogic = GKManager.GetPresentationLogic(door.CloseRegimeLogic);
+			OpenRegimeLogic = GKManager.GetPresentationLogic(door.OpenRegimeLogic.OnClausesGroup);
+			NormRegimeLogic = GKManager.GetPresentationLogic(door.NormRegimeLogic.OnClausesGroup  );
+			CloseRegimeLogic = GKManager.GetPresentationLogic(door.CloseRegimeLogic.OnClausesGroup);
 
 			
 			State = door.State.StateClass.ToDescription();

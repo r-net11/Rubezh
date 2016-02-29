@@ -71,15 +71,15 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(PumpStation.StartLogic); }
+			get { return GKManager.GetPresentationLogic(PumpStation.StartLogic.OnClausesGroup); }
 		}
 		public string StopPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(PumpStation.StopLogic); }
+			get { return GKManager.GetPresentationLogic(PumpStation.StopLogic.OnClausesGroup); }
 		}
 		public string AutomaticOffPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(PumpStation.AutomaticOffLogic); }
+			get { return GKManager.GetPresentationLogic(PumpStation.AutomaticOffLogic.OnClausesGroup); }
 		}
 	}
 }
