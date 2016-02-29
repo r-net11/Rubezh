@@ -115,7 +115,7 @@ namespace RviClient
 			catch (Exception) { }
 			return rviServers;
 		}
-		static List<RviDevice> GetRviDevices(string url, string login, string password, List<Camera> existingCameras, out bool isNotConnected)
+		public static List<RviDevice> GetRviDevices(string url, string login, string password, List<Camera> existingCameras, out bool isNotConnected)
 		{
 			var devices = GetDevices(url, login, password, out isNotConnected);
 			var rviDevices = new List<RviDevice>();
@@ -137,7 +137,10 @@ namespace RviClient
 						Vendor = channel.Vendor,
 						CountPresets = channel.CountPresets,
 						CountTemplateBypass = channel.CountTemplateBypass,
-						CountTemplatesAutoscan = channel.CountTemplatesAutoscan
+						CountTemplatesAutoscan = channel.CountTemplatesAutoscan,
+						Status = ConvertToRviStatus(device.Status),
+						IsRecordOnline = channel.IsRecordOnline,
+						IsOnGuard = channel.IsOnGuard
 					};
 					foreach (var stream in channel.Streams)
 					{
@@ -154,17 +157,6 @@ namespace RviClient
 				var camera = newCameras.FirstOrDefault(newCamera => newCamera.UID == existingCamera.UID);
 				if (camera != null)
 					camera.IsAddedInConfiguration = existingCamera.IsAddedInConfiguration;
-			}
-			return rviDevices;
-		}
-		public static List<RviDevice> GetRviDevicesWithoutChannels(string url, string login, string password, out bool isNotConnected)
-		{
-			var devices = GetDevices(url, login, password, out isNotConnected);
-			var rviDevices = new List<RviDevice>();
-			foreach (var device in devices)
-			{
-				var rviDevice = new RviDevice { Uid = device.Guid, Ip = device.Ip, Name = device.Name, Status = ConvertToRviStatus(device.Status) };
-				rviDevices.Add(rviDevice);
 			}
 			return rviDevices;
 		}
