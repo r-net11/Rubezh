@@ -325,7 +325,7 @@ namespace RubezhAPI.GK
 					door.PimEnter.LinkToDescriptor(door);
 					door.PimEnter.LinkToDescriptor(door.PimEnter);
 				}
-				if (door.PimExit != null)
+				if (door.DoorType == GKDoorType.AirlockBooth && door.PimExit != null)
 				{
 					if (door.EnterDevice != null)
 						door.PimExit.LinkToDescriptor(door.EnterDevice);
