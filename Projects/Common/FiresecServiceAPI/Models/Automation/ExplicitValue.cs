@@ -1,4 +1,5 @@
-﻿using FiresecAPI.GK;
+﻿using System.Xml.Serialization;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using System;
@@ -11,6 +12,8 @@ namespace FiresecAPI.Automation
 	[DataContract]
 	public class ExplicitValue
 	{
+		private TimeSpan _timeSpanValue;
+
 		public ExplicitValue()
 		{
 			DateTimeValue = DateTime.Now;
@@ -30,7 +33,20 @@ namespace FiresecAPI.Automation
 		public DateTime DateTimeValue { get; set; }
 
 		[DataMember]
-		public TimeSpan TimeSpanValue { get; set; }
+		[XmlIgnore]
+		public TimeSpan TimeSpanValue
+		{
+			get	{ return _timeSpanValue; }
+			set { _timeSpanValue = value; }
+		}
+
+		[DataMember]
+		[XmlElement("TimeSpanValue")]
+		public long TimeSpanValueTicks
+		{
+			get { return _timeSpanValue.Ticks; }
+			set { _timeSpanValue = new TimeSpan(value); }
+		}
 
 		[DataMember]
 		public Guid UidValue { get; set; }
