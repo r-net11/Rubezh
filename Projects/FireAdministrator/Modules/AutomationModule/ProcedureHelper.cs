@@ -80,7 +80,13 @@ namespace AutomationModule
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
 		{
 			if (objectType == ObjectType.SKDDevice)
-				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type, Property.Uid };
+				return new List<Property>
+				{
+					Property.AccessState,
+					Property.DoorStatus,
+					Property.BreakInStatus,
+					Property.ConnectionStatus
+				};
 			return new List<Property>();
 		}
 

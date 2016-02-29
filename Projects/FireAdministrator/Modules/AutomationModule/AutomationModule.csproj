@@ -149,6 +149,7 @@
     <Compile Include="Steps\ViewModels\GetJournalItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetSkdDevicePropertyStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
@@ -274,6 +275,9 @@
     </Compile>
     <Compile Include="Steps\Views\GenerateGuidStepView.xaml.cs">
       <DependentUpon>GenerateGuidStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetSkdDevicePropertyStepView.xaml.cs">
+      <DependentUpon>GetSkdDevicePropertyStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationListStepView.xaml.cs">
       <DependentUpon>ImportOrganisationListStepView.xaml</DependentUpon>
@@ -578,6 +582,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\GenerateGuidStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GetSkdDevicePropertyStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

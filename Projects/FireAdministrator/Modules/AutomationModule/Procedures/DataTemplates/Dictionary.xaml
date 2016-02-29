@@ -248,6 +248,10 @@
 		<Views:RviAlarmStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="getSkdDevicePropertyTemplate">
+		<Views:GetSkdDevicePropertyStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		x:Key="stepTypeTemplateSelector"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
@@ -291,5 +295,6 @@
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		StartRecordTemplate="{StaticResource startRecordTemplate}"
 		StopRecordTemplate="{StaticResource stopRecordTemplate}"
-		ExportReportStepTemplate="{StaticResource exportReportStepViewTemplate}"/>
+		ExportReportStepTemplate="{StaticResource exportReportStepViewTemplate}"
+		GetSkdDevicePropertyTemplate="{StaticResource getSkdDevicePropertyTemplate}"/>
 </ResourceDictionary>

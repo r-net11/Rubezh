@@ -99,7 +99,9 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
 							new StepTypeViewModel(ProcedureStepType.CheckPermission),
-							new StepTypeViewModel(ProcedureStepType.GetJournalItem)
+							new StepTypeViewModel(ProcedureStepType.GetJournalItem),
+							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
+							new StepTypeViewModel(ProcedureStepType.GetSkdDeviceProperty),
 						}),
 					new StepTypeViewModel("Функции цикла", "/Controls;component/StepIcons/For.png",
 						new List<StepTypeViewModel>

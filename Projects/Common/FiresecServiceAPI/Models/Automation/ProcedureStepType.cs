@@ -155,6 +155,9 @@ namespace FiresecAPI.Automation
 		RviAlarm,
 
 		[Description("Экспорт отчета")]
-		ExportReport
+		ExportReport,
+
+		[Description("Получение свойства устройства СКД")]
+		GetSkdDeviceProperty
 	}
 }

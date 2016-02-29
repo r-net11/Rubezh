@@ -162,6 +162,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.RviAlarm:
 					return new RviAlarmStepViewModel(this);
+
+				case ProcedureStepType.GetSkdDeviceProperty:
+					return new GetSkdDevicePropertyStepViewModel(this);
+
 				default:
 					return null;
 			}

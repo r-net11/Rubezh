@@ -47,6 +47,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate StopRecordTemplate { get; set; }
 		public DataTemplate RviAlarmTemplate { get; set; }
 		public DataTemplate ExportReportStepTemplate { get; set; }
+		public DataTemplate GetSkdDevicePropertyTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -134,6 +135,8 @@ namespace AutomationModule.ViewModels
 				return RviAlarmTemplate;
 			if (item is ExportReportStepViewModel)
 				return ExportReportStepTemplate;
+			if (item is GetSkdDevicePropertyStepViewModel)
+				return GetSkdDevicePropertyTemplate;
 			return null;
 		}
 	}
