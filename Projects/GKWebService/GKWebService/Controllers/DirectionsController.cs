@@ -11,7 +11,8 @@ using RubezhClient;
 
 namespace GKWebService.Controllers
 {
-    public class DirectionsController : Controller
+	[Authorize]
+	public class DirectionsController : Controller
     {
         public ActionResult Index()
         {

@@ -187,6 +187,7 @@
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\archive\archiveCtrl.js" />
     <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
+    <Content Include="App\controllers\Common\mainIconsCtrl.js" />
     <Content Include="App\controllers\Common\loginCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
     <Content Include="App\controllers\delays\delaysCtrl.js" />
@@ -222,7 +223,9 @@
     <Content Include="App\directives\devicesGrid.js" />
     <Content Include="App\directives\modalDraggable.js" />
     <Content Include="App\route.js" />
+    <Content Include="App\services\authInterceptorService.js" />
     <Content Include="App\services\broadcastService.js" />
+    <Content Include="App\services\authService.js" />
     <Content Include="App\services\dialogService.js" />
     <Content Include="App\services\journalService.js" />
     <Content Include="App\services\signalrAlarmsService.js" />
@@ -232,7 +235,6 @@
     <Content Include="App\services\signalrDelaysService.js" />
     <Content Include="App\services\signalrDirectionsService.js" />
     <Content Include="App\services\signalrDoorsService.js" />
-    <Content Include="App\services\signalrFireZonesDevicesService.js" />
     <Content Include="App\services\signalrFireZonesService.js" />
     <Content Include="App\services\signalrGuardZonesService.js" />
     <Content Include="App\services\signalrMPTsService.js" />
@@ -497,6 +499,8 @@
     <Content Include="Content\ui-grid.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\angular-cookies.js" />
+    <Content Include="Scripts\angular-cookies.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-signalr-hub.js" />
     <Content Include="Scripts\angular-signalr-hub.min.js" />
@@ -613,6 +617,7 @@
     <Content Include="Content\common.less" />
     <Content Include="Content\pumpStations.less" />
     <Content Include="Content\mpts.less" />
+    <Content Include="Scripts\angular-cookies.min.js.map" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -697,7 +702,8 @@
     <Compile Include="DataProviders\Devices\DevicesHub.cs" />
     <Compile Include="DataProviders\Directions\DirectionsUpdaterHub.cs" />
     <Compile Include="DataProviders\DoorsHub\DoorsHub.cs" />
-    <Compile Include="DataProviders\FireZones\FireZonesUpdaterHub.cs" />
+    <Compile Include="DataProviders\FireZones\FireZonesHub.cs" />
+    <Compile Include="DataProviders\GkAuthorizeAttribute.cs" />
     <Compile Include="DataProviders\GuardZones\GuardZonesHub.cs" />
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
@@ -735,6 +741,7 @@
     <Compile Include="Models\GK\Directions\StateClass.cs" />
     <Compile Include="Models\Journal\JournalFilterEvent.cs" />
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
+    <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
     <Compile Include="Models\PumpStation\PumpStation.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />

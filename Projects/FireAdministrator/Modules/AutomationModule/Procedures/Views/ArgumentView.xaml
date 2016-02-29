@@ -84,6 +84,8 @@
 				<extToolkit:IntegerUpDown Width="200" Maximum="{Binding ExplicitValue.MaxIntValue}" Minimum="{Binding ExplicitValue.MinIntValue}"
 										  Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}"
 										  Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Width="200" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Float}}"
+										  Text="{Binding ExplicitValue.FloatValue, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox Width="200" IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}"
 						  Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
 				<DockPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}"

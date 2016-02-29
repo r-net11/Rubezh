@@ -7,6 +7,9 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Целое")]
 		Integer,
 
+		[DescriptionAttribute("Вещественное")]
+		Float,
+
 		[DescriptionAttribute("Логическое")]
 		Boolean,
 

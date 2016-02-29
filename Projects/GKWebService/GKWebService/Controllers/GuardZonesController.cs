@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
+	[Authorize]
 	public class GuardZonesController : Controller
 	{
 		// GET: GuardZones
