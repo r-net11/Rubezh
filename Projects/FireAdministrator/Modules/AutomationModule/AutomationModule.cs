@@ -74,7 +74,7 @@ namespace AutomationModule
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music"),
-							new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2"),
+							//new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2"),
 							//new NavigationItem<ShowOpcDaServersEvent, Guid>(_opcDaServersViewModel, "OPC DA Серверы", "Settings2"),
 							//new NavigationItem<ShowOpcTechnosoftwareEvent, Guid>(_opcTechnosoftwareViewModel, "OPC DA on Technosoftware", "Settings2"),
 							new NavigationItem<ShowOpcDaClientEvent, Guid>(_opcDaClientViewModel, "OPC DA Клиент", "Settings2")
