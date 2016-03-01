@@ -603,12 +603,13 @@ namespace RviClient
 					if (alarmRule != null)
 					{
 						var alarmRuleExecuteIn = new AlarmRuleExecuteIn();
+						alarmRuleExecuteIn.AlarmRuleGuid = alarmRule.Guid;
+						alarmRuleExecuteIn.ExternalEventGuid = Guid.NewGuid();
 						alarmRuleExecuteIn.Header = new HeaderRequest()
 						{
 							Request = Guid.NewGuid(),
 							Session = sessionUID
 						};
-						alarmRuleExecuteIn.AlarmRuleGuid = alarmRule.Guid;
 						var alarmRuleExecuteOut = client.AlarmRuleExecute(alarmRuleExecuteIn);
 					}
 				}
