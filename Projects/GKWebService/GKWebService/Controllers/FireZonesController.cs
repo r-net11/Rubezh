@@ -12,6 +12,7 @@ using RubezhAPI.GK;
 
 namespace GKWebService.Controllers
 {
+	[Authorize]
 	public class FireZonesController : Controller
 	{
 		public ActionResult Index()

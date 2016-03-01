@@ -1,9 +1,9 @@
-﻿using System;
-using System.Runtime.Serialization;
-using System.Windows.Media;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
+using System;
+using System.Runtime.Serialization;
+using System.Windows.Media;
 
 namespace RubezhAPI.Automation
 {
@@ -14,6 +14,7 @@ namespace RubezhAPI.Automation
 		{
 			DateTimeValue = DateTime.Now;
 			IntValue = 0;
+			FloatValue = 0;
 			StringValue = "";
 			ColorValue = new Color();
 			UidValue = Guid.Empty;
@@ -21,6 +22,9 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public int IntValue { get; set; }
+
+		[DataMember]
+		public double FloatValue { get; set; }
 
 		[DataMember]
 		public bool BoolValue { get; set; }
@@ -45,7 +49,7 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public JournalEventNameType JournalEventNameTypeValue { get; set; }
-		
+
 		[DataMember]
 		public JournalEventDescriptionType JournalEventDescriptionTypeValue { get; set; }
 

@@ -38,5 +38,10 @@ namespace GKWebService
 				///
 			}
 		}
+
+		protected void Application_BeginRequest()
+		{
+			Context.Response.SuppressFormsAuthenticationRedirect = true;
+		}
 	}
 }

@@ -53,7 +53,7 @@ namespace GKProcessor
 			{
 				var driverType = driver.DriverType;
 				//if (driverType == GKDriverType.GK && GKBase.GKDescriptorNo > 1)
-				//    driverType = GKDriverType.KAU;
+				//	driverType = GKDriverType.KAU;
 
 				switch (driverType)
 				{
@@ -287,60 +287,60 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Недопустимое сочетание сигналов");
 						break;
 
-                    case GKDriverType.RSR2_ABPC:
-                        bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-                        if (bitArray[0])
-                            AddAdditionalState(XStateClass.Failure, "Питание 1");
-                        if (bitArray[1])
-                            AddAdditionalState(XStateClass.Failure, "Питание 2");
-                        if (bitArray[2])
-                            AddAdditionalState(XStateClass.Failure, "КЗ выхода");
-                        if (bitArray[3])
-                            AddAdditionalState(XStateClass.Failure, "Обрыв выхода");
-                        if (bitArray[4])
-                            AddAdditionalState(XStateClass.Failure, "Измерения");
-                        if (bitArray[5])
-                            AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
-                        break;
+					case GKDriverType.RSR2_ABPC:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "Питание 1");
+						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Питание 2");
+						if (bitArray[2])
+							AddAdditionalState(XStateClass.Failure, "КЗ выхода");
+						if (bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Обрыв выхода");
+						if (bitArray[4])
+							AddAdditionalState(XStateClass.Failure, "Измерения");
+						if (bitArray[5])
+							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
+						break;
 
-                    case GKDriverType.RSR2_ABShS:
-                    case GKDriverType.RSR2_ABTK:
-                        bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-                        if (bitArray[0])
-                            AddAdditionalState(XStateClass.Failure, "Питание 1");
-                        if (bitArray[1])
-                            AddAdditionalState(XStateClass.Failure, "Питание 2");
-                        if (bitArray[2])
-                            AddAdditionalState(XStateClass.Failure, "КЗ ШС");
-                        if (bitArray[3])
-                            AddAdditionalState(XStateClass.Failure, "Обрыв ШС");
-                        if (bitArray[4])
-                            AddAdditionalState(XStateClass.Failure, "Измерения");
-                        if (bitArray[5])
-                            AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
-                        break;
+					case GKDriverType.RSR2_ABShS:
+					case GKDriverType.RSR2_ABTK:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "Питание 1");
+						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Питание 2");
+						if (bitArray[2])
+							AddAdditionalState(XStateClass.Failure, "КЗ ШС");
+						if (bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Обрыв ШС");
+						if (bitArray[4])
+							AddAdditionalState(XStateClass.Failure, "Измерения");
+						if (bitArray[5])
+							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
+						break;
 
-                    case GKDriverType.RSR2_HandDetectorEridan:
-                    case GKDriverType.RSR2_HeatDetectorEridan:
-                        bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-                        if (bitArray[0])
-                            AddAdditionalState(XStateClass.Failure, "Токопотребление");
-                        break;
+					case GKDriverType.RSR2_HandDetectorEridan:
+					case GKDriverType.RSR2_HeatDetectorEridan:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "Токопотребление");
+						break;
 
-                    case GKDriverType.RK_HandDetector:
-                    case GKDriverType.RK_SmokeDetector:
-                    case GKDriverType.RK_HeatDetector:
-                    case GKDriverType.RK_RM:
-                    case GKDriverType.RK_AM:
-                    case GKDriverType.RK_OPK:
-                    case GKDriverType.RK_OPZ:
-                        bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-                        if (bitArray[0])
-                            AddAdditionalState(XStateClass.Failure, "Питание 1");
-                        if (bitArray[1])
-                            AddAdditionalState(XStateClass.Failure, "Питание 2");
-                        break;
-                }
+					case GKDriverType.RK_HandDetector:
+					case GKDriverType.RK_SmokeDetector:
+					case GKDriverType.RK_HeatDetector:
+					case GKDriverType.RK_RM:
+					case GKDriverType.RK_AM:
+					case GKDriverType.RK_OPK:
+					case GKDriverType.RK_OPZ:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "Питание 1");
+						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Питание 2");
+						break;
+				}
 			}
 			else
 			{

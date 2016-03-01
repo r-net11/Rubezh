@@ -62,6 +62,7 @@ namespace RubezhAPI.Automation
 						case ExplicitType.Boolean: return ExplicitValues.Select(x => (object)x.BoolValue).ToArray();
 						case ExplicitType.DateTime: return ExplicitValues.Select(x => (object)x.DateTimeValue).ToArray();
 						case ExplicitType.Integer: return ExplicitValues.Select(x => (object)x.IntValue).ToArray();
+						case ExplicitType.Float: return ExplicitValues.Select(x => (object)x.FloatValue).ToArray();
 						case ExplicitType.String: return ExplicitValues.Select(x => (object)x.StringValue).ToArray();
 						case ExplicitType.Object: return ExplicitValues.Select(x => (object)x.UidValue).ToArray();
 						case ExplicitType.Enum:
@@ -73,7 +74,7 @@ namespace RubezhAPI.Automation
 								case EnumType.JournalEventNameType: return ExplicitValues.Select(x => (object)x.JournalEventNameTypeValue).ToArray();
 								case EnumType.JournalEventDescriptionType: return ExplicitValues.Select(x => (object)x.JournalEventDescriptionTypeValue).ToArray();
 								case EnumType.JournalObjectType: return ExplicitValues.Select(x => (object)x.JournalObjectTypeValue).ToArray();
-								case EnumType.ColorType: return ExplicitValues.Select(x => (object)x.ColorValue.ToString()).ToArray();
+								case EnumType.ColorType: return ExplicitValues.Select(x => (object)x.ColorValue).ToArray();
 							}
 							break;
 					}
@@ -86,12 +87,13 @@ namespace RubezhAPI.Automation
 						case ExplicitType.Boolean: return ExplicitValue.BoolValue;
 						case ExplicitType.DateTime: return ExplicitValue.DateTimeValue;
 						case ExplicitType.Integer: return ExplicitValue.IntValue;
+						case ExplicitType.Float: return ExplicitValue.FloatValue;
 						case ExplicitType.String: return ExplicitValue.StringValue;
 						case ExplicitType.Object: return ExplicitValue.UidValue;
 						case ExplicitType.Enum:
 							switch (EnumType)
 							{
-								case EnumType.ColorType: return ExplicitValue.ColorValue.ToString();
+								case EnumType.ColorType: return ExplicitValue.ColorValue;
 								case EnumType.DriverType: return ExplicitValue.DriverTypeValue;
 								case EnumType.JournalEventDescriptionType: return ExplicitValue.JournalEventDescriptionTypeValue;
 								case EnumType.JournalEventNameType: return ExplicitValue.JournalEventNameTypeValue;

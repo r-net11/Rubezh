@@ -169,52 +169,61 @@ namespace RubezhAPI.GK
 		[Description("Световой оповещатель комбинированный")]
 		RSR2_OPKZ = 81,
 
-        [Description("АБПЦ R2")]
-        RSR2_ABPC = 82,
+		[Description("АБПЦ R2")]
+		RSR2_ABPC = 82,
 
-        [Description("АБШС R2")]
-        RSR2_ABShS = 83,
+		[Description("АБШС R2")]
+		RSR2_ABShS = 83,
+		
+		[Description("АБШС-2 R2")]
+		RSR2_ABShS_Group = 84,
 
-        [Description("АБШС-2 R2")]
-        RSR2_ABShS_Group = 84,
+		[Description("АБТК R2")]
+		RSR2_ABTK = 85,
 
-        [Description("АБТК R2")]
-        RSR2_ABTK = 85,
+		[Description("АБТК-2 R2")]
+		RSR2_ABTK_Group = 86,
 
-        [Description("АБТК-2 R2")]
-        RSR2_ABTK_Group = 86,
+		[Description("ИПТЭ R2")]
+		RSR2_HeatDetectorEridan = 87,
 
-        [Description("ИПТЭ R2")]
-        RSR2_HeatDetectorEridan = 87,
+		[Description("ИПРЭ R2")]
+		RSR2_HandDetectorEridan = 88,
 
-        [Description("ИПРЭ R2")]
-        RSR2_HandDetectorEridan = 88,
+		[Description("ИОЛИТ R2")]
+		RSR2_IOLIT = 89,
 
-        [Description("ИОЛИТ R2")]
-        RSR2_IOLIT = 89,
+		[Description("МРК R2")]
+		RSR2_MRK = 90,
 
-        [Description("МРК R2")]
-        RSR2_MRK = 90,
+		[Description("ИПР RK")]
+		RK_HandDetector = 91,
 
-        [Description("ИПР RK")]
-        RK_HandDetector = 91,
+		[Description("ИПД RK")]
+		RK_SmokeDetector = 92,
 
-        [Description("ИПД RK")]
-        RK_SmokeDetector = 92,
+		[Description("ИПТ RK")]
+		RK_HeatDetector = 93,
 
-        [Description("ИПТ RK")]
-        RK_HeatDetector = 93,
+		[Description("РМ RK")]
+		RK_RM = 94,
 
-        [Description("РМ RK")]
-        RK_RM = 94,
+		[Description("АМ RK")]
+		RK_AM = 95,
 
-        [Description("АМ RK")]
-        RK_AM = 95,
+		[Description("ОПК RK")]
+		RK_OPK = 96,
 
-        [Description("ОПК RK")]
-        RK_OPK = 96,
+		[Description("ОПЗ RK")]
+		RK_OPZ = 97,
 
-        [Description("ОПЗ RK")]
-        RK_OPZ = 97,
+		[Description("УДП R2")]
+		RSR2_Button = 98,
+
+		[Description("МВК-4 R2")]
+		RSR2_MVK4_Group = 99,
+
+		[Description("МВК-2 R2")]
+		RSR2_MVK2_Group = 100,
 	}
 }

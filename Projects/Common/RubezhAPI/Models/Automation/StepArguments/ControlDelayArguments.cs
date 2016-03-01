@@ -38,9 +38,6 @@ namespace RubezhAPI.Automation
 		[Description("Выключить")]
 		TurnOff,
 
-		[Description("Выключить немедленно")]
-		TurnOffNow,
-
 		[Description("Включить в автоматическом режиме")]
 		TurnOn_InAutomatic,
 
@@ -48,9 +45,6 @@ namespace RubezhAPI.Automation
 		TurnOnNow_InAutomatic,
 
 		[Description("Выключить в автоматическом режиме")]
-		TurnOff_InAutomatic,
-
-		[Description("Выключить немедленно в автоматическом режиме")]
-		TurnOffNow_InAutomatic
+		TurnOff_InAutomatic
 	}
 }

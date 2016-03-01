@@ -135,9 +135,9 @@ namespace GKWebService
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
-					if (FireZonesUpdaterHub.Instance != null)
+					if (FireZonesHub.Instance != null)
 					{
-						FireZonesUpdaterHub.Instance.BroadcastFireZone(zone);
+						FireZonesHub.Instance.BroadcastFireZone(zone);
 					}
 				}
 			}

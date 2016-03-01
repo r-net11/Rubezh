@@ -22,24 +22,29 @@
 		</Grid>
 		<TabControl Grid.Row="1">
 			<TabItem Header="Видео">
-                <Grid>
+				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<mediaSourcePlayer:MediaPlayer Grid.Row="0" x:Name="MediaSourcePlayer" OriginalAspectRatio="True" />
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding IsSetPtzPreset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-                        <Button Content="Перевод в предустановку" Command="{Binding SetPtzPresetCommand}" Width="200" Margin="2" />
-                        <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding .}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                </Grid>
+					<StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding IsSetPtzPreset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+						<Button Content="Перевод в предустановку" Command="{Binding SetPtzPresetCommand}" Width="200" Margin="2" />
+						<ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding .}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Grid.Row="2" Orientation="Horizontal">
+						<Button Content="Поставить на охрану" Command="{Binding AlarmSetChannelCommand}" Width="200" Height="50" Margin="2" />
+						<Button Content="Снять с охраны" Command="{Binding AlarmDisableChannelCommand}" Width="200" Height="50" Margin="2" />
+					</StackPanel>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Основные">
 				<ScrollViewer VerticalScrollBarVisibility="Auto">

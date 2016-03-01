@@ -35,7 +35,7 @@
                 $scope.getGroupTooltip = function (group) {
                 	var result = '<span class="tooltipLine" style="background-image: url(/Content/Image/Icon/GKStateIcons/' + group.AlarmImageSource + '.png)">' + group.AlarmName + '</span>';
                     angular.forEach(group.Alarms, function (alarm) {
-                    	result += '<span class="tooltipLine"style="background-image: url(/Content/Image/' + alarm.ObjectImageSource + '.png)">' + alarm.ObjectName + '</span>';
+                    	result += '<span class="tooltipLine"style="background-image: url(/Content/Image/' + alarm.ObjectImageSource + ')">' + alarm.ObjectName + '</span>';
                     });
                     return $sce.trustAsHtml(result);
                 };

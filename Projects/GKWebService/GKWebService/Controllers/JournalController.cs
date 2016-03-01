@@ -21,6 +21,7 @@ using System.Web.Script.Serialization;
 
 namespace GKWebService.Controllers
 {
+	[Authorize]
 	public class JournalController : Controller
 	{
 		public ActionResult Index()

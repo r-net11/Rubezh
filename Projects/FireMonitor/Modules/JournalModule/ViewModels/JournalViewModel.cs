@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Journal;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
-using Infrastructure.Common.Services.Layout;
-using System.Windows.Threading;
-using System;
-using Infrastructure.Common;
 using RubezhAPI;
+using RubezhAPI.Journal;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Threading;
 
 namespace JournalModule.ViewModels
 {
@@ -25,7 +23,7 @@ namespace JournalModule.ViewModels
 		int _unreadCount;
 		public bool IsShowButtons { get; private set; }
 		public JournalFilter Filter { get; private set; }
-		
+
 		public JournalViewModel(JournalFilter journalFilter = null)
 		{
 			_uid = Guid.NewGuid();
@@ -122,8 +120,8 @@ namespace JournalModule.ViewModels
 				return false;
 			if (Filter.JournalEventDescriptionTypes.Count > 0 && !Filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
 				return false;
-			if (Filter.JournalObjectTypes.Count > 0 && !Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
-				return false;
+			if (Filter.JournalObjectTypes.Count > 0 && Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
+				return true;
 			if (Filter.ObjectUIDs.Count > 0 && !Filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 				return false;
 			return true;

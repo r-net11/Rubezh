@@ -5,7 +5,21 @@
 
         $urlRouterProvider.otherwise("/");
 
-        $stateProvider.state('state', {
+        $stateProvider.state('login', {
+            url: "/login",
+            onEnter: ['$uibModal', function ($uibModal) {
+                $uibModal.open({
+                    templateUrl: '/Home/Login',
+                    controller: 'loginCtrl',
+                    backdrop: 'static',
+                    size: 'rbzh',
+                    keyboard: false
+                });
+            }]
+        }).state('home', {
+            url: '',
+            //template: '<ui-view/>'
+        }).state('state', {
             url: "/state/:alarmType",
             templateUrl: "/Alarms/Alarms"
         }).state('device', {

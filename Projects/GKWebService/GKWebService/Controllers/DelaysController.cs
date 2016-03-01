@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
+	[Authorize]
 	public class DelaysController : Controller
 	{
 		public ActionResult Delays()

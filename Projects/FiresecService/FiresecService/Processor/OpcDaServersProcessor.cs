@@ -47,83 +47,91 @@ namespace FiresecService.Processor
 				}
 				var url = new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, server.Url);
 				var opcServer = new TsCDaServer();
-				opcServer.Connect(url, null);
-				opcServer.ServerShutdownEvent += reason => 
+
+				try
 				{
-					var srv = _Servers.FirstOrDefault(x => x.Item1.ServerName == opcServer.ServerName);
-					if (srv != null)
+					opcServer.Connect(url, null);
+					opcServer.ServerShutdownEvent += reason =>
 					{
-						try
+						var srv = _Servers.FirstOrDefault(x => x.Item1.ServerName == opcServer.ServerName);
+						if (srv != null)
 						{
-							srv.Item1.CancelSubscription(srv.Item2);
+							try
+							{
+								srv.Item1.CancelSubscription(srv.Item2);
+							}
+							catch { }
+
+							// Ищем все теги для данного сервера у удаляем их
+							var tags = _tags.Where(t => t.ServerName == opcServer.ServerName);
+
+							foreach (var tag in tags)
+							{
+								_tags.Remove(tag);
+							}
+
+							_Servers.Remove(srv);
 						}
-						catch { }
+					};
 
-						// Ищем все теги для данного сервера у удаляем их
-						var tags = _tags.Where(t => t.ServerName == opcServer.ServerName);
+					// Создаём объект подписки
+					var id = Guid.NewGuid().ToString();
+					var subscriptionState = new TsCDaSubscriptionState
+					{
+						Name = id,
+						ClientHandle = id,
+						Deadband = 0,
+						UpdateRate = 1000,
+						KeepAlive = 10000
+					};
 
-						foreach (var tag in tags)
+					var subscription = (TsCDaSubscription)opcServer.CreateSubscription(subscriptionState);
+
+					_Servers.Add(Tuple.Create<TsCDaServer, TsCDaSubscription>(opcServer, subscription));
+
+					// Добавляем в объект подписки выбранные теги
+					List<TsCDaItem> list = server.Tags.Select(tag => new TsCDaItem
 						{
-							_tags.Remove(tag);
+							ItemName = tag.ElementName,
+							ClientHandle = tag.ElementName // Уникальный Id определяемый пользователем
+						}).ToList();
+
+					// Добавляем теги и проверяем результат данной операции
+					var results = subscription.AddItems(list.ToArray());
+
+					var errors = results.Where(result => result.Result.IsError());
+
+					if (errors.Count() > 0)
+					{
+						StringBuilder msg = new StringBuilder();
+						msg.Append("Не удалось добавить теги для подписки. Возникли ошибки в тегах:");
+						foreach (var error in errors)
+						{
+							msg.Append(String.Format("ItemName={0} ClientHandle={1} Description={2}; ",
+								error.ItemName, error.ClientHandle, error.Result.Description()));
 						}
-						
-						_Servers.Remove(srv);
+						//throw new InvalidOperationException(msg.ToString());
 					}
-				};
 
-				// Создаём объект подписки
-				var id = Guid.NewGuid().ToString();
-				var subscriptionState = new TsCDaSubscriptionState
-				{
-					Name = id,
-					ClientHandle = id,
-					Deadband = 0,
-					UpdateRate = 1000,
-					KeepAlive = 10000
-				};
+					subscription.DataChangedEvent += EventHandler_Subscription_DataChangedEvent;
 
-				var subscription = (TsCDaSubscription)opcServer.CreateSubscription(subscriptionState);
-
-				_Servers.Add(Tuple.Create<TsCDaServer, TsCDaSubscription>(opcServer, subscription));
-
-				// Добавляем в объект подписки выбранные теги
-				List<TsCDaItem> list = server.Tags.Select(tag => new TsCDaItem
+					_tags.AddRange(server.Tags.Select(tag => new OpcDaTagValue
 					{
-						ItemName = tag.ElementName,
-						ClientHandle = tag.ElementName // Уникальный Id определяемый пользователем
-					}).ToList();
-
-				// Добавляем теги и проверяем результат данной операции
-				var results = subscription.AddItems(list.ToArray());
-
-				var errors = results.Where(result => result.Result.IsError());
-
-				if (errors.Count() > 0)
-				{
-					StringBuilder msg = new StringBuilder();
-					msg.Append("Не удалось добавить теги для подписки. Возникли ошибки в тегах:");
-					foreach (var error in errors)
-					{
-						msg.Append(String.Format("ItemName={0} ClientHandle={1} Description={2}; ",
-							error.ItemName, error.ClientHandle, error.Result.Description()));
-					}
-					//throw new InvalidOperationException(msg.ToString());
+						ElementName = tag.ElementName,
+						TagId = tag.TagId,
+						Uid = tag.Uid,
+						Path = tag.Path,
+						TypeNameOfValue = tag.TypeNameOfValue,
+						AccessRights = tag.AccessRights,
+						ScanRate = tag.ScanRate,
+						ServerId = server.Uid,
+						ServerName = server.ServerName
+					}));
 				}
-
-				subscription.DataChangedEvent += EventHandler_Subscription_DataChangedEvent;
-
-				_tags.AddRange(server.Tags.Select(tag => new OpcDaTagValue
+				catch (Exception ex)
 				{
-					ElementName = tag.ElementName,
-					TagId = tag.TagId,
-					Uid = tag.Uid,
-					Path = tag.Path,
-					TypeNameOfValue = tag.TypeNameOfValue,
-					AccessRights = tag.AccessRights,
-					ScanRate = tag.ScanRate,
-					ServerId = server.Uid,
-					ServerName = server.ServerName
-				}));
+					UILogger.Log(ex.Message, true);
+				}
 			}
 		}
 

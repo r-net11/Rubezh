@@ -27,7 +27,7 @@ namespace RubezhDAL
 			{
 				gkZonesResult = Export<ExportZone, GKSKDZone>(GKManager.SKDZones, "GKZones.xml", filter.Path);
 			}
-            return DbServiceHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
+			return DbServiceHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
 		}
 
 		static OperationResult<bool> Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)

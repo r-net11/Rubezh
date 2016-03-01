@@ -10,6 +10,7 @@ using RubezhClient;
 
 namespace GKWebService.Controllers
 {
+	[Authorize]
 	public class DevicesController : Controller
 	{
 		public ActionResult Index()

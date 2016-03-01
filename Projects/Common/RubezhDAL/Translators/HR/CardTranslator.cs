@@ -442,21 +442,25 @@ namespace RubezhDAL.DataClasses
 					foreach (var cardDoor in doors)
 					{
 						var door = GKManager.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
-						user.Descriptors.Add(
-							new GKAPI.GKUserDescriptor
-							{ 
-								GKDoor = door, 
-								DescriptorNo = door.EnterDevice.GKDescriptorNo, 
-								ScheduleNo = cardDoor.EnterScheduleNo
-							});
-						if(door.DoorType != GKAPI.GKDoorType.OneWay && door.ExitDevice != null)
-							user.Descriptors.Add(
-								new GKAPI.GKUserDescriptor
-								{ 
-									GKDoor = door,
-									DescriptorNo = door.ExitDevice.GKDescriptorNo,
-									ScheduleNo = cardDoor.ExitScheduleNo
-								});
+						if (door != null)
+						{
+							if (door.EnterDevice != null)
+								user.Descriptors.Add(
+									new GKAPI.GKUserDescriptor
+									{
+										GKDoor = door,
+										DescriptorNo = door.EnterDevice.GKDescriptorNo,
+										ScheduleNo = cardDoor.EnterScheduleNo
+									});
+							if (door.DoorType != GKAPI.GKDoorType.OneWay && door.ExitDevice != null)
+								user.Descriptors.Add(
+									new GKAPI.GKUserDescriptor
+									{
+										GKDoor = door,
+										DescriptorNo = door.ExitDevice.GKDescriptorNo,
+										ScheduleNo = cardDoor.ExitScheduleNo
+									});
+						}
 					}
 					users.Add(user);
 				}
