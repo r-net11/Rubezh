@@ -26,8 +26,6 @@ namespace GKWebService.Models
 			StopClausesGroup = GKManager.GetPresentationLogic(mpt.MptLogic.StopClausesGroup);
 			OffClausesGroup = GKManager.GetPresentationLogic(mpt.MptLogic.OffClausesGroup);
 			Delay = mpt.Delay;
-			Hold = mpt.Hold;
- 			DelayRegime = mpt.DelayRegime.ToDescription();
 
 			State = mpt.State.StateClass.ToDescription();
 			StateIcon = mpt.State.StateClass.ToString();
@@ -35,8 +33,7 @@ namespace GKWebService.Models
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(mpt.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 			HasOnDelay = mpt.State.StateClasses.Contains(XStateClass.TurningOn) && mpt.State.OnDelay > 0;
-			OnDelay = mpt.State.OnDelay;
-			HoldDelay = mpt.State.HoldDelay;
+			OnDelay = mpt.State.OnDelay != 0 ? string.Format("{0} сек", mpt.State.OnDelay) : string.Empty;
 			HasHoldDelay = mpt.State.StateClasses.Contains(XStateClass.On) && mpt.State.HoldDelay > 0;
 
 			var controlRegime = mpt.State.StateClasses.Contains(XStateClass.Ignore)
@@ -67,16 +64,11 @@ namespace GKWebService.Models
 		public ushort GKDescriptorNo { get; set; }
 		public List<StateClass> StateClasses { get; set; }
 
-		public string DelayRegime { get; set; }
 		public string StateColor { get; set; }
-
-		public int Hold { get; set; }
 
 		public string State { get; set; }
 
-		public int OnDelay { get; set; }
-
-		public int HoldDelay { get; set; }
+		public string OnDelay { get; set; }
 
 		public bool HasHoldDelay { get; set; }
 

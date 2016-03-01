@@ -33,6 +33,7 @@ namespace GKWebService.Controllers
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpGet]
 		public JsonResult GetGuardZoneDevices(Guid id)
 		{
 			List<Device> data = new List<Device>();

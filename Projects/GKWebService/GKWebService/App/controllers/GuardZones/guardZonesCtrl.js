@@ -17,11 +17,11 @@
                     gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
                 },
                 columnDefs: [
-                    { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}"/>{{row.entity[col.field]}}</div>' },
-                    { field: 'Name', width: 250, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.guardZoneClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
-                    { field: 'SetDelay', enableColumnResizing: false, displayName: 'Задержка на постановку' },
-                    { field: 'ResetDelay', displayName: 'Задержка на снятие' },
-                    { field: 'AlarmDelay', enableColumnResizing: false, displayName: 'Задержка на вызов тревоги' },
+                    { field: 'No', displayName: '№', width: 80, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}"/>{{row.entity[col.field]}}</div>' },
+                    { field: 'Name', width: 250, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.guardZoneClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
+                    { field: 'SetDelay', displayName: 'Задержка на постановку', minWidth: 100,  width: Math.round(($(window).width() - 525) / 3) },
+                    { field: 'ResetDelay', displayName: 'Задержка на снятие', minWidth: 100, width: Math.round(($(window).width() - 525) / 3) },
+                    { field: 'AlarmDelay', enableColumnResizing: false, displayName: 'Задержка на вызов тревоги', minWidth: 50 },
                 ]
             };
             $http.get('GuardZones/GetGuardZones').success(function (data) {
