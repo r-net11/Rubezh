@@ -8,6 +8,7 @@ using GKWebService.Controllers;
 using RubezhAPI.GK;
 using System.Drawing;
 using RubezhClient;
+using System.Reflection;
 
 namespace GKWebService.Models
 {
@@ -24,7 +25,7 @@ namespace GKWebService.Models
 		public string Color { get; set; }
 		public JournalObjectType ObjectType { get; set; }
 		public string Subsystem { get; set; }
-
+		public string EventImage { get; set; }
 		public JournalModel(JournalItem journalItem)
 		{
 			Desc = journalItem.JournalEventDescriptionType.ToDescription();
@@ -37,7 +38,12 @@ namespace GKWebService.Models
 			ObjectType = journalItem.JournalObjectType;
 			ObjectImageSource = "/Content/Image/Images/Blank.png";
 			Subsystem = journalItem.JournalSubsystemType.ToDescription();
+			EventImage = GetEventImage(journalItem.JournalEventNameType);
+			GetObject(journalItem);
+		}
 
+		void GetObject(JournalItem journalItem)
+		{
 			switch (journalItem.JournalObjectType)
 			{
 				case JournalObjectType.GKDevice:
@@ -187,10 +193,9 @@ namespace GKWebService.Models
 			{
 				ObjectName = journalItem.ObjectName;
 			}
-			
+
 			if (ObjectName == null)
 				ObjectName = "<Нет в конфигурации>";
-
 		}
 
 		string GetStateColor(JournalItem journalItem)
@@ -234,6 +239,24 @@ namespace GKWebService.Models
 				default:
 					return ColorTranslator.ToHtml(System.Drawing.Color.Transparent);
 			}
+		}
+
+	   string GetEventImage(JournalEventNameType journalEventNameType)
+		{
+			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
+			if (fieldInfo != null)
+			{
+				EventNameAttribute[] descriptionAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
+				if (descriptionAttributes.Length > 0)
+				{
+					EventNameAttribute eventNameAttribute = descriptionAttributes[0];
+					Name = eventNameAttribute.Name;
+					var stateClass = eventNameAttribute.StateClass;
+					if (stateClass != XStateClass.Norm)
+						return "/Content/Image/StateClasses/" + stateClass.ToString() + ".png";
+				}
+			}
+			return "/Content/Images/blank.png";
 		}
     }
 }
