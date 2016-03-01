@@ -13,6 +13,7 @@ namespace GKWebService.Models.Door
 				UID = device.UID;
 				Name = device.PresentationName;
 				ImageSource = device.ImageSource.Replace("/Controls;component/", "");
+				StateIcon = device.State.StateClass.ToString();
 		}
 
 		public Guid UID { get; set; }
@@ -20,5 +21,7 @@ namespace GKWebService.Models.Door
 		public string Name { get; set; }
 
 		public string ImageSource { get; set; }
+
+		public string StateIcon { get; set; }
 	}
 }
