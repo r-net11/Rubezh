@@ -110,6 +110,8 @@ namespace VideoModule.ViewModels
 			var settingsSelectionViewModel = new SettingsSelectionViewModel(FiresecManager.SystemConfiguration.RviSettings);
 			if (DialogService.ShowModalWindow(settingsSelectionViewModel))
 			{
+				if (FiresecManager.SystemConfiguration.RviSettings.VideoIntegrationProvider != settingsSelectionViewModel.RviSettings.VideoIntegrationProvider)
+					RemoveAllCameras();
 				FiresecManager.SystemConfiguration.RviSettings = settingsSelectionViewModel.RviSettings;
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
@@ -190,6 +192,14 @@ namespace VideoModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
+
+		private void RemoveAllCameras()
+		{
+			Cameras.Clear();
+			FiresecManager.SystemConfiguration.Cameras.Clear();
+			ServiceFactory.SaveService.CamerasChanged = true;
+			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		#endregion

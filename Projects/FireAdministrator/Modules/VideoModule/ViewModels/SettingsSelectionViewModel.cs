@@ -1,19 +1,23 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels
 {
 	public class SettingsSelectionViewModel : SaveCancelDialogViewModel
 	{
+		private VideoIntegrationProvider _oldVideoIntegrationProvider;
+
 		public RviSettings RviSettings { get; private set; }
 
 		public SettingsSelectionViewModel(RviSettings rviSettings)
 		{
 			Title = "Настройки";
 
+			_oldVideoIntegrationProvider = rviSettings.VideoIntegrationProvider;
+			RviSettings = new RviSettings();
 			VideoIntegrationProvider = rviSettings.VideoIntegrationProvider;
-			RviSettings = rviSettings;
 			Ip = rviSettings.Ip;
 			Port = rviSettings.Port;
 			Login = rviSettings.Login;
@@ -92,6 +96,10 @@ namespace VideoModule.ViewModels
 			RviSettings.Port = Port;
 			RviSettings.Login = Login;
 			RviSettings.Password = Password;
+
+			if (VideoIntegrationProvider != _oldVideoIntegrationProvider)
+				return MessageBoxService.ShowConfirmation("Изменение типа сервера влечет удаление ранее добавленных камер. Сохранить настройки и удалить камеры?");
+			
 			return base.Save();
 		}
 	}
