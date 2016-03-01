@@ -9,11 +9,11 @@
 
 		<DataGrid Grid.Column="0" ItemsSource="{Binding OpcDaServers}" SelectedItem="{Binding SelectedOpcServer}" Margin="3">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Название" Binding="{Binding ServerName}" IsReadOnly="True" />
+				<DataGridTextColumn Header="Название" Binding="{Binding ServerName}" IsReadOnly="True" Width="Auto" />
 				<!--<DataGridTextColumn Header="UID" Binding="{Binding Uid}" IsReadOnly="True" />-->
 				<!--<DataGridTextColumn Header="URL" Binding="{Binding Url}" IsReadOnly="True" />-->
-				<DataGridTextColumn Header="Login" Binding="{Binding Login}" IsReadOnly="True" />
-				<DataGridTextColumn Header="Password" Binding="{Binding Password}" IsReadOnly="True" />
+				<DataGridTextColumn Header="Login" Binding="{Binding Login}" IsReadOnly="True" Width="Auto" />
+				<DataGridTextColumn Header="Password" Binding="{Binding Password}" IsReadOnly="True" Width="*" />
 			</DataGrid.Columns>
 		</DataGrid>
 		<DataGrid Grid.Column="1" ItemsSource="{Binding SelectedTags}" Margin="3">
