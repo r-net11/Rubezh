@@ -17,7 +17,7 @@
                 enableColumnMenus: false,
                 columnDefs:
                   [{ field: 'MPTDeviceType', displayName: 'Тип', width: 210 },
-                   { field: 'Name', displayName: 'Устройство', width: 200, cellTemplate: '<div class="ui-grid-cell-contents" style="float:left" ><a href="#" ng-click="grid.appScope.deviceClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle" width="16px" height="16px" ng-src="/Content/Image/{{row.entity.ImageSource}}" /> {{row.entity[col.field]}}</a></div>' },
+                   { field: 'Name', displayName: 'Устройство', width: 200, cellTemplate: '<div class="ui-grid-cell-contents" style="float:left" ><a href="" ng-click="grid.appScope.deviceClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle" width="16px" height="16px" ng-src="/Content/Image/{{row.entity.ImageSource}}" /> {{row.entity[col.field]}}</a></div>' },
                    { field: 'Address', displayName: 'Адрес', width: 100 },
                    { field: 'Description', displayName: 'Описание', enableColumnResizing: false }]
 

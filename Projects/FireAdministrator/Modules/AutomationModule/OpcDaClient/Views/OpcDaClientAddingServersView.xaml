@@ -4,15 +4,14 @@
 			 MinHeight="160" MinWidth="600" Height="Auto">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		
+
 		<DataGrid ItemsSource="{Binding OpcDaServers}" IsReadOnly="False" MinHeight="50" Margin="3">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Наименование" Binding="{Binding ServerName}" IsReadOnly="True" />
-				<DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsChecked}" IsReadOnly="False" />
-				<DataGridTextColumn Header="URL" Binding="{Binding Url}" IsReadOnly="True" />
+				<DataGridTextColumn Header="Наименование" Binding="{Binding ServerName}" IsReadOnly="True" Width="Auto" />
+				<DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsChecked}" IsReadOnly="False" Width="Auto" />
+				<DataGridTextColumn Header="URL" Binding="{Binding Url}" IsReadOnly="True" Width="*" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

@@ -35,7 +35,7 @@
                     {
                         field: 'GkEntity.Name', minWidth: 200, width: 310, displayName: 'Объект', enableFiltering: false,
                         cellTemplate: '<div ng-style="!row.isSelected && {\'background-color\': row.entity.AlarmColor}" class="ui-grid-cell-contents">\
-                                            <a href="#" ng-click="grid.appScope.objectClick(row.entity)">\
+                                            <a href="" ng-click="grid.appScope.objectClick(row.entity)">\
                                                 <img style="vertical-align: middle; padding-right: 3px" width="16" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.GkEntity.StateClass}}.png"/>\
                                                 <img style="vertical-align: middle; padding-right: 3px" width="16" ng-src="/Content/Image/{{row.entity.GkEntity.ImageSource}}"/>\
                                                 {{row.entity.GkEntity.Name}}\
@@ -47,7 +47,7 @@
                          cellTemplate: '<div ng-style="!row.isSelected && {\'background-color\': row.entity.AlarmColor}" class="ui-grid-cell-contents">\
                                                 <span style="padding-right: 3px" ng-repeat="plan in row.entity.Plans">\
                                                     <img style="vertical-align: middle; padding-right: 2px" width="16" ng-src="/Content/Image/Images/CMap.png"/>\
-                                                    <a href="#" ng-click="grid.appScope.planClick(plan)">\
+                                                    <a href="" ng-click="grid.appScope.planClick(plan)">\
                                                         {{plan.Name}}\
                                                     </a>\
                                                 </span>\
@@ -56,19 +56,19 @@
                     {
                         field: 'GkEntity.Name', width: 300, displayName: 'Команды', enableFiltering: false,
                         cellTemplate: '<div ng-style="!row.isSelected && {\'background-color\': row.entity.AlarmColor}" class="ui-grid-cell-contents">\
-                                            <a href="#" style="padding-right: 3px" ng-click="grid.appScope.journalClick(row.entity)">\
+                                            <a href="" style="padding-right: 3px" ng-click="grid.appScope.journalClick(row.entity)">\
                                                 Журнал\
                                             </a>\
-                                            <a href="#" style="padding-right: 3px" ng-show="row.entity.CanReset" ng-click="grid.appScope.resetAlarmClick(row.entity)">\
+                                            <a href="" style="padding-right: 3px" ng-show="row.entity.CanReset" ng-click="grid.appScope.resetAlarmClick(row.entity)">\
                                                 Сбросить\
                                             </a>\
-                                            <a href="#" style="padding-right: 3px" ng-show="row.entity.CanResetIgnore" ng-click="grid.appScope.resetAlarmIgnoreClick(row.entity)">\
+                                            <a href="" style="padding-right: 3px" ng-show="row.entity.CanResetIgnore" ng-click="grid.appScope.resetAlarmIgnoreClick(row.entity)">\
                                                 Снять отключение\
                                             </a>\
-                                            <a href="#" style="padding-right: 3px" ng-show="row.entity.CanTurnOnAutomatic" ng-click="grid.appScope.turnOnAutomaticClick(row.entity)">\
+                                            <a href="" style="padding-right: 3px" ng-show="row.entity.CanTurnOnAutomatic" ng-click="grid.appScope.turnOnAutomaticClick(row.entity)">\
                                                 Включить автоматику\
                                             </a>\
-                                            <a href="#" style="padding-right: 3px" ng-show="row.entity.CanShowProperties" ng-click="grid.appScope.showPropertiesClick(row.entity)">\
+                                            <a href="" style="padding-right: 3px" ng-show="row.entity.CanShowProperties" ng-click="grid.appScope.showPropertiesClick(row.entity)">\
                                                 Свойства\
                                             </a>\
                                         </div>'
