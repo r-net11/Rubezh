@@ -22,7 +22,7 @@
 
                     deferred.resolve(response);
                 } else {
-                    deferred.reject(response.data.message);
+                    deferred.reject(response.message);
                 }
             }).error(function (err, status) {
                 deferred.reject(err);

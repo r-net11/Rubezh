@@ -6,7 +6,7 @@
         ['$scope', '$http', '$stateParams', 'uiGridConstants', 'signalrFireZonesService', 'broadcastService', 'dialogService', 'constants',
         function ($scope, $http, $stateParams, uiGridConstants, signalrFireZonesService, broadcastService, dialogService, constants) {
 
-        	var template = "<div class=\"ui-grid-cell-contents\"><a href=\"#\" ng-click=\"grid.appScope.devicesClick(row)\"><img style=\"vertical-align: middle; padding-right: 3px\" ng-src=\"/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png\"/> <img style=\"vertical-align: middle\" width=\"16px\" height=\"16px\" ng-src=\"/Content/Image/{{row.entity.ImageSource}}\"/> {{row.entity[col.field]}}</a></div>";
+        	var template = "<div class=\"ui-grid-cell-contents\"><a href=\"\" ng-click=\"grid.appScope.devicesClick(row)\"><img style=\"vertical-align: middle; padding-right: 3px\" ng-src=\"/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png\"/> <img style=\"vertical-align: middle\" width=\"16px\" height=\"16px\" ng-src=\"/Content/Image/{{row.entity.ImageSource}}\"/> {{row.entity[col.field]}}</a></div>";
         	var width = $(window).width() - 625;
         	$scope.gridOptions = {
         		enableSorting: false,

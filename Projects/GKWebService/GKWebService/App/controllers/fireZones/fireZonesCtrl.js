@@ -16,7 +16,7 @@
         		enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
         		columnDefs: [
                     { field: 'No', enableColumnResizing: false, displayName: '№', width: 60, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}"/>{{row.entity[col.field]}}</div>' },
-                    { field: 'Name', width: 190, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.fireZonesClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
+                    { field: 'Name', width: 190, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.fireZonesClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
                     { field: 'Fire1Count', displayName: 'Количество датчиков для перевода в Пожар1:', width: fireCountWidth },
                     { field: 'Fire2Count', displayName: 'Количество датчиков для перевода в Пожар2:', width: fireCountWidth }
         		]
