@@ -6,19 +6,19 @@
 	<TreeList Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding RootItems}">
 		<TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Тег" Width="Auto">
+				<GridViewColumn Width="250" Header="Тег">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Margin="31,0,0,0" HorizontalAlignment="Stretch" Width="Auto"
+							<TextBlock Margin="31,0,0,0" HorizontalAlignment="Stretch"
 									   VerticalAlignment="Center" TextAlignment="Left" Text="{Binding Element.ElementName}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Выбрано" Width="Auto">
+				<GridViewColumn Width="100" Header="Выбрано">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<CheckBox HorizontalAlignment="Center" IsChecked="{Binding Element.IsChecked, UpdateSourceTrigger=PropertyChanged}"
-									  Visibility="{Binding Element.IsTag, Converter={StaticResource BoolToVisibilityConverter}}" Width="*" />
+									  Visibility="{Binding Element.IsTag, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
