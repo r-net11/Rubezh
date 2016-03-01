@@ -6,10 +6,10 @@ using System.ServiceModel;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using RviClient.RVIServiceReference;
 using RviClient;
 using Infrastructure.Common.Windows;
 using FiresecAPI.Models;
+using RviCommonClient;
 
 namespace VideoModule.ViewModels
 {
@@ -20,7 +20,7 @@ namespace VideoModule.ViewModels
 			Title = "Устройства";
 			Devices = new ObservableCollection<DeviceViewModel>();
 
-			List<Device> devices = null;
+			List<IRviDevice> devices = null;
 			try
 			{
 				devices = RviClientHelper.GetDevices(FiresecManager.SystemConfiguration);

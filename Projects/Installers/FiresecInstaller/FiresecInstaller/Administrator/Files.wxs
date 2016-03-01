@@ -37,7 +37,12 @@
 				<File Id="Administrator.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 				<File Id="Administrator.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Administrator.TargetDir)" />
+
 				<File Id="Administrator.RviClient.dll" Name="RviClient.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.RviCommonClient.dll" Name="RviCommonClient.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Administrator.TargetDir)" />
+
 				<File Id="Administrator.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
 

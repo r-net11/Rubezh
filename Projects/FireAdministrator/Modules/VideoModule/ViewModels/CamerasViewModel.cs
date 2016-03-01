@@ -67,7 +67,7 @@ namespace VideoModule.ViewModels
 		void OnAdd()
 		{
 			var devicesViewModel = new DeviceSelectionViewModel();
-			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(devicesViewModel))
+			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
 				foreach (var camera in devicesViewModel.GetCameras())
 				{
@@ -96,7 +96,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			Infrastructure.Common.Windows.DialogService.ShowModalWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
+			DialogService.ShowModalWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
 		}
 
 		bool CanEditDelete()
@@ -108,8 +108,10 @@ namespace VideoModule.ViewModels
 		void OnSettings()
 		{
 			var settingsSelectionViewModel = new SettingsSelectionViewModel(FiresecManager.SystemConfiguration.RviSettings);
-			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(settingsSelectionViewModel))
+			if (DialogService.ShowModalWindow(settingsSelectionViewModel))
 			{
+				if (FiresecManager.SystemConfiguration.RviSettings.VideoIntegrationProvider != settingsSelectionViewModel.RviSettings.VideoIntegrationProvider)
+					RemoveAllCameras();
 				FiresecManager.SystemConfiguration.RviSettings = settingsSelectionViewModel.RviSettings;
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
@@ -190,6 +192,14 @@ namespace VideoModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
+
+		private void RemoveAllCameras()
+		{
+			Cameras.Clear();
+			FiresecManager.SystemConfiguration.Cameras.Clear();
+			ServiceFactory.SaveService.CamerasChanged = true;
+			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		#endregion

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0c47f513-9851-4847-b078-abaf9a56e0bf" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8000/IntegrationVideoStreaming/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="bfffdb1f-dff5-4be2-8913-5a92bb468afb" SourceId="1" SourceUrl="net.tcp://localhost:8000/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="9f2ab386-035f-4166-b7a6-3d5bfa1d1081" SourceId="1" SourceUrl="net.tcp://localhost:8000/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="fcc5739e-8546-4129-ac56-a9bf4b1d8f17" SourceId="1" SourceUrl="net.tcp://localhost:8000/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="Message.xsd" MetadataType="Schema" ID="ff4ac74d-a9b4-4cca-b895-8f3c7ab31989" SourceId="1" SourceUrl="net.tcp://localhost:8000/IntegrationVideoStreaming/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
