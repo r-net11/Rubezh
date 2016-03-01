@@ -159,7 +159,7 @@ namespace AutomationModule
 					|| e == JournalEventDescriptionType.Метод_открытия_Кнопка);
 				return new List<T>(journalEventDescriptionTypes.Cast<T>().ToList());
 			}
-			
+
 			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 		}
 
