@@ -38,9 +38,9 @@
             var ChangeDevices =  function (device) {
                 for (var i in $scope.uiGrid.data) {
                     if ($scope.uiGrid.data[i].UID === device.UID) {
-                        var mptState = $scope.uiGrid.data[i].MPTDeviceType;
+                        var actionType = $scope.uiGrid.data[i].ActionType;
                         $scope.uiGrid.data[i] = device;
-                        $scope.uiGrid.data[i].MPTDeviceType = mptState;
+                        $scope.uiGrid.data[i].ActionType = actionType;
                         break;
                     }
                 }
