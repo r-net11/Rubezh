@@ -256,7 +256,7 @@ namespace GKWebService.Models
 						return "/Content/Image/StateClasses/" + stateClass.ToString() + ".png";
 				}
 			}
-			return "/Content/Images/blank.png";
+			return "/Content/Image/Images/blank.png";
 		}
     }
 }
