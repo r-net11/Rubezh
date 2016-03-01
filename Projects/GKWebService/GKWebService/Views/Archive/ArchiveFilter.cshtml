@@ -2,6 +2,10 @@
 	Layout = null;
 }
 
+<div class="modal-header">
+	<a class="close" href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+	<h3 class="modal-title">Фильтр</h3>
+</div>
 <div class="modal-body">
 	<uib-tabset>
 		<uib-tab heading="Дата" ng-show="isArchive" active="dateTabActive">
@@ -10,7 +14,7 @@
 					<p class="col-lg-1">C</p>
 					<uib-timepicker ng-model="beginDate.date" show-meridian="false" class="col-lg-2"></uib-timepicker>
 					<div class="col-lg-9">
-						<div class="input-group">
+						<div class="input-group date">
 							<input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="beginDate.date" is-open="beginDate.isOpened" min-date="minDate" max-date="maxDate" close-text="Close" />
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-default" ng-click="beginDate.open()">
@@ -25,7 +29,7 @@
 					<p class="col-lg-1">До</p>
 					<uib-timepicker ng-model="endDate.date" show-meridian="false" class="col-lg-2"></uib-timepicker>
 					<div class="col-lg-9">
-						<div class="input-group">
+						<div class="input-group date">
 							<input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="endDate.date" is-open="endDate.isOpened" min-date="minDate" max-date="maxDate" close-text="Close" />
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-default" ng-click="endDate.open()">
