@@ -74,7 +74,7 @@ namespace RubezhAPI.Automation
 								case EnumType.JournalEventNameType: return ExplicitValues.Select(x => (object)x.JournalEventNameTypeValue).ToArray();
 								case EnumType.JournalEventDescriptionType: return ExplicitValues.Select(x => (object)x.JournalEventDescriptionTypeValue).ToArray();
 								case EnumType.JournalObjectType: return ExplicitValues.Select(x => (object)x.JournalObjectTypeValue).ToArray();
-								case EnumType.ColorType: return ExplicitValues.Select(x => (object)x.ColorValue.ToString()).ToArray();
+								case EnumType.ColorType: return ExplicitValues.Select(x => (object)x.ColorValue).ToArray();
 							}
 							break;
 					}
@@ -93,7 +93,7 @@ namespace RubezhAPI.Automation
 						case ExplicitType.Enum:
 							switch (EnumType)
 							{
-								case EnumType.ColorType: return ExplicitValue.ColorValue.ToString();
+								case EnumType.ColorType: return ExplicitValue.ColorValue;
 								case EnumType.DriverType: return ExplicitValue.DriverTypeValue;
 								case EnumType.JournalEventDescriptionType: return ExplicitValue.JournalEventDescriptionTypeValue;
 								case EnumType.JournalEventNameType: return ExplicitValue.JournalEventNameTypeValue;

@@ -28,6 +28,8 @@ namespace VideoModule.ViewModels
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			SetPtzPresetCommand = new RelayCommand(OnSetPtzPreset, CanSetPtzPreset);
+			AlarmSetChannelCommand = new RelayCommand(OnAlarmSetChannel, CanAlarmSetChannel);
+			AlarmDisableChannelCommand = new RelayCommand(OnAlarmDisableChannel, CanAlarmDisableChannel);
 			Camera = camera;
 			Title = Camera.PresentationName;
 
@@ -111,15 +113,32 @@ namespace VideoModule.ViewModels
 				MessageBoxService.ShowWarning("Возникла ошибка при переводе в предустановку");
 			}
 		}
-
 		bool CanSetPtzPreset()
 		{
 			return Presets.Count > 0;
 		}
-
 		public bool IsSetPtzPreset
 		{
 			get { return CanSetPtzPreset(); }
+		}
+
+		public RelayCommand AlarmSetChannelCommand { get; private set; }
+		void OnAlarmSetChannel()
+		{
+			RviClientHelper.AlarmSetChannel(ClientManager.SystemConfiguration.RviSettings, Camera);
+		}
+		bool CanAlarmSetChannel()
+		{
+			return !Camera.IsOnGuard;
+		}
+		public RelayCommand AlarmDisableChannelCommand { get; private set; }
+		void OnAlarmDisableChannel()
+		{
+			RviClientHelper.AlarmDisableChannel(ClientManager.SystemConfiguration.RviSettings, Camera);
+		}
+		bool CanAlarmDisableChannel()
+		{
+			return Camera.IsOnGuard;
 		}
 		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
 		{

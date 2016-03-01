@@ -56,9 +56,17 @@
 						gridApi.selection.on.rowSelectionChanged(scope, scope.showSelectedRow);
 					},
 					columnDefs: [
-						{ name: 'Дата в системе', width: '8%', field: 'SystemDate', cellTemplate: coloredCellTemplate },
-						{ name: 'Дата в приборе', width: '8%', field: 'DeviceDate', cellTemplate: coloredCellTemplate },
-						{ name: 'Название', field: 'Name', cellTemplate: coloredCellTemplate },
+						{ name: 'Дата в приборе', width: '130', field: 'DeviceDate', cellTemplate: coloredCellTemplate },
+						{ name: 'Дата в системе', width: '130', field: 'SystemDate', cellTemplate: coloredCellTemplate },
+						{
+							name: 'Событие', cellTemplate:
+								  '<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
+								<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.EventImage}}" />\
+								 <a href="#" ng-click="grid.appScope.showPropertiesClick(row.entity)">\
+									{{row.entity.Name}}\
+								</a>\
+							</div>'
+						},
 						{ name: 'Уточнение', field: 'Desc', cellTemplate: coloredCellTemplate },
 						{
 							name: 'Объект',

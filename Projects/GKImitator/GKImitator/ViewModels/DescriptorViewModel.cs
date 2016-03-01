@@ -53,17 +53,17 @@ namespace GKImitator.ViewModels
 
 		void OnStateBitChanged(GKStateBit stateBit, bool isActive, ImitatorJournalItem additionalJournalItem = null)
 		{
+			ImitatorJournalItem journalItem = null;
 			if (isActive)
 			{
 				CurrentOnDelay = 0;
 				CurrentOffDelay = 0;
 				CurrentHoldDelay = 0;
 				TurningState = TurningState.None;
-				var journalItem = new ImitatorJournalItem();
 
 				if (stateBit == GKStateBit.On)
 				{
-					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 9, 2, 0);
+					journalItem = new ImitatorJournalItem(2, 9, 2, 0);
 					if (HoldDelay != 0)
 					{
 						CurrentHoldDelay = HoldDelay;
@@ -73,7 +73,7 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.TurningOn)
 				{
-					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 9, 4, 0);
+					journalItem = new ImitatorJournalItem(2, 9, 4, 0);
 					if (OnDelay != 0)
 					{
 						CurrentOnDelay = OnDelay;
@@ -83,7 +83,7 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.TurningOff)
 				{
-					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 9, 5, 0);
+					journalItem = new ImitatorJournalItem(2, 9, 5, 0);
 					if (OffDelay != 0)
 					{
 						CurrentOffDelay = OffDelay;
@@ -95,7 +95,7 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.Off)
 				{
-					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 9, 3, 3);
+					journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 					SetStateBit(GKStateBit.Attention, false);
 					SetStateBit(GKStateBit.Fire1, false);
 					SetStateBit(GKStateBit.Fire2, false);
@@ -103,17 +103,17 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.Norm)
 				{
-					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 14, 0, 0);
+					journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 				}
 
 				if (stateBit == GKStateBit.Fire1)
 				{
-					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 2, 0, 0);
+					journalItem = new ImitatorJournalItem(2, 2, 0, 0);
 				}
 
 				if (stateBit == GKStateBit.Fire2)
 				{
-					journalItem = additionalJournalItem ?? new ImitatorJournalItem(2, 3, 0, 0);
+					journalItem = new ImitatorJournalItem(2, 3, 0, 0);
 				}
 
 				if (stateBit == GKStateBit.Ignore)
@@ -126,9 +126,11 @@ namespace GKImitator.ViewModels
 					journalItem = new ImitatorJournalItem(2, 4, 0, 0);
 				}
 
-				AddJournalItem(journalItem);
-				RecalculateOutputLogic();
+				AddJournalItem(additionalJournalItem ?? journalItem);
 			}
+			
+			if (additionalJournalItem != null || journalItem != null)
+				RecalculateOutputLogic();
 		}
 
 		void InitializeTypeNo()
