@@ -48,6 +48,7 @@
               Value="Center" />
 		<Setter Property="TextAlignment"
               Value="Right" />
+		<Setter Property="Maximum" Value="23:59:59" />
 		<Setter Property="WatermarkTemplate"
               Value="{StaticResource DefaultWatermarkTemplate}" />
 		<Setter Property="IsTabStop"
