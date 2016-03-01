@@ -11,7 +11,8 @@ using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
-    public class PumpStationsController : Controller
+	[Authorize]
+	public class PumpStationsController : Controller
     {
          //GET: PunpStations
 		public ActionResult PumpStations()

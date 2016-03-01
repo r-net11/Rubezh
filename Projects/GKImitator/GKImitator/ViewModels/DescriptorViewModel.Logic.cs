@@ -21,7 +21,6 @@ namespace GKImitator.ViewModels
 		{
 			KauBaseDescriptor = kauBaseDescriptor;
 			InitializeLogic();
-
 		}
 
 		public void InitializeLogic()

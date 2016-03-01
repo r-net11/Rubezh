@@ -14,7 +14,6 @@ namespace GKProcessor
 				UID = new Guid("501AA41F-248B-4A4E-982A-6BC93505C7A9"),
 				Name = "Извещатель охранный инфракрасный R2",
 				ShortName = "ИО-ИК R2",
-				IsControlDevice = true,
 				HasZone = false,
 				HasGuardZone = true,
 				IsPlaceable = true
@@ -25,6 +24,7 @@ namespace GKProcessor
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
+			driver.AvailableStateBits.Add(GKStateBit.Off);
 
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
