@@ -104,15 +104,27 @@ namespace RubezhAPI.Automation
 					}
 				case ExplicitType.String:
 					{
-						return !((string)Value).Equals(tagValue);
+						var current = (string)tagValue;
+						var result = !((string)Value).Equals(current);
+						if (result)
+							Value = current;
+						return result; 
 					}
 				case ExplicitType.DateTime:
 					{
-						return (DateTime)Value != (DateTime)tagValue;
+						var current = (DateTime)tagValue;
+						var result = (DateTime)Value != current;
+						if (result)
+							Value = current;
+						return result;
 					}
 				case ExplicitType.Boolean:
 					{
-						return (Boolean)Value != (Boolean)tagValue;
+						var current = (Boolean)tagValue;
+						var result = (Boolean)Value != current;
+						if (result)
+							Value = current;
+						return result;
 					}
 				default: return true;
 			}

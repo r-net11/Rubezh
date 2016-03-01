@@ -68,8 +68,6 @@ namespace Infrastructure.Automation
 						var value = OpcDaHelper.GetTagValue(opcTagFilter.TagUID);
 						if (opcTagFilter.CheckCondition(value))
 						{
-							opcTagFilter.Value = value;
-							//clientUID = Guid.Parse("aefd988b-39f2-47e2-80ee-2622750b34a7");
 							RunProcedure(procedure, new List<Argument>(), null, user, null, clientUID);
 						}
 					}
