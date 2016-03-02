@@ -51,7 +51,13 @@
         	});
 
         	$scope.devicesClick = function (device) {
-        		dialogService.showWindow(constants.gkObject.device, device.entity);
+        		if (device.entity.IsRealDevice || device.entity.DriverType === 30) {
+        			if (device.entity != null && device.entity.Driver.DriverType === 30) {
+        				// todo: show plotWindow
+        			} else {
+        				dialogService.showWindow(constants.gkObject.device, device.entity);
+        			}
+        		}
         	};
 
         }]

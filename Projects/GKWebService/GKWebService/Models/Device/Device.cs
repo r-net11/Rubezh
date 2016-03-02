@@ -87,6 +87,11 @@ namespace GKWebService.Models
 
 		public string ActionType { get; set; }
 
+		public Boolean IsRealDevice { get; set; }
+
+		public GKDriver Driver { get; set; }
+
+		public GKDriverType DriverType { get; set; }
 
 		public Device(GKDevice device)
 			: base(device)
@@ -101,6 +106,9 @@ namespace GKWebService.Models
 			Logic = GKManager.GetPresentationLogic(device.Logic);
 			NsLogic = GKManager.GetPresentationLogic(device.NSLogic);
 			ZoneUID = device.ZoneUIDs.FirstOrDefault();
+			IsRealDevice = device.IsRealDevice;
+			Driver = device.Driver;
+			DriverType = device.DriverType;
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
