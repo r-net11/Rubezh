@@ -79,7 +79,8 @@ namespace AutomationModule
 
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
 		{
-			if (objectType == ObjectType.SKDDevice)
+			if (objectType == ObjectType.SKDDevice
+				|| objectType == ObjectType.Door)
 				return new List<Property>
 				{
 					Property.AccessState,

@@ -158,6 +158,9 @@ namespace FiresecAPI.Automation
 		ExportReport,
 
 		[Description("Получение свойства устройства СКД")]
-		GetSkdDeviceProperty
+		GetSkdDeviceProperty,
+
+		[Description("Получение свойства точки доступа")]
+		GetDoorProperty
 	}
 }

@@ -166,6 +166,9 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.GetSkdDeviceProperty:
 					return new GetSkdDevicePropertyStepViewModel(this);
 
+				case ProcedureStepType.GetDoorProperty:
+					return new GetDoorPropertyStepViewModel(this);
+
 				default:
 					return null;
 			}

@@ -252,6 +252,10 @@
 		<Views:GetSkdDevicePropertyStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="getDoorPropertyTemplate">
+		<Views:GetDoorPropertyStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		x:Key="stepTypeTemplateSelector"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
@@ -296,5 +300,6 @@
 		StartRecordTemplate="{StaticResource startRecordTemplate}"
 		StopRecordTemplate="{StaticResource stopRecordTemplate}"
 		ExportReportStepTemplate="{StaticResource exportReportStepViewTemplate}"
-		GetSkdDevicePropertyTemplate="{StaticResource getSkdDevicePropertyTemplate}"/>
+		GetSkdDevicePropertyTemplate="{StaticResource getSkdDevicePropertyTemplate}"
+		GetDoorPropertyTemplate="{StaticResource getDoorPropertyTemplate}"/>
 </ResourceDictionary>
