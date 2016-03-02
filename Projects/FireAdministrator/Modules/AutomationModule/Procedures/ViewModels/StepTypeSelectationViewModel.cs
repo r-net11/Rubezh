@@ -103,6 +103,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
 							new StepTypeViewModel(ProcedureStepType.GetSkdDeviceProperty),
 							new StepTypeViewModel(ProcedureStepType.GetDoorProperty),
+							new StepTypeViewModel(ProcedureStepType.GetSkdZoneProperty),
 						}),
 					new StepTypeViewModel("Функции цикла", "/Controls;component/StepIcons/For.png",
 						new List<StepTypeViewModel>

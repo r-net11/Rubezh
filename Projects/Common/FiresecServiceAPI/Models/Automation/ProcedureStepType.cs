@@ -161,6 +161,9 @@ namespace FiresecAPI.Automation
 		GetSkdDeviceProperty,
 
 		[Description("Получение свойства точки доступа")]
-		GetDoorProperty
+		GetDoorProperty,
+
+		[Description("Получение свойства зоны СКД")]
+		GetSkdZoneProperty
 	}
 }

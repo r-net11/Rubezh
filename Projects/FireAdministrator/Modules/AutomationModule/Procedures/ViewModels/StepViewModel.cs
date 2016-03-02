@@ -169,6 +169,9 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.GetDoorProperty:
 					return new GetDoorPropertyStepViewModel(this);
 
+				case ProcedureStepType.GetSkdZoneProperty:
+					return new GetSkdZonePropertyStepViewModel(this);
+
 				default:
 					return null;
 			}

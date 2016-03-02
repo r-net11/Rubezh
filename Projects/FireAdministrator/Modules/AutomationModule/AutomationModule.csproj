@@ -150,6 +150,7 @@
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetDoorPropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetSkdZonePropertyStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetSkdDevicePropertyStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
@@ -279,6 +280,9 @@
     </Compile>
     <Compile Include="Steps\Views\GetDoorPropertyStepView.xaml.cs">
       <DependentUpon>GetDoorPropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetSkdZonePropertyStepView.xaml.cs">
+      <DependentUpon>GetSkdZonePropertyStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\GetSkdDevicePropertyStepView.xaml.cs">
       <DependentUpon>GetSkdDevicePropertyStepView.xaml</DependentUpon>
@@ -590,6 +594,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\GetDoorPropertyStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GetSkdZonePropertyStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

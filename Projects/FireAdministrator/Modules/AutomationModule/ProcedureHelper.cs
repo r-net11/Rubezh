@@ -88,6 +88,13 @@ namespace AutomationModule
 					Property.BreakInStatus,
 					Property.ConnectionStatus
 				};
+			if (objectType == ObjectType.SKDZone)
+				return new List<Property>
+				{
+					Property.DoorStatus,
+					Property.BreakInStatus,
+					Property.ConnectionStatus
+				};
 			return new List<Property>();
 		}
 
