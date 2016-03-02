@@ -1,11 +1,11 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using RviClient.RVIServiceReference;
+using RviCommonClient;
 
 namespace VideoModule.ViewModels
 {
 	public class DeviceViewModel : BaseViewModel
 	{
-		public DeviceViewModel(Device device, Channel channel, int streamNo, bool isEnabled)
+		public DeviceViewModel(IRviDevice device, IRviChannel channel, int streamNo, bool isEnabled)
 		{
 			Device = device;
 			Channel = channel;
@@ -19,8 +19,8 @@ namespace VideoModule.ViewModels
 		}
 
 		public int StreamNo { get; private set; }
-		public Device Device { get; private set; }
-		public Channel Channel { get; private set; }
+		public IRviDevice Device { get; private set; }
+		public IRviChannel Channel { get; private set; }
 
 		public string DeviceName { get; private set; }
 		public string DeviceIP { get; private set; }

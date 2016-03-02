@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f1166cf1-c900-4232-b628-aa65f9fe2614" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="ea675c7e-bf30-432a-9b63-bbef066c777b" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="72e6ad7a-70f0-45bc-90b3-8ee72dce9896" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="24274361-6ed7-4687-a83e-f6e6d5c90222" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" />
+    <MetadataFile FileName="Message.xsd" MetadataType="Schema" ID="5c1f6fd3-0c9d-4216-b9c2-55f58eb71b77" SourceId="1" SourceUrl="net.tcp://192.168.11.4:8000/IntegrationVideoStreaming/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

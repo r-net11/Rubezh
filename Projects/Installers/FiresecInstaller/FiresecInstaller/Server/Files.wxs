@@ -34,7 +34,12 @@
 				<File Id="Server.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Server.TargetDir)" />
+
 				<File Id="Server.RviClient.dll" Name="RviClient.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RviCommonClient.dll" Name="RviCommonClient.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Server.TargetDir)" />
+
 				<File Id="Server.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\..\..\..\..\3rdParty\Newtonsoft.Json.7.0.10\" />
 
 				<File Id="Server.DevExpress.Data.v14.1.dll" Name="DevExpress.Data.v14.1.dll" Source="$(var.Server.TargetDir)" />

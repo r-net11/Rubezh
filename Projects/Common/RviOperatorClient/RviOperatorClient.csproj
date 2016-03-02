@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{630739E0-8854-4260-8A2E-0B0165B6E4F7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RviOperatorClient</RootNamespace>
+    <AssemblyName>RviOperatorClient</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RviOperatorIntegrationClient.cs" />
+    <Compile Include="Service References\RviIntegrationServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\RviIntegrationVideoStreamingServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.AlarmRuleCheckExistOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.AlarmRuleExecuteOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.AlarmRulesOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.ChannelStreamingStartOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.PerimeterOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.PtzPresetOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.PtzTemplateBypassStartOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.PtzTemplateBypassStopOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.SessionCloseOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.SessionInitialiazationOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.SessionKeepAliveOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.SnapshotDoOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.SnapshotImageOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.SubscribePerimeterChangedOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.UnsubscribePerimeterChangedOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.VideoFileOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.VideoRecordStartOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RviOperatorClient.RviIntegrationServiceReference.VideoRecordStopOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Alarm.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Video.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\RVI_VSS.IntegrationInterface.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\service.wsdl" />
+    <None Include="Service References\RviIntegrationServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationVideoStreamingServiceReference\Message.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationVideoStreamingServiceReference\service.wsdl" />
+    <None Include="Service References\RviIntegrationVideoStreamingServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RviIntegrationVideoStreamingServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RviCommonClient\RviCommonClient.csproj">
+      <Project>{536498b7-5819-48b2-b11d-a67166787167}</Project>
+      <Name>RviCommonClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\RviIntegrationServiceReference\" />
+    <WCFMetadataStorage Include="Service References\RviIntegrationVideoStreamingServiceReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RviIntegrationServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RviIntegrationServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RviIntegrationServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RviIntegrationVideoStreamingServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RviIntegrationVideoStreamingServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RviIntegrationVideoStreamingServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
