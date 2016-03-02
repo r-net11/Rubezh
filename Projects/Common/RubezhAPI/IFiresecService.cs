@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using System.Windows.Media;
 
 namespace RubezhAPI
 {
@@ -41,6 +42,7 @@ namespace RubezhAPI
 		/// <param name="callbackIndex">Индекс последнего обработанного сообщения</param>
 		/// <returns></returns>
 		[OperationContract]
+		[ServiceKnownType(typeof(Color))]
 		PollResult Poll(Guid clientUID, int callbackIndex);
 
 		[OperationContract]

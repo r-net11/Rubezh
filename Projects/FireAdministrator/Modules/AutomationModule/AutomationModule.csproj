@@ -205,6 +205,7 @@
     <Compile Include="Procedures\Views\VariableView.xaml.cs">
       <DependentUpon>VariableView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\ViewModels\CreateColorStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlDelayStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlMPTStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\HttpRequestStepViewModel.cs" />
@@ -287,6 +288,9 @@
     <Compile Include="Steps\ViewModels\StartRecordStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\StopRecordStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RviAlarmStepViewModel.cs" />
+    <Compile Include="Steps\Views\CreateColorStepView.xaml.cs">
+      <DependentUpon>CreateColorStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\Views\ChangeListStepView.xaml.cs">
       <DependentUpon>ChangeListStepView.xaml</DependentUpon>
     </Compile>
@@ -702,6 +706,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\VariableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\CreateColorStepView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

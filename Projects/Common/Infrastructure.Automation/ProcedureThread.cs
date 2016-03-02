@@ -221,6 +221,10 @@ namespace Infrastructure.Automation
 					Calculate(procedureStep);
 					break;
 
+				case ProcedureStepType.CreateColor:
+					CreateColor(procedureStep);
+					break;
+
 				case ProcedureStepType.PlaySound:
 					PlaySound(procedureStep);
 					break;

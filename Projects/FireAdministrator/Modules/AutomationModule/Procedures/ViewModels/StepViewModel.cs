@@ -39,6 +39,10 @@ namespace AutomationModule.ViewModels
 					Content = new ArithmeticStepViewModel(this);
 					break;
 
+				case ProcedureStepType.CreateColor:
+					Content = new CreateColorStepViewModel(this);
+					break;
+
 				case ProcedureStepType.If:
 					Content = new ConditionStepViewModel(this);
 					break;

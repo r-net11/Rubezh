@@ -43,6 +43,9 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Арифметическая операция")]
 		Arithmetics,
 
+		[DescriptionAttribute("Создать цвет")]
+		CreateColor,
+
 		[DescriptionAttribute("Найти объекты")]
 		FindObjects,
 

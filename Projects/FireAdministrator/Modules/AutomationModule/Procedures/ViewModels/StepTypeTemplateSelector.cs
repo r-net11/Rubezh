@@ -9,6 +9,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ShowMessageTemplate { get; set; }
 		public DataTemplate JournalTemplate { get; set; }
 		public DataTemplate ArithmeticTemplate { get; set; }
+		public DataTemplate CreateColorTemplate { get; set; }
 		public DataTemplate ConditionTemplate { get; set; }
 		public DataTemplate FindObjectTemplate { get; set; }
 		public DataTemplate ForeachTemplate { get; set; }
@@ -66,6 +67,8 @@ namespace AutomationModule.ViewModels
 				return JournalTemplate;
 			if (item is ArithmeticStepViewModel)
 				return ArithmeticTemplate;
+			if (item is CreateColorStepViewModel)
+				return CreateColorTemplate;
 			if (item is ConditionStepViewModel)
 				return ConditionTemplate;
 			if (item is FindObjectStepViewModel)

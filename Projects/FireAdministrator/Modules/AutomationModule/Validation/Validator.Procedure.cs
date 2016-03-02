@@ -77,6 +77,21 @@ namespace AutomationModule.Validation
 					}
 					break;
 
+				case ProcedureStepType.CreateColor:
+					{
+						var createColorArguments = step.CreateColorArguments;
+						if (!ValidateArgument(procedure, step, createColorArguments.AArgument))
+							break;
+						if (!ValidateArgument(procedure, step, createColorArguments.RArgument))
+							break;
+						if (!ValidateArgument(procedure, step, createColorArguments.GArgument))
+							break;
+						if (!ValidateArgument(procedure, step, createColorArguments.BArgument))
+							break;
+						ValidateArgument(procedure, step, createColorArguments.ResultArgument);
+					}
+					break;
+
 				case ProcedureStepType.If:
 				case ProcedureStepType.While:
 					{

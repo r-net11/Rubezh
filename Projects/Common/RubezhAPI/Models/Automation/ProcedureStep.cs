@@ -16,6 +16,7 @@ namespace RubezhAPI.Automation
 			SoundArguments = new SoundArguments();
 			ShowMessageArguments = new ShowMessageArguments();
 			ArithmeticArguments = new ArithmeticArguments();
+			CreateColorArguments = new CreateColorArguments();
 			ConditionArguments = new ConditionArguments();
 			FindObjectArguments = new FindObjectArguments();
 			ForeachArguments = new ForeachArguments();
@@ -89,6 +90,9 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public ArithmeticArguments ArithmeticArguments { get; set; }
+
+		[DataMember]
+		public CreateColorArguments CreateColorArguments { get; set; }
 
 		[DataMember]
 		public ConditionArguments ConditionArguments { get; set; }
