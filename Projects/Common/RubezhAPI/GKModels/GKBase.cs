@@ -276,7 +276,7 @@ namespace RubezhAPI.GK
 						guardZoneDevice.Device.LinkToDescriptor(guardZone);
 					}
 				}
-				if (guardZone.Pim != null)
+				if (guardZone.Pim != null && guardZone.GuardZoneDevices.Any(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard))
 					guardZone.Pim.LinkToDescriptor(guardZone);
 			}
 
