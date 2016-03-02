@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<div ng-controller="alarmGroupsCtrl">
+<div ng-show="isAuth()" ng-controller="alarmGroupsCtrl">
     <div alarm-btn="reset"
          alarm-icon="ResetAlarmText"
          glow-color="#FFFFFF"

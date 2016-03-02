@@ -9,9 +9,9 @@
 			function ChangeDelay(delay)
 			{
 				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-					if ($scope.gridOptions.data[i].Uid == delay.Uid) {
-						$scope.gridOptions.data[i] = delay;
-					}
+				    if ($scope.gridOptions.data[i].Uid == delay.Uid) {
+				        $scope.gridOptions.data[i] = delay;
+                    }
 				}
 			}
 			$scope.gridOptions = {
@@ -57,8 +57,10 @@
 			    dialogService.showWindow(constants.gkObject.delay, delay);
 			};
 		    $scope.$on('delayChanged', function(event, args) {
+		        $scope.state = $scope.gridApi.saveState.save();
 		        ChangeDelay(args);
 		        $scope.$apply();
+		        $scope.gridApi.saveState.restore($scope, $scope.state);
 		    });
 
 		    $scope.selectRowById = function (uid) {

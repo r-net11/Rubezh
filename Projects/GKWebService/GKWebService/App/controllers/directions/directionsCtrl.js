@@ -34,8 +34,10 @@
                 var data = $scope.gridOptions.data;
                 for (var i = 0, len = data.length; i < len; i++) {
                     if (args.UID === data[i].UID) {
+                        $scope.state = $scope.gridApi.saveState.save();
                         data[i] = args;
                         $scope.$apply();
+                        $scope.gridApi.saveState.restore($scope, $scope.state);
                         break;
                     }
                 }

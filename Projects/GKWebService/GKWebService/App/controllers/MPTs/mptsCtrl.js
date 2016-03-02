@@ -52,8 +52,10 @@
                };
 
                $scope.$on('mptChanged', function (event, args) {
+                   $scope.gridState = $scope.gridApi.saveState.save();
                    ChangeMPT(args);
                    $scope.$apply();    
+                   $scope.gridApi.saveState.restore($scope, $scope.gridState);
                });
 
                $scope.selectRowById = function (uid) {
