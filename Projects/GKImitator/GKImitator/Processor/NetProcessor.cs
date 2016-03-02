@@ -95,7 +95,7 @@ namespace GKImitator.Processor
 
 				case 5: // Синхронизация времени
 					var descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
-					var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => databaseType == DatabaseType.Gk ? x.GKDescriptorNo == descriptorNo : x.KauDescriptorNo == descriptorNo);
 					if (descriptorViewModel != null)
 					{
 						descriptorViewModel.SynchronyzeDateTime();
@@ -118,12 +118,12 @@ namespace GKImitator.Processor
 					descriptorNo = BytesHelper.SubstructInt(byteData.ToList(), 5);
 					if (databaseType == DatabaseType.Gk)
 					{
-						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptorNo);
+						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => databaseType == DatabaseType.Gk ? x.GKDescriptorNo == descriptorNo : x.KauDescriptorNo == descriptorNo);
 						return descriptorViewModel.GetParameters(databaseType);
 					}
 					if (databaseType == DatabaseType.Kau)
 					{
-						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo);
+						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => databaseType == DatabaseType.Gk ? x.GKDescriptorNo == descriptorNo : x.KauDescriptorNo == descriptorNo);
 						return descriptorViewModel.GetParameters(databaseType);
 					}
 					return null;
@@ -132,7 +132,7 @@ namespace GKImitator.Processor
 					descriptorNo = BytesHelper.SubstructShort(byteData.ToList(), 5);
 					if (databaseType == DatabaseType.Gk)
 					{
-						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptorNo);
+						descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => databaseType == DatabaseType.Gk ? x.GKDescriptorNo == descriptorNo : x.KauDescriptorNo == descriptorNo);
 						if (descriptorViewModel != null)
 						{
 							descriptorViewModel.SetParameters(byteData.Skip(7).ToList());
@@ -154,10 +154,10 @@ namespace GKImitator.Processor
 
 				case 12: // Запрос состояния
 					descriptorNo = BytesHelper.SubstructShort(byteData.ToList(), 5);
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => databaseType == DatabaseType.Gk ? x.GKDescriptorNo == descriptorNo : x.KauDescriptorNo == descriptorNo);
 					if (descriptorViewModel != null)
 					{
-						return descriptorViewModel.GetStateBytes(descriptorNo);
+						return descriptorViewModel.GetStateBytes(descriptorNo, databaseType);
 					}
 					return null;
 
@@ -169,7 +169,7 @@ namespace GKImitator.Processor
 						commandCode = commandCode - 0x80;
 					}
 					var stateBit = (GKStateBit)commandCode;
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => databaseType == DatabaseType.Gk ? x.GKDescriptorNo == descriptorNo : x.KauDescriptorNo == descriptorNo);
 					if (descriptorViewModel != null)
 					{
 						descriptorViewModel.ClientCommand(stateBit);
