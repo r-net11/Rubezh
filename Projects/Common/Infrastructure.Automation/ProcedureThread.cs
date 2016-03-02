@@ -179,7 +179,7 @@ namespace Infrastructure.Automation
 					{
 						var condition = Compare(initialValue, value, forArguments.ConditionType);
 						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
-						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value; )
+						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value;)
 						{
 							if (IsTimeOut)
 								return Result.Normal;
@@ -391,6 +391,10 @@ namespace Infrastructure.Automation
 
 				case ProcedureStepType.RviAlarm:
 					RviAlarm(procedureStep);
+					break;
+
+				case ProcedureStepType.RviOpenWindow:
+					RviOpenWindow(procedureStep);
 					break;
 
 				case ProcedureStepType.Now:

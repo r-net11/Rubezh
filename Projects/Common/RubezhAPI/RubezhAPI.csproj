@@ -168,6 +168,7 @@
     <Compile Include="Models\Automation\StepArguments\ControlElementType.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RviOpenWindowArguments.cs" />
     <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="Models\Video\RviDevice.cs" />

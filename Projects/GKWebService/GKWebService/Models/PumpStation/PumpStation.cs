@@ -19,9 +19,9 @@ namespace GKWebService.Models.PumpStation
 			No = pumpStation.No;
 			GKDescriptorNo = pumpStation.GKDescriptorNo;
 			Name = pumpStation.Name;
-			StartLogic = GKManager.GetPresentationLogic(pumpStation.StartLogic);
-			StopLogic = GKManager.GetPresentationLogic(pumpStation.StopLogic);
-			AutomaticOffLogic = GKManager.GetPresentationLogic(pumpStation.AutomaticOffLogic);
+			StartLogic = GKManager.GetPresentationLogic(pumpStation.StartLogic.OnClausesGroup);
+			StopLogic = GKManager.GetPresentationLogic(pumpStation.StopLogic.OnClausesGroup);
+			AutomaticOffLogic = GKManager.GetPresentationLogic(pumpStation.AutomaticOffLogic.OnClausesGroup);
 			Delay = pumpStation.Delay;
 			Hold = pumpStation.Hold;
 			DelayRegime = pumpStation.DelayRegime.ToDescription();
@@ -35,8 +35,8 @@ namespace GKWebService.Models.PumpStation
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(pumpStation.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 			HasOnDelay = pumpStation.State.StateClasses.Contains(XStateClass.TurningOn) && pumpStation.State.OnDelay > 0;
-			OnDelay = pumpStation.State.OnDelay;
-			HoldDelay = pumpStation.State.HoldDelay;
+			OnDelay = pumpStation.State.OnDelay != 0 ? string.Format("{0} сек", pumpStation.State.OnDelay) : string.Empty;
+			HoldDelay = pumpStation.State.HoldDelay != 0 ? string.Format("{0} сек", pumpStation.State.HoldDelay) : string.Empty;
 			HasHoldDelay = pumpStation.State.StateClasses.Contains(XStateClass.On) && pumpStation.State.HoldDelay > 0;
 
 			var controlRegime = pumpStation.State.StateClasses.Contains(XStateClass.Ignore)
@@ -74,9 +74,9 @@ namespace GKWebService.Models.PumpStation
 
 		public string State { get; set; }
 
-		public int OnDelay { get; set; }
+		public string OnDelay { get; set; }
 
-		public int HoldDelay { get; set; }
+		public string HoldDelay { get; set; }
 
 		public bool HasHoldDelay { get; set; }
 

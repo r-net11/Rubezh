@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Common;
-using RubezhAPI;
+﻿using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
-using OpcClientSdk;
-using OpcClientSdk.Da;
+using System;
+using System.Collections.Generic;
 
 namespace RubezhClient
 {
@@ -108,6 +105,16 @@ namespace RubezhClient
 				using (firesecService as IDisposable)
 					firesecService.RviAlarm(clientUID, name);
 			}, "RviAlarm");
+		}
+
+		public void RviOpenWindow(Guid clientUid, string name, int x, int y, int monitorNumber, string login, string ip)
+		{
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.RviOpenWindow(clientUid, name, x, y, monitorNumber, login, ip);
+			}, "RviOpenWindow");
 		}
 
 		public void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
@@ -288,6 +295,11 @@ namespace RubezhClient
 		public void RviAlarm(string name)
 		{
 			RviAlarm(FiresecServiceFactory.UID, name);
+		}
+
+		public void RviOpenWindow(string name, int x, int y, int monitorNumber, string login, string ip)
+		{
+			RviOpenWindow(FiresecServiceFactory.UID, name, x, y, monitorNumber, login, ip);
 		}
 
 		public void ControlFireZone(Guid uid, ZoneCommandType commandType)

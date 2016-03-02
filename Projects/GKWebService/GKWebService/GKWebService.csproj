@@ -645,6 +645,7 @@
     <Content Include="Content\common.less" />
     <Content Include="Content\pumpStations.less" />
     <Content Include="Content\mpts.less" />
+    <Content Include="Content\doorInfo.less" />
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
