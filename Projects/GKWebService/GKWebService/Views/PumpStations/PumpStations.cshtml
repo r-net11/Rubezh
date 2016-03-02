@@ -3,7 +3,7 @@
 }
 
 <div ng-controller="pumpStationsCtrl">
-	<div ui-grid="uiGrid" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns style="{{gridStyle}}"></div>
+	<div ui-grid="uiGrid" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state style="{{gridStyle}}"></div>
 	<div class="report_item_info">
 		<div>
 			<label>Условие для запуска: </label>
@@ -20,5 +20,5 @@
 	</div>
 </div>
 <div ng-controller="pumpStationDevicesCtrl">
-	<div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-resize-columns style="{{gridStyle}}"></div>
+	<div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state style="{{gridStyle}}"></div>
 </div>

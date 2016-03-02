@@ -17,6 +17,11 @@
 					<extToolkit:IntegerUpDown Width="200" Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				</StackPanel>
 
+				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Float}}" HorizontalAlignment="Right" Height="28">
+					<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
+					<TextBox Width="200" Text="{Binding ExplicitValue.FloatValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				</StackPanel>
+
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" HorizontalAlignment="Right" Height="28">
 					<TextBlock Text="Значение" HorizontalAlignment="Left" Style="{DynamicResource TextBlockDetailsStyle}" />
 					<CheckBox IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Width="202" Margin="2,7,0,0" />
@@ -24,40 +29,40 @@
 
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}" HorizontalAlignment="Right" Height="28">
 					<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" />
-                    <DockPanel Width="200" Margin="2">
-                        <TextBox Width="182" Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
-                        <Button Command="{Binding EditStringCommand}"
+					<DockPanel Width="200" Margin="2">
+						<TextBox Width="182" Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+						<Button Command="{Binding EditStringCommand}"
 							Content="..."
 							FontSize="20"
 							Foreground="{DynamicResource ForegroundColorLight}"
 							Width="20" Height="25" Margin="-5,0,0,0">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Name="border" Background="Orange" BorderThickness="0" CornerRadius="0,3,3,0">
-                                                    <ContentPresenter x:Name="contentPresenter"
+							<Button.Style>
+								<Style TargetType="Button">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="Button">
+												<Border Name="border" Background="Orange" BorderThickness="0" CornerRadius="0,3,3,0">
+													<ContentPresenter x:Name="contentPresenter"
 																  Margin="{TemplateBinding Padding}"
 																  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 																  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 																  Content="{TemplateBinding Content}"
 																  ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="UIElement.IsMouseOver" Value="True">
-                                                        <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
-                                                        <Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </DockPanel>
-                </StackPanel>
+												</Border>
+												<ControlTemplate.Triggers>
+													<Trigger Property="UIElement.IsMouseOver" Value="True">
+														<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+														<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
+													</Trigger>
+												</ControlTemplate.Triggers>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</Button.Style>
+						</Button>
+					</DockPanel>
+				</StackPanel>
 
 				<StackPanel Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}"
 							HorizontalAlignment="Center"

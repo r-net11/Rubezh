@@ -36,13 +36,25 @@ namespace VideoModule
 							device.OnStatusChanged();
 						}
 					}
-					if (remoteRviState.RviServerUrl != null)
+					else if (remoteRviState.RviServerUrl != null)
 					{
 						var server = ClientManager.SystemConfiguration.RviServers.FirstOrDefault(x => x.Url == remoteRviState.RviServerUrl);
 						if (server != null)
 						{
 							server.Status = remoteRviState.Status;
 							server.OnStatusChanged();
+						}
+					}
+					else if (remoteRviState.CameraUid != Guid.Empty)
+					{
+						var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == remoteRviState.CameraUid);
+						if (camera != null)
+						{
+							camera.Status = remoteRviState.Status;
+							camera.IsOnGuard = remoteRviState.IsOnGuard;
+							camera.IsRecordOnline = remoteRviState.IsRecordOnline;
+							camera.RviStreams = remoteRviState.RviStreams;
+							camera.OnStatusChanged();
 						}
 					}
 				}

@@ -3,8 +3,6 @@ using RubezhAPI.Automation;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AutomationModule.ViewModels
 {
@@ -36,7 +34,7 @@ namespace AutomationModule.ViewModels
 
 		public List<OpcDaTag> OpcDaTags
 		{
-			get 
+			get
 			{
 				var tags = new List<OpcDaTag>();
 
@@ -48,7 +46,7 @@ namespace AutomationModule.ViewModels
 							tags.Add(tag);
 					}
 				}
-				return tags; 
+				return tags;
 			}
 		}
 
@@ -68,6 +66,7 @@ namespace AutomationModule.ViewModels
 						switch (type.Value)
 						{
 							case ExplicitType.Integer:
+							case ExplicitType.Float:
 								{
 									HysterasisEnabled = true; break;
 								}
@@ -101,10 +100,10 @@ namespace AutomationModule.ViewModels
 		public uint Hysteresis
 		{
 			get { return _hysteresis; }
-			set 
-			{ 
-				_hysteresis = value; 
-				OnPropertyChanged(() => Hysteresis); 
+			set
+			{
+				_hysteresis = value;
+				OnPropertyChanged(() => Hysteresis);
 			}
 		}
 
@@ -120,7 +119,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		bool _hysterasisEnabled;
-		public bool HysterasisEnabled 
+		public bool HysterasisEnabled
 		{
 			get { return _hysterasisEnabled; }
 			private set
@@ -135,7 +134,7 @@ namespace AutomationModule.ViewModels
 		protected override bool CanSave()
 		{
 			//return base.CanSave();
-			return (_selectedOpcDaTag != null) && 
+			return (_selectedOpcDaTag != null) &&
 				(!String.IsNullOrEmpty(Name)) && (!String.IsNullOrWhiteSpace(Name));
 		}
 
@@ -145,8 +144,8 @@ namespace AutomationModule.ViewModels
 
 			if (type != null)
 			{
-				OpcDaTagFilterResult = 
-					new OpcTagFilterViewModel(new OpcDaTagFilter(Guid.NewGuid(), Name, 
+				OpcDaTagFilterResult =
+					new OpcTagFilterViewModel(new OpcDaTagFilter(Guid.NewGuid(), Name,
 						Description == null ? string.Empty : Description,
 						SelectedOpcDaTag.Uid, Hysteresis, type.Value));
 				return true;

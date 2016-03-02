@@ -80,6 +80,12 @@ namespace RubezhAPI.Models
 		public event Action<Guid, Guid> UIDChanged;
 
 		[XmlIgnore]
+		public RviStatus Status { get; set; }
+		[XmlIgnore]
+		public bool IsRecordOnline { get; set; }
+		[XmlIgnore]
+		public bool IsOnGuard { get; set; }
+		[XmlIgnore]
 		public string PresentationName
 		{
 			get { return string.Format("{0}. {1}", RviDeviceName, Name); }
@@ -87,5 +93,12 @@ namespace RubezhAPI.Models
 		[XmlIgnore]
 		public CameraState CameraState { get; set; }
 		IDeviceState IStateProvider.StateClass { get { return CameraState; } }
+
+		public event Action StatusChanged;
+		public void OnStatusChanged()
+		{
+			if (StatusChanged != null)
+				StatusChanged();
+		}
 	}
 }

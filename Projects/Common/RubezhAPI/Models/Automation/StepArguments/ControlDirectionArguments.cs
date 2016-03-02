@@ -38,9 +38,6 @@ namespace RubezhAPI.Automation
 		[Description("Выключить")]
 		TurnOff,
 
-		[Description("Выключить немедленно")]
-		TurnOffNow,
-
 		[Description("Пуск в автоматическом режиме")]
 		TurnOn_InAutomatic,
 
@@ -49,9 +46,6 @@ namespace RubezhAPI.Automation
 
 		[Description("Выключить в автоматическом режиме")]
 		TurnOff_InAutomatic,
-
-		[Description("Выключить немедленно в автоматическом режиме")]
-		TurnOffNow_InAutomatic,
 
 		[Description("Останов пуска")]
 		ForbidStart

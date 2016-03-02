@@ -12,9 +12,9 @@
                 enableColumnResizing: true,
                 enableColumnMenus: false,
                 columnDefs: [
-                   { field: 'Name', displayName: 'Устройство', width: 450, cellTemplate: '<div class="ui-grid-cell-contents" style="float:left" ><a href="#" ng-click="grid.appScope.deviceClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle" width="16px" height="16px" ng-src="/Content/Image/{{row.entity.ImageSource}}" /> {{row.entity[col.field]}}</a></div>' },
-                   { field: 'Address', displayName: 'Адрес', width: 100 },
-                   { field: 'ActionType', displayName: 'Функция', width: 200 },
+                   { field: 'Name', displayName: 'Устройство', width: 400, cellTemplate: '<div class="ui-grid-cell-contents" style="float:left" ><a href="#" ng-click="grid.appScope.deviceClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle" width="16px" height="16px" ng-src="/Content/Image/{{row.entity.ImageSource}}" /> {{row.entity[col.field]}}</a></div>' },
+                   { field: 'Address', displayName: 'Адрес', width: 150, minWidth: 150 },
+                   { field: 'ActionType', displayName: 'Функция', width: 150, minWidth: 150 },
                    { field: 'Description', displayName: 'Описание', enableColumnResizing: false }
 
                 ]
@@ -35,20 +35,22 @@
                 dialogService.showWindow(constants.gkObject.device, device);
             };
 
-            function ChangeDevices(device) {
+            var ChangeDevices =  function (device) {
                 for (var i in $scope.uiGrid.data) {
                     if ($scope.uiGrid.data[i].UID === device.UID) {
-                        var mptState = $scope.uiGrid.data[i].MPTDeviceType;
+                        var actionType = $scope.uiGrid.data[i].ActionType;
                         $scope.uiGrid.data[i] = device;
-                        $scope.uiGrid.data[i].MPTDeviceType = mptState;
+                        $scope.uiGrid.data[i].ActionType = actionType;
                         break;
                     }
                 }
             };
 
             $scope.$on('devicesChanged', function (event, args) {
+                $scope.gridState = $scope.gridApi.saveState.save();
                 ChangeDevices(args);
                 $scope.$apply();
+                $scope.gridApi.saveState.restore($scope, $scope.gridState);
             });
 
 

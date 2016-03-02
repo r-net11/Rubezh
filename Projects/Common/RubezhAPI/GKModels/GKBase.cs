@@ -276,7 +276,7 @@ namespace RubezhAPI.GK
 						guardZoneDevice.Device.LinkToDescriptor(guardZone);
 					}
 				}
-				if (guardZone.Pim != null)
+				if (guardZone.Pim != null && guardZone.GuardZoneDevices.Any(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard))
 					guardZone.Pim.LinkToDescriptor(guardZone);
 			}
 
@@ -303,7 +303,7 @@ namespace RubezhAPI.GK
 				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
 				door.LinkToDescriptor(door);
-				if (door.PimCrossing != null)
+				if (door.DoorType == GKDoorType.Barrier && door.PimCrossing != null)
 				{
 					if (door.LockControlDevice != null)
 						door.PimCrossing.LinkToDescriptor(door.LockControlDevice);
@@ -312,7 +312,7 @@ namespace RubezhAPI.GK
 					door.PimCrossing.LinkToDescriptor(door.PimCrossing);
 					door.PimCrossing.LinkToDescriptor(door);
 				}
-				if (door.PimEnter != null)
+				if (door.DoorType == GKDoorType.AirlockBooth && door.PimEnter != null)
 				{
 					if (door.EnterDevice != null)
 						door.PimEnter.LinkToDescriptor(door.EnterDevice);
@@ -325,7 +325,7 @@ namespace RubezhAPI.GK
 					door.PimEnter.LinkToDescriptor(door);
 					door.PimEnter.LinkToDescriptor(door.PimEnter);
 				}
-				if (door.PimExit != null)
+				if (door.DoorType == GKDoorType.AirlockBooth && door.PimExit != null)
 				{
 					if (door.EnterDevice != null)
 						door.PimExit.LinkToDescriptor(door.EnterDevice);

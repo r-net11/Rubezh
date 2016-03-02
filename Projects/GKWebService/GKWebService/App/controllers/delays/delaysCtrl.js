@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 	var nameTemplate = '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" />' +
-		'<a href="#" ng-click="grid.appScope.showDetailsDelay(row.entity)">{{row.entity.Name}}</a></div>';
+		'<a href="" ng-click="grid.appScope.showDetailsDelay(row.entity)">{{row.entity.Name}}</a></div>';
 
 	var delaysApp = angular.module("gkApp.controllers");
 	delaysApp.controller('delaysCtrl', ['$scope', '$http', '$uibModal', '$stateParams', '$timeout', 'signalrDelaysService', 'dialogService', 'constants',
@@ -9,9 +9,9 @@
 			function ChangeDelay(delay)
 			{
 				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-					if ($scope.gridOptions.data[i].Uid == delay.Uid) {
-						$scope.gridOptions.data[i] = delay;
-					}
+				    if ($scope.gridOptions.data[i].Uid == delay.Uid) {
+				        $scope.gridOptions.data[i] = delay;
+                    }
 				}
 			}
 			$scope.gridOptions = {
@@ -57,8 +57,10 @@
 			    dialogService.showWindow(constants.gkObject.delay, delay);
 			};
 		    $scope.$on('delayChanged', function(event, args) {
+		        $scope.state = $scope.gridApi.saveState.save();
 		        ChangeDelay(args);
 		        $scope.$apply();
+		        $scope.gridApi.saveState.restore($scope, $scope.state);
 		    });
 
 		    $scope.selectRowById = function (uid) {

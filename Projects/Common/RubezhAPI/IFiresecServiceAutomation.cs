@@ -34,6 +34,8 @@ namespace RubezhAPI
 		[OperationContract]
 		void RviAlarm(Guid clientUID, string name);
 		[OperationContract]
+		void RviOpenWindow(Guid clientUid, string name, int x, int y, int monitorNumber, string login, string ip);
+		[OperationContract]
 		void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType);
 		[OperationContract]
 		void ControlGuardZone(Guid clientUID, Guid uid, GuardZoneCommandType commandType);

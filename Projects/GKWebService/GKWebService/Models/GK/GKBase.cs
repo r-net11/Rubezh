@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GKWebService.Models.GK;
 using RubezhAPI.GK;
 
 namespace GKWebService.Models
@@ -24,6 +25,8 @@ namespace GKWebService.Models
 
 		public string StateClass { get; set; }
 
+		public GKStateModel State { get; set; }
+
 		public GKBaseModel(GKBase gkObject)
 		{
 			UID = gkObject.UID;
@@ -31,6 +34,7 @@ namespace GKWebService.Models
 			ImageSource = gkObject.ImageSource.Replace("/Controls;component/", "");
 			ObjectType = gkObject.ObjectType;
 			StateClass = gkObject.State.StateClass.ToString();
+			State = new GKStateModel(gkObject.State);
 		}
 	}
 }

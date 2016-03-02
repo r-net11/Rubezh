@@ -9,7 +9,8 @@ using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
-    public class DoorsController : Controller
+	[Authorize]
+	public class DoorsController : Controller
     {
         // GET: Doors
         public ActionResult Door()

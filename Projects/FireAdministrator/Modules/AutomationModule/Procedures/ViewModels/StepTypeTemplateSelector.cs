@@ -52,6 +52,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate StartRecordTemplate { get; set; }
 		public DataTemplate StopRecordTemplate { get; set; }
 		public DataTemplate RviAlarmTemplate { get; set; }
+		public DataTemplate RviOpenWindowTemplate { get; set; }
 		public DataTemplate NowTemplate { get; set; }
 		public DataTemplate HttpRequestTemplate { get; set; }
 
@@ -151,6 +152,8 @@ namespace AutomationModule.ViewModels
 				return StopRecordTemplate;
 			if (item is RviAlarmStepViewModel)
 				return RviAlarmTemplate;
+			if (item is RviOpenWindowStepViewModel)
+				return RviOpenWindowTemplate;
 			if (item is NowStepViewModel)
 				return NowTemplate;
 			if (item is HttpRequestStepViewModel)

@@ -180,6 +180,7 @@
     </Compile>
     <Compile Include="QSort.cs" />
     <Compile Include="SafeContext.cs" />
+    <Compile Include="SafeEnum.cs" />
     <Compile Include="SortableObservableCollection.cs" />
     <Compile Include="State\XStateClass.cs" />
     <Compile Include="State\IDeviceState.cs" />

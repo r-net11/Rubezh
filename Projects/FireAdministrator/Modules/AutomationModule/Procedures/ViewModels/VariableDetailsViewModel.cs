@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure;
-using Infrastructure.Automation;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -33,10 +33,10 @@ namespace AutomationModule.ViewModels
 			if (variable != null)
 				Copy(variable);
 		}
-			
+
 		void Copy(Variable variable)
 		{
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType>{variable.ExplicitType},
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType> { variable.ExplicitType },
 				new List<EnumType> { variable.EnumType }, new List<ObjectType> { variable.ObjectType }));
 			var explicitTypeViewModel = ExplicitTypes.FirstOrDefault();
 			if (explicitTypeViewModel != null)
@@ -156,7 +156,7 @@ namespace AutomationModule.ViewModels
 			Variable.EnumType = SelectedExplicitType.EnumType;
 			Variable.ObjectType = SelectedExplicitType.ObjectType;
 			Variable.ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
-			foreach(var explicitValue in ExplicitValuesViewModel.ExplicitValues)
+			foreach (var explicitValue in ExplicitValuesViewModel.ExplicitValues)
 				Variable.ExplicitValues.Add(explicitValue.ExplicitValue);
 			return base.Save();
 		}
@@ -188,6 +188,9 @@ namespace AutomationModule.ViewModels
 			{
 				case ExplicitType.Integer:
 					_name = "Целое";
+					break;
+				case ExplicitType.Float:
+					_name = "Вещественное";
 					break;
 				case ExplicitType.Boolean:
 					_name = "Логическое";
@@ -268,7 +271,7 @@ namespace AutomationModule.ViewModels
 
 			if (!IsGlobal)
 				_name = _name[0].ToString().ToLower() + _name.Substring(1);
-			
+
 			int i = 0;
 			do { i++; } while (_availableVariables.Any(x => x.Name == _name + i));
 
