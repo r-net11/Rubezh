@@ -11,7 +11,7 @@
     <div>
         <div>
             <div ng-style="{'background-color': door.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
-            <div style="float: left; width: 300px">
+            <div style="float: left; width: 200px">
                 <ul>
                     <li ng-repeat="stateClass in door.StateClasses">
                         <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{stateClass.IconData}}.png" />
@@ -19,17 +19,17 @@
                     <li>
                 </ul>
             </div>
-            <div style="float: left">
+            <div style="float: right">
                 <div ng-show="door.HasOnDelay">
                     <span>Задержка на включение</span> <br />
-                    <span>{{door.OnDelay}}</span><span> сек</span>
+                    <span>{{door.OnDelay}} сек</span>
                 </div>
                 <div ng-show="door.HasHoldDelay">
                     <span>Время тушения</span> <br />
-                    <span>{{door.HoldDelay}}</span><span> сек</span>
+                    <span>{{door.HoldDelay}} сек</span>
                 </div>
             </div>
-            <div style="clear: left">
+            <div style="clear: both">
             </div>
         </div>
         <uib-tabset>

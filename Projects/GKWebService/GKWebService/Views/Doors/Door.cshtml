@@ -8,59 +8,59 @@
         <div class="deviceProperties">
             <div>
                 <span>Устройство на вход: </span>
-                <span ng-show="!!selectedRow.enterDevice"><a href="#" ng-click="ShowDevice(selectedRow.enterDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.enterDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.enterDevice.ImageSource}}" />{{selectedRow.enterDevice.Name}}</a></span>
+                <span ng-show="!!selectedRow.enterDevice"><a href="" ng-click="ShowDevice(selectedRow.enterDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.enterDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.enterDevice.ImageSource}}" />{{selectedRow.enterDevice.Name}}</a></span>
             </div>
             <div>
                 <span>Устройство на выход: </span>
-                <span ng-show="!!selectedRow.exitDevice"><a href="#" ng-click="ShowDevice(selectedRow.exitDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.exitDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.exitDevice.ImageSource}}" /> {{selectedRow.exitDevice.Name}}</a></span>
+                <span ng-show="!!selectedRow.exitDevice"><a href="" ng-click="ShowDevice(selectedRow.exitDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.exitDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.exitDevice.ImageSource}}" /> {{selectedRow.exitDevice.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.AirlockBooth">
                 <span>Кнопка на вход: </span>
-                <span ng-show="!!selectedRow.enterButton"><a href="#" ng-click="ShowDevice(selectedRow.enterButton.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.enterButton.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.enterButton.ImageSource}}" />{{selectedRow.enterButton.Name}}</a></span>
+                <span ng-show="!!selectedRow.enterButton"><a href="" ng-click="ShowDevice(selectedRow.enterButton.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.enterButton.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.enterButton.ImageSource}}" />{{selectedRow.enterButton.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.AirlockBooth">
                 <span>Кнопка на выход: </span>
-                <span ng-show="!!selectedRow.exitButton"><a href="#" ng-click="ShowDevice(selectedRow.exitButton.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.exitButton.StateIcon}}.png"  /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.exitButton.ImageSource}}" />{{selectedRow.exitButton.Name}}</a></span>
+                <span ng-show="!!selectedRow.exitButton"><a href="" ng-click="ShowDevice(selectedRow.exitButton.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.exitButton.StateIcon}}.png"  /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.exitButton.ImageSource}}" />{{selectedRow.exitButton.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.OneWay || selectedRow.TwoWay">
                 <span>Замок: </span>
-                <span ng-show="!!selectedRow.lockDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockDevice"><a href="" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.AirlockBooth || selectedRow.Turnstile">
                 <span>Реле на вход: </span>
-                <span ng-show="!!selectedRow.lockDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockDevice"><a href="" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.Barrier">
                 <span>Реле на открытие: </span>
-                <span ng-show="!!selectedRow.lockDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockDevice"><a href="" ng-click="ShowDevice(selectedRow.lockDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDevice.ImageSource}}" />{{selectedRow.lockDevice.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.AirlockBooth || selectedRow.Turnstile">
                 <span>Реле на выход: </span>
-                <span ng-show="!!selectedRow.lockDeviceExit"><a href="#" ng-click="ShowDevice(selectedRow.lockDeviceExit.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDeviceExit.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDeviceExit.ImageSource}}" />{{selectedRow.lockDeviceExit.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockDeviceExit"><a href="" ng-click="ShowDevice(selectedRow.lockDeviceExit.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDeviceExit.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDeviceExit.ImageSource}}" />{{selectedRow.lockDeviceExit.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.Barrier">
                 <span>Реле на закрытие: </span>
-                <span ng-show="!!selectedRow.lockDeviceExit"><a href="#" ng-click="ShowDevice(selectedRow.lockDeviceExit.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDeviceExit.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDeviceExit.ImageSource}}" />{{selectedRow.lockDeviceExit.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockDeviceExit"><a href="" ng-click="ShowDevice(selectedRow.lockDeviceExit.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockDeviceExit.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockDeviceExit.ImageSource}}" />{{selectedRow.lockDeviceExit.Name}}</a></span>
             </div>
             <div ng-show="!selectedRow.Turnstile && !selectedRow.Barriery">
                 <span>Датчик контроля двери: </span>
-                <span ng-show="!!selectedRow.lockControlDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockControlDevice"><a href="" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.Turnstile">
                 <span>Датчик проворота: </span>
-                <span ng-show="!!selectedRow.lockControlDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockControlDevice"><a href="" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.Barriery">
                 <span>Датчик контроля на въезд: </span>
-                <span ng-show="!!selectedRow.lockControlDevice"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockControlDevice"><a href="" ng-click="ShowDevice(selectedRow.lockControlDevice.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDevice.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDevice.ImageSource}}" />{{selectedRow.lockControlDevice.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.AirlockBooth">
                 <span>Датчик контроля двери на выход: </span>
-                <span ng-show="!!selectedRow.lockControlDeviceExit"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDeviceExit.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDeviceExit.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDeviceExit.ImageSource}}" />{{selectedRow.lockControlDeviceExit.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockControlDeviceExit"><a href="" ng-click="ShowDevice(selectedRow.lockControlDeviceExit.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDeviceExit.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDeviceExit.ImageSource}}" />{{selectedRow.lockControlDeviceExit.Name}}</a></span>
             </div>
             <div ng-show="selectedRow.Barriery">
                 <span>Датчик контроля на выезд: </span>
-                <span ng-show="!!selectedRow.lockControlDeviceExit"><a href="#" ng-click="ShowDevice(selectedRow.lockControlDeviceExit.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDeviceExit.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDeviceExit.ImageSource}}" />{{selectedRow.lockControlDeviceExit.Name}}</a></span>
+                <span ng-show="!!selectedRow.lockControlDeviceExit"><a href="" ng-click="ShowDevice(selectedRow.lockControlDeviceExit.UID)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{selectedRow.lockControlDeviceExit.StateIcon}}.png" /><img style="vertical-align: bottom; width: 16px; margin-right: 3px" ng-src="/Content/Image/{{selectedRow.lockControlDeviceExit.ImageSource}}" />{{selectedRow.lockControlDeviceExit.Name}}</a></span>
             </div>
             <div>
                 <span>Зона входа: </span>
