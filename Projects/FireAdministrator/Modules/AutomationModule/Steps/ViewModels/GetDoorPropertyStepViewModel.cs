@@ -23,10 +23,6 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (SelectedProperty == Property.Type)
-					return EnumType.DriverType;
-				if (SelectedProperty == Property.State)
-					return EnumType.StateType;
 				if (SelectedProperty == Property.AccessState)
 					return EnumType.AccessState;
 				if (SelectedProperty == Property.DoorStatus)
