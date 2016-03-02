@@ -61,7 +61,10 @@
         $scope.$on('pumpStationsChanged', function (event, args) {
             for (var i in $scope.uiGrid.data) {
                 if ($scope.uiGrid.data[i].UID == args.UID) {
+                    $scope.gridState = $scope.gridApi.saveState.save();
                     $scope.uiGrid.data[i] = args;
+                    $scope.$apply();
+                    $scope.gridApi.saveState.restore($scope, $scope.gridState);
                     break;
                 }
             }

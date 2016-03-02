@@ -460,6 +460,14 @@ namespace AutomationModule.Validation
 						ValidateArgument(procedure, step, arguments.NameArgument);
 						break;
 					}
+				case ProcedureStepType.RviOpenWindow:
+					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
+						var arguments = step.RviOpenWindowArguments;
+						ValidateArgument(procedure, step, arguments.NameArgument);
+						break;
+					}
 				case ProcedureStepType.Now:
 					{
 						var nowArguments = step.NowArguments;

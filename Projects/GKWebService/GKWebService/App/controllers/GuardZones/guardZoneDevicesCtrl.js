@@ -47,8 +47,10 @@
             };
 
             $scope.$on('devicesChanged', function (event, args) {
+                $scope.gridState = $scope.gridApi.saveState.save();
                 ChangeDevices(args);
                 $scope.$apply();
+                $scope.gridApi.saveState.restore($scope, $scope.gridState);
             });
 
 

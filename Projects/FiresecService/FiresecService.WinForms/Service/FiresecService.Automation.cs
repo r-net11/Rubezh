@@ -70,6 +70,11 @@ namespace FiresecService.Service
 			ProcedureHelper.RviAlarm(clientUID, name);
 		}
 
+		public void RviOpenWindow(Guid clientUid, string name, int x, int y, int monitorNumber, string login, string ip)
+		{
+			ProcedureHelper.RviOpenWindow(clientUid, name, x, y, monitorNumber, login, ip);
+		}
+
 		public void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
 		{
 			ProcedureHelper.ControlFireZone(clientUID, uid, commandType);

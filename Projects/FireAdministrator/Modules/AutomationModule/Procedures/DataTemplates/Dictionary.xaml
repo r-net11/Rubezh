@@ -252,6 +252,10 @@
 		<Views:RviAlarmStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="rviOpenWindowTemplate">
+		<Views:RviOpenWindowStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="nowTemplate">
 		<Views:NowStepView />
 	</DataTemplate>
@@ -307,7 +311,8 @@
 										 PtzTemplate="{StaticResource ptzTemplate}"
 										 StartRecordTemplate="{StaticResource startRecordTemplate}"
 										 StopRecordTemplate="{StaticResource stopRecordTemplate}"
-										 RviAlarmTemplate="{StaticResource rviAlarmTemplate}" 
+										 RviAlarmTemplate="{StaticResource rviAlarmTemplate}"
+										 RviOpenWindowTemplate="{StaticResource rviOpenWindowTemplate}"
 										 NowTemplate="{StaticResource nowTemplate}"
 										 HttpRequestTemplate="{StaticResource httpRequestTemplate}"/>
 </ResourceDictionary>

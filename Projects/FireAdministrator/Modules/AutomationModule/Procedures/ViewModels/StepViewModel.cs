@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlPumpStation) || (step.ProcedureStepType == ProcedureStepType.ControlMPT)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay) || (step.ProcedureStepType == ProcedureStepType.Ptz)
-				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm)
+				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord) || (step.ProcedureStepType == ProcedureStepType.RviAlarm) || (step.ProcedureStepType == ProcedureStepType.RviOpenWindow)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlOpcDaTagGet) || (step.ProcedureStepType == ProcedureStepType.ControlOpcDaTagSet))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
@@ -229,6 +229,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.RviAlarm:
 					Content = new RviAlarmStepViewModel(this);
+					break;
+
+				case ProcedureStepType.RviOpenWindow:
+					Content = new RviOpenWindowStepViewModel(this);
 					break;
 
 				case ProcedureStepType.Now:

@@ -11,7 +11,8 @@
 		'ui.grid.autoResize',
 		'ui.grid.selection',
 		'ui.tree',
-		'ui.grid.cellNav'
+		'ui.grid.cellNav',
+        'ui.grid.saveState'
 	]);
 
 	angular.module('gkApp.directives', []);

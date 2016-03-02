@@ -82,9 +82,11 @@
             }();
 
             $scope.$on('alarmsChanged', function (event, args) {
+                $scope.gridState = $scope.gridApi.saveState.save();
                 $scope.model = args.alarms;
                 $scope.gridOptions.data = $scope.model.Alarms;
                 $scope.$apply();
+                $scope.gridApi.saveState.restore($scope, $scope.gridState);
             });
 
             $scope.term = $stateParams.alarmType;

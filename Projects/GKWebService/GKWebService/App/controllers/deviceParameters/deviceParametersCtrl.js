@@ -69,8 +69,10 @@
 				};
 
 				signalrDevicesService.onDeviceChanged(function (event, args) {
-					changeDevices(args);
+				    $scope.gridState = $scope.gridApi.saveState.save();
+				    changeDevices(args);
 					$scope.$apply();
+					$scope.gridApi.saveState.restore($scope, $scope.gridState);
 				});
 
 				$scope.deviceSelect = function (device) {

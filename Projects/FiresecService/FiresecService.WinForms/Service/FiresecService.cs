@@ -15,6 +15,7 @@ namespace FiresecService.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService
 	{
+		public static readonly Guid UID = Guid.NewGuid();
 		public static ServerState ServerState { get; set; }
 
 		public static event Action<Guid> AfterConnect;

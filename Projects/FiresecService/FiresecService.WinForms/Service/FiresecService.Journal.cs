@@ -40,7 +40,7 @@ namespace FiresecService.Service
 			var user = clientUID.HasValue ? ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == GetLogin(clientUID.Value)) : null;
 			foreach (var journalItem in journalItems)
 			{
-				AutomationProcessor.RunOnJournal(journalItem, user, clientUID);
+				AutomationProcessor.RunOnJournal(journalItem, user, clientUID ?? UID);
 			}
 		}
 

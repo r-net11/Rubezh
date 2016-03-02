@@ -268,6 +268,9 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.RviAlarm:
 					ReplaceVariableUid(step.RviAlarmArguments.NameArgument, dictionary);
 					break;
+				case ProcedureStepType.RviOpenWindow:
+					ReplaceVariableUid(step.RviAlarmArguments.NameArgument, dictionary);
+					break;
 				case ProcedureStepType.Now:
 					ReplaceVariableUid(step.NowArguments.ResultArgument, dictionary);
 					break;

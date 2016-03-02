@@ -255,6 +255,7 @@
     <Compile Include="Steps\ViewModels\PauseStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ProcedureSelectionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RunProgramStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\RviOpenWindowStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetJournalItemGuidStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\CloseDialogStepViewModel.cs" />
@@ -360,6 +361,9 @@
     </Compile>
     <Compile Include="Steps\Views\PtzStepView.xaml.cs">
       <DependentUpon>PtzStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\RviOpenWindowStepView.xaml.cs">
+      <DependentUpon>RviOpenWindowStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\SetJournalItemGuidStepView.xaml.cs">
       <DependentUpon>SetJournalItemGuidStepView.xaml</DependentUpon>
@@ -762,6 +766,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\PtzStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\RviOpenWindowStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

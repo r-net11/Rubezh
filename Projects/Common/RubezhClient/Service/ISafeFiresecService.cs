@@ -1,5 +1,4 @@
 ﻿using OpcClientSdk;
-using OpcClientSdk.Da;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
@@ -187,6 +186,7 @@ namespace RubezhClient
 		OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users);
 		OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args);
 		void RviAlarm(string name);
+		void RviOpenWindow(string name, int x, int y, int monitorNumber, string login, string ip);
 		OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew);
 		OperationResult<bool> SaveAdditionalColumnType(AdditionalColumnType item, bool isNew);
 		OperationResult<bool> SaveCardTemplate(SKDCard item);
