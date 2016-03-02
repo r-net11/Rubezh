@@ -1,4 +1,5 @@
 ﻿using Common;
+using OpcClientSdk;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
@@ -7,8 +8,6 @@ using RubezhAPI.Journal;
 using RubezhAPI.License;
 using RubezhAPI.Models;
 using System;
-using OpcClientSdk.Da;
-using OpcClientSdk;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -504,6 +503,11 @@ namespace FiresecService.Service
 			SafeOperationCall(clientUID, () => FiresecService.RviAlarm(clientUID, name), "RviAlarm");
 		}
 
+		public void RviOpenWindow(Guid clientUid, string name, int x, int y, int monitorNumber, string login, string ip)
+		{
+			SafeOperationCall(clientUid, () => FiresecService.RviOpenWindow(clientUid, name, x, y, monitorNumber, login, ip), "RviOpenWindow");
+		}
+
 		public void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
 		{
 			SafeOperationCall(clientUID, () => FiresecService.ControlFireZone(clientUID, uid, commandType), "ControlFireZone");
@@ -579,26 +583,26 @@ namespace FiresecService.Service
 
 		public OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server)
 		{
-			return SafeOperationCall(clientUID, () => 
-			{ return FiresecService.GetOpcDaServerGroupAndTags(server); }, "GetOpcDaServerGroupAndTags"); 
+			return SafeOperationCall(clientUID, () =>
+			{ return FiresecService.GetOpcDaServerGroupAndTags(server); }, "GetOpcDaServerGroupAndTags");
 		}
 
 		public OperationResult<OpcServerStatus> GetOpcDaServerStatus(Guid clientUID, OpcDaServer server)
 		{
-			return SafeOperationCall(clientUID, () => 
+			return SafeOperationCall(clientUID, () =>
 			{ return FiresecService.GetOpcDaServerStatus(server); }, "GetOpcDaServerStatus");
 		}
 
 		public OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server)
 		{
-			var result = SafeOperationCall(clientUID, () => 
+			var result = SafeOperationCall(clientUID, () =>
 			{ return FiresecService.ReadOpcDaServerTags(server); }, "ReadOpcDaServerTags");
 			return result;
 		}
 
 		public OperationResult<bool> WriteOpcDaTag(Guid clientUID, Guid tagId, Object value)
 		{
-			return SafeOperationCall(clientUID, () => { return FiresecService.WriteOpcDaTag(tagId, value); }, 
+			return SafeOperationCall(clientUID, () => { return FiresecService.WriteOpcDaTag(tagId, value); },
 				"WriteOpcDaTag");
 		}
 

@@ -73,6 +73,7 @@ namespace FireMonitor
 						((SafeFiresecService)ClientManager.FiresecService).StopRecord,
 						((SafeFiresecService)ClientManager.FiresecService).Ptz,
 						((SafeFiresecService)ClientManager.FiresecService).RviAlarm,
+						((SafeFiresecService)ClientManager.FiresecService).RviOpenWindow,
 						((SafeFiresecService)ClientManager.FiresecService).ControlFireZone,
 						((SafeFiresecService)ClientManager.FiresecService).ControlGuardZone,
 						((SafeFiresecService)ClientManager.FiresecService).ControlDirection,

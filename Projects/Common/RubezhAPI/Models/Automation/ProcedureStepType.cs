@@ -169,8 +169,11 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Остановить запись")]
 		StopRecord,
 
-		[DescriptionAttribute("Вызвать тревогу в RVI Оператор")]
+		[DescriptionAttribute("Вызвать тревогу в Rvi Оператор")]
 		RviAlarm,
+
+		[DescriptionAttribute("Показать раскладку в Rvi Оператор")]
+		RviOpenWindow,
 
 		[DescriptionAttribute("Получить текущие дату и время")]
 		Now,

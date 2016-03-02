@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RubezhAPI.StepArguments;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -55,6 +56,7 @@ namespace RubezhAPI.Automation
 			StartRecordArguments = new StartRecordArguments();
 			StopRecordArguments = new StopRecordArguments();
 			RviAlarmArguments = new RviAlarmArguments();
+			RviOpenWindowArguments = new RviOpenWindowArguments();
 			ControlGKDoorArguments = new ControlGKDoorArguments();
 			NowArguments = new NowArguments();
 			HttpRequestArguments = new HttpRequestArguments();
@@ -206,6 +208,9 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public RviAlarmArguments RviAlarmArguments { get; set; }
+
+		[DataMember]
+		public RviOpenWindowArguments RviOpenWindowArguments { get; set; }
 
 		[DataMember]
 		public ControlGKDoorArguments ControlGKDoorArguments { get; set; }

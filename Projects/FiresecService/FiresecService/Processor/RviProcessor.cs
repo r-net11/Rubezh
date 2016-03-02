@@ -109,8 +109,8 @@ namespace FiresecService
 									_rviStates.Add(new RviState(oldDevice, RviStatus.Error));
 									foreach (var oldCamera in oldDevice.Cameras)
 									{
-										oldDevice.Status = RviStatus.Error;
-										_rviStates.Add(new RviState(oldDevice, RviStatus.Error));
+										oldCamera.Status = RviStatus.Error;
+										_rviStates.Add(new RviState(oldCamera, RviStatus.Error, false, false, oldCamera.RviStreams));
 									}
 								}
 							}

@@ -622,7 +622,7 @@ namespace RviClient
 				var sessionCloseOut = client.SessionClose(sessionCloseIn);
 			}
 		}
-		public static void OpenWindow(RviSettings rviSettings)
+		public static void OpenWindow(RviSettings rviSettings, string name, int x, int y, int monitorNumber, string login, string ip)
 		{
 			using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
 			{
@@ -645,13 +645,21 @@ namespace RviClient
 				};
 				var windowListOut = client.GetWindowList(windowListIn);
 
-				var guidWindow = windowListOut.Window.FirstOrDefault().Guid;
-				var openWindowIn = new OpenWindowIn();
-				openWindowIn.IP = rviSettings.Ip;
-				openWindowIn.Login = rviSettings.Login;
-				openWindowIn.GuidWindow = guidWindow;
-				openWindowIn.Monitor = new Monitor() { X = 0, Y = 0, Number = 1 };
-				var openWindowOut = client.OpenWindow(openWindowIn);
+				var windowClient = windowListOut.Window.FirstOrDefault(window => window.Name == name);
+				if (windowClient != null)
+				{
+					var openWindowIn = new OpenWindowIn();
+					openWindowIn.IP = ip;
+					openWindowIn.Login = login;
+					openWindowIn.GuidWindow = windowClient.Guid;
+					openWindowIn.Monitor = new Monitor() { X = x, Y = y, Number = monitorNumber };
+					openWindowIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var openWindowOut = client.OpenWindow(openWindowIn);
+				}
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()

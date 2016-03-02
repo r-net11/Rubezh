@@ -145,6 +145,7 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.StopRecord),
 									new StepTypeViewModel(ProcedureStepType.Ptz),
 									new StepTypeViewModel(ProcedureStepType.RviAlarm),
+									new StepTypeViewModel(ProcedureStepType.RviOpenWindow)
 								}),
 						}),
 					new StepTypeViewModel("OPC DA Сервер", "/Controls;component/StepIcons/Control.png",
