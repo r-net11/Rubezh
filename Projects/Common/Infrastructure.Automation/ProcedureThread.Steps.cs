@@ -398,6 +398,32 @@ namespace Infrastructure.Automation
 			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
 		}
 
+		void CreateColor(ProcedureStep procedureStep)
+		{
+			var createColorArguments = procedureStep.CreateColorArguments;
+			var a = GetValue<int>(createColorArguments.AArgument);
+			var r = GetValue<int>(createColorArguments.RArgument);
+			var g = GetValue<int>(createColorArguments.GArgument);
+			var b = GetValue<int>(createColorArguments.BArgument);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == createColorArguments.ResultArgument.VariableUid);
+
+			if (resultVariable != null)
+			{
+				resultVariable.ExplicitValue.ColorValue = System.Windows.Media.Color.FromArgb(IntToByte(a), IntToByte(r), IntToByte(g), IntToByte(b));
+
+				ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
+			}
+		}
+
+		byte IntToByte(int value)
+		{
+			if (value < 0)
+				value = 0;
+			if (value > 255)
+				value = 255;
+			return Convert.ToByte(value);
+		}
+
 		void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;

@@ -36,7 +36,7 @@ namespace FiresecService.Service
 
 		bool CheckClient(Guid clientUID)
 		{
-			return ClientsManager.ClientInfos.Any(x => x.UID == clientUID);
+			return clientUID == FiresecService.UID || ClientsManager.ClientInfos.Any(x => x.UID == clientUID);
 		}
 
 		OperationResult<T> SafeOperationCall<T>(Guid clientUID, Func<OperationResult<T>> func, string operationName)

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Common;
 using GKWebService.Models.Plan;
 using GKWebService.Models.Plan.PlanElement;
 using GKWebService.Utils;
@@ -42,7 +43,7 @@ namespace GKWebService.DataProviders.Plan
 					" L 0 " + plan.Height + " L 0 0 z",
 				Type = ShapeTypes.Plan.ToString(),
 				Image = RenderPlanBackgound(
-					plan.BackgroundImageSource,
+					plan.BackgroundImageSource, plan.ImageType,
 					Convert.ToInt32(plan.Width),
 					Convert.ToInt32(plan.Height)),
 				Width = plan.Width,
@@ -56,7 +57,7 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Коллекция элементов плана.</returns>
 		private IEnumerable<PlanElement> LoadPlanSubElements(RubezhAPI.Models.Plan plan) {
-			//var rectangles = LoadRectangleElements(plan);
+			var rectangles = LoadRectangleElements(plan);
 			//var polygons = LoadPolygonElements(plan);
 			//var polylines = LoadPolyLineElements(plan);
 			//var ellipses = LoadEllipseElements(plan);
@@ -66,7 +67,7 @@ namespace GKWebService.DataProviders.Plan
 			//return textBlocks.Concat(rectangles).Concat(ellipses).Concat(doors).Concat(devices);
 
 
-			return devices;
+			return devices.Concat(rectangles);
 		}
 
 		/// <summary>
@@ -151,29 +152,8 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="width">Ширина плана</param>
 		/// <param name="height">Высота плана</param>
 		/// <returns></returns>
-		private string RenderPlanBackgound(Guid? source, int width, int height) {
-			Drawing drawing = null;
-			Canvas canvas = null;
-			if (source.HasValue) {
-				try {
-					drawing = _contentService.GetDrawing(source.Value);
-				}
-				catch (Exception) {
-					canvas = _contentService.GetObject<Canvas>(source.Value);
-					if (canvas == null) {
-						return string.Empty;
-					}
-				}
-			}
-			else {
-				return string.Empty;
-			}
-			if (drawing == null) {
-				return canvas == null ? string.Empty : InternalConverter.XamlCanvasToPngBase64(canvas, width, height);
-			}
-			drawing.Freeze();
-
-			return InternalConverterOld.XamlDrawingToPngBase64String(width, height, drawing);
+		private string RenderPlanBackgound(Guid? source, ResourceType resourceType, int width, int height) {
+			return PlanElement.GetBackgroundContent(source, resourceType, width, height);
 		}
 
 		#region Deferred Loading
@@ -245,10 +225,8 @@ namespace GKWebService.DataProviders.Plan
 		#region ctor, props
 
 		private static PlansDataProvider _instance;
-		private readonly ContentService _contentService;
 
 		private PlansDataProvider() {
-			_contentService = new ContentService("Sergey_GKOPC");
 			SafeFiresecService.GKCallbackResultEvent += OnServiceCallback;
 		}
 
