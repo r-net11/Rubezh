@@ -15,16 +15,19 @@ namespace SKDModule.Reports.Providers
 
 		public override FilterModel GetFilterModel()
 		{
-			return new FilterModel()
+			var organisationPage = new OrganizationPageViewModel(false);
+			organisationPage.CheckFirstOrganisation(Filter);
+
+			return new FilterModel
 			{
-				Columns = new Dictionary<string, string> 
-				{ 
+				Columns = new Dictionary<string, string>
+				{
 					{ "Position", "Должность" },
 					{ "Description", "Примечание" },
 				},
-				Pages = new List<FilterContainerViewModel>()
+				Pages = new List<FilterContainerViewModel>
 				{
-					new OrganizationPageViewModel(false),
+					organisationPage,
 					new PositionPageViewModel(),
 				},
 			};

@@ -30,7 +30,7 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DocumentsReportFilter>();
-			var employees = dataProvider.GetEmployees(filter);
+			var employees = dataProvider.GetEmployees(filter, true);
 			var ds = new DataSetDocuments();
 
 			foreach (var employee in employees)

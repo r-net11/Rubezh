@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Threading;
 using FiresecAPI.Models;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
@@ -16,12 +19,15 @@ namespace SKDModule.Reports.Providers
 
 		public override FilterModel GetFilterModel()
 		{
-			return new FilterModel()
+			var organisationPage = new OrganizationPageViewModel(false);
+			organisationPage.CheckFirstOrganisation(Filter);
+
+			return  new FilterModel
 			{
 				Columns = new Dictionary<string, string>(),
-				Pages = new List<FilterContainerViewModel>()
+				Pages = new List<FilterContainerViewModel>
 				{
-					new OrganizationPageViewModel(false),
+					organisationPage,
 					new DepartmentPageViewModel(),
 				},
 			};

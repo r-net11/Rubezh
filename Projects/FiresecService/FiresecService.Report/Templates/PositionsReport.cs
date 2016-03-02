@@ -33,26 +33,23 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<PositionsReportFilter>();
-			var databaseService = new SKDDatabaseService();
 			dataProvider.LoadCache();
-			Guid organisationUID = Guid.Empty;
-			var organisations = dataProvider.Organisations.Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));
+			Guid organisationUID;
+			var organisations = dataProvider.Organisations.OrderBy(x => x.Value.Name).Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));
+
 			if (!filter.UseArchive)
 				organisations = organisations.Where(org => !org.Value.IsDeleted);
-			if (filter.Organisations.IsEmpty())
-			{
-				if (filter.IsDefault)
-					organisationUID = organisations.FirstOrDefault().Key;
-			}
-			else
-			{
-				organisationUID = organisations.FirstOrDefault(org => org.Key == filter.Organisations.FirstOrDefault()).Key;
-			}
-			filter.Organisations = new List<Guid>() { organisationUID };
 
-			var positionFilter = new PositionFilter()
+			if (filter.Organisations.IsEmpty() && filter.IsDefault)
+				organisationUID = organisations.FirstOrDefault().Key;
+			else
+				organisationUID = organisations.FirstOrDefault(org => org.Key == filter.Organisations.FirstOrDefault()).Key;
+
+			filter.Organisations = new List<Guid> { organisationUID };
+
+			var positionFilter = new PositionFilter
 			{
-				OrganisationUIDs = filter.Organisations ?? new List<Guid>(),
+				OrganisationUIDs = filter.Organisations,
 				UIDs = filter.Positions ?? new List<Guid>(),
 				LogicalDeletationType = filter.UseArchive ? LogicalDeletationType.All : LogicalDeletationType.Active,
 			};
@@ -67,6 +64,7 @@ namespace FiresecService.Report.Templates
 					row.Description = position.Description;
 					ds.Data.AddDataRow(row);
 				});
+
 			return ds;
 		}
 	}

@@ -15,23 +15,24 @@ namespace SKDModule.Reports.Providers
 
 		public override FilterModel GetFilterModel()
 		{
-			return new FilterModel()
+			var organisationPage = new OrganizationPageViewModel(false);
+			organisationPage.CheckFirstOrganisation(Filter);
+
+			return new FilterModel
 			{
-				Columns = new Dictionary<string, string> 
-				{ 
+				Columns = new Dictionary<string, string>
+				{
 					{ "Employee", "Сотрудник" },
 					{ "StartDateTime", "Дата начала" },
 					{ "EndDateTime", "Дата окончания" },
-					//{ "StartDateTime2", "Время начала" },
-					//{ "EndDateTime2", "Время окончания" },
 					{ "DocumentType", "Тип" },
 					{ "DocumentName", "Документ" },
 					{ "DocumentShortName", "Буквенный код" },
 					{ "DocumentCode", "Числовой код" },
 				},
-				Pages = new List<FilterContainerViewModel>()
+				Pages = new List<FilterContainerViewModel>
 				{
-					new OrganizationPageViewModel(false),
+					organisationPage,
 					new DepartmentPageViewModel(),
 					new EmployeePageViewModel(),
 					new DocumentFilterPageViewModel(),

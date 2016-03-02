@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Windows.Threading;
+using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -36,11 +37,17 @@ namespace SKDModule.Reports.ViewModels
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			var organisationFilter = filter as IReportFilterOrganisation;
+
 			var uids = organisationFilter == null ? null : organisationFilter.Organisations;
-			if (!AllowMultiple && uids == null && Organisations.Items.Count > 0)
+
+			if (!AllowMultiple && uids == null && Organisations.Items.Any())
+			{
 				uids = new List<Guid>();
+			}
+
 			Initialize(uids);
 		}
+
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
 			var organisationFilter = filter as IReportFilterOrganisation;
@@ -60,13 +67,13 @@ namespace SKDModule.Reports.ViewModels
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);
-			if (organisations != null)
+
+			if (organisations == null) return;
+
+			Organisations = new ReportOrganisationsItemList();
+			foreach (var organisation in organisations.OrderBy(x => x.Name))
 			{
-				Organisations = new ReportOrganisationsItemList();
-				foreach (var organisation in organisations)
-				{
-					Organisations.Add(new ReportFilterOrganisationViewModel(organisation));
-				}
+				Organisations.Add(new ReportFilterOrganisationViewModel(organisation));
 			}
 		}
 
@@ -79,6 +86,18 @@ namespace SKDModule.Reports.ViewModels
 			var checkedOrganisations = Organisations.Items.Where(x => uids.Any(y => y == x.Organisation.UID));
 			foreach (var organisation in checkedOrganisations)
 				organisation.IsChecked = true;
+		}
+
+		public void CheckFirstOrganisation(SKDReportFilter filter)
+		{
+			var organisationFilter = filter as IReportFilterOrganisation;
+			if (organisationFilter == null) return;
+
+			var firstOrg = Organisations.Items.FirstOrDefault();
+			if (firstOrg != null && filter.IsDefault && organisationFilter.Organisations == null)
+			{
+				Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() => Initialize(new List<Guid> {firstOrg.Organisation.UID})));
+			}
 		}
 	}
 

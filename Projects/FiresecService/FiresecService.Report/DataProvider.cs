@@ -123,17 +123,21 @@ namespace FiresecService.Report
 			return employees;
 		}
 
-		public List<EmployeeInfo> GetEmployees(SKDReportFilter filter)
+		public List<EmployeeInfo> GetEmployees(SKDReportFilter filter, bool isUseFirstOrgByDefault = false)
 		{
 			var list = new List<EmployeeInfo>();
 			var employeeFilter = GetEmployeeFilter(filter);
 			return GetEmployees(employeeFilter, filter.IsDefault);
 		}
 
-		public List<EmployeeInfo> GetEmployees(EmployeeFilter employeeFilter, bool isDefault)
+		public List<EmployeeInfo> GetEmployees(EmployeeFilter employeeFilter, bool isDefault, bool isUseFirstOrgByDefault = false)
 		{
 			LoadCache();
 			CheckIfNoOrgansations(employeeFilter, isDefault);
+
+			if (isUseFirstOrgByDefault && isDefault && employeeFilter.OrganisationUIDs.IsEmpty())
+				employeeFilter.OrganisationUIDs = new List<Guid>{ Organisations.OrderBy(x => x.Value.Name).FirstOrDefault().Key };
+
 			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();

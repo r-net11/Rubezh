@@ -37,10 +37,9 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DepartmentsReportFilter>();
-			var databaseService = new SKDDatabaseService();
 			dataProvider.LoadCache();
-			var departments = GetDepartments(dataProvider, filter);
-			var uids = departments.Select(item => item.UID).ToList();
+			InitializeFilter(filter, dataProvider);
+			var departments = GetDepartments(dataProvider, filter).ToList();
 			var employees = dataProvider.GetEmployees(departments.Where(item => item.Item.ChiefUID != Guid.Empty).Select(item => item.Item.ChiefUID));
 			var ds = new DepartmentsDataSet();
 			departments.ForEach(department =>
@@ -49,7 +48,7 @@ namespace FiresecService.Report.Templates
 				row.Department = department.Name;
 				row.Phone = department.Item.Phone;
 				row.Chief = employees.Where(item => item.UID == department.Item.ChiefUID).Select(item => item.Name).FirstOrDefault();
-				row.ParentDepartment = department.Item.ParentDepartmentUID.HasValue ? dataProvider.Departments[department.Item.ParentDepartmentUID.Value].Name : string.Empty;
+				row.ParentDepartment = GetParentDepartmentName(department, dataProvider);
 				row.Description = department.Item.Description;
 				row.IsArchive = department.IsDeleted;
 				var parents = GetParents(dataProvider, department);
@@ -58,6 +57,25 @@ namespace FiresecService.Report.Templates
 				ds.Data.AddDataRow(row);
 			});
 			return ds;
+		}
+
+		private void InitializeFilter(DepartmentsReportFilter filter, DataProvider dataProvider)
+		{
+			if (filter.IsDefault && filter.Organisations.IsEmpty())
+			{
+				var firstOrganisation = dataProvider.Organisations.OrderBy(x => x.Value.Name).FirstOrDefault();
+
+				if (firstOrganisation.Value != null)
+					filter.Organisations = new List<Guid> {firstOrganisation.Key};
+			}
+		}
+
+		private string GetParentDepartmentName(OrganisationBaseObjectInfo<Department> department, DataProvider dataProvider)
+		{
+			if (department.Item.ParentDepartmentUID.HasValue && dataProvider.Departments.ContainsKey(department.Item.ParentDepartmentUID.Value))
+				return dataProvider.Departments[department.Item.ParentDepartmentUID.Value].Name;
+
+			return string.Empty;
 		}
 
 		private static IEnumerable<OrganisationBaseObjectInfo<Department>> GetDepartments(DataProvider dataProvider, DepartmentsReportFilter filter)
@@ -86,7 +104,7 @@ namespace FiresecService.Report.Templates
 				if (!filter.Departments.IsEmpty())
 					departments = departments.Where(item => filter.Departments.Contains(item.UID));
 			}
-			return departments != null ? departments : new List<OrganisationBaseObjectInfo<Department>>();
+			return departments ?? new List<OrganisationBaseObjectInfo<Department>>();
 		}
 
 		protected override void ApplySort()
@@ -99,11 +117,15 @@ namespace FiresecService.Report.Templates
 		private List<OrganisationBaseObjectInfo<Department>> GetParents(DataProvider dataProvider, OrganisationBaseObjectInfo<Department> department)
 		{
 			var parents = new List<OrganisationBaseObjectInfo<Department>>();
-			for (OrganisationBaseObjectInfo<Department> current = department; current.Item.ParentDepartmentUID.HasValue; )
+
+			for (var current = department; current.Item.ParentDepartmentUID.HasValue; )
 			{
+				if (!dataProvider.Departments.ContainsKey(current.Item.ParentDepartmentUID.Value)) continue;
+
 				current = dataProvider.Departments[current.Item.ParentDepartmentUID.Value];
 				parents.Insert(0, current);
 			}
+
 			parents.Add(department);
 			return parents;
 		}
@@ -111,15 +133,15 @@ namespace FiresecService.Report.Templates
 		private void Report415_BeforePrint(object sender, PrintEventArgs e)
 		{
 			var filter = GetFilter<DepartmentsReportFilter>();
-			if (!filter.UseArchive)
-			{
-				xrTableHeader.BeginInit();
-				xrTableHeader.DeleteColumn(xrTableCellArchiveHeader);
-				xrTableHeader.EndInit();
-				xrTableContent.BeginInit();
-				xrTableContent.DeleteColumn(xrTableCellArchive);
-				xrTableContent.EndInit();
-			}
+
+			if (filter.UseArchive) return;
+
+			xrTableHeader.BeginInit();
+			xrTableHeader.DeleteColumn(xrTableCellArchiveHeader);
+			xrTableHeader.EndInit();
+			xrTableContent.BeginInit();
+			xrTableContent.DeleteColumn(xrTableCellArchive);
+			xrTableContent.EndInit();
 		}
 
 		private void xrTableCellLevel_BeforePrint(object sender, PrintEventArgs e)
