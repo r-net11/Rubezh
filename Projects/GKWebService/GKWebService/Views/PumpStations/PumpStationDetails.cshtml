@@ -12,7 +12,7 @@
         <div>
             <div>
                 <div ng-style="{'background-color': pumpStation.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
-                <div style="float: left; width: 300px">
+                <div style="float: left; width: 200px">
                     <ul>
                         <li ng-repeat="stateClass in pumpStation.StateClasses">
                             <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{stateClass.IconData}}.png" />
@@ -20,17 +20,17 @@
                         <li>
                     </ul>
                 </div>
-                <div style="float: left">
+                <div style="float: right">
                     <div ng-show="pumpStation.HasOnDelay">
                         <span>Задержка на включение</span> <br />
-                        <span>{{pumpStation.OnDelay}}</span><span> сек</span>
+                        <span>{{pumpStation.OnDelay}}</span>
                     </div>
                     <div ng-show="pumpStation.HasHoldDelay">
                     <span>Время тушения</span> <br />
-                        <span>{{pumpStation.HoldDelay}}</span><span> сек</span>
+                        <span>{{pumpStation.HoldDelay}}</span>
                     </div>
                 </div>
-                <div style="clear: left">
+                <div style="clear: both">
                 </div>
             </div>
             <uib-tabset>

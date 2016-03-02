@@ -84,6 +84,10 @@
 		<Views:ArithmeticStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="createColorTemplate">
+		<Views:CreateColorStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="conditionTemplate">
 		<Views:ConditionStepView />
 	</DataTemplate>
@@ -266,6 +270,7 @@
 	
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
+										 CreateColorTemplate="{StaticResource createColorTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
 										 CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 										 ConditionTemplate="{StaticResource conditionTemplate}"

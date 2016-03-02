@@ -84,19 +84,21 @@
 				.attr("y", item.Y)
 				.attr("width", item.Width)
 				.attr("height", item.Height)
-				.attr("id", function(d) { return item.Id.replace(" ", "-") });
+				.attr("preserveAspectRatio", "none")
+				.attr("id", function (d) { return item.Id.replace(" ", "-") });
 		} else {
 			svg.append("image").attr("xlink:href", "data:image/png;base64," + item.Image)
 			.attr("x", item.X)
 			.attr("y", item.Y)
 			.attr("width", item.Width)
 			.attr("height", item.Height)
+			.attr("preserveAspectRatio", "none")
 			.attr("id", function (d) { return item.Id.replace(" ", "-") })
 			// Обработка события наведения мыши
-			.on("mouseover", function (d) {
-				var id = document.getElementById(item.Id.replace(" ", "-"));
-				tip.show(renderTipContent(item.Hint.StateHintLines), id);
-			})
+			//.on("mouseover", function (d) {
+			//	var id = document.getElementById(item.Id.replace(" ", "-"));
+			//	tip.show(renderTipContent(item.Hint.StateHintLines), id);
+			//})
 			// Обработка события прекращения наведения мыши
 			.on("mouseout", function (d) { tip.hide(); })
 			// Обработка события левого клика мыши
@@ -115,8 +117,8 @@
 				.attr("height", item.Height)
 				.attr("id", function (d) { return item.Id.replace(" ", "-") })
 				.on("updateImage", function (data, e, k) {
-				console.log("Updating gif on:", item.Id);
-				item.Image = data.Image;
+					console.log("Updating gif on:", item.Id);
+					item.Image = data.Image;
 					image.attr("xlink:href", "data:image/gif;base64," + data.Image);
 				});
 
@@ -240,6 +242,8 @@
 				case "Path":
 					{
 						renderPathElement(item, i, svg, tip, menuItems, scope, isGroupElement);
+						if (item.Image !== "")
+							renderPngImageElement(item, i, svg, tip, menuItems, scope, isGroupElement);
 						break;
 					}
 				default:

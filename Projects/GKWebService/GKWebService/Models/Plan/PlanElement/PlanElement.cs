@@ -17,8 +17,10 @@ using System.Threading.Tasks.Schedulers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xaml;
+using Common;
 using Controls;
 using GKWebService.DataProviders.Plan;
 using GKWebService.DataProviders.Resources;
@@ -26,6 +28,7 @@ using GKWebService.Models.Plan.PlanElement.Hint;
 using GKWebService.Utils;
 using ImageMagick;
 using ImageProcessor.Imaging.Formats;
+using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans.Elements;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -191,13 +194,7 @@ namespace GKWebService.Models.Plan.PlanElement
 		}
 
 		private static PlanElement FromRectangleSimple(ElementBaseRectangle elem, bool mouseOver) {
-			var result = Dispatcher.CurrentDispatcher.Invoke(
-				() => {
-					Debug.WriteLine(
-						"App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState());
-					return elem.GetRectangle();
-				});
-			var rect = result;
+			var rect = elem.GetRectangle();
 			var pt = new PointCollection {
 				rect.TopLeft,
 				rect.TopRight,
@@ -210,6 +207,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			if (HasProperty(elem, "ShowTooltip")) {
 				showHint = (bool)GetProperty(elem, "ShowTooltip");
 			}
+
+			var backgroundImage = GetBackgroundContent(elem.BackgroundImageSource, elem.ImageType, elem.Width, elem.Height);
 			var shape = new PlanElement {
 				Path = InternalConverter.PointsToPath(pt, PathKind.ClosedLine),
 				Border = InternalConverter.ConvertColor(elem.BorderColor),
@@ -218,10 +217,15 @@ namespace GKWebService.Models.Plan.PlanElement
 				FillMouseOver = InternalConverter.ConvertColor(elem.BackgroundColor),
 				Name = elem.PresentationName,
 				Id = elem.UID,
+				Image = backgroundImage,
+				X = elem.Left,
+				Y = elem.Top,
 				Hint = showHint ? GetElementHint(elem) : null,
 				BorderThickness = elem.BorderThickness,
 				Type = ShapeTypes.Path.ToString(),
-				HasOverlay = mouseOver
+				HasOverlay = mouseOver,
+				Width = elem.Width,
+				Height = elem.Height
 			};
 			return shape;
 		}
@@ -630,10 +634,10 @@ namespace GKWebService.Models.Plan.PlanElement
 				collection.Optimize();
 
 				using (var str = new MemoryStream()) {
-					collection.Write(str,MagickFormat.Gif);
+					collection.Write(str, MagickFormat.Gif);
 					bytes = str.ToArray();
 				}
-				
+
 
 			}
 			return Convert.ToBase64String(bytes);
@@ -874,6 +878,44 @@ namespace GKWebService.Models.Plan.PlanElement
 			return new Tuple<string, Size>(Convert.ToBase64String(byteArray), value1.Size);
 		}
 
-		#endregion
+		private static readonly ContentService _contentService;
+
+		static PlanElement() {
+			_contentService = new ContentService("GKWEB");
+		}
+
+		public static string GetBackgroundContent(Guid? source, ResourceType imageType, double width, double height) {
+			if (!source.HasValue) {
+				return string.Empty;
+			}
+			switch (imageType) {
+				case ResourceType.Image: {
+						var bmp = _contentService.GetBitmapContent(source.Value);
+						bmp.Freeze();
+						var encoder = new PngBitmapEncoder();
+						encoder.Frames.Add(BitmapFrame.Create(bmp));
+						using (MemoryStream ms = new MemoryStream()) {
+							encoder.Save(ms);
+							var data = ms.ToArray();
+							return Convert.ToBase64String(data);
+						}
+					}
+				case ResourceType.Drawing: {
+						var drawing = _contentService.GetDrawing(source.Value);
+						drawing.Freeze();
+						return InternalConverterOld.XamlDrawingToPngBase64String(width, height, drawing);
+					}
+				case ResourceType.Visual: {
+						var canvas = _contentService.GetObject<Canvas>(source.Value);
+						return canvas == null ? string.Empty : InternalConverter.XamlCanvasToPngBase64(canvas, width, height);
+					}
+				default: {
+						return string.Empty;
+					}
+			}
+		}
+
 	}
+
+	#endregion
 }
