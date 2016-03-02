@@ -46,11 +46,9 @@
                 }
             };
 
-            $scope.$on('devicesChanged', function (event, args) {
+            signalrDevicesService.onDeviceChanged(function (event, args) {
                 ChangeDevices(args);
                 $scope.$apply();
             });
-
-
         }])
 }());
