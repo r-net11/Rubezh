@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using FireAdministrator.ViewModels;
+using FiresecAPI.Enums;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;

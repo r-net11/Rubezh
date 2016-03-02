@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -24,11 +25,11 @@ namespace FireMonitor
 
 		public bool Initialize()
 		{
-			var result = true;
+			bool result;
 			LoadingErrorManager.Clear();
 			AppConfigHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin(_login, _password))
 			{
@@ -36,7 +37,7 @@ namespace FireMonitor
 				{
 					IsReconnect = false
 				};
-				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
+				ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
 				_login = ServiceFactory.StartupService.Login;
 				_password = ServiceFactory.StartupService.Password;
 				try
@@ -64,7 +65,7 @@ namespace FireMonitor
 						ClientSettings.LoadSettings();
 
 						result = Run();
-						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+						SafeFiresecService.ConfigurationChangedEvent += () => ApplicationService.Invoke(OnConfigurationChanged);
 
 						if (result)
 						{
@@ -81,7 +82,6 @@ namespace FireMonitor
 						return false;
 					}
 
-					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "StrazhMonitor.vshost")
 					{
 						RegistrySettingsHelper.SetBool("isException", true);
@@ -145,7 +145,7 @@ namespace FireMonitor
 		private void Restart()
 		{
 			ApplicationService.ApplicationWindow.IsEnabled = false;
-			ServiceFactory.ContentService.Clear();
+			ServiceFactoryBase.ContentService.Clear();
 			FiresecManager.FiresecService.StopPoll();
 			LoadingErrorManager.Clear();
 			ApplicationService.CloseAllWindows();
@@ -156,12 +156,12 @@ namespace FireMonitor
 
 		public void RestartApplication()
 		{
-			var processStartInfo = new ProcessStartInfo()
+			var processStartInfo = new ProcessStartInfo
 			{
 				FileName = Application.ResourceAssembly.Location,
 				Arguments = GetRestartCommandLineArguments()
 			};
-			System.Diagnostics.Process.Start(processStartInfo);
+			Process.Start(processStartInfo);
 		}
 		protected virtual string GetRestartCommandLineArguments()
 		{
@@ -172,23 +172,20 @@ namespace FireMonitor
 		}
 		public virtual void InitializeCommandLineArguments(string[] args)
 		{
-			if (args != null)
+			if (args == null || args.Count() < 2) return;
+
+			foreach (var arg in args)
 			{
-				if (args.Count() >= 2)
+				if (arg.StartsWith("login='") && arg.EndsWith("'"))
 				{
-					foreach (var arg in args)
-					{
-						if (arg.StartsWith("login='") && arg.EndsWith("'"))
-						{
-							_login = arg.Replace("login='", "");
-							_login = _login.Replace("'", "");
-						}
-						if (arg.StartsWith("password='") && arg.EndsWith("'"))
-						{
-							_password = arg.Replace("password='", "");
-							_password = _password.Replace("'", "");
-						}
-					}
+					_login = arg.Replace("login='", "");
+					_login = _login.Replace("'", "");
+				}
+
+				if (arg.StartsWith("password='") && arg.EndsWith("'"))
+				{
+					_password = arg.Replace("password='", "");
+					_password = _password.Replace("'", "");
 				}
 			}
 		}

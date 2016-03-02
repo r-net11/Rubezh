@@ -1,7 +1,7 @@
 ﻿using FiresecAPI;
+using FiresecAPI.Enums;
 using Infrastructure.Common.Navigation;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Infrastructure.Common
 {
@@ -56,62 +56,5 @@ namespace Infrastructure.Common
 		}
 
 		#endregion IDisposable Members
-	}
-
-	public enum ModuleType
-	{
-		[DescriptionAttribute("Администратор")]
-		Administrator,
-
-		[DescriptionAttribute("Автоматизация")]
-		Automation,
-
-		[DescriptionAttribute("Устройства, Зоны")]
-		Devices,
-
-		[DescriptionAttribute("Фильтры журнала событий")]
-		Filters,
-
-		[DescriptionAttribute("Конфигуратор макетов ОЗ")]
-		Layout,
-
-		[DescriptionAttribute("Библиотека устройств")]
-		Library,
-
-		[DescriptionAttribute("Уведомления")]
-		Notification,
-
-		[DescriptionAttribute("Графические планы")]
-		Plans,
-
-		[DescriptionAttribute("Права доступа")]
-		Security,
-
-		[DescriptionAttribute("Настройки")]
-		Settings,
-
-		[DescriptionAttribute("СКД")]
-		SKD,
-
-		[DescriptionAttribute("Страж")]
-		Strazh,
-
-		[DescriptionAttribute("Звуки")]
-		Sounds,
-
-		[DescriptionAttribute("Видео")]
-		Video,
-
-		[DescriptionAttribute("Cостояния")]
-		Alarm,
-
-		[DescriptionAttribute("Журнал событий и Архив")]
-		Journal,
-
-		[DescriptionAttribute("Отчёты")]
-		Reports,
-
-		[DescriptionAttribute("Монитор")]
-		Monitor,
 	}
 }

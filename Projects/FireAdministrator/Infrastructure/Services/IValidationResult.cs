@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common;
+﻿using FiresecAPI.Enums;
 namespace Infrastructure
 {
 	public interface IValidationResult

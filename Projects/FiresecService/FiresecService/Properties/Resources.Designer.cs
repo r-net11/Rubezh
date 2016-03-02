@@ -86,5 +86,14 @@ namespace FiresecService.Properties {
                 return ResourceManager.GetString("FileNotExistError", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Количество активных пропусков в соответствии с лицензией не может превышать {0}. Для создания нового пропуска приобретите дополнительные лицензии.
+        /// </summary>
+        internal static string LicenseAddCardMessage {
+            get {
+                return ResourceManager.GetString("LicenseAddCardMessage", resourceCulture);
+            }
+        }
     }
 }

@@ -368,7 +368,7 @@ namespace SKDDriver
 			try
 			{
 				if (Context.PendingCards
-					.Any(x => x.CardUID == cardUID && x.ControllerUID == controllerUID  
+					.Any(x => x.CardUID == cardUID && x.ControllerUID == controllerUID
 						&& (x.Action == (int)PendingCardAction.Add || x.Action == (int)PendingCardAction.Edit)))
 					return new OperationResult();
 				DeleteAllPendingCards(cardUID, controllerUID);
@@ -473,5 +473,10 @@ namespace SKDDriver
 		}
 
 		#endregion Pending
+
+		public int GetCardsCount()
+		{
+			return Context.Cards.Count();
+		}
 	}
 }

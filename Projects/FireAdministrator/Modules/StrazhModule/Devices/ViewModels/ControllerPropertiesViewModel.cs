@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Common;
+using FiresecAPI.Enums;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.SKD;
 using Infrastructure.Common;

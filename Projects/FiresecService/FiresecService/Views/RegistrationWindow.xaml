@@ -45,9 +45,9 @@
 		<Button
 			Grid.Row="4"
 			Content="ОК"
+			Command="{Binding SaveCommand}"
 			Width="100"
 			Margin="10"
-			Click="ButtonBase_OnClick"
 			HorizontalAlignment="Center"/>
 	</Grid>
 </Window>

@@ -4,6 +4,7 @@ using FilterModule.Validation;
 using FiltersModule.Events;
 using FiltersModule.ViewModels;
 using FiresecAPI;
+using FiresecAPI.Enums;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;

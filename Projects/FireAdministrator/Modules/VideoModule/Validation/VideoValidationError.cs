@@ -1,6 +1,6 @@
 ﻿using System;
+using FiresecAPI.Enums;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 

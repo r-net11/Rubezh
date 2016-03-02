@@ -44,8 +44,8 @@ namespace FireMonitor
 					return;
 				}
 
-				ApplicationService.Closing += new CancelEventHandler(ApplicationService_Closing);
-				ApplicationService.Closed += new EventHandler(ApplicationService_Closed);
+				ApplicationService.Closing += ApplicationService_Closing;
+				ApplicationService.Closed += ApplicationService_Closed;
 				ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
 				bool trace = false;
@@ -53,7 +53,7 @@ namespace FireMonitor
 #endif
 				_bootstrapper = CreateBootstrapper();
 				_bootstrapper.InitializeCommandLineArguments(e.Args);
-				var result = true;
+				bool result;
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))
 					result = _bootstrapper.Initialize();
 				if (!result)
@@ -61,7 +61,7 @@ namespace FireMonitor
 					ApplicationService.ShutDown();
 					return;
 				}
-				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+				AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
 				if (GlobalSettingsHelper.GlobalSettings.RunRevisor)
 					StartRevisor();
@@ -69,7 +69,6 @@ namespace FireMonitor
 			catch (StartupCancellationException)
 			{
 				ApplicationService.ShutDown();
-				return;
 			}
 			catch (Exception ex)
 			{
@@ -102,15 +101,15 @@ namespace FireMonitor
 				Logger.Error(e, "App.StartRevisor");
 			}
 		}
+
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			IsClosingOnException = true;
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 			_bootstrapper.RestartApplication();
 			Environment.Exit(0);
-			return;
-			//ApplicationService.ShutDown();
 		}
+
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
 			if (e.Cancel)
@@ -126,30 +125,27 @@ namespace FireMonitor
 				ShellIntegrationHelper.ShutDown();
 			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);
 		}
+
 		private void ApplicationService_Closed(object sender, EventArgs e)
 		{
-			Application.Current.Shutdown();
+			Current.Shutdown();
 		}
 
 		private bool CheckIntegrateCommandLineArguments(string[] args)
 		{
-			if (args != null)
-			{
-				if (args.Count() == 1)
-				{
-					switch (args[0])
-					{
-						case "/integrate":
-							ShellIntegrationHelper.Integrate();
-							MessageBox.Show("ОЗ интегрирована");
-							return true;
+			if (args == null || args.Count() != 1) return false;
 
-						case "/deintegrate":
-							ShellIntegrationHelper.Desintegrate();
-							MessageBox.Show("ОЗ деинтегрирована");
-							return true;
-					}
-				}
+			switch (args[0])
+			{
+				case "/integrate":
+					ShellIntegrationHelper.Integrate();
+					MessageBox.Show("ОЗ интегрирована");
+					return true;
+
+				case "/deintegrate":
+					ShellIntegrationHelper.Desintegrate();
+					MessageBox.Show("ОЗ деинтегрирована");
+					return true;
 			}
 			return false;
 		}

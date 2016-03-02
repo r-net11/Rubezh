@@ -203,7 +203,6 @@
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="GlobalSettingsHelper.cs" />
-    <Compile Include="LicenseHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="ManualPdfHelper.cs" />

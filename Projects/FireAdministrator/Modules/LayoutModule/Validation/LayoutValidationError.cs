@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI.Enums;
+using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
-using FiresecAPI.Models.Layouts;
-using Infrastructure.Common;
+using System;
 
 namespace LayoutModule.Validation
 {

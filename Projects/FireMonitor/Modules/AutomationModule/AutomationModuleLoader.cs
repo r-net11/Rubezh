@@ -8,6 +8,7 @@ using AutomationModule.ViewModels;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
+using FiresecAPI.Enums;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;

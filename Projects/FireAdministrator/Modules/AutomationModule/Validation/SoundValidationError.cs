@@ -1,6 +1,7 @@
 ﻿using System;
 using AutomationModule.Events;
 using FiresecAPI.Automation;
+using FiresecAPI.Enums;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common;
 
