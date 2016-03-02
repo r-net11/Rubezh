@@ -33,7 +33,7 @@
             </div>
         </div>
         <uib-tabset>
-            <uib-tab heading="Основные">
+            <uib-tab heading="Основные" >
                 <div style="background: #fff; color: #000; height: 248px">
                     <div>
                         <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Images/Door.png" />
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </uib-tab>
-            <uib-tab heading="Управление" ng-show="door.CanControl">
+            <uib-tab heading="Управление" ng-show="door.CanControl" active="canControl">
                 <div style="background: #fff">
                     <div style="float: left; width: 100%">
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeNorm()">Установить режим Норма</div>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </uib-tab>
-            <uib-tab heading="Расширенное управление" ng-show="door.FullCanControl">
+            <uib-tab heading="Расширенное управление" ng-show="door.FullCanControl" active="fulControl">
                 <div>
                     <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{door.ControlRegimeIcon}}.png" />
                     <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
