@@ -27,7 +27,7 @@ namespace GKWebService.Utils
 		/// <param name="height"></param>
 		/// <param name="drawing"></param>
 		/// <returns>Base64 string containing png bitmap</returns>
-		public static string XamlDrawingToPngBase64String(int width, int height, Drawing drawing) {
+		public static string XamlDrawingToPngBase64String(double width, double height, Drawing drawing) {
 			var bitmapEncoder = new PngBitmapEncoder();
 			// The image parameters...
 			double dpiX = 96;
@@ -42,7 +42,7 @@ namespace GKWebService.Utils
 			var bounds = drawingVisual.ContentBounds;
 
 			var targetBitmap = new RenderTargetBitmap(
-				width * 10, height * 10, dpiX, dpiY,
+				(int)(width * 10), (int)(height * 10), dpiX, dpiY,
 				PixelFormats.Pbgra32);
 			drawingVisual.Transform = new ScaleTransform(width * 10 / bounds.Width, height * 10 / bounds.Height);
 
