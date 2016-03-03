@@ -109,6 +109,14 @@ namespace AutomationModule.ViewModels
 					ReplaceVariableUid(step.ArithmeticArguments.ResultArgument, dictionary);
 					break;
 
+				case ProcedureStepType.CreateColor:
+					ReplaceVariableUid(step.CreateColorArguments.AArgument, dictionary);
+					ReplaceVariableUid(step.CreateColorArguments.RArgument, dictionary);
+					ReplaceVariableUid(step.CreateColorArguments.GArgument, dictionary);
+					ReplaceVariableUid(step.CreateColorArguments.BArgument, dictionary);
+					ReplaceVariableUid(step.CreateColorArguments.ResultArgument, dictionary);
+					break;
+
 				case ProcedureStepType.If:
 				case ProcedureStepType.While:
 					var conditionArguments = step.ConditionArguments;

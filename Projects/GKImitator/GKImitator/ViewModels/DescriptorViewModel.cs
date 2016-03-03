@@ -18,14 +18,16 @@ namespace GKImitator.ViewModels
 		public BaseDescriptor GKBaseDescriptor { get; private set; }
 		public BaseDescriptor KauBaseDescriptor { get; private set; }
 		public GKBase GKBase { get { return GKBaseDescriptor.GKBase; } }
-		public int DescriptorNo { get; private set; }
+		public int GKDescriptorNo { get; private set; }
+		public int KauDescriptorNo { get; private set; }
 		public ushort TypeNo { get; private set; }
 		readonly List<ushort> AdditionalShortParameters;
 
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
 			GKBaseDescriptor = descriptor;
-			DescriptorNo = descriptor.GetDescriptorNo();
+			GKDescriptorNo = descriptor.GKBase.GKDescriptorNo;
+			KauDescriptorNo = descriptor.GKBase.KAUDescriptorNo;
 
 			SetAutomaticRegimeCommand = new RelayCommand(OnSetAutomaticRegime);
 			SetManualRegimeCommand = new RelayCommand(OnSetManualRegime);
@@ -95,6 +97,9 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.Off)
 				{
+					AdditionalShortParameters[0] = 0;
+					AdditionalShortParameters[1] = 0;
+					AdditionalShortParameters[2] = 0;
 					journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 					SetStateBit(GKStateBit.Attention, false);
 					SetStateBit(GKStateBit.Fire1, false);
@@ -247,41 +252,49 @@ namespace GKImitator.ViewModels
 		public int CurrentCardNo { get; set; }
 
 		public bool HasCard { get; private set; }
-
-		public List<byte> GetStateBytes(int no)
+		public List<byte> GetStateBytes(int no, DatabaseType databaseType)
 		{
-			var result = new List<byte>();
-
-			result.AddRange(ToBytes((short)TypeNo));
-
-			var controllerAddress = GKBaseDescriptor.ControllerAdress;
-			result.AddRange(ToBytes((short)controllerAddress));
-
-			var addressOnController = GKBaseDescriptor.AdressOnController;
-			result.AddRange(ToBytes((short)addressOnController));
-
-			var physicalAddress = GKBaseDescriptor.PhysicalAdress;
-			result.AddRange(ToBytes((short)physicalAddress));
-
-			result.AddRange(GKBaseDescriptor.Description);
-
-			var serialNo = 0;
-			result.AddRange(IntToBytes(serialNo));
-
-			result.AddRange(IntToBytes(StatesToInt()));
-
-			foreach (var additionalShortParameter in AdditionalShortParameters)
+			lock (locker)
 			{
-				result.AddRange(ShortToBytes(additionalShortParameter));
-			}
+				var result = new List<byte>();
 
-			if(HasCard)
-			{
-				result.RemoveRange(52, 4);
-				result.InsertRange(52, IntToBytes(CurrentCardNo));
-			}
+				result.AddRange(ToBytes((short) TypeNo));
 
-			return result;
+				if (databaseType == DatabaseType.Gk)
+				{
+					var controllerAddress = GKBaseDescriptor.ControllerAdress;
+					result.AddRange(ToBytes((short) controllerAddress));
+
+					var addressOnController = GKBaseDescriptor.AdressOnController;
+					result.AddRange(ToBytes((short) addressOnController));
+				}
+
+				var physicalAddress = GKBaseDescriptor.PhysicalAdress;
+				result.AddRange(ToBytes((short) physicalAddress));
+
+				if (databaseType == DatabaseType.Gk)
+				{
+					result.AddRange(GKBaseDescriptor.Description);
+				}
+
+				var serialNo = 0;
+				result.AddRange(IntToBytes(serialNo));
+
+				result.AddRange(IntToBytes(StatesToInt()));
+
+				foreach (var additionalShortParameter in AdditionalShortParameters)
+				{
+					result.AddRange(ShortToBytes(additionalShortParameter));
+				}
+
+				if (HasCard)
+				{
+					result.RemoveRange(52, 4);
+					result.InsertRange(52, IntToBytes(CurrentCardNo));
+				}
+
+				return result;
+			}
 		}
 
 		List<byte> ToBytes(short shortValue)

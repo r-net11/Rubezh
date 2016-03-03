@@ -62,7 +62,7 @@
 							name: 'Событие', cellTemplate:
 								  '<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
 								<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.EventImage}}" />\
-								 <a href="#" ng-click="grid.appScope.showPropertiesClick(row.entity)">\
+								 <a href="" ng-click="grid.appScope.showPropertiesClick(row.entity)">\
 									{{row.entity.Name}}\
 								</a>\
 							</div>'

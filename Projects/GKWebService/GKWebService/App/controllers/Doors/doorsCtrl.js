@@ -1,8 +1,8 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
     app.controller('doorsCtrl',
-        ['$scope', '$http', '$timeout', '$uibModal', '$state', '$stateParams', 'signalrDoorsService', 'broadcastService', 'dialogService', 'constants',
-        function ($scope, $http, $timeout, $uibModal, $state,  $stateParams, signalrDoorsService, broadcastService, dialogService, constants) {
+        ['$scope', '$http', '$timeout', '$uibModal', '$state', '$stateParams', 'signalrDoorsService','signalrDevicesService', 'dialogService', 'constants',
+        function ($scope, $http, $timeout, $uibModal, $state,  $stateParams, signalrDoorsService,signalrDevicesService, dialogService, constants) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -20,7 +20,7 @@
                 columnDefs: [
                     { field: 'No', displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.doorClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
-                    { field: 'DoorTypeString', width: Math.round(($(window).width() - 525) / 2), displayName: 'Тип точки доступа' },
+                    { field: 'DoorTypeString', width: Math.round(($(window).width() - 1000) / 2), displayName: 'Тип точки доступа' },
                     { field: 'Desription', enableColumnResizing: false, displayName: 'Примечание', minWidth: 150 }
                 ]
             };
@@ -80,7 +80,7 @@
             //    }
             //};
 
-            $scope.$on('devicesChanged', function (event, args) {
+            signalrDevicesService.onDeviceChanged(function (event, args) {
                 for (var i in $scope.uiGrid.data) {
                     if ($scope.uiGrid.data[i].ExitDevice && $scope.uiGrid.data[i].ExitDevice.UID === args.UID) {
                         $scope.uiGrid.data[i].ExitDevice.StateIcon = args.StateIcon;
@@ -133,6 +133,7 @@
                             $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
                         }
                     }
+                    $scope.gridApi.autoSize.fit($scope.uiGrid.columnDefs[0]);
                 });
             });
 
