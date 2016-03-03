@@ -380,14 +380,18 @@ namespace FiresecAPI.SKD
 			return result;
 		}
 
-		private List<TimeTrackPart> ApplyDeviationPolitics(IEnumerable<TimeTrackPart> combinedTimeTrackParts, int allowedAbsent,
-			int allowedEarlyLeave, int allowedLate, int notAllowedOvertime)
+		private List<TimeTrackPart> ApplyDeviationPolitics(IEnumerable<TimeTrackPart> combinedTimeTrackParts, int allowedAbsent, int allowedEarlyLeave, int allowedLate, int notAllowedOvertime)
 		{
 			var resultCollection = new List<TimeTrackPart>();
 			foreach (var combinedTimeTrackPart in combinedTimeTrackParts)
 			{
-				if (CanApplyDeviationPolitics(combinedTimeTrackPart, allowedAbsent, allowedEarlyLeave, allowedLate, notAllowedOvertime, combinedTimeTrackParts))
+				if (CanApplyDeviationPolitics(combinedTimeTrackPart, allowedAbsent, allowedEarlyLeave, allowedLate, notAllowedOvertime))
+				{
+					if(combinedTimeTrackPart.TimeTrackPartType == TimeTrackType.Overtime && notAllowedOvertime != default(int))
+						continue;
+
 					combinedTimeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+				}
 
 				resultCollection.Add(combinedTimeTrackPart);
 			}
@@ -395,30 +399,22 @@ namespace FiresecAPI.SKD
 			return resultCollection;
 		}
 
-		private bool CanApplyDeviationPolitics(TimeTrackPart timeTrackPart, int allowedAbsent, int allowedEarlyLeave, int allowedLate, int notAllowedOvertime, IEnumerable<TimeTrackPart> combinedTimeTrackParts)
+		private static bool CanApplyDeviationPolitics(TimeTrackPart timeTrackPart, int allowedAbsent, int allowedEarlyLeave, int allowedLate, int notAllowedOvertime)
 		{
-			var isApplyForAbsence = timeTrackPart.TimeTrackPartType == TimeTrackType.Absence && GetSummOfTypedInterval(combinedTimeTrackParts, TimeTrackType.Absence) <= allowedAbsent && allowedAbsent != default(int);
-			var isApplyForEarlyLeave = timeTrackPart.TimeTrackPartType == TimeTrackType.EarlyLeave && GetSummOfTypedInterval(combinedTimeTrackParts, TimeTrackType.EarlyLeave) <= allowedEarlyLeave && allowedEarlyLeave != default(int);
-			var isApplyForLate = timeTrackPart.TimeTrackPartType == TimeTrackType.Late && GetSummOfTypedInterval(combinedTimeTrackParts, TimeTrackType.Late) <= allowedLate && allowedLate != default(int);
-			var isApplyForOverTime = timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime && GetSummOfTypedInterval(combinedTimeTrackParts, TimeTrackType.Overtime) <= notAllowedOvertime && notAllowedOvertime != default(int);
+			var isApplyForAbsence = timeTrackPart.TimeTrackPartType == TimeTrackType.Absence && timeTrackPart.Delta.TotalMinutes < allowedAbsent && allowedAbsent != default(int);
+			var isApplyForEarlyLeave = timeTrackPart.TimeTrackPartType == TimeTrackType.EarlyLeave && timeTrackPart.Delta.TotalMinutes < allowedEarlyLeave && allowedEarlyLeave != default(int);
+			var isApplyForLate = timeTrackPart.TimeTrackPartType == TimeTrackType.Late && timeTrackPart.Delta.TotalMinutes < allowedLate && allowedLate != default(int);
+			var isApplyForOverTime = timeTrackPart.TimeTrackPartType == TimeTrackType.Overtime && timeTrackPart.Delta.TotalMinutes < notAllowedOvertime && notAllowedOvertime != default(int);
 
 			return isApplyForAbsence || isApplyForEarlyLeave || isApplyForLate || isApplyForOverTime;
 		}
 
-		private double GetSummOfTypedInterval(IEnumerable<TimeTrackPart> timeTrackParts, TimeTrackType type)
-		{
-			return
-				timeTrackParts.Where(x => x.TimeTrackPartType == type)
-					.Select(x => x.Delta.TotalMinutes)
-					.Aggregate(default(double), (s, x) => s + x);
-		}
-
-		private bool IsIntersectWithNightSettings(TimeTrackPart timeTrackPart, List<NightSettings> nightSettings, out NightSettings currentNightSetting)
+		private static bool IsIntersectWithNightSettings(TimeTrackPart timeTrackPart, List<NightSettings> nightSettings, out NightSettings currentNightSetting)
 		{
 			foreach (var nightSetting in nightSettings)
 			{
 				if (timeTrackPart.EnterDateTime.TimeOfDay <= nightSetting.NightEndTime
-				    && timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSetting.NightStartTime)
+					&& timeTrackPart.ExitDateTime.GetValueOrDefault().TimeOfDay >= nightSetting.NightStartTime)
 				{
 					currentNightSetting = nightSetting;
 					return true;
@@ -428,8 +424,7 @@ namespace FiresecAPI.SKD
 			return false;
 		}
 
-		private List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts,
-			List<NightSettings> nightSettings)
+		private static List<TimeTrackPart> TransferNightSettings(List<TimeTrackPart> combinedTimeTrackParts, List<NightSettings> nightSettings)
 		{
 			if (nightSettings == null) return combinedTimeTrackParts;
 
@@ -546,7 +541,7 @@ namespace FiresecAPI.SKD
 			return plannedTimeTrackParts.Aggregate(default(TimeSpan), (current, plannedTimeTrackPart) => current + plannedTimeTrackPart.Delta);
 		}
 
-		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, TimeSpan slideTime)
+		private static List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, TimeSpan slideTime)
 		{
 			var sumPlannedTime = GetSummOfPlannedTimeTrackParts(plannedTimeTrackParts); //Суммарное время графика
 
@@ -705,8 +700,9 @@ namespace FiresecAPI.SKD
 
 			foreach (var timeTrackPart in realTimeTrackParts.Where(timeTrackPart => timeTrackPart.ExitDateTime.HasValue))
 			{
-				timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, scheduleTimeInterval,
-					new ScheduleInterval(timeTrackPart.EnterDateTime, timeTrackPart.ExitDateTime.Value));
+				if (timeTrackPart.ExitDateTime != null)
+					timeTrackPart.TimeTrackPartType = GetTimeTrackType(timeTrackPart, plannedTimeTrackParts, realTimeTrackParts, scheduleTimeInterval, new ScheduleInterval(timeTrackPart.EnterDateTime, timeTrackPart.ExitDateTime.Value));
+
 				resultCollection.Add(timeTrackPart);
 			}
 
@@ -830,7 +826,7 @@ namespace FiresecAPI.SKD
 
 			for (var i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
-				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i].Value, combinedTimeSpans[i + 1].Value); //TODO: this variable can be killed. Cuz combinedInterval is equal timeTrackPart
+				var combinedInterval = new ScheduleInterval(combinedTimeSpans[i].Value, combinedTimeSpans[i + 1].Value);
 
 				if(!combinedInterval.EndTime.HasValue) continue;
 
@@ -927,22 +923,16 @@ namespace FiresecAPI.SKD
 
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
 			if (hasRealTimeTrack && hasPlannedTimeTrack)
-			{
 				return TimeTrackType.Presence;
-			}
 
 			//Если нет интервала проода сотрудника и нет графика, то "Нет данных"
 			if (!hasRealTimeTrack && !hasPlannedTimeTrack)
-			{
 				return TimeTrackType.None;
-			}
 
 			//Если есть интервал прохода сотрудника, который не попадает в интервал графика работа, то "Сверхурочно"
 			//или, если он попадает в график работ, то "Явка в перерыве"
 			if (hasRealTimeTrack)
-			{
 				return TimeTrackType.Overtime;
-			}
 
 			//Если нет интервала прохода сотрудника, но есть интервал рабочего графика
 			timeTrackPart.TimeTrackPartType = TimeTrackType.Absence; //Отсутствие
@@ -953,9 +943,7 @@ namespace FiresecAPI.SKD
 			{
 				var firstPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.EnterDateTime.TimeOfDay == timeTrackPart.ExitDateTime.Value.TimeOfDay);
 				if (firstPlannedTimeTrack != null && firstPlannedTimeTrack.StartsInPreviousDay)
-				{
 					return TimeTrackType.Absence;
-				}
 
 				var firstPlannedInterval = plannedTimeTrackParts.FirstOrDefault();
 				if (firstPlannedInterval != null && firstPlannedInterval.EnterDateTime.TimeOfDay == timeTrackPart.EnterDateTime.TimeOfDay) //Если расчитываемый интервал - первый, то возможен тип опоздание
@@ -968,14 +956,12 @@ namespace FiresecAPI.SKD
 
 			var lastPlannedTimeTrack = plannedTimeTrackParts.FirstOrDefault(x => x.ExitDateTime.Value.TimeOfDay == timeTrackPart.ExitDateTime.Value.TimeOfDay);
 			if (lastPlannedTimeTrack != null && lastPlannedTimeTrack.EndsInNextDay)
-			{
 				return TimeTrackType.Absence;
-			}
 
 			return TimeTrackType.EarlyLeave;
 		}
 
-		private List<DateTime?> GetCombinedDateTimes(List<TimeTrackPart> realTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> documentTimeTrackParts)
+		private static List<DateTime?> GetCombinedDateTimes(IEnumerable<TimeTrackPart> realTimeTrackParts, IEnumerable<TimeTrackPart> plannedTimeTrackParts, IEnumerable<TimeTrackPart> documentTimeTrackParts)
 		{
 			var combinedTimeSpans = new List<DateTime?>();
 			foreach (var trackPart in realTimeTrackParts.Where(x => !x.NotTakeInCalculations))
@@ -1014,9 +1000,8 @@ namespace FiresecAPI.SKD
 			{
 				var el = resultTotalCollection.FirstOrDefault(x => x.TimeTrackType == timeTrack.TimeTrackPartType);
 				if (el != null) //TODO: Need refactoring
-				{
+
 					el.TimeSpan += GetDeltaForTimeTrack(timeTrack, isHoliday);
-				}
 				else
 				{
 					resultTotalCollection.Add(new TimeTrackTotal(timeTrack.TimeTrackPartType)
@@ -1049,7 +1034,7 @@ namespace FiresecAPI.SKD
 		/// </summary>
 		/// <param name="inputCollectionTotals">Коллекция интервалов всех типов проходов</param>
 		/// <returns>Коллекция интервалов всех типов для отображения пользователю</returns>
-		private List<TimeTrackTotal> FillTotalsCollection(List<TimeTrackTotal> inputCollectionTotals)
+		private static List<TimeTrackTotal> FillTotalsCollection(List<TimeTrackTotal> inputCollectionTotals)
 		{
 			var resultCollection = new List<TimeTrackTotal>();
 			var timeTrackTypes = new List<TimeTrackType>(Enum.GetValues(typeof(TimeTrackType)).Cast<TimeTrackType>().ToList());
@@ -1107,23 +1092,12 @@ namespace FiresecAPI.SKD
 					return timeTrack.Delta;
 
 				case TimeTrackType.Late:
-					if (timeTrack.Delta.TotalMinutes >= AllowedLate)
-					{
-						break;
-					}
 					return timeTrack.Delta;
 
 				case TimeTrackType.Absence:
-					if (timeTrack.Delta.TotalMinutes <= AllowedAbsentLowThan)
-					{
-						break;
-					}
 					return timeTrack.Delta;
+
 				case TimeTrackType.EarlyLeave:
-					if (timeTrack.Delta.TotalMinutes >= AllowedEarlyLeave)
-					{
-						break;
-					}
 					return timeTrack.Delta;
 
 				case TimeTrackType.DocumentAbsence:
