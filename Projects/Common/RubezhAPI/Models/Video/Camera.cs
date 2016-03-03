@@ -18,6 +18,10 @@ namespace RubezhAPI.Models
 			AllowMultipleVizualization = false;
 			CameraState = new CameraState(this);
 			RviStreams = new List<RviStream>();
+			ShowDetailsWidth = 600;
+			ShowDetailsHeight = 600;
+			ShowDetailsMarginLeft = 500;
+			ShowDetailsMarginTop = 500;
 		}
 		[DataMember]
 		public List<RviStream> RviStreams { get; set; }
