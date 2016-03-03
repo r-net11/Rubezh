@@ -1,6 +1,5 @@
 ﻿using Common;
 using MediaSourcePlayer.MediaSource;
-using RubezhAPI.Models;
 using System;
 using System.Net;
 using System.Windows;
@@ -48,7 +47,7 @@ namespace VideoModule.Views
 		void PlayerStart()
 		{
 			var viewModel = DataContext as CameraDetailsViewModel;
-			if (viewModel == null || viewModel.Status == RviStatus.ConnectionLost || viewModel.Status == RviStatus.Error)
+			if (viewModel == null || !viewModel.IsConnected)
 				return;
 			try
 			{
