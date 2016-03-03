@@ -379,6 +379,9 @@ namespace GKWebService.Models.Plan.PlanElement
 		/// <param name="showHint">Показывать всплывающую подсказку.</param>
 		/// <returns></returns>
 		private static PlanElement FromTextElement(IElementTextBlock item, System.Windows.Size size, double left, double top, bool showHint) {
+			if (string.IsNullOrWhiteSpace(item.Text)) {
+				return null;
+			}
 			var fontFamily = new System.Windows.Media.FontFamily(item.FontFamilyName);
 			var fontStyle = item.FontItalic ? FontStyles.Italic : FontStyles.Normal;
 			var fontWeight = item.FontBold ? FontWeights.Bold : FontWeights.Normal;
@@ -394,8 +397,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			if (item.Stretch) {
 				var scaleFactorX = (size.Width - item.BorderThickness * 2) / text.Width;
 				var scaleFactorY = (size.Height - item.BorderThickness * 2) / text.Height;
-				pathGeometry.Transform = new ScaleTransform(
-					scaleFactorX, scaleFactorY, left + item.BorderThickness, top + item.BorderThickness);
+				pathGeometry = Geometry.Combine(Geometry.Empty, pathGeometry, GeometryCombineMode.Union, new ScaleTransform(
+					scaleFactorX, scaleFactorY, left + item.BorderThickness, top + item.BorderThickness));
 			}
 			else {
 				double offsetX = 0;
@@ -420,8 +423,7 @@ namespace GKWebService.Models.Plan.PlanElement
 							break;
 						}
 				}
-
-				pathGeometry.Transform = new TranslateTransform(offsetX, offsetY);
+				pathGeometry = Geometry.Combine(Geometry.Empty, pathGeometry, GeometryCombineMode.Union, new TranslateTransform(offsetX, offsetY));
 			}
 			// Делаем финальный рендер
 			var path = pathGeometry.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture).Substring(2);

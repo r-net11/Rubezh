@@ -60,14 +60,14 @@ namespace GKWebService.DataProviders.Plan
 			var rectangles = LoadRectangleElements(plan);
 			//var polygons = LoadPolygonElements(plan);
 			//var polylines = LoadPolyLineElements(plan);
-			//var ellipses = LoadEllipseElements(plan);
-			//var textBlocks = LoadStaticTextElements(plan);
-			//var doors = LoadDoorElements(plan);
+			var ellipses = LoadEllipseElements(plan);
+			var textBlocks = LoadStaticTextElements(plan);
+			var doors = LoadDoorElements(plan);
 			var devices = LoadDeviceElements(plan);
 			//return textBlocks.Concat(rectangles).Concat(ellipses).Concat(doors).Concat(devices);
 
 
-			return devices.Concat(rectangles);
+			return devices.Concat(rectangles).Concat(doors).Concat(textBlocks).Concat(ellipses);
 		}
 
 		/// <summary>
@@ -104,10 +104,10 @@ namespace GKWebService.DataProviders.Plan
 		private IEnumerable<PlanElement> LoadStaticTextElements(RubezhAPI.Models.Plan plan) {
 			var textBlockElements = plan.ElementTextBlocks;
 			var procedureElements = plan.AllElements.OfType<ElementProcedure>();
-			return textBlockElements.Select(
+			return textBlockElements.Where(t=>!string.IsNullOrWhiteSpace(t.Text)).Select(
 				PlanElement.FromTextBlock)
 			                        .Where(elem => elem != null)
-			                        .Union(procedureElements.Select(PlanElement.FromProcedure).Where(elem => elem != null));
+			                        .Union(procedureElements.Where(p=>!string.IsNullOrWhiteSpace(p.Text)).Select(PlanElement.FromProcedure).Where(elem => elem != null));
 		}
 
 		private IEnumerable<PlanElement> LoadDeviceElements(RubezhAPI.Models.Plan plan) {
