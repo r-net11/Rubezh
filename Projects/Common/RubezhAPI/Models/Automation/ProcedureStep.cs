@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RubezhAPI.StepArguments;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -15,6 +16,7 @@ namespace RubezhAPI.Automation
 			SoundArguments = new SoundArguments();
 			ShowMessageArguments = new ShowMessageArguments();
 			ArithmeticArguments = new ArithmeticArguments();
+			CreateColorArguments = new CreateColorArguments();
 			ConditionArguments = new ConditionArguments();
 			FindObjectArguments = new FindObjectArguments();
 			ForeachArguments = new ForeachArguments();
@@ -55,6 +57,7 @@ namespace RubezhAPI.Automation
 			StartRecordArguments = new StartRecordArguments();
 			StopRecordArguments = new StopRecordArguments();
 			RviAlarmArguments = new RviAlarmArguments();
+			RviOpenWindowArguments = new RviOpenWindowArguments();
 			ControlGKDoorArguments = new ControlGKDoorArguments();
 			NowArguments = new NowArguments();
 			HttpRequestArguments = new HttpRequestArguments();
@@ -87,6 +90,9 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public ArithmeticArguments ArithmeticArguments { get; set; }
+
+		[DataMember]
+		public CreateColorArguments CreateColorArguments { get; set; }
 
 		[DataMember]
 		public ConditionArguments ConditionArguments { get; set; }
@@ -206,6 +212,9 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public RviAlarmArguments RviAlarmArguments { get; set; }
+
+		[DataMember]
+		public RviOpenWindowArguments RviOpenWindowArguments { get; set; }
 
 		[DataMember]
 		public ControlGKDoorArguments ControlGKDoorArguments { get; set; }

@@ -398,6 +398,32 @@ namespace Infrastructure.Automation
 			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
 		}
 
+		void CreateColor(ProcedureStep procedureStep)
+		{
+			var createColorArguments = procedureStep.CreateColorArguments;
+			var a = GetValue<int>(createColorArguments.AArgument);
+			var r = GetValue<int>(createColorArguments.RArgument);
+			var g = GetValue<int>(createColorArguments.GArgument);
+			var b = GetValue<int>(createColorArguments.BArgument);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == createColorArguments.ResultArgument.VariableUid);
+
+			if (resultVariable != null)
+			{
+				resultVariable.ExplicitValue.ColorValue = System.Windows.Media.Color.FromArgb(IntToByte(a), IntToByte(r), IntToByte(g), IntToByte(b));
+
+				ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
+			}
+		}
+
+		byte IntToByte(int value)
+		{
+			if (value < 0)
+				value = 0;
+			if (value > 255)
+				value = 255;
+			return Convert.ToByte(value);
+		}
+
 		void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
@@ -1036,7 +1062,22 @@ namespace Infrastructure.Automation
 			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 				ProcedureExecutionContext.RviAlarm(ClientUID, name);
 			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Вызвать тревогу в RVI Оператор\" заблокировано в связи с отсутствием лицензии");
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Вызвать тревогу в Rvi Оператор\" заблокировано в связи с отсутствием лицензии");
+		}
+
+		public void RviOpenWindow(ProcedureStep procedureStep)
+		{
+			var rviOpenWindowArguments = procedureStep.RviOpenWindowArguments;
+			var name = GetValue<string>(rviOpenWindowArguments.NameArgument);
+			var x = GetValue<int>(rviOpenWindowArguments.XArgument);
+			var y = GetValue<int>(rviOpenWindowArguments.YArgument);
+			var monitorNumber = GetValue<int>(rviOpenWindowArguments.MonitorNumberArgument);
+			var login = GetValue<string>(rviOpenWindowArguments.LoginArgument);
+			var ip = GetValue<string>(rviOpenWindowArguments.IpArgument);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.RviOpenWindow(ClientUID, name, x, y, monitorNumber, login, ip);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Показать раскладку в Rvi Оператор\" заблокировано в связи с отсуствием лицензии");
 		}
 
 		public void Now(ProcedureStep procedureStep)

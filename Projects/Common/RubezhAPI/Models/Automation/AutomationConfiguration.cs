@@ -148,6 +148,17 @@ namespace RubezhAPI.Automation
 					}
 					break;
 
+				case ProcedureStepType.CreateColor:
+					{
+						var createColorArguments = step.CreateColorArguments;
+						InvalidateArgument(procedure, createColorArguments.AArgument);
+						InvalidateArgument(procedure, createColorArguments.RArgument);
+						InvalidateArgument(procedure, createColorArguments.GArgument);
+						InvalidateArgument(procedure, createColorArguments.BArgument);
+						InvalidateArgument(procedure, createColorArguments.ResultArgument);
+					}
+					break;
+
 				case ProcedureStepType.If:
 				case ProcedureStepType.While:
 					{

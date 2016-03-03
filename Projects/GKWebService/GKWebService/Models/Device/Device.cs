@@ -87,20 +87,28 @@ namespace GKWebService.Models
 
 		public string ActionType { get; set; }
 
+		public Boolean IsRealDevice { get; set; }
+
+		public GKDriver Driver { get; set; }
+
+		public GKDriverType DriverType { get; set; }
 
 		public Device(GKDevice device)
 			: base(device)
 		{
 			ParentUID = device.Parent != null ? device.Parent.UID : (Guid?)null;
-			ParentName = device.Parent != null ? device.Parent.PresentationName : String.Empty;
+			ParentName = device.Parent != null ? device.Parent.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType) : String.Empty;
 			ParentImage = device.Parent != null ? device.Parent.ImageSource.Replace("/Controls;component/", "") : String.Empty;
+			Name = device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
 			GKDescriptorNo = device.GKDescriptorNo;
 			Address = device.DottedPresentationAddress;
 			Description = device.Description;
 			Logic = GKManager.GetPresentationLogic(device.Logic);
 			NsLogic = GKManager.GetPresentationLogic(device.NSLogic);
-
 			ZoneUID = device.ZoneUIDs.FirstOrDefault();
+			IsRealDevice = device.IsRealDevice;
+			Driver = device.Driver;
+			DriverType = device.DriverType;
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();

@@ -57,7 +57,7 @@
 			},
 			restrict: 'E',
 			transclude: false,
-			template: '<div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-tree-view ui-grid-selection ui-grid-resize-columns></div>'
+			template: '<div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-tree-view ui-grid-selection ui-grid-resize-columns ui-grid-save-state></div>'
 		};
 	});
 }());

@@ -49,8 +49,10 @@
             $scope.$on('guardZoneChanged', function (event, args) {
                 for (var i in $scope.uiGrid.data) {
                     if (args.UID === $scope.uiGrid.data[i].UID) {
+                        $scope.gridState = $scope.gridApi.saveState.save();
                         $scope.uiGrid.data[i] = args;
                         $scope.$apply();
+                        $scope.gridApi.saveState.restore($scope, $scope.gridState);
                         break;
                     }
                 }

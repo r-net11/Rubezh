@@ -123,7 +123,7 @@ namespace Infrastructure.Automation
 			{
 				Value = result;
 
-				AutomationProcessor.RunOnOpcTagFilters(ClientManager.CurrentUser, FiresecServiceFactory.UID);
+				//AutomationProcessor.RunOnOpcTagFilters(ClientManager.CurrentUser, FiresecServiceFactory.UID);
 
 				//var filter = OpcDaHelper.TagsFilters.FirstOrDefault(x => x.TagUID == UID);
 				//if (filter != null)

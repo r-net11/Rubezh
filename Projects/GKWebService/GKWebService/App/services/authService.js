@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('authService', ['$q', '$http', '$state', function ($q, $http, $state) {
+    app.factory('authService', ['$q', '$http', '$window', function ($q, $http, $window) {
         var authServiceFactory = {};
 
         authServiceFactory.authentication = {
@@ -38,7 +38,7 @@
                 authServiceFactory.authentication.isAuth = false;
                 authServiceFactory.authentication.userName = '';
 
-                $state.go('login');
+                $window.location.reload();
             });
         };
 

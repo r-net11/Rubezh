@@ -110,7 +110,43 @@ namespace RubezhAPI
 			else
 				parentDevice.Children.Insert(index.Value, device);
 			AddAutoCreateChildren(device);
+
+			if (parentDevice.DriverType == GKDriverType.RSR2_MRK)
+			{
+				var secondAndInterval = GetFreeSecondAndInterval(parentDevice, device);
+				var secondProperty = device.Properties.FirstOrDefault(x => x.Name == "Секунда периода (не более ПЕРИОД - 1)");
+				if (secondProperty != null)
+					secondProperty.Value = secondAndInterval.Item1;
+				var intervalProperty = device.Properties.FirstOrDefault(x => x.Name == "Окно");
+				if (intervalProperty != null)
+					intervalProperty.Value = secondAndInterval.Item2;
+			}
+
 			return device;
+		}
+
+		static Tuple<ushort, ushort> GetFreeSecondAndInterval(GKDevice parentDevice, GKDevice device)
+		{
+			var periodProperty = parentDevice.Properties.FirstOrDefault(x => x.Name == "Период опроса, с");
+			var secondIntervalList = new List<int>();
+			foreach (var child in parentDevice.Children.Except(new List<GKDevice> { device }))
+			{
+				var secondProperty = child.Properties.FirstOrDefault(x => x.Name == "Секунда периода (не более ПЕРИОД - 1)");
+				var intervalProperty = child.Properties.FirstOrDefault(x => x.Name == "Окно");
+				secondIntervalList.Add(secondProperty.Value * 10 + intervalProperty.Value);
+			}
+
+			for (ushort second = 0; second < periodProperty.Value; second++)
+			{
+				for (ushort interval = 1; interval < 9; interval++)
+				{
+					if (!secondIntervalList.Contains(second * 10 + interval))
+					{
+						return new Tuple<ushort, ushort>(second, interval);
+					}
+				}
+			}
+			return new Tuple<ushort, ushort>(0, 0);
 		}
 
 		public static void AddAutoCreateChildren(GKDevice device)

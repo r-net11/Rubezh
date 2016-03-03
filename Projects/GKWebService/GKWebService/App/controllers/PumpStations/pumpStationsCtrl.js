@@ -35,7 +35,7 @@
             },
             columnDefs:
               [{ field: 'No', displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/Icon/GK/BMPT.png" />{{row.entity[col.field]}}</div>' },
-               { field: 'Name', displayName: 'НС', width: 400, cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.pumpStationClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
+               { field: 'Name', displayName: 'НС', width: 400, cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.pumpStationClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
                { field: 'OnDelay', displayName: 'Задержка', width: 200 },
                { field: 'HoldDelay', displayName: 'Время тушения', enableColumnResizing: false, Width: 150 }],
         };
@@ -61,7 +61,10 @@
         $scope.$on('pumpStationsChanged', function (event, args) {
             for (var i in $scope.uiGrid.data) {
                 if ($scope.uiGrid.data[i].UID == args.UID) {
+                    $scope.gridState = $scope.gridApi.saveState.save();
                     $scope.uiGrid.data[i] = args;
+                    $scope.$apply();
+                    $scope.gridApi.saveState.restore($scope, $scope.gridState);
                     break;
                 }
             }
