@@ -47,10 +47,10 @@ namespace GKWebService.Controllers
 		[HttpPost]
 		public JsonResult SetAutomaticState(Guid id)
 		{
-			var mpt = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
-			if (mpt != null)
+			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
+			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				ClientManager.FiresecService.GKSetAutomaticRegime(guardZone);
 			}
 
 			return new JsonResult();
@@ -59,10 +59,10 @@ namespace GKWebService.Controllers
 		[HttpPost]
 		public JsonResult SetManualState(Guid id)
 		{
-			var mpt = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
-			if (mpt != null)
+			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
+			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(mpt);
+				ClientManager.FiresecService.GKSetManualRegime(guardZone);
 			}
 
 			return new JsonResult();
@@ -71,10 +71,10 @@ namespace GKWebService.Controllers
 		[HttpPost]
 		public JsonResult SetIgnoreState(Guid id)
 		{
-			var mpt = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
-			if (mpt != null)
+			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
+			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKSetIgnoreRegime(mpt);
+				ClientManager.FiresecService.GKSetIgnoreRegime(guardZone);
 			}
 
 			return new JsonResult();
@@ -83,10 +83,10 @@ namespace GKWebService.Controllers
 		[HttpPost]
 		public JsonResult TurnOn(Guid id)
 		{
-			var mpt = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
-			if (mpt != null)
+			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
+			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKTurnOn(mpt);
+				ClientManager.FiresecService.GKTurnOn(guardZone);
 			}
 
 			return new JsonResult();
@@ -95,10 +95,10 @@ namespace GKWebService.Controllers
 		[HttpPost]
 		public JsonResult TurnOnNow(Guid id)
 		{
-			var mpt = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
-			if (mpt != null)
+			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
+			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKTurnOnNow(mpt);
+				ClientManager.FiresecService.GKTurnOnNow(guardZone);
 			}
 
 			return new JsonResult();
@@ -107,10 +107,21 @@ namespace GKWebService.Controllers
 		[HttpPost]
 		public JsonResult TurnOff(Guid id)
 		{
-			var mpt = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
-			if (mpt != null)
+			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
+			if (guardZone != null)
 			{
-				ClientManager.FiresecService.GKTurnOff(mpt);
+				ClientManager.FiresecService.GKTurnOff(guardZone);
+			}
+
+			return new JsonResult();
+		}
+
+		public JsonResult TurnOffNow(Guid id)
+		{
+			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
+			if (guardZone != null)
+			{
+				ClientManager.FiresecService.GKTurnOffNow(guardZone);
 			}
 
 			return new JsonResult();

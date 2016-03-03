@@ -35,6 +35,10 @@
             $http.post('GuardZones/TurnOff', { id: $scope.guardZone.UID });
         };
 
+        $scope.TurnOffNow = function () {
+            $http.post('GuardZones/TurnOffNow', { id: $scope.guardZone.UID });
+        }
+
         $scope.Reset = function () {
             $http.post('GuardZones/Reset', { id: $scope.guardZone.UID });
         };

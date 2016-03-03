@@ -45,15 +45,16 @@
                 </div>
                 <div style="background: #fff">
                     <div style="float: left; width: 50%">
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetAutomaticState()" ng-disabled="!guardZone.CanSetAutomaticState">Автоматика</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetManualState()" ng-disabled="!guardZone.CanSetManualState">Ручное</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetIgnoreState()" ng-disabled="!guardZone.CanSetIgnoreState">Отключение</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="guardZone.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!guardZone.CanSetAutomaticState">Автоматика</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="guardZone.CanSetManualState && SetManualState()" ng-disabled="!guardZone.CanSetManualState">Ручное</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="guardZone.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!guardZone.CanSetIgnoreState">Отключение</div>
                     </div>
                     <div style="float: left; width: 50%; background: #fff">
-                        <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="TurnOn()" ng-disabled="!guardZone.IsControlRegime">Поставить на охрану</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOnNow()" ng-disabled="!guardZone.IsControlRegime">Поставить на охрану немедленно</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOff()" ng-disabled="!guardZone.IsControlRegime">Снять с охраны</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="Reset()" ng-disabled="!guardZone.IsControlRegime">Сбросить</div>
+                        <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px"ng-click="guardZone.IsControlRegime && TurnOn()" ng-disabled="!guardZone.IsControlRegime">Поставить на охрану</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="guardZone.IsControlRegime && TurnOnNow()" ng-disabled="!guardZone.IsControlRegime">Поставить на охрану немедленно</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="guardZone.IsControlRegime && TurnOff()" ng-disabled="!guardZone.IsControlRegime">Снять с охраны</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="guardZone.IsControlRegime && TurnOffNow()" ng-disabled="!guardZone.IsControlRegime">Снять с охраны немедленно</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="Reset()">Сбросить</div>
                     </div>
                     <div style="clear: left">
                     </div>
