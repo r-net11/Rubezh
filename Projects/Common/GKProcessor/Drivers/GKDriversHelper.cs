@@ -106,8 +106,8 @@ namespace GKProcessor
 
 		public static void AddRadioChanelProperties(GKDriver driver)
 		{
-			AddIntProprety(driver, 0, "Младшее слово привязки", 1, 0, 255);
-			AddIntProprety(driver, 1, "Старшее слово привязки", 0, 0, 255);
+			AddIntProprety(driver, 0, "Младшее слово привязки", 1, 0, 65535);
+			AddIntProprety(driver, 1, "Старшее слово привязки", 0, 0, 65535);
 
 			var property1 = new GKDriverProperty()
 			{

@@ -156,7 +156,13 @@ namespace RviClient
 			{
 				var camera = newCameras.FirstOrDefault(newCamera => newCamera.UID == existingCamera.UID);
 				if (camera != null)
+				{
 					camera.IsAddedInConfiguration = existingCamera.IsAddedInConfiguration;
+					camera.ShowDetailsHeight = existingCamera.ShowDetailsHeight;
+					camera.ShowDetailsWidth = existingCamera.ShowDetailsWidth;
+					camera.ShowDetailsMarginLeft = existingCamera.ShowDetailsMarginLeft;
+					camera.ShowDetailsMarginTop = existingCamera.ShowDetailsMarginTop;
+				}
 			}
 			return rviDevices;
 		}

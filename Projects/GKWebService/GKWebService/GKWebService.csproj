@@ -647,6 +647,8 @@
     <Content Include="Content\mpts.less" />
     <Content Include="Content\doorInfo.less" />
     <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="GKWebService.wpp.targets" />
+    <None Include="Properties\PublishProfiles\Rubezh.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -838,7 +840,6 @@
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
     <Content Include="Views\Plans\Index.cshtml" />
-    <Content Include="Views\Hr\HrDepartments.cshtml" />
     <Content Include="Views\Hr\Positions.cshtml" />
     <Content Include="Views\Hr\AdditionalColumnTypes.cshtml" />
     <Content Include="Views\Hr\Cards.cshtml" />

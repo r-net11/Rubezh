@@ -32,7 +32,7 @@
                 dialogService.showWindow(constants.gkObject.device, device);
             };
 
-            function ChangeDevices(device) {
+            var ChangeDevices = function (device) {
                 for (var i = 0; i < $scope.uiGrid.data.length; i++) {
                     if ($scope.uiGrid.data[i].UID === device.UID) {
                         var mptState = $scope.uiGrid.data[i].MPTDeviceType;
@@ -43,7 +43,7 @@
                 }
             };
 
-            $scope.$on('devicesChanged', function (event, args) {
+            signalrDevicesService.onDeviceChanged(function (event, args) {
                 ChangeDevices(args);
                 $scope.$apply();
             });

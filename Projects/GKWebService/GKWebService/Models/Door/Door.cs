@@ -58,12 +58,10 @@ namespace GKWebService.Models.Door
 			StateClasses = door.State.StateClasses.Select(x => new StateClass(x)).ToList();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(door.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
-
-			OnDelay = door.State.OnDelay;
-			HasOnDelay = door.State.StateClasses.Contains(XStateClass.TurningOn) && door.State.OnDelay > 0;
-			HasOffDelay = door.State.StateClasses.Contains(XStateClass.TurningOff) && door.State.OnDelay > 0;
-			OffDelay = door.State.OffDelay;
-			HasHoldDelay = door.State.StateClasses.Contains(XStateClass.Attention) && door.State.OffDelay > 0;
+			HasHoldDelay = door.State.StateClasses.Contains(XStateClass.On) && door.State.HoldDelay > 0;
+			HasOffDelay = door.State.StateClasses.Contains(XStateClass.TurningOff) && door.State.OffDelay > 0;
+			OffDelay = HasOffDelay? string.Format("{0} сек", door.State.OffDelay): string.Empty;
+			HoldDelay = HasHoldDelay? string.Format("{0} сек", door.State.HoldDelay): string.Empty;
 
 			var controlRegime = door.State.StateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore
@@ -91,8 +89,8 @@ namespace GKWebService.Models.Door
 		public List<StateClass> StateClasses { get; set; }
 		public string StateColor { get; set; }
 		public string State { get; set; }
-		public int OnDelay { get; set; }
-		public int OffDelay { get; set; }
+		public string HoldDelay { get; set; }
+		public string  OffDelay { get; set; }
 		public bool HasOffDelay { get; set; }
 		public bool HasHoldDelay { get; set; }
 		public bool FullCanControl { get; set; }
