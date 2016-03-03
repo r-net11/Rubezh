@@ -31,8 +31,8 @@
                 $http.post('Doors/TurnOn', { id: $scope.door.UID });
             };
 
-            $scope.TurnOnNow = function() {
-                $http.post('Doors/TurnOnNow', { id: $scope.door.UID });
+            $scope.TurnOffNow = function () {
+                $http.post('Doors/TurnOffNow', { id: $scope.door.UID });
             };
 
             $scope.TurnOff = function() {
