@@ -177,7 +177,6 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Основная информация о плане, включая вложенные планы.</returns>
 		private PlanSimpl GetPlanInfo(RubezhAPI.Models.Plan plan) {
-			// Корень плана
 			return new PlanSimpl {
 				Name = plan.Caption,
 				Uid = plan.UID,
@@ -196,7 +195,7 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="planId">UID плана.</param>
 		/// <returns>Готовая к сериализации полная информация о плане.</returns>
 		public PlanSimpl GetPlan(Guid planId) {
-			var plan = ClientManager.PlansConfiguration.Plans.FirstOrDefault(p => p.UID == planId);
+			var plan = ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.UID == planId);
 			// Корень плана
 			if (plan == null) {
 				throw new KeyNotFoundException(string.Format("План с ID {0} не найден, либо недоступен.", planId));
