@@ -90,6 +90,7 @@ namespace FiresecService
 													oldCamera.Status = newCamera.Status;
 													oldCamera.IsOnGuard = newCamera.IsOnGuard;
 													oldCamera.IsRecordOnline = newCamera.IsRecordOnline;
+													oldCamera.RviStreams = newCamera.RviStreams;
 													rviStates.Add(new RviState(oldCamera, oldCamera.Status, oldCamera.IsOnGuard, oldCamera.IsRecordOnline, oldCamera.RviStreams));
 												}
 												if (oldCamera.RviStreams != newCamera.RviStreams)
