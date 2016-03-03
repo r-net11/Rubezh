@@ -110,6 +110,10 @@
                 $http.post('Alarms/ResetIgnore', { alarm: alarm });
             };
 
+            $scope.turnOnAutomaticClick = function (alarm) {
+                $http.post('Alarms/TurnOnAutomatic', { alarm: alarm });
+            };
+
             $scope.resetIgnoreAll = function () {
                 $http.post('Alarms/ResetIgnoreAll');
             };

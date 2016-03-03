@@ -93,6 +93,11 @@ namespace GKWebService.Models
 
 		public GKDriverType DriverType { get; set; }
 
+		public Device()
+		{
+			
+		}
+
 		public Device(GKDevice device)
 			: base(device)
 		{

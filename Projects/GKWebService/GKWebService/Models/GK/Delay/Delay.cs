@@ -29,7 +29,12 @@ namespace GKWebService.Models
 		public ushort GkDescriptorNo { get; set; }
 		public ushort DelayTime { get; set; }
 		public ushort HoldTime { get; set; }
-		public string Uid { get; set; }
+
+		public Delay()
+		{
+			
+		}
+
 		public Delay(GKDelay gkDelay)
 			: base(gkDelay)
 		{
@@ -39,7 +44,6 @@ namespace GKWebService.Models
 			OnDelay = gkDelay.State.OnDelay != 0 ? string.Format("{0} сек", gkDelay.State.OnDelay) : string.Empty;
 			HoldDelay = gkDelay.State.HoldDelay != 0 ? string.Format("{0} сек", gkDelay.State.HoldDelay) : string.Empty;
 			StateIcon = gkDelay.State.StateClass.ToString();
-			Uid = gkDelay.UID.ToString();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(gkDelay.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 			StateClasses = new List<DelayStateClass>();
 			gkDelay.State.StateClasses.ForEach(x => StateClasses.Add(new DelayStateClass(x)));

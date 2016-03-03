@@ -5,7 +5,7 @@
         function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
         	$scope.device = entity;
 
-        	$scope.$on('devicesChanged', function (event, args) {
+        	$scope.$on('signalrDevicesService.devicesChanged', function (event, args) {
         		if (args.UID === $scope.device.UID) {
         			$scope.device = args;
         			$scope.$apply();

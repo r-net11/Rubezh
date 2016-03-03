@@ -12,10 +12,14 @@ namespace GKWebService.Models.PumpStation
 {
 	public class PumpStation : GKBaseModel
 	{
+		public PumpStation()
+		{
+			
+		}
+
 		public PumpStation(GKPumpStation pumpStation)
 			: base(pumpStation)
 		{
-			UID = pumpStation.UID;
 			No = pumpStation.No;
 			GKDescriptorNo = pumpStation.GKDescriptorNo;
 			Name = pumpStation.Name;
@@ -51,7 +55,6 @@ namespace GKWebService.Models.PumpStation
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 
 		}
-		public Guid UID { get; set; }
 		public int No { get; set; }
 		public string Name { get; set; }
 		public String StartLogic { get; set; }
