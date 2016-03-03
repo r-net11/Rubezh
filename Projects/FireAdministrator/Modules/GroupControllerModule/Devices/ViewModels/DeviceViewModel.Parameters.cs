@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 			return Device.AllChildrenAndSelf.Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
 		}
 
-		#region Capy and Paste
+		#region Copy and Paste
 		public static GKDriver DriverCopy;
 		public static List<GKProperty> PropertiesCopy;
 
