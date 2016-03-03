@@ -131,6 +131,7 @@
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\MultiParameterConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
+    <Compile Include="Converters\RviStatusToDescriptionConverter.cs" />
     <Compile Include="Converters\RviStatusToIconConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\StringToSingleLineString.cs" />

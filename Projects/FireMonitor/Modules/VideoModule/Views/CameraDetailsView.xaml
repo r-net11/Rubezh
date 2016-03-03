@@ -13,10 +13,24 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<StackPanel Grid.Column="0" Height="30">
+			<!--<StackPanel Grid.Column="0" Height="30">
 				<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 					<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-					<!--<TextBlock Text="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" VerticalAlignment="Center" Margin="5 1 1 1" />-->
+					--><!--<TextBlock Text="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" VerticalAlignment="Center" Margin="5 1 1 1" />--><!--
+				</StackPanel>
+			</StackPanel>-->
+			<StackPanel Grid.Column="0" Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
+					<Image Width="16" Height="16" Source="{Binding Status, Converter={StaticResource RviStatusToIconConverter}}" />
+					<TextBlock Text="{Binding Status, Converter={StaticResource RviStatusToDescriptionConverter}}" Style="{DynamicResource TextBlockDetailsStyle}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Visibility="{Binding IsRecordOnline,Converter={StaticResource BoolToVisibilityConverter}}">
+					<Image Width="16" Height="16" Source="/Controls;component/RviStatusIcons/IsRecordOnline.png" />
+					<TextBlock Text="На записи" Style="{DynamicResource TextBlockDetailsStyle}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Visibility="{Binding IsOnGuard,Converter={StaticResource BoolToVisibilityConverter}}">
+					<Image Width="16" Height="16" Source="/Controls;component/RviStatusIcons/IsOnGuard.png" />
+					<TextBlock Text="На охране" Style="{DynamicResource TextBlockDetailsStyle}" />
 				</StackPanel>
 			</StackPanel>
 		</Grid>
@@ -33,7 +47,7 @@
 							<StackPanel Orientation="Horizontal" Visibility="{Binding IsSetPtzPreset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 								<Button Content="Перевод в предустановку" Command="{Binding SetPtzPresetCommand}" Width="200" Margin="2" />
 								<Border BorderBrush="LightGray"  BorderThickness="1" CornerRadius="3" Margin="2">
-									<ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}">
+									<ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" IsEnabled="{Binding IsConnected}">
 										<ComboBox.ItemTemplate>
 											<DataTemplate>
 												<TextBlock Text="{Binding .}" />
