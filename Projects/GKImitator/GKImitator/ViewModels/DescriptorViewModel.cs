@@ -97,6 +97,9 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.Off)
 				{
+					AdditionalShortParameters[0] = 0;
+					AdditionalShortParameters[1] = 0;
+					AdditionalShortParameters[2] = 0;
 					journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 					SetStateBit(GKStateBit.Attention, false);
 					SetStateBit(GKStateBit.Fire1, false);
