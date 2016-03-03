@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Windows.Media;
-using FiresecAPI.Automation;
 using FiresecAPI.Extensions;
 using System;
 using System.Collections.Generic;
@@ -206,7 +205,6 @@ namespace FiresecAPI.SKD
 			var balanceMoreThanMore = balance.TimeSpan > TimeSpan.Zero;
 			var balanceLessThanZero = balance.TimeSpan < TimeSpan.Zero;
 			var hasAbsence = absences.Any(x => x.TimeSpan != TimeSpan.Zero);
-
 
 			if (balanceEqualZero && !hasAbsence)
 				return Colors.White;
@@ -501,7 +499,7 @@ namespace FiresecAPI.SKD
 			return resultCollection;
 		}
 
-		private List<TimeTrackPart> TransferPresentToOvertime(List<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTime) //TODO: Create tests
+		private static List<TimeTrackPart> TransferPresentToOvertime(IEnumerable<TimeTrackPart> combinedTimeTrackParts, TimeSpan slideTime) //TODO: Create tests
 		{
 			var totalPresentTime = - slideTime;
 
@@ -543,14 +541,9 @@ namespace FiresecAPI.SKD
 			return resultCollection;
 		}
 
-		private TimeSpan GetSummOfPlannedTimeTrackParts(List<TimeTrackPart> plannedTimeTrackParts)
+		private static TimeSpan GetSummOfPlannedTimeTrackParts(IEnumerable<TimeTrackPart> plannedTimeTrackParts)
 		{
-			var result = new TimeSpan();
-			foreach (var plannedTimeTrackPart in plannedTimeTrackParts)
-			{
-				result += plannedTimeTrackPart.Delta;
-			}
-			return result;
+			return plannedTimeTrackParts.Aggregate(default(TimeSpan), (current, plannedTimeTrackPart) => current + plannedTimeTrackPart.Delta);
 		}
 
 		private List<TimeTrackPart> AdjustmentCombinedTimeTracks(List<TimeTrackPart> combinedTimeTrackParts, List<TimeTrackPart> plannedTimeTrackParts, TimeSpan slideTime)
@@ -919,21 +912,21 @@ namespace FiresecAPI.SKD
 		/// <returns>Возвращает тип интервала прохода для расчета баланса</returns>
 		public TimeTrackType GetTimeTrackType(TimeTrackPart timeTrackPart, List<TimeTrackPart> plannedTimeTrackParts, List<TimeTrackPart> realTimeTrackParts, ScheduleInterval schedulePlannedInterval, ScheduleInterval combinedInterval)
 		{
-			bool hasRealTimeTrack = false, hasPlannedTimeTrack = false;
-			hasRealTimeTrack = realTimeTrackParts
+			var hasRealTimeTrack = realTimeTrackParts
 				.Where(x => x.ExitDateTime.HasValue && !x.NotTakeInCalculations && x.IsForURVZone)
 				.Any(x => combinedInterval.EndTime != null
-					&& (x.ExitDateTime != null
-						&& (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+				          && (x.ExitDateTime != null
+				              && (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
 
-			hasPlannedTimeTrack = plannedTimeTrackParts
+			var hasPlannedTimeTrack = plannedTimeTrackParts
 				.Where(x => x.ExitDateTime.HasValue)
 				.Any(x =>
 					combinedInterval.EndTime != null &&
 					(x.ExitDateTime != null &&
-					(x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+					 (x.EnterDateTime.TimeOfDay <= combinedInterval.StartTime.TimeOfDay && x.ExitDateTime.Value.TimeOfDay >= combinedInterval.EndTime.Value.TimeOfDay)));
+
 			//Если есть интервал прохода сотрудника, который попадает в гафик работ, то "Явка"
-			if (hasRealTimeTrack && hasPlannedTimeTrack) //TODO: hasPlannedTimeTrack flag may be killed by inserting (timeTrackPart.StartTime >= schedulePlannedInterval.StartTime && timeTrackPart.EndTime <= schedulePlannedInterval.EndTime)
+			if (hasRealTimeTrack && hasPlannedTimeTrack)
 			{
 				return TimeTrackType.Presence;
 			}
@@ -1121,7 +1114,7 @@ namespace FiresecAPI.SKD
 					return timeTrack.Delta;
 
 				case TimeTrackType.Absence:
-					if (timeTrack.Delta.TotalMinutes >= AllowedAbsentLowThan)
+					if (timeTrack.Delta.TotalMinutes <= AllowedAbsentLowThan)
 					{
 						break;
 					}
@@ -1146,20 +1139,15 @@ namespace FiresecAPI.SKD
 		/// <param name="slideTime">Время скользящего графика в секундах (норма)</param>
 		/// <param name="plannedTimeTrackParts">Интервалы рабочего графика</param>
 		/// <returns>Баланс, вычисленный на основе скользящего графика</returns>
-		private TimeSpan GetBalanceForSlideTime(TimeSpan slideTime, List<TimeTrackPart> plannedTimeTrackParts) //TODO: refactoring
+		private static TimeSpan GetBalanceForSlideTime(TimeSpan slideTime, List<TimeTrackPart> plannedTimeTrackParts) //TODO: refactoring
 		{
 			const double tolerance = 0.0000001;
-			if (Math.Abs(slideTime.TotalSeconds) < tolerance && plannedTimeTrackParts.Any()) //если норма не указана и есть график работ
-			{
-				var result = new TimeSpan();
-				foreach (var plannedTimeTrackPart in plannedTimeTrackParts)
-				{
-					result -= plannedTimeTrackPart.Delta;
-				}
-				return result;
-			}
-			//если норма не указана и нет графика работ.
-			if (Math.Abs(slideTime.TotalSeconds) < tolerance)
+
+			if (Math.Abs(slideTime.TotalSeconds) < tolerance && plannedTimeTrackParts.Any())//если норма не указана и есть график работ
+				return plannedTimeTrackParts.Aggregate(default(TimeSpan), (current, plannedTimeTrackPart) => current - plannedTimeTrackPart.Delta);
+
+
+			if (Math.Abs(slideTime.TotalSeconds) < tolerance)//если норма не указана и нет графика работ.
 				return default(TimeSpan);
 
 			var balanceTimeSpan = new TimeSpan();
@@ -1192,7 +1180,7 @@ namespace FiresecAPI.SKD
 		/// <param name="isHoliday">Флаг выходного дня (праздника). true - выходной, false - нет</param>
 		/// <param name="error">Текст ошибки</param>
 		/// <returns>Возаращает тип интервала, для отображения в таблице УРВ</returns>
-		private TimeTrackType CalculateTimeTrackType(List<TimeTrackTotal> totals, List<TimeTrackPart> plannedTimeTrackParts, bool isHoliday, string error)
+		private static TimeTrackType CalculateTimeTrackType(List<TimeTrackTotal> totals, List<TimeTrackPart> plannedTimeTrackParts, bool isHoliday, string error)
 		{
 			if (!string.IsNullOrEmpty(error))
 				return TimeTrackType.None;
@@ -1235,7 +1223,7 @@ namespace FiresecAPI.SKD
 		}
 
 
-		private TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end, List<TimeTrackPart> realTimeTrackParts)
+		private static TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end, IEnumerable<TimeTrackPart> realTimeTrackParts)
 		{
 			var result = new TimeSpan();
 
@@ -1271,8 +1259,8 @@ namespace FiresecAPI.SKD
 		{
 			return timeTrackParts
 				.Where(x => x.ExitDateTime.HasValue)
-				.Where(x => (x.EnterDateTime.Date == date.Date && x.ExitDateTime.Value.Date > date.Date)
-							||(x.EnterDateTime.Date < date.Date && x.ExitDateTime.Value.Date > date.Date))
+				.Where(x => x.ExitDateTime != null && ((x.EnterDateTime.Date == date.Date && x.ExitDateTime.Value.Date > date.Date)
+				                                       ||(x.EnterDateTime.Date < date.Date && x.ExitDateTime.Value.Date > date.Date)))
 				.ToList();
 		}
 
@@ -1284,37 +1272,34 @@ namespace FiresecAPI.SKD
 			if (PlannedTimeTrackParts.Any())
 			{
 				if (DocumentTrackParts.Any())
-				{
 					LetterCode = GetMaxDocumentCode();
-				}
 				else
 				{
-					var totalAbsence = Totals.Where(x => x.TimeTrackType == TimeTrackType.EarlyLeave || x.TimeTrackType == TimeTrackType.Absence || x.TimeTrackType == TimeTrackType.Late).ToList();
+					var totalAbsence = Totals.Where(x => x.TimeTrackType == TimeTrackType.EarlyLeave
+														|| x.TimeTrackType == TimeTrackType.Absence
+														|| x.TimeTrackType == TimeTrackType.Late).ToList();
+
 					if (totalAbsence.Any(x => x.TimeSpan != default(TimeSpan)))
 					{
 						var tmp = totalAbsence.FirstOrDefault(x => x.TimeSpan == totalAbsence.Max(total => total.TimeSpan));
 						if (tmp != null)
-						{
 							LetterCode = GetLetterCodeFromAbcense(tmp.TimeTrackType);
-						}
 					}
 					else
-					{
-						LetterCode = SlideTime == TimeSpan.Zero ? PlannedTimeTrackParts.Sum(x => x.Delta.TotalHours).ToString("F") : SlideTime.TotalHours.ToString("F");
-					}
+						LetterCode = SlideTime == TimeSpan.Zero
+							? PlannedTimeTrackParts.Sum(x => x.Delta.TotalHours).ToString("F")
+							: SlideTime.TotalHours.ToString("F");
 				}
 			}
 			else
-			{
 				LetterCode = DocumentTrackParts.Any() ? GetMaxDocumentCode() : "В";
-			}
 
 			if (RealTimeTrackParts.Any(x => x.IsManuallyAdded))
 				LetterCode += "*";
 			//TODO: Add calculating for Tooltip
 		}
 
-		private string GetLetterCodeFromAbcense(TimeTrackType type)
+		private static string GetLetterCodeFromAbcense(TimeTrackType type)
 		{
 			switch (type)
 			{
@@ -1343,7 +1328,7 @@ namespace FiresecAPI.SKD
 			return timeTrackDocument !=null ? timeTrackDocument.TimeTrackDocumentType.ShortName : string.Empty;
 		}
 
-		private TimeTrackType GetTimeTrackTypeFromDocument(TimeTrackDocument document)
+		private static TimeTrackType GetTimeTrackTypeFromDocument(TimeTrackDocument document)
 		{
 			switch (document.TimeTrackDocumentType.DocumentType)
 			{
