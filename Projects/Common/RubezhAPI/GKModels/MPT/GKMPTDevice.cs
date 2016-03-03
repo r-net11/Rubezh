@@ -73,6 +73,7 @@ namespace RubezhAPI.GK
 					result.Add(GKDriverType.RSR2_AM_1);
 					result.Add(GKDriverType.RSR2_CardReader);
 					result.Add(GKDriverType.RSR2_CodeReader);
+					result.Add(GKDriverType.RSR2_CodeCardReader);
 					break;
 
 				case GKMPTDeviceType.Bomb:

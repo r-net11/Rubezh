@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 						}
 					}
 				}
-				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.Driver.IsCardReaderOrCodeReader)
 				{
 					var guardZoneDevice = Zone.GuardZoneDevices.FirstOrDefault(x => x.DeviceUID == device.UID);
 					if (guardZoneDevice != null)

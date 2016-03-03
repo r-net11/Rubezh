@@ -131,6 +131,7 @@
     <Compile Include="Drivers\RSR2\RSR2_Button_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KVDU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KVMV_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_CodeCardReader_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HandDetectorEridan_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HeatDetectorEridan_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_IOLIT_Helper.cs" />

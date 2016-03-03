@@ -54,6 +54,7 @@ namespace GKProcessor
 
 					case GKDriverType.RSR2_CodeReader:
 					case GKDriverType.RSR2_CardReader:
+					case GKDriverType.RSR2_CodeCardReader:
 						if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CanBeUsed)
 							SetGuardDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.SetGuardSettings));
 

@@ -225,5 +225,8 @@ namespace RubezhAPI.GK
 
 		[Description("МВК-2 R2")]
 		RSR2_MVK2_Group = 100,
+
+		[Description("НСЧ R2")]
+		RSR2_CodeCardReader = 101,
 	}
 }
