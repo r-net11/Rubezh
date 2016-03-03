@@ -29,9 +29,9 @@ namespace GKWebService.Controllers
 		[HttpGet]
 		public JsonResult GetGuardZones()
 		{
-			List<GuardZone> data = new List<GuardZone>();
-			GKManager.GuardZones.ForEach(x => data.Add(new GuardZone(x)));
-			return Json(data, JsonRequestBehavior.AllowGet);
+			List<GuardZone> guardZones = new List<GuardZone>();
+			GKManager.GuardZones.ForEach(x => guardZones.Add(new GuardZone(x)));
+			return Json(guardZones.OrderBy(x => x.No), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpGet]

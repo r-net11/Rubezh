@@ -27,7 +27,7 @@ namespace GKWebService.Controllers
 		{
 			var data = new List<Door>();
 			GKManager.Doors.ForEach(x => data.Add(new Door(x)));
-			return Json(data, JsonRequestBehavior.AllowGet);
+			return Json(data.OrderBy(x=> x.No), JsonRequestBehavior.AllowGet);
 		}
 
 		public JsonResult SetAutomaticState(Guid id)
