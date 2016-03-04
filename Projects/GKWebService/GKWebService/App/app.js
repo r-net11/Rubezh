@@ -11,11 +11,21 @@
 		'ui.grid.autoResize',
 		'ui.grid.selection',
 		'ui.tree',
-		'ui.grid.cellNav'
+		'ui.grid.cellNav',
+        'ui.grid.saveState',
+        'ui.grid.autoSizeColumn'
 	]);
 
 	angular.module('gkApp.directives', []);
 	angular.module('gkApp.controllers', ['ui.grid', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.grid.resizeColumns']);
 	angular.module('gkApp.services', ['SignalR']);
 
+	app.config(function ($httpProvider) {
+	    $httpProvider.interceptors.push('authInterceptorService');
+	});
+
+	app.run(['authService', function (authService) {
+	    authService.fillAuthData();
+	}]);
 }());
+

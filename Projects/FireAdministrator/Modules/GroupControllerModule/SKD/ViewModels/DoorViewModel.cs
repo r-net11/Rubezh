@@ -247,7 +247,7 @@ namespace GKModule.ViewModels
 
 		public string OpenRegimeLogicPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic.OnClausesGroup); }
 		}
 
 		public RelayCommand ChangeNormRegimeLogicCommand { get; private set; }
@@ -264,7 +264,7 @@ namespace GKModule.ViewModels
 
 		public string NormRegimeLogicPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(Door.NormRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.NormRegimeLogic.OnClausesGroup); }
 		}
 
 		public RelayCommand ChangeCloseRegimeLogicCommand { get; private set; }
@@ -281,7 +281,7 @@ namespace GKModule.ViewModels
 
 		public string CloseRegimeLogicPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic.OnClausesGroup); }
 		}
 
 		public bool IsOnPlan

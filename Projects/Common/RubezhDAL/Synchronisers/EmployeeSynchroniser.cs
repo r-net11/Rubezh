@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace RubezhDAL.DataClasses
 {
-    public class EmployeeSynchroniser : Synchroniser<RubezhAPI.SKD.ExportEmployee, Employee>
+	public class EmployeeSynchroniser : Synchroniser<RubezhAPI.SKD.ExportEmployee, Employee>
 	{
 		public EmployeeSynchroniser(DbSet<Employee> table, DbService databaseService) : base(table, databaseService) { }
 
-        public override RubezhAPI.SKD.ExportEmployee Translate(Employee item)
+		public override RubezhAPI.SKD.ExportEmployee Translate(Employee item)
 		{
-            return new RubezhAPI.SKD.ExportEmployee 
+			return new RubezhAPI.SKD.ExportEmployee 
 			{ 
 				FirstName = item.FirstName, 
 				SecondName = item.SecondName,
@@ -44,7 +44,7 @@ namespace RubezhDAL.DataClasses
 			};
 		}
 
-        protected override void UpdateForignKeys(RubezhAPI.SKD.ExportEmployee exportItem, Employee tableItem, OrganisationHRCash hrCash)
+		protected override void UpdateForignKeys(RubezhAPI.SKD.ExportEmployee exportItem, Employee tableItem, OrganisationHRCash hrCash)
 		{
 			tableItem.OrganisationUID = hrCash.OrganisationUID;
 			tableItem.PositionUID = GetUIDbyExternalKey(exportItem.PositionExternalKey, hrCash.Positions);
@@ -57,14 +57,14 @@ namespace RubezhDAL.DataClasses
 			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 		
-        public override void TranslateBack(RubezhAPI.SKD.ExportEmployee exportItem, Employee tableItem)
+		public override void TranslateBack(RubezhAPI.SKD.ExportEmployee exportItem, Employee tableItem)
 		{
 			tableItem.FirstName = exportItem.FirstName;
 			tableItem.SecondName = exportItem.SecondName;
 			tableItem.LastName = exportItem.LastName;
 			tableItem.CredentialsStartDate = exportItem.CredentialsStartDate.CheckDate();
 			tableItem.DocumentNumber = exportItem.DocumentNumber;
-            tableItem.BirthDate = tableItem.BirthDate.CheckDate();
+			tableItem.BirthDate = tableItem.BirthDate.CheckDate();
 			tableItem.BirthPlace = tableItem.BirthPlace;
 			tableItem.DocumentGivenDate = exportItem.DocumentGivenDate.CheckDate();
 			tableItem.DocumentGivenBy = exportItem.DocumentGivenBy;

@@ -55,7 +55,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (IsBiStateControl(device))
 			{
-				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Off };
+				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Automatic, CommandType.SetRegime_Off };
 				if (HasReset(device))
 					Commands.Add(CommandType.Reset);
 			}

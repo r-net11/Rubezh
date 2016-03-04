@@ -20,7 +20,7 @@ namespace RubezhAPI.Models
 			var zipConfigurationItems = new List<ZipConfigurationItem>();
 			//foreach (var zipConfigurationItem in ZipConfigurationItems)
 			//{
-			//    zipConfigurationItems.Add(new ZipConfigurationItem(zipConfigurationItem.Name, zipConfigurationItem.MajorVersion, zipConfigurationItem.MinorVersion));
+			//	zipConfigurationItems.Add(new ZipConfigurationItem(zipConfigurationItem.Name, zipConfigurationItem.MajorVersion, zipConfigurationItem.MinorVersion));
 			//}
 			foreach (var name in GetWellKnownNames())
 			{

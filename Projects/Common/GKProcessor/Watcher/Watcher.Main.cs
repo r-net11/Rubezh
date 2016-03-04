@@ -488,7 +488,7 @@ namespace GKProcessor
 			};
 			//var gkIpAddress = GkDatabase.RootDevice.GetGKIpAddress();
 			//if (!string.IsNullOrEmpty(gkIpAddress))
-			//    journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
+			//	journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 

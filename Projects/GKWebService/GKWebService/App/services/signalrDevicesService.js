@@ -1,6 +1,6 @@
 ﻿(function () {
 
-	var app = angular.module('gkApp.services')
+	angular.module('gkApp.services')
 	.factory('signalrDevicesService', ['Hub', 'broadcastService', function (Hub, broadcastService) {
 
 		var devicesHub = new Hub('devicesUpdater', {

@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="AutomationModule.Views.RviOpenWindowStepView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
+
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Название раскладки в Rvi" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Row="0" Grid.Column="1" DataContext="{Binding NameArgument}" />
+
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Сдвиг по оси X" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Row="1" Grid.Column="1" DataContext="{Binding XArgument}" />
+		
+		<TextBlock Grid.Row="2" Grid.Column="0" Text="Сдвиг по оси Y" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Row="2" Grid.Column="1" DataContext="{Binding YArgument}" />
+
+		<TextBlock Grid.Row="3" Grid.Column="0" Text="Номер монитора" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Row="3" Grid.Column="1" DataContext="{Binding MonitorNumberArgument}" />
+
+		<TextBlock Grid.Row="4" Grid.Column="0" Text="Ip-адрес рабочего места" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Row="4" Grid.Column="1" DataContext="{Binding IpArgument}" />
+		
+		<TextBlock Grid.Row="5" Grid.Column="0" Text="Логин пользователя" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<Views:ArgumentView Grid.Row="5" Grid.Column="1" DataContext="{Binding LoginArgument}" />
+	</Grid>
+</UserControl>

@@ -158,6 +158,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public double FloatValue
+		{
+			get { return ExplicitValue.FloatValue; }
+			set
+			{
+				ExplicitValue.FloatValue = value;
+				OnPropertyChanged(() => FloatValue);
+			}
+		}
+
 		int _minIntValue;
 		public int MinIntValue
 		{

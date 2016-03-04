@@ -68,8 +68,6 @@ namespace Infrastructure.Automation
 						var value = OpcDaHelper.GetTagValue(opcTagFilter.TagUID);
 						if (opcTagFilter.CheckCondition(value))
 						{
-							opcTagFilter.Value = value;
-							//clientUID = Guid.Parse("aefd988b-39f2-47e2-80ee-2622750b34a7");
 							RunProcedure(procedure, new List<Argument>(), null, user, null, clientUID);
 						}
 					}
@@ -79,7 +77,7 @@ namespace Infrastructure.Automation
 
 		public static void RunOnServerRun()
 		{
-			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) RunProcedure(x, new List<Argument>(), null, null); });
+			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer && x.ContextType == ContextType.Server) RunProcedure(x, new List<Argument>(), null, null); });
 		}
 
 		public static void RunProcedure(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)

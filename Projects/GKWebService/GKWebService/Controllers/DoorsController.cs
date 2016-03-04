@@ -9,7 +9,8 @@ using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
-    public class DoorsController : Controller
+	[Authorize]
+	public class DoorsController : Controller
     {
         // GET: Doors
         public ActionResult Door()
@@ -77,12 +78,12 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult TurnOnNow(Guid id)
+		public JsonResult TurnOffNow(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKTurnOnNow(door);
+				ClientManager.FiresecService.GKTurnOffNow(door);
 			}
 
 			return new JsonResult();
@@ -101,12 +102,12 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult ForbidStart(Guid id)
+		public JsonResult Reset(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKStop(door);
+				ClientManager.FiresecService.GKReset(door);
 			}
 
 			return new JsonResult();

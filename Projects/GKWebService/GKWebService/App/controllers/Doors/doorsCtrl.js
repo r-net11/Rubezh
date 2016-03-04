@@ -1,8 +1,8 @@
 ﻿(function () {
     var app = angular.module('gkApp.controllers');
     app.controller('doorsCtrl',
-        ['$scope', '$http', '$timeout', '$uibModal', '$state', '$stateParams', 'signalrDoorsService', 'broadcastService', 'dialogService', 'constants',
-        function ($scope, $http, $timeout, $uibModal, $state,  $stateParams, signalrDoorsService, broadcastService, dialogService, constants) {
+        ['$scope', '$http', '$timeout', '$uibModal', '$state', '$stateParams', 'signalrDoorsService','signalrDevicesService', 'dialogService', 'constants',
+        function ($scope, $http, $timeout, $uibModal, $state,  $stateParams, signalrDoorsService,signalrDevicesService, dialogService, constants) {
             $scope.uiGrid = {
                 enableRowSelection: true,
                 enableRowHeaderSelection: false,
@@ -18,23 +18,25 @@
                 },
 
                 columnDefs: [
-                    { field: 'No', enableColumnResizing: false, displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
-                    { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ng-click="grid.appScope.doorClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
-                    { field: 'DoorTypeString', width: Math.round(($(window).width() - 525) / 2), displayName: 'Тип точки доступа' },
-                    { field: 'Desription', enableColumnResizing: false, displayName: 'Примечание' }
+                    { field: 'No', displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
+                    { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.doorClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
+                    { field: 'DoorTypeString', width: Math.round(($(window).width() - 1000) / 2), displayName: 'Тип точки доступа' },
+                    { field: 'Desription', enableColumnResizing: false, displayName: 'Примечание', minWidth: 150 }
                 ]
             };
 
             $scope.gridStyle = function () {
-            	var ctrlHeight = window.innerHeight - 265;
+            	var ctrlHeight = window.innerHeight - 320;
             	return "height:" + ctrlHeight + "px";
             }();
 
             $scope.$on('doorChanged', function (event, args) {
                 for (var i in $scope.uiGrid.data) {
                     if (args.UID === $scope.uiGrid.data[i].UID) {
+                        $scope.gridState = $scope.gridApi.saveState.save();
                         $scope.uiGrid.data[i] = args;
                         $scope.$apply();
+                        $scope.gridApi.saveState.restore($scope, $scope.gridState);
                         break;
                     }
                 }
@@ -78,15 +80,43 @@
             //    }
             //};
 
-            //$scope.$on('deviceChanged', function (event, args) {
-            //    if(  $scope.selectedRow.exitDeviceShow && $scope.selectedRow.exitDevice.UID === args.UID)
-            //        deviceChange($scope.selectedRow.exitDeviceShow, args)
-
-            //});
-
-            //function deviceChange(obj1, obj2) {
-                
-            //}
+            signalrDevicesService.onDeviceChanged(function (event, args) {
+                for (var i in $scope.uiGrid.data) {
+                    if ($scope.uiGrid.data[i].ExitDevice && $scope.uiGrid.data[i].ExitDevice.UID === args.UID) {
+                        $scope.uiGrid.data[i].ExitDevice.StateIcon = args.StateIcon;
+                        break;
+                    }
+                    if ($scope.uiGrid.data[i].EnterDevice && $scope.uiGrid.data[i].EnterDevice.UID === args.UID) {
+                        $scope.uiGrid.data[i].EnterDevice.StateIcon = args.StateIcon;
+                        break;
+                    }
+                    if ($scope.uiGrid.data[i].EnterButton && $scope.uiGrid.data[i].EnterButton.UID === args.UID) {
+                        $scope.uiGrid.data[i].EnterButton.StateIcon = args.StateIcon;
+                        break
+                    }
+                    if ($scope.uiGrid.data[i].ExitButton && $scope.uiGrid.data[i].ExitButton.UID === args.UID) {
+                        $scope.uiGrid.data[i].ExitButton.StateIcon = args.StateIcon;
+                        break
+                    }
+                    if ($scope.uiGrid.data[i].LockDevice && $scope.uiGrid.data[i].LockDevice.UID === args.UID) {
+                        $scope.uiGrid.data[i].LockDevice.StateIcon = args.StateIcon;
+                        break
+                    }
+                    if ($scope.uiGrid.data[i].LockDeviceExit && $scope.uiGrid.data[i].LockDeviceExit.UID === args.UID) {
+                        $scope.uiGrid.data[i].LockDeviceExit.StateIcon = args.StateIcon;
+                        break
+                    }
+                    if ($scope.uiGrid.data[i].LockControlDevice && $scope.uiGrid.data[i].LockControlDevice.UID === args.UID) {
+                        $scope.uiGrid.data[i].LockControlDevice.StateIcon = args.StateIcon;
+                        break
+                    }
+                    if ($scope.uiGrid.data[i].LockControlDeviceExit && $scope.uiGrid.data[i].LockControlDeviceExit.UID === args.UID) {
+                        $scope.uiGrid.data[i].LockControlDeviceExit.StateIcon = args.StateIcon;
+                        break
+                    }
+                }
+                $scope.$apply();
+            });
 
             $scope.doorClick = function (door) {
                 dialogService.showWindow(constants.gkObject.door, door);
@@ -103,6 +133,7 @@
                             $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
                         }
                     }
+                    $scope.gridApi.autoSize.fit($scope.uiGrid.columnDefs[0]);
                 });
             });
 

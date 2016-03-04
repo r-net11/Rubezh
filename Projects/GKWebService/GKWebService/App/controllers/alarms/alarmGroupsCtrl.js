@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module("gkApp").controller("alarmGroupsCtrl",
-        ['$scope', '$http', '$sce', '$state', 'signalrAlarmsService', 'broadcastService',
-            function ($scope, $http, $sce, $state, signalrAlarmsService, broadcastService) {
+        ['$scope', '$http', '$sce', '$state', 'signalrAlarmsService', 'broadcastService', 'authService',
+            function ($scope, $http, $sce, $state, signalrAlarmsService, broadcastService, authService) {
             	$scope.resetTooltip = $sce.trustAsHtml('<span class="tooltipLine" style="background-image: url(/Content/Image/Images/BReset.png);">Сбросить все</span>');
                 
                 $http.get('Alarms/GetAlarmGroups').success(function (data, status, headers, config) {
@@ -16,6 +16,10 @@
                     $scope.model = args.groups;
                     $scope.$apply();
                 });
+
+                $scope.isAuth = function() {
+                    return authService.authentication.isAuth;
+                };
 
                 $scope.ShowClick = function (group) {
                     $state.go('state', { alarmType: group.AlarmType });
@@ -35,7 +39,7 @@
                 $scope.getGroupTooltip = function (group) {
                 	var result = '<span class="tooltipLine" style="background-image: url(/Content/Image/Icon/GKStateIcons/' + group.AlarmImageSource + '.png)">' + group.AlarmName + '</span>';
                     angular.forEach(group.Alarms, function (alarm) {
-                    	result += '<span class="tooltipLine"style="background-image: url(/Content/Image/' + alarm.ObjectImageSource + '.png)">' + alarm.ObjectName + '</span>';
+                    	result += '<span class="tooltipLine"style="background-image: url(/Content/Image/' + alarm.ObjectImageSource + ')">' + alarm.ObjectName + '</span>';
                     });
                     return $sce.trustAsHtml(result);
                 };

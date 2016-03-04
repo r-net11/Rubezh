@@ -4,12 +4,16 @@
         function ($scope, $uibModalInstance, $http, $state, signalrDoorsService, entity) {
 
             $scope.door = entity;
+            $scope.fulControl =  entity.FullCanControl;
+            $scope.canControl = !$scope.fulControl;
             $scope.$on('doorChanged', function(event, args) {
                 if (args.UID === $scope.door.UID) {
                     $scope.door = args;
                     $scope.$apply();
                 };
             });
+
+            
 
             $scope.SetAutomaticState = function() {
                 $http.post('Doors/SetAutomaticState', { id: $scope.door.UID });
@@ -27,8 +31,8 @@
                 $http.post('Doors/TurnOn', { id: $scope.door.UID });
             };
 
-            $scope.TurnOnNow = function() {
-                $http.post('Doors/TurnOnNow', { id: $scope.door.UID });
+            $scope.TurnOffNow = function () {
+                $http.post('Doors/TurnOffNow', { id: $scope.door.UID });
             };
 
             $scope.TurnOff = function() {

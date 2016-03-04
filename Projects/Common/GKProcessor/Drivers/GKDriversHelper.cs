@@ -104,37 +104,37 @@ namespace GKProcessor
 			driver.AvailableStateBits.Add(stateType);
 		}
 
-	    public static void AddRadioChanelProperties(GKDriver driver)
-	    {
-            AddIntProprety(driver, 0, "Младшее слово привязки", 1, 0, 255);
-            AddIntProprety(driver, 1, "Старшее слово привязки", 0, 0, 255);
+		public static void AddRadioChanelProperties(GKDriver driver)
+		{
+			AddIntProprety(driver, 0, "Младшее слово привязки", 1, 0, 65535);
+			AddIntProprety(driver, 1, "Старшее слово привязки", 0, 0, 65535);
 
-            var property1 = new GKDriverProperty()
-            {
-                No = 2,
-                Name = "Секунда периода (не более ПЕРИОД - 1)",
-                Caption = "Секунда периода (не более ПЕРИОД - 1)",
-                Default = 0,
-                DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
-                IsLowByte = true,
-                Min = 0,
-                Max = 120
-            };
-            driver.Properties.Add(property1);
+			var property1 = new GKDriverProperty()
+			{
+				No = 2,
+				Name = "Секунда периода (не более ПЕРИОД - 1)",
+				Caption = "Секунда периода (не более ПЕРИОД - 1)",
+				Default = 0,
+				DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
+				IsLowByte = true,
+				Min = 0,
+				Max = 120
+			};
+			driver.Properties.Add(property1);
 
-            var property2 = new GKDriverProperty()
-            {
-                No = 2,
-                Name = "Окно",
-                Caption = "Окно",
-                Default = 1,
-                DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
-                IsHieghByte = true,
-                Min = 1,
-                Max = 8
-            };
-            driver.Properties.Add(property2);
-	    }
+			var property2 = new GKDriverProperty()
+			{
+				No = 2,
+				Name = "Окно",
+				Caption = "Окно",
+				Default = 1,
+				DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
+				IsHieghByte = true,
+				Min = 1,
+				Max = 8
+			};
+			driver.Properties.Add(property2);
+		}
 
 		public static void AddControlAvailableStates(GKDriver driver)
 		{

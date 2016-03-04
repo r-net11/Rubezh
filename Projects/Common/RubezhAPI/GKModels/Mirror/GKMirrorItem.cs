@@ -77,7 +77,7 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public List<Guid> GuardZoneUIDs { get; set; }
 
-	    [DataMember]
+		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
 
 		[DataMember]

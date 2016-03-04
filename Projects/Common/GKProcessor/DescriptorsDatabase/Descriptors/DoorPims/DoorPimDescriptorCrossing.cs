@@ -29,10 +29,9 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes(0x107);
 			SetAddress(0);
-			SetFormulaBytes();
 		}
 
-		void SetFormulaBytes()
+		public override void BuildFormula()
 		{
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))

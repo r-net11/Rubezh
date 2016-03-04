@@ -124,7 +124,7 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(PumpStation.StartLogic); }
+			get { return GKManager.GetPresentationLogic(PumpStation.StartLogic.OnClausesGroup); }
 		}
 
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 
 		public string StopPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(PumpStation.StopLogic); }
+			get { return GKManager.GetPresentationLogic(PumpStation.StopLogic.OnClausesGroup); }
 		}
 
 		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
@@ -158,7 +158,7 @@ namespace GKModule.ViewModels
 
 		public string AutomaticOffPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(PumpStation.AutomaticOffLogic); }
+			get { return GKManager.GetPresentationLogic(PumpStation.AutomaticOffLogic.OnClausesGroup); }
 		}
 	}
 }

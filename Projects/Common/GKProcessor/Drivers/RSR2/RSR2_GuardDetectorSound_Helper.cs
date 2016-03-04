@@ -14,17 +14,17 @@ namespace GKProcessor
 				UID = new Guid("38618571-FA63-4a8f-9D39-F16E36567E32"),
 				Name = "Извещатель охранный поверхностнозвуковой R2",
 				ShortName = "ИО-ПЗ R2",
-				IsControlDevice = true,
 				HasGuardZone = true,
 				HasZone = false,
 				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
+			driver.AvailableStateBits.Add(GKStateBit.Off);
 
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);

@@ -73,6 +73,7 @@ namespace FireMonitor
 						((SafeFiresecService)ClientManager.FiresecService).StopRecord,
 						((SafeFiresecService)ClientManager.FiresecService).Ptz,
 						((SafeFiresecService)ClientManager.FiresecService).RviAlarm,
+						((SafeFiresecService)ClientManager.FiresecService).RviOpenWindow,
 						((SafeFiresecService)ClientManager.FiresecService).ControlFireZone,
 						((SafeFiresecService)ClientManager.FiresecService).ControlGuardZone,
 						((SafeFiresecService)ClientManager.FiresecService).ControlDirection,
@@ -201,7 +202,7 @@ namespace FireMonitor
 							() =>
 								AlarmPlayerHelper.Play(
 									FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())),
-									BeeperType.Alarm, false));
+									BeeperType.None, false));
 					break;
 				case AutomationCallbackType.Message:
 					var messageData = (MessageCallbackData)automationCallbackResult.Data;

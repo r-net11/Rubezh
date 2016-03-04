@@ -9,7 +9,8 @@ using System.Web.Mvc;
 
 namespace GKWebService.Controllers
 {
-    public class MPTsController : Controller
+	[Authorize]
+	public class MPTsController : Controller
     {
         // GET: MPTs
 		public ActionResult Index()

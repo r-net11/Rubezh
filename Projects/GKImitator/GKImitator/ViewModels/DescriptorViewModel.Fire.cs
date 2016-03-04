@@ -29,37 +29,29 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetFireSmokeCommand { get; private set; }
 		void OnSetFireSmoke()
 		{
-			SetStateBit(GKStateBit.Fire1, true);
 			var journalItem = new ImitatorJournalItem(2, 2, 2, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Fire1, true, journalItem);
 		}
 
 		public RelayCommand SetFireTemperatureCommand { get; private set; }
 		void OnSetFireTemperature()
 		{
-			SetStateBit(GKStateBit.Fire1, true);
 			var journalItem = new ImitatorJournalItem(2, 2, 3, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Fire1, true, journalItem);
 		}
 
 		public RelayCommand SetFireTemperatureGradientCommand { get; private set; }
 		void OnSetFireTemperatureGradient()
 		{
-			SetStateBit(GKStateBit.Fire1, true);
 			var journalItem = new ImitatorJournalItem(2, 2, 4, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Fire1, true, journalItem);
 		}
 
 		public RelayCommand SetFireHeandDetectorCommand { get; private set; }
 		void OnSetFireHeandDetector()
 		{
-			SetStateBit(GKStateBit.Fire2, true);
 			var journalItem = new ImitatorJournalItem(2, 3, 1, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Fire2, true, journalItem);
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }
@@ -71,7 +63,6 @@ namespace GKImitator.ViewModels
 			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 			AddJournalItem(journalItem);
 			RecalculateOutputLogic();
-			RecalculateCurrentLogic();
 		}
 
 		public bool HasReset { get; private set; }
@@ -79,25 +70,21 @@ namespace GKImitator.ViewModels
 		public RelayCommand SetFire1Command { get; private set; }
 		void OnSetFire1()
 		{
-			var fireState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Fire1);
-			if (HasFire12 && fireState != null && !fireState.IsActive)
+			if(CanDo(GKStateBit.Fire1))
 			{
-				SetStateBit(GKStateBit.Fire1, true);
 				SetStateBit(GKStateBit.Fire2, false);
-				var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
-				AddJournalItem(journalItem);
-				RecalculateOutputLogic();
+				SetStateBit(GKStateBit.Fire1, true);
 			}
 		}
 
 		public RelayCommand SetFire2Command { get; private set; }
 		void OnSetFire2()
 		{
-			SetStateBit(GKStateBit.Fire1, false);
-			SetStateBit(GKStateBit.Fire2, true);
-			var journalItem = new ImitatorJournalItem(2, 3, 0, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			if (CanDo(GKStateBit.Fire2))
+			{
+				SetStateBit(GKStateBit.Fire1, false);
+				SetStateBit(GKStateBit.Fire2, true);
+			}
 		}
 
 		bool CanSetFire()
@@ -106,5 +93,6 @@ namespace GKImitator.ViewModels
 			return ignoreState == null || !ignoreState.IsActive;
 		}
 		public bool HasFire12 { get; private set; }
+		public bool HasAlarm { get; private set; }
 	}
 }

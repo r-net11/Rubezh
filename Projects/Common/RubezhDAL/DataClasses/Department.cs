@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RubezhDAL.DataClasses
 {
-    public class Department : IOrganisationItem, IExternalKey
+	public class Department : IOrganisationItem, IExternalKey
 	{
 		public Department()
 		{
@@ -36,7 +36,7 @@ namespace RubezhDAL.DataClasses
 		[InverseProperty("ParentDepartment")]
 		public ICollection<Department> ChildDepartments { get; set; }
 
-        [InverseProperty("Department")]
+		[InverseProperty("Department")]
 		public ICollection<Employee> Employees { get; set; }
 
 		public Guid? ChiefUID { get; set; }

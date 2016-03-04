@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using GKImitator.Processor;
 using RubezhAPI.GK;
 using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
@@ -46,7 +48,8 @@ namespace GKImitator.ViewModels
 						{
 							foreach (var descriptor in Descriptors)
 							{
-								descriptor.CheckDelays();
+								if (!(descriptor.GKBase is GKPim) && !(descriptor.GKBase is GKDoor && descriptor.Regime == Regime.Manual))
+									descriptor.CheckDelays();
 							}
 						}
 						));
@@ -67,20 +70,20 @@ namespace GKImitator.ViewModels
 					var binObjectViewModel = new DescriptorViewModel(descriptor);
 					Descriptors.Add(binObjectViewModel);
 				}
-			}
-			SelectedDescriptor = Descriptors.FirstOrDefault();
 
-			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
-			{
-				foreach (var descriptor in kauDatabase.Descriptors)
+				foreach (var kauDatabase in gkDatabase.KauDatabases)
 				{
-					var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptor.GKBase.GKDescriptorNo);
-					if (descriptorViewModel != null)
+					foreach (var descriptor in kauDatabase.Descriptors)
 					{
-						descriptorViewModel.SetKauDescriptor(descriptor);
+						var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptor.GKBase.GKDescriptorNo);
+						if (descriptorViewModel != null)
+						{
+							descriptorViewModel.SetKauDescriptor(descriptor);
+						}
 					}
 				}
 			}
+			SelectedDescriptor = Descriptors.FirstOrDefault();
 		}
 
 		List<DescriptorViewModel> _descriptors;

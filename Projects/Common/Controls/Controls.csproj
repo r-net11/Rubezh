@@ -131,6 +131,7 @@
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\MultiParameterConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
+    <Compile Include="Converters\RviStatusToDescriptionConverter.cs" />
     <Compile Include="Converters\RviStatusToIconConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\StringToSingleLineString.cs" />
@@ -2697,6 +2698,27 @@
     <Resource Include="GKIcons\RK_RM.png" />
     <Resource Include="GKIcons\RK_SmokeDetector.png" />
     <Resource Include="GKIcons\RSR2_MRK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MVK2_Group.png" />
+    <Resource Include="GKIcons\RSR2_MVK4_Group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RviStatusIcons\IsRecordOnline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RviStatusIcons\IsOnGuard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\CreateColor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RviDevicesIcons\Camera.png" />
+    <Resource Include="RviDevicesIcons\Device.png" />
+    <Resource Include="RviDevicesIcons\Server.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

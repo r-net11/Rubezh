@@ -15,7 +15,7 @@ namespace Controls
 
 			var passwordBox = new PasswordBox();
 			passwordBox.ContextMenu = null;
-            passwordBox.PasswordChanged += savedCallback;
+			passwordBox.PasswordChanged += savedCallback;
 			Child = passwordBox;
 		}
 

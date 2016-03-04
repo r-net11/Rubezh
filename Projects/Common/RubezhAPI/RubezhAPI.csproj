@@ -165,9 +165,11 @@
     <Compile Include="Models\Automation\OPC DA\OpcDaTagValue.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcServerStructure.cs" />
     <Compile Include="Models\Automation\OPCTagFilters\OpcDaTagFilter.cs" />
+    <Compile Include="Models\Automation\StepArguments\CreateColorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlElementType.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RviOpenWindowArguments.cs" />
     <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="Models\Video\RviDevice.cs" />

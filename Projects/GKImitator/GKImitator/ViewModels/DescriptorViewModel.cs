@@ -8,23 +8,26 @@ using GKProcessor;
 using Infrastructure.Common;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows;
+using RubezhAPI.Journal;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
-    public partial class DescriptorViewModel : BaseViewModel
+	public partial class DescriptorViewModel : BaseViewModel
 	{
 		public BaseDescriptor GKBaseDescriptor { get; private set; }
 		public BaseDescriptor KauBaseDescriptor { get; private set; }
 		public GKBase GKBase { get { return GKBaseDescriptor.GKBase; } }
-		public int DescriptorNo { get; private set; }
+		public int GKDescriptorNo { get; private set; }
+		public int KauDescriptorNo { get; private set; }
 		public ushort TypeNo { get; private set; }
 		readonly List<ushort> AdditionalShortParameters;
 
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
 			GKBaseDescriptor = descriptor;
-			DescriptorNo = descriptor.GetDescriptorNo();
+			GKDescriptorNo = descriptor.GKBase.GKDescriptorNo;
+			KauDescriptorNo = descriptor.GKBase.KAUDescriptorNo;
 
 			SetAutomaticRegimeCommand = new RelayCommand(OnSetAutomaticRegime);
 			SetManualRegimeCommand = new RelayCommand(OnSetManualRegime);
@@ -48,6 +51,91 @@ namespace GKImitator.ViewModels
 			{
 				AdditionalShortParameters.Add(0);
 			}
+		}
+
+		void OnStateBitChanged(GKStateBit stateBit, bool isActive, ImitatorJournalItem additionalJournalItem = null)
+		{
+			ImitatorJournalItem journalItem = null;
+			if (isActive)
+			{
+				CurrentOnDelay = 0;
+				CurrentOffDelay = 0;
+				CurrentHoldDelay = 0;
+				TurningState = TurningState.None;
+
+				if (stateBit == GKStateBit.On)
+				{
+					journalItem = new ImitatorJournalItem(2, 9, 2, 0);
+					if (HoldDelay != 0)
+					{
+						CurrentHoldDelay = HoldDelay;
+						TurningState = TurningState.Holding;
+					}
+				}
+
+				if (stateBit == GKStateBit.TurningOn)
+				{
+					journalItem = new ImitatorJournalItem(2, 9, 4, 0);
+					if (OnDelay != 0)
+					{
+						CurrentOnDelay = OnDelay;
+						TurningState = TurningState.TurningOn;
+					}
+				}
+
+				if (stateBit == GKStateBit.TurningOff)
+				{
+					journalItem = new ImitatorJournalItem(2, 9, 5, 0);
+					if (OffDelay != 0)
+					{
+						CurrentOffDelay = OffDelay;
+						TurningState = TurningState.TurningOff;
+						SetStateBit(GKStateBit.Fire1, false);
+						SetStateBit(GKStateBit.Fire2, false);
+					}
+				}
+
+				if (stateBit == GKStateBit.Off)
+				{
+					AdditionalShortParameters[0] = 0;
+					AdditionalShortParameters[1] = 0;
+					AdditionalShortParameters[2] = 0;
+					journalItem = new ImitatorJournalItem(2, 9, 3, 3);
+					SetStateBit(GKStateBit.Attention, false);
+					SetStateBit(GKStateBit.Fire1, false);
+					SetStateBit(GKStateBit.Fire2, false);
+				}
+
+				if (stateBit == GKStateBit.Norm)
+				{
+					journalItem = new ImitatorJournalItem(2, 14, 0, 0);
+				}
+
+				if (stateBit == GKStateBit.Fire1)
+				{
+					journalItem = new ImitatorJournalItem(2, 2, 0, 0);
+				}
+
+				if (stateBit == GKStateBit.Fire2)
+				{
+					journalItem = new ImitatorJournalItem(2, 3, 0, 0);
+				}
+
+				if (stateBit == GKStateBit.Ignore)
+				{
+					journalItem = new ImitatorJournalItem(2, 10, 2, 0);
+				}
+
+				if (stateBit == GKStateBit.Attention)
+				{
+					journalItem = new ImitatorJournalItem(2, 4, 0, 0);
+				}
+
+				AddJournalItem(additionalJournalItem ?? journalItem);
+			}
+			
+			if (additionalJournalItem != null || journalItem != null)
+				RecalculateOutputLogic();
 		}
 
 		void InitializeTypeNo()
@@ -86,12 +174,9 @@ namespace GKImitator.ViewModels
 		void OnSetAutomaticRegime()
 		{
 			Regime = Regime.Automatic;
-			SetStateBit(GKStateBit.Norm, true);
-			SetStateBit(GKStateBit.Ignore, false);
 			var journalItem = new ImitatorJournalItem(2, 10, 0, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
-			RecalculateCurrentLogic();
+			SetStateBit(GKStateBit.Ignore, false);
+			SetStateBit(GKStateBit.Norm, true, journalItem);
 		}
 
 		public bool CanSetAutomaticRegime
@@ -120,13 +205,10 @@ namespace GKImitator.ViewModels
 		{
 			Regime = Regime.Ignore;
 			SetStateBit(GKStateBit.Norm, false);
-			SetStateBit(GKStateBit.Ignore, true);
 			SetStateBit(GKStateBit.Attention, false);
 			SetStateBit(GKStateBit.Fire1, false);
 			SetStateBit(GKStateBit.Fire2, false);
-			var journalItem = new ImitatorJournalItem(2, 10, 2, 0);
-			AddJournalItem(journalItem);
-			RecalculateOutputLogic();
+			SetStateBit(GKStateBit.Ignore, true);
 		}
 
 		public bool CanSetIgnoreRegime
@@ -170,41 +252,49 @@ namespace GKImitator.ViewModels
 		public int CurrentCardNo { get; set; }
 
 		public bool HasCard { get; private set; }
-
-		public List<byte> GetStateBytes(int no)
+		public List<byte> GetStateBytes(int no, DatabaseType databaseType)
 		{
-			var result = new List<byte>();
-
-			result.AddRange(ToBytes((short)TypeNo));
-
-			var controllerAddress = GKBaseDescriptor.ControllerAdress;
-			result.AddRange(ToBytes((short)controllerAddress));
-
-			var addressOnController = GKBaseDescriptor.AdressOnController;
-			result.AddRange(ToBytes((short)addressOnController));
-
-			var physicalAddress = GKBaseDescriptor.PhysicalAdress;
-			result.AddRange(ToBytes((short)physicalAddress));
-
-			result.AddRange(GKBaseDescriptor.Description);
-
-			var serialNo = 0;
-			result.AddRange(IntToBytes(serialNo));
-
-			result.AddRange(IntToBytes(StatesToInt()));
-
-			foreach (var additionalShortParameter in AdditionalShortParameters)
+			lock (locker)
 			{
-				result.AddRange(ShortToBytes(additionalShortParameter));
-			}
+				var result = new List<byte>();
 
-			if(HasCard)
-			{
-				result.RemoveRange(52, 4);
-				result.InsertRange(52, IntToBytes(CurrentCardNo));
-			}
+				result.AddRange(ToBytes((short) TypeNo));
 
-			return result;
+				if (databaseType == DatabaseType.Gk)
+				{
+					var controllerAddress = GKBaseDescriptor.ControllerAdress;
+					result.AddRange(ToBytes((short) controllerAddress));
+
+					var addressOnController = GKBaseDescriptor.AdressOnController;
+					result.AddRange(ToBytes((short) addressOnController));
+				}
+
+				var physicalAddress = GKBaseDescriptor.PhysicalAdress;
+				result.AddRange(ToBytes((short) physicalAddress));
+
+				if (databaseType == DatabaseType.Gk)
+				{
+					result.AddRange(GKBaseDescriptor.Description);
+				}
+
+				var serialNo = 0;
+				result.AddRange(IntToBytes(serialNo));
+
+				result.AddRange(IntToBytes(StatesToInt()));
+
+				foreach (var additionalShortParameter in AdditionalShortParameters)
+				{
+					result.AddRange(ShortToBytes(additionalShortParameter));
+				}
+
+				if (HasCard)
+				{
+					result.RemoveRange(52, 4);
+					result.InsertRange(52, IntToBytes(CurrentCardNo));
+				}
+
+				return result;
+			}
 		}
 
 		List<byte> ToBytes(short shortValue)

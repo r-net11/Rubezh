@@ -174,7 +174,7 @@ namespace SettingsModule.ViewModels
 				DbConnectionString = GlobalSettingsHelper.GlobalSettings.DbSettings.ConnectionString;
 				Login = GlobalSettingsHelper.GlobalSettings.DbSettings.UserName;
 				Password = GlobalSettingsHelper.GlobalSettings.DbSettings.Password;
-				IsSQLAuthentication = !GlobalSettingsHelper.GlobalSettings.DbSettings.IsSQLAuthentication;
+				IsSQLAuthentication = GlobalSettingsHelper.GlobalSettings.DbSettings.IsSQLAuthentication;
 				DbName = GlobalSettingsHelper.GlobalSettings.DbSettings.DbName;
 				DataSource = GlobalSettingsHelper.GlobalSettings.DbSettings.DataSource;
 			}
@@ -183,7 +183,7 @@ namespace SettingsModule.ViewModels
 				DbConnectionString = GlobalSettingsHelper.GlobalSettings.DbSettings.ConnectionString;
 				Login = GlobalSettingsHelper.GlobalSettings.DbSettings.UserName;
 				Password = GlobalSettingsHelper.GlobalSettings.DbSettings.Password;
-				IsSQLAuthentication = !GlobalSettingsHelper.GlobalSettings.DbSettings.IsSQLAuthentication;
+				IsSQLAuthentication = GlobalSettingsHelper.GlobalSettings.DbSettings.IsSQLAuthentication;
 				DbName = GlobalSettingsHelper.GlobalSettings.DbSettings.DbName;
 				Server = GlobalSettingsHelper.GlobalSettings.DbSettings.Server;
 				Port = GlobalSettingsHelper.GlobalSettings.DbSettings.Port;

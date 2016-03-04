@@ -3,7 +3,7 @@ using RubezhAPI.GK;
 
 namespace GKProcessor
 {
-    public static class RK_RM_Helper
+	public static class RK_RM_Helper
 	{
 		public static GKDriver Create()
 		{
@@ -27,7 +27,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
 
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
@@ -35,7 +35,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
-            GKDriversHelper.AddRadioChanelProperties(driver);
+			GKDriversHelper.AddRadioChanelProperties(driver);
 			GKDriversHelper.AddIntProprety(driver, 3, "Задержка на включение, с", 0, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 4, "Время удержания, с", 0, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 5, "Задержка на выключение, с", 0, 0, 65535);

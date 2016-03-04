@@ -5,7 +5,7 @@
         function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
         	$scope.device = entity;
 
-        	$scope.$on('devicesChanged', function (event, args) {
+        	$scope.$on('signalrDevicesService.devicesChanged', function (event, args) {
         		if (args.UID === $scope.device.UID) {
         			$scope.device = args;
         			$scope.$apply();
@@ -21,7 +21,6 @@
         		config.enableSorting = false;
         		config.multiSelect = false;
         		config.enableColumnMenus = false;
-        		config.enableVerticalScrollbar = uiGridConstants.scrollbars.NEVER;
         		config.enableHorizontalScrollbar = uiGridConstants.scrollbars.NEVER;
         		config.rowHeight = 35;
         		config.columnDefs = colDefs;

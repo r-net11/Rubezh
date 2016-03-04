@@ -84,6 +84,10 @@
 		<Views:ArithmeticStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="createColorTemplate">
+		<Views:CreateColorStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="conditionTemplate">
 		<Views:ConditionStepView />
 	</DataTemplate>
@@ -252,6 +256,10 @@
 		<Views:RviAlarmStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="rviOpenWindowTemplate">
+		<Views:RviOpenWindowStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="nowTemplate">
 		<Views:NowStepView />
 	</DataTemplate>
@@ -262,6 +270,7 @@
 	
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
+										 CreateColorTemplate="{StaticResource createColorTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
 										 CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 										 ConditionTemplate="{StaticResource conditionTemplate}"
@@ -307,7 +316,8 @@
 										 PtzTemplate="{StaticResource ptzTemplate}"
 										 StartRecordTemplate="{StaticResource startRecordTemplate}"
 										 StopRecordTemplate="{StaticResource stopRecordTemplate}"
-										 RviAlarmTemplate="{StaticResource rviAlarmTemplate}" 
+										 RviAlarmTemplate="{StaticResource rviAlarmTemplate}"
+										 RviOpenWindowTemplate="{StaticResource rviOpenWindowTemplate}"
 										 NowTemplate="{StaticResource nowTemplate}"
 										 HttpRequestTemplate="{StaticResource httpRequestTemplate}"/>
 </ResourceDictionary>

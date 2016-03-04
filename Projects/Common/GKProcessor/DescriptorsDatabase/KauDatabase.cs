@@ -34,6 +34,8 @@ namespace GKProcessor
 		public override void BuildObjects()
 		{
 			Descriptors = new List<BaseDescriptor>();
+			if (DatabaseType == DatabaseType.Mirror)
+				RestructCollection(Devices);
 			foreach (var device in Devices)
 			{
 				if (device.Driver.HasMirror)

@@ -3,7 +3,7 @@ using RubezhAPI.GK;
 
 namespace GKProcessor
 {
-    public static class RSR2_ABPC_Helper
+	public static class RSR2_ABPC_Helper
 	{
 		public static GKDriver Create()
 		{
@@ -11,8 +11,8 @@ namespace GKProcessor
 			{
 				DriverTypeNo = 0x12,
 				DriverType = GKDriverType.RSR2_ABPC,
-                UID = new Guid("6260F52C-D047-4F64-BFE8-B9D0547A39B4"),
-                Name = "Адресный барьер пусковой цепи",
+				UID = new Guid("6260F52C-D047-4F64-BFE8-B9D0547A39B4"),
+				Name = "Адресный барьер пусковой цепи",
 				ShortName = "АБПЦ-R2",
 				IsControlDevice = true,
 				HasLogic = true,
@@ -27,7 +27,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
 
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
@@ -43,13 +43,13 @@ namespace GKProcessor
 			{
 				No = 3,
 				Name = "Состояние контакта для режима Удержание",
-                Caption = "Состояние контакта для режима Удержание",
+				Caption = "Состояние контакта для режима Удержание",
 				Default = 0,
 				IsLowByte = true,
 				Mask = 0x03
 			};
 			GKDriversHelper.AddPropertyParameter(property1, "Выключено", 0);
-            GKDriversHelper.AddPropertyParameter(property1, "Включено", 1);
+			GKDriversHelper.AddPropertyParameter(property1, "Включено", 1);
 			driver.Properties.Add(property1);
 
 			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true, IsNotVisible = true });

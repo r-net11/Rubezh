@@ -3,7 +3,7 @@ using RubezhAPI.GK;
 
 namespace GKProcessor
 {
-    public class RK_SmokeDetector_Helper
+	public class RK_SmokeDetector_Helper
 	{
 		public static GKDriver Create()
 		{
@@ -23,7 +23,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
-            GKDriversHelper.AddRadioChanelProperties(driver);
+			GKDriversHelper.AddRadioChanelProperties(driver);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог срабатывания по дыму, дБ/м", 180, 50, 255).Multiplier = 1000;
 			GKDriversHelper.AddIntProprety(driver, 4, "Порог запыленности, дБ/м", 200, 50, 255).Multiplier = 1000;
 

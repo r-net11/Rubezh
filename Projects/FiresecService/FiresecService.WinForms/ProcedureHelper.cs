@@ -176,6 +176,11 @@ namespace FiresecService
 			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration.RviSettings, name);
 		}
 
+		public static void RviOpenWindow(Guid clientUid, string name, int x, int y, int monitorNumber, string login, string ip)
+		{
+			RviClient.RviClientHelper.OpenWindow(ConfigurationCashHelper.SystemConfiguration.RviSettings, name, x, y, monitorNumber, login, ip);
+		}
+
 		public static void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
 		{
 			if (commandType == ZoneCommandType.Ignore)
@@ -230,16 +235,12 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.TurnOnNow)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.Direction);
-			if (commandType == DirectionCommandType.TurnOffNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.TurnOn_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.TurnOff_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(clientUID, uid, GKBaseObjectType.Direction);
 			if (commandType == DirectionCommandType.TurnOnNow_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(clientUID, uid, GKBaseObjectType.Direction);
-			if (commandType == DirectionCommandType.TurnOffNow_InAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(clientUID, uid, GKBaseObjectType.Direction);
 		}
 
 		public static void ControlGKDoor(Guid clientUID, Guid uid, GKDoorCommandType commandType)
@@ -277,11 +278,11 @@ namespace FiresecService
 			if (commandType == GKDoorCommandType.CloseForever)
 			{
 				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.Door);
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Door);
 			}
 			if (commandType == GKDoorCommandType.Norm)
 			{
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Door);
 				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.Door);
 			}
 		}
@@ -300,16 +301,12 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.TurnOff)
 				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Delay);
-			if (commandType == DelayCommandType.TurnOffNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.TurnOn_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.TurnOnNow_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(clientUID, uid, GKBaseObjectType.Delay);
 			if (commandType == DelayCommandType.TurnOff_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(clientUID, uid, GKBaseObjectType.Delay);
-			if (commandType == DelayCommandType.TurnOffNow_InAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(clientUID, uid, GKBaseObjectType.Delay);
 		}
 
 		public static void ControlPumpStation(Guid clientUID, Guid uid, PumpStationCommandType commandType)
@@ -326,18 +323,12 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.TurnOnNow)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.TurnOffNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.TurnOn_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.TurnOff_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.TurnOnNow_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(clientUID, uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.TurnOffNow_InAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(clientUID, uid, GKBaseObjectType.PumpStation);
-			if (commandType == PumpStationCommandType.Stop)
-				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.PumpStation);
 			if (commandType == PumpStationCommandType.ForbidStart)
 				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.PumpStation);
 		}
@@ -356,18 +347,12 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.TurnOnNow)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.TurnOffNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.TurnOn_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.TurnOff_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.TurnOnNow_InAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(clientUID, uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.TurnOffNow_InAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(clientUID, uid, GKBaseObjectType.MPT);
-			if (commandType == MPTCommandType.Stop)
-				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.MPT);
 			if (commandType == MPTCommandType.ForbidStart)
 				FiresecServiceManager.SafeFiresecService.GKStop(clientUID, uid, GKBaseObjectType.MPT);
 		}

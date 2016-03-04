@@ -8,19 +8,22 @@ using GKWebService.Utils;
 
 namespace GKWebService.Controllers
 {
-    public class AlarmsController : Controller
+	[Authorize]
+	public class AlarmsController : Controller
     {
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult AlarmGroups()
+		[AllowAnonymous]
+		public ActionResult AlarmGroups()
         {
             return View();
         }
 
 		[ErrorHandler]
+		[AllowAnonymous]
 		public JsonResult GetAlarmGroups()
 		{
 			var alarms = AlarmsViewModel.OnGKObjectsStateChanged(null);
@@ -66,6 +69,15 @@ namespace GKWebService.Controllers
 		public JsonResult ResetIgnore(AlarmViewModel alarm)
 		{
 			alarm.ResetIgnore();
+
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		[ErrorHandler]
+		public JsonResult TurnOnAutomatic(AlarmViewModel alarm)
+		{
+			alarm.TurnOnAutomatic();
 
 			return new JsonResult();
 		}

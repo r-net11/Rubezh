@@ -48,10 +48,10 @@ namespace VideoModule.ViewModels
 			var servers = ClientManager.SystemConfiguration.RviServers;
 			foreach (var server in servers)
 			{
-				var serverViewModel = new CameraViewModel(server.PresentationName, string.Empty);
+				var serverViewModel = new CameraViewModel(server);
 				foreach (var device in server.RviDevices)
 				{
-					var deviceViewModel = new CameraViewModel(device.Name, device.Ip);
+					var deviceViewModel = new CameraViewModel(device);
 					foreach (var camera in device.Cameras)
 					{
 						var cameraViewModel = new CameraViewModel(this, camera, camera.Name);

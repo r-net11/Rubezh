@@ -21,7 +21,6 @@ namespace GKImitator.ViewModels
 		{
 			KauBaseDescriptor = kauBaseDescriptor;
 			InitializeLogic();
-
 		}
 
 		public void InitializeLogic()
@@ -46,7 +45,7 @@ namespace GKImitator.ViewModels
 		{
 			foreach (var gkBase in LogicDescriptor.GKBase.OutputDescriptors)
 			{
-				var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == gkBase.GKDescriptorNo);
+				var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == gkBase.GKDescriptorNo);
 				if (descriptorViewModel != null)
 				{
 					descriptorViewModel.RecalculateLogic();
@@ -56,7 +55,7 @@ namespace GKImitator.ViewModels
 
 		public void RecalculateCurrentLogic()
 		{
-			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == GKBase.GKDescriptorNo);
+			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == GKBase.GKDescriptorNo);
 			if (descriptorViewModel != null)
 			{
 				descriptorViewModel.RecalculateLogic();
@@ -81,9 +80,9 @@ namespace GKImitator.ViewModels
 				var descriptorNo = formulaOperation.SecondOperand;
 				DescriptorViewModel descriptorViewModel = null;
 				if (IsKauDecriptor)
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand); // TODO проверить для больше чем одного КАУ
 				else
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
 
 				switch (formulaOperation.FormulaOperationType)
 				{
@@ -471,6 +470,13 @@ namespace GKImitator.ViewModels
 							OnTurnOnNow();
 						}
 					}
+					if (stateBitVale.Key == GKStateBit.TurnOnNow_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOnNow();
+						}
+					}
 					if (stateBitVale.Key == GKStateBit.TurnOff_InAutomatic)
 					{
 						if (Regime == Regime.Automatic)
@@ -485,11 +491,25 @@ namespace GKImitator.ViewModels
 							OnTurnOffNow();
 						}
 					}
+					if (stateBitVale.Key == GKStateBit.TurnOffNow_InManual)
+					{
+						if (Regime == Regime.Manual)
+						{
+							OnTurnOffNow();
+						}
+					}
 					if (stateBitVale.Key == GKStateBit.Fire1)
 					{
 						if (Regime == Regime.Automatic)
 						{
 							OnSetFire1();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.Fire2)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnSetFire2();
 						}
 					}
 					if (stateBitVale.Key == GKStateBit.SetRegime_Manual)

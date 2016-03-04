@@ -9,6 +9,7 @@ using RubezhAPI;
 
 namespace GKWebService.Controllers
 {
+	[Authorize]
 	public class DeviceParametersController : Controller
 	{
 		public ActionResult Index()
