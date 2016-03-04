@@ -2715,6 +2715,11 @@
   <ItemGroup>
     <Resource Include="StepIcons\CreateColor.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RviDevicesIcons\Camera.png" />
+    <Resource Include="RviDevicesIcons\Device.png" />
+    <Resource Include="RviDevicesIcons\Server.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
