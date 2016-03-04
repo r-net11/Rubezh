@@ -100,7 +100,6 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
 							new StepTypeViewModel(ProcedureStepType.CheckPermission),
 							new StepTypeViewModel(ProcedureStepType.GetJournalItem),
-							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
 							new StepTypeViewModel(ProcedureStepType.GetSkdDeviceProperty),
 							new StepTypeViewModel(ProcedureStepType.GetDoorProperty),
 							new StepTypeViewModel(ProcedureStepType.GetSkdZoneProperty),
