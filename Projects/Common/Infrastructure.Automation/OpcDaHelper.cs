@@ -72,7 +72,7 @@ namespace Infrastructure.Automation
 				case "System.DateTime":
 					return ExplicitType.DateTime;
 				case "System.Double":
-                    return ExplicitType.Double;
+                    //return ExplicitType.Double;
 				case "System.Single":
                     return ExplicitType.Float;
 				case "System.Int16":

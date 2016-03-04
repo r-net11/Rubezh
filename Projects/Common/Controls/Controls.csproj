@@ -2720,6 +2720,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_SCOPA.png" />
+    <Resource Include="RviDevicesIcons\Camera.png" />
+    <Resource Include="RviDevicesIcons\Device.png" />
+    <Resource Include="RviDevicesIcons\Server.png" />
     <Resource Include="GKIcons\RSR2_ZOV.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

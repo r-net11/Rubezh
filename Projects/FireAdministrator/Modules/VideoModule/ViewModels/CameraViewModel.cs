@@ -19,6 +19,7 @@ namespace VideoModule.ViewModels
 		public bool IsCamera { get { return Camera != null; } }
 		public string PresentationName { get; private set; }
 		public string PresentationAddress { get; private set; }
+		public string ImageSource { get; private set; }
 		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera, string presentationName)
 		{
 			_camerasViewModel = camerasViewModel;
@@ -28,11 +29,18 @@ namespace VideoModule.ViewModels
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand,
 				CanAllowMultipleVizualizationCommand);
+			ImageSource = camera.ImageSource;
 		}
-		public CameraViewModel(string presentationName, string presentationAddress)
+		public CameraViewModel(RviServer server)
 		{
-			PresentationName = presentationName;
-			PresentationAddress = presentationAddress;
+			PresentationName = server.PresentationName;
+			ImageSource = server.ImageSource;
+		}
+		public CameraViewModel(RviDevice device)
+		{
+			PresentationName = device.Name;
+			PresentationAddress = device.Ip;
+			ImageSource = device.ImageSource;
 		}
 		public void Update()
 		{
