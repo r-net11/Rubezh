@@ -30,7 +30,7 @@ namespace GKWebService.Models
 		public GKBaseModel(GKBase gkObject)
 		{
 			UID = gkObject.UID;
-			Name = gkObject.PresentationName;
+			Name = gkObject.Name;
 			ImageSource = gkObject.ImageSource.Replace("/Controls;component/", "");
 			ObjectType = gkObject.ObjectType;
 			StateClass = gkObject.State.StateClass.ToString();

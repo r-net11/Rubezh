@@ -31,21 +31,21 @@
 					<div class="detailsTab">
 						<div>
 							<span class="labelImage-md" style="background-image:url(/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png)">Режим {{device.ControlRegimeName}}</span>
-							<div class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
-							<div class="btn btn-primary btn-control" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
-							<div class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
-							<div class="btn btn-primary btn-control" ng-click="TurnOn()" ng-disabled="!device.IsControlRegime">Пуск</div>
-							<div class="btn btn-primary btn-control" ng-click="TurnOnNow()" ng-disabled="!device.IsControlRegime">Пуск немедленно</div>
-							<div class="btn btn-primary btn-control" ng-click="ForbidStart()" ng-disabled="!device.IsControlRegime">Останов пуска</div>
-							<div class="btn btn-primary btn-control" ng-click="TurnOff()" ng-disabled="!device.IsControlRegime">Выключить немедленно</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.CanSetManualState && SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.CanSetIgnoreStateCommand && SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.IsControlRegime && TurnOn()" ng-disabled="!device.IsControlRegime">Пуск</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.IsControlRegime && TurnOnNow()" ng-disabled="!device.IsControlRegime">Пуск немедленно</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.IsControlRegime && ForbidStart()" ng-disabled="!device.IsControlRegime">Останов пуска</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.IsControlRegime && TurnOff()" ng-disabled="!device.IsControlRegime">Выключить немедленно</div>
 						</div>
 					</div>
 				</uib-tab>
 				<uib-tab heading="Управление" ng-if="device.IsBiStateControl">
 					<div class="detailsTab">
 						<div>
-							<div class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
-							<div class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
+                            <div class="btn btn-primary btn-control" ng-click="device.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
 							<div class="btn btn-primary btn-control" ng-click="Reset()" ng-show="device.HasReset" ng-disabled="!device.CanReset">Сбросить</div>
 						</div>
 					</div>
