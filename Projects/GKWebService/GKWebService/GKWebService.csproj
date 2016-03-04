@@ -388,6 +388,7 @@
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
     <Content Include="Content\Image\Icon\Header\map-on.png" />
+    <Content Include="Content\Image\Icon\Header\RAlarm_main_5_Info.png" />
     <Content Include="Content\Image\Icon\Header\sound-off.png" />
     <Content Include="Content\Image\Icon\Header\sound-on.png" />
     <Content Include="Content\Image\Icon\Header\user.png" />
