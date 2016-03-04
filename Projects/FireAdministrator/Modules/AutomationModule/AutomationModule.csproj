@@ -150,6 +150,9 @@
     <Compile Include="Steps\ViewModels\GetJournalItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetDoorPropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetSkdZonePropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetSkdDevicePropertyStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
@@ -278,6 +281,15 @@
     </Compile>
     <Compile Include="Steps\Views\GetDateTimeNowStepView.xaml.cs">
       <DependentUpon>GetDateTimeNowStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetDoorPropertyStepView.xaml.cs">
+      <DependentUpon>GetDoorPropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetSkdZonePropertyStepView.xaml.cs">
+      <DependentUpon>GetSkdZonePropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetSkdDevicePropertyStepView.xaml.cs">
+      <DependentUpon>GetSkdDevicePropertyStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationListStepView.xaml.cs">
       <DependentUpon>ImportOrganisationListStepView.xaml</DependentUpon>
@@ -588,6 +600,18 @@
     <Page Include="Steps\Views\GetDateTimeNowStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetDoorPropertyStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GetSkdZonePropertyStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GetSkdDevicePropertyStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ImportOrganisationListStepView.xaml">
       <SubType>Designer</SubType>

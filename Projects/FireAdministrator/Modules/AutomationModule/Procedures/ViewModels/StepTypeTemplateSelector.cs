@@ -48,6 +48,9 @@ namespace AutomationModule.ViewModels
 		public DataTemplate RviAlarmTemplate { get; set; }
 		public DataTemplate ExportReportStepTemplate { get; set; }
 		public DataTemplate GetDateTimeNowTemplate { get; set; }
+		public DataTemplate GetSkdDevicePropertyTemplate { get; set; }
+		public DataTemplate GetDoorPropertyTemplate { get; set; }
+		public DataTemplate GetSkdZonePropertyTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -137,6 +140,12 @@ namespace AutomationModule.ViewModels
 				return ExportReportStepTemplate;
 			if (item is GetDateTimeNowStepViewModel)
 				return GetDateTimeNowTemplate;
+			if (item is GetSkdDevicePropertyStepViewModel)
+				return GetSkdDevicePropertyTemplate;
+			if (item is GetDoorPropertyStepViewModel)
+				return GetDoorPropertyTemplate;
+			if (item is GetSkdZonePropertyStepViewModel)
+				return GetSkdZonePropertyTemplate;
 			return null;
 		}
 	}

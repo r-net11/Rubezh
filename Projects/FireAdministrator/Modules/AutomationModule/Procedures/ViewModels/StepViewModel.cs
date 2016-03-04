@@ -165,6 +165,16 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.GetDateTimeNow:
 					return new GetDateTimeNowStepViewModel(this);
+
+				case ProcedureStepType.GetSkdDeviceProperty:
+					return new GetSkdDevicePropertyStepViewModel(this);
+
+				case ProcedureStepType.GetDoorProperty:
+					return new GetDoorPropertyStepViewModel(this);
+
+				case ProcedureStepType.GetSkdZoneProperty:
+					return new GetSkdZonePropertyStepViewModel(this);
+
 				default:
 					return null;
 			}

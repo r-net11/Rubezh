@@ -252,6 +252,18 @@
 		<Views:GetDateTimeNowStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="getSkdDevicePropertyTemplate">
+		<Views:GetSkdDevicePropertyStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="getDoorPropertyTemplate">
+		<Views:GetDoorPropertyStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="getSkdZonePropertyTemplate">
+		<Views:GetSkdZonePropertyStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		x:Key="stepTypeTemplateSelector"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
@@ -296,5 +308,8 @@
 		StartRecordTemplate="{StaticResource startRecordTemplate}"
 		StopRecordTemplate="{StaticResource stopRecordTemplate}"
 		ExportReportStepTemplate="{StaticResource exportReportStepViewTemplate}"
-		GetDateTimeNowTemplate="{StaticResource getDateTimeNowTemplate}"/>
+		GetDateTimeNowTemplate="{StaticResource getDateTimeNowTemplate}"
+		GetSkdDevicePropertyTemplate="{StaticResource getSkdDevicePropertyTemplate}"
+		GetDoorPropertyTemplate="{StaticResource getDoorPropertyTemplate}"
+		GetSkdZonePropertyTemplate="{StaticResource getSkdZonePropertyTemplate}"/>
 </ResourceDictionary>

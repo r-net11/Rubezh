@@ -158,6 +158,15 @@ namespace FiresecAPI.Automation
 		ExportReport,
 
 		[Description("Получить текущее время")]
-		GetDateTimeNow
+		GetDateTimeNow,
+
+		[Description("Получение свойства устройства СКД")]
+		GetSkdDeviceProperty,
+
+		[Description("Получение свойства точки доступа")]
+		GetDoorProperty,
+
+		[Description("Получение свойства зоны СКД")]
+		GetSkdZoneProperty
 	}
 }

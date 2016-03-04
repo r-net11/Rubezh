@@ -154,6 +154,10 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Automation\Enums\AccessState.cs" />
+    <Compile Include="Automation\Enums\BreakInStatus.cs" />
+    <Compile Include="Automation\Enums\ConnectionStatus.cs" />
+    <Compile Include="Automation\Enums\DoorStatus.cs" />
     <Compile Include="Enums\ReportFormatEnum.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\RoundingType.cs" />

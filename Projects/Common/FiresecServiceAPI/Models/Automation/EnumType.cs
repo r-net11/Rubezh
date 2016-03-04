@@ -26,6 +26,18 @@ namespace FiresecAPI.Automation
 		ColorType,
 
 		[DescriptionAttribute("Тип пропуска")]
-		CardType
+		CardType,
+
+		[DescriptionAttribute("Режим доступа")]
+		AccessState,
+
+		[DescriptionAttribute("Статус двери")]
+		DoorStatus,
+
+		[DescriptionAttribute("Статус по взлому")]
+		BreakInStatus,
+
+		[DescriptionAttribute("Статус соединения")]
+		ConnectionStatus
 	}
 }

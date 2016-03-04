@@ -54,6 +54,18 @@ namespace FiresecAPI.Automation
 		CurrentHold,
 
 		[Description("Режим")]
-		DelayRegime
+		DelayRegime,
+
+		[DescriptionAttribute("Режим доступа")]
+		AccessState,
+
+		[DescriptionAttribute("Статус двери")]
+		DoorStatus,
+
+		[DescriptionAttribute("Статус по взлому")]
+		BreakInStatus,
+
+		[DescriptionAttribute("Статус соединения")]
+		ConnectionStatus
 	}
 }

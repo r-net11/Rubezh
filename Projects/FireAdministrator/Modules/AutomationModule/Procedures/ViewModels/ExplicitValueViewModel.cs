@@ -50,6 +50,10 @@ namespace AutomationModule.ViewModels
 			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
 			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
 			CardTypeValues = ProcedureHelper.GetEnumObs<CardType>();
+			AccessStateValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.AccessState>();
+			DoorStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.DoorStatus>();
+			BreakInStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.BreakInStatus>();
+			ConnectionStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.ConnectionStatus>();
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}
@@ -251,6 +255,50 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.CardTypeValue = value;
 				OnPropertyChanged(() => CardTypeValue);
+			}
+		}
+
+		public ObservableCollection<FiresecAPI.Automation.Enums.AccessState> AccessStateValues { get; private set; }
+		public FiresecAPI.Automation.Enums.AccessState? AccessStateValue
+		{
+			get { return ExplicitValue.AccessStateValue; }
+			set
+			{
+				ExplicitValue.AccessStateValue = value;
+				OnPropertyChanged(() => AccessStateValue);
+			}
+		}
+
+		public ObservableCollection<FiresecAPI.Automation.Enums.DoorStatus> DoorStatusValues { get; private set; }
+		public FiresecAPI.Automation.Enums.DoorStatus? DoorStatusValue
+		{
+			get { return ExplicitValue.DoorStatusValue; }
+			set
+			{
+				ExplicitValue.DoorStatusValue = value;
+				OnPropertyChanged(() => DoorStatusValue);
+			}
+		}
+
+		public ObservableCollection<FiresecAPI.Automation.Enums.BreakInStatus> BreakInStatusValues { get; private set; }
+		public FiresecAPI.Automation.Enums.BreakInStatus? BreakInStatusValue
+		{
+			get { return ExplicitValue.BreakInStatusValue; }
+			set
+			{
+				ExplicitValue.BreakInStatusValue = value;
+				OnPropertyChanged(() => BreakInStatusValue);
+			}
+		}
+
+		public ObservableCollection<FiresecAPI.Automation.Enums.ConnectionStatus> ConnectionStatusValues { get; private set; }
+		public FiresecAPI.Automation.Enums.ConnectionStatus? ConnectionStatusValue
+		{
+			get { return ExplicitValue.ConnectionStatusValue; }
+			set
+			{
+				ExplicitValue.ConnectionStatusValue = value;
+				OnPropertyChanged(() => ConnectionStatusValue);
 			}
 		}
 

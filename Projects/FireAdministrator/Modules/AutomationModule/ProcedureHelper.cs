@@ -79,8 +79,22 @@ namespace AutomationModule
 
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
 		{
-			if (objectType == ObjectType.SKDDevice)
-				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type, Property.Uid };
+			if (objectType == ObjectType.SKDDevice
+				|| objectType == ObjectType.Door)
+				return new List<Property>
+				{
+					Property.AccessState,
+					Property.DoorStatus,
+					Property.BreakInStatus,
+					Property.ConnectionStatus
+				};
+			if (objectType == ObjectType.SKDZone)
+				return new List<Property>
+				{
+					Property.DoorStatus,
+					Property.BreakInStatus,
+					Property.ConnectionStatus
+				};
 			return new List<Property>();
 		}
 
@@ -287,6 +301,14 @@ namespace AutomationModule
 							result = explicitValue.ColorValue.ToString();
 						if (enumType == EnumType.CardType)
 							result = explicitValue.CardTypeValue.ToDescription();
+						if (enumType == EnumType.AccessState)
+							result = explicitValue.AccessStateValue.ToDescription();
+						if (enumType == EnumType.DoorStatus)
+							result = explicitValue.DoorStatusValue.ToDescription();
+						if (enumType == EnumType.BreakInStatus)
+							result = explicitValue.BreakInStatusValue.ToDescription();
+						if (enumType == EnumType.ConnectionStatus)
+							result = explicitValue.ConnectionStatusValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:
