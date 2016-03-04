@@ -79,6 +79,9 @@ namespace GKProcessor
 			AddDriverToKau(RSR2_IOLIT_Helper.Create());
 			AddDriverToKau(RSR2_MRK_Helper.Create());
 			AddDriverToKau(RSR2_Button_Helper.Create());
+			AddDriverToKau(RSR2_Button_Helper.Create());
+			AddDriverToKau(RSR2_ZOV_Helper.Create());
+			AddDriverToKau(RSR2_SCOPA_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RK_HandDetector_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RK_SmokeDetector_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RK_HeatDetector_Helper.Create());

@@ -213,6 +213,8 @@ namespace GKProcessor
 					case GKDriverType.RSR2_OPS:
 					case GKDriverType.RSR2_OPZ:
 					case GKDriverType.RSR2_OPK:
+					case GKDriverType.RSR2_SCOPA:
+					case GKDriverType.RSR2_ZOV:
 						OnDelay = additionalShortParameters[0];
 						HoldDelay = additionalShortParameters[1];
 						OffDelay = additionalShortParameters[2];

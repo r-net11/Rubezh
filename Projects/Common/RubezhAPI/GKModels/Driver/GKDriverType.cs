@@ -228,5 +228,11 @@ namespace RubezhAPI.GK
 
 		[Description("НСЧ R2")]
 		RSR2_CodeCardReader = 101,
+
+		[Description("ЗОВ R2")]
+		RSR2_ZOV = 102,
+
+		[Description("СКОПА R2")]
+		RSR2_SCOPA = 103
 	}
 }
