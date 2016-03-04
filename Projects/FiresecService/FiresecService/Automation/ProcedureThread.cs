@@ -378,6 +378,21 @@ namespace FiresecService
 				case ProcedureStepType.ExportReport:
 					ExportReport(procedureStep);
 					break;
+
+				// Получение свойства устройства СКД
+				case ProcedureStepType.GetSkdDeviceProperty:
+					GetSkdDeviceProperty(procedureStep);
+					break;
+				
+				// Получение свойства точки доступа
+				case ProcedureStepType.GetDoorProperty:
+					GetDoorProperty(procedureStep);
+					break;
+
+				// Получение свойства зоны СКД
+				case ProcedureStepType.GetSkdZoneProperty:
+					GetSkdZoneProperty(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

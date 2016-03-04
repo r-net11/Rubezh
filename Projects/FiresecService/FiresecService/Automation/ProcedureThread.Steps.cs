@@ -1,5 +1,6 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Automation;
+using FiresecAPI.Automation.Enums;
 using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -1047,6 +1048,18 @@ namespace FiresecService
 					target.ExplicitValue.ColorValue = (Color)propertyValue;
 				if (target.EnumType == EnumType.CardType)
 					target.ExplicitValue.CardTypeValue = (CardType)propertyValue;
+				// Режим доступа
+				if (target.EnumType == EnumType.AccessState)
+					target.ExplicitValue.AccessStateValue = (FiresecAPI.Automation.Enums.AccessState?)propertyValue;
+				// Статус двери
+				if (target.EnumType == EnumType.DoorStatus)
+					target.ExplicitValue.DoorStatusValue = (FiresecAPI.Automation.Enums.DoorStatus?)propertyValue;
+				// Статус по взлому
+				if (target.EnumType == EnumType.BreakInStatus)
+					target.ExplicitValue.BreakInStatusValue = (FiresecAPI.Automation.Enums.BreakInStatus?)propertyValue;
+				// Статус соединения
+				if (target.EnumType == EnumType.ConnectionStatus)
+					target.ExplicitValue.ConnectionStatusValue = (FiresecAPI.Automation.Enums.ConnectionStatus?)propertyValue;
 			}
 		}
 
@@ -1107,8 +1120,136 @@ namespace FiresecService
 					result = explicitValue.ColorValue.ToString();
 				if (enumType == EnumType.CardType)
 					result = explicitValue.CardTypeValue;
+				if (enumType == EnumType.AccessState)
+					result = explicitValue.AccessStateValue;
+				if (enumType == EnumType.DoorStatus)
+					result = explicitValue.DoorStatusValue;
+				if (enumType == EnumType.BreakInStatus)
+					result = explicitValue.BreakInStatusValue;
+				if (enumType == EnumType.ConnectionStatus)
+					result = explicitValue.ConnectionStatusValue;
 			}
 			return (T)result;
+		}
+
+		/// <summary>
+		/// Получает свойство устройства СКД
+		/// </summary>
+		private void GetSkdDeviceProperty(ProcedureStep procedureStep)
+		{
+			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
+			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
+			var deviceUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
+			if (device == null)
+				return;
+			var propertyValue = GetSkdDevicePropertyValue(device, getObjectPropertyArguments.Property);
+			SetValue(target, propertyValue);
+		}
+
+		private object GetSkdDevicePropertyValue(SKDDevice device, Property property)
+		{
+			// Режим доступа
+			if (property == Property.AccessState)
+				return (FiresecAPI.Automation.Enums.AccessState)device.State.AccessState;
+			// Статус двери
+			if (property == Property.DoorStatus)
+				return XStateClassToDoorStatus(device.State.StateClass);
+			// Статус по взлому
+			if (property == Property.BreakInStatus)
+				return XStateClassToBreakInStatus(device.State.StateClass);
+			// Статус соединения
+			if (property == Property.ConnectionStatus)
+				return device.State.StateClass == XStateClass.ConnectionLost ? FiresecAPI.Automation.Enums.ConnectionStatus.Disconnected : FiresecAPI.Automation.Enums.ConnectionStatus.Connected;
+			return null;
+		}
+
+		private DoorStatus? XStateClassToDoorStatus(XStateClass xStateClass)
+		{
+			switch (xStateClass)
+			{
+				case XStateClass.On:
+					return DoorStatus.Opened;
+				case XStateClass.Off:
+					return DoorStatus.Closed;
+				default:
+					return null;
+			}
+		}
+
+		private BreakInStatus? XStateClassToBreakInStatus(XStateClass xStateClass)
+		{
+			switch (xStateClass)
+			{
+				case XStateClass.On:
+				case XStateClass.Off:
+					return BreakInStatus.Normal;
+				case XStateClass.Attention:
+					return BreakInStatus.BreakIn;
+				default:
+					return null;
+			}
+		}
+
+		/// <summary>
+		/// Получает свойство точки доступа
+		/// </summary>
+		private void GetDoorProperty(ProcedureStep procedureStep)
+		{
+			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
+			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
+			var doorUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUid);
+			if (door == null)
+				return;
+			var propertyValue = GetDoorPropertyValue(door, getObjectPropertyArguments.Property);
+			SetValue(target, propertyValue);
+		}
+
+		private object GetDoorPropertyValue(SKDDoor door, Property property)
+		{
+			// Режим доступа
+			if (property == Property.AccessState)
+				return (FiresecAPI.Automation.Enums.AccessState)door.State.AccessState;
+			// Статус двери
+			if (property == Property.DoorStatus)
+				return XStateClassToDoorStatus(door.State.StateClass);
+			// Статус по взлому
+			if (property == Property.BreakInStatus)
+				return XStateClassToBreakInStatus(door.State.StateClass);
+			// Статус соединения
+			if (property == Property.ConnectionStatus)
+				return door.State.StateClass == XStateClass.ConnectionLost ? FiresecAPI.Automation.Enums.ConnectionStatus.Disconnected : FiresecAPI.Automation.Enums.ConnectionStatus.Connected;
+			return null;
+		}
+
+		/// <summary>
+		/// Получает свойство зоны СКД
+		/// </summary>
+		private void GetSkdZoneProperty(ProcedureStep procedureStep)
+		{
+			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
+			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
+			var zoneUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUid);
+			if (zone == null)
+				return;
+			var propertyValue = GetSkdZonePropertyValue(zone, getObjectPropertyArguments.Property);
+			SetValue(target, propertyValue);
+		}
+
+		private object GetSkdZonePropertyValue(SKDZone zone, Property property)
+		{
+			// Статус двери
+			if (property == Property.DoorStatus)
+				return XStateClassToDoorStatus(zone.State.StateClass);
+			// Статус по взлому
+			if (property == Property.BreakInStatus)
+				return XStateClassToBreakInStatus(zone.State.StateClass);
+			// Статус соединения
+			if (property == Property.ConnectionStatus)
+				return zone.State.StateClass == XStateClass.ConnectionLost ? FiresecAPI.Automation.Enums.ConnectionStatus.Disconnected : FiresecAPI.Automation.Enums.ConnectionStatus.Connected;
+			return null;
 		}
 	}
 }
