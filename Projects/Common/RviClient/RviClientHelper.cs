@@ -152,16 +152,19 @@ namespace RviClient
 					newCameras.Add(camera);
 				}
 			}
-			foreach (var existingCamera in existingCameras)
+			if (existingCameras != null)
 			{
-				var camera = newCameras.FirstOrDefault(newCamera => newCamera.UID == existingCamera.UID);
-				if (camera != null)
+				foreach (var existingCamera in existingCameras)
 				{
-					camera.IsAddedInConfiguration = existingCamera.IsAddedInConfiguration;
-					camera.ShowDetailsHeight = existingCamera.ShowDetailsHeight;
-					camera.ShowDetailsWidth = existingCamera.ShowDetailsWidth;
-					camera.ShowDetailsMarginLeft = existingCamera.ShowDetailsMarginLeft;
-					camera.ShowDetailsMarginTop = existingCamera.ShowDetailsMarginTop;
+					var camera = newCameras.FirstOrDefault(newCamera => newCamera.UID == existingCamera.UID);
+					if (camera != null)
+					{
+						camera.IsAddedInConfiguration = existingCamera.IsAddedInConfiguration;
+						camera.ShowDetailsHeight = existingCamera.ShowDetailsHeight;
+						camera.ShowDetailsWidth = existingCamera.ShowDetailsWidth;
+						camera.ShowDetailsMarginLeft = existingCamera.ShowDetailsMarginLeft;
+						camera.ShowDetailsMarginTop = existingCamera.ShowDetailsMarginTop;
+					}
 				}
 			}
 			return rviDevices;

@@ -45,7 +45,8 @@ namespace FiresecService
 					{
 						return;
 					}
-					if (ConfigurationCashHelper.SystemConfiguration != null && ConfigurationCashHelper.SystemConfiguration.RviSettings != null && ConfigurationCashHelper.SystemConfiguration.RviServers != null)
+					if (ConfigurationCashHelper.SystemConfiguration != null && ConfigurationCashHelper.SystemConfiguration.RviSettings != null && ConfigurationCashHelper.SystemConfiguration.RviServers != null
+						&& ConfigurationCashHelper.SystemConfiguration.Cameras != null)
 					{
 						var rviSettings = ConfigurationCashHelper.SystemConfiguration.RviSettings;
 						foreach (var server in ConfigurationCashHelper.SystemConfiguration.RviServers)
