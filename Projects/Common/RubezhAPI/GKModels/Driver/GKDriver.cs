@@ -86,7 +86,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				return DriverType == GKDriverType.RSR2_CardReader || DriverType == GKDriverType.RSR2_CodeReader;
+				return DriverType == GKDriverType.RSR2_CardReader || DriverType == GKDriverType.RSR2_CodeReader || DriverType == GKDriverType.RSR2_CodeCardReader;
 			}
 		}
 

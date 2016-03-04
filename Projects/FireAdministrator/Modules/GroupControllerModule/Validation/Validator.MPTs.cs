@@ -106,7 +106,7 @@ namespace GKModule.Validation
 			var devices = new HashSet<GKDevice>();
 			foreach (var device in GetAllMPTDevices(mpt))
 			{
-				if (!devices.Add(device) && device.DriverType != GKDriverType.RSR2_CardReader && device.DriverType != GKDriverType.RSR2_CodeReader)
+				if (!devices.Add(device) && !device.Driver.IsCardReaderOrCodeReader)
 					AddError(mpt, "Дублируются устройства, входящие в МПТ", ValidationErrorLevel.CannotWrite);
 			}
 		}

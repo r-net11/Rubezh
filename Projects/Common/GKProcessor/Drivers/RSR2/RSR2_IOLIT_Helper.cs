@@ -47,11 +47,11 @@ namespace GKProcessor
 				Mask = 0xF0
 			};
 			GKDriversHelper.AddPropertyParameter(property11, "Основной Т1 с фиксац. тревоги", 0);
-			GKDriversHelper.AddPropertyParameter(property11, "Основной Т1 без фиксац. тревоги", 1);
-			GKDriversHelper.AddPropertyParameter(property11, "Основной Т2 с фиксац. тревоги", 2);
-			GKDriversHelper.AddPropertyParameter(property11, "Основной Т2 без фиксац. тревоги", 3);
-			GKDriversHelper.AddPropertyParameter(property11, "Вспышка с интер. 0.1 с", 4);
-			GKDriversHelper.AddPropertyParameter(property11, "Вспышка с интер. 0.5 с", 5);
+			GKDriversHelper.AddPropertyParameter(property11, "Основной Т1 без фиксац. тревоги", 16);
+			GKDriversHelper.AddPropertyParameter(property11, "Основной Т2 с фиксац. тревоги", 32);
+			GKDriversHelper.AddPropertyParameter(property11, "Основной Т2 без фиксац. тревоги", 48);
+			GKDriversHelper.AddPropertyParameter(property11, "Вспышка с интер. 0.1 с", 64);
+			GKDriversHelper.AddPropertyParameter(property11, "Вспышка с интер. 0.5 с", 80);
 			driver.Properties.Add(property11);
 
 			return driver;

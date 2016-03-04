@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using RubezhAPI.GK;
 using GKImitator.ViewModels;
 using GKProcessor;
@@ -234,7 +235,9 @@ namespace GKImitator.Processor
 
 		DescriptorViewModel GetDescriptor(DatabaseType databaseType, int descriptorNo, int kauAddress)
 		{
-			return MainViewModel.Current.Descriptors.FirstOrDefault(x => databaseType == DatabaseType.Gk ? x.GKDescriptorNo == descriptorNo : x.KauDescriptorNo == descriptorNo && x.GKBase.KauDatabaseParent.IntAddress == kauAddress);
+			/* Возможна такая ситуация, когда объект содержится в двух КАУ, но при это комманда с серевера посылается на КАУ, тогда у 
+			 этого объекта KauDatabaseParent == null. Пример: логика МДУ зависит от зон на разных КАУ*/
+			return MainViewModel.Current.Descriptors.FirstOrDefault(x => databaseType == DatabaseType.Gk ? x.GKDescriptorNo == descriptorNo : x.KauDescriptorNo == descriptorNo && (x.GKBase.KauParents.Any(y => y.IntAddress == kauAddress)));
 		}
 	}
 }

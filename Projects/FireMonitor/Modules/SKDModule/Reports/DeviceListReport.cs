@@ -26,7 +26,7 @@ namespace SKDModule.Reports
 
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == GKDriverType.RSR2_CardReader || device.DriverType == GKDriverType.RSR2_CodeReader)
+				if (device.Driver.IsCardReaderOrCodeReader)
 				{
 					var name = device.Name;
 					var address = device.Address;

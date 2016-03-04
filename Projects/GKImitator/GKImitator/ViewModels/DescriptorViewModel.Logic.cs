@@ -328,7 +328,7 @@ namespace GKImitator.ViewModels
 						if (descriptorViewModel != null && descriptorViewModel.CurrentCardNo > 0)
 						{
 							var device = descriptorViewModel.GKBase as GKDevice;
-							if (device != null && (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader))
+							if (device != null && (device.Driver.IsCardReaderOrCodeReader))
 							{
 								ImitatorUser user = null;
 								using (var dbService = new DbService())

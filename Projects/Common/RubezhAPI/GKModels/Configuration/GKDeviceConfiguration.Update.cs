@@ -381,6 +381,8 @@ namespace RubezhAPI.GK
 					case GKDriverType.RSR2_OPS:
 					case GKDriverType.RSR2_OPZ:
 					case GKDriverType.RSR2_OPK:
+					case GKDriverType.RSR2_SCOPA:
+					case GKDriverType.RSR2_ZOV:
 						SetDeviceProperty(device, "Задержка на включение, с", 0);
 						SetDeviceProperty(device, "Время удержания, с", 0);
 						SetDeviceProperty(device, "Задержка на выключение, с", 0);
