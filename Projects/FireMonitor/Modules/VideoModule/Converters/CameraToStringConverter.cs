@@ -11,8 +11,8 @@ namespace VideoModule.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var camera = value as Camera;
-			if (camera != null && ClientManager.SystemConfiguration.Cameras.Any(x => x.Ip == camera.Ip))
-				return string.Format("{0} ({1}. {2})", camera.Ip, camera.RviDeviceName, camera.Name);
+			if (camera != null && ClientManager.SystemConfiguration.Cameras.Any(x => x.UID == camera.UID))
+				return string.Format("{0}. {1}", camera.RviDeviceName, camera.Name);
 			return "<нет>";
 		}
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

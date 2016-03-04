@@ -74,7 +74,7 @@
 									<TextBlock>
 										<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
-												<Grid Width="16" Background="{DynamicResource BVideo}" />
+												<Image Width="16" Height="16" Margin="5 0 5 0" Source="{Binding Camera.ImageSource}" />
 												<TextBlock Text="{Binding Camera.PresentationName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
 											</StackPanel>
 										</Hyperlink>

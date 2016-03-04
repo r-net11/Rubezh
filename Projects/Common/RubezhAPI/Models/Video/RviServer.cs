@@ -18,6 +18,12 @@ namespace RubezhAPI.Models
 		public string Url { get; set; }
 		[DataMember]
 		public List<RviDevice> RviDevices { get; set; }
+		public void OnStatusChanged()
+		{
+			if (StatusChanged != null)
+				StatusChanged();
+		}
+		public event Action StatusChanged;
 		[XmlIgnore]
 		public RviStatus Status { get; set; }
 		[XmlIgnore]
@@ -25,11 +31,7 @@ namespace RubezhAPI.Models
 		{
 			get { return string.Format("Сервер ({0}:{1})", Ip, Port); }
 		}
-		public event Action StatusChanged;
-		public void OnStatusChanged()
-		{
-			if (StatusChanged != null)
-				StatusChanged();
-		}
+		[XmlIgnore]
+		public string ImageSource { get { return "/Controls;component/RviDevicesIcons/Server.png"; } }
 	}
 }

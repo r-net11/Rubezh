@@ -77,7 +77,7 @@ namespace Infrastructure.Automation
 
 		public static void RunOnServerRun()
 		{
-			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) RunProcedure(x, new List<Argument>(), null, null); });
+			ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer && x.ContextType == ContextType.Server) RunProcedure(x, new List<Argument>(), null, null); });
 		}
 
 		public static void RunProcedure(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)

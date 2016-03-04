@@ -5,6 +5,6 @@
 			 Unloaded="UserControl_Unloaded"
 			 Loaded="UserControl_Loaded">
 	<Grid Background="Black">
-		<mediaSourcePlayer:MediaPlayer x:Name="MediaSourcePlayer"/>
+		<mediaSourcePlayer:MediaPlayer x:Name="MediaSourcePlayer" OriginalAspectRatio="True" />
 	</Grid>
 </UserControl>
