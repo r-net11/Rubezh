@@ -11,6 +11,10 @@ namespace RubezhAPI.Models
 			Port = 8000;
 			Login = "strazh";
 			Password = "strazh12345";
+			VideoHeight = 500;
+			VideoWidth = 500;
+			VideoMarginLeft = 500;
+			VideoMarginTop = 500;
 		}
 
 		[DataMember]
