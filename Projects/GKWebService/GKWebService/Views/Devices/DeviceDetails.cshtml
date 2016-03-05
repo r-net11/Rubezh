@@ -88,7 +88,7 @@
 						<div ui-grid="gridParameters" ui-grid-selection ui-grid-resize-columns style="height: inherit"></div>
 					</div>
 				</uib-tab>
-				<uib-tab heading="Измерения" ng-if="device.MeasureParameters.length > 0" select="onTabSelected()">
+				<uib-tab heading="Измерения" ng-if="device.HasMeasureParameters" select="onTabSelected()">
 					<div class="detailsTab">
 						<div ui-grid="gridMeasurements" ui-grid-selection ui-grid-resize-columns style="height: inherit"></div>
 					</div>
