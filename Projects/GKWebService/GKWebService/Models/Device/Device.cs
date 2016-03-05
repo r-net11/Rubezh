@@ -93,6 +93,8 @@ namespace GKWebService.Models
 
 		public GKDriverType DriverType { get; set; }
 
+		public bool HasMeasureParameters { get; set; }
+
 		public Device()
 		{
 			
@@ -124,6 +126,10 @@ namespace GKWebService.Models
 			OnDelay = device.State.OnDelay;
 			HoldDelay = device.State.HoldDelay;
 			HasHoldDelay = device.State.StateClasses.Contains(XStateClass.On) && device.State.HoldDelay > 0;
+
+			HasMeasureParameters = device.Driver.MeasureParameters.Where(x => !x.IsDelay && !x.IsNotVisible).Count() > 0 ||
+				device.DriverType == GKDriverType.RSR2_Valve_DU ||
+				device.DriverType == GKDriverType.RSR2_Valve_KV || device.DriverType == GKDriverType.RSR2_Valve_KVMV;
 
 			IsFireAndGuard = device.Driver.HasZone && device.Driver.HasGuardZone;
 
