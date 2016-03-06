@@ -119,6 +119,19 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 
+
+		[HttpPost]
+		public JsonResult OnExecuteCommand(GKStateBit commandName, Guid UID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == UID);
+			if (device != null)
+			{
+				ClientManager.FiresecService.GKExecuteDeviceCommand(device, commandName);
+			}
+			return new JsonResult();
+		}
+
+
 		private List<Device> BuildTreeList(GKDevice device, int level = 0)
 		{
 			var list = new List<Device>();

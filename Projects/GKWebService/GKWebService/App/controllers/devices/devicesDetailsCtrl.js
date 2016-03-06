@@ -115,9 +115,8 @@
         		$uibModalInstance.close();
         	};
 
-        	$scope.selectFunction = function (index) {
-				//todo: сделать вызов соответствующей функции в зависимости от параметра
-        		console.log(index);
+        	$scope.onExecuteCommand = function (command) {
+        		$http.post('Devices/OnExecuteCommand', { commandName: command, UID: $scope.device.UID });
 	        }
 
         	$scope.cancel = function () {

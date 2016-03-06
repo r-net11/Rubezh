@@ -6,6 +6,7 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GKWebService.Models.ViewModels;
 using RubezhAPI.Models;
 using RubezhClient;
 
@@ -95,7 +96,7 @@ namespace GKWebService.Models
 
 		public bool HasMeasureParameters { get; set; }
 
-		public List<String> DeviceExecutableCommands { get; set; } 
+		public List<DeviceExecutableCommand> DeviceExecutableCommands { get; set; } 
 
 		public Device()
 		{
@@ -164,10 +165,10 @@ namespace GKWebService.Models
 				&& ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
 			HasReset = device.DriverType == GKDriverType.RSR2_MAP4;
 
-			DeviceExecutableCommands = new List<String>();
+			DeviceExecutableCommands = new List<DeviceExecutableCommand>();
 			foreach (var command in device.Driver.AvailableCommandBits)
 			{
-				DeviceExecutableCommands.Add(command.ToDescription());
+				DeviceExecutableCommands.Add(new DeviceExecutableCommand(command));
 			}
 		}
 	}
