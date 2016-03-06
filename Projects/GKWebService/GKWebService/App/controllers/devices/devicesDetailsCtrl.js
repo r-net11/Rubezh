@@ -115,6 +115,10 @@
         		$uibModalInstance.close();
         	};
 
+        	$scope.onExecuteCommand = function (command) {
+        		$http.post('Devices/OnExecuteCommand', { commandName: command, UID: $scope.device.UID });
+	        }
+
         	$scope.cancel = function () {
         		$uibModalInstance.dismiss('cancel');
         	};
