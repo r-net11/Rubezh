@@ -746,6 +746,7 @@
     <Compile Include="Models\Door\Door.cs" />
     <Compile Include="Models\Door\DoorDevice.cs" />
     <Compile Include="Models\GK\GKBase.cs" />
+    <Compile Include="Models\GK\GKModuleLoader.cs" />
     <Compile Include="Models\GK\GKStateModel.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\GuardZones\GuardZone.cs" />
@@ -778,6 +779,7 @@
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
+    <Compile Include="Models\NavigationItem.cs" />
     <Compile Include="Models\PumpStation\PumpStation.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />

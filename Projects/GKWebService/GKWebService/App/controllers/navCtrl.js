@@ -3,9 +3,19 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('navCtrl',
-        ['$scope', '$location', '$state', '$rootScope', '$window', 'signalrConfigService',
-        function ($scope, $location, $state, $rootScope, $window, signalrConfigService) {
-            $scope.pageClick = function(page) {
+        ['$http', '$scope', '$location', '$state', '$rootScope', '$window', 'signalrConfigService',
+        function ($http, $scope, $location, $state, $rootScope, $window, signalrConfigService) {
+            $http.get('Home/GetNavigationItems').then(
+                function (response) {
+                    $scope.navItems = response.data;
+                },
+                function (response) {
+                    // TODO: Нужно реализовать общее окно для отображения ошибок
+                    alert(response.data.errorText);
+                }
+            );
+
+            $scope.pageClick = function (page) {
             };
 
             $scope.menuStateClick = function (group) {
