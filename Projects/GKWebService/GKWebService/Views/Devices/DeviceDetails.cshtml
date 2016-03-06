@@ -34,10 +34,10 @@
 							<div style="float: left; width: 49%" class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
 							<div style="float: left; width: 49%" class="btn btn-primary btn-control" ng-click="SetManualState()" ng-disabled="!device.CanSetManualState">Ручное</div>
 							<div style="float: left; width: 49%" class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreStateCommand">Отключение</div>
-							<div class="btn btn-primary btn-control" ng-click="TurnOn()" ng-disabled="!device.IsControlRegime">Пуск</div>
-							<div class="btn btn-primary btn-control" ng-click="TurnOnNow()" ng-disabled="!device.IsControlRegime">Пуск немедленно</div>
-							<div class="btn btn-primary btn-control" ng-click="ForbidStart()" ng-disabled="!device.IsControlRegime">Останов пуска</div>
-							<div style="float: right" class=" btn btn-primary btn-control" ng-click="TurnOff()" ng-disabled="!device.IsControlRegime">Выключить немедленно</div>
+							<div ng-repeat="ExecuteControlCommand in device.DeviceExecutableCommands">
+								<div class="btn btn-primary btn-control" ng-click="selectFunction(ExecuteControlCommand)" ng-disabled="!device.IsControlRegime" ng-style="$last && {'float':'right'} ">{{ExecuteControlCommand}}</div>
+							</div>
+
 						</div>
 					</div>
 				</uib-tab>

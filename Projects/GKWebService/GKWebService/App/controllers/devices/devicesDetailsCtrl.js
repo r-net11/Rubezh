@@ -115,6 +115,11 @@
         		$uibModalInstance.close();
         	};
 
+        	$scope.selectFunction = function (index) {
+				//todo: сделать вызов соответствующей функции в зависимости от параметра
+        		console.log(index);
+	        }
+
         	$scope.cancel = function () {
         		$uibModalInstance.dismiss('cancel');
         	};

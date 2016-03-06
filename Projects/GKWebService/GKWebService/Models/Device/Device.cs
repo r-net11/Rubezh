@@ -95,6 +95,8 @@ namespace GKWebService.Models
 
 		public bool HasMeasureParameters { get; set; }
 
+		public List<String> DeviceExecutableCommands { get; set; } 
+
 		public Device()
 		{
 			
@@ -161,6 +163,12 @@ namespace GKWebService.Models
 			IsBiStateControl = device.Driver.IsDeviceOnShleif && !device.Driver.IsControlDevice 
 				&& ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
 			HasReset = device.DriverType == GKDriverType.RSR2_MAP4;
+
+			DeviceExecutableCommands = new List<String>();
+			foreach (var command in device.Driver.AvailableCommandBits)
+			{
+				DeviceExecutableCommands.Add(command.ToDescription());
+			}
 		}
 	}
 }
