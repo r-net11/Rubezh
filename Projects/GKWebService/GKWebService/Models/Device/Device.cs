@@ -168,7 +168,7 @@ namespace GKWebService.Models
 			DeviceExecutableCommands = new List<DeviceExecutableCommand>();
 			foreach (var command in device.Driver.AvailableCommandBits)
 			{
-				DeviceExecutableCommands.Add(new DeviceExecutableCommand(command));
+				DeviceExecutableCommands.Add(new DeviceExecutableCommand(device.DriverType, command));
 			}
 		}
 	}
