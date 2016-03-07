@@ -95,6 +95,10 @@
         		$state.go('fireZones', { uid: $scope.device.ZoneUID });
         	};
 
+	        $scope.ShowOnPlan = function() {
+				//todo: implement this function
+	        };
+
         	$scope.ok = function () {
         		$uibModalInstance.close();
         	};
