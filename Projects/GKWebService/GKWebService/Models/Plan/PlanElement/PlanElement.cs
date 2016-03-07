@@ -133,8 +133,42 @@ namespace GKWebService.Models.Plan.PlanElement
 			return planElement;
 		}
 
+		public static Rect GetRectangle(RGPointCollection points) {
+			double minLeft = double.MaxValue;
+			double minTop = double.MaxValue;
+			double maxLeft = 0;
+			double maxTop = 0;
+			if (points == null)
+				points = new RGPointCollection();
+
+			foreach (var point in points.Points) {
+				if (point.X < minLeft)
+					minLeft = point.X;
+				if (point.Y < minTop)
+					minTop = point.Y;
+				if (point.X > maxLeft)
+					maxLeft = point.X;
+				if (point.Y > maxTop)
+					maxTop = point.Y;
+			}
+			if (maxTop < minTop)
+				minTop = maxTop;
+			if (maxLeft < minLeft)
+				minLeft = maxLeft;
+			return new Rect(minLeft, minTop, maxLeft - minLeft, maxTop - minTop);
+		}
+
+		public static PointCollection PointsFromRgPoints(RGPointCollection points) {
+			var coll = new PointCollection();
+			foreach (var rgPoint in points.Points) {
+				var point = new Point(rgPoint.X, rgPoint.Y);
+				coll.Add(point);
+			}
+			return coll;
+		}
+
 		public static PlanElement FromPolygon(ElementBasePolygon elem) {
-			var rect = elem.GetRectangle();
+			var rect = GetRectangle(elem.RGPoints);
 			var showState = false;
 			if (HasProperty(elem, "ShowState")) {
 				showState = (bool)GetProperty(elem, "ShowState");
@@ -212,9 +246,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			var shape = new PlanElement {
 				Path = InternalConverter.PointsToPath(pt, PathKind.ClosedLine),
 				Border = InternalConverter.ConvertColor(elem.BorderColor),
-				Fill = InternalConverter.ConvertColor(elem.BackgroundColor),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
-				FillMouseOver = InternalConverter.ConvertColor(elem.BackgroundColor),
 				Name = elem.PresentationName,
 				Id = elem.UID,
 				Image = backgroundImage,
@@ -261,17 +293,16 @@ namespace GKWebService.Models.Plan.PlanElement
 		}
 
 		public static PlanElement FromPolygonSimple(ElementBasePolygon item, bool mouseOver) {
+
 			var showHint = true;
 
 			if (HasProperty(item, "ShowTooltip")) {
 				showHint = (bool)GetProperty(item, "ShowTooltip");
 			}
 			var shape = new PlanElement {
-				Path = InternalConverter.PointsToPath(item.Points, PathKind.ClosedLine),
+				Path = InternalConverter.PointsToPath(PointsFromRgPoints(item.RGPoints), PathKind.ClosedLine),
 				Border = InternalConverter.ConvertColor(item.BorderColor),
-				Fill = InternalConverter.ConvertColor(item.BackgroundColor),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
-				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
 				Id = item.UID,
 				BorderThickness = item.BorderThickness,
@@ -658,94 +689,134 @@ namespace GKWebService.Models.Plan.PlanElement
 			//	}
 			//}
 
-			//var asZone = element as IElementZone;
-			//if (asZone != null) {
-			//	if (element is ElementRectangleGKZone) {
-			//		var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			//		if (zone != null && zone.PresentationName != null) {
-			//			hint.StateHintLines.Add(
-			//				new HintLine {
-			//					Text = zone.PresentationName,
-			//					Icon = new Func<string>(
-			//					() => {
-			//						var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
-			//						var imageData = GetImageResource(imagePath);
-			//						return imageData.Item1;
-			//					}).Invoke()
-			//				});
+			var asZone = element as IElementZone;
+			if (asZone != null) {
+				if (element is ElementRectangleGKZone || element is ElementPolygonGKZone) {
+					var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+					if (zone != null && zone.PresentationName != null) {
+						var imagePath = "Images/Zone.png";
+						var imageData = GetImageResource(imagePath);
+						hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName, Icon = imageData.Item1 });
 
-			//		}
-			//	}
-			//	if (element is ElementPolygonGKZone) {
-			//		var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			//		if (zone != null) {
-			//			if (zone.PresentationName != null) {
-			//				hint.StateHintLines.Add(
-			//					new HintLine {
-			//						Text = zone.PresentationName,
-			//						Icon = new Func<string>(
-			//						() => {
-			//							var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
-			//							var imageData = GetImageResource(imagePath);
-			//							return imageData.Item1;
-			//						}).Invoke()
-			//					});
+						// Добавляем состояния
+						foreach (var stateClass in zone.State.StateClasses) {
+							//Получаем источник иконки для основного класса
+							var iconSourceForStateClasses = stateClass.ToIconSource();
+							hint.StateHintLines.Add(
+								new HintLine {
+									Text = stateClass.ToDescription(),
+									Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
+								});
+						}
+						// Добавляем доп. состояния
+						foreach (var stateClass in zone.State.AdditionalStates) {
+							//Получаем источник иконки для основного класса
+							var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
+							hint.StateHintLines.Add(
+								new HintLine {
+									Text = stateClass.Name,
+									Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
+								});
+						}
 
-			//			}
-			//		}
-			//	}
-			//	if (element is ElementRectangleGKGuardZone
-			//		|| element is ElementPolygonGKGuardZone) {
-			//		var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			//		if (zone != null) {
-			//			if (zone.PresentationName != null) {
-			//				hint.StateHintLines.Add(new HintLine {
-			//					Text = zone.PresentationName,
-			//					Icon = new Func<string>(
-			//						() => {
-			//							var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
-			//							var imageData = GetImageResource(imagePath);
-			//							return imageData.Item1;
-			//						}).Invoke()
-			//				});
-			//			}
-			//		}
-			//	}
-			//	if (element is ElementRectangleGKSKDZone
-			//		|| element is ElementPolygonGKSKDZone) {
-			//		var zone = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			//		if (zone != null) {
-			//			if (zone.PresentationName != null) {
-			//				hint.StateHintLines.Add(new HintLine {
-			//					Text = zone.PresentationName,
-			//					Icon = new Func<string>(
-			//						() => {
-			//							var imagePath = zone.ImageSource.Replace("/Controls;component/", "");
-			//							var imageData = GetImageResource(imagePath);
-			//							return imageData.Item1;
-			//						}).Invoke()
-			//				});
-			//			}
-			//		}
-			//	}
-			//}
-			//var asMpt = element as IElementMPT;
-			//if (asMpt != null) {
-			//	var mpt = GKManager.MPTs.FirstOrDefault(m => m.UID == asMpt.MPTUID);
-			//	if (mpt != null) {
-			//		if (mpt.PresentationName != null) {
-			//			hint.StateHintLines.Add(new HintLine {
-			//				Text = mpt.PresentationName,
-			//				Icon = new Func<string>(
-			//						() => {
-			//							var imagePath = "Images/MPT.png";
-			//							var imageData = GetImageResource(imagePath);
-			//							return imageData.Item1;
-			//						}).Invoke()
-			//			});
-			//		}
-			//	}
-			//}
+					}
+				}
+				if (element is ElementRectangleGKGuardZone
+					|| element is ElementPolygonGKGuardZone) {
+					var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+					if (zone != null && zone.PresentationName != null) {
+						var imagePath = "Images/GuardZone.png";
+						var imageData = GetImageResource(imagePath);
+						hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName, Icon = imageData.Item1 });
+
+						// Добавляем состояния
+						foreach (var stateClass in zone.State.StateClasses) {
+							//Получаем источник иконки для основного класса
+							var iconSourceForStateClasses = stateClass.ToIconSource();
+							hint.StateHintLines.Add(
+								new HintLine {
+									Text = stateClass.ToDescription(),
+									Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
+								});
+						}
+						// Добавляем доп. состояния
+						foreach (var stateClass in zone.State.AdditionalStates) {
+							//Получаем источник иконки для основного класса
+							var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
+							hint.StateHintLines.Add(
+								new HintLine {
+									Text = stateClass.Name,
+									Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
+								});
+						}
+
+					}
+
+				}
+				if (element is ElementRectangleGKSKDZone
+					|| element is ElementPolygonGKSKDZone) {
+					var zone = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+					if (zone != null && zone.PresentationName != null) {
+						var imagePath = "Images/Zone.png";
+						var imageData = GetImageResource(imagePath);
+						hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName, Icon = imageData.Item1 });
+
+						// Добавляем состояния
+						foreach (var stateClass in zone.State.StateClasses) {
+							//Получаем источник иконки для основного класса
+							var iconSourceForStateClasses = stateClass.ToIconSource();
+							hint.StateHintLines.Add(
+								new HintLine {
+									Text = stateClass.ToDescription(),
+									Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
+								});
+						}
+						// Добавляем доп. состояния
+						foreach (var stateClass in zone.State.AdditionalStates) {
+							//Получаем источник иконки для основного класса
+							var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
+							hint.StateHintLines.Add(
+								new HintLine {
+									Text = stateClass.Name,
+									Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
+								});
+						}
+
+					}
+
+				}
+			}
+			var asMpt = element as IElementMPT;
+			if (asMpt != null) {
+				var mpt = GKManager.MPTs.FirstOrDefault(m => m.UID == asMpt.MPTUID);
+				if (mpt != null && mpt.PresentationName != null) {
+					var imagePath = "Images/BMPT.png";
+					var imageData = GetImageResource(imagePath);
+					hint.StateHintLines.Add(new HintLine { Text = mpt.PresentationName, Icon = imageData.Item1 });
+
+					// Добавляем состояния
+					foreach (var stateClass in mpt.State.StateClasses) {
+						//Получаем источник иконки для основного класса
+						var iconSourceForStateClasses = stateClass.ToIconSource();
+						hint.StateHintLines.Add(
+							new HintLine {
+								Text = stateClass.ToDescription(),
+								Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
+							});
+					}
+					// Добавляем доп. состояния
+					foreach (var stateClass in mpt.State.AdditionalStates) {
+						//Получаем источник иконки для основного класса
+						var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
+						hint.StateHintLines.Add(
+							new HintLine {
+								Text = stateClass.Name,
+								Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
+							});
+					}
+
+				}
+			}
 			//var asDelay = element as IElementDelay;
 			//if (asDelay != null) {
 			//	var delay = GKManager.Delays.FirstOrDefault(m => m.UID == asDelay.DelayUID);
@@ -763,24 +834,38 @@ namespace GKWebService.Models.Plan.PlanElement
 			//		}
 			//	}
 			//}
-			//var asDirection = element as IElementDirection;
-			//if (asDirection != null) {
-			//	var direction = GKManager.Directions.FirstOrDefault(
-			//		d => d.UID == asDirection.DirectionUID);
-			//	if (direction != null) {
-			//		if (direction.PresentationName != null) {
-			//			hint.StateHintLines.Add(new HintLine {
-			//				Text = direction.PresentationName,
-			//				Icon = new Func<string>(
-			//						() => {
-			//							var imagePath = direction.ImageSource.Replace("/Controls;component/", "");
-			//							var imageData = GetImageResource(imagePath);
-			//							return imageData.Item1;
-			//						}).Invoke()
-			//			});
-			//		}
-			//	}
-			//}
+			var asDirection = element as IElementDirection;
+			if (asDirection != null) {
+				var direction = GKManager.Directions.FirstOrDefault(
+					d => d.UID == asDirection.DirectionUID);
+				if (direction != null && direction.PresentationName != null) {
+					var imagePath = "Images/Blue_Direction.png";
+					var imageData = GetImageResource(imagePath);
+					hint.StateHintLines.Add(new HintLine { Text = direction.PresentationName, Icon = imageData.Item1 });
+
+					// Добавляем состояния
+					foreach (var stateClass in direction.State.StateClasses) {
+						//Получаем источник иконки для основного класса
+						var iconSourceForStateClasses = stateClass.ToIconSource();
+						hint.StateHintLines.Add(
+							new HintLine {
+								Text = stateClass.ToDescription(),
+								Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
+							});
+					}
+					// Добавляем доп. состояния
+					foreach (var stateClass in direction.State.AdditionalStates) {
+						//Получаем источник иконки для основного класса
+						var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
+						hint.StateHintLines.Add(
+							new HintLine {
+								Text = stateClass.Name,
+								Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
+							});
+					}
+
+				}
+			}
 			var asDevice = element as ElementGKDevice;
 			if (asDevice != null) {
 				var device = GKManager.Devices.FirstOrDefault(

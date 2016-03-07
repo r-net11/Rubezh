@@ -42,10 +42,10 @@
 				</uib-tab>
 				<uib-tab heading="Управление" ng-if="device.IsBiStateControl">
 					<div class="detailsTab">
-						<div>
-							<div class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
-							<div class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
-							<div class="btn btn-primary btn-control" ng-click="Reset()" ng-show="device.HasReset" ng-disabled="!device.CanReset">Сбросить</div>
+						<div align="center">
+							<div style="width: 49%" class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
+							<div style="width: 49%" class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
+							<div style="width: 49%" class="btn btn-primary btn-control" ng-click="Reset()" ng-show="device.HasReset" ng-disabled="!device.CanReset">Сбросить</div>
 						</div>
 					</div>
 				</uib-tab>
@@ -72,13 +72,23 @@
 								<span>Проектный адрес:</span>
 								<span></span>
 							</div>
-							<div ng-show="device.PresentationZone != ''">
+							<div ng-if="device.Driver.HasZone && device.PresentationZone != ''">
 								<span>Зона: </span>
 								<a class="labelImage" href="" ng-click="ShowZone()" style="background-image: url(/Content/Image/Images/Zone.png)">{{device.PresentationZone}}</a>
+							</div>
+							<div ng-if="device.Driver.HasLogic && device.PresentationZone != ''">
+								<span>Логика: </span>
+								<span>{{device.PresentationZone}}</span>
 							</div>
 							<div>
 								<a class="labelImage" href="" ng-click="ShowJournal()" style="background-image: url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
 							</div>
+							@*<div ng-if="device.Driver.HasZone && device.PlanNames.length > 0">
+								<span>План: </span>
+								<div ng-repeat="plan in device.PlanNames">
+									<a class="labelImage" href="" ng-click="ShowOnPlan()" style="background-image: url(/Content/Image/Images/CMap.png)">{{plan}}</a>
+								</div>
+							</div>*@
 						</div>
 					</div>
 				</uib-tab>

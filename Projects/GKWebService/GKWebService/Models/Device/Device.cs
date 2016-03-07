@@ -6,6 +6,7 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GKWebService.Models.Plan.PlanElement;
 using GKWebService.Models.ViewModels;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -96,7 +97,7 @@ namespace GKWebService.Models
 
 		public bool HasMeasureParameters { get; set; }
 
-		public List<DeviceExecutableCommand> DeviceExecutableCommands { get; set; } 
+		public List<DeviceExecutableCommand> DeviceExecutableCommands { get; set; }
 
 		public Device()
 		{
@@ -168,7 +169,7 @@ namespace GKWebService.Models
 			DeviceExecutableCommands = new List<DeviceExecutableCommand>();
 			foreach (var command in device.Driver.AvailableCommandBits)
 			{
-				DeviceExecutableCommands.Add(new DeviceExecutableCommand(command));
+				DeviceExecutableCommands.Add(new DeviceExecutableCommand(device.DriverType, command));
 			}
 		}
 	}
