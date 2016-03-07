@@ -161,6 +161,62 @@ namespace GKWebService.Models.GK.Alarms
 			}
 		}
 
+		public void TurnOnAutomatic()
+		{
+			var alarms = AlarmsViewModel.OnGKObjectsStateChanged(null);
+			var alarm = alarms.FirstOrDefault(a => a.GkBaseEntity.UID == GkEntity.UID);
+
+			if (alarm == null)
+			{
+				return;
+			}
+
+			var device = alarm.GkBaseEntity as GKDevice;
+			if (device != null)
+			{
+				if (device.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(device);
+				}
+			}
+
+			var direction = alarm.GkBaseEntity as GKDirection;
+			if (direction != null)
+			{
+				if (direction.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(direction);
+				}
+			}
+
+			var pumpStation = alarm.GkBaseEntity as GKPumpStation;
+			if (pumpStation != null)
+			{
+				if (pumpStation.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(pumpStation);
+				}
+			}
+
+			var delay = alarm.GkBaseEntity as GKDelay;
+			if (delay != null)
+			{
+				if (delay.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(delay);
+				}
+			}
+
+			var mpt = alarm.GkBaseEntity as GKMPT;
+			if (mpt != null)
+			{
+				if (mpt.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				}
+			}
+		}
+
 		bool GetCanReset()
 		{
 			if (Alarm.GkBaseEntity as GKZone != null)

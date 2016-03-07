@@ -3,6 +3,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using GKWebService.Models;
+using GKWebService.Models.GK;
+using GKWebService.Utils;
 
 namespace GKWebService.Controllers
 {
@@ -66,6 +68,16 @@ namespace GKWebService.Controllers
 		{
 			FormsAuthentication.SignOut();
             return Json("ok", JsonRequestBehavior.AllowGet);
+		}
+
+		[AllowAnonymous]
+		[ErrorHandler]
+		public JsonResult GetNavigationItems()
+		{
+			var gkModelLoader = new GKModuleLoader();
+			var items = gkModelLoader.CreateNavigation();
+			gkModelLoader.Initialize();
+			return Json(items, JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult RestartDetails()

@@ -28,7 +28,7 @@ namespace GKImitator.ViewModels
 			ConfigurationCashHelper.Update();
 			InitializeDescriptors();
 
-			GKProcessor = new GKImitator.Processor.NetProcessor();
+			GKProcessor = new NetProcessor();
 			GKProcessor.Start();
 
 			DelayThread = new Thread(OnCheckDelays);

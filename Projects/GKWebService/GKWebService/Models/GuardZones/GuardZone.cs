@@ -11,10 +11,14 @@ namespace GKWebService.Models.GuardZones
 {
 	public class GuardZone : GKBaseModel
 	{
+		public GuardZone()
+		{
+			
+		}
+
 		public GuardZone(GKGuardZone guardZone)
 			: base(guardZone)
 		{ 
-			UID = guardZone.UID;
 			No = guardZone.No;
 			GKDescriptorNo = guardZone.GKDescriptorNo;
 			Name = guardZone.Name;
@@ -47,7 +51,6 @@ namespace GKWebService.Models.GuardZones
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 
 		}
-		public Guid UID { get; set; }
 		public int No { get; set; }
 		public string Name { get; set; }
 		public String OnClausesGroup { get; set; }

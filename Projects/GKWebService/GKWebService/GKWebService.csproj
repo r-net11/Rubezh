@@ -388,6 +388,7 @@
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
     <Content Include="Content\Image\Icon\Header\map-on.png" />
+    <Content Include="Content\Image\Icon\Header\RAlarm_main_5_Info.png" />
     <Content Include="Content\Image\Icon\Header\sound-off.png" />
     <Content Include="Content\Image\Icon\Header\sound-on.png" />
     <Content Include="Content\Image\Icon\Header\user.png" />
@@ -654,6 +655,7 @@
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery-ui-touch-punch.js" />
     <Content Include="Scripts\jquery.jqGrid.min.js" />
     <Content Include="Scripts\jquery.jqGrid.src.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
@@ -740,10 +742,12 @@
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Device\ViewModels\DeviceExecutableCommand.cs" />
     <Compile Include="Models\Device\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Models\Door\Door.cs" />
     <Compile Include="Models\Door\DoorDevice.cs" />
     <Compile Include="Models\GK\GKBase.cs" />
+    <Compile Include="Models\GK\GKModuleLoader.cs" />
     <Compile Include="Models\GK\GKStateModel.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\GuardZones\GuardZone.cs" />
@@ -776,6 +780,7 @@
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
+    <Compile Include="Models\NavigationItem.cs" />
     <Compile Include="Models\PumpStation\PumpStation.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />

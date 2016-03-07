@@ -278,11 +278,11 @@ namespace FiresecService
 			if (commandType == GKDoorCommandType.CloseForever)
 			{
 				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.Door);
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Door);
 			}
 			if (commandType == GKDoorCommandType.Norm)
 			{
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Door);
 				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.Door);
 			}
 		}

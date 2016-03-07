@@ -9,7 +9,7 @@
 			function ChangeDelay(delay)
 			{
 				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-				    if ($scope.gridOptions.data[i].Uid == delay.Uid) {
+				    if ($scope.gridOptions.data[i].UID == delay.UID) {
 				        $scope.gridOptions.data[i] = delay;
                     }
 				}
@@ -66,7 +66,7 @@
 
 		    $scope.selectRowById = function (uid) {
 		        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-		            if ($scope.gridOptions.data[i].Uid === uid) {
+		            if ($scope.gridOptions.data[i].UID === uid) {
 			            $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
 			            $scope.gridApi.core.scrollTo($scope.gridOptions.data[i], $scope.gridOptions.columnDefs[0]);
 			            break;

@@ -20,12 +20,35 @@ namespace VideoModule.Views
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var viewModel = DataContext as CameraDetailsViewModel;
+			if (viewModel == null)
+				return;
 			viewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
 			viewModel.Surface.Left = viewModel.MarginLeft;
 			viewModel.Surface.Top = viewModel.MarginTop;
-			if (viewModel == null)
-				return;
+			viewModel.Play -= ViewModelOnPlay;
+			viewModel.Play += ViewModelOnPlay;
+			viewModel.Stop -= ViewModelOnStop;
+			viewModel.Stop += ViewModelOnStop;
 
+			PlayerStart();
+		}
+		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+		{
+			PlayerStop();
+		}
+		void ViewModelOnPlay(object sender, EventArgs eventArgs)
+		{
+			PlayerStart();
+		}
+		void ViewModelOnStop(object sender, EventArgs eventArgs)
+		{
+			PlayerStop();
+		}
+		void PlayerStart()
+		{
+			var viewModel = DataContext as CameraDetailsViewModel;
+			if (viewModel == null || !viewModel.IsConnected)
+				return;
 			try
 			{
 				IPEndPoint ipEndPoint;
@@ -41,7 +64,7 @@ namespace VideoModule.Views
 				Logger.Error(e);
 			}
 		}
-		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+		void PlayerStop()
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();

@@ -5,7 +5,7 @@
         function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
         	$scope.device = entity;
 
-        	$scope.$on('devicesChanged', function (event, args) {
+        	$scope.$on('signalrDevicesService.devicesChanged', function (event, args) {
         		if (args.UID === $scope.device.UID) {
         			$scope.device = args;
         			$scope.$apply();
@@ -79,22 +79,6 @@
         		$http.post('Devices/SetManualState', { id: $scope.device.UID });
         	};
 
-        	$scope.TurnOn = function () {
-        		$http.post('Devices/TurnOn', { id: $scope.device.UID });
-        	};
-
-        	$scope.TurnOnNow = function () {
-        		$http.post('Devices/TurnOnNow', { id: $scope.device.UID });
-        	};
-
-        	$scope.ForbidStart = function () {
-        		$http.post('Devices/ForbidStart', { id: $scope.device.UID });
-        	};
-
-        	$scope.TurnOff = function () {
-        		$http.post('Devices/TurnOff', { id: $scope.device.UID });
-        	};
-
         	$scope.ShowJournal = function () {
         		$state.go('archive', { uid: $scope.device.UID });
         	};
@@ -111,9 +95,17 @@
         		$state.go('fireZones', { uid: $scope.device.ZoneUID });
         	};
 
+	        $scope.ShowOnPlan = function() {
+				//todo: implement this function
+	        };
+
         	$scope.ok = function () {
         		$uibModalInstance.close();
         	};
+
+        	$scope.onExecuteCommand = function (command) {
+        		$http.post('Devices/OnExecuteCommand', { commandName: command, UID: $scope.device.UID });
+	        }
 
         	$scope.cancel = function () {
         		$uibModalInstance.dismiss('cancel');

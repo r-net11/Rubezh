@@ -35,7 +35,7 @@ namespace RubezhAPI.GK
 				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
 				if (device != null)
 				{
-					if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+					if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.Driver.IsCardReaderOrCodeReader)
 					{
 						guardZoneDevice.Device = device;
 						guardZoneDevices.Add(guardZoneDevice);

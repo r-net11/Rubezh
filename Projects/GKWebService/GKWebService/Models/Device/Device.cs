@@ -6,6 +6,8 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GKWebService.Models.Plan.PlanElement;
+using GKWebService.Models.ViewModels;
 using RubezhAPI.Models;
 using RubezhClient;
 
@@ -93,6 +95,15 @@ namespace GKWebService.Models
 
 		public GKDriverType DriverType { get; set; }
 
+		public bool HasMeasureParameters { get; set; }
+
+		public List<DeviceExecutableCommand> DeviceExecutableCommands { get; set; }
+
+		public Device()
+		{
+			
+		}
+
 		public Device(GKDevice device)
 			: base(device)
 		{
@@ -119,6 +130,10 @@ namespace GKWebService.Models
 			OnDelay = device.State.OnDelay;
 			HoldDelay = device.State.HoldDelay;
 			HasHoldDelay = device.State.StateClasses.Contains(XStateClass.On) && device.State.HoldDelay > 0;
+
+			HasMeasureParameters = device.Driver.MeasureParameters.Where(x => !x.IsDelay && !x.IsNotVisible).Count() > 0 ||
+				device.DriverType == GKDriverType.RSR2_Valve_DU ||
+				device.DriverType == GKDriverType.RSR2_Valve_KV || device.DriverType == GKDriverType.RSR2_Valve_KVMV;
 
 			IsFireAndGuard = device.Driver.HasZone && device.Driver.HasGuardZone;
 
@@ -150,6 +165,12 @@ namespace GKWebService.Models
 			IsBiStateControl = device.Driver.IsDeviceOnShleif && !device.Driver.IsControlDevice 
 				&& ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
 			HasReset = device.DriverType == GKDriverType.RSR2_MAP4;
+
+			DeviceExecutableCommands = new List<DeviceExecutableCommand>();
+			foreach (var command in device.Driver.AvailableCommandBits)
+			{
+				DeviceExecutableCommands.Add(new DeviceExecutableCommand(device.DriverType, command));
+			}
 		}
 	}
 }

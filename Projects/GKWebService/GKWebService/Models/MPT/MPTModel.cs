@@ -14,10 +14,14 @@ namespace GKWebService.Models
 {
 	public class MPTModel : GKBaseModel
 	{
+		public MPTModel()
+		{
+			
+		}
+
 		public MPTModel(GKMPT mpt)
 			: base(mpt)
 		{
-			UID = mpt.UID;
 			No = mpt.No;
 			GKDescriptorNo = mpt.GKDescriptorNo;
 			Name = mpt.Name;
@@ -48,7 +52,6 @@ namespace GKWebService.Models
 			IsControlRegime = (controlRegime == DeviceControlRegime.Manual);
 
 		}
-		public Guid UID { get; set; }
 		public int No { get; set; }
 		public string Name { get; set; }
 		public String OnClausesGroup { get; set; }

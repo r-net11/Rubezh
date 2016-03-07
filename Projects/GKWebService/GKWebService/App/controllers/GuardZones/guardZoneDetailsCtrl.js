@@ -5,7 +5,7 @@
 
         $scope.guardZone = entity;
         $scope.$on('guardZoneChanged', function (event, args) {
-            if (args.Uid === $scope.guardZone.Uid) {
+            if (args.UID === $scope.guardZone.UID) {
                 $scope.guardZone = args;
                 $scope.$apply();
             };

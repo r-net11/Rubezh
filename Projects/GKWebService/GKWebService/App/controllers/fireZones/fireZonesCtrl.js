@@ -29,7 +29,7 @@
 
         	$scope.$on('fireZonesChanged', function (event, args) {
         		for (var i in $scope.gridOptions.data) {
-        			if (args.Uid === $scope.gridOptions.data[i].Uid) {
+        		    if (args.UID === $scope.gridOptions.data[i].UID) {
         				$scope.gridOptions.data[i].CanResetIgnore = args.CanResetIgnore;
         				$scope.gridOptions.data[i].CanSetIgnore = args.CanSetIgnore;
         				$scope.gridOptions.data[i].CanResetFire = args.CanResetFire;
@@ -47,7 +47,7 @@
         	};
 
         	$scope.changeZone = function (row) {
-        		broadcastService.send('selectedZoneChanged', row.entity.Uid);
+        	    broadcastService.send('selectedZoneChanged', row.entity.UID);
         	}
 
         	$http.get('FireZones/GetFireZonesData').success(function (data) {
@@ -82,7 +82,7 @@
 
         	$scope.selectRowById = function (uid) {
         		for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-        			if ($scope.gridOptions.data[i].Uid === uid) {
+        		    if ($scope.gridOptions.data[i].UID === uid) {
         				$scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
         				$scope.gridApi.core.scrollTo($scope.gridOptions.data[i], $scope.gridOptions.columnDefs[0]);
 			            break;
