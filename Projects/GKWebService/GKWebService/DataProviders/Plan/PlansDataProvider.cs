@@ -58,8 +58,8 @@ namespace GKWebService.DataProviders.Plan
 		/// <returns>Коллекция элементов плана.</returns>
 		private IEnumerable<PlanElement> LoadPlanSubElements(RubezhAPI.Models.Plan plan) {
 			var rectangles = LoadRectangleElements(plan);
-			//var polygons = LoadPolygonElements(plan);
-			//var polylines = LoadPolyLineElements(plan);
+			var polygons = LoadPolygonElements(plan);
+			var polylines = LoadPolyLineElements(plan);
 			var ellipses = LoadEllipseElements(plan);
 			var textBlocks = LoadStaticTextElements(plan);
 			var doors = LoadDoorElements(plan);
@@ -67,7 +67,7 @@ namespace GKWebService.DataProviders.Plan
 			//return textBlocks.Concat(rectangles).Concat(ellipses).Concat(doors).Concat(devices);
 
 
-			return devices.Concat(rectangles).Concat(doors).Concat(textBlocks).Concat(ellipses);
+			return ellipses.Concat(polygons).Concat(polylines).Concat(rectangles).Concat(doors).Concat(textBlocks).Concat(devices);
 		}
 
 		/// <summary>
@@ -84,15 +84,15 @@ namespace GKWebService.DataProviders.Plan
 		}
 
 		private IEnumerable<PlanElement> LoadPolyLineElements(RubezhAPI.Models.Plan plan) {
-			return plan.ElementPolylines.Select(PlanElement.FromPolyline);
+			return plan.ElementPolylines.Select(PlanElement.FromPolyline).Where(elem => elem != null);
 		}
 
 		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan) {
-			return plan.AllElements.Where(elem => elem is ElementBasePolygon).Select(elem => PlanElement.FromPolygon(elem as ElementBasePolygon));
+			return plan.AllElements.Where(elem => elem is ElementBasePolygon).Select(elem => PlanElement.FromPolygon(elem as ElementBasePolygon)).Where(elem => elem != null);
 		}
 
 		private IEnumerable<PlanElement> LoadEllipseElements(RubezhAPI.Models.Plan plan) {
-			return plan.ElementEllipses.Select(PlanElement.FromEllipse);
+			return plan.ElementEllipses.Select(PlanElement.FromEllipse).Where(elem => elem != null);
 		}
 
 		/// <summary>
