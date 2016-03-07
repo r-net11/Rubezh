@@ -59,7 +59,7 @@
                 <div style="background: #fff; color: #000; height: 248px">
                     <div>
                         <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png"/>
-                        <a href="" ng-click="Show()">{{direction.Name}}</a>
+                        <a ui-sref="directions({uid: direction.UID})" ui-sref-opts="{reload: true}">{{direction.Name}}</a>
                     </div>
                     <div>
                         <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
@@ -67,7 +67,8 @@
                     </div>
                     <div>
                         <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png"/>
-                        <a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                        @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
+                        <a ui-sref="archive({uid: direction.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
                     </div>
                     <div>
                         <span>Задержка: </span>

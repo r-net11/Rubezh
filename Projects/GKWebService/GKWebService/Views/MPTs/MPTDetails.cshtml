@@ -48,12 +48,14 @@
 				<uib-tab heading="Свойства">
 					<div class="detailsTab">
 						<div class="properties">
-							<a href="" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)" ng-click="Show()">{{mpt.Name}}</a>
+							@*<a href="" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)" ng-click="Show()">{{mpt.Name}}</a>*@
+							<a ui-sref="MPTs({uid: mpt.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)">{{mpt.Name}}</a>
 							<div>
 								<span>Номер в ГК:</span>
 								<span>{{mpt.GKDescriptorNo}}</span>
 							</div>
-							<a href="" class="labelImage" ng-click="ShowJournal()" style="background-image:url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
+							@*<a href="" class="labelImage" ng-click="ShowJournal()" style="background-image:url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>*@
+							<a ui-sref="archive({uid: mpt.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
 							<div>
 								<span>Задержка: </span>
 								<span>{{mpt.Delay}}</span>

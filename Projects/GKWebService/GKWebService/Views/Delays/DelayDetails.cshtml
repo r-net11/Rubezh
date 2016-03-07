@@ -55,7 +55,8 @@
                 <uib-tab heading="Свойства">
                     <div>
                         <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/Hr/Delay.png" />
-                        <a href="" ng-click="Show()">{{delay.Name}}</a>
+                        @*<a href="" ng-click="Show()">{{delay.Name}}</a>*@
+                        <a ui-sref="delays({uid: delay.UID})" ui-sref-opts="{reload: true}">{{delay.Name}}</a>
                     </div>
                     <div>
                         <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
@@ -63,7 +64,8 @@
                     </div>
                     <div>
                         <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-                        <a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                        @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
+                        <a ui-sref="archive({uid: delay.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
                     </div>
                     <div>
                         <span>Задержка: </span>
