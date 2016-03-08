@@ -6,7 +6,7 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GKWebService.Models.Plan.PlanElement;
+using GKWebService.Models.Plan;
 using GKWebService.Models.ViewModels;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -99,6 +99,8 @@ namespace GKWebService.Models
 
 		public List<DeviceExecutableCommand> DeviceExecutableCommands { get; set; }
 
+		public List<PlanSimpl> Plans { get; set; }
+
 		public Device()
 		{
 			
@@ -171,6 +173,17 @@ namespace GKWebService.Models
 			{
 				DeviceExecutableCommands.Add(new DeviceExecutableCommand(device.DriverType, command));
 			}
+
+			Plans = new List<PlanSimpl>();
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == device.UID)))
+			{
+				Plans.Add(new PlanSimpl()
+				{
+					Name = plan.Caption,
+					Uid = plan.UID
+				});
+			}
+
 		}
 	}
 }

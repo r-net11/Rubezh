@@ -83,12 +83,10 @@
 							<div>
 								<a class="labelImage" href="" ng-click="ShowJournal()" style="background-image: url(/Content/Image/Icon/GK/BJournal.png)">Показать связанные события</a>
 							</div>
-							@*<div ng-if="device.Driver.HasZone && device.PlanNames.length > 0">
+							<div ng-if="device.Plans.length > 0" ng-repeat="plan in device.Plans">
 								<span>План: </span>
-								<div ng-repeat="plan in device.PlanNames">
-									<a class="labelImage" href="" ng-click="ShowOnPlan()" style="background-image: url(/Content/Image/Images/CMap.png)">{{plan}}</a>
-								</div>
-							</div>*@
+								<a class="labelImage" href="" ng-click="ShowOnPlan()" style="background-image: url(/Content/Image/Images/CMap.png)">{{plan.Name}}</a>
+							</div>
 						</div>
 					</div>
 				</uib-tab>
