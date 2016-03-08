@@ -95,8 +95,10 @@
         		$state.go('fireZones', { uid: $scope.device.ZoneUID });
         	};
 
-	        $scope.ShowOnPlan = function() {
-				//todo: implement this function
+        	$scope.ShowOnPlan = function (planUID) {
+		        var deviceUID = $scope.device.UID;
+		        $state.go('plan', { uid: planUID });
+				//todo: implement show on plan
 	        };
 
         	$scope.ok = function () {

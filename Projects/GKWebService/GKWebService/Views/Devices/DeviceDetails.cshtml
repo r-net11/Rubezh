@@ -85,7 +85,7 @@
 							</div>
 							<div ng-if="device.Plans.length > 0" ng-repeat="plan in device.Plans">
 								<span>План: </span>
-								<a class="labelImage" href="" ng-click="ShowOnPlan()" style="background-image: url(/Content/Image/Images/CMap.png)">{{plan.Name}}</a>
+								<a class="labelImage" href="" ng-click="ShowOnPlan(plan.Uid)" style="background-image: url(/Content/Image/Images/CMap.png)">{{plan.Name}}</a>
 							</div>
 						</div>
 					</div>
