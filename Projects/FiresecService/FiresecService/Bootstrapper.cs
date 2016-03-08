@@ -117,7 +117,7 @@ namespace FiresecService
 				AutomationProcessor.RunOnServerRun();
 				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
 				UILogger.Log("Готово");
-				OpcDaServersProcessor.Start();
+				//OpcDaServersProcessor.Start();
 				UILogger.Log("Запуск OPC DA");
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 				FiresecService.Service.FiresecService.AfterConnect += FiresecService_AfterConnect;

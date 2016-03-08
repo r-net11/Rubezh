@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Infrustructure.Plans.Interfaces;
 
 namespace RubezhClient
 {
@@ -176,6 +177,12 @@ namespace RubezhClient
 					if (!gkDelayMap.ContainsKey(delay.UID))
 						gkDelayMap.Add(delay.UID, delay);
 				}
+				var gkPumpStationMap = new Dictionary<Guid, GKPumpStation>();
+				foreach (var pumpStation in GKManager.PumpStations)
+				{
+					if (!gkPumpStationMap.ContainsKey(pumpStation.UID))
+						gkPumpStationMap.Add(pumpStation.UID, pumpStation);
+				}
 				var gkMPTMap = new Dictionary<Guid, GKMPT>();
 				foreach (var mpt in GKManager.MPTs)
 				{
@@ -264,6 +271,14 @@ namespace RubezhClient
 						if (gkDelayMap.ContainsKey(delay.DelayUID))
 							gkDelayMap[delay.DelayUID].PlanElementUIDs.Add(delay.UID);
 					}
+					foreach (var pumpStation in new IElementPumpStation[0]
+						.Concat(plan.ElementPolygonGKPumpStations)
+						.Concat(plan.ElementRectangleGKPumpStations))
+					{
+						UpdatePumpStationType(pumpStation, pumpStation.PumpStationUID != Guid.Empty && gkPumpStationMap.ContainsKey(pumpStation.PumpStationUID) ? gkPumpStationMap[pumpStation.PumpStationUID] : null);
+						if (gkPumpStationMap.ContainsKey(pumpStation.PumpStationUID))
+							gkPumpStationMap[pumpStation.PumpStationUID].PlanElementUIDs.Add(pumpStation.UID);
+					}
 					foreach (var direction in plan.ElementRectangleGKDirections)
 					{
 						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
@@ -342,6 +357,10 @@ namespace RubezhClient
 		private static void UpdateDelayType(IElementDelay elementGKDelay, GKDelay gkDelay)
 		{
 			elementGKDelay.BackgroundColor = gkDelay == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
+		}
+		private static void UpdatePumpStationType(IElementPumpStation elementGKPumpStation, GKPumpStation gkPumpStation)
+		{
+			elementGKPumpStation.BackgroundColor = (gkPumpStation == null) ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Cyan;
 		}
 		private static void UpdateDirectionType(IElementDirection elementGKDirection, GKDirection gkDirection)
 		{

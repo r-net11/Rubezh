@@ -30,12 +30,14 @@ namespace AutomationModule
 			allElements.AddRange(plan.ElementRectangleGKDirections);
 			allElements.AddRange(plan.ElementRectangleGKMPTs);
 			allElements.AddRange(plan.ElementRectangleGKDelays);
+			allElements.AddRange(plan.ElementRectangleGKPumpStations);
 			allElements.AddRange(plan.ElementPolygonGKZones);
 			allElements.AddRange(plan.ElementPolygonGKGuardZones);
 			allElements.AddRange(plan.ElementPolygonGKSKDZones);
 			allElements.AddRange(plan.ElementPolygonGKDirections);
 			allElements.AddRange(plan.ElementPolygonGKMPTs);
 			allElements.AddRange(plan.ElementPolygonGKDelays);
+			allElements.AddRange(plan.ElementPolygonGKPumpStations);
 			allElements.AddRange(plan.ElementSubPlans);
 			allElements.AddRange(plan.ElementPolygonSubPlans);
 			foreach (var elementRectangle in allElements)
