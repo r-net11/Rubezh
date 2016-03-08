@@ -54,6 +54,7 @@ namespace GKWebService.Models.Plan.PlanElement
 
 		public Device Device { get; set; }
 
+		public GKBaseModel GkObject { get; set; }
 		#endregion
 
 		#region Methods
@@ -120,6 +121,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				ChildElements = new[] { planElementRect, planElementText },
 				Id = elem.UID,
 				Hint = GetElementHint(elem),
+				GkObject = GetGkObject(elem),
 				Type = ShapeTypes.Group.ToString(),
 				Name = elem.PresentationName,
 				Width = elem.Width,
@@ -214,6 +216,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				ChildElements = new[] { planElementRect, planElementText },
 				Id = elem.UID,
 				Hint = GetElementHint(elem),
+				GkObject = GetGkObject(elem),
 				Type = ShapeTypes.Group.ToString(),
 				Width = rect.Width,
 				Height = rect.Height,
@@ -253,6 +256,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				X = elem.Left,
 				Y = elem.Top,
 				Hint = showHint ? GetElementHint(elem) : null,
+				GkObject = GetGkObject(elem),
 				BorderThickness = elem.BorderThickness,
 				Type = ShapeTypes.Path.ToString(),
 				HasOverlay = mouseOver,
@@ -305,6 +309,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				Name = item.PresentationName,
 				Id = item.UID,
+				GkObject = GetGkObject(item),
 				BorderThickness = item.BorderThickness,
 				Hint = showHint ? GetElementHint(item) : null,
 				Type = ShapeTypes.Path.ToString(),
@@ -568,6 +573,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				HasOverlay = true,
 				Name = device.PresentationName,
 				Device = new Device(device),
+				GkObject = new Device(device),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				X = item.Left - 7,
 				Y = item.Top - 7
@@ -674,6 +680,26 @@ namespace GKWebService.Models.Plan.PlanElement
 
 			}
 			return Convert.ToBase64String(bytes);
+		}
+
+		private static GKBaseModel GetGkObject(ElementBase elem)
+		{
+			var asZone = elem as IElementZone;
+			if (asZone != null)
+			{
+				if (elem is ElementRectangleGKZone || elem is ElementPolygonGKZone)
+				{
+					var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+					return new FireZone.FireZone(zone);
+				}
+				if (elem is ElementRectangleGKGuardZone || elem is ElementPolygonGKGuardZone)
+				{
+					var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+					return new GuardZones.GuardZone(zone);
+				}
+			}
+
+			return null;
 		}
 
 		private static ElementHint GetElementHint(ElementBase element) {
