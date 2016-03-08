@@ -12,17 +12,18 @@
 				broadcastService.send('planLoad');
 			}); };
 			plansListFactory.getPlansList(function(results) {
-				if (results.length > 0)
+				if (results.length > 0) {
 					$scope.PlansList = results;
+					$timeout(function () {
+						if ($stateParams.uid) {
+							$scope.LoadPlan($stateParams.uid);
+						}
+					});
+				}
 				else
 					$scope.PlansList = { errorMessage: "Планы не загружены. Убедитесь, что планы существуют в текущей конфигурации." };
 			});
 
-			$timeout(function () {
-				if ($stateParams.uid) {
-					$scope.LoadPlan($stateParams.uid);
-				}
-			});
 
 			//// Получаем данные для отображения плана
 
