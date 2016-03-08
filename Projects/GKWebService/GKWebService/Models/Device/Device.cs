@@ -6,6 +6,8 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GKWebService.Models.Plan;
+using GKWebService.Models.ViewModels;
 using RubezhAPI.Models;
 using RubezhClient;
 
@@ -87,20 +89,39 @@ namespace GKWebService.Models
 
 		public string ActionType { get; set; }
 
+		public Boolean IsRealDevice { get; set; }
+
+		public GKDriver Driver { get; set; }
+
+		public GKDriverType DriverType { get; set; }
+
+		public bool HasMeasureParameters { get; set; }
+
+		public List<DeviceExecutableCommand> DeviceExecutableCommands { get; set; }
+
+		public List<PlanSimpl> Plans { get; set; }
+
+		public Device()
+		{
+			
+		}
 
 		public Device(GKDevice device)
 			: base(device)
 		{
 			ParentUID = device.Parent != null ? device.Parent.UID : (Guid?)null;
-			ParentName = device.Parent != null ? device.Parent.PresentationName : String.Empty;
+			ParentName = device.Parent != null ? device.Parent.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType) : String.Empty;
 			ParentImage = device.Parent != null ? device.Parent.ImageSource.Replace("/Controls;component/", "") : String.Empty;
+			Name = device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
 			GKDescriptorNo = device.GKDescriptorNo;
 			Address = device.DottedPresentationAddress;
 			Description = device.Description;
 			Logic = GKManager.GetPresentationLogic(device.Logic);
 			NsLogic = GKManager.GetPresentationLogic(device.NSLogic);
-
 			ZoneUID = device.ZoneUIDs.FirstOrDefault();
+			IsRealDevice = device.IsRealDevice;
+			Driver = device.Driver;
+			DriverType = device.DriverType;
 
 			State = device.State.StateClass.ToDescription();
 			StateIcon = device.State.StateClass.ToString();
@@ -111,6 +132,10 @@ namespace GKWebService.Models
 			OnDelay = device.State.OnDelay;
 			HoldDelay = device.State.HoldDelay;
 			HasHoldDelay = device.State.StateClasses.Contains(XStateClass.On) && device.State.HoldDelay > 0;
+
+			HasMeasureParameters = device.Driver.MeasureParameters.Where(x => !x.IsDelay && !x.IsNotVisible).Count() > 0 ||
+				device.DriverType == GKDriverType.RSR2_Valve_DU ||
+				device.DriverType == GKDriverType.RSR2_Valve_KV || device.DriverType == GKDriverType.RSR2_Valve_KVMV;
 
 			IsFireAndGuard = device.Driver.HasZone && device.Driver.HasGuardZone;
 
@@ -142,6 +167,23 @@ namespace GKWebService.Models
 			IsBiStateControl = device.Driver.IsDeviceOnShleif && !device.Driver.IsControlDevice 
 				&& ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
 			HasReset = device.DriverType == GKDriverType.RSR2_MAP4;
+
+			DeviceExecutableCommands = new List<DeviceExecutableCommand>();
+			foreach (var command in device.Driver.AvailableCommandBits)
+			{
+				DeviceExecutableCommands.Add(new DeviceExecutableCommand(device.DriverType, command));
+			}
+
+			Plans = new List<PlanSimpl>();
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == device.UID)))
+			{
+				Plans.Add(new PlanSimpl()
+				{
+					Name = plan.Caption,
+					Uid = plan.UID
+				});
+			}
+
 		}
 	}
 }

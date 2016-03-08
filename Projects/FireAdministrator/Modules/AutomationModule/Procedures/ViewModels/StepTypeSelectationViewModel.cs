@@ -76,6 +76,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
 							new StepTypeViewModel(ProcedureStepType.SetValue),
 							new StepTypeViewModel(ProcedureStepType.IncrementValue),
+							new StepTypeViewModel(ProcedureStepType.CreateColor),
 							new StepTypeViewModel(ProcedureStepType.Now),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
 							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
@@ -145,6 +146,7 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.StopRecord),
 									new StepTypeViewModel(ProcedureStepType.Ptz),
 									new StepTypeViewModel(ProcedureStepType.RviAlarm),
+									new StepTypeViewModel(ProcedureStepType.RviOpenWindow)
 								}),
 						}),
 					new StepTypeViewModel("OPC DA Сервер", "/Controls;component/StepIcons/Control.png",

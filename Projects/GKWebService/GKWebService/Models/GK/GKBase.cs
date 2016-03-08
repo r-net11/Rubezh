@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GKWebService.Models.GK;
 using RubezhAPI.GK;
 
 namespace GKWebService.Models
 {
-	public abstract class GKBaseModel
+	public class GKBaseModel
 	{
 		public Guid UID { get; set; }
 
@@ -23,6 +24,11 @@ namespace GKWebService.Models
 		public string ImageSource { get; set; }
 
 		public string StateClass { get; set; }
+
+		public GKBaseModel()
+		{
+			
+		}
 
 		public GKBaseModel(GKBase gkObject)
 		{

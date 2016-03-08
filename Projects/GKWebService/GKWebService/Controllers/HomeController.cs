@@ -3,6 +3,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using GKWebService.Models;
+using GKWebService.Models.GK;
+using GKWebService.Utils;
 
 namespace GKWebService.Controllers
 {
@@ -28,28 +30,30 @@ namespace GKWebService.Controllers
 		{
 			string error = null;
 
-			if (!loginData.userName.Equals("adm", StringComparison.InvariantCultureIgnoreCase))
+			if (loginData.userName.Equals("adm", StringComparison.InvariantCultureIgnoreCase))
+			{
+				var authTicket = new FormsAuthenticationTicket(
+					2,
+					loginData.userName,
+					DateTime.Now,
+					DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
+					false,
+					"some token that will be used to access the web service and that you have fetched"
+					);
+				var authCookie = new HttpCookie(
+					FormsAuthentication.FormsCookieName,
+					FormsAuthentication.Encrypt(authTicket)
+					)
+				{
+					HttpOnly = true
+				};
+				Response.SuppressFormsAuthenticationRedirect = true;
+				Response.AppendCookie(authCookie);
+			}
+			else
 			{
 				error = "Неверный логин или пароль";
 			}
-
-			var authTicket = new FormsAuthenticationTicket(
-				2,
-				loginData.userName,
-				DateTime.Now,
-				DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
-				false,
-				"some token that will be used to access the web service and that you have fetched"
-			);
-			var authCookie = new HttpCookie(
-				FormsAuthentication.FormsCookieName,
-				FormsAuthentication.Encrypt(authTicket)
-			)
-			{
-				HttpOnly = true
-			};
-			Response.SuppressFormsAuthenticationRedirect = true;
-			Response.AppendCookie(authCookie);
 
 			return Json(new { success = (error == null), message = error });
 		}
@@ -64,6 +68,16 @@ namespace GKWebService.Controllers
 		{
 			FormsAuthentication.SignOut();
             return Json("ok", JsonRequestBehavior.AllowGet);
+		}
+
+		[AllowAnonymous]
+		[ErrorHandler]
+		public JsonResult GetNavigationItems()
+		{
+			var gkModelLoader = new GKModuleLoader();
+			var items = gkModelLoader.CreateNavigation();
+			gkModelLoader.Initialize();
+			return Json(items, JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult RestartDetails()

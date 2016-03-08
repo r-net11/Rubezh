@@ -21,6 +21,7 @@ namespace Infrastructure.Automation
 		static Action<Guid, Guid, Guid> OnStopRecord;
 		static Action<Guid, Guid, int> OnPtz;
 		static Action<Guid, string> OnRviAlarm;
+		static Action<Guid, string, int, int, int, string, string> OnRviOpenWindow;
 		static Action<Guid, Guid, ZoneCommandType> OnControlFireZone;
 		static Action<Guid, Guid, GuardZoneCommandType> OnControlGuardZone;
 		static Action<Guid, Guid, DirectionCommandType> OnControlDirection;
@@ -47,6 +48,7 @@ namespace Infrastructure.Automation
 			Action<Guid, Guid, Guid> onStopRecord = null,
 			Action<Guid, Guid, int> onPtz = null,
 			Action<Guid, string> onRviAlarm = null,
+			Action<Guid, string, int, int, int, string, string> onRviOpenWindow = null,
 			Action<Guid, Guid, ZoneCommandType> onControlFireZone = null,
 			Action<Guid, Guid, GuardZoneCommandType> onControlGuardZone = null,
 			Action<Guid, Guid, DirectionCommandType> onControlDirection = null,
@@ -74,6 +76,7 @@ namespace Infrastructure.Automation
 			OnStopRecord = onStopRecord;
 			OnPtz = onPtz;
 			OnRviAlarm = onRviAlarm;
+			OnRviOpenWindow = onRviOpenWindow;
 			OnControlFireZone = onControlFireZone;
 			OnControlGuardZone = onControlGuardZone;
 			OnControlDirection = onControlDirection;
@@ -132,6 +135,12 @@ namespace Infrastructure.Automation
 		{
 			if (OnRviAlarm != null)
 				OnRviAlarm(clientUID, name);
+		}
+
+		public static void RviOpenWindow(Guid clientUid, string name, int x, int y, int monitorNumber, string login, string ip)
+		{
+			if (OnRviOpenWindow != null)
+				OnRviOpenWindow(clientUid, name, x, y, monitorNumber,login,ip);
 		}
 
 		public static void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)

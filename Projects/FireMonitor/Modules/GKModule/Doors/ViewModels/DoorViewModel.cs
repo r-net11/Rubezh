@@ -112,17 +112,17 @@ namespace GKModule.ViewModels
 
 		public string OpenRegimeLogicName
 		{
-			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic.OnClausesGroup); }
 		}
 
 		public string NormRegimeLogicName
 		{
-			get { return GKManager.GetPresentationLogic(Door.NormRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.NormRegimeLogic.OnClausesGroup); }
 		}
 
 		public string CloseRegimeLogicName
 		{
-			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic.OnClausesGroup); }
 		}
 
 		public bool IsBold { get; set; }

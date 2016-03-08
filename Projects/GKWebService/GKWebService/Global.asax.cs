@@ -41,7 +41,15 @@ namespace GKWebService
 
 		protected void Application_BeginRequest()
 		{
+			// За перенаправление при аудентификации отвечает frontend
 			Context.Response.SuppressFormsAuthenticationRedirect = true;
+
+			// Ждём завршения инициализации веб-сервера
+			var bootstrapperThread = Application["bootstrapperThread"] as Thread;
+			if (bootstrapperThread != null)
+			{
+				bootstrapperThread.Join();
+			}
 		}
 	}
 }

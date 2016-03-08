@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (procedureStepType == ProcedureStepType.ControlPumpStation) || (procedureStepType == ProcedureStepType.ControlMPT)
 				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.Ptz)
-				|| (procedureStepType == ProcedureStepType.StartRecord) || (procedureStepType == ProcedureStepType.StopRecord) || (procedureStepType == ProcedureStepType.RviAlarm)
+				|| (procedureStepType == ProcedureStepType.StartRecord) || (procedureStepType == ProcedureStepType.StopRecord) || (procedureStepType == ProcedureStepType.RviAlarm) || (procedureStepType == ProcedureStepType.RviOpenWindow)
 				|| (procedureStepType == ProcedureStepType.ControlOpcDaTagGet) || (procedureStepType == ProcedureStepType.ControlOpcDaTagSet))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else if ((procedureStepType == ProcedureStepType.ExportJournal) || (procedureStepType == ProcedureStepType.ExportOrganisation)

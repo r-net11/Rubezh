@@ -28,7 +28,7 @@ namespace GKImitator.ViewModels
 			ConfigurationCashHelper.Update();
 			InitializeDescriptors();
 
-			GKProcessor = new GKImitator.Processor.NetProcessor();
+			GKProcessor = new NetProcessor();
 			GKProcessor.Start();
 
 			DelayThread = new Thread(OnCheckDelays);
@@ -70,20 +70,20 @@ namespace GKImitator.ViewModels
 					var binObjectViewModel = new DescriptorViewModel(descriptor);
 					Descriptors.Add(binObjectViewModel);
 				}
-			}
-			SelectedDescriptor = Descriptors.FirstOrDefault();
 
-			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
-			{
-				foreach (var descriptor in kauDatabase.Descriptors)
+				foreach (var kauDatabase in gkDatabase.KauDatabases)
 				{
-					var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptor.GKBase.GKDescriptorNo);
-					if (descriptorViewModel != null)
+					foreach (var descriptor in kauDatabase.Descriptors)
 					{
-						descriptorViewModel.SetKauDescriptor(descriptor);
+						var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBase.GKDescriptorNo == descriptor.GKBase.GKDescriptorNo);
+						if (descriptorViewModel != null)
+						{
+							descriptorViewModel.SetKauDescriptor(descriptor);
+						}
 					}
 				}
 			}
+			SelectedDescriptor = Descriptors.FirstOrDefault();
 		}
 
 		List<DescriptorViewModel> _descriptors;

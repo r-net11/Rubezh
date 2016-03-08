@@ -9,7 +9,7 @@
 </div>
 <div class="modal-body">
     <div>
-        <form name="form">
+        <form name="form" role="form">
             <div class="form-group">
                 <input class="form-control" ng-model="loginData.userName" autofocus autocomplete="on" placeholder="Логин">
             </div>
@@ -18,13 +18,13 @@
                 <input class="form-control" ng-model="loginData.password" type="password" placeholder="Пароль">
             </div>
 
-            <div class="form-actions">
-                <button class="btn btn-primary" ng-click="Enter()">Войти</button>
+            <div class="form-group">
+                <p class="text-center">{{message}}</p>
             </div>
             
-            <label>{{error}}</label>
         </form>
     </div>
 </div>
-
-
+<div class="modal-footer">
+    <button class="btn btn-primary pull-right" ng-click="Enter()">Войти</button>
+</div>

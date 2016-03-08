@@ -125,30 +125,30 @@ namespace GKWebService.Utils
 			return bmp;
 		}
 
-		public static string XamlCanvasToPngBase64(Canvas surface, int width, int height) {
+		public static string XamlCanvasToPngBase64(Canvas surface, double width, double height) {
 			if (surface == null) {
 				throw new ArgumentNullException("surface");
 			}
-			Grid newSurface = new Grid();
+			//Grid newSurface = new Grid();
 
-			foreach (UIElement child in surface.Children) {
-				var xaml = System.Windows.Markup.XamlWriter.Save(child);
-				var deepCopy = System.Windows.Markup.XamlReader.Parse(xaml) as UIElement;
-				newSurface.Children.Add(deepCopy);
-			}
+			//foreach (UIElement child in surface.Children) {
+			//	var xaml = System.Windows.Markup.XamlWriter.Save(child);
+			//	var deepCopy = System.Windows.Markup.XamlReader.Parse(xaml) as UIElement;
+			//	newSurface.Children.Add(deepCopy);
+			//}
 
 			// Get the size of canvas
 			var size = new Size(width, height);
 
 			// Measure and arrange the surface
 			// VERY IMPORTANT
-			newSurface.Measure(size);
-			newSurface.Arrange(new Rect(size));
+			surface.Measure(size);
+			surface.Arrange(new Rect(size));
 
 			double maxWidth = width;
 			double maxheight = height;
 
-			foreach (UIElement child in newSurface.Children)
+			foreach (UIElement child in surface.Children)
 			{
 				if (child.RenderSize.Height > maxheight)
 				{
@@ -168,7 +168,7 @@ namespace GKWebService.Utils
 					96d,
 					96d,
 					PixelFormats.Pbgra32);
-			renderBitmap.Render(newSurface);
+			renderBitmap.Render(surface);
 
 			// Create a file stream for saving image
 			using (var stream = new MemoryStream()) {

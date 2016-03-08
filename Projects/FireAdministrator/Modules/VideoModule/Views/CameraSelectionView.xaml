@@ -21,7 +21,7 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Grid Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Background="{DynamicResource BVideo}" />
+							<Image Width="16" Height="16" Margin="5 0 5 0" Source="{Binding ImageSource}" />
 							<TextBlock Text="{Binding  PresentationName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 						</StackPanel>
 					</DataTemplate>

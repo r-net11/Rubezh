@@ -2,7 +2,7 @@
 	"use strict";
 
 	var app = angular.module("gkApp.controllers").controller("PlanCtrl", [
-		"$scope", "plansListFactory", "dataFactory", "dialogService", "constants", "broadcastService", function ($scope, plansListFactory, dataFactory, dialogService, constants, broadcastService) {
+		"$scope", "$timeout", "plansListFactory", "dataFactory", "$stateParams", "dialogService", "constants", "broadcastService", function ($scope, $timeout, plansListFactory, dataFactory, $stateParams, dialogService, constants, broadcastService) {
 			$scope.toggle = function(scope) { scope.toggle(); };
 			$scope.ShowModal = function (size, item) {
 			    dialogService.showWindow(constants.gkObject.device, item.Device);
@@ -12,11 +12,18 @@
 				broadcastService.send('planLoad');
 			}); };
 			plansListFactory.getPlansList(function(results) {
-				if (results.length > 0)
+				if (results.length > 0) {
 					$scope.PlansList = results;
+					$timeout(function () {
+						if ($stateParams.uid) {
+							$scope.LoadPlan($stateParams.uid);
+						}
+					});
+				}
 				else
 					$scope.PlansList = { errorMessage: "Планы не загружены. Убедитесь, что планы существуют в текущей конфигурации." };
 			});
+
 
 			//// Получаем данные для отображения плана
 

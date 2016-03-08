@@ -131,6 +131,7 @@
     <Compile Include="Drivers\RSR2\RSR2_Button_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KVDU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KVMV_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_CodeCardReader_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HandDetectorEridan_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HeatDetectorEridan_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_IOLIT_Helper.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Drivers\RSR2\RSR2_RM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_RM_2_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_OPK_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_SCOPA_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Shuv_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MVP_Helper.cs" />
@@ -172,6 +174,7 @@
     <Compile Include="Drivers\RSR2\RSR2_Valve_DU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_GuardDetectorSound_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KV_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_ZOV_Helper.cs" />
     <Compile Include="GKLifecycleManager.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Administrator\GKScheduleHelper.cs" />

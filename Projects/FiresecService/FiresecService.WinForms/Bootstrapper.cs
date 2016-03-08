@@ -6,9 +6,6 @@ using FiresecService.Service;
 //using FiresecService.ViewModels;
 using Infrastructure.Automation;
 using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
@@ -18,8 +15,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace FiresecService
 {
@@ -64,6 +59,7 @@ namespace FiresecService
 					ProcedureHelper.StopRecord,
 					ProcedureHelper.Ptz,
 					ProcedureHelper.RviAlarm,
+					ProcedureHelper.RviOpenWindow,
 					ProcedureHelper.ControlFireZone,
 					ProcedureHelper.ControlGuardZone,
 					ProcedureHelper.ControlDirection,
@@ -156,16 +152,16 @@ namespace FiresecService
 
 			foreach (var variable in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
+				{
+					CallbackUID = Guid.NewGuid(),
+					ContextType = ContextType.Server,
+					AutomationCallbackType = AutomationCallbackType.GlobalVariable,
+					Data = new GlobalVariableCallBackData
 					{
-						CallbackUID = Guid.NewGuid(),
-						ContextType = ContextType.Server,
-						AutomationCallbackType = AutomationCallbackType.GlobalVariable,
-						Data = new GlobalVariableCallBackData
-						{
-							VariableUID = variable.Uid,
-							Value = variable.Value
-						}
-					}, clientUID);
+						VariableUID = variable.Uid,
+						Value = variable.Value
+					}
+				}, clientUID);
 		}
 
 		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)

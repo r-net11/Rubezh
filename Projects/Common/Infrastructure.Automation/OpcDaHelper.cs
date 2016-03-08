@@ -1,4 +1,5 @@
 ﻿using RubezhAPI.Automation;
+using RubezhClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ namespace Infrastructure.Automation
 	{
 		static object _locker = new object();
 		static List<OpcDaTagConcept> _tags = new List<OpcDaTagConcept>();
+		static List<OpcDaTagFilter> _opcDaTagFilters = new List<OpcDaTagFilter>();
+
+		public static OpcDaTagFilter[] TagsFilters { get { return _opcDaTagFilters.ToArray(); } }
 
 		static ReadWriteTagValueDelegate _readTagValue;
 		static ReadWriteTagValueDelegate _writeTagValue;
@@ -19,6 +23,12 @@ namespace Infrastructure.Automation
 			UpdateTagList(opcDaServers);
 			_readTagValue = readTagValue;
 			_writeTagValue = writeTagValue;
+
+			foreach (var filter in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters)
+			{
+				_opcDaTagFilters.Add(new OpcDaTagFilter(filter.UID, filter.Name, filter.Description,
+					filter.TagUID, filter.Hysteresis, filter.ValueType));
+			}
 		}
 
 		public static void UpdateTagList(List<OpcDaServer> opcDaServers)
@@ -62,7 +72,9 @@ namespace Infrastructure.Automation
 				case "System.DateTime":
 					return ExplicitType.DateTime;
 				case "System.Double":
+                    //return ExplicitType.Double;
 				case "System.Single":
+                    return ExplicitType.Float;
 				case "System.Int16":
 				case "System.Int32":
 					return ExplicitType.Integer;
@@ -112,6 +124,16 @@ namespace Infrastructure.Automation
 			if (isOk)
 			{
 				Value = result;
+
+				//AutomationProcessor.RunOnOpcTagFilters(ClientManager.CurrentUser, FiresecServiceFactory.UID);
+
+				//var filter = OpcDaHelper.TagsFilters.FirstOrDefault(x => x.TagUID == UID);
+				//if (filter != null)
+				//{
+				//	if (filter.CheckCondition(Value))
+				//	{
+				//	}
+				//}
 			}
 		}
 
@@ -146,6 +168,7 @@ namespace Infrastructure.Automation
 							(object)((IEnumerable)value).Cast<Int32>() :
 							Convert.ToInt32(value);
 					break;
+                case ExplicitType.Double:
 				case ExplicitType.Float:
 					if (valueTypeName == "System.Double" || valueTypeName == "System.Single")
 						result = resultIsArray ?

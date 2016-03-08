@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Common;
 using GKWebService.Models.Plan;
 using GKWebService.Models.Plan.PlanElement;
 using GKWebService.Utils;
@@ -42,7 +43,7 @@ namespace GKWebService.DataProviders.Plan
 					" L 0 " + plan.Height + " L 0 0 z",
 				Type = ShapeTypes.Plan.ToString(),
 				Image = RenderPlanBackgound(
-					plan.BackgroundImageSource,
+					plan.BackgroundImageSource, plan.ImageType,
 					Convert.ToInt32(plan.Width),
 					Convert.ToInt32(plan.Height)),
 				Width = plan.Width,
@@ -56,17 +57,17 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Коллекция элементов плана.</returns>
 		private IEnumerable<PlanElement> LoadPlanSubElements(RubezhAPI.Models.Plan plan) {
-			//var rectangles = LoadRectangleElements(plan);
-			//var polygons = LoadPolygonElements(plan);
-			//var polylines = LoadPolyLineElements(plan);
-			//var ellipses = LoadEllipseElements(plan);
-			//var textBlocks = LoadStaticTextElements(plan);
-			//var doors = LoadDoorElements(plan);
+			var rectangles = LoadRectangleElements(plan);
+			var polygons = LoadPolygonElements(plan);
+			var polylines = LoadPolyLineElements(plan);
+			var ellipses = LoadEllipseElements(plan);
+			var textBlocks = LoadStaticTextElements(plan);
+			var doors = LoadDoorElements(plan);
 			var devices = LoadDeviceElements(plan);
 			//return textBlocks.Concat(rectangles).Concat(ellipses).Concat(doors).Concat(devices);
 
 
-			return devices;
+			return ellipses.Concat(polygons).Concat(polylines).Concat(rectangles).Concat(doors).Concat(textBlocks).Concat(devices);
 		}
 
 		/// <summary>
@@ -83,15 +84,15 @@ namespace GKWebService.DataProviders.Plan
 		}
 
 		private IEnumerable<PlanElement> LoadPolyLineElements(RubezhAPI.Models.Plan plan) {
-			return plan.ElementPolylines.Select(PlanElement.FromPolyline);
+			return plan.ElementPolylines.Select(PlanElement.FromPolyline).Where(elem => elem != null);
 		}
 
 		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan) {
-			return plan.AllElements.Where(elem => elem is ElementBasePolygon).Select(elem => PlanElement.FromPolygon(elem as ElementBasePolygon));
+			return plan.AllElements.Where(elem => elem is ElementBasePolygon).Select(elem => PlanElement.FromPolygon(elem as ElementBasePolygon)).Where(elem => elem != null);
 		}
 
 		private IEnumerable<PlanElement> LoadEllipseElements(RubezhAPI.Models.Plan plan) {
-			return plan.ElementEllipses.Select(PlanElement.FromEllipse);
+			return plan.ElementEllipses.Select(PlanElement.FromEllipse).Where(elem => elem != null);
 		}
 
 		/// <summary>
@@ -103,10 +104,10 @@ namespace GKWebService.DataProviders.Plan
 		private IEnumerable<PlanElement> LoadStaticTextElements(RubezhAPI.Models.Plan plan) {
 			var textBlockElements = plan.ElementTextBlocks;
 			var procedureElements = plan.AllElements.OfType<ElementProcedure>();
-			return textBlockElements.Select(
+			return textBlockElements.Where(t=>!string.IsNullOrWhiteSpace(t.Text)).Select(
 				PlanElement.FromTextBlock)
 			                        .Where(elem => elem != null)
-			                        .Union(procedureElements.Select(PlanElement.FromProcedure).Where(elem => elem != null));
+			                        .Union(procedureElements.Where(p=>!string.IsNullOrWhiteSpace(p.Text)).Select(PlanElement.FromProcedure).Where(elem => elem != null));
 		}
 
 		private IEnumerable<PlanElement> LoadDeviceElements(RubezhAPI.Models.Plan plan) {
@@ -151,29 +152,8 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="width">Ширина плана</param>
 		/// <param name="height">Высота плана</param>
 		/// <returns></returns>
-		private string RenderPlanBackgound(Guid? source, int width, int height) {
-			Drawing drawing = null;
-			Canvas canvas = null;
-			if (source.HasValue) {
-				try {
-					drawing = _contentService.GetDrawing(source.Value);
-				}
-				catch (Exception) {
-					canvas = _contentService.GetObject<Canvas>(source.Value);
-					if (canvas == null) {
-						return string.Empty;
-					}
-				}
-			}
-			else {
-				return string.Empty;
-			}
-			if (drawing == null) {
-				return canvas == null ? string.Empty : InternalConverter.XamlCanvasToPngBase64(canvas, width, height);
-			}
-			drawing.Freeze();
-
-			return InternalConverterOld.XamlDrawingToPngBase64String(width, height, drawing);
+		private string RenderPlanBackgound(Guid? source, ResourceType resourceType, int width, int height) {
+			return PlanElement.GetBackgroundContent(source, resourceType, width, height);
 		}
 
 		#region Deferred Loading
@@ -197,7 +177,6 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Основная информация о плане, включая вложенные планы.</returns>
 		private PlanSimpl GetPlanInfo(RubezhAPI.Models.Plan plan) {
-			// Корень плана
 			return new PlanSimpl {
 				Name = plan.Caption,
 				Uid = plan.UID,
@@ -216,7 +195,7 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="planId">UID плана.</param>
 		/// <returns>Готовая к сериализации полная информация о плане.</returns>
 		public PlanSimpl GetPlan(Guid planId) {
-			var plan = ClientManager.PlansConfiguration.Plans.FirstOrDefault(p => p.UID == planId);
+			var plan = ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.UID == planId);
 			// Корень плана
 			if (plan == null) {
 				throw new KeyNotFoundException(string.Format("План с ID {0} не найден, либо недоступен.", planId));
@@ -245,10 +224,8 @@ namespace GKWebService.DataProviders.Plan
 		#region ctor, props
 
 		private static PlansDataProvider _instance;
-		private readonly ContentService _contentService;
 
 		private PlansDataProvider() {
-			_contentService = new ContentService("Sergey_GKOPC");
 			SafeFiresecService.GKCallbackResultEvent += OnServiceCallback;
 		}
 

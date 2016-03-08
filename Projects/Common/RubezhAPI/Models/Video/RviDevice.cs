@@ -20,13 +20,15 @@ namespace RubezhAPI.Models
 		public string Name { get; set; }
 		[DataMember]
 		public List<Camera> Cameras { get; set; }
-		[XmlIgnore]
-		public RviStatus Status { get; set; }
-		public event Action StatusChanged;
 		public void OnStatusChanged()
 		{
 			if (StatusChanged != null)
 				StatusChanged();
 		}
+		public event Action StatusChanged;
+		[XmlIgnore]
+		public RviStatus Status { get; set; }
+		[XmlIgnore]
+		public string ImageSource { get { return "/Controls;component/RviDevicesIcons/Device.png"; } }
 	}
 }

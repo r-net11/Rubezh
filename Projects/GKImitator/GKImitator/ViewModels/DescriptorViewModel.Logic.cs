@@ -21,7 +21,6 @@ namespace GKImitator.ViewModels
 		{
 			KauBaseDescriptor = kauBaseDescriptor;
 			InitializeLogic();
-
 		}
 
 		public void InitializeLogic()
@@ -46,7 +45,7 @@ namespace GKImitator.ViewModels
 		{
 			foreach (var gkBase in LogicDescriptor.GKBase.OutputDescriptors)
 			{
-				var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == gkBase.GKDescriptorNo);
+				var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == gkBase.GKDescriptorNo);
 				if (descriptorViewModel != null)
 				{
 					descriptorViewModel.RecalculateLogic();
@@ -56,7 +55,7 @@ namespace GKImitator.ViewModels
 
 		public void RecalculateCurrentLogic()
 		{
-			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == GKBase.GKDescriptorNo);
+			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == GKBase.GKDescriptorNo);
 			if (descriptorViewModel != null)
 			{
 				descriptorViewModel.RecalculateLogic();
@@ -83,7 +82,7 @@ namespace GKImitator.ViewModels
 				if (IsKauDecriptor)
 					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand); // TODO проверить для больше чем одного КАУ
 				else
-					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.DescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
+					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand);
 
 				switch (formulaOperation.FormulaOperationType)
 				{
@@ -329,7 +328,7 @@ namespace GKImitator.ViewModels
 						if (descriptorViewModel != null && descriptorViewModel.CurrentCardNo > 0)
 						{
 							var device = descriptorViewModel.GKBase as GKDevice;
-							if (device != null && (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader))
+							if (device != null && (device.Driver.IsCardReaderOrCodeReader))
 							{
 								ImitatorUser user = null;
 								using (var dbService = new DbService())

@@ -12,8 +12,6 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
@@ -24,17 +22,11 @@
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 				<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Camera.Name}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-				<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Camera.Ip}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Номер канала" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-				<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Camera.RviChannelNo}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Название канала" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-				<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Camera.RviChannelName}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Название устройства" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Camera.RviDeviceName}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 				
-				<TextBlock Grid.Row="4" Grid.Column="0" Text="Отображаемый поток" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
-				<ComboBox Grid.Row="4"	Grid.Column="1" Margin="2"	ItemsSource="{Binding RviStreams}" SelectedValue="{Binding SelectedRviStream, UpdateSourceTrigger=PropertyChanged}">
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Отображаемый поток" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<ComboBox Grid.Row="2"	Grid.Column="1" Margin="2"	ItemsSource="{Binding RviStreams}" SelectedValue="{Binding SelectedRviStream, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Name}" />
@@ -43,7 +35,7 @@
 				</ComboBox>
 
 				<Button
-					Grid.Row="5"
+					Grid.Row="3"
 					Grid.ColumnSpan="2"
 					Width="140"
 					HorizontalAlignment="Center"
@@ -54,7 +46,7 @@
 
 				<mediaSourcePlayer:MediaPlayer
 					x:Name="MediaSourcePlayer"
-					Grid.Row="6"
+					Grid.Row="4"
 					Grid.ColumnSpan="2"
 					OriginalAspectRatio="True" />
 			</Grid>

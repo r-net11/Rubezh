@@ -34,8 +34,6 @@ namespace GKWebService.Models.FireZone
 		/// </summary>
 		public String Name { get; set; }
 
-		public Guid Uid { get; set; }
-
 		public Int32 No { get; set; }
 
 		public String StateColor { get; set; }
@@ -50,7 +48,12 @@ namespace GKWebService.Models.FireZone
 
 		public ushort GKDescriptorNo { get; set; }
 
-		public FireZone(GKZone gkZone)
+		public FireZone()
+		{
+			
+		}
+
+        public FireZone(GKZone gkZone)
 			: base(gkZone)
 		{
 			StateIcon = Convert.ToString(gkZone.State.StateClass);
@@ -58,7 +61,6 @@ namespace GKWebService.Models.FireZone
 			Fire1Count = gkZone.Fire1Count;
 			Fire2Count = gkZone.Fire2Count;
 			ImageSource = gkZone.ImageSource.Replace("/Controls;component/", "");
-			Uid = gkZone.UID;
 			No = gkZone.No;
 			StateColor = "'#" +
 						 new XStateClassToColorConverter2().Convert(gkZone.State.StateClass, null, null, null)

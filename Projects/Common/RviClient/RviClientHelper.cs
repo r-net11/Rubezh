@@ -152,11 +152,20 @@ namespace RviClient
 					newCameras.Add(camera);
 				}
 			}
-			foreach (var existingCamera in existingCameras)
+			if (existingCameras != null)
 			{
-				var camera = newCameras.FirstOrDefault(newCamera => newCamera.UID == existingCamera.UID);
-				if (camera != null)
-					camera.IsAddedInConfiguration = existingCamera.IsAddedInConfiguration;
+				foreach (var existingCamera in existingCameras)
+				{
+					var camera = newCameras.FirstOrDefault(newCamera => newCamera.UID == existingCamera.UID);
+					if (camera != null)
+					{
+						camera.IsAddedInConfiguration = existingCamera.IsAddedInConfiguration;
+						camera.ShowDetailsHeight = existingCamera.ShowDetailsHeight;
+						camera.ShowDetailsWidth = existingCamera.ShowDetailsWidth;
+						camera.ShowDetailsMarginLeft = existingCamera.ShowDetailsMarginLeft;
+						camera.ShowDetailsMarginTop = existingCamera.ShowDetailsMarginTop;
+					}
+				}
 			}
 			return rviDevices;
 		}
@@ -384,6 +393,90 @@ namespace RviClient
 				Logger.Error(e, "RViClientHelper.VideoRecordStop");
 			}
 		}
+		public static void AlarmSetChannel(RviSettings rviSettings, Camera camera)
+		{
+			try
+			{
+				using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+				{
+					var sessionUID = Guid.NewGuid();
+
+					var sessionInitialiazationIn = new SessionInitialiazationIn();
+					sessionInitialiazationIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					sessionInitialiazationIn.Login = rviSettings.Login;
+					sessionInitialiazationIn.Password = rviSettings.Password;
+					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+
+					var alarmSetChannelIn = new AlarmSetChannelIn();
+					alarmSetChannelIn.DeviceGuid = camera.RviDeviceUID;
+					alarmSetChannelIn.ChannelNumber = camera.Number;
+					alarmSetChannelIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var alarmSetChannelOut = client.AlarmSetChannel(alarmSetChannelIn);
+
+					var sessionCloseIn = new SessionCloseIn();
+					sessionCloseIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var sessionCloseOut = client.SessionClose(sessionCloseIn);
+				}
+			}
+			catch (CommunicationException e)
+			{
+				Logger.Error(e, "RViClientHelper.AlarmSetChannel");
+			}
+		}
+		public static void AlarmDisableChannel(RviSettings rviSettings, Camera camera)
+		{
+			try
+			{
+				using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+				{
+					var sessionUID = Guid.NewGuid();
+
+					var sessionInitialiazationIn = new SessionInitialiazationIn();
+					sessionInitialiazationIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					sessionInitialiazationIn.Login = rviSettings.Login;
+					sessionInitialiazationIn.Password = rviSettings.Password;
+					var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+
+					var alarmDisableChannelIn = new AlarmDisableChannelIn();
+					alarmDisableChannelIn.DeviceGuid = camera.RviDeviceUID;
+					alarmDisableChannelIn.ChannelNumber = camera.Number;
+					alarmDisableChannelIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var alarmDisableChannelOut = client.AlarmDisableChannel(alarmDisableChannelIn);
+
+					var sessionCloseIn = new SessionCloseIn();
+					sessionCloseIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var sessionCloseOut = client.SessionClose(sessionCloseIn);
+				}
+			}
+			catch (CommunicationException e)
+			{
+				Logger.Error(e, "RViClientHelper.AlarmDisableChannel");
+			}
+		}
 
 		public static bool GetVideoFile(RviSettings rviSettings, Guid eventUID, Camera camera, string videoPath, out string errorInformation)
 		{
@@ -519,14 +612,62 @@ namespace RviClient
 					if (alarmRule != null)
 					{
 						var alarmRuleExecuteIn = new AlarmRuleExecuteIn();
+						alarmRuleExecuteIn.AlarmRuleGuid = alarmRule.Guid;
+						alarmRuleExecuteIn.ExternalEventGuid = Guid.NewGuid();
 						alarmRuleExecuteIn.Header = new HeaderRequest()
 						{
 							Request = Guid.NewGuid(),
 							Session = sessionUID
 						};
-						alarmRuleExecuteIn.AlarmRuleGuid = alarmRule.Guid;
 						var alarmRuleExecuteOut = client.AlarmRuleExecute(alarmRuleExecuteIn);
 					}
+				}
+				var sessionCloseIn = new SessionCloseIn();
+				sessionCloseIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+			}
+		}
+		public static void OpenWindow(RviSettings rviSettings, string name, int x, int y, int monitorNumber, string login, string ip)
+		{
+			using (IntegrationClient client = CreateIntegrationClient(rviSettings.Url))
+			{
+				var sessionUID = Guid.NewGuid();
+
+				var sessionInitialiazationIn = new SessionInitialiazationIn();
+				sessionInitialiazationIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				sessionInitialiazationIn.Login = rviSettings.Login;
+				sessionInitialiazationIn.Password = rviSettings.Password;
+				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+				var windowListIn = new WindowListIn();
+				windowListIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var windowListOut = client.GetWindowList(windowListIn);
+
+				var windowClient = windowListOut.Window.FirstOrDefault(window => window.Name == name);
+				if (windowClient != null)
+				{
+					var openWindowIn = new OpenWindowIn();
+					openWindowIn.IP = ip;
+					openWindowIn.Login = login;
+					openWindowIn.GuidWindow = windowClient.Guid;
+					openWindowIn.Monitor = new Monitor() { X = x, Y = y, Number = monitorNumber };
+					openWindowIn.Header = new HeaderRequest()
+					{
+						Request = Guid.NewGuid(),
+						Session = sessionUID
+					};
+					var openWindowOut = client.OpenWindow(openWindowIn);
 				}
 
 				var sessionCloseIn = new SessionCloseIn();

@@ -210,7 +210,7 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				ClientManager.FiresecService.GKSetManualRegime(Door);
-				ClientManager.FiresecService.GKTurnOff(Door);
+				ClientManager.FiresecService.GKTurnOffNow(Door);
 			}
 		}
 

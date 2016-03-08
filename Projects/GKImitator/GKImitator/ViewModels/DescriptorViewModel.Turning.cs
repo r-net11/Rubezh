@@ -158,71 +158,75 @@ namespace GKImitator.ViewModels
 			PauseTurnOnCommand = new RelayCommand(OnPauseTurnOn);
 		}
 
+		public object locker = new object();
 		public void CheckDelays()
 		{
-			if (TurningState == TurningState.TurningOn)
+			lock (locker)
 			{
-				if (CurrentOnDelay == 0)
+				if (TurningState == TurningState.TurningOn)
 				{
-					bool changed = SetStateBit(GKStateBit.TurningOn, false);
-					changed = SetStateBit(GKStateBit.Off, false) || changed;
-					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
-					changed = SetStateBit(GKStateBit.On, true) || changed;
-				}
-				else
-				{
-					CurrentOnDelay--;
-					AdditionalShortParameters[0] = CurrentOnDelay;
-				}
-			}
-			if (TurningState == TurningState.Holding)
-			{
-				if (CurrentHoldDelay == 0)
-				{
-					if (DelayRegime != null)
+					if (CurrentOnDelay == 0)
 					{
-						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
-						{
-							TurnOff();
-						}
-						if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
-						{
-							TurnOn();
-						}
+						bool changed = SetStateBit(GKStateBit.TurningOn, false);
+						changed = SetStateBit(GKStateBit.Off, false) || changed;
+						changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+						changed = SetStateBit(GKStateBit.On, true) || changed;
+					}
+					else
+					{
+						CurrentOnDelay--;
+						AdditionalShortParameters[0] = CurrentOnDelay;
 					}
 				}
-				else
+				if (TurningState == TurningState.Holding)
 				{
-					CurrentHoldDelay--;
-					AdditionalShortParameters[1] = CurrentHoldDelay;
+					if (CurrentHoldDelay == 0)
+					{
+						if (DelayRegime != null)
+						{
+							if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
+							{
+								TurnOff();
+							}
+							if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
+							{
+								TurnOn();
+							}
+						}
+					}
+					else
+					{
+						CurrentHoldDelay--;
+						AdditionalShortParameters[1] = CurrentHoldDelay;
+					}
 				}
-			}
-			if (TurningState == TurningState.TurningOff)
-			{
-				if (CurrentOffDelay == 0)
+				if (TurningState == TurningState.TurningOff)
 				{
-					var changed = SetStateBit(GKStateBit.On, false);
-					changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
-					changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
-					changed = SetStateBit(GKStateBit.Off, true) || changed;
+					if (CurrentOffDelay == 0)
+					{
+						var changed = SetStateBit(GKStateBit.On, false);
+						changed = SetStateBit(GKStateBit.TurningOn, false) || changed;
+						changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+						changed = SetStateBit(GKStateBit.Off, true) || changed;
+					}
+					else
+					{
+						CurrentOffDelay--;
+						AdditionalShortParameters[2] = CurrentOffDelay;
+					}
 				}
-				else
+				if (IsSettingGuardAlarm)
 				{
-					CurrentOffDelay--;
-					AdditionalShortParameters[2] = CurrentOffDelay;
-				}
-			}
-			if (IsSettingGuardAlarm)
-			{
-				if (CurrentAlarmDelay == 0)
-				{
-					IsSettingGuardAlarm = false;
-					SetStateBit(GKStateBit.Attention, false);
-					SetStateBit(GKStateBit.Fire1, true);
-				}
-				else
-				{
-					CurrentAlarmDelay--;
+					if (CurrentAlarmDelay == 0)
+					{
+						IsSettingGuardAlarm = false;
+						SetStateBit(GKStateBit.Attention, false);
+						SetStateBit(GKStateBit.Fire1, true);
+					}
+					else
+					{
+						CurrentAlarmDelay--;
+					}
 				}
 			}
 		}
@@ -352,7 +356,6 @@ namespace GKImitator.ViewModels
 		{
 			if (GetStateBit(GKStateBit.Attention) || GetStateBit(GKStateBit.Fire1))
 				return;
-
 			if (GuardZoneAlarmDelay > 0)
 			{
 				SetStateBit(GKStateBit.Fire1, false);

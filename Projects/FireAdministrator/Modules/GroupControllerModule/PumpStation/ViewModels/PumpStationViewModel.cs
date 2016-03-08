@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -68,6 +69,40 @@ namespace GKModule.ViewModels
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizationState; }
+		}
+
+		public RelayCommand ChangeStopLogicCommand { get; private set; }
+		void OnChangeStopLogic()
+		{
+			var logicViewModel = new LogicViewModel(PumpStation, PumpStation.StopLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
+			{
+				GKManager.SetPumpStationStopLogic(PumpStation, logicViewModel.GetModel());
+				OnPropertyChanged(() => StopPresentationName);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public string StopPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(PumpStation.StopLogic.OnClausesGroup); }
+		}
+
+		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
+		void OnChangeAutomaticOffLogic()
+		{
+			var logicViewModel = new LogicViewModel(PumpStation, PumpStation.AutomaticOffLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
+			{
+				GKManager.SetPumpStationAutomaticOffLogic(PumpStation,logicViewModel.GetModel());
+				OnPropertyChanged(() => AutomaticOffPresentationName);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public string AutomaticOffPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(PumpStation.AutomaticOffLogic.OnClausesGroup); }
 		}
 	}
 }

@@ -213,7 +213,7 @@ namespace GKModule.Validation
 
 		void ValidateDoorHasWrongDevices(GKDoor door)
 		{
-			if (door.EnterDevice != null && door.EnterDevice.DriverType != GKDriverType.RSR2_CardReader && door.EnterDevice.DriverType != GKDriverType.RSR2_CodeReader)
+			if (door.EnterDevice != null && !door.EnterDevice.Driver.IsCardReaderOrCodeReader)
 			{
 				AddError(door, "К точке доступа подключено неверное устройство на вход", ValidationErrorLevel.CannotWrite);
 			}
@@ -224,13 +224,13 @@ namespace GKModule.Validation
 				{
 					AddError(door, "К точке доступа подключено неверное устройство на выход", ValidationErrorLevel.CannotWrite);
 				}
-				if (door.DoorType == GKDoorType.TwoWay && door.ExitDevice.DriverType != GKDriverType.RSR2_CardReader && door.ExitDevice.DriverType != GKDriverType.RSR2_CodeReader)
+				if (door.DoorType == GKDoorType.TwoWay && !door.ExitDevice.Driver.IsCardReaderOrCodeReader)
 				{
 					AddError(door, "К точке доступа подключено неверное устройство на выход", ValidationErrorLevel.CannotWrite);
 				}
 			}
 
-			if (door.LockDevice != null && door.LockDevice.DriverType != GKDriverType.RSR2_RM_1 && door.LockDevice.DriverType != GKDriverType.RSR2_MVK8 && door.LockDevice.DriverType != GKDriverType.RSR2_CardReader && door.LockDevice.DriverType != GKDriverType.RSR2_CodeReader)
+			if (door.LockDevice != null && door.LockDevice.DriverType != GKDriverType.RSR2_RM_1 && door.LockDevice.DriverType != GKDriverType.RSR2_MVK8 && !door.LockDevice.Driver.IsCardReaderOrCodeReader)
 			{
 				AddError(door, "К точке доступа подключено неверное устройство на замок", ValidationErrorLevel.CannotWrite);
 			}
@@ -259,6 +259,7 @@ namespace GKModule.Validation
 
 					case GKDriverType.RSR2_CodeReader:
 					case GKDriverType.RSR2_CardReader:
+					case GKDriverType.RSR2_CodeCardReader:
 						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с").Value != 0)
 							AddError(door.LockDevice, "Парамер 'Задержка на включение, с' устройства, участвующего в ТД, должен быть '0'", ValidationErrorLevel.CannotWrite);
 						break;
@@ -268,6 +269,7 @@ namespace GKModule.Validation
 				{
 					case GKDriverType.RSR2_CodeReader:
 					case GKDriverType.RSR2_CardReader:
+					case GKDriverType.RSR2_CodeCardReader:
 						if (door.LockDevice.Properties.FirstOrDefault(x => x.Name == "Наличие реле").Value != 2)
 							AddError(door.LockDevice, "Парамер 'Наличие реле' устройства, участвующего в ТД, должен быть 'Есть'", ValidationErrorLevel.CannotWrite);
 						break;

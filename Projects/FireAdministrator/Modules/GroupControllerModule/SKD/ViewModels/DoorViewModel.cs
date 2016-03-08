@@ -67,7 +67,7 @@ namespace GKModule.ViewModels
 					Door.ExitDeviceUID = Guid.Empty;
 					ExitDevice = null;
 				}
-				if (ExitDevice != null && (Door.DoorType != GKDoorType.OneWay && ExitDevice.DriverType != GKDriverType.RSR2_CodeReader && ExitDevice.DriverType != GKDriverType.RSR2_CardReader))
+				if (ExitDevice != null && (Door.DoorType != GKDoorType.OneWay && !ExitDevice.Driver.IsCardReaderOrCodeReader))
 				{
 					Door.ExitDeviceUID = Guid.Empty;
 					ExitDevice = null;
@@ -170,7 +170,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeLockDeviceCommand { get; private set; }
 		void OnChangeLockDevice()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_RM_1 || x.DriverType == GKDriverType.RSR2_MVK8 || x.DriverType == GKDriverType.RSR2_CodeReader || x.DriverType == GKDriverType.RSR2_CardReader));
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_RM_1 || x.DriverType == GKDriverType.RSR2_MVK8 || x.Driver.IsCardReaderOrCodeReader));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				GKManager.ChangeLockDevice(Door, deviceSelectationViewModel.SelectedDevice);
@@ -181,7 +181,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeLockDeviceExitCommand { get; private set; }
 		void OnChangeLockDeviceExit()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDeviceExit, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_RM_1 || x.DriverType == GKDriverType.RSR2_MVK8 || x.DriverType == GKDriverType.RSR2_CodeReader || x.DriverType == GKDriverType.RSR2_CardReader));
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDeviceExit, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_RM_1 || x.DriverType == GKDriverType.RSR2_MVK8 || x.Driver.IsCardReaderOrCodeReader));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				GKManager.ChangeLockDeviceExit(Door, deviceSelectationViewModel.SelectedDevice);
@@ -247,7 +247,7 @@ namespace GKModule.ViewModels
 
 		public string OpenRegimeLogicPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic.OnClausesGroup); }
 		}
 
 		public RelayCommand ChangeNormRegimeLogicCommand { get; private set; }
@@ -264,7 +264,7 @@ namespace GKModule.ViewModels
 
 		public string NormRegimeLogicPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(Door.NormRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.NormRegimeLogic.OnClausesGroup); }
 		}
 
 		public RelayCommand ChangeCloseRegimeLogicCommand { get; private set; }
@@ -281,7 +281,7 @@ namespace GKModule.ViewModels
 
 		public string CloseRegimeLogicPresentationName
 		{
-			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic); }
+			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic.OnClausesGroup); }
 		}
 
 		public bool IsOnPlan

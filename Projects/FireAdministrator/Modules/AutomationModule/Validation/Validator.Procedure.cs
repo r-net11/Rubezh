@@ -77,6 +77,21 @@ namespace AutomationModule.Validation
 					}
 					break;
 
+				case ProcedureStepType.CreateColor:
+					{
+						var createColorArguments = step.CreateColorArguments;
+						if (!ValidateArgument(procedure, step, createColorArguments.AArgument))
+							break;
+						if (!ValidateArgument(procedure, step, createColorArguments.RArgument))
+							break;
+						if (!ValidateArgument(procedure, step, createColorArguments.GArgument))
+							break;
+						if (!ValidateArgument(procedure, step, createColorArguments.BArgument))
+							break;
+						ValidateArgument(procedure, step, createColorArguments.ResultArgument);
+					}
+					break;
+
 				case ProcedureStepType.If:
 				case ProcedureStepType.While:
 					{
@@ -457,6 +472,14 @@ namespace AutomationModule.Validation
 						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
 							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
 						var arguments = step.RviAlarmArguments;
+						ValidateArgument(procedure, step, arguments.NameArgument);
+						break;
+					}
+				case ProcedureStepType.RviOpenWindow:
+					{
+						if (!LicenseManager.CurrentLicenseInfo.HasVideo)
+							Errors.Add(new ProcedureStepValidationError(step, "Отсутствует лицензия для выполнения шага " + step.Name, ValidationErrorLevel.Warning));
+						var arguments = step.RviOpenWindowArguments;
 						ValidateArgument(procedure, step, arguments.NameArgument);
 						break;
 					}

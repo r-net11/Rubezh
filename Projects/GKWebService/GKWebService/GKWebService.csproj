@@ -388,6 +388,7 @@
     <Content Include="Content\Image\Icon\Header\connection-indicator.png" />
     <Content Include="Content\Image\Icon\Header\map-off.png" />
     <Content Include="Content\Image\Icon\Header\map-on.png" />
+    <Content Include="Content\Image\Icon\Header\RAlarm_main_5_Info.png" />
     <Content Include="Content\Image\Icon\Header\sound-off.png" />
     <Content Include="Content\Image\Icon\Header\sound-on.png" />
     <Content Include="Content\Image\Icon\Header\user.png" />
@@ -450,6 +451,34 @@
     <Content Include="Content\Image\MessageBox\information.png" />
     <Content Include="Content\Image\MessageBox\question.png" />
     <Content Include="Content\Image\MessageBox\warning.png" />
+    <Content Include="Content\Image\StateClasses\Attention.png" />
+    <Content Include="Content\Image\StateClasses\AutoOff.png" />
+    <Content Include="Content\Image\StateClasses\ConnectionLost.png" />
+    <Content Include="Content\Image\StateClasses\DBMissmatch.png" />
+    <Content Include="Content\Image\StateClasses\Failure.png" />
+    <Content Include="Content\Image\StateClasses\Fire1.png" />
+    <Content Include="Content\Image\StateClasses\Fire2.png" />
+    <Content Include="Content\Image\StateClasses\HasNoLicense.png" />
+    <Content Include="Content\Image\StateClasses\Ignore.png" />
+    <Content Include="Content\Image\StateClasses\Info.png" />
+    <Content Include="Content\Image\StateClasses\Manual.png" />
+    <Content Include="Content\Image\StateClasses\no.png" />
+    <Content Include="Content\Image\StateClasses\Norm.png" />
+    <Content Include="Content\Image\StateClasses\NPTOn.png" />
+    <Content Include="Content\Image\StateClasses\Off.png" />
+    <Content Include="Content\Image\StateClasses\On.png" />
+    <Content Include="Content\Image\StateClasses\Service.png" />
+    <Content Include="Content\Image\StateClasses\State1.png" />
+    <Content Include="Content\Image\StateClasses\State2.png" />
+    <Content Include="Content\Image\StateClasses\TechnologicalRegime.png" />
+    <Content Include="Content\Image\StateClasses\Test.png" />
+    <Content Include="Content\Image\StateClasses\TurningOff.png" />
+    <Content Include="Content\Image\StateClasses\TurningOn.png" />
+    <Content Include="Content\Image\StateClasses\TurnOff_InAutomatic.png" />
+    <Content Include="Content\Image\StateClasses\TurnOff_InManual.png" />
+    <Content Include="Content\Image\StateClasses\TurnOn_InAutomatic.png" />
+    <Content Include="Content\Image\StateClasses\TurnOn_InManual.png" />
+    <Content Include="Content\Image\StateClasses\Unknown.png" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\main.css">
       <DependentUpon>main.less</DependentUpon>
@@ -617,12 +646,16 @@
     <Content Include="Content\common.less" />
     <Content Include="Content\pumpStations.less" />
     <Content Include="Content\mpts.less" />
+    <Content Include="Content\doorInfo.less" />
     <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="GKWebService.wpp.targets" />
+    <None Include="Properties\PublishProfiles\Rubezh.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery-ui-touch-punch.js" />
     <Content Include="Scripts\jquery.jqGrid.min.js" />
     <Content Include="Scripts\jquery.jqGrid.src.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
@@ -663,6 +696,7 @@
     <Content Include="Scripts\tooltips.js" />
     <Content Include="Scripts\ui-grid.js" />
     <Content Include="Scripts\ui-grid.min.js" />
+    <Content Include="Scripts\uiGridAutoSizeColumn.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -708,10 +742,13 @@
     <Compile Include="DataProviders\Journal\JournalUpdaterHub.cs" />
     <Compile Include="DataProviders\PumpStations\PumpStationsHub.cs" />
     <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Device\ViewModels\DeviceExecutableCommand.cs" />
     <Compile Include="Models\Device\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Models\Door\Door.cs" />
     <Compile Include="Models\Door\DoorDevice.cs" />
     <Compile Include="Models\GK\GKBase.cs" />
+    <Compile Include="Models\GK\GKModuleLoader.cs" />
+    <Compile Include="Models\GK\GKStateModel.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\GuardZones\GuardZone.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />
@@ -743,6 +780,7 @@
     <Compile Include="Models\Journal\JournalFilterObject.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\MPT\MPTModel.cs" />
+    <Compile Include="Models\NavigationItem.cs" />
     <Compile Include="Models\PumpStation\PumpStation.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="Models\SKD\AccessTemplates\AccessTemplatesViewModel.cs" />
@@ -807,7 +845,6 @@
     <Content Include="Views\Hr\HrEmployees.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
     <Content Include="Views\Plans\Index.cshtml" />
-    <Content Include="Views\Hr\HrDepartments.cshtml" />
     <Content Include="Views\Hr\Positions.cshtml" />
     <Content Include="Views\Hr\AdditionalColumnTypes.cshtml" />
     <Content Include="Views\Hr\Cards.cshtml" />

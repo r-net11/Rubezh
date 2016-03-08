@@ -7,8 +7,12 @@
 		function ($scope, $http, $timeout, uiGridTreeBaseService, $uibModal, $stateParams, signalrDevicesService, broadcastService, dialogService, constants) {
 
 			$scope.deviceClick = function (device) {
-				if (device.entity.ParentUID != undefined) {
-					dialogService.showWindow(constants.gkObject.device, device.entity);
+				if (device.entity.IsRealDevice || device.entity.DriverType === 30) {
+					if (device.entity != null && device.entity.Driver.DriverType === 30) {
+						// todo: show plotWindow
+					} else {
+						dialogService.showWindow(constants.gkObject.device, device.entity);
+					}
 				}
 			};
 
@@ -37,8 +41,10 @@
 			};
 
 			signalrDevicesService.onDeviceChanged(function (event, args) {
+				$scope.gridState = $scope.gridApi.saveState.save();
 				changeDevices(args);
 				$scope.$apply();
+				$scope.gridApi.saveState.restore($scope, $scope.gridState);
 			});
 
 			$http.get('Devices/GetDevicesList').success(function (data) {

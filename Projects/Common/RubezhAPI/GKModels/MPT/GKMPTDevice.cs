@@ -55,6 +55,7 @@ namespace RubezhAPI.GK
 				case GKMPTDeviceType.AutomaticOffBoard:
 					result.Add(GKDriverType.RSR2_OPS);
 					result.Add(GKDriverType.RSR2_OPK);
+					result.Add(GKDriverType.RSR2_SCOPA);
 					result.Add(GKDriverType.RSR2_RM_1);
 					result.Add(GKDriverType.RSR2_MVK8);
 					break;
@@ -62,6 +63,7 @@ namespace RubezhAPI.GK
 				case GKMPTDeviceType.Speaker:
 					result.Add(GKDriverType.RSR2_OPZ);
 					result.Add(GKDriverType.RSR2_OPK);
+					result.Add(GKDriverType.RSR2_ZOV);
 					result.Add(GKDriverType.RSR2_RM_1);
 					result.Add(GKDriverType.RSR2_MVK8);
 					break;
@@ -73,6 +75,7 @@ namespace RubezhAPI.GK
 					result.Add(GKDriverType.RSR2_AM_1);
 					result.Add(GKDriverType.RSR2_CardReader);
 					result.Add(GKDriverType.RSR2_CodeReader);
+					result.Add(GKDriverType.RSR2_CodeCardReader);
 					break;
 
 				case GKMPTDeviceType.Bomb:

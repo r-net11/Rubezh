@@ -1,6 +1,7 @@
 ﻿using GKWebService.Models;
 using GKWebService.Models.GuardZones;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
@@ -33,12 +34,13 @@ namespace GKWebService.Controllers
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpGet]
 		public JsonResult GetGuardZoneDevices(Guid id)
 		{
 			List<Device> data = new List<Device>();
 			var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == id);
 			if (guardZone != null)
-				guardZone.GuardZoneDevices.ForEach(x => data.Add(new Device(x.Device) {ActionType = x.ActionType.ToDescription()}));
+				guardZone.GuardZoneDevices.ForEach(x => data.Add(new Device(x.Device) {ActionType = !x.Device.Driver.IsCardReaderOrCodeReader? x.ActionType.ToDescription(): string.Empty}));
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 

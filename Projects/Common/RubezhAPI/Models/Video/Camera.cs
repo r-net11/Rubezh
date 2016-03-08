@@ -18,6 +18,10 @@ namespace RubezhAPI.Models
 			AllowMultipleVizualization = false;
 			CameraState = new CameraState(this);
 			RviStreams = new List<RviStream>();
+			ShowDetailsWidth = 600;
+			ShowDetailsHeight = 600;
+			ShowDetailsMarginLeft = 500;
+			ShowDetailsMarginTop = 500;
 		}
 		[DataMember]
 		public List<RviStream> RviStreams { get; set; }
@@ -79,6 +83,12 @@ namespace RubezhAPI.Models
 		}
 		public event Action<Guid, Guid> UIDChanged;
 
+		public void OnStatusChanged()
+		{
+			if (StatusChanged != null)
+				StatusChanged();
+		}
+		public event Action StatusChanged;
 		[XmlIgnore]
 		public RviStatus Status { get; set; }
 		[XmlIgnore]
@@ -94,11 +104,7 @@ namespace RubezhAPI.Models
 		public CameraState CameraState { get; set; }
 		IDeviceState IStateProvider.StateClass { get { return CameraState; } }
 
-		public event Action StatusChanged;
-		public void OnStatusChanged()
-		{
-			if (StatusChanged != null)
-				StatusChanged();
-		}
+		[XmlIgnore]
+		public string ImageSource { get { return "/Controls;component/RviDevicesIcons/Camera.png"; } }
 	}
 }

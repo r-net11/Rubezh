@@ -45,7 +45,7 @@ namespace FireAdministrator
 					ClientManager.UpdateFiles();
 
 					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
-					ClientManager.GetConfiguration("Administrator/Configuration");
+					ClientManager.GetConfiguration("Administrator\\Configuration");
 					ProcedureExecutionContext.Initialize(
 						ContextType.Client,
 						() => { return ClientManager.SystemConfiguration; }

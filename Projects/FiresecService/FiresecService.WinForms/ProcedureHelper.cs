@@ -176,6 +176,11 @@ namespace FiresecService
 			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration.RviSettings, name);
 		}
 
+		public static void RviOpenWindow(Guid clientUid, string name, int x, int y, int monitorNumber, string login, string ip)
+		{
+			RviClient.RviClientHelper.OpenWindow(ConfigurationCashHelper.SystemConfiguration.RviSettings, name, x, y, monitorNumber, login, ip);
+		}
+
 		public static void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
 		{
 			if (commandType == ZoneCommandType.Ignore)
@@ -273,11 +278,11 @@ namespace FiresecService
 			if (commandType == GKDoorCommandType.CloseForever)
 			{
 				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(clientUID, uid, GKBaseObjectType.Door);
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Door);
 			}
 			if (commandType == GKDoorCommandType.Norm)
 			{
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(clientUID, uid, GKBaseObjectType.Door);
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Door);
 				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(clientUID, uid, GKBaseObjectType.Door);
 			}
 		}

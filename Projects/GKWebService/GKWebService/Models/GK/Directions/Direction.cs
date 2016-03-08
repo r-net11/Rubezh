@@ -13,6 +13,11 @@ namespace GKWebService.Models
 {
 	public class Direction : GKBaseModel
 	{
+		public Direction()
+		{
+			
+		}
+
 		public Direction(GKDirection gkDirection)
 			: base(gkDirection)
 		{
@@ -31,8 +36,8 @@ namespace GKWebService.Models
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(stateClass, null, null, null).ToString().Substring(3) + "'";
 			StateClasses = stateClasses.Select(x => new StateClass(x)).ToList();
 
-			OnDelay = gkDirection.State.OnDelay;
-			HoldDelay = gkDirection.State.HoldDelay;
+			OnDelay = gkDirection.State.OnDelay != 0 ? string.Format("{0} сек", gkDirection.State.OnDelay) : string.Empty;
+			HoldDelay = gkDirection.State.HoldDelay != 0 ? string.Format("{0} сек", gkDirection.State.HoldDelay) : string.Empty;
 			HasOnDelay = stateClasses.Contains(XStateClass.TurningOn) && gkDirection.State.OnDelay > 0;
 			HasHoldDelay = stateClasses.Contains(XStateClass.On) && gkDirection.State.HoldDelay > 0;
 
@@ -59,8 +64,8 @@ namespace GKWebService.Models
 		public string StateColor { get; set; }
 		public List<StateClass> StateClasses { get; set; }
 
-		public int OnDelay { get; set; }
-		public int HoldDelay { get; set; }
+		public string OnDelay { get; set; }
+		public string HoldDelay { get; set; }
 		public bool HasOnDelay { get; set; }
 		public bool HasHoldDelay { get; set; }
 

@@ -1,8 +1,8 @@
 ﻿using Common;
+using FiresecService.Models;
 using FiresecService.Processor;
 using FiresecService.Report;
 using FiresecService.Service;
-using FiresecService.Models;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
@@ -75,6 +75,7 @@ namespace FiresecService
 					ProcedureHelper.StopRecord,
 					ProcedureHelper.Ptz,
 					ProcedureHelper.RviAlarm,
+					ProcedureHelper.RviOpenWindow,
 					ProcedureHelper.ControlFireZone,
 					ProcedureHelper.ControlGuardZone,
 					ProcedureHelper.ControlDirection,
