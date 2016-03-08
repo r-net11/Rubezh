@@ -16,7 +16,12 @@
 
         	function gridConfig(data, colDefs) {
         		var config = {};
-        		config.data = data;
+        		config.data = [];
+        		for (var i in data) {
+        			if (!data[i].IsNotVisible) {
+				        config.data.push(data[i]);
+			        }
+		        }
         		config.enableRowHeaderSelection = false;
         		config.enableSorting = false;
         		config.multiSelect = false;
@@ -98,7 +103,6 @@
         	$scope.ShowOnPlan = function (planUID) {
 		        var deviceUID = $scope.device.UID;
 		        $state.go('plan', { uid: planUID });
-				//todo: implement show on plan
 	        };
 
         	$scope.ok = function () {
