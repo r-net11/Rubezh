@@ -14,6 +14,8 @@ namespace VideoModule.Plans.Designer
 {
 	class CameraPainter : BasePointPainter<Camera, ShowCameraEvent>
 	{
+		private int rotation = 0;
+
 		public CameraPainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
@@ -22,6 +24,7 @@ namespace VideoModule.Plans.Designer
 		protected override Camera CreateItem(PresenterItem presenterItem)
 		{
 			var element = presenterItem.Element as ElementCamera;
+			this.rotation = element == null ? 0 : element.Rotation;
 			return element == null ? null : PlanPresenter.Cache.Get<Camera>(element.CameraUID);
 		}
 		protected override StateTooltipViewModel<Camera> CreateToolTip()
@@ -39,7 +42,11 @@ namespace VideoModule.Plans.Designer
 		{
 			return new CameraDetailsViewModel(Item);
 		}
-
+		public override void Transform()
+		{
+			_rotateTransform.Angle = rotation;
+			base.Transform();
+		}
 		protected override Brush GetBrush()
 		{
 			var background = PainterCache.GetBrush(GetStateColor());

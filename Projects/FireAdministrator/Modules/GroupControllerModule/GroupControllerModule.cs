@@ -80,6 +80,8 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Subscribe(OnCreateGKCode);
 			ServiceFactory.Events.GetEvent<SelectGKDeviceEvent>().Subscribe(OnSelectGKDevice);
 			ServiceFactory.Events.GetEvent<SelectGKDevicesEvent>().Subscribe(OnSelectGKDevices);
+			ServiceFactory.Events.GetEvent<CreateGKPumpStationEvent>().Subscribe(OnCreateGKPumpStation);
+			ServiceFactory.Events.GetEvent<EditGKPumpStationEvent>().Subscribe(OnEditGKPumpStation);
 			ServiceFactory.Events.GetEvent<SelectGKPumpStationEvent>().Subscribe(OnSelectGKPumpStation);
 			ServiceFactory.Events.GetEvent<SelectGKPumpStationsEvent>().Subscribe(OnSelectGKPumpStations);
 
@@ -90,7 +92,6 @@ namespace GKModule
 			DelaysViewModel = new DelaysViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
 			MPTsViewModel = new MPTsViewModel();
-			DelaysViewModel = new DelaysViewModel();
 			CodesViewModel = new CodesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
@@ -99,7 +100,7 @@ namespace GKModule
 			OPCViewModel = new OPCsViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, GuardZonesViewModel, SKDZonesViewModel, DelaysViewModel, DirectionsViewModel, MPTsViewModel, DoorsViewModel);
+			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, GuardZonesViewModel, SKDZonesViewModel, DelaysViewModel, PumpStationsViewModel, DirectionsViewModel, MPTsViewModel, DoorsViewModel);
 		}
 
 		public override void Initialize()
@@ -111,6 +112,7 @@ namespace GKModule
 			PumpStationsViewModel.Initialize();
 			MPTsViewModel.Initialize();
 			DelaysViewModel.Initialize();
+			PumpStationsViewModel.Initialize();
 			CodesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
@@ -245,6 +247,16 @@ namespace GKModule
 		public void OnCreateGKDelay(CreateGKDelayEventArgs createDelayEventArg)
 		{
 			DelaysViewModel.CreateDelay(createDelayEventArg);
+		}
+
+		public void OnCreateGKPumpStation(CreateGKPumpStationEventArgs createPumpStationEventArg)
+		{
+			PumpStationsViewModel.CreatePumpStation(createPumpStationEventArg);
+		}
+
+		public void OnEditGKPumpStation(Guid pumpStationUID)
+		{
+			PumpStationsViewModel.EditPumpStation(pumpStationUID);
 		}
 
 		public void OnEditGKDelay(Guid delayUID)

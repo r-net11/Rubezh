@@ -15,6 +15,7 @@ using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
 using RubezhAPI;
+using Infrustructure.Plans.Interfaces;
 
 namespace FireAdministrator.ViewModels
 {
@@ -426,6 +427,16 @@ namespace FireAdministrator.ViewModels
 						element.DelayUID = GKDelayUIDs[element.DelayUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+				foreach (var element in new IElementReference[0]
+					.Union(plan.ElementRectangleGKPumpStations)
+					.Union(plan.ElementPolygonSubPlans))
+				{
+					if (element.ItemUID != Guid.Empty)
+						element.ItemUID = GKPumpStationUIDs[element.ItemUID];
+					var uid = new Guid();
+					PlenElementUIDs.Add(element.ItemUID, uid);
 					element.UID = uid;
 				}
 				foreach (var element in plan.ElementRectangleGKDirections)

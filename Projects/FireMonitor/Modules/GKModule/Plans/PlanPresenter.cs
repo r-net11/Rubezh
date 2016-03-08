@@ -14,6 +14,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using RubezhAPI;
+using Infrustructure.Plans.Interfaces;
 
 namespace GKModule.Plans
 {
@@ -40,6 +41,7 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ShowGKSKDZoneOnPlanEvent>().Subscribe(OnShowGKSKDZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKDelayOnPlanEvent>().Subscribe(OnShowGKDelayOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Subscribe(OnShowGKDirectionOnPlan);
+			ServiceFactory.Events.GetEvent<ShowGKPumpStationOnPlanEvent>().Subscribe(OnShowGKPumpStationOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKMPTOnPlanEvent>().Subscribe(OnShowGKMPTOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKDoorOnPlanEvent>().Subscribe(OnShowGKDoorOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -75,6 +77,8 @@ namespace GKModule.Plans
 				.Concat(plan.ElementPolygonGKSKDZones.Where(x => x.ZoneUID != Guid.Empty))
 				.Concat(plan.ElementRectangleGKDelays.Where(x => x.DelayUID != Guid.Empty))
 				.Concat(plan.ElementPolygonGKDelays.Where(x => x.DelayUID != Guid.Empty))
+				.Concat(plan.ElementRectangleGKPumpStations.Where(x => x.ItemUID != Guid.Empty))
+				.Concat(plan.ElementPolygonGKPumpStations.Where(x => x.ItemUID != Guid.Empty))
 				.Concat(plan.ElementRectangleGKDirections.Where(x => x.DirectionUID != Guid.Empty))
 				.Concat(plan.ElementPolygonGKDirections.Where(x => x.DirectionUID != Guid.Empty))
 				.Concat(plan.ElementRectangleGKMPTs.Where(x => x.MPTUID != Guid.Empty))
@@ -94,6 +98,8 @@ namespace GKModule.Plans
 				presenterItem.OverridePainter(new GKSKDZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKDelay || presenterItem.Element is ElementPolygonGKDelay)
 				presenterItem.OverridePainter(new GKDelayPainter(presenterItem));
+			else if (presenterItem.Element is ElementRectangleGKPumpStation || presenterItem.Element is ElementPolygonGKPumpStation)
+				presenterItem.OverridePainter(new GKPumpStationPainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKDirection || presenterItem.Element is ElementPolygonGKDirection)
 				presenterItem.OverridePainter(new GKDirectionPainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKMPT || presenterItem.Element is ElementPolygonGKMPT)
@@ -206,6 +212,19 @@ namespace GKModule.Plans
 						return;
 					}
 				}
+			}
+		}
+		private void OnShowGKPumpStationOnPlan(GKPumpStation pumpStation)
+		{
+			IEnumerable<NavigateToPlanElementEventArgs> eventArgs = ClientManager.PlansConfiguration.AllPlans
+				.SelectMany(plan => new IElementReference[0]
+					.Concat(plan.ElementRectangleGKPumpStations)
+					.Concat(plan.ElementPolygonGKPumpStations)
+					.Where(element => element.ItemUID == pumpStation.UID)
+					.Select(element => new NavigateToPlanElementEventArgs(plan.UID, element.UID)));
+			foreach (var arg in eventArgs)
+			{
+				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(arg);
 			}
 		}
 		private void OnShowGKDirectionOnPlan(GKDirection direction)

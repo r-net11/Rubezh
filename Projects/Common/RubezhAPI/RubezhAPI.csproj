@@ -168,7 +168,9 @@
     <Compile Include="Models\Automation\StepArguments\ControlElementType.cs" />
     <Compile Include="Models\Automation\StepArguments\HttpRequestArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CloseDialogArguments.cs" />
+    <Compile Include="Models\Plans\ElementPolygonGKPumpStation.cs" />
     <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />
+    <Compile Include="Models\Plans\ElementRectangleGKPumpStation.cs" />
     <Compile Include="Models\Plans\ElementTextBox.cs" />
     <Compile Include="Models\Video\RviDevice.cs" />
     <Compile Include="Models\Video\RviStatus.cs" />
