@@ -36,7 +36,7 @@ namespace GKWebService.Controllers
 		public JsonResult GetFireZonesData()
 		{
 			return Json(GKManager.Zones.Select(
-				zone => new FireZone(zone)).ToList(), JsonRequestBehavior.AllowGet);
+				zone => new FireZone(zone)).OrderBy(x=> x.No), JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>

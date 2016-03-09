@@ -57,5 +57,9 @@ namespace GKWebService.DataProviders.Plan
         public void UpdateHint(object stateData) {
 			Clients.All.updateHint(stateData);
 		}
+
+		public void UpdateZoneState(object stateData) {
+			Clients.All.updateZoneState(stateData);
+		}
 	}
 }

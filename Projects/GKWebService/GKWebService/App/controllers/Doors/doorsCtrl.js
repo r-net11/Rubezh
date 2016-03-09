@@ -19,8 +19,8 @@
 
                 columnDefs: [
                     { field: 'No', displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
-                    { field: 'Name', width: 200, displayName: 'Наименование', cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.doorClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
-                    { field: 'DoorTypeString', width: Math.round(($(window).width() - 1000) / 2), displayName: 'Тип точки доступа' },
+                    { field: 'Name', width: 200, displayName: 'Точка доступа', cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.doorClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
+                    { field: 'DoorTypeString', width: Math.round(($(window).width() - 1000) / 2), displayName: 'Тип' },
                     { field: 'Desription', enableColumnResizing: false, displayName: 'Примечание', minWidth: 150 }
                 ]
             };
