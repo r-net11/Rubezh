@@ -27,9 +27,7 @@ namespace GKWebService.Controllers
 
 		public JsonResult GetPumpStations()
 		{
-			var data = new List<PumpStation>();
-			GKManager.PumpStations.ForEach(x => data.Add(new PumpStation(x)));
-			return Json(data, JsonRequestBehavior.AllowGet);
+			return Json(GKManager.PumpStations.Select(x=> new PumpStation(x)).OrderBy(x=> x.No), JsonRequestBehavior.AllowGet);
 		}
 
 		public JsonResult GetPumpStationDevices(Guid id)

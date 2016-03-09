@@ -114,7 +114,7 @@ namespace FiresecService
 				RviProcessor.Start();
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
-				AutomationProcessor.RunOnServerRun();
+				AutomationProcessor.RunOnApplicationRun();
 				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
 				UILogger.Log("Готово");
 				//OpcDaServersProcessor.Start();

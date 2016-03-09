@@ -41,15 +41,15 @@
                 </div>
                 <div style="background: #fff">
                     <div style="float: left; width: 50%">
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="SetAutomaticState()" ng-disabled="!direction.CanSetAutomaticState">Автоматика</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="SetManualState()" ng-disabled="!direction.CanSetManualState">Ручное</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="SetIgnoreState()" ng-disabled="!direction.CanSetIgnoreState">Отключение</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!direction.CanSetAutomaticState">Автоматика</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.CanSetManualState && SetManualState()" ng-disabled="!direction.CanSetManualState">Ручное</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!direction.CanSetIgnoreState">Отключение</div>
                     </div>
                     <div style="float: left; width: 50%; background: #fff">
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="TurnOn()" ng-disabled="!direction.IsControlRegime">Пуск</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="TurnOnNow()" ng-disabled="!direction.IsControlRegime">Пуск немедленно</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="ForbidStart()" ng-disabled="!direction.IsControlRegime">Останов пуска</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="TurnOff()" ng-disabled="!direction.IsControlRegime">Выключить немедленно</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.IsControlRegime && TurnOn()" ng-disabled="!direction.IsControlRegime">Пуск</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.IsControlRegim && TurnOnNow()" ng-disabled="!direction.IsControlRegime">Пуск немедленно</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.IsControlRegim && ForbidStart()" ng-disabled="!direction.IsControlRegime">Останов пуска</div>
+                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.IsControlRegim && TurnOff()" ng-disabled="!direction.IsControlRegime">Выключить немедленно</div>
                     </div>
                     <div style="clear: left">
                     </div>
