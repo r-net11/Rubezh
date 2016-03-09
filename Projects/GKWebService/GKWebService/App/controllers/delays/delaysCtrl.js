@@ -9,7 +9,7 @@
 			function ChangeDelay(delay)
 			{
 				for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-				    if ($scope.gridOptions.data[i].Uid == delay.Uid) {
+				    if ($scope.gridOptions.data[i].UID == delay.UID) {
 				        $scope.gridOptions.data[i] = delay;
                     }
 				}
@@ -27,7 +27,7 @@
 				    $scope.gridApi = gridApi;
 				},
 				columnDefs: [
-				{ name: "Number", displayName: "№", width: 40, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Delay.png" />{{row.entity.Number}}</div>' },
+				{ name: "Number", displayName: "№", width: "30", cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Images/Delay.png" />{{row.entity.Number}}</div>' },
 				{ name: "Name", displayName: "Задержка", width: 300, cellTemplate: nameTemplate },
 				{ name: "PresentationLogic", displayName: "Логика включения" },
 				{ name: "OnDelay", displayName: "Задержка", width: 120 },
@@ -48,8 +48,9 @@
 				    } else {
 				        if ($scope.gridApi.selection.selectRow) {
 				            $scope.gridApi.selection.selectRow($scope.gridOptions.data[0]);
-				        }
+				        };
 				    }
+				    $scope.gridApi.autoSize.fit($scope.gridOptions.columnDefs[0]);
 				});
 			});
 
@@ -65,7 +66,7 @@
 
 		    $scope.selectRowById = function (uid) {
 		        for (var i = 0; i < $scope.gridOptions.data.length; i++) {
-		            if ($scope.gridOptions.data[i].Uid === uid) {
+		            if ($scope.gridOptions.data[i].UID === uid) {
 			            $scope.gridApi.selection.selectRow($scope.gridOptions.data[i]);
 			            $scope.gridApi.core.scrollTo($scope.gridOptions.data[i], $scope.gridOptions.columnDefs[0]);
 			            break;

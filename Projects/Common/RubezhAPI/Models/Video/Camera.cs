@@ -83,6 +83,12 @@ namespace RubezhAPI.Models
 		}
 		public event Action<Guid, Guid> UIDChanged;
 
+		public void OnStatusChanged()
+		{
+			if (StatusChanged != null)
+				StatusChanged();
+		}
+		public event Action StatusChanged;
 		[XmlIgnore]
 		public RviStatus Status { get; set; }
 		[XmlIgnore]
@@ -98,11 +104,7 @@ namespace RubezhAPI.Models
 		public CameraState CameraState { get; set; }
 		IDeviceState IStateProvider.StateClass { get { return CameraState; } }
 
-		public event Action StatusChanged;
-		public void OnStatusChanged()
-		{
-			if (StatusChanged != null)
-				StatusChanged();
-		}
+		[XmlIgnore]
+		public string ImageSource { get { return "/Controls;component/RviDevicesIcons/Camera.png"; } }
 	}
 }

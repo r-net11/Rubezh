@@ -75,6 +75,15 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		public JsonResult TurnOnAutomatic(AlarmViewModel alarm)
+		{
+			alarm.TurnOnAutomatic();
+
+			return new JsonResult();
+		}
+
+		[HttpPost]
+		[ErrorHandler]
 		public JsonResult ResetIgnoreAll()
 		{
 			AlarmsViewModel.ResetIgnoreAll();

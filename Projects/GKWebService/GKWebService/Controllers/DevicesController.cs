@@ -76,45 +76,12 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult TurnOn(Guid id)
+		public JsonResult OnExecuteCommand(GKStateBit commandName, Guid UID)
 		{
-			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
+			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == UID);
 			if (device != null)
 			{
-				ClientManager.FiresecService.GKTurnOn(device);
-			}
-			return new JsonResult();
-		}
-
-		[HttpPost]
-		public JsonResult TurnOnNow(Guid id)
-		{
-			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
-			if (device != null)
-			{
-				ClientManager.FiresecService.GKTurnOnNow(device);
-			}
-			return new JsonResult();
-		}
-
-		[HttpPost]
-		public JsonResult ForbidStart(Guid id)
-		{
-			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
-			if (device != null)
-			{
-				ClientManager.FiresecService.GKStop(device);
-			}
-			return new JsonResult();
-		}
-
-		[HttpPost]
-		public JsonResult TurnOff(Guid id)
-		{
-			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
-			if (device != null)
-			{
-				ClientManager.FiresecService.GKTurnOff(device);
+				ClientManager.FiresecService.GKExecuteDeviceCommand(device, commandName);
 			}
 			return new JsonResult();
 		}

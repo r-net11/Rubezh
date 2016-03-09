@@ -17,6 +17,8 @@ namespace RubezhAPI.Models
 			AutomationConfiguration = new AutomationConfiguration();
 			RviSettings = new RviSettings();
 			RviServers = new List<RviServer>();
+			RviDevices = new List<RviDevice>();
+			Cameras = new List<Camera>();
 		}
 
 		[DataMember]

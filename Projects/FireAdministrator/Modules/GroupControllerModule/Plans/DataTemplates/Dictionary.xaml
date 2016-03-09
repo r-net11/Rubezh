@@ -36,4 +36,8 @@
         <Views:DevicesInZoneView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PumpStationPropertiesViewModel}">
+        <Views:PumpStationPropertiesView />
+    </DataTemplate>
+
 </ResourceDictionary>

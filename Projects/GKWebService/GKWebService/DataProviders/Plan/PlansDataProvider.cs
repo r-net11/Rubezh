@@ -58,16 +58,16 @@ namespace GKWebService.DataProviders.Plan
 		/// <returns>Коллекция элементов плана.</returns>
 		private IEnumerable<PlanElement> LoadPlanSubElements(RubezhAPI.Models.Plan plan) {
 			var rectangles = LoadRectangleElements(plan);
-			//var polygons = LoadPolygonElements(plan);
-			//var polylines = LoadPolyLineElements(plan);
-			//var ellipses = LoadEllipseElements(plan);
-			//var textBlocks = LoadStaticTextElements(plan);
-			//var doors = LoadDoorElements(plan);
+			var polygons = LoadPolygonElements(plan);
+			var polylines = LoadPolyLineElements(plan);
+			var ellipses = LoadEllipseElements(plan);
+			var textBlocks = LoadStaticTextElements(plan);
+			var doors = LoadDoorElements(plan);
 			var devices = LoadDeviceElements(plan);
 			//return textBlocks.Concat(rectangles).Concat(ellipses).Concat(doors).Concat(devices);
 
 
-			return devices.Concat(rectangles);
+			return ellipses.Concat(polygons).Concat(polylines).Concat(rectangles).Concat(doors).Concat(textBlocks).Concat(devices);
 		}
 
 		/// <summary>
@@ -84,15 +84,15 @@ namespace GKWebService.DataProviders.Plan
 		}
 
 		private IEnumerable<PlanElement> LoadPolyLineElements(RubezhAPI.Models.Plan plan) {
-			return plan.ElementPolylines.Select(PlanElement.FromPolyline);
+			return plan.ElementPolylines.Select(PlanElement.FromPolyline).Where(elem => elem != null);
 		}
 
 		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan) {
-			return plan.AllElements.Where(elem => elem is ElementBasePolygon).Select(elem => PlanElement.FromPolygon(elem as ElementBasePolygon));
+			return plan.AllElements.Where(elem => elem is ElementBasePolygon).Select(elem => PlanElement.FromPolygon(elem as ElementBasePolygon)).Where(elem => elem != null);
 		}
 
 		private IEnumerable<PlanElement> LoadEllipseElements(RubezhAPI.Models.Plan plan) {
-			return plan.ElementEllipses.Select(PlanElement.FromEllipse);
+			return plan.ElementEllipses.Select(PlanElement.FromEllipse).Where(elem => elem != null);
 		}
 
 		/// <summary>
@@ -104,10 +104,10 @@ namespace GKWebService.DataProviders.Plan
 		private IEnumerable<PlanElement> LoadStaticTextElements(RubezhAPI.Models.Plan plan) {
 			var textBlockElements = plan.ElementTextBlocks;
 			var procedureElements = plan.AllElements.OfType<ElementProcedure>();
-			return textBlockElements.Select(
+			return textBlockElements.Where(t=>!string.IsNullOrWhiteSpace(t.Text)).Select(
 				PlanElement.FromTextBlock)
 			                        .Where(elem => elem != null)
-			                        .Union(procedureElements.Select(PlanElement.FromProcedure).Where(elem => elem != null));
+			                        .Union(procedureElements.Where(p=>!string.IsNullOrWhiteSpace(p.Text)).Select(PlanElement.FromProcedure).Where(elem => elem != null));
 		}
 
 		private IEnumerable<PlanElement> LoadDeviceElements(RubezhAPI.Models.Plan plan) {
@@ -177,7 +177,6 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Основная информация о плане, включая вложенные планы.</returns>
 		private PlanSimpl GetPlanInfo(RubezhAPI.Models.Plan plan) {
-			// Корень плана
 			return new PlanSimpl {
 				Name = plan.Caption,
 				Uid = plan.UID,
@@ -196,7 +195,7 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="planId">UID плана.</param>
 		/// <returns>Готовая к сериализации полная информация о плане.</returns>
 		public PlanSimpl GetPlan(Guid planId) {
-			var plan = ClientManager.PlansConfiguration.Plans.FirstOrDefault(p => p.UID == planId);
+			var plan = ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.UID == planId);
 			// Корень плана
 			if (plan == null) {
 				throw new KeyNotFoundException(string.Format("План с ID {0} не найден, либо недоступен.", planId));

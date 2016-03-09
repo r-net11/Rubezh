@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -18,10 +13,7 @@ namespace GKModule.ViewModels
 
 		public PumpStationViewModel(GKPumpStation pumpStation)
 		{
-			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
-			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
-			ChangeAutomaticOffLogicCommand = new RelayCommand(OnChangeAutomaticOffLogic);
-
+			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			PumpStation = pumpStation;
 			PumpStation.Changed += Update;
 			Update();
@@ -29,102 +21,54 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			PumpDevices = new ObservableCollection<DeviceViewModel>();
-			PumpStation.NSDevices = new List<GKDevice>();
-			foreach (var deviceUID in PumpStation.NSDeviceUIDs)
-			{
-				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				if (device != null)
-				{
-					device.Logic = new GKLogic();
-					PumpStation.NSDevices.Add(device);
-					var deviceViewModel = new DeviceViewModel(device);
-					PumpDevices.Add(deviceViewModel);
-					device.OnChanged();
-				}
-			}
 			OnPropertyChanged(() => PumpStation);
-			OnPropertyChanged(() => StartPresentationName);
-			OnPropertyChanged(() => StopPresentationName);
-			OnPropertyChanged(() => AutomaticOffPresentationName);
+			_visualizationState = PumpStation.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (PumpStation.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			OnPropertyChanged(() => VisualizationState);
+			OnPropertyChanged(() => PresentationLogic);
 		}
 
-		ObservableCollection<DeviceViewModel> _pumpDevices;
-		public ObservableCollection<DeviceViewModel> PumpDevices
+		public string PresentationLogic
 		{
-			get { return _pumpDevices; }
-			set
+			get
 			{
-				_pumpDevices = value;
-				OnPropertyChanged(() => PumpDevices);
-			}
-		}
-
-		DeviceViewModel _selectedPumpDevice;
-		public DeviceViewModel SelectedPumpDevice
-		{
-			get { return _selectedPumpDevice; }
-			set
-			{
-				_selectedPumpDevice = value;
-				OnPropertyChanged(() => SelectedPumpDevice);
-			}
-		}
-
-		public void ChangePumpDevices()
-		{
-			var sourceDevices = new List<GKDevice>();
-			foreach (var device in GKManager.Devices)
-			{
-				if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire)
+				var presentationLogic = GKManager.GetPresentationLogic(PumpStation.StartLogic);
+				IsLogicGrayed = string.IsNullOrEmpty(presentationLogic);
+				if (string.IsNullOrEmpty(presentationLogic))
 				{
-					sourceDevices.Add(device);
+					presentationLogic = "Нажмите для настройки логики";
 				}
+				return presentationLogic;
 			}
+		}
 
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(PumpStation.NSDevices, sourceDevices);
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
+		bool _isLogicGrayed;
+		public bool IsLogicGrayed
+		{
+			get { return _isLogicGrayed; }
+			set
 			{
-				GKManager.ChangePumpDevices(PumpStation, devicesSelectationViewModel.DevicesList);
-				ServiceFactory.SaveService.GKChanged = true;
+				_isLogicGrayed = value;
+				OnPropertyChanged(() => IsLogicGrayed);
 			}
 		}
 
-		public void DeletePumpDevice()
+		public RelayCommand ShowLogicCommand { get; private set; }
+		void OnShowLogic()
 		{
-			if (SelectedPumpDevice != null)
-			{
-				var device = SelectedPumpDevice.Device;
-				PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.UID);
-				SelectedPumpDevice.Device.OutputDependentElements.Remove(PumpStation);
-				PumpStation.InputDependentElements.Remove(SelectedPumpDevice.Device);
-				Update();
-				device.NSLogic = new GKLogic();
-				device.OnChanged();
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-			SelectedPumpDevice = null;
-		}
-		bool CanDeleteOutputDevice()
-		{
-			return SelectedPumpDevice != null;
-		}
-
-		public RelayCommand ChangeStartLogicCommand { get; private set; }
-		void OnChangeStartLogic()
-		{
-			var logicViewModel = new LogicViewModel(PumpStation, PumpStation.StartLogic);
-			if (DialogService.ShowModalWindow(logicViewModel))
+			PumpStationsViewModel.Current.SelectedPumpStation = this;
+			var logicViewModel = new LogicViewModel(PumpStation, PumpStation.StartLogic, true, hasStopClause: true);
+			if (ServiceFactory.DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.SetPumpStationStartLogic(PumpStation, logicViewModel.GetModel());
-				OnPropertyChanged(() => StartPresentationName);
+				OnPropertyChanged(() => PresentationLogic);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
-		public string StartPresentationName
+		VisualizationState _visualizationState;
+		public VisualizationState VisualizationState
 		{
-			get { return GKManager.GetPresentationLogic(PumpStation.StartLogic.OnClausesGroup); }
+			get { return _visualizationState; }
 		}
 
 		public RelayCommand ChangeStopLogicCommand { get; private set; }

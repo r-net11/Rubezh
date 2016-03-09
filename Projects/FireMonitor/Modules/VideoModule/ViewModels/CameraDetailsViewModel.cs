@@ -23,6 +23,10 @@ namespace VideoModule.ViewModels
 		public int Height { get; private set; }
 		public int MarginLeft { get; private set; }
 		public int MarginTop { get; private set; }
+		public bool IsRecordOnline { get; private set; }
+		public bool IsOnGuard { get; private set; }
+		public RviStatus Status { get; private set; }
+		public bool IsConnected { get { return Status == RviStatus.Connected; } }
 
 		public CameraDetailsViewModel(Camera camera)
 		{
@@ -32,6 +36,7 @@ namespace VideoModule.ViewModels
 			AlarmDisableChannelCommand = new RelayCommand(OnAlarmDisableChannel, CanAlarmDisableChannel);
 			Camera = camera;
 			Title = Camera.PresentationName;
+			Camera.StatusChanged += OnCameraStatusChanged;
 
 			Presets = new ObservableCollection<int>();
 			for (int i = 0; i < camera.CountPresets; i++)
@@ -46,7 +51,24 @@ namespace VideoModule.ViewModels
 				Height = Camera.ShowDetailsHeight;
 				MarginLeft = Camera.ShowDetailsMarginLeft;
 				MarginTop = Camera.ShowDetailsMarginTop;
+				IsRecordOnline = Camera.IsRecordOnline;
+				IsOnGuard = Camera.IsOnGuard;
+				Status = Camera.Status;
 			}
+		}
+		void OnCameraStatusChanged()
+		{
+			if (!IsConnected && Camera.Status == RviStatus.Connected)
+				OnPlay();
+			else if (IsConnected && Camera.Status != RviStatus.Connected)
+				OnStop();
+			IsRecordOnline = Camera.IsRecordOnline;
+			IsOnGuard = Camera.IsOnGuard;
+			Status = Camera.Status;
+			OnPropertyChanged(() => IsRecordOnline);
+			OnPropertyChanged(() => IsOnGuard);
+			OnPropertyChanged(() => Status);
+			OnPropertyChanged(() => IsConnected);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -115,11 +137,11 @@ namespace VideoModule.ViewModels
 		}
 		bool CanSetPtzPreset()
 		{
-			return Presets.Count > 0;
+			return IsConnected && Presets.Count > 0;
 		}
 		public bool IsSetPtzPreset
 		{
-			get { return CanSetPtzPreset(); }
+			get { return Presets.Count > 0; }
 		}
 
 		public RelayCommand AlarmSetChannelCommand { get; private set; }
@@ -129,7 +151,7 @@ namespace VideoModule.ViewModels
 		}
 		bool CanAlarmSetChannel()
 		{
-			return !Camera.IsOnGuard;
+			return IsConnected && !Camera.IsOnGuard;
 		}
 		public RelayCommand AlarmDisableChannelCommand { get; private set; }
 		void OnAlarmDisableChannel()
@@ -138,11 +160,23 @@ namespace VideoModule.ViewModels
 		}
 		bool CanAlarmDisableChannel()
 		{
-			return Camera.IsOnGuard;
+			return IsConnected && Camera.IsOnGuard;
 		}
 		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
 		{
 			return RviClientHelper.PrepareToTranslation(ClientManager.SystemConfiguration.RviSettings, Camera.SelectedRviStream, out ipEndPoint, out vendorId);
+		}
+		public EventHandler Play;
+		void OnPlay()
+		{
+			if (Play != null)
+				Play(this, EventArgs.Empty);
+		}
+		public EventHandler Stop;
+		void OnStop()
+		{
+			if (Stop != null)
+				Stop(this, EventArgs.Empty);
 		}
 
 		public class PlanViewModel : BaseViewModel

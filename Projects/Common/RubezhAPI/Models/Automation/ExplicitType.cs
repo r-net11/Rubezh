@@ -10,6 +10,9 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Вещественное")]
 		Float,
 
+        [DescriptionAttribute("Вещественное double")]
+        Double,
+
 		[DescriptionAttribute("Логическое")]
 		Boolean,
 

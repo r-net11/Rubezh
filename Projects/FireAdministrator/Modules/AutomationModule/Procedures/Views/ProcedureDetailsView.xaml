@@ -46,8 +46,8 @@
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-				<TextBlock Grid.Row="6" Grid.Column="0"  Text="Запуск после сервера" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding SelectedContextType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ContextType.Server}}" />
-				<CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding StartWithServer}" Visibility="{Binding SelectedContextType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ContextType.Server}}" Margin="2,7,0,0" />
+				<TextBlock Grid.Row="6" Grid.Column="0"  Text="Запуск после клиента/сервера" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding StartWithApplication}" Margin="2,7,0,0" />
 			</Grid>
 		</TabItem>
 	</TabControl>

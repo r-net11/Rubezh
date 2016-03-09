@@ -51,6 +51,8 @@ namespace RubezhAPI.Models
 			ElementPolygonGKSKDZones = new List<ElementPolygonGKSKDZone>();
 			ElementRectangleGKDelays = new List<ElementRectangleGKDelay>();
 			ElementPolygonGKDelays = new List<ElementPolygonGKDelay>();
+			this.ElementRectangleGKPumpStations = new List<ElementRectangleGKPumpStation>();
+			this.ElementPolygonGKPumpStations = new List<ElementPolygonGKPumpStation>();
 			ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
 			ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
 			ElementRectangleGKMPTs = new List<ElementRectangleGKMPT>();
@@ -118,6 +120,10 @@ namespace RubezhAPI.Models
 		public List<ElementRectangleGKDelay> ElementRectangleGKDelays { get; set; }
 		[DataMember()]
 		public List<ElementPolygonGKDelay> ElementPolygonGKDelays { get; set; }
+		[DataMember()]
+		public List<ElementRectangleGKPumpStation> ElementRectangleGKPumpStations { get; set; }
+		[DataMember()]
+		public List<ElementPolygonGKPumpStation> ElementPolygonGKPumpStations { get; set; }
 		[DataMember]
 		public List<ElementRectangleGKDirection> ElementRectangleGKDirections { get; set; }
 		[DataMember]
@@ -154,6 +160,8 @@ namespace RubezhAPI.Models
 				union.AddRange(ElementRectangleGKGuardZones);
 				union.AddRange(ElementRectangleGKZones);
 				union.AddRange(ElementRectangleGKDelays);
+				union.AddRange(this.ElementRectangleGKPumpStations);
+				union.AddRange(this.ElementPolygonGKPumpStations);
 				union.AddRange(ElementPolygonGKDelays);
 				union.AddRange(ElementSubPlans);
 				union.AddRange(ElementPolygonSubPlans);

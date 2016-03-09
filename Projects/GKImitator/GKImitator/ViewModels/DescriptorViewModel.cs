@@ -97,6 +97,9 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.Off)
 				{
+					AdditionalShortParameters[0] = 0;
+					AdditionalShortParameters[1] = 0;
+					AdditionalShortParameters[2] = 0;
 					journalItem = new ImitatorJournalItem(2, 9, 3, 3);
 					SetStateBit(GKStateBit.Attention, false);
 					SetStateBit(GKStateBit.Fire1, false);
@@ -130,7 +133,7 @@ namespace GKImitator.ViewModels
 
 				AddJournalItem(additionalJournalItem ?? journalItem);
 			}
-			
+
 			if (additionalJournalItem != null || journalItem != null)
 				RecalculateOutputLogic();
 		}
@@ -255,19 +258,19 @@ namespace GKImitator.ViewModels
 			{
 				var result = new List<byte>();
 
-				result.AddRange(ToBytes((short) TypeNo));
+				result.AddRange(ToBytes((short)TypeNo));
 
 				if (databaseType == DatabaseType.Gk)
 				{
 					var controllerAddress = GKBaseDescriptor.ControllerAdress;
-					result.AddRange(ToBytes((short) controllerAddress));
+					result.AddRange(ToBytes((short)controllerAddress));
 
 					var addressOnController = GKBaseDescriptor.AdressOnController;
-					result.AddRange(ToBytes((short) addressOnController));
+					result.AddRange(ToBytes((short)addressOnController));
 				}
 
 				var physicalAddress = GKBaseDescriptor.PhysicalAdress;
-				result.AddRange(ToBytes((short) physicalAddress));
+				result.AddRange(ToBytes((short)physicalAddress));
 
 				if (databaseType == DatabaseType.Gk)
 				{
@@ -283,8 +286,8 @@ namespace GKImitator.ViewModels
 				{
 					result.AddRange(ShortToBytes(additionalShortParameter));
 				}
-
-				if (HasCard)
+				
+				if (databaseType == DatabaseType.Gk && HasCard)
 				{
 					result.RemoveRange(52, 4);
 					result.InsertRange(52, IntToBytes(CurrentCardNo));
@@ -320,7 +323,7 @@ namespace GKImitator.ViewModels
 				journalItem.ObjectDeviceType = (short)(GKBaseDescriptor.GKBase as GKDevice).Driver.DriverTypeNo;
 				journalItem.ObjectDeviceAddress = (short)(((GKBaseDescriptor.GKBase as GKDevice).ShleifNo - 1) * 256 + (GKBaseDescriptor.GKBase as GKDevice).IntAddress);
 			}
-			using(var dbService = new DbService())
+			using (var dbService = new DbService())
 			{
 				dbService.ImitatorJournalTranslator.Add(journalItem);
 			}

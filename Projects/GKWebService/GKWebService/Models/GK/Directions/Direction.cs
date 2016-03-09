@@ -13,6 +13,11 @@ namespace GKWebService.Models
 {
 	public class Direction : GKBaseModel
 	{
+		public Direction()
+		{
+			
+		}
+
 		public Direction(GKDirection gkDirection)
 			: base(gkDirection)
 		{

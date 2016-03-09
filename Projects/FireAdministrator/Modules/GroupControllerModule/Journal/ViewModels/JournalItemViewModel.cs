@@ -256,7 +256,6 @@ namespace GKModule.ViewModels
 						ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
-
 				case JournalObjectType.GKPumpStation:
 					if (GKManager.PumpStations.Any(x => x.UID == JournalItem.ObjectUID))
 					{

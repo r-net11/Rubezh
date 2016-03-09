@@ -59,11 +59,17 @@
                         <div class="properties">
                             <div>
                                 <span>Задежка</span>
-                                <a class="labelImage" href="" ng-click="Show()" style="background-image: url(/Content/Image/{{delay.ImageSource}})">{{delay.Name}}</a>
-                            </div>
-                            <div>
-                                <span >Номер в ГК:</span>
-                                <span >{{delay.GkDescriptorNo}}</span>
+                        @*<a href="" ng-click="Show()">{{delay.Name}}</a>*@
+                        <a ui-sref="delays({uid: delay.UID})" ui-sref-opts="{reload: true}">{{delay.Name}}</a>
+                    </div>
+                    <div>
+                        <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
+                        <span style="margin: 2px; font-weight: bold">{{delay.GKDescriptorNo}}</span>
+                    </div>
+                    <div>
+                        <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                        @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
+                        <a ui-sref="archive({uid: delay.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
                             </div>
                             <div>
                                 <span>Задержка: </span>

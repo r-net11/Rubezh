@@ -7,7 +7,7 @@ using RubezhAPI.GK;
 
 namespace GKWebService.Models
 {
-	public abstract class GKBaseModel
+	public class GKBaseModel
 	{
 		public Guid UID { get; set; }
 
@@ -25,7 +25,10 @@ namespace GKWebService.Models
 
 		public string StateClass { get; set; }
 
-		public GKStateModel State { get; set; }
+		public GKBaseModel()
+		{
+			
+		}
 
 		public GKBaseModel(GKBase gkObject)
 		{
@@ -34,7 +37,6 @@ namespace GKWebService.Models
 			ImageSource = gkObject.ImageSource.Replace("/Controls;component/", "");
 			ObjectType = gkObject.ObjectType;
 			StateClass = gkObject.State.StateClass.ToString();
-			State = new GKStateModel(gkObject.State);
 		}
 	}
 }

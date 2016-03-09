@@ -28,6 +28,7 @@ namespace AutomationModule.ViewModels
 		{
 			EditStringCommand = new RelayCommand(OnEditString);
 			EditListCommand = new RelayCommand(OnEditList);
+			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 			IsList = isList;

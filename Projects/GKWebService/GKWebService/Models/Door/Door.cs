@@ -13,7 +13,12 @@ namespace GKWebService.Models.Door
 {
 	public class Door : GKBaseModel
 	{
-		public Door(GKDoor door)
+		public Door()
+		{
+			
+		}
+
+        public Door(GKDoor door)
 			: base(door)
 		{
 			UID = door.UID;

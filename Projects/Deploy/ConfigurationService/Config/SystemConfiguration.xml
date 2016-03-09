@@ -63,7 +63,7 @@
   </Sounds>
   <JournalFilters />
   <RviSettings>
-    <Ip>172.16.5.7</Ip>
+    <Ip>localhost</Ip>
     <Port>8000</Port>
     <Login>strazh</Login>
     <Password>strazh12345</Password>
@@ -72,7 +72,7 @@
     <VideoMarginLeft>500</VideoMarginLeft>
     <VideoMarginTop>500</VideoMarginTop>
   </RviSettings>
-  <Cameras />
+  <RviServers />
   <EmailData>
     <Emails />
     <EmailSettings />
@@ -84,5 +84,6 @@
     <OPCServers />
     <GlobalVariables />
     <OpcDaTsServers />
+    <OpcDaTagFilters />
   </AutomationConfiguration>
 </SystemConfiguration>

@@ -130,9 +130,11 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateGKCodeEvent.cs" />
+    <Compile Include="Events\CreateGKPumpStationEvent.cs" />
     <Compile Include="Events\CreateGKDelayEvent.cs" />
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
+    <Compile Include="Events\EditGKPumpStationEvent.cs" />
     <Compile Include="Events\EditGKDelayEvent.cs" />
     <Compile Include="Events\EditGKDoorEvent.cs" />
     <Compile Include="Events\EditGKGuardZoneEvent.cs" />
@@ -156,6 +158,7 @@
     <Compile Include="Events\ShowGKOPCDirectionsEvent.cs" />
     <Compile Include="Events\ShowGKOPCZonesEvent.cs" />
     <Compile Include="Events\ShowGKParameterTemplatesEvent.cs" />
+    <Compile Include="Events\ShowGKPumpStationOnPlanEvent.cs" />
     <Compile Include="Events\ShowGKPumpStationEvent.cs" />
     <Compile Include="Events\ShowGKZoneEvent.cs" />
     <Compile Include="Events\ShowGKDelayStationEvent.cs" />
@@ -255,6 +258,8 @@
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
+    <Compile Include="Plans\InstrumentAdorners\PumpStationRectangleAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\PumpStationPolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\DelayPolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\DelayRectangleAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\GuardZonePolygonAdorner.cs" />
@@ -266,6 +271,7 @@
     <Compile Include="Plans\ViewModels\DelayPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\GKDoorPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\PumpStationPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZonePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\MPTPropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DelayPropertiesView.xaml.cs">
@@ -276,6 +282,9 @@
     </Compile>
     <Compile Include="Plans\Views\GuardZonePropertiesView.xaml.cs">
       <DependentUpon>GuardZonePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\PumpStationPropertiesView.xaml.cs">
+      <DependentUpon>PumpStationPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\SKDZonePropertiesView.xaml.cs">
       <DependentUpon>SKDZonePropertiesView.xaml</DependentUpon>
@@ -791,6 +800,10 @@
     <Page Include="Plans\Views\GuardZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\PumpStationPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\SKDZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>

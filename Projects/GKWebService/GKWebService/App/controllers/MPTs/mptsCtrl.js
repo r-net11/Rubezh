@@ -15,6 +15,7 @@
                                $scope.gridApi.selection.selectRow($scope.uiGrid.data[0]);
                            }
                        }
+                       $scope.gridApi.autoSize.fit($scope.uiGrid.columnDefs[0]);
                    });
                });
 
