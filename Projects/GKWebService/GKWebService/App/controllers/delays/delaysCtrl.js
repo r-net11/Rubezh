@@ -27,7 +27,7 @@
 				    $scope.gridApi = gridApi;
 				},
 				columnDefs: [
-				{ name: "Number", displayName: "№", width: "30", cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Icon/Hr/Delay.png" />{{row.entity.Number}}</div>' },
+				{ name: "Number", displayName: "№", width: "30", cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" src="/Content/Image/Images/Delay.png" />{{row.entity.Number}}</div>' },
 				{ name: "Name", displayName: "Задержка", width: 300, cellTemplate: nameTemplate },
 				{ name: "PresentationLogic", displayName: "Логика включения" },
 				{ name: "OnDelay", displayName: "Задержка", width: 120 },
