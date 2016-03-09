@@ -85,6 +85,7 @@ namespace AutomationModule.ViewModels
 						{
 							new StepTypeViewModel(ProcedureStepType.PlaySound),
 							new StepTypeViewModel(ProcedureStepType.AddJournalItem),
+							new StepTypeViewModel(ProcedureStepType.SendEmail),
 							new StepTypeViewModel(ProcedureStepType.ShowMessage),
 							new StepTypeViewModel(ProcedureStepType.ControlVisualGet),
 							new StepTypeViewModel(ProcedureStepType.ControlVisualSet),

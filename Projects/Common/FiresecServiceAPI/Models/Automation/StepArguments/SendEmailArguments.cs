@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -8,9 +9,10 @@ namespace FiresecAPI.Automation
 		public SendEmailArguments()
 		{
 			EMailAddressFromArgument = new Argument();
-			EMailAddressToArgument = new Argument();
+			EMailAddressToArguments = new List<Argument>();
 			EMailTitleArgument = new Argument();
 			EMailContentArgument = new Argument();
+			EMailAttachedFileArguments = new List<Argument>();
 			SmtpArgument = new Argument();
 			PortArgument = new Argument();
 			LoginArgument = new Argument();
@@ -21,13 +23,16 @@ namespace FiresecAPI.Automation
 		public Argument EMailAddressFromArgument { get; set; }
 
 		[DataMember]
-		public Argument EMailAddressToArgument { get; set; }
+		public List<Argument> EMailAddressToArguments { get; set; }
 
 		[DataMember]
 		public Argument EMailTitleArgument { get; set; }
 
 		[DataMember]
 		public Argument EMailContentArgument { get; set; }
+
+		[DataMember]
+		public List<Argument> EMailAttachedFileArguments { get; set; }
 
 		[DataMember]
 		public Argument SmtpArgument { get; set; }

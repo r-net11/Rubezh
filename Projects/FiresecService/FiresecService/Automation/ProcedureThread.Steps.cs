@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Net.Mime;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Automation.Enums;
@@ -122,16 +123,24 @@ namespace FiresecService
 			var login = GetValue<string>(sendEmailArguments.LoginArgument);
 			var password = GetValue<string>(sendEmailArguments.PasswordArgument);
 			var eMailAddressFrom = GetValue<string>(sendEmailArguments.EMailAddressFromArgument);
-			var eMailAddressTo = GetValue<string>(sendEmailArguments.EMailAddressToArgument);
+			var eMailAddressTos = sendEmailArguments.EMailAddressToArguments.Select(x => GetValue<string>(x)).ToList();
 			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
-			using (var Smtp = new SmtpClient(smtp, port) {Credentials = new NetworkCredential(login, password)})
+			var eMailAttachedFiles = sendEmailArguments.EMailAttachedFileArguments.Select(x => GetValue<string>(x)).ToList();
+			using (var Smtp = new SmtpClient(smtp, port) { Credentials = new NetworkCredential(login, password) })
 			{
 				var message = new MailMessage {From = new MailAddress(eMailAddressFrom)};
-				message.To.Add(new MailAddress(eMailAddressTo));
+				foreach (var eMailAddressTo in eMailAddressTos)
+				{
+					message.To.Add(new MailAddress(eMailAddressTo));
+				}
 				message.Subject = title;
 				message.Body = content;
-
+				foreach (var eMailAttachedFile in eMailAttachedFiles)
+				{
+					message.Attachments.Add(new System.Net.Mail.Attachment(eMailAttachedFile));
+				}
+				
 				try
 				{
 					Smtp.Send(message);
