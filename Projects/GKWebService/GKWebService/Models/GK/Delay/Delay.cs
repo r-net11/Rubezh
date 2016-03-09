@@ -4,6 +4,7 @@ using GKWebService.Models.GK;
 using RubezhAPI;
 using RubezhAPI.GK;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GKWebService.Models
 {
@@ -16,7 +17,7 @@ namespace GKWebService.Models
 		public string HoldDelay { get; set; }
 		public string StateIcon { get; set; }
 		public string StateColor { get; set; }
-		public List<DelayStateClass> StateClasses { get; set; }
+		public List<StateClass> StateClasses { get; set; }
 		public bool HasOnDelay { get; set; }
 		public bool HasHoldDelay { get; set; }
 		public string ControlRegimeName { get; set; }
@@ -41,12 +42,11 @@ namespace GKWebService.Models
 			Number = gkDelay.No;
 			Name = gkDelay.Name;
 			PresentationLogic = GKManager.GetPresentationLogic(gkDelay.Logic);
-			OnDelay = gkDelay.State.OnDelay != 0 ? string.Format("{0} сек", gkDelay.State.OnDelay) : string.Empty;
-			HoldDelay = gkDelay.State.HoldDelay != 0 ? string.Format("{0} сек", gkDelay.State.HoldDelay) : string.Empty;
+			OnDelay = gkDelay.State.OnDelay != 0 ? gkDelay.State.OnDelay.ToString() : string.Empty;
+			HoldDelay = gkDelay.State.HoldDelay != 0 ? gkDelay.State.HoldDelay.ToString() : string.Empty;
 			StateIcon = gkDelay.State.StateClass.ToString();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(gkDelay.State.StateClass, null, null, null).ToString().Substring(3) + "'";
-			StateClasses = new List<DelayStateClass>();
-			gkDelay.State.StateClasses.ForEach(x => StateClasses.Add(new DelayStateClass(x)));
+			StateClasses = gkDelay.State.StateClasses.Select(x => new StateClass(x)).ToList();
 			HasOnDelay = gkDelay.State.StateClasses.Contains(XStateClass.TurningOn) && gkDelay.State.OnDelay > 0;
 			HasHoldDelay = gkDelay.State.StateClasses.Contains(XStateClass.On) && gkDelay.State.HoldDelay > 0;
 			var controlRegime = gkDelay.State.StateClasses.Contains(XStateClass.Ignore)
