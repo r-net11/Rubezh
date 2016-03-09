@@ -15,10 +15,10 @@
 				<button ng-click="firstPage()" class="icon"><span class="glyphicon glyphicon-fast-backward"></span></button>
 				<button ng-click="previousPage()" class="icon"><span class="glyphicon glyphicon-step-backward"></span></button>
 				<input type="number" class="icon" ng-model="filter.Page" min="1" max="{{MaxPage}}" ng-change="pageNumberChanged(filter.Page)" required>
-				<button class="icon"><span>/{{MaxPage}}</span></button>
+				<span>/{{MaxPage}}</span>
 				<button ng-click="nextPage()" class="icon"><span class="glyphicon glyphicon-step-forward"></span></button>
 				<button ng-click="lastPage()" class="icon"><span class="glyphicon glyphicon-fast-forward"></span></button>
-			<button class="icon" ng-show="isLoading">Загрузка</button>
+				<span ng-show="isLoading">Загрузка</span>
 		</div>
 		<div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-selection style="{{gridStyle}}"></div>
 		<div class="report_item_info">
