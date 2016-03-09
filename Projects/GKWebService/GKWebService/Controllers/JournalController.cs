@@ -200,7 +200,6 @@ namespace GKWebService.Controllers
 						result = new Door(door);
 					break;
 			}
-			Trace.WriteLine(result.UID);
 			return Json(result, JsonRequestBehavior.AllowGet);
 		}
 	}

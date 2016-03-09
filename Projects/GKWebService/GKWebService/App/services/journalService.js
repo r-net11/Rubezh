@@ -59,24 +59,26 @@
 						{ name: 'Дата в приборе', width: '130', field: 'DeviceDate', cellTemplate: coloredCellTemplate },
 						{ name: 'Дата в системе', width: '130', field: 'SystemDate', cellTemplate: coloredCellTemplate },
 						{
-							name: 'Событие', cellTemplate:
-								  '<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
-								<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.EventImage}}" />\
-								 <a href="" ng-click="grid.appScope.showPropertiesClick(row.entity)">\
+							name: 'Событие',
+							cellTemplate:
+								'<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
+									<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.EventImage}}" />\
 									{{row.entity.Name}}\
-								</a>\
-							</div>'
+								</div>'
 						},
 						{ name: 'Уточнение', field: 'Desc', cellTemplate: coloredCellTemplate },
 						{
 							name: 'Объект',
 							cellTemplate:
 								'<div class="ui-grid-cell-contents" ng-style="!row.isSelected && {\'background-color\': row.entity.Color}">\
-								<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.ObjectImageSource}}" />\
-								 <a href="" ng-click="grid.appScope.showPropertiesClick(row.entity)">\
-									{{row.entity.ObjectName}}\
-								</a>\
-							</div>'
+									<img style="vertical-align: middle; padding-right: 3px; width: 16px" ng-src="{{row.entity.ObjectImageSource}}" />\
+									<a href="" ng-show="row.entity.CanShow" ng-click="grid.appScope.showPropertiesClick(row.entity)">\
+										{{row.entity.ObjectName}}\
+									</a>\
+									<span ng-hide="row.entity.CanShow">\
+										{{row.entity.ObjectName}}\
+									</span>\
+								</div>'
 						},
 					]
 				};
