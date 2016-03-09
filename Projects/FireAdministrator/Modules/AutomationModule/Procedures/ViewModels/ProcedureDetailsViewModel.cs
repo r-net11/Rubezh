@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Automation;
-using System.Linq;
+using RubezhAPI.Automation;
 using RubezhClient;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 			Name = Procedure.Name;
 			Description = Procedure.Description;
 			IsActive = Procedure.IsActive;
-			StartWithServer = Procedure.StartWithServer;
+			StartWithApplication = Procedure.StartWithApplication;
 			IsSync = Procedure.IsSync;
 			TimeOut = Procedure.TimeOut;
 			SelectedTimeType = Procedure.TimeType;
@@ -60,7 +60,7 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => Description);
 			}
 		}
-		
+
 		public ObservableCollection<ContextType> ContextTypes { get; private set; }
 		ContextType _selectedContextType;
 		public ContextType SelectedContextType
@@ -84,14 +84,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool _startWithServer;
-		public bool StartWithServer
+		bool _startWithApplication;
+		public bool StartWithApplication
 		{
-			get { return _startWithServer; }
+			get { return _startWithApplication; }
 			set
 			{
-				_startWithServer = value;
-				OnPropertyChanged(() => StartWithServer);
+				_startWithApplication = value;
+				OnPropertyChanged(() => StartWithApplication);
 			}
 		}
 
@@ -144,7 +144,7 @@ namespace AutomationModule.ViewModels
 			Procedure.Name = Name;
 			Procedure.Description = Description;
 			Procedure.IsActive = IsActive;
-			Procedure.StartWithServer = StartWithServer;
+			Procedure.StartWithApplication = StartWithApplication;
 			Procedure.IsSync = IsSync;
 			Procedure.TimeOut = TimeOut;
 			Procedure.TimeType = SelectedTimeType;

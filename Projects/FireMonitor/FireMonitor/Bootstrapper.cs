@@ -122,6 +122,7 @@ namespace FireMonitor
 
 					ScheduleRunner.Start();
 
+					AutomationProcessor.RunOnApplicationRun(ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == ClientManager.ClientCredentials.Login), FiresecServiceFactory.UID);
 					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 					{
