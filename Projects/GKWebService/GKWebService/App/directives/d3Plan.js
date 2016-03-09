@@ -145,9 +145,9 @@
 			.on("mouseover", function (d) {
 				if (item.Type === "Plan" || !item.HasOverlay)
 					return;
-				d3.select(this).style("stroke", "rgba(" + item.BorderMouseOver.R + "," + item.BorderMouseOver.G + "," + item.BorderMouseOver.B + "," + item.BorderMouseOver.A + ")").style("fill", "rgba(" + item.FillMouseOver.R + "," + item.FillMouseOver.G + "," + item.FillMouseOver.B + "," + item.FillMouseOver.A + ")");
-				if (item.BorderThickness === 0)
-					d3.select(this).style("stroke-width", 1);
+				//d3.select(this).style("stroke", "rgba(" + item.BorderMouseOver.R + "," + item.BorderMouseOver.G + "," + item.BorderMouseOver.B + "," + item.BorderMouseOver.A + ")").style("fill", "rgba(" + item.FillMouseOver.R + "," + item.FillMouseOver.G + "," + item.FillMouseOver.B + "," + item.FillMouseOver.A + ")");
+				//if (item.BorderThickness === 0)
+				//	d3.select(this).style("stroke-width", 1);
 				if (!item.Hint)
 					return;
 				var id = document.getElementById(item.Id.replace(" ", "-"));
@@ -157,9 +157,9 @@
 			.on("mouseout", function (d) {
 				if (item.Type === "Plan" || !item.HasOverlay)
 					return;
-				d3.select(this).style("stroke", "rgba(" + item.Border.R + "," + item.Border.G + "," + item.Border.B + "," + item.Border.A + ")").style("fill", "rgba(" + item.Fill.R + "," + item.Fill.G + "," + item.Fill.B + "," + item.Fill.A + ")");
-				if (item.BorderThickness === 0)
-					d3.select(this).style("stroke-width", 0);
+				//d3.select(this).style("stroke", "rgba(" + item.Border.R + "," + item.Border.G + "," + item.Border.B + "," + item.Border.A + ")").style("fill", "rgba(" + item.Fill.R + "," + item.Fill.G + "," + item.Fill.B + "," + item.Fill.A + ")");
+				//if (item.BorderThickness === 0)
+				//	d3.select(this).style("stroke-width", 0);
 				tip.hide();
 			})
 			// Обработка события левого клика мыши
@@ -169,7 +169,15 @@
 				if (item.Type === "Plan" || item.IsInGroup)
 					return;
 				elementOnContextMenu(item, menuItems, scope);
-			});
+			})
+			.on("updateHint", function (data) {
+				console.log("Updating hint on:", item.Id, item.Text);
+				item.Hint = data.hint;
+			})
+			.on("updateBackground", function (data) {
+				console.log("Updating background on:", item.Id, item.Text);
+					d3.select("#"+item.Id.replace(" ", "-")).style("fill", "rgba(" + data.Background.R + "," + data.Background.G + "," + data.Background.B + "," + data.Background.A + ")");
+				});
 		}
 	}
 
@@ -357,6 +365,19 @@
 						var groupElement = d3.select($("rect[id=" + groupElementUid + "]")[0]);
 						if (groupElement && groupElement.length > 0 && groupElement[0][0]) {
 							groupElement.on('updateHint')({
+								hint: stateData.Hint
+							});
+						}
+					});
+					scope.$on('updateZoneState', function (event, stateData) {
+						var elementUid = stateData.Id.replace(" ", "-");
+						console.log("Triggering hint update on:", elementUid);
+						var element = d3.select($("path[id=" + elementUid + "]")[0]);
+						if (element && element.length > 0 && element[0][0]) {
+							element.on('updateBackground')({
+								Background: stateData.Background
+							});
+							element.on('updateHint')({
 								hint: stateData.Hint
 							});
 						}
