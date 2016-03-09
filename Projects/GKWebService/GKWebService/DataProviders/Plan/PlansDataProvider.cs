@@ -133,16 +133,19 @@ namespace GKWebService.DataProviders.Plan
 			//}
 			//foreach (var state in states.DoorStates) {
 			//}
-			//foreach (var state in states.GuardZoneStates) {
-			//}
+			foreach (var state in states.GuardZoneStates) {
+				PlanElement.UpdateZoneState(state);
+			}
 			//foreach (var state in states.MPTStates) {
 			//}
 			//foreach (var state in states.PumpStationStates) {
 			//}
-			//foreach (var state in states.SKDZoneStates) {
-			//}
-			//foreach (var state in states.ZoneStates) {
-			//}
+			foreach (var state in states.SKDZoneStates) {
+				PlanElement.UpdateZoneState(state);
+			}
+			foreach (var state in states.ZoneStates) {
+				PlanElement.UpdateZoneState(state);
+			}
 		}
 
 		/// <summary>
