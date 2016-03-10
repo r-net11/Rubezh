@@ -1745,7 +1745,7 @@ namespace FiresecService.Service
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
 			if (door != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Команда_на_открытие_точки_доступа, door);
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_закрытие_точки_доступа, door);
 				if (door.InDevice != null)
 				{
 					var lockAddress = door.InDevice.IntAddress;
