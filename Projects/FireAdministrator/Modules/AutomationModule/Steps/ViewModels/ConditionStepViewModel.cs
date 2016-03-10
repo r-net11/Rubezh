@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 			ConditionArguments = stepViewModel.Step.ConditionArguments;
 			Conditions = new ObservableCollection<ConditionViewModel>();
 			ConditionArguments.Conditions.ForEach(condition => Conditions.Add(new ConditionViewModel(condition, Procedure, stepViewModel.Update, UpdateContent)));
-			if (Conditions.Any())
+			if (!Conditions.Any())
 			{
 				var condition = new Condition();
 				ConditionArguments.Conditions.Add(condition);
