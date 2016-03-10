@@ -30,6 +30,7 @@ namespace FiresecService.Service
 						result = CallbackManager.Get(clientInfo);
 					}
 				}
+				//LogPollResult("c:\\log", result);
 				return result;
 			}
 			return new PollResult
@@ -211,5 +212,45 @@ namespace FiresecService.Service
 			};
 			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUid);
 		}
+
+		#region Помогает отлаживать передаваемые через WCF данные
+		[System.Diagnostics.Conditional("DEBUG")]
+		void LogPollResult(string path, PollResult result)
+		{
+			if (result == null)
+				return;
+			try
+			{
+				var filePath = System.IO.Path.Combine(path, UID.ToString());
+				if (!System.IO.Directory.Exists(filePath))
+					System.IO.Directory.CreateDirectory(filePath);
+				var dcFileName = System.IO.Path.Combine(filePath, result.CallbackIndex.ToString() + "_dc.xml");
+				try
+				{
+					var dcSerializer = new System.Runtime.Serialization.DataContractSerializer(typeof(PollResult));
+					using (var fs = new System.IO.FileStream(dcFileName, System.IO.FileMode.OpenOrCreate))
+					{
+						dcSerializer.WriteObject(fs, result);
+					}
+				}
+				catch { }
+
+				var xmlFileName = System.IO.Path.Combine(filePath, result.CallbackIndex.ToString() + ".xml");
+				try
+				{
+					var xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(PollResult));
+					using (var fs = new System.IO.FileStream(xmlFileName, System.IO.FileMode.OpenOrCreate))
+					{
+						xmlSerializer.Serialize(fs, result);
+					}
+				}
+				catch { }
+			}
+			catch
+			{
+
+			}
+		}
+		#endregion
 	}
 }

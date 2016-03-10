@@ -1,6 +1,5 @@
 ﻿using Common;
 using RubezhAPI.Automation;
-using RubezhAPI.AutomationCallback;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using System;
@@ -179,7 +178,7 @@ namespace Infrastructure.Automation
 					{
 						var condition = Compare(initialValue, value, forArguments.ConditionType);
 						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
-						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value;)
+						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value; )
 						{
 							if (IsTimeOut)
 								return Result.Normal;
@@ -414,20 +413,6 @@ namespace Infrastructure.Automation
 					break;
 			}
 			return Result.Normal;
-		}
-
-		void SetVariableValue(Variable target, object value, Guid? initialClientUID)
-		{
-			SendCallback(null, new AutomationCallbackResult
-			{
-				AutomationCallbackType = AutomationCallbackType.GlobalVariable,
-				Data = new GlobalVariableCallBackData
-				{
-					VariableUID = target.Uid,
-					Value = value
-				}
-			});
-			ProcedureExecutionContext.SetVariableValue(target, value, initialClientUID);
 		}
 
 		enum Result
