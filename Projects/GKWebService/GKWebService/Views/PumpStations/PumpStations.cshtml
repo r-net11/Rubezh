@@ -1,24 +1,26 @@
 ﻿@{
-	Layout = null;
+    Layout = null;
 }
 
 <div ng-controller="pumpStationsCtrl">
-	<div ui-grid="uiGrid" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state ui-grid-auto-size-column style="{{gridStyle}}"></div>
-	<div class="report_item_info">
-		<div>
-			<label>Условие для запуска: </label>
-			<label ng-bind="selectedRow.startLogic"></label>
-		</div>
-		<div>
-			<label>Условие для останова или запрета пуска: </label>
-			<label ng-bind="selectedRow.stopLogic"></label>
-		</div>
-		<div>
-			<label>Условие для отключения автоматики: </label>
-			<label ng-bind="selectedRow.automaticOffLogic"></label>
-		</div>
-	</div>
+    <div ui-grid="uiGrid" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state ui-grid-auto-size-column style="{{gridStyle}}"></div>
+    <div class="deviceWindow">
+        <div class="deviceProperties">
+            <div>
+                <span>Условие для запуска: </span>
+                <span ng-bind="selectedRow.startLogic"></span>
+            </div>
+            <div>
+                <span>Условие для останова или запрета пуска: </span>
+                <span ng-bind="selectedRow.stopLogic"></span>
+            </div>
+            <div>
+                <span>Условие для отключения автоматики: </span>
+                <span ng-bind="selectedRow.automaticOffLogic"></span>
+            </div>
+        </div>
+    </div>
 </div>
 <div ng-controller="pumpStationDevicesCtrl">
-	<div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state style="{{gridStyle}}"></div>
+    <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state style="{{gridStyle}}"></div>
 </div>

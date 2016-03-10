@@ -258,7 +258,7 @@ namespace GKModule.ViewModels
 						addedDevice.IsExpanded = true;
 					}
 				}
-				if (DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_MVP_Part
+				if (DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_MVP_Part || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_KDKR_Part
 					|| DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.GK || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.GKMirror || DevicesViewModel.Current.SelectedDevice.Driver.DriverType == GKDriverType.RSR2_MRK)
 					DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
@@ -342,7 +342,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSelect()
 		{
-			return Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_MVP_Part;
+			return Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_MVP_Part || Driver.DriverType == GKDriverType.RSR2_KDKR_Part;
 		}
 
 		public RelayCommand ShowAsListCommand { get; private set; }
@@ -859,7 +859,7 @@ namespace GKModule.ViewModels
 			if (driver == null || Device.Parent == null)
 				return false;
 
-			if (driver.DriverType == GKDriverType.RSR2_MVP_Part)
+			if (driver.DriverType == GKDriverType.RSR2_MVP_Part || driver.DriverType == GKDriverType.RSR2_KDKR_Part)
 				return false;
 
 			if (driver.IsAutoCreate)

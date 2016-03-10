@@ -410,7 +410,8 @@ namespace RubezhAPI.GK
 					if (parentDevice.DriverType == GKDriverType.RSR2_KAU_Shleif)
 						continue;
 
-					if (parentDevice.DriverType == GKDriverType.RSR2_MVP || parentDevice.DriverType == GKDriverType.RSR2_MVP_Part)
+					if (parentDevice.DriverType == GKDriverType.RSR2_MVP || parentDevice.DriverType == GKDriverType.RSR2_MVP_Part || parentDevice.DriverType == GKDriverType.RSR2_MRK
+						 || parentDevice.DriverType == GKDriverType.RSR2_KDKR || parentDevice.DriverType == GKDriverType.RSR2_KDKR_Part)
 						continue;
 
 					address.Append(parentDevice.Address);
@@ -663,6 +664,17 @@ namespace RubezhAPI.GK
 			}
 		}
 
+		[XmlIgnore]
+		public GKDevice KDPartParent
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.LastOrDefault(x => x.DriverType == GKDriverType.RSR2_KDKR_Part);
+			}
+		}
+
 
 		[XmlIgnore]
 		public GKDevice MirrorParent
@@ -756,7 +768,7 @@ namespace RubezhAPI.GK
 		{
 			get
 			{
-				if (!Driver.HasAddress)
+				if (!Driver.HasAddress || DriverType != GKDriverType.RSR2_KDKR_Part)
 					return 0;
 				return IntAddress;
 			}

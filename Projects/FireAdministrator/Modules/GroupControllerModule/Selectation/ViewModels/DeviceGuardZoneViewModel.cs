@@ -30,6 +30,7 @@ namespace GKModule.ViewModels
 			{
 				case GKDriverType.RSR2_GuardDetector:
 				case GKDriverType.RSR2_GuardDetectorSound:
+				case GKDriverType.RSR2_HandGuardDetector:
 					ActionTypes.Add(GKGuardZoneDeviceActionType.SetAlarm);
 					break;
 

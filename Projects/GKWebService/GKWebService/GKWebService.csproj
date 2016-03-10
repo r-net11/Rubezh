@@ -747,11 +747,13 @@
     <Compile Include="Models\Device\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Models\Door\Door.cs" />
     <Compile Include="Models\Door\DoorDevice.cs" />
+    <Compile Include="Models\Door\DoorStateClassToStringConverter.cs" />
     <Compile Include="Models\GK\GKBase.cs" />
     <Compile Include="Models\GK\GKModuleLoader.cs" />
     <Compile Include="Models\GK\GKStateModel.cs" />
     <Compile Include="Models\GK\PlanLinkViewModel.cs" />
     <Compile Include="Models\GuardZones\GuardZone.cs" />
+    <Compile Include="Models\GuardZones\GuardZoneStateClassToStringConverter.cs" />
     <Compile Include="Models\Journal\JournalFilter.cs" />
     <Compile Include="Models\GK\Alarms\Alarm.cs" />
     <Compile Include="Models\GK\Alarms\AlarmGroupsViewModel.cs" />
@@ -771,7 +773,6 @@
     <Compile Include="DataProviders\SKD\OrganisationHelper.cs" />
     <Compile Include="DataProviders\SKD\PositionHelper.cs" />
     <Compile Include="DataProviders\SKD\ScheduleHelper.cs" />
-    <Compile Include="Models\GK\Delay\DelayStateClass.cs" />
     <Compile Include="Models\GK\DeviceControlRegime.cs" />
     <Compile Include="Models\GK\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Models\GK\Directions\Direction.cs" />

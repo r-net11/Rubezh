@@ -165,7 +165,8 @@ namespace FireMonitor
 				if (data != null)
 				{
 					var variable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == data.VariableUID);
-					ProcedureExecutionContext.SetVariableValue(variable, data.Value, null);
+					variable.ExplicitValue = data.ExplicitValue;
+					variable.ExplicitValues = data.ExplicitValues;
 				}
 				return;
 			}

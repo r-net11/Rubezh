@@ -174,8 +174,8 @@ namespace GKImitator.ViewModels
 					}
 					else
 					{
-						CurrentOnDelay--;
 						AdditionalShortParameters[0] = CurrentOnDelay;
+						CurrentOnDelay--;
 					}
 				}
 				if (TurningState == TurningState.Holding)
@@ -196,8 +196,8 @@ namespace GKImitator.ViewModels
 					}
 					else
 					{
-						CurrentHoldDelay--;
 						AdditionalShortParameters[1] = CurrentHoldDelay;
+						CurrentHoldDelay--;
 					}
 				}
 				if (TurningState == TurningState.TurningOff)
@@ -211,8 +211,8 @@ namespace GKImitator.ViewModels
 					}
 					else
 					{
+						AdditionalShortParameters[GKBase is GKGuardZone ? 0 : 2] = CurrentOffDelay;
 						CurrentOffDelay--;
-						AdditionalShortParameters[2] = CurrentOffDelay;
 					}
 				}
 				if (IsSettingGuardAlarm)
@@ -225,6 +225,7 @@ namespace GKImitator.ViewModels
 					}
 					else
 					{
+						AdditionalShortParameters[1] = CurrentAlarmDelay;
 						CurrentAlarmDelay--;
 					}
 				}

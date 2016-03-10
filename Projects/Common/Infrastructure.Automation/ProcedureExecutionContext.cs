@@ -204,7 +204,7 @@ namespace Infrastructure.Automation
 						target.ExplicitValue.ColorValue = (Color)value;
 				}
 			}
-			if (ContextType == ContextType.Server)
+			if (ContextType == ContextType.Server && target.IsGlobal && target.ContextType == ContextType.Server)
 				SendCallback(new AutomationCallbackResult
 				{
 					CallbackUID = Guid.NewGuid(),
@@ -214,7 +214,8 @@ namespace Infrastructure.Automation
 					{
 						InitialClientUID = initialClientUID,
 						VariableUID = target.Uid,
-						Value = target.Value
+						ExplicitValue = target.ExplicitValue,
+						ExplicitValues = target.ExplicitValues
 					}
 				}, null);
 			else

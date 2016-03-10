@@ -212,7 +212,7 @@ namespace RubezhAPI
 		static List<GKDevice> RebuildRSR2Addresses_Children;
 		static void RebuildRSR2Addresses_AddChild(GKDevice device)
 		{
-			if (device.DriverType != GKDriverType.RSR2_MVP_Part && device.DriverType != GKDriverType.RSR2_KAU_Shleif)
+			if (device.DriverType != GKDriverType.RSR2_MVP_Part && device.DriverType != GKDriverType.RSR2_KAU_Shleif && device.DriverType != GKDriverType.RSR2_KDKR_Part)
 				RebuildRSR2Addresses_Children.Add(device);
 
 			foreach (var child in device.Children)
