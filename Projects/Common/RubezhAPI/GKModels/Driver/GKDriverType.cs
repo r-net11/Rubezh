@@ -233,6 +233,9 @@ namespace RubezhAPI.GK
 		RSR2_ZOV = 102,
 
 		[Description("СКОПА R2")]
-		RSR2_SCOPA = 103
+		RSR2_SCOPA = 103,
+
+		[Description("ИОВ R2")]
+		RSR2_HandGuardDetector = 110,
 	}
 }
