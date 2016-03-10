@@ -37,7 +37,7 @@
             return;
         }
 
-	if ($(event.target).is("input") || $(event.target).is("textarea") || $(event.target).is("button") || $(event.target).is("a") || $(event.target).is("img")) {
+    if ($(event.target).is("input") || $(event.target).is("textarea") || $(event.target).is("button") || $(event.target).is("a") || $(event.target).is("img") || $(event.target).hasClass("btn")) {
 		return;
 	}
         
