@@ -75,6 +75,18 @@ namespace AutomationModule.ViewModels
 					if (item != null)
 						return "Пожарная зона: " + item.PresentationName;
 				}
+				if (ElementType == typeof(ElementRectangleGKPumpStation))
+				{
+					var item = GKManager.PumpStations.FirstOrDefault(x => x.UID == ((ElementRectangleGKPumpStation)ElementBase).PumpStationUID);
+					if (item != null)
+						return "Насосная станция: " + item.PresentationName;
+				}
+				if (ElementType == typeof(ElementPolygonGKPumpStation))
+				{
+					var item = GKManager.PumpStations.FirstOrDefault(x => x.UID == ((ElementPolygonGKPumpStation)ElementBase).PumpStationUID);
+					if (item != null)
+						return "Насосная станция: " + item.PresentationName;
+				}
 				if (ElementType == typeof(ElementPolygonGKGuardZone))
 				{
 					var item = GKManager.GuardZones.FirstOrDefault(x => x.UID == ((ElementPolygonGKGuardZone)ElementBase).ZoneUID);

@@ -26,6 +26,7 @@ namespace GKWebService.Models
 		public JournalObjectType ObjectType { get; set; }
 		public string Subsystem { get; set; }
 		public string EventImage { get; set; }
+		public bool CanShow { get; set; }
 		public JournalModel(JournalItem journalItem)
 		{
 			Desc = journalItem.JournalEventDescriptionType.ToDescription();
@@ -188,7 +189,7 @@ namespace GKWebService.Models
 					ObjectName = journalItem.ObjectName != null ? journalItem.ObjectName : "";
 					break;
 			}
-
+			CanShow = journalItem.JournalObjectType != JournalObjectType.None && journalItem.JournalObjectType != JournalObjectType.GKUser;
 			if (ObjectName == null)
 			{
 				ObjectName = journalItem.ObjectName;

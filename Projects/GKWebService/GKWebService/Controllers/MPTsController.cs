@@ -25,13 +25,8 @@ namespace GKWebService.Controllers
 
 		public JsonResult GetMPTsData()
 		{
-			var data = new List<MPTModel>();
-			foreach (var mpt in GKManager.MPTs)
-			{
-				data.Add(new MPTModel(mpt));
-			}
-			data.Reverse();
-			return Json(data, JsonRequestBehavior.AllowGet);
+			GKManager.MPTs.Select(x =>new MPTModel(x));
+			return Json(GKManager.MPTs.Select(x => new MPTModel(x)).OrderBy(x=> x.No), JsonRequestBehavior.AllowGet);
 		}
 
 		public JsonResult GetMPTDevices(Guid id)

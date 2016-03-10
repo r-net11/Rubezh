@@ -27,7 +27,8 @@ namespace GKWebService.Controllers
 				var copyDelay = new Delay(delay);
 				delays.Add(copyDelay);
 			}
-			return Json(delays, JsonRequestBehavior.AllowGet);
+
+			return Json(delays.OrderBy(x=> x.Number), JsonRequestBehavior.AllowGet);
 		}
 		public JsonResult SetAutomaticState(Guid id)
 		{

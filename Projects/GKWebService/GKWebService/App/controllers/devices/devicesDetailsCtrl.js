@@ -16,7 +16,12 @@
 
         	function gridConfig(data, colDefs) {
         		var config = {};
-        		config.data = data;
+        		config.data = [];
+        		for (var i in data) {
+        			if (!data[i].IsNotVisible) {
+				        config.data.push(data[i]);
+			        }
+		        }
         		config.enableRowHeaderSelection = false;
         		config.enableSorting = false;
         		config.multiSelect = false;
@@ -79,22 +84,6 @@
         		$http.post('Devices/SetManualState', { id: $scope.device.UID });
         	};
 
-        	$scope.TurnOn = function () {
-        		$http.post('Devices/TurnOn', { id: $scope.device.UID });
-        	};
-
-        	$scope.TurnOnNow = function () {
-        		$http.post('Devices/TurnOnNow', { id: $scope.device.UID });
-        	};
-
-        	$scope.ForbidStart = function () {
-        		$http.post('Devices/ForbidStart', { id: $scope.device.UID });
-        	};
-
-        	$scope.TurnOff = function () {
-        		$http.post('Devices/TurnOff', { id: $scope.device.UID });
-        	};
-
         	$scope.ShowJournal = function () {
         		$state.go('archive', { uid: $scope.device.UID });
         	};
@@ -111,9 +100,18 @@
         		$state.go('fireZones', { uid: $scope.device.ZoneUID });
         	};
 
+        	$scope.ShowOnPlan = function (planUID) {
+		        var deviceUID = $scope.device.UID;
+		        $state.go('plan', { uid: planUID });
+	        };
+
         	$scope.ok = function () {
         		$uibModalInstance.close();
         	};
+
+        	$scope.onExecuteCommand = function (command) {
+        		$http.post('Devices/OnExecuteCommand', { commandName: command, UID: $scope.device.UID });
+	        }
 
         	$scope.cancel = function () {
         		$uibModalInstance.dismiss('cancel');

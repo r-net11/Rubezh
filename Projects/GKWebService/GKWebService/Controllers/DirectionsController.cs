@@ -34,7 +34,7 @@ namespace GKWebService.Controllers
 				directions.Add(direction);
 			}
 
-			return Json(directions, JsonRequestBehavior.AllowGet);
+			return Json(directions.OrderBy(x=> x.No), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

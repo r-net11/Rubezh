@@ -57,6 +57,7 @@
 
 				<div id="clockbox" class="time"></div>
 				<div class="icons" ng-controller="mainIconsCtrl">
+					<div class="icon RAlarm_main_5_Info"></div>
 					<div class="icon mute" ng-class="{off: isSound}" ng-click="isSound = !isSound"></div>
 					<div class="icon connect on"></div>
 					<div class="icon change-user on" ng-click="logOut()"></div>
@@ -82,16 +83,7 @@
 					<li ng-class="{clicked: groupControlClicked}">
 						<a class="group-control" href="" ng-click="groupControlClicked = !groupControlClicked"><span class="icon group-control"></span><span class="text">Групповой контроллер</span></a>
 						<ul>
-							<li ng-class="{active: isPageActive('state')}"><a ui-sref="state({alarmType: ''})"><span class="icon state"></span><span class="text">Состояния</span></a></li>
-							<li ng-class="{active: isPageActive('device')}"><a ui-sref="device({uid: ''})"><span class="icon device"></span><span class="text">Устройства</span></a></li>
-							<li ng-class="{active: isPageActive('params')}"><a ui-sref="params({uid: ''})"><span class="icon params"></span><span class="text">Параметры</span></a></li>
-							<li ng-class="{active: isPageActive('fireZones')}"><a ui-sref="fireZones({uid: ''})"><span class="icon firezones"></span><span class="text">Пожарные зоны</span></a></li>
-							<li ng-class="{active: isPageActive('guardZone')}"><a ui-sref="guardZone({uid: ''})"><span class="icon firezones"></span><span class="text">Охранные зоны</span></a></li>
-							<li ng-class="{active: isPageActive('directions')}"><a ui-sref="directions({uid: ''})"><span class="icon directions"></span><span class="text">Направления</span></a></li>
-							<li ng-class="{active: isPageActive('delays')}"><a ui-sref="delays({uid: ''})"><span class="icon delays"></span><span class="text">Задержки</span></a></li>
-							<li ng-class="{active: isPageActive('pumpStations')}"><a ui-sref="pumpStations({uid: ''})"><span class="icon pumpStation"></span><span class="text">НС</span></a></li>
-							<li ng-class="{active: isPageActive('MPTs')}"><a ui-sref="MPTs({uid: ''})"><span class="icon mpt"></span><span class="text">МПТ</span></a></li>
-							<li ng-class="{active: isPageActive('doors')}"><a ui-sref="doors({uid: ''})"><span class="icon doors"></span><span class="text">Точки доступа</span></a></li>
+							<li ng-repeat="item in navItems" ng-show="item.IsVisible" ng-class="{active: isPageActive({{'item.State'}})}"><a ui-sref="{{item.Sref}}"><span ng-class="item.Icon" class="icon"></span><span class="text">{{item.Title}}</span></a></li>
 						</ul>
 					</li>
 					<li class="event-log" ng-class="{active: isPageActive('journal')}"><a ui-sref='journal'><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
@@ -117,7 +109,7 @@
 	<script src="~/Scripts/knockout-3.3.0.js"></script>
 	<script src="~/Scripts/knockout.mapping-latest.js"></script>
 	<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
-    <script src="~/Scripts/jquery-ui-touch-punch.js"></script>
+    <script src="~/Scripts/jquery-ui-touch-punch2.js"></script>
 	<script src="~/Scripts/jquery.jqGrid.min.js"></script>
 	<script src="~/Scripts/i18n/grid.locale-ru.js"></script>
 	<script src="~/scripts/i18n/datepicker-ru.js"></script>

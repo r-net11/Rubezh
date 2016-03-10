@@ -1,5 +1,5 @@
 ﻿@{
-	Layout = null;
+    Layout = null;
 }
 
 <div modal-draggable modaless>
@@ -36,46 +36,55 @@
                 <uib-tab heading="Управление">
                     <div>
                         <img style="margin: 2px; vertical-align:middle" src="/Content/Image/Icon/GKStateIcons/{{delay.ControlRegimeIcon}}.png" />
-                        <span style="font-weight: bold; margin: 2px">Режим</span>
-                        <span style="font-weight: bold; margin: 2px">{{delay.ControlRegimeName}}</span>
+                        <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
+                        <span style="font-weight: bold; font-size: large; margin: 5px">{{delay.ControlRegimeName}}</span>
                     </div>
-                    <div style="float: left; width: 50%">
-                        <button style="height: 50px; width: 100%; margin: 2px;" ng-click="SetAutomaticState()" ng-disabled="!delay.CanSetAutomaticState">Автоматика</button>
-                        <button style="height: 50px; width: 100%; margin: 2px" ng-click="SetManualState()" ng-disabled="!delay.CanSetManualState">Ручное</button>
-                        <button style="height: 50px; width: 100%; margin: 2px" ng-click="SetIgnoreState()" ng-disabled="!delay.CanSetIgnoreState">Отключение</button>
-                    </div>
-                    <div style="float: left; width: 50%">
-                        <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOn()" ng-disabled="!delay.IsControlRegime">Включить</button>
-                        <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOnNow()" ng-disabled="!delay.IsControlRegime">Включить немедленно</button>
-                        <button style="height: 50px; width: 100%; margin: 2px" ng-click="TurnOff()" ng-disabled="!delay.IsControlRegime">Выключить</button>
-                    </div>
-                    <div style="clear: left">
+                    <div style="background: #fff">
+                        <div style="float: left; width: 50%">
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!delay.CanSetAutomaticState">Автоматика</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetManualState && SetManualState()" ng-disabled="!delay.CanSetManualState">Ручное</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!delay.CanSetIgnoreState">Отключение</div>
+                        </div>
+                        <div style="float: left; width: 50%">
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOn()" ng-disabled="!delay.IsControlRegime">Включить</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOnNow()" ng-disabled="!delay.IsControlRegime">Включить немедленно</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOff()" ng-disabled="!delay.IsControlRegime">Выключить</div>
+                        </div>
+                        <div style="clear: left">
+                        </div>
                     </div>
                 </uib-tab>
                 <uib-tab heading="Свойства">
-                    <div>
-                        <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Icon/Hr/Delay.png" />
-                        <a href="" ng-click="Show()">{{delay.Name}}</a>
+                    <div class="detailsTab">
+                        <div class="properties">
+                            <div>
+                                <span>Задежка</span>
+                        @*<a href="" ng-click="Show()">{{delay.Name}}</a>*@
+                        <a ui-sref="delays({uid: delay.UID})" ui-sref-opts="{reload: true}">{{delay.Name}}</a>
                     </div>
                     <div>
-                        <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-                        <span style="margin: 2px; font-weight: bold">{{delay.GKDescriptorNo}}</span>
+                        <span>Номер в ГК:</span>
+                        <span>{{delay.GkDescriptorNo}}</span>
                     </div>
-                    <div>
-                        <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-                        <a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-                    </div>
-                    <div>
-                        <span>Задержка: </span>
-                        <span>{{delay.DelayTime}}</span>
-                    </div>
-                    <div>
-                        <span>Удержание: </span>
-                        <span>{{delay.HoldTime}}</span>
-                    </div>
-                    <div>
-                        <span>Режим после удержания: </span>
-                        <span>{{delay.DelayRegimeName}}</span>
+                   
+                            <div>
+                                <span>Задержка: </span>
+                                <span>{{delay.DelayTime}}</span>
+                            </div>
+                            <div>
+                                <span>Удержание: </span>
+                                <span>{{delay.HoldTime}}</span>
+                            </div>
+                            <div>
+                                <span>Режим после удержания: </span>
+                                <span>{{delay.DelayRegimeName}}</span>
+                            </div>
+                            <div>
+                                <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                                @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
+                                <a ui-sref="archive({uid: delay.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                            </div>
+                        </div>
                     </div>
                 </uib-tab>
             </uib-tabset>

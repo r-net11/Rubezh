@@ -34,7 +34,10 @@ namespace GKModule.ViewModels
 			if (gkBase is GKMPT)
 				ServiceFactoryBase.Events.GetEvent<ShowGKMPTEvent>().Publish(gkBase.UID);
 			if (gkBase is GKPumpStation)
+			{
 				ServiceFactoryBase.Events.GetEvent<ShowGKPumpStationEvent>().Publish(gkBase.UID);
+				ServiceFactoryBase.Events.GetEvent<ShowGKPumpStationOnPlanEvent>().Publish(gkBase.UID);
+			}
 			if (gkBase is GKDevice)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDeviceEvent>().Publish(gkBase.UID);
 			if (gkBase is GKGuardZone)

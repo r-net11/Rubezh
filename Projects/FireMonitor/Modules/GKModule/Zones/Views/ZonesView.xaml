@@ -87,7 +87,8 @@
 						</ListBox>
 					</ScrollViewer>
 				</Grid>
-				<StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
+				<StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}" 
+							Visibility="{Binding DataContext.IsVisibleBottomPanel, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Label Margin="0" Content="{Binding Zone.PresentationName}" />
 					<ItemsControl Margin="2" ItemsSource="{Binding State.StateClasses}">
 						<ItemsControl.ItemTemplate>

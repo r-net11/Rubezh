@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
-using RubezhAPI;
-using System.Linq;
+using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.GK
 {
@@ -12,7 +12,7 @@ namespace RubezhAPI.GK
 	/// Насосная станция ГК
 	/// </summary>
 	[DataContract]
-	public class GKPumpStation : GKBase
+	public class GKPumpStation : GKBase, IPlanPresentable
 	{
 		public GKPumpStation()
 		{
@@ -24,6 +24,7 @@ namespace RubezhAPI.GK
 			StartLogic = new GKLogic();
 			StopLogic = new GKLogic();
 			AutomaticOffLogic = new GKLogic();
+			this.PlanElementUIDs = new List<Guid>();
 
 			NSDevices = new List<GKDevice>();
 			NSDeviceUIDs = new List<Guid>();
@@ -56,11 +57,11 @@ namespace RubezhAPI.GK
 			UpdateLogic(deviceConfiguration);
 
 			StartLogic.GetObjects().ForEach(x => AddDependentElement(x));
-			
+
 			StopLogic.GetObjects().ForEach(x => AddDependentElement(x));
 
 			AutomaticOffLogic.GetObjects().ForEach(x => AddDependentElement(x));
-			
+
 		}
 
 		public override void UpdateLogic(GKDeviceConfiguration deviceConfiguration)
@@ -138,12 +139,12 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public override string PresentationName
 		{
-			get 
+			get
 			{
 				var presentationName = No + "." + Name;
 				if (Pim != null)
 					Pim.Name = presentationName;
-				return presentationName; 
+				return presentationName;
 			}
 		}
 
@@ -151,6 +152,42 @@ namespace RubezhAPI.GK
 		public override string ImageSource
 		{
 			get { return "/Controls;component/Images/BPumpStation.png"; }
+		}
+
+		[XmlIgnore()]
+		public List<Guid> PlanElementUIDs { get; set; }
+
+		public GKPumpStation Clone()
+		{
+			var delay = new GKPumpStation();
+			delay.Name = this.Name;
+			delay.Description = this.Description;
+			delay.Delay = this.Delay;
+			delay.Hold = this.Hold;
+			delay.DelayRegime = this.DelayRegime;
+			delay.NSPumpsCount = this.NSPumpsCount;
+			delay.NSDeltaTime = this.NSDeltaTime;
+			delay.NSDeviceUIDs = new List<Guid>(this.NSDeviceUIDs);
+
+			delay.StartLogic.OnClausesGroup = this.StartLogic.OnClausesGroup.Clone();
+			delay.StartLogic.OffClausesGroup = this.StartLogic.OffClausesGroup.Clone();
+			delay.StartLogic.StopClausesGroup = this.StartLogic.StopClausesGroup.Clone();
+			delay.StartLogic.OnNowClausesGroup = this.StartLogic.OnNowClausesGroup.Clone();
+			delay.StartLogic.OffNowClausesGroup = this.StartLogic.OffNowClausesGroup.Clone();
+
+			delay.StopLogic.OnClausesGroup = this.StartLogic.OnClausesGroup.Clone();
+			delay.StopLogic.OffClausesGroup = this.StartLogic.OffClausesGroup.Clone();
+			delay.StopLogic.StopClausesGroup = this.StartLogic.StopClausesGroup.Clone();
+			delay.StopLogic.OnNowClausesGroup = this.StartLogic.OnNowClausesGroup.Clone();
+			delay.StopLogic.OffNowClausesGroup = this.StartLogic.OffNowClausesGroup.Clone();
+
+			delay.AutomaticOffLogic.OnClausesGroup = this.StartLogic.OnClausesGroup.Clone();
+			delay.AutomaticOffLogic.OffClausesGroup = this.StartLogic.OffClausesGroup.Clone();
+			delay.AutomaticOffLogic.StopClausesGroup = this.StartLogic.StopClausesGroup.Clone();
+			delay.AutomaticOffLogic.OnNowClausesGroup = this.StartLogic.OnNowClausesGroup.Clone();
+			delay.AutomaticOffLogic.OffNowClausesGroup = this.StartLogic.OffNowClausesGroup.Clone();
+
+			return delay;
 		}
 	}
 }

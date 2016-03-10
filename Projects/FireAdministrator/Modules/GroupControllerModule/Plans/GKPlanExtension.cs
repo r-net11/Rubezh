@@ -42,10 +42,11 @@ namespace GKModule.Plans
 		private MPTsViewModel _mptsViewModel;
 		private DoorsViewModel _doorsViewModel;
 		private DelaysViewModel _delaysViewModel;
+		private PumpStationsViewModel _pumpStationsViewModel;
 		private IEnumerable<IInstrument> _instruments;
 		private List<DesignerItem> _designerItems;
 
-		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, GuardZonesViewModel guardZonesViewModel, SKDZonesViewModel skdZonesViewModel, DelaysViewModel delaysViewModel, DirectionsViewModel directionsViewModel, MPTsViewModel mptsViewModel, DoorsViewModel doorsViewModel)
+		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, GuardZonesViewModel guardZonesViewModel, SKDZonesViewModel skdZonesViewModel, DelaysViewModel delaysViewModel, PumpStationsViewModel pumpStationsViewModel, DirectionsViewModel directionsViewModel, MPTsViewModel mptsViewModel, DoorsViewModel doorsViewModel)
 		{
 			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -68,6 +69,7 @@ namespace GKModule.Plans
 			_mptsViewModel = mptsViewModel;
 			_doorsViewModel = doorsViewModel;
 			_delaysViewModel = delaysViewModel;
+			this._pumpStationsViewModel = pumpStationsViewModel;
 
 			_instruments = null;
 			_processChanges = true;
@@ -214,6 +216,24 @@ namespace GKModule.Plans
 							Autostart = true,
 							GroupIndex = 212,
 						},
+						new InstrumentViewModel()
+						{
+							ImageSource = "DirectionRectangle",
+							ToolTip = "Насосные станции",
+							Adorner = new PumpStationRectangleAdorner(DesignerCanvas, this._pumpStationsViewModel),
+							Index = 215,
+							Autostart = true,
+							GroupIndex = 214,
+						},
+						new InstrumentViewModel()
+						{
+							ImageSource = "DirectionPolygon",
+							ToolTip = "Насосные станции",
+							Adorner = new PumpStationPolygonAdorner(DesignerCanvas, this._pumpStationsViewModel),
+							Index = 216,
+							Autostart = true,
+							GroupIndex = 214,
+						}
 				};
 				return _instruments;
 			}
@@ -286,6 +306,17 @@ namespace GKModule.Plans
 				else
 					return false;
 				SetItem<GKDelay>((IElementDelay)element);
+				return true;
+			}
+			else if (element is IElementPumpStation)
+			{
+				if (element is ElementRectangleGKPumpStation)
+					plan.ElementRectangleGKPumpStations.Add((ElementRectangleGKPumpStation)element);
+				else if (element is ElementPolygonGKPumpStation)
+					plan.ElementPolygonGKPumpStations.Add((ElementPolygonGKPumpStation)element);
+				else
+					return false;
+				SetItem<GKPumpStation>((IElementPumpStation)element);
 				return true;
 			}
 			else if (element is IElementDirection)
@@ -361,6 +392,17 @@ namespace GKModule.Plans
 				ResetItem<GKDelay>((IElementDelay)element);
 				return true;
 			}
+			else if (element is IElementPumpStation)
+			{
+				if (element is ElementRectangleGKPumpStation)
+					plan.ElementRectangleGKPumpStations.Remove((ElementRectangleGKPumpStation)element);
+				else if (element is ElementPolygonGKPumpStation)
+					plan.ElementPolygonGKPumpStations.Remove((ElementPolygonGKPumpStation)element);
+				else
+					return false;
+				ResetItem<GKPumpStation>((IElementPumpStation)element);
+				return true;
+			}
 			else if (element is IElementDirection)
 			{
 				if (element is ElementRectangleGKDirection)
@@ -394,6 +436,8 @@ namespace GKModule.Plans
 				RegisterDesignerItem<GKGuardZone>(designerItem, "GKGuardZone", "/Controls;component/Images/GuardZone.png");
 			else if (designerItem.Element is ElementRectangleGKDelay || designerItem.Element is ElementPolygonGKDelay)
 				RegisterDesignerItem<GKDelay>(designerItem, "GKDelay", "/Controls;component/Images/Delay.png");
+			else if (designerItem.Element is ElementRectangleGKPumpStation || designerItem.Element is ElementPolygonGKPumpStation)
+				RegisterDesignerItem<GKPumpStation>(designerItem, "GKPumpStation", "/Controls;component/Images/PumpStation.png");
 			else if (designerItem.Element is ElementRectangleGKSKDZone || designerItem.Element is ElementPolygonGKSKDZone)
 				RegisterDesignerItem<GKSKDZone>(designerItem, "GKSKDZone", "/Controls;component/Images/SKDZone.png");
 			else if (designerItem.Element is ElementGKDoor)
@@ -420,6 +464,10 @@ namespace GKModule.Plans
 				plan.ElementRectangleGKDelays = new List<ElementRectangleGKDelay>();
 			if (plan.ElementPolygonGKDelays == null)
 				plan.ElementPolygonGKDelays = new List<ElementPolygonGKDelay>();
+			if (plan.ElementRectangleGKPumpStations == null)
+				plan.ElementRectangleGKPumpStations = new List<ElementRectangleGKPumpStation>();
+			if (plan.ElementPolygonGKPumpStations == null)
+				plan.ElementPolygonGKPumpStations = new List<ElementPolygonGKPumpStation>();
 			if (plan.ElementPolygonGKGuardZones == null)
 				plan.ElementPolygonGKGuardZones = new List<ElementPolygonGKGuardZone>();
 			if (plan.ElementRectangleGKGuardZones == null)
@@ -443,6 +491,8 @@ namespace GKModule.Plans
 				.Concat(plan.ElementPolygonGKZones)
 				.Concat(plan.ElementRectangleGKDelays)
 				.Concat(plan.ElementPolygonGKDelays)
+				.Concat(plan.ElementRectangleGKPumpStations)
+				.Concat(plan.ElementPolygonGKPumpStations)
 				.Concat(plan.ElementRectangleGKGuardZones)
 				.Concat(plan.ElementPolygonGKGuardZones)
 				.Concat(plan.ElementRectangleGKSKDZones)
@@ -484,6 +534,8 @@ namespace GKModule.Plans
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKDelay, ShowGKDelayEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKDelays, plan.UID, "Несвязанная задержка", "/Controls;component/Images/Delay.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKDelay, ShowGKDelayEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKDelays, plan.UID, "Несвязанная задержка", "/Controls;component/Images/Delay.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementRectangleGKPumpStation, ShowGKPumpStationOnPlanEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKPumpStations, plan.UID, "Несвязанная насосная станция", "/Controls;component/Images/PumpStation.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementPolygonGKPumpStation, ShowGKPumpStationOnPlanEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKPumpStations, plan.UID, "Несвязанная насосная станция", "/Controls;component/Images/PumpStation.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKSKDZone, ShowGKSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKSKDZones, plan.UID, "Несвязанная зона СКД", "/Controls;component/Images/SKDZone.png", Guid.Empty));
@@ -593,6 +645,12 @@ namespace GKModule.Plans
 				elementDelay.BackgroundColor = GetGKDelayColor(item as GKDelay);
 				elementDelay.SetZLayer(item == null ? 10 : 11);
 			}
+			else if (typeof(TItem) == typeof(GKPumpStation))
+			{
+				var elementPumpStation = (IElementPumpStation)element;
+				elementPumpStation.BackgroundColor = GetGKPumpStationColor(item as GKPumpStation);
+				elementPumpStation.SetZLayer(item == null ? 10 : 11);
+			}
 			else
 				base.UpdateElementProperties<TItem>(element, item);
 		}
@@ -622,6 +680,8 @@ namespace GKModule.Plans
 				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element, _mptsViewModel);
 			else if (e.Element is ElementRectangleGKDelay || e.Element is ElementPolygonGKDelay)
 				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element, _delaysViewModel);
+			else if (e.Element is ElementRectangleGKPumpStation || e.Element is ElementPolygonGKPumpStation)
+				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element, _pumpStationsViewModel);
 			else if (e.Element is ElementGKDoor)
 				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
 		}
@@ -776,6 +836,13 @@ namespace GKModule.Plans
 			Color color = Colors.Black;
 			if (delay != null)
 				color = Colors.LightBlue;
+			return color;
+		}
+		private Color GetGKPumpStationColor(GKPumpStation pumpStation)
+		{
+			Color color = Colors.Black;
+			if (pumpStation != null)
+				color = Colors.Cyan;
 			return color;
 		}
 	}
