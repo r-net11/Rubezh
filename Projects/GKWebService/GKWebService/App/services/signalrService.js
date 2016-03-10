@@ -21,6 +21,9 @@
 				    'updateDeviceState': function (stateData) {
 					    broadcastService.send('updateDeviceState', stateData);
 				    },
+					'updateZoneState': function (stateData) {
+					    broadcastService.send('updateZoneState', stateData);
+				    },
 				    'updateHint': function (stateData) {
 				    }
 			    },

@@ -21,10 +21,8 @@ namespace GKWebService.Models.Door
         public Door(GKDoor door)
 			: base(door)
 		{
-			UID = door.UID;
 			No = door.No;
 			GKDescriptorNo = door.GKDescriptorNo;
-			Name = door.Name;
 			DoorTypeString = door.DoorType.ToDescription();
 			DoorType = door.DoorType;
 			FullCanControl = ClientManager.CheckPermission(PermissionType.Oper_Full_Door_Control);
@@ -57,16 +55,16 @@ namespace GKWebService.Models.Door
 			NormRegimeLogic = GKManager.GetPresentationLogic(door.NormRegimeLogic.OnClausesGroup  );
 			CloseRegimeLogic = GKManager.GetPresentationLogic(door.CloseRegimeLogic.OnClausesGroup);
 
-			
-			State = door.State.StateClass.ToDescription();
+
+			State = DoorStateClassToStringConverter.Converter(door.State.StateClass);
 			StateIcon = door.State.StateClass.ToString();
-			StateClasses = door.State.StateClasses.Select(x => new StateClass(x)).ToList();
+			StateClasses = door.State.StateClasses.Select(x => new StateClass { Name = DoorStateClassToStringConverter.Converter(x), IconData = x.ToString() }).ToList();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(door.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 			HasHoldDelay = door.State.StateClasses.Contains(XStateClass.On) && door.State.HoldDelay > 0;
 			HasOffDelay = door.State.StateClasses.Contains(XStateClass.TurningOff) && door.State.OffDelay > 0;
-			OffDelay = HasOffDelay? string.Format("{0} сек", door.State.OffDelay): string.Empty;
-			HoldDelay = HasHoldDelay? string.Format("{0} сек", door.State.HoldDelay): string.Empty;
+			OffDelay = HasOffDelay?  door.State.OffDelay.ToString(): string.Empty;
+			HoldDelay = HasHoldDelay?  door.State.HoldDelay.ToString(): string.Empty;
 
 			var controlRegime = door.State.StateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore

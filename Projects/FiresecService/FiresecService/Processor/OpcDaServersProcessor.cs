@@ -16,6 +16,8 @@ namespace FiresecService.Processor
 		{
 			_Servers = new List<Tuple<TsCDaServer, TsCDaSubscription>>();
 			_tags = new List<OpcDaTagValue>();
+
+			LicenseHandler.Validate("Technosoftware GmbH", "GHSV-X3ZA-9CR6-PH92-32WZ-H52U-4BR4-NQU5-4FVR-E3VR-WERE-Q674-Y9UJ-J5HE-JPMV-RVU2-2C9Y-A42X-XX7T-B");
 		}
 
 		#region Fields And Properties

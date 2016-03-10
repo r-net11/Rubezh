@@ -22,7 +22,7 @@
                  };
 
             $scope.gridStyle = function () {
-            	var ctrlHeight = window.innerHeight - 170;
+            	var ctrlHeight = window.innerHeight - 200;
             	return "height:" + ctrlHeight + "px";
             }();
 

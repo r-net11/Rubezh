@@ -25,11 +25,10 @@ namespace GKWebService.Models.GuardZones
 			AlarmDelay = guardZone.AlarmDelay;
 			ResetDelay = guardZone.ResetDelay;
 			SetDelay = guardZone.SetDelay;
-			ImageSource = guardZone.ImageSource.Replace("/Controls;component/", "");
 
-			State = guardZone.State.StateClass.ToDescription();
+			State = GuardZoneStateClassToStringConverter.Converter(guardZone.State.StateClass);  // guardZone.State.StateClass.ToDescription();
 			StateIcon = guardZone.State.StateClass.ToString();
-			StateClasses = guardZone.State.StateClasses.Select(x => new StateClass(x)).ToList();
+			StateClasses = guardZone.State.StateClasses.Select(x => new StateClass{ Name = GuardZoneStateClassToStringConverter.Converter(x), IconData = x.ToString() }).ToList();
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(guardZone.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 		
@@ -82,6 +81,5 @@ namespace GKWebService.Models.GuardZones
 
 		public bool HasHoldDelay { get; set; }
 
-		public string ImageSource { get; set; }
 	}
 }

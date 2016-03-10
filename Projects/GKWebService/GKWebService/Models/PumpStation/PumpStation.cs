@@ -39,8 +39,8 @@ namespace GKWebService.Models.PumpStation
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(pumpStation.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 			HasOnDelay = pumpStation.State.StateClasses.Contains(XStateClass.TurningOn) && pumpStation.State.OnDelay > 0;
-			OnDelay = pumpStation.State.OnDelay != 0 ? string.Format("{0} сек", pumpStation.State.OnDelay) : string.Empty;
-			HoldDelay = pumpStation.State.HoldDelay != 0 ? string.Format("{0} сек", pumpStation.State.HoldDelay) : string.Empty;
+			OnDelay = pumpStation.State.OnDelay != 0 ? pumpStation.State.OnDelay.ToString() : string.Empty;
+			HoldDelay = pumpStation.State.HoldDelay != 0 ?  pumpStation.State.HoldDelay.ToString() : string.Empty;
 			HasHoldDelay = pumpStation.State.StateClasses.Contains(XStateClass.On) && pumpStation.State.HoldDelay > 0;
 
 			var controlRegime = pumpStation.State.StateClasses.Contains(XStateClass.Ignore)
