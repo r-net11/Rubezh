@@ -142,7 +142,7 @@ namespace GKProcessor
 						foreach(var parent in device.AllParents)
 						{
 							if (parent.Driver.IsGroupDevice || parent.DriverType == GKDriverType.RSR2_KAU_Shleif || parent.DriverType == GKDriverType.RSR2_MVP_Part
-								|| parent.DriverType == GKDriverType.GKIndicatorsGroup || parent.DriverType == GKDriverType.GKRelaysGroup)
+								|| parent.DriverType == GKDriverType.GKIndicatorsGroup || parent.DriverType == GKDriverType.GKRelaysGroup || parent.DriverType == GKDriverType.RSR2_KDKR_Part)
 								OnObjectStateChanged(parent);
 						}
 					}

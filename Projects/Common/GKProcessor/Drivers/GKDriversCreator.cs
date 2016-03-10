@@ -79,10 +79,16 @@ namespace GKProcessor
 			AddDriverToKau(RSR2_IOLIT_Helper.Create());
 			AddDriverToKau(RSR2_MRK_Helper.Create());
 			AddDriverToKau(RSR2_Button_Helper.Create());
-			AddDriverToKau(RSR2_Button_Helper.Create());
 			AddDriverToKau(RSR2_ZOV_Helper.Create());
 			AddDriverToKau(RSR2_SCOPA_Helper.Create());
 			AddDriverToKau(RSR2_HandGuardDetector_Helper.Create());
+			AddDriverToKau(RSR2_KDKR_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(RSR2_KDKR_Part_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(KD_KDZ_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(KD_KDK_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(KD_KDKV_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(KD_KDTD_Helper.Create());
+
 			GKManager.DriversConfiguration.Drivers.Add(RK_HandDetector_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RK_SmokeDetector_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RK_HeatDetector_Helper.Create());
@@ -92,9 +98,11 @@ namespace GKProcessor
 			GKManager.DriversConfiguration.Drivers.Add(RK_OPZ_Helper.Create());
 			var kauShleifDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			var mvpPartDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_MVP_Part);
+			var kdkrPartDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KDKR_Part);
 			foreach (var driver in kauShleifDriver.Children)
 			{
 				mvpPartDriver.Children.Add(driver);
+				kdkrPartDriver.Children.Add(driver);
 			}
 		}
 

@@ -200,6 +200,14 @@ namespace GKProcessor
 							if (driverProperty.Name == "Число АУ на АЛС4 МВП")
 								property.Value = (ushort)Device.Children[1].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
 						}
+
+						if (Device.DriverType == GKDriverType.RSR2_KDKR)
+						{
+							if (driverProperty.Name == "Число АУ на АЛС3 КД")
+								property.Value = (ushort)Device.Children[13].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
+							if (driverProperty.Name == "Число АУ на АЛС4 КД")
+								property.Value = (ushort)Device.Children[14].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
+						}
 					}
 
 					byte no = driverProperty.No;

@@ -235,7 +235,25 @@ namespace RubezhAPI.GK
 		[Description("СКОПА R2")]
 		RSR2_SCOPA = 103,
 
+		[Description("Контроллер доступа")]
+		RSR2_KDKR = 104,
+		
+		[Description("Линия КД")]
+		RSR2_KDKR_Part = 105,
+		
+		[Description("Замок КД")]
+		KD_KDZ = 106,
+
+		[Description("Концевик(кнопка) КД")]
+		KD_KDK = 107,
+
+		[Description("КВ КД")]
+		KD_KDKV = 108,
+
+		[Description("ТД КД")]
+		KD_KDTD = 109,
+		
 		[Description("ИОВ R2")]
-		RSR2_HandGuardDetector = 110,
+		RSR2_HandGuardDetector = 110
 	}
 }

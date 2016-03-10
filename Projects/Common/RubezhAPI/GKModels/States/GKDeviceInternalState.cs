@@ -11,7 +11,7 @@ namespace RubezhAPI.GK
 		{
 			Device = device;
 
-			if (device.DriverType == GKDriverType.System || device.DriverType == GKDriverType.RSR2_MVP_Part)
+			if (device.DriverType == GKDriverType.System || device.DriverType == GKDriverType.RSR2_MVP_Part || device.DriverType == GKDriverType.RSR2_KDKR_Part)
 				IsInitialState = false;
 		}
 
@@ -50,7 +50,7 @@ namespace RubezhAPI.GK
 						stateClasses.Add(XStateClass.Service);
 				}
 				if (Device.Driver.IsGroupDevice || Device.DriverType == GKDriverType.RSR2_KAU_Shleif || Device.DriverType == GKDriverType.RSR2_MVP_Part
-					|| Device.DriverType == GKDriverType.GKRelaysGroup || Device.DriverType == GKDriverType.GKIndicatorsGroup)
+					|| Device.DriverType == GKDriverType.GKRelaysGroup || Device.DriverType == GKDriverType.GKIndicatorsGroup || Device.DriverType == GKDriverType.RSR2_KDKR_Part)
 				{
 					stateClasses.Clear();
 					if (Device.Children.Count > 0)
