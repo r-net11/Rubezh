@@ -13,7 +13,7 @@ namespace GKModule.Validation
 		void ValidateGuardZones()
 		{
 			ValidateCommon(GKManager.GuardZones);
-			ValidateGuardZoneSameDevices();
+			//ValidateGuardZoneSameDevices();
 			ValidateCodeForZones();
 
 			foreach (var guardZone in GKManager.GuardZones)
