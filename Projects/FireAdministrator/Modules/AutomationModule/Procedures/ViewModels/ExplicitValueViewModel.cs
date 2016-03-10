@@ -60,14 +60,38 @@ namespace AutomationModule.ViewModels
 
 		public void Initialize(Guid uidValue)
 		{
-			SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == uidValue);
-			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue);
-			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
-			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
-			Organisation = OrganisationHelper.GetSingle(uidValue);
-			User = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == uidValue);
-			Employee = EmployeeHelper.Get(new EmployeeFilter {PersonType = PersonType.Employee, LogicalDeletationType = LogicalDeletationType.Active}).FirstOrDefault(x => x.UID == uidValue);
-			Visitor = EmployeeHelper.Get(new EmployeeFilter { PersonType = PersonType.Guest, LogicalDeletationType = LogicalDeletationType.Active }).FirstOrDefault(x => x.UID == uidValue);
+			SKDDevice = null;
+			SKDZone = null;
+			Camera = null;
+			SKDDoor = null;
+			Organisation = null;
+			User = null;
+			Employee = null;
+			Visitor = null;
+
+			if (uidValue != Guid.Empty)
+			{
+				var flag =
+					(SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Organisation = OrganisationHelper.GetSingle(uidValue)) != null ||
+					(User = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Employee =
+						EmployeeHelper.Get(new EmployeeFilter
+						{
+							PersonType = PersonType.Employee,
+							LogicalDeletationType = LogicalDeletationType.Active
+						}).FirstOrDefault(x => x.UID == uidValue)) != null ||
+					(Visitor =
+						EmployeeHelper.Get(new EmployeeFilter
+						{
+							PersonType = PersonType.Guest,
+							LogicalDeletationType = LogicalDeletationType.Active
+						}).FirstOrDefault(x => x.UID == uidValue)) != null;
+			}
+
 			base.OnPropertyChanged(() => PresentationName);
 		}
 
