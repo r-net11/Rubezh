@@ -15,36 +15,36 @@
 				<button ng-click="firstPage()" class="icon"><span class="glyphicon glyphicon-fast-backward"></span></button>
 				<button ng-click="previousPage()" class="icon"><span class="glyphicon glyphicon-step-backward"></span></button>
 				<input type="number" class="icon" ng-model="filter.Page" min="1" max="{{MaxPage}}" ng-change="pageNumberChanged(filter.Page)" required>
-				<button class="icon"><span>/{{MaxPage}}</span></button>
+				<span>/{{MaxPage}}</span>
 				<button ng-click="nextPage()" class="icon"><span class="glyphicon glyphicon-step-forward"></span></button>
 				<button ng-click="lastPage()" class="icon"><span class="glyphicon glyphicon-fast-forward"></span></button>
-			<button class="icon" ng-show="isLoading">Загрузка</button>
+				<span ng-show="isLoading">Загрузка</span>
 		</div>
 		<div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-selection style="{{gridStyle}}"></div>
 		<div class="report_item_info">
 			<div>
-				<label>Дата в системе</label>
-				<label ng-bind="selectedRow.SystemDate"></label>
+				<span class="reportLabel">Дата в системе</span>
+				<span class="info" ng-bind="selectedRow.SystemDate"></span>
 			</div>
 			<div>
-				<label>Дата в приборе</label>
-				<label ng-bind="selectedRow.DeviceDate"></label>
+				<span class="reportLabel">Дата в приборе</span>
+				<span class="info" ng-bind="selectedRow.DeviceDate"></span>
 			</div>
 			<div>
-				<label>Событие</label>
-				<label ng-bind="selectedRow.Name"></label>
+				<span class="reportLabel">Событие</span>
+				<span class="info" ng-bind="selectedRow.Name"></span>
 			</div>
 			<div>
-				<label>Уточнение</label>
-				<label ng-bind="selectedRow.Desc"></label>
+				<span class="reportLabel">Уточнение</span>
+				<span class="info" ng-bind="selectedRow.Desc"></span>
 			</div>
 			<div>
-				<label>Пользователь</label>
-				<label ng-bind="selectedRow.User"></label>
+				<span class="reportLabel">Пользователь</span>
+				<span class="info" ng-bind="selectedRow.User"></span>
 			</div>
 			<div>
-				<label>Подсистема</label>
-				<label ng-bind="selectedRow.Subsystem"></label>
+				<span class="reportLabel">Подсистема</span>
+				<span class="info" ng-bind="selectedRow.Subsystem"></span>
 			</div>
 		</div>
 	</div>
