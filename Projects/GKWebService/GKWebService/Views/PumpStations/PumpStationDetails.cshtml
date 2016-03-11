@@ -26,7 +26,7 @@
                         <span>{{pumpStation.OnDelay}}</span>
                     </div>
                     <div ng-show="pumpStation.HasHoldDelay">
-                    <span>Время тушения</span> <br />
+                        <span>Время тушения</span> <br />
                         <span>{{pumpStation.HoldDelay}}</span>
                     </div>
                 </div>
@@ -57,36 +57,39 @@
                     </div>
                 </uib-tab>
                 <uib-tab heading="Свойства">
-                    <div style="background: #fff; color: #000; height: 248px">
-                        <div>
-                            <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Images/BPumpStation.png" />
-                            @*<a href="" ng-click="Show()">{{pumpStation.Name}}</a>*@
-                            <a ui-sref="pumpStations({uid: pumpStation.UID})" ui-sref-opts="{reload: true}">{{pumpStation.Name}}</a>
-                        </div>
-                        <div>
-                            <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-                            <span style="margin: 2px; font-weight: bold">{{pumpStation.GKDescriptorNo}}</span>
-                        </div>
-                        <div>
-                            <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-                            @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
-                            <a ui-sref="archive({uid: pumpStation.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-                        </div>
-                        <div>
-                            <span>Задержка: </span>
-                            <span>{{pumpStation.Delay}}</span>
-                        </div>
-                        <div>
-                            <span>Время тушения: </span>
-                            <span>{{pumpStation.Hold}}</span>
-                        </div>
-                        <div>
-                            <span>Количество основных насосов: </span>
-                            <span>{{pumpStation.NSPumpsCount}}</span>
-                        </div>
-                        <div>
-                            <span>Время разновременного пуска: </span>
-                            <span>{{pumpStation.NSDeltaTime}}</span>
+                    <div class="detailsTab">
+                        <div class="properties">
+                            <div>
+                                @*<img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Images/BPumpStation.png" />*@
+                                @*<a href="" ng-click="Show()">{{pumpStation.Name}}</a>*@
+                                <span>Насосная станция: </span>
+                                <a ui-sref="pumpStations({uid: pumpStation.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Images/BPumpStation.png)">{{pumpStation.Name}}</a>
+                            </div>
+                            <div>
+                                <span>Номер в ГК:</span>
+                                <span>{{pumpStation.GKDescriptorNo}}</span>
+                            </div>
+                            <div>
+                                <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                                @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
+                                <a ui-sref="archive({uid: pumpStation.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                            </div>
+                            <div>
+                                <span>Задержка: </span>
+                                <span>{{pumpStation.Delay}}</span>
+                            </div>
+                            <div>
+                                <span>Время тушения: </span>
+                                <span>{{pumpStation.Hold}}</span>
+                            </div>
+                            <div>
+                                <span>Количество основных насосов: </span>
+                                <span>{{pumpStation.NSPumpsCount}}</span>
+                            </div>
+                            <div>
+                                <span>Время разновременного пуска: </span>
+                                <span>{{pumpStation.NSDeltaTime}}</span>
+                            </div>
                         </div>
                     </div>
                 </uib-tab>

@@ -32,10 +32,10 @@ namespace GKWebService.Models.GuardZones
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(guardZone.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 		
-			OnDelay = guardZone.State.OnDelay;
 			HasOnDelay = guardZone.State.StateClasses.Contains(XStateClass.TurningOn) && guardZone.State.OnDelay > 0;
+			OnDelay = HasOnDelay? guardZone.State.OnDelay.ToString(): String.Empty;
 			HasOffDelay = guardZone.State.StateClasses.Contains(XStateClass.TurningOff) && guardZone.State.OnDelay > 0;
-			OffDelay = guardZone.State.OffDelay;
+			OffDelay = HasOffDelay? guardZone.State.OffDelay.ToString(): String.Empty;
 			HasHoldDelay = guardZone.State.StateClasses.Contains(XStateClass.Attention) && guardZone.State.OffDelay > 0;
 
 			var controlRegime = guardZone.State.StateClasses.Contains(XStateClass.Ignore)
@@ -72,9 +72,9 @@ namespace GKWebService.Models.GuardZones
 
 		public string State { get; set; }
 
-		public int OnDelay { get; set; }
+		public string OnDelay { get; set; }
 
-		public int OffDelay { get; set; }
+		public string OffDelay { get; set; }
 
 		public bool HasOffDelay { get; set; }
 

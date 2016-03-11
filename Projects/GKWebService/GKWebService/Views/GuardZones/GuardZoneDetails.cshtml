@@ -1,34 +1,34 @@
 ﻿@{
-	Layout = null;
+    Layout = null;
 }
 
 <div modal-draggable modaless>
-	<div class="modal-header">
-		<a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
-		<h3 class="modal-title">{{guardZone.Name}}</h3>
-	</div>
-	<div class="modal-body">
-		<div>
-			<div>
-				<div ng-style="{'background-color': guardZone.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
-				<div style="float: left; width: 200px">
-					<ul>
-						<li ng-repeat="stateClass in guardZone.StateClasses">
-							<img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{stateClass.IconData}}.png" />
-							{{stateClass.Name}}
-						<li>
-					</ul>
-				</div>
-				<div style="float: right">
-					<div ng-show="guardZone.HasOnDelay">
-						<span>Задержка на включение</span> <br />
-						<span>{{guardZone.OnDelay}} сек</span>
-					</div>
-					<div ng-show="guardZone.HasOffDelay">
+    <div class="modal-header">
+        <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+        <h3 class="modal-title">{{guardZone.No}}.{{guardZone.Name}}</h3>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div>
+                <div ng-style="{'background-color': guardZone.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
+                <div style="float: left; width: 200px">
+                    <ul>
+                        <li ng-repeat="stateClass in guardZone.StateClasses">
+                            <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{stateClass.IconData}}.png" />
+                            {{stateClass.Name}}
+                        <li>
+                    </ul>
+                </div>
+                <div style="float: right">
+                    <div ng-show="guardZone.HasOnDelay">
+                        <span>Задержка на включение</span> <br />
+                        <span>{{guardZone.OnDelay}} сек</span>
+                    </div>
+                    <div ng-show="guardZone.HasOffDelay">
 						<span>Задержка на выключение</span> <br />
-						<span>{{guardZone.OnDelay}} сек</span>
-					</div>
-					<div ng-show="guardZone.HasHoldDelay">
+                        <span>{{guardZone.OnDelay}} сек</span>
+                    </div>
+                    <div ng-show="guardZone.HasHoldDelay">
 						<span>Задержка на тревогу</span> <br />
 						<span>{{guardZone.OffDelay}} сек</span>
 					</div>
@@ -55,42 +55,45 @@
 							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="guardZone.IsControlRegime && TurnOff()" ng-disabled="!guardZone.IsControlRegime">Снять с охраны</div>
 							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="guardZone.IsControlRegime && TurnOffNow()" ng-disabled="!guardZone.IsControlRegime">Снять с охраны немедленно</div>
 							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="Reset()">Сбросить</div>
-						</div>
-						<div style="clear: left">
-						</div>
-					</div>
-				</uib-tab>
-				<uib-tab heading="Свойства">
-					<div style="background: #fff; color: #000; height: 248px">
-						<div>
-							<img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Images/GuardZone.png" />
-							@*<a href="" ng-click="Show()">{{guardZone.Name}}</a>*@
-							<a ui-sref="guardZone({uid: guardZone.UID})" ui-sref-opts="{reload: true}">{{guardZone.Name}}</a>
-						</div>
-						<div>
-							<span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-							<span style="margin: 2px; font-weight: bold">{{guardZone.GKDescriptorNo}}</span>
-						</div>
-						<div>
-							<img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-							@*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
-							<a ui-sref="archive({uid: guardZone.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-						</div>
-						<div>
-							<span>Задержка на постановку, с: </span>
-							<span>{{guardZone.SetDelay}}</span>
-						</div>
-						<div>
-							<span>Задержка на снятие, с: </span>
-							<span>{{guardZone.ResetDelay}}</span>
-						</div>
-						<div>
-							<span>Задержка на вызов тревоги, с: </span>
-							<span>{{guardZone.AlarmDelay}}</span>
-						</div>
-					</div>
-				</uib-tab>
-			</uib-tabset>
-		</div>
-	</div>
+                        </div>
+                        <div style="clear: left">
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Свойства">
+                    <div class="detailsTab">
+                        <div class="properties">
+                            <div>
+                                @*<img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Images/GuardZone.png" />*@
+                                @*<a href="" ng-click="Show()">{{guardZone.Name}}</a>*@
+                                <span>Охранная зона: </span>
+                                <a ui-sref="guardZone({uid: guardZone.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Images/GuardZone.png)">{{guardZone.Name}}</a>
+                            </div>
+                            <div>
+                                <span>Номер в ГК:</span>
+                                <span>{{guardZone.GKDescriptorNo}}</span>
+                            </div>
+                            <div>
+                                <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                                @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
+                                <a ui-sref="archive({uid: guardZone.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                            </div>
+                            <div>
+                                <span>Задержка на постановку, с: </span>
+                                <span>{{guardZone.SetDelay}}</span>
+                            </div>
+                            <div>
+                                <span>Задержка на снятие, с: </span>
+                                <span>{{guardZone.ResetDelay}}</span>
+                            </div>
+                            <div>
+                                <span>Задержка на вызов тревоги, с: </span>
+                                <span>{{guardZone.AlarmDelay}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
 </div>
