@@ -279,6 +279,8 @@ namespace RubezhAPI.GK
 				}
 				if (guardZone.Pim != null && guardZone.GuardZoneDevices.Any(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard))
 					guardZone.Pim.LinkToDescriptor(guardZone);
+				else
+					guardZone.LinkToDescriptor(guardZone);
 			}
 
 			var door = this as GKDoor;

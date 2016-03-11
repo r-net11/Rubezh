@@ -32,6 +32,7 @@ namespace GKModule.ViewModels
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
+			TurnOffNowCommand = new RelayCommand(OnTurnOffNow);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 
 			Zone = zone;
@@ -188,6 +189,15 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				ClientManager.FiresecService.GKTurnOff(Zone);
+			}
+		}
+
+		public RelayCommand TurnOffNowCommand { get; private set; }
+		void OnTurnOffNow()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				ClientManager.FiresecService.GKTurnOffNow(Zone);
 			}
 		}
 
