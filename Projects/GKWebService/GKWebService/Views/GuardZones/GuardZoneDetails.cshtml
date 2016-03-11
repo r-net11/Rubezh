@@ -43,7 +43,7 @@
                     <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                     <span style="font-weight: bold; font-size: large; margin: 5px">{{guardZone.ControlRegimeName}}</span>
                 </div>
-                <div style="background: #fff">
+                <div mobile-hover-fix style="background: #fff">
                     <div style="float: left; width: 50%">
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="guardZone.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!guardZone.CanSetAutomaticState">Автоматика</div>
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="guardZone.CanSetManualState && SetManualState()" ng-disabled="!guardZone.CanSetManualState">Ручное</div>
