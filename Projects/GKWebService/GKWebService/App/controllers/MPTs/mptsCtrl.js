@@ -47,8 +47,8 @@
                        gridApi.selection.on.rowSelectionChanged($scope, $scope.showSelectedRow);
                    },
                    columnDefs:
-                     [{ field: 'No', displayName: '№', width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
-                      { field: 'Name', displayName: 'МПТ', width: 400, cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.mptClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
+                     [{ field: 'No', displayName: '№', enableColumnResizing: false, width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
+                      { field: 'Name', displayName: 'МПТ', width: 200, cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.mptClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
                       { field: 'OnDelay', displayName: 'Задержка', enableColumnResizing: false, minWidth:100 }],
                };
 

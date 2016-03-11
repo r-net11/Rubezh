@@ -30,7 +30,10 @@ namespace Infrastructure.Client.Plans.Presenter
 		public void Initialize()
 		{
 			if (Item != null && Item.StateClass != null)
+			{
 				Item.StateClass.StateChanged += OnPropertyChanged;
+			}
+			
 			PresenterItem.IsPoint = _painter.IsPoint;
 			PresenterItem.ShowBorderOnMouseOver = true;
 			PresenterItem.Cursor = Cursors.Hand;
