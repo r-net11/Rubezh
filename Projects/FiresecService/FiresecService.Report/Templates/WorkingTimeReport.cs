@@ -72,7 +72,7 @@ namespace FiresecService.Report.Templates
 						dayTimeTrack.Calculate();
 						totalScheduleNight += dayTimeTrack.GetNightTotalTime();
 
-						totalScheduleDay = dayTimeTrack.SlideTime != default(TimeSpan)
+						totalScheduleDay += dayTimeTrack.SlideTime != default(TimeSpan)
 											? dayTimeTrack.SlideTime.TotalHours
 											: dayTimeTrack.PlannedTimeTrackParts.Aggregate(totalScheduleDay, (current, plannedPart) => current + plannedPart.Delta.TotalHours);
 
