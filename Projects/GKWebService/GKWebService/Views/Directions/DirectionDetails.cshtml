@@ -39,7 +39,7 @@
                     <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                     <span style="font-weight: bold; font-size: large; margin: 5px">{{direction.ControlRegimeName}}</span>
                 </div>
-                <div style="background: #fff">
+                <div mobile-hover-fix style="background: #fff">
                     <div style="float: left; width: 50%">
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!direction.CanSetAutomaticState">Автоматика</div>
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px; white-space: initial" ng-click="direction.CanSetManualState && SetManualState()" ng-disabled="!direction.CanSetManualState">Ручное</div>

@@ -170,8 +170,11 @@ namespace GKWebService.DataProviders.Plan
 			    || ClientManager.PlansConfiguration.Plans == null) {
 				return null;
 			}
-			var plans = ClientManager.PlansConfiguration.Plans;
-			return plans.Select(GetPlanInfo).ToList();
+			var webFolder = ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.Caption == "WEB");
+			if (webFolder != null) {
+				return webFolder.Children.Select(GetPlanInfo).ToList();
+			}
+			return null;
 		}
 
 		/// <summary>
