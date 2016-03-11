@@ -37,9 +37,9 @@ namespace GKWebService.Models
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(mpt.State.StateClass, null, null, null).ToString().Substring(3) + "'";
 
 			HasOnDelay = mpt.State.StateClasses.Contains(XStateClass.TurningOn) && mpt.State.OnDelay > 0;
-			OnDelay = mpt.State.OnDelay != 0 ? string.Format("{0} сек", mpt.State.OnDelay) : string.Empty;
+			OnDelay = mpt.State.OnDelay != 0 ?  mpt.State.OnDelay.ToString() : string.Empty;
 			HasHoldDelay = mpt.State.StateClasses.Contains(XStateClass.On) && mpt.State.HoldDelay > 0;
-
+			HoldDelay = mpt.State.HoldDelay != 0 ? mpt.State.HoldDelay.ToString() : string.Empty;
 			var controlRegime = mpt.State.StateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore
 				: !mpt.State.StateClasses.Contains(XStateClass.AutoOff) ? DeviceControlRegime.Automatic : DeviceControlRegime.Manual;
@@ -79,5 +79,6 @@ namespace GKWebService.Models
 
 		public string OffClausesGroup { get; set; }
 		public string ImageSource { get; set; }
+		public string HoldDelay { get; set; }
 	}
 }

@@ -17,9 +17,9 @@
                 enableColumnMenus: false,
                 columnDefs:
                   [{ field: 'MPTDeviceType', displayName: 'Тип', width: 210 },
-                   { field: 'Name', displayName: 'Устройство', width: 200, cellTemplate: '<div class="ui-grid-cell-contents" style="float:left" ><a href="" ng-click="grid.appScope.deviceClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle" width="16px" height="16px" ng-src="/Content/Image/{{row.entity.ImageSource}}" /> {{row.entity[col.field]}}</a></div>' },
-                   { field: 'Address', displayName: 'Адрес', width: 80 },
-                   { field: 'Description', displayName: 'Описание', enableColumnResizing: false }]
+                   { field: 'Name', displayName: 'Устройство', width: 250, cellTemplate: '<div class="ui-grid-cell-contents" style="float:left" ><a href="" ng-click="grid.appScope.deviceClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> <img style="vertical-align: middle" width="16px" height="16px" ng-src="/Content/Image/{{row.entity.ImageSource}}" /> {{row.entity[col.field]}}</a></div>' },
+                   { field: 'Address', displayName: 'Адрес', width: 150 },
+                   { field: 'Description', displayName: 'Описание', minWidth:100,  enableColumnResizing: false }]
 
             };
 
@@ -38,7 +38,6 @@
                         var mptState = $scope.uiGrid.data[i].MPTDeviceType;
                         $scope.uiGrid.data[i] = device;
                         $scope.uiGrid.data[i].MPTDeviceType = mptState;
-                        break;
                     }
                 }
             };

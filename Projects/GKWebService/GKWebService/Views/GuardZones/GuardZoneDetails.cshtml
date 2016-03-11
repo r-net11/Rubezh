@@ -25,11 +25,11 @@
 						<span>{{guardZone.OnDelay}} сек</span>
 					</div>
 					<div ng-show="guardZone.HasOffDelay">
-						<span>Задержка на выключение, с</span> <br />
+						<span>Задержка на выключение</span> <br />
 						<span>{{guardZone.OnDelay}} сек</span>
 					</div>
 					<div ng-show="guardZone.HasHoldDelay">
-						<span>Задержка на тревогу, с</span> <br />
+						<span>Задержка на тревогу</span> <br />
 						<span>{{guardZone.OffDelay}} сек</span>
 					</div>
 				</div>
@@ -52,9 +52,9 @@
 						<div style="float: left; width: 50%; background: #fff">
 							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="guardZone.IsControlRegime && TurnOn()" ng-disabled="!guardZone.IsControlRegime">Поставить на охрану</div>
 							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="guardZone.IsControlRegime && TurnOnNow()" ng-disabled="!guardZone.IsControlRegime">Поставить на охрану немедленно</div>
+							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="guardZone.IsControlRegime && TurnOff()" ng-disabled="!guardZone.IsControlRegime">Снять с охраны</div>
 							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="guardZone.IsControlRegime && TurnOffNow()" ng-disabled="!guardZone.IsControlRegime">Снять с охраны немедленно</div>
 							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="Reset()">Сбросить</div>
-							<div class="btn btn-primary btn-control" style="display: block; width:auto;" ng-click="guardZone.IsControlRegime && TurnOff()" ng-disabled="!guardZone.IsControlRegime">Снять с охраны</div>
 						</div>
 						<div style="clear: left">
 						</div>

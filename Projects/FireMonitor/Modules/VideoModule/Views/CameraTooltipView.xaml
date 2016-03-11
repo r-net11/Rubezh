@@ -12,9 +12,19 @@
 			<Image Width="16" Height="16" Margin="5 0 5 0" Source="{Binding Camera.ImageSource}" />
 			<TextBlock FontWeight="Bold" Text="{Binding Camera.Name}" />
 		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<Image Width="16" Height="16" Margin="0 0 2 0" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-			<TextBlock Text="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
+		<StackPanel>
+			<StackPanel Orientation="Horizontal" >
+				<Image Width="16" Height="16" Margin="0 0 2 0" Source="{Binding Camera.Status,  Converter={StaticResource RviStatusToIconConverter}}" />
+				<TextBlock Text="{Binding Camera.Status, Converter={StaticResource RviStatusToDescriptionConverter}}"  />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal"  Visibility="{Binding Camera.IsOnGuard,Converter={StaticResource BoolToVisibilityConverter}}">
+				<Image Width="16" Height="16" Source="/Controls;component/RviStatusIcons/IsOnGuard.png" />
+				<TextBlock Text ="{Binding OnGuardString}" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal"  Visibility="{Binding Camera.IsRecordOnline,Converter={StaticResource BoolToVisibilityConverter}}">
+				<Image Width="16" Height="16" Source="/Controls;component/RviStatusIcons/IsRecordOnline.png" />
+				<TextBlock Text= "{Binding OnRecordString}" />
+			</StackPanel>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

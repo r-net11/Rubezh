@@ -2,25 +2,31 @@
     ViewBag.Title = "MPTs";
     Layout = null;
 }
-<div>
 <div ng-controller="mptsCtrl">
-    <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-selection ui-grid-save-state ui-grid-resize-columns ui-grid-auto-size-column style="{{gridStyle}}"></div>
-    <div class="report_item_info">
-        <div>
-            <label>Условие для включения: </label>
-            <label ng-bind="selectedRow.onClausesGroup" }></label>
-        </div>
-        <div>
-            <label>Условие для выключения: </label>
-            <label ng-bind="selectedRow.offClausesGroup"></label>
-        </div>
-        <div>
-            <label>Условие приостанова пуска: </label>
-            <label ng-bind="selectedRow.stopClausesGroup"></label>
+    <div style="width:34%; float:left; margin-right:1%">
+        <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-selection ui-grid-save-state ui-grid-resize-columns ui-grid-auto-size-column style="{{gridStyle}}"></div>
+    </div>
+    <div ng-controller="devicesMPTCtrl" style="width:65%; float: left">
+        <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-selection ui-grid-save-state style="{{gridStyle}}"></div>
+    </div>
+    <div style="clear: both">
+    </div>
+    <div>
+        <div class="deviceWindow">
+            <div class="deviceProperties">
+                <div>
+                    <span>Условие для включения: </span>
+                    <span ng-bind="selectedRow.onClausesGroup" }></span>
+                </div>
+                <div>
+                    <span>Условие для выключения: </span>
+                    <span ng-bind="selectedRow.offClausesGroup"></span>
+                </div>
+                <div>
+                    <span>Условие приостанова пуска: </span>
+                    <span ng-bind="selectedRow.stopClausesGroup"></span>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-        <div ng-controller="devicesMPTCtrl">
-            <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-selection ui-grid-save-state style="{{gridStyle}}"></div>
-        </div>
 </div>

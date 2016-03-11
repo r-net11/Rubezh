@@ -18,9 +18,9 @@
                 },
 
                 columnDefs: [
-                    { field: 'No', displayName: '№', enableColumnResizing: false, width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
+                    { field: 'No', displayName: '№', width: 90, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
                     { field: 'Name', width: 200, displayName: 'Точка доступа', cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.doorClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png"/>{{row.entity[col.field]}}</a></div>' },
-                    { field: 'DoorTypeString', width: Math.round(($(window).width() - 1000) / 2), displayName: 'Тип' },
+                    { field: 'DoorTypeString', width: 200, displayName: 'Тип' },
                     { field: 'Desription', enableColumnResizing: false, displayName: 'Примечание', minWidth: 150 }
                 ]
             };
@@ -84,11 +84,9 @@
                 for (var i in $scope.uiGrid.data) {
                     if ($scope.uiGrid.data[i].ExitDevice && $scope.uiGrid.data[i].ExitDevice.UID === args.UID) {
                         $scope.uiGrid.data[i].ExitDevice.StateIcon = args.StateIcon;
-                        break;
                     }
                     if ($scope.uiGrid.data[i].EnterDevice && $scope.uiGrid.data[i].EnterDevice.UID === args.UID) {
                         $scope.uiGrid.data[i].EnterDevice.StateIcon = args.StateIcon;
-                        break;
                     }
                     if ($scope.uiGrid.data[i].EnterButton && $scope.uiGrid.data[i].EnterButton.UID === args.UID) {
                         $scope.uiGrid.data[i].EnterButton.StateIcon = args.StateIcon;
@@ -100,7 +98,6 @@
                     }
                     if ($scope.uiGrid.data[i].LockDevice && $scope.uiGrid.data[i].LockDevice.UID === args.UID) {
                         $scope.uiGrid.data[i].LockDevice.StateIcon = args.StateIcon;
-                        break
                     }
                     if ($scope.uiGrid.data[i].LockDeviceExit && $scope.uiGrid.data[i].LockDeviceExit.UID === args.UID) {
                         $scope.uiGrid.data[i].LockDeviceExit.StateIcon = args.StateIcon;
