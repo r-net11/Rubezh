@@ -176,7 +176,7 @@
 			})
 			.on("updateBackground", function (data) {
 				console.log("Updating background on:", item.Id, item.Text);
-					d3.select("#"+item.Id.replace(" ", "-")).style("fill", "rgba(" + data.Background.R + "," + data.Background.G + "," + data.Background.B + "," + data.Background.A + ")");
+					d3.select('#'+item.Id.replace(" ", "-")).style("fill", "rgba(" + data.Background.R + "," + data.Background.G + "," + data.Background.B + "," + data.Background.A + ")");
 				});
 		}
 	}

@@ -9,7 +9,7 @@ namespace GKWebService.Models.Plan.PlanElement
 {
 	public class Shape
 	{
-		public Guid Id { get; set; }
+		public string Id { get; set; }
 		public string SubElementId { get; set; }
 		public Color Border { get; set; }
 		public Color BorderMouseOver { get; set; }

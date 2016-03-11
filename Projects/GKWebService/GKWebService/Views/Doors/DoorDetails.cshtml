@@ -53,7 +53,7 @@
             </uib-tab>
             <uib-tab heading="Управление" ng-show="door.CanControl" active="canControl">
                 <div style="background: #fff">
-                    <div style="float: left; width: 100%">
+                    <div mobile-hover-fix style="float: left; width: 100%">
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeNorm()">Установить режим Норма</div>
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeOpen()">Установить режим Всегда Открыто</div>
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeClose()">Установить режим Всегда Закрыто</div>
@@ -68,7 +68,7 @@
                     <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                     <span style="font-weight: bold; font-size: large; margin: 5px">{{door.ControlRegimeName}}</span>
                 </div>
-                <div style="background: #fff">
+                <div mobile-hover-fix style="background: #fff">
                     <div style="float: left; width: 50%">
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!door.CanSetAutomaticState">Автоматика</div>
                         <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetManualState && SetManualState()" ng-disabled="!door.CanSetManualState">Ручное</div>
