@@ -58,8 +58,11 @@
                 <uib-tab heading="Свойства">
                     <div class="detailsTab">
                         <div class="properties">
+                            <div>
+                            <span>МПТ: </span>
                             @*<a href="" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)" ng-click="Show()">{{mpt.Name}}</a>*@
                             <a ui-sref="MPTs({uid: mpt.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)">{{mpt.Name}}</a>
+                                </div>
                             <div>
                                 <span>Номер в ГК:</span>
                                 <span>{{mpt.GKDescriptorNo}}</span>
