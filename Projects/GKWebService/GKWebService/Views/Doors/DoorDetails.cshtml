@@ -20,12 +20,12 @@
                 </ul>
             </div>
             <div style="float: right">
-                <div ng-show="door.HasOnDelay">
-                    <span>Задержка на включение</span> <br />
-                    <span>{{door.OnDelay}} сек</span>
+                <div ng-show="door.HasOffDelay">
+                    <span>Закрытие</span> <br />
+                    <span>{{door.OffDelay}} сек</span>
                 </div>
                 <div ng-show="door.HasHoldDelay">
-                    <span>Время тушения</span> <br />
+                    <span>Удержание</span> <br />
                     <span>{{door.HoldDelay}} сек</span>
                 </div>
             </div>
