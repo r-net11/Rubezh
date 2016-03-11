@@ -91,6 +91,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				}
 				return FromRectangleSimple(elem, true);
 			}
+
 			// Получаем прямоугольник, в который вписан текст
 			// Получаем элемент текста
 			var textElement = new ElementTextBlock {
@@ -136,6 +137,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				X = elem.Left,
 				Y = elem.Top
 			};
+
 
 			return planElement;
 		}
@@ -277,6 +279,29 @@ namespace GKWebService.Models.Plan.PlanElement
 				Width = elem.Width,
 				Height = elem.Height
 			};
+			var asZone = elem as IElementZone;
+			if (asZone == null)
+				return shape;
+			var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			if (zone != null) {
+				var converter = new XStateClassToColorConverter2();
+				var background = ((SolidColorBrush)converter.Convert(zone.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				shape.Fill = InternalConverter.ConvertColor(background);
+				return shape;
+			}
+			var zoneSkd = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			if (zoneSkd != null) {
+				var converter = new XStateClassToColorConverter2();
+				var background = ((SolidColorBrush)converter.Convert(zoneSkd.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				shape.Fill = InternalConverter.ConvertColor(background);
+				return shape;
+			}
+			var zoneSec = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			if (zoneSec != null) {
+				var converter = new XStateClassToColorConverter2();
+				var background = ((SolidColorBrush)converter.Convert(zoneSec.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				shape.Fill = InternalConverter.ConvertColor(background);
+			}
 			return shape;
 		}
 
@@ -333,6 +358,29 @@ namespace GKWebService.Models.Plan.PlanElement
 				Type = ShapeTypes.Path.ToString(),
 				HasOverlay = mouseOver
 			};
+			var asZone = item as IElementZone;
+			if (asZone == null)
+				return shape;
+			var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			if (zone != null) {
+				var converter = new XStateClassToColorConverter2();
+				var background = ((SolidColorBrush)converter.Convert(zone.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				shape.Fill = InternalConverter.ConvertColor(background);
+				return shape;
+			}
+			var zoneSkd = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			if (zoneSkd != null) {
+				var converter = new XStateClassToColorConverter2();
+				var background = ((SolidColorBrush)converter.Convert(zoneSkd.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				shape.Fill = InternalConverter.ConvertColor(background);
+				return shape;
+			}
+			var zoneSec = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
+			if (zoneSec != null) {
+				var converter = new XStateClassToColorConverter2();
+				var background = ((SolidColorBrush)converter.Convert(zoneSec.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				shape.Fill = InternalConverter.ConvertColor(background);
+			}
 			return shape;
 		}
 
@@ -636,7 +684,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			// Собираем обновление для передачи
 			var statusUpdate = new {
 				Id = state.UID,
-				Background = new {R=background.R, G = background.G, B=  background.B, A=background.A},
+				Background = new { R = background.R, G = background.G, B = background.B, A = background.A },
 				Hint = hint
 			};
 			PlansUpdater.Instance.UpdateZoneState(statusUpdate);
