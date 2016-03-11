@@ -28,7 +28,7 @@
 			</div>
 			<uib-tabset>
 				<uib-tab heading="Управление" ng-if="device.IsTriStateControl">
-					<div class="detailsTab">
+					<div mobile-hover-fix class="detailsTab">
 						<div>
 							<span class="labelImage-md" style="background-image:url(/Content/Image/Icon/GKStateIcons/{{device.ControlRegimeIcon}}.png)">Режим {{device.ControlRegimeName}}</span>
 							<div style="float: left; width: 49%" class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Автоматика</div>
@@ -41,7 +41,7 @@
 					</div>
 				</uib-tab>
 				<uib-tab heading="Управление" ng-if="device.IsBiStateControl">
-					<div class="detailsTab">
+					<div mobile-hover-fix class="detailsTab">
 						<div align="center">
 							<div style="width: 49%" class="btn btn-primary btn-control" ng-click="SetAutomaticState()" ng-disabled="!device.CanSetAutomaticState">Снять отключение</div>
 							<div style="width: 49%" class="btn btn-primary btn-control" ng-click="SetIgnoreState()" ng-disabled="!device.CanSetIgnoreState">Отключение</div>
