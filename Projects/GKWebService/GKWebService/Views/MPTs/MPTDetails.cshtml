@@ -34,12 +34,12 @@
             </div>
             <uib-tabset>
                 <uib-tab heading="Управление">
-					<div mobile-hover-fix class="detailsTab">
+					<div>
                         <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{mpt.ControlRegimeIcon}}.png" />
                         <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                         <span style="font-weight: bold; font-size: large; margin: 5px">{{mpt.ControlRegimeName}}</span>
                     </div>
-                    <div style="background: #fff">
+                    <div mobile-hover-fix style="background: #fff">
                         <div style="float: left; width: 50%">
                             <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!mpt.CanSetAutomaticState">Автоматика</div>
                             <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.CanSetManualState && SetManualState()" ng-disabled="!mpt.CanSetManualState">Ручное</div>
