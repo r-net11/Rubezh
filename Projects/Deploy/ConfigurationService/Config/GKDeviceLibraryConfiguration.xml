@@ -11033,5 +11033,690 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         </GKLibraryState>
       </States>
     </GKLibraryDevice>
+    <GKLibraryDevice>
+      <UID>b8dbe330-3c8e-4cda-bd54-bbc32be5589d</UID>
+      <DriverUID>2e9f2b6a-d707-4007-842c-664d6bcbe9f1</DriverUID>
+      <States>
+        <GKLibraryState>
+          <StateClass>No</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Unknown</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20"  Fill="#CCC" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Off</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#4E4" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Test</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#00ECFF" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>AutoOff</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#808000" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>On</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#00ffff" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Failure</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#FC0" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Ignore</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#808080" StrokeThickness="20" /&gt;
+&lt;Polyline Points="20,280 160,280 275,200" Stroke="#CCFFFF" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 480,280" Stroke="#CCFFFF" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Norm</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20"  Fill="#4E4" /&gt;
+&lt;Polyline Points="10,280 160,280 275,200" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="300,280 490,280" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+      </States>
+    </GKLibraryDevice>
+    <GKLibraryDevice>
+      <UID>c8be1233-0657-4031-9d87-f7408f136981</UID>
+      <DriverUID>fd24e2ea-b3cf-4f7f-b73a-d60f8749d685</DriverUID>
+      <States>
+        <GKLibraryState>
+          <StateClass>No</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Norm</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#4E4" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Unknown</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Test</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#00ECFF" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Ignore</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#808080" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#CCFFFF" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#CCFFFF" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#CCFFFF" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,40 230,40 270,40 290,40 290,310 270,320  230,320 210,310 210,40" Fill="#CCFFFF" Stroke="#CCFFFF" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#CCFFFF" Fill="#CCFFFF" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#CCFFFF" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#CCFFFF" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#CCFFFF" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#CCFFFF" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Fire1</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#ff0000" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Failure</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#FC0" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Polyline Points="50,320 110,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="110,50 170,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="35" /&gt;
+&lt;Polyline Points="80,230 140,230"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="45" /&gt;
+&lt;Polyline Points="210,50 230,40 270,40 290,50 290,310 270,320  230,320 210,310 210,50" Fill="#000000" Stroke="#000000" StrokeThickness="1" /&gt;
+&lt;Ellipse Canvas.Left="170" Width="160" Canvas.Top="315" Height="160" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Polyline Points="330,320 330,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="335,50 390,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="395,320 450,50"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;Polyline Points="455,50 455,320"  Stroke="#000000" StrokeStartLineCap="Round"  StrokeEndLineCap ="Round" StrokeThickness="30" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+      </States>
+    </GKLibraryDevice>
+    <GKLibraryDevice>
+      <UID>c2daf05a-c35b-4d31-a4a6-32569808e37f</UID>
+      <DriverUID>cef793ca-7e3e-446c-82de-a032445b6cba</DriverUID>
+      <States>
+        <GKLibraryState>
+          <StateClass>No</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Norm</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" Fill="#4E4" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Unknown</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Test</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" Fill="#00ECFF" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Ignore</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" Fill="#CCFFFF" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Failure</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" Fill="#FC0" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#00F" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="20" Canvas.Top="280" Width="200" Height="200" Stroke="#00F" Fill="#00F" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+      </States>
+    </GKLibraryDevice>
+    <GKLibraryDevice>
+      <UID>cc5b85c0-f60e-4216-8689-af45543a1e67</UID>
+      <DriverUID>bd3a0139-d9fd-4224-b5d6-8772ba9e3760</DriverUID>
+      <States>
+        <GKLibraryState>
+          <StateClass>No</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Norm</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#4E4" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Unknown</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Test</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#00ECFF" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Failure</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#FC0" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Ignore</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CFF" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+        <GKLibraryState>
+          <StateClass>Fire1</StateClass>
+          <Frames>
+            <GKLibraryFrame>
+              <Id>0</Id>
+              <Duration>1500</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#F00" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>300</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#FFF" StrokeThickness="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="250" Height="500" Stroke="#000000" Fill="#000000" StrokeThickness="20" /&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+          </Frames>
+          <Layer>0</Layer>
+        </GKLibraryState>
+      </States>
+    </GKLibraryDevice>
   </GKDevices>
 </GKDeviceLibraryConfiguration>
