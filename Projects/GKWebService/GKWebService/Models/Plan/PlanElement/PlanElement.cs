@@ -118,14 +118,14 @@ namespace GKWebService.Models.Plan.PlanElement
 			// Очищаем элементы от групповой информации
 			planElementText.Hint = null;
 			planElementText.HasOverlay = false;
-			planElementText.Id = Guid.Empty;
+			planElementText.Id = Guid.Empty.ToString();
 			planElementRect.Hint = null;
 			planElementRect.HasOverlay = false;
-			planElementRect.Id = Guid.Empty;
+			planElementRect.Id = Guid.Empty.ToString();
 			// Задаем групповой элемент
 			var planElement = new PlanElement {
 				ChildElements = new[] { planElementRect, planElementText },
-				Id = zoneUID == Guid.Empty ? elem.UID : zoneUID,
+				Id = zoneUID == Guid.Empty ? "pe" + elem.UID : "pe" + zoneUID,
 				Hint = GetElementHint(elem),
 				GkObject = GetGkObject(elem),
 				Type = ShapeTypes.Group.ToString(),
@@ -218,14 +218,14 @@ namespace GKWebService.Models.Plan.PlanElement
 			// Очищаем элементы от групповой информации
 			planElementText.Hint = null;
 			planElementText.HasOverlay = false;
-			planElementText.Id = Guid.Empty;
+			planElementText.Id = Guid.Empty.ToString();
 			planElementRect.Hint = null;
 			planElementRect.HasOverlay = false;
-			planElementRect.Id = Guid.Empty;
+			planElementRect.Id = Guid.Empty.ToString();
 			// Задаем групповой элемент
 			var planElement = new PlanElement {
 				ChildElements = new[] { planElementRect, planElementText },
-				Id = zoneUID == Guid.Empty ? elem.UID : zoneUID,
+				Id = zoneUID == Guid.Empty ? "pe" + elem.UID : "pe" + zoneUID,
 				Hint = GetElementHint(elem),
 				GkObject = GetGkObject(elem),
 				Type = ShapeTypes.Group.ToString(),
@@ -267,7 +267,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				Border = InternalConverter.ConvertColor(elem.BorderColor),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				Name = elem.PresentationName,
-				Id = zoneUID == Guid.Empty ? elem.UID : zoneUID,
+				Id = zoneUID == Guid.Empty ? "pe" + elem.UID : "pe" + zoneUID,
 				Image = backgroundImage,
 				X = elem.Left,
 				Y = elem.Top,
@@ -326,7 +326,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor),
 				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
 				Name = item.PresentationName,
-				Id = item.UID,
+				Id = "pe" + item.UID,
 				Hint = item.ShowTooltip ? GetElementHint(item) : null,
 				BorderThickness = item.BorderThickness,
 				Type = ShapeTypes.Path.ToString(),
@@ -351,7 +351,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				Border = InternalConverter.ConvertColor(item.BorderColor),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				Name = item.PresentationName,
-				Id = zoneUID == Guid.Empty ? item.UID : zoneUID,
+				Id = zoneUID == Guid.Empty ? "pe" + item.UID : "pe" + zoneUID,
 				GkObject = GetGkObject(item),
 				BorderThickness = item.BorderThickness,
 				Hint = showHint ? GetElementHint(item) : null,
@@ -392,7 +392,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				BorderMouseOver = InternalConverter.ConvertColor(elem.BorderColor),
 				FillMouseOver = InternalConverter.ConvertColor(elem.BackgroundColor),
 				Name = elem.PresentationName,
-				Id = elem.UID,
+				Id = "pe" + elem.UID,
 				Hint = elem.ShowTooltip ? GetElementHint(elem) : null,
 				BorderThickness = elem.BorderThickness,
 				Type = ShapeTypes.Path.ToString(),
@@ -416,10 +416,10 @@ namespace GKWebService.Models.Plan.PlanElement
 			// Очищаем элементы от групповой информации
 			planElementText.Hint = null;
 			planElementText.HasOverlay = false;
-			planElementText.Id = Guid.Empty;
+			planElementText.Id = Guid.Empty.ToString();
 			planElementRect.Hint = null;
 			planElementRect.HasOverlay = false;
-			planElementRect.Id = Guid.Empty;
+			planElementRect.Id = Guid.Empty.ToString();
 			// Задаем групповой элемент
 			var planElement = new PlanElement {
 				ChildElements = new[] { planElementRect, planElementText },
@@ -535,7 +535,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				Border = InternalConverter.ConvertColor(Colors.Transparent),
 				Fill = InternalConverter.ConvertColor(item.ForegroundColor),
 				Name = item.PresentationName,
-				Id = item.UID,
+				Id = "pe" + item.UID,
 				Hint = (item as ElementBase) != null && showHint ? GetElementHint((ElementBase)item) : null,
 				BorderThickness = 0,
 				Type = ShapeTypes.Path.ToString(),
@@ -592,7 +592,7 @@ namespace GKWebService.Models.Plan.PlanElement
 
 			var planElement = new PlanElement {
 				ChildElements = new[] { shape1, shape2 },
-				Id = item.UID,
+				Id = "pe" + item.UID,
 				Hint = GetElementHint(item),
 				Type = ShapeTypes.Group.ToString(),
 				Width = 30,
@@ -616,7 +616,7 @@ namespace GKWebService.Models.Plan.PlanElement
 
 			// Создаем элемент плана
 			var shape = new PlanElement {
-				Id = device.UID,
+				Id = "pe" + device.UID,
 				SubElementId = device.UID.ToString(),
 				Name = device.PresentationName,
 				Image = GetDeviceStatePic(device, device.State),
@@ -630,7 +630,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			// Добавляем рамку хинта
 			var planElement = new PlanElement {
 				ChildElements = new[] { shape },
-				Id = device.UID,
+				Id = "pe" + device.UID,
 				SubElementId = device.UID + "GroupElement",
 				Hint = GetElementHint(item),
 				Type = ShapeTypes.Group.ToString(),
@@ -683,7 +683,7 @@ namespace GKWebService.Models.Plan.PlanElement
 
 			// Собираем обновление для передачи
 			var statusUpdate = new {
-				Id = state.UID,
+				Id = "pe" + state.UID,
 				Background = new { R = background.R, G = background.G, B = background.B, A = background.A },
 				Hint = hint
 			};
@@ -731,7 +731,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			}
 			// Собираем обновление для передачи
 			var statusUpdate = new {
-				Id = state.UID,
+				Id = "pe" + state.UID,
 				Picture = pic,
 				Hint = hint
 			};

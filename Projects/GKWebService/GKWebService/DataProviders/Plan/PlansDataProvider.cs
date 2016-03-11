@@ -35,7 +35,7 @@ namespace GKWebService.DataProviders.Plan
 				Border = InternalConverterOld.ConvertColor(Colors.Black),
 				BorderThickness = 0,
 				Fill = InternalConverterOld.ConvertColor(plan.BackgroundColor),
-				Id = plan.UID,
+				Id = "pe" + plan.UID,
 				Name = plan.Caption,
 				Path =
 					"M 0 0 L " + plan.Width + " 0 L " + plan.Width +
@@ -124,28 +124,18 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="obj">Информация об изменении состояния.</param>
 		private void OnServiceCallback(GKCallbackResult obj) {
 			var states = obj.GKStates;
-			foreach (var gkState in states.DeviceStates) {
-				PlanElement.UpdateDeviceState(gkState);
-			}
+			Parallel.ForEach(states.DeviceStates, PlanElement.UpdateDeviceState);
+			Parallel.ForEach(states.GuardZoneStates.Union(states.SKDZoneStates).Union(states.ZoneStates), PlanElement.UpdateZoneState);
 			//foreach (var state in states.DelayStates) {
 			//}
 			//foreach (var state in states.DirectionStates) {
 			//}
 			//foreach (var state in states.DoorStates) {
 			//}
-			foreach (var state in states.GuardZoneStates) {
-				PlanElement.UpdateZoneState(state);
-			}
 			//foreach (var state in states.MPTStates) {
 			//}
 			//foreach (var state in states.PumpStationStates) {
 			//}
-			foreach (var state in states.SKDZoneStates) {
-				PlanElement.UpdateZoneState(state);
-			}
-			foreach (var state in states.ZoneStates) {
-				PlanElement.UpdateZoneState(state);
-			}
 		}
 
 		/// <summary>
