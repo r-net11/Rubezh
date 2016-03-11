@@ -115,6 +115,10 @@ namespace FiresecService
 			SendCallback(showPropertyArguments, automationCallbackResult);
 		}
 
+		/// <summary>
+		/// Отправляет сообщение по электронной почте
+		/// </summary>
+		/// <param name="procedureStep">Шаг процедуры</param>
 		private void SendEmail(ProcedureStep procedureStep)
 		{
 			var sendEmailArguments = procedureStep.SendEmailArguments;
@@ -127,7 +131,7 @@ namespace FiresecService
 			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
 			var eMailAttachedFiles = sendEmailArguments.EMailAttachedFileArguments.Select(x => GetValue<string>(x)).ToList();
-			using (var Smtp = new SmtpClient(smtp, port) { Credentials = new NetworkCredential(login, password) })
+			using (var smtpClient = new SmtpClient(smtp, port) { Credentials = new NetworkCredential(login, password) })
 			{
 				var message = new MailMessage {From = new MailAddress(eMailAddressFrom)};
 				foreach (var eMailAddressTo in eMailAddressTos)
@@ -143,7 +147,7 @@ namespace FiresecService
 				
 				try
 				{
-					Smtp.Send(message);
+					smtpClient.Send(message);
 				}
 				catch (Exception e)
 				{
