@@ -241,6 +241,91 @@ namespace GKWebService.Models.Plan.PlanElement
 			return planElement;
 		}
 
+		static System.Windows.Media.Color GetGKZoneStateColor(XStateClass stateClass) {
+			switch (stateClass) {
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
+					return Colors.DarkGray;
+
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+					return Colors.Red;
+
+				case XStateClass.Attention:
+					return Colors.Yellow;
+
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+
+				case XStateClass.Norm:
+					return Colors.Green;
+
+				default:
+					return Colors.White;
+			}
+		}
+
+		static System.Windows.Media.Color GetGKGuardZoneStateColor(XStateClass stateClass) {
+			switch (stateClass) {
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
+					return Colors.DarkGray;
+				case XStateClass.On:
+					return Colors.Green;
+				case XStateClass.TurningOn:
+					return Colors.LightGreen;
+				case XStateClass.AutoOff:
+					return Colors.Gray;
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+				case XStateClass.Norm:
+				case XStateClass.Off:
+					return Colors.Blue;
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+				case XStateClass.Attention:
+					return Colors.Red;
+				default:
+					return Colors.White;
+			}
+		}
+
+		static System.Windows.Media.Color GetGKSKDZoneStateColor(XStateClass stateClass) {
+			switch (stateClass) {
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
+					return Colors.DarkGray;
+
+				case XStateClass.Off:
+					return Colors.Green;
+				case XStateClass.TurningOff:
+					return Colors.LightGreen;
+				case XStateClass.Norm:
+				case XStateClass.On:
+					return Colors.Blue;
+
+				case XStateClass.AutoOff:
+					return Colors.Gray;
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+				case XStateClass.Attention:
+					return Colors.Red;
+				default:
+					return Colors.White;
+			}
+		}
+
 		private static PlanElement FromRectangleSimple(ElementBaseRectangle elem, bool mouseOver) {
 			var rect = elem.GetRectangle();
 			var pt = new PointCollection {
@@ -284,22 +369,19 @@ namespace GKWebService.Models.Plan.PlanElement
 				return shape;
 			var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 			if (zone != null) {
-				var converter = new XStateClassToColorConverter2();
-				var background = ((SolidColorBrush)converter.Convert(zone.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				var background = GetGKZoneStateColor(zone.State.StateClass);
 				shape.Fill = InternalConverter.ConvertColor(background);
 				return shape;
 			}
 			var zoneSkd = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 			if (zoneSkd != null) {
-				var converter = new XStateClassToColorConverter2();
-				var background = ((SolidColorBrush)converter.Convert(zoneSkd.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				var background = GetGKSKDZoneStateColor(zoneSkd.State.StateClass);
 				shape.Fill = InternalConverter.ConvertColor(background);
 				return shape;
 			}
 			var zoneSec = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 			if (zoneSec != null) {
-				var converter = new XStateClassToColorConverter2();
-				var background = ((SolidColorBrush)converter.Convert(zoneSec.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+				var background = GetGKGuardZoneStateColor(zoneSec.State.StateClass);
 				shape.Fill = InternalConverter.ConvertColor(background);
 			}
 			return shape;
@@ -622,8 +704,8 @@ namespace GKWebService.Models.Plan.PlanElement
 				Image = GetDeviceStatePic(device, device.State),
 				X = item.Left - 7,
 				Y = item.Top - 7,
-				Height = 14,
-				Width = 14,
+				Height = 30,
+				Width = 30,
 				Type = ShapeTypes.GkDevice.ToString(),
 				HasOverlay = false
 			};
@@ -634,8 +716,8 @@ namespace GKWebService.Models.Plan.PlanElement
 				SubElementId = device.UID + "GroupElement",
 				Hint = GetElementHint(item),
 				Type = ShapeTypes.Group.ToString(),
-				Width = 14,
-				Height = 14,
+				Width = 30,
+				Height = 30,
 				HasOverlay = true,
 				Name = device.PresentationName,
 				Device = new Device(device),
@@ -678,8 +760,25 @@ namespace GKWebService.Models.Plan.PlanElement
 					});
 			}
 
-			var converter = new XStateClassToColorConverter2();
-			var background = ((SolidColorBrush)converter.Convert(zone.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
+			System.Windows.Media.Color background;
+			switch (zone.GetType().ToString()) {
+				case "RubezhAPI.GK.GKZone": {
+						background = GetGKZoneStateColor(state.StateClass);
+						break;
+					}
+				case "RubezhAPI.GK.GKSKDZone": {
+						background = GetGKSKDZoneStateColor(state.StateClass);
+						break;
+					}
+				case "RubezhAPI.GK.GKGuardZone": {
+						background = GetGKGuardZoneStateColor(state.StateClass);
+						break;
+					}
+				default: {
+						background =System.Windows.Media.Colors.Transparent;
+						break;
+					}
+			}
 
 			// Собираем обновление для передачи
 			var statusUpdate = new {
