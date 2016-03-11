@@ -283,7 +283,8 @@ namespace GKModule.ViewModels
 			if (SelectedDevice.Device.IsConnectedToKAU)
 			{
 				int maxAddress = GKManager.GetAddress(SelectedDevice.Device.KAUShleifParent.AllChildren);
-				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MRK)
+				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif || SelectedDevice.Device.DriverType == GKDriverType.RSR2_MVP_Part
+					|| SelectedDevice.Device.DriverType == GKDriverType.RSR2_MRK || SelectedDevice.Device.DriverType == GKDriverType.RSR2_KDKR_Part)
 				{
 					var addedDevice = GKManager.AddDevice(SelectedDevice.Device, device.Driver, 0);
 					GKManager.CopyDevice(device, addedDevice);

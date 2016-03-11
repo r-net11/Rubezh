@@ -79,7 +79,8 @@ namespace GKProcessor
 				}
 			}
 
-			if ((Device.Driver.IsCardReaderOrCodeReader || Device.DriverType == GKDriverType.RSR2_GuardDetector || Device.DriverType == GKDriverType.RSR2_GuardDetectorSound)
+			if ((Device.Driver.IsCardReaderOrCodeReader || Device.DriverType == GKDriverType.RSR2_GuardDetector
+				|| Device.DriverType == GKDriverType.RSR2_GuardDetectorSound || Device.DriverType == GKDriverType.RSR2_HandGuardDetector)
 				&& Device.GuardZones != null && Device.GuardZones.Count > 0)
 			{
 				Formula.AddGetBit(GKStateBit.On, Device.GuardZones.FirstOrDefault());
@@ -198,6 +199,14 @@ namespace GKProcessor
 								property.Value = (ushort)Device.Children[0].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
 							if (driverProperty.Name == "Число АУ на АЛС4 МВП")
 								property.Value = (ushort)Device.Children[1].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
+						}
+
+						if (Device.DriverType == GKDriverType.RSR2_KDKR)
+						{
+							if (driverProperty.Name == "Число АУ на АЛС3 КД")
+								property.Value = (ushort)Device.Children[13].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
+							if (driverProperty.Name == "Число АУ на АЛС4 КД")
+								property.Value = (ushort)Device.Children[14].AllChildren.Count(x => x.Driver.IsReal && !x.Driver.IsGroupDevice);
 						}
 					}
 

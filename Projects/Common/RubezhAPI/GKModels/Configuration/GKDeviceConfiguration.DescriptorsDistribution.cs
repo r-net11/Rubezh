@@ -29,7 +29,7 @@ namespace RubezhAPI.GK
 				{
 					guardZone.ChildDescriptors.Add(guardZoneDevice.Device);
 					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetectorSound
-						|| guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
+						|| guardZoneDevice.Device.DriverType == GKDriverType.RSR2_HandGuardDetector || guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 						guardZoneDevice.Device.ChildDescriptors.Add(guardZone);
 					if (guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 					{

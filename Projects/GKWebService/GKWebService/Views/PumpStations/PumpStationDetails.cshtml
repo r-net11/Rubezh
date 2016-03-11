@@ -40,7 +40,7 @@
                         <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                         <span style="font-weight: bold; font-size: large; margin: 5px">{{pumpStation.ControlRegimeName}}</span>
                     </div>
-                    <div style="background: #fff">
+                    <div mobile-hover-fix style="background: #fff">
                         <div style="float: left; width: 50%">
                             <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetAutomaticState()" ng-disabled="!pumpStation.CanSetAutomaticState">Автоматика</div>
                             <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetManualState()" ng-disabled="!pumpStation.CanSetManualState">Ручное</div>

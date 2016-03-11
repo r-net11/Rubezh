@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 			AddedDevices = new List<DeviceViewModel>();
 			if (ParentDevice.IsConnectedToKAU)
 			{
-				RealParentDevice = ParentDevice.MVPPartParent ?? ParentDevice.MRKParent ?? ParentDevice.KAUShleifParent;
+				RealParentDevice = ParentDevice.MVPPartParent ?? ParentDevice.KDPartParent ?? ParentDevice.MRKParent ?? ParentDevice.KAUShleifParent;
 				Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => RealParentDevice.Driver.Children.Contains(x.DriverType)));
 				SelectedDriver = Drivers.FirstOrDefault();
 				MinAddress = 1;
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 			return sortedDrivers.ToList();
 		}
 
-		public bool ShowCheckBox { get { return ParentDevice.DriverType == GKDriverType.RSR2_KAU_Shleif || ParentDevice.DriverType == GKDriverType.RSR2_MVP_Part; } }
+		public bool ShowCheckBox { get { return ParentDevice.DriverType == GKDriverType.RSR2_KAU_Shleif || ParentDevice.DriverType == GKDriverType.RSR2_MVP_Part || ParentDevice.DriverType == GKDriverType.RSR2_KDKR_Part; } }
 		public bool CreateDevices()
 		{
 			AddedDevices = new List<DeviceViewModel>();

@@ -51,13 +51,25 @@
 	border: 1px solid transparent;
 }
 
+/*Для сенсорных устройств сброс состояния "нажато"*/
+.btn.active, .btn:active {
+    .blueGradientBackground;
+    border: 0px;
+}
 
 .btn-primary {
 	.blueGradientBackground;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary.hover{
 	.orangeGradientBackground;
+}
+
+/*Для сенсорных устройств сброс состояния "курсор внутри"*/
+.mobileHoverFix:hover,
+.mobileHoverFix.hover{
+	.blueGradientBackground;
 }
 
 .close {

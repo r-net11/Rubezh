@@ -196,6 +196,10 @@ namespace AutomationModule.ViewModels
 					return CommandType.ForbidStart_InManual;
 				case GKStateBit.TurnOffNow_InManual:
 					return CommandType.TurnOffNow_InManual;
+				case GKStateBit.TurnOnNow_InAutomatic:
+					return CommandType.TurnOnNow_InAutomatic;
+				case GKStateBit.TurnOffNow_InAutomatic:
+					return CommandType.TurnOffNow_InAutomatic;
 				default:
 					return CommandType.Unknown;
 			}

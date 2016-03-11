@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RubezhAPI.Automation;
+using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace RubezhAPI.AutomationCallback
@@ -13,6 +15,9 @@ namespace RubezhAPI.AutomationCallback
 		public Guid VariableUID { get; set; }
 
 		[DataMember]
-		public object Value { get; set; }
+		public ExplicitValue ExplicitValue { get; set; }
+
+		[DataMember]
+		public List<ExplicitValue> ExplicitValues { get; set; }
 	}
 }

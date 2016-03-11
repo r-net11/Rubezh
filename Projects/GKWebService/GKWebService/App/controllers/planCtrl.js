@@ -5,11 +5,11 @@
 		"$scope", "$timeout", "plansListFactory", "dataFactory", "$stateParams", "dialogService", "constants", "broadcastService", function ($scope, $timeout, plansListFactory, dataFactory, $stateParams, dialogService, constants, broadcastService) {
 			$scope.toggle = function(scope) { scope.toggle(); };
 			$scope.ShowModal = function (size, item) {
-			    if (item.GkObject.ObjectType == constants.gkObject.device.type) {
+			    if (item.GkObject.ObjectType === constants.gkObject.device.type) {
 			        dialogService.showWindow(constants.gkObject.device, item.GkObject);
-			    } else if (item.GkObject.ObjectType == constants.gkObject.zone.type) {
+			    } else if (item.GkObject.ObjectType === constants.gkObject.zone.type) {
 			        dialogService.showWindow(constants.gkObject.zone, item.GkObject);
-			    } else if (item.GkObject.ObjectType == constants.gkObject.guardZone.type) {
+			    } else if (item.GkObject.ObjectType === constants.gkObject.guardZone.type) {
 			        dialogService.showWindow(constants.gkObject.guardZone, item.GkObject);
 			    }
 			};
