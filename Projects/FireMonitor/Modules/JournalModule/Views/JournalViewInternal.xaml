@@ -87,6 +87,7 @@
 									<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 									<IconedMenuItem ImageSource="BTree"  Text="Показать" Command="{Binding ShowObjectCommand}" />
 									<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+									<IconedMenuItem ImageSource="BVideo"  Text="Показать видео" Command="{Binding ShowVideoCommand}" />
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>
