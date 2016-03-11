@@ -288,6 +288,10 @@
     <Content Include="Content\Image\GKIcons\KAU.png" />
     <Content Include="Content\Image\GKIcons\KAUIndicator.png" />
     <Content Include="Content\Image\GKIcons\KAU_Shleif.png" />
+    <Content Include="Content\Image\GKIcons\KD_KDK.png" />
+    <Content Include="Content\Image\GKIcons\KD_KDKV.png" />
+    <Content Include="Content\Image\GKIcons\KD_KDTD.png" />
+    <Content Include="Content\Image\GKIcons\KD_KDZ.png" />
     <Content Include="Content\Image\GKIcons\RSR2_AM_1.png" />
     <Content Include="Content\Image\GKIcons\RSR2_AM_2.png" />
     <Content Include="Content\Image\GKIcons\RSR2_AM_4.png" />
@@ -305,9 +309,12 @@
     <Content Include="Content\Image\GKIcons\RSR2_GuardDetector.png" />
     <Content Include="Content\Image\GKIcons\RSR2_GuardDetectorSound.png" />
     <Content Include="Content\Image\GKIcons\RSR2_HandDetector.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_HandGuardDetector.png" />
     <Content Include="Content\Image\GKIcons\RSR2_HeatDetector.png" />
     <Content Include="Content\Image\GKIcons\RSR2_KAU.png" />
     <Content Include="Content\Image\GKIcons\RSR2_KAU_Shleif.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_KDKR.png" />
+    <Content Include="Content\Image\GKIcons\RSR2_KDKR_Part.png" />
     <Content Include="Content\Image\GKIcons\RSR2_MAP4.png" />
     <Content Include="Content\Image\GKIcons\RSR2_MAP4_Group.png" />
     <Content Include="Content\Image\GKIcons\RSR2_MDU.png" />
