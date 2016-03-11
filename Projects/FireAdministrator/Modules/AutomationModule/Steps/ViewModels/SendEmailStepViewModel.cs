@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Documents;
 using FiresecAPI.Automation;
+using FiresecAPI.Automation.Enums;
+using Infrastructure;
 
 namespace AutomationModule.ViewModels
 {
@@ -20,6 +22,22 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel PortArgument { get; private set; }
 		public ArgumentViewModel LoginArgument { get; private set; }
 		public ArgumentViewModel PasswordArgument { get; private set; }
+
+		public ObservableCollection<EmailSecureProtocol> SecureProtocols { get; private set; }
+
+		private EmailSecureProtocol _secureProtocol;
+		public EmailSecureProtocol SecureProtocol
+		{
+			get { return _secureProtocol; }
+			set
+			{
+				if (_secureProtocol == value)
+					return;
+				SetSecureProtocol(value);
+				SendEmailArguments.SecureProtocol = _secureProtocol;
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
 
 		public SendEmailStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
@@ -38,6 +56,9 @@ namespace AutomationModule.ViewModels
 			PortArgument = new ArgumentViewModel(SendEmailArguments.PortArgument, stepViewModel.Update, UpdateContent);
 			LoginArgument = new ArgumentViewModel(SendEmailArguments.LoginArgument, stepViewModel.Update, UpdateContent);
 			PasswordArgument = new ArgumentViewModel(SendEmailArguments.PasswordArgument, stepViewModel.Update, UpdateContent);
+
+			SecureProtocols = ProcedureHelper.GetEnumObs<EmailSecureProtocol>();
+			SetSecureProtocol(SendEmailArguments.SecureProtocol);
 		}
 
 		private void InitEMailAddressToArguments()
@@ -201,6 +222,12 @@ namespace AutomationModule.ViewModels
 		{
 			EMailAttachedFileArguments.Remove(addRemoveArgumentViewModel);
 			SendEmailArguments.EMailAttachedFileArguments.Remove(addRemoveArgumentViewModel.Argument.Argument);
+		}
+
+		private void SetSecureProtocol(EmailSecureProtocol emailSecureProtocol)
+		{
+			_secureProtocol = emailSecureProtocol;
+			OnPropertyChanged(() => SecureProtocol);
 		}
 	}
 }

@@ -158,6 +158,7 @@
     <Compile Include="Automation\Enums\BreakInStatus.cs" />
     <Compile Include="Automation\Enums\ConnectionStatus.cs" />
     <Compile Include="Automation\Enums\DoorStatus.cs" />
+    <Compile Include="Automation\Enums\EmailSecureProtocol.cs" />
     <Compile Include="Enums\ReportFormatEnum.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\RoundingType.cs" />

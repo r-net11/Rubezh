@@ -85,6 +85,13 @@
 				<views:ArgumentView Grid.Row="3" Grid.Column="1" DataContext="{Binding PasswordArgument}" />
 
 				<TextBlock Grid.Row="4" Grid.Column="0" Text="Защита соединения" />
+				<ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding SecureProtocols}" SelectedItem="{Binding SecureProtocol, UpdateSourceTrigger=PropertyChanged}" Margin="2">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter} }"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 			</Grid>
 		</StackPanel>
 	</ScrollViewer>

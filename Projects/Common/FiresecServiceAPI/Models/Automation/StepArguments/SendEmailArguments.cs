@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Automation.Enums;
 
 namespace FiresecAPI.Automation
 {
@@ -45,5 +46,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Argument PasswordArgument { get; set; }
+
+		[DataMember]
+		public EmailSecureProtocol SecureProtocol { get; set; }
 	}
 }
