@@ -2725,6 +2725,17 @@
     <Resource Include="RviDevicesIcons\Server.png" />
     <Resource Include="GKIcons\RSR2_ZOV.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\KD_KDKV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\KD_KDK.png" />
+    <Resource Include="GKIcons\KD_KDTD.png" />
+    <Resource Include="GKIcons\KD_KDZ.png" />
+    <Resource Include="GKIcons\RSR2_HandGuardDetector.png" />
+    <Resource Include="GKIcons\RSR2_KDKR.png" />
+    <Resource Include="GKIcons\RSR2_KDKR_Part.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
