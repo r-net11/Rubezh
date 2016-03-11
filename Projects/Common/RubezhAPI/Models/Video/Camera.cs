@@ -87,6 +87,8 @@ namespace RubezhAPI.Models
 		{
 			if (StatusChanged != null)
 				StatusChanged();
+			if (CameraState != null)
+				CameraState.OnStateChanged();
 		}
 		public event Action StatusChanged;
 		[XmlIgnore]

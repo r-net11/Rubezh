@@ -9,6 +9,8 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.ViewModels;
+using RubezhClient;
+using System.Linq;
 
 namespace VideoModule.Plans.Designer
 {
@@ -19,7 +21,9 @@ namespace VideoModule.Plans.Designer
 		public CameraPainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
+			
 		}
+
 
 		protected override Camera CreateItem(PresenterItem presenterItem)
 		{
@@ -55,26 +59,35 @@ namespace VideoModule.Plans.Designer
 
 		private Color GetStateColor()
 		{
-			switch (Item.CameraState.StateClass)
+			if (Item.Status == RviStatus.Error || Item.Status == RviStatus.ConnectionLost || Item.Status == RviStatus.Connecting)
 			{
-				case XStateClass.Unknown:
-				case XStateClass.DBMissmatch:
-				case XStateClass.TechnologicalRegime:
-				case XStateClass.ConnectionLost:
-				case XStateClass.HasNoLicense:
-					return Colors.DarkGray;
-				case XStateClass.Fire1:
-				case XStateClass.Fire2:
-					return Colors.Red;
-				case XStateClass.Attention:
-					return Colors.Yellow;
-				case XStateClass.Ignore:
-					return Colors.Yellow;
-				case XStateClass.Norm:
-					return Colors.Green;
-				default:
-					return Colors.White;
+				switch (Item.Status)
+				{
+					case RviStatus.Error:
+						return Colors.DarkGray;
+					case RviStatus.ConnectionLost:
+						return Colors.Gray;
+					case RviStatus.Connecting:
+						return Colors.LightGray;
+					default:
+						return Colors.White;
+				}
 			}
+			else if (Item.IsRecordOnline)
+			{
+				return Colors.Red;
+			}
+
+			else if (Item.IsOnGuard)
+			{
+				return Colors.DarkBlue;
+			}
+
+			else 
+			{
+				return Colors.Green;
+			}
+
 		}
 	}
 }
