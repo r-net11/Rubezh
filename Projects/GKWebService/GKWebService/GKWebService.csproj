@@ -219,6 +219,7 @@
     <Content Include="App\controllers\signalrCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
+    <Content Include="App\directives\mobileHoverFix.js" />
     <Content Include="App\directives\modaless.js" />
     <Content Include="App\directives\devicesGrid.js" />
     <Content Include="App\directives\modalDraggable.js" />
