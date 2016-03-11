@@ -3,88 +3,91 @@
 }
 
 <div modal-draggable modaless>
-<div class="modal-header">
-    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
-    <h3 class="modal-title">{{door.No}}.{{door.Name}}</h3>
-</div>
-<div class="modal-body">
-    <div>
-        <div>
-            <div ng-style="{'background-color': door.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
-            <div style="float: left; width: 200px">
-                <ul>
-                    <li ng-repeat="stateClass in door.StateClasses">
-                        <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{stateClass.IconData}}.png" />
-                        {{stateClass.Name}}
-                    <li>
-                </ul>
-            </div>
-            <div style="float: right">
-                <div ng-show="door.HasOffDelay">
-                    <span>Закрытие</span> <br />
-                    <span>{{door.OffDelay}} сек</span>
-                </div>
-                <div ng-show="door.HasHoldDelay">
-                    <span>Удержание</span> <br />
-                    <span>{{door.HoldDelay}} сек</span>
-                </div>
-            </div>
-            <div style="clear: both">
-            </div>
-        </div>
-        <uib-tabset>
-            <uib-tab heading="Основные" >
-                <div style="background: #fff; color: #000; height: 248px">
-                    <div>
-                        <img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Images/Door.png" />
-                        @*<a href="" ng-click="Show()">{{door.Name}}</a>*@
-                        <a ui-sref="doors({uid: door.UID})" ui-sref-opts="{reload: true}">{{door.Name}}</a>
-                    </div>
-                    <div>
-                        <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-                        <span style="margin: 2px; font-weight: bold">{{door.GKDescriptorNo}}</span>
-                    </div>
-                    <div>
-                        <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
-                        @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
-                        <a ui-sref="archive({uid: door.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-                    </div>
-                </div>
-            </uib-tab>
-            <uib-tab heading="Управление" ng-show="door.CanControl" active="canControl">
-                <div style="background: #fff">
-                    <div mobile-hover-fix style="float: left; width: 100%">
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeNorm()">Установить режим Норма</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeOpen()">Установить режим Всегда Открыто</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeClose()">Установить режим Всегда Закрыто</div>
-                    </div>
-                    <div style="clear: left">
-                    </div>
-                </div>
-            </uib-tab>
-            <uib-tab heading="Расширенное управление" ng-show="door.FullCanControl" active="fulControl">
-                <div>
-                    <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{door.ControlRegimeIcon}}.png" />
-                    <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
-                    <span style="font-weight: bold; font-size: large; margin: 5px">{{door.ControlRegimeName}}</span>
-                </div>
-                <div mobile-hover-fix style="background: #fff">
-                    <div style="float: left; width: 50%">
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!door.CanSetAutomaticState">Автоматика</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetManualState && SetManualState()" ng-disabled="!door.CanSetManualState">Ручное</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!door.CanSetIgnoreState">Отключение</div>
-                    </div>
-                    <div style="float: left; width: 50%; background: #fff">
-                        <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOn()" ng-disabled="!door.IsControlRegime">Открыть</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOff()" ng-disabled="!door.IsControlRegime">Закрыть</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOffNow()" ng-disabled="!door.IsControlRegime">Закрыть немедленно</div>
-                        <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="Reset()">Сброс</div>
-                    </div>
-                    <div style="clear: left">
-                    </div>
-                </div>
-            </uib-tab>
-        </uib-tabset>
+    <div class="modal-header">
+        <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+        <h3 class="modal-title">{{door.No}}.{{door.Name}}</h3>
     </div>
-</div>
+    <div class="modal-body">
+        <div>
+            <div>
+                <div ng-style="{'background-color': door.StateColor}" style="width: 50px; height: 50px; border-width: 2px; margin: 5px; float: left"></div>
+                <div style="float: left; width: 200px">
+                    <ul>
+                        <li ng-repeat="stateClass in door.StateClasses">
+                            <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{stateClass.IconData}}.png" />
+                            {{stateClass.Name}}
+                        <li>
+                    </ul>
+                </div>
+                <div style="float: right">
+                    <div ng-show="door.HasOffDelay">
+                        <span>Закрытие</span> <br />
+                        <span>{{door.OffDelay}} сек</span>
+                    </div>
+                    <div ng-show="door.HasHoldDelay">
+                        <span>Удержание</span> <br />
+                        <span>{{door.HoldDelay}} сек</span>
+                    </div>
+                </div>
+                <div style="clear: both">
+                </div>
+            </div>
+            <uib-tabset>
+                <uib-tab heading="Основные">
+                    <div class="detailsTab">
+                        <div class="properties">
+                            <div>
+                                @*<img style="margin: 2px; vertical-align:middle" height="16" width="16" src="~/Content/Image/Images/Door.png" />*@
+                                @*<a href="" ng-click="Show()">{{door.Name}}</a>*@
+                                <span>Точка доступа: </span>
+                                <a ui-sref="doors({uid: door.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Images/Door.png)">{{door.Name}}</a>
+                            </div>
+                            <div>
+                                <span >Номер в ГК:</span>
+                                <span >{{door.GKDescriptorNo}}</span>
+                            </div>
+                            <div>
+                                <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                                @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
+                                <a ui-sref="archive({uid: door.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Управление" ng-show="door.CanControl" active="canControl">
+                    <div style="background: #fff">
+                        <div mobile-hover-fix style="float: left; width: 100%">
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeNorm()">Установить режим Норма</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeOpen()">Установить режим Всегда Открыто</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeClose()">Установить режим Всегда Закрыто</div>
+                        </div>
+                        <div style="clear: left">
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Расширенное управление" ng-show="door.FullCanControl" active="fulControl">
+                    <div>
+                        <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{door.ControlRegimeIcon}}.png" />
+                        <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
+                        <span style="font-weight: bold; font-size: large; margin: 5px">{{door.ControlRegimeName}}</span>
+                    </div>
+                    <div mobile-hover-fix style="background: #fff">
+                        <div style="float: left; width: 50%">
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!door.CanSetAutomaticState">Автоматика</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetManualState && SetManualState()" ng-disabled="!door.CanSetManualState">Ручное</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!door.CanSetIgnoreState">Отключение</div>
+                        </div>
+                        <div style="float: left; width: 50%; background: #fff">
+                            <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOn()" ng-disabled="!door.IsControlRegime">Открыть</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOff()" ng-disabled="!door.IsControlRegime">Закрыть</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOffNow()" ng-disabled="!door.IsControlRegime">Закрыть немедленно</div>
+                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="Reset()">Сброс</div>
+                        </div>
+                        <div style="clear: left">
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
 </div>

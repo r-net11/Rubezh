@@ -34,7 +34,7 @@
             </div>
             <uib-tabset>
                 <uib-tab heading="Управление">
-					<div>
+                    <div>
                         <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{mpt.ControlRegimeIcon}}.png" />
                         <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                         <span style="font-weight: bold; font-size: large; margin: 5px">{{mpt.ControlRegimeName}}</span>
@@ -59,10 +59,10 @@
                     <div class="detailsTab">
                         <div class="properties">
                             <div>
-                            <span>МПТ: </span>
-                            @*<a href="" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)" ng-click="Show()">{{mpt.Name}}</a>*@
-                            <a ui-sref="MPTs({uid: mpt.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)">{{mpt.Name}}</a>
-                                </div>
+                                <span>МПТ: </span>
+                                @*<a href="" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)" ng-click="Show()">{{mpt.Name}}</a>*@
+                                <a ui-sref="MPTs({uid: mpt.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/BMPT.png)">{{mpt.Name}}</a>
+                            </div>
                             <div>
                                 <span>Номер в ГК:</span>
                                 <span>{{mpt.GKDescriptorNo}}</span>

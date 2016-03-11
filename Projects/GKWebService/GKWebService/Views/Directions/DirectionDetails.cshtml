@@ -56,33 +56,36 @@
                 </div>
             </uib-tab>
             <uib-tab heading="Свойства">
-                <div style="background: #fff; color: #000; height: 248px">
-                    <div>
-                        <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png"/>
-                        <a ui-sref="directions({uid: direction.UID})" ui-sref-opts="{reload: true}">{{direction.Name}}</a>
+                <div class="detailsTab">
+                    <div class="properties">
+                        <div>
+                            <span>Направление: </span>
+                            @*<img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/Blue_Direction.png" />*@
+                            <a ui-sref="directions({uid: direction.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Icon/GK/Blue_Direction.png)">{{direction.Name}}</a>
+                        </div>
+                        <div>
+                            <span >Номер в ГК:</span>
+                            <span >{{direction.GKDescriptorNo}}</span>
+                        </div>
+                        <div>
+                            <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
+                            @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
+                            <a ui-sref="archive({uid: direction.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
+                        </div>
+                        <div>
+                            <span>Задержка: </span>
+                            <span>{{direction.Delay}}</span>
+                        </div>
+                        <div>
+                            <span>Удержание: </span>
+                            <span>{{direction.Hold}}</span>
+                        </div>
+                        <div>
+                            <span>Режим после удержания: </span>
+                            <span>{{direction.DelayRegime}}</span>
+                        </div>
                     </div>
-                    <div>
-                        <span style="font-weight: bold; width: 110px">Номер в ГК:</span>
-                        <span style="margin: 2px; font-weight: bold">{{direction.GKDescriptorNo}}</span>
                     </div>
-                    <div>
-                        <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png"/>
-                        @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
-                        <a ui-sref="archive({uid: direction.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
-                    </div>
-                    <div>
-                        <span>Задержка: </span>
-                        <span>{{direction.Delay}}</span>
-                    </div>
-                    <div>
-                        <span>Удержание: </span>
-                        <span>{{direction.Hold}}</span>
-                    </div>
-                    <div>
-                        <span>Режим после удержания: </span>
-                        <span>{{direction.DelayRegime}}</span>
-                    </div>
-                </div>
             </uib-tab>
         </uib-tabset>
     </div>
