@@ -36,8 +36,8 @@ namespace GKWebService.Models
 			StateColor = "'#" + new XStateClassToColorConverter2().Convert(stateClass, null, null, null).ToString().Substring(3) + "'";
 			StateClasses = stateClasses.Select(x => new StateClass(x)).ToList();
 
-			OnDelay = gkDirection.State.OnDelay != 0 ? string.Format("{0} сек", gkDirection.State.OnDelay) : string.Empty;
-			HoldDelay = gkDirection.State.HoldDelay != 0 ? string.Format("{0} сек", gkDirection.State.HoldDelay) : string.Empty;
+			OnDelay = gkDirection.State.OnDelay != 0 ?  gkDirection.State.OnDelay.ToString() : string.Empty;
+			HoldDelay = gkDirection.State.HoldDelay != 0 ?  gkDirection.State.HoldDelay.ToString() : string.Empty;
 			HasOnDelay = stateClasses.Contains(XStateClass.TurningOn) && gkDirection.State.OnDelay > 0;
 			HasHoldDelay = stateClasses.Contains(XStateClass.On) && gkDirection.State.HoldDelay > 0;
 
