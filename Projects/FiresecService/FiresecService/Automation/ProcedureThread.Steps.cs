@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using System.IO;
+using System.Net.Mime;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
@@ -142,9 +143,20 @@ namespace FiresecService
 				message.Body = content;
 				foreach (var eMailAttachedFile in eMailAttachedFiles)
 				{
-					message.Attachments.Add(new System.Net.Mail.Attachment(eMailAttachedFile));
+					if (File.Exists(eMailAttachedFile))
+						message.Attachments.Add(new System.Net.Mail.Attachment(eMailAttachedFile));
 				}
-				
+
+				switch (sendEmailArguments.SecureProtocol)
+				{
+					case EmailSecureProtocol.None:
+						smtpClient.EnableSsl = false;
+						break;
+					case EmailSecureProtocol.Ssl:
+						smtpClient.EnableSsl = true;
+						break;
+				}
+
 				try
 				{
 					smtpClient.Send(message);
