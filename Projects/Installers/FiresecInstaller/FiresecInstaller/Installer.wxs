@@ -75,7 +75,7 @@
 			<Directory Id="ProgramMenuFolder">
 				<Directory Id="ProgramMenuDir" Name="$(var.ProductName)">
 					<Directory Id="ProgramMenuDir.AdditionalFolder" Name="Дополнительно">
-						<Component Id="ProgramMenuDir.Additional" Guid="0C15958E-D695-4F12-B440-B19279EF218B">
+						<Component Id="ProgramMenuDir.Additional" Guid="833328C2-2B97-4110-903D-E4D27417492C">
 							<RemoveFolder Id='ProgramMenuDir.AdditionalFolder' On='uninstall' />
 							<RemoveFolder Id='RemoveProgramMenuDir' Directory='ProgramMenuDir' On='uninstall' />
 							<RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />

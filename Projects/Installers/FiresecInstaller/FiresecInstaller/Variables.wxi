@@ -2,8 +2,8 @@
 <Include>
 	<?define ProductName="A.C.Tech" ?>
 	<!--<?define ProductVersion="0.9.5.1" ?>-->
-	<?define ProductCode="93FFAF0E-DE92-4F0C-B9B0-A42AB67D75F4" ?>
-	<?define UpgradeCode="4EC7EDC0-351F-42A3-BB9A-5DD8D5131CFD" ?>
+	<?define ProductCode="D77AE01A-F4D9-4951-89D0-F473A7A463E0" ?>
+	<?define UpgradeCode="469AE7A5-E729-49E8-89B7-DF3AAD6E7D2F" ?>
 	<?define Manufacturer="Компания СТРАЖ" ?>
 	<?define Codepage="1251" ?>
 	<?define BrandName="A.C.Tech"?>

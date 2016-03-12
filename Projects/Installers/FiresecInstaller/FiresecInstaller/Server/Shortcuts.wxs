@@ -5,7 +5,7 @@
     <Icon Id="ServerIcon" SourceFile="Data\Server.ico"/>
 
 		<DirectoryRef Id="ProgramMenuDir.AdditionalFolder">
-			<Component Id="Server.ProgramsMenuShortcut" Guid="FA065622-0D8D-4289-95AD-B3146AAA86A0">
+			<Component Id="Server.ProgramsMenuShortcut" Guid="0B78E060-19EB-4811-8094-A96E3CBC6613">
 				<Shortcut Id="Server.ProgramsMenuShortcut" Name="$(var.ServerName)" Target="[SERVERLOCATION]$(var.Server.TargetFileName)"
             WorkingDirectory="SERVERLOCATION" Description="$(var.ServerName)" Icon="ServerIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.ServerName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />

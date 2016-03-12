@@ -6,13 +6,13 @@
 	<Fragment>
 
 		<DirectoryRef Id="SERVERLOCATION">
-			<Component Id="Server.AutorunComponent" Guid="72444C34-2199-4EB6-8697-96A3AE1C1096">
+			<Component Id="Server.AutorunComponent" Guid="9A2B92E7-1B10-42F6-9BFA-51320E20D082">
 				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
 					<RegistryValue KeyPath="yes" Name="StrazhService" Type="string" Value="[SERVERLOCATION]$(var.Server.TargetFileName)" />
 				</RegistryKey>
 			</Component>
 
-			<Component Id="Server.Files" Guid="DF63AD3D-F414-49A1-86A5-79D635310E8D">
+			<Component Id="Server.Files" Guid="E79DE141-94F0-4545-88BC-504D6FA9A7BC">
 				<File Id="Server.StrazhService.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
 				<File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.exe.manifest" Name="StrazhService.exe.manifest" Source="$(var.Server.TargetDir)" />
@@ -53,7 +53,7 @@
 				<File Id="Server.KeyGenerator.dll" Name="KeyGenerator.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
-			<Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">
+			<Component Id="Server.DB.Common" Guid="0D806E7E-D62D-4C1B-AB46-89BF88323744">
 				<File Id="Server.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
@@ -100,7 +100,7 @@
 
 		<DirectoryRef Id="AppData.ServerLocation">
 			<Directory Id="AppData.ServerLocation.SoundsLocation" Name="Sounds">
-				<Component Id="AppData.ServerLocation.Sounds" Guid="C1CF2CC9-472F-447A-8F12-923A5951D87B">
+				<Component Id="AppData.ServerLocation.Sounds" Guid="78116F78-F905-4B10-85DA-6E8A36FD1338">
 					<File Id="AppData.ServerLocation.Sound1.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound1.wav" />
 					<File Id="AppData.ServerLocation.Sound2.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound2.wav" />
 					<File Id="AppData.ServerLocation.Sound3.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound3.wav" />
@@ -141,13 +141,13 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.EmptyLocation">
-			<Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37">
+			<Component Id="Server.AppData.EmptyLocation" Guid="DC26DBD5-10E2-4102-992C-27334A8EEC9A">
 				<File Id="Server.AppData.EmptyLocation.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" />
 			</Component>
 		</DirectoryRef>
 
 		<DirectoryRef Id="AppData.FiresecLocation">
-			<Component Id="AppData.FiresecLocation.Permissions" Guid="28D9EA15-1142-48EE-BB4D-DBAC0683D222">
+			<Component Id="AppData.FiresecLocation.Permissions" Guid="986D1DD4-7089-4FA6-B98C-1803BEAF4AA4">
 				<CreateFolder>
 					<util:PermissionEx User="Users" GenericAll="yes" />
 				</CreateFolder>

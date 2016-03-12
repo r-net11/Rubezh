@@ -5,13 +5,13 @@
 		<Icon Id="MonitorIcon" SourceFile="Data\Monitor.ico"/>
 
 		<DirectoryRef Id="DesktopFolder">
-			<Component Id="Monitor.DesktopShortcut" Guid="892043E1-4386-4963-893E-DB28A51E3DEF">
+			<Component Id="Monitor.DesktopShortcut" Guid="408476EF-28E5-4F28-BA39-99E57510D206">
 				<Shortcut Id="Monitor.DesktopShortcut" Name="$(var.MonitorName)" Target="[MONITORLOCATION]$(var.Monitor.TargetFileName)"
 					WorkingDirectory="MONITORLOCATION" Description="$(var.MonitorDescription)" Icon="MonitorIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.MonitorName)" Name="Shortcut" Type="integer" Value="1" KeyPath="yes" />
 				<Condition>SHORTCUT_DESKTOP</Condition>
 			</Component>
-			<Component Id="Monitor.DesktopLayoutShortcut" Guid="452CB212-2C14-407b-A514-21BD03863B9F">
+			<Component Id="Monitor.DesktopLayoutShortcut" Guid="0878B4DD-5824-4BD7-8465-8F078968B1CC">
 				<Shortcut Id="Monitor.DesktopLayoutShortcut" Name="$(var.LayoutMonitorName)" Target="[MONITORLOCATION]$(var.LayoutMonitor.TargetFileName)"
 					WorkingDirectory="MONITORLOCATION" Description="$(var.LayoutMonitorDescription)" Icon="MonitorIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.LayoutMonitorName)" Name="Shortcut" Type="integer" Value="1" KeyPath="yes" />
@@ -20,13 +20,13 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="ProgramMenuDir">
-			<Component Id="Monitor.ProgramsMenuShortcut" Guid="70ADCC32-904C-4020-B874-576FE1C898E9">
+			<Component Id="Monitor.ProgramsMenuShortcut" Guid="1411BF5F-D3F5-4177-9091-CF508A267D06">
 				<Shortcut Id="Monitor.ProgramsMenuShortcut" Name="$(var.MonitorName)" Target="[MONITORLOCATION]$(var.Monitor.TargetFileName)"
 					WorkingDirectory="MONITORLOCATION" Description="$(var.MonitorDescription)" Icon="MonitorIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.MonitorName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
 				<Condition>SHORTCUT_PROGRAMMENU</Condition>
 			</Component>
-			<Component Id="Monitor.ProgramsMenuLayoutShortcut" Guid="2C10FD61-9566-43ff-B999-860A8A17DEE8">
+			<Component Id="Monitor.ProgramsMenuLayoutShortcut" Guid="7C9C10B1-56D3-4FD0-BA20-DA20948F8087">
 				<Shortcut Id="Monitor.ProgramsMenuLayoutShortcut" Name="$(var.LayoutMonitorName)" Target="[MONITORLOCATION]$(var.LayoutMonitor.TargetFileName)"
 					WorkingDirectory="MONITORLOCATION" Description="$(var.LayoutMonitorDescription)" Icon="MonitorIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.LayoutMonitorName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />

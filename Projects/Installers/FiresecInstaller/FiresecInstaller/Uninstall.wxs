@@ -2,14 +2,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <DirectoryRef Id="DesktopFolder">
-      <Component Id="DesktopFolder" Guid="BC330E1A-4A65-4369-93D7-1D772036F1A5">
+      <Component Id="DesktopFolder" Guid="36D53F14-FD5D-426C-BA44-5C47FEE33B17">
         <RemoveFolder Id="DesktopFolder" On="uninstall" />
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="ProgramMenuDir">
-      <Component Id="ProgramMenuDir" Guid="3E70B244-6A2B-405C-8C15-59AED0F58DB3">
+      <Component Id="ProgramMenuDir" Guid="C54E6BEE-9BBC-4551-A467-E5135AF39AD6">
         <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
       </Component>

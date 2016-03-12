@@ -5,7 +5,7 @@
     <Icon Id="Administrator.Icon" SourceFile="Data\Administrator.ico"/>
 
     <DirectoryRef Id="DesktopFolder">
-      <Component Id="Administrator.DesktopShortcut" Guid="FE686634-FADD-430e-9967-18C7D8AC1C81">
+      <Component Id="Administrator.DesktopShortcut" Guid="471FD1F6-3222-4228-9530-C0CDFF8BA779">
         <Shortcut Id="Administrator.DesktopShortcut" Name="$(var.AdministratorName)" Target="[ADMINISTRATORLOCATION]$(var.Administrator.TargetFileName)"
 						WorkingDirectory="ADMINISTRATORLOCATION" Description="$(var.AdministratorDescription)" Icon="Administrator.Icon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.AdministratorName)" Name="Shortcut" Type="integer" Value="1" KeyPath="yes" />
@@ -14,7 +14,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="ProgramMenuDir">
-      <Component Id="Administrator.ProgramsMenuShortcut" Guid="F2EEC003-B453-4ad1-95C3-037F49968DE4">
+      <Component Id="Administrator.ProgramsMenuShortcut" Guid="148FBEA6-5027-4E74-BDB7-5EA9C0E6807D">
         <Shortcut Id="Administrator.ProgramsMenuShortcut" Name="$(var.AdministratorName)" Target="[ADMINISTRATORLOCATION]$(var.Administrator.TargetFileName)"
 				    WorkingDirectory="ADMINISTRATORLOCATION" Description="$(var.AdministratorDescription)" Icon="Administrator.Icon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.AdministratorName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />

@@ -5,7 +5,7 @@
 	<Fragment>
 
 		<DirectoryRef Id="ADMINISTRATORLOCATION">
-			<Component Id="Administrator.Files" Guid="F78F2E80-61E7-4AA3-9605-4AD05EF21975">
+			<Component Id="Administrator.Files" Guid="D09AF1B2-3CD6-4061-828C-DEBE913A140D">
 				<File Id="Administrator.StrazhAdmin.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
 				<File Id="Administrator.StrazhAdmin.exe.config" Name="StrazhAdmin.exe.config" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.StrazhAdmin.exe.manifest" Name="StrazhAdmin.exe.manifest" Source="$(var.Administrator.TargetDir)"/>
@@ -46,7 +46,7 @@
 				<File Id="Administrator.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
 
-			<Component Id="Administrator.DB" Guid="5619BD45-25EA-4635-8BBA-4D8E81F06B2F">
+			<Component Id="Administrator.DB" Guid="76B6255A-2D45-4909-B52A-C53822E10671">
 				<File Id="Administrator.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Administrator.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Administrator.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
@@ -57,7 +57,7 @@
 				<File Id="Administrator.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
-			<Component Id="Administrator.PLANS_MODULE" Guid="BD07AEDD-C503-4B25-980D-3409EBE75D1A">
+			<Component Id="Administrator.PLANS_MODULE" Guid="AF449508-EB24-477E-9526-31288D18FB68">
 				<File Id="Administrator.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.SharpVectors.Converters.dll" Name="SharpVectors.Converters.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.SharpVectors.Core.dll" Name="SharpVectors.Core.dll" Source="$(var.Administrator.TargetDir)" />
@@ -68,11 +68,11 @@
 				<File Id="Administrator.SharpVectors.Runtime.dll" Name="SharpVectors.Runtime.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
 
-			<Component Id="Administrator.SOUNDS_MODULE" Guid="DF7DE120-731E-460A-A420-CD5FC0C6FF09">
+			<Component Id="Administrator.SOUNDS_MODULE" Guid="09711B10-C7EF-48A0-9D34-25C2ACA537A8">
 				<File Id="Administrator.SoundsModule.dll" Name="SoundsModule.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
 
-			<Component Id="Administrator.SETTINGS_MODULE" Guid="440F9915-8EB0-493C-891B-35927D2183F5">
+			<Component Id="Administrator.SETTINGS_MODULE" Guid="5D794075-F22B-417C-AAF2-0DA8BAE5A77B">
 				<File Id="Administrator.SettingsModule.dll" Name="SettingsModule.dll" Source="$(var.Administrator.TargetDir)" />
 			</Component>
 
@@ -80,21 +80,21 @@
 				<File Id="Administrator.StrazhModule.dll" Name="StrazhModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
 			</Component>
 
-			<Component Id="Administrator.VIDEO_MODULE" Guid="06A0E756-7AFF-4E90-8B9C-52C71F0ADF06">
+			<Component Id="Administrator.VIDEO_MODULE" Guid="383BE366-8338-46F1-9861-A2A0AE136960">
 				<File Id="Administrator.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
 			</Component>
 
 		</DirectoryRef>
 
 		<DirectoryRef Id="Administrator.XslFolder">
-			<Component Id="Administrator.svg2xaml" Guid="393F97E9-1CAB-47BF-BAB2-B0AAB564DBC5">
+			<Component Id="Administrator.svg2xaml" Guid="45C9E7B8-609F-4BCE-B326-9C8386A10016">
 				<File Id="Administrator.svg2xaml.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\svg2xaml.xsl" />
 				<File Id="Administrator.xaml2svg.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg.xsl" />
 			</Component>
 		</DirectoryRef>
 
 		<DirectoryRef Id="Administrator.Xaml2svgFolder">
-			<Component Id="Administrator.xaml2svg" Guid="1B4EF891-5572-4C28-8462-1844FE4F6989">
+			<Component Id="Administrator.xaml2svg" Guid="233BA69B-F8BB-4D27-B3DB-4B2DAA7A2E5A">
 				<File Id="Administrator.animation.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\animation.xsl" />
 				<File Id="Administrator.brushes.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\brushes.xsl" />
 				<File Id="Administrator.canvas.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\canvas.xsl" />

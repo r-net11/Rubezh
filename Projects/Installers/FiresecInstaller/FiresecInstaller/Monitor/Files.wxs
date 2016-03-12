@@ -4,7 +4,7 @@
 	<?include Variables.wxi?>
 	<Fragment>
 		<DirectoryRef Id="MONITORLOCATION">
-			<Component Id="Monitor.Files" Guid="6FE1B80B-3E17-4D02-83F2-20E081B6F49B">
+			<Component Id="Monitor.Files" Guid="35F81BB8-7F2D-4B9E-BD61-4C140FF0E654">
 				<File Id="Monitor.StrazhMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
 				<File Id="Monitor.StrazhMonitor.exe.config" Name="StrazhMonitor.exe.config" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.StrazhMonitor.exe.manifest" Name="StrazhMonitor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
@@ -94,7 +94,7 @@
 				<File Id="Monitor.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
-			<Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB">
+			<Component Id="Monitor.DB" Guid="34B6DA90-EDF2-481B-8A4B-81925C3F14EF">
 				<File Id="Monitor.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Monitor.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Monitor.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
@@ -105,7 +105,7 @@
 				<File Id="Monitor.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
-			<Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">
+			<Component Id="Monitor.PLANS_MODULE" Guid="BCE01C91-97B9-486E-AD4E-21D309759454">
 				<File Id="Monitor.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
@@ -113,11 +113,11 @@
 				<File Id="Monitor.StrazhModule.dll" Name="StrazhModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
 			</Component>
 
-			<Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">
+			<Component Id="Monitor.VIDEO_MODULE" Guid="4C6E6639-0386-4DC2-BFAE-234DE1528513">
 				<File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
 			</Component>
 
-			<Component Id="Monitor.Revisor" Guid="B3038497-9AAE-4DBD-86AD-BC7B0174E543">
+			<Component Id="Monitor.Revisor" Guid="AA2FC99F-30EF-40F2-BDB1-55CE691D50A9">
 				<File Id="Monitor.Revisor.exe" Name="Revisor.exe" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
 				<File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 			</Component>
@@ -125,7 +125,7 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="MONITORLOCATION">
-			<Component Id="Monitor.VIDEO_MODULE_DLL" Guid="C67E5794-0C00-4341-8D89-D953A96C7CCD">
+			<Component Id="Monitor.VIDEO_MODULE_DLL" Guid="143E0D61-BA70-4766-92C9-5DD5A9021E6C">
 				<File Id="Monitor.API.dll" Name="API.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Monitor.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
 				<File Id="Monitor.GalaSoft.MvvmLight.WPF4.dll" Name="GalaSoft.MvvmLight.WPF4.dll" Source="$(var.VSSDll.TargetDir)" />
@@ -229,7 +229,7 @@
 
 		<!-- Локализация для DevExpress -->
 		<DirectoryRef Id="Monitor.ru">
-			<Component Id="Monitor.Files.ru" Guid="BCE65B5E-547A-4288-A6E6-88EAC6955F35">
+			<Component Id="Monitor.Files.ru" Guid="A8AF540B-40EA-478F-9201-7BC892DD9A2F">
 				<File Id="Monitor.DevExpress.Data.v14.1.resources.dll" Name="DevExpress.Data.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" KeyPath="yes"/>
 				<File Id="Monitor.DevExpress.Printing.v14.1.Core.resources.dll" Name="DevExpress.Printing.v14.1.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
 				<File Id="Monitor.DevExpress.Xpf.Core.v14.1.resources.dll" Name="DevExpress.Xpf.Core.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
@@ -239,7 +239,7 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="Monitor.ShellFolder">
-			<Component Id="Monitor.Integrate" Guid="F4BAD8FB-EEC4-44C4-9C80-849C9F3A9F29">
+			<Component Id="Monitor.Integrate" Guid="2D8C468D-304E-438B-AED3-90B731E00081">
 				<File Id="Monitor.Integrate.cmd" Name="Integrate.cmd" Source="Data\Shell\" KeyPath="yes" />
 				<File Id="Monitor.Desintegrate.cmd" Name="Desintegrate.cmd" Source="Data\Shell\" />
 				<File Id="Monitor.Integrate.reg" Name="Integrate.reg" Source="Data\Shell\" />
