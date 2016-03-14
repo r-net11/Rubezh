@@ -52,7 +52,6 @@ namespace GKModule.ViewModels
 				return null;
 			}
 		}
-
 		public XStateClass ObjectStateClass
 		{
 			get
