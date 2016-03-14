@@ -82,7 +82,7 @@ namespace VideoModule
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, "Список камер", "Video1.png", (p) => CamerasViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, "Одна камера", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, "Камера", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartReferenceProperties));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Раскладка камер", "Video1.png", (p) => new LayoutMultiCameraViewModel()); 
 		}
 		#endregion

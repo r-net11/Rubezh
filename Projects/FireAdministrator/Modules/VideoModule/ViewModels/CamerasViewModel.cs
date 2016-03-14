@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
@@ -90,6 +91,10 @@ namespace VideoModule.ViewModels
 			FiresecManager.SystemConfiguration.Cameras.Remove(camera);
 			camera.OnChanged();
 			ServiceFactory.SaveService.CamerasChanged = true;
+
+			// Уведомляем подписчиков на событие CameraDeletedEvent о том, что камера была удалена из конфигурации
+			ServiceFactory.Events.GetEvent<CameraDeletedEvent>().Publish(camera.UID);
+			
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 

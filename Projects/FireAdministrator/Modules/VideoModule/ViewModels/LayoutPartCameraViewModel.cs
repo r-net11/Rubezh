@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
+using Infrastructure.Events;
 
 namespace VideoModule.ViewModels
 {
@@ -20,6 +23,13 @@ namespace VideoModule.ViewModels
 			_properties = properties ?? new LayoutPartReferenceProperties();
 			var selectedCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == _properties.ReferenceUID);
 			UpdateLayoutPart(selectedCamera);
+			
+			// Следим за удалением из конфигурации зарегистрированной камеры
+			ServiceFactory.Events.GetEvent<CameraDeletedEvent>().Subscribe(guid =>
+			{
+				if (_properties.ReferenceUID == guid)
+					UpdateLayoutPart(null);
+			});
 		}
 
 		public override ILayoutProperties Properties
