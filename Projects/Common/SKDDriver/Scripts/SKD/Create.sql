@@ -1005,8 +1005,6 @@ INSERT INTO Patches (Id) VALUES
 ('OrganisationsTimeTrackDocumentTypes_Created')
 INSERT INTO Patches (Id) VALUES
 ('FiltersTableAdded')
-INSERT INTO Patches (Id) VALUES
-('LicenseInfoAdded')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();
