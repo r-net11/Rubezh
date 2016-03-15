@@ -55,7 +55,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Сообщение: " + MessageArgument.Description;
+				return string.Format("Сообщение: {0} {1}; Подтверждение = {2}", MessageArgument == null ? ArgumentViewModel.EmptyText : MessageArgument.Description, IsModalWindow ? "(модальное)" : "(не модальное)", WithConfirmation == false ? "Нет" : ConfirmationValueArgument.Description);
 			}
 		}
 
