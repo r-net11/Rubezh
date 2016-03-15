@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using System.Net.Mime;
+using System.Text;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
@@ -13,13 +13,13 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.Automation;
 using FiresecService.Service;
+using HigLabo.Mime;
+using HigLabo.Net.Smtp;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using Property = FiresecAPI.Automation.Property;
@@ -132,34 +132,50 @@ namespace FiresecService
 			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
 			var eMailAttachedFiles = sendEmailArguments.EMailAttachedFileArguments.Select(x => GetValue<string>(x)).ToList();
-			using (var smtpClient = new SmtpClient(smtp, port) { Credentials = new NetworkCredential(login, password) })
+			
+			using (var smtpClient = new SmtpClient(smtp, port, login, password))
 			{
-				var message = new MailMessage {From = new MailAddress(eMailAddressFrom)};
+				var message = new SmtpMessage();
+				// От кого
+				message.From = new MailAddress(eMailAddressFrom);
+				// Кому
 				foreach (var eMailAddressTo in eMailAddressTos)
 				{
 					message.To.Add(new MailAddress(eMailAddressTo));
 				}
+				// Тема
 				message.Subject = title;
-				message.Body = content;
+				// Содержимое
+				message.BodyText = content;
+				// Вложения
 				foreach (var eMailAttachedFile in eMailAttachedFiles)
 				{
 					if (File.Exists(eMailAttachedFile))
-						message.Attachments.Add(new System.Net.Mail.Attachment(eMailAttachedFile));
+					{
+						var cnt = new SmtpContent();
+						cnt.LoadData(File.ReadAllBytes(eMailAttachedFile));
+						cnt.ContentType = new HigLabo.Net.Smtp.ContentType("application/octet-stream");
+						cnt.ContentType.Name = String.Format("=?utf-8?B?{0}?=", Convert.ToBase64String(Encoding.UTF8.GetBytes(Path.GetFileName(eMailAttachedFile))));
+						message.Contents.Add(cnt);
+					}
 				}
-
+				// Протокол защиты соединения
 				switch (sendEmailArguments.SecureProtocol)
 				{
 					case EmailSecureProtocol.None:
-						smtpClient.EnableSsl = false;
+						smtpClient.EncryptedCommunication = SmtpEncryptedCommunication.None;
 						break;
 					case EmailSecureProtocol.Ssl:
-						smtpClient.EnableSsl = true;
+						smtpClient.EncryptedCommunication = SmtpEncryptedCommunication.Ssl;
+						break;
+					case EmailSecureProtocol.Tls:
+						smtpClient.EncryptedCommunication = SmtpEncryptedCommunication.Tls;
 						break;
 				}
 
 				try
 				{
-					smtpClient.Send(message);
+					smtpClient.SendMail(message);
 				}
 				catch (Exception e)
 				{

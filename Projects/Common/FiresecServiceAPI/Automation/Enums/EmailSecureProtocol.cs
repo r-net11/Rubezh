@@ -8,6 +8,9 @@ namespace FiresecAPI.Automation.Enums
 		None,
 
 		[Description("SSL")]
-		Ssl
+		Ssl,
+
+		[Description("TLS")]
+		Tls
 	}
 }
