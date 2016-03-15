@@ -34,8 +34,9 @@ namespace FiresecServiceRunner
 				Current.MainWindow.Close();
 			}
 
-#if !LIC_FREE
 			var licenseService = new LicenseManager();
+#if !LIC_FREE
+
 			if(!licenseService.IsValidExistingKey())
 			{
 				// Create a thread
