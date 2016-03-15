@@ -24,6 +24,9 @@ namespace GKProcessor
 				IsPlaceable = true
 			};
 
+			driver.AvailableStateBits.Add(GKStateBit.On);
+			driver.AvailableStateBits.Add(GKStateBit.Off);
+
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
