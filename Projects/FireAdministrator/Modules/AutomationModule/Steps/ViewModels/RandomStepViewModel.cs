@@ -18,7 +18,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			MaxValueArgument.Update(Procedure, ExplicitType.Integer, isList: false);
+			MaxValueArgument.Update(Procedure, ExplicitType.Integer, isList:false);
 			ResultArgument.Update(Procedure, ExplicitType.Integer, isList: false);
 		}
 
@@ -26,7 +26,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-				return "Результат:" + ResultArgument.Description + " Максимальное значение: " + MaxValueArgument.Description;
+				return "Максимальное значение: " + MaxValueArgument.Description;
 			}
 		}
 	}
