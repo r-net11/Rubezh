@@ -154,7 +154,9 @@
     <Compile Include="AutomationCallback\ProcedureProperties.cs" />
     <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Enums\LicenseStatus.cs" />
     <Compile Include="Automation\Enums\AccessState.cs" />
+    <Compile Include="Enums\ModuleType.cs" />
     <Compile Include="Automation\Enums\BreakInStatus.cs" />
     <Compile Include="Automation\Enums\ConnectionStatus.cs" />
     <Compile Include="Automation\Enums\DoorStatus.cs" />

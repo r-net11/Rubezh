@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
+using KeyGenerator;
 
 namespace FiresecService
 {
@@ -20,8 +21,11 @@ namespace FiresecService
 		private static MainViewModel MainViewModel;
 		private static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
-		public static void Run()
+		public static void Run(ILicenseManager licenseManager)
 		{
+			if(licenseManager == null)
+				throw new ArgumentException("LicenseManager");
+
 			try
 			{
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
@@ -39,20 +43,10 @@ namespace FiresecService
 
 				ConfigurationCashHelper.Update();
 
-				try
-				{
-					PatchManager.Patch();
-				}
-				catch (Exception)
-				{
-					MessageBox.Show("Не удалось подключиться к базе данных");
-					Application.Current.MainWindow.Close();
-				}
-
 				UILogger.Log("Открытие хоста");
 				try
 				{
-					FiresecServiceManager.Open();
+					FiresecServiceManager.Open(licenseManager);
 				}
 				catch (Exception)
 				{

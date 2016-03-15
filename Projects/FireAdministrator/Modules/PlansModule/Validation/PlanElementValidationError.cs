@@ -1,6 +1,6 @@
 ﻿using System;
+using FiresecAPI.Enums;
 using FiresecClient;
-using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;

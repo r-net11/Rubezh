@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.Windows.Threading;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Enums;
 using FiresecAPI.Models;
 
 namespace FiresecClient
@@ -219,6 +220,24 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.CheckSqlServerConnection(ipAddress, ipPort, instanceName, useIntegratedSecurity, userID, userPwd); }, "CheckSqlServerConnection");
 		}
+
+		#region Licensing
+		public OperationResult<bool> CheckLicenseExising()
+		{
+			return SafeOperationCall(() => FiresecService.CheckLicenseExising(), "CheckLicenseExising");
+		}
+
+		public OperationResult<bool> CanConnect()
+		{
+			return SafeOperationCall(() => FiresecService.CanConnect(), "CanConnect");
+		}
+
+		public OperationResult<bool> CanLoadModule(ModuleType type)
+		{
+			return SafeOperationCall(() => FiresecService.CanLoadModule(type), "CanLoadModule");
+		}
+
+		#endregion
 
 	}
 }

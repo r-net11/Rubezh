@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Services;
+﻿using FiresecAPI.Enums;
+using Infrastructure.Common.Services;
 using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Common.Validation

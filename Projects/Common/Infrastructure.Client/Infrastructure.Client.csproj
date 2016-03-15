@@ -105,6 +105,8 @@
       <DependentUpon>LayoutPartTitleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Library\BaseFrameViewModel.cs" />
+    <Compile Include="Licensing\ILicenseService.cs" />
+    <Compile Include="Licensing\LicenseService.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="Login\Views\LoginView.xaml.cs">

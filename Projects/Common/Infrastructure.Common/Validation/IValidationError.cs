@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Common.Validation
+﻿using FiresecAPI.Enums;
+
+namespace Infrastructure.Common.Validation
 {
 	public interface IValidationError
 	{

@@ -49,7 +49,6 @@
 				<File Id="Server.DevExpress.XtraReports.v14.1.Service.dll" Name="DevExpress.XtraReports.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.DevExpress.Xpo.v14.1.dll" Name="DevExpress.Xpo.v14.1.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.license.dll" Name="license.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.KeyGenerator.dll" Name="KeyGenerator.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 

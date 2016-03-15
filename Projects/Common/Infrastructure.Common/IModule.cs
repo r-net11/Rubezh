@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Navigation;
+﻿using FiresecAPI.Enums;
+using Infrastructure.Common.Navigation;
 using System;
 using System.Collections.Generic;
 

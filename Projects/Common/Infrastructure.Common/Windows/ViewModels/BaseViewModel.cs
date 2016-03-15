@@ -46,5 +46,10 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		#endregion INotifyPropertyChanged Members and helper
+
+		public BaseViewModel()
+		{
+
+		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Journal;
+﻿using FiresecAPI.Enums;
+using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -100,5 +101,18 @@ namespace FiresecAPI
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		[OperationContract]
 		OperationResult<bool> CheckSqlServerConnection(string ipAddress, int ipPort, string instanceName, bool useIntegratedSecurity, string userID, string userPwd);
+
+		#region Licensing
+
+		[OperationContract]
+		OperationResult<bool> CheckLicenseExising();
+
+		[OperationContract]
+		OperationResult<bool> CanConnect();
+
+		[OperationContract]
+		OperationResult<bool> CanLoadModule(ModuleType type);
+
+		#endregion
 	}
 }

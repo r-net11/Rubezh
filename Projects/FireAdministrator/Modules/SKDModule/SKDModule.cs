@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Models;
+using FiresecAPI.Enums;
 using FiresecAPI.Models.Layouts;
-using Infrastructure;
-using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
-using Infrustructure.Plans.Events;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
-using FiresecAPI.SKD;
+using System.Collections.Generic;
 
 namespace SKDModule
 {

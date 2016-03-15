@@ -6,7 +6,7 @@ using System.Text;
 
 namespace KeyGenerator
 {
-	public class BCrypt
+	public sealed class BCrypt
 	{
 
 		private const int GENSALT_DEFAULT_LOG2_ROUNDS = 10;

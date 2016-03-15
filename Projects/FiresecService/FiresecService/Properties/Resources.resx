@@ -126,4 +126,7 @@
   <data name="FileNotExistError" xml:space="preserve">
     <value>Один из конфигурационных файлов поврежден. Пожалуйста, переустановите программу.</value>
   </data>
+  <data name="LicenseAddCardMessage" xml:space="preserve">
+    <value>Количество активных пропусков в соответствии с лицензией не может превышать {0}. Для создания нового пропуска приобретите дополнительные лицензии</value>
+  </data>
 </root>

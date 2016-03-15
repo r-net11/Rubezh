@@ -6,6 +6,7 @@ using AutomationModule.Plans;
 using AutomationModule.Validation;
 using AutomationModule.ViewModels;
 using FiresecAPI;
+using FiresecAPI.Enums;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;

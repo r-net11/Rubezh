@@ -1,3 +1,4 @@
+using FiresecAPI.Enums;
 using FiresecAPI.Events;
 using FiresecAPI.GK;
 using FiresecAPI.Models;

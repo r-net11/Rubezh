@@ -14,7 +14,7 @@ using KeyGenerator;
 
 namespace FiresecServiceRunner
 {
-	public partial class App : Application
+	public partial class App
 	{
 		private const string SignalId = "{59CFC4B4-BA41-4F34-9C41-1CA3851D7019}";
 		private const string WaitId = "{6023CC31-322E-4A74-86FD-E851C2E6C20C}";
@@ -24,17 +24,19 @@ namespace FiresecServiceRunner
 			base.OnStartup(e);
 			ThemeHelper.LoadThemeFromRegister();
 
-#if !LIC_FREE
-			string prodKey = null;
 			try
 			{
-				prodKey = Generator.Load(Generator.GetSerialKey(), AppDataFolderHelper.GetFile("LicData.dat"));
+				PatchManager.Patch();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				Logger.Error(ex, "Исключение при вызове Generator.Load");
+				MessageBox.Show("Не удалось подключиться к базе данных");
+				Current.MainWindow.Close();
 			}
-			if (!Generator.VerifyProductKey(prodKey))
+
+#if !LIC_FREE
+			var licenseService = new LicenseManager();
+			if(!licenseService.IsValidExistingKey())
 			{
 				// Create a thread
 				var newWindowThread = new Thread(() =>
@@ -44,7 +46,7 @@ namespace FiresecServiceRunner
 						new DispatcherSynchronizationContext(
 							Dispatcher.CurrentDispatcher));
 					// Create and show the Window
-					var tempWindow = new RegistrationWindow { DataContext = new RegistrationViewModel() };
+					var tempWindow = new RegistrationWindow { DataContext = new RegistrationViewModel(licenseService) };
 					tempWindow.Closed += (s, er) => Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
 					tempWindow.Show();
 					// Start the Dispatcher Processing
@@ -62,11 +64,11 @@ namespace FiresecServiceRunner
 #endif
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))
 				{
-					AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-					AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
+					AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+					AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
 					try
 					{
-						Bootstrapper.Run();
+						Bootstrapper.Run(licenseService);
 					}
 					catch (Exception ex)
 					{
@@ -86,18 +88,18 @@ namespace FiresecServiceRunner
 			base.OnExit(e);
 		}
 
-		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
 			BalloonHelper.ShowFromServer("Перезагрузка");
-			var processStartInfo = new ProcessStartInfo()
+			var processStartInfo = new ProcessStartInfo
 			{
-				FileName = Application.ResourceAssembly.Location
+				FileName = ResourceAssembly.Location
 			};
-			System.Diagnostics.Process.Start(processStartInfo);
+			Process.Start(processStartInfo);
 			Bootstrapper.Close();
-			Application.Current.MainWindow.Close();
-			Application.Current.Shutdown();
+			Current.MainWindow.Close();
+			Current.Shutdown();
 		}
 
 		private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)

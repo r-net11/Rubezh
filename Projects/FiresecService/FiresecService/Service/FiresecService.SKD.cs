@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
+using FiresecService.Properties;
 using FiresecService.Report.Helpers;
 using Infrastructure.Common;
 using SKDDriver;
@@ -353,10 +354,11 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> AddCard(SKDCard card, string employeeName)
 		{
-			AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);
-
 			using (var databaseService = new SKDDatabaseService())
 			{
+				if (!_licenseManager.CanAddCard(databaseService.CardTranslator.GetCardsCount()))
+					return	OperationResult<bool>.FromError(string.Format(Resources.LicenseAddCardMessage, _licenseManager.CurrentLicense.TotalUsers));
+
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
 					return OperationResult<bool>.FromError(saveResult.Error);
@@ -369,6 +371,7 @@ namespace FiresecService.Service
 
 				errors.AddRange(AddStrazhCard(card, getAccessTemplateOperationResult.Result, databaseService));
 
+				AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}

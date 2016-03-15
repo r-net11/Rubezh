@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FireMonitor.Layout.ViewModels;
 using FireMonitor.ViewModels;
+using FiresecAPI.Enums;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Client.Layout;

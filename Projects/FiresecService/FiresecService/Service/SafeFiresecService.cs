@@ -2,12 +2,14 @@
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
+using FiresecAPI.Enums;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using KeyGenerator;
 
 namespace FiresecService.Service
 {
@@ -17,9 +19,9 @@ namespace FiresecService.Service
 	{
 		public FiresecService FiresecService { get; set; }
 
-		public SafeFiresecService()
+		public SafeFiresecService(ILicenseManager licenseManager)
 		{
-			FiresecService = new FiresecService();
+			FiresecService = new FiresecService(licenseManager);
 		}
 
 		public void BeginOperation(string operationName)
@@ -220,5 +222,23 @@ namespace FiresecService.Service
 				return FiresecService.CheckSqlServerConnection(ipAddress, ipPort, instanceName, useIntegratedSecurity, userID, userPwd);
 			}, "CheckSqlServerConnection");
 		}
+
+		#region Licensing
+
+		public OperationResult<bool> CheckLicenseExising()
+		{
+			return SafeOperationCall(() => FiresecService.CheckLicenseExising(), "CheckLicenseExising");
+		}
+
+		public OperationResult<bool> CanConnect()
+		{
+			return SafeOperationCall(() => FiresecService.CanConnect(), "CanConnect");
+		}
+
+		public OperationResult<bool> CanLoadModule(ModuleType type)
+		{
+			return SafeOperationCall(() => FiresecService.CanLoadModule(type), "CanLoadModule");
+		}
+		#endregion
 	}
 }

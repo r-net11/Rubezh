@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Text;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Enums;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;

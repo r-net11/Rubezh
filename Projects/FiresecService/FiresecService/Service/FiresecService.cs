@@ -2,10 +2,12 @@
 using ChinaSKDDriver;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Enums;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.ViewModels;
+using KeyGenerator;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -19,6 +21,16 @@ namespace FiresecService.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService : IFiresecService
 	{
+		private readonly ILicenseManager _licenseManager;
+
+		public FiresecService(ILicenseManager licenseManager)
+		{
+			if(licenseManager == null)
+				throw new ArgumentException("License Manager");
+
+			_licenseManager = licenseManager;
+		}
+
 		private ClientCredentials CurrentClientCredentials;
 
 		private void InitializeClientCredentials(ClientCredentials clientCredentials)
@@ -208,5 +220,23 @@ namespace FiresecService.Service
 			}
 			return new OperationResult<bool>(true);
 		}
+
+		#region Licensing
+
+		public OperationResult<bool> CheckLicenseExising()
+		{
+			return new OperationResult<bool>(_licenseManager.IsValidExistingKey());
+		}
+
+		public OperationResult<bool> CanConnect()
+		{
+			return new OperationResult<bool>(_licenseManager.CanConnect());
+		}
+
+		public OperationResult<bool> CanLoadModule(ModuleType type)
+		{
+			return new OperationResult<bool>(_licenseManager.CanLoadModule(type));
+		}
+		#endregion
 	}
 }

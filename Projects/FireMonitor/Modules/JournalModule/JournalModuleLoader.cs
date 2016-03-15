@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Enums;
 using FiresecAPI.Journal;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
