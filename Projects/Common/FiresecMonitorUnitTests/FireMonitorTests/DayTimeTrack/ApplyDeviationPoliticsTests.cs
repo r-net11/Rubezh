@@ -72,7 +72,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 				dayTimeTrack.Totals.Where(x => x.TimeTrackType == TimeTrackType.Overtime)
 					.Select(x => x.TimeSpan)
 					.Aggregate(default(double), (s, x) => s + x.TotalMinutes);
-			Assert.AreEqual(overtime, 69.0);
+			Assert.AreEqual(overtime, 60.0);
 		}
 	}
 }

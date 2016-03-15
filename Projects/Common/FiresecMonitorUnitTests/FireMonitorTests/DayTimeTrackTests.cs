@@ -428,7 +428,7 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
 
 			//Assert
-			Assert.AreEqual(result, TimeSpan.Zero);
+			Assert.AreEqual(result, TimeSpan.FromHours(10));
 		}
 
 		[Test]
@@ -450,48 +450,6 @@ namespace FiresecMonitorUnitTests.FireMonitorTests
 
 			//Assert
 			Assert.AreEqual(result, TimeSpan.FromHours(7));
-		}
-
-		[Test]
-		public void GetBalanceForLateTimeTrackType()
-		{
-			//Arrange
-			var timeTrackPart = new TimeTrackPart
-			{
-				TimeTrackPartType = TimeTrackType.Late,
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
-			};
-
-			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
-
-			//Act
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
-
-			//Assert
-			Assert.AreEqual(result, TimeSpan.Zero);
-		}
-
-		[Test]
-		public void GetBalanceForEarlyLeaveTimeTrackType()
-		{
-			//Arrange
-			var timeTrackPart = new TimeTrackPart
-			{
-				TimeTrackPartType = TimeTrackType.EarlyLeave,
-				EnterDateTime = TIME.Date + TimeSpan.FromHours(10),
-				ExitDateTime = TIME.Date + TimeSpan.FromHours(15)
-			};
-
-			var slideTimeSeconds = TimeSpan.FromHours(10).TotalSeconds;
-
-			//Act
-			var dayTimeTrack = new DayTimeTrack();
-			var result = dayTimeTrack.GetBalance(timeTrackPart, slideTimeSeconds);
-
-			//Assert
-			Assert.AreEqual(result, TimeSpan.Zero);
 		}
 
 		[Test]
