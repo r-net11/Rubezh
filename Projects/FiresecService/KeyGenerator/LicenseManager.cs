@@ -76,9 +76,11 @@ namespace KeyGenerator
 			return false;
 		}
 
-		public bool VerifyProductKey(string key)
+		private bool VerifyProductKey(string key)
 		{
 			ParseLicense(key.Trim(), GetCertificationContent());
+
+			if (CurrentLicense == null || CurrentLicense.UID != GetUserKey()) return false;
 
 			return IsValidLicense();
 		}
@@ -93,21 +95,12 @@ namespace KeyGenerator
 			if (!File.Exists(_pathToLicense)) return false;
 
 			var prodKey = LoadFile(_pathToLicense);
-			ParseLicense(prodKey.Trim(), GetCertificationContent());
-
-			if (CurrentLicense == null || CurrentLicense.UID != GetUserKey()) return false;
-
-			return IsValidLicense();
+			return VerifyProductKey(prodKey);
 		}
 
 		private string LoadFile(string pathToLicense)
 		{
 			return _licFileManager.Load(pathToLicense);
-		}
-
-		public void SaveToFile(string productKey, string userKey)
-		{
-			_licFileManager.SaveToFile(productKey.Trim(), _pathToLicense);
 		}
 
 		private bool IsValidLicense()
