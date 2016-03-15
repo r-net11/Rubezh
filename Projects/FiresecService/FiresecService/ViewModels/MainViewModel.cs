@@ -15,6 +15,9 @@ namespace FiresecService.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
+		private const string LicLoadAccept = "Лицензия загружена";
+		private const string LicLoadFailed = "Лицензия отстутствует";
+
 		public static MainViewModel Current { get; private set; }
 
 		private Dictionary<string, string> _licenseItems;
@@ -29,6 +32,17 @@ namespace FiresecService.ViewModels
 			}
 		}
 		public string UserKey { get; private set; }
+		private string _licenseStatusText;
+
+		public string LicenseStatusText
+		{
+			get { return _licenseStatusText; }
+			set
+			{
+				_licenseStatusText = value;
+				OnPropertyChanged(() => LicenseStatusText);
+			}
+		}
 
 		public RelayCommand LoadLicenseCommand { get; set; }
 
@@ -49,6 +63,12 @@ namespace FiresecService.ViewModels
 			LicenseItems = GetLicenseDictionary(currentLicenseManager.CurrentLicense);
 			UserKey = currentLicenseManager.GetUserKey();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
+			UpdateLicenseStatus();
+		}
+
+		private void UpdateLicenseStatus()
+		{
+			LicenseStatusText = LicenseItems.Any() ? LicLoadAccept : LicLoadFailed;
 		}
 
 		public static Dictionary<string, string> GetLicenseDictionary(LicenseEntity currentLicense)
@@ -196,9 +216,14 @@ namespace FiresecService.ViewModels
 			if (result != true) return;
 
 			if (_currentLicenseManager.LoadLicenseFromFile(dlg.FileName))
+			{
 				LicenseItems = GetLicenseDictionary(_currentLicenseManager.CurrentLicense);
+				UpdateLicenseStatus();
+			}
 			else
-				MessageBoxService.ShowError("Лицензия не может быть загружена", "Ошибка чтения файла лицензии"); //TODO: detalisations of errors
+				MessageBoxService.ShowError(
+					"Выбранный файл не является файлом лицензии и не может быть использован для активации сервера. Выберите другой файл",
+					"Ошибка чтения файла лицензии");
 		}
 	}
 }
