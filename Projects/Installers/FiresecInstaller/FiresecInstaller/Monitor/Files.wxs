@@ -94,17 +94,6 @@
 				<File Id="Monitor.OpcClientSdk40.dll"										Name="OpcClientSdk40.dll"										Source="..\..\..\..\..\..\3rdParty\OPC\" />
 			</Component>
 
-			<Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB">
-				<File Id="Monitor.sqlceca35.dll"											Name="sqlceca35.dll"											Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlcecompact35.dll"										Name="sqlcecompact35.dll"										Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlceer35EN.dll"											Name="sqlceer35EN.dll"											Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlceme35.dll"											Name="sqlceme35.dll"											Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlceoledb35.dll"											Name="sqlceoledb35.dll"											Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlceqp35.dll"											Name="sqlceqp35.dll"											Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.sqlcese35.dll"											Name="sqlcese35.dll"											Source="$(var.Server.TargetDir)" />
-				<File Id="Monitor.System.Data.SqlServerCe.dll"								Name="System.Data.SqlServerCe.dll"								Source="$(var.Server.TargetDir)" />
-			</Component>
-
 			<Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">
 				<File Id="Monitor.PlansModule.dll"											Name="PlansModule.dll"											Source="$(var.Monitor.TargetDir)" />
 			</Component>
