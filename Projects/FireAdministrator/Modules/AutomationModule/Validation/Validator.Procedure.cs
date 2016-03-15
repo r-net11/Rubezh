@@ -204,12 +204,28 @@ namespace AutomationModule.Validation
 						var sendEmailArguments = step.SendEmailArguments;
 						if (!ValidateArgument(step, sendEmailArguments.EMailAddressFromArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.EMailAddressToArgument))
+						
+						var eMailAddressToArgumentsValidationResult = true;
+						foreach (var eMailAddressToArgument in sendEmailArguments.EMailAddressToArguments)
+						{
+							eMailAddressToArgumentsValidationResult &= ValidateArgument(step, eMailAddressToArgument);
+						}
+						if (!eMailAddressToArgumentsValidationResult)
 							break;
+
 						if (!ValidateArgument(step, sendEmailArguments.EMailContentArgument))
 							break;
 						if (!ValidateArgument(step, sendEmailArguments.EMailTitleArgument))
 							break;
+
+						var eMailAttachedFilesArgumentsValidationResult = true;
+						foreach (var eMailAttachedFileArgument in sendEmailArguments.EMailAttachedFileArguments)
+						{
+							eMailAttachedFilesArgumentsValidationResult &= ValidateArgument(step, eMailAttachedFileArgument);
+						}
+						if (!eMailAttachedFilesArgumentsValidationResult)
+							break;
+
 						if (!ValidateArgument(step, sendEmailArguments.SmtpArgument))
 							break;
 						if (!ValidateArgument(step, sendEmailArguments.LoginArgument))

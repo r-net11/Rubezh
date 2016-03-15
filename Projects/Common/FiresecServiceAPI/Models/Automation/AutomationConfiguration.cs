@@ -257,9 +257,16 @@ namespace FiresecAPI.Automation
 					{
 						var sendEmailArguments = step.SendEmailArguments;
 						InvalidateArgument(procedure, sendEmailArguments.EMailAddressFromArgument);
-						InvalidateArgument(procedure, sendEmailArguments.EMailAddressToArgument);
+						foreach (var eMailAddressToArgument in sendEmailArguments.EMailAddressToArguments)
+						{
+							InvalidateArgument(procedure, eMailAddressToArgument);
+						}
 						InvalidateArgument(procedure, sendEmailArguments.EMailContentArgument);
 						InvalidateArgument(procedure, sendEmailArguments.EMailTitleArgument);
+						foreach (var eMailAttachedFileArgument in sendEmailArguments.EMailAttachedFileArguments)
+						{
+							InvalidateArgument(procedure, eMailAttachedFileArgument);
+						}
 						InvalidateArgument(procedure, sendEmailArguments.SmtpArgument);
 						InvalidateArgument(procedure, sendEmailArguments.LoginArgument);
 						InvalidateArgument(procedure, sendEmailArguments.PasswordArgument);

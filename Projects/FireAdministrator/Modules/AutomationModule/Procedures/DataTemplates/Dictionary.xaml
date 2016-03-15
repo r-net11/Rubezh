@@ -32,6 +32,10 @@
 		<Views:ArgumentView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:AddRemoveArgumentViewModel}">
+		<Views:AddRemoveArgumentView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:ArgumentDetailsViewModel}">
 		<Views:ArgumentDetailsView />
 	</DataTemplate>

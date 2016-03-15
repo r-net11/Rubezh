@@ -1,4 +1,6 @@
-﻿using Common;
+﻿using System.IO;
+using System.Text;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Automation.Enums;
@@ -11,13 +13,13 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.Automation;
 using FiresecService.Service;
+using HigLabo.Mime;
+using HigLabo.Net.Smtp;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using Property = FiresecAPI.Automation.Property;
@@ -114,6 +116,10 @@ namespace FiresecService
 			SendCallback(showPropertyArguments, automationCallbackResult);
 		}
 
+		/// <summary>
+		/// Отправляет сообщение по электронной почте
+		/// </summary>
+		/// <param name="procedureStep">Шаг процедуры</param>
 		private void SendEmail(ProcedureStep procedureStep)
 		{
 			var sendEmailArguments = procedureStep.SendEmailArguments;
@@ -122,19 +128,54 @@ namespace FiresecService
 			var login = GetValue<string>(sendEmailArguments.LoginArgument);
 			var password = GetValue<string>(sendEmailArguments.PasswordArgument);
 			var eMailAddressFrom = GetValue<string>(sendEmailArguments.EMailAddressFromArgument);
-			var eMailAddressTo = GetValue<string>(sendEmailArguments.EMailAddressToArgument);
+			var eMailAddressTos = sendEmailArguments.EMailAddressToArguments.Select(x => GetValue<string>(x)).ToList();
 			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
-			using (var Smtp = new SmtpClient(smtp, port) {Credentials = new NetworkCredential(login, password)})
+			var eMailAttachedFiles = sendEmailArguments.EMailAttachedFileArguments.Select(x => GetValue<string>(x)).ToList();
+			
+			using (var smtpClient = new SmtpClient(smtp, port, login, password))
 			{
-				var message = new MailMessage {From = new MailAddress(eMailAddressFrom)};
-				message.To.Add(new MailAddress(eMailAddressTo));
+				var message = new SmtpMessage();
+				// От кого
+				message.From = new MailAddress(eMailAddressFrom);
+				// Кому
+				foreach (var eMailAddressTo in eMailAddressTos)
+				{
+					message.To.Add(new MailAddress(eMailAddressTo));
+				}
+				// Тема
 				message.Subject = title;
-				message.Body = content;
+				// Содержимое
+				message.BodyText = content;
+				// Вложения
+				foreach (var eMailAttachedFile in eMailAttachedFiles)
+				{
+					if (File.Exists(eMailAttachedFile))
+					{
+						var cnt = new SmtpContent();
+						cnt.LoadData(File.ReadAllBytes(eMailAttachedFile));
+						cnt.ContentType = new HigLabo.Net.Smtp.ContentType("application/octet-stream");
+						cnt.ContentType.Name = String.Format("=?utf-8?B?{0}?=", Convert.ToBase64String(Encoding.UTF8.GetBytes(Path.GetFileName(eMailAttachedFile))));
+						message.Contents.Add(cnt);
+					}
+				}
+				// Протокол защиты соединения
+				switch (sendEmailArguments.SecureProtocol)
+				{
+					case EmailSecureProtocol.None:
+						smtpClient.EncryptedCommunication = SmtpEncryptedCommunication.None;
+						break;
+					case EmailSecureProtocol.Ssl:
+						smtpClient.EncryptedCommunication = SmtpEncryptedCommunication.Ssl;
+						break;
+					case EmailSecureProtocol.Tls:
+						smtpClient.EncryptedCommunication = SmtpEncryptedCommunication.Tls;
+						break;
+				}
 
 				try
 				{
-					Smtp.Send(message);
+					smtpClient.SendMail(message);
 				}
 				catch (Exception e)
 				{

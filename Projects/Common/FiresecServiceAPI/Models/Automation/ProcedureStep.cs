@@ -53,7 +53,6 @@ namespace FiresecAPI.Automation
 			RviAlarmArguments = new RviAlarmArguments();
 			ExportReportArguments = new ExportReportArguments();
 			GetDateTimeNowArguments = new GetDateTimeNowArguments();
-
 		}
 
 		[XmlIgnore]
