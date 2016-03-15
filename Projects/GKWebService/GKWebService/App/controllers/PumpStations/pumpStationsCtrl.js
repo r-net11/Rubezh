@@ -36,9 +36,9 @@
             },
             columnDefs:
               [{ field: 'No', displayName: '№', enableColumnResizing: false, width: 50, cellTemplate: '<div class="ui-grid-cell-contents"><img style="vertical-align: middle; padding-right: 3px" height="16" width="16" ng-src="/Content/Image/{{row.entity.ImageSource}}" />{{row.entity[col.field]}}</div>' },
-               { field: 'Name', displayName: 'НС', width: 400, cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.pumpStationClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
-               { field: 'OnDelay', displayName: 'Задержка', width: 200 },
-               { field: 'HoldDelay', displayName: 'Время тушения', enableColumnResizing: false, Width: 150 }],
+               { field: 'Name', displayName: 'НС', width: 250, cellTemplate: '<div class="ui-grid-cell-contents"><a href="" ng-click="grid.appScope.pumpStationClick(row.entity)"><img style="vertical-align: middle; padding-right: 3px" ng-src="/Content/Image/Icon/GKStateIcons/{{row.entity.StateIcon}}.png" /> {{row.entity[col.field]}}</a></div>' },
+               { field: 'OnDelay', displayName: 'Задержка', width: 100 },
+               { field: 'HoldDelay', displayName: 'Время тушения', enableColumnResizing: false, Width: 100 }],
         };
 
         $scope.gridStyle = function () {

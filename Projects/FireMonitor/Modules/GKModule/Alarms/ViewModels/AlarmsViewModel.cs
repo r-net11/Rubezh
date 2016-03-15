@@ -296,6 +296,10 @@ namespace GKModule.ViewModels
 						var newAlarmViewModel = new AlarmViewModel(alarm);
 						Alarms.Insert(i, newAlarmViewModel);
 					}
+					else
+					{
+						alarmViewModel.OnPropertyChanged(() => alarmViewModel.ObjectStateClass);
+					}
 				}
 				for (int i = 0; i < Alarms.Count; i++)
 				{

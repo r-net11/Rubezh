@@ -175,7 +175,7 @@ namespace GKWebService.Models
 			}
 
 			Plans = new List<PlanSimpl>();
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == device.UID)))
+			foreach (var plan in RubezhClient.ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == device.UID)))
 			{
 				Plans.Add(new PlanSimpl()
 				{

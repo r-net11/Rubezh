@@ -21,7 +21,7 @@ namespace RubezhClient
 					Login = login,
 					Password = password,
 					ClientType = clientType,
-					ClientUID = FiresecServiceFactory.UID
+					ClientUID = Guid.NewGuid()
 				};
 
 				string error = null;

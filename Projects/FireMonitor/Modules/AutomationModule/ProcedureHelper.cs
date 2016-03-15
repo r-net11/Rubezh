@@ -86,7 +86,7 @@ namespace AutomationModule
 				var thread = new Thread(() =>
 					{
 						if (procedure.ContextType == ContextType.Client)
-							AutomationProcessor.RunProcedure(procedure, args, null, user, null, FiresecServiceFactory.UID);
+							AutomationProcessor.RunProcedure(procedure, args, null, user, null, ClientManager.ClientCredentials.ClientUID);
 						else
 							ClientManager.FiresecService.RunProcedure(procedure.Uid, args);
 					}
