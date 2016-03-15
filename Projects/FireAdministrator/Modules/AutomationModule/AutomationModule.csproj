@@ -122,11 +122,15 @@
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentDetailsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\AddRemoveArgumentViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ElementViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
+    <Compile Include="Procedures\Views\AddRemoveArgumentView.xaml.cs">
+      <DependentUpon>AddRemoveArgumentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
@@ -550,6 +554,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\ArgumentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\AddRemoveArgumentView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -42,6 +42,12 @@
 
 				<File Id="Server.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\..\..\..\..\3rdParty\Newtonsoft.Json.7.0.10\" />
 
+				<File Id="Server.HigLabo.Converter.dll" Name="HigLabo.Converter.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
+				<File Id="Server.HigLabo.Mail.dll" Name="HigLabo.Mail.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
+				<File Id="Server.HigLabo.Mime.dll" Name="HigLabo.Mime.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Mail.Net4_0.1.0.0.5\lib\net40\" />
+				<File Id="Server.HigLabo.Net.dll" Name="HigLabo.Net.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\" />
+				<!--<File Id="Server.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\..\..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\" />-->
+
 				<File Id="Server.DevExpress.Data.v14.1.dll" Name="DevExpress.Data.v14.1.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.DevExpress.Printing.v14.1.Core.dll" Name="DevExpress.Printing.v14.1.Core.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.DevExpress.Xpf.Printing.v14.1.Service.dll" Name="DevExpress.Xpf.Printing.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />

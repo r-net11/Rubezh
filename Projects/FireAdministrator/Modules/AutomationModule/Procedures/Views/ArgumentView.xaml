@@ -114,13 +114,13 @@
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
-					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.DriverTypeValues}" SelectedItem="{Binding ExplicitValue.DriverTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}">
+					<!--<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.DriverTypeValues}" SelectedItem="{Binding ExplicitValue.DriverTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
-					</ComboBox>
+					</ComboBox>-->
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.PermissionTypeValues}" SelectedItem="{Binding ExplicitValue.PermissionTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.PermissionType}}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
