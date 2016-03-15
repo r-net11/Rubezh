@@ -17,7 +17,7 @@ namespace KeyGenerator
 	public sealed class LicenseManager : ILicenseManager
 	{
 		private const string CertificateName = "ACTechCert.cer";
-		private const string LicenseFileName = "LicData.lic";
+		private const string LicenseFileName = "LicenseDat.lic";
 		private readonly LicenseFileManager _licFileManager;
 		private readonly UserKeyGenerator _userKeyGenerator;
 		private readonly string _pathToLicense;
@@ -64,6 +64,18 @@ namespace KeyGenerator
 			return currentCount < CurrentLicense.TotalUsers || CurrentLicense.IsUnlimitedUsers;
 		}
 
+		public bool LoadLicenseFromFile(string pathToLicense)
+		{
+			var lic = LoadFile(pathToLicense);
+			if (VerifyProductKey(lic))
+			{
+				_licFileManager.SaveToFile(lic, _pathToLicense);
+				return true;
+			}
+
+			return false;
+		}
+
 		public bool VerifyProductKey(string key)
 		{
 			ParseLicense(key.Trim(), GetCertificationContent());
@@ -80,7 +92,7 @@ namespace KeyGenerator
 		{
 			if (!File.Exists(_pathToLicense)) return false;
 
-			var prodKey = LoadFile();
+			var prodKey = LoadFile(_pathToLicense);
 			ParseLicense(prodKey.Trim(), GetCertificationContent());
 
 			if (CurrentLicense == null || CurrentLicense.UID != GetUserKey()) return false;
@@ -88,9 +100,9 @@ namespace KeyGenerator
 			return IsValidLicense();
 		}
 
-		private string LoadFile()
+		private string LoadFile(string pathToLicense)
 		{
-			return _licFileManager.Load(_pathToLicense);
+			return _licFileManager.Load(pathToLicense);
 		}
 
 		public void SaveToFile(string productKey, string userKey)

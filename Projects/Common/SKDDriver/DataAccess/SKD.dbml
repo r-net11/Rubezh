@@ -420,11 +420,4 @@
       <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="" Member="LicenseInfos">
-    <Type Name="LicenseInfo">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Content" Member="Key" Storage="_Content" Type="System.String" DbType="nvarchar(MAX)" CanBeNull="false" />
-      <Column Name="Vector" Type="System.String" DbType="nvarchar(MAX)" CanBeNull="false" />
-    </Type>
-  </Table>
 </Database>

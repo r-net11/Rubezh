@@ -1,4 +1,5 @@
-﻿using SKDDriver;
+﻿using System.IO;
+using SKDDriver;
 using System.Security.Cryptography;
 
 namespace KeyGenerator
@@ -13,43 +14,42 @@ namespace KeyGenerator
 
 		private static void Save(string productKey, string path)
 		{
-			using (var rdProvider = new RijndaelManaged())
-			{
-				var secretFile = new SecretFile(rdProvider, path);
+			File.WriteAllText(path, productKey);
+			//using (var rdProvider = new RijndaelManaged())
+			//{
+			//	var secretFile = new SecretFile(rdProvider, path);
 
-				secretFile.SaveSensitiveData(productKey);
+			//	secretFile.SaveSensitiveData(productKey);
 
-				using (var db = new SKDDatabaseService())
-				{
-					db.LicenseInfoTranslator.SetKey(secretFile.Key, secretFile.IV);
-				}
-			}
+			//	using (var db = new SKDDatabaseService())
+			//	{
+			//		db.LicenseInfoTranslator.SetKey(secretFile.Key, secretFile.IV);
+			//	}
+			//}
 		}
 
 		public string Load(string path)
 		{
-			if (string.IsNullOrEmpty(path)) return string.Empty;
+			if (string.IsNullOrEmpty(path) && !File.Exists(path)) return string.Empty;
 
-			string result;
+			return File.ReadAllText(path);
 
-			using (var rdProvider = new RijndaelManaged())
-			{
-				var secretFile = new SecretFile(rdProvider, path);
+			//using (var rdProvider = new RijndaelManaged())
+			//{
+			//	var secretFile = new SecretFile(rdProvider, path);
 
-				using (var db = new SKDDatabaseService())
-				{
-					var key = db.LicenseInfoTranslator.GetKey();
+			//	using (var db = new SKDDatabaseService())
+			//	{
+			//		var key = db.LicenseInfoTranslator.GetKey();
 
-					if (key.Key == null || key.Value == null) return string.Empty;
+			//		if (key.Key == null || key.Value == null) return string.Empty;
 
-					secretFile.Key = key.Key;
-					secretFile.IV = key.Value;
+			//		secretFile.Key = key.Key;
+			//		secretFile.IV = key.Value;
 
-					result = secretFile.ReadSensitiveData();
-				}
-			}
-
-			return result;
+			//		result = secretFile.ReadSensitiveData();
+			//	}
+			//}
 		}
 	}
 }

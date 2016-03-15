@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 using KeyGenerator;
+using KeyGenerator.Entities;
 
 namespace FiresecService
 {
@@ -36,7 +37,7 @@ namespace FiresecService
 				WindowThread = new Thread(OnWorkThread) {Name = "Main window", Priority = ThreadPriority.Highest};
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
-				WindowThread.Start();
+				WindowThread.Start(licenseManager);
 				MainViewStartedEvent.WaitOne();
 
 				UILogger.Log("Загрузка конфигурации");
@@ -85,11 +86,14 @@ namespace FiresecService
 			}
 		}
 
-		private static void OnWorkThread()
+		private static void OnWorkThread(object o)
 		{
+			var license = o as ILicenseManager;
+			if (license == null) return;
+
 			try
 			{
-				MainViewModel = new MainViewModel();
+				MainViewModel = new MainViewModel(license);
 				ApplicationService.Run(MainViewModel, false, false);
 			}
 			catch (Exception e)

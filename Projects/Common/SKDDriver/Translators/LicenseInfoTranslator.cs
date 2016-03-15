@@ -16,38 +16,38 @@ namespace SKDDriver.Translators
 			_context = databaseService.Context;
 		}
 
-		public bool SetKey(byte[] key, byte[] iv)
-		{
-			var licenseInfo = new LicenseInfo
-			{
-				UID = Guid.NewGuid(),
-				Key = Convert.ToBase64String(key),
-				Vector = Convert.ToBase64String(iv)
-			};
+		//public bool SetKey(byte[] key, byte[] iv)
+		//{
+		//	var licenseInfo = new LicenseInfo
+		//	{
+		//		UID = Guid.NewGuid(),
+		//		Key = Convert.ToBase64String(key),
+		//		Vector = Convert.ToBase64String(iv)
+		//	};
 
-			if (_context.LicenseInfos.Any())
-				DeleteAll();
+		//	if (_context.LicenseInfos.Any())
+		//		DeleteAll();
 
-			_context.LicenseInfos.InsertOnSubmit(licenseInfo);
-			_context.SubmitChanges();
+		//	_context.LicenseInfos.InsertOnSubmit(licenseInfo);
+		//	_context.SubmitChanges();
 
-			return true;
-		}
+		//	return true;
+		//}
 
-		private void DeleteAll()
-		{
-			foreach (var licInfo in _context.LicenseInfos)
-				_context.LicenseInfos.DeleteOnSubmit(licInfo);
-		}
+		//private void DeleteAll()
+		//{
+		//	foreach (var licInfo in _context.LicenseInfos)
+		//		_context.LicenseInfos.DeleteOnSubmit(licInfo);
+		//}
 
-		public KeyValuePair<byte[], byte[]> GetKey()
-		{
-			var record = _context.LicenseInfos.FirstOrDefault();
+		//public KeyValuePair<byte[], byte[]> GetKey()
+		//{
+		//	var record = _context.LicenseInfos.FirstOrDefault();
 
-			return record == null
-				? new KeyValuePair<byte[], byte[]>()
-				: new KeyValuePair<byte[], byte[]>(Convert.FromBase64String(record.Key), Convert.FromBase64String(record.Vector));
-		}
+		//	return record == null
+		//		? new KeyValuePair<byte[], byte[]>()
+		//		: new KeyValuePair<byte[], byte[]>(Convert.FromBase64String(record.Key), Convert.FromBase64String(record.Vector));
+		//}
 
 
 	}

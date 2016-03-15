@@ -1,10 +1,15 @@
-﻿using FiresecAPI.Models;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using FiresecAPI.Models;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
+using KeyGenerator;
+using KeyGenerator.Entities;
 
 namespace FiresecService.ViewModels
 {
@@ -12,15 +17,74 @@ namespace FiresecService.ViewModels
 	{
 		public static MainViewModel Current { get; private set; }
 
-		private Dispatcher _dispatcher;
+		private Dictionary<string, string> _licenseItems;
 
-		public MainViewModel()
+		public Dictionary<string, string> LicenseItems
 		{
+			get { return _licenseItems; }
+			private set
+			{
+				_licenseItems = value;
+				OnPropertyChanged(() => LicenseItems);
+			}
+		}
+		public string UserKey { get; private set; }
+
+		public RelayCommand LoadLicenseCommand { get; set; }
+
+		private readonly Dispatcher _dispatcher;
+		private readonly ILicenseManager _currentLicenseManager;
+
+		public MainViewModel(ILicenseManager currentLicenseManager)
+		{
+			if(currentLicenseManager == null)
+				throw new ArgumentException("License Manager is null");
+
+			_currentLicenseManager = currentLicenseManager;
+			LoadLicenseCommand = new RelayCommand(OnLoadLicense);
 			Current = this;
 			Title = "Сервер приложений";
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
+			LicenseItems = GetLicenseDictionary(currentLicenseManager.CurrentLicense);
+			UserKey = currentLicenseManager.GetUserKey();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
+		}
+
+		public static Dictionary<string, string> GetLicenseDictionary(LicenseEntity currentLicense)
+		{
+			var dict = new Dictionary<string, string>();
+
+			if (currentLicense == null) return dict;
+
+			var props = currentLicense.GetType().GetProperties();
+			foreach (var prop in props)
+			{
+				var attrs = prop.GetCustomAttributes(true);
+				foreach (var attr in attrs)
+				{
+					var authAttr = attr as DescriptionAttribute;
+					if (authAttr != null)
+					{
+						var propName = PropertyConverter(prop.GetValue(currentLicense, null));
+						var auth = authAttr.Description;
+
+						dict.Add(auth, propName);
+					}
+				}
+			}
+
+			return dict;
+		}
+
+		private static string PropertyConverter(object propertyValue)
+		{
+			if (propertyValue is bool)
+				return (bool) propertyValue ? "Включено" : "Отсутствует";
+			if (propertyValue is int)
+				return (int) propertyValue != default (int) ? ((int) propertyValue).ToString() : "Отсутствует";
+
+			return string.Empty;
 		}
 
 		private void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
@@ -34,18 +98,6 @@ namespace FiresecService.ViewModels
 					DialogService.ShowWindow(startupMessageBoxViewModel);
 				viewModel.Result = startupMessageBoxViewModel.Result;
 			}));
-		}
-
-		private string _status;
-
-		private string Status
-		{
-			get { return _status; }
-			set
-			{
-				_status = value;
-				OnPropertyChanged(() => Status);
-			}
 		}
 
 		public override int GetPreferedMonitor()
@@ -105,7 +157,7 @@ namespace FiresecService.ViewModels
 			}));
 		}
 
-		private string _lastLog = "";
+		private string _lastLog;
 
 		public string LastLog
 		{
@@ -117,7 +169,7 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		private string _infoLog = "";
+		private string _infoLog;
 
 		public string InfoLog
 		{
@@ -133,6 +185,20 @@ namespace FiresecService.ViewModels
 		{
 			ApplicationMinimizeCommand.ForceExecute();
 			return true;
+		}
+
+		private void OnLoadLicense()
+		{
+			var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".lic", Filter = "License files (.lic)|*.lic"};
+
+			var result = dlg.ShowDialog();
+
+			if (result != true) return;
+
+			if (_currentLicenseManager.LoadLicenseFromFile(dlg.FileName))
+				LicenseItems = GetLicenseDictionary(_currentLicenseManager.CurrentLicense);
+			else
+				MessageBoxService.ShowError("Лицензия не может быть загружена", "Ошибка чтения файла лицензии"); //TODO: detalisations of errors
 		}
 	}
 }

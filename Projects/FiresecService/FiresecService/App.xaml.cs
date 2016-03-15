@@ -36,32 +36,11 @@ namespace FiresecServiceRunner
 
 			var licenseService = new LicenseManager();
 #if !LIC_FREE
-
-			if(!licenseService.IsValidExistingKey())
+			if (!licenseService.IsValidExistingKey())
 			{
-				// Create a thread
-				var newWindowThread = new Thread(() =>
-				{
-					// Create our context, and install it:
-					SynchronizationContext.SetSynchronizationContext(
-						new DispatcherSynchronizationContext(
-							Dispatcher.CurrentDispatcher));
-					// Create and show the Window
-					var tempWindow = new RegistrationWindow { DataContext = new RegistrationViewModel(licenseService) };
-					tempWindow.Closed += (s, er) => Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
-					tempWindow.Show();
-					// Start the Dispatcher Processing
-					System.Windows.Threading.Dispatcher.Run();
-				});
-				// Set the apartment state
-				newWindowThread.SetApartmentState(ApartmentState.STA);
-				// Make the thread a background thread
-				newWindowThread.IsBackground = true;
-				// Start the thread
-				newWindowThread.Start();
+				//TODO:block connections
 			}
-			else
-			{
+
 #endif
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))
 				{
@@ -79,7 +58,6 @@ namespace FiresecServiceRunner
 					}
 				}
 #if !LIC_FREE
-			}
 #endif
 		}
 

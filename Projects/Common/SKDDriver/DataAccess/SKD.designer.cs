@@ -117,9 +117,6 @@ namespace SKDDriver.DataAccess
 		partial void InsertFilters(Filters instance);
 		partial void UpdateFilters(Filters instance);
 		partial void DeleteFilters(Filters instance);
-		partial void InsertLicenseInfo(LicenseInfo instance);
-		partial void UpdateLicenseInfo(LicenseInfo instance);
-		partial void DeleteLicenseInfo(LicenseInfo instance);
 		#endregion
 
 		public SKDDataContext() :
@@ -389,14 +386,6 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Filters>();
-			}
-		}
-
-		public System.Data.Linq.Table<LicenseInfo> LicenseInfos
-		{
-			get
-			{
-				return this.GetTable<LicenseInfo>();
 			}
 		}
 	}
@@ -9563,116 +9552,6 @@ namespace SKDDriver.DataAccess
 					this._Type = value;
 					this.SendPropertyChanged("Type");
 					this.OnTypeChanged();
-				}
-			}
-		}
-
-		public event PropertyChangingEventHandler PropertyChanging;
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-
-	[global::System.Data.Linq.Mapping.TableAttribute(Name = "")]
-	public partial class LicenseInfo : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-		private System.Guid _UID;
-
-		private string _Key;
-
-		private string _Vector;
-
-		#region Extensibility Method Definitions
-		partial void OnLoaded();
-		partial void OnValidate(System.Data.Linq.ChangeAction action);
-		partial void OnCreated();
-		partial void OnUIDChanging(System.Guid value);
-		partial void OnUIDChanged();
-		partial void OnKeyChanging(string value);
-		partial void OnKeyChanged();
-		partial void OnVectorChanging(string value);
-		partial void OnVectorChanged();
-		#endregion
-
-		public LicenseInfo()
-		{
-			OnCreated();
-		}
-
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UID", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name = "Key", Storage = "_Key", DbType = "nvarchar(MAX)", CanBeNull = false)]
-		public string Key
-		{
-			get
-			{
-				return this._Key;
-			}
-			set
-			{
-				if ((this._Key != value))
-				{
-					this.OnKeyChanging(value);
-					this.SendPropertyChanging();
-					this._Key = value;
-					this.SendPropertyChanged("Key");
-					this.OnKeyChanged();
-				}
-			}
-		}
-
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Vector", DbType = "nvarchar(MAX)", CanBeNull = false)]
-		public string Vector
-		{
-			get
-			{
-				return this._Vector;
-			}
-			set
-			{
-				if ((this._Vector != value))
-				{
-					this.OnVectorChanging(value);
-					this.SendPropertyChanging();
-					this._Vector = value;
-					this.SendPropertyChanged("Vector");
-					this.OnVectorChanged();
 				}
 			}
 		}

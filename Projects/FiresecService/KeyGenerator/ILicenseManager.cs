@@ -13,5 +13,6 @@ namespace KeyGenerator
 		bool CanConnect();
 		bool CanLoadModule(ModuleType type);
 		bool CanAddCard(int currentCount);
+		bool LoadLicenseFromFile(string pathToLicense);
 	}
 }
