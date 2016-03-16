@@ -249,7 +249,7 @@ namespace SKDModule.Views
 				case TimeTrackType.DocumentAbsence:
 					return new SolidColorBrush(Colors.LightPink);
 				case TimeTrackType.DocumentAbsenceReasonable:
-					return new SolidColorBrush(Colors.LightPink);
+					return new SolidColorBrush(Colors.IndianRed);
 			}
 
 			return new SolidColorBrush(Colors.Green);

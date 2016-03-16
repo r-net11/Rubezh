@@ -180,9 +180,25 @@ namespace SKDModule.ViewModels
 			{
 				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
 				var docAbsence = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentAbsence);
-				var docAbsenceReason = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentAbsenceReasonable);
-				return docAbsence + docAbsenceReason;
+
+				return docAbsence != null ? docAbsence.TimeSpan : default(TimeSpan);
 			}
+		}
+
+		public TimeSpan DocumentAbsenceReasonableTimeSpan
+		{
+			get
+			{
+				if (DayTimeTrack == null || DayTimeTrack.Totals == null) return default(TimeSpan);
+				var docAbsenceReason = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.DocumentAbsenceReasonable);
+
+				return docAbsenceReason != null ? docAbsenceReason.TimeSpan : default(TimeSpan);
+			}
+		}
+
+		public TimeSpan SlideTimeValue
+		{
+			get { return DayTimeTrack == null ? default(TimeSpan) : DayTimeTrack.SlideTime; }
 		}
 
 		private bool _isShowOnlyScheduledIntervals;
