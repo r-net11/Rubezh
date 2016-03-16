@@ -22,10 +22,10 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "Дежурство принял", XStateClass.Info)]
 		Дежурство_принял = 6,
 
-		[EventName(JournalSubsystemType.System, "Отсутствует лицензия", XStateClass.HasNoLicense)]
+		[EventName(JournalSubsystemType.System, "Лицензия отсутствует", XStateClass.HasNoLicense)]
 		Отсутствует_лицензия = 8,
 
-		[EventName(JournalSubsystemType.System, "Лицензия обнаружена", XStateClass.HasNoLicense)]
+		[EventName(JournalSubsystemType.System, "Лицензия обнаружена", XStateClass.HasLicense)]
 		Лицензия_обнаружена = 9,
 
 		[EventName(JournalSubsystemType.System, "Отмена операции", XStateClass.TechnologicalRegime)]
