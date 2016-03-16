@@ -62,7 +62,13 @@ namespace FiresecService.Service
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 
+			// Проводим аутентификацию пользователя
 			var operationResult = Authenticate(clientCredentials);
+			if (operationResult.HasError)
+				return operationResult;
+
+			// Проверяем активацию лицензии на сервере
+			operationResult = CanConnect();
 			if (operationResult.HasError)
 				return operationResult;
 
@@ -234,7 +240,9 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> CanConnect()
 		{
-			return new OperationResult<bool>(_licenseManager.CanConnect());
+			return _licenseManager.CanConnect()
+				? new OperationResult<bool>(true)
+				: OperationResult<bool>.FromError("Сервер не активирован. Подключение к серверу возможно только после его активации");
 		}
 
 		public OperationResult<bool> CanLoadModule(ModuleType type)
