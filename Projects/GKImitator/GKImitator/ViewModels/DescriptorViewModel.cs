@@ -71,7 +71,7 @@ namespace GKImitator.ViewModels
 				if (stateBit == GKStateBit.On)
 				{
 					journalItem = new ImitatorJournalItem(2, 9, 2, 0);
-					if (HoldDelay != 0)
+					if (HoldDelay != 0 && !(GKBase is GKDoor && Regime == Regime.Manual))
 					{
 						CurrentHoldDelay = HoldDelay;
 						TurningState = TurningState.Holding;

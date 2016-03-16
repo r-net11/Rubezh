@@ -211,7 +211,7 @@ namespace GKImitator.ViewModels
 					}
 					else
 					{
-						AdditionalShortParameters[GKBase is GKGuardZone ? 0 : 2] = CurrentOffDelay;
+						AdditionalShortParameters[GKBase is GKGuardZone || GKBase is GKDoor ? 0 : 2] = CurrentOffDelay;
 						CurrentOffDelay--;
 					}
 				}
@@ -332,7 +332,7 @@ namespace GKImitator.ViewModels
 
 		void TurnOff()
 		{
-			if (OffDelay == 0)
+			if (OffDelay == 0 || (GKBase is GKDoor && Regime == Regime.Manual))
 			{
 				TurnOffNow();
 			}
