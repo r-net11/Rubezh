@@ -15,6 +15,7 @@
 	<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="LightGray" />
 	<SolidColorBrush x:Key="DisabledBorderBrush" Color="#ffffff" />
 
+
 	<Style
 		x:Key="FeaturedComboBoxItemBase"
 		BasedOn="{StaticResource {x:Type ComboBoxItem}}"
@@ -44,7 +45,7 @@
 		x:Key="{x:Type controls:FeaturedComboBox}"
 		BasedOn="{StaticResource {x:Type ComboBox}}"
 		TargetType="{x:Type controls:FeaturedComboBox}">
-		<!-- <Setter Property="SelectionBoxTemplate">
+		 <!--<Setter Property="SelectionBoxTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" />
@@ -108,16 +109,13 @@
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
-							IsChecked="{Binding Path=IsDropDownOpen,
-						                                  Mode=TwoWay,
-						                                  RelativeSource={RelativeSource TemplatedParent}}"
+							IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
 							Template="{StaticResource ComboBoxToggleButton}" />
 						<Popup
 							Name="PART_Popup"
 							Grid.ColumnSpan="2"
 							AllowsTransparency="true"
-							IsOpen="{Binding Path=IsDropDownOpen,
-						                        RelativeSource={RelativeSource TemplatedParent}}"
+							IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
 							Placement="Bottom"
 							PopupAnimation="Slide">
 							<Grid MinWidth="{Binding ElementName=MainGrid, Path=ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
@@ -131,7 +129,6 @@
 									BorderBrush="#0C000000"
 									BorderThickness="1"
 									CornerRadius="2.75" />
-
 								<Border
 									x:Name="DropDownBorder"
 									Margin="0 2 0 0"
@@ -244,7 +241,7 @@
 						</Trigger>-->
 						<Trigger Property="SelectedItem" Value="{x:Null}">
 							<Setter TargetName="ContentSite" Property="ContentTemplate" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:FeaturedComboBox}}, Path=SelectionBoxNullItemTemplate}" />
-							<Setter TargetName="ContentSite" Property="Content" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:FeaturedComboBox}}, Path=SelectionBoxNullValueText}" />
+							<Setter TargetName="ContentSite" Property="Content" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:FeaturedComboBox}}, Path=NullValueText}" />
 						</Trigger>
 						<Trigger Property="SelectionBoxTemplate" Value="{x:Null}">
 							<Setter TargetName="ContentSite" Property="ContentTemplate" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:FeaturedComboBox}}, Path=SelectionBoxItemTemplate}" />
