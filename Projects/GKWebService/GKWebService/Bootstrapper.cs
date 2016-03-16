@@ -35,7 +35,10 @@ namespace GKWebService
 				var message = RubezhClient.ClientManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress,
 					GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
 				if (message == null)
-					break;
+				{
+					ClientManager.AddAdminUser(GlobalSettingsHelper.GlobalSettings.AdminLogin, RubezhClient.ClientManager.FiresecService);
+                    break;
+				}
 				Thread.Sleep(5000);
 				if (i == 10)
 				{

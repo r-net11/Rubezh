@@ -4,7 +4,7 @@
         ['$scope', '$uibModalInstance', '$http', '$state', 'authService',
         function ($scope, $uibModalInstance, $http, $state, authService) {
             $scope.loginData = {
-                userName: "Adm",
+                userName: "adm",
                 password: ""
             };
 

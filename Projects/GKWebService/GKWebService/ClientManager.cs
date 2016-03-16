@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Common;
 using Infrastructure.Common;
+using RubezhAPI;
 using RubezhAPI.Models;
 using RubezhClient;
 
@@ -38,21 +39,38 @@ namespace GKWebService
 
 				string error = null;
 
-				for (int i = 0; i < 3; i++)
+				if (users.ContainsKey(clientCredentials.Login))
 				{
-					var firesecService = new SafeFiresecService(ConnectionSettingsManager.ServerAddress);
-					var operationResult = firesecService.Connect(clientCredentials);
-					if (!operationResult.HasError)
+					//Если пользователь уже аудентифицирован и законнектен то надо только аудентифицировать, но не коннектить
+					var user = RubezhClient.ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.Login);
+					if (!HashHelper.CheckPass(clientCredentials.Password, user.PasswordHash))
 					{
-						users.AddOrUpdate(clientCredentials.Login, firesecService, (key, oldValue) => firesecService);
-						error = null;
-						break;
+						error = "Неверный логин или пароль";
 					}
-					error = operationResult.Error;
+				}
+				else
+				{
+					for (int i = 0; i < 3; i++)
+					{
+						var firesecService = new SafeFiresecService(ConnectionSettingsManager.ServerAddress);
+						var operationResult = firesecService.Connect(clientCredentials);
+						if (!operationResult.HasError)
+						{
+							users.AddOrUpdate(clientCredentials.Login, firesecService, (key, oldValue) => firesecService);
+							error = null;
+							break;
+						}
+						error = operationResult.Error;
+					}
 				}
 
 				return error;
 			}
+		}
+
+		public static void AddAdminUser(string login, ISafeFiresecService firesecService)
+		{
+			users.AddOrUpdate(login, firesecService, (key, oldValue) => firesecService);
 		}
 
 		public static User CurrentUser
