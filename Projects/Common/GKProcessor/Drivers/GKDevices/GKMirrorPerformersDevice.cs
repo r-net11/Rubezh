@@ -1,9 +1,9 @@
-﻿using System;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
+using System;
 namespace GKProcessor
 {
-	public  class GKMirrorPerformersDevice
-	
+	public class GKMirrorPerformersDevice
+
 	{
 		public static GKDriver Create()
 		{
@@ -29,6 +29,4 @@ namespace GKProcessor
 			return driver;
 		}
 	}
-
-	}
-
+}
