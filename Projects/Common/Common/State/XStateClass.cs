@@ -7,7 +7,7 @@ namespace FiresecAPI.GK
 	/// </summary>
 	public enum XStateClass
 	{
-		[DescriptionAttribute("Отсутствует лицензия")]
+		[DescriptionAttribute("Лицензия отсутствует")]
 		HasNoLicense = 0,
 
 		[DescriptionAttribute("База данных устройства не соответствует базе данных ПК")]
@@ -65,6 +65,9 @@ namespace FiresecAPI.GK
 		Norm = 18,
 
 		[DescriptionAttribute("Нет")]
-		No = 19
+		No = 19,
+
+		[DescriptionAttribute("Лицензия обнаружена")]
+		HasLicense = 20,
 	}
 }
