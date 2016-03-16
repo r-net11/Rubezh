@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using Common;
 using SKDDriver;
 using System.Security.Cryptography;
 
@@ -14,7 +16,17 @@ namespace KeyGenerator
 
 		private static void Save(string productKey, string path)
 		{
-			File.WriteAllText(path, productKey);
+			try
+			{
+				File.WriteAllText(path, productKey);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				Logger.Error(string.Format("Path to license: {0}", path));
+				throw;
+			}
+
 			//using (var rdProvider = new RijndaelManaged())
 			//{
 			//	var secretFile = new SecretFile(rdProvider, path);
@@ -30,9 +42,25 @@ namespace KeyGenerator
 
 		public string Load(string path)
 		{
-			if (string.IsNullOrEmpty(path) && !File.Exists(path)) return string.Empty;
+			if (string.IsNullOrEmpty(path) || !File.Exists(path))
+			{
+				Logger.Error("License file is not exists");
+				return string.Empty;
+			}
 
-			return File.ReadAllText(path);
+			string result;
+
+			try
+			{
+				result = File.ReadAllText(path);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				Logger.Error(string.Format("Path to license: {0}", path));
+				throw;
+			}
+			return result;
 
 			//using (var rdProvider = new RijndaelManaged())
 			//{

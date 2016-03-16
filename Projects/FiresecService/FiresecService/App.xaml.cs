@@ -39,6 +39,7 @@ namespace FiresecServiceRunner
 			if (!licenseService.IsValidExistingKey())
 			{
 				//TODO:block connections
+				Logger.Error("License is not exist");
 			}
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
