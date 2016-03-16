@@ -211,6 +211,7 @@ namespace GKImitator.ViewModels
 			Regime = Regime.Ignore;
 			SetStateBit(GKStateBit.Norm, false);
 			SetStateBit(GKStateBit.Attention, false);
+			SetStateBit(GKStateBit.On, false);
 			SetStateBit(GKStateBit.Fire1, false);
 			SetStateBit(GKStateBit.Fire2, false);
 			SetStateBit(GKStateBit.Ignore, true);
