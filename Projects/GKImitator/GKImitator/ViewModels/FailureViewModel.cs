@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhDAL.DataClasses;
 
@@ -25,9 +26,7 @@ namespace GKImitator.ViewModels
 			{
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
-
-				var journalItem = new ImitatorJournalItem(2, 5, No, (byte)(value ? 1 : 0));
-				BinaryObjectViewModel.AddJournalItem(journalItem);
+				BinaryObjectViewModel.SetStateBit(GKStateBit.Failure, value);
 			}
 		}
 	}

@@ -56,7 +56,12 @@ namespace GKImitator.ViewModels
 		void OnStateBitChanged(GKStateBit stateBit, bool isActive, ImitatorJournalItem additionalJournalItem = null)
 		{
 			ImitatorJournalItem journalItem = null;
-			if (isActive)
+			if (stateBit == GKStateBit.Failure)
+			{
+				journalItem = new ImitatorJournalItem(2, 5, 255, (byte)(isActive ? 1 : 0));
+				AddJournalItem(additionalJournalItem ?? journalItem);
+			}
+			else if (isActive)
 			{
 				CurrentOnDelay = 0;
 				CurrentOffDelay = 0;
