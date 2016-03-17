@@ -181,6 +181,8 @@ namespace GKProcessor
 								if (!setAlarmDevice.Item1.Driver.IsCardReaderOrCodeReader)
 								{
 									Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice.Item1);
+									Formula.AddGetBit(GKStateBit.Fire2, setAlarmDevice.Item1);
+									Formula.Add(FormulaOperationType.OR);
 									Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice.Item1);
 									Formula.Add(FormulaOperationType.OR);
 									Formula.Add(FormulaOperationType.COM);
@@ -214,6 +216,8 @@ namespace GKProcessor
 					{
 						Formula.Add(FormulaOperationType.OR);
 					}
+					Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Item1);
+					Formula.Add(FormulaOperationType.OR);
 					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Item1);
 					Formula.Add(FormulaOperationType.OR);
 					count++;
