@@ -20,6 +20,11 @@
 		<Condition Message="Не удалось обнаружить Microsoft .NET Framework 4.0. Установите Microsoft .NET Framework 4.0 и запустите установку заново">
 			NETFRAMEWORK40FULL
 		</Condition>
+		<!--Framework 2.0 нужет для OPC Core Components-->
+		<PropertyRef Id="NETFRAMEWORK20_SP_LEVEL"/>
+		<Condition Message="Не удалось обнаружить Microsoft .NET Framework 2.0. Установите Microsoft .NET Framework 2.0 и запустите установку заново">
+			NETFRAMEWORK20_SP_LEVEL
+		</Condition>
 		
 		<Icon		Id="ProgramIcon.ico"				SourceFile="Data\ProgramIcon.ico"/>
 		<Property	Id="ARPPRODUCTICON"					Value="ProgramIcon.ico" />
@@ -41,6 +46,8 @@
 		<Property	Id="INSTALLMODE" />
 		<Property	Id="IS_INSTALL_POSTGRE32" />
 		<Property	Id="IS_INSTALL_POSTGRE64" />
+		<Property   Id="IS_INSTALL_OPC_CORE_COMPONETSx32" />
+		<Property   Id="IS_INSTALL_OPC_CORE_COMPONETSx64" />
 
 		<Property	Id="INSTALL_FIRESEC2"				Secure="yes" />
 		
@@ -100,11 +107,13 @@
 
 		<InstallExecuteSequence>
 			<Custom Action="CheckPostgresInstalled" Sequence="1" />
-			<Custom Action="CloseApplications" Sequence="2" />
+			<Custom Action="CloseApplications" Sequence="3" />
 			<RemoveExistingProducts After="InstallInitialize" />
 			<InstallExecute After="RemoveExistingProducts" />
-			<!--<Custom Action="InstallPostgres" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE32 = 1]]></Custom>
-			<Custom Action="InstallPostgres64" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE64 = 1]]></Custom>-->
+			<!--
+			<Custom Action="InstallPostgres" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE32 = 1]]></Custom>
+			<Custom Action="InstallPostgres64" After="InstallExecute"><![CDATA[&Postgres.Features=3 AND IS_INSTALL_POSTGRE64 = 1]]></Custom>
+			-->
 		</InstallExecuteSequence>
 
 		<UI Id="MyWixUI_Wizard">
