@@ -7291,8 +7291,6 @@ namespace SKDDriver.DataAccess
 
 		private string _TabelNo;
 
-		private System.DateTime _CredentialsStartDate;
-
 		private System.Nullable<System.Guid> _EscortUID;
 
 		private bool _IsDeleted;
@@ -7385,8 +7383,6 @@ namespace SKDDriver.DataAccess
 		partial void OnTypeChanged();
 		partial void OnTabelNoChanging(string value);
 		partial void OnTabelNoChanged();
-		partial void OnCredentialsStartDateChanging(System.DateTime value);
-		partial void OnCredentialsStartDateChanged();
 		partial void OnEscortUIDChanging(System.Nullable<System.Guid> value);
 		partial void OnEscortUIDChanged();
 		partial void OnIsDeletedChanging(bool value);
@@ -7677,26 +7673,6 @@ namespace SKDDriver.DataAccess
 					this._TabelNo = value;
 					this.SendPropertyChanged("TabelNo");
 					this.OnTabelNoChanged();
-				}
-			}
-		}
-
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CredentialsStartDate", DbType = "DateTime NOT NULL")]
-		public System.DateTime CredentialsStartDate
-		{
-			get
-			{
-				return this._CredentialsStartDate;
-			}
-			set
-			{
-				if ((this._CredentialsStartDate != value))
-				{
-					this.OnCredentialsStartDateChanging(value);
-					this.SendPropertyChanging();
-					this._CredentialsStartDate = value;
-					this.SendPropertyChanged("CredentialsStartDate");
-					this.OnCredentialsStartDateChanged();
 				}
 			}
 		}

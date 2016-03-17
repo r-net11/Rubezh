@@ -20,7 +20,6 @@ namespace SKDDriver
 				FirstName = item.FirstName,
 				SecondName = item.SecondName,
 				LastName = item.LastName,
-				CredentialsStartDate = item.CredentialsStartDate,
 				DocumentNumber = item.DocumentNumber,
 				BirthDate = item.BirthDate,
 				BirthPlace = item.BirthPlace,
@@ -64,7 +63,6 @@ namespace SKDDriver
 			tableItem.FirstName = exportItem.FirstName;
 			tableItem.SecondName = exportItem.SecondName;
 			tableItem.LastName = exportItem.LastName;
-			tableItem.CredentialsStartDate = TranslatiorHelper.CheckDate(exportItem.CredentialsStartDate);
 			tableItem.DocumentNumber = exportItem.DocumentNumber;
 			tableItem.BirthDate = tableItem.BirthDate;
 			tableItem.BirthPlace = tableItem.BirthPlace;

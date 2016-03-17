@@ -8,10 +8,6 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeViewModel : OrganisationElementViewModel<EmployeeViewModel, ShortEmployee>
 	{
-		public string CredentialsStartDateString
-		{
-			get { return IsOrganisation ? "" : Model.CredentialsStartDate; }
-		}
 		public string DepartmentName
 		{
 			get
@@ -135,7 +131,6 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => Description);
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);
-			OnPropertyChanged(() => CredentialsStartDateString);
 			OnPropertyChanged(() => AdditionalColumnValues);
 			OnPropertyChanged(() => IsDepartmentDeleted);
 			OnPropertyChanged(() => IsPositionDeleted);

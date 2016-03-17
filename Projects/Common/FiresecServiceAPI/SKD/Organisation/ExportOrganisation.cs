@@ -41,8 +41,6 @@ namespace FiresecAPI.SKD
 
 		public string LastName { get; set; }
 
-		public DateTime CredentialsStartDate { get; set; }
-
 		public string DocumentNumber { get; set; }
 
 		public DateTime? BirthDate { get; set; }

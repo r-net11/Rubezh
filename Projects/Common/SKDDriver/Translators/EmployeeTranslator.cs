@@ -121,7 +121,6 @@ namespace SKDDriver
 			result.Description = employee.Description;
 			var cards = new List<SKDCard>();
 			result.Type = (PersonType)employee.Type;
-			result.CredentialsStartDate = employee.CredentialsStartDate.ToString("d MMM yyyy");
 			result.TabelNo = employee.TabelNo;
 			var textColumns = new List<TextColumn>();
 			foreach (var additionalColumn in additionalColumns)
@@ -167,7 +166,6 @@ namespace SKDDriver
 			result.Description = employee.Description;
 			var cards = new List<SKDCard>();
 			result.Type = (PersonType)employee.Type;
-			result.CredentialsStartDate = employee.CredentialsStartDate.ToString("d MMM yyyy");
 			result.TabelNo = employee.TabelNo;
 			var textColumns = new List<TextColumn>();
 			foreach (var additionalColumn in additionalColumns)
@@ -225,7 +223,6 @@ namespace SKDDriver
 			result.Position = DatabaseService.PositionTranslator.GetSingleShort(tableItem.PositionUID);
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.TabelNo = tableItem.TabelNo;
-			result.CredentialsStartDate = tableItem.CredentialsStartDate;
 			result.EscortUID = tableItem.EscortUID;
 			result.DocumentNumber = tableItem.DocumentNumber;
 			result.BirthDate = tableItem.BirthDate;
@@ -288,7 +285,6 @@ namespace SKDDriver
 			tableItem.PhotoUID = apiItem.Photo != null ? apiItem.Photo.UID : Guid.Empty;
 			tableItem.Type = (int)apiItem.Type; //TODO: Not null to nullable field
 			tableItem.TabelNo = apiItem.TabelNo;
-			tableItem.CredentialsStartDate = TranslatiorHelper.CheckDate(apiItem.CredentialsStartDate);
 			tableItem.EscortUID = apiItem.EscortUID;
 			tableItem.DocumentNumber = apiItem.DocumentNumber;
 			tableItem.BirthDate = apiItem.BirthDate;
@@ -491,7 +487,6 @@ namespace SKDDriver
 				UID = Guid.NewGuid(),
 				RemovalDate = _minDate,
 				BirthDate = _minDate,
-				CredentialsStartDate = DateTime.Now.AddDays(-30),
 				DocumentGivenDate = DateTime.Now.AddDays(-30),
 				DocumentValidTo = _minDate,
 				LastEmployeeDayUpdate = _minDate,

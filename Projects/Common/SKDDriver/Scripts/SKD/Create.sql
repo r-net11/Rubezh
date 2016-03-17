@@ -203,7 +203,6 @@ ScheduleUID [uniqueidentifier] NULL,
 ScheduleStartDate [datetime] NOT NULL,
 [Type] [int] NULL,
 TabelNo [nvarchar](40) NULL,
-CredentialsStartDate [datetime] NOT NULL,
 EscortUID [uniqueidentifier] NULL,
 IsDeleted [bit] NOT NULL,
 RemovalDate [datetime] NOT NULL,
@@ -1005,6 +1004,8 @@ INSERT INTO Patches (Id) VALUES
 ('OrganisationsTimeTrackDocumentTypes_Created')
 INSERT INTO Patches (Id) VALUES
 ('FiltersTableAdded')
+INSERT INTO Patches (Id) VALUES
+('RemoveCredentialsStartDateField')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();

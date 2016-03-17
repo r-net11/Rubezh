@@ -3537,7 +3537,6 @@ namespace SKDDriver.EFDataAccess
         /// </summary>
         /// <param name="uID">Initial value of the UID property.</param>
         /// <param name="scheduleStartDate">Initial value of the ScheduleStartDate property.</param>
-        /// <param name="credentialsStartDate">Initial value of the CredentialsStartDate property.</param>
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
         /// <param name="removalDate">Initial value of the RemovalDate property.</param>
         /// <param name="birthDate">Initial value of the BirthDate property.</param>
@@ -3546,12 +3545,11 @@ namespace SKDDriver.EFDataAccess
         /// <param name="documentType">Initial value of the DocumentType property.</param>
         /// <param name="lastEmployeeDayUpdate">Initial value of the LastEmployeeDayUpdate property.</param>
         /// <param name="externalKey">Initial value of the ExternalKey property.</param>
-        public static Employee CreateEmployee(global::System.Guid uID, global::System.DateTime scheduleStartDate, global::System.DateTime credentialsStartDate, global::System.Boolean isDeleted, global::System.DateTime removalDate, global::System.DateTime birthDate, global::System.DateTime documentGivenDate, global::System.DateTime documentValidTo, global::System.Int32 documentType, global::System.DateTime lastEmployeeDayUpdate, global::System.String externalKey)
+        public static Employee CreateEmployee(global::System.Guid uID, global::System.DateTime scheduleStartDate, global::System.Boolean isDeleted, global::System.DateTime removalDate, global::System.DateTime birthDate, global::System.DateTime documentGivenDate, global::System.DateTime documentValidTo, global::System.Int32 documentType, global::System.DateTime lastEmployeeDayUpdate, global::System.String externalKey)
         {
             Employee employee = new Employee();
             employee.UID = uID;
             employee.ScheduleStartDate = scheduleStartDate;
-            employee.CredentialsStartDate = credentialsStartDate;
             employee.IsDeleted = isDeleted;
             employee.RemovalDate = removalDate;
             employee.BirthDate = birthDate;
@@ -3833,30 +3831,6 @@ namespace SKDDriver.EFDataAccess
         private global::System.String _TabelNo;
         partial void OnTabelNoChanging(global::System.String value);
         partial void OnTabelNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime CredentialsStartDate
-        {
-            get
-            {
-                return _CredentialsStartDate;
-            }
-            set
-            {
-                OnCredentialsStartDateChanging(value);
-                ReportPropertyChanging("CredentialsStartDate");
-                _CredentialsStartDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CredentialsStartDate");
-                OnCredentialsStartDateChanged();
-            }
-        }
-        private global::System.DateTime _CredentialsStartDate;
-        partial void OnCredentialsStartDateChanging(global::System.DateTime value);
-        partial void OnCredentialsStartDateChanged();
     
         /// <summary>
         /// No Metadata Documentation available.

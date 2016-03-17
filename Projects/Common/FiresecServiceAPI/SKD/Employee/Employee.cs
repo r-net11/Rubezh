@@ -58,9 +58,6 @@ namespace FiresecAPI.SKD
 		public string TabelNo;
 
 		[DataMember]
-		public DateTime CredentialsStartDate;
-
-		[DataMember]
 		public Guid? EscortUID;
 
 		[DataMember]

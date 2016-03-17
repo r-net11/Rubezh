@@ -1710,3 +1710,9 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('FiltersTableAdded')
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveCredentialsStartDateField')
+BEGIN
+	ALTER TABLE [Employee] DROP COLUMN [CredentialsStartDate]
+	INSERT INTO Patches (Id) VALUES ('RemoveCredentialsStartDateField')
+END
+GO

@@ -99,7 +99,6 @@ namespace SKDModule.ViewModels
 				SelectedPosition = Employee.Position;
 				SelectedSchedule = Employee.Schedule;
 				ScheduleStartDate = Employee.ScheduleStartDate;
-				CredentialsStartDate = Employee.CredentialsStartDate;
 				TabelNo = Employee.TabelNo;
 				IsOrganisationChief = _organisation.ChiefUID == Employee.UID;
 				IsOrganisationHRChief = _organisation.HRChiefUID == Employee.UID;
@@ -141,7 +140,6 @@ namespace SKDModule.ViewModels
 					SecondName = SecondName,
 					LastName = LastName,
 					Type = Employee.Type,
-					CredentialsStartDate = CredentialsStartDate.ToString(CultureInfo.CurrentUICulture),
 					TextColumns = new List<TextColumn>(),
 					Phone = Employee.Phone,
 					Description = Employee.Description,
@@ -310,18 +308,6 @@ namespace SKDModule.ViewModels
 				if (_phone == value) return;
 				_phone = value;
 				OnPropertyChanged(() => Phone);
-			}
-		}
-
-		DateTime _credentialsStartDate;
-		public DateTime CredentialsStartDate
-		{
-			get { return _credentialsStartDate; }
-			set
-			{
-				if (_credentialsStartDate == value) return;
-				_credentialsStartDate = value;
-				OnPropertyChanged(() => CredentialsStartDate);
 			}
 		}
 
@@ -632,7 +618,6 @@ namespace SKDModule.ViewModels
 				Employee.Position = SelectedPosition;
 				Employee.Schedule = SelectedSchedule;
 				Employee.ScheduleStartDate = ScheduleStartDate;
-				Employee.CredentialsStartDate = CredentialsStartDate;
 				Employee.TabelNo = TabelNo;
 				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)
 					OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
