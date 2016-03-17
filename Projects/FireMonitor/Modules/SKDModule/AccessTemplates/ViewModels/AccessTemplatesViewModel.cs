@@ -40,6 +40,8 @@ namespace SKDModule.ViewModels
 		protected override void AfterRemove(AccessTemplate model)
 		{
 			SelectedItem.CardDoorsViewModel.UpdateDoors(new List<Guid>());
+			SelectedItem.CardDoorsViewModel.Update(null);
+			model.CardDoors = new List<CardDoor>();
 		}
 
 		protected override bool Restore(AccessTemplate model)

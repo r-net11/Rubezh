@@ -17,20 +17,16 @@ namespace SKDModule.ViewModels
 		public AccessTemplateDetailsViewModel() {  }
 		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
-			Organisation = OrganisationHelper.GetSingle(orgnaisation.UID); ;
+			Organisation = OrganisationHelper.GetSingle(orgnaisation.UID);
 			_isNew = accessTemplate == null;
 			if (_isNew)
 			{
 				Title = "Создание шаблона доступа";
-				accessTemplate = new AccessTemplate()
-				{
-					Name = "Новый шаблон доступа",
-				};
+				accessTemplate = new AccessTemplate {Name = "Новый шаблон доступа"};
 			}
-			else
-			{
+			else if (accessTemplate != null)
 				Title = string.Format("Свойства шаблона доступа: {0}", accessTemplate.Name);
-			}
+
 			Model = accessTemplate;
 			CopyProperties();
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors);
@@ -49,11 +45,9 @@ namespace SKDModule.ViewModels
 			get { return _name; }
 			set
 			{
-				if (_name != value)
-				{
-					_name = value;
-					OnPropertyChanged(() => Name);
-				}
+				if (_name == value) return;
+				_name = value;
+				OnPropertyChanged(() => Name);
 			}
 		}
 
