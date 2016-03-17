@@ -28,7 +28,6 @@
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 				<Controls:ToolBarButton
-					Grid.Column="0"
 					Command="{Binding ShowFilterCommand}"
 					ImageSource="Filter"
 					ToolTip="Задать фильтр" />
