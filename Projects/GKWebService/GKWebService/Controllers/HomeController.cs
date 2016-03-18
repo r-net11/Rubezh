@@ -5,6 +5,9 @@ using System.Web.Security;
 using GKWebService.Models;
 using GKWebService.Models.GK;
 using GKWebService.Utils;
+using Infrastructure.Common;
+using RubezhAPI.Models;
+using RubezhClient;
 
 namespace GKWebService.Controllers
 {
@@ -28,9 +31,9 @@ namespace GKWebService.Controllers
 		[AllowAnonymous]
 		public JsonResult Login(LoginData loginData)
 		{
-			string error = null;
+			var error = ClientManager.Connect(loginData.userName, loginData.password);
 
-			if (loginData.userName.Equals("adm", StringComparison.InvariantCultureIgnoreCase))
+			if (string.IsNullOrEmpty(error))
 			{
 				var authTicket = new FormsAuthenticationTicket(
 					2,
@@ -38,24 +41,17 @@ namespace GKWebService.Controllers
 					DateTime.Now,
 					DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
 					false,
-					"some token that will be used to access the web service and that you have fetched"
+					string.Empty //clientCredentials.ClientUID.ToString()
 					);
-				var authCookie = new HttpCookie(
-					FormsAuthentication.FormsCookieName,
-					FormsAuthentication.Encrypt(authTicket)
-					)
+				var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(authTicket))
 				{
 					HttpOnly = true
 				};
 				Response.SuppressFormsAuthenticationRedirect = true;
 				Response.AppendCookie(authCookie);
 			}
-			else
-			{
-				error = "Неверный логин или пароль";
-			}
 
-			return Json(new { success = (error == null), message = error });
+			return Json(new { success = string.IsNullOrEmpty(error), message = error });
 		}
 
 		public JsonResult TryGetCurrentUserName()

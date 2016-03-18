@@ -114,7 +114,7 @@ namespace FireMonitor.Layout.ViewModels
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
 		void OnChangeLayout(LayoutModel layout)
 		{
-			if (ClientManager.FiresecService.LayoutChanged(FiresecServiceFactory.UID, layout == null ? Guid.Empty : layout.UID))
+			if (ClientManager.FiresecService.LayoutChanged(ClientManager.ClientCredentials.ClientUID, layout == null ? Guid.Empty : layout.UID))
 			{
 				ApplicationService.CloseAllWindows();
 				LayoutContainer.UpdateLayout(layout);

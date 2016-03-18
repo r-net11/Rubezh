@@ -122,7 +122,7 @@ namespace FireMonitor
 
 					ScheduleRunner.Start();
 
-					AutomationProcessor.RunOnApplicationRun(ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == ClientManager.ClientCredentials.Login), FiresecServiceFactory.UID);
+					AutomationProcessor.RunOnApplicationRun(ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == ClientManager.ClientCredentials.Login), ClientManager.ClientCredentials.ClientUID);
 					//MutexHelper.KeepAlive();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 					{
@@ -154,7 +154,7 @@ namespace FireMonitor
 
 		private void WriteTagValue(Guid tagUID, object value)
 		{
-			((SafeFiresecService)ClientManager.FiresecService).WriteOpcDaServerTag(FiresecServiceFactory.UID, tagUID, value);
+			((SafeFiresecService)ClientManager.FiresecService).WriteOpcDaServerTag(ClientManager.ClientCredentials.ClientUID, tagUID, value);
 		}
 
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
@@ -213,7 +213,7 @@ namespace FireMonitor
 						if (messageData.WithConfirmation)
 						{
 							var confirm = MessageBoxService.ShowConfirmation(messageData.Message, "Сообщение");
-							ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
+							ProcedureExecutionContext.CallbackResponse(ClientManager.ClientCredentials.ClientUID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
 						}
 						else
 							MessageBoxService.ShowExtended(messageData.Message, "Сообщение", messageData.IsModalWindow);
@@ -290,7 +290,7 @@ namespace FireMonitor
 						PlanCallbackData = (PlanCallbackData)automationCallbackResult.Data
 					};
 					ServiceFactory.Events.GetEvent<ControlPlanEvent>().Publish(controlPlanEventArg);
-					ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, controlPlanEventArg.PlanCallbackData.Value);
+					ProcedureExecutionContext.CallbackResponse(ClientManager.ClientCredentials.ClientUID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, controlPlanEventArg.PlanCallbackData.Value);
 					break;
 				case AutomationCallbackType.SetPlanProperty:
 					controlPlanEventArg = new ControlPlanEventArg
@@ -334,7 +334,7 @@ namespace FireMonitor
 		{
 			if (isNew)
 				foreach (var journalItem in journalItems)
-					AutomationProcessor.RunOnJournal(journalItem, ClientManager.CurrentUser, FiresecServiceFactory.UID);
+					AutomationProcessor.RunOnJournal(journalItem, ClientManager.CurrentUser, ClientManager.ClientCredentials.ClientUID);
 		}
 
 		static void ShutDown()

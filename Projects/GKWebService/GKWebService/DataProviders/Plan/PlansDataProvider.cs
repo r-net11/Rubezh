@@ -156,11 +156,11 @@ namespace GKWebService.DataProviders.Plan
 		/// </summary>
 		/// <returns>Иерархический список планов.</returns>
 		public IEnumerable<PlanSimpl> GetPlansList() {
-			if (ClientManager.PlansConfiguration == null
-			    || ClientManager.PlansConfiguration.Plans == null) {
+			if (RubezhClient.ClientManager.PlansConfiguration == null
+			    || RubezhClient.ClientManager.PlansConfiguration.Plans == null) {
 				return null;
 			}
-			var webFolder = ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.Caption == "WEB");
+			var webFolder = RubezhClient.ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.Caption == "WEB");
 			if (webFolder != null) {
 				return webFolder.Children.Select(GetPlanInfo).ToList();
 			}
@@ -191,7 +191,7 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="planId">UID плана.</param>
 		/// <returns>Готовая к сериализации полная информация о плане.</returns>
 		public PlanSimpl GetPlan(Guid planId) {
-			var plan = ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.UID == planId);
+			var plan = RubezhClient.ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.UID == planId);
 			// Корень плана
 			if (plan == null) {
 				throw new KeyNotFoundException(string.Format("План с ID {0} не найден, либо недоступен.", planId));

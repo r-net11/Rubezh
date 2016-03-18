@@ -717,6 +717,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ClientManager.cs" />
     <Compile Include="Controllers\AccessTemplatesController.cs" />
     <Compile Include="Controllers\AlarmsController.cs" />
     <Compile Include="Controllers\ArchiveController.cs" />

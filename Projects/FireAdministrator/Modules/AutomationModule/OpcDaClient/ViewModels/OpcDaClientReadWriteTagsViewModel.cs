@@ -80,7 +80,7 @@ namespace AutomationModule.ViewModels
 
 			WaitHelper.Execute(() =>
 			{
-				result = ClientManager.FiresecService.ReadOpcDaServerTags(FiresecServiceFactory.UID, OpcServer);
+				result = ClientManager.FiresecService.ReadOpcDaServerTags(ClientManager.ClientCredentials.ClientUID, OpcServer);
 			});
 
 			if (!result.HasError)
@@ -111,7 +111,7 @@ namespace AutomationModule.ViewModels
 					return;
 				}
 				result = ClientManager.FiresecService.WriteOpcDaServerTag(
-					FiresecServiceFactory.UID, SelectedTag.Uid, value); 
+					ClientManager.ClientCredentials.ClientUID, SelectedTag.Uid, value); 
 			});
 		}
 		bool CanWriteTag() 

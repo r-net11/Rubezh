@@ -10,7 +10,7 @@ namespace RubezhClient
 {
 	public class FiresecServiceFactory
 	{
-		public static Guid UID = Guid.NewGuid();
+		public Guid UID = Guid.NewGuid();
 		ChannelFactory<IFiresecService> _channelFactory;
 		string _serverAddress;
 

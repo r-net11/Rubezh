@@ -7,10 +7,12 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Models;
 using RubezhClient;
+using RviClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Input;
 using VideoModule.Plans;
 using KeyboardKey = System.Windows.Input.Key;
@@ -104,16 +106,47 @@ namespace VideoModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var devicesViewModel = new RviDeviceSelectionViewModel();
-			if (DialogService.ShowModalWindow(devicesViewModel))
+			var rviServers = GetRviServers();
+			if (rviServers.Count != 0)
 			{
-				ClientManager.SystemConfiguration.RviServers = devicesViewModel.RviServers;
-				ClientManager.SystemConfiguration.UpdateRviConfiguration();
-				ClientManager.UpdatePlansConfiguration();
-				Initialize();
-				ServiceFactory.SaveService.CamerasChanged = true;
-				PlanExtension.Instance.Cache.BuildSafe<Camera>();
+				var rviDeviceSelectionViewModel = new RviDeviceSelectionViewModel(rviServers);
+				if (DialogService.ShowModalWindow(rviDeviceSelectionViewModel))
+				{
+					ClientManager.SystemConfiguration.RviServers = rviDeviceSelectionViewModel.RviServers;
+					ClientManager.SystemConfiguration.UpdateRviConfiguration();
+					ClientManager.UpdatePlansConfiguration();
+					Initialize();
+					ServiceFactory.SaveService.CamerasChanged = true;
+					PlanExtension.Instance.Cache.BuildSafe<Camera>();
+				}
 			}
+		}
+		List<RviServer> GetRviServers()
+		{
+			var rviSettings = ClientManager.SystemConfiguration.RviSettings;
+			var rviServers = new List<RviServer>();
+			WaitHelper.Execute(() =>
+			{
+				rviServers = RviClientHelper.GetServers(rviSettings.Url, rviSettings.Login, rviSettings.Password, ClientManager.SystemConfiguration.Cameras);
+			});
+			if (rviServers.Count == 0)
+			{
+				MessageBoxService.ShowWarning(string.Format("Не удалось подключиться к серверу {0}:{1}", rviSettings.Ip, rviSettings.Port));
+			}
+			else
+			{
+				var notConnectedRviServers = rviServers.Where(x => x.Status == RviStatus.ConnectionLost);
+				if (notConnectedRviServers.Count() > 0)
+				{
+					var message = new StringBuilder("Не удалось подключиться к следующим серверам из конфигурации:\n");
+					foreach (var notConnectedRviServer in notConnectedRviServers)
+					{
+						message.Append(string.Format("{0}:{1}\n", notConnectedRviServer.Ip, notConnectedRviServer.Port));
+					}
+					MessageBoxService.ShowWarning(message.ToString());
+				}
+			}
+			return rviServers;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }

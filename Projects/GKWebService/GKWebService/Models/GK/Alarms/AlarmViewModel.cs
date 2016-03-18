@@ -317,7 +317,7 @@ namespace GKWebService.Models.GK.Alarms
 		{
 			Plans = new List<PlanLinkViewModel>();
 
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			foreach (var plan in RubezhClient.ClientManager.PlansConfiguration.AllPlans)
 			{
 				var elementUnion = plan.ElementUnion;
 				var gkBaseEntity = Alarm.GkBaseEntity as IPlanPresentable;

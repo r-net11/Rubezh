@@ -105,7 +105,7 @@ namespace GKWebService.Controllers
 			result.AddRange(GKManager.Doors.Select(x => new JournalFilterObject(x.UID, "Images/Door.png", x.PresentationName, 2)));
 			result.Add(new JournalFilterObject(new Guid("D8997692-0858-43CA-88B5-4AFB537D2BE2"), "Images/BVideo.png", "Видео", 0));
 			result.Add(new JournalFilterObject(new Guid("DBC956A1-37BD-433E-97F0-99D2BC27741F"), "Images/BVideo.png", "Видеоустройства", 1));
-			result.AddRange(ClientManager.SystemConfiguration.Cameras.Select(x => new JournalFilterObject(x.UID, "Images/BVideo.png", x.PresentationName, 2)));
+			result.AddRange(RubezhClient.ClientManager.SystemConfiguration.Cameras.Select(x => new JournalFilterObject(x.UID, "Images/BVideo.png", x.PresentationName, 2)));
 			return result;
 		}
 

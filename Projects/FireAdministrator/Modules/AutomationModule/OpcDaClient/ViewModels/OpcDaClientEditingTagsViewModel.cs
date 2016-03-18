@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 			//}
 			
 			var result = ClientManager.FiresecService
-				.GetOpcDaServerGroupAndTags(FiresecServiceFactory.UID, OpcDaClientViewModel.SelectedOpcServer);
+				.GetOpcDaServerGroupAndTags(ClientManager.ClientCredentials.ClientUID, OpcDaClientViewModel.SelectedOpcServer);
 
 			if (result.HasError)
 			{

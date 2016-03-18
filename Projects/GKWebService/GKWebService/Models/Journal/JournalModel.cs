@@ -176,7 +176,7 @@ namespace GKWebService.Models
 					break;
 
 				case JournalObjectType.VideoDevice:
-					var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+					var camera = RubezhClient.ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					if (camera != null)
 					{
 						ObjectName = camera.PresentationName;
