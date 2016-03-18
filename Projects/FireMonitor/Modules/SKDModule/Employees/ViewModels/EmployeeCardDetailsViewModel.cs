@@ -393,6 +393,8 @@ namespace SKDModule.ViewModels
 				Card.AccessTemplateUID = SelectedAccessTemplate.UID;
 			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
 				Card.AccessTemplateUID = null;
+			if (!IsGKLevelEditable && GKLevel > Organisation.MaxGKLevel && MessageBoxService.ShowConfirmation(String.Format("Уровень доступа сотрудника {0} выше максимального уровня доступа организации {1}. Заменить уровень доступа сотрудника максимальным для организации?", GKLevel, Organisation.MaxGKLevel.ToString())))
+				Card.GKLevel = Organisation.MaxGKLevel;
 			if (!Validate())
 				return false;
 			var saveResult = IsNewCard ? CardHelper.Add(Card, _employee.Name) : CardHelper.Edit(Card, _employee.Name);
@@ -410,15 +412,15 @@ namespace SKDModule.ViewModels
 
 		bool Validate()
 		{
-			if (Number <= 0 || Number > Int32.MaxValue)
+			if (Card.Number <= 0 || Card.Number > Int32.MaxValue)
 			{
 				MessageBoxService.ShowWarning(String.Format("Номер карты должен быть задан в пределах 1 ... {0}", Int32.MaxValue - 1));
 				return false;
 			}
 
-			if (GKLevel < 0 || GKLevel > Organisation.MaxGKLevel)
+			if (Card.GKLevel < 0 || Card.GKLevel > Organisation.MaxGKLevel)
 			{
-				MessageBoxService.ShowWarning(String.Format("Уровень доступа должен быть в пределах от 0 до {0}", Organisation.MaxGKLevel.ToString()));
+				MessageBoxService.ShowWarning(String.Format("Уровень доступа сотрудника быть в пределах от 0 до {0}", Organisation.MaxGKLevel.ToString()));
 				return false;
 			}
 			return true;
