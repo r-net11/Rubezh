@@ -1,10 +1,12 @@
 ﻿(function () {
     angular.module('gkApp').controller('doorDetailsCtrl',
-    ['$scope', '$uibModalInstance', '$http', '$state', 'signalrDoorsService', 'entity',
-        function ($scope, $uibModalInstance, $http, $state, signalrDoorsService, entity) {
+    ['$scope', '$uibModalInstance', '$http', '$state', 'signalrDoorsService', 'entity', 'authService',
+        function ($scope, $uibModalInstance, $http, $state, signalrDoorsService, entity, authService) {
 
             $scope.door = entity;
-            $scope.fulControl =  entity.FullCanControl;
+            $scope.FullCanControl = authService.checkPermission('Oper_Full_Door_Control');
+            $scope.CanControl = authService.checkPermission('Oper_Door_Control');
+            $scope.fulControl = $scope.FullCanControl;
             $scope.canControl = !$scope.fulControl;
             $scope.$on('doorChanged', function(event, args) {
                 if (args.UID === $scope.door.UID) {

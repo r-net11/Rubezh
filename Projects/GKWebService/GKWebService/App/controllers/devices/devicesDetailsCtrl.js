@@ -1,9 +1,11 @@
 ﻿(function () {
 
 	angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
-        ['$scope', '$http', '$timeout', 'uiGridConstants', '$uibModalInstance', '$state', 'signalrDevicesService', 'entity',
-        function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
+        ['$scope', '$http', '$timeout', 'uiGridConstants', '$uibModalInstance', '$state', 'signalrDevicesService', 'entity', 'authService',
+        function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity, authService) {
         	$scope.device = entity;
+
+        	$scope.oper_Device_Control = authService.checkPermission('Oper_Device_Control');
 
         	$scope.$on('signalrDevicesService.devicesChanged', function (event, args) {
         		if (args.UID === $scope.device.UID) {
