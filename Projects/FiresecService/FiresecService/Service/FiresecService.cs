@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Linq;
 using ChinaSKDDriver;
 using Common;
 using FiresecAPI;
@@ -7,6 +8,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.ViewModels;
+using Infrastructure.Common;
 using KeyGenerator;
 using SKDDriver;
 using SKDDriver.Translators;
@@ -39,8 +41,8 @@ namespace FiresecService.Service
 
 		private void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
-			clientCredentials.ClientIpAddress = "127.0.0.1";
-			clientCredentials.ClientIpAddressAndPort = "127.0.0.1:0";
+			clientCredentials.ClientIpAddress = NetworkHelper.LocalhostIp; // 127.0.0.1
+			clientCredentials.ClientIpAddressAndPort = string.Format("{0}:0", NetworkHelper.LocalhostIp); // "127.0.0.1:0";
 			clientCredentials.UserName = clientCredentials.UserName;
 			try
 			{
@@ -48,7 +50,7 @@ namespace FiresecService.Service
 				{
 					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
 					clientCredentials.ClientIpAddress = endpoint.Address;
-					clientCredentials.ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
+					clientCredentials.ClientIpAddressAndPort = string.Format("{0}:{1}", endpoint.Address, endpoint.Port);
 				}
 			}
 			catch (Exception e)
@@ -72,9 +74,15 @@ namespace FiresecService.Service
 			if (operationResult.HasError)
 				return operationResult;
 
+			// Проверка разрешений согласно лицензии
+			operationResult = CheckConnectionRightsUsingLicenseData(clientCredentials);
+			if (operationResult.HasError)
+				return operationResult;
+
 			CurrentClientCredentials = clientCredentials;
 			if (ClientsManager.Add(uid, clientCredentials))
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
+
 			return operationResult;
 		}
 
@@ -231,7 +239,7 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
-		#region Licensing
+		#region <Лицензирование>
 
 		public OperationResult<bool> CheckLicenseExising()
 		{
@@ -249,6 +257,78 @@ namespace FiresecService.Service
 		{
 			return new OperationResult<bool>(_licenseManager.CanLoadModule(type));
 		}
-		#endregion
+
+		private OperationResult<bool> CheckConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
+		{
+			// Если клиент запущен локально, то закрыть прочие локальные клиенты
+			if (NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress))
+			{
+				var existingClients = ClientsManager.ClientInfos.Where(x =>
+					x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress &&
+					x.ClientCredentials.ClientType == clientCredentials.ClientType);
+				foreach (var existingClient in existingClients)
+				{
+					SendCloseClientCommand(existingClient.ClientCredentials.ClientUID);
+				}
+
+				return new OperationResult<bool>(true);
+			}
+			
+			// Остальные проверки выполняются только для удаленного клиента
+			if (_licenseManager.CurrentLicense.OperatorConnectionsNumber == 0)
+				return OperationResult<bool>.FromError("Удаленные подключения к серверу не разрешены лицензией");
+
+			if (clientCredentials.ClientType == ClientType.Administrator)
+				return CheckAdministratorConnectionRightsUsingLicenseData(clientCredentials);
+
+			if (clientCredentials.ClientType == ClientType.Monitor)
+				return CheckMonitorConnectionRightsUsingLicenseData(clientCredentials);
+
+			return new OperationResult<bool>(true);
+		}
+
+		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
+		{
+			// Значение опции "Оперативная задача (подключение)"
+			var allowedRemoteCoonnectionsNumber = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
+			
+			// В списке подключений есть подключение "Администратора", установленное с другого компьютера
+			var clientsFromOtherHosts = ClientsManager.ClientInfos.Where(x =>
+				x.ClientCredentials.ClientIpAddress != clientCredentials.ClientIpAddress &&
+				x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
+			var hasClientsFromOtherHosts = clientsFromOtherHosts.Any();
+
+			// В списке подключений есть подключение "Администратора", установленное с данного компьютера
+			var clientsFromThisHost = ClientsManager.ClientInfos.Where(x =>
+				x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress &&
+				x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
+			var hasClientsFromThisHost = clientsFromThisHost.Any();
+
+			if (allowedRemoteCoonnectionsNumber > 0 && !hasClientsFromOtherHosts && !hasClientsFromThisHost)
+				return new OperationResult<bool>(true);
+
+			if (allowedRemoteCoonnectionsNumber > 0 && hasClientsFromOtherHosts && !hasClientsFromThisHost)
+				return OperationResult<bool>.FromError(string.Format(
+					"Другой администратор осуществил вход с компьютера '{0}'. Одновременная работа двух администраторов в системе не допускается. Для входа в систему завершите работу на другом компьютере",
+					clientsFromOtherHosts[0].ClientCredentials.ClientIpAddress));
+
+			if (allowedRemoteCoonnectionsNumber > 0 && !hasClientsFromOtherHosts && hasClientsFromThisHost)
+			{
+				foreach (var clientFromThisHost in clientsFromThisHost)
+				{
+					SendCloseClientCommand(clientFromThisHost.ClientCredentials.ClientUID);
+				}
+				return new OperationResult<bool>(true);
+			}
+
+			return new OperationResult<bool>(true);
+		}
+
+		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
+		{
+			return new OperationResult<bool>(true);
+		}
+
+		#endregion </Лицензирование>
 	}
 }

@@ -46,6 +46,11 @@ namespace FiresecAPI
 		AutomationCallbackResult,
 		ConfigurationChanged,
 		Disconnecting,
-		NewSearchDevices
+		NewSearchDevices,
+
+		/// <summary>
+		/// Команда на закрытие клиента
+		/// </summary>
+		CloseClientCommand
 	}
 }

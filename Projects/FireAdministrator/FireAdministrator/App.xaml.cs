@@ -30,7 +30,7 @@ namespace FireAdministrator
 				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
 				_bootstrapper = new Bootstrapper();
-				using (new DoubleLaunchLocker(SignalId, WaitId))
+				//using (new DoubleLaunchLocker(SignalId, WaitId))
 					_bootstrapper.Initialize();
 				if (Application.Current != null && e.Args != null && e.Args.Length > 0)
 				{

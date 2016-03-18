@@ -90,6 +90,7 @@ namespace FiresecService.Service
 			};
 			CallbackManager.Add(callbackResult);
 		}
+		
 		public static void NotifyNewSearchDevices(List<SKDDeviceSearchInfo> searchDevices)
 		{
 			var callbackResult = new CallbackResult()
@@ -98,6 +99,19 @@ namespace FiresecService.Service
 				SearchDevices = searchDevices
 			};
 			CallbackManager.Add(callbackResult);
+		}
+
+		/// <summary>
+		/// Посылает клиенту команду на закрытие приложения
+		/// </summary>
+		/// <param name="clientUid">Идентификатор клиента</param>
+		private void SendCloseClientCommand(Guid clientUid)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.CloseClientCommand
+			};
+			CallbackManager.Add(callbackResult, clientUid);
 		}
 	}
 }

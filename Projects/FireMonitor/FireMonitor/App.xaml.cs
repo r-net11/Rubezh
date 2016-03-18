@@ -54,7 +54,7 @@ namespace FireMonitor
 				_bootstrapper = CreateBootstrapper();
 				_bootstrapper.InitializeCommandLineArguments(e.Args);
 				bool result;
-				using (new DoubleLaunchLocker(SignalId, WaitId, true))
+				//using (new DoubleLaunchLocker(SignalId, WaitId, true))
 					result = _bootstrapper.Initialize();
 				if (!result)
 				{

@@ -66,6 +66,13 @@ namespace FireAdministrator
 					SafeFiresecService.SKDProgressCallbackEvent -= new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
 					SafeFiresecService.SKDProgressCallbackEvent += new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
 
+					// При получении команды от Сервера на прекращение работы закрываем приложение
+					SafeFiresecService.CloseClientCommandReceivedEvent += () =>
+					{
+						System.Windows.Forms.Application.Restart();
+						ApplicationService.ShutDown();
+					};
+
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
 					MutexHelper.KeepAlive();

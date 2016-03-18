@@ -66,6 +66,13 @@ namespace FireMonitor
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => ApplicationService.Invoke(OnConfigurationChanged);
+						
+						// При получении команды от Сервера на завершение работы закрываем приложение
+						SafeFiresecService.CloseClientCommandReceivedEvent += () =>
+						{
+							System.Windows.Forms.Application.Restart();
+							ApplicationService.ShutDown();
+						};
 
 						if (result)
 						{
