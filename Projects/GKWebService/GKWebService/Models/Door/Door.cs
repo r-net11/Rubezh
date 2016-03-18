@@ -25,8 +25,6 @@ namespace GKWebService.Models.Door
 			GKDescriptorNo = door.GKDescriptorNo;
 			DoorTypeString = door.DoorType.ToDescription();
 			DoorType = door.DoorType;
-			FullCanControl = ClientManager.CheckPermission(PermissionType.Oper_Full_Door_Control);
-			CanControl = ClientManager.CheckPermission(PermissionType.Oper_Door_Control);
 			Desription = door.Description;
 			ImageSource = door.ImageSource.Replace("/Controls;component/", "");
 			if (door.EnterDevice != null)

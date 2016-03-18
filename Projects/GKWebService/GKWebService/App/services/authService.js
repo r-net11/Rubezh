@@ -7,7 +7,8 @@
 
         authServiceFactory.authentication = {
             isAuth: false,
-            userName: ""
+            userName: "",
+            permissions: []
         };
 
         authServiceFactory.login = function (loginData) {
@@ -19,6 +20,7 @@
                 if (response.success) {
                     authServiceFactory.authentication.isAuth = true;
                     authServiceFactory.authentication.userName = loginData.userName;
+                    authServiceFactory.authentication.permissions = response.data.permissions;
 
                     deferred.resolve(response);
                 } else {
@@ -37,6 +39,7 @@
 
                 authServiceFactory.authentication.isAuth = false;
                 authServiceFactory.authentication.userName = '';
+                authServiceFactory.authentication.permissions = [];
 
                 $window.location.reload();
             });
@@ -46,7 +49,12 @@
             $http.get("Home/TryGetCurrentUserName").then(function (response) {
                 authServiceFactory.authentication.isAuth = true;
                 authServiceFactory.authentication.userName = response.data.userName;
+                authServiceFactory.authentication.permissions = response.data.permissions;
             });
+        };
+
+        authServiceFactory.checkPermission = function (permission) {
+            return authServiceFactory.authentication.permissions.indexOf(permission) !== -1;
         };
 
         return authServiceFactory;

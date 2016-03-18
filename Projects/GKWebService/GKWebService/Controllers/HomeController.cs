@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -51,12 +53,28 @@ namespace GKWebService.Controllers
 				Response.AppendCookie(authCookie);
 			}
 
-			return Json(new { success = string.IsNullOrEmpty(error), message = error });
+			return Json(new { success = string.IsNullOrEmpty(error), message = error, permissions = GetCurrentUserPermissions() });
 		}
 
 		public JsonResult TryGetCurrentUserName()
 		{
-			return Json(new { userName = User.Identity.Name }, JsonRequestBehavior.AllowGet);
+			return Json(new { userName = User.Identity.Name, permissions = GetCurrentUserPermissions() }, JsonRequestBehavior.AllowGet);
+		}
+
+		private List<string> GetCurrentUserPermissions()
+		{
+			//var permissions = ClientManager.CurrentUser.PermissionStrings;
+			// на случай если в ОЗ поменяется наменование конкретного права permission произойдёт ошибка компиляции
+			var permissions = new List<string>();
+			if (ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
+				permissions.Add("Oper_Device_Control");
+			if (ClientManager.CheckPermission(PermissionType.Oper_Full_Door_Control))
+				permissions.Add("Oper_Full_Door_Control");
+			if (ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+				permissions.Add("Oper_Door_Control");
+			if (ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
+				permissions.Add("Oper_Zone_Control");
+            return permissions;
 		}
 
 		[HttpPost]
