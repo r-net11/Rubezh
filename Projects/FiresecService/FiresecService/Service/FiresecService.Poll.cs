@@ -100,18 +100,5 @@ namespace FiresecService.Service
 			};
 			CallbackManager.Add(callbackResult);
 		}
-
-		/// <summary>
-		/// Посылает клиенту команду на закрытие приложения
-		/// </summary>
-		/// <param name="clientUid">Идентификатор клиента</param>
-		private void SendCloseClientCommand(Guid clientUid)
-		{
-			var callbackResult = new CallbackResult()
-			{
-				CallbackResultType = CallbackResultType.CloseClientCommand
-			};
-			CallbackManager.Add(callbackResult, clientUid);
-		}
 	}
 }

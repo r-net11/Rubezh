@@ -22,7 +22,6 @@ namespace FiresecClient
 		public static event Action<JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
 		public static event Action<SKDDeviceSearchInfo> NewSearchDeviceEvent;
-		public static event Action CloseClientCommandReceivedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -148,15 +147,6 @@ namespace FiresecClient
 									NewSearchDeviceEvent(searchDevice);
 							});
 						}
-						break;
-
-					// Поступила команда на закрытие приложения
-					case CallbackResultType.CloseClientCommand:
-						SafeOperationCall(() =>
-						{
-							if (CloseClientCommandReceivedEvent != null)
-								CloseClientCommandReceivedEvent();
-						});
 						break;
 				}
 			}
