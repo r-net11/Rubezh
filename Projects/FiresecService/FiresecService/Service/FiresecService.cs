@@ -260,6 +260,11 @@ namespace FiresecService.Service
 
 		private OperationResult<bool> CheckConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
+			// Удаленное соединение Клиента (Администратор/ОЗ) при запрещении удаленных соединений в параметрах лицензии
+			if (!NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress) &&
+				_licenseManager.CurrentLicense.OperatorConnectionsNumber == 0)
+				return OperationResult<bool>.FromError("Удаленные подключения к серверу не разрешены лицензией");
+
 			// Клиент - Администратор
 			if (clientCredentials.ClientType == ClientType.Administrator)
 				return CheckAdministratorConnectionRightsUsingLicenseData(clientCredentials);
@@ -273,14 +278,6 @@ namespace FiresecService.Service
 
 		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
-			// Значение опции "Оперативная задача (подключение)"
-			var allowedRemoteConnectionsNumber = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
-
-			// Удаленное соединение Администратора при запрещении удаленных соединений в параметрах лицензии
-			if (!NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress) &&
-				allowedRemoteConnectionsNumber == 0)
-				return OperationResult<bool>.FromError("Удаленные подключения к серверу не разрешены лицензией");
-			
 			// Может быть только одно подключение Администратора
 			var existingClients = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
 			if (existingClients.Any())
@@ -293,6 +290,22 @@ namespace FiresecService.Service
 
 		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
+			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
+
+			var hasLocalMonitorConnections = ClientsManager.ClientInfos.Any(x =>
+				x.ClientCredentials.ClientType == ClientType.Monitor &&
+				NetworkHelper.IsLocalAddress(x.ClientCredentials.ClientIpAddress));
+
+			var totalMonitorConnectionsCount =
+				ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType == ClientType.Monitor);
+
+			var isLocalClient = NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress);
+			
+			if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
+				(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
+				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
+				return OperationResult<bool>.FromError("Достигнуто максимальное количество подключений к серверу, допускаемое лицензией");
+
 			return new OperationResult<bool>(true);
 		}
 
