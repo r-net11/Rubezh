@@ -5,13 +5,15 @@
 }
 
 <div class="modal-header">
-    <span>Оперативная задача Глобал</span>
+    <a class="close" href="" ng-show="options.validateOnlyPassword"><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+    <h3 class="modal-title">Оперативная задача Глобал</h3>
+    <span></span>
 </div>
 <div class="modal-body">
     <div>
         <form name="form" role="form">
             <div class="form-group">
-                <input class="form-control" ng-model="loginData.userName" autofocus autocomplete="on" placeholder="Логин">
+                <input class="form-control" ng-model="loginData.userName" autofocus autocomplete="on" placeholder="Логин" ng-disabled="options.validateOnlyPassword">
             </div>
             
             <div class="form-group">
@@ -26,5 +28,5 @@
     </div>
 </div>
 <div mobile-hover-fix class="modal-footer">
-    <button class="btn btn-primary pull-right" ng-click="Enter()">Войти</button>
+    <button class="btn btn-primary pull-right" ng-click="Enter()">OK</button>
 </div>

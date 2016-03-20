@@ -1,9 +1,11 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('fireZonesDetailsCtrl',
-        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrFireZonesService', 'entity',
-        function ($scope, $uibModalInstance, $http, $state, signalrFireZonesService, entity) {
+        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrFireZonesService', 'entity', 'authService',
+        function ($scope, $uibModalInstance, $http, $state, signalrFireZonesService, entity, authService) {
             $scope.fireZone = entity;
+
+            $scope.oper_Zone_Control = authService.checkPermission('Oper_Zone_Control');
 
             $scope.$on('fireZonesChanged', function (event, args) {
                 if (args.UID === $scope.fireZone.UID) {
