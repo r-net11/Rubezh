@@ -71,19 +71,27 @@
         	}
 
         	$scope.SetIgnoreState = function () {
-        		$http.post('Devices/SetIgnoreState', { id: $scope.device.UID });
+        	    authService.сonfirm().then(function(options) {
+        	        $http.post('Devices/SetIgnoreState', { id: $scope.device.UID }, options);
+        	    });
         	};
 
         	$scope.SetAutomaticState = function () {
-        		$http.post('Devices/SetAutomaticState', { id: $scope.device.UID });
+        	    authService.сonfirm().then(function(options) {
+        	        $http.post('Devices/SetAutomaticState', { id: $scope.device.UID }, options);
+        	    });
         	};
 
         	$scope.Reset = function () {
-        		$http.post('Devices/Reset', { id: $scope.device.UID });
+        	    authService.сonfirm().then(function(options) {
+        	        $http.post('Devices/Reset', { id: $scope.device.UID }, options);
+        	    });
         	};
 
         	$scope.SetManualState = function () {
-        		$http.post('Devices/SetManualState', { id: $scope.device.UID });
+        	    authService.сonfirm().then(function(options) {
+        	        $http.post('Devices/SetManualState', { id: $scope.device.UID }, options);
+        	    });
         	};
 
         	$scope.ShowJournal = function () {

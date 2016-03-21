@@ -82,8 +82,8 @@
                     }
                 });
 
-                modalInstance.result.then(function () {
-                    deferred.resolve();
+                modalInstance.result.then(function (password) {
+                    deferred.resolve({ headers: {'Password': password}});
                 }, function () {
                     deferred.reject();
                 });

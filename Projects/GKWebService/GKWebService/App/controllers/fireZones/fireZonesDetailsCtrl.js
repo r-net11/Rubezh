@@ -15,15 +15,21 @@
             });
 
             $scope.ResetIgnore = function () {
-                $http.post('FireZones/ResetIgnore', { id: $scope.fireZone.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('FireZones/ResetIgnore', { id: $scope.fireZone.UID }, options);
+                });
             };
             
             $scope.SetIgnore = function () {
-                $http.post('FireZones/SetIgnore', { id: $scope.fireZone.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('FireZones/SetIgnore', { id: $scope.fireZone.UID }, options);
+                });
             };
 
             $scope.ResetFire = function () {
-                $http.post('FireZones/ResetFire', { id: $scope.fireZone.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('FireZones/ResetFire', { id: $scope.fireZone.UID }, options);
+                });
             };
 
             $scope.Show = function () {

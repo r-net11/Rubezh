@@ -1,4 +1,5 @@
-﻿using GKWebService.Models;
+﻿using GKWebService.DataProviders;
+using GKWebService.Models;
 using RubezhAPI;
 using RubezhClient;
 using System;
@@ -40,6 +41,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetAutomaticState(Guid id)
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
@@ -52,6 +54,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetManualState(Guid id)
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
@@ -64,6 +67,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetIgnoreState(Guid id)
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
@@ -76,6 +80,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOn(Guid id)
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
@@ -88,6 +93,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOnNow(Guid id)
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
@@ -100,6 +106,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOff(Guid id)
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
@@ -112,6 +119,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult ForbidStart(Guid id)
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);

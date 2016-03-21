@@ -1,7 +1,7 @@
 ﻿(function () {
     angular.module('gkApp.controllers').controller('guardZoneDetailsCtrl',
-    ['$scope', '$http', '$uibModalInstance', '$state', 'signalrGuardZonesService', 'entity',
-    function ($scope, $http, $uibModalInstance, $state, signalrGuardZonesService, entity) {
+    ['$scope', '$http', '$uibModalInstance', '$state', 'signalrGuardZonesService', 'entity', 'authService',
+    function ($scope, $http, $uibModalInstance, $state, signalrGuardZonesService, entity, authService) {
 
         $scope.guardZone = entity;
         $scope.$on('guardZoneChanged', function (event, args) {
@@ -12,35 +12,51 @@
         });
 
         $scope.SetAutomaticState = function () {
-            $http.post('GuardZones/SetAutomaticState', { id: $scope.guardZone.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('GuardZones/SetAutomaticState', { id: $scope.guardZone.UID }, options);
+            });
         }
 
         $scope.SetManualState = function () {
-            $http.post('GuardZones/SetManualState', { id: $scope.guardZone.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('GuardZones/SetManualState', { id: $scope.guardZone.UID }, options);
+            });
         };
 
         $scope.SetIgnoreState = function () {
-            $http.post('GuardZones/SetIgnoreState', { id: $scope.guardZone.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('GuardZones/SetIgnoreState', { id: $scope.guardZone.UID }, options);
+            });
         };
 
         $scope.TurnOn = function () {
-            $http.post('GuardZones/TurnOn', { id: $scope.guardZone.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('GuardZones/TurnOn', { id: $scope.guardZone.UID }, options);
+            });
         };
 
         $scope.TurnOnNow = function () {
-            $http.post('GuardZones/TurnOnNow', { id: $scope.guardZone.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('GuardZones/TurnOnNow', { id: $scope.guardZone.UID }, options);
+            });
         };
 
         $scope.TurnOff = function () {
-            $http.post('GuardZones/TurnOff', { id: $scope.guardZone.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('GuardZones/TurnOff', { id: $scope.guardZone.UID }, options);
+            });
         };
 
         $scope.TurnOffNow = function () {
-            $http.post('GuardZones/TurnOffNow', { id: $scope.guardZone.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('GuardZones/TurnOffNow', { id: $scope.guardZone.UID }, options);
+            });
         }
 
         $scope.Reset = function () {
-            $http.post('GuardZones/Reset', { id: $scope.guardZone.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('GuardZones/Reset', { id: $scope.guardZone.UID }, options);
+            });
         };
 
 

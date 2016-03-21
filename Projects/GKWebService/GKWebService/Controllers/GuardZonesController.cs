@@ -1,4 +1,5 @@
-﻿using GKWebService.Models;
+﻿using GKWebService.DataProviders;
+using GKWebService.Models;
 using GKWebService.Models.GuardZones;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -45,6 +46,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetAutomaticState(Guid id)
 		{
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
@@ -57,6 +59,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetManualState(Guid id)
 		{
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
@@ -69,6 +72,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetIgnoreState(Guid id)
 		{
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
@@ -81,6 +85,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOn(Guid id)
 		{
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
@@ -93,6 +98,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOnNow(Guid id)
 		{
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
@@ -105,6 +111,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOff(Guid id)
 		{
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
@@ -116,6 +123,8 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 
+		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOffNow(Guid id)
 		{
 			var guardZone = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);
@@ -128,6 +137,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult Reset(Guid id)
 		{
 			var mpt = GKManager.GuardZones.FirstOrDefault(d => d.UID == id);

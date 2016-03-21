@@ -20,7 +20,7 @@
                 if (options.validateOnlyPassword) {
                     $http.post("Home/CheckPass", { password: $scope.loginData.password }).then(function (response) {
                         if (response.data.result) {
-                            $uibModalInstance.close();
+                            $uibModalInstance.close($scope.loginData.password);
                         } else {
                             // TODO: Нужно реализовать общее окно для отображения ошибок
                             alert("Неверный пароль");
