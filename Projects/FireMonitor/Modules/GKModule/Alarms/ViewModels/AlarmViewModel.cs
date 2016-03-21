@@ -351,6 +351,12 @@ namespace GKModule.ViewModels
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
 					return true;
 			}
+
+			if (Alarm.GkBaseEntity is GKDoor)
+			{
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+					return true;
+			}
 			return false;
 		}
 		public bool CanResetIgnoreCommand
