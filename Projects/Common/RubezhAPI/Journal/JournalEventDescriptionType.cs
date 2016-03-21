@@ -198,8 +198,8 @@ namespace RubezhAPI.Journal
 		[EventDescriptionAttribute("Обрыв концевого выключателя ЗАКРЫТО", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
 		Обрыв_концевого_выключателя_ЗАКРЫТО = 64,
 
-		[EventDescriptionAttribute("Обрыв цепи 1 ДВИГАТЕЛЯ", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
-		Обрыв_цепи_1_ДВИГАТЕЛЯ = 65,
+		[EventDescriptionAttribute("Обрыв цепи ПД ЗАЩИТА", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Обрыв_цепи_ПД_ЗАЩИТА = 65,
 
 		[EventDescriptionAttribute("Замкнуты/разомкнуты оба концевика", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
 		Замкнуты_разомкнуты_оба_концевика = 66,
@@ -324,8 +324,8 @@ namespace RubezhAPI.Journal
 		[EventDescriptionAttribute("Отказ АЛС 7 или 8", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
 		Отказ_АЛС_7_или_8 = 106,
 
-		[EventDescriptionAttribute("Обрыв цепи 2 ДВИГАТЕЛЯ", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
-		Обрыв_цепи_2_ДВИГАТЕЛЯ = 107,
+		[EventDescriptionAttribute("Обрыв цепи ПД НОРМА", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Обрыв_цепи_ПД_НОРМА = 107,
 
 		[EventDescriptionAttribute("КЗ АЛС 1", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
 		КЗ_АЛС_1 = 108,
