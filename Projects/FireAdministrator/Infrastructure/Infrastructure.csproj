@@ -99,6 +99,7 @@
     <Compile Include="Events\ShowVideoEvent.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\IProgressService.cs" />
+    <Compile Include="Services\IUiElementsVisibilityService.cs" />
     <Compile Include="Services\IValidationResult.cs" />
     <Compile Include="Services\IValidationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -117,6 +118,7 @@
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\SaveService.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="Services\UiElementsVisibilityService.cs" />
     <Compile Include="SKDMissmatchSettings.cs" />
     <Compile Include="ViewModels\MenuViewPartViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

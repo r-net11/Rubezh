@@ -35,6 +35,7 @@ namespace Infrastructure
 			ContentService = new ContentService("Administrator");
 			DragDropService = new DragDropService();
 			RibbonService = new RibbonService();
+			UiElementsVisibilityService = new UiElementsVisibilityService();
 		}
 
 		public static SaveService SaveService { get; private set; }
@@ -43,5 +44,7 @@ namespace Infrastructure
 		public static LoginService LoginService { get; private set; }
 		public static MenuService MenuService { get; set; }
 		public static IRibbonService RibbonService { get; private set; }
+
+		public static IUiElementsVisibilityService UiElementsVisibilityService { get; private set; }
 	}
 }

@@ -207,6 +207,8 @@
     <Compile Include="Journal\JournalSubsystemType.cs" />
     <Compile Include="IFiresecService.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
+    <Compile Include="Models\License\ILicenseData.cs" />
+    <Compile Include="Models\License\LicenseData.cs" />
     <Compile Include="SKDCallbackResult.cs" />
     <Compile Include="SKDObjectsStateChangedEvent.cs" />
     <Compile Include="SKDProgressCallback.cs" />
