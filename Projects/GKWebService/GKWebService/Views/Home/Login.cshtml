@@ -13,11 +13,11 @@
     <div>
         <form name="form" role="form">
             <div class="form-group">
-                <input class="form-control" ng-model="loginData.userName" ng-attr-autofocus="!options.validateOnlyPassword || undefined" autocomplete="on" placeholder="Логин" ng-disabled="options.validateOnlyPassword">
+                <input class="form-control" ng-model="loginData.userName" ng-attr-autofocus="{{ !options.validateOnlyPassword || undefined}}" autocomplete="on" placeholder="Логин" ng-disabled="options.validateOnlyPassword">
             </div>
             
             <div class="form-group">
-                <input class="form-control" ng-model="loginData.password" ng-attr-autofocus="options.validateOnlyPassword || undefined" type="password" placeholder="Пароль">
+                <input class="form-control" ng-model="loginData.password" ng-attr-autofocus="{{ options.validateOnlyPassword || undefined}}" type="password" placeholder="Пароль">
             </div>
 
             <div class="form-group">
