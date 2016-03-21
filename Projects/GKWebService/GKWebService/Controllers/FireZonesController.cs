@@ -9,6 +9,7 @@ using RubezhAPI.Automation;
 using GKWebService.Models.FireZone;
 using Microsoft.Ajax.Utilities;
 using RubezhAPI.GK;
+using GKWebService.DataProviders;
 
 namespace GKWebService.Controllers
 {
@@ -52,6 +53,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetIgnore(Guid id)
 		{
 			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
@@ -64,6 +66,7 @@ namespace GKWebService.Controllers
 
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult ResetIgnore(Guid id)
 		{
 			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
@@ -75,6 +78,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult ResetFire(Guid id)
 		{
 			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)

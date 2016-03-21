@@ -6,7 +6,6 @@
 						 Display="hidden" ConfigurableDirectory="GKOPCLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
       <Condition Level="0">INSTALL_OPC</Condition>
       <ComponentRef Id="OPC.Files" />
-      <ComponentRef Id="OPC.DB.Common" />
       <ComponentRef Id="OPC.AutorunComponent" />
       <ComponentRef Id="OPC.ProgramsMenuShortcut" />
       <ComponentRef Id="OPC.DesktopShortcut" />

@@ -1,8 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('pumpStationDetailsCtrl',
-    ['$scope', '$uibModalInstance', '$http', '$state', 'signalrPumpStatoinsService', 'entity',
-    function ($scope, $uibModalInstance, $http, $state, signalrPumpStatoinsService, entity) {
+    ['$scope', '$uibModalInstance', '$http', '$state', 'signalrPumpStatoinsService', 'entity', 'authService',
+    function ($scope, $uibModalInstance, $http, $state, signalrPumpStatoinsService, entity, authService) {
         $scope.pumpStation = entity;
 
         $scope.$on('pumpStationsChanged', function (event, args) {
@@ -13,31 +13,45 @@
         });
 
         $scope.SetAutomaticState = function () {
-            $http.post('PumpStations/SetAutomaticState', { id: $scope.pumpStation.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('PumpStations/SetAutomaticState', { id: $scope.pumpStation.UID }, options);
+            });
         };
 
         $scope.SetManualState = function () {
-            $http.post('PumpStations/SetManualState', { id: $scope.pumpStation.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('PumpStations/SetManualState', { id: $scope.pumpStation.UID }, options);
+            });
         };
 
         $scope.SetIgnoreState = function () {
-            $http.post('PumpStations/SetIgnoreState', { id: $scope.pumpStation.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('PumpStations/SetIgnoreState', { id: $scope.pumpStation.UID }, options);
+            });
         };
 
         $scope.TurnOn = function () {
-            $http.post('PumpStations/TurnOn', { id: $scope.pumpStation.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('PumpStations/TurnOn', { id: $scope.pumpStation.UID }, options);
+            });
         };
 
         $scope.TurnOnNow = function () {
-            $http.post('PumpStations/TurnOnNow', { id: $scope.pumpStation.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('PumpStations/TurnOnNow', { id: $scope.pumpStation.UID }, options);
+            });
         };
 
         $scope.ForbidStart = function () {
-            $http.post('PumpStations/ForbidStart', { id: $scope.pumpStation.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('PumpStations/ForbidStart', { id: $scope.pumpStation.UID }, options);
+            });
         };
 
         $scope.TurnOff = function () {
-            $http.post('PumpStations/TurnOff', { id: $scope.pumpStation.UID });
+            authService.сonfirm().then(function (options) {
+                $http.post('PumpStations/TurnOff', { id: $scope.pumpStation.UID }, options);
+            });
         };
 
         $scope.Show = function () {

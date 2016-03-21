@@ -1,4 +1,5 @@
-﻿using GKWebService.Models;
+﻿using GKWebService.DataProviders;
+using GKWebService.Models;
 using RubezhAPI;
 using RubezhClient;
 using System;
@@ -30,6 +31,8 @@ namespace GKWebService.Controllers
 
 			return Json(delays.OrderBy(x=> x.Number), JsonRequestBehavior.AllowGet);
 		}
+		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetAutomaticState(Guid id)
 		{
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
@@ -40,6 +43,7 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetManualState(Guid id)
 		{
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
@@ -50,6 +54,7 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetIgnoreState(Guid id)
 		{
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
@@ -60,6 +65,7 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOn(Guid id)
 		{
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
@@ -70,6 +76,7 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOnNow(Guid id)
 		{
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
@@ -80,6 +87,7 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOff(Guid id)
 		{
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);

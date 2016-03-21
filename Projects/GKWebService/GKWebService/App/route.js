@@ -13,7 +13,14 @@
                     controller: 'loginCtrl',
                     backdrop: 'static',
                     size: 'rbzh',
-                    keyboard: false
+                    keyboard: false,
+                    resolve: {
+                        options: function () {
+                            return {
+                                validateOnlyPassword: false
+                            }
+                        }
+                    }
                 });
             }]
         }).state('home', {

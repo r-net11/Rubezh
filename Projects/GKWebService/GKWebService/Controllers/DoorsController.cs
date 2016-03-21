@@ -1,4 +1,5 @@
-﻿using GKWebService.Models.Door;
+﻿using GKWebService.DataProviders;
+using GKWebService.Models.Door;
 using RubezhAPI;
 using RubezhClient;
 using System;
@@ -30,6 +31,8 @@ namespace GKWebService.Controllers
 			return Json(data.OrderBy(x=> x.No), JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetAutomaticState(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -42,6 +45,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetManualState(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -54,6 +58,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetIgnoreState(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -66,6 +71,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOn(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -78,6 +84,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOffNow(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -90,6 +97,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOff(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -102,6 +110,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult Reset(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -113,6 +122,8 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 
+		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetRegimeNorm(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -126,6 +137,8 @@ namespace GKWebService.Controllers
 
 		}
 
+		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetRegimeOpen(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
@@ -138,6 +151,8 @@ namespace GKWebService.Controllers
 			return new JsonResult();
 		}
 
+		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetRegimeClose(Guid id)
 		{
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);

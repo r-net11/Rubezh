@@ -1,9 +1,11 @@
 ﻿(function () {
 
 	angular.module('gkApp.controllers').controller('devicesDetailsCtrl',
-        ['$scope', '$http', '$timeout', 'uiGridConstants', '$uibModalInstance', '$state', 'signalrDevicesService', 'entity',
-        function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity) {
+        ['$scope', '$http', '$timeout', 'uiGridConstants', '$uibModalInstance', '$state', 'signalrDevicesService', 'entity', 'authService',
+        function ($scope, $http, $timeout, uiGridConstants, $uibModalInstance, $state, signalrDevicesService, entity, authService) {
         	$scope.device = entity;
+
+        	$scope.oper_Device_Control = authService.checkPermission('Oper_Device_Control');
 
         	$scope.$on('signalrDevicesService.devicesChanged', function (event, args) {
         		if (args.UID === $scope.device.UID) {
@@ -69,19 +71,27 @@
         	}
 
         	$scope.SetIgnoreState = function () {
-        		$http.post('Devices/SetIgnoreState', { id: $scope.device.UID });
+        	    authService.сonfirm().then(function(options) {
+        	        $http.post('Devices/SetIgnoreState', { id: $scope.device.UID }, options);
+        	    });
         	};
 
         	$scope.SetAutomaticState = function () {
-        		$http.post('Devices/SetAutomaticState', { id: $scope.device.UID });
+        	    authService.сonfirm().then(function(options) {
+        	        $http.post('Devices/SetAutomaticState', { id: $scope.device.UID }, options);
+        	    });
         	};
 
         	$scope.Reset = function () {
-        		$http.post('Devices/Reset', { id: $scope.device.UID });
+        	    authService.сonfirm().then(function(options) {
+        	        $http.post('Devices/Reset', { id: $scope.device.UID }, options);
+        	    });
         	};
 
         	$scope.SetManualState = function () {
-        		$http.post('Devices/SetManualState', { id: $scope.device.UID });
+        	    authService.сonfirm().then(function(options) {
+        	        $http.post('Devices/SetManualState', { id: $scope.device.UID }, options);
+        	    });
         	};
 
         	$scope.ShowJournal = function () {

@@ -1,8 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('mptsDetailsCtrl',
-        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrMPTsService', 'entity',
-        function ($scope, $uibModalInstance, $http, $state, signalrMPTsService, entity) {
+        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrMPTsService', 'entity', 'authService',
+        function ($scope, $uibModalInstance, $http, $state, signalrMPTsService, entity, authService) {
             $scope.mpt = entity;
 
             $scope.$on('mptChanged', function (event, args) {
@@ -13,31 +13,45 @@
             });
 
             $scope.SetAutomaticState = function () {
-                $http.post('MPTs/SetAutomaticState', { id: $scope.mpt.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('MPTs/SetAutomaticState', { id: $scope.mpt.UID }, options);
+                });
             };
 
             $scope.SetManualState = function () {
-                $http.post('MPTs/SetManualState', { id: $scope.mpt.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('MPTs/SetManualState', { id: $scope.mpt.UID }, options);
+                });
             };
 
             $scope.SetIgnoreState = function () {
-                $http.post('MPTs/SetIgnoreState', { id: $scope.mpt.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('MPTs/SetIgnoreState', { id: $scope.mpt.UID }, options);
+                });
             };
 
             $scope.TurnOn = function () {
-                $http.post('MPTs/TurnOn', { id: $scope.mpt.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('MPTs/TurnOn', { id: $scope.mpt.UID }, options);
+                });
             };
 
             $scope.TurnOnNow = function () {
-                $http.post('MPTs/TurnOnNow', { id: $scope.mpt.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('MPTs/TurnOnNow', { id: $scope.mpt.UID }, options);
+                });
             };
 
             $scope.ForbidStart = function () {
-                $http.post('MPTs/ForbidStart', { id: $scope.mpt.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('MPTs/ForbidStart', { id: $scope.mpt.UID }, options);
+                });
             };
 
             $scope.TurnOff = function () {
-                $http.post('MPTs/TurnOff', { id: $scope.mpt.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('MPTs/TurnOff', { id: $scope.mpt.UID }, options);
+                });
             };
 
             $scope.Show = function () {

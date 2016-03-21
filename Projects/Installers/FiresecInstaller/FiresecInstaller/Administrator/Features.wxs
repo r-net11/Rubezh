@@ -5,7 +5,6 @@
 		<Feature Id="Administrator.Features" Title="Администратор" Description="Установка приложения Администратор" Level="1" Display="hidden"
 				 ConfigurableDirectory="ADMINISTRATORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Administrator.Files" />
-			<ComponentRef Id="Administrator.DB" />
 			<ComponentRef Id="Administrator.svg2xaml" />
 			<ComponentRef Id="Administrator.xaml2svg" />
 			<ComponentRef Id="Administrator.ProgramsMenuShortcut" />

@@ -30,23 +30,6 @@
 
 				<File Id="OPC.NLog.dll"									Name="NLog.dll"							Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
 			</Component>
-
-			<Component Id="OPC.DB.Common" Guid="2BD1C3BF-5578-4686-A5ED-6E47C402FAEB">
-				<File Id="OPC.sqlceca35.dll"							Name="sqlceca35.dll"					Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-				<File Id="OPC.sqlcecompact35.dll"						Name="sqlcecompact35.dll"				Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-				<File Id="OPC.sqlceer35EN.dll"							Name="sqlceer35EN.dll"					Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-				<File Id="OPC.sqlceme35.dll"							Name="sqlceme35.dll"					Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-				<File Id="OPC.sqlceoledb35.dll"							Name="sqlceoledb35.dll"					Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-				<File Id="OPC.sqlceqp35.dll"							Name="sqlceqp35.dll"					Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-				<File Id="OPC.sqlcese35.dll"							Name="sqlcese35.dll"					Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-
-				<?if $(var.Platform) = x64 ?>
-				<File Id="OPC.System.Data.SqlServerCe.dll"				Name="System.Data.SqlServerCe.dll"		Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-				<?else ?>
-				<File Id="OPC.System.Data.SqlServerCe.dll"				Name="System.Data.SqlServerCe.dll"		Source="..\..\..\..\..\..\3rdParty\MSSQLCEv35\" />
-				<?endif ?>
-
-			</Component>
 		</DirectoryRef>
 	</Fragment>
 </Wix>
