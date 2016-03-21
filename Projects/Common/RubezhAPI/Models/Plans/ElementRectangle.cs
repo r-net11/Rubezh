@@ -7,7 +7,7 @@ namespace RubezhAPI.Models
 	[DataContract]
 	public class ElementRectangle : ElementBaseRectangle, IPrimitive
 	{
-		public ElementRectangle()
+		public ElementRectangle() : base()
 		{
 			PresentationName = "Прямоугольник";
 		}
