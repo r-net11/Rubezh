@@ -13,7 +13,8 @@ using RubezhClient;
 
 namespace GKWebService.Controllers
 {
-    public class OrganisationsController : Controller
+	[Authorize]
+	public class OrganisationsController : Controller
     {
         // GET: Organisations
         public ActionResult Index()

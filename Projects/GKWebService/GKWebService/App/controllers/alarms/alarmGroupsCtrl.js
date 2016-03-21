@@ -27,7 +27,9 @@
                 };
 
                 $scope.resetClick = function () {
-                    $http.post('Alarms/ResetAll');
+                    authService.сonfirm().then(function(options) {
+                        $http.post('Alarms/ResetAll', {}, options);
+                    });
                 };
 
                 $scope.initData = function(data) {

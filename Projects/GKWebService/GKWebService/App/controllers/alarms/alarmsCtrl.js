@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
-        ['$scope', '$http', '$window', '$state', '$stateParams', 'broadcastService', 'constants', 'dialogService',
-        function ($scope, $http, $window, $state, $stateParams, broadcastService, constants, dialogService) {
+        ['$scope', '$http', '$window', '$state', '$stateParams', 'broadcastService', 'constants', 'dialogService', 'authService',
+        function ($scope, $http, $window, $state, $stateParams, broadcastService, constants, dialogService, authService) {
             $scope.gridOptions = {
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
@@ -99,23 +99,33 @@
             });
 
             $scope.resetClick = function() {
-                $http.post('Alarms/ResetAll');
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/ResetAll', {}, options);
+                });
             };
 
             $scope.resetAlarmClick = function (alarm) {
-                $http.post('Alarms/Reset', { alarm: alarm });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/Reset', { alarm: alarm }, options);
+                });
             };
 
             $scope.resetAlarmIgnoreClick = function (alarm) {
-                $http.post('Alarms/ResetIgnore', { alarm: alarm });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/ResetIgnore', { alarm: alarm }, options);
+                });
             };
 
             $scope.turnOnAutomaticClick = function (alarm) {
-                $http.post('Alarms/TurnOnAutomatic', { alarm: alarm });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/TurnOnAutomatic', { alarm: alarm }, options);
+                });
             };
 
             $scope.resetIgnoreAll = function () {
-                $http.post('Alarms/ResetIgnoreAll');
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/ResetIgnoreAll', {}, options);
+                });
             };
 
             $scope.objectClick = function(alarm) {
