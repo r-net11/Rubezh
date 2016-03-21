@@ -18,43 +18,63 @@
             
 
             $scope.SetAutomaticState = function() {
-                $http.post('Doors/SetAutomaticState', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/SetAutomaticState', { id: $scope.door.UID }, options);
+                });
             }
 
             $scope.SetManualState = function() {
-                $http.post('Doors/SetManualState', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/SetManualState', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.SetIgnoreState = function() {
-                $http.post('Doors/SetIgnoreState', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/SetIgnoreState', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.TurnOn = function() {
-                $http.post('Doors/TurnOn', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/TurnOn', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.TurnOffNow = function () {
-                $http.post('Doors/TurnOffNow', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/TurnOffNow', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.TurnOff = function() {
-                $http.post('Doors/TurnOff', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/TurnOff', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.Reset = function() {
-                $http.post('Doors/Reset', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/Reset', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.SetRegimeNorm = function() {
-                $http.post('Doors/SetRegimeNorm', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/SetRegimeNorm', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.SetRegimeOpen = function() {
-                $http.post('Doors/SetRegimeOpen', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/SetRegimeOpen', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.SetRegimeClose = function() {
-                $http.post('Doors/SetRegimeClose', { id: $scope.door.UID });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Doors/SetRegimeClose', { id: $scope.door.UID }, options);
+                });
             };
 
             $scope.Show = function() {

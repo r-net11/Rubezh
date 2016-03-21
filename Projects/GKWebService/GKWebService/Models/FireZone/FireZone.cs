@@ -67,8 +67,8 @@ namespace GKWebService.Models.FireZone
 							 .ToString()
 							 .Substring(3) + "'";
 			StateMessage = gkZone.State.StateClass.ToDescription();
-			CanSetIgnore = !gkZone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
-			CanResetIgnore = gkZone.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control);
+			CanSetIgnore = !gkZone.State.StateClasses.Contains(XStateClass.Ignore);
+			CanResetIgnore = gkZone.State.StateClasses.Contains(XStateClass.Ignore);
 			CanResetFire = gkZone.State.StateClasses.Contains(XStateClass.Fire2) 
 				|| gkZone.State.StateClasses.Contains(XStateClass.Fire1) 
 				|| gkZone.State.StateClasses.Contains(XStateClass.Attention);

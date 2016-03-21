@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -53,15 +54,31 @@ namespace GKWebService.Controllers
 				Response.AppendCookie(authCookie);
 			}
 
-			return Json(new { success = string.IsNullOrEmpty(error), message = error, permissions = GetCurrentUserPermissions() });
+			return Json(new { success = string.IsNullOrEmpty(error), message = error });
+		}
+
+		public JsonResult CheckPass(string password)
+		{
+			var result = ClientManager.CheckPass(HttpContext.User.Identity.Name, password);
+			return Json(new { result }, JsonRequestBehavior.AllowGet);
 		}
 
 		public JsonResult TryGetCurrentUserName()
 		{
-			return Json(new { userName = User.Identity.Name, permissions = GetCurrentUserPermissions() }, JsonRequestBehavior.AllowGet);
+			// если веб-сервер перезапустили, то просим пользователя залогиниться заново
+			try
+			{
+				var service = ClientManager.FiresecService;
+			}
+			catch (KeyNotFoundException)
+			{
+				FormsAuthentication.SignOut();
+				Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+			}
+			return Json(new { userName = User.Identity.Name }, JsonRequestBehavior.AllowGet);
 		}
 
-		private List<string> GetCurrentUserPermissions()
+		public JsonResult GetCurrentUserPermissions()
 		{
 			//var permissions = ClientManager.CurrentUser.PermissionStrings;
 			// на случай если в ОЗ поменяется наменование конкретного права permission произойдёт ошибка компиляции
@@ -74,7 +91,9 @@ namespace GKWebService.Controllers
 				permissions.Add("Oper_Door_Control");
 			if (ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 				permissions.Add("Oper_Zone_Control");
-            return permissions;
+			if (ClientManager.CheckPermission(PermissionType.Oper_MayNotConfirmCommands))
+				permissions.Add("Oper_MayNotConfirmCommands");
+			return Json(new { permissions }, JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

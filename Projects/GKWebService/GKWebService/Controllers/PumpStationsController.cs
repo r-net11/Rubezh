@@ -1,4 +1,5 @@
-﻿using GKWebService.Models;
+﻿using GKWebService.DataProviders;
+using GKWebService.Models;
 using GKWebService.Models.PumpStation;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -46,6 +47,8 @@ namespace GKWebService.Controllers
 			return Json(data, JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetAutomaticState(Guid id)
 		{
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
@@ -58,6 +61,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetManualState(Guid id)
 		{
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
@@ -70,6 +74,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetIgnoreState(Guid id)
 		{
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
@@ -82,6 +87,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOn(Guid id)
 		{
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
@@ -94,6 +100,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOnNow(Guid id)
 		{
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
@@ -106,6 +113,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult TurnOff(Guid id)
 		{
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
@@ -118,6 +126,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult ForbidStart(Guid id)
 		{
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);

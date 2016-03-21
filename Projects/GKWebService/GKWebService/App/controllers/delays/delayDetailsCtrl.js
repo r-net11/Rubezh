@@ -1,8 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('delayDetailsCtrl',
-		['$scope', '$uibModalInstance', '$http', '$state', 'signalrDelaysService', 'entity',
-        function ($scope, $uibModalInstance, $http, $state, signalrDelaysService, entity) {
+		['$scope', '$uibModalInstance', '$http', '$state', 'signalrDelaysService', 'entity', 'authService',
+         function ($scope, $uibModalInstance, $http, $state, signalrDelaysService, entity, authService) {
 		    $scope.delay = entity;
 
 			$scope.$on('delayChanged', function (event, args) {
@@ -12,27 +12,39 @@
 				};
 			});
 			$scope.SetAutomaticState = function () {
-			    $http.post('Delays/SetAutomaticState', { id: $scope.delay.UID });
+			    authService.сonfirm().then(function(options) {
+			        $http.post('Delays/SetAutomaticState', { id: $scope.delay.UID }, options);
+			    });
 			};
 
 			$scope.SetManualState = function () {
-			    $http.post('Delays/SetManualState', { id: $scope.delay.UID });
+			    authService.сonfirm().then(function(options) {
+			        $http.post('Delays/SetManualState', { id: $scope.delay.UID }, options);
+			    });
 			};
 
 			$scope.SetIgnoreState = function () {
-			    $http.post('Delays/SetIgnoreState', { id: $scope.delay.UID });
+			    authService.сonfirm().then(function(options) {
+			        $http.post('Delays/SetIgnoreState', { id: $scope.delay.UID }, options);
+			    });
 			};
 
 			$scope.TurnOn = function () {
-			    $http.post('Delays/TurnOn', { id: $scope.delay.UID });
+			    authService.сonfirm().then(function(options) {
+			        $http.post('Delays/TurnOn', { id: $scope.delay.UID }, options);
+			    });
 			};
 
 			$scope.TurnOnNow = function () {
-			    $http.post('Delays/TurnOnNow', { id: $scope.delay.UID });
+			    authService.сonfirm().then(function(options) {
+			        $http.post('Delays/TurnOnNow', { id: $scope.delay.UID }, options);
+			    });
 			};
 
 			$scope.TurnOff = function () {
-			    $http.post('Delays/TurnOff', { id: $scope.delay.UID });
+			    authService.сonfirm().then(function(options) {
+			        $http.post('Delays/TurnOff', { id: $scope.delay.UID }, options);
+			    });
 			};
 			$scope.Show = function () {
 			    $state.go('delays', { uid: $scope.delay.UID });
