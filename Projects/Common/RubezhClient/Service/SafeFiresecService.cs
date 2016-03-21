@@ -31,6 +31,8 @@ namespace RubezhClient
 			};
 		}
 
+		public Guid UID { get { return FiresecServiceFactory.UID; } }
+
 		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName)
 		{
 			try
