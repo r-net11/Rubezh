@@ -30,6 +30,9 @@ namespace KeyGenerator.Entities
 		[Description("Модуль \"Автоматизация\"")]
 		public bool IsEnabledAutomation { get; private set; }
 
+		[Description("Сервер A.C. Tech")]
+		public bool IsEnabledServer { get; private set; }
+
 		public LicenseEntity(ILicenseEntity entity)
 		{
 			if (entity == null) return;
@@ -43,6 +46,7 @@ namespace KeyGenerator.Entities
 			IsEnabledPhotoVerification = entity.IsEnabledPhotoVerification;
 			IsEnabledRVI = entity.IsEnabledRVI;
 			IsEnabledAutomation = entity.IsEnabledAutomation;
+			IsEnabledServer = entity.IsEnabledServer;
 		}
 	}
 }
