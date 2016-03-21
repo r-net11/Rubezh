@@ -30,15 +30,19 @@ namespace GKModule.ViewModels
 		{
 			Current = this;
 			Menu = new PumpStationsMenuViewModel(this);
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(() => OnAdd());
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices, CanChangePumpDevices);
+			DeletePumpDeviceCommand = new RelayCommand(OnDeletePumpDevice, CanDeletePumpDevice);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
+
+			Menu = new PumpStationsMenuViewModel(this);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -47,6 +51,7 @@ namespace GKModule.ViewModels
 		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
@@ -59,7 +64,7 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			PumpStations = new ObservableCollection<PumpStationViewModel>(
+			PumpStations = GKManager.PumpStations == null ? new ObservableCollection<PumpStationViewModel>() : new ObservableCollection<PumpStationViewModel>(
 				from pumpStation in GKManager.PumpStations
 				orderby pumpStation.No
 				select new PumpStationViewModel(pumpStation));
@@ -73,7 +78,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_pumpStations = value;
-				OnPropertyChanged(() => PumpStations);
+				OnPropertyChanged("PumpStations");
 			}
 		}
 
@@ -90,12 +95,13 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		public bool HasSelectedPumpStation
 		{
-			OnAddResult();
+			get { return SelectedPumpStation != null; }
 		}
-		private PumpStationDetailsViewModel OnAddResult()
+
+		public RelayCommand AddCommand { get; private set; }
+		private PumpStationDetailsViewModel OnAdd()
 		{
 			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel();
 			if (ServiceFactory.DialogService.ShowModalWindow(pumpStationDetailsViewModel))
@@ -104,6 +110,7 @@ namespace GKModule.ViewModels
 				var pumpStationViewModel = new PumpStationViewModel(pumpStationDetailsViewModel.PumpStation);
 				PumpStations.Add(pumpStationViewModel);
 				SelectedPumpStation = pumpStationViewModel;
+				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 				GKPlanExtension.Instance.Cache.BuildSafe<GKPumpStation>();
 				return pumpStationDetailsViewModel;
@@ -130,14 +137,16 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedPumpStation.PumpStation.PresentationName + " ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить НС " + SelectedPumpStation.PumpStation.PresentationName + " ?"))
 			{
+				var pumpDevices = new List<GKDevice>(SelectedPumpStation.PumpDevices.Select(x => x.Device));
 				var index = PumpStations.IndexOf(SelectedPumpStation);
 				GKManager.RemovePumpStation(SelectedPumpStation.PumpStation);
 				PumpStations.Remove(SelectedPumpStation);
 				index = Math.Min(index, PumpStations.Count - 1);
 				if (index > -1)
 					SelectedPumpStation = PumpStations[index];
+				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 				GKPlanExtension.Instance.Cache.BuildSafe<GKPumpStation>();
 			}
@@ -146,7 +155,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
+			if (ServiceFactory.MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые НС ?"))
 			{
 				GetEmptyPumpStations().ForEach(x =>
 				{
@@ -165,7 +174,27 @@ namespace GKModule.ViewModels
 		}
 		List<PumpStationViewModel> GetEmptyPumpStations()
 		{
-			return PumpStations.Where(x => !x.PumpStation.StartLogic.GetObjects().Any()).ToList();
+			return PumpStations.Where(x => !x.PumpStation.InputDependentElements.Any()).ToList();
+		}
+
+		public RelayCommand ChangePumpDevicesCommand { get; private set; }
+		void OnChangePumpDevices()
+		{
+			SelectedPumpStation.ChangePumpDevices();
+		}
+		bool CanChangePumpDevices()
+		{
+			return SelectedPumpStation != null;
+		}
+
+		public RelayCommand DeletePumpDeviceCommand { get; private set; }
+		void OnDeletePumpDevice()
+		{
+			SelectedPumpStation.DeletePumpDevice();
+		}
+		bool CanDeletePumpDevice()
+		{
+			return SelectedPumpStation != null && SelectedPumpStation.SelectedPumpDevice != null;
 		}
 
 		GKPumpStation _pumpStationToCopy;
@@ -252,7 +281,7 @@ namespace GKModule.ViewModels
 
 		public void CreatePumpStation(CreateGKPumpStationEventArgs createPumpStationEventArg)
 		{
-			PumpStationDetailsViewModel result = OnAddResult();
+			PumpStationDetailsViewModel result = OnAdd();
 			if (result == null)
 			{
 				createPumpStationEventArg.Cancel = true;
@@ -329,6 +358,7 @@ namespace GKModule.ViewModels
 		}
 
 		#region ISelectable<Guid> Members
+
 		public void Select(Guid pumpStationUID)
 		{
 			if (pumpStationUID != Guid.Empty)
@@ -360,7 +390,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
 					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
-					new RibbonMenuItemViewModel("Удалить все пустые направления", DeleteAllEmptyCommand, "BDeleteEmpty"),
+					new RibbonMenuItemViewModel("Удалить все пустые НС", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

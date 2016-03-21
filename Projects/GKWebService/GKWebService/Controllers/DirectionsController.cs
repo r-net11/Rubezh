@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GKWebService.DataProviders;
 using GKWebService.Models;
 using GKWebService.Utils;
 using RubezhAPI;
@@ -39,7 +40,8 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
-	    public JsonResult SetAutomaticState(Guid id)
+		[ConfirmCommand()]
+		public JsonResult SetAutomaticState(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
@@ -52,6 +54,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand()]
 		public JsonResult SetManualState(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
@@ -65,6 +68,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand()]
 		public JsonResult SetIgnoreState(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
@@ -78,6 +82,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand()]
 		public JsonResult TurnOn(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
@@ -91,6 +96,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand()]
 		public JsonResult TurnOnNow(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
@@ -104,6 +110,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand()]
 		public JsonResult TurnOff(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
@@ -117,6 +124,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand()]
 		public JsonResult ForbidStart(Guid id)
 		{
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);

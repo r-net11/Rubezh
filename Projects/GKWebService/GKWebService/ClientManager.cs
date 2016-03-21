@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using Common;
 using Infrastructure.Common;
-using RubezhAPI;
 using RubezhAPI.Models;
 using RubezhClient;
 
@@ -18,7 +17,11 @@ namespace GKWebService
 
 		public static ISafeFiresecService FiresecService
 		{
-			get { return users[HttpContext.Current.User.Identity.Name]; }
+			get
+			{
+				var userName = HttpContext.Current.User.Identity.Name;
+				return users[userName];
+			}
 		}
 
 		static ClientManager()
@@ -42,8 +45,7 @@ namespace GKWebService
 				if (users.ContainsKey(clientCredentials.Login))
 				{
 					//Если пользователь уже аудентифицирован и законнектен то надо только аудентифицировать, но не коннектить
-					var user = RubezhClient.ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.Login);
-					if (!HashHelper.CheckPass(clientCredentials.Password, user.PasswordHash))
+					if (!CheckPass(clientCredentials.Login, clientCredentials.Password))
 					{
 						error = "Неверный логин или пароль";
 					}
@@ -66,6 +68,12 @@ namespace GKWebService
 
 				return error;
 			}
+		}
+
+		public static bool CheckPass(string userName, string password)
+		{
+			var user = RubezhClient.ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == userName);
+			return HashHelper.CheckPass(password, user.PasswordHash);
 		}
 
 		public static void AddAdminUser(string login, ISafeFiresecService firesecService)

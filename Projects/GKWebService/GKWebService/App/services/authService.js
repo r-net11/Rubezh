@@ -2,12 +2,13 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('authService', ['$q', '$http', '$window', function ($q, $http, $window) {
+    app.factory('authService', ['$q', '$http', '$window', '$uibModal', function ($q, $http, $window, $uibModal) {
         var authServiceFactory = {};
 
         authServiceFactory.authentication = {
             isAuth: false,
-            userName: ""
+            userName: "",
+            permissions: []
         };
 
         authServiceFactory.login = function (loginData) {
@@ -19,6 +20,9 @@
                 if (response.success) {
                     authServiceFactory.authentication.isAuth = true;
                     authServiceFactory.authentication.userName = loginData.userName;
+                    $http.get("Home/GetCurrentUserPermissions").then(function (responsePermissions) {
+                        authServiceFactory.authentication.permissions = responsePermissions.data.permissions;
+                    });
 
                     deferred.resolve(response);
                 } else {
@@ -37,6 +41,7 @@
 
                 authServiceFactory.authentication.isAuth = false;
                 authServiceFactory.authentication.userName = '';
+                authServiceFactory.authentication.permissions = [];
 
                 $window.location.reload();
             });
@@ -46,7 +51,45 @@
             $http.get("Home/TryGetCurrentUserName").then(function (response) {
                 authServiceFactory.authentication.isAuth = true;
                 authServiceFactory.authentication.userName = response.data.userName;
+                $http.get("Home/GetCurrentUserPermissions").then(function(responsePermissions) {
+                    authServiceFactory.authentication.permissions = responsePermissions.data.permissions;
+                });
             });
+        };
+
+        authServiceFactory.checkPermission = function (permission) {
+            return authServiceFactory.authentication.permissions.indexOf(permission) !== -1;
+        };
+
+        authServiceFactory.сonfirm = function () {
+            var deferred = $q.defer();
+
+            if (authServiceFactory.checkPermission('Oper_MayNotConfirmCommands')) {
+                deferred.resolve();
+            } else {
+                var modalInstance = $uibModal.open({
+                    templateUrl: '/Home/Login',
+                    controller: 'loginCtrl',
+                    backdrop: 'static',
+                    size: 'rbzh',
+                    keyboard: false,
+                    resolve: {
+                        options: function () {
+                            return {
+                                validateOnlyPassword: true
+                            }
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (password) {
+                    deferred.resolve({ headers: {'Password': password}});
+                }, function () {
+                    deferred.reject();
+                });
+            }
+
+            return deferred.promise;
         };
 
         return authServiceFactory;

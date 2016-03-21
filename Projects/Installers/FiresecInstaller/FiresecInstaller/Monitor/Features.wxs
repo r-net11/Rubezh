@@ -6,7 +6,6 @@
 				 ConfigurableDirectory="MONITORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Monitor.Files" />
 			<ComponentRef Id="Monitor.Files.ru" />
-			<ComponentRef Id="Monitor.DB" />
 			<ComponentRef Id="Monitor.Integrate" />
 			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />
 			<ComponentRef Id="Monitor.DesktopShortcut" />
