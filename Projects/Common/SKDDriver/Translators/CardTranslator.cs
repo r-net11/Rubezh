@@ -476,7 +476,7 @@ namespace SKDDriver
 
 		public int GetCardsCount()
 		{
-			return Context.Cards.Count();
+			return Context.Cards.Count(x => !x.IsInStopList);
 		}
 	}
 }

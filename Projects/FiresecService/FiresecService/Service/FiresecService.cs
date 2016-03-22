@@ -32,7 +32,6 @@ namespace FiresecService.Service
 
 			// Записываем состояние лицензии в журнал системы при запуске сервера
 			AddJournalMessage(_licenseManager.IsValidExistingKey() ? JournalEventNameType.Лицензия_обнаружена : JournalEventNameType.Отсутствует_лицензия, null);
-			
 		}
 
 		private ClientCredentials CurrentClientCredentials;
