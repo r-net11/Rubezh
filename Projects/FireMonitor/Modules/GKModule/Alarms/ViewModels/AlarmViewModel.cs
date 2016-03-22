@@ -422,6 +422,15 @@ namespace GKModule.ViewModels
 						ClientManager.FiresecService.GKSetAutomaticRegime(guardZone);
 					}
 				}
+
+				var door = Alarm.GkBaseEntity as GKDoor;
+				if (door != null)
+				{
+					if (door.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+					{
+						ClientManager.FiresecService.GKSetAutomaticRegime(door);
+					}
+				}
 			}
 		}
 		bool CanTurnOnAutomatic()
