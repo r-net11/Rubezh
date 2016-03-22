@@ -61,8 +61,8 @@ namespace JournalModule.ViewModels
 			set
 			{
 				SetIsChecked(value);
-				PropogateDown(value);
-				PropogateUp(value);
+				PropagateDown(value);
+				//PropagateUp(value);
 			}
 		}
 
@@ -72,22 +72,22 @@ namespace JournalModule.ViewModels
 			OnPropertyChanged(() => IsChecked);
 		}
 
-        void PropogateUp(bool value)
+        void PropagateUp(bool value)
         {
             if (Parent != null)
             {
                 var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
-                Parent.SetIsChecked(isAllChecked);
-                Parent.PropogateUp(value);
+				Parent.SetIsChecked(isAllChecked);
+                Parent.PropagateUp(value);
             }
         }
 
-        void PropogateDown(bool value)
+        void PropagateDown(bool value)
         {
             foreach (var child in Children)
             {
                 child.SetIsChecked(value);
-                child.PropogateDown(value);
+                child.PropagateDown(value);
             }
         }
 	}
