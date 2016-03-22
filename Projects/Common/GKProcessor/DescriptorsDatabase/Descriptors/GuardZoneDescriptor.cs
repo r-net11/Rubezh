@@ -9,6 +9,7 @@ namespace GKProcessor
 	{
 		GKGuardZone GuardZone { get; set; }
 		public GuardZonePimDescriptor GuardZonePimDescriptor { get; private set; }
+		public GuardZoneChangePimDescriptor GuardZoneChangePimDescriptor { get; private set; }
 		readonly List<Tuple<GKDevice, GKCodeReaderSettingsPart>> SetGuardDevices;
 		readonly List<Tuple<GKDevice, GKCodeReaderSettingsPart>> ResetGuardDevices;
 		readonly List<Tuple<GKDevice, GKCodeReaderSettingsPart>> ChangeGuardDevices;
@@ -71,7 +72,11 @@ namespace GKProcessor
 				}
 			}
 			if (ChangeGuardDevices.Count > 0)
+			{
 				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
+				GuardZoneChangePimDescriptor = new GuardZoneChangePimDescriptor(GuardZone);
+				GuardZone.LinkToDescriptor(GuardZone.ChangePim);
+			}
 		}
 
 		public override void Build()
@@ -158,7 +163,25 @@ namespace GKProcessor
 					{
 						if (ChangeGuardDevices.Count > 0)
 						{
-							AddSettings(ChangeGuardDevices, Formula, GKStateBit.No);
+							var changeGuardDevices1 = ChangeGuardDevices.FindAll(x => !x.Item1.Driver.IsCardReaderOrCodeReader);
+							var changeGuardDevices2 = ChangeGuardDevices.FindAll(x => x.Item1.Driver.IsCardReaderOrCodeReader);
+							AddSettings(changeGuardDevices1, Formula, GKStateBit.No);
+							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
+							{
+								Formula.AddGetBit(GKStateBit.Off, GuardZone);
+								Formula.Add(FormulaOperationType.AND);
+								Formula.AddGetBit(GKStateBit.On, GuardZone.ChangePim);
+								Formula.Add(FormulaOperationType.AND);// AND Pim вкл
+							}
+							if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
+							{
+								Formula.AddGetBit(GKStateBit.On, GuardZone);
+								Formula.Add(FormulaOperationType.AND);
+								Formula.AddGetBit(GKStateBit.Off, GuardZone.ChangePim);
+								Formula.Add(FormulaOperationType.AND);// AND Pim выкл
+							}
+
+							AddSettings(changeGuardDevices2, Formula, GKStateBit.No);
 							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
 							{
 								Formula.AddGetBit(GKStateBit.Off, GuardZone);
@@ -169,6 +192,12 @@ namespace GKProcessor
 								Formula.AddGetBit(GKStateBit.On, GuardZone);
 								Formula.Add(FormulaOperationType.AND);
 							}
+
+							if (changeGuardDevices1.Count > 0 && changeGuardDevices2.Count > 0)
+							{
+								Formula.Add(FormulaOperationType.OR);
+							}
+
 							if (count > 0 && ChangeGuardDevices.Count > 0)
 							{
 								Formula.Add(FormulaOperationType.OR);

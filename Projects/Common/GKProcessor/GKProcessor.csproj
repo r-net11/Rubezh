@@ -73,6 +73,7 @@
     <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorEnter.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorExit.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaHelper.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\GuardZoneChangePimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\MirrorDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PumpStationDescriptor.cs" />
