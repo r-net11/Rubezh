@@ -3,14 +3,14 @@
 }
 
 <div ng-controller="pumpStationsCtrl">
-    <div style="width:34%; float:left; margin-right:1%">
+    <div class="row grid-row" >
+    <div class ="col-xs-4 col-lg-4 col-md-4"@*style="width:34%; float:left; margin-right:1%"*@>
         <div ui-grid="uiGrid" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state ui-grid-auto-size-column style="{{gridStyle}}"></div>
     </div>
-    <div ng-controller="pumpStationDevicesCtrl" style="width:65%; float: left">
-        <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state style="{{gridStyle}}"></div>
-    </div>
-    <div style="clear: both">
-    </div>
+        <div class="col-xs-8 col-lg-8 col-md-8" ng-controller="pumpStationDevicesCtrl" @*style="width:65%; float: left"*@>
+            <div ui-grid="uiGrid" ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state style="{{gridStyle}}"></div>
+        </div>
+        </div>
     <div class="deviceWindow">
         <div class="deviceProperties">
             <div>
