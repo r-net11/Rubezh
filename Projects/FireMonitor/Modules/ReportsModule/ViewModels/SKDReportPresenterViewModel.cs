@@ -77,7 +77,6 @@ namespace ReportsModule.ViewModels
 						SelectedReport.Reset();
 						OnFitPageSize(ZoomFitMode.WholePage); // SKDDEV-409 пункт 1 - приведение масштаба каждого вновь открытого отчета к исходному размеру (100%)
 					}
-					BuildReport();
 				}
 				CommandManager.InvalidateRequerySuggested();
 			}

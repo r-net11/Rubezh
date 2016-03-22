@@ -326,7 +326,6 @@
           <Property Name="ScheduleStartDate" Type="datetime" Nullable="false" />
           <Property Name="Type" Type="int" />
           <Property Name="TabelNo" Type="nvarchar" MaxLength="40" />
-          <Property Name="CredentialsStartDate" Type="datetime" Nullable="false" />
           <Property Name="EscortUID" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="RemovalDate" Type="datetime" Nullable="false" />
@@ -1408,7 +1407,6 @@
           <Property Name="ScheduleStartDate" Type="DateTime" Nullable="false" />
           <Property Name="Type" Type="Int32" />
           <Property Name="TabelNo" Type="String" MaxLength="40" Unicode="true" FixedLength="false" />
-          <Property Name="CredentialsStartDate" Type="DateTime" Nullable="false" />
           <Property Name="EscortUID" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="RemovalDate" Type="DateTime" Nullable="false" />
@@ -2278,7 +2276,6 @@
             <ScalarProperty Name="ScheduleStartDate" ColumnName="ScheduleStartDate" />
             <ScalarProperty Name="Type" ColumnName="Type" />
             <ScalarProperty Name="TabelNo" ColumnName="TabelNo" />
-            <ScalarProperty Name="CredentialsStartDate" ColumnName="CredentialsStartDate" />
             <ScalarProperty Name="EscortUID" ColumnName="EscortUID" />
             <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
             <ScalarProperty Name="RemovalDate" ColumnName="RemovalDate" />
@@ -2486,7 +2483,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="SKDModel">
+      <Diagram Name="SKDModel" ZoomLevel="74">
         <EntityTypeShape EntityType="SKDModel.AccessTemplate" Width="1.5" PointX="15.75" PointY="14.875" Height="2.4140429687500014" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.AdditionalColumn" Width="1.5" PointX="3" PointY="28.25" Height="2.2496956380208317" IsExpanded="true" />
         <EntityTypeShape EntityType="SKDModel.AdditionalColumnType" Width="1.5" PointX="15.75" PointY="18" Height="2.7427376302083317" IsExpanded="true" />

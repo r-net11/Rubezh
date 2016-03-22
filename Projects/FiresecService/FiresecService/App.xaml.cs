@@ -35,30 +35,28 @@ namespace FiresecServiceRunner
 			}
 
 			var licenseService = new LicenseManager();
-#if !LIC_FREE
+
 			if (!licenseService.IsValidExistingKey())
 			{
 				//TODO:block connections
+				Logger.Error("License is not exist");
 			}
 
-#endif
-				using (new DoubleLaunchLocker(SignalId, WaitId, true))
+			using (new DoubleLaunchLocker(SignalId, WaitId, true))
+			{
+				AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+				AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
+				try
 				{
-					AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-					AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
-					try
-					{
-						Bootstrapper.Run(licenseService);
-					}
-					catch (Exception ex)
-					{
-						Logger.Error(ex, "App.OnStartup");
-						BalloonHelper.ShowFromServer("Ошибка во время загрузки");
-						return;
-					}
+					Bootstrapper.Run(licenseService);
 				}
-#if !LIC_FREE
-#endif
+				catch (Exception ex)
+				{
+					Logger.Error(ex, "App.OnStartup");
+					BalloonHelper.ShowFromServer("Ошибка во время загрузки");
+					return;
+				}
+			}
 		}
 
 		protected override void OnExit(ExitEventArgs e)

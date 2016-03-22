@@ -40,5 +40,9 @@ namespace License.Model.Entities
 		[XmlElement("IsEnabledAutomation")]
 		[Category("License Options")]
 		public bool IsEnabledAutomation { get; set; }
+
+		[XmlElement]
+		[Category("License Options")]
+		public bool IsEnabledServer { get; set; }
 	}
 }
