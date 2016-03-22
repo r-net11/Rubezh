@@ -29,15 +29,16 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			StrokeThickness = ElementRectangle.BorderThickness;
 
 			PlanElementBindingItems = new List<PlanElementBindingItem>();
-			foreach(var planElementBindingItem in ElementRectangle.PlanElementBindingItems)
-			{
-				var planElementBindingItemClone = new PlanElementBindingItem()
+			if (ElementRectangle.PlanElementBindingItems != null && ElementRectangle.PlanElementBindingItems.Count > 0)
+				foreach(var planElementBindingItem in ElementRectangle.PlanElementBindingItems)
 				{
-					PropertyName = planElementBindingItem.PropertyName,
-					GlobalVariableUID = planElementBindingItem.GlobalVariableUID
-				};
-				PlanElementBindingItems.Add(planElementBindingItemClone);
-			}
+					var planElementBindingItemClone = new PlanElementBindingItem()
+					{
+						PropertyName = planElementBindingItem.PropertyName,
+						GlobalVariableUID = planElementBindingItem.GlobalVariableUID
+					};
+					PlanElementBindingItems.Add(planElementBindingItemClone);
+				}
 		}
 
 		Color _backgroundColor;

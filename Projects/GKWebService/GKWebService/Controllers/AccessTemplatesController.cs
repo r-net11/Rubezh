@@ -12,7 +12,8 @@ using RubezhAPI.SKD;
 
 namespace GKWebService.Controllers
 {
-    public class AccessTemplatesController : Controller
+	[Authorize]
+	public class AccessTemplatesController : Controller
     {
         // GET: AccessTemplate
         public ActionResult Index()

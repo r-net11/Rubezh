@@ -91,6 +91,16 @@ namespace GKWebService.Controllers
 				permissions.Add("Oper_Door_Control");
 			if (ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
 				permissions.Add("Oper_Zone_Control");
+			if (ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+				permissions.Add("Oper_GuardZone_Control");
+			if (ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
+				permissions.Add("Oper_MPT_Control");
+			if (ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
+				permissions.Add("Oper_Delay_Control");
+			if (ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
+				permissions.Add("Oper_Directions_Control");
+			if (ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
+				permissions.Add("Oper_NS_Control");
 			if (ClientManager.CheckPermission(PermissionType.Oper_MayNotConfirmCommands))
 				permissions.Add("Oper_MayNotConfirmCommands");
 			return Json(new { permissions }, JsonRequestBehavior.AllowGet);

@@ -198,6 +198,7 @@ namespace SKDModule.ViewModels
 				return false;
 			if(_orgianisationDepartments.Any(x => 
 				x.UID != Department.UID &&
+				!x.IsDeleted &&
 				x.ParentDepartmentUID == Department.ParentDepartmentUID && 
 				x.OrganisationUID == Department.OrganisationUID && 
 				x.Name == Department.Name))

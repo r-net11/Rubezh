@@ -7,7 +7,7 @@ namespace Infrustructure.Plans.Elements
 	[DataContract]
 	public abstract class ElementBaseRectangle : ElementBasePoint
 	{
-		public ElementBaseRectangle()
+		public ElementBaseRectangle() : base()
 		{
 			Height = 50;
 			Width = 50;

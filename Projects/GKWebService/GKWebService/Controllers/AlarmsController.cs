@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GKWebService.DataProviders;
 using GKWebService.Models.GK.Alarms;
 using GKWebService.Utils;
 
@@ -48,6 +49,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand]
 		public JsonResult ResetAll()
 		{
 			AlarmsViewModel.ResetAll();
@@ -57,6 +59,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand]
 		public JsonResult Reset(AlarmViewModel alarm)
 		{
 			alarm.Reset();
@@ -66,6 +69,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand]
 		public JsonResult ResetIgnore(AlarmViewModel alarm)
 		{
 			alarm.ResetIgnore();
@@ -75,6 +79,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand]
 		public JsonResult TurnOnAutomatic(AlarmViewModel alarm)
 		{
 			alarm.TurnOnAutomatic();
@@ -84,6 +89,7 @@ namespace GKWebService.Controllers
 
 		[HttpPost]
 		[ErrorHandler]
+		[ConfirmCommand]
 		public JsonResult ResetIgnoreAll()
 		{
 			AlarmsViewModel.ResetIgnoreAll();

@@ -165,7 +165,11 @@ namespace FiresecService.Processor
 
 		public static OpcDaServer[] GetOpcDaServers()
 		{
-			return (OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20)
+			OpcDaServer[] result;
+
+			try
+			{
+				result = (OpcDiscovery.GetServers(OpcSpecification.OPC_DA_20)
 				.Select(srv => new OpcDaServer
 				{
 					IsChecked = false,
@@ -175,6 +179,14 @@ namespace FiresecService.Processor
 					Url = srv.Url.ToString()
 				})
 				.ToArray());
+			}
+			catch (Exception ex)
+			{
+				result = new OpcDaServer[0];
+				UILogger.Log(ex.Message, true);
+			}
+			
+			return result;
 		}
 
 		public static OpcServerStatus GetServerStatus(OpcDaServer server)
