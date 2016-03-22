@@ -81,6 +81,10 @@
 									</TextBlock>
 								</WrapPanel>
 							</StackPanel>
+							<StackPanel Orientation="Horizontal" Margin="2">
+								<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Номер потока: " />
+								<TextBlock Text="{Binding Camera.SelectedRviStreamNumber}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
 							<ItemsControl ItemsSource="{Binding PlanNames}" Margin="2" >
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>

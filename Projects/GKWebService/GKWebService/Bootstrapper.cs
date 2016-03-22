@@ -32,10 +32,13 @@ namespace GKWebService
 
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = ClientManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress,
+				var message = RubezhClient.ClientManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress,
 					GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
 				if (message == null)
-					break;
+				{
+					ClientManager.AddAdminUser(GlobalSettingsHelper.GlobalSettings.AdminLogin, RubezhClient.ClientManager.FiresecService);
+                    break;
+				}
 				Thread.Sleep(5000);
 				if (i == 10)
 				{
@@ -50,7 +53,7 @@ namespace GKWebService
 		private static void InitServer()
 		{
 			InitializeGK();
-			ClientManager.StartPoll();
+			RubezhClient.ClientManager.StartPoll();
 		}
 
 		private static void SubscribeOnServiceStateEvents()
@@ -74,7 +77,7 @@ namespace GKWebService
 
 		static void InitializeGK()
 		{
-			ClientManager.GetConfiguration("GKWEB/Configuration");
+			RubezhClient.ClientManager.GetConfiguration("GKWEB/Configuration");
 
 			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
@@ -100,7 +103,7 @@ namespace GKWebService
 
 		static void InitializeStates()
 		{
-			var gkStates = ClientManager.FiresecService.GKGetStates();
+			var gkStates = RubezhClient.ClientManager.FiresecService.GKGetStates();
 			CopyGKStates(gkStates);
 			CopyDeviceMeasureParametersStates(gkStates);
 		}

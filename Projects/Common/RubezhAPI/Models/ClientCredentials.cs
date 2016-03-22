@@ -26,7 +26,12 @@ namespace RubezhAPI.Models
 		{
 			get
 			{
-				return ClientType.ToString() + "." + (ClientIpAddress == null ? "" : ClientIpAddress);
+				var result = ClientType.ToString() + "." + (ClientIpAddress == null ? "" : ClientIpAddress);
+                if (ClientType == ClientType.WebService)
+				{
+					result = Login + "." + result;
+				}
+				return result;
 			}
 		}
 

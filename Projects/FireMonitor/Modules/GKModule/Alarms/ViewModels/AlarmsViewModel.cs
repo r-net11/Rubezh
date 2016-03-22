@@ -119,22 +119,26 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			foreach (var gGuardZone in GKManager.GuardZones)
+			foreach (var guardZone in GKManager.GuardZones)
 			{
-				foreach (var stateClass in gGuardZone.State.StateClasses)
+				foreach (var stateClass in guardZone.State.StateClasses)
 				{
 					switch (stateClass)
 					{
 						case XStateClass.Fire1:
-							alarms.Add(new Alarm(GKAlarmType.GuardAlarm, gGuardZone));
+							alarms.Add(new Alarm(GKAlarmType.GuardAlarm, guardZone));
 							break;
 
 						case XStateClass.Ignore:
-							alarms.Add(new Alarm(GKAlarmType.Ignore, gGuardZone));
+							alarms.Add(new Alarm(GKAlarmType.Ignore, guardZone));
 							break;
 
 						case XStateClass.Attention:
-							alarms.Add(new Alarm(GKAlarmType.Attention, gGuardZone));
+							alarms.Add(new Alarm(GKAlarmType.Attention, guardZone));
+							break;
+
+						case XStateClass.AutoOff:
+							alarms.Add(new Alarm(GKAlarmType.AutoOff, guardZone));
 							break;
 					}
 				}
@@ -295,6 +299,10 @@ namespace GKModule.ViewModels
 					{
 						var newAlarmViewModel = new AlarmViewModel(alarm);
 						Alarms.Insert(i, newAlarmViewModel);
+					}
+					else
+					{
+						alarmViewModel.OnPropertyChanged(() => alarmViewModel.ObjectStateClass);
 					}
 				}
 				for (int i = 0; i < Alarms.Count; i++)

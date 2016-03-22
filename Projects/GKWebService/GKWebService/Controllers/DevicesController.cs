@@ -6,7 +6,7 @@ using GKWebService.Models;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;
-
+using GKWebService.DataProviders;
 
 namespace GKWebService.Controllers
 {
@@ -32,6 +32,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetAutomaticState(Guid id)
 		{
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
@@ -43,6 +44,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetIgnoreState(Guid id)
 		{
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
@@ -54,6 +56,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult Reset(Guid id)
 		{
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
@@ -65,6 +68,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult SetManualState(Guid id)
 		{
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == id);
@@ -76,6 +80,7 @@ namespace GKWebService.Controllers
 		}
 
 		[HttpPost]
+		[ConfirmCommand]
 		public JsonResult OnExecuteCommand(GKStateBit commandName, Guid UID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(dev => dev.UID == UID);

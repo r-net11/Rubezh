@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+	<?define ProductName="Глобал" ?>
+	<?define ProductVersion="2.1.7.1" ?>
+	<?define UpgradeCode="4186c01b-2001-44f9-b69f-fb7f730ec899" ?>
+	<?define Manufacturer='Группа компаний "Рубеж"' ?>
+	<?define Codepage="1251" ?>
+	<?define BrandName="Глобал" ?>
+	<?define FiresecInstallerOutputFileName="Firesec 2.1.5.msi" ?>
+</Include>

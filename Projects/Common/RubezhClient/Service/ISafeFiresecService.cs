@@ -15,6 +15,7 @@ namespace RubezhClient
 {
 	public interface ISafeFiresecService
 	{
+		Guid UID { get; }
 		OperationResult<bool> AddCard(SKDCard item, string employeeName);
 		OperationResult<bool> AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime);
 		OperationResult<bool> AddJournalItem(JournalItem journalItem);

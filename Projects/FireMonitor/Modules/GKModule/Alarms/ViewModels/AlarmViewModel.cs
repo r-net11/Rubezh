@@ -52,7 +52,6 @@ namespace GKModule.ViewModels
 				return null;
 			}
 		}
-
 		public XStateClass ObjectStateClass
 		{
 			get
@@ -352,6 +351,12 @@ namespace GKModule.ViewModels
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
 					return true;
 			}
+
+			if (Alarm.GkBaseEntity is GKDoor)
+			{
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+					return true;
+			}
 			return false;
 		}
 		public bool CanResetIgnoreCommand
@@ -406,6 +411,24 @@ namespace GKModule.ViewModels
 					if (mpt.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
 					{
 						ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+					}
+				}
+
+				var guardZone = Alarm.GkBaseEntity as GKGuardZone;
+				if (guardZone != null)
+				{
+					if (guardZone.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+					{
+						ClientManager.FiresecService.GKSetAutomaticRegime(guardZone);
+					}
+				}
+
+				var door = Alarm.GkBaseEntity as GKDoor;
+				if (door != null)
+				{
+					if (door.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+					{
+						ClientManager.FiresecService.GKSetAutomaticRegime(door);
 					}
 				}
 			}

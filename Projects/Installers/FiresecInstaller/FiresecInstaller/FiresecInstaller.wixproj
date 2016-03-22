@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\OPC.ico" />
+    <Content Include="Data\ProgramIcon.ico" />
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="Administrator\Variables.wxi" />
     <Content Include="Data\TitleRect.bmp" />

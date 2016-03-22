@@ -7,7 +7,9 @@
 		<Binary Id="SetupProgress.ico"	SourceFile="Data\SetupProgress.ico" />
 		<Binary Id="TitleRect.bmp"		SourceFile="Data\TitleRect.bmp" />
 		<Binary Id="FiresecCADll"		SourceFile="$(var.CustomAction.TargetDir)$(var.CustomAction.TargetName).CA.dll" />
-		<!--<Binary Id="PostgreSQL.exe" SourceFile="$..\..\..\..\..\..\3rdParty\PostgeSQL\PostgreSQL.exe" />
-		<Binary Id="PostgreSQL64.exe" SourceFile="$..\..\..\..\..\..\3rdParty\PostgeSQL\PostgreSQL64.exe" />-->
+		<!--
+		<Binary Id="PostgreSQL.exe" SourceFile="$..\..\..\..\..\..\3rdParty\PostgeSQL\PostgreSQL.exe" />
+		<Binary Id="PostgreSQL64.exe" SourceFile="$..\..\..\..\..\..\3rdParty\PostgeSQL\PostgreSQL64.exe" />
+		-->
 	</Fragment>
 </Wix>

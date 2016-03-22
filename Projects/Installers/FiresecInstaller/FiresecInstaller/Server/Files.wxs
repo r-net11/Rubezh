@@ -61,20 +61,6 @@
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">
-				<File Id="Server.sqlceca35.dll"												Name="sqlceca35.dll"								Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlcecompact35.dll"										Name="sqlcecompact35.dll"							Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlceer35EN.dll"											Name="sqlceer35EN.dll"								Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlceme35.dll"												Name="sqlceme35.dll"								Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlceoledb35.dll"											Name="sqlceoledb35.dll"								Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlceqp35.dll"												Name="sqlceqp35.dll"								Source="$(var.Server.TargetDir)" />
-				<File Id="Server.sqlcese35.dll"												Name="sqlcese35.dll"								Source="$(var.Server.TargetDir)" />
-
-				<?if $(var.Platform) = x64 ?>
-				<File Id="Server.System.Data.SqlServerCe.dll"								Name="System.Data.SqlServerCe.dll"					Source="$(var.Server.TargetDir)" />
-				<?else ?>
-				<File Id="Server.System.Data.SqlServerCe.dll"								Name="System.Data.SqlServerCe.dll"					Source="$(var.Server.TargetDir)" />
-				<?endif ?>
-
 				<File Id="Server.Microsoft.Sqlserver.Batchparser.dll"						Name="Microsoft.Sqlserver.Batchparser.dll"			Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 				<File Id="Server.Microsoft.SqlServer.BatchParserClient.dll"					Name="Microsoft.SqlServer.BatchParserClient.dll"	Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 				<File Id="Server.Microsoft.SqlServer.ConnectionInfo.dll"					Name="Microsoft.SqlServer.ConnectionInfo.dll"		Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />

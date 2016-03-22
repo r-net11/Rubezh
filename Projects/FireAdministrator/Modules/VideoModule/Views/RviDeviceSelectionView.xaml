@@ -14,7 +14,7 @@
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" Visibility="{Binding IsCamera,Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" Visibility="{Binding IsCamera,Converter={StaticResource BoolToVisibilityConverter}}" />
 									<TextBlock Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>

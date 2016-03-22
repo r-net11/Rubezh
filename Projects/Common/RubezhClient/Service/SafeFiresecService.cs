@@ -31,6 +31,8 @@ namespace RubezhClient
 			};
 		}
 
+		public Guid UID { get { return FiresecServiceFactory.UID; } }
+
 		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName)
 		{
 			try
@@ -146,7 +148,8 @@ namespace RubezhClient
 		public OperationResult<bool> Connect(ClientCredentials clientCredentials)
 		{
 			_clientCredentials = clientCredentials;
-			return SafeOperationCall(() =>
+			clientCredentials.ClientUID = FiresecServiceFactory.UID;
+            return SafeOperationCall(() =>
 			{
 				try
 				{

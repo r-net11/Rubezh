@@ -56,7 +56,12 @@ namespace GKImitator.ViewModels
 		void OnStateBitChanged(GKStateBit stateBit, bool isActive, ImitatorJournalItem additionalJournalItem = null)
 		{
 			ImitatorJournalItem journalItem = null;
-			if (isActive)
+			if (stateBit == GKStateBit.Failure)
+			{
+				journalItem = new ImitatorJournalItem(2, 5, 255, (byte)(isActive ? 1 : 0));
+				AddJournalItem(additionalJournalItem ?? journalItem);
+			}
+			else if (isActive)
 			{
 				CurrentOnDelay = 0;
 				CurrentOffDelay = 0;
@@ -66,7 +71,7 @@ namespace GKImitator.ViewModels
 				if (stateBit == GKStateBit.On)
 				{
 					journalItem = new ImitatorJournalItem(2, 9, 2, 0);
-					if (HoldDelay != 0)
+					if (HoldDelay != 0 && !(GKBase is GKDoor && Regime == Regime.Manual))
 					{
 						CurrentHoldDelay = HoldDelay;
 						TurningState = TurningState.Holding;
@@ -206,6 +211,7 @@ namespace GKImitator.ViewModels
 			Regime = Regime.Ignore;
 			SetStateBit(GKStateBit.Norm, false);
 			SetStateBit(GKStateBit.Attention, false);
+			SetStateBit(GKStateBit.On, false);
 			SetStateBit(GKStateBit.Fire1, false);
 			SetStateBit(GKStateBit.Fire2, false);
 			SetStateBit(GKStateBit.Ignore, true);

@@ -1,8 +1,8 @@
 ﻿(function () {
 
     angular.module('gkApp.controllers').controller('directionDetailsCtrl',
-        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrDirectionsService', 'entity',
-        function ($scope, $uibModalInstance, $http, $state, signalrDirectionsService, entity) {
+        ['$scope', '$uibModalInstance', '$http', '$state', 'signalrDirectionsService', 'entity', 'authService',
+        function ($scope, $uibModalInstance, $http, $state, signalrDirectionsService, entity, authService) {
             $scope.direction = entity;
 
             $scope.$on('directionChanged', function (event, args) {
@@ -13,31 +13,45 @@
             });
 
             $scope.SetAutomaticState = function () {
-                $http.post('Directions/SetAutomaticState', { id: $scope.direction.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('Directions/SetAutomaticState', { id: $scope.direction.UID }, options);
+                });
             };
 
             $scope.SetManualState = function () {
-                $http.post('Directions/SetManualState', { id: $scope.direction.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('Directions/SetManualState', { id: $scope.direction.UID }, options);
+                });
             };
 
             $scope.SetIgnoreState = function () {
-                $http.post('Directions/SetIgnoreState', { id: $scope.direction.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('Directions/SetIgnoreState', { id: $scope.direction.UID }, options);
+                });
             };
 
             $scope.TurnOn = function () {
-                $http.post('Directions/TurnOn', { id: $scope.direction.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('Directions/TurnOn', { id: $scope.direction.UID }, options);
+                });
             };
 
             $scope.TurnOnNow = function () {
-                $http.post('Directions/TurnOnNow', { id: $scope.direction.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('Directions/TurnOnNow', { id: $scope.direction.UID }, options);
+                });
             };
 
             $scope.ForbidStart = function () {
-                $http.post('Directions/ForbidStart', { id: $scope.direction.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('Directions/ForbidStart', { id: $scope.direction.UID }, options);
+                });
             };
 
             $scope.TurnOff = function () {
-                $http.post('Directions/TurnOff', { id: $scope.direction.UID });
+                authService.сonfirm().then(function (options) {
+                    $http.post('Directions/TurnOff', { id: $scope.direction.UID }, options);
+                });
             };
 
             $scope.Show = function () {

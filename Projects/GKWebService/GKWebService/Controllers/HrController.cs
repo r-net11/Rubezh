@@ -15,7 +15,8 @@ using RubezhClient;
 
 namespace GKWebService.Controllers
 {
-    public class HrController : Controller
+	[Authorize]
+	public class HrController : Controller
     {
         public ActionResult Index()
         {
@@ -68,12 +69,13 @@ namespace GKWebService.Controllers
         }
 
         [ErrorHandler]
+		[AllowAnonymous]
         public JsonNetResult GetHr()
         {
             var personTypes = new List<string>();
-            if (ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View))
+            if (RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View))
                 personTypes.Add(PersonType.Employee.ToString());
-            if (ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View))
+            if (RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View))
                 personTypes.Add(PersonType.Guest.ToString());
             var selectedPersonType = personTypes.FirstOrDefault();
             return new JsonNetResult {Data = new
@@ -88,18 +90,18 @@ namespace GKWebService.Controllers
                 CanSelectAccessTemplates,
                 CanSelectPassCardTemplates,
                 CanSelectOrganisations,
-                IsEmployeesEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit),
-                IsGuestEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Guests_Edit),
-                IsDepartmentsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit),
-                IsPositionsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Positions_Etit),
-                IsAccessTemplatesEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit),
-                IsEmployeesViewAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View),
-                IsEmployeesEditCardTypeAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType),
-                IsCardsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit),
-                IsOrganisationsDoorsAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Doors),
-                IsOrganisationsUsersAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Users),
-                IsOrganisationsAddRemoveAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove),
-                IsOrganisationsEditAllowed = ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit),
+                IsEmployeesEditAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit),
+                IsGuestEditAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Guests_Edit),
+                IsDepartmentsEditAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit),
+                IsPositionsEditAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Positions_Etit),
+                IsAccessTemplatesEditAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit),
+                IsEmployeesViewAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View),
+                IsEmployeesEditCardTypeAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit_CardType),
+                IsCardsEditAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit),
+                IsOrganisationsDoorsAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Doors),
+                IsOrganisationsUsersAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Users),
+                IsOrganisationsAddRemoveAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove),
+                IsOrganisationsEditAllowed = RubezhClient.ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit),
             }
             };
         }
@@ -108,43 +110,43 @@ namespace GKWebService.Controllers
         {
             get
             {
-                return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View) || ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View);
+                return RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View) || RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View);
             }
         }
 
         private bool CanSelectPositions
         {
-            get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Positions_View); }
+            get { return RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Positions_View); }
         }
 
         private bool CanSelectDepartments
         {
-            get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Departments_View); }
+            get { return RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Departments_View); }
         }
 
         private bool CanSelectAdditionalColumns
         {
-            get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_AdditionalColumns_View); }
+            get { return RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_AdditionalColumns_View); }
         }
 
         private bool CanSelectCards
         {
-            get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Cards_View); }
+            get { return RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Cards_View); }
         }
 
         private bool CanSelectAccessTemplates
         {
-            get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_AccessTemplates_View); }
+            get { return RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_AccessTemplates_View); }
         }
 
         private bool CanSelectPassCardTemplates
         {
-            get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_PassCards_View); }
+            get { return RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_PassCards_View); }
         }
 
         private bool CanSelectOrganisations
         {
-            get { return ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Organisations_View); }
+            get { return RubezhClient.ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Organisations_View); }
         }
 
         [ErrorHandler]

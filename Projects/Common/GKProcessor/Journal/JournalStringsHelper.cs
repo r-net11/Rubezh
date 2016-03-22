@@ -117,7 +117,7 @@ namespace GKProcessor
 				case 30: return JournalEventDescriptionType.КЗ_кнопки_ЗАЩИТА; // МДУ
 				case 31: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО; // МДУ
 				case 32: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО; // МДУ
-				case 33: return JournalEventDescriptionType.Обрыв_цепи_1_ДВИГАТЕЛЯ; // МДУ
+				case 33: return JournalEventDescriptionType.Обрыв_цепи_ПД_ЗАЩИТА; // МДУ
 				case 34: return JournalEventDescriptionType.Замкнуты_разомкнуты_оба_концевика; // МДУ
 				case 35: return JournalEventDescriptionType.Превышение_времени_хода; // МДУ, ШУЗ
 				case 36: return JournalEventDescriptionType.Обрыв_в_линии_РЕЛЕ;
@@ -162,7 +162,7 @@ namespace GKProcessor
 				case 75: return JournalEventDescriptionType.Отказ_АЛС_3_или_4; // КАУ
 				case 76: return JournalEventDescriptionType.Отказ_АЛС_5_или_6; // КАУ
 				case 77: return JournalEventDescriptionType.Отказ_АЛС_7_или_8; // КАУ
-				case 78: return JournalEventDescriptionType.Обрыв_цепи_2_ДВИГАТЕЛЯ; // МДУ
+				case 78: return JournalEventDescriptionType.Обрыв_цепи_ПД_НОРМА; // МДУ
 				case 79: return JournalEventDescriptionType.КЗ_АЛС_1; // КАУ
 				case 80: return JournalEventDescriptionType.КЗ_АЛС_2; // КАУ
 				case 81: return JournalEventDescriptionType.КЗ_АЛС_3; // КАУ

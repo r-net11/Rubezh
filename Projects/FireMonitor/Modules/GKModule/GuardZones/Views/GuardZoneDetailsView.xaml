@@ -82,6 +82,7 @@
 								<Button Content="Поставить на охрану" Command="{Binding TurnOnCommand}" Width="250" Height="50" Margin="2" />
 								<Button Content="Поставить на охрану немедленно" Command="{Binding TurnOnNowCommand}" Width="250" Height="50" Margin="2" />
 								<Button Content="Снять с охраны" Command="{Binding TurnOffCommand}" Width="250" Height="50" Margin="2" />
+								<Button Content="Снять с охраны немедленно" Command="{Binding TurnOffNowCommand}" Width="250" Height="50" Margin="2" />
 							</StackPanel>
 							<Button Content="Сбросить" Command="{Binding ResetCommand}" Width="250" Height="50" Margin="2" />
 						</StackPanel>

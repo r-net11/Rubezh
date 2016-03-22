@@ -249,43 +249,43 @@ namespace GKWebService.Models.GK.Alarms
 				return false;
 			if (Alarm.GkBaseEntity is GKDevice)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKZone)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKGuardZone)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKMPT)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKDelay)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKDirection)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKPumpStation)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 			return false;
@@ -317,7 +317,7 @@ namespace GKWebService.Models.GK.Alarms
 		{
 			Plans = new List<PlanLinkViewModel>();
 
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			foreach (var plan in RubezhClient.ClientManager.PlansConfiguration.AllPlans)
 			{
 				var elementUnion = plan.ElementUnion;
 				var gkBaseEntity = Alarm.GkBaseEntity as IPlanPresentable;

@@ -13,7 +13,8 @@ using RubezhClient;
 
 namespace GKWebService.Controllers
 {
-    public class OrganisationsController : Controller
+	[Authorize]
+	public class OrganisationsController : Controller
     {
         // GET: Organisations
         public ActionResult Index()
@@ -59,7 +60,7 @@ namespace GKWebService.Controllers
         [ErrorHandler]
         public JsonNetResult GetOrganisationUsers(Organisation organisation)
         {
-            var users = ClientManager.SecurityConfiguration.Users.Select(u => new OrganisationUserViewModel(organisation, u));
+            var users = RubezhClient.ClientManager.SecurityConfiguration.Users.Select(u => new OrganisationUserViewModel(organisation, u));
 
             return new JsonNetResult { Data = new {Users = users } };
         }
