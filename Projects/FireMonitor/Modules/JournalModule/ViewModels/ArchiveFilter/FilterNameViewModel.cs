@@ -62,7 +62,6 @@ namespace JournalModule.ViewModels
 			{
 				SetIsChecked(value);
 				PropagateDown(value);
-				//PropagateUp(value);
 			}
 		}
 
@@ -71,16 +70,6 @@ namespace JournalModule.ViewModels
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);
 		}
-
-        void PropagateUp(bool value)
-        {
-            if (Parent != null)
-            {
-                var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
-				Parent.SetIsChecked(isAllChecked);
-                Parent.PropagateUp(value);
-            }
-        }
 
         void PropagateDown(bool value)
         {
