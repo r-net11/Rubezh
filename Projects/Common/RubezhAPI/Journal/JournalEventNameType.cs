@@ -443,7 +443,7 @@ namespace RubezhAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Удаление посетителя", XStateClass.Info)]
 		Удаление_посетителя = 219,
-		
+
 		[EventName(JournalSubsystemType.SKD, "Удаление подразделения", XStateClass.Info)]
 		Удаление_отдела = 189,
 
@@ -484,7 +484,7 @@ namespace RubezhAPI.Journal
 		Восстановление_сотрудника = 201,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление посетителя", XStateClass.Info)]
-		Восстановление_посетителя = 201,
+		Восстановление_посетителя = 217,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление подразделения", XStateClass.Info)]
 		Восстановление_отдела = 202,
