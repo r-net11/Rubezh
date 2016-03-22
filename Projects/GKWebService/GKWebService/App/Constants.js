@@ -62,7 +62,7 @@
                 type: 9,
                 detailsTemplate: 'Doors/DoorDetails',
                 detailsCtrl: 'doorDetailsCtrl',
-                controlPermission: ''
+                controlPermission: 'Oper_Door_Control'
             },
             skdZone: {
                 type: 10,
