@@ -14,6 +14,7 @@ namespace RubezhAPI.Automation
 			MinHeight = 300;
 			AllowClose = true;
 			WindowIDArgument = new Argument();
+			LayoutFilter.Add(Guid.Empty);
 		}
 
 		[DataMember]

@@ -8,6 +8,7 @@ namespace RubezhAPI.Automation
 		public ShowPropertyArguments()
 		{
 			ObjectArgument = new Argument();
+			LayoutFilter.Add(System.Guid.Empty);
 		}
 
 		[DataMember]
