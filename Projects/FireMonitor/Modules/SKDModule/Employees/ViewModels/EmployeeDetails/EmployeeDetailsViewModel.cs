@@ -718,17 +718,7 @@ namespace SKDModule.ViewModels
 					Employee.ScheduleUID = Guid.Empty;
 				Employee.CredentialsStartDate = CredentialsStartDate;
 				Employee.TabelNo = TabelNo;
-				bool isChiefChanged = false ;
-				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)
-					isChiefChanged = OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
-				else if (_organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
-					isChiefChanged = OrganisationHelper.SaveChief(_organisation.UID, null, _organisation.Name);
-				if (IsOrganisationHRChief && _organisation.HRChiefUID != Employee.UID)
-					isChiefChanged = OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID, _organisation.Name);
-				else if (_organisation.HRChiefUID == Employee.UID && !IsOrganisationHRChief)
-					isChiefChanged = OrganisationHelper.SaveHRChief(_organisation.UID, null, _organisation.Name);
-				if (isChiefChanged)
-					ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Publish(null);
+				
 			}
 			else
 			{
@@ -740,8 +730,22 @@ namespace SKDModule.ViewModels
 			if (!Validate())
 				return false;
 			var saveResult = EmployeeHelper.Save(Employee, _isNew);
-			if (saveResult && isLaunchEvent)
-				ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
+			if (saveResult)
+			{
+				bool isChiefChanged = false;
+				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)
+					isChiefChanged = OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
+				else if (_organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
+					isChiefChanged = OrganisationHelper.SaveChief(_organisation.UID, null, _organisation.Name);
+				if (IsOrganisationHRChief && _organisation.HRChiefUID != Employee.UID)
+					isChiefChanged = OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID, _organisation.Name);
+				else if (_organisation.HRChiefUID == Employee.UID && !IsOrganisationHRChief)
+					isChiefChanged = OrganisationHelper.SaveHRChief(_organisation.UID, null, _organisation.Name);
+				if (isChiefChanged)
+					ServiceFactory.Events.GetEvent<ChiefChangedEvent>().Publish(null);
+				if (isLaunchEvent)
+					ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
+			}
 			return saveResult;
 		}
 
