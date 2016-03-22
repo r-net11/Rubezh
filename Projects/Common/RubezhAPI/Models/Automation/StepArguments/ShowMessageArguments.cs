@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace RubezhAPI.Automation
 {
@@ -9,6 +10,7 @@ namespace RubezhAPI.Automation
 		{
 			MessageArgument = new Argument();
 			ConfirmationValueArgument = new Argument();
+			LayoutFilter.Add(Guid.Empty);
 		}
 
 		[DataMember]

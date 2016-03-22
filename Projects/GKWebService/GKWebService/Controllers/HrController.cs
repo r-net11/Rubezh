@@ -15,7 +15,8 @@ using RubezhClient;
 
 namespace GKWebService.Controllers
 {
-    public class HrController : Controller
+	[Authorize]
+	public class HrController : Controller
     {
         public ActionResult Index()
         {
@@ -68,6 +69,7 @@ namespace GKWebService.Controllers
         }
 
         [ErrorHandler]
+		[AllowAnonymous]
         public JsonNetResult GetHr()
         {
             var personTypes = new List<string>();

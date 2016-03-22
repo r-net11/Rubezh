@@ -177,6 +177,8 @@ namespace FireAdministrator
 					ClientManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
 					ClientManager.SystemConfiguration.RviSettings = new RviSettings();
 					ClientManager.SystemConfiguration.RviServers = new List<RviServer>();
+					ClientManager.SystemConfiguration.RviDevices = new List<RviDevice>();
+					ClientManager.SystemConfiguration.Cameras = new List<Camera>();
 					ClientManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 					ClientManager.PlansConfiguration.Update();
 					ClientManager.LayoutsConfiguration = new LayoutsConfiguration();

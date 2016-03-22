@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+	 xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+	<?include Definitions.wxi?>	
+
+	<Bundle Name="$(var.ProductName)" 
+			Version="$(var.ProductVersion)" 
+			Manufacturer="$(var.Manufacturer)" 
+			UpgradeCode="$(var.UpgradeCode)"
+			Copyright="(c) All rights reserved."
+			IconSourceFile="..\..\Data\ProgramIcon.ico">
+		
+		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+			<bal:WixStandardBootstrapperApplication LicenseFile="..\..\Data\License.rtf"
+													LogoFile="..\..\Data\Logo63.png"
+													ShowFilesInUse="yes"
+													SuppressOptionsUI="yes"
+													ShowVersion="yes"
+													LaunchHidden="yes"/>
+		</BootstrapperApplicationRef>
+
+		<Chain>
+			<MsiPackage Id="OPC_Core_Components_x86"
+						Visible="yes"
+						SourceFile="$..\..\..\..\..\..\3rdParty\OPC\OPC Core Components\x86\OPC Core Components Redistributable (x86).msi"
+						DisplayName="OPC Core Components"
+						Description="Пакет для поддержики OPC DA"
+						InstallCondition="NOT VersionNT64"
+						DisplayInternalUI="yes"
+						/>
+			<MsiPackage Id="OPC_Core_Components_x64"
+						Visible="yes"
+						SourceFile="$..\..\..\..\..\..\3rdParty\OPC\OPC Core Components\x64\OPC Core Components Redistributable (x64).msi"
+						DisplayName="OPC Core Components"
+						Description="Пакет для поддержики OPC DA"
+						InstallCondition="VersionNT64"
+						DisplayInternalUI="yes"
+						/>
+			<MsiPackage Id="FiresecInstaller" 
+						SourceFile="$(var.FiresecInstaller.TargetDir)$(var.FiresecInstallerOutputFileName)"
+						Visible="yes"
+						DisplayName="Rubezh Global"
+						Description="Установочный пакет Rubezh Global"
+						DisplayInternalUI="yes"
+						/>
+		</Chain>
+	</Bundle>
+</Wix>

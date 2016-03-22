@@ -7,7 +7,7 @@ namespace Infrustructure.Plans.Elements
 	[DataContract]
 	public abstract class ElementBasePoint : ElementBase
 	{
-		public ElementBasePoint()
+		public ElementBasePoint() : base()
 		{
 			Top = 0;
 			Left = 0;

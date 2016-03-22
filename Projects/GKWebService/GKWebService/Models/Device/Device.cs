@@ -163,9 +163,8 @@ namespace GKWebService.Models
 			Properties = device.Properties;
 			MeasureParameters = device.Driver.MeasureParameters;
 
-			IsTriStateControl = device.Driver.IsControlDevice && ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
-			IsBiStateControl = device.Driver.IsDeviceOnShleif && !device.Driver.IsControlDevice 
-				&& ClientManager.CheckPermission(PermissionType.Oper_Device_Control);
+			IsTriStateControl = device.Driver.IsControlDevice;
+			IsBiStateControl = device.Driver.IsDeviceOnShleif && !device.Driver.IsControlDevice;
 			HasReset = device.DriverType == GKDriverType.RSR2_MAP4;
 
 			DeviceExecutableCommands = new List<DeviceExecutableCommand>();

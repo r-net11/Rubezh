@@ -488,7 +488,7 @@
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000"  Fill="#0FF" StrokeThickness="20" /&gt;
-&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000" Fill="#000" StrokeThickness ="20" /&gt;
+&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000" Fill="#F00" StrokeThickness ="20" /&gt;
 &lt;Line X1="10" Y1="10" X2="490" Y2="490" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
@@ -588,7 +588,7 @@
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000"  Fill="#4E4" StrokeThickness="20" /&gt;
-&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000"  Fill="#00ffff" StrokeThickness ="20" /&gt;
+&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000"  Fill="#F00" StrokeThickness ="20" /&gt;
 &lt;Line X1="10" Y1="10" X2="490" Y2="490" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
@@ -614,7 +614,7 @@
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000"  Fill="#00ffff" StrokeThickness="20" /&gt;
-&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000" StrokeThickness ="20" /&gt;
+&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000" Fill="#F00" StrokeThickness ="20" /&gt;
 &lt;Line X1="10" Y1="10" X2="490" Y2="490" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
@@ -5493,7 +5493,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000"  Fill="#00ffff" StrokeThickness="20" /&gt;
-&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000" StrokeThickness ="20" /&gt;
+&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000" Fill="#F00" StrokeThickness ="20" /&gt;
 &lt;Line X1="10" Y1="10" X2="490" Y2="490" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
@@ -5519,7 +5519,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000"  Fill="#4E4" StrokeThickness="20" /&gt;
-&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000"  Fill="#00ffff" StrokeThickness ="20" /&gt;
+&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000"  Fill="#F00" StrokeThickness ="20" /&gt;
 &lt;Line X1="10" Y1="10" X2="490" Y2="490" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
@@ -5544,8 +5544,8 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Duration>500</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000"  Fill="#00ffff" StrokeThickness="20" /&gt;
-&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000" Fill="#000000" StrokeThickness ="20" /&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000"  Fill="#0FF" StrokeThickness="20" /&gt;
+&lt;Ellipse Canvas.Left="70" Width="360" Canvas.Top="70" Height="360" Stroke="#000000" Fill="#F00" StrokeThickness ="20" /&gt;
 &lt;Line X1="10" Y1="10" X2="490" Y2="490" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
@@ -11809,7 +11809,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Line X1="205" Y1="170" X2="300" Y2="240" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Line X1="297" Y1="227" X2="242" Y2="310" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Ellipse Canvas.Left="145" Width="130" Canvas.Top="295" Height="130" Fill="#000000" Stroke="#000000" StrokeThickness="20" /&gt;
-&lt;TextBlock Canvas.Left="280" Canvas.Top="280" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -11828,7 +11827,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Line X1="205" Y1="170" X2="300" Y2="240" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Line X1="297" Y1="227" X2="242" Y2="310" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Ellipse Canvas.Left="145" Width="130" Canvas.Top="295" Height="130" Fill="#000000" Stroke="#000000" StrokeThickness="20" /&gt;
-&lt;TextBlock Canvas.Left="280" Canvas.Top="280" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -11847,7 +11845,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Line X1="205" Y1="170" X2="300" Y2="240" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Line X1="297" Y1="227" X2="242" Y2="310" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Ellipse Canvas.Left="145" Width="130" Canvas.Top="295" Height="130" Fill="#000000" Stroke="#000000" StrokeThickness="20" /&gt;
-&lt;TextBlock Canvas.Left="280" Canvas.Top="280" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
@@ -11860,7 +11857,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Line X1="205" Y1="170" X2="300" Y2="240" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Line X1="297" Y1="227" X2="242" Y2="310" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Ellipse Canvas.Left="145" Width="130" Canvas.Top="295" Height="130" Fill="#000000" Stroke="#000000" StrokeThickness="20" /&gt;
-&lt;TextBlock Canvas.Left="280" Canvas.Top="280" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -11879,7 +11875,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Line X1="205" Y1="170" X2="300" Y2="240" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Line X1="297" Y1="227" X2="242" Y2="310" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Ellipse Canvas.Left="145" Width="130" Canvas.Top="295" Height="130" Fill="#000000" Stroke="#000000" StrokeThickness="20" /&gt;
-&lt;TextBlock Canvas.Left="280" Canvas.Top="280" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -11898,7 +11893,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Line X1="205" Y1="170" X2="300" Y2="240" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Line X1="297" Y1="227" X2="242" Y2="310" Stroke="#000000" StrokeThickness="20" /&gt;
 &lt;Ellipse Canvas.Left="145" Width="130" Canvas.Top="295" Height="130" Fill="#000000" Stroke="#000000" StrokeThickness="20" /&gt;
-&lt;TextBlock Canvas.Left="280" Canvas.Top="280" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12248,9 +12242,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;        
 
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12265,9 +12260,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#808080"  /&gt;        
-&lt;Polyline Points="125,250 375,250" Stroke="#CCFFFF" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#CCFFFF" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#CCFFFF" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#CCFFFF" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#CCFFFF" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#CCFFFF" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold" Foreground="#CFF"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12282,10 +12278,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#FC0"  /&gt;        
-
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
@@ -12294,9 +12290,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#CCC"  /&gt;        
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12311,10 +12308,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#00ffff"  /&gt;        
-
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12325,9 +12322,26 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
           <Frames>
             <GKLibraryFrame>
               <Id>0</Id>
-              <Duration>500</Duration>
+              <Duration>100</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#4E4"  /&gt;        
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>100</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#00ffff"  /&gt;        
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12338,9 +12352,26 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
           <Frames>
             <GKLibraryFrame>
               <Id>0</Id>
-              <Duration>500</Duration>
+              <Duration>100</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#00ffff"  /&gt;        
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+&lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>100</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#4E4"  /&gt;        
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12355,10 +12386,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#808000"  /&gt;        
-
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
@@ -12367,10 +12398,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#CCC" /&gt;        
-
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12387,10 +12418,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
 
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#00ECFF"  /&gt;        
-
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
@@ -12399,10 +12430,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;        
-
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12415,14 +12446,12 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Id>0</Id>
               <Duration>500</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#4E4"  /&gt;        
-
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12437,9 +12466,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#CCC"  /&gt;        
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
@@ -12448,10 +12478,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;        
-
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12466,9 +12496,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;	
 &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" Fill="#4E4"  /&gt;        
-&lt;Polyline Points="125,250 375,250" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="156.25,156.25 343.75,343.75" Stroke="#000000" StrokeThickness="35"/&gt;
-&lt;Polyline Points="343.75,156.25 156.25,343.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="125,220 375,220" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="156.25,126.25 343.75,313.75" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;Polyline Points="343.75,126.25 156.25,313.25" Stroke="#000000" StrokeThickness="35"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12487,11 +12518,12 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Id>0</Id>
               <Duration>500</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-    &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-        &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
-    &lt;/Canvas&gt;</Image>
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+&lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
           <Layer>0</Layer>
@@ -12503,11 +12535,12 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Id>0</Id>
               <Duration>500</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-    &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-        &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#808080" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#CCFFFF" Stroke="#CCFFFF"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#CCFFFF" Fill="#CCFFFF"/&gt;
-    &lt;/Canvas&gt;</Image>
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#808080" StrokeThickness="20" /&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#CCFFFF" Stroke="#CCFFFF"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#CCFFFF" Fill="#CCFFFF"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160"  Foreground="#CCFFFF" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+&lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
           <Layer>0</Layer>
@@ -12519,11 +12552,12 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Id>0</Id>
               <Duration>500</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-    &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-        &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#FC0" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
-    &lt;/Canvas&gt;</Image>
+&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+&lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#FC0" StrokeThickness="20" /&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+&lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
               <Id>1</Id>
@@ -12531,8 +12565,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
     &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
     &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12545,8 +12580,12 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Id>0</Id>
               <Duration>500</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-&lt;/Canvas&gt;</Image>
+    &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#00ffff" StrokeThickness="20" /&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+    &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
           <Layer>0</Layer>
@@ -12556,10 +12595,25 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
           <Frames>
             <GKLibraryFrame>
               <Id>0</Id>
-              <Duration>500</Duration>
+              <Duration>100</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-&lt;/Canvas&gt;</Image>
+    &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#4E4" StrokeThickness="20" /&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+    &lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>100</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+    &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#00ffff" StrokeThickness="20" /&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+    &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
           <Layer>0</Layer>
@@ -12569,10 +12623,25 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
           <Frames>
             <GKLibraryFrame>
               <Id>0</Id>
-              <Duration>500</Duration>
+              <Duration>100</Duration>
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-&lt;/Canvas&gt;</Image>
+    &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#00ffff" StrokeThickness="20" /&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+    &lt;/Canvas&gt;</Image>
+            </GKLibraryFrame>
+            <GKLibraryFrame>
+              <Id>1</Id>
+              <Duration>100</Duration>
+              <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+    &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#4E4" StrokeThickness="20" /&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
+    &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
           <Layer>0</Layer>
@@ -12586,8 +12655,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
     &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#808000" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
     &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
@@ -12596,8 +12666,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
     &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
     &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12612,8 +12683,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
   &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#00ECFF" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
 &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
@@ -12622,8 +12694,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
     &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
     &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12638,8 +12711,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
     &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#4E4" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
     &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12654,8 +12728,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
     &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#CCC" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
     &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
             <GKLibraryFrame>
@@ -12664,8 +12739,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
     &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
     &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>
@@ -12680,8 +12756,9 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
               <Image>&lt;?xml version="1.0" encoding="utf-16"?&gt;
     &lt;Canvas Width="500" Height="500" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;Rectangle Canvas.Left="0" Canvas.Top="0" Width="500" Height="500" Stroke="#000000" Fill="#4E4" StrokeThickness="20" /&gt;
-        &lt;Polyline Points="200,50 300,50 250,370" Fill="#000000" Stroke="#000000"/&gt;
-        &lt;Ellipse Canvas.Left="210" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;Polyline Points="160,50 260,50 210,370" Fill="#000000" Stroke="#000000"/&gt;
+&lt;Ellipse Canvas.Left="170" Width="80" Canvas.Top="385" Height="80" Stroke="#000000" Fill="#000000"/&gt;
+&lt;TextBlock Canvas.Left="280" Canvas.Top="290" FontSize = "160" FontWeight="Bold"&gt;Ex&lt;/TextBlock&gt;
     &lt;/Canvas&gt;</Image>
             </GKLibraryFrame>
           </Frames>

@@ -1,4 +1,5 @@
 ﻿using RubezhAPI.Automation;
+using RubezhAPI.Models;
 using RubezhClient;
 using System;
 using System.Collections;
@@ -123,17 +124,25 @@ namespace Infrastructure.Automation
 			var isOk = TryConvert(value, ExplicitType, IsArray, out result);
 			if (isOk)
 			{
-				Value = result;
+				var filters = OpcDaHelper.TagsFilters.Where(x => x.TagUID == UID);
+				
+				if (filters.Count() > 0)
+				{
+					foreach (var filter in filters)
+					{
+						if (filter.CheckCondition(result))
+						{
+							Value = result;
+							if (ProcedureExecutionContext.ContextType == ContextType.Server)
+								AutomationProcessor.RunOnOpcTagFilters(null, null);
+							else
+								AutomationProcessor.RunOnOpcTagFilters(ClientManager.CurrentUser, ClientManager.FiresecService.UID);
+						}
+					}
+				}
+				else
+					Value = result;
 
-				//AutomationProcessor.RunOnOpcTagFilters(ClientManager.CurrentUser, FiresecServiceFactory.UID);
-
-				//var filter = OpcDaHelper.TagsFilters.FirstOrDefault(x => x.TagUID == UID);
-				//if (filter != null)
-				//{
-				//	if (filter.CheckCondition(Value))
-				//	{
-				//	}
-				//}
 			}
 		}
 

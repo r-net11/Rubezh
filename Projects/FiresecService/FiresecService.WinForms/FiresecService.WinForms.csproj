@@ -341,10 +341,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>del $(TargetDir)Pictures
-del $(TargetDir)Temp
-if "$(ConfigurationName)" == "Release" xcopy $(SolutionDir)..\Deploy\ConfigurationService $(TargetDir)Configuration\ /e /y
-if "$(ConfigurationName)" == "Release" xcopy $(SolutionDir)..\Deploy\SqlCE $(TargetDir) /e /y
-xcopy $(SolutionDir)..\..\3rdParty\MSSQLCEv35 $(TargetDir) /e /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

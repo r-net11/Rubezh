@@ -19,6 +19,7 @@ namespace AutomationModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			AddOpcTagFilterCommand = new RelayCommand(OnAddOpcTagFilter);
 			DeleteOpcTagFilterCommand = new RelayCommand(OnDeleteOpcTagFilter, CanDeleteOpcTagFilter);
+			EditOpcTagFilterCommand = new RelayCommand(OnEditOpcTagFilter, CanEditOpcTagFilter);
 			Initialize();
 		}
 
@@ -131,6 +132,21 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDeleteOpcTagFilter()
+		{
+			return SelectedOpcDaTagFilter != null;
+		}
+
+		public RelayCommand EditOpcTagFilterCommand { get; private set; }
+		void OnEditOpcTagFilter()
+		{
+			var opcDaTagFilterEditingViewModel = new OpcDaTagFilterEditingViewModel(this.SelectedOpcDaTagFilter);
+
+			if (DialogService.ShowModalWindow(opcDaTagFilterEditingViewModel))
+			{
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+		bool CanEditOpcTagFilter()
 		{
 			return SelectedOpcDaTagFilter != null;
 		}

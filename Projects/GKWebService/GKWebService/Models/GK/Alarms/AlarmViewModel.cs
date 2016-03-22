@@ -215,6 +215,24 @@ namespace GKWebService.Models.GK.Alarms
 					ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
 				}
 			}
+
+			var guardZone = alarm.GkBaseEntity as GKGuardZone;
+			if (guardZone != null)
+			{
+				if (guardZone.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(guardZone);
+				}
+			}
+
+			var door = alarm.GkBaseEntity as GKDoor;
+			if (door != null)
+			{
+				if (door.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(door);
+				}
+			}
 		}
 
 		bool GetCanReset()
@@ -249,43 +267,49 @@ namespace GKWebService.Models.GK.Alarms
 				return false;
 			if (Alarm.GkBaseEntity is GKDevice)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Device_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKZone)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Zone_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKGuardZone)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKMPT)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_MPT_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKDelay)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Delay_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKDirection)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_Directions_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.GkBaseEntity is GKPumpStation)
 			{
-				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore) && ClientManager.CheckPermission(PermissionType.Oper_NS_Control))
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
+
+			if (Alarm.GkBaseEntity is GKDoor)
+			{
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 			return false;

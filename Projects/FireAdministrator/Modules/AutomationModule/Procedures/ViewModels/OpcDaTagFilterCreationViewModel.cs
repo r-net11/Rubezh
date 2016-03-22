@@ -8,11 +8,15 @@ namespace AutomationModule.ViewModels
 {
 	public class OpcDaTagFilterCreationViewModel : SaveCancelDialogViewModel
 	{
+		#region Constructors
 		public OpcDaTagFilterCreationViewModel(OpcDaTagFileterSectionViewModel viewModel)
 		{
 			Title = "Создание фильтра";
 			_opcDaTagFileterSectionViewModel = viewModel;
 		}
+		#endregion
+
+		#region Fields And Properties
 
 		OpcDaTagFileterSectionViewModel _opcDaTagFileterSectionViewModel;
 		public List<OpcDaServer> OpcDaServers
@@ -131,6 +135,9 @@ namespace AutomationModule.ViewModels
 
 		public OpcTagFilterViewModel OpcDaTagFilterResult { get; private set; }
 
+		#endregion
+
+		#region Methods
 		protected override bool CanSave()
 		{
 			//return base.CanSave();
@@ -156,5 +163,6 @@ namespace AutomationModule.ViewModels
 			}
 			//return base.Save();
 		}
+		#endregion
 	}
 }

@@ -4,7 +4,9 @@
 		<CustomAction Id="StartOPCServerOnExit"		Directory="GKOPCLOCATION"	ExeCommand="[GKOPCLOCATION]GKOPCServer.exe"	Execute="immediate"	Impersonate="yes"	Return="asyncNoWait" />
 		<CustomAction Id="CloseApplications"		BinaryKey="FiresecCADll"	DllEntry="CloseApplications"				Execute="immediate"	Impersonate="yes"	Return="check" />
 		<CustomAction Id="CheckPostgresInstalled"	BinaryKey="FiresecCADll"	DllEntry="CheckPostgresInstalled"			Execute="immediate"	Impersonate="yes"	Return="check" />
-		<!--<CustomAction Id="InstallPostgres64" BinaryKey="PostgreSQL64.exe" ExeCommand="-mode unattended -superaccount asd -superpassword 1" Execute='commit' Return='asyncNoWait' Impersonate='no' />
-		<CustomAction Id="InstallPostgres" BinaryKey="PostgreSQL.exe" ExeCommand="-mode unattended -superaccount asd -superpassword 1" Execute='commit' Return='asyncNoWait' Impersonate='no' />-->
+		<!--
+		<CustomAction Id="InstallPostgres64" BinaryKey="PostgreSQL64.exe" ExeCommand="-mode unattended -superaccount asd -superpassword 1" Execute='commit' Return='asyncNoWait' Impersonate='no' />
+		<CustomAction Id="InstallPostgres" BinaryKey="PostgreSQL.exe" ExeCommand="-mode unattended -superaccount asd -superpassword 1" Execute='commit' Return='asyncNoWait' Impersonate='no' />
+		-->
 	</Fragment>
 </Wix>

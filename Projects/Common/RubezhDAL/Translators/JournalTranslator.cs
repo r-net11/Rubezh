@@ -191,20 +191,9 @@ namespace RubezhDAL.DataClasses
 		IQueryable<Journal> BuildJournalQuery(JournalFilter filter)
 		{
 			IQueryable<Journal> result = Context.Journals;
-
 			if (filter.ItemUID.HasValue)
 				result = result.Where(x => x.UID == filter.ItemUID.Value);
-
-			if (filter.JournalEventNameTypes.Count > 0)
-			{
-				var names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
-				result = result.Where(x => names.Contains(x.Name));
-			}
-			if (filter.JournalEventDescriptionTypes.Count > 0)
-			{
-				var descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
-				result = result.Where(x => descriptions.Contains(x.Description));
-			}
+			result = FilterNames(result, filter);
 			if (filter.JournalSubsystemTypes.Count > 0 && filter.JournalEventNameTypes.Count == 0)
 			{
 				var subsystems = filter.JournalSubsystemTypes.Select(x => (int)x).ToList();
@@ -226,18 +215,7 @@ namespace RubezhDAL.DataClasses
 		IQueryable<Journal> BuildArchiveQuery(JournalFilter filter)
 		{
 			IQueryable<Journal> result = Context.Journals;
-			List<int> names = null;
-			List<int> descriptions = null;
-			if (filter.JournalEventNameTypes.Count > 0)
-				names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
-			if (filter.JournalEventDescriptionTypes.Count > 0)
-				descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
-			if (names.IsNotNullOrEmpty() && descriptions.IsNotNullOrEmpty())
-				result = result.Where(x => names.Contains(x.Name) || descriptions.Contains(x.Description));
-			else if (names.IsNotNullOrEmpty())
-				result = result.Where(x => names.Contains(x.Name));
-			else if (descriptions.IsNotNullOrEmpty())
-				result = result.Where(x => descriptions.Contains(x.Description));
+			result = FilterNames(result, filter);
 			if (filter.JournalObjectTypes.Count > 0)
 			{
 				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();
@@ -274,6 +252,28 @@ namespace RubezhDAL.DataClasses
 				else
 					result = result.OrderByDescending(x => x.SystemDate);
 			}
+			return result;
+		}
+
+		IQueryable<Journal> FilterNames(IQueryable<Journal> journal, JournalFilter filter)
+		{
+			IQueryable<Journal> result = journal;
+			var names = new List<int>();
+			var descriptions = new List<int>();
+			if (filter.JournalEventNameTypes.Count > 0)
+				names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
+			if (filter.JournalEventDescriptionTypes.Count > 0)
+			{
+				foreach (var item in filter.JournalEventDescriptionTypes)
+				{
+					names.Add((int)item.Key);
+					descriptions.AddRange(item.Value.Select(x => (int)x).ToList());
+				}
+			}
+			if (names.IsNotNullOrEmpty())
+				result = result.Where(x => names.Contains(x.Name));
+			if (descriptions.IsNotNullOrEmpty())
+				result = result.Where(x => descriptions.Contains(x.Description));
 			return result;
 		}
 	}
