@@ -309,6 +309,22 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
+
+		/// <summary>
+		/// Получает данные лицензии с Сервера
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<LicenseData> GetLicenseData()
+		{
+			return new OperationResult<LicenseData>(new LicenseData
+			{
+				IsEnabledAutomation = _licenseManager.CurrentLicense.IsEnabledAutomation,
+				IsEnabledPhotoVerification = _licenseManager.CurrentLicense.IsEnabledPhotoVerification,
+				IsEnabledRVI = _licenseManager.CurrentLicense.IsEnabledRVI,
+				IsEnabledURV = _licenseManager.CurrentLicense.IsEnabledURV
+			});
+		}
+
 		#endregion </Лицензирование>
 	}
 }

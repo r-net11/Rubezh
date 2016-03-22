@@ -239,6 +239,16 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => FiresecService.CanLoadModule(type), "CanLoadModule");
 		}
+
+		/// <summary>
+		/// Получает данные лицензии с Сервера
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<LicenseData> GetLicenseData()
+		{
+			return SafeOperationCall(() => FiresecService.GetLicenseData(), "GetLicenseData");
+		}
+	
 		#endregion
 	}
 }

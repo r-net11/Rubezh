@@ -18,7 +18,7 @@ namespace Infrastructure
 
 		private void UpdateElementsVisibility()
 		{
-			throw new System.NotImplementedException();
+			//throw new System.NotImplementedException();
 		}
 	}
 }

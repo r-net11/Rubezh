@@ -28,6 +28,9 @@ namespace FireAdministrator
 			{
 				try
 				{
+					// Получаем данные лицензии с Сервера
+					ServiceFactory.UiElementsVisibilityService.Initialize(FiresecManager.FiresecService.GetLicenseData().Result);
+
 					ServiceFactory.StartupService.ShowLoading("Загрузка модулей", 5);
 					CreateModules();
 
