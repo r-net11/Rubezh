@@ -117,13 +117,13 @@ namespace GKProcessor
 						{
 							if (!DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice, progressCallback, clientUID, kauDatabase.RootDevice.Driver.IsKau))
 							{
-								Errors.Add("Не удалось перевести" + kauDatabase.RootDevice.PresentationName + "в рабочий режим");
+								Errors.Add("Не удалось перевести " + kauDatabase.RootDevice.PresentationName + " в рабочий режим");
 							}
 						}
 
 						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice, progressCallback, clientUID, false))
 						{
-							Errors.Add("Не удалось перевести" + gkDatabase.RootDevice + "в рабочий режим");
+							Errors.Add("Не удалось перевести " + gkDatabase.RootDevice + " в рабочий режим");
 						}
 						break;
 					}

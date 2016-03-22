@@ -17,7 +17,8 @@ using GKWebService.Utils;
 
 namespace GKWebService.Controllers
 {
-    public class EmployeesController : Controller
+	[Authorize]
+	public class EmployeesController : Controller
     {
         public ActionResult Index()
         {

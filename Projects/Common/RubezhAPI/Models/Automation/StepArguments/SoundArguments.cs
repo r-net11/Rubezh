@@ -9,6 +9,7 @@ namespace RubezhAPI.Automation
 		public SoundArguments()
 		{
 			SoundUid = new Guid();
+			LayoutFilter.Add(Guid.Empty);
 		}
 
 		[DataMember]

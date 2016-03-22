@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('alarmsCtrl',
-        ['$scope', '$http', '$window', '$state', '$stateParams', 'broadcastService', 'constants', 'dialogService',
-        function ($scope, $http, $window, $state, $stateParams, broadcastService, constants, dialogService) {
+        ['$scope', '$http', '$window', '$state', '$stateParams', 'broadcastService', 'constants', 'dialogService', 'authService',
+        function ($scope, $http, $window, $state, $stateParams, broadcastService, constants, dialogService, authService) {
             $scope.gridOptions = {
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
@@ -62,7 +62,7 @@
                                             <a href="" style="padding-right: 3px" ng-show="row.entity.CanReset" ng-click="grid.appScope.resetAlarmClick(row.entity)">\
                                                 Сбросить\
                                             </a>\
-                                            <a href="" style="padding-right: 3px" ng-show="row.entity.CanResetIgnore" ng-click="grid.appScope.resetAlarmIgnoreClick(row.entity)">\
+                                            <a href="" style="padding-right: 3px" ng-show="row.entity.CanResetIgnore && grid.appScope.hasPermission(row.entity.GkEntity.ObjectType)" ng-click="grid.appScope.resetAlarmIgnoreClick(row.entity)">\
                                                 Снять отключение\
                                             </a>\
                                             <a href="" style="padding-right: 3px" ng-show="row.entity.CanTurnOnAutomatic" ng-click="grid.appScope.turnOnAutomaticClick(row.entity)">\
@@ -98,24 +98,45 @@
                 $scope.gridOptions.data = $scope.model.Alarms;
             });
 
+            $scope.hasPermission = function(objectType) {
+                for (var objKey in constants.gkObject) {
+                    if (constants.gkObject.hasOwnProperty(objKey)) {
+                        if (constants.gkObject[objKey].type === objectType) {
+                            return authService.checkPermission(constants.gkObject[objKey].controlPermission);
+                        }
+                    }
+                }
+                return false;
+            };
+
             $scope.resetClick = function() {
-                $http.post('Alarms/ResetAll');
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/ResetAll', {}, options);
+                });
             };
 
             $scope.resetAlarmClick = function (alarm) {
-                $http.post('Alarms/Reset', { alarm: alarm });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/Reset', { alarm: alarm }, options);
+                });
             };
 
             $scope.resetAlarmIgnoreClick = function (alarm) {
-                $http.post('Alarms/ResetIgnore', { alarm: alarm });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/ResetIgnore', { alarm: alarm }, options);
+                });
             };
 
             $scope.turnOnAutomaticClick = function (alarm) {
-                $http.post('Alarms/TurnOnAutomatic', { alarm: alarm });
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/TurnOnAutomatic', { alarm: alarm }, options);
+                });
             };
 
             $scope.resetIgnoreAll = function () {
-                $http.post('Alarms/ResetIgnoreAll');
+                authService.сonfirm().then(function(options) {
+                    $http.post('Alarms/ResetIgnoreAll', {}, options);
+                });
             };
 
             $scope.objectClick = function(alarm) {
