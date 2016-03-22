@@ -49,15 +49,33 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Button Content="{Binding No}" Command="{Binding SelectCommand}" Foreground="{DynamicResource ForegroundColorLight}" >
+						<Button Content="{Binding No}" Command="{Binding SelectCommand}" Foreground="{DynamicResource ForegroundColorLight}" Margin="0.5">
 						<Button.Style>
-							<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
-								<Style.Triggers>
-									<DataTrigger Binding="{Binding IsSelected}" Value="True">
-										<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
+							<Style TargetType="{x:Type Button}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="{x:Type Button}">
+												<Border x:Name="brdr"  Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+													<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" />
+												</Border>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding IsSelected}" Value="false">
+											<Setter Property="Background" Value="Transparent" />
+											<Setter Property="BorderBrush" Value="Transparent" />
+										</DataTrigger>
+										<DataTrigger Binding="{Binding IsSelected}" Value="True">
+											<Setter Property="Background" Value="Transparent" />
+											<Setter Property="BorderBrush" Value="White" />
+										</DataTrigger>
+										<Trigger Property="IsMouseOver"  Value="true">
+											<Setter Property="Background" Value="Transparent" />
+											<Setter Property="BorderBrush" Value="White" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
 						</Button.Style>
 					</Button>
 				</DataTemplate>
