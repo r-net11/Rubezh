@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Linq;
 using ChinaSKDDriver;
 using Common;
 using FiresecAPI;
@@ -7,6 +8,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.ViewModels;
+using Infrastructure.Common;
 using KeyGenerator;
 using SKDDriver;
 using SKDDriver.Translators;
@@ -38,8 +40,8 @@ namespace FiresecService.Service
 
 		private void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
-			clientCredentials.ClientIpAddress = "127.0.0.1";
-			clientCredentials.ClientIpAddressAndPort = "127.0.0.1:0";
+			clientCredentials.ClientIpAddress = NetworkHelper.LocalhostIp; // 127.0.0.1
+			clientCredentials.ClientIpAddressAndPort = string.Format("{0}:0", NetworkHelper.LocalhostIp); // "127.0.0.1:0";
 			clientCredentials.UserName = clientCredentials.UserName;
 			try
 			{
@@ -47,7 +49,7 @@ namespace FiresecService.Service
 				{
 					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
 					clientCredentials.ClientIpAddress = endpoint.Address;
-					clientCredentials.ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
+					clientCredentials.ClientIpAddressAndPort = string.Format("{0}:{1}", endpoint.Address, endpoint.Port);
 				}
 			}
 			catch (Exception e)
@@ -61,13 +63,25 @@ namespace FiresecService.Service
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 
+			// Проводим аутентификацию пользователя
 			var operationResult = Authenticate(clientCredentials);
+			if (operationResult.HasError)
+				return operationResult;
+
+			// Проверяем активацию лицензии на сервере
+			operationResult = CanConnect();
+			if (operationResult.HasError)
+				return operationResult;
+
+			// Проверка разрешений согласно лицензии
+			operationResult = CheckConnectionRightsUsingLicenseData(clientCredentials);
 			if (operationResult.HasError)
 				return operationResult;
 
 			CurrentClientCredentials = clientCredentials;
 			if (ClientsManager.Add(uid, clientCredentials))
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
+
 			return operationResult;
 		}
 
@@ -224,7 +238,7 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
-		#region Licensing
+		#region <Лицензирование>
 
 		public OperationResult<bool> CheckLicenseExising()
 		{
@@ -233,13 +247,67 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> CanConnect()
 		{
-			return new OperationResult<bool>(_licenseManager.CanConnect());
+			return _licenseManager.CanConnect()
+				? new OperationResult<bool>(true)
+				: OperationResult<bool>.FromError("Сервер не активирован. Подключение к серверу возможно только после его активации");
 		}
 
 		public OperationResult<bool> CanLoadModule(ModuleType type)
 		{
 			return new OperationResult<bool>(_licenseManager.CanLoadModule(type));
 		}
-		#endregion
+
+		private OperationResult<bool> CheckConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
+		{
+			// Удаленное соединение Клиента (Администратор/ОЗ) при запрещении удаленных соединений в параметрах лицензии
+			if (!NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress) &&
+				_licenseManager.CurrentLicense.OperatorConnectionsNumber == 0)
+				return OperationResult<bool>.FromError("Удаленные подключения к серверу не разрешены лицензией");
+
+			// Клиент - Администратор
+			if (clientCredentials.ClientType == ClientType.Administrator)
+				return CheckAdministratorConnectionRightsUsingLicenseData(clientCredentials);
+
+			// Клиент - ОЗ
+			if (clientCredentials.ClientType == ClientType.Monitor)
+				return CheckMonitorConnectionRightsUsingLicenseData(clientCredentials);
+
+			return new OperationResult<bool>(true);
+		}
+
+		private OperationResult<bool> CheckAdministratorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
+		{
+			// Может быть только одно подключение Администратора
+			var existingClients = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
+			if (existingClients.Any())
+				return OperationResult<bool>.FromError(string.Format(
+					"Другой администратор осуществил вход с компьютера '{0}'. Одновременная работа двух администраторов в системе не допускается. Для входа в систему завершите работу на другом компьютере",
+					existingClients[0].ClientCredentials.ClientIpAddress));
+
+			return new OperationResult<bool>(true);
+		}
+
+		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
+		{
+			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
+
+			var hasLocalMonitorConnections = ClientsManager.ClientInfos.Any(x =>
+				x.ClientCredentials.ClientType == ClientType.Monitor &&
+				NetworkHelper.IsLocalAddress(x.ClientCredentials.ClientIpAddress));
+
+			var totalMonitorConnectionsCount =
+				ClientsManager.ClientInfos.Count(x => x.ClientCredentials.ClientType == ClientType.Monitor);
+
+			var isLocalClient = NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress);
+			
+			if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
+				(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
+				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
+				return OperationResult<bool>.FromError("Достигнуто максимальное количество подключений к серверу, допускаемое лицензией");
+
+			return new OperationResult<bool>(true);
+		}
+
+		#endregion </Лицензирование>
 	}
 }

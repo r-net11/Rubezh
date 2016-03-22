@@ -137,6 +137,7 @@ namespace FiresecClient
 								ConfigurationChangedEvent();
 						});
 						break;
+
 					case CallbackResultType.NewSearchDevices:
 						foreach (var searchDevice in callbackResult.SearchDevices)
 						{
@@ -147,7 +148,6 @@ namespace FiresecClient
 							});
 						}
 						break;
-
 				}
 			}
 		}

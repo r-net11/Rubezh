@@ -81,6 +81,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />

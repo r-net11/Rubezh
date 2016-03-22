@@ -1,5 +1,6 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 
@@ -22,8 +23,8 @@ namespace FiresecService.ViewModels
 			UID = ClientCredentials.ClientUID;
 			FriendlyUserName = clientCredentials.FriendlyUserName;
 			IpAddress = clientCredentials.ClientIpAddressAndPort;
-			if (IpAddress.StartsWith("127.0.0.1"))
-				IpAddress = "localhost";
+			if (IpAddress.StartsWith(NetworkHelper.LocalhostIp))
+				IpAddress = NetworkHelper.Localhost;
 		}
 
 		private string _friendlyUserName;

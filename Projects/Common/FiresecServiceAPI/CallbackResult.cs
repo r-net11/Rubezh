@@ -46,6 +46,6 @@ namespace FiresecAPI
 		AutomationCallbackResult,
 		ConfigurationChanged,
 		Disconnecting,
-		NewSearchDevices
+		NewSearchDevices,
 	}
 }

@@ -17,12 +17,12 @@ namespace FiresecService.Service
 				return false;
 
 			var result = true;
-			var existingClientInfo = ClientInfos.FirstOrDefault(x => x.ClientCredentials.UniqueId == clientCredentials.UniqueId);
-			if (existingClientInfo != null)
-			{
-				Remove(existingClientInfo.UID);
-				result = false;
-			}
+			//var existingClientInfo = ClientInfos.FirstOrDefault(x => x.ClientCredentials.UniqueId == clientCredentials.UniqueId);
+			//if (existingClientInfo != null)
+			//{
+			//	Remove(existingClientInfo.UID);
+			//	result = false;
+			//}
 
 			var clientInfo = new ClientInfo();
 			clientInfo.UID = uid;
