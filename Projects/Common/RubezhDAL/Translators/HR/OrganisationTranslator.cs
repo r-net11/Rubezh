@@ -122,6 +122,8 @@ namespace RubezhDAL.DataClasses
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				if (tableItem != null)
 				{
+					if (Table.Any(x => !x.IsDeleted && x.UID != tableItem.UID && x.Name == tableItem.Name))
+						throw new Exception("Невозможно восстановить организацию. Существует активная организация с совпадающим именем.");
 					RestoreItems(tableItem.UID, tableItem.RemovalDate.GetValueOrDefault());
 					tableItem.IsDeleted = false;
 					tableItem.RemovalDate = null;
