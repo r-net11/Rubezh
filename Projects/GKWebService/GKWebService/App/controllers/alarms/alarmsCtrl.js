@@ -62,7 +62,7 @@
                                             <a href="" style="padding-right: 3px" ng-show="row.entity.CanReset" ng-click="grid.appScope.resetAlarmClick(row.entity)">\
                                                 Сбросить\
                                             </a>\
-                                            <a href="" style="padding-right: 3px" ng-show="row.entity.CanResetIgnore" ng-click="grid.appScope.resetAlarmIgnoreClick(row.entity)">\
+                                            <a href="" style="padding-right: 3px" ng-show="row.entity.CanResetIgnore && grid.appScope.hasPermission(row.entity.GkEntity.ObjectType)" ng-click="grid.appScope.resetAlarmIgnoreClick(row.entity)">\
                                                 Снять отключение\
                                             </a>\
                                             <a href="" style="padding-right: 3px" ng-show="row.entity.CanTurnOnAutomatic" ng-click="grid.appScope.turnOnAutomaticClick(row.entity)">\
@@ -97,6 +97,17 @@
                 $scope.model = data;
                 $scope.gridOptions.data = $scope.model.Alarms;
             });
+
+            $scope.hasPermission = function(objectType) {
+                for (var objKey in constants.gkObject) {
+                    if (constants.gkObject.hasOwnProperty(objKey)) {
+                        if (constants.gkObject[objKey].type === objectType) {
+                            return authService.checkPermission(constants.gkObject[objKey].controlPermission);
+                        }
+                    }
+                }
+                return false;
+            };
 
             $scope.resetClick = function() {
                 authService.сonfirm().then(function(options) {
