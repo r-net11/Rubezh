@@ -37,29 +37,29 @@ namespace FiltersModule.ViewModels
             SetFilterMenu();
 		}
 
-        private void SetFilterMenu( )
+        void SetFilterMenu( )
         {
 
 			ObjectsViewModel _objectsViewModel = new ObjectsViewModel(Filter);
 
             foreach (var count in Filter.JournalSubsystemTypes)
-                {
-                  Names.Add(new NameViewModel(count));
-                }
+            {
+                Names.Add(new NameViewModel(count));
+            }
            
             foreach (var count in Filter.JournalEventNameTypes)
-                {
-                   Names.Add(new NameViewModel(count));
-                }
+            {
+                Names.Add(new NameViewModel(count));
+            }
                
-            foreach (var count in Filter.JournalEventDescriptionTypes)
-                {
-                   Names.Add(new NameViewModel(count,count.ToDescription()));
-                }
+            foreach (var count in Filter.JournalEventDescriptionTypes.SelectMany(x => x.Value))
+            {
+                Names.Add(new NameViewModel(count, count.ToDescription()));
+            }
            
-           Objects = new ObservableCollection<ObjectViewModel>(_objectsViewModel.AllObjects.Where(c => c.IsRealChecked));
+			Objects = new ObservableCollection<ObjectViewModel>(_objectsViewModel.AllObjects.Where(c => c.IsRealChecked));
                 
-            OnPropertyChanged(() => Objects);
+			OnPropertyChanged(() => Objects);
         }
     }
 }
