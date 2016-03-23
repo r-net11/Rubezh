@@ -185,6 +185,7 @@ namespace GKProcessor
 									Formula.AddGetBit(GKStateBit.Off, GuardZone.ChangePim);
 									Formula.Add(FormulaOperationType.AND); // AND Pim выкл
 								}
+
 							}
 							if (changeGuardDevices2.Count > 0)
 							{
@@ -193,21 +194,11 @@ namespace GKProcessor
 								{
 									Formula.AddGetBit(GKStateBit.Off, GuardZone);
 									Formula.Add(FormulaOperationType.AND);
-									foreach (var changeGuardDevice in changeGuardDevices2)
-									{
-										Formula.AddGetBit(GKStateBit.Off, changeGuardDevice.Item1);
-										Formula.Add(FormulaOperationType.AND);
-									}
 								}
 								if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
 								{
 									Formula.AddGetBit(GKStateBit.On, GuardZone);
 									Formula.Add(FormulaOperationType.AND);
-									foreach (var changeGuardDevice in changeGuardDevices2)
-									{
-										Formula.AddGetBit(GKStateBit.On, changeGuardDevice.Item1);
-										Formula.Add(FormulaOperationType.AND);
-									}
 								}
 							}
 							if (changeGuardDevices1.Count > 0 && changeGuardDevices2.Count > 0)
