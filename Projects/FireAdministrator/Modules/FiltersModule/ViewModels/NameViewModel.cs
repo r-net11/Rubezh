@@ -64,7 +64,6 @@ namespace FiltersModule.ViewModels
 			{
 				SetIsChecked(value);
 				PropogateDown(value);
-				PropogateUp(value);
 			}
 		}
 
@@ -77,17 +76,7 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		void PropogateUp(bool value)
-		{
-			if (Parent != null)
-			{
-				var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
-				Parent.SetIsChecked(isAllChecked);
-				Parent.PropogateUp(value);
-			}
-		}
-
-		void SetIsChecked(bool value)
+		public void SetIsChecked(bool value)
 		{
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);

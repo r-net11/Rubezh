@@ -90,17 +90,25 @@ namespace FiltersModule.ViewModels
 				var nameViewModel = AllNames.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
 				if (nameViewModel != null)
 				{
-					nameViewModel.IsChecked = true;
+					nameViewModel.SetIsChecked(true);
 					nameViewModel.ExpandToThis();
 				}
 			}
-			foreach (var journalEventDescriptionType in filter.JournalEventDescriptionTypes)
+			foreach (var descriptionDictionary in filter.JournalEventDescriptionTypes)
 			{
-				var descriptionViewModel = AllNames.FirstOrDefault(x => x.JournalEventDescriptionType == journalEventDescriptionType);
-				if (descriptionViewModel != null)
+				if (descriptionDictionary.Value != null && descriptionDictionary.Value.Count > 0)
 				{
-					descriptionViewModel.IsChecked = true;
-					descriptionViewModel.Parent.IsExpanded = true;
+					var parent = AllNames.FirstOrDefault(x => x.JournalEventNameType == descriptionDictionary.Key);
+					var descriptions = descriptionDictionary.Value;
+					foreach (var description in descriptions)
+					{
+						var descriptionViewModel = AllNames.FirstOrDefault(x => x.JournalEventDescriptionType == description);
+						if (descriptionViewModel != null)
+						{
+							descriptionViewModel.IsChecked = true;
+						}
+					}
+					parent.IsExpanded = true;
 				}
 			}
 			foreach (var journalSubsystemTypes in filter.JournalSubsystemTypes)
@@ -117,25 +125,14 @@ namespace FiltersModule.ViewModels
 		public JournalFilter GetModel()
 		{
 			var filter = new JournalFilter();
-			foreach (var rootFilter in RootNames)
+			foreach (var eventViewModel in RootNames.SelectMany(x => x.Children))
 			{
-				foreach (var nameViewModel in rootFilter.Children)
-				{
-					if (nameViewModel.IsChecked)
-					{
-						filter.JournalEventNameTypes.Add(nameViewModel.JournalEventNameType);
-					}
-					else
-					{
-						foreach (var descriptionViewModel in nameViewModel.Children)
-						{
-							if (descriptionViewModel.IsChecked)
-							{
-								filter.JournalEventDescriptionTypes.Add(descriptionViewModel.JournalEventDescriptionType);
-							}
-						}
-					}
-				}
+				if (eventViewModel.IsChecked)
+					filter.JournalEventNameTypes.Add(eventViewModel.JournalEventNameType);
+				var descriptions = new List<JournalEventDescriptionType>(eventViewModel.Children.Where(x => x.IsChecked).Select(x => x.JournalEventDescriptionType));
+				if (descriptions.Count > 0)
+					filter.JournalEventDescriptionTypes.Add(eventViewModel.JournalEventNameType, descriptions);
+				
 			}
 			return filter;
 		}
