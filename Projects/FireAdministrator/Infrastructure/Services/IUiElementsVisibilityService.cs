@@ -1,4 +1,6 @@
-﻿using FiresecAPI.Models;
+﻿using System.Collections.Generic;
+using FiresecAPI.Automation;
+using FiresecAPI.Models;
 
 namespace Infrastructure
 {
@@ -13,6 +15,16 @@ namespace Infrastructure
 		/// Видимость элемента "Главное меню \ Автоматизация"
 		/// </summary>
 		bool IsMainMenuAutomationElementVisible { get; }
+
+		/// <summary>
+		/// Видимость процедур в Автоматизации
+		/// </summary>
+		List<ProcedureStepType> VisibleProcedureSteps { get; }
+
+		/// <summary>
+		/// Видимость элемента "Верификация" в конфигураторе макетов интерфейса
+		/// </summary>
+		bool IsLayoutModuleVerificationElementVisible { get; }
 
 		void Initialize(ILicenseData licenseData);
 	}
