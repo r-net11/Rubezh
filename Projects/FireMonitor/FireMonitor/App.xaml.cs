@@ -1,18 +1,17 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
-using Common;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
+using Infrastructure.Automation;
+using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
-using System.Threading;
-using Infrastructure.Client.Startup;
+using RubezhClient;
+using System;
+using System.ComponentModel;
 using System.Globalization;
-using Infrastructure.Automation;
+using System.Linq;
+using System.Threading;
+using System.Windows;
 
 namespace FireMonitor
 {
