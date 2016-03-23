@@ -28,12 +28,12 @@ namespace JournalModule.ViewModels
 					filterNameViewModel.SetIsChecked(true);
 				}
 			}
-			foreach (var descriptionDictionary in filter.JournalEventDescriptionTypes)
+			foreach (var descriptionDictionary in filter.EventDescriptions)
 			{
-				if (descriptionDictionary.Value != null && descriptionDictionary.Value.Count > 0)
+				if (descriptionDictionary.JournalEventDescriptionTypes != null && descriptionDictionary.JournalEventDescriptionTypes.Count > 0)
 				{
-					var parent = AllFilters.FirstOrDefault(x => x.JournalEventNameType == descriptionDictionary.Key);
-					var descriptions = descriptionDictionary.Value;
+					var parent = AllFilters.FirstOrDefault(x => x.JournalEventNameType == descriptionDictionary.JournalEventNameType);
+					var descriptions = descriptionDictionary.JournalEventDescriptionTypes;
 					foreach (var description in descriptions)
 					{
 						var descriptionViewModel = AllFilters.FirstOrDefault(x => x.JournalEventDescriptionType == description);
@@ -51,7 +51,7 @@ namespace JournalModule.ViewModels
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
-				    
+
 				}
 			}
 		}
@@ -71,7 +71,7 @@ namespace JournalModule.ViewModels
 						filter.JournalEventNameTypes.Add(eventViewModel.JournalEventNameType);
 					var descriptions = new List<JournalEventDescriptionType>(eventViewModel.Children.Where(x => x.IsChecked).Select(x => x.JournalEventDescriptionType));
 					if (descriptions.Count > 0)
-						filter.JournalEventDescriptionTypes.Add(eventViewModel.JournalEventNameType, descriptions);
+						filter.EventDescriptions.Add(new EventDescriptions { JournalEventNameType = eventViewModel.JournalEventNameType, JournalEventDescriptionTypes = descriptions });
 				}
 			}
 			return filter;
@@ -136,34 +136,34 @@ namespace JournalModule.ViewModels
 						skdViewModel.AddChild(filterNameViewModel);
 						break;
 
-                    //case JournalSubsystemType.Video:
-                    //    videoViewModel.AddChild(filterNameViewModel);
-                    //    break;
+					//case JournalSubsystemType.Video:
+					//    videoViewModel.AddChild(filterNameViewModel);
+					//    break;
 				}
 			}
 
-            foreach (JournalEventDescriptionType journalEventDescriptionType in Enum.GetValues(typeof(JournalEventDescriptionType)))
-            {
-                FieldInfo fieldInfo = journalEventDescriptionType.GetType().GetField(journalEventDescriptionType.ToString());
-                if (fieldInfo != null)
-                {
-                    EventDescriptionAttribute[] eventDescriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
-                    if (eventDescriptionAttributes.Length > 0)
-                    {
-                        EventDescriptionAttribute eventDescriptionAttribute = eventDescriptionAttributes[0];
-                        foreach (var journalEventNameType in eventDescriptionAttribute.JournalEventNameTypes)
-                        {
-                            var eventViewModel = AllFilters.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
-                            if (eventViewModel != null)
-                            {
-                                var descriptionViewModel = new FilterNameViewModel(journalEventDescriptionType, eventDescriptionAttribute.Name);
-                                eventViewModel.AddChild(descriptionViewModel);
-                                AllFilters.Add(descriptionViewModel);
-                            }
-                        }
-                    }
-                }
-            }
+			foreach (JournalEventDescriptionType journalEventDescriptionType in Enum.GetValues(typeof(JournalEventDescriptionType)))
+			{
+				FieldInfo fieldInfo = journalEventDescriptionType.GetType().GetField(journalEventDescriptionType.ToString());
+				if (fieldInfo != null)
+				{
+					EventDescriptionAttribute[] eventDescriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
+					if (eventDescriptionAttributes.Length > 0)
+					{
+						EventDescriptionAttribute eventDescriptionAttribute = eventDescriptionAttributes[0];
+						foreach (var journalEventNameType in eventDescriptionAttribute.JournalEventNameTypes)
+						{
+							var eventViewModel = AllFilters.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
+							if (eventViewModel != null)
+							{
+								var descriptionViewModel = new FilterNameViewModel(journalEventDescriptionType, eventDescriptionAttribute.Name);
+								eventViewModel.AddChild(descriptionViewModel);
+								AllFilters.Add(descriptionViewModel);
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

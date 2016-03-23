@@ -52,7 +52,7 @@ namespace FiltersModule.ViewModels
                 Names.Add(new NameViewModel(count));
             }
                
-            foreach (var count in Filter.JournalEventDescriptionTypes.SelectMany(x => x.Value))
+            foreach (var count in Filter.EventDescriptions.SelectMany(x => x.JournalEventDescriptionTypes))
             {
                 Names.Add(new NameViewModel(count, count.ToDescription()));
             }

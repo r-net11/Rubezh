@@ -262,12 +262,12 @@ namespace RubezhDAL.DataClasses
 			var descriptions = new List<int>();
 			if (filter.JournalEventNameTypes.Count > 0)
 				names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
-			if (filter.JournalEventDescriptionTypes.Count > 0)
+			if (filter.EventDescriptions.Count > 0)
 			{
-				foreach (var item in filter.JournalEventDescriptionTypes)
+				foreach (var item in filter.EventDescriptions)
 				{
-					names.Add((int)item.Key);
-					descriptions.AddRange(item.Value.Select(x => (int)x).ToList());
+					names.Add((int)item.JournalEventNameType);
+					descriptions.AddRange(item.JournalEventDescriptionTypes.Select(x => (int)x).ToList());
 				}
 			}
 			if (names.IsNotNullOrEmpty())
