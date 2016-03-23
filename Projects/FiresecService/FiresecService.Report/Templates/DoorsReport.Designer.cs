@@ -105,7 +105,7 @@
 			this.xrTableCell1.Name = "xrTableCell1";
 			this.xrTableCell1.StylePriority.UseTextAlignment = false;
 			this.xrTableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-			this.xrTableCell1.Weight = 0.019960348480185866D;
+			this.xrTableCell1.Weight = 0.0199603484801859D;
 			// 
 			// xrTableCell2
 			// 
@@ -113,7 +113,7 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Door")});
 			this.xrTableCell2.Dpi = 254F;
 			this.xrTableCell2.Name = "xrTableCell2";
-			this.xrTableCell2.Weight = 0.083168118013288453D;
+			this.xrTableCell2.Weight = 0.0831681180132885D;
 			// 
 			// xrTableCell4
 			// 
@@ -121,7 +121,7 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Type")});
 			this.xrTableCell4.Dpi = 254F;
 			this.xrTableCell4.Name = "xrTableCell4";
-			this.xrTableCell4.Weight = 0.099801739574751108D;
+			this.xrTableCell4.Weight = 0.0998017395747511D;
 			// 
 			// xrTableCell5
 			// 
@@ -129,7 +129,7 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EnterReader")});
 			this.xrTableCell5.Dpi = 254F;
 			this.xrTableCell5.Name = "xrTableCell5";
-			this.xrTableCell5.Weight = 0.11643536820182547D;
+			this.xrTableCell5.Weight = 0.116435368201825D;
 			// 
 			// xrTableCell6
 			// 
@@ -137,7 +137,7 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EnterZone")});
 			this.xrTableCell6.Dpi = 254F;
 			this.xrTableCell6.Name = "xrTableCell6";
-			this.xrTableCell6.Weight = 0.099801743902148771D;
+			this.xrTableCell6.Weight = 0.0998017439021488D;
 			// 
 			// xrTableCell18
 			// 
@@ -145,7 +145,7 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ExitReader")});
 			this.xrTableCell18.Dpi = 254F;
 			this.xrTableCell18.Name = "xrTableCell18";
-			this.xrTableCell18.Weight = 0.11643536603675858D;
+			this.xrTableCell18.Weight = 0.116435366036759D;
 			// 
 			// xrTableCell19
 			// 
@@ -161,7 +161,7 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation")});
 			this.xrTableCell20.Dpi = 254F;
 			this.xrTableCell20.Name = "xrTableCell20";
-			this.xrTableCell20.Weight = 0.11643536874541935D;
+			this.xrTableCell20.Weight = 0.116435368745419D;
 			// 
 			// xrTableCell7
 			// 
@@ -169,7 +169,7 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Comment")});
 			this.xrTableCell7.Dpi = 254F;
 			this.xrTableCell7.Name = "xrTableCell7";
-			this.xrTableCell7.Weight = 0.13306900399795205D;
+			this.xrTableCell7.Weight = 0.133069003997952D;
 			// 
 			// GroupHeader1
 			// 
@@ -228,14 +228,14 @@
 			this.xrTableCell15.StylePriority.UsePadding = false;
 			this.xrTableCell15.StylePriority.UseTextAlignment = false;
 			this.xrTableCell15.Text = "№";
-			this.xrTableCell15.Weight = 0.019881656699399303D;
+			this.xrTableCell15.Weight = 0.0198816566993993D;
 			// 
 			// xrTableCell8
 			// 
 			this.xrTableCell8.Dpi = 254F;
 			this.xrTableCell8.Name = "xrTableCell8";
 			this.xrTableCell8.Text = "Точка доступа";
-			this.xrTableCell8.Weight = 0.082840232358238869D;
+			this.xrTableCell8.Weight = 0.0828402323582389D;
 			// 
 			// xrTableCell3
 			// 
@@ -243,49 +243,49 @@
 			this.xrTableCell3.Multiline = true;
 			this.xrTableCell3.Name = "xrTableCell3";
 			this.xrTableCell3.Text = "Тип";
-			this.xrTableCell3.Weight = 0.099408279422058793D;
+			this.xrTableCell3.Weight = 0.0994082794220588D;
 			// 
 			// xrTableCell11
 			// 
 			this.xrTableCell11.Dpi = 254F;
 			this.xrTableCell11.Name = "xrTableCell11";
-			this.xrTableCell11.Text = "Устройство вход";
-			this.xrTableCell11.Weight = 0.1159763266659348D;
+			this.xrTableCell11.Text = "Устройство на вход";
+			this.xrTableCell11.Weight = 0.115976326665935D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.Dpi = 254F;
 			this.xrTableCell12.Name = "xrTableCell12";
-			this.xrTableCell12.Text = "Зона 1";
-			this.xrTableCell12.Weight = 0.09940828700630884D;
+			this.xrTableCell12.Text = "Зона входа";
+			this.xrTableCell12.Weight = 0.0994082870063088D;
 			// 
 			// xrTableCell13
 			// 
 			this.xrTableCell13.Dpi = 254F;
 			this.xrTableCell13.Name = "xrTableCell13";
-			this.xrTableCell13.Text = "Устройство  выход";
-			this.xrTableCell13.Weight = 0.11597633425018489D;
+			this.xrTableCell13.Text = "Устройство на выход";
+			this.xrTableCell13.Weight = 0.115976334250185D;
 			// 
 			// xrTableCell16
 			// 
 			this.xrTableCell16.Dpi = 254F;
 			this.xrTableCell16.Name = "xrTableCell16";
-			this.xrTableCell16.Text = "Зона 2";
-			this.xrTableCell16.Weight = 0.099408280505523056D;
+			this.xrTableCell16.Text = "Зона выхода";
+			this.xrTableCell16.Weight = 0.0994082805055231D;
 			// 
 			// xrTableCell17
 			// 
 			this.xrTableCell17.Dpi = 254F;
 			this.xrTableCell17.Name = "xrTableCell17";
 			this.xrTableCell17.Text = "Организация";
-			this.xrTableCell17.Weight = 0.1159763295551729D;
+			this.xrTableCell17.Weight = 0.115976329555173D;
 			// 
 			// xrTableCell14
 			// 
 			this.xrTableCell14.Dpi = 254F;
 			this.xrTableCell14.Name = "xrTableCell14";
 			this.xrTableCell14.Text = "Примечание";
-			this.xrTableCell14.Weight = 0.13254438691138243D;
+			this.xrTableCell14.Weight = 0.132544386911382D;
 			// 
 			// xrControlStyle1
 			// 
