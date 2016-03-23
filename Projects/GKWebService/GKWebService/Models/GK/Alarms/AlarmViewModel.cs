@@ -215,6 +215,24 @@ namespace GKWebService.Models.GK.Alarms
 					ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
 				}
 			}
+
+			var guardZone = alarm.GkBaseEntity as GKGuardZone;
+			if (guardZone != null)
+			{
+				if (guardZone.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_GuardZone_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(guardZone);
+				}
+			}
+
+			var door = alarm.GkBaseEntity as GKDoor;
+			if (door != null)
+			{
+				if (door.State.StateClasses.Contains(XStateClass.AutoOff) && ClientManager.CheckPermission(PermissionType.Oper_Door_Control))
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(door);
+				}
+			}
 		}
 
 		bool GetCanReset()
@@ -284,6 +302,12 @@ namespace GKWebService.Models.GK.Alarms
 			}
 
 			if (Alarm.GkBaseEntity is GKPumpStation)
+			{
+				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
+
+			if (Alarm.GkBaseEntity is GKDoor)
 			{
 				if (Alarm.GkBaseEntity.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;

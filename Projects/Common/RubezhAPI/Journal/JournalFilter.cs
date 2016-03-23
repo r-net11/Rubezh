@@ -18,7 +18,7 @@ namespace RubezhAPI.Journal
 			UseDeviceDateTime = false;
 			JournalSubsystemTypes = new List<JournalSubsystemType>();
 			JournalEventNameTypes = new List<JournalEventNameType>();
-			JournalEventDescriptionTypes = new List<JournalEventDescriptionType>();
+			JournalEventDescriptionTypes = new Dictionary<JournalEventNameType, List<JournalEventDescriptionType>>();
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
 			EmployeeUIDs = new List<Guid>();
@@ -55,7 +55,7 @@ namespace RubezhAPI.Journal
 		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
 
 		[DataMember]
-		public List<JournalEventDescriptionType> JournalEventDescriptionTypes { get; set; }
+		public Dictionary<JournalEventNameType, List<JournalEventDescriptionType>> JournalEventDescriptionTypes { get; set; }
 
 		[DataMember]
 		public List<JournalObjectType> JournalObjectTypes { get; set; }

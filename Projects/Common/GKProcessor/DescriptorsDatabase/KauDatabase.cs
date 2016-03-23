@@ -59,6 +59,10 @@ namespace GKProcessor
 				{
 					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
 				}
+				if (guardZoneDescriptor.GuardZoneChangePimDescriptor != null)
+				{
+					Descriptors.Add(guardZoneDescriptor.GuardZoneChangePimDescriptor);
+				}
 			}
 
 			foreach (var direction in GKManager.Directions.Where(x => x.KauDatabaseParent == RootDevice))

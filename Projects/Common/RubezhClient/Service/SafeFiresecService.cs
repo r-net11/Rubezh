@@ -149,7 +149,7 @@ namespace RubezhClient
 		{
 			_clientCredentials = clientCredentials;
 			clientCredentials.ClientUID = FiresecServiceFactory.UID;
-            return SafeOperationCall(() =>
+			return SafeOperationCall(() =>
 			{
 				try
 				{

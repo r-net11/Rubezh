@@ -27,17 +27,21 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Row="2" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddOpcTagFilterCommand}" ToolTip="Добавить OPC DA тег" ImageSource="Add"  />
-			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить OPC DA тег" ImageSource="Delete"  />
+			<ToolBarButton Command="{Binding AddOpcTagFilterCommand}" ToolTip="Добавить фильтр OPC DA тега " ImageSource="Add"  />
+			<ToolBarButton Command="{Binding EditOpcTagFilterCommand}" ToolTip="Редактировать фильтр OPC DA тега" ImageSource="Edit" />
+			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить фильтр OPC DA тега" ImageSource="Delete"  />
 		</StackPanel>
-		<DataGrid Grid.Row="3" ItemsSource="{Binding OpcTagFilters}" SelectedItem="{Binding SelectedOpcDaTagFilter}" IsReadOnly="False">
+		<DataGrid Grid.Row="3" ItemsSource="{Binding OpcTagFilters}" 
+				  SelectedItem="{Binding SelectedOpcDaTagFilter}" IsReadOnly="False">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Название" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Grid VerticalAlignment="Center" Width="16" Height="16" Background="{DynamicResource BlueFilter}" Margin="2 0 0 0" />
-								<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+								<Grid VerticalAlignment="Center" Width="16" Height="16" Background="{DynamicResource BlueFilter}" 
+									  Margin="2 0 0 0" />
+								<TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" 
+										   VerticalAlignment="Center" Margin="2 0" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

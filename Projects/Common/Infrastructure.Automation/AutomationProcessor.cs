@@ -39,7 +39,8 @@ namespace Infrastructure.Automation
 							continue;
 						if (filter.JournalEventNameTypes.Count > 0 && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
 							continue;
-						if (filter.JournalEventDescriptionTypes.Count > 0 && !filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
+						if (filter.JournalEventDescriptionTypes.Count > 0 &&
+							!filter.JournalEventDescriptionTypes.Any(x => x.Key == journalItem.JournalEventNameType && x.Value.Contains(journalItem.JournalEventDescriptionType)))
 							continue;
 						if (filter.JournalObjectTypes.Count > 0 && !filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
 							continue;

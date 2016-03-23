@@ -281,7 +281,7 @@ namespace GKModule.ViewModels
 			}
 			if (Door.No != No && GKManager.DeviceConfiguration.Doors.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("Зона с таким номером уже существует");
+				MessageBoxService.Show("Точка доступа с таким номером уже существует");
 				return false;
 			}
 

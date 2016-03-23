@@ -763,16 +763,56 @@ namespace RubezhAPI.Journal
 		[EventDescriptionAttribute("Критическая", JournalEventNameType.Запыленность, JournalEventNameType.Запыленность_устранена)]
 		Критическая = 250,
 
-		[EventDescriptionAttribute("Добавление или редактирование", JournalEventNameType.Редактирование_сотрудника, JournalEventNameType.Редактирование_отдела, JournalEventNameType.Редактирование_должности, JournalEventNameType.Редактирование_шаблона_доступа, JournalEventNameType.Редактирование_организации, JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventNameType.Редактирование_дневного_графика, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы_сотрудника, JournalEventNameType.Редактирование_праздничного_дня)]
+		[EventDescriptionAttribute("Добавление или редактирование", 
+			JournalEventNameType.Редактирование_сотрудника, 
+			JournalEventNameType.Редактирование_отдела, 
+			JournalEventNameType.Редактирование_должности, 
+			JournalEventNameType.Редактирование_шаблона_доступа, 
+			JournalEventNameType.Редактирование_организации, 
+			JournalEventNameType.Редактирование_дополнительной_колонки,
+			JournalEventNameType.Редактирование_дневного_графика,
+			JournalEventNameType.Редактирование_графика_работы, 
+			JournalEventNameType.Редактирование_графика_работы_сотрудника, 
+			JournalEventNameType.Редактирование_праздничного_дня)]
 		Добавление_или_редактирование = 251,
 
-		[EventDescriptionAttribute("Редактирование", JournalEventNameType.Редактирование_сотрудника, JournalEventNameType.Редактирование_отдела, JournalEventNameType.Редактирование_должности, JournalEventNameType.Редактирование_шаблона_доступа, JournalEventNameType.Редактирование_организации, JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventNameType.Редактирование_дневного_графика, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы_сотрудника, JournalEventNameType.Редактирование_праздничного_дня)]
+		[EventDescriptionAttribute("Редактирование", 
+			JournalEventNameType.Редактирование_сотрудника, 
+			JournalEventNameType.Редактирование_отдела, 
+			JournalEventNameType.Редактирование_должности, 
+			JournalEventNameType.Редактирование_шаблона_доступа, 
+			JournalEventNameType.Редактирование_организации, 
+			JournalEventNameType.Редактирование_дополнительной_колонки, 
+			JournalEventNameType.Редактирование_дневного_графика, 
+			JournalEventNameType.Редактирование_графика_работы, 
+			JournalEventNameType.Редактирование_графика_работы_сотрудника,
+			JournalEventNameType.Редактирование_праздничного_дня)]
 		Редактирование = 252,
 
-		[EventDescriptionAttribute("Удаление", JournalEventNameType.Редактирование_сотрудника, JournalEventNameType.Редактирование_отдела, JournalEventNameType.Редактирование_должности, JournalEventNameType.Редактирование_шаблона_доступа, JournalEventNameType.Редактирование_организации, JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventNameType.Редактирование_дневного_графика, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы_сотрудника, JournalEventNameType.Редактирование_праздничного_дня)]
+		[EventDescriptionAttribute("Удаление", 
+			JournalEventNameType.Редактирование_сотрудника,
+			JournalEventNameType.Редактирование_отдела, 
+			JournalEventNameType.Редактирование_должности,
+			JournalEventNameType.Редактирование_шаблона_доступа,
+			JournalEventNameType.Редактирование_организации,
+			JournalEventNameType.Редактирование_дополнительной_колонки, 
+			JournalEventNameType.Редактирование_дневного_графика, 
+			JournalEventNameType.Редактирование_графика_работы, 
+			JournalEventNameType.Редактирование_графика_работы_сотрудника, 
+			JournalEventNameType.Редактирование_праздничного_дня)]
 		Удаление = 253,
 
-		[EventDescriptionAttribute("Восстановление", JournalEventNameType.Редактирование_сотрудника, JournalEventNameType.Редактирование_отдела, JournalEventNameType.Редактирование_должности, JournalEventNameType.Редактирование_шаблона_доступа, JournalEventNameType.Редактирование_организации, JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventNameType.Редактирование_дневного_графика, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы, JournalEventNameType.Редактирование_графика_работы_сотрудника, JournalEventNameType.Редактирование_праздничного_дня)]
+		[EventDescriptionAttribute("Восстановление", 
+			JournalEventNameType.Редактирование_сотрудника, 
+			JournalEventNameType.Редактирование_отдела, 
+			JournalEventNameType.Редактирование_должности, 
+			JournalEventNameType.Редактирование_шаблона_доступа, 
+			JournalEventNameType.Редактирование_организации, 
+			JournalEventNameType.Редактирование_дополнительной_колонки,
+			JournalEventNameType.Редактирование_дневного_графика, 
+			JournalEventNameType.Редактирование_графика_работы, 
+			JournalEventNameType.Редактирование_графика_работы_сотрудника, 
+			JournalEventNameType.Редактирование_праздничного_дня)]
 		Восстановление = 254,
 
 		//--------------------------------
