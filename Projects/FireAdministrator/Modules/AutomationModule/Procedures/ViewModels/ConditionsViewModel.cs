@@ -112,9 +112,9 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(opcDaTagFileterSectionViewModel))
 			{
 				if (Procedure.OpcDaTagFiltersUids.Any(s => 
-					s == opcDaTagFileterSectionViewModel.SelectedFilter.OpcTagFilter.UID))
+					s == opcDaTagFileterSectionViewModel.SelectedFilter.OpcDaTagFilter.UID))
 					return;
-				Procedure.OpcDaTagFiltersUids.Add(opcDaTagFileterSectionViewModel.SelectedFilter.OpcTagFilter.UID);
+				Procedure.OpcDaTagFiltersUids.Add(opcDaTagFileterSectionViewModel.SelectedFilter.OpcDaTagFilter.UID);
 				OpcTagFilters.Add(opcDaTagFileterSectionViewModel.SelectedFilter);
 				SelectedOpcDaTagFilter = opcDaTagFileterSectionViewModel.SelectedFilter;
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -124,9 +124,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteOpcTagFilterCommand { get; private set; }
 		void OnDeleteOpcTagFilter()
 		{
-			Procedure.OpcDaTagFiltersUids.Remove(SelectedOpcDaTagFilter.OpcTagFilter.UID);
+			Procedure.OpcDaTagFiltersUids.Remove(SelectedOpcDaTagFilter.OpcDaTagFilter.UID);
 			ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
-				.Remove(SelectedOpcDaTagFilter.OpcTagFilter);
+				.Remove(SelectedOpcDaTagFilter.OpcDaTagFilter);
 			OpcTagFilters.Remove(SelectedOpcDaTagFilter);
 			SelectedOpcDaTagFilter = OpcTagFilters.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;

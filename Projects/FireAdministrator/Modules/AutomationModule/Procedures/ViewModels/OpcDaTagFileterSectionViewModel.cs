@@ -41,11 +41,11 @@ namespace AutomationModule.ViewModels
 		public RelayCommand CreateFilterCommand { get; private set; }
 		void OnCreateFilter()
 		{
-			var opcDaTagFilterCreationViewModel = new OpcDaTagFilterCreationViewModel(this);
+			var opcDaTagFilterCreationViewModel = new OpcDaTagFilterCreationViewModel();
 			if (DialogService.ShowModalWindow(opcDaTagFilterCreationViewModel))
 			{
 				var filterViewModel = opcDaTagFilterCreationViewModel.OpcDaTagFilterResult;
-				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Add(filterViewModel.OpcTagFilter);
+				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Add(filterViewModel.OpcDaTagFilter);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				InitializeFilters();
 			}
