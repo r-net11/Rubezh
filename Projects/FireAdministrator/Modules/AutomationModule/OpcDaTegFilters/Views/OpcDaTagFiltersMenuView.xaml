@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="AutomationModule.Views.OpcDaTagFiltersMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Grid>
+		<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
+			<ToolBarButton Command="{Binding AddOpcTagFilterCommand}" ToolTip="Добавить фильтр OPC DA тега " ImageSource="Add"  />
+			<ToolBarButton Command="{Binding EditOpcTagFilterCommand}" ToolTip="Редактировать фильтр OPC DA тега" ImageSource="Edit" />
+			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить фильтр OPC DA тега" ImageSource="Delete"  />
+		</StackPanel>
+	</Grid>
+</UserControl>

@@ -9,16 +9,14 @@ namespace AutomationModule.ViewModels
 	public class OpcDaTagFilterCreationViewModel : SaveCancelDialogViewModel
 	{
 		#region Constructors
-		public OpcDaTagFilterCreationViewModel(OpcDaTagFileterSectionViewModel viewModel)
+		public OpcDaTagFilterCreationViewModel()
 		{
 			Title = "Создание фильтра";
-			_opcDaTagFileterSectionViewModel = viewModel;
 		}
 		#endregion
 
 		#region Fields And Properties
 
-		OpcDaTagFileterSectionViewModel _opcDaTagFileterSectionViewModel;
 		public List<OpcDaServer> OpcDaServers
 		{
 			get { return ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers; }

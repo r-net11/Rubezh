@@ -74,8 +74,11 @@ namespace GKProcessor
 			if (ChangeGuardDevices.Count > 0)
 			{
 				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
-				GuardZoneChangePimDescriptor = new GuardZoneChangePimDescriptor(GuardZone);
-				GuardZone.LinkToDescriptor(GuardZone.ChangePim);
+				if (ChangeGuardDevices.Any(x => !x.Item1.Driver.IsCardReaderOrCodeReader))
+				{
+					GuardZoneChangePimDescriptor = new GuardZoneChangePimDescriptor(GuardZone);
+					GuardZone.LinkToDescriptor(GuardZone.ChangePim);
+				}
 			}
 		}
 
@@ -165,34 +168,48 @@ namespace GKProcessor
 						{
 							var changeGuardDevices1 = ChangeGuardDevices.FindAll(x => !x.Item1.Driver.IsCardReaderOrCodeReader);
 							var changeGuardDevices2 = ChangeGuardDevices.FindAll(x => x.Item1.Driver.IsCardReaderOrCodeReader);
-							AddSettings(changeGuardDevices1, Formula, GKStateBit.No);
-							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
+							if (changeGuardDevices1.Count > 0)
 							{
-								Formula.AddGetBit(GKStateBit.Off, GuardZone);
-								Formula.Add(FormulaOperationType.AND);
-								Formula.AddGetBit(GKStateBit.On, GuardZone.ChangePim);
-								Formula.Add(FormulaOperationType.AND);// AND Pim вкл
+								AddSettings(changeGuardDevices1, Formula, GKStateBit.No);
+								if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
+								{
+									Formula.AddGetBit(GKStateBit.Off, GuardZone);
+									Formula.Add(FormulaOperationType.AND);
+									Formula.AddGetBit(GKStateBit.On, GuardZone.ChangePim);
+									Formula.Add(FormulaOperationType.AND); // AND Pim вкл
+								}
+								if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
+								{
+									Formula.AddGetBit(GKStateBit.On, GuardZone);
+									Formula.Add(FormulaOperationType.AND);
+									Formula.AddGetBit(GKStateBit.Off, GuardZone.ChangePim);
+									Formula.Add(FormulaOperationType.AND); // AND Pim выкл
+								}
 							}
-							if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
+							if (changeGuardDevices2.Count > 0)
 							{
-								Formula.AddGetBit(GKStateBit.On, GuardZone);
-								Formula.Add(FormulaOperationType.AND);
-								Formula.AddGetBit(GKStateBit.Off, GuardZone.ChangePim);
-								Formula.Add(FormulaOperationType.AND);// AND Pim выкл
+								AddSettings(changeGuardDevices2, Formula, GKStateBit.No);
+								if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
+								{
+									Formula.AddGetBit(GKStateBit.Off, GuardZone);
+									Formula.Add(FormulaOperationType.AND);
+									foreach (var changeGuardDevice in changeGuardDevices2)
+									{
+										Formula.AddGetBit(GKStateBit.Off, changeGuardDevice.Item1);
+										Formula.Add(FormulaOperationType.AND);
+									}
+								}
+								if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
+								{
+									Formula.AddGetBit(GKStateBit.On, GuardZone);
+									Formula.Add(FormulaOperationType.AND);
+									foreach (var changeGuardDevice in changeGuardDevices2)
+									{
+										Formula.AddGetBit(GKStateBit.On, changeGuardDevice.Item1);
+										Formula.Add(FormulaOperationType.AND);
+									}
+								}
 							}
-
-							AddSettings(changeGuardDevices2, Formula, GKStateBit.No);
-							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
-							{
-								Formula.AddGetBit(GKStateBit.Off, GuardZone);
-								Formula.Add(FormulaOperationType.AND);
-							}
-							if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
-							{
-								Formula.AddGetBit(GKStateBit.On, GuardZone);
-								Formula.Add(FormulaOperationType.AND);
-							}
-
 							if (changeGuardDevices1.Count > 0 && changeGuardDevices2.Count > 0)
 							{
 								Formula.Add(FormulaOperationType.OR);

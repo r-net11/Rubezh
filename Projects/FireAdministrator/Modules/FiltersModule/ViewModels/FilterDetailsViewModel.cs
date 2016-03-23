@@ -68,7 +68,7 @@ namespace FiltersModule.ViewModels
 
 			var namesFilter = NamesViewModel.GetModel();
 			Filter.JournalEventNameTypes = namesFilter.JournalEventNameTypes;
-			Filter.JournalEventDescriptionTypes = namesFilter.JournalEventDescriptionTypes;
+			Filter.EventDescriptions = namesFilter.EventDescriptions;
 
 			var objectsFilter = ObjectsViewModel.GetModel();
 			Filter.JournalObjectTypes = objectsFilter.JournalObjectTypes;

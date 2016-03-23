@@ -95,6 +95,7 @@
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
     <Compile Include="Events\ShowOpcDaClientEvent.cs" />
+    <Compile Include="Events\ShowOpcDaTagFiltersEvent.cs" />
     <Compile Include="Events\ShowOpcTechnosoftwareEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="Events\ShowOPCServersEvent.cs" />
@@ -148,6 +149,14 @@
     </Compile>
     <Compile Include="OpcDaClient\Views\OpcDaClientView.xaml.cs">
       <DependentUpon>OpcDaClientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaTegFilters\ViewModels\OpcDaTagFiltersViewModel.cs" />
+    <Compile Include="OpcDaTegFilters\ViewModels\OpcDaTagFiltersMenuViewModel.cs" />
+    <Compile Include="OpcDaTegFilters\Views\OpcDaTagFiltersMenuView.xaml.cs">
+      <DependentUpon>OpcDaTagFiltersMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpcDaTegFilters\Views\OpcDaTagFiltersView.xaml.cs">
+      <DependentUpon>OpcDaTagFiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPCServers\ViewModels\Client.cs" />
     <Compile Include="OPCServers\ViewModels\ConfigClass.cs" />
@@ -650,6 +659,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OpcDaClient\Views\OpcDaClientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaTegFilters\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OpcDaTegFilters\Views\OpcDaTagFiltersMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpcDaTegFilters\Views\OpcDaTagFiltersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

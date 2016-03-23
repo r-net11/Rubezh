@@ -374,17 +374,6 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Тест_устранен;
 							}
-
-							switch (bytes[32 + 15])
-							{
-								case 1:
-									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Кнопка;
-									break;
-
-								case 2:
-									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Указка;
-									break;
-							}
 							break;
 
 						case 7:
