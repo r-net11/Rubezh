@@ -29,6 +29,7 @@ namespace AutomationModule
 		private AutomationPlanExtension _planExtension;
 		private OpcTechnosoftwareViewModel _opcTechnosoftwareViewModel;
 		private OpcDaClientViewModel _opcDaClientViewModel;
+		private OpcDaTagFiltersViewModel _opcDaTagFiltersViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -40,6 +41,7 @@ namespace AutomationModule
 			_planExtension = new AutomationPlanExtension(_proceduresViewModel);
 			_opcTechnosoftwareViewModel = new OpcTechnosoftwareViewModel();
 			_opcDaClientViewModel = new OpcDaClientViewModel();
+			_opcDaTagFiltersViewModel = new OpcDaTagFiltersViewModel();
 		}
 
 		public override void Initialize()
@@ -77,7 +79,8 @@ namespace AutomationModule
 							//new NavigationItem<ShowOPCServersEvent, Guid>(_opcServersViewModel, "OPC Сервера", "Settings2"),
 							//new NavigationItem<ShowOpcDaServersEvent, Guid>(_opcDaServersViewModel, "OPC DA Серверы", "Settings2"),
 							//new NavigationItem<ShowOpcTechnosoftwareEvent, Guid>(_opcTechnosoftwareViewModel, "OPC DA on Technosoftware", "Settings2"),
-							new NavigationItem<ShowOpcDaClientEvent, Guid>(_opcDaClientViewModel, "OPC DA Клиент", "Settings2")
+							new NavigationItem<ShowOpcDaClientEvent, Guid>(_opcDaClientViewModel, "OPC DA Клиент", "Settings2"),
+							new NavigationItem<ShowOpcDaTagFiltersEvent, Guid>(_opcDaTagFiltersViewModel, "Фильтры OPC DA тегов", "Filter")
 						}) { IsExpanded = true },
 				};
 		}
@@ -99,6 +102,7 @@ namespace AutomationModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaTegFilters/DataTemplates/Dictionary.xaml");
 		}
 
 		public IEnumerable<IValidationError> Validate()
