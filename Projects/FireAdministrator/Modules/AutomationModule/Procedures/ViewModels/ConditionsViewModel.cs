@@ -125,10 +125,6 @@ namespace AutomationModule.ViewModels
 		void OnDeleteOpcTagFilter()
 		{
 			Procedure.OpcDaTagFiltersUids.Remove(SelectedOpcDaTagFilter.OpcDaTagFilter.UID);
-			ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
-				.Remove(SelectedOpcDaTagFilter.OpcDaTagFilter);
-			OpcTagFilters.Remove(SelectedOpcDaTagFilter);
-			SelectedOpcDaTagFilter = OpcTagFilters.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDeleteOpcTagFilter()
