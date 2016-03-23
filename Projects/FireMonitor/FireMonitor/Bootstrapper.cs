@@ -28,7 +28,7 @@ namespace FireMonitor
 			bool result;
 			LoadingErrorManager.Clear();
 			AppConfigHelper.InitializeAppSettings();
-			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
+			ServiceFactory.Initialize(new LayoutService(), new SecurityService(), new UiElementsVisibilityService());
 			ServiceFactoryBase.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin(_login, _password))
@@ -42,6 +42,9 @@ namespace FireMonitor
 				_password = ServiceFactory.StartupService.Password;
 				try
 				{
+					// Получаем данные лицензии с Сервера
+					ServiceFactory.UiElementsVisibilityService.Initialize(FiresecManager.FiresecService.GetLicenseData().Result);
+
 					CreateModules();
 
 					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 15);

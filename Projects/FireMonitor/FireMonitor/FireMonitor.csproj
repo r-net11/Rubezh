@@ -114,6 +114,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppConfigHelper.cs" />
+    <Compile Include="Services\UiElementsVisibilityService.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />

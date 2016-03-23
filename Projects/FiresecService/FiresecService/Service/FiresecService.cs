@@ -320,7 +320,8 @@ namespace FiresecService.Service
 				IsEnabledAutomation = _licenseManager.CurrentLicense.IsEnabledAutomation,
 				IsEnabledPhotoVerification = _licenseManager.CurrentLicense.IsEnabledPhotoVerification,
 				IsEnabledRVI = _licenseManager.CurrentLicense.IsEnabledRVI,
-				IsEnabledURV = _licenseManager.CurrentLicense.IsEnabledURV
+				IsEnabledURV = _licenseManager.CurrentLicense.IsEnabledURV,
+				IsUnlimitedUsers = _licenseManager.CurrentLicense.IsUnlimitedUsers
 			});
 		}
 

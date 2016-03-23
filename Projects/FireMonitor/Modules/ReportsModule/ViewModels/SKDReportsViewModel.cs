@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -14,7 +15,15 @@ namespace ReportsModule.ViewModels
 		{
 			ReportPresenter = new SKDReportPresenterViewModel();
 			Reports = new ObservableCollection<SKDReportBaseViewModel>();
-			Enum.GetValues(typeof(SKDReportGroup)).Cast<SKDReportGroup>().ForEach(group => Reports.Add(new SKDReportGroupViewModel(group)));
+			Enum.GetValues(typeof(SKDReportGroup)).Cast<SKDReportGroup>().ForEach(group =>
+			{
+				// Не отображать элемент главного меню "Отчеты / Учет рабочего времени", если этого требует лицензия
+				if (group == SKDReportGroup.TimeTracking &&
+					!ServiceFactory.UiElementsVisibilityService.IsMainMenuReportsUrvElementVisible)
+					return;
+				
+				Reports.Add(new SKDReportGroupViewModel(group));
+			});
 		}
 
 		public void Initialize()
@@ -49,6 +58,11 @@ namespace ReportsModule.ViewModels
 		{
 			if (provider.Group.HasValue)
 			{
+				// Не регистрируем группу отчетов УРВ, если этого требует лицензия
+				if (provider.Group.Value == SKDReportGroup.TimeTracking &&
+				    !ServiceFactory.UiElementsVisibilityService.IsMainMenuSkdUrvElementVisible)
+					return;
+
 				var groupViewModel = Reports.OfType<SKDReportGroupViewModel>().First(item => item.SKDReportGroup == provider.Group.Value);
 				groupViewModel.AddChild(new SKDReportViewModel(provider));
 			}

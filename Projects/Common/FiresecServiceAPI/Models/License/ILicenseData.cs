@@ -9,5 +9,7 @@
 		bool IsEnabledRVI { get; set; }
 
 		bool IsEnabledAutomation { get; set; }
+
+		bool IsUnlimitedUsers { get; set; }
 	}
 }

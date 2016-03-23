@@ -122,7 +122,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\Mail\Smtp\Client\HigLabo.Net.Net4_0.1.0.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\3rdParty\Newtonsoft.Json.7.0.10\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

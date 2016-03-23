@@ -42,21 +42,39 @@ namespace SKDModule
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>
-				{
-				new NavigationItem("СКД", "SKDW",
-					new List<NavigationItem>()
-					{
-						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W"),
-						new NavigationItem("Учет рабочего времени", "TimeTrackingW", new List<NavigationItem>()
-						{
-							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null, PermissionType.Oper_SKD_TimeTrack_DaySchedules_View, Guid.Empty),
-							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null, PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View, Guid.Empty),
-							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, PermissionType.Oper_SKD_TimeTrack_Holidays_View, Guid.Empty),
-							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "График работы", "ShedulesW", null, PermissionType.Oper_SKD_TimeTrack_Schedules_View, Guid.Empty),
-							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, PermissionType.Oper_SKD_TimeTrack_Report_View),
-						}),
-					})
-				};
+			{
+				BuildSkdItem()
+			};
+		}
+
+		private NavigationItem BuildSkdItem()
+		{
+			var items = new List<NavigationItem>
+			{
+				new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W")
+			};
+
+			if (ServiceFactory.UiElementsVisibilityService.IsMainMenuSkdUrvElementVisible)
+				items.Add(BuildUrvItem());
+
+			return new NavigationItem("СКД", "SKDW", items);
+		}
+
+		private NavigationItem BuildUrvItem()
+		{
+			return new NavigationItem("Учет рабочего времени", "TimeTrackingW", new List<NavigationItem>()
+			{
+				new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null,
+					PermissionType.Oper_SKD_TimeTrack_DaySchedules_View, Guid.Empty),
+				new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null,
+					PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View, Guid.Empty),
+				new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null,
+					PermissionType.Oper_SKD_TimeTrack_Holidays_View, Guid.Empty),
+				new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "График работы", "ShedulesW", null,
+					PermissionType.Oper_SKD_TimeTrack_Schedules_View, Guid.Empty),
+				new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null,
+					PermissionType.Oper_SKD_TimeTrack_Report_View),
+			});
 		}
 
 		public override void Initialize()

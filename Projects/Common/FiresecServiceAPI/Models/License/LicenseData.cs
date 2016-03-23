@@ -19,6 +19,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool IsEnabledAutomation { get; set; }
 
+		[DataMember]
+		public bool IsUnlimitedUsers { get; set; }
+
 		#endregion </Реализация интерфейса ILicenseData>
 	}
 }
