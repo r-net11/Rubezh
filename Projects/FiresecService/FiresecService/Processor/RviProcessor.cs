@@ -37,6 +37,7 @@ namespace FiresecService
 		{
 			_autoResetEvent = new AutoResetEvent(false);
 			var rviStates = new List<RviState>();
+			var sate = RviStatus.Error;
 			while (true)
 			{
 				try
@@ -55,21 +56,30 @@ namespace FiresecService
 							var newDevices = RviClientHelper.GetRviDevices(server.Url, rviSettings.Login, rviSettings.Password, ConfigurationCashHelper.SystemConfiguration.Cameras, out isNotConnected);
 							if (isNotConnected)
 							{
-								rviStates.Add(new RviState(server, RviStatus.ConnectionLost));
-								foreach (var rviDevice in server.RviDevices)
+								if (sate != RviStatus.ConnectionLost)
 								{
-									rviDevice.Status = RviStatus.ConnectionLost;
-									rviStates.Add(new RviState(rviDevice, RviStatus.ConnectionLost));
-									foreach (var camera in rviDevice.Cameras)
+									rviStates.Add(new RviState(server, RviStatus.ConnectionLost));
+									sate = RviStatus.ConnectionLost;
+									foreach (var rviDevice in server.RviDevices)
 									{
-										camera.Status = RviStatus.ConnectionLost;
-										rviStates.Add(new RviState(camera, RviStatus.ConnectionLost, false, false, camera.RviStreams));
+										rviDevice.Status = RviStatus.ConnectionLost;
+										rviStates.Add(new RviState(rviDevice, RviStatus.ConnectionLost));
+										foreach (var camera in rviDevice.Cameras)
+										{
+											camera.Status = RviStatus.ConnectionLost;
+											rviStates.Add(new RviState(camera, RviStatus.ConnectionLost, false, false, camera.RviStreams));
+										}
 									}
 								}
 							}
-							else
+							else 
 							{
-								rviStates.Add(new RviState(server, RviStatus.Connected));
+								if (sate != RviStatus.Connected)
+								{
+									rviStates.Add(new RviState(server, RviStatus.Connected));
+									sate = RviStatus.Connected;
+								}
+
 								foreach (var oldDevice in server.RviDevices)
 								{
 									var newDevice = newDevices.FirstOrDefault(x => x.Uid == oldDevice.Uid);
@@ -94,7 +104,7 @@ namespace FiresecService
 													oldCamera.RviStreams = newCamera.RviStreams;
 													rviStates.Add(new RviState(oldCamera, oldCamera.Status, oldCamera.IsOnGuard, oldCamera.IsRecordOnline, oldCamera.RviStreams));
 												}
-												if (oldCamera.RviStreams != newCamera.RviStreams)
+												if (oldCamera.RviStreams.Count() != newCamera.RviStreams.Count()) // спросить у Ромы
 												{
 													oldCamera.RviStreams = newCamera.RviStreams;
 													rviStates.Add(new RviState(oldCamera, oldCamera.Status, oldCamera.IsOnGuard, oldCamera.IsRecordOnline, oldCamera.RviStreams));
@@ -102,19 +112,28 @@ namespace FiresecService
 											}
 											else
 											{
-												oldCamera.Status = RviStatus.Error;
-												rviStates.Add(new RviState(oldCamera, RviStatus.Error, false, false, oldCamera.RviStreams));
+												if (oldCamera.Status != RviStatus.Error)
+												{
+													oldCamera.Status = RviStatus.Error;
+													rviStates.Add(new RviState(oldCamera, RviStatus.Error, false, false, oldCamera.RviStreams));
+												}
 											}
 										}
 									}
 									else
 									{
-										oldDevice.Status = RviStatus.Error;
-										rviStates.Add(new RviState(oldDevice, RviStatus.Error));
+										if (oldDevice.Status != RviStatus.Error)
+										{
+											oldDevice.Status = RviStatus.Error;
+											rviStates.Add(new RviState(oldDevice, RviStatus.Error));
+										}
 										foreach (var oldCamera in oldDevice.Cameras)
 										{
-											oldCamera.Status = RviStatus.Error;
-											rviStates.Add(new RviState(oldCamera, RviStatus.Error, false, false, oldCamera.RviStreams));
+											if (oldCamera.Status != RviStatus.Error)
+											{
+												oldCamera.Status = RviStatus.Error;
+												rviStates.Add(new RviState(oldCamera, RviStatus.Error, false, false, oldCamera.RviStreams));
+											}
 										}
 									}
 								}

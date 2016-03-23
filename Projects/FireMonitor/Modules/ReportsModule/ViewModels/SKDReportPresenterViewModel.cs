@@ -1,22 +1,23 @@
-﻿using System;
-using System.ServiceModel;
-using System.Windows.Input;
-using System.Windows.Threading;
-using Common;
+﻿using Common;
 using DevExpress.DocumentServices.ServiceModel.Client;
 using DevExpress.Xpf.Printing;
-using RubezhAPI.SKD.ReportFilters;
-using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.SKD.ReportFilters;
+using RubezhClient;
+using System;
+using System.ServiceModel;
+using System.Windows.Input;
+using System.Windows.Threading;
 using DialogService = Infrastructure.Common.Windows.DialogService;
 
 namespace ReportsModule.ViewModels
 {
 	public class SKDReportPresenterViewModel : BaseViewModel
 	{
+		ReportServiceClientFactory Factory { get; set; }
 		ISKDReportProvider ReportProvider
 		{
 			get { return SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null; }
@@ -41,10 +42,14 @@ namespace ReportsModule.ViewModels
 			var reportServerAddress = "net.tcp://" + address + ":" + GlobalSettingsHelper.GlobalSettings.ReportRemotePort.ToString() + "/ReportFiresecService/";
 			var endpoint = new EndpointAddress(reportServerAddress);
 			var binding = BindingHelper.CreateBindingFromAddress(reportServerAddress);
-			var factory = new ReportServiceClientFactory(endpoint, binding);
+			Factory = new ReportServiceClientFactory(endpoint, binding);
+			CreateModel();
+		}
+		void CreateModel()
+		{
 			Model = new XReportServicePreviewModel()
 			{
-				ServiceClientFactory = factory,
+				ServiceClientFactory = Factory,
 				IsParametersPanelVisible = false,
 				AutoShowParametersPanel = false,
 				IsDocumentMapVisible = false,
@@ -138,6 +143,7 @@ namespace ReportsModule.ViewModels
 				{
 					using (new WaitWrapper())
 					{
+						CreateModel();
 						Model.ReportName = ReportProvider.GetType().Name;
 						var filter = ReportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)ReportProvider).GetFilter() : null;
 						FilterName = filter == null ? null : filter.Name;

@@ -17,6 +17,7 @@ namespace RubezhAPI.Automation
 			OPCServers = new List<OPCServer>();
 			GlobalVariables = new List<Variable>();
 			OpcDaTagFilters = new List<OpcDaTagFilter>();
+			OpcDaTsServers = new List<OpcDaServer>();
 		}
 
 		[DataMember]

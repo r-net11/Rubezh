@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpf.Printing;
-using DevExpress.DocumentServices.ServiceModel.Client;
-using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
+﻿using Common;
 using DevExpress.DocumentServices.ServiceModel.DataContracts;
-using System.Collections.ObjectModel;
-using Common;
-using System.ServiceModel;
+using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
+using DevExpress.Xpf.Printing;
 using Infrastructure.Common.Windows;
+using System;
+using System.Collections.ObjectModel;
+using System.ServiceModel;
 using System.Windows.Threading;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace ReportsModule.ViewModels
 {

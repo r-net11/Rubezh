@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
@@ -78,9 +79,11 @@ namespace GKImitator.ViewModels
 		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			Thread.Sleep(TimeSpan.FromSeconds(3));
+			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
 			DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
 			DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
 			DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
+			DescriptorViewModel.AddJournalItem(journalItem);
 			DescriptorViewModel.CurrentCardNo = 0;
 		}
 	}

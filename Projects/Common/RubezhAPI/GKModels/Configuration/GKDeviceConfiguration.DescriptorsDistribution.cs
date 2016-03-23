@@ -51,6 +51,8 @@ namespace RubezhAPI.GK
 					}
 				}
 				gkBases.Add(guardZone);
+				gkBases.Add(guardZone.Pim);
+				gkBases.Add(guardZone.ChangePim);
 			}
 
 			foreach (var pumpStation in PumpStations)
@@ -145,6 +147,9 @@ namespace RubezhAPI.GK
 				}
 
 				gkBases.Add(door);
+				gkBases.Add(door.PimCrossing);
+				gkBases.Add(door.PimEnter);
+				gkBases.Add(door.PimExit);
 			}
 
 			foreach (var device in Devices)
@@ -291,16 +296,19 @@ namespace RubezhAPI.GK
 				gkBase.KauDatabaseParent = null;
 				gkBase.GkDatabaseParent = null;
 
-				if (gkBase.KauParents.Count == 1 && !gkBase.MagnetToGK)
+				if (!(gkBase is GKPim))
 				{
-					gkBase.KauDatabaseParent = gkBase.KauParents.FirstOrDefault();
-					gkBase.GkDatabaseParent = gkBase.KauDatabaseParent.Parent;
-					gkBase.IsLogicOnKau = true;
-				}
-				else
-				{
-					gkBase.GkDatabaseParent = gkBase.GkParents.FirstOrDefault();
-					gkBase.IsLogicOnKau = false;
+					if (gkBase.KauParents.Count == 1 && !gkBase.MagnetToGK)
+					{
+						gkBase.KauDatabaseParent = gkBase.KauParents.FirstOrDefault();
+						gkBase.GkDatabaseParent = gkBase.KauDatabaseParent.Parent;
+						gkBase.IsLogicOnKau = true;
+					}
+					else
+					{
+						gkBase.GkDatabaseParent = gkBase.GkParents.FirstOrDefault();
+						gkBase.IsLogicOnKau = false;
+					}
 				}
 			}
 		}

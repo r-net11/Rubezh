@@ -270,15 +270,23 @@ namespace RubezhAPI.GK
 			{
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
-					guardZone.LinkToDescriptor(guardZoneDevice.Device);
-					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector ||
-						guardZoneDevice.Device.DriverType == GKDriverType.RSR2_HandGuardDetector || guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
+					if (guardZoneDevice.ActionType != GKGuardZoneDeviceActionType.ChangeGuard)
+						guardZone.LinkToDescriptor(guardZoneDevice.Device);
+					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_HandGuardDetector || guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 					{
 						guardZoneDevice.Device.LinkToDescriptor(guardZone);
 					}
 				}
-				if (guardZone.Pim != null && guardZone.GuardZoneDevices.Any(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard))
-					guardZone.Pim.LinkToDescriptor(guardZone);
+				if (guardZone.GuardZoneDevices.Any(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard))
+				{
+					if (guardZone.Pim != null)
+						guardZone.Pim.LinkToDescriptor(guardZone);
+					if (guardZone.ChangePim != null)
+					{ 
+						guardZone.GuardZoneDevices.Where(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard).ForEach(x => guardZone.ChangePim.LinkToDescriptor(x.Device));
+						guardZone.LinkToDescriptor(guardZone.ChangePim);
+					}
+				}
 				else
 					guardZone.LinkToDescriptor(guardZone);
 			}
