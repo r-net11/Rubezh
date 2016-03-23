@@ -94,12 +94,12 @@ namespace FiltersModule.ViewModels
 					nameViewModel.ExpandToThis();
 				}
 			}
-			foreach (var descriptionDictionary in filter.JournalEventDescriptionTypes)
+			foreach (var descriptionDictionary in filter.EventDescriptions)
 			{
-				if (descriptionDictionary.Value != null && descriptionDictionary.Value.Count > 0)
+				if (descriptionDictionary.JournalEventDescriptionTypes != null && descriptionDictionary.JournalEventDescriptionTypes.Count > 0)
 				{
-					var parent = AllNames.FirstOrDefault(x => x.JournalEventNameType == descriptionDictionary.Key);
-					var descriptions = descriptionDictionary.Value;
+					var parent = AllNames.FirstOrDefault(x => x.JournalEventNameType == descriptionDictionary.JournalEventNameType);
+					var descriptions = descriptionDictionary.JournalEventDescriptionTypes;
 					foreach (var description in descriptions)
 					{
 						var descriptionViewModel = AllNames.FirstOrDefault(x => x.JournalEventDescriptionType == description);
@@ -131,7 +131,7 @@ namespace FiltersModule.ViewModels
 					filter.JournalEventNameTypes.Add(eventViewModel.JournalEventNameType);
 				var descriptions = new List<JournalEventDescriptionType>(eventViewModel.Children.Where(x => x.IsChecked).Select(x => x.JournalEventDescriptionType));
 				if (descriptions.Count > 0)
-					filter.JournalEventDescriptionTypes.Add(eventViewModel.JournalEventNameType, descriptions);
+					filter.EventDescriptions.Add(new EventDescriptions { JournalEventNameType = eventViewModel.JournalEventNameType, JournalEventDescriptionTypes = descriptions });
 				
 			}
 			return filter;

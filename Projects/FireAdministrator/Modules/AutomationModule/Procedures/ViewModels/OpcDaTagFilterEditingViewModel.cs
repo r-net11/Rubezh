@@ -19,13 +19,13 @@ namespace AutomationModule.ViewModels
 
 			foreach(var server in OpcDaServers)
 			{
-				SelectedOpcDaTag = server.Tags.FirstOrDefault(tag => tag.Uid == SelectedOpcDaTagFilter.OpcTagFilter.TagUID);
+				SelectedOpcDaTag = server.Tags.FirstOrDefault(tag => tag.Uid == SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID);
 				if (SelectedOpcDaTag != null)
 				{
 					SelectedOpcDaServer = server;
-					Name = SelectedOpcDaTagFilter.OpcTagFilter.Name;
-					Description = SelectedOpcDaTagFilter.OpcTagFilter.Description;
-					Hysteresis = SelectedOpcDaTagFilter.OpcTagFilter.Hysteresis;
+					Name = SelectedOpcDaTagFilter.OpcDaTagFilter.Name;
+					Description = SelectedOpcDaTagFilter.OpcDaTagFilter.Description;
+					Hysteresis = SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis;
 					break;
 				}
 			}
@@ -163,10 +163,10 @@ namespace AutomationModule.ViewModels
 		protected override bool Save()
 		{
 			//var type = OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue);
-			SelectedOpcDaTagFilter.OpcTagFilter.TagUID = SelectedOpcDaTag.Uid;
+			SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID = SelectedOpcDaTag.Uid;
 			SelectedOpcDaTagFilter.Name = Name;
-			SelectedOpcDaTagFilter.OpcTagFilter.Hysteresis = Hysteresis;
-			SelectedOpcDaTagFilter.OpcTagFilter.Description = Description;
+			SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis = Hysteresis;
+			SelectedOpcDaTagFilter.OpcDaTagFilter.Description = Description;
 			return true;
 			//return base.Save();
 		}

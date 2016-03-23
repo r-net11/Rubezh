@@ -99,6 +99,7 @@
     <Compile Include="Events\GKObjectsPropertyChangedEvent.cs" />
     <Compile Include="Events\ShowObject\ShowHREvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKPumpStationOnPlanEvent.cs" />
+    <Compile Include="Events\SkdReportOrganisationsListChangedEvent.cs" />
     <Compile Include="Events\UpdateJournalItemsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowGKSKDZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowGKDelayOnPlanEvent.cs" />
