@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI.SKD;
-using RubezhAPI.SKD.ReportFilters;
-using RubezhClient;
-using RubezhClient.SKDHelpers;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Events;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using SKDModule.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -35,6 +35,8 @@ namespace SKDModule.Reports.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
+			ServiceFactory.Events.GetEvent<SkdReportOrganisationsListChangedEvent>().Unsubscribe(UpdateItemList);
+			ServiceFactory.Events.GetEvent<SkdReportOrganisationsListChangedEvent>().Subscribe(UpdateItemList);
 			var organisationFilter = filter as IReportFilterOrganisation;
 			var uids = organisationFilter == null ? null : organisationFilter.Organisations;
 			if (!AllowMultiple && uids == null && Organisations.Items.Count > 0)
@@ -55,11 +57,15 @@ namespace SKDModule.Reports.ViewModels
 
 		void CreateItemList(bool isWithDeleted = false)
 		{
-			Organisations = new ReportOrganisationsItemList { IsSingleSelection = !AllowMultiple };
 			var filter = new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);
+			UpdateItemList(organisations);
+		}
+		void UpdateItemList(IEnumerable<Organisation> organisations)
+		{
+			Organisations = new ReportOrganisationsItemList { IsSingleSelection = !AllowMultiple };
 			if (organisations != null)
 			{
 				foreach (var organisation in organisations)
