@@ -50,13 +50,19 @@ namespace VideoModule
 			base.RegisterResource();
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 		}
+		
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			return new List<NavigationItem>()
+			// Скрываем в главном меню пункт "Видео", если лицензия этого требует
+			if (!ServiceFactory.UiElementsVisibilityService.IsMainMenuVideoElementVisible)
+				return new List<NavigationItem>();
+
+			return new List<NavigationItem>
 			{
 				new NavigationItem<ShowVideoEvent, Guid>(CamerasViewModel,ModuleType.ToDescription(), "Video1"),
 			};
 		}
+
 		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Video; }

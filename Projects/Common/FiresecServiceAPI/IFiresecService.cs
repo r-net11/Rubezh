@@ -113,6 +113,13 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> CanLoadModule(ModuleType type);
 
+		/// <summary>
+		/// Получает данные лицензии с Сервера
+		/// </summary>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<LicenseData> GetLicenseData();
+
 		#endregion
 	}
 }

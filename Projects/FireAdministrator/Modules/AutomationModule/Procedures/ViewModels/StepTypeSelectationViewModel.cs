@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Automation;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -38,7 +40,7 @@ namespace AutomationModule.ViewModels
 				AddChildPlainStepTypes(childViewModel);
 		}
 
-		StepTypeViewModel _selectedStepType;
+		private StepTypeViewModel _selectedStepType;
 		public StepTypeViewModel SelectedStepType
 		{
 			get { return _selectedStepType; }
@@ -49,7 +51,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		StepTypeViewModel _rootStepType;
+		private StepTypeViewModel _rootStepType;
 		public StepTypeViewModel RootStepType
 		{
 			get { return _rootStepType; }
@@ -65,86 +67,182 @@ namespace AutomationModule.ViewModels
 			get { return new[] { RootStepType }; }
 		}
 
-		void BuildStepTypeTree()
+		private void BuildStepTypeTree()
 		{
-			RootStepType = new StepTypeViewModel("Реестр функций", "/Controls;component/Images/CFolder.png",
-				new List<StepTypeViewModel>
-				{
-					new StepTypeViewModel("Операции", "/Controls;component/StepIcons/Arithmetics.png",
-						new List<StepTypeViewModel>
-						{
-							new StepTypeViewModel(ProcedureStepType.Arithmetics),
-							new StepTypeViewModel(ProcedureStepType.SetValue),
-							new StepTypeViewModel(ProcedureStepType.IncrementValue),
-							new StepTypeViewModel(ProcedureStepType.Random),
-							new StepTypeViewModel(ProcedureStepType.GetDateTimeNow),
-							new StepTypeViewModel(ProcedureStepType.GenerateGuid)
-						}),
-						new StepTypeViewModel("Интерактивная логика", "/Controls;component/StepIcons/PlaySound.png",
-						new List<StepTypeViewModel>
-						{
-							new StepTypeViewModel(ProcedureStepType.PlaySound),
-							new StepTypeViewModel(ProcedureStepType.AddJournalItem),
-							new StepTypeViewModel(ProcedureStepType.SendEmail),
-							new StepTypeViewModel(ProcedureStepType.ShowMessage),
-							new StepTypeViewModel(ProcedureStepType.ControlVisualGet),
-							new StepTypeViewModel(ProcedureStepType.ControlVisualSet),
-							new StepTypeViewModel(ProcedureStepType.ControlPlanGet),
-							new StepTypeViewModel(ProcedureStepType.ControlPlanSet),
-							new StepTypeViewModel(ProcedureStepType.ShowDialog)
-						}),
-					new StepTypeViewModel("Служебные функции", "/Controls;component/StepIcons/Exit.png",
-						new List<StepTypeViewModel>
-						{
-							new StepTypeViewModel(ProcedureStepType.Exit),
-							new StepTypeViewModel(ProcedureStepType.RunProgram),
-							new StepTypeViewModel(ProcedureStepType.Pause),
-							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
-							new StepTypeViewModel(ProcedureStepType.CheckPermission),
-							new StepTypeViewModel(ProcedureStepType.GetJournalItem),
-							new StepTypeViewModel(ProcedureStepType.GetSkdDeviceProperty),
-							new StepTypeViewModel(ProcedureStepType.GetDoorProperty),
-							new StepTypeViewModel(ProcedureStepType.GetSkdZoneProperty),
-						}),
-					new StepTypeViewModel("Функции цикла", "/Controls;component/StepIcons/For.png",
-						new List<StepTypeViewModel>
-						{
-							new StepTypeViewModel(ProcedureStepType.For),
-							new StepTypeViewModel(ProcedureStepType.While),
-							new StepTypeViewModel(ProcedureStepType.Break),
-							new StepTypeViewModel(ProcedureStepType.Continue)
-						}),
-					new StepTypeViewModel("Управление аппаратурой", "/Controls;component/StepIcons/Control.png",
-						new List<StepTypeViewModel>
-						{
-							new StepTypeViewModel("Управление Страж", "/Controls;component/StepIcons/Control.png",
-								new List<StepTypeViewModel>
-								{
-									new StepTypeViewModel(ProcedureStepType.ControlSKDDevice),
-									new StepTypeViewModel(ProcedureStepType.ControlSKDZone),
-									new StepTypeViewModel(ProcedureStepType.ControlDoor),
-								}),
-							new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png",
-								new List<StepTypeViewModel>
-								{
-									new StepTypeViewModel(ProcedureStepType.StartRecord),
-									new StepTypeViewModel(ProcedureStepType.Ptz),
-									new StepTypeViewModel(ProcedureStepType.RviAlarm),
-								}),
-						}),
-					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",
-						new List<StepTypeViewModel>
-						{
-							new StepTypeViewModel(ProcedureStepType.ExportReport),
-							new StepTypeViewModel(ProcedureStepType.ExportJournal),
-							new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
-							new StepTypeViewModel(ProcedureStepType.ExportOrganisation),
-							new StepTypeViewModel(ProcedureStepType.ExportOrganisationList),
-							new StepTypeViewModel(ProcedureStepType.ImportOrganisation),
-							new StepTypeViewModel(ProcedureStepType.ImportOrganisationList),
-						}),
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+			
+			var node = BuildOperationsNode();
+			if (node.ChildrenCount > 0)
+				stepTypeViewModels.Add(node);
+			node = BuildInteractiveLogicNode();
+			if (node.ChildrenCount > 0)
+				stepTypeViewModels.Add(node);
+			node = BuildServiceFunctionsNode();
+			if (node.ChildrenCount > 0)
+				stepTypeViewModels.Add(node);
+			node = BuildSeriesFunctionsNode();
+			if (node.ChildrenCount > 0)
+				stepTypeViewModels.Add(node);
+			node = BuildHardwareControlNode();
+			if (node.ChildrenCount > 0)
+				stepTypeViewModels.Add(node);
+			node = BuildDataExchangeNode();
+			if (node.ChildrenCount > 0)
+				stepTypeViewModels.Add(node);
 
-				});
+			RootStepType = new StepTypeViewModel("Реестр функций", "/Controls;component/Images/CFolder.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildDataExchangeNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+			
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ExportReport))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ExportReport));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ExportJournal))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ExportJournal));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ExportConfiguration))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ExportConfiguration));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ExportOrganisation))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ExportOrganisation));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ExportOrganisationList))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ExportOrganisationList));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ImportOrganisation))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ImportOrganisation));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ImportOrganisationList))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ImportOrganisationList));
+
+			return new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildOperationsNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Arithmetics))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Arithmetics));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.SetValue))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.SetValue));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.IncrementValue))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.IncrementValue));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Random))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Random));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GetDateTimeNow))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GetDateTimeNow));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GenerateGuid))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GenerateGuid));
+
+			return new StepTypeViewModel("Операции", "/Controls;component/StepIcons/Arithmetics.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildInteractiveLogicNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.PlaySound))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.PlaySound));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.AddJournalItem))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.AddJournalItem));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.SendEmail))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.SendEmail));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ShowMessage))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ShowMessage));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlVisualGet))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlVisualGet));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlVisualSet))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlVisualSet));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlPlanGet))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlPlanGet));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlPlanSet))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlPlanSet));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ShowDialog))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ShowDialog));
+
+			return new StepTypeViewModel("Интерактивная логика", "/Controls;component/StepIcons/PlaySound.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildServiceFunctionsNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Exit))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Exit));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.RunProgram))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.RunProgram));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Pause))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Pause));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ProcedureSelection))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ProcedureSelection));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.CheckPermission))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.CheckPermission));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GetJournalItem))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GetJournalItem));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GetSkdDeviceProperty))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GetSkdDeviceProperty));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GetDoorProperty))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GetDoorProperty));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GetSkdZoneProperty))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GetSkdZoneProperty));
+
+			return new StepTypeViewModel("Служебные функции", "/Controls;component/StepIcons/Exit.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildSeriesFunctionsNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.For))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.For));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.While))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.While));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Break))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Break));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Continue))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Continue));
+
+			return new StepTypeViewModel("Функции цикла", "/Controls;component/StepIcons/For.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildHardwareControlNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+
+			var node = BuildStrazhControlNode();
+			if (node.ChildrenCount > 0)
+				stepTypeViewModels.Add(node);
+			node = BuildVideoControlNode();
+			if (node.ChildrenCount > 0)
+				stepTypeViewModels.Add(node);
+
+			return new StepTypeViewModel("Управление аппаратурой", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildStrazhControlNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlSKDDevice))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlSKDDevice));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlSKDZone))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlSKDZone));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlDoor))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlDoor));
+
+			return new StepTypeViewModel("Управление Страж", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+		}
+
+		private StepTypeViewModel BuildVideoControlNode()
+		{
+			var stepTypeViewModels = new List<StepTypeViewModel>();
+
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.StartRecord))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.StartRecord));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Ptz))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Ptz));
+			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.RviAlarm))
+				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.RviAlarm));
+
+			return new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		protected override bool CanSave()

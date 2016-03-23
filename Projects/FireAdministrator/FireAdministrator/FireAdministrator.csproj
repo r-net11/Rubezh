@@ -129,6 +129,7 @@
     <Compile Include="FileConfigurationHelper.cs" />
     <Compile Include="AdministratorModule.cs" />
     <Compile Include="Services\LayoutService.cs" />
+    <Compile Include="Services\UiElementsVisibilityService.cs" />
     <Compile Include="Services\ValidationService.cs" />
     <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
     <Compile Include="Validation\Converters\ErrorLevelToIconConverter.cs" />

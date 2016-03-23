@@ -53,6 +53,10 @@ namespace AutomationModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+			// Скрываем в главном меню пункт "Сценарии автоматизации", если лицензия этого требует
+			if (!ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
+				return new List<NavigationItem>();
+			
 			return new List<NavigationItem>
 				{
 					new NavigationItem(ModuleType.ToDescription(), "tree",

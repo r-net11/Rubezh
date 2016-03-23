@@ -20,7 +20,7 @@ namespace FireAdministrator
 		public void Initialize()
 		{
 			LoadingErrorManager.Clear();
-			ServiceFactory.Initialize(new LayoutService(), new ValidationService());
+			ServiceFactory.Initialize(new LayoutService(), new ValidationService(), new UiElementsVisibilityService());
 			var assembly = GetType().Assembly;
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(assembly, "DataTemplates/Dictionary.xaml"));
 			ServiceFactory.StartupService.Show();
@@ -28,6 +28,9 @@ namespace FireAdministrator
 			{
 				try
 				{
+					// Получаем данные лицензии с Сервера
+					ServiceFactory.UiElementsVisibilityService.Initialize(FiresecManager.FiresecService.GetLicenseData().Result);
+
 					ServiceFactory.StartupService.ShowLoading("Загрузка модулей", 5);
 					CreateModules();
 

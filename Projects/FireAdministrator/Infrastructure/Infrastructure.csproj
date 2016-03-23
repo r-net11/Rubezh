@@ -99,6 +99,7 @@
     <Compile Include="Events\ShowVideoEvent.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\IProgressService.cs" />
+    <Compile Include="Services\IUiElementsVisibilityService.cs" />
     <Compile Include="Services\IValidationResult.cs" />
     <Compile Include="Services\IValidationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
