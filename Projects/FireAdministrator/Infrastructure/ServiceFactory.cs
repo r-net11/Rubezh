@@ -24,7 +24,7 @@ namespace Infrastructure
 			}
 		}
 
-		public static void Initialize(ILayoutService ILayoutService, IValidationService IValidationService)
+		public static void Initialize(ILayoutService ILayoutService, IValidationService IValidationService, IUiElementsVisibilityService uiElementsVisibilityService)
 		{
 			SaveService = new SaveService();
 			Events = new EventAggregator();
@@ -35,7 +35,7 @@ namespace Infrastructure
 			ContentService = new ContentService("Administrator");
 			DragDropService = new DragDropService();
 			RibbonService = new RibbonService();
-			UiElementsVisibilityService = new UiElementsVisibilityService();
+			UiElementsVisibilityService = uiElementsVisibilityService;
 		}
 
 		public static SaveService SaveService { get; private set; }

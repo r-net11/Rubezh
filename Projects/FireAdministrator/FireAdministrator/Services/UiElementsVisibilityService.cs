@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
+using Infrastructure;
 
-namespace Infrastructure
+namespace FireAdministrator
 {
 	public class UiElementsVisibilityService : IUiElementsVisibilityService
 	{
@@ -129,6 +130,7 @@ namespace Infrastructure
 				_licenseData.IsEnabledAutomation)
 			{
 				IsLayoutModuleVerificationElementVisible = false;
+				IsMainMenuVideoElementVisible = false;
 				VisibleProcedureSteps = new List<ProcedureStepType>(GetAllProcedureSteps()
 					.Except(new List<ProcedureStepType>
 					{
