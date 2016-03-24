@@ -85,6 +85,8 @@
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
     <Compile Include="Events\CreateFilterEvent.cs" />
+    <Compile Include="Events\CreateOpcDaTagFilterEvent.cs" />
+    <Compile Include="Events\DeleteOpcDaTagFilterEvent.cs" />
     <Compile Include="Events\EditValidationEvent.cs" />
     <Compile Include="Events\LoadFromFileEvent.cs" />
     <Compile Include="Events\RemoveGKDeviceEvent.cs" />
@@ -156,10 +158,6 @@
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
-      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>RubezhAPI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
       <Name>Infrastructure.Client</Name>
@@ -171,6 +169,10 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
+      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Name>RubezhAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
