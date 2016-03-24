@@ -12,8 +12,8 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
-									<TextBlock Text="{Binding Item.Name}" />
+									<Image Width="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
+									<TextBlock Text="{Binding Item.Name}" VerticalAlignment="Center" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
