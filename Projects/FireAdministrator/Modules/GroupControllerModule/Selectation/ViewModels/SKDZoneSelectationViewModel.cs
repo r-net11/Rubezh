@@ -1,21 +1,20 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
-using RubezhClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhClient;
 using RubezhAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
-	[SaveSizeAttribute]
+    [SaveSizeAttribute]
 	public class SKDZoneSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public SKDZoneSelectationViewModel(GKSKDZone zone)
+		public SKDZoneSelectationViewModel(GKSKDZone zone, Guid uid)
 		{
 			Title = "Выбор зоны";
-			Zones = new ObservableCollection<GKSKDZone>(GKManager.SKDZones);
+			Zones = new ObservableCollection<GKSKDZone>(GKManager.SKDZones.Where(x=> x.UID!= uid));
 			if (zone != null)
 				SelectedZone = Zones.FirstOrDefault(x => x.UID == zone.UID);
 		}

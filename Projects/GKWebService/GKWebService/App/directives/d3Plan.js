@@ -24,7 +24,8 @@
 	}
 
 	function renderTipContent(hintLines) {
-		var hintHtml = "<table style='width:100%;border: 0px;'>";
+		var hintHtml = "<button type='button' class='hintCloseButton btn-xs btn-info' style='float: right'>X</button>";
+		hintHtml += "<table style='width:100%;border: 0px;'>";
 		hintLines.forEach(function (item, i, arr) {
 			hintHtml += "<tr><td style='width: 16px;border: 0px;padding: 1px'>";
 			if (item.Icon)
@@ -88,23 +89,25 @@
 				.attr("id", function (d) { return item.Id.replace(" ", "-") });
 		} else {
 			svg.append("image").attr("xlink:href", "data:image/png;base64," + item.Image)
-			.attr("x", item.X)
-			.attr("y", item.Y)
-			.attr("width", item.Width)
-			.attr("height", item.Height)
-			.attr("preserveAspectRatio", "none")
-			.attr("id", function (d) { return item.Id.replace(" ", "-") })
-			// Обработка события наведения мыши
-			//.on("mouseover", function (d) {
-			//	var id = document.getElementById(item.Id.replace(" ", "-"));
-			//	tip.show(renderTipContent(item.Hint.StateHintLines), id);
-			//})
-			// Обработка события прекращения наведения мыши
-			.on("mouseout", function (d) { tip.hide(); })
-			// Обработка события левого клика мыши
-			.on("click", function (d) { })
-			// Обработка события вызова контекстного меню
-			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); });
+				.attr("x", item.X)
+				.attr("y", item.Y)
+				.attr("width", item.Width)
+				.attr("height", item.Height)
+				.attr("preserveAspectRatio", "none")
+				.attr("id", function(d) { return item.Id.replace(" ", "-") })
+				// Обработка события левого клика мыши
+				.on("click", function(d) { tip.hide(); scope.ShowModal("lg", item); })
+				// Обработка события вызова контекстного меню
+				.on("contextmenu", function(d, i) {
+					if (item.Type === "Plan" || !item.HasOverlay || item.IsInGroup)
+						return;
+					if (!item.Hint)
+						return;
+					var id = document.getElementById(item.Id.replace(" ", "-"));
+					tip.show(renderTipContent(item.Hint.StateHintLines), id);
+					$(".hintCloseButton").on("click", function() { tip.hide(); });
+					d3.event.preventDefault();
+				});
 		}
 	}
 
@@ -141,34 +144,18 @@
 			.style("stroke", "rgba(" + item.Border.R + "," + item.Border.G + "," + item.Border.B + "," + item.Border.A + ")")
 			.style("fill", "rgba(" + item.Fill.R + "," + item.Fill.G + "," + item.Fill.B + "," + item.Fill.A + ")")
 			.attr("id", function (d) { return item.Id.replace(" ", "-"); })
-			// Обработка события наведения мыши
-			.on("mouseover", function (d) {
-				if (item.Type === "Plan" || !item.HasOverlay)
+			// Обработка события левого клика мыши
+			.on("click", function (d) {tip.hide();scope.ShowModal("lg", item); })
+			// Обработка события вызова контекстного меню
+			.on("contextmenu", function (d, i) {
+								if (item.Type === "Plan" || !item.HasOverlay || item.IsInGroup)
 					return;
-				//d3.select(this).style("stroke", "rgba(" + item.BorderMouseOver.R + "," + item.BorderMouseOver.G + "," + item.BorderMouseOver.B + "," + item.BorderMouseOver.A + ")").style("fill", "rgba(" + item.FillMouseOver.R + "," + item.FillMouseOver.G + "," + item.FillMouseOver.B + "," + item.FillMouseOver.A + ")");
-				//if (item.BorderThickness === 0)
-				//	d3.select(this).style("stroke-width", 1);
 				if (!item.Hint)
 					return;
 				var id = document.getElementById(item.Id.replace(" ", "-"));
 				tip.show(renderTipContent(item.Hint.StateHintLines), id);
-			})
-			// Обработка события прекращения наведения мыши
-			.on("mouseout", function (d) {
-				if (item.Type === "Plan" || !item.HasOverlay)
-					return;
-				//d3.select(this).style("stroke", "rgba(" + item.Border.R + "," + item.Border.G + "," + item.Border.B + "," + item.Border.A + ")").style("fill", "rgba(" + item.Fill.R + "," + item.Fill.G + "," + item.Fill.B + "," + item.Fill.A + ")");
-				//if (item.BorderThickness === 0)
-				//	d3.select(this).style("stroke-width", 0);
-				tip.hide();
-			})
-			// Обработка события левого клика мыши
-			.on("click", function (d) { })
-			// Обработка события вызова контекстного меню
-			.on("contextmenu", function (d, i) {
-				if (item.Type === "Plan" || item.IsInGroup)
-					return;
-				elementOnContextMenu(item, menuItems, scope);
+				$(".hintCloseButton").on("click", function() { tip.hide(); });
+				d3.event.preventDefault();
 			})
 			.on("updateHint", function (data) {
 				console.log("Updating hint on:", item.Id, item.Text);
@@ -193,25 +180,19 @@
 			.attr("pointer-events", "all")
 			.attr("id", function (d) { return item.Id.replace(" ", "-") + "GroupElement" })
 			// Обработка события наведения мыши
-			.on("mouseover", function (d) {
-				if (item.HasOverlay && item.BorderMouseOver) {
-					d3.select(this).style("stroke", "rgba(" + item.BorderMouseOver.R + "," + item.BorderMouseOver.G + "," + item.BorderMouseOver.B + "," + item.BorderMouseOver.A + ")");
-					d3.select(this).style("stroke-width", 1);
-				}
+			// Обработка события левого клика мыши
+			.on("click", function (d) {tip.hide(); scope.ShowModal("lg", item); })
+			// Обработка события вызова контекстного меню
+			.on("contextmenu", function (d, i) {
+								if (item.Type === "Plan" || !item.HasOverlay || item.IsInGroup)
+					return;
 				if (!item.Hint)
 					return;
-				var id = document.getElementById(item.Id.replace(" ", "-") + "GroupElement");
+				var id = document.getElementById(item.Id.replace(" ", "-"));
 				tip.show(renderTipContent(item.Hint.StateHintLines), id);
+				$(".hintCloseButton").on("click", function() { tip.hide(); });
+				d3.event.preventDefault();
 			})
-			// Обработка события прекращения наведения мыши
-			.on("mouseout", function (d) {
-				d3.select(this).style("stroke-width", 0);
-				tip.hide();
-			})
-			// Обработка события левого клика мыши
-			.on("click", function (d) { })
-			// Обработка события вызова контекстного меню
-			.on("contextmenu", function (d, i) { elementOnContextMenu(item, menuItems, scope); })
 			.on("updateHint", function (data) {
 				console.log("Updating hint on:", item.Id, item.Text);
 				item.Hint = data.hint;

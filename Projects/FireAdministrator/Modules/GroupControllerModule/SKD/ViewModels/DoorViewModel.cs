@@ -214,7 +214,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeEnterZoneCommand { get; private set; }
 		void OnChangeEnterZone()
 		{
-			var zoneSelectationViewModel = new SKDZoneSelectationViewModel(EnterZone);
+			var zoneSelectationViewModel = new SKDZoneSelectationViewModel(EnterZone, Door.ExitZoneUID);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 			{
 				GKManager.ChangeEnterZone(Door, zoneSelectationViewModel.SelectedZone);
@@ -225,7 +225,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeExitZoneCommand { get; private set; }
 		void OnChangeExitZone()
 		{
-			var zoneSelectationViewModel = new SKDZoneSelectationViewModel(ExitZone);
+			var zoneSelectationViewModel = new SKDZoneSelectationViewModel(ExitZone, Door.EnterZoneUID);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 			{
 				GKManager.ChangeExitZone(Door, zoneSelectationViewModel.SelectedZone);
