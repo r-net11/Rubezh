@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Common;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
+using FiresecService.Report.DataSources;
+using FiresecService.Report.Model;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing.Printing;
 using System.Linq;
-using Common;
-using DevExpress.XtraPrinting;
-using DevExpress.XtraReports.UI;
-using RubezhAPI.SKD;
-using RubezhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
-using FiresecService.Report.Model;
-using RubezhDAL;
 
 namespace FiresecService.Report.Templates
 {
@@ -36,7 +35,7 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DepartmentsReportFilter>();
-            var databaseService = new RubezhDAL.DataClasses.DbService();
+			var databaseService = new RubezhDAL.DataClasses.DbService();
 			dataProvider.LoadCache();
 			var departments = GetDepartments(dataProvider, filter);
 			var uids = departments.Select(item => item.UID).ToList();
@@ -49,7 +48,7 @@ namespace FiresecService.Report.Templates
 				row.Department = department.Name;
 				row.Phone = department.Item.Phone;
 				row.Chief = employees.Where(item => item.UID == department.Item.ChiefUID).Select(item => item.Name).FirstOrDefault();
-				row.ParentDepartment = dataProvider.Departments.ContainsKey(department.Item.ParentDepartmentUID) ? 
+				row.ParentDepartment = dataProvider.Departments.ContainsKey(department.Item.ParentDepartmentUID) ?
 					dataProvider.Departments[department.Item.ParentDepartmentUID].Name : string.Empty;
 				row.Description = department.Item.Description;
 				row.IsArchive = department.IsDeleted;
@@ -69,14 +68,14 @@ namespace FiresecService.Report.Templates
 				organisations = organisations.Where(org => !org.Value.IsDeleted);
 			if (filter.Organisations.IsEmpty())
 			{
-				if(filter.IsDefault)
+				if (filter.IsDefault)
 					organisationUID = organisations.FirstOrDefault().Key;
 			}
 			else
 			{
 				organisationUID = organisations.FirstOrDefault(org => org.Key == filter.Organisations.FirstOrDefault()).Key;
 			}
-			
+
 			IEnumerable<OrganisationBaseObjectInfo<Department>> departments = null;
 			if (organisationUID != Guid.Empty)
 			{
@@ -99,7 +98,7 @@ namespace FiresecService.Report.Templates
 		private List<OrganisationBaseObjectInfo<Department>> GetParents(DataProvider dataProvider, OrganisationBaseObjectInfo<Department> department)
 		{
 			var parents = new List<OrganisationBaseObjectInfo<Department>>();
-			for (OrganisationBaseObjectInfo<Department> current = department; current.Item.ParentDepartmentUID != Guid.Empty; )
+			for (OrganisationBaseObjectInfo<Department> current = department; current.Item.ParentDepartmentUID != Guid.Empty;)
 			{
 				current = dataProvider.Departments[current.Item.ParentDepartmentUID];
 				parents.Insert(0, current);

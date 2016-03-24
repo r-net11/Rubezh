@@ -75,7 +75,7 @@
 			this.xrTable1.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
 			this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow1});
-			this.xrTable1.SizeF = new System.Drawing.SizeF(2660F, 63.5F);
+			this.xrTable1.SizeF = new System.Drawing.SizeF(2559.458F, 63.5F);
 			this.xrTable1.StylePriority.UseBorders = false;
 			this.xrTable1.StylePriority.UsePadding = false;
 			this.xrTable1.StylePriority.UseTextAlignment = false;
@@ -197,7 +197,7 @@
 			this.xrTable2.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
 			this.xrTable2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow2});
-			this.xrTable2.SizeF = new System.Drawing.SizeF(2660F, 63.5F);
+			this.xrTable2.SizeF = new System.Drawing.SizeF(2559.458F, 63.5F);
 			this.xrTable2.StylePriority.UseBackColor = false;
 			this.xrTable2.StylePriority.UseBorders = false;
 			this.xrTable2.StylePriority.UsePadding = false;
@@ -313,7 +313,6 @@
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
 			this.Landscape = true;
-			this.Margins = new System.Drawing.Printing.Margins(100, 0, 350, 280);
 			this.PageHeight = 2100;
 			this.PageWidth = 2970;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
