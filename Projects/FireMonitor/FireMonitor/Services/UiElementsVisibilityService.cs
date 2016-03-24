@@ -43,9 +43,20 @@ namespace FireMonitor
 			{
 				IsMainMenuSkdUrvElementVisible = false;
 				IsMainMenuReportsUrvElementVisible = false;
+				return;
 			}
 
+			if (!_licenseData.IsUnlimitedUsers &&
+				_licenseData.IsEnabledURV)
+				return;
 
+			if (!_licenseData.IsUnlimitedUsers &&
+				!_licenseData.IsEnabledURV)
+			{
+				IsMainMenuSkdUrvElementVisible = false;
+				IsMainMenuReportsUrvElementVisible = false;
+				return;
+			}
 		}
 
 		#endregion </Реализация интерфейса IUiElementsVisibilityService>

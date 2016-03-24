@@ -78,6 +78,11 @@ namespace FiresecService.Service
 			if (operationResult.HasError)
 				return operationResult;
 
+			// Проверяем количесво активных карт и сравниваем с данными лицензии
+			operationResult = CheckActiveCardsCountAgainstLicenseData();
+			if (operationResult.HasError)
+				return operationResult;
+
 			CurrentClientCredentials = clientCredentials;
 			if (ClientsManager.Add(uid, clientCredentials))
 				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
@@ -255,6 +260,17 @@ namespace FiresecService.Service
 		public OperationResult<bool> CanLoadModule(ModuleType type)
 		{
 			return new OperationResult<bool>(_licenseManager.CanLoadModule(type));
+		}
+
+		private OperationResult<bool> CheckActiveCardsCountAgainstLicenseData()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				if (!_licenseManager.CurrentLicense.IsUnlimitedUsers &&
+				    databaseService.CardTranslator.GetCardsCount() > _licenseManager.CurrentLicense.TotalUsers)
+					return OperationResult<bool>.FromError("Количество активных пропусков в базе данных системы превышает лицензированное значение. Загрузка приложения невозможна");
+			}
+			return new OperationResult<bool>(true);
 		}
 
 		private OperationResult<bool> CheckConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
