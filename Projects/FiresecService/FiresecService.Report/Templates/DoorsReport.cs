@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Common;
+using FiresecService.Report.DataSources;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.SKD;
+using RubezhAPI.SKD.ReportFilters;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Common;
-using RubezhAPI.SKD;
-using RubezhAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
-using RubezhAPI.GK;
-using RubezhAPI;
-using RubezhAPI;
 
 namespace FiresecService.Report.Templates
 {
