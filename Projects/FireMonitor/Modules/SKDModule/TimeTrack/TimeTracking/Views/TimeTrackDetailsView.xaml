@@ -68,10 +68,10 @@
 						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="AddDocument" />
 						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="EditDocument" />
 						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="DeleteDocument" />
-                        <ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Добавить файл" ImageSource="AddFile"  />
-                        <ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="EditFile"  />
-                        <ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="DeleteFile"  />
-                    </StackPanel>
+						<ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Добавить файл" ImageSource="AddFile"  />
+						<ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="EditFile"  />
+						<ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="DeleteFile"  />
+					</StackPanel>
 					<DataGrid Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 						<DataGrid.Columns>
 							<DataGridTemplateColumn Header="Название документа" Width="*">
@@ -105,23 +105,23 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Файл" Width="150">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding FileName}" Margin="2 0" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
+							<DataGridTemplateColumn Header="Файл" Width="150">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding FileName}" Margin="2 0" />
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
 					</DataGrid>
 				</Grid>
 			</TabItem>
 		</TabControl>
 		<StackPanel Grid.Row="1"  Orientation="Horizontal" Visibility="{Binding IsChanged, Converter={StaticResource BoolToVisibilityConverter}}" >
-            <Image Margin="2" Width="16" Source="/Controls;component/StateClassIcons/Attention.png" />
+			<Image Margin="2" Width="16" Source="/Controls;component/StateClassIcons/Attention.png" />
 			<TextBlock VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" FontWeight="Bold" Text="Данные о проходах были изменены. Обновите вкладку УРВ" />
-        </StackPanel>
-        <Border Grid.Row="2" CornerRadius="2" Background="White" Margin="2 5">
+		</StackPanel>
+		<Border Grid.Row="2" CornerRadius="2" Background="White" Margin="2 5">
 			<StackPanel>
 				<Grid Margin="2">
 					<Grid.ColumnDefinitions>
