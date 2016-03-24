@@ -1,6 +1,8 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using RubezhAPI.Automation;
 using RubezhClient;
@@ -28,6 +30,8 @@ namespace AutomationModule.ViewModels
 				.Select(filter => new OpcTagFilterViewModel(filter));
 
 			Filters = new ObservableCollection<OpcTagFilterViewModel>(filters);
+
+			ServiceFactoryBase.Events.GetEvent<CreateOpcDaTagFilterEvent>().Subscribe(ListWasChanged);
 		}
 
 		#endregion
@@ -44,12 +48,13 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedFilter = value;
 
-				var procedures = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures
-					.Where(procedure => procedure.OpcDaTagFiltersUids
-						.Any(filter => filter == _selectedFilter.OpcDaTagFilter.UID));
-						//.Select(p => new ProcedureDetailsViewModel(p));
-				Procedures = procedures.ToArray();
-
+				if (_selectedFilter != null)
+				{
+					var procedures = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures
+						.Where(procedure => procedure.OpcDaTagFiltersUids
+							.Any(filter => filter == _selectedFilter.OpcDaTagFilter.UID));
+					Procedures = procedures.ToArray();
+				}
 				OnPropertyChanged(() => SelectedFilter);
 			}
 		}
@@ -70,7 +75,21 @@ namespace AutomationModule.ViewModels
 		#region Methods
 
 		public void Dispose() {}
-		
+
+		public void ListWasChanged(Guid filterUID)
+		{
+			var newFilter = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
+				.FirstOrDefault(filter => filter.UID == filterUID);
+			
+			if (newFilter != null)
+			{
+				if (!Filters.Any(vm => vm.OpcDaTagFilter.UID == newFilter.UID))
+				{
+					Filters.Add(new OpcTagFilterViewModel(newFilter));
+				}
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -85,6 +104,8 @@ namespace AutomationModule.ViewModels
 				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Add(filterViewModel.OpcDaTagFilter);
 				Filters.Add(new OpcTagFilterViewModel(filterViewModel.OpcDaTagFilter));
 				ServiceFactory.SaveService.AutomationChanged = true;
+
+				ServiceFactoryBase.Events.GetEvent<CreateOpcDaTagFilterEvent>().Publish(filterViewModel.OpcDaTagFilter.UID);
 			}
 		}
 
@@ -102,10 +123,13 @@ namespace AutomationModule.ViewModels
 				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
 					.Remove(SelectedFilter.OpcDaTagFilter);
 
+				ServiceFactory.Events.GetEvent<DeleteOpcDaTagFilterEvent>().Publish(SelectedFilter.OpcDaTagFilter.UID);
+
 				Filters.Remove(SelectedFilter);
 				SelectedFilter = Filters.FirstOrDefault();
 
 				ServiceFactory.SaveService.AutomationChanged = true;
+
 			}
 		}
 		bool CanDeleteOpcTagFilter()
