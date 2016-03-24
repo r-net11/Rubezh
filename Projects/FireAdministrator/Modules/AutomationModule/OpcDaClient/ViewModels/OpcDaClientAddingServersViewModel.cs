@@ -96,7 +96,7 @@ namespace AutomationModule.ViewModels
 
 			try
 			{
-				var result = ClientManager.FiresecService.GetOpcDaServers(ClientManager.ClientCredentials.ClientUID);
+				var result = ClientManager.FiresecService.GetOpcDaServers(FiresecServiceFactory.UID);
 				var servers = result.HasError ? new OpcDaServer[0] : result.Result;
 
 				foreach (var server in servers)
