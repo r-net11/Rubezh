@@ -751,12 +751,6 @@ namespace RubezhAPI.Journal
 		[EventDescriptionAttribute("Изготовитель", JournalEventNameType.Вход_пользователя_в_прибор, JournalEventNameType.Выход_пользователя_из_прибора)]
 		Изготовитель = 246,
 
-		[EventDescriptionAttribute("Кнопка", JournalEventNameType.Тест, JournalEventNameType.Тест_устранен)]
-		Кнопка = 247,
-
-		[EventDescriptionAttribute("Указка", JournalEventNameType.Тест, JournalEventNameType.Тест_устранен)]
-		Указка = 248,
-
 		[EventDescriptionAttribute("Предварительная", JournalEventNameType.Запыленность, JournalEventNameType.Запыленность_устранена)]
 		Предварительная = 249,
 

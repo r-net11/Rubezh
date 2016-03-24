@@ -1,25 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using GKModule;
 using GKModule.ViewModels;
+using GKProcessor;
 using Infrastructure;
-using GKModule.Plans;
-using Infrastructure.Common.Windows;
 using Infrastructure.Services;
-using Infrastructure.Common.Windows.ViewModels;
-using RubezhClient;
+using NUnit.Framework;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhClient;
 using System.Collections.Generic;
-using GKProcessor;
-using Infrastructure.Common.Services.Ribbon;
-using NUnit.Framework;
-using System.Windows;
-using GKModule;
-using Infrastructure.Common;
-using System.Reflection;
-using Infrastructure.Common.Ribbon;
-using RubezhAPI;
-using Infrastructure.Common.Services;
+using System.Linq;
 
 namespace GKModuleTest
 {
