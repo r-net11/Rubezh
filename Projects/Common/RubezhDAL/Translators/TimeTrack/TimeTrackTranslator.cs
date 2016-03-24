@@ -145,7 +145,7 @@ namespace RubezhDAL.DataClasses
 					continue;
 				}
 
-				var dayTimeTrack = DbService.PassJournalTranslator.GetRealTimeTrack(employee.UID, scheduleZones.Select(x => x.UID), date, passJournals);
+				var dayTimeTrack = DbService.PassJournalTranslator.GetRealTimeTrack(employee.UID, scheduleZones, date, passJournals);
 				dayTimeTrack.NightSettings = nightSettings != null ? DbService.NightSettingTranslator.Transalte(nightSettings) : null;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;

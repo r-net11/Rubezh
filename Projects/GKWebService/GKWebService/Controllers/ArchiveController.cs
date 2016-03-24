@@ -32,7 +32,7 @@ namespace GKWebService.Controllers
 		public JsonResult GetArchive(GKWebService.Models.JournalFilter filter)
 		{
 			_autoResetEvent = new AutoResetEvent(false);
-			var journalFilter = CreateApiFilter(filter);
+			var journalFilter = JournalController.CreateApiFilter(filter, useDateTime: true);
 			return GetJournalPage(journalFilter, filter.Page.HasValue ? filter.Page.Value : 1);
 		}
 
@@ -55,7 +55,7 @@ namespace GKWebService.Controllers
 		
 		public JsonResult GetMaxPage(GKWebService.Models.JournalFilter filter)
 		{
-			var journalFilter = CreateApiFilter(filter);
+			var journalFilter = JournalController.CreateApiFilter(filter, useDateTime: true);
 			var countResult = ClientManager.FiresecService.GetArchiveCount(journalFilter);
 			var result = (!countResult.HasError ? countResult.Result : 1) / journalFilter.PageSize + 1;
 			return Json(result, JsonRequestBehavior.AllowGet);
@@ -71,39 +71,6 @@ namespace GKWebService.Controllers
 				Objects = JournalController.GetFilterObjects()
 			};
 			return Json(result, JsonRequestBehavior.AllowGet);
-		}
-
-		RubezhAPI.Journal.JournalFilter CreateApiFilter(GKWebService.Models.JournalFilter filter)
-		{
-			var journalFilter = new RubezhAPI.Journal.JournalFilter();
-			if (filter != null)
-			{
-				if (filter.ObjectUids != null)
-					journalFilter.ObjectUIDs = filter.ObjectUids;
-				if (filter.Events != null)
-				{
-					foreach (var filterEvent in filter.Events)
-					{
-						switch (filterEvent.Type)
-						{
-							case 0:
-								journalFilter.JournalSubsystemTypes.Add((JournalSubsystemType)filterEvent.Value);
-								break;
-							case 1:
-								journalFilter.JournalEventNameTypes.Add((JournalEventNameType)filterEvent.Value);
-								break;
-							case 2:
-								journalFilter.JournalEventDescriptionTypes.Add((JournalEventDescriptionType)filterEvent.Value);
-								break;
-							default:
-								break;
-						}
-					}
-				}
-				journalFilter.StartDate = filter.BeginDate.HasValue ? filter.BeginDate.Value : DateTime.Now.AddDays(-1);
-				journalFilter.EndDate = filter.EndDate.HasValue ? filter.EndDate.Value : DateTime.Now;
-			};
-			return journalFilter;
 		}
 
 		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)

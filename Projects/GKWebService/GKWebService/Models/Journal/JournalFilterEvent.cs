@@ -18,14 +18,16 @@ namespace GKWebService.Models
 		public string Name { get; set; }
 		public string ImageSource { get; set; }
 		public int Level { get; set; }
+		public int ParentValue { get; set; }
 
-		public JournalFilterEvent(int type, int value, string name, string imageSource, int level)
+		public JournalFilterEvent(int type, int value, string name, string imageSource, int level, int parentValue)
 		{
 			Type = type;
 			Value = value;
 			Name = name;
 			ImageSource = imageSource;
 			Level = level;
+			ParentValue = parentValue;
 		}
 	}
 }

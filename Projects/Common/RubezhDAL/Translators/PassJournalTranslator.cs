@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Common;
+using RubezhAPI;
+using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using Common;
-using RubezhAPI;
-using RubezhAPI.SKD;
 
 namespace RubezhDAL.DataClasses
 {
 	public class PassJournalTranslator
 	{
-		DbService DbService; 
+		DbService DbService;
 		DatabaseContext Context;
-		public PassJounalSynchroniser Synchroniser { get; private set; } 
+		public PassJounalSynchroniser Synchroniser { get; private set; }
 
 		public PassJournalTranslator(DbService dbService)
 		{
@@ -21,7 +21,7 @@ namespace RubezhDAL.DataClasses
 			Context = DbService.Context;
 			Synchroniser = new PassJounalSynchroniser(dbService);
 		}
-		
+
 		public OperationResult<bool> AddPassJournal(Guid employeeUID, Guid zoneUID)
 		{
 			return DbServiceHelper.InTryCatch(() =>
@@ -158,19 +158,20 @@ namespace RubezhDAL.DataClasses
 			Context.SaveChanges();
 		}
 
-		public DayTimeTrack GetRealTimeTrack(Guid employeeUID, IEnumerable<Guid> scheduleZoneUIDs, DateTime date)
+		public DayTimeTrack GetRealTimeTrack(Guid employeeUID, IEnumerable<ScheduleZone> scheduleZones, DateTime date)
 		{
-			return GetRealTimeTrack(employeeUID, scheduleZoneUIDs, date, Context.PassJournals);
+			return GetRealTimeTrack(employeeUID, scheduleZones, date, Context.PassJournals);
 		}
 
-		public DayTimeTrack GetRealTimeTrack(Guid employeeUID, IEnumerable<Guid> scheduleZoneUIDs, DateTime date, IEnumerable<PassJournal> passJournals)
+		public DayTimeTrack GetRealTimeTrack(Guid employeeUID, IEnumerable<ScheduleZone> scheduleZones, DateTime date, IEnumerable<PassJournal> passJournals)
 		{
 			var dayTimeTrack = new DayTimeTrack();
 			dayTimeTrack.Date = date;
 
-			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employeeUID &&
-				x.EnterTime != null && x.EnterTime.Date <= date.Date &&
-				x.ExitTime != null && x.ExitTime.Value.Date >= date.Date).ToList())
+			foreach (var passJournal in passJournals.Where(x => x.EmployeeUID == employeeUID
+				&& x.EnterTime != null && x.EnterTime.Date <= date.Date
+				&& x.ExitTime != null && x.ExitTime.Value.Date >= date.Date
+				&& scheduleZones.Select(scheduleZone => scheduleZone.ZoneUID).Contains(x.ZoneUID)).ToList())
 			{
 				var startTime = new TimeSpan();
 				var endTime = new TimeSpan();
@@ -180,7 +181,7 @@ namespace RubezhDAL.DataClasses
 				var exitTime = passJournal.ExitTime.Value;
 				if (enterTime.Date == date && exitTime.Date >= date)
 				{
-					startTime = enterTime.TimeOfDay;					
+					startTime = enterTime.TimeOfDay;
 					if (exitTime.Date == date)
 						endTime = exitTime.TimeOfDay;
 					else if (exitTime.Date > date)
@@ -200,22 +201,19 @@ namespace RubezhDAL.DataClasses
 					startsInPreviousDay = true;
 					endsInNextDay = true;
 				}
-				var scheduleZone = scheduleZoneUIDs.FirstOrDefault(x => x == passJournal.ZoneUID);
-				if (scheduleZone != null)
+
+				if (passJournal.ExitTime.HasValue)
 				{
-					if (passJournal.ExitTime.HasValue)
+					var timeTrackPart = new TimeTrackPart()
 					{
-						var timeTrackPart = new TimeTrackPart()
-						{
-							StartTime = startTime,
-							EndTime = endTime,
-							ZoneUID = passJournal.ZoneUID,
-							PassJournalUID = passJournal.UID,
-							StartsInPreviousDay = startsInPreviousDay,
-							EndsInNextDay = endsInNextDay
-						};
-						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
-					}
+						StartTime = startTime,
+						EndTime = endTime,
+						ZoneUID = passJournal.ZoneUID,
+						PassJournalUID = passJournal.UID,
+						StartsInPreviousDay = startsInPreviousDay,
+						EndsInNextDay = endsInNextDay
+					};
+					dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 				}
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
@@ -295,13 +293,13 @@ namespace RubezhDAL.DataClasses
 			{
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
 				IQueryable<PassJournal> items = Context.PassJournals;
-					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
 				if (zoneUIDs != null && zoneUIDs.Count() > 0 && employeeUIDs.Count() > 0)
 					items = items.Where(x => zoneUIDs.Contains(x.ZoneUID));
 				if (dateTime.HasValue)
 					items = items.Where(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
 				else
-					items.Where(e =>  !e.ExitTime.HasValue);
+					items.Where(e => !e.ExitTime.HasValue);
 				//if (isManyEmployees)
 				//	items = items.Where(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value)).ToList();
 				return items.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).FirstOrDefault()).ToList();
@@ -337,9 +335,9 @@ namespace RubezhDAL.DataClasses
 			{
 				var isManyEmployees = employeeUIDs.Count() >= 2100;
 				IQueryable<PassJournal> items = Context.PassJournals;
-				if(employeeUIDs.Count() == 0 || isManyEmployees)
+				if (employeeUIDs.Count() == 0 || isManyEmployees)
 					items = items.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
-				if(zoneUIDs != null && zoneUIDs.Count() > 0)
+				if (zoneUIDs != null && zoneUIDs.Count() > 0)
 					items = items.Where(x => zoneUIDs.Contains(x.ZoneUID));
 				items = items.Where(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
 				//if (isManyEmployees)
@@ -438,7 +436,7 @@ namespace RubezhDAL.DataClasses
 		public Guid EmployeeUID { get; set; }
 		public string EmployeeFIO { get; set; }
 		public Guid ZoneUID { get; set; }
-		public int ZoneNo { get; set; } 
+		public int ZoneNo { get; set; }
 		public DateTime EnterDateTime { get; set; }
 		public DateTime ExitDateTime { get; set; }
 	}
