@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 		{
 			Menu = new OpcDaTagFiltersMenuViewModel(this);
 
-			AddOpcTagFilterCommand = new RelayCommand(OnAddOpcTagFilter);
+			CreateOpcTagFilterCommand = new RelayCommand(OnCreateOpcTagFilter);
 			DeleteOpcTagFilterCommand = new RelayCommand(OnDeleteOpcTagFilter, CanDeleteOpcTagFilter);
 			EditOpcTagFilterCommand = new RelayCommand(OnEditOpcTagFilter, CanEditOpcTagFilter);
 
@@ -90,12 +90,35 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public override void OnShow()
+		{
+			// Обновляем все модели
+			var filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
+				.Select(filter => new OpcTagFilterViewModel(filter));
+			if (Filters != null)
+			{
+				Filters.Clear();
+				var list = new ObservableCollection<OpcTagFilterViewModel>(filters);
+				foreach (var item in list)
+				{
+					Filters.Add(item);
+				}
+			}
+			else
+			{
+				Filters = new ObservableCollection<OpcTagFilterViewModel>(filters);
+			}
+			SelectedFilter = Filters.FirstOrDefault();
+
+			base.OnShow();
+		}
+
 		#endregion
 
 		#region Commands
 
-		public RelayCommand AddOpcTagFilterCommand { get; private set; }
-		void OnAddOpcTagFilter()
+		public RelayCommand CreateOpcTagFilterCommand { get; private set; }
+		void OnCreateOpcTagFilter()
 		{
 			var opcDaTagFilterCreationViewModel = new OpcDaTagFilterCreationViewModel();
 			if (DialogService.ShowModalWindow(opcDaTagFilterCreationViewModel))
