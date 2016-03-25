@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common.Validation;
 
 namespace VideoModule.Validation
 {
 	public partial class Validator
 	{
-		private void ValidateAddress()
+		/// <summary>
+		/// Проверяет разрешение на присутствие камер в конфигурации на основе данных лицензии
+		/// </summary>
+		private void ValidateCamerasAvailabilityAgainstLicenseData()
 		{
-			var addressList = new List<string>();
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			{
-				//if (addressList.Contains(camera.Ip))
-				//	Errors.Add(new VideoValidationError(camera, "Камера с таким адресом уже существует " + camera.Ip, ValidationErrorLevel.CannotSave));
-				//addressList.Add(camera.Ip);
-			}
+			if (!ServiceFactory.ConfigurationElementsAvailabilityService.IsCamerasAvailable)
+				foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+				{
+					Errors.Add(new VideoValidationError(camera, "Камера не может быть загружена по причине лицензионных ограничений", ValidationErrorLevel.CannotSave));
+				}
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Infrastructure;
 using Infrastructure.Common.Validation;
 using FiresecClient;
 using FiresecAPI.Models.Layouts;
@@ -27,6 +28,11 @@ namespace LayoutModule.Validation
 				yield return new LayoutValidationError(layout, "Макет не должен содержать контейнер отдельно от панели навигации", ValidationErrorLevel.Warning);
 			if (!isContentExist && isNavigationExist)
 				yield return new LayoutValidationError(layout, "Макет не должен содержать панель навигации отдельно от контейнера", ValidationErrorLevel.Warning);
+
+			// Проверяем разрешение присутствия элемента "Верификация" в макете на основе данных лицензии
+			if (!ServiceFactory.ConfigurationElementsAvailabilityService.IsLayoutVerificationElementsAvailable &&
+				layout.GetLayoutPartByType(LayoutPartIdentities.SKDVerification) != null)
+				yield return new LayoutValidationError(layout, "Элемент 'Верификация' в макете не может быть загружен по причине лицензионных ограничений", ValidationErrorLevel.CannotSave);
 		}
 	}
 }

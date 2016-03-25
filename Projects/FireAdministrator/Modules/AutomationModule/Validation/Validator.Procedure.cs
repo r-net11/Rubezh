@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common.Validation;
 
 namespace AutomationModule.Validation
@@ -44,6 +45,9 @@ namespace AutomationModule.Validation
 
 		void ValidateStep(ProcedureStep step)
 		{
+			// Проверка шага процедуры согласно данным лицензии
+			ValidateProcedureStepTypeAccordingToLicenseData(step);
+
 			switch (step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
@@ -427,6 +431,14 @@ namespace AutomationModule.Validation
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);
+		}
+
+		private void ValidateProcedureStepTypeAccordingToLicenseData(ProcedureStep procedureStep)
+		{
+			if (ServiceFactory.ConfigurationElementsAvailabilityService.AvailableProcedureSteps.All(x => x != procedureStep.ProcedureStepType))
+			{
+				Errors.Add(new ProcedureStepValidationError(procedureStep, "Функция не может быть загружена по причине лицензионных ограничений", ValidationErrorLevel.CannotSave));
+			}
 		}
 
 		bool ValidateArgument(ProcedureStep step, Argument argument)
