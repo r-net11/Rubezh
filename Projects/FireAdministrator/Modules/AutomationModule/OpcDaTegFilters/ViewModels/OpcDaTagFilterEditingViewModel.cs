@@ -3,12 +3,13 @@ using RubezhAPI.Automation;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 namespace AutomationModule.ViewModels
 {
-	public class OpcDaTagFilterEditingViewModel : SaveCancelDialogViewModel
+	public class OpcDaTagFilterEditingViewModel : SaveCancelDialogViewModel, IDataErrorInfo
 	{
 		#region Constructors
 
@@ -16,6 +17,9 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Редактирование фильтра OPC DA тега";
 			SelectedOpcDaTagFilter = filter;
+
+			_Filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
+			.Where(f => f.UID != filter.OpcDaTagFilter.UID);
 
 			foreach(var server in OpcDaServers)
 			{
@@ -25,15 +29,18 @@ namespace AutomationModule.ViewModels
 					SelectedOpcDaServer = server;
 					Name = SelectedOpcDaTagFilter.OpcDaTagFilter.Name;
 					Description = SelectedOpcDaTagFilter.OpcDaTagFilter.Description;
-					Hysteresis = SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis;
+					Hysteresis = SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis.ToString();
 					break;
 				}
 			}
+
 		}
 
 		#endregion
 
 		#region Fields And Properties
+
+		IEnumerable<OpcDaTagFilter> _Filters;
 
 		public OpcTagFilterViewModel SelectedOpcDaTagFilter { get; private set; }
 
@@ -118,8 +125,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		double _hysteresis;
-		public double Hysteresis
+		string _hysteresis;
+		public string Hysteresis
 		{
 			get { return _hysteresis; }
 			set
@@ -151,28 +158,170 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		string _errorMessageByName;
+		public string ErrorMessageByName
+		{
+			get { return _errorMessageByName; }
+			set
+			{
+				_errorMessageByName = value;
+				OnPropertyChanged(() => ErrorMessageByName);
+			}
+		}
+
+		string _errorMessageByHystersis;
+		public string ErrorMessageByHystersis
+		{
+			get { return _errorMessageByHystersis; }
+			private set
+			{
+				_errorMessageByHystersis = value;
+				OnPropertyChanged(() => ErrorMessageByHystersis);
+			}
+		}
+
 		#endregion
 
 		#region Methods
 		protected override bool CanSave()
 		{
 			//return base.CanSave();
-			return (SelectedOpcDaServer != null) && (SelectedOpcDaTag != null);
+			return (SelectedOpcDaServer != null) && (SelectedOpcDaTag != null)
+				&& (ErrorMessageByName == null) && (ErrorMessageByHystersis == null);
 		}
 
 		protected override bool Save()
 		{
-			//var type = OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue);
 			SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID = SelectedOpcDaTag.Uid;
 			SelectedOpcDaTagFilter.OpcDaServer = SelectedOpcDaServer;
 			SelectedOpcDaTagFilter.OpcDaTag = SelectedOpcDaTag;
 			SelectedOpcDaTagFilter.Name = Name;
-			SelectedOpcDaTagFilter.Hysteresis = Hysteresis;
+			SelectedOpcDaTagFilter.Hysteresis = Double.Parse(Hysteresis);
 			SelectedOpcDaTagFilter.Description = Description;
 			return true;
 			//return base.Save();
 		}
 
 		#endregion
+
+		public string Error
+		{
+			get { return null; }
+		}
+
+		public string this[string columnName]
+		{
+			get 
+			{
+				string message;
+
+				switch (columnName)
+				{
+					case "Name":
+						{
+							if (String.IsNullOrEmpty(Name.Trim()))
+							{
+								message = "Название фильтра не может быть пустым";
+								ErrorMessageByName = message;
+								return message;
+							}
+							if (Name.Length > 30)
+							{
+								message = "Название фильтра не может быть более 30 символов";
+								ErrorMessageByName = message;
+								return message;
+							}
+							if (_Filters.Any(filter => filter.Name == Name))
+							{
+								message = "Фильтр с данным название уже существует";
+								ErrorMessageByName = message;
+								return message;
+							}
+							else
+							{
+								ErrorMessageByName = null;
+								return null;
+							}
+						}
+					case "Hysteresis":
+						{
+							if (SelectedOpcDaTag == null)
+							{
+								message = "Невозможно определить тип данных для значения гистререзиса, невыбран тег";
+								ErrorMessageByHystersis = message;
+								return message;
+							}
+
+							var type = OpcDaTagFilter.GetExplicitType(_selectedOpcDaTag.TypeNameOfValue);
+
+							if (!type.HasValue)
+							{
+								message = "Невозножно установить значение. Тег с данным типом данных не поддерживается";
+								ErrorMessageByHystersis = message;
+								return message;
+							}
+
+							switch (type.Value)
+							{
+								case ExplicitType.Integer:
+									{
+										Int32 x;
+										if (Int32.TryParse(Hysteresis, out x))
+										{
+											if (x < 0)
+											{
+												message = "Значение гистерезиса неверно";
+												ErrorMessageByHystersis = message;
+												return message;
+											}
+											else
+											{
+												ErrorMessageByHystersis = null;
+												return null;
+											}
+										}
+										else
+										{
+											message = "Значение гистерезиса неверно";
+											ErrorMessageByHystersis = message;
+											return message;
+										}
+									}
+								case ExplicitType.Double:
+									{
+										double x;
+										if (Double.TryParse(Hysteresis, out x))
+										{
+											if (x < 0)
+											{
+												message = "Значение гистерезиса неверно";
+												ErrorMessageByHystersis = message;
+												return message;
+											}
+											else
+											{
+												ErrorMessageByHystersis = null;
+												return null;
+											}
+										}
+										else
+										{
+											message = "Значение гистерезиса неверно";
+											ErrorMessageByHystersis = message;
+											return message;
+										}
+									}
+								default:
+									{
+										message = "Невозможно установить значение. Фильтр для тега с данным типом данных не поддерживается";
+										ErrorMessageByHystersis = message;
+										return message;
+									}
+							}
+						}
+					default: { return null; }
+				}
+			}
+		}
 	}
 }

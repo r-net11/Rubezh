@@ -27,14 +27,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Описание" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Description}" HorizontalAlignment="Stretch"
-									   VerticalAlignment="Center" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Гистерезис" Width="Auto">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -51,11 +43,19 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="OPC DA Тег" Width="*">
+				<DataGridTemplateColumn Header="OPC DA Тег" Width="Auto">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding OpcDaTag.ElementName}"
 									   HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Описание" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Description}" HorizontalAlignment="Stretch"
+									   VerticalAlignment="Center" Margin="2" ToolTip="{Binding Description}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -78,19 +78,20 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Описание" Width="Auto">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Description}"
-									   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Контекс запуска" Width="*">
+				<DataGridTemplateColumn Header="Контекст запуска" Width="Auto">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ContextType}"
 									   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Описание" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Description}"
+									   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" 
+									   ToolTip="{Binding Description}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
