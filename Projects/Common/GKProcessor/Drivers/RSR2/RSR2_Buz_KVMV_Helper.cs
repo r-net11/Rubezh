@@ -101,19 +101,6 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property93, "Контакт НЗ", 8);
 			driver.Properties.Add(property93);
 
-			var property94 = new GKDriverProperty()
-			{
-				No = 9,
-				Name = "ОГВ",
-				Caption = "ОГВ",
-				Default = 0,
-				IsLowByte = true,
-				Mask = 16
-			};
-			GKDriversHelper.AddPropertyParameter(property94, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property94, "Контакт НЗ", 16);
-			driver.Properties.Add(property94);
-
 			var property95 = new GKDriverProperty()
 			{
 				No = 9,
