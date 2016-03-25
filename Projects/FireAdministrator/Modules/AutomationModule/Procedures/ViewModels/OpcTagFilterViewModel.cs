@@ -28,8 +28,28 @@ namespace AutomationModule.ViewModels
 		}
 
 		public OpcDaTagFilter OpcDaTagFilter { get; private set; }
-		public OpcDaTag OpcDaTag { get; private set; }
-		public OpcDaServer OpcDaServer { get; private set; }
+
+		OpcDaTag _opcDaTag;
+		public OpcDaTag OpcDaTag 
+		{
+			get { return _opcDaTag; }
+			set
+			{
+				_opcDaTag = value;
+				OnPropertyChanged(() => OpcDaTag);
+			}
+		}
+
+		OpcDaServer _opcDaServer;
+		public OpcDaServer OpcDaServer 
+		{
+			get { return _opcDaServer; }
+			set
+			{
+				_opcDaServer = value;
+				OnPropertyChanged(() => OpcDaServer);
+			}
+		}
 
 		public string Name
 		{
@@ -56,7 +76,11 @@ namespace AutomationModule.ViewModels
 		public double Hysteresis
 		{
 			get { return OpcDaTagFilter.Hysteresis; }
+			set
+			{
+				OpcDaTagFilter.Hysteresis = value;
+				OnPropertyChanged(() => Hysteresis);
+			}
 		}
-
 	}
 }

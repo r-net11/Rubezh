@@ -22,7 +22,9 @@ namespace GKModule.Validation
 				//ValidateLockControlDevice(door);
 				ValidateLockProperties(door);
 				ValidateLockLogic(door);
-			}
+                ValidateZoneDifference(door);
+                
+            }
 		}
 
 		/// <summary>
@@ -299,5 +301,14 @@ namespace GKModule.Validation
 				}
 			}
 		}
-	}
+
+        void ValidateZoneDifference(GKDoor door)
+        {
+            if (door.EnterZoneUID == door.ExitZoneUID)
+            {
+                AddError(door, "В точке доступа зона входа и зона выхода должны быть разными", ValidationErrorLevel.CannotWrite);
+            }
+        }
+
+    }
 }

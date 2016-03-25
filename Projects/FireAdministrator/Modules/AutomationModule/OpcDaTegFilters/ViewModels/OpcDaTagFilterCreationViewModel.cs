@@ -18,7 +18,6 @@ namespace AutomationModule.ViewModels
 			Title = "Создание фильтра";
 			Description = String.Empty;
 			Name = String.Empty;
-			Hysteresis = "0";
 		}
 		#endregion
 
@@ -29,7 +28,8 @@ namespace AutomationModule.ViewModels
 			get { return ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers; }
 		}
 
-		List<OpcDaTagFilter> _Filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters;
+		List<OpcDaTagFilter> _Filters = 
+			ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters;
 
 		OpcDaServer _selectedOpcDaServer;
 		public OpcDaServer SelectedOpcDaServer
@@ -79,7 +79,10 @@ namespace AutomationModule.ViewModels
 							case ExplicitType.Integer:
 							case ExplicitType.Float:
 								{
-									HysterasisEnabled = true; break;
+									HysterasisEnabled = true; 
+									if (String.IsNullOrEmpty(Hysteresis))
+										Hysteresis = "0";
+									break;
 								}
 							default:
 								{
@@ -223,6 +226,12 @@ namespace AutomationModule.ViewModels
 								ErrorMessageByName = message;
 								return message;
 							}
+							if (Name.Length > 30)
+							{
+								message = "Название фильтра не может быть более 30 символов";
+								ErrorMessageByName = message;
+								return message; 
+							}
 							if (_Filters.Any(filter => filter.Name == Name))
 							{
 								message = "Фильтр с данным название уже существует";
@@ -279,6 +288,7 @@ namespace AutomationModule.ViewModels
 											return message;
 										}
 									}
+								case ExplicitType.Float:
 								case ExplicitType.Double:
 									{
 										double x;
