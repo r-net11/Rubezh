@@ -25,7 +25,6 @@ namespace AutomationModule.ViewModels
 			Description = Procedure.Description;
 			IsActive = Procedure.IsActive;
 			StartWithServer = Procedure.StartWithServer;
-			IsSync = Procedure.IsSync;
 			TimeOut = Procedure.TimeOut;
 			SelectedTimeType = Procedure.TimeType;
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
@@ -75,17 +74,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool _isSync;
-		public bool IsSync
-		{
-			get { return _isSync; }
-			set
-			{
-				_isSync = value;
-				OnPropertyChanged(() => IsSync);
-			}
-		}
-
 		int _timeOut;
 		public int TimeOut
 		{
@@ -120,7 +108,6 @@ namespace AutomationModule.ViewModels
 			Procedure.Description = Description;
 			Procedure.IsActive = IsActive;
 			Procedure.StartWithServer = StartWithServer;
-			Procedure.IsSync = IsSync;
 			Procedure.TimeOut = TimeOut;
 			Procedure.TimeType = SelectedTimeType;
 			return true;

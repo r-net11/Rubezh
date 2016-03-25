@@ -19,21 +19,80 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
-			<TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-			<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" Margin="2" />
-			<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-			<Label Grid.Row="2" Grid.Column="0"  Content="Активно" HorizontalAlignment="Right" Margin="2" />
-			<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2,7,0,0" />
-			<Label Grid.Row="3" Grid.Column="0"  Content="Запуск после сервера" HorizontalAlignment="Right" Margin="2" />
-			<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding StartWithServer}" Margin="2,7,0,0" />
-			<Label Grid.Row="4" Grid.Column="0"  Content="Выполнять синхронно" HorizontalAlignment="Right" Margin="2" />
-			<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsSync}" Margin="2,7,0,0" />
-			<Label Grid.Row="5" Grid.Column="0" Content="Время выполнения" HorizontalAlignment="Right" Margin="2" />
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2" Minimum="0" Value="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged}" />
-			<ComboBox Grid.Row="5" Grid.Column="2" ItemsSource="{Binding TimeTypes}" Margin="2, 2, -2, 0" HorizontalAlignment="Left" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}">
+			<TextBlock
+				Text="Название"
+				Foreground="White"
+				Margin="5"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right" />
+			<TextBox
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				Margin="5"
+				Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBlock
+				Grid.Row="1"
+				Text="Примечание"
+				Foreground="White"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right"
+				Margin="5" />
+			<TextBox
+				Grid.Row="1"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				VerticalAlignment="Center"
+				Margin="5"
+				Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBlock
+				Grid.Row="2"
+				Text="Активно"
+				Foreground="White"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right"
+				Margin="5" />
+			<CheckBox
+				Grid.Row="2"
+				Grid.Column="1"
+				VerticalAlignment="Center"
+				IsChecked="{Binding IsActive}"
+				Margin="5 7" />
+			<TextBlock
+				Grid.Row="3"
+				Text="Запуск после сервера"
+				Foreground="White"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right"
+				Margin="5" />
+			<CheckBox
+				Grid.Row="3"
+				Grid.Column="1"
+				VerticalAlignment="Center"
+				IsChecked="{Binding StartWithServer}"
+				Margin="5 7" />
+			<TextBlock
+				Grid.Row="4"
+				Text="Время выполнения"
+				Foreground="White"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right"
+				Margin="5" />
+			<extToolkit:IntegerUpDown
+				Grid.Row="4"
+				Grid.Column="1"
+				VerticalAlignment="Center"
+				Margin="5"
+				Minimum="0"
+				Value="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged}" />
+			<ComboBox
+				Grid.Row="4"
+				Grid.Column="2"
+				ItemsSource="{Binding TimeTypes}"
+				Margin="0 5"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Left"
+				SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

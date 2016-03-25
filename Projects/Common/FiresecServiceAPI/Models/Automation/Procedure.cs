@@ -54,9 +54,6 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public TimeType TimeType { get; set; }
 
-		[DataMember]
-		public bool IsSync { get; set; }
-
 		#region IIdentity Members
 
 		Guid IIdentity.UID

@@ -33,8 +33,6 @@ namespace FiresecService
 
 		private List<ProcedureStep> Steps { get; set; }
 
-		private bool IsSync { get; set; }
-
 		private ProcedureThread ChildProcedureThread { get; set; }
 
 		private JournalItem JournalItem { get; set; }
@@ -59,15 +57,12 @@ namespace FiresecService
 			{
 				Name = string.Format("ProcedureThread [{0}]", UID),
 			};
-			IsSync = procedure.IsSync;
 		}
 
 		public void Start()
 		{
 			StartTime = DateTime.Now;
 			Thread.Start();
-			if (IsSync)
-				Thread.Join();
 		}
 
 		private bool _isTimeOut;
@@ -386,7 +381,7 @@ namespace FiresecService
 				case ProcedureStepType.GetSkdDeviceProperty:
 					GetSkdDeviceProperty(procedureStep);
 					break;
-				
+
 				// Получение свойства точки доступа
 				case ProcedureStepType.GetDoorProperty:
 					GetDoorProperty(procedureStep);
