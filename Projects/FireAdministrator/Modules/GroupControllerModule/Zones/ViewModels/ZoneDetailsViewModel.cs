@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 					Fire2Count = LastFire2Count
 				};
 				if (GKManager.Zones.Count != 0)
-					Zone.No = (ushort)(GKManager.Zones.Select(x => x.No).Max() + 1);
+					Zone.No = (GKManager.Zones.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
