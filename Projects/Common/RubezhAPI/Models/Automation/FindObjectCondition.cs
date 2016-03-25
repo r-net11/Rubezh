@@ -59,7 +59,7 @@ namespace RubezhAPI.Automation
 		[Description("Текущее удержание")]
 		CurrentHold,
 
-		[Description("Режим")]
+		[Description("Режим после удержания")]
 		DelayRegime
 	}
 }

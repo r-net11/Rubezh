@@ -288,6 +288,7 @@ namespace AutomationModule.ViewModels
 											return message;
 										}
 									}
+								case ExplicitType.Float:
 								case ExplicitType.Double:
 									{
 										double x;
