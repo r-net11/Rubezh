@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 			IsEdit = pumpStation != null;
 			if (pumpStation == null)
 			{
-				Title = "Создание новой насосоной станции";
+				Title = "Создание новой насосной станции";
 
 				PumpStation = new GKPumpStation()
 				{
@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 					No = 1
 				};
 				if (GKManager.PumpStations.Count != 0)
-					PumpStation.No = (ushort)(GKManager.PumpStations.Select(x => x.No).Max() + 1);
+					PumpStation.No = (GKManager.PumpStations.Select(x => x.No).Max() + 1);
 			}
 			else
 			{

@@ -442,6 +442,40 @@ namespace GKProcessor
 							}
 							break;
 
+						case 12:
+							JournalItem.JournalEventNameType = JournalEventNameType.Управление_ПМФ;
+							switch (bytes[32 + 15])
+							{
+								case 1:
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Перевод_в_автоматический_режим;
+									break;
+
+								case 2:
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Перевод_в_ручной_режим;
+									break;
+
+								case 4:
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Постановка_на_охрану;
+									break;
+
+								case 5:
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Снятие_с_охраны;
+									break;
+
+								case 8:
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Сброс;
+									break;
+
+								case 9:
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Пуск;
+									break;
+
+								case 10:
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Стоп;
+									break;
+							}
+							break;
+
 						case 13:
 							JournalItem.JournalEventNameType = JournalEventNameType.Запись_параметра;
 							break;

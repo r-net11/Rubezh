@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 					No = 1,
 				};
 				if (GKManager.MPTs.Count != 0)
-					MPT.No = (ushort)(GKManager.MPTs.Select(x => x.No).Max() + 1);
+					MPT.No = (GKManager.MPTs.Select(x => x.No).Max() + 1);
 			}
 			else
 			{

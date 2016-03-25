@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 					No = 1,
 				};
 				if (GKManager.Delays.Count != 0)
-					Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
+					Delay.No = (GKManager.Delays.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
