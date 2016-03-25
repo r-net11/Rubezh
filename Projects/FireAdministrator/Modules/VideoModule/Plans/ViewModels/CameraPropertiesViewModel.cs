@@ -19,6 +19,7 @@ namespace VideoModule.Plans.ViewModels
 			Title = "Свойства фигуры: Камера";
 			_elementCamera = elementCamera;
 			_camerasViewModel = camerasViewModel;
+			camerasViewModel.Initialize();
 
 			Cameras = camerasViewModel.Cameras;
 			AllCameras = camerasViewModel.AllCameras;

@@ -66,15 +66,6 @@ namespace GKWebService.Controllers
 		public JsonResult TryGetCurrentUserName()
 		{
 			// если веб-сервер перезапустили, то просим пользователя залогиниться заново
-			try
-			{
-				var service = ClientManager.FiresecService;
-			}
-			catch (KeyNotFoundException)
-			{
-				FormsAuthentication.SignOut();
-				Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-			}
 			return Json(new { userName = User.Identity.Name }, JsonRequestBehavior.AllowGet);
 		}
 

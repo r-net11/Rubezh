@@ -3,19 +3,39 @@ using RubezhAPI.Automation;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace AutomationModule.ViewModels
 {
-	public class OpcDaTagFilterCreationViewModel : SaveCancelDialogViewModel
+	public class OpcDaTagFilterEditingViewModel : SaveCancelDialogViewModel
 	{
 		#region Constructors
-		public OpcDaTagFilterCreationViewModel()
+
+		public OpcDaTagFilterEditingViewModel(OpcTagFilterViewModel filter)
 		{
-			Title = "Создание фильтра";
+			Title = "Редактирование фильтра OPC DA тега";
+			SelectedOpcDaTagFilter = filter;
+
+			foreach(var server in OpcDaServers)
+			{
+				SelectedOpcDaTag = server.Tags.FirstOrDefault(tag => tag.Uid == SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID);
+				if (SelectedOpcDaTag != null)
+				{
+					SelectedOpcDaServer = server;
+					Name = SelectedOpcDaTagFilter.OpcDaTagFilter.Name;
+					Description = SelectedOpcDaTagFilter.OpcDaTagFilter.Description;
+					Hysteresis = SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis;
+					break;
+				}
+			}
 		}
+
 		#endregion
 
 		#region Fields And Properties
+
+		public OpcTagFilterViewModel SelectedOpcDaTagFilter { get; private set; }
 
 		public List<OpcDaServer> OpcDaServers
 		{
@@ -98,8 +118,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		uint _hysteresis;
-		public uint Hysteresis
+		double _hysteresis;
+		public double Hysteresis
 		{
 			get { return _hysteresis; }
 			set
@@ -131,36 +151,28 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public OpcTagFilterViewModel OpcDaTagFilterResult { get; private set; }
-
 		#endregion
 
 		#region Methods
 		protected override bool CanSave()
 		{
 			//return base.CanSave();
-			return (_selectedOpcDaTag != null) &&
-				(!String.IsNullOrEmpty(Name)) && (!String.IsNullOrWhiteSpace(Name));
+			return (SelectedOpcDaServer != null) && (SelectedOpcDaTag != null);
 		}
 
 		protected override bool Save()
 		{
-			var type = OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue);
-
-			if (type != null)
-			{
-				OpcDaTagFilterResult =
-					new OpcTagFilterViewModel(new OpcDaTagFilter(Guid.NewGuid(), Name,
-						Description == null ? string.Empty : Description,
-						SelectedOpcDaTag.Uid, Hysteresis, type.Value));
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			//var type = OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue);
+			SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID = SelectedOpcDaTag.Uid;
+			SelectedOpcDaTagFilter.OpcDaServer = SelectedOpcDaServer;
+			SelectedOpcDaTagFilter.OpcDaTag = SelectedOpcDaTag;
+			SelectedOpcDaTagFilter.Name = Name;
+			SelectedOpcDaTagFilter.Hysteresis = Hysteresis;
+			SelectedOpcDaTagFilter.Description = Description;
+			return true;
 			//return base.Save();
 		}
+
 		#endregion
 	}
 }

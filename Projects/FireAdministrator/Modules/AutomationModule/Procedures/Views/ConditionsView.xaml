@@ -27,9 +27,8 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Row="2" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddOpcTagFilterCommand}" ToolTip="Добавить фильтр OPC DA тега " ImageSource="Add"  />
-			<ToolBarButton Command="{Binding EditOpcTagFilterCommand}" ToolTip="Редактировать фильтр OPC DA тега" ImageSource="Edit" />
-			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить фильтр OPC DA тега" ImageSource="Delete"  />
+			<ToolBarButton Command="{Binding AddOpcTagFilterCommand}" ToolTip="Добавить фильтр OPC DA тега в процедуру" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding RemoveOpcTagFilterCommand}" ToolTip="Удалить фильтр OPC DA тега из процедуры" ImageSource="Delete"  />
 		</StackPanel>
 		<DataGrid Grid.Row="3" ItemsSource="{Binding OpcTagFilters}" 
 				  SelectedItem="{Binding SelectedOpcDaTagFilter}" IsReadOnly="False">

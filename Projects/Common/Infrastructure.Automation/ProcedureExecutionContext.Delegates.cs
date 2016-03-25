@@ -92,7 +92,7 @@ namespace Infrastructure.Automation
 			OnImportOrganisationList = onImportOrganisationList;
 			OnGetOrganisations = onGetOrganisations;
 
-			GlobalVariables = Utils.Clone(SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			GlobalVariables = SystemConfiguration != null ? Utils.Clone(SystemConfiguration.AutomationConfiguration.GlobalVariables) : new List<Variable>();
 		}
 
 		public static void SendCallback(AutomationCallbackResult callback, Guid? clientUID)
