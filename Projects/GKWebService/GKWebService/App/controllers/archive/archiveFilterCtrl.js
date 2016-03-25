@@ -130,8 +130,13 @@
 							for (var i in $scope.eventsGrid.data) {
 								var row = $scope.eventsGrid.data[i];
 								for (var j in filter.Events) {
-									if (row.Type == filter.Events[j].Type && row.Value == filter.Events[j].Value)
-										$scope.eventsGridApi.selection.selectRow(row);
+									if (row.Type != 2) {
+										if (row.Type == filter.Events[j].Type && row.Value == filter.Events[j].Value)
+											$scope.eventsGridApi.selection.selectRow(row);
+									}
+									else
+										if (row.ParentValue == filter.Events[j].ParentValue && row.Value == filter.Events[j].Value)
+											$scope.eventsGridApi.selection.selectRow(row);
 								}
 							}
 					}, 100);
@@ -167,6 +172,7 @@
         			filter.Events.push({
         				Type: item.Type,
         				Value: item.Value,
+						ParentValue: item.ParentValue
         			});
         		});
         		$scope.beginDate.date.setSeconds(0, 0);

@@ -148,7 +148,6 @@ namespace RubezhClient
 		public OperationResult<bool> Connect(ClientCredentials clientCredentials)
 		{
 			_clientCredentials = clientCredentials;
-			clientCredentials.ClientUID = FiresecServiceFactory.UID;
 			return SafeOperationCall(() =>
 			{
 				try

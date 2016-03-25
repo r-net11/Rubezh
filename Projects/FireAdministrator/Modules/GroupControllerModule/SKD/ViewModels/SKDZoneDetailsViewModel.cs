@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 					No = 1,
 				};
 				if (GKManager.SKDZones.Count != 0)
-					Zone.No = (ushort)(GKManager.SKDZones.Select(x => x.No).Max() + 1);
+					Zone.No = (GKManager.SKDZones.Select(x => x.No).Max() + 1);
 			}
 			else
 			{

@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -43,6 +44,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		}
 
 		public RelayCommand SelectPictureCommand { get; private set; }
+		//[DebuggerStepThrough]
 		void OnSelectPicture()
 		{
 			var openFileDialog = new OpenFileDialog();
@@ -80,8 +82,20 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 					{
 						_drawing = null;
 						_wmf = null;
-						ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
-						_imageType = ResourceType.Image;
+
+						var uri = new Uri(_sourceName);
+						FileInfo fileInfo = new FileInfo(uri.OriginalString);
+						if (fileInfo.Length > 0)
+						{
+							ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
+							_imageType = ResourceType.Image;
+						}
+						else
+						{
+							MessageBoxService.Show("Невозможно загрузить пустое изображение");
+							return;
+						}
+
 					}
 					OnPropertyChanged(() => ImageBrush);
 				}

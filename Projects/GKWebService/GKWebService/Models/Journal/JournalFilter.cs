@@ -18,6 +18,7 @@ namespace GKWebService.Models
 	{
 		public int Type { get; set; }
 		public int Value { get; set; }
+		public int ParentValue { get; set; }
 	}
 
 	public class JournalFilterJson

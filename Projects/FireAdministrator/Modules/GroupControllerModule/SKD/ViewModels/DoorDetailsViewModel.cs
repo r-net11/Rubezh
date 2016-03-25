@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 					PlanElementUIDs = new List<Guid>(),
 				};
 				if (GKManager.DeviceConfiguration.Doors.Count != 0)
-					Door.No = (ushort)(GKManager.DeviceConfiguration.Doors.Select(x => x.No).Max() + 1);
+					Door.No = (GKManager.DeviceConfiguration.Doors.Select(x => x.No).Max() + 1);
 			}
 			else
 			{

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.SKD;
-using RubezhClient;
-using RubezhClient.SKDHelpers;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.SKD;
+using RubezhClient;
+using RubezhClient.SKDHelpers;
 using SKDModule.Events;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -60,11 +59,11 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_IsChanged = value;
-				OnPropertyChanged(() => IsChanged);					
+				OnPropertyChanged(() => IsChanged);
 			}
 		}
-		
-			
+
+
 		public ObservableCollection<DayTimeTrackPartViewModel> DayTimeTrackParts { get; private set; }
 
 		DayTimeTrackPartViewModel _selectedDayTimeTrackPart;
@@ -227,7 +226,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand OpenFileCommand { get; private set; }
 		void OnOpenFile()
 		{
-			SelectedDocument.OpenFile();	
+			SelectedDocument.OpenFile();
 		}
 		bool CanOpenFile()
 		{
@@ -249,9 +248,9 @@ namespace SKDModule.ViewModels
 			var enterTime = timeTrackPartDetailsViewModel.EnterTime;
 			var exitTime = timeTrackPartDetailsViewModel.ExitTime;
 			var uid = timeTrackPartDetailsViewModel.UID;
-			return DayTimeTrackParts.Any(x => x.UID != uid && 
-				(x.EnterTimeSpan <= enterTime && x.ExitTimeSpan > enterTime 
-                || x.EnterTimeSpan < exitTime && x.ExitTimeSpan > exitTime));
+			return DayTimeTrackParts.Any(x => x.UID != uid &&
+				(x.EnterTimeSpan <= enterTime && x.ExitTimeSpan > enterTime
+				|| x.EnterTimeSpan < exitTime && x.ExitTimeSpan > exitTime));
 		}
 
 		protected override bool Save()
@@ -259,6 +258,6 @@ namespace SKDModule.ViewModels
 			return base.Save();
 		}
 
-		
+
 	}
 }

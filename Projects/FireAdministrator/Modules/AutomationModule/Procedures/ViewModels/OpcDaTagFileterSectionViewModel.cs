@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using RubezhAPI.Automation;
 using RubezhClient;
 using System;
@@ -15,13 +16,21 @@ namespace AutomationModule.ViewModels
 {
 	public class OpcDaTagFileterSectionViewModel : SaveCancelDialogViewModel
 	{
+		#region Constructors
+
 		public OpcDaTagFileterSectionViewModel(Procedure procedure)
 		{
 			Title = "Выбор фильтра";
 			Procedure = procedure;
 			InitializeFilters();
 			CreateFilterCommand = new RelayCommand(OnCreateFilter);
+
+			ServiceFactory.Events.GetEvent<CreateOpcDaTagFilterEvent>().Subscribe(ListWasChanged);
 		}
+
+		#endregion
+
+		#region Fields And Properties
 
 		Procedure Procedure { get; set; }
 
@@ -47,6 +56,8 @@ namespace AutomationModule.ViewModels
 				var filterViewModel = opcDaTagFilterCreationViewModel.OpcDaTagFilterResult;
 				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Add(filterViewModel.OpcDaTagFilter);
 				ServiceFactory.SaveService.AutomationChanged = true;
+				
+				ServiceFactoryBase.Events.GetEvent<CreateOpcDaTagFilterEvent>().Publish(filterViewModel.OpcDaTagFilter.UID);
 				InitializeFilters();
 			}
 		}
@@ -64,9 +75,29 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		#endregion
+
+		#region Methods
+
+		public void ListWasChanged(Guid filterUID)
+		{
+			var newFilter = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
+				.FirstOrDefault(filter => filter.UID == filterUID);
+
+			if (newFilter != null)
+			{
+				if (!Filters.Any(vm => vm.OpcDaTagFilter.UID == newFilter.UID))
+				{
+					Filters.Add(new OpcTagFilterViewModel(newFilter));
+				}
+			}
+		}
+
 		protected override bool Save()
 		{
 			return SelectedFilter != null;
 		}
+
+		#endregion
 	}
 }

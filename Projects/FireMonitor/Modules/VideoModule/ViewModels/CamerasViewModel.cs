@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -9,6 +10,7 @@ namespace VideoModule.ViewModels
 	public class CamerasViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public static CamerasViewModel Current { get; private set; }
+		List<CameraViewModel> AllCameras { get; set; }
 		public CamerasViewModel()
 		{
 			Current = this;
@@ -18,6 +20,7 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
+			AllCameras = new List<CameraViewModel>();
 			BuildTree();
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
@@ -39,7 +42,7 @@ namespace VideoModule.ViewModels
 		public void Select(Guid cameraUID)
 		{
 			if (cameraUID != Guid.Empty)
-				SelectedCamera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
+				SelectedCamera = AllCameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
 		}
 		void BuildTree()
 		{
@@ -58,6 +61,7 @@ namespace VideoModule.ViewModels
 							if (!deviceViewModel.Children.Contains(cameraViewModel))
 							{
 								deviceViewModel.AddChild(cameraViewModel);
+								AllCameras.Add(cameraViewModel);
 								if (!serverViewModel.Children.Contains(deviceViewModel))
 								{
 									serverViewModel.AddChild(deviceViewModel);

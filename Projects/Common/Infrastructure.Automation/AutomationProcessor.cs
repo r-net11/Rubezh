@@ -30,7 +30,7 @@ namespace Infrastructure.Automation
 					{
 						if (filter.JournalSubsystemTypes.Count +
 							filter.JournalEventNameTypes.Count +
-							filter.JournalEventDescriptionTypes.Count +
+							filter.EventDescriptions.Count +
 							filter.JournalObjectTypes.Count +
 							filter.ObjectUIDs.Count == 0)
 							continue;
@@ -39,8 +39,8 @@ namespace Infrastructure.Automation
 							continue;
 						if (filter.JournalEventNameTypes.Count > 0 && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
 							continue;
-						if (filter.JournalEventDescriptionTypes.Count > 0 &&
-							!filter.JournalEventDescriptionTypes.Any(x => x.Key == journalItem.JournalEventNameType && x.Value.Contains(journalItem.JournalEventDescriptionType)))
+						if (filter.EventDescriptions.Count > 0 &&
+							!filter.EventDescriptions.Any(x => x.JournalEventNameType == journalItem.JournalEventNameType && x.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType)))
 							continue;
 						if (filter.JournalObjectTypes.Count > 0 && !filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
 							continue;
