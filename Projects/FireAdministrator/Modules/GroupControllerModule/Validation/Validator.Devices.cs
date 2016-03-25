@@ -47,6 +47,8 @@ namespace GKModule.Validation
 				ValidateKAUAddressFollowing(device);
 				ValidateGuardDevice(device);
 				ValidateDeviceIfInMPTAndDoor(device);
+				if (device.DriverType == GKDriverType.RSR2_CardReader)
+				ValidateWiegand(device);
 			}
 		}
 
@@ -256,6 +258,21 @@ namespace GKModule.Validation
 			{
 				if (device.GuardZones.Any(x => x.GuardZoneDevices.Any(y => y.ActionType == GKGuardZoneDeviceActionType.SetAlarm && y.DeviceUID == device.UID)))
 					AddError(device, string.Format("Тревожный датчик участвует сразу в охранной и пожарной зоне"), ValidationErrorLevel.Warning);
+			}
+		}
+
+		void ValidateWiegand(GKDevice device)
+		{
+			if (device.GuardZones.Any() && device.Door != null)
+			{
+				if (device.GuardZones.Any(x => x.GuardZoneDevices.Any(y =>
+
+					y.DeviceUID == device.UID && ((y.CodeReaderSettings.AlarmSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly && y.CodeReaderSettings.AlarmSettings.CodeUIDs.Any()) ||
+						(y.CodeReaderSettings.ChangeGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly && y.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Any()) ||
+						(y.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly && y.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Any()) ||
+						(y.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly && y.CodeReaderSettings.SetGuardSettings.CodeUIDs.Any())))
+				))
+					AddError(device, string.Format("Котроллер Wiegand используется в точки доступа, не должно быть настроенных кодов с методом ввода *КОД#   "), ValidationErrorLevel.CannotWrite);
 			}
 		}
 	}
