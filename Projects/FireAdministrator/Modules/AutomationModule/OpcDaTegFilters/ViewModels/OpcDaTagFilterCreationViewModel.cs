@@ -18,6 +18,7 @@ namespace AutomationModule.ViewModels
 			Title = "Создание фильтра";
 			Description = String.Empty;
 			Name = String.Empty;
+			Hysteresis = "0";
 		}
 		#endregion
 
@@ -259,8 +260,17 @@ namespace AutomationModule.ViewModels
 										Int32 x;
 										if (Int32.TryParse(Hysteresis, out x))
 										{
-											ErrorMessageByHystersis = null;
-											return null;
+											if (x < 0)
+											{
+												message = "Значение гистерезиса неверно";
+												ErrorMessageByHystersis = message;
+												return message;
+											}
+											else
+											{
+												ErrorMessageByHystersis = null;
+												return null;
+											}
 										}
 										else
 										{
@@ -274,8 +284,17 @@ namespace AutomationModule.ViewModels
 										double x;
 										if (Double.TryParse(Hysteresis, out x))
 										{
-											ErrorMessageByHystersis = null;
-											return null;
+											if (x < 0)
+											{
+												message = "Значение гистерезиса неверно";
+												ErrorMessageByHystersis = message;
+												return message;
+											}
+											else
+											{
+												ErrorMessageByHystersis = null;
+												return null;
+											}
 										}
 										else
 										{
