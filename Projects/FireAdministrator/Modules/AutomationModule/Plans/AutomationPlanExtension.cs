@@ -59,17 +59,22 @@ namespace AutomationModule.Plans
 			get
 			{
 				if (_instruments == null)
-					_instruments = new List<IInstrument>()
+				{
+					_instruments = new List<IInstrument>();
+					
+					// В редакторе планов кнопка "Процедура" доступна, если этого не запрещает лицензия
+					if (ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
 					{
-						new InstrumentViewModel()
+						((List<IInstrument>)_instruments).Add(new InstrumentViewModel()
 						{
-							ImageSource="Procedure",
-							ToolTip="Процедура",
+							ImageSource = "Procedure",
+							ToolTip = "Процедура",
 							Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
 							Index = 400,
 							Autostart = true
-						},
-					};
+						});
+					}
+				}
 				return _instruments;
 			}
 		}
