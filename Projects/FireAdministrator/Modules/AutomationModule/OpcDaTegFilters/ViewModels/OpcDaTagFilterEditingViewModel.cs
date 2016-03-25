@@ -164,9 +164,11 @@ namespace AutomationModule.ViewModels
 		{
 			//var type = OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue);
 			SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID = SelectedOpcDaTag.Uid;
+			SelectedOpcDaTagFilter.OpcDaServer = SelectedOpcDaServer;
+			SelectedOpcDaTagFilter.OpcDaTag = SelectedOpcDaTag;
 			SelectedOpcDaTagFilter.Name = Name;
-			SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis = Hysteresis;
-			SelectedOpcDaTagFilter.OpcDaTagFilter.Description = Description;
+			SelectedOpcDaTagFilter.Hysteresis = Hysteresis;
+			SelectedOpcDaTagFilter.Description = Description;
 			return true;
 			//return base.Save();
 		}
