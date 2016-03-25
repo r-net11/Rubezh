@@ -11,6 +11,7 @@ using Infrastructure;
 using System.Text;
 using OpcClientSdk;
 using RubezhAPI;
+using Infrastructure.Events;
 
 namespace AutomationModule.ViewModels
 {
@@ -29,6 +30,8 @@ namespace AutomationModule.ViewModels
 			ReadWriteTagsCommand = new RelayCommand(OnReadWriteTags, CanReadWriteTags);
 
 			LoadConfig();
+
+			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(ConfigurationWasChanged);
 		}
 		
 		#endregion
@@ -113,6 +116,17 @@ namespace AutomationModule.ViewModels
 		public void Initialize() { }
 
 		public void Dispose() { }
+
+		public void ConfigurationWasChanged(object arg)
+		{
+			LoadConfig();
+		}
+
+		public override void OnShow()
+		{
+			LoadConfig();
+			base.OnShow();
+		}
 
 		#endregion
 

@@ -1,35 +1,53 @@
-﻿using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 
 namespace AutomationModule.ViewModels
 {
-	public class OpcDaTagFilterCreationViewModel : SaveCancelDialogViewModel, IDataErrorInfo
+	public class OpcDaTagFilterEditingViewModel : SaveCancelDialogViewModel, IDataErrorInfo
 	{
 		#region Constructors
-		public OpcDaTagFilterCreationViewModel()
+
+		public OpcDaTagFilterEditingViewModel(OpcTagFilterViewModel filter)
 		{
-			Title = "Создание фильтра";
-			Description = String.Empty;
-			Name = String.Empty;
-			Hysteresis = "0";
+			Title = "Редактирование фильтра OPC DA тега";
+			SelectedOpcDaTagFilter = filter;
+
+			_Filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
+			.Where(f => f.UID != filter.OpcDaTagFilter.UID);
+
+			foreach(var server in OpcDaServers)
+			{
+				SelectedOpcDaTag = server.Tags.FirstOrDefault(tag => tag.Uid == SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID);
+				if (SelectedOpcDaTag != null)
+				{
+					SelectedOpcDaServer = server;
+					Name = SelectedOpcDaTagFilter.OpcDaTagFilter.Name;
+					Description = SelectedOpcDaTagFilter.OpcDaTagFilter.Description;
+					Hysteresis = SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis.ToString();
+					break;
+				}
+			}
+
 		}
+
 		#endregion
 
 		#region Fields And Properties
+
+		IEnumerable<OpcDaTagFilter> _Filters;
+
+		public OpcTagFilterViewModel SelectedOpcDaTagFilter { get; private set; }
 
 		public List<OpcDaServer> OpcDaServers
 		{
 			get { return ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers; }
 		}
-
-		List<OpcDaTagFilter> _Filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters;
 
 		OpcDaServer _selectedOpcDaServer;
 		public OpcDaServer SelectedOpcDaServer
@@ -76,14 +94,15 @@ namespace AutomationModule.ViewModels
 					{
 						switch (type.Value)
 						{
+							case ExplicitType.Boolean:
+								{
+									Hysteresis = String.Empty;
+									HysterasisEnabled = false; break;
+								}
 							case ExplicitType.Integer:
 							case ExplicitType.Float:
 								{
 									HysterasisEnabled = true; break;
-								}
-							default:
-								{
-									HysterasisEnabled = false; break;
 								}
 						}
 					}
@@ -92,8 +111,9 @@ namespace AutomationModule.ViewModels
 						HysterasisEnabled = false;
 					}
 				}
+				// Запускаем валидацию значения
+				OnPropertyChanged(() => Hysteresis);
 				OnPropertyChanged(() => SelectedOpcDaTag);
-				ErrorMessageByHystersis = this["Hysteresis"];
 			}
 		}
 
@@ -105,7 +125,6 @@ namespace AutomationModule.ViewModels
 			{
 				_name = value;
 				OnPropertyChanged(() => Name);
-				OnPropertyChanged(() => Error);
 			}
 		}
 
@@ -117,7 +136,6 @@ namespace AutomationModule.ViewModels
 			{
 				_hysteresis = value;
 				OnPropertyChanged(() => Hysteresis);
-				OnPropertyChanged(() => Error);
 			}
 		}
 
@@ -143,48 +161,11 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public OpcTagFilterViewModel OpcDaTagFilterResult { get; private set; }
-
-		#endregion
-
-		#region Methods
-		protected override bool CanSave()
-		{
-			//return base.CanSave();
-			bool canSave = false;
-			canSave = _selectedOpcDaTag != null && _selectedOpcDaServer != null 
-				&& ErrorMessageByName == null && ErrorMessageByHystersis == null;
-
-			return canSave;
-		}
-
-		protected override bool Save()
-		{
-			var type = OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue);
-
-			if (type != null)
-			{
-				var hysteresis = Double.Parse(Hysteresis);
-
-				OpcDaTagFilterResult =
-					new OpcTagFilterViewModel(new OpcDaTagFilter(Guid.NewGuid(), Name,
-						Description == null ? string.Empty : Description,
-						SelectedOpcDaTag.Uid, hysteresis, type.Value));
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-			//return base.Save();
-		}
-		#endregion
-
 		string _errorMessageByName;
 		public string ErrorMessageByName
 		{
 			get { return _errorMessageByName; }
-			private set
+			set
 			{
 				_errorMessageByName = value;
 				OnPropertyChanged(() => ErrorMessageByName);
@@ -192,7 +173,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		string _errorMessageByHystersis;
-		public string ErrorMessageByHystersis 
+		public string ErrorMessageByHystersis
 		{
 			get { return _errorMessageByHystersis; }
 			private set
@@ -201,6 +182,30 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => ErrorMessageByHystersis);
 			}
 		}
+
+		#endregion
+
+		#region Methods
+		protected override bool CanSave()
+		{
+			//return base.CanSave();
+			return (SelectedOpcDaServer != null) && (SelectedOpcDaTag != null)
+				&& (ErrorMessageByName == null) && (ErrorMessageByHystersis == null);
+		}
+
+		protected override bool Save()
+		{
+			SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID = SelectedOpcDaTag.Uid;
+			SelectedOpcDaTagFilter.OpcDaServer = SelectedOpcDaServer;
+			SelectedOpcDaTagFilter.OpcDaTag = SelectedOpcDaTag;
+			SelectedOpcDaTagFilter.Name = Name;
+			SelectedOpcDaTagFilter.Hysteresis = String.IsNullOrEmpty(Hysteresis) ? 0 : Double.Parse(Hysteresis);
+			SelectedOpcDaTagFilter.Description = Description;
+			return true;
+			//return base.Save();
+		}
+
+		#endregion
 
 		public string Error
 		{
@@ -215,11 +220,17 @@ namespace AutomationModule.ViewModels
 
 				switch (columnName)
 				{
-					case "Name": 
+					case "Name":
 						{
 							if (String.IsNullOrEmpty(Name.Trim()))
 							{
 								message = "Название фильтра не может быть пустым";
+								ErrorMessageByName = message;
+								return message;
+							}
+							if (Name.Length > 30)
+							{
+								message = "Название фильтра не может быть более 30 символов";
 								ErrorMessageByName = message;
 								return message;
 							}
@@ -255,6 +266,11 @@ namespace AutomationModule.ViewModels
 
 							switch (type.Value)
 							{
+								case ExplicitType.Boolean:
+									{
+										ErrorMessageByHystersis = null;
+										return null;
+									}
 								case ExplicitType.Integer:
 									{
 										Int32 x;
@@ -279,6 +295,7 @@ namespace AutomationModule.ViewModels
 											return message;
 										}
 									}
+								case ExplicitType.Float:
 								case ExplicitType.Double:
 									{
 										double x;

@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 
 			if (direction == null)
 			{
-				Title = "Создание новоого направления";
+				Title = "Создание нового направления";
 				IsEdit = false;
 
 				Direction = new GKDirection()
@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 					No = 1
 				};
 				if (GKManager.Directions.Count != 0)
-					Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
+					Direction.No = (GKManager.Directions.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
