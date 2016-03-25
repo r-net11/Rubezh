@@ -75,8 +75,8 @@ namespace FiltersModule.ViewModels
 		public override bool Save()
 		{
 			var properties = (LayoutPartReferenceProperties)_layoutPartJournalViewModel.Properties;
-			var hasChanges = properties.ReferenceUID != SelectedFilter.UID || oldLastItemsCount != LastItemsCount;
-			if ((SelectedFilter == null && properties.ReferenceUID != Guid.Empty) || (SelectedFilter != null && hasChanges))
+			var hasChanges = SelectedFilter != null && properties.ReferenceUID != SelectedFilter.UID || oldLastItemsCount != LastItemsCount;
+			if ((SelectedFilter == null && properties.ReferenceUID != Guid.Empty) || hasChanges)
 			{
 				properties.ReferenceUID = SelectedFilter == null ? Guid.Empty : SelectedFilter.UID;
 				if (SelectedFilter != null)
