@@ -15,18 +15,22 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<TextBlock Grid.Row="0" Grid.Column="0" Text="OPC DA Сервер: " VerticalAlignment="Center" />
-		<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OpcDaServers}" DisplayMemberPath="ServerName" SelectedItem="{Binding SelectedOpcDaServer}"
-						HorizontalAlignment="Stretch" />
-		<TextBlock Grid.Row="1" Grid.Column="0" Text="Тег: " VerticalAlignment="Center" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="OPC DA Сервер: " VerticalAlignment="Center" Foreground="White" />
+		<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OpcDaServers}" DisplayMemberPath="ServerName" 
+				  SelectedItem="{Binding SelectedOpcDaServer}" HorizontalAlignment="Stretch" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Тег: " VerticalAlignment="Center" Foreground="White" />
 		<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding OpcDaTags}" DisplayMemberPath="Path" 
 				  SelectedItem="{Binding SelectedOpcDaTag}" HorizontalAlignment="Stretch" />
-		<TextBlock Grid.Row="2" Grid.Column="0" Text="Гистерезис: " VerticalAlignment="Center" />
-		<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Hysteresis}" IsEnabled="{Binding HysterasisEnabled}" 
-				 HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-		<TextBlock Grid.Row="3" Grid.Column="0" Text="Название фильтра: " VerticalAlignment="Center" />
-		<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-		<TextBlock Grid.Row="4" Grid.Column="0" Text="Описание: " VerticalAlignment="Center" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Text="Гистерезис: " VerticalAlignment="Center" Foreground="White" />
+		<TextBox Grid.Row="2" Grid.Column="1" IsEnabled="{Binding HysterasisEnabled}" 
+				 HorizontalAlignment="Stretch" VerticalAlignment="Center"
+				 Text="{Binding Hysteresis, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+				 ToolTip="{Binding ErrorMessageByHystersis}"/>
+		<TextBlock Grid.Row="3" Grid.Column="0" Text="Название фильтра: " VerticalAlignment="Center" Foreground="White" />
+		<TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+				 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+				 ToolTip="{Binding ErrorMessageByName}"/>
+		<TextBlock Grid.Row="4" Grid.Column="0" Text="Описание: " VerticalAlignment="Center" Foreground="White" />
 		<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 		
 	</Grid>
