@@ -90,14 +90,14 @@ namespace FiresecService.Service
 			return new OperationResult<bool>(true);
 		}
 
-		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid)
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clientUid, string userName)
 		{
 			ServerTaskRunner.Add(null, "Чтение архива", () =>
 			{
 				using (var dbService = new RubezhDAL.DataClasses.DbService())
 				{
 					var result = dbService.JournalTranslator.GetArchivePage(filter, page);
-					FiresecService.NotifyOperationResult_GetArchivePage(result, clientUid);
+					FiresecService.NotifyOperationResult_GetArchivePage(result, clientUid, userName);
 				}
 			});
 			return new OperationResult<bool>(true);

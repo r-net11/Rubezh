@@ -267,13 +267,13 @@ namespace RubezhClient
 					return firesecService.AddJournalItem(FiresecServiceFactory.UID, journalItem);
 			}, "AddJournalItem");
 		}
-		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page)
+		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, string userName = null)
 		{
 			return SafeOperationCall<OperationResult<bool>>(() => 
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					return firesecService.BeginGetArchivePage(filter, page, FiresecServiceFactory.UID);
+					return firesecService.BeginGetArchivePage(filter, page, FiresecServiceFactory.UID, userName);
 			}, "BeginGetArchivePage");
 		}
 		public OperationResult<int> GetArchiveCount(JournalFilter filter)

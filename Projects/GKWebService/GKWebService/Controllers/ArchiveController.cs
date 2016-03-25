@@ -39,15 +39,21 @@ namespace GKWebService.Controllers
 		JsonResult GetJournalPage(RubezhAPI.Journal.JournalFilter journalFilter, int pageNo)
 		{
 			SafeFiresecService.CallbackOperationResultEvent += OnCallbackOperationResult;
-			var result = ClientManager.FiresecService.BeginGetArchivePage(journalFilter, pageNo);
-			if (!result.HasError)
+			try
 			{
-				if (!_autoResetEvent.WaitOne(TimeSpan.FromSeconds(10)))
+				var result = ClientManager.FiresecService.BeginGetArchivePage(journalFilter, pageNo, User.Identity.Name);
+				if (!result.HasError)
 				{
-					_journalItems = new List<JournalItem>();
+					if (!_autoResetEvent.WaitOne(TimeSpan.FromSeconds(10)))
+					{
+						_journalItems = new List<JournalItem>();
+					}
 				}
 			}
-			SafeFiresecService.CallbackOperationResultEvent -= OnCallbackOperationResult;
+			finally
+			{
+				SafeFiresecService.CallbackOperationResultEvent -= OnCallbackOperationResult;
+			}
 			var list = _journalItems.Select(x => new JournalModel(x)).ToList();
 			return Json(list, JsonRequestBehavior.AllowGet);
 		}
@@ -75,7 +81,8 @@ namespace GKWebService.Controllers
 
 		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
 		{
-			if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetArchivePage)
+			if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetArchivePage
+				&& User.Identity.Name == callbackOperationResult.UserName)
 			{
 				_journalItems = callbackOperationResult.JournalItems;
 				_autoResetEvent.Set();
