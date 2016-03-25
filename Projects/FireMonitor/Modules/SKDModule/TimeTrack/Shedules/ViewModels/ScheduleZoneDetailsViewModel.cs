@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Common;
-using FiresecAPI.GK;
+﻿using Common;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
 	public class ScheduleZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Schedule _schedule;
+		private readonly Schedule _schedule;
+		private readonly List<Guid> _doorUIDs;
+
 		public ScheduleZone ScheduleZone { get; private set; }
-		List<Guid> _doorUIDs;
 
 		public ScheduleZoneDetailsViewModel(Schedule schedule, Organisation organisation, ScheduleZone sheduleZone = null)
 		{
@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 			if (sheduleZone == null)
 			{
 				Title = "Выбор помещения";
-				sheduleZone = new ScheduleZone()
+				sheduleZone = new ScheduleZone
 				{
 					ScheduleUID = schedule.UID,
 				};
@@ -36,12 +36,12 @@ namespace SKDModule.ViewModels
 			var organisationResult = OrganisationHelper.GetSingle(organisation.UID);
 			_doorUIDs = organisationResult != null ? organisationResult.DoorUIDs : new List<Guid>();
 
-			var strazhDoors = FiresecAPI.SKD.SKDManager.Doors.Where(x => _doorUIDs.Any(y => y == x.UID));
+			var strazhDoors = SKDManager.Doors.Where(x => _doorUIDs.Any(y => y == x.UID));
 			foreach (var door in strazhDoors)
 			{
-				if (door != null && door.OutDevice != null && door.OutDevice.Zone != null && !Zones.Any(x => x.ZoneUID == door.OutDevice.Zone.UID))
+				if (door != null && door.OutDevice != null && door.OutDevice.Zone != null && Zones.All(x => x.ZoneUID != door.OutDevice.Zone.UID))
 					Zones.Add(new SelectationScheduleZoneViewModel(door.OutDevice.Zone, door.UID));
-				if (door != null && door.InDevice != null && door.InDevice.Zone != null && !Zones.Any(x => x.ZoneUID == door.InDevice.Zone.UID))
+				if (door != null && door.InDevice != null && door.InDevice.Zone != null && Zones.All(x => x.ZoneUID != door.InDevice.Zone.UID))
 					Zones.Add(new SelectationScheduleZoneViewModel(door.InDevice.Zone, door.UID));
 			}
 
@@ -68,16 +68,17 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (SelectedZone != null)
+			if (SelectedZone == null) return true;
+
+			if (_schedule.Zones.Any(x => x.ZoneUID == SelectedZone.ZoneUID && ScheduleZone.UID != x.UID))
 			{
-				if (_schedule.Zones.Any(x => x.ZoneUID == SelectedZone.ZoneUID && ScheduleZone.UID != x.UID))
-				{
-					MessageBoxService.ShowWarning("Выбранная зона уже включена");
-					return false;
-				}
+				MessageBoxService.ShowWarning("Выбранная зона уже включена");
+				return false;
 			}
+
 			ScheduleZone.ZoneUID = SelectedZone.ZoneUID;
 			ScheduleZone.DoorUID = SelectedZone.DoorUID;
+
 			return true;
 		}
 	}
