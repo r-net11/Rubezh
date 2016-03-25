@@ -94,14 +94,15 @@ namespace AutomationModule.ViewModels
 					{
 						switch (type.Value)
 						{
+							case ExplicitType.Boolean:
+								{
+									Hysteresis = String.Empty;
+									HysterasisEnabled = false; break;
+								}
 							case ExplicitType.Integer:
 							case ExplicitType.Float:
 								{
 									HysterasisEnabled = true; break;
-								}
-							default:
-								{
-									HysterasisEnabled = false; break;
 								}
 						}
 					}
@@ -110,6 +111,8 @@ namespace AutomationModule.ViewModels
 						HysterasisEnabled = false;
 					}
 				}
+				// Запускаем валидацию значения
+				OnPropertyChanged(() => Hysteresis);
 				OnPropertyChanged(() => SelectedOpcDaTag);
 			}
 		}
@@ -196,7 +199,7 @@ namespace AutomationModule.ViewModels
 			SelectedOpcDaTagFilter.OpcDaServer = SelectedOpcDaServer;
 			SelectedOpcDaTagFilter.OpcDaTag = SelectedOpcDaTag;
 			SelectedOpcDaTagFilter.Name = Name;
-			SelectedOpcDaTagFilter.Hysteresis = Double.Parse(Hysteresis);
+			SelectedOpcDaTagFilter.Hysteresis = String.IsNullOrEmpty(Hysteresis) ? 0 : Double.Parse(Hysteresis);
 			SelectedOpcDaTagFilter.Description = Description;
 			return true;
 			//return base.Save();
@@ -263,6 +266,11 @@ namespace AutomationModule.ViewModels
 
 							switch (type.Value)
 							{
+								case ExplicitType.Boolean:
+									{
+										ErrorMessageByHystersis = null;
+										return null;
+									}
 								case ExplicitType.Integer:
 									{
 										Int32 x;

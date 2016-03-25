@@ -10,76 +10,40 @@ namespace GKProcessor
 		GKGuardZone GuardZone { get; set; }
 		public GuardZonePimDescriptor GuardZonePimDescriptor { get; private set; }
 		public GuardZoneChangePimDescriptor GuardZoneChangePimDescriptor { get; private set; }
-		readonly List<Tuple<GKDevice, GKCodeReaderSettingsPart>> SetGuardDevices;
-		readonly List<Tuple<GKDevice, GKCodeReaderSettingsPart>> ResetGuardDevices;
-		readonly List<Tuple<GKDevice, GKCodeReaderSettingsPart>> ChangeGuardDevices;
-		readonly List<Tuple<GKDevice, GKCodeReaderSettingsPart>> SetAlarmDevices;
+		readonly IEnumerable<GKDevice> SetGuardDevices;
+		readonly IEnumerable<GKDevice> ResetGuardDevices;
+		readonly IEnumerable<GKDevice> SetAlarmDevices;
+
+		readonly IEnumerable<GKGuardZoneDevice> SetGuardPimDevices;
+		readonly IEnumerable<GKGuardZoneDevice> ResetGuardPimDevices;
+		readonly List<GKGuardZoneDevice> ChangeGuardPimDevices;
+		readonly IEnumerable<GKGuardZoneDevice> SetAlarmPimDevices;
+		readonly bool UsePims;
 
 		public GuardZoneDescriptor(GKGuardZone zone)
 			: base(zone)
 		{
 			DescriptorType = DescriptorType.GuardZone;
 			GuardZone = zone;
+			SetGuardDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.SetGuard, false).Select(x=> x.Device);
+			ResetGuardDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.ResetGuard, false).Select(x => x.Device);
+			SetAlarmDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.SetAlarm, false).Select(x => x.Device);
 
-			SetGuardDevices = new List<Tuple<GKDevice, GKCodeReaderSettingsPart>>();
-			ResetGuardDevices = new List<Tuple<GKDevice, GKCodeReaderSettingsPart>>();
-			ChangeGuardDevices = new List<Tuple<GKDevice, GKCodeReaderSettingsPart>>();
-			SetAlarmDevices = new List<Tuple<GKDevice, GKCodeReaderSettingsPart>>();
-			foreach (var guardZoneDevice in GuardZone.GuardZoneDevices)
-			{
-				switch (guardZoneDevice.Device.DriverType)
-				{
-					case GKDriverType.RSR2_MAP4:
-					case GKDriverType.RSR2_AM_1:
-					case GKDriverType.RSR2_GuardDetector:
-					case GKDriverType.RSR2_HandGuardDetector:
-					case GKDriverType.RSR2_GuardDetectorSound:
-						switch (guardZoneDevice.ActionType)
-						{
-							case GKGuardZoneDeviceActionType.SetGuard:
-								SetGuardDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.SetGuardSettings));
-								break;
+			SetGuardPimDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.SetGuard, true);
+			ResetGuardPimDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.ResetGuard, true);
+			ChangeGuardPimDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.ChangeGuard, true).ToList();
+			ChangeGuardPimDevices.AddRange(DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.ChangeGuard, false).ToList());
+			SetAlarmPimDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.SetAlarm, true);
 
-							case GKGuardZoneDeviceActionType.ResetGuard:
-								ResetGuardDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.ResetGuardSettings));
-								break;
-
-							case GKGuardZoneDeviceActionType.ChangeGuard:
-								ChangeGuardDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.ChangeGuardSettings));
-								break;
-
-							case GKGuardZoneDeviceActionType.SetAlarm:
-								SetAlarmDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.AlarmSettings));
-								break;
-						}
-						break;
-
-					case GKDriverType.RSR2_CodeReader:
-					case GKDriverType.RSR2_CardReader:
-					case GKDriverType.RSR2_CodeCardReader:
-						if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CanBeUsed)
-							SetGuardDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.SetGuardSettings));
-
-						if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CanBeUsed)
-							ResetGuardDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.ResetGuardSettings));
-
-						if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CanBeUsed)
-							ChangeGuardDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.ChangeGuardSettings));
-
-						if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CanBeUsed)
-							SetAlarmDevices.Add(new Tuple<GKDevice, GKCodeReaderSettingsPart>(guardZoneDevice.Device, guardZoneDevice.CodeReaderSettings.AlarmSettings));
-						break;
-				}
-			}
-			if (ChangeGuardDevices.Count > 0)
+			if (GuardZone.GuardZoneDevices.FindAll(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard || x.Device.Driver.IsCardReaderOrCodeReader).Count > 0)
 			{
 				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
-				if (ChangeGuardDevices.Any(x => !x.Item1.Driver.IsCardReaderOrCodeReader))
-				{
-					GuardZoneChangePimDescriptor = new GuardZoneChangePimDescriptor(GuardZone);
-					GuardZone.LinkToDescriptor(GuardZone.ChangePim);
-				}
+				GuardZoneChangePimDescriptor = new GuardZoneChangePimDescriptor(GuardZone);
+				GuardZone.LinkToDescriptor(GuardZone.ChangePim);
+				UsePims = true;
 			}
+			else
+				GuardZone.LinkToDescriptor(GuardZone);
 		}
 
 		public override void Build()
@@ -101,141 +65,70 @@ namespace GKProcessor
 			var mirrorParents = GuardZone.GetMirrorParents();
 			Formula.AddMirrorLogic(GuardZone, mirrorParents);
 
-			if (ChangeGuardDevices.Count == 0)
-				GuardZone.LinkToDescriptor(GuardZone);
 			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire1);
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
-			AddMissedLogic(SetAlarmDevices);
 			Formula.Add(FormulaOperationType.END);
 		}
 
-		public static int AddSettings(List<Tuple<GKDevice, GKCodeReaderSettingsPart>> deviceAndSettings, FormulaBuilder Formula, GKStateBit commandStateBit)
+		void AddGuardDevicesLogic(IEnumerable<GKDevice> devices, GKStateBit commandStateBit)
 		{
-			var count = 0;
-
-			foreach (var guardDevice in deviceAndSettings.Where(x => !x.Item1.Driver.IsCardReaderOrCodeReader))
-			{
-				Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Item1);
-				if (count > 0)
-				{
-					Formula.Add(FormulaOperationType.OR);
-				}
-
-				if (commandStateBit == GKStateBit.Fire1)
-				{
-					Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Item1);
-					Formula.Add(FormulaOperationType.OR);
-					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Item1);
-					Formula.Add(FormulaOperationType.OR);
-				}
-				count++;
-			}
-
-			foreach (var guardDevice in deviceAndSettings.Where(x => x.Item1.Driver.IsCardReaderOrCodeReader))
-			{
-				FormulaHelper.AddCodeReaderLogic(Formula, guardDevice.Item2, guardDevice.Item1);
-				if (count > 0)
-				{
-					Formula.Add(FormulaOperationType.OR);
-				}
-				count++;
-			}
-
-			return count;
-		}
-		void AddGuardDevicesLogic(List<Tuple<GKDevice, GKCodeReaderSettingsPart>> deviceAndSettings, GKStateBit commandStateBit)
-		{
-			var count = AddSettings(deviceAndSettings, Formula, commandStateBit);
+			var count = DescriptorHelper.AddFireOrFailureLogic(devices, Formula);
 			switch (commandStateBit)
 			{
 				case GKStateBit.Fire1:
-					if (count > 0)
+					if (count > 0 || UsePims)
 					{
-						if (ChangeGuardDevices.Count > 0)
+						if (UsePims)
 							Formula.AddGetBit(GKStateBit.On, GuardZone.Pim);
 						else
 							Formula.AddGetBit(GKStateBit.Attention, GuardZone);
-						Formula.Add(FormulaOperationType.OR);
+
+						if (count > 0)
+							Formula.Add(FormulaOperationType.OR);
+
+						if (UsePims)
+						{
+							Formula.AddGetBit(GKStateBit.Fire1, GuardZone.ChangePim);
+							int count2 = DescriptorHelper.AddCodeReadersLogic(SetAlarmPimDevices, Formula, commandStateBit);
+							if (count2 > 0)
+								Formula.Add(FormulaOperationType.AND);
+							Formula.Add(FormulaOperationType.OR);
+						}
 						Formula.AddPutBit(GKStateBit.Attention, GuardZone);
 					}
 					break;
 				case GKStateBit.TurnOn_InAutomatic:
 				case GKStateBit.TurnOff_InAutomatic:
-					if (count > 0 || ChangeGuardDevices.Count > 0)
+					if (count > 0 || UsePims)
 					{
-						if (ChangeGuardDevices.Count > 0)
+						if (UsePims)
 						{
-							var changeGuardDevices1 = ChangeGuardDevices.FindAll(x => !x.Item1.Driver.IsCardReaderOrCodeReader);
-							var changeGuardDevices2 = ChangeGuardDevices.FindAll(x => x.Item1.Driver.IsCardReaderOrCodeReader);
-							if (changeGuardDevices1.Count > 0)
+							if (ChangeGuardPimDevices.Count > 0)
 							{
-								AddSettings(changeGuardDevices1, Formula, GKStateBit.No);
+								DescriptorHelper.AddChangeLogic(ChangeGuardPimDevices, Formula);
 								if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
 								{
-									Formula.AddGetBit(GKStateBit.Off, GuardZone);
-									Formula.Add(FormulaOperationType.AND);
+									int count2 = DescriptorHelper.AddCodeReadersLogic(SetGuardPimDevices, Formula, commandStateBit);
+									if (count2 > 0)
+										Formula.Add(FormulaOperationType.OR);
 									Formula.AddGetBit(GKStateBit.On, GuardZone.ChangePim);
-									Formula.Add(FormulaOperationType.AND); // AND Pim вкл
 								}
-								if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
+								else
 								{
-									Formula.AddGetBit(GKStateBit.On, GuardZone);
-									Formula.Add(FormulaOperationType.AND);
+									int count2 = DescriptorHelper.AddCodeReadersLogic(ResetGuardPimDevices, Formula, commandStateBit);
+									if (count2 > 0)
+										Formula.Add(FormulaOperationType.OR);
 									Formula.AddGetBit(GKStateBit.Off, GuardZone.ChangePim);
-									Formula.Add(FormulaOperationType.AND); // AND Pim выкл
 								}
-							}
-							if (changeGuardDevices2.Count > 0)
-							{
-								AddSettings(changeGuardDevices2, Formula, GKStateBit.No);
-								if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
-								{
-									Formula.AddGetBit(GKStateBit.Off, GuardZone);
-									Formula.Add(FormulaOperationType.AND);
-									foreach (var changeGuardDevice in changeGuardDevices2)
-									{
-										Formula.AddGetBit(GKStateBit.Off, changeGuardDevice.Item1);
-										Formula.Add(FormulaOperationType.AND);
-									}
-								}
-								if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
-								{
-									Formula.AddGetBit(GKStateBit.On, GuardZone);
-									Formula.Add(FormulaOperationType.AND);
-									foreach (var changeGuardDevice in changeGuardDevices2)
-									{
-										Formula.AddGetBit(GKStateBit.On, changeGuardDevice.Item1);
-										Formula.Add(FormulaOperationType.AND);
-									}
-								}
-							}
-							if (changeGuardDevices1.Count > 0 && changeGuardDevices2.Count > 0)
-							{
-								Formula.Add(FormulaOperationType.OR);
-							}
+								Formula.Add(FormulaOperationType.AND);
 
-							if (count > 0 && ChangeGuardDevices.Count > 0)
-							{
+							if(count > 0)
 								Formula.Add(FormulaOperationType.OR);
 							}
 						}
 						if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
-						{
-							foreach (var setAlarmDevice in SetAlarmDevices)
-							{
-								if (!setAlarmDevice.Item1.Driver.IsCardReaderOrCodeReader)
-								{
-									Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice.Item1);
-									Formula.AddGetBit(GKStateBit.Fire2, setAlarmDevice.Item1);
-									Formula.Add(FormulaOperationType.OR);
-									Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice.Item1);
-									Formula.Add(FormulaOperationType.OR);
-									Formula.Add(FormulaOperationType.COM);
-									Formula.Add(FormulaOperationType.AND);
-								}
-							}
-						}
+							AddMissedLogic();
 						Formula.Add(FormulaOperationType.BR, 1, 3);
 						Formula.Add(FormulaOperationType.CONST, 0, 1);
 						Formula.AddPutBit(commandStateBit, GuardZone);
@@ -245,33 +138,17 @@ namespace GKProcessor
 			}
 		}
 
-		void AddMissedLogic(List<Tuple<GKDevice, GKCodeReaderSettingsPart>> deviceAndSettings)
+		void AddMissedLogic()
 		{
-			if (deviceAndSettings.Count == 0)
-				return;
-			var count = 0;
-			Formula.AddGetBit(GKStateBit.TurningOn, GuardZone);
-			Formula.Add(FormulaOperationType.BR, 2, 1);
-			Formula.Add(FormulaOperationType.EXIT);
-			foreach (var guardDevice in deviceAndSettings)
+			foreach (var setAlarmDevice in SetAlarmDevices)
 			{
-				if (!guardDevice.Item1.Driver.IsCardReaderOrCodeReader)
-				{
-					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Item1);
-					if (count > 0)
-					{
-						Formula.Add(FormulaOperationType.OR);
-					}
-					Formula.AddGetBit(GKStateBit.Fire2, guardDevice.Item1);
-					Formula.Add(FormulaOperationType.OR);
-					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Item1);
-					Formula.Add(FormulaOperationType.OR);
-					count++;
-				}
-			}
-			if (count > 0)
-			{
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone);
+				Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice);
+				Formula.AddGetBit(GKStateBit.Fire2, setAlarmDevice);
+				Formula.Add(FormulaOperationType.OR);
+				Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice);
+				Formula.Add(FormulaOperationType.OR);
+				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.AND);
 			}
 		}
 
