@@ -76,12 +76,22 @@ namespace AutomationModule.ViewModels
 					{
 						switch (type.Value)
 						{
+							case ExplicitType.Boolean:
+								{
+									Hysteresis = String.Empty;
+									HysterasisEnabled = false; break;
+								}
 							case ExplicitType.Integer:
 							case ExplicitType.Float:
 								{
-									HysterasisEnabled = true; 
+									HysterasisEnabled = true;
 									if (String.IsNullOrEmpty(Hysteresis))
 										Hysteresis = "0";
+									else
+									{
+										// запускаем валидацию значения
+										OnPropertyChanged(() => Hysteresis);
+									}
 									break;
 								}
 							default:
@@ -163,11 +173,32 @@ namespace AutomationModule.ViewModels
 
 		protected override bool Save()
 		{
+			double hysteresis;
+
 			var type = OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue);
 
 			if (type != null)
 			{
-				var hysteresis = Double.Parse(Hysteresis);
+				switch (type.Value)
+				{
+					case ExplicitType.Integer:
+						{
+							hysteresis = Double.Parse(Hysteresis); break;
+						}
+					case ExplicitType.Float:
+					case ExplicitType.Double:
+						{
+							hysteresis = Double.Parse(Hysteresis); break;
+						}
+					case ExplicitType.Boolean:
+						{
+							hysteresis = 0; break;
+						}
+					default:
+						{
+							return false;
+						}
+				}
 
 				OpcDaTagFilterResult =
 					new OpcTagFilterViewModel(new OpcDaTagFilter(Guid.NewGuid(), Name,
@@ -264,6 +295,11 @@ namespace AutomationModule.ViewModels
 
 							switch (type.Value)
 							{
+								case ExplicitType.Boolean:
+									{
+										ErrorMessageByHystersis = null;
+										return null;
+									}
 								case ExplicitType.Integer:
 									{
 										Int32 x;
