@@ -65,6 +65,7 @@ namespace GKImitator.ViewModels
 		List<Tuple<int, int>> usersCurrentZones { get; set; }
 		void RecalculateLogic()
 		{
+			Trace.WriteLine("\n" + GKBase.PresentationName);
 			if (Regime == Regime.Ignore)
 				return;
 			var stack = new List<int>();
@@ -545,6 +546,13 @@ namespace GKImitator.ViewModels
 						if (Regime == Regime.Automatic)
 						{
 							OnPauseTurnOn();
+						}
+					}
+					if (stateBitVale.Key == GKStateBit.Reset)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnResetFire();
 						}
 					}
 					if (GKBase is GKGuardZone && stateBitVale.Key == GKStateBit.Attention)

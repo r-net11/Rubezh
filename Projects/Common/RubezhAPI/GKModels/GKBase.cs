@@ -270,28 +270,24 @@ namespace RubezhAPI.GK
 			{
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
-					if (guardZoneDevice.ActionType != GKGuardZoneDeviceActionType.ChangeGuard)
+					if (guardZoneDevice.ActionType != GKGuardZoneDeviceActionType.ChangeGuard && !guardZoneDevice.Device.Driver.IsCardReaderOrCodeReader)
 						guardZone.LinkToDescriptor(guardZoneDevice.Device);
 					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_HandGuardDetector)
 					{
 						guardZoneDevice.Device.LinkToDescriptor(guardZone);
 					}
 				}
-				var changeGuardDevices = guardZone.GuardZoneDevices.FindAll(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard
-					|| (x.Device.Driver.IsCardReaderOrCodeReader &&x.CodeReaderSettings.ChangeGuardSettings.CanBeUsed));
-				var changeGuardDevices1 = changeGuardDevices.FindAll(x => !x.Device.Driver.IsCardReaderOrCodeReader);
-				var changeGuardDevices2 = changeGuardDevices.FindAll(x => x.Device.Driver.IsCardReaderOrCodeReader);
-				if (changeGuardDevices1.Count > 0 || changeGuardDevices2.Count > 0)
+				if (guardZone.GuardZoneDevices.FindAll(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard || x.Device.Driver.IsCardReaderOrCodeReader).Count > 0)
 				{
 					if (guardZone.Pim != null)
 						guardZone.Pim.LinkToDescriptor(guardZone);
-					if (guardZone.ChangePim != null && changeGuardDevices1.Count > 0)
+					if (guardZone.ChangePim != null)
 					{ 
-						guardZone.GuardZoneDevices.Where(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard).ForEach(x => guardZone.ChangePim.LinkToDescriptor(x.Device));
+						guardZone.GuardZoneDevices.Where(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard || x.Device.Driver.IsCardReaderOrCodeReader).ForEach(x => guardZone.ChangePim.LinkToDescriptor(x.Device));
 						guardZone.LinkToDescriptor(guardZone.ChangePim);
 					}
 				}
-				else if (changeGuardDevices.Count > 0)
+				else
 					guardZone.LinkToDescriptor(guardZone);
 			}
 
