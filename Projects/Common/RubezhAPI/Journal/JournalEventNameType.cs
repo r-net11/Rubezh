@@ -530,5 +530,8 @@ namespace RubezhAPI.Journal
 
 		[EventName(JournalSubsystemType.GK, "Начало мониторинга", XStateClass.Norm)]
 		Начало_мониторинга = 216,
+
+		[EventName(JournalSubsystemType.GK, "Управление ПМФ", XStateClass.Info)]
+		Управление_ПМФ = 217,
 	}
 }
