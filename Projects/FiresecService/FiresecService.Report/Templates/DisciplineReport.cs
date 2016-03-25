@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using DevExpress.Xpo.Helpers;
+﻿using Common;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -52,9 +50,13 @@ namespace FiresecService.Report.Templates
 					var crossNightTimeTrackParts = new List<TimeTrackPart>();
 					foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 					{
+
 						dayTimeTrack.CrossNightTimeTrackParts = crossNightTimeTrackParts;
 						dayTimeTrack.Calculate();
 						crossNightTimeTrackParts = dayTimeTrack.CrossNightTimeTrackParts;
+
+
+						if(filter.ShowAllViolation && dayTimeTrack.PlannedTimeTrackParts.IsEmpty()) continue;
 
 						var dataRow = dataSet.Data.NewDataRow();
 						dataRow.Employee = employee.Name;
@@ -69,29 +71,37 @@ namespace FiresecService.Report.Templates
 							dataRow.LastExit = GetLastExitString(dayTimeTrack);
 						}
 
-						if (dayTimeTrack.PlannedTimeTrackParts.Any())
+						var absence = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Absence);
+						var late = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Late);
+						var earlyLeave = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.EarlyLeave);
+						var overtime = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Overtime);
+
+						if (filter.ShowAllViolation)
 						{
-							var absence = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Absence);
-							var late = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Late);
-							var earlyLeave = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.EarlyLeave);
-							var overtime = GetTimespanForTimeTrackType(dayTimeTrack.Totals, TimeTrackType.Overtime);
+							dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm");
+							dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm");
+							dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm");
+							dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm");
 
-							var isShowAbsence = absence.TotalSeconds > default(int) && filter.ShowAbsence;
-							var isShowLate = late.TotalSeconds > default(int) && filter.ShowLate;
-							var isShowEarlуLeave = earlyLeave.TotalSeconds > default(int) && filter.ShowEarlуLeave;
-							var isShowOvertime = overtime.TotalSeconds > default(int) && filter.ShowOvertime && filter.ShowShiftedViolation;
-
-							if (isShowAbsence || isShowLate || isShowEarlуLeave || isShowOvertime || filter.ShowAllViolation)
-							{
+							dataSet.Data.Rows.Add(dataRow);
+						}
+						else if (filter.ShowShiftedViolation)
+						{
+							if (filter.ShowAbsence)
 								dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm");
+							if (filter.ShowLate)
 								dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm");
+							if (filter.ShowEarlуLeave)
 								dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm");
+							if (filter.ShowOvertime)
 								dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm");
 
-							}
+							if((filter.ShowAbsence && !string.IsNullOrEmpty(dataRow.Absence))
+								|| (filter.ShowLate && !string.IsNullOrEmpty(dataRow.Late))
+								|| (filter.ShowEarlуLeave && !string.IsNullOrEmpty(dataRow.EarlyLeave))
+								|| (filter.ShowOvertime && !string.IsNullOrEmpty(dataRow.Overtime)))
+								dataSet.Data.Rows.Add(dataRow);
 						}
-
-						dataSet.Data.Rows.Add(dataRow);
 					}
 				}
 			}
@@ -99,7 +109,7 @@ namespace FiresecService.Report.Templates
 			return dataSet;
 		}
 
-		private string GetFirstEnterString(DayTimeTrack dayTimeTrack)
+		private static string GetFirstEnterString(DayTimeTrack dayTimeTrack)
 		{
 			var resultDateTime = dayTimeTrack.RealTimeTrackParts
 				.Where(x => x.IsForURVZone)
@@ -114,7 +124,7 @@ namespace FiresecService.Report.Templates
 				: resultDateTime.TimeOfDay.ToString(@"hh\:mm\:ss");
 		}
 
-		private string GetLastExitString(DayTimeTrack dayTimeTrack)
+		private static string GetLastExitString(DayTimeTrack dayTimeTrack)
 		{
 			var resultDateTime = dayTimeTrack.RealTimeTrackParts
 				.Where(x => x.IsForURVZone)
@@ -129,7 +139,7 @@ namespace FiresecService.Report.Templates
 				: resultDateTime.Value.TimeOfDay.ToString(@"hh\:mm\:ss");
 		}
 
-		private TimeSpan GetTimespanForTimeTrackType(IEnumerable<TimeTrackTotal> totals, TimeTrackType type)
+		private static TimeSpan GetTimespanForTimeTrackType(IEnumerable<TimeTrackTotal> totals, TimeTrackType type)
 		{
 			var result = totals.FirstOrDefault(x => x.TimeTrackType == type);
 			return result != null ? result.TimeSpan : TimeSpan.Zero;
