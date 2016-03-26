@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 					No = 1
 				};
 				if (GKManager.DeviceConfiguration.Codes.Count != 0)
-					Code.No = (ushort)(GKManager.DeviceConfiguration.Codes.Select(x => x.No).Max() + 1);
+					Code.No = (GKManager.DeviceConfiguration.Codes.Select(x => x.No).Max() + 1);
 			}
 			else
 			{

@@ -37,7 +37,8 @@ namespace GKModule.DeviceProperties
 			}
 			set
 			{
-				if (DriverProperty.Multiplier != 0)
+
+                if (DriverProperty.Multiplier != 0)
 				{
 					double doubleValue = -1;
 					if (double.TryParse(value.Replace(".", ","),
@@ -50,24 +51,28 @@ namespace GKModule.DeviceProperties
 				}
 
 				UInt16 result = DriverProperty.Min;
-				if (UInt16.TryParse(value, out result))
-				{
-					if (result <= DriverProperty.Max)
-					{
-						if (result < DriverProperty.Min)
-						{
-							result = DriverProperty.Min;
-						}
-					}
-					else
-					{
-						result = DriverProperty.Max;
-					}
-					Save(result);
-					_text = result.ToString();
-					OnPropertyChanged(() => Text);
-				}
-			}
+                if (UInt16.TryParse(value, out result))
+                {
+                    if (result <= DriverProperty.Max)
+                    {
+                        if (result < DriverProperty.Min)
+                        {
+                            result = DriverProperty.Min;
+                        }
+                    }
+                    else
+                    {
+                        result = DriverProperty.Max;
+                    }                    
+                }
+                else
+                {
+                    result = DriverProperty.Max;
+                }
+                Save(result);
+                _text = result.ToString();
+                OnPropertyChanged(() => Text);
+            }
 		}
 	}
 }

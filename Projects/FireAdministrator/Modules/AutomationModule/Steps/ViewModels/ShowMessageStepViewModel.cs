@@ -1,22 +1,22 @@
-﻿using System.Collections.ObjectModel;
+﻿using Infrastructure.Automation;
 using RubezhAPI.Automation;
-using Infrastructure.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class ShowMessageStepViewModel : BaseStepViewModel
 	{
-		ShowMessageArguments ShowMessageArguments { get; set; }
+		ShowMessageStep ShowMessageStep { get; set; }
 		public ArgumentViewModel MessageArgument { get; private set; }
 		public ArgumentViewModel ConfirmationValueArgument { get; private set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
-		
+
 		public ShowMessageStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ShowMessageArguments = stepViewModel.Step.ShowMessageArguments;
-			MessageArgument = new ArgumentViewModel(ShowMessageArguments.MessageArgument, stepViewModel.Update, null);
-			ConfirmationValueArgument = new ArgumentViewModel(ShowMessageArguments.ConfirmationValueArgument, stepViewModel.Update, null, false);
+			ShowMessageStep = (ShowMessageStep)stepViewModel.Step;
+			MessageArgument = new ArgumentViewModel(ShowMessageStep.MessageArgument, stepViewModel.Update, null);
+			ConfirmationValueArgument = new ArgumentViewModel(ShowMessageStep.ConfirmationValueArgument, stepViewModel.Update, null, false);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>());
 			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
 			IsServerContext = Procedure.ContextType == ContextType.Server;
@@ -26,27 +26,27 @@ namespace AutomationModule.ViewModels
 		{
 			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList: false);
 			ConfirmationValueArgument.Update(Procedure, ExplicitType.Boolean, isList: false);
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.LayoutFilter);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageStep.LayoutFilter);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}
 
 		public bool IsModalWindow
 		{
-			get { return ShowMessageArguments.IsModalWindow; }
+			get { return ShowMessageStep.IsModalWindow; }
 			set
 			{
-				ShowMessageArguments.IsModalWindow = value;
+				ShowMessageStep.IsModalWindow = value;
 				OnPropertyChanged(() => IsModalWindow);
 			}
 		}
 
 		public bool WithConfirmation
 		{
-			get { return ShowMessageArguments.WithConfirmation; }
+			get { return ShowMessageStep.WithConfirmation; }
 			set
 			{
-				ShowMessageArguments.WithConfirmation = value;
+				ShowMessageStep.WithConfirmation = value;
 				OnPropertyChanged(() => WithConfirmation);
 			}
 		}
@@ -64,11 +64,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ShowMessageArguments.ExplicitType;
+				return ShowMessageStep.ExplicitType;
 			}
 			set
 			{
-				ShowMessageArguments.ExplicitType = value;
+				ShowMessageStep.ExplicitType = value;
 				UpdateContent();
 				OnPropertyChanged(() => ExplicitType);
 			}
@@ -79,11 +79,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ShowMessageArguments.EnumType;
+				return ShowMessageStep.EnumType;
 			}
 			set
 			{
-				ShowMessageArguments.EnumType = value;
+				ShowMessageStep.EnumType = value;
 				UpdateContent();
 				OnPropertyChanged(() => EnumType);
 			}
@@ -91,10 +91,10 @@ namespace AutomationModule.ViewModels
 
 		public bool ForAllClients
 		{
-			get { return ShowMessageArguments.ForAllClients; }
+			get { return ShowMessageStep.ForAllClients; }
 			set
 			{
-				ShowMessageArguments.ForAllClients = value;
+				ShowMessageStep.ForAllClients = value;
 				OnPropertyChanged(() => ForAllClients);
 			}
 		}

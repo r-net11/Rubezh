@@ -67,6 +67,7 @@
     <Compile Include="Administrator\GKSKDHelper.cs" />
     <Compile Include="Administrator\GKAutoSearchHelper.cs" />
     <Compile Include="DescriptorsDatabase\DatabaseType.cs" />
+    <Compile Include="DescriptorsDatabase\DescriptorHelper.cs" />
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorCrossing.cs" />

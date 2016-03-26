@@ -1,21 +1,22 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
-using Infrastructure.Automation;
+using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlDelayStepViewModel: BaseStepViewModel
+	public class ControlDelayStepViewModel : BaseStepViewModel
 	{
-		ControlDelayArguments ControlDelayArguments { get; set; }
+		ControlDelayStep ControlDelayStep { get; set; }
 		public ArgumentViewModel DelayArgument { get; private set; }
 
-		public ControlDelayStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ControlDelayStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			ControlDelayArguments = stepViewModel.Step.ControlDelayArguments;
+			ControlDelayStep = (ControlDelayStep)stepViewModel.Step;
 			Commands = AutomationHelper.GetEnumObs<DelayCommandType>();
-			DelayArgument = new ArgumentViewModel(ControlDelayArguments.DelayArgument, stepViewModel.Update, null);
-			SelectedCommand = ControlDelayArguments.DelayCommandType;
+			DelayArgument = new ArgumentViewModel(ControlDelayStep.DelayArgument, stepViewModel.Update, null);
+			SelectedCommand = ControlDelayStep.DelayCommandType;
 		}
 
 		public ObservableCollection<DelayCommandType> Commands { get; private set; }
@@ -27,8 +28,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedCommand = value;
-				ControlDelayArguments.DelayCommandType = value;
-				OnPropertyChanged(()=>SelectedCommand);
+				ControlDelayStep.DelayCommandType = value;
+				OnPropertyChanged(() => SelectedCommand);
 			}
 		}
 

@@ -265,8 +265,7 @@ namespace AutomationModule.ViewModels
 			{
 				if (stepTypeSelectationViewModel.SelectedStepType != null && !stepTypeSelectationViewModel.SelectedStepType.IsFolder)
 				{
-					var procedureStep = new ProcedureStep();
-					procedureStep.ProcedureStepType = stepTypeSelectationViewModel.SelectedStepType.ProcedureStepType;
+					var procedureStep = ProcedureStep.CreateStep(stepTypeSelectationViewModel.SelectedStepType.ProcedureStepType);
 					var stepViewModel = new StepViewModel(procedureStep, Procedure);
 					if (procedureStep.ProcedureStepType == ProcedureStepType.For || procedureStep.ProcedureStepType == ProcedureStepType.While)
 					{
@@ -316,19 +315,16 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddIfCommand { get; private set; }
 		void OnAddIf()
 		{
-			var procedureStep = new ProcedureStep();
-			procedureStep.ProcedureStepType = ProcedureStepType.If;
+			var procedureStep = ProcedureStep.CreateStep<IfStep>();
 			var stepViewModel = new StepViewModel(procedureStep, Procedure);
 			stepViewModel.IsExpanded = true;
 
-			var procedureStepIfYes = new ProcedureStep();
-			procedureStepIfYes.ProcedureStepType = ProcedureStepType.IfYes;
+			var procedureStepIfYes = ProcedureStep.CreateStep<IfYesStep>();
 			procedureStep.Children.Add(procedureStepIfYes);
 			var stepIfYesViewModel = new StepViewModel(procedureStepIfYes, Procedure);
 			stepViewModel.AddChild(stepIfYesViewModel);
 
-			var procedureStepIfNo = new ProcedureStep();
-			procedureStepIfNo.ProcedureStepType = ProcedureStepType.IfNo;
+			var procedureStepIfNo = ProcedureStep.CreateStep<IfNoStep>();
 			procedureStep.Children.Add(procedureStepIfNo);
 			var stepIfNoViewModel = new StepViewModel(procedureStepIfNo, Procedure);
 			stepViewModel.AddChild(stepIfNoViewModel);
@@ -340,8 +336,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddForeachCommand { get; private set; }
 		void OnAddForeach()
 		{
-			var procedureStep = new ProcedureStep();
-			procedureStep.ProcedureStepType = ProcedureStepType.Foreach;
+			var procedureStep = ProcedureStep.CreateStep<ForeachStep>();
 			var stepViewModel = new StepViewModel(procedureStep, Procedure);
 			stepViewModel.IsExpanded = true;
 			AddСycleBody(stepViewModel);
@@ -351,8 +346,7 @@ namespace AutomationModule.ViewModels
 
 		void AddСycleBody(StepViewModel stepViewModel)
 		{
-			var procedureStepForeachBody = new ProcedureStep();
-			procedureStepForeachBody.ProcedureStepType = ProcedureStepType.ForeachBody;
+			var procedureStepForeachBody = ProcedureStep.CreateStep<ForeachBodyStep>();
 			stepViewModel.Step.Children.Add(procedureStepForeachBody);
 			var stepForeachBodyViewModel = new StepViewModel(procedureStepForeachBody, Procedure);
 			stepViewModel.AddChild(stepForeachBodyViewModel);
@@ -529,7 +523,6 @@ namespace AutomationModule.ViewModels
 			if (SelectedStep == null)
 				return false;
 			var nextStep = new ProcedureStep();
-			nextStep.ProcedureStepType = ProcedureStepType.Pause;
 			if (SelectedStep.Parent == null)
 			{
 				if (RootSteps.Count <= SelectedStep.Index + 1)

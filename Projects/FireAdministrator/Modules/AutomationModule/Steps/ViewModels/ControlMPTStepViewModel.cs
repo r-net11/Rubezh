@@ -1,22 +1,22 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
-using Infrastructure.Automation;
+using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlMPTStepViewModel : BaseStepViewModel
 	{
-		ControlMPTArguments ControlMPTArguments { get; set; }
+		ControlMPTStep ControlMPTStep { get; set; }
 		public ArgumentViewModel MPTArgument { get; private set; }
 
 		public ControlMPTStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ControlMPTArguments = stepViewModel.Step.ControlMPTArguments;
+			ControlMPTStep = (ControlMPTStep)stepViewModel.Step;
 			Commands = AutomationHelper.GetEnumObs<MPTCommandType>();
-			MPTArgument = new ArgumentViewModel(ControlMPTArguments.MPTArgument, stepViewModel.Update, null);
-			SelectedCommand = ControlMPTArguments.MPTCommandType;
+			MPTArgument = new ArgumentViewModel(ControlMPTStep.MPTArgument, stepViewModel.Update, null);
+			SelectedCommand = ControlMPTStep.MPTCommandType;
 		}
 
 		public ObservableCollection<MPTCommandType> Commands { get; private set; }
@@ -27,7 +27,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedCommand = value;
-				ControlMPTArguments.MPTCommandType = value;
+				ControlMPTStep.MPTCommandType = value;
 				OnPropertyChanged(() => SelectedCommand);
 			}
 		}

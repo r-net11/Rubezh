@@ -1,31 +1,32 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.Automation;
+﻿using RubezhAPI.Automation;
 using RubezhClient;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
 	public class ProcedureSelectionStepViewModel : BaseStepViewModel
 	{
-		ProcedureSelectionArguments ProcedureSelectionArguments { get; set; }
+		ProcedureSelectionStep ProcedureSelectionStep { get; set; }
 
-		public ProcedureSelectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ProcedureSelectionStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			ProcedureSelectionArguments = stepViewModel.Step.ProcedureSelectionArguments;
+			ProcedureSelectionStep = (ProcedureSelectionStep)stepViewModel.Step;
 		}
 
 		public override void UpdateContent()
-		{			
+		{
 			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
 			foreach (var procedure in ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.Uid != Procedure.Uid))
 			{
 				var scheduleProcedure = new ScheduleProcedure { ProcedureUid = procedure.Uid };
-				if (procedure.Uid == ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid)
-					scheduleProcedure = ProcedureSelectionArguments.ScheduleProcedure;
+				if (procedure.Uid == ProcedureSelectionStep.ScheduleProcedure.ProcedureUid)
+					scheduleProcedure = ProcedureSelectionStep.ScheduleProcedure;
 				ScheduleProcedures.Add(new ScheduleProcedureViewModel(scheduleProcedure, Procedure));
 			}
-			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault(x => x.ScheduleProcedure.ProcedureUid == ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
-			OnPropertyChanged(() => ScheduleProcedures);			
+			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault(x => x.ScheduleProcedure.ProcedureUid == ProcedureSelectionStep.ScheduleProcedure.ProcedureUid);
+			OnPropertyChanged(() => ScheduleProcedures);
 		}
 
 		public ObservableCollection<ScheduleProcedureViewModel> ScheduleProcedures { get; private set; }
@@ -37,7 +38,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedScheduleProcedure = value;
 				if (value != null)
-					ProcedureSelectionArguments.ScheduleProcedure = value.ScheduleProcedure;
+					ProcedureSelectionStep.ScheduleProcedure = value.ScheduleProcedure;
 				if (UpdateDescriptionHandler != null)
 					UpdateDescriptionHandler();
 				OnPropertyChanged(() => SelectedScheduleProcedure);
@@ -46,9 +47,9 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get 
+			get
 			{
-				return "Процедура: " + (SelectedScheduleProcedure != null ? SelectedScheduleProcedure.Name : "<пусто>"); 
+				return "Процедура: " + (SelectedScheduleProcedure != null ? SelectedScheduleProcedure.Name : "<пусто>");
 			}
 		}
 	}

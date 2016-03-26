@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 			Initialize();
 
 			ServiceFactory.Events.GetEvent<DeleteOpcDaTagFilterEvent>().Subscribe(FilterWasDeleted);
-
 		}
 
 		void Initialize()
@@ -78,8 +77,22 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			foreach (var filter in Filters.Where(x => !ClientManager.SystemConfiguration.JournalFilters.Any(y => y.UID == x.Filter.UID)).ToList())
+			foreach (var filter in Filters
+				.Where(x => !ClientManager.SystemConfiguration.JournalFilters.Any(y => y.UID == x.Filter.UID)).ToList())
 				Filters.Remove(filter);
+
+			OpcTagFilters.Clear();
+
+			foreach (var opcFilter in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters)
+			{
+				if (Procedure.OpcDaTagFiltersUids.Contains(opcFilter.UID))
+				{
+					var opcFilterViewModel = new OpcTagFilterViewModel(opcFilter);
+					OpcTagFilters.Add(opcFilterViewModel);
+				}
+			}
+
+			SelectedOpcDaTagFilter = OpcTagFilters.FirstOrDefault();
 		}
 
 		public void FilterWasDeleted(Guid filterUID)

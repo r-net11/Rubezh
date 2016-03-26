@@ -4,6 +4,9 @@ namespace RubezhAPI.Automation
 {
 	public enum ProcedureStepType
 	{
+		[DescriptionAttribute("Пусто")]
+		Null,
+
 		[DescriptionAttribute("Условие")]
 		If,
 

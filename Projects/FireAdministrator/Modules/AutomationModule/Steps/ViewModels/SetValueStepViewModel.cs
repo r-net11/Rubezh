@@ -7,30 +7,30 @@ namespace AutomationModule.ViewModels
 {
 	public class SetValueStepViewModel : BaseStepViewModel
 	{
-		SetValueArguments SetValueArguments { get; set; }
+		SetValueStep SetValueStep { get; set; }
 		public ArgumentViewModel SourceArgument { get; private set; }
 		public ArgumentViewModel TargetArgument { get; private set; }
 
 		public SetValueStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			SetValueArguments = stepViewModel.Step.SetValueArguments;
-			SourceArgument = new ArgumentViewModel(SetValueArguments.SourceArgument, stepViewModel.Update, UpdateContent);
-			TargetArgument = new ArgumentViewModel(SetValueArguments.TargetArgument, stepViewModel.Update, UpdateContent, false);
+			SetValueStep = (SetValueStep)stepViewModel.Step;
+			SourceArgument = new ArgumentViewModel(SetValueStep.SourceArgument, stepViewModel.Update, UpdateContent);
+			TargetArgument = new ArgumentViewModel(SetValueStep.TargetArgument, stepViewModel.Update, UpdateContent, false);
 			ExplicitTypes = AutomationHelper.GetEnumObs<ExplicitType>();
 			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
 			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
-			SelectedExplicitType = SetValueArguments.ExplicitType;
+			SelectedExplicitType = SetValueStep.ExplicitType;
 		}
 
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
 
 		public ExplicitType SelectedExplicitType
 		{
-			get { return SetValueArguments.ExplicitType; }
+			get { return SetValueStep.ExplicitType; }
 			set
 			{
-				SetValueArguments.ExplicitType = value;
+				SetValueStep.ExplicitType = value;
 				OnPropertyChanged(() => SelectedExplicitType);
 				UpdateContent();
 			}
@@ -42,11 +42,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return SetValueArguments.EnumType;
+				return SetValueStep.EnumType;
 			}
 			set
 			{
-				SetValueArguments.EnumType = value;
+				SetValueStep.EnumType = value;
 				UpdateContent();
 				OnPropertyChanged(() => SelectedEnumType);
 			}
@@ -58,11 +58,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return SetValueArguments.ObjectType;
+				return SetValueStep.ObjectType;
 			}
 			set
 			{
-				SetValueArguments.ObjectType = value;
+				SetValueStep.ObjectType = value;
 				UpdateContent();
 				OnPropertyChanged(() => SelectedObjectType);
 			}

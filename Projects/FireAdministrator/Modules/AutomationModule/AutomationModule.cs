@@ -102,7 +102,7 @@ namespace AutomationModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml");
-			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaTegFilters/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaTagFilters/DataTemplates/Dictionary.xaml");
 		}
 
 		public IEnumerable<IValidationError> Validate()

@@ -1,33 +1,34 @@
-﻿using RubezhAPI.Automation;
-using System.Collections.ObjectModel;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
-using Infrastructure.Automation;
+using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class PauseStepViewModel : BaseStepViewModel
 	{
-		public PauseArguments PauseArguments { get; private set; }
+		public PauseStep PauseStep { get; private set; }
 		public ArgumentViewModel PauseArgument { get; set; }
 
-		public PauseStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public PauseStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			PauseArguments = stepViewModel.Step.PauseArguments;
+			PauseStep = (PauseStep)stepViewModel.Step;
 			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
-			PauseArgument = new ArgumentViewModel(PauseArguments.PauseArgument, stepViewModel.Update, null);
+			PauseArgument = new ArgumentViewModel(PauseStep.PauseArgument, stepViewModel.Update, null);
 			PauseArgument.ExplicitValue.MinIntValue = 0;
 		}
 
 		public override void UpdateContent()
 		{
-			PauseArgument.Update(Procedure, ExplicitType.Integer, isList:false);
+			PauseArgument.Update(Procedure, ExplicitType.Integer, isList: false);
 		}
 
 		public override string Description
 		{
-			get 
+			get
 			{
-				return "Значение: " + PauseArgument.Description + " " + SelectedTimeType.ToDescription(); 
+				return "Значение: " + PauseArgument.Description + " " + SelectedTimeType.ToDescription();
 			}
 		}
 
@@ -35,10 +36,10 @@ namespace AutomationModule.ViewModels
 
 		public TimeType SelectedTimeType
 		{
-			get { return PauseArguments.TimeType; }
+			get { return PauseStep.TimeType; }
 			set
 			{
-				PauseArguments.TimeType = value;
+				PauseStep.TimeType = value;
 				OnPropertyChanged(() => SelectedTimeType);
 			}
 		}

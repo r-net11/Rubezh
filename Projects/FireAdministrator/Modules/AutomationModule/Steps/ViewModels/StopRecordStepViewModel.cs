@@ -1,20 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
-using RubezhAPI;
+﻿using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
 	public class StopRecordStepViewModel : BaseStepViewModel
 	{
-		StopRecordArguments StopRecordArguments { get; set; }
+		StopRecordStep StopRecordStep { get; set; }
 		public ArgumentViewModel CameraArgument { get; private set; }
 		public ArgumentViewModel EventUIDArgument { get; set; }
 
-		public StopRecordStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public StopRecordStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			StopRecordArguments = stepViewModel.Step.StopRecordArguments;
-			EventUIDArgument = new ArgumentViewModel(StopRecordArguments.EventUIDArgument, stepViewModel.Update, UpdateContent);
-			CameraArgument = new ArgumentViewModel(StopRecordArguments.CameraArgument, stepViewModel.Update, null);
+			StopRecordStep = (StopRecordStep)stepViewModel.Step;
+			EventUIDArgument = new ArgumentViewModel(StopRecordStep.EventUIDArgument, stepViewModel.Update, UpdateContent);
+			CameraArgument = new ArgumentViewModel(StopRecordStep.CameraArgument, stepViewModel.Update, null);
 		}
 
 

@@ -48,8 +48,8 @@ namespace GKProcessor
 				{
 					No = 1,
 					Name = "OnDuration",
-					Caption = "Продолжительность горения для режима 2, мс",
-					ToolTip = "Продолжительность горения для режима 2, мс",
+					Caption = "Продолжительность горения для режима Мерцает, мс",
+					ToolTip = "Продолжительность горения для режима Мерцает, мс",
 					Default = 0,
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true,
@@ -63,8 +63,8 @@ namespace GKProcessor
 				{
 					No = 2,
 					Name = "OffDuration",
-					Caption = "Продолжительность гашения для режима 2, мс",
-					ToolTip = "Продолжительность гашения для режима 2, мс",
+					Caption = "Продолжительность гашения для режима Мерцает, мс",
+					ToolTip = "Продолжительность гашения для режима Мерцает, мс",
 					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					Default = 0,
 					IsAUParameter = true,

@@ -11,10 +11,10 @@ namespace GKModule.ViewModels
     [SaveSizeAttribute]
 	public class SKDZoneSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public SKDZoneSelectationViewModel(GKSKDZone zone, Guid uid)
+		public SKDZoneSelectationViewModel(GKSKDZone zone)
 		{
 			Title = "Выбор зоны";
-			Zones = new ObservableCollection<GKSKDZone>(GKManager.SKDZones.Where(x=> x.UID!= uid));
+			Zones = new ObservableCollection<GKSKDZone>(GKManager.SKDZones);
 			if (zone != null)
 				SelectedZone = Zones.FirstOrDefault(x => x.UID == zone.UID);
 		}

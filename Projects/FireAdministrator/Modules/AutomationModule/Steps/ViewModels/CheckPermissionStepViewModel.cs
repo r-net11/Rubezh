@@ -4,15 +4,16 @@ namespace AutomationModule.ViewModels
 {
 	public class CheckPermissionStepViewModel : BaseStepViewModel
 	{
-		CheckPermissionArguments CheckPermissionArguments { get; set; }
+		CheckPermissionStep CheckPermissionStep { get; set; }
 		public ArgumentViewModel PermissionArgument { get; private set; }
 		public ArgumentViewModel ResultArgument { get; private set; }
 
-		public CheckPermissionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public CheckPermissionStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			CheckPermissionArguments = stepViewModel.Step.CheckPermissionArguments;
-			PermissionArgument = new ArgumentViewModel(CheckPermissionArguments.PermissionArgument, stepViewModel.Update, UpdateContent);
-			ResultArgument = new ArgumentViewModel(CheckPermissionArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
+			CheckPermissionStep = (CheckPermissionStep)stepViewModel.Step;
+			PermissionArgument = new ArgumentViewModel(CheckPermissionStep.PermissionArgument, stepViewModel.Update, UpdateContent);
+			ResultArgument = new ArgumentViewModel(CheckPermissionStep.ResultArgument, stepViewModel.Update, UpdateContent, false);
 		}
 
 		public override void UpdateContent()

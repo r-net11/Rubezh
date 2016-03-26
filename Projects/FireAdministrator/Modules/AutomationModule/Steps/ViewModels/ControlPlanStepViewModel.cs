@@ -15,16 +15,16 @@ namespace AutomationModule.ViewModels
 	public class ControlPlanStepViewModel : BaseStepViewModel
 	{
 		public ArgumentViewModel ValueArgument { get; private set; }
-		ControlPlanArguments ControlPlanArguments { get; set; }
+		ControlPlanStep ControlPlanStep { get; set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 		public ControlElementType ControlElementType { get; private set; }
 
 		public ControlPlanStepViewModel(StepViewModel stepViewModel, ControlElementType controlElementType)
 			: base(stepViewModel)
 		{
-			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
+			ControlPlanStep = (ControlPlanStep)stepViewModel.Step;
 			ControlElementType = controlElementType;
-			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent, controlElementType == ControlElementType.Set);
+			ValueArgument = new ArgumentViewModel(ControlPlanStep.ValueArgument, stepViewModel.Update, UpdateContent, controlElementType == ControlElementType.Set);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 			ElementPropertyTypes = new ObservableCollection<ElementPropertyType>();
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
@@ -59,9 +59,9 @@ namespace AutomationModule.ViewModels
 				_selectedPlan = value;
 				if (_selectedPlan != null)
 				{
-					ControlPlanArguments.PlanUid = _selectedPlan.Plan.UID;
+					ControlPlanStep.PlanUid = _selectedPlan.Plan.UID;
 					Elements = ProcedureHelper.GetAllElements(_selectedPlan.Plan);
-					SelectedElement = Elements.FirstOrDefault(x => x.Uid == ControlPlanArguments.ElementUid);
+					SelectedElement = Elements.FirstOrDefault(x => x.Uid == ControlPlanStep.ElementUid);
 					OnPropertyChanged(() => Elements);
 				}
 				OnPropertyChanged(() => SelectedPlan);
@@ -78,9 +78,9 @@ namespace AutomationModule.ViewModels
 				_selectedElement = value;
 				if (_selectedElement != null)
 				{
-					ControlPlanArguments.ElementUid = _selectedElement.Uid;
+					ControlPlanStep.ElementUid = _selectedElement.Uid;
 					ElementPropertyTypes = GetElemetProperties(_selectedElement);
-					SelectedElementPropertyType = ElementPropertyTypes.FirstOrDefault(x => x == ControlPlanArguments.ElementPropertyType);
+					SelectedElementPropertyType = ElementPropertyTypes.FirstOrDefault(x => x == ControlPlanStep.ElementPropertyType);
 					OnPropertyChanged(() => ElementPropertyTypes);
 				}
 				OnPropertyChanged(() => SelectedElement);
@@ -95,7 +95,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedElementPropertyType = value;
-				ControlPlanArguments.ElementPropertyType = _selectedElementPropertyType;
+				ControlPlanStep.ElementPropertyType = _selectedElementPropertyType;
 				var explicitTypeViewModel = PropertyTypeToExplicitType(SelectedElementPropertyType);
 				ValueArgument.Update(Procedure, explicitTypeViewModel.ExplicitType, explicitTypeViewModel.EnumType, isList: false);
 				OnPropertyChanged(() => SelectedElementPropertyType);
@@ -104,10 +104,10 @@ namespace AutomationModule.ViewModels
 
 		public bool ForAllClients
 		{
-			get { return ControlPlanArguments.ForAllClients; }
+			get { return ControlPlanStep.ForAllClients; }
 			set
 			{
-				ControlPlanArguments.ForAllClients = value;
+				ControlPlanStep.ForAllClients = value;
 				OnPropertyChanged(() => ForAllClients);
 			}
 		}
@@ -204,10 +204,10 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			Plans = new ObservableCollection<PlanViewModel>(ClientManager.PlansConfiguration.AllPlans.Select(x => new PlanViewModel(x)));
-			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == ControlPlanArguments.PlanUid);
+			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == ControlPlanStep.PlanUid);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 			OnPropertyChanged(() => Plans);
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ControlPlanArguments.LayoutFilter);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ControlPlanStep.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}
 

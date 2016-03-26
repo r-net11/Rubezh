@@ -150,12 +150,12 @@
     <Compile Include="OpcDaClient\Views\OpcDaClientView.xaml.cs">
       <DependentUpon>OpcDaClientView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpcDaTegFilters\ViewModels\OpcDaTagFiltersViewModel.cs" />
-    <Compile Include="OpcDaTegFilters\ViewModels\OpcDaTagFiltersMenuViewModel.cs" />
-    <Compile Include="OpcDaTegFilters\Views\OpcDaTagFiltersMenuView.xaml.cs">
+    <Compile Include="OpcDaTagFilters\ViewModels\OpcDaTagFiltersViewModel.cs" />
+    <Compile Include="OpcDaTagFilters\ViewModels\OpcDaTagFiltersMenuViewModel.cs" />
+    <Compile Include="OpcDaTagFilters\Views\OpcDaTagFiltersMenuView.xaml.cs">
       <DependentUpon>OpcDaTagFiltersMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpcDaTegFilters\Views\OpcDaTagFiltersView.xaml.cs">
+    <Compile Include="OpcDaTagFilters\Views\OpcDaTagFiltersView.xaml.cs">
       <DependentUpon>OpcDaTagFiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OPCServers\ViewModels\Client.cs" />
@@ -192,18 +192,18 @@
     <Compile Include="Procedures\ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Procedures\ViewModels\OpcDaTagFileterSectionViewModel.cs" />
-    <Compile Include="OpcDaTegFilters\ViewModels\OpcDaTagFilterCreationViewModel.cs" />
-    <Compile Include="OpcDaTegFilters\ViewModels\OpcDaTagFilterEditingViewModel.cs" />
+    <Compile Include="OpcDaTagFilters\ViewModels\OpcDaTagFilterCreationViewModel.cs" />
+    <Compile Include="OpcDaTagFilters\ViewModels\OpcDaTagFilterEditingViewModel.cs" />
     <Compile Include="Procedures\ViewModels\OpcTagFilterViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ElementViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureLayoutsSelectionViewModel.cs" />
-    <Compile Include="OpcDaTegFilters\Views\OpcDaTagFilterCreationView.xaml.cs">
+    <Compile Include="OpcDaTagFilters\Views\OpcDaTagFilterCreationView.xaml.cs">
       <DependentUpon>OpcDaTagFilterCreationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpcDaTegFilters\Views\OpcDaTagFilterEditingView.xaml.cs">
+    <Compile Include="OpcDaTagFilters\Views\OpcDaTagFilterEditingView.xaml.cs">
       <DependentUpon>OpcDaTagFilterEditingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\OpcDaTagFilterSectionView.xaml.cs">
@@ -662,15 +662,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OpcDaTegFilters\DataTemplates\Dictionary.xaml">
+    <Page Include="OpcDaTagFilters\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OpcDaTegFilters\Views\OpcDaTagFiltersMenuView.xaml">
+    <Page Include="OpcDaTagFilters\Views\OpcDaTagFiltersMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OpcDaTegFilters\Views\OpcDaTagFiltersView.xaml">
+    <Page Include="OpcDaTagFilters\Views\OpcDaTagFiltersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -710,11 +710,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OpcDaTegFilters\Views\OpcDaTagFilterCreationView.xaml">
+    <Page Include="OpcDaTagFilters\Views\OpcDaTagFilterCreationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OpcDaTegFilters\Views\OpcDaTagFilterEditingView.xaml">
+    <Page Include="OpcDaTagFilters\Views\OpcDaTagFilterEditingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
