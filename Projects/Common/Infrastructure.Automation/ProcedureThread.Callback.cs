@@ -13,25 +13,25 @@ namespace Infrastructure.Automation
 		private AutoResetEvent _waitHandler;
 		private object _callbackResponse;
 
-		private object SendCallback(UIArguments arguments, AutomationCallbackResult callback, bool withResponse = false)
+		private object SendCallback(UIStep uiStep, AutomationCallbackResult callback, bool withResponse = false)
 		{
 			callback.CallbackUID = Guid.NewGuid();
 			callback.ContextType = this.ContextType;
 			if (callback.Data is UIAutomationCallbackData)
-				(callback.Data as UIAutomationCallbackData).LayoutFilter = GetLayoutFilter(arguments);
+				(callback.Data as UIAutomationCallbackData).LayoutFilter = GetLayoutFilter(uiStep);
 			_callbackResponse = null;
 			if (withResponse)
 			{
 				using (_waitHandler = new AutoResetEvent(false))
 				{
 					_proceduresThreads.GetOrAdd(callback.CallbackUID, this);
-					ProcedureExecutionContext.SendCallback(callback, GetClientUID(arguments));
+					ProcedureExecutionContext.SendCallback(callback, GetClientUID(uiStep));
 					if (!_waitHandler.WaitOne(TimeSpan.FromMinutes(1)))
 						CallbackResponse(callback.CallbackUID, null);
 				}
 			}
 			else
-				ProcedureExecutionContext.SendCallback(callback, GetClientUID(arguments));
+				ProcedureExecutionContext.SendCallback(callback, GetClientUID(uiStep));
 			return _callbackResponse;
 		}
 
@@ -47,13 +47,13 @@ namespace Infrastructure.Automation
 			_waitHandler.Set();
 		}
 
-		private Guid? GetClientUID(UIArguments arguments)
+		private Guid? GetClientUID(UIStep uiStep)
 		{
-			return arguments == null || arguments.ForAllClients ? null : (Guid?)ClientUID;
+			return uiStep == null || uiStep.ForAllClients ? null : (Guid?)ClientUID;
 		}
-		private List<Guid> GetLayoutFilter(UIArguments arguments)
+		private List<Guid> GetLayoutFilter(UIStep uiStep)
 		{
-			return arguments == null || arguments.LayoutFilter == null || arguments.LayoutFilter.Count == 0 ? null : arguments.LayoutFilter;
+			return uiStep == null || uiStep.LayoutFilter == null || uiStep.LayoutFilter.Count == 0 ? null : uiStep.LayoutFilter;
 		}
 	}
 }

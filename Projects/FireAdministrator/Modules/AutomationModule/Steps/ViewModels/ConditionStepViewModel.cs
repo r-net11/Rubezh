@@ -12,22 +12,22 @@ namespace AutomationModule.ViewModels
 {
 	public class ConditionStepViewModel : BaseStepViewModel
 	{
-		public ConditionArguments ConditionArguments { get; private set; }
+		public ConditionStep ConditionStep { get; private set; }
 		public ObservableCollection<ConditionViewModel> Conditions { get; private set; }
 
 		public ConditionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			ConditionArguments = stepViewModel.Step.ConditionArguments;
+			ConditionStep = (ConditionStep)stepViewModel.Step;
 			Conditions = new ObservableCollection<ConditionViewModel>();
-			ConditionArguments.Conditions.ForEach(condition => Conditions.Add(new ConditionViewModel(condition, Procedure, stepViewModel.Update, UpdateContent)));
+			ConditionStep.Conditions.ForEach(condition => Conditions.Add(new ConditionViewModel(condition, Procedure, stepViewModel.Update, UpdateContent)));
 			if (Conditions.Count == 0)
 			{
 				var condition = new Condition();
-				ConditionArguments.Conditions.Add(condition);
+				ConditionStep.Conditions.Add(condition);
 				var conditionViewModel = new ConditionViewModel(condition, Procedure, stepViewModel.Update, UpdateContent);
 				Conditions.Add(conditionViewModel);
 			}
-			JoinOperator = ConditionArguments.JoinOperator;
+			JoinOperator = ConditionStep.JoinOperator;
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ConditionViewModel>(OnRemove, CanRemove);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
@@ -41,10 +41,10 @@ namespace AutomationModule.ViewModels
 
 		public JoinOperator JoinOperator
 		{
-			get { return ConditionArguments.JoinOperator; }
+			get { return ConditionStep.JoinOperator; }
 			set
 			{
-				ConditionArguments.JoinOperator = value;
+				ConditionStep.JoinOperator = value;
 				OnPropertyChanged(()=>JoinOperator);
 			}
 		}
@@ -54,7 +54,7 @@ namespace AutomationModule.ViewModels
 		{
 			var condition = new Condition();
 			var conditionViewModel = new ConditionViewModel(condition, Procedure, UpdateDescriptionHandler, UpdateContent);
-			ConditionArguments.Conditions.Add(condition);
+			ConditionStep.Conditions.Add(condition);
 			Conditions.Add(conditionViewModel);
 			UpdateContent();
 		}
@@ -63,7 +63,7 @@ namespace AutomationModule.ViewModels
 		void OnRemove(ConditionViewModel conditionViewModel)
 		{
 			Conditions.Remove(conditionViewModel);
-			ConditionArguments.Conditions.Remove(conditionViewModel.Condition);
+			ConditionStep.Conditions.Remove(conditionViewModel.Condition);
 			UpdateContent();
 		}
 

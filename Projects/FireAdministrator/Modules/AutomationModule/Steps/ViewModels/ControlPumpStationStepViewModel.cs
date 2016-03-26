@@ -1,22 +1,22 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
-using Infrastructure.Automation;
+using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlPumpStationStepViewModel : BaseStepViewModel
 	{
-		ControlPumpStationArguments ControlPumpStationArguments { get; set; }
+		ControlPumpStationStep ControlPumpStationStep { get; set; }
 		public ArgumentViewModel PumpStationArgument { get; private set; }
 
 		public ControlPumpStationStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ControlPumpStationArguments = stepViewModel.Step.ControlPumpStationArguments;
+			ControlPumpStationStep = (ControlPumpStationStep)stepViewModel.Step;
 			Commands = AutomationHelper.GetEnumObs<PumpStationCommandType>();
-			PumpStationArgument = new ArgumentViewModel(ControlPumpStationArguments.PumpStationArgument, stepViewModel.Update, null);
-			SelectedCommand = ControlPumpStationArguments.PumpStationCommandType;
+			PumpStationArgument = new ArgumentViewModel(ControlPumpStationStep.PumpStationArgument, stepViewModel.Update, null);
+			SelectedCommand = ControlPumpStationStep.PumpStationCommandType;
 		}
 
 		public ObservableCollection<PumpStationCommandType> Commands { get; private set; }
@@ -27,7 +27,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedCommand = value;
-				ControlPumpStationArguments.PumpStationCommandType = value;
+				ControlPumpStationStep.PumpStationCommandType = value;
 				OnPropertyChanged(() => SelectedCommand);
 			}
 		}

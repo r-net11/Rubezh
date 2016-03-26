@@ -4,25 +4,25 @@ namespace AutomationModule.ViewModels
 {
 	public class CloseDialogStepViewModel : BaseStepViewModel
 	{
-		public CloseDialogArguments CloseDialogArguments { get; private set; }
+		public CloseDialogStep CloseDialogStep { get; private set; }
 		public ArgumentViewModel WindowUIDArgument { get; private set; }
 
 		public CloseDialogStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			CloseDialogArguments = stepViewModel.Step.CloseDialogArguments;
+			CloseDialogStep = (CloseDialogStep)stepViewModel.Step;
 			IsServerContext = Procedure.ContextType == ContextType.Server;
-			WindowUIDArgument = new ArgumentViewModel(CloseDialogArguments.WindowIDArgument, stepViewModel.Update, UpdateContent);
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(CloseDialogArguments.LayoutFilter);
+			WindowUIDArgument = new ArgumentViewModel(CloseDialogStep.WindowIDArgument, stepViewModel.Update, UpdateContent);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(CloseDialogStep.LayoutFilter);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 
 		public bool ForAllClients
 		{
-			get { return CloseDialogArguments.ForAllClients; }
+			get { return CloseDialogStep.ForAllClients; }
 			set
 			{
-				CloseDialogArguments.ForAllClients = value;
+				CloseDialogStep.ForAllClients = value;
 				OnPropertyChanged(() => ForAllClients);
 			}
 		}

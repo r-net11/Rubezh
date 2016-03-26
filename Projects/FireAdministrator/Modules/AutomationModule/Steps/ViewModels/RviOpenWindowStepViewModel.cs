@@ -1,11 +1,10 @@
 ﻿using RubezhAPI.Automation;
-using RubezhAPI.StepArguments;
 
 namespace AutomationModule.ViewModels
 {
 	class RviOpenWindowStepViewModel : BaseStepViewModel
 	{
-		public RviOpenWindowArguments RviOpenWindowArguments { get; private set; }
+		public RviOpenWindowStep RviOpenWindowStep { get; private set; }
 		public ArgumentViewModel NameArgument { get; set; }
 		public ArgumentViewModel XArgument { get; set; }
 		public ArgumentViewModel YArgument { get; set; }
@@ -15,19 +14,19 @@ namespace AutomationModule.ViewModels
 		public RviOpenWindowStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			RviOpenWindowArguments = stepViewModel.Step.RviOpenWindowArguments;
-			NameArgument = new ArgumentViewModel(RviOpenWindowArguments.NameArgument, stepViewModel.Update, null);
-			XArgument = new ArgumentViewModel(RviOpenWindowArguments.XArgument, stepViewModel.Update, null);
+			RviOpenWindowStep = (RviOpenWindowStep)stepViewModel.Step;
+			NameArgument = new ArgumentViewModel(RviOpenWindowStep.NameArgument, stepViewModel.Update, null);
+			XArgument = new ArgumentViewModel(RviOpenWindowStep.XArgument, stepViewModel.Update, null);
 			XArgument.ExplicitValue.MinIntValue = 0;
 			XArgument.ExplicitValue.MaxIntValue = 1000;
-			YArgument = new ArgumentViewModel(RviOpenWindowArguments.YArgument, stepViewModel.Update, null);
+			YArgument = new ArgumentViewModel(RviOpenWindowStep.YArgument, stepViewModel.Update, null);
 			YArgument.ExplicitValue.MinIntValue = 0;
 			YArgument.ExplicitValue.MaxIntValue = 1000;
-			MonitorNumberArgument = new ArgumentViewModel(RviOpenWindowArguments.MonitorNumberArgument, stepViewModel.Update, null);
+			MonitorNumberArgument = new ArgumentViewModel(RviOpenWindowStep.MonitorNumberArgument, stepViewModel.Update, null);
 			MonitorNumberArgument.ExplicitValue.MinIntValue = 1;
 			MonitorNumberArgument.ExplicitValue.MaxIntValue = 4;
-			LoginArgument = new ArgumentViewModel(RviOpenWindowArguments.LoginArgument, stepViewModel.Update, null);
-			IpArgument = new ArgumentViewModel(RviOpenWindowArguments.IpArgument, stepViewModel.Update, null);
+			LoginArgument = new ArgumentViewModel(RviOpenWindowStep.LoginArgument, stepViewModel.Update, null);
+			IpArgument = new ArgumentViewModel(RviOpenWindowStep.IpArgument, stepViewModel.Update, null);
 		}
 		public override void UpdateContent()
 		{

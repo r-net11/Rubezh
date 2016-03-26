@@ -1,19 +1,20 @@
-﻿using RubezhAPI;
+﻿using Infrastructure.Automation;
+using RubezhAPI;
 using RubezhAPI.Automation;
-using Infrastructure.Automation;
 using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class GetJournalItemStepViewModel : BaseStepViewModel
 	{
-		GetJournalItemArguments GetJournalItemArguments { get; set; }
+		GetJournalItemStep GetJournalItemStep { get; set; }
 		public ArgumentViewModel ResultArgument { get; set; }
 
-		public GetJournalItemStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public GetJournalItemStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			GetJournalItemArguments = stepViewModel.Step.GetJournalItemArguments;
-			ResultArgument = new ArgumentViewModel(GetJournalItemArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
+			GetJournalItemStep = (GetJournalItemStep)stepViewModel.Step;
+			ResultArgument = new ArgumentViewModel(GetJournalItemStep.ResultArgument, stepViewModel.Update, UpdateContent, false);
 			JournalColumnTypes = AutomationHelper.GetEnumObs<JournalColumnType>();
 		}
 
@@ -37,10 +38,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<JournalColumnType> JournalColumnTypes { get; private set; }
 		public JournalColumnType SelectedJournalColumnType
 		{
-			get { return GetJournalItemArguments.JournalColumnType; }
+			get { return GetJournalItemStep.JournalColumnType; }
 			set
 			{
-				GetJournalItemArguments.JournalColumnType = value;
+				GetJournalItemStep.JournalColumnType = value;
 				OnPropertyChanged(() => SelectedJournalColumnType);
 				UpdateContent();
 			}

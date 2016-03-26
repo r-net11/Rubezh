@@ -8,24 +8,24 @@ namespace AutomationModule.ViewModels
 {
 	public class IncrementValueStepViewModel : BaseStepViewModel
 	{
-		IncrementValueArguments IncrementValueArguments { get; set; }
+		IncrementValueStep IncrementValueStep { get; set; }
 		public ArgumentViewModel ResultArgument { get; private set; }
 
 		public IncrementValueStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			IncrementValueArguments = stepViewModel.Step.IncrementValueArguments;
+			IncrementValueStep = (IncrementValueStep)stepViewModel.Step;
 			IncrementTypes = AutomationHelper.GetEnumObs<IncrementType>();
-			ResultArgument = new ArgumentViewModel(IncrementValueArguments.ResultArgument, stepViewModel.Update, null, false);
+			ResultArgument = new ArgumentViewModel(IncrementValueStep.ResultArgument, stepViewModel.Update, null, false);
 		}
 
 		public ObservableCollection<IncrementType> IncrementTypes { get; private set; }
 		public IncrementType SelectedIncrementType
 		{
-			get { return IncrementValueArguments.IncrementType; }
+			get { return IncrementValueStep.IncrementType; }
 			set
 			{
-				IncrementValueArguments.IncrementType = value;
+				IncrementValueStep.IncrementType = value;
 				OnPropertyChanged(() => SelectedIncrementType);
 			}
 		}

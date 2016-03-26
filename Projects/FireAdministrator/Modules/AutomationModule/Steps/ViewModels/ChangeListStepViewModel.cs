@@ -1,39 +1,40 @@
-﻿using RubezhAPI;
+﻿using Infrastructure.Automation;
+using RubezhAPI;
 using RubezhAPI.Automation;
-using Infrastructure.Automation;
 using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class ChangeListStepViewModel : BaseStepViewModel
 	{
-		ChangeListArguments ChangeListArguments { get; set; }
+		ChangeListStep ChangeListStep { get; set; }
 		public ArgumentViewModel ListArgument { get; private set; }
 		public ArgumentViewModel ItemArgument { get; private set; }
 
-		public ChangeListStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ChangeListStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			ChangeListArguments = stepViewModel.Step.ChangeListArguments;
-			ListArgument = new ArgumentViewModel(ChangeListArguments.ListArgument, stepViewModel.Update, UpdateContent, false);
+			ChangeListStep = (ChangeListStep)stepViewModel.Step;
+			ListArgument = new ArgumentViewModel(ChangeListStep.ListArgument, stepViewModel.Update, UpdateContent, false);
 			ListArgument.UpdateVariableHandler = UpdateItemArgument;
-			ItemArgument = new ArgumentViewModel(ChangeListArguments.ItemArgument, stepViewModel.Update, UpdateContent);
+			ItemArgument = new ArgumentViewModel(ChangeListStep.ItemArgument, stepViewModel.Update, UpdateContent);
 			ChangeTypes = AutomationHelper.GetEnumObs<ChangeType>();
 		}
 
 		public ObservableCollection<ChangeType> ChangeTypes { get; private set; }
 		public ChangeType SelectedChangeType
 		{
-			get { return ChangeListArguments.ChangeType; }
+			get { return ChangeListStep.ChangeType; }
 			set
 			{
-				ChangeListArguments.ChangeType = value;
+				ChangeListStep.ChangeType = value;
 				OnPropertyChanged(() => SelectedChangeType);
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(Procedure, isList:true);
+			ListArgument.Update(Procedure, isList: true);
 		}
 
 		void UpdateItemArgument()
@@ -45,7 +46,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Список: " + ListArgument.Description + " Элемент: " + ItemArgument.Description + " Операция: " + ChangeListArguments.ChangeType.ToDescription();
+				return "Список: " + ListArgument.Description + " Элемент: " + ItemArgument.Description + " Операция: " + ChangeListStep.ChangeType.ToDescription();
 			}
 		}
 	}
