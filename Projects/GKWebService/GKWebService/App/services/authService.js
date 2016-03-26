@@ -22,9 +22,9 @@
                     authServiceFactory.authentication.userName = loginData.userName;
                     $http.get("Home/GetCurrentUserPermissions").then(function (responsePermissions) {
                         authServiceFactory.authentication.permissions = responsePermissions.data.permissions;
+                        deferred.resolve(response);
                     });
 
-                    deferred.resolve(response);
                 } else {
                     deferred.reject(response.message);
                 }
@@ -48,13 +48,18 @@
         };
 
         authServiceFactory.fillAuthData = function () {
+            var deferred = $q.defer();
+
             $http.get("Home/TryGetCurrentUserName").then(function (response) {
                 authServiceFactory.authentication.isAuth = true;
                 authServiceFactory.authentication.userName = response.data.userName;
                 $http.get("Home/GetCurrentUserPermissions").then(function(responsePermissions) {
                     authServiceFactory.authentication.permissions = responsePermissions.data.permissions;
+                    deferred.resolve(response);
                 });
             });
+
+            return deferred.promise;
         };
 
         authServiceFactory.checkPermission = function (permission) {

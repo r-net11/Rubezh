@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -94,6 +95,47 @@ namespace GKWebService.Controllers
 				permissions.Add("Oper_NS_Control");
 			if (ClientManager.CheckPermission(PermissionType.Oper_MayNotConfirmCommands))
 				permissions.Add("Oper_MayNotConfirmCommands");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Employees_View))
+				permissions.Add("Oper_SKD_Employees_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Guests_View))
+				permissions.Add("Oper_SKD_Guests_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Positions_View))
+				permissions.Add("Oper_SKD_Positions_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Departments_View))
+				permissions.Add("Oper_SKD_Departments_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_AdditionalColumns_View))
+				permissions.Add("Oper_SKD_AdditionalColumns_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Cards_View))
+				permissions.Add("Oper_SKD_Cards_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_AccessTemplates_View))
+				permissions.Add("Oper_SKD_AccessTemplates_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_PassCards_View))
+				permissions.Add("Oper_SKD_PassCards_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Organisations_View))
+				permissions.Add("Oper_SKD_Organisations_View");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Employees_Edit))
+				permissions.Add("Oper_SKD_Employees_Edit");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Guests_Edit))
+				permissions.Add("Oper_SKD_Guests_Edit");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Departments_Etit))
+				permissions.Add("Oper_SKD_Departments_Etit");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Positions_Etit))
+				permissions.Add("Oper_SKD_Positions_Etit");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_AccessTemplates_Etit))
+				permissions.Add("Oper_SKD_AccessTemplates_Etit");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Employees_Edit_CardType))
+				permissions.Add("Oper_SKD_Employees_Edit_CardType");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Cards_Etit))
+				permissions.Add("Oper_SKD_Cards_Etit");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Organisations_Doors))
+				permissions.Add("Oper_SKD_Organisations_Doors");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Organisations_Users))
+				permissions.Add("Oper_SKD_Organisations_Users");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Organisations_AddRemove))
+				permissions.Add("Oper_SKD_Organisations_AddRemove");
+			if (ClientManager.CheckPermission(PermissionType.Oper_SKD_Organisations_Edit))
+				permissions.Add("Oper_SKD_Organisations_Edit");
+
 			return Json(new { permissions }, JsonRequestBehavior.AllowGet);
 		}
 

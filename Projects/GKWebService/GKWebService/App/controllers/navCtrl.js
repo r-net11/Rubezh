@@ -43,10 +43,7 @@
                     }
 
                     if (toState.name === 'hr') {
-                        // TODO: исправить, когда переведём картотеку на ангулар
-                        $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .hr")[0] }, 'HR');
-                    } else {
-                        $window.app.Menu.PageClick(null, { currentTarget: angular.element(".menu .undefined")[0] }, null);
+                        $scope.SKDClicked = true;
                     }
                 });
         }]
