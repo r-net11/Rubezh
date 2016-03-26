@@ -75,6 +75,13 @@ namespace FireAdministrator
 					SafeFiresecService.SKDProgressCallbackEvent -= new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
 					SafeFiresecService.SKDProgressCallbackEvent += new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
 
+					// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
+					SafeFiresecService.DisconnectClientCommandEvent += () =>
+					{
+						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
+						ApplicationService.ShutDown();
+					};
+
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
 					MutexHelper.KeepAlive();

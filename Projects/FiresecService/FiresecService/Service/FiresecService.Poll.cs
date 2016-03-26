@@ -100,5 +100,14 @@ namespace FiresecService.Service
 			};
 			CallbackManager.Add(callbackResult);
 		}
+
+		/// <summary>
+		/// Посылает команду Клиенту на закрытие соединения с Сервером
+		/// </summary>
+		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
+		public void SendDisconnectClientCommand(Guid clientUid)
+		{
+			CallbackManager.Add(new CallbackResult { CallbackResultType = CallbackResultType.DisconnectClientCommand }, clientUid);
+		}
 	}
 }

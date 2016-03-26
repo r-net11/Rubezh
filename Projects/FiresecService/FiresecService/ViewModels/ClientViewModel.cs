@@ -38,5 +38,18 @@ namespace FiresecService.ViewModels
 				OnPropertyChanged("FriendlyUserName");
 			}
 		}
+
+		private bool _isChecked;
+		public bool IsChecked
+		{
+			get { return _isChecked; }
+			set
+			{
+				if (_isChecked == value)
+					return;
+				_isChecked = value;
+				OnPropertyChanged(() => IsChecked);
+			}
+		}
 	}
 }
