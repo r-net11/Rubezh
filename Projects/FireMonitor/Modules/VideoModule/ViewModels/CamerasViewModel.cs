@@ -71,9 +71,7 @@ namespace VideoModule.ViewModels
 									}
 								}
 							}
-
 						}
-
 					}
 				}
 			}
