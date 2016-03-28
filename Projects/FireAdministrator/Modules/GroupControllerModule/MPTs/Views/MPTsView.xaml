@@ -2,7 +2,9 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:Views="clr-namespace:GKModule.Views">
+			 xmlns:Views="clr-namespace:GKModule.Views"
+             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+    
 	<UserControl.Resources>
 		<ContextMenu x:Key="MptContextMenu">
 			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
@@ -193,7 +195,7 @@
 
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Задержка, с" Width="200" Margin="2" />
-						<TextBox Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Width="200" Background="LightGray" Margin="2" />
+                        <extToolkit:IntegerUpDown Value="{Binding Delay}" Minimum="0" Maximum="65535" Margin="2" Width="160"/>						
 					</StackPanel>
 				</StackPanel>
 			</Grid>
