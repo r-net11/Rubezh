@@ -15,7 +15,6 @@ namespace Infrastructure.Common.Windows.Views
 		private void OnCloseButton(object sender, RoutedEventArgs e)
 		{
 			(((DialogHeaderViewModel)DataContext).Content).Close(false);
-			Environment.Exit(0);
 		}
 	}
 }

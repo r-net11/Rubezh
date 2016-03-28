@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
 	<Fragment>
-    <Icon Id="ServerIcon" SourceFile="Data\Server.ico"/>
+    <Icon Id="ServerIcon" SourceFile="Data\ServerLogo.ico"/>
 
 		<DirectoryRef Id="ProgramMenuDir.AdditionalFolder">
 			<Component Id="Server.ProgramsMenuShortcut" Guid="0B78E060-19EB-4811-8094-A96E3CBC6613">

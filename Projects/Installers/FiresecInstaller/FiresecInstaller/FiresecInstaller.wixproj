@@ -99,7 +99,7 @@
     <Content Include="Data\Administrator.ico" />
     <Content Include="Data\Monitor.ico" />
     <Content Include="Data\OPC.ico" />
-    <Content Include="Data\Server.ico" />
+    <Content Include="Data\ServerLogo.ico" />
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="Administrator\Variables.wxi" />
     <Content Include="Data\TitleRect.bmp" />
