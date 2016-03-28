@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("FiresecNTService")]
 [assembly: AssemblyCompany("Группа компаний 'Рубеж'")]
-[assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2015")]
+[assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2016")]
 [assembly: AssemblyTrademark("http://www.rubezh.ru/")]
 [assembly: AssemblyCulture("")]
 
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("2.1.7.1")]
+[assembly: AssemblyVersion("2.1.8.0")]
