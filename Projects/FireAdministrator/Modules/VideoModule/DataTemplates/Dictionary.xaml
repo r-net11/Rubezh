@@ -23,10 +23,6 @@
 		<Views:LayoutPartPropertyCameraPageView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PreviewViewModel}">
-		<Views:PreviewView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:RviSettingsViewModel}">
 		<Views:RviSettingsView />
 	</DataTemplate>

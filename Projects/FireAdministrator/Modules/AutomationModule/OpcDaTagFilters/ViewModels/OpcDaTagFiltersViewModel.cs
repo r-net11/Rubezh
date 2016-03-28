@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,6 +27,8 @@ namespace AutomationModule.ViewModels
 			CreateOpcTagFilterCommand = new RelayCommand(OnCreateOpcTagFilter);
 			DeleteOpcTagFilterCommand = new RelayCommand(OnDeleteOpcTagFilter, CanDeleteOpcTagFilter);
 			EditOpcTagFilterCommand = new RelayCommand(OnEditOpcTagFilter, CanEditOpcTagFilter);
+
+			RegisterShortcuts();
 
 			var filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
 				.Select(filter => new OpcTagFilterViewModel(filter));
@@ -55,6 +59,11 @@ namespace AutomationModule.ViewModels
 							.Any(filter => filter == _selectedFilter.OpcDaTagFilter.UID));
 					Procedures = procedures.ToArray();
 				}
+				else
+				{
+					Procedures = null;
+				}
+
 				OnPropertyChanged(() => SelectedFilter);
 			}
 		}
@@ -73,6 +82,13 @@ namespace AutomationModule.ViewModels
 		#endregion
 
 		#region Methods
+
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), CreateOpcTagFilterCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditOpcTagFilterCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteOpcTagFilterCommand);
+		}
 
 		public void Dispose() {}
 

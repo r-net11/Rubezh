@@ -7,7 +7,7 @@ namespace AutomationModule.ViewModels
 {
 	public class StartRecordStepViewModel : BaseStepViewModel
 	{
-		StartRecordArguments StartRecordArguments { get; set; }
+		StartRecordStep StartRecordStep { get; set; }
 		public ArgumentViewModel CameraArgument { get; private set; }
 		public ArgumentViewModel EventUIDArgument { get; set; }
 		public ArgumentViewModel TimeoutArgument { get; set; }
@@ -15,21 +15,21 @@ namespace AutomationModule.ViewModels
 		public StartRecordStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			StartRecordArguments = stepViewModel.Step.StartRecordArguments;
-			EventUIDArgument = new ArgumentViewModel(StartRecordArguments.EventUIDArgument, stepViewModel.Update, UpdateContent);
-			TimeoutArgument = new ArgumentViewModel(StartRecordArguments.TimeoutArgument, stepViewModel.Update, UpdateContent);
-			CameraArgument = new ArgumentViewModel(StartRecordArguments.CameraArgument, stepViewModel.Update, null);
+			StartRecordStep = (StartRecordStep)stepViewModel.Step;
+			EventUIDArgument = new ArgumentViewModel(StartRecordStep.EventUIDArgument, stepViewModel.Update, UpdateContent);
+			TimeoutArgument = new ArgumentViewModel(StartRecordStep.TimeoutArgument, stepViewModel.Update, UpdateContent);
+			CameraArgument = new ArgumentViewModel(StartRecordStep.CameraArgument, stepViewModel.Update, null);
 			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
-			SelectedTimeType = StartRecordArguments.TimeType;
+			SelectedTimeType = StartRecordStep.TimeType;
 		}
 
 		public ObservableCollection<TimeType> TimeTypes { get; private set; }
 		public TimeType SelectedTimeType
 		{
-			get { return StartRecordArguments.TimeType; }
+			get { return StartRecordStep.TimeType; }
 			set
 			{
-				StartRecordArguments.TimeType = value;
+				StartRecordStep.TimeType = value;
 				OnPropertyChanged(() => SelectedTimeType);
 			}
 		}

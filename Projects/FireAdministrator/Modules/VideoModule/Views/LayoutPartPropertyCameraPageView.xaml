@@ -3,13 +3,6 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<DataGrid Focusable="True" SelectedItem="{Binding SelectedCamera}" ItemsSource="{Binding Cameras}" UIBehavior.ShowSelectionMark="True">
-		<DataGrid.ContextMenu>
-			<ContextMenu>
-				<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
-				<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
-				<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать (Ctrl+E)" />
-			</ContextMenu>
-		</DataGrid.ContextMenu>
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="Камера" Width="*">
 				<DataGridTemplateColumn.CellTemplate>

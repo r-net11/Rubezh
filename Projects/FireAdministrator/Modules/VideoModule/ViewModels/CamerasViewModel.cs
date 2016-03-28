@@ -57,28 +57,12 @@ namespace VideoModule.ViewModels
 					foreach (var camera in device.Cameras)
 					{
 						var cameraViewModel = new CameraViewModel(this, camera, camera.Name);
-						if (camera.IsAddedInConfiguration)
-						{
-							AllCameras.Add(cameraViewModel);
-							if (!cameraViewModel.Children.Contains(cameraViewModel))
-							{
-								cameraViewModel.AddChild(cameraViewModel);
-								if (!deviceViewModel.Children.Contains(cameraViewModel))
-								{
-									deviceViewModel.AddChild(cameraViewModel);
-									if (!serverViewModel.Children.Contains(deviceViewModel))
-									{
-										serverViewModel.AddChild(deviceViewModel);
-										if (!Cameras.Contains(serverViewModel))
-										{
-											Cameras.Add(serverViewModel);
-										}
-									}
-								}
-							}
-						}
+						AllCameras.Add(cameraViewModel);
+						deviceViewModel.AddChild(cameraViewModel);
 					}
+					serverViewModel.AddChild(deviceViewModel);
 				}
+				Cameras.Add(serverViewModel);
 			}
 		}
 		ObservableCollection<CameraViewModel> _cameras;
@@ -155,9 +139,17 @@ namespace VideoModule.ViewModels
 			var camera = SelectedCamera.Camera;
 			var server = ClientManager.SystemConfiguration.RviServers.First(x => x.Url == camera.RviServerUrl);
 			var device = server.RviDevices.First(x => x.Uid == camera.RviDeviceUID);
-			device.Cameras.First(x => x.UID == camera.UID).IsAddedInConfiguration = false;
-			RemoveFromTree(SelectedCamera);
+			device.Cameras.Remove(camera);
+			if (device.Cameras.Count == 0)
+			{
+				server.RviDevices.Remove(device);
+				if (server.RviDevices.Count == 0)
+				{
+					ClientManager.SystemConfiguration.RviServers.Remove(server);
+				}
+			}
 			ClientManager.SystemConfiguration.Cameras.Remove(camera);
+			RemoveFromTree(SelectedCamera);
 			camera.OnChanged();
 			ServiceFactory.SaveService.CamerasChanged = true;
 			SelectedCamera = Cameras.FirstOrDefault();

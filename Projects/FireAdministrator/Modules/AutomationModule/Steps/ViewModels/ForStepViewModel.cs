@@ -1,25 +1,26 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	class ForStepViewModel : BaseStepViewModel
 	{
-		public ForArguments ForArguments { get; private set; }
+		public ForStep ForStep { get; private set; }
 		public ArgumentViewModel IndexerArgument { get; private set; }
 		public ArgumentViewModel InitialValueArgument { get; private set; }
 		public ArgumentViewModel ValueArgument { get; private set; }
 		public ArgumentViewModel IteratorArgument { get; private set; }
 
-		public ForStepViewModel(StepViewModel stepViewModel): base(stepViewModel)
+		public ForStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			ForArguments = stepViewModel.Step.ForArguments;
-			ConditionTypes = new ObservableCollection<ConditionType>{ConditionType.IsLess, ConditionType.IsNotMore, ConditionType.IsMore, ConditionType.IsNotLess};
-			SelectedConditionType = ForArguments.ConditionType;
-			IndexerArgument = new ArgumentViewModel(ForArguments.IndexerArgument, stepViewModel.Update, UpdateContent, false, true, false);
-			InitialValueArgument = new ArgumentViewModel(ForArguments.InitialValueArgument, stepViewModel.Update, UpdateContent);
-			ValueArgument = new ArgumentViewModel(ForArguments.ValueArgument, stepViewModel.Update, UpdateContent);
-			IteratorArgument = new ArgumentViewModel(ForArguments.IteratorArgument, stepViewModel.Update, UpdateContent);
+			ForStep = (ForStep)stepViewModel.Step;
+			ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsLess, ConditionType.IsNotMore, ConditionType.IsMore, ConditionType.IsNotLess };
+			SelectedConditionType = ForStep.ConditionType;
+			IndexerArgument = new ArgumentViewModel(ForStep.IndexerArgument, stepViewModel.Update, UpdateContent, false, true, false);
+			InitialValueArgument = new ArgumentViewModel(ForStep.InitialValueArgument, stepViewModel.Update, UpdateContent);
+			ValueArgument = new ArgumentViewModel(ForStep.ValueArgument, stepViewModel.Update, UpdateContent);
+			IteratorArgument = new ArgumentViewModel(ForStep.IteratorArgument, stepViewModel.Update, UpdateContent);
 		}
 
 		public override void UpdateContent()
@@ -33,10 +34,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }
 		public ConditionType SelectedConditionType
 		{
-			get { return ForArguments.ConditionType; }
+			get { return ForStep.ConditionType; }
 			set
 			{
-				ForArguments.ConditionType = value;
+				ForStep.ConditionType = value;
 				OnPropertyChanged(() => SelectedConditionType);
 			}
 		}

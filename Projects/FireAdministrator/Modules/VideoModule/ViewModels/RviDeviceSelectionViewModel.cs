@@ -2,6 +2,7 @@
 using RubezhAPI.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace VideoModule.ViewModels
 {
@@ -40,11 +41,39 @@ namespace VideoModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			foreach (var device in Cameras)
-			{
-				device.Camera.IsAddedInConfiguration = device.IsChecked;
-			}
+			RewriteRviServers();
 			return true;
+		}
+		void RewriteRviServers()
+		{
+			var newRviServers = new List<RviServer>();
+			foreach (var rviServer in RviServers)
+			{
+				var newRviDevices = new List<RviDevice>();
+				foreach (var rviDevice in rviServer.RviDevices)
+				{
+					var newCameras = new List<Camera>();
+					foreach (var camera in rviDevice.Cameras)
+					{
+						var cameraViewModel = Cameras.FirstOrDefault(x => x.CameraUid == camera.UID);
+						if (cameraViewModel.IsChecked)
+						{
+							newCameras.Add(camera);
+						}
+					}
+					if (newCameras.Count != 0)
+					{
+						var newRviDevice = new RviDevice { Uid = rviDevice.Uid, Ip = rviDevice.Ip, Name = rviDevice.Name, Cameras = newCameras };
+						newRviDevices.Add(rviDevice);
+					}
+				}
+				if (newRviDevices.Count != 0)
+				{
+					var newRviServer = new RviServer { Ip = rviServer.Ip, Port = rviServer.Port, Protocol = rviServer.Protocol, Url = rviServer.Url, RviDevices = newRviDevices };
+					newRviServers.Add(newRviServer);
+				}
+				RviServers = newRviServers;
+			}
 		}
 	}
 }

@@ -34,21 +34,9 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<Button
-					Grid.Row="3"
-					Grid.ColumnSpan="2"
-					Width="140"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Top"
-					Content="Предпросмотр"
-					Command ="{Binding PlayCommand}"
-					Padding="4"/>
+				<Button Grid.Row="3" Grid.ColumnSpan="2" Width="140" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Предпросмотр" Command ="{Binding PlayCommand}" Padding="4"/>
 
-				<mediaSourcePlayer:MediaPlayer
-					x:Name="MediaSourcePlayer"
-					Grid.Row="4"
-					Grid.ColumnSpan="2"
-					OriginalAspectRatio="True" />
+				<mediaSourcePlayer:MediaPlayer x:Name="MediaSourcePlayer" Grid.Row="4" Grid.ColumnSpan="2" OriginalAspectRatio="True" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Настройки показа в ОЗ">
@@ -64,12 +52,16 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
+				
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Ширина окна" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ShowDetailsWidth, UpdateSourceTrigger=PropertyChanged}" Margin="2" Masking.Mask="^([0-9]|[1-9][0-9]{1,3}|10000)$" />
+				
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Высота окна" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ShowDetailsHeight, UpdateSourceTrigger=PropertyChanged}" Margin="2" Masking.Mask="^([0-9]|[1-9][0-9]{1,3}|10000)$" />
+				
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Сдвиг слева" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ShowDetailsMarginLeft, UpdateSourceTrigger=PropertyChanged}" Margin="2" Masking.Mask="^([0-9]|[1-9][0-9]{1,3}|10000)$" />
+				
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Сдвиг сверху" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
 				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ShowDetailsMarginTop, UpdateSourceTrigger=PropertyChanged}" Margin="2" Masking.Mask="^([0-9]|[1-9][0-9]{1,3}|10000)$" />
 			</Grid>

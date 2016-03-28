@@ -46,6 +46,8 @@ namespace SettingsModule.ViewModels
 			AdministratorAutoConnect = GlobalSettingsHelper.GlobalSettings.AdminAutoConnect;
 			MonitorLogin = GlobalSettingsHelper.GlobalSettings.MonitorLogin;
 			MonitorPassword = GlobalSettingsHelper.GlobalSettings.MonitorPassword;
+			WebLogin = GlobalSettingsHelper.GlobalSettings.WebLogin;
+			WebPassword = GlobalSettingsHelper.GlobalSettings.WebPassword;
 			MonitorAutoConnect = GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
@@ -355,6 +357,28 @@ namespace SettingsModule.ViewModels
 		}
 
 
+		string _webLogin;
+		public string WebLogin {
+			get { return _webLogin; }
+			set
+			{
+				_webLogin = value;
+				OnPropertyChanged(() => WebLogin);
+			}
+		}
+
+		string _webPassword;
+		public string WebPassword
+		{
+			get { return _webPassword; }
+			set
+			{
+				_webPassword = value;
+				OnPropertyChanged(() => WebPassword);
+			}
+		}
+
+
 		string _administratorLogin;
 		public string AdministratorLogin
 		{
@@ -443,6 +467,8 @@ namespace SettingsModule.ViewModels
 			GlobalSettingsHelper.GlobalSettings.AdminAutoConnect = AdministratorAutoConnect;
 			GlobalSettingsHelper.GlobalSettings.MonitorLogin = MonitorLogin;
 			GlobalSettingsHelper.GlobalSettings.MonitorPassword = MonitorPassword;
+			GlobalSettingsHelper.GlobalSettings.WebLogin = WebLogin;
+			GlobalSettingsHelper.GlobalSettings.WebPassword = WebPassword;
 			GlobalSettingsHelper.GlobalSettings.MonitorAutoConnect = MonitorAutoConnect;
 			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
 			GlobalSettingsHelper.GlobalSettings.Server_RemoteIpAddress = Server_RemoteIpAddress;

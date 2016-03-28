@@ -98,6 +98,9 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 					
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Адрес сервера" />
@@ -116,6 +119,11 @@
 				<TextBlock Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
 				<TextBlock Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект" />
 
+				<TextBlock Grid.Row="11" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Text="Настройки подключения для Оперативной задачи(Веб)" TextAlignment="Left" />
+
+				<TextBlock Grid.Row="12" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" />
+				<TextBlock Grid.Row="13" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
+
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding ReportRemotePort, UpdateSourceTrigger=PropertyChanged}" />
@@ -127,6 +135,9 @@
 				<TextBox Grid.Row="8" Grid.Column="1" Margin="2" Text="{Binding MonitorLogin, UpdateSourceTrigger=PropertyChanged}" />
 				<Controls:PasswordBoxControl Grid.Row="9" Grid.Column="1" Margin="2" Password ="{Binding MonitorPassword, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox Grid.Row="10" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding MonitorAutoConnect}" />
+
+				<TextBox Grid.Row="12" Grid.Column="1" Margin="2" Text="{Binding WebLogin, UpdateSourceTrigger=PropertyChanged}" />
+				<Controls:PasswordBoxControl Grid.Row="13" Grid.Column="1" Margin="2" Password ="{Binding WebPassword, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 		<TabItem DataContext="{Binding ModulesViewModel}" Header="Модули">

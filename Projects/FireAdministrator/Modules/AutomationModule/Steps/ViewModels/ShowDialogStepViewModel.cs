@@ -8,144 +8,144 @@ namespace AutomationModule.ViewModels
 {
 	public class ShowDialogStepViewModel : BaseStepViewModel
 	{
-		public ShowDialogArguments ShowDialogArguments { get; private set; }
+		public ShowDialogStep ShowDialogStep { get; private set; }
 		public ArgumentViewModel WindowUIDArgument { get; private set; }
 
 		public ShowDialogStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ShowDialogArguments = stepViewModel.Step.ShowDialogArguments;
+			ShowDialogStep = (ShowDialogStep)stepViewModel.Step;
 			IsServerContext = Procedure.ContextType == ContextType.Server;
-			WindowUIDArgument = new ArgumentViewModel(ShowDialogArguments.WindowIDArgument, stepViewModel.Update, UpdateContent);
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowDialogArguments.LayoutFilter);
+			WindowUIDArgument = new ArgumentViewModel(ShowDialogStep.WindowIDArgument, stepViewModel.Update, UpdateContent);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowDialogStep.LayoutFilter);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 
 		public bool ForAllClients
 		{
-			get { return ShowDialogArguments.ForAllClients; }
+			get { return ShowDialogStep.ForAllClients; }
 			set
 			{
-				ShowDialogArguments.ForAllClients = value;
+				ShowDialogStep.ForAllClients = value;
 				OnPropertyChanged(() => ForAllClients);
 			}
 		}
 		public bool IsModalWindow
 		{
-			get { return ShowDialogArguments.IsModalWindow; }
+			get { return ShowDialogStep.IsModalWindow; }
 			set
 			{
-				ShowDialogArguments.IsModalWindow = value;
+				ShowDialogStep.IsModalWindow = value;
 				OnPropertyChanged(() => IsModalWindow);
 			}
 		}
 		public string Title
 		{
-			get { return ShowDialogArguments.Title; }
+			get { return ShowDialogStep.Title; }
 			set
 			{
-				ShowDialogArguments.Title = value;
+				ShowDialogStep.Title = value;
 				OnPropertyChanged(() => Title);
 			}
 		}
 
 		public bool AllowClose
 		{
-			get { return ShowDialogArguments.AllowClose; }
+			get { return ShowDialogStep.AllowClose; }
 			set
 			{
-				ShowDialogArguments.AllowClose = value;
+				ShowDialogStep.AllowClose = value;
 				OnPropertyChanged(() => AllowClose);
 			}
 		}
 		public bool AllowMaximize
 		{
-			get { return ShowDialogArguments.AllowMaximize; }
+			get { return ShowDialogStep.AllowMaximize; }
 			set
 			{
-				ShowDialogArguments.AllowMaximize = value;
+				ShowDialogStep.AllowMaximize = value;
 				OnPropertyChanged(() => AllowMaximize);
 			}
 		}
 		public bool Sizable
 		{
-			get { return ShowDialogArguments.Sizable; }
+			get { return ShowDialogStep.Sizable; }
 			set
 			{
-				ShowDialogArguments.Sizable = value;
+				ShowDialogStep.Sizable = value;
 				OnPropertyChanged(() => Sizable);
 			}
 		}
 		public bool TopMost
 		{
-			get { return ShowDialogArguments.TopMost; }
+			get { return ShowDialogStep.TopMost; }
 			set
 			{
-				ShowDialogArguments.TopMost = value;
+				ShowDialogStep.TopMost = value;
 				OnPropertyChanged(() => TopMost);
 			}
 		}
 		public double Width
 		{
-			get { return ShowDialogArguments.Width; }
+			get { return ShowDialogStep.Width; }
 			set
 			{
-				ShowDialogArguments.Width = value;
+				ShowDialogStep.Width = value;
 				OnPropertyChanged(() => Width);
 			}
 		}
 		public double Height
 		{
-			get { return ShowDialogArguments.Height; }
+			get { return ShowDialogStep.Height; }
 			set
 			{
-				ShowDialogArguments.Height = value;
+				ShowDialogStep.Height = value;
 				OnPropertyChanged(() => Height);
 			}
 		}
 		public double MinWidth
 		{
-			get { return ShowDialogArguments.MinWidth; }
+			get { return ShowDialogStep.MinWidth; }
 			set
 			{
-				ShowDialogArguments.MinWidth = value;
+				ShowDialogStep.MinWidth = value;
 				OnPropertyChanged(() => MinWidth);
 			}
 		}
 		public double MinHeight
 		{
-			get { return ShowDialogArguments.MinHeight; }
+			get { return ShowDialogStep.MinHeight; }
 			set
 			{
-				ShowDialogArguments.MinHeight = value;
+				ShowDialogStep.MinHeight = value;
 				OnPropertyChanged(() => MinHeight);
 			}
 		}
 
 		public bool CustomPosition
 		{
-			get { return ShowDialogArguments.CustomPosition; }
+			get { return ShowDialogStep.CustomPosition; }
 			set
 			{
-				ShowDialogArguments.CustomPosition = value;
+				ShowDialogStep.CustomPosition = value;
 				OnPropertyChanged(() => CustomPosition);
 			}
 		}
 		public double Left
 		{
-			get { return ShowDialogArguments.Left; }
+			get { return ShowDialogStep.Left; }
 			set
 			{
-				ShowDialogArguments.Left = value;
+				ShowDialogStep.Left = value;
 				OnPropertyChanged(() => Left);
 			}
 		}
 		public double Top
 		{
-			get { return ShowDialogArguments.Top; }
+			get { return ShowDialogStep.Top; }
 			set
 			{
-				ShowDialogArguments.Top = value;
+				ShowDialogStep.Top = value;
 				OnPropertyChanged(() => Top);
 			}
 		}
@@ -169,7 +169,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedLayout = value;
-				ShowDialogArguments.Layout = SelectedLayout == null ? Guid.Empty : SelectedLayout.Layout.UID;
+				ShowDialogStep.Layout = SelectedLayout == null ? Guid.Empty : SelectedLayout.Layout.UID;
 				OnPropertyChanged(() => SelectedLayout);
 			}
 		}
@@ -195,7 +195,7 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			Layouts = new ObservableCollection<LayoutViewModel>(ClientManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
-			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ShowDialogArguments.Layout);
+			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ShowDialogStep.Layout);
 			WindowUIDArgument.Update(Procedure, ExplicitType.String);
 		}
 	}

@@ -187,6 +187,7 @@
     <Content Include="App\controllers\alarms\alarmGroupsCtrl.js" />
     <Content Include="App\controllers\archive\archiveCtrl.js" />
     <Content Include="App\controllers\archive\archiveFilterCtrl.js" />
+    <Content Include="App\controllers\Common\clockCtrl.js" />
     <Content Include="App\controllers\Common\mainIconsCtrl.js" />
     <Content Include="App\controllers\Common\loginCtrl.js" />
     <Content Include="App\controllers\delays\delayDetailsCtrl.js" />
@@ -217,6 +218,7 @@
     <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
     <Content Include="App\controllers\restart\restartDetailsCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
+    <Content Include="App\controllers\SKD\HR\HRCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
     <Content Include="App\directives\mobileHoverFix.js" />
@@ -569,7 +571,6 @@
     <Content Include="Content\favicon\manifest.json" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\Clock.js" />
     <Content Include="Scripts\d3\d3.js" />
     <Content Include="Scripts\d3\d3.min.js" />
     <Content Include="Scripts\EmployeeCardDetails.js" />
@@ -679,7 +680,6 @@
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\less.min.js" />
-    <Content Include="Scripts\Main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplatesViewModel.js" />
     <Content Include="Scripts\SKD\AccessTemplates\AccessTemplateDetailsViewModel.js" />

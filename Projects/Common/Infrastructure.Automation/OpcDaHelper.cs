@@ -1,5 +1,4 @@
 ﻿using RubezhAPI.Automation;
-using RubezhAPI.Models;
 using RubezhClient;
 using System;
 using System.Collections;
@@ -73,9 +72,9 @@ namespace Infrastructure.Automation
 				case "System.DateTime":
 					return ExplicitType.DateTime;
 				case "System.Double":
-                    //return ExplicitType.Double;
+				//return ExplicitType.Double;
 				case "System.Single":
-                    return ExplicitType.Float;
+					return ExplicitType.Float;
 				case "System.Int16":
 				case "System.Int32":
 					return ExplicitType.Integer;
@@ -125,7 +124,7 @@ namespace Infrastructure.Automation
 			if (isOk)
 			{
 				var filters = OpcDaHelper.TagsFilters.Where(x => x.TagUID == UID);
-				
+
 				if (filters.Count() > 0)
 				{
 					foreach (var filter in filters)
@@ -177,7 +176,7 @@ namespace Infrastructure.Automation
 							(object)((IEnumerable)value).Cast<Int32>() :
 							Convert.ToInt32(value);
 					break;
-                case ExplicitType.Double:
+				case ExplicitType.Double:
 				case ExplicitType.Float:
 					if (valueTypeName == "System.Double" || valueTypeName == "System.Single")
 						result = resultIsArray ?

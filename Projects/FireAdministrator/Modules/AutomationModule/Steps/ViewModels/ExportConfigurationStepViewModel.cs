@@ -4,7 +4,7 @@ namespace AutomationModule.ViewModels
 {
 	public class ExportConfigurationStepViewModel : BaseStepViewModel
 	{
-		ExportConfigurationArguments ExportConfigurationArguments { get; set; }
+		ExportConfigurationStep ExportConfigurationStep { get; set; }
 		public ArgumentViewModel IsExportDevices { get; private set; }
 		public ArgumentViewModel IsExportZones { get; private set; }
 		public ArgumentViewModel IsExportDoors { get; private set; }
@@ -13,11 +13,11 @@ namespace AutomationModule.ViewModels
 		public ExportConfigurationStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ExportConfigurationArguments = stepViewModel.Step.ExportConfigurationArguments;
-			IsExportDevices = new ArgumentViewModel(ExportConfigurationArguments.IsExportDevices, stepViewModel.Update, UpdateContent);
-			IsExportZones = new ArgumentViewModel(ExportConfigurationArguments.IsExportZones, stepViewModel.Update, UpdateContent);
-			IsExportDoors = new ArgumentViewModel(ExportConfigurationArguments.IsExportDoors, stepViewModel.Update, UpdateContent);
-			PathArgument = new ArgumentViewModel(ExportConfigurationArguments.PathArgument, stepViewModel.Update, UpdateContent);
+			ExportConfigurationStep = (ExportConfigurationStep)stepViewModel.Step;
+			IsExportDevices = new ArgumentViewModel(ExportConfigurationStep.IsExportDevices, stepViewModel.Update, UpdateContent);
+			IsExportZones = new ArgumentViewModel(ExportConfigurationStep.IsExportZones, stepViewModel.Update, UpdateContent);
+			IsExportDoors = new ArgumentViewModel(ExportConfigurationStep.IsExportDoors, stepViewModel.Update, UpdateContent);
+			PathArgument = new ArgumentViewModel(ExportConfigurationStep.PathArgument, stepViewModel.Update, UpdateContent);
 		}
 
 		public override void UpdateContent()

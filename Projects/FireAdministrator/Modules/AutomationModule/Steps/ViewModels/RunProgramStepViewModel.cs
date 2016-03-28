@@ -4,16 +4,17 @@ namespace AutomationModule.ViewModels
 {
 	public class RunProgramStepViewModel : BaseStepViewModel
 	{
-		RunProgramArguments RunProgramArguments { get; set; }
+		RunProgramStep RunProgramStep { get; set; }
 		public ArgumentViewModel PathArgument { get; private set; }
 		public ArgumentViewModel ParametersArgument { get; private set; }
 
 		public RunProgramStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			RunProgramArguments = stepViewModel.Step.RunProgramArguments;
-			PathArgument = new ArgumentViewModel(RunProgramArguments.PathArgument, stepViewModel.Update, UpdateContent);
-			ParametersArgument = new ArgumentViewModel(RunProgramArguments.ParametersArgument, stepViewModel.Update, UpdateContent);
+
+			RunProgramStep = (RunProgramStep)stepViewModel.Step;
+			PathArgument = new ArgumentViewModel(RunProgramStep.PathArgument, stepViewModel.Update, UpdateContent);
+			ParametersArgument = new ArgumentViewModel(RunProgramStep.ParametersArgument, stepViewModel.Update, UpdateContent);
 		}
 
 		public override void UpdateContent()
