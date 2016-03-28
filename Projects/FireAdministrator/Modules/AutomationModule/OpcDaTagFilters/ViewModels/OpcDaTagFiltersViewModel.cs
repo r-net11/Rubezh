@@ -7,10 +7,8 @@ using Infrastructure.ViewModels;
 using RubezhAPI.Automation;
 using RubezhClient;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
 
@@ -141,9 +139,10 @@ namespace AutomationModule.ViewModels
 			{
 				var filterViewModel = opcDaTagFilterCreationViewModel.OpcDaTagFilterResult;
 				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Add(filterViewModel.OpcDaTagFilter);
-				Filters.Add(new OpcTagFilterViewModel(filterViewModel.OpcDaTagFilter));
+				var newFilter = new OpcTagFilterViewModel(filterViewModel.OpcDaTagFilter);
+				Filters.Add(newFilter);
+				SelectedFilter = newFilter;
 				ServiceFactory.SaveService.AutomationChanged = true;
-
 				ServiceFactoryBase.Events.GetEvent<CreateOpcDaTagFilterEvent>().Publish(filterViewModel.OpcDaTagFilter.UID);
 			}
 		}

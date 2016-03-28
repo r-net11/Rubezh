@@ -53,7 +53,10 @@ namespace AutomationModule.ViewModels
 				{
 					foreach (var tag in _selectedOpcDaServer.Tags)
 					{
-						if (null != OpcDaTagFilter.GetExplicitType(tag.TypeNameOfValue))
+						var type = OpcDaTagFilter.GetExplicitType(tag.TypeNameOfValue);
+						if (null != type)
+							if ((type.Value == ExplicitType.Boolean) || (type.Value == ExplicitType.Float) ||
+								(type.Value == ExplicitType.Integer) || (type.Value == ExplicitType.Double))
 							tags.Add(tag);
 					}
 				}
