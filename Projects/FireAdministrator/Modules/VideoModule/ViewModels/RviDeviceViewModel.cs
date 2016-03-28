@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Common.TreeList;
 using RubezhAPI.Models;
+using RubezhClient;
 using System;
+using System.Linq;
 
 namespace VideoModule.ViewModels
 {
@@ -18,8 +20,8 @@ namespace VideoModule.ViewModels
 			Name = camera.Name;
 			CameraUid = camera.UID;
 			IsCamera = true;
-			IsChecked = camera.IsAddedInConfiguration;
-			IsEnabled = !camera.IsAddedInConfiguration;
+			IsChecked = ClientManager.SystemConfiguration.Cameras.Any(x => x.UID == camera.UID);
+			IsEnabled = !IsChecked;
 		}
 		public RviDeviceViewModel(RviServer server)
 		{
