@@ -78,23 +78,23 @@ namespace FiresecService.Report.Templates
 
 						if (filter.ShowAllViolation)
 						{
-							dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm");
-							dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm");
-							dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm");
-							dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm");
+							dataRow.Absence = GetFormattedTime(absence);
+							dataRow.Late = GetFormattedTime(late);
+							dataRow.EarlyLeave = GetFormattedTime(earlyLeave);
+							dataRow.Overtime = GetFormattedTime(overtime);
 
 							dataSet.Data.Rows.Add(dataRow);
 						}
 						else if (filter.ShowShiftedViolation)
 						{
 							if (filter.ShowAbsence)
-								dataRow.Absence = absence == TimeSpan.Zero ? string.Empty : absence.ToString(@"hh\:mm");
+								dataRow.Absence = GetFormattedTime(absence);
 							if (filter.ShowLate)
-								dataRow.Late = late == TimeSpan.Zero ? string.Empty : late.ToString(@"hh\:mm");
+								dataRow.Late = GetFormattedTime(late);
 							if (filter.ShowEarlуLeave)
-								dataRow.EarlyLeave = earlyLeave == TimeSpan.Zero ? string.Empty : earlyLeave.ToString(@"hh\:mm");
+								dataRow.EarlyLeave = GetFormattedTime(earlyLeave);
 							if (filter.ShowOvertime)
-								dataRow.Overtime = overtime == TimeSpan.Zero ? string.Empty : overtime.ToString(@"hh\:mm");
+								dataRow.Overtime = GetFormattedTime(overtime);
 
 							if((filter.ShowAbsence && !string.IsNullOrEmpty(dataRow.Absence))
 								|| (filter.ShowLate && !string.IsNullOrEmpty(dataRow.Late))
@@ -107,6 +107,11 @@ namespace FiresecService.Report.Templates
 			}
 
 			return dataSet;
+		}
+
+		private string GetFormattedTime(TimeSpan time)
+		{
+			return time == TimeSpan.Zero ? string.Empty : string.Format("{0:00}:{1:00}", (int) time.TotalHours, time.Minutes);
 		}
 
 		private static string GetFirstEnterString(DayTimeTrack dayTimeTrack)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -7,26 +6,24 @@ namespace FiresecService.Service
 {
 	public static class NotifyIconService
 	{
-		private static System.Windows.Forms.NotifyIcon _notifyIcon = null;
+		private static System.Windows.Forms.NotifyIcon _notifyIcon;
 
 		public static void Start(EventHandler onShow, EventHandler onClose)
 		{
 			RefreshTaskbarNotificationArea();
-			AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
+			AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 			_notifyIcon = new System.Windows.Forms.NotifyIcon();
-			Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/StrazhService;component/Firesec.ico")).Stream;
+			var iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/StrazhService;component/ServerLogo.ico")).Stream;
 			_notifyIcon.Icon = new System.Drawing.Icon(iconStream);
 			_notifyIcon.Visible = true;
 
 			_notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
-			var menuItem1 = new System.Windows.Forms.MenuItem();
-			menuItem1.Text = "Показать";
-			menuItem1.Click += new EventHandler(onShow);
+			var menuItem1 = new System.Windows.Forms.MenuItem {Text = "Показать"};
+			menuItem1.Click += onShow;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem1);
 
-			var menuItem2 = new System.Windows.Forms.MenuItem();
-			menuItem2.Text = "Выход";
-			menuItem2.Click += new EventHandler(onClose);
+			var menuItem2 = new System.Windows.Forms.MenuItem {Text = "Выход"};
+			menuItem2.Click += onClose;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 
 			_notifyIcon.Text = "Сервер приложений";
@@ -34,12 +31,11 @@ namespace FiresecService.Service
 
 		public static void Stop()
 		{
-			if (_notifyIcon != null)
-			{
-				_notifyIcon.Visible = false;
-				_notifyIcon.Dispose();
-				_notifyIcon = null;
-			}
+			if (_notifyIcon == null) return;
+
+			_notifyIcon.Visible = false;
+			_notifyIcon.Dispose();
+			_notifyIcon = null;
 		}
 
 		private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
@@ -70,15 +66,15 @@ namespace FiresecService.Service
 
 		public static void RefreshTaskbarNotificationArea()
 		{
-			IntPtr systemTrayContainerHandle = FindWindow("Shell_TrayWnd", null);
-			IntPtr systemTrayHandle = FindWindowEx(systemTrayContainerHandle, IntPtr.Zero, "TrayNotifyWnd", null);
-			IntPtr sysPagerHandle = FindWindowEx(systemTrayHandle, IntPtr.Zero, "SysPager", null);
-			IntPtr notificationAreaHandle = FindWindowEx(sysPagerHandle, IntPtr.Zero, "ToolbarWindow32", "Notification Area");
+			var systemTrayContainerHandle = FindWindow("Shell_TrayWnd", null);
+			var systemTrayHandle = FindWindowEx(systemTrayContainerHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+			var sysPagerHandle = FindWindowEx(systemTrayHandle, IntPtr.Zero, "SysPager", null);
+			var notificationAreaHandle = FindWindowEx(sysPagerHandle, IntPtr.Zero, "ToolbarWindow32", "Notification Area");
 			if (notificationAreaHandle == IntPtr.Zero)
 			{
 				notificationAreaHandle = FindWindowEx(sysPagerHandle, IntPtr.Zero, "ToolbarWindow32", "User Promoted Notification Area");
-				IntPtr notifyIconOverflowWindowHandle = FindWindow("NotifyIconOverflowWindow", null);
-				IntPtr overflowNotificationAreaHandle = FindWindowEx(notifyIconOverflowWindowHandle, IntPtr.Zero, "ToolbarWindow32", "Overflow Notification Area");
+				var notifyIconOverflowWindowHandle = FindWindow("NotifyIconOverflowWindow", null);
+				var overflowNotificationAreaHandle = FindWindowEx(notifyIconOverflowWindowHandle, IntPtr.Zero, "ToolbarWindow32", "Overflow Notification Area");
 				RefreshTaskbarNotificationArea(overflowNotificationAreaHandle);
 			}
 			RefreshTaskbarNotificationArea(notificationAreaHandle);

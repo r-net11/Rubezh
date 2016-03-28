@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using System;
+using Infrastructure.Common.Windows.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 

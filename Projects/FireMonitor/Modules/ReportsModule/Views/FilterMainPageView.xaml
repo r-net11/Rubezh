@@ -86,7 +86,7 @@
 				SelectedItem="{Binding SelectedReportPeriod}" />
 			<DatePicker
 				DisplayDateStart="{Binding MinDate}"
-				DisplayDateEnd="{Binding DateTimeTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				DisplayDateEnd="{Binding MaxDate, Mode=OneWay}"
 				Grid.Column="1"
 				Grid.Row="1"
 				SelectedDateFormat="Short"
