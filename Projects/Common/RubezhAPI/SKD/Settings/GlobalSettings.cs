@@ -20,6 +20,8 @@ namespace RubezhAPI
 			AdminAutoConnect = false;
 			MonitorLogin = "adm";
 			MonitorPassword = "";
+			WebLogin = "adm";
+			WebPassword = "";
 			MonitorAutoConnect = false;
 
 			Server_EnableRemoteConnections = false;
@@ -54,6 +56,11 @@ namespace RubezhAPI
 
 		[DataMember]
 		public string MonitorPassword { get; set; }
+		[DataMember]
+		public string WebLogin { get; set; }
+
+		[DataMember]
+		public string WebPassword { get; set; }
 
 		[DataMember]
 		public bool MonitorAutoConnect { get; set; }
