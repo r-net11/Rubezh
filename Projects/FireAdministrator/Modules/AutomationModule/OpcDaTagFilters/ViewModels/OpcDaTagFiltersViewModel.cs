@@ -59,6 +59,11 @@ namespace AutomationModule.ViewModels
 							.Any(filter => filter == _selectedFilter.OpcDaTagFilter.UID));
 					Procedures = procedures.ToArray();
 				}
+				else
+				{
+					Procedures = null;
+				}
+
 				OnPropertyChanged(() => SelectedFilter);
 			}
 		}
