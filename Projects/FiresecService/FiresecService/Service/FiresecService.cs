@@ -321,6 +321,15 @@ namespace FiresecService.Service
 				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
 				return OperationResult<bool>.FromError("Достигнуто максимальное количество подключений к серверу, допускаемое лицензией");
 
+			// TODO: Временная мера. В рамках одного хоста может быть запущен только один экземпляр ОЗ
+			var instancesRunnedFromTheSameHost = ClientsManager.ClientInfos.Where(x =>
+				x.ClientCredentials.ClientType == clientCredentials.ClientType &&
+				x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress).ToList();
+			if (instancesRunnedFromTheSameHost.Any())
+				return OperationResult<bool>.FromError(string.Format(
+					"Другой экземпляр ОЗ осуществил вход с компьютера '{0}'. Одновременная работа на одном ПК двух и более экземпляров ОЗ не допускается.",
+					instancesRunnedFromTheSameHost[0].ClientCredentials.ClientIpAddress));
+
 			return new OperationResult<bool>(true);
 		}
 
