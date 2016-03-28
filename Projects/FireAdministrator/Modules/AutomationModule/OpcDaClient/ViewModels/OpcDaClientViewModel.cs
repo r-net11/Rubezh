@@ -12,6 +12,8 @@ using System.Text;
 using OpcClientSdk;
 using RubezhAPI;
 using Infrastructure.Events;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,6 +30,8 @@ namespace AutomationModule.ViewModels
 			EditTagListCommand = new RelayCommand(OnEditTagList, CanEditTagList);
 			GetServerStatusCommand = new RelayCommand(OnGetServerStatus, CanGetServerStatus);
 			ReadWriteTagsCommand = new RelayCommand(OnReadWriteTags, CanReadWriteTags);
+
+			RegisterShortcuts();
 
 			LoadConfig();
 
@@ -94,6 +98,13 @@ namespace AutomationModule.ViewModels
 		#endregion
 
 		#region Methods
+
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddOpcServerCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditTagListCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), RemoveOpcServerCommand);
+		}
 
 		void LoadConfig()
 		{
