@@ -181,10 +181,11 @@ namespace AutomationModule.ViewModels
 				{
 					return;
 				}
-			}
-			foreach (var filter in filters)
-			{
-				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Remove(filter);
+				else
+				{
+					foreach (var filter in filters)
+						ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Remove(filter);
+				}
 			}
 
 			// Удаляем сервер
