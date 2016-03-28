@@ -24,8 +24,7 @@
                 });
             }]
         }).state('home', {
-            url: '',
-            //template: '<ui-view/>'
+            url: ''
         }).state('state', {
             url: "/state/:alarmType",
             templateUrl: "/Alarms/Alarms"
@@ -67,7 +66,13 @@
             templateUrl: "/Doors/Door"
         }).state('hr', {
             url: "/hr",
-            templateUrl: "/Hr/Index"
+            templateUrl: "/Hr/Index",
+            controller: "HRCtrl",
+            resolve: {
+                authData: function(authService) {
+                    return authService.fillAuthData();
+                }
+            }
         });
     });
 
