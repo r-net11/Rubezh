@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using RubezhClient;
-using Infrastructure.Common.Validation;
+﻿using RubezhClient;
+using System.Collections.Generic;
 
 namespace VideoModule.Validation
 {
@@ -11,9 +10,6 @@ namespace VideoModule.Validation
 			var addressList = new List<string>();
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
-				//if (addressList.Contains(camera.Ip))
-				//	Errors.Add(new VideoValidationError(camera, "Камера с таким адресом уже существует " + camera.Ip, ValidationErrorLevel.CannotSave));
-				//addressList.Add(camera.Ip);
 			}
 		}
 	}

@@ -23,7 +23,7 @@
 	</UserControl.Resources>
 	<Grid>
 		<tree:TreeList Source="{Binding Cameras}" ContextMenu="{StaticResource CameraContextMenu}" Focusable="True" SelectedItem="{Binding SelectedCamera}">
-		<tree:TreeList.View>
+			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="Устройство" Width="300">
 					<GridViewColumn.CellTemplate>

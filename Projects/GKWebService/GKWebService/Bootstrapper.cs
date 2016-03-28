@@ -33,7 +33,7 @@ namespace GKWebService
 			for (int i = 1; i <= 10; i++)
 			{
 				var message = RubezhClient.ClientManager.Connect(ClientType.WebService, ConnectionSettingsManager.ServerAddress,
-					GlobalSettingsHelper.GlobalSettings.AdminLogin, "");
+					GlobalSettingsHelper.GlobalSettings.WebLogin, GlobalSettingsHelper.GlobalSettings.WebPassword);
 				if (message == null)
 				{
                     break;

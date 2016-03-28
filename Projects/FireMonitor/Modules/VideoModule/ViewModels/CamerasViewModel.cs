@@ -56,26 +56,12 @@ namespace VideoModule.ViewModels
 					foreach (var camera in device.Cameras)
 					{
 						var cameraViewModel = new CameraViewModel(camera.Name, camera);
-						if (camera.IsAddedInConfiguration)
-						{
-							if (!deviceViewModel.Children.Contains(cameraViewModel))
-							{
-								deviceViewModel.AddChild(cameraViewModel);
-								AllCameras.Add(cameraViewModel);
-								if (!serverViewModel.Children.Contains(deviceViewModel))
-								{
-									serverViewModel.AddChild(deviceViewModel);
-									if (!Cameras.Contains(serverViewModel))
-									{
-										Cameras.Add(serverViewModel);
-									}
-								}
-							}
-
-						}
-
+						deviceViewModel.AddChild(cameraViewModel);
+						AllCameras.Add(cameraViewModel);
 					}
+					serverViewModel.AddChild(deviceViewModel);
 				}
+				Cameras.Add(serverViewModel);
 			}
 		}
 	}

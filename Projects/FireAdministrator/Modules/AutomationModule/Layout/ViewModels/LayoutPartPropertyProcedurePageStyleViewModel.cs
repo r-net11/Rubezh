@@ -208,9 +208,9 @@ namespace AutomationModule.Layout.ViewModels
 		public override bool Save()
 		{
 			var properties = (LayoutPartProcedureProperties)_layoutPartViewModel.Properties;
+			properties.UseCustomStyle = UseCustomStyle;
 			if (_haveChanges)
 			{
-				properties.UseCustomStyle = UseCustomStyle;
 				properties.Text = Text;
 				properties.BackgroundColor = BackgroundColor;
 				properties.ForegroundColor = ForegroundColor;

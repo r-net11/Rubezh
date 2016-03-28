@@ -34,10 +34,10 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные камеры" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
-			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные камеры" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
-			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все камеры" ImageSource="leftLeft"  />
-			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все камеры" ImageSource="rightRight"  />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные камеры" ImageSource="left" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные камеры" ImageSource="right" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все камеры" ImageSource="leftLeft" />
+			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все камеры" ImageSource="rightRight" />
 		</StackPanel>
 		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceCameras}" SelectedItem="{Binding SelectedSourceCamera}" CanUserSortColumns="True"
 				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
