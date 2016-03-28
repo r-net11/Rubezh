@@ -45,10 +45,6 @@ namespace RubezhAPI.Models
 			UpdateRviConfiguration();
 		}
 
-		public override bool ValidateVersion()
-		{
-			return true;
-		}
 		[XmlIgnore]
 		public List<Camera> Cameras { get; set; }
 		[XmlIgnore]

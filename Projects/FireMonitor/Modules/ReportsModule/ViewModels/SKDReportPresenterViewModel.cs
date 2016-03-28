@@ -175,7 +175,10 @@ namespace ReportsModule.ViewModels
 		{
 			e.Handled = true;
 			CommandManager.InvalidateRequerySuggested();
-			MessageBoxService.ShowException(e.Fault);
+			if (e.Fault.Message.Contains("Could not connect to"))
+				MessageBoxService.ShowError("Не удалось подключиться к серверу отчетов.");
+			else
+				MessageBoxService.ShowException(e.Fault);
 		}
 		private void Model_GetPageError(object sender, SimpleFaultEventArgs e)
 		{

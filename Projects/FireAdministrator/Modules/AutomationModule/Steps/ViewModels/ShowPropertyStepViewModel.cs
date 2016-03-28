@@ -1,19 +1,20 @@
-﻿using System.Collections.ObjectModel;
+﻿using Infrastructure.Automation;
 using RubezhAPI.Automation;
-using Infrastructure.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class ShowPropertyStepViewModel : BaseStepViewModel
 	{
-		ShowPropertyArguments ShowPropertyArguments { get; set; }
+		ShowPropertyStep ShowPropertyStep { get; set; }
 		public ArgumentViewModel ObjectArgument { get; private set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 
-		public ShowPropertyStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ShowPropertyStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			ShowPropertyArguments = stepViewModel.Step.ShowPropertyArguments;
-			ObjectArgument = new ArgumentViewModel(ShowPropertyArguments.ObjectArgument, stepViewModel.Update, null);
+			ShowPropertyStep = (ShowPropertyStep)stepViewModel.Step;
+			ObjectArgument = new ArgumentViewModel(ShowPropertyStep.ObjectArgument, stepViewModel.Update, null);
 			ObjectTypes = new ObservableCollection<ObjectType>(AutomationHelper.GetEnumList<ObjectType>().FindAll(x => x != ObjectType.Organisation));
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
@@ -33,7 +34,7 @@ namespace AutomationModule.ViewModels
 		{
 			ObjectArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType, isList: false);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowPropertyArguments.LayoutFilter);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowPropertyStep.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}
 
@@ -50,11 +51,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ShowPropertyArguments.ObjectType;
+				return ShowPropertyStep.ObjectType;
 			}
 			set
 			{
-				ShowPropertyArguments.ObjectType = value;
+				ShowPropertyStep.ObjectType = value;
 				UpdateContent();
 				OnPropertyChanged(() => ObjectType);
 			}
@@ -62,10 +63,10 @@ namespace AutomationModule.ViewModels
 
 		public bool ForAllClients
 		{
-			get { return ShowPropertyArguments.ForAllClients; }
+			get { return ShowPropertyStep.ForAllClients; }
 			set
 			{
-				ShowPropertyArguments.ForAllClients = value;
+				ShowPropertyStep.ForAllClients = value;
 				OnPropertyChanged(() => ForAllClients);
 			}
 		}

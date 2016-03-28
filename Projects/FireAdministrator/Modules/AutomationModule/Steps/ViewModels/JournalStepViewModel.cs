@@ -1,19 +1,19 @@
-﻿using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
+using RubezhAPI.Automation;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
 	public class JournalStepViewModel : BaseStepViewModel
 	{
-		JournalArguments JournalArguments { get; set; }
+		JournalStep JournalStep { get; set; }
 		public ArgumentViewModel MessageArgument { get; set; }
 
-		public JournalStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public JournalStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			JournalArguments = stepViewModel.Step.JournalArguments;
-			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, stepViewModel.Update, null);
+			JournalStep = (JournalStep)stepViewModel.Step;
+			MessageArgument = new ArgumentViewModel(JournalStep.MessageArgument, stepViewModel.Update, null);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>());
 			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
 			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
@@ -22,10 +22,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
 		public ExplicitType ExplicitType
 		{
-			get { return JournalArguments.ExplicitType; }
+			get { return JournalStep.ExplicitType; }
 			set
 			{
-				JournalArguments.ExplicitType = value;				
+				JournalStep.ExplicitType = value;
 				UpdateContent();
 				OnPropertyChanged(() => ExplicitType);
 			}
@@ -36,11 +36,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return JournalArguments.EnumType;
+				return JournalStep.EnumType;
 			}
 			set
 			{
-				JournalArguments.EnumType = value;
+				JournalStep.EnumType = value;
 				UpdateContent();
 				OnPropertyChanged(() => EnumType);
 			}
@@ -51,11 +51,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return JournalArguments.ObjectType;
+				return JournalStep.ObjectType;
 			}
 			set
 			{
-				JournalArguments.ObjectType = value;
+				JournalStep.ObjectType = value;
 				UpdateContent();
 				OnPropertyChanged(() => ObjectType);
 			}
@@ -68,9 +68,9 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get 
-			{ 
-				return "Сообщение: " + MessageArgument.Description; 
+			get
+			{
+				return "Сообщение: " + MessageArgument.Description;
 			}
 		}
 	}

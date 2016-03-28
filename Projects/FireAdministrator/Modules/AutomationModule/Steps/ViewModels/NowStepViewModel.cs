@@ -5,13 +5,13 @@ namespace AutomationModule.ViewModels
 	public class NowStepViewModel : BaseStepViewModel
 	{
 		public ArgumentViewModel ResultArgument { get; private set; }
-		public NowArguments NowArguments { get; private set; }
+		public NowStep NowStep { get; private set; }
 
 		public NowStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			NowArguments = stepViewModel.Step.NowArguments;
-			ResultArgument = new ArgumentViewModel(NowArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
+			NowStep = (NowStep)stepViewModel.Step;
+			ResultArgument = new ArgumentViewModel(NowStep.ResultArgument, stepViewModel.Update, UpdateContent, false);
 		}
 
 		public override void UpdateContent()

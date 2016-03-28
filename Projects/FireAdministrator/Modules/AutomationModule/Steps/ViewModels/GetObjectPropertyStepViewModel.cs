@@ -1,23 +1,24 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
-using Infrastructure.Automation;
+using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
-	public class GetObjectPropertyStepViewModel: BaseStepViewModel
+	public class GetObjectPropertyStepViewModel : BaseStepViewModel
 	{
-		GetObjectPropertyArguments GetObjectPropertyArguments { get; set; }
+		GetObjectPropertyStep GetObjectPropertyStep { get; set; }
 		public ArgumentViewModel ObjectArgument { get; private set; }
 		public ArgumentViewModel ResultArgument { get; private set; }
 
-		public GetObjectPropertyStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public GetObjectPropertyStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			GetObjectPropertyArguments = stepViewModel.Step.GetObjectPropertyArguments;
-			ObjectArgument = new ArgumentViewModel(GetObjectPropertyArguments.ObjectArgument, stepViewModel.Update, UpdateContent);
+			GetObjectPropertyStep = (GetObjectPropertyStep)stepViewModel.Step;
+			ObjectArgument = new ArgumentViewModel(GetObjectPropertyStep.ObjectArgument, stepViewModel.Update, UpdateContent);
 			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
-			ResultArgument = new ArgumentViewModel(GetObjectPropertyArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
-		}		
+			ResultArgument = new ArgumentViewModel(GetObjectPropertyStep.ResultArgument, stepViewModel.Update, UpdateContent, false);
+		}
 
 		EnumType? SelectedEnumType
 		{
@@ -34,10 +35,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<Property> Properties { get; private set; }
 		public Property SelectedProperty
 		{
-			get { return GetObjectPropertyArguments.Property; }
+			get { return GetObjectPropertyStep.Property; }
 			set
 			{
-				GetObjectPropertyArguments.Property = value;
+				GetObjectPropertyStep.Property = value;
 				ResultArgument.Update(Procedure, ExplicitType, SelectedEnumType, isList: false);
 				OnPropertyChanged(() => SelectedProperty);
 			}
@@ -53,9 +54,9 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get 
-			{ 
-				return ResultArgument.Description + " = " + ObjectArgument.Description + " Свойство: " + SelectedProperty.ToDescription(); 
+			get
+			{
+				return ResultArgument.Description + " = " + ObjectArgument.Description + " Свойство: " + SelectedProperty.ToDescription();
 			}
 		}
 
@@ -64,11 +65,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return GetObjectPropertyArguments.ObjectType;
+				return GetObjectPropertyStep.ObjectType;
 			}
 			set
 			{
-				GetObjectPropertyArguments.ObjectType = value;
+				GetObjectPropertyStep.ObjectType = value;
 				Properties = new ObservableCollection<Property>(AutomationHelper.ObjectTypeToProperiesList(SelectedObjectType));
 				UpdateContent();
 				OnPropertyChanged(() => Properties);

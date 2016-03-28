@@ -41,6 +41,11 @@ namespace RubezhAPI
 		[DataMember]
 		public Guid ClientUid { get; set; }
 
+		/// <summary>
+		/// Пользователь, от имени которого выполнилась операция
+		/// </summary>
+		[DataMember]
+		public string UserName { get; set; }
 	}
 
 	public enum CallbackOperationResultType

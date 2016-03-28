@@ -105,7 +105,7 @@ namespace RubezhAPI
 		/// <param name="page"></param>
 		/// <returns></returns>
 		[OperationContract]
-		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clentUid);
+		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clentUid, string userName);
 
 		/// <summary>
 		/// Запрос количества страниц событий по заданному фильтру

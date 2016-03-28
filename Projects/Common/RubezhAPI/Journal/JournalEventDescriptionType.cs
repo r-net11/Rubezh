@@ -33,16 +33,16 @@ namespace RubezhAPI.Journal
 		[EventDescriptionAttribute("Включить в автоматическом режиме", JournalEventNameType.Команда_оператора)]
 		Включить_в_автоматическом_режиме = 9,
 
-		[EventDescriptionAttribute("Перевод в ручной режим", JournalEventNameType.Команда_оператора)]
+		[EventDescriptionAttribute("Перевод в ручной режим", JournalEventNameType.Команда_оператора, JournalEventNameType.Управление_ПМФ)]
 		Перевод_в_ручной_режим = 10,
 
-		[EventDescriptionAttribute("Перевод в автоматический режим", JournalEventNameType.Команда_оператора)]
+		[EventDescriptionAttribute("Перевод в автоматический режим", JournalEventNameType.Команда_оператора, JournalEventNameType.Управление_ПМФ)]
 		Перевод_в_автоматический_режим = 11,
 
 		[EventDescriptionAttribute("Перевод в отключенный режим", JournalEventNameType.Команда_оператора)]
 		Перевод_в_отключенный_режим = 12,
 
-		[EventDescriptionAttribute("Сброс", JournalEventNameType.Команда_оператора)]
+		[EventDescriptionAttribute("Сброс", JournalEventNameType.Команда_оператора, JournalEventNameType.Управление_ПМФ)]
 		Сброс = 13,
 
 		[EventDescriptionAttribute("Не найдено родительское устройство ГК", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
@@ -951,5 +951,17 @@ namespace RubezhAPI.Journal
 
 		[EventDescriptionAttribute("Выход", JournalEventNameType.Проход_пользователя_разрешен)]
 		Выход_Глобал = 310,
+
+		[EventDescriptionAttribute("Постановка на охрану", JournalEventNameType.Управление_ПМФ)]
+		Постановка_на_охрану = 311,
+
+		[EventDescriptionAttribute("Снятие с охраны", JournalEventNameType.Управление_ПМФ)]
+		Снятие_с_охраны = 312,
+
+		[EventDescriptionAttribute("Пуск", JournalEventNameType.Управление_ПМФ)]
+		Пуск = 313,
+
+		[EventDescriptionAttribute("Стоп", JournalEventNameType.Управление_ПМФ)]
+		Стоп = 313
 	}
 }

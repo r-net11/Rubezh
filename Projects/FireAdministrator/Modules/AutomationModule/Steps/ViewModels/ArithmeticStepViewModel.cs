@@ -8,7 +8,7 @@ namespace AutomationModule.ViewModels
 {
 	public class ArithmeticStepViewModel : BaseStepViewModel
 	{
-		public ArithmeticArguments ArithmeticArguments { get; private set; }
+		public ArithmeticStep ArithmeticStep { get; private set; }
 		public ArgumentViewModel Argument1 { get; set; }
 		public ArgumentViewModel Argument2 { get; set; }
 		public ArgumentViewModel ResultArgument { get; set; }
@@ -16,13 +16,13 @@ namespace AutomationModule.ViewModels
 		public ArithmeticStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ArithmeticArguments = stepViewModel.Step.ArithmeticArguments;
-			ResultArgument = new ArgumentViewModel(ArithmeticArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
-			Argument1 = new ArgumentViewModel(ArithmeticArguments.Argument1, stepViewModel.Update, UpdateContent);
-			Argument2 = new ArgumentViewModel(ArithmeticArguments.Argument2, stepViewModel.Update, UpdateContent);
+			ArithmeticStep = (ArithmeticStep)stepViewModel.Step;
+			ResultArgument = new ArgumentViewModel(ArithmeticStep.ResultArgument, stepViewModel.Update, UpdateContent, false);
+			Argument1 = new ArgumentViewModel(ArithmeticStep.Argument1, stepViewModel.Update, UpdateContent);
+			Argument2 = new ArgumentViewModel(ArithmeticStep.Argument2, stepViewModel.Update, UpdateContent);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object && x != ExplicitType.Enum));
 			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();
-			SelectedExplicitType = ArithmeticArguments.ExplicitType;
+			SelectedExplicitType = ArithmeticStep.ExplicitType;
 		}
 
 		public override void UpdateContent()
@@ -52,7 +52,7 @@ namespace AutomationModule.ViewModels
 					break;
 			}
 			ResultArgument.Update(Procedure, SelectedExplicitType, isList: false);
-			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
+			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticStep.ArithmeticOperationType) ? ArithmeticStep.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
 		}
 
 		public override string Description
@@ -89,10 +89,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ArithmeticOperationType> ArithmeticOperationTypes { get; private set; }
 		public ArithmeticOperationType SelectedArithmeticOperationType
 		{
-			get { return ArithmeticArguments.ArithmeticOperationType; }
+			get { return ArithmeticStep.ArithmeticOperationType; }
 			set
 			{
-				ArithmeticArguments.ArithmeticOperationType = value;
+				ArithmeticStep.ArithmeticOperationType = value;
 				OnPropertyChanged(() => SelectedArithmeticOperationType);
 			}
 		}
@@ -100,10 +100,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<TimeType> TimeTypes { get; private set; }
 		public TimeType SelectedTimeType
 		{
-			get { return ArithmeticArguments.TimeType; }
+			get { return ArithmeticStep.TimeType; }
 			set
 			{
-				ArithmeticArguments.TimeType = value;
+				ArithmeticStep.TimeType = value;
 				OnPropertyChanged(() => SelectedTimeType);
 			}
 		}
@@ -111,10 +111,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
 		public ExplicitType SelectedExplicitType
 		{
-			get { return ArithmeticArguments.ExplicitType; }
+			get { return ArithmeticStep.ExplicitType; }
 			set
 			{
-				ArithmeticArguments.ExplicitType = value;
+				ArithmeticStep.ExplicitType = value;
 				ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType>();
 				if (value == ExplicitType.Boolean)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.And, ArithmeticOperationType.Or };

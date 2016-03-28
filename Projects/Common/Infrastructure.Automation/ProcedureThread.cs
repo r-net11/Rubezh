@@ -138,18 +138,17 @@ namespace Infrastructure.Automation
 					break;
 
 				case ProcedureStepType.GenerateGuid:
-					var generateGuidArguments = procedureStep.GenerateGuidArguments;
-					SetValue(generateGuidArguments.ResultArgument, Guid.NewGuid());
+					GenerateGuidStep(procedureStep);
 					break;
 
 				case ProcedureStepType.SetJournalItemGuid:
-					SetJournalItemGuid(procedureStep);
+					SetJournalItemGuidStep(procedureStep);
 					break;
 
 				case ProcedureStepType.Foreach:
-					var foreachArguments = procedureStep.ForeachArguments;
-					var listVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListArgument.VariableUid);
-					var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemArgument.VariableUid);
+					var foreachStep = (ForeachStep)procedureStep;
+					var listVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachStep.ListArgument.VariableUid);
+					var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachStep.ItemArgument.VariableUid);
 					if (listVariable != null && listVariable.IsList)
 						foreach (var listVariableItem in listVariable.Value as object[])
 						{
@@ -169,14 +168,14 @@ namespace Infrastructure.Automation
 					break;
 
 				case ProcedureStepType.For:
-					var forArguments = procedureStep.ForArguments;
-					var indexerVariable = AllVariables.FirstOrDefault(x => x.Uid == forArguments.IndexerArgument.VariableUid);
-					var initialValue = GetValue<int>(forArguments.InitialValueArgument);
-					var value = GetValue<int>(forArguments.ValueArgument);
-					var iterator = GetValue<int>(forArguments.IteratorArgument);
+					var forStep = (ForStep)procedureStep;
+					var indexerVariable = AllVariables.FirstOrDefault(x => x.Uid == forStep.IndexerArgument.VariableUid);
+					var initialValue = GetValue<int>(forStep.InitialValueArgument);
+					var value = GetValue<int>(forStep.ValueArgument);
+					var iterator = GetValue<int>(forStep.IteratorArgument);
 					if (indexerVariable != null)
 					{
-						var condition = Compare(initialValue, value, forArguments.ConditionType);
+						var condition = Compare(initialValue, value, forStep.ConditionType);
 						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
 						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value; )
 						{
@@ -196,7 +195,7 @@ namespace Infrastructure.Automation
 									return Result.Exit;
 							}
 							indexerVariable.ExplicitValue.IntValue = indexerVariable.ExplicitValue.IntValue + iterator;
-							condition = Compare(indexerVariable.ExplicitValue.IntValue, value, forArguments.ConditionType);
+							condition = Compare(indexerVariable.ExplicitValue.IntValue, value, forStep.ConditionType);
 						}
 						indexerVariable.ExplicitValue.IntValue = currentIntValue;
 					}
@@ -204,147 +203,142 @@ namespace Infrastructure.Automation
 
 
 				case ProcedureStepType.ProcedureSelection:
-					{
-						var childProcedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.
-								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
-						if (childProcedure != null)
-							AutomationProcessor.RunProcedure(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, AllVariables, User, JournalItem, ClientUID);
-					}
+					ProcedureSelectionStep(procedureStep);
 					break;
 
 				case ProcedureStepType.GetObjectProperty:
-					GetObjectProperty(procedureStep);
+					GetObjectPropertyStep(procedureStep);
 					break;
 
 				case ProcedureStepType.Arithmetics:
-					Calculate(procedureStep);
+					ArithmeticStep(procedureStep);
 					break;
 
 				case ProcedureStepType.CreateColor:
-					CreateColor(procedureStep);
+					CreateColorStep(procedureStep);
 					break;
 
 				case ProcedureStepType.PlaySound:
-					PlaySound(procedureStep);
+					SoundStep(procedureStep);
 					break;
 
 				case ProcedureStepType.Pause:
-					Pause(procedureStep);
+					PauseStep(procedureStep);
 					break;
 
 				case ProcedureStepType.AddJournalItem:
-					AddJournalItem(procedureStep);
+					JournalStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ShowMessage:
-					ShowMessage(procedureStep);
+					ShowMessageStep(procedureStep);
 					break;
 
 				case ProcedureStepType.FindObjects:
-					FindObjects(procedureStep);
+					FindObjectStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
-					ControlGKDevice(procedureStep);
+					ControlGKDeviceStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
-					ControlFireZone(procedureStep);
+					ControlGKFireZoneStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
-					ControlGuardZone(procedureStep);
+					ControlGKGuardZoneStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlDirection:
-					ControlDirection(procedureStep);
+					ControlDirectionStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlGKDoor:
-					ControlGKDoor(procedureStep);
+					ControlGKDoorStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlDelay:
-					ControlDelay(procedureStep);
+					ControlDelayStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlPumpStation:
-					ControlPumpStation(procedureStep);
+					ControlPumpStationStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlMPT:
-					ControlMPT(procedureStep);
+					ControlMPTStep(procedureStep);
 					break;
 
 				case ProcedureStepType.IncrementValue:
-					IncrementValue(procedureStep);
+					IncrementValueStep(procedureStep);
 					break;
 
 				case ProcedureStepType.SetValue:
-					SetValue(procedureStep);
+					SetValueStep(procedureStep);
 					break;
 
 				case ProcedureStepType.Random:
-					GetRandomValue(procedureStep);
+					RandomStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ChangeList:
-					ChangeList(procedureStep);
+					ChangeListStep(procedureStep);
 					break;
 
 				case ProcedureStepType.CheckPermission:
-					CheckPermission(procedureStep);
+					CheckPermissionStep(procedureStep);
 					break;
 
 				case ProcedureStepType.GetListCount:
-					GetListCount(procedureStep);
+					GetListCountStep(procedureStep);
 					break;
 
 				case ProcedureStepType.GetListItem:
-					GetListItem(procedureStep);
+					GetListItemStep(procedureStep);
 					break;
 
 				case ProcedureStepType.GetJournalItem:
-					GetJournalItem(procedureStep);
+					GetJournalItemStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlVisualGet:
-					ControlVisual(procedureStep, ControlElementType.Get);
+					ControlVisualGetStep(procedureStep);
 					break;
 				case ProcedureStepType.ControlVisualSet:
-					ControlVisual(procedureStep, ControlElementType.Set);
+					ControlVisualSetStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlPlanGet:
-					ControlPlan(procedureStep, ControlElementType.Get);
+					ControlPlanGetStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlPlanSet:
-					ControlPlan(procedureStep, ControlElementType.Set);
+					ControlPlanSetStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlOpcDaTagGet:
-					ControlOpcDaTag(procedureStep, ControlElementType.Get);
+					ControlOpcDaTagGetStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlOpcDaTagSet:
-					ControlOpcDaTag(procedureStep, ControlElementType.Set);
+					ControlOpcDaTagSetStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ShowDialog:
-					ShowDialog(procedureStep);
+					ShowDialogStep(procedureStep);
 					break;
 
 				case ProcedureStepType.CloseDialog:
-					CloseDialog(procedureStep);
+					CloseDialogStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ShowProperty:
-					ShowProperty(procedureStep);
+					ShowPropertyStep(procedureStep);
 					break;
 
 				case ProcedureStepType.SendEmail:
-					SendEmail(procedureStep);
+					SendEmailStep(procedureStep);
 					break;
 
 				case ProcedureStepType.Exit:
@@ -357,59 +351,59 @@ namespace Infrastructure.Automation
 					return Result.Continue;
 
 				case ProcedureStepType.ExportJournal:
-					ExportJournal(procedureStep);
+					ExportJournalStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ExportOrganisation:
-					ExportOrganisation(procedureStep);
+					ExportOrganisationStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ImportOrganisation:
-					ImportOrganisation(procedureStep);
+					ImportOrganisationStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ExportOrganisationList:
-					ExportOrganisationList(procedureStep);
+					ExportOrganisationListStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ImportOrganisationList:
-					ImportOrganisationList(procedureStep);
+					ImportOrganisationListStep(procedureStep);
 					break;
 
 				case ProcedureStepType.ExportConfiguration:
-					ExportConfiguration(procedureStep);
+					ExportConfigurationStep(procedureStep);
 					break;
 
 				case ProcedureStepType.Ptz:
-					Ptz(procedureStep);
+					PtzStep(procedureStep);
 					break;
 
 				case ProcedureStepType.StartRecord:
-					StartRecord(procedureStep);
+					StartRecordStep(procedureStep);
 					break;
 
 				case ProcedureStepType.StopRecord:
-					StopRecord(procedureStep);
+					StopRecordStep(procedureStep);
 					break;
 
 				case ProcedureStepType.RviAlarm:
-					RviAlarm(procedureStep);
+					RviAlarmStep(procedureStep);
 					break;
 
 				case ProcedureStepType.RviOpenWindow:
-					RviOpenWindow(procedureStep);
+					RviOpenWindowStep(procedureStep);
 					break;
 
 				case ProcedureStepType.Now:
-					Now(procedureStep);
+					NowStep(procedureStep);
 					break;
 
 				case ProcedureStepType.RunProgram:
-					RunProgram(procedureStep);
+					RunProgramStep(procedureStep);
 					break;
 
 				case ProcedureStepType.HttpRequest:
-					HttpRequest(procedureStep);
+					HttpRequestStep(procedureStep);
 					break;
 			}
 			return Result.Normal;
@@ -421,57 +415,6 @@ namespace Infrastructure.Automation
 			Break,
 			Continue,
 			Exit
-		}
-
-		public void InitializeArguments(List<Variable> variables, List<Argument> arguments, List<Variable> callingProcedureVariables)
-		{
-			int i = 0;
-			foreach (var variable in variables)
-			{
-				variable.ExplicitValues = new List<ExplicitValue>();
-				if (arguments.Count <= i)
-					break;
-				var argument = arguments[i];
-				if (argument == null)
-					break;
-				if (argument.VariableScope == VariableScope.ExplicitValue)
-				{
-					PropertyCopy.Copy(argument.ExplicitValue, variable.ExplicitValue);
-					foreach (var explicitVal in argument.ExplicitValues)
-					{
-						var newExplicitValue = new ExplicitValue();
-						PropertyCopy.Copy(explicitVal, newExplicitValue);
-						variable.ExplicitValues.Add(newExplicitValue);
-					}
-				}
-				else
-				{
-					var argumentVariable = callingProcedureVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
-					if (argumentVariable == null)
-						continue;
-					if (argumentVariable.IsReference)
-					{
-						variable.ExplicitValue = argumentVariable.ExplicitValue;
-						variable.ExplicitValues = argumentVariable.ExplicitValues;
-					}
-					else
-					{
-						PropertyCopy.Copy(argumentVariable.ExplicitValue, variable.ExplicitValue);
-						foreach (var explicitVal in argumentVariable.ExplicitValues)
-						{
-							var newExplicitValue = new ExplicitValue();
-							PropertyCopy.Copy(explicitVal, newExplicitValue);
-							variable.ExplicitValues.Add(newExplicitValue);
-						}
-					}
-				}
-				i++;
-			}
-		}
-
-		bool HasPermission(PermissionType permissionType)
-		{
-			return User == null ? false : User.HasPermission(permissionType);
 		}
 	}
 }

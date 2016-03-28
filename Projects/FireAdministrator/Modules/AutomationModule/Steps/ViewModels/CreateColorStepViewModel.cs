@@ -5,7 +5,7 @@ namespace AutomationModule.ViewModels
 {
 	public class CreateColorStepViewModel : BaseStepViewModel
 	{
-		public CreateColorArguments CreateColorArguments { get; private set; }
+		public CreateColorStep CreateColorStep { get; private set; }
 		public ArgumentViewModel AArgument { get; set; }
 		public ArgumentViewModel RArgument { get; set; }
 		public ArgumentViewModel GArgument { get; set; }
@@ -15,12 +15,12 @@ namespace AutomationModule.ViewModels
 		public CreateColorStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			CreateColorArguments = stepViewModel.Step.CreateColorArguments;
-			ResultArgument = new ArgumentViewModel(CreateColorArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
-			AArgument = new ArgumentViewModel(CreateColorArguments.AArgument, stepViewModel.Update, UpdateContent);
-			RArgument = new ArgumentViewModel(CreateColorArguments.RArgument, stepViewModel.Update, UpdateContent);
-			GArgument = new ArgumentViewModel(CreateColorArguments.GArgument, stepViewModel.Update, UpdateContent);
-			BArgument = new ArgumentViewModel(CreateColorArguments.BArgument, stepViewModel.Update, UpdateContent);
+			CreateColorStep = (CreateColorStep)stepViewModel.Step;
+			ResultArgument = new ArgumentViewModel(CreateColorStep.ResultArgument, stepViewModel.Update, UpdateContent, false);
+			AArgument = new ArgumentViewModel(CreateColorStep.AArgument, stepViewModel.Update, UpdateContent);
+			RArgument = new ArgumentViewModel(CreateColorStep.RArgument, stepViewModel.Update, UpdateContent);
+			GArgument = new ArgumentViewModel(CreateColorStep.GArgument, stepViewModel.Update, UpdateContent);
+			BArgument = new ArgumentViewModel(CreateColorStep.BArgument, stepViewModel.Update, UpdateContent);
 			ResultArgument.Update(Procedure, ExplicitType.Enum, EnumType.ColorType);
 			AArgument.Update(Procedure, ExplicitType.Integer);
 			RArgument.Update(Procedure, ExplicitType.Integer);

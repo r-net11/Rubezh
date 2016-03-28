@@ -4,15 +4,16 @@ namespace AutomationModule.ViewModels
 {
 	public class PtzStepViewModel : BaseStepViewModel
 	{
-		PtzArguments PtzArguments { get; set; }
+		PtzStep PtzStep { get; set; }
 		public ArgumentViewModel CameraArgument { get; private set; }
 		public ArgumentViewModel PtzNumberArgument { get; private set; }
 
-		public PtzStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public PtzStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			PtzArguments = stepViewModel.Step.PtzArguments;
-			CameraArgument = new ArgumentViewModel(PtzArguments.CameraArgument, stepViewModel.Update, null);
-			PtzNumberArgument = new ArgumentViewModel(PtzArguments.PtzNumberArgument, stepViewModel.Update, null);
+			PtzStep = (PtzStep)stepViewModel.Step;
+			CameraArgument = new ArgumentViewModel(PtzStep.CameraArgument, stepViewModel.Update, null);
+			PtzNumberArgument = new ArgumentViewModel(PtzStep.PtzNumberArgument, stepViewModel.Update, null);
 			PtzNumberArgument.ExplicitValue.MinIntValue = 1;
 			PtzNumberArgument.ExplicitValue.MaxIntValue = 100;
 		}

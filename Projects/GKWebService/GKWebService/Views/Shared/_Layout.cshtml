@@ -38,24 +38,11 @@
 <body ng-app="gkApp">
 	<div class="wrapper">
 		<header class="header">
-			<div class="left" data-bind="with: Header">
-
-
-				<div id="question-box" class="save-cancel-popup">
-					<div class="title-bar">
-						<span>Оперативная задача Глобал</span>
-						<a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: QuestionBox.Close" /></a>
-					</div>
-					<fieldset class="textbox">
-						<div>
-							<label data-bind="text: QuestionBox.Message"></label>
-						</div>
-						<button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.OnYesClick">Да</button>
-						<button class="submit ok-cancel-button" type="button" data-bind="click: QuestionBox.Close">Нет</button>
-					</fieldset>
-				</div>
-
-				<div id="clockbox" class="time"></div>
+			<div class="left">
+			    <div ng-controller="clockCtrl">
+			        <div id="clockbox" class="time" ng-bind="time">
+			        </div>
+			    </div>
 				<div class="icons" ng-controller="mainIconsCtrl">
 					<div class="icon RAlarm_main_5_Info"></div>
 					<div class="icon mute" ng-class="{off: isSound}" ng-click="isSound = !isSound"></div>
@@ -70,7 +57,7 @@
 			</div>
 		</header><!-- .header-->
 
-		<div class="middle" data-bind="with: Menu">
+		<div class="middle">
 			<div class="container">
 				<main class="content">
 					@RenderBody()
@@ -89,8 +76,8 @@
 					<li class="event-log" ng-class="{active: isPageActive('journal')}"><a ui-sref='journal'><span class="icon event-log"></span><span class="text">Журнал событий</span></a></li>
 					<li ng-class="{active: isPageActive('archive')}"><a ui-sref='archive'><span class="icon archive"></span><span class="text">Архив</span></a></li>
 					@*<li ng-class="{active: isPageActive('reports')}"><a ui-sref='reports'><span class="icon reports"></span><span class="text">Отчёты</span></a></li>*@
-					<li class="SKD has-sub last" ng-class="{clicked: skdClicked}">
-						<a ng-click="skdClicked = !skdClicked"><span class="icon SKD"></span><span class="text">СКД</span></a>
+					<li class="SKD has-sub last" ng-class="{clicked: SKDClicked}">
+						<a ng-click="SKDClicked = !SKDClicked"><span class="icon SKD"></span><span class="text">СКД</span></a>
 						<ul>
 							<li ng-class="{active: isPageActive('hr')}">
 								<a class="hr" ui-sref='hr'><span class="icon file"></span><span class="text">Картотека</span></a>
@@ -106,8 +93,6 @@
 	@*<script src="~/Scripts/jquery-2.1.4.min.js"></script>*@
 
 	<script src="~/Scripts/less.min.js"></script>
-	<script src="~/Scripts/knockout-3.3.0.js"></script>
-	<script src="~/Scripts/knockout.mapping-latest.js"></script>
 	<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
     <script src="~/Scripts/jquery-ui-touch-punch2.js"></script>
 	<script src="~/Scripts/jquery.jqGrid.min.js"></script>
@@ -157,6 +142,7 @@
 	<script src="~/App/controllers/navCtrl.js"></script>
     <script src="~/App/controllers/Common/loginCtrl.js"></script>
     <script src="~/App/controllers/Common/mainIconsCtrl.js"></script>
+    <script src="~/App/controllers/Common/clockCtrl.js"></script>
 	<script src="~/App/controllers/Doors/doorsCtrl.js"></script>
 	<script src="~/App/controllers/Doors/doorDetailsCtrl.js"></script>
 	<script src="~/App/controllers/GuardZones/guardZonesCtrl.js"></script>
@@ -188,36 +174,8 @@
 	<script src="~/App/controllers/alarms/alarmsCtrl.js"></script>
 	<script src="~/App/controllers/MPTs/devicesMPTCtrl.js"></script>
 	<script src="~/App/controllers/restart/restartDetailsCtrl.js"></script>
+    <script src="~/App/controllers/SKD/HR/HRCtrl.js"></script>
 	@*<script src="~/Scripts/report.js"></script>*@
-	<script src="~/Scripts/HR.js"></script>
-	<script src="~/Scripts/HrFilter.js"></script>
-	<script src="~/Scripts/HrEmployees.js"></script>
-	<script src="~/Scripts/EmployeeDetails.js"></script>
-	<script src="~/Scripts/EmployeeCardDetails.js"></script>
-	<script src="~/Scripts/SKD/Employees/DepartmentSelectionViewModel.js"></script>
-	<script src="~/Scripts/SKD/Employees/PositionSelectionViewModel.js"></script>
-	<script src="~/Scripts/SKD/Employees/ScheduleSelectionViewModel.js"></script>
-	<script src="~/Scripts/SKD/Employees/CardRemovalReasonViewModel.js"></script>
-	<script src="~/Scripts/HrEmployeeCards.js"></script>
-	<script src="~/Scripts/SKD/Departments/DepartmentsViewModel.js"></script>
-	<script src="~/Scripts/SKD/Departments/DepartmentDetailsViewModel.js"></script>
-	<script src="~/Scripts/SKD/Common/EmployeeSelectionDialogViewModel.js"></script>
-	<script src="~/Scripts/SKD/Common/PhotoSelectionViewModel.js"></script>
-	<script src="~/Scripts/SKD/Common/OrganisationsFilterViewModel.js"></script>
-	<script src="~/Scripts/SKD/Common/DepartmentsFilterViewModel.js"></script>
-	<script src="~/Scripts/SKD/Common/PositionsFilterViewModel.js"></script>
-	<script src="~/Scripts/SKD/Common/EmployeesFilterViewModel.js"></script>
-	<script src="~/Scripts/SKD/Departments/DepartmentEmployeeListViewModel.js"></script>
-	<script src="~/Scripts/SKD/Positions/PositionsViewModel.js"></script>
-	<script src="~/Scripts/SKD/Positions/PositionDetailsViewModel.js"></script>
-	<script src="~/Scripts/SKD/Positions/PositionEmployeeListViewModel.js"></script>
-	<script src="~/Scripts/SKD/Cards/CardsViewModel.js"></script>
-	<script src="~/Scripts/SKD/AccessTemplates/AccessTemplatesViewModel.js"></script>
-	<script src="~/Scripts/SKD/AccessTemplates/AccessTemplateDetailsViewModel.js"></script>
-	<script src="~/Scripts/SKD/Organisations/OrganisationsViewModel.js"></script>
-	<script src="~/Scripts/SKD/Organisations/OrganisationDetailsViewModel.js"></script>
-	<script src="~/Scripts/Main.js"></script>
-	<script src="~/Scripts/Clock.js"></script>
 	<script src="~/Scripts/tooltips.js"></script>
 </body>
 </html>

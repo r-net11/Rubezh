@@ -1,21 +1,22 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
-using Infrastructure.Automation;
+using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlGKGuardZoneStepViewModel: BaseStepViewModel
+	public class ControlGKGuardZoneStepViewModel : BaseStepViewModel
 	{
-		ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
+		ControlGKGuardZoneStep ControlGKGuardZoneStep { get; set; }
 		public ArgumentViewModel GKGuardZoneArgument { get; private set; }
 
-		public ControlGKGuardZoneStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ControlGKGuardZoneStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
-			ControlGKGuardZoneArguments = stepViewModel.Step.ControlGKGuardZoneArguments;
+			ControlGKGuardZoneStep = (ControlGKGuardZoneStep)stepViewModel.Step;
 			Commands = AutomationHelper.GetEnumObs<GuardZoneCommandType>();
-			GKGuardZoneArgument = new ArgumentViewModel(ControlGKGuardZoneArguments.GKGuardZoneArgument, stepViewModel.Update, null);
-			SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
+			GKGuardZoneArgument = new ArgumentViewModel(ControlGKGuardZoneStep.GKGuardZoneArgument, stepViewModel.Update, null);
+			SelectedCommand = ControlGKGuardZoneStep.GuardZoneCommandType;
 		}
 
 		public ObservableCollection<GuardZoneCommandType> Commands { get; private set; }
@@ -26,14 +27,14 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedCommand = value;
-				ControlGKGuardZoneArguments.GuardZoneCommandType = value;
-				OnPropertyChanged(()=>SelectedCommand);
+				ControlGKGuardZoneStep.GuardZoneCommandType = value;
+				OnPropertyChanged(() => SelectedCommand);
 			}
 		}
-	
+
 		public override void UpdateContent()
 		{
-			GKGuardZoneArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.GuardZone, isList:false);
+			GKGuardZoneArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType.GuardZone, isList: false);
 		}
 
 		public override string Description

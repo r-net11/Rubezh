@@ -40,7 +40,7 @@
     <ApplicationManifest>GKOPCServer.exe.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>OPC2.ico</ApplicationIcon>
+    <ApplicationIcon>OPC.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gbda_clr">
@@ -160,7 +160,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="OPC2.ico" />
     <Resource Include="OPC.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKWebService", "GKWebService\GKWebService.csproj", "{EFAD2894-B3F5-4923-824D-318E7C9DF1E1}"
 EndProject
@@ -156,4 +156,3 @@ Global
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF} = {97F3E9DE-7590-4B16-9806-78E52F88FAF5}
 	EndGlobalSection
 EndGlobal
-

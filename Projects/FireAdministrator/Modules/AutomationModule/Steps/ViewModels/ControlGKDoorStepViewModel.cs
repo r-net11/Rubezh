@@ -1,22 +1,22 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
+﻿using Infrastructure.Automation;
 using RubezhAPI;
-using Infrastructure.Automation;
+using RubezhAPI.Automation;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlGKDoorStepViewModel : BaseStepViewModel
 	{
-		ControlGKDoorArguments ControlGKDoorArguments { get; set; }
+		ControlGKDoorStep ControlGKDoorStep { get; set; }
 		public ArgumentViewModel DoorArgument { get; private set; }
 
 		public ControlGKDoorStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ControlGKDoorArguments = stepViewModel.Step.ControlGKDoorArguments;
+			ControlGKDoorStep = (ControlGKDoorStep)stepViewModel.Step;
 			Commands = AutomationHelper.GetEnumObs<GKDoorCommandType>();
-			DoorArgument = new ArgumentViewModel(ControlGKDoorArguments.DoorArgument, stepViewModel.Update, null);
-			SelectedCommand = ControlGKDoorArguments.DoorCommandType;
+			DoorArgument = new ArgumentViewModel(ControlGKDoorStep.DoorArgument, stepViewModel.Update, null);
+			SelectedCommand = ControlGKDoorStep.DoorCommandType;
 		}
 
 		public ObservableCollection<GKDoorCommandType> Commands { get; private set; }
@@ -28,14 +28,14 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedCommand = value;
-				ControlGKDoorArguments.DoorCommandType = value;
-				OnPropertyChanged(()=>SelectedCommand);
+				ControlGKDoorStep.DoorCommandType = value;
+				OnPropertyChanged(() => SelectedCommand);
 			}
 		}
-		
+
 		public override void UpdateContent()
 		{
-			DoorArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.GKDoor, isList:false);
+			DoorArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType.GKDoor, isList: false);
 		}
 
 		public override string Description

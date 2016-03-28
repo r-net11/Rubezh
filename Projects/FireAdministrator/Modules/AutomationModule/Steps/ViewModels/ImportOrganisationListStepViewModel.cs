@@ -4,16 +4,16 @@ namespace AutomationModule.ViewModels
 {
 	public class ImportOrganisationListStepViewModel : BaseStepViewModel
 	{
-		ImportOrganisationArguments ImportOrganisationListArguments { get; set; }
+		ImportOrganisationStep ImportOrganisationListStep { get; set; }
 		public ArgumentViewModel IsWithDeleted { get; private set; }
 		public ArgumentViewModel PathArgument { get; private set; }
 
 		public ImportOrganisationListStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ImportOrganisationListArguments = stepViewModel.Step.ImportOrganisationArguments;
-			IsWithDeleted = new ArgumentViewModel(ImportOrganisationListArguments.IsWithDeleted, stepViewModel.Update, UpdateContent);
-			PathArgument = new ArgumentViewModel(ImportOrganisationListArguments.PathArgument, stepViewModel.Update, UpdateContent);
+			ImportOrganisationListStep = (ImportOrganisationStep)stepViewModel.Step;
+			IsWithDeleted = new ArgumentViewModel(ImportOrganisationListStep.IsWithDeleted, stepViewModel.Update, UpdateContent);
+			PathArgument = new ArgumentViewModel(ImportOrganisationListStep.PathArgument, stepViewModel.Update, UpdateContent);
 		}
 
 		public override void UpdateContent()

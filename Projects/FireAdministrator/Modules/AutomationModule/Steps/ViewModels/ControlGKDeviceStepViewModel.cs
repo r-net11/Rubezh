@@ -10,14 +10,14 @@ namespace AutomationModule.ViewModels
 {
 	public class ControlGKDeviceStepViewModel : BaseStepViewModel
 	{
-		ControlGKDeviceArguments ControlGkDeviceArguments { get; set; }
+		ControlGKDeviceStep ControlGkDeviceStep { get; set; }
 		public ArgumentViewModel GKDeviceArgument { get; private set; }
 
 		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
-			ControlGkDeviceArguments = stepViewModel.Step.ControlGKDeviceArguments;
-			GKDeviceArgument = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceArgument, stepViewModel.Update, null);
+			ControlGkDeviceStep = (ControlGKDeviceStep)stepViewModel.Step;
+			GKDeviceArgument = new ArgumentViewModel(ControlGkDeviceStep.GKDeviceArgument, stepViewModel.Update, null);
 			GKDeviceArgument.UpdateVariableScopeHandler = Update;
 			GKDeviceArgument.ExplicitValue.UpdateObjectHandler += Update;
 			Commands = new ObservableCollection<CommandType>();
@@ -33,7 +33,7 @@ namespace AutomationModule.ViewModels
 			}
 			else if (GKDeviceArgument.ExplicitValue.Device != null)
 				InitializeCommands(GKDeviceArgument.ExplicitValue.Device);
-			SelectedCommand = Commands.FirstOrDefault(x => x == XStateBitToCommandType(ControlGkDeviceArguments.Command));
+			SelectedCommand = Commands.FirstOrDefault(x => x == XStateBitToCommandType(ControlGkDeviceStep.Command));
 			OnPropertyChanged(() => Commands);
 		}
 
@@ -46,7 +46,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedCommand = value;
-				ControlGkDeviceArguments.Command = CommandTypeToXStateBit(value);
+				ControlGkDeviceStep.Command = CommandTypeToXStateBit(value);
 				OnPropertyChanged(() => SelectedCommand);
 			}
 		}

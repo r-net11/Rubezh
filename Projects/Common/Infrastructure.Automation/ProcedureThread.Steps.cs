@@ -8,94 +8,610 @@ using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
-using Property = RubezhAPI.Automation.Property;
 
 namespace Infrastructure.Automation
 {
 	public partial class ProcedureThread
 	{
-		void AddJournalItem(ProcedureStep procedureStep)
+		public void GenerateGuidStep(ProcedureStep procedureStep)
 		{
-			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
+			var generateGuidStep = (GenerateGuidStep)procedureStep;
+			SetValue(generateGuidStep.ResultArgument, Guid.NewGuid());
+		}
+
+		public void SetJournalItemGuidStep(ProcedureStep procedureStep)
+		{
+			//var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
+			//if (JournalItem != null)
+			//{
+			//	using (var dbService = new DbService())
+			//	{
+			//		var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
+			//		Guid eventUID;
+			//		if (CheckGuid(eventUIDString))
+			//		{
+			//			eventUID = new Guid(eventUIDString);
+			//		}
+			//		else
+			//		{
+			//			return;
+			//		}
+			//		dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
+			//	}
+			//}
+		}
+
+		public void ProcedureSelectionStep(ProcedureStep procedureStep)
+		{
+			var procedureSelectionStep = (ProcedureSelectionStep)procedureStep;
+			var childProcedure = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures.
+									FirstOrDefault(x => x.Uid == procedureSelectionStep.ScheduleProcedure.ProcedureUid);
+			if (childProcedure != null)
+				AutomationProcessor.RunProcedure(childProcedure, procedureSelectionStep.ScheduleProcedure.Arguments, AllVariables, User, JournalItem, ClientUID);
+		}
+
+		public void GetObjectPropertyStep(ProcedureStep procedureStep)
+		{
+			var getObjectPropertyStep = (GetObjectPropertyStep)procedureStep;
+			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyStep.ResultArgument.VariableUid);
+			var objectUid = GetValue<Guid>(getObjectPropertyStep.ObjectArgument);
+			var item = InitializeItem(objectUid);
+			if (item == null)
+				return;
+			var propertyValue = GetPropertyValue(getObjectPropertyStep.Property, item);
+			ProcedureExecutionContext.SetVariableValue(target, propertyValue, ClientUID);
+		}
+
+		public void ArithmeticStep(ProcedureStep procedureStep)
+		{
+			var arithmeticStep = (ArithmeticStep)procedureStep;
+			object value1;
+			object value2;
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == arithmeticStep.ResultArgument.VariableUid);
+			switch (arithmeticStep.ExplicitType)
+			{
+				case ExplicitType.Boolean:
+					{
+						value1 = GetValue<bool>(arithmeticStep.Argument1);
+						value2 = GetValue<bool>(arithmeticStep.Argument2);
+						bool result = false;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.And)
+							result = (bool)value1 & (bool)value2;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Or)
+							result = (bool)value1 || (bool)value2;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.BoolValue = result;
+						break;
+					}
+
+				case ExplicitType.Integer:
+					{
+						value1 = GetValue<int>(arithmeticStep.Argument1);
+						value2 = GetValue<int>(arithmeticStep.Argument2);
+						int result = 0;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (int)value1 + (int)value2;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (int)value1 - (int)value2;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Multi)
+							result = (int)value1 * (int)value2;
+						if ((arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)value2 != 0))
+							result = (int)value1 / (int)value2;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.IntValue = result;
+						break;
+					}
+				case ExplicitType.Float:
+					{
+						value1 = GetValue<double>(arithmeticStep.Argument1);
+						value2 = GetValue<double>(arithmeticStep.Argument2);
+						double result = 0;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (double)value1 + (double)value2;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (double)value1 - (double)value2;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Multi)
+							result = (double)value1 * (double)value2;
+						if ((arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)value2 != 0))
+							result = (double)value1 / (double)value2;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.FloatValue = result;
+						break;
+					}
+
+				case ExplicitType.DateTime:
+					{
+						value1 = GetValue<DateTime>(arithmeticStep.Argument1);
+						value2 = new TimeSpan();
+						switch (arithmeticStep.TimeType)
+						{
+							case TimeType.Millisec:
+								value2 = TimeSpan.FromMilliseconds(GetValue<int>(arithmeticStep.Argument2));
+								break;
+							case TimeType.Sec:
+								value2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticStep.Argument2));
+								break;
+							case TimeType.Min:
+								value2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticStep.Argument2));
+								break;
+							case TimeType.Hour:
+								value2 = TimeSpan.FromHours(GetValue<int>(arithmeticStep.Argument2));
+								break;
+							case TimeType.Day:
+								value2 = TimeSpan.FromDays(GetValue<int>(arithmeticStep.Argument2));
+								break;
+						}
+						var result = new DateTime();
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (DateTime)value1 + (TimeSpan)value2;
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (DateTime)value1 - (TimeSpan)value2;
+
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.DateTimeValue = result;
+						break;
+					}
+				case ExplicitType.String:
+					{
+						value1 = GetValue<object>(arithmeticStep.Argument1);
+						value2 = GetValue<object>(arithmeticStep.Argument2);
+						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
+							if (resultVariable != null)
+								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(value1), GetStringValue(value2));
+						break;
+					}
+			}
+			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
+		}
+
+		public void CreateColorStep(ProcedureStep procedureStep)
+		{
+			var createColorStep = (CreateColorStep)procedureStep;
+			var a = GetValue<int>(createColorStep.AArgument);
+			var r = GetValue<int>(createColorStep.RArgument);
+			var g = GetValue<int>(createColorStep.GArgument);
+			var b = GetValue<int>(createColorStep.BArgument);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == createColorStep.ResultArgument.VariableUid);
+
+			if (resultVariable != null)
+			{
+				resultVariable.ExplicitValue.ColorValue = System.Windows.Media.Color.FromArgb(IntToByte(a), IntToByte(r), IntToByte(g), IntToByte(b));
+				ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
+			}
+		}
+
+		public void SoundStep(ProcedureStep procedureStep)
+		{
+			var soundStep = (SoundStep)procedureStep;
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.Sound,
+				Data = new SoundCallbackData()
+				{
+					SoundUID = soundStep.SoundUid,
+				},
+			};
+			SendCallback(soundStep, automationCallbackResult);
+		}
+
+		public void PauseStep(ProcedureStep procedureStep)
+		{
+			var pauseStep = (PauseStep)procedureStep;
+			var pause = new TimeSpan();
+			switch (pauseStep.TimeType)
+			{
+				case TimeType.Millisec:
+					pause = TimeSpan.FromMilliseconds(GetValue<int>(pauseStep.PauseArgument));
+					break;
+				case TimeType.Sec:
+					pause = TimeSpan.FromSeconds(GetValue<int>(pauseStep.PauseArgument));
+					break;
+				case TimeType.Min:
+					pause = TimeSpan.FromMinutes(GetValue<int>(pauseStep.PauseArgument));
+					break;
+				case TimeType.Hour:
+					pause = TimeSpan.FromHours(GetValue<int>(pauseStep.PauseArgument));
+					break;
+				case TimeType.Day:
+					pause = TimeSpan.FromDays(GetValue<int>(pauseStep.PauseArgument));
+					break;
+			}
+
+			AutoResetEvent.WaitOne(pause);
+		}
+
+		public void JournalStep(ProcedureStep procedureStep)
+		{
+			var journalStep = (JournalStep)procedureStep;
+			var messageValue = GetValue<object>(journalStep.MessageArgument);
 			ProcedureExecutionContext.AddJournalItem(ClientUID, GetStringValue(messageValue));
 		}
 
-		bool Compare(ProcedureStep procedureStep)
+		public void ShowMessageStep(ProcedureStep procedureStep)
 		{
-			var conditionArguments = procedureStep.ConditionArguments;
-			var result = conditionArguments.JoinOperator == JoinOperator.And;
-			foreach (var condition in conditionArguments.Conditions)
-			{
-				var variable1 = GetValue<object>(condition.Argument1);
-				var variable2 = GetValue<object>(condition.Argument2);
-				var comparer = Compare(variable1, variable2, condition.ConditionType);
-				if ((comparer != null))
-					result = conditionArguments.JoinOperator == JoinOperator.And ? result & comparer.Value : result | comparer.Value;
-			}
-			return result;
-		}
-
-		void ShowMessage(ProcedureStep procedureStep)
-		{
-			var showMessageArguments = procedureStep.ShowMessageArguments;
-			var message = GetValue<object>(showMessageArguments.MessageArgument);
+			var showMessageStep = (ShowMessageStep)procedureStep;
+			var message = GetValue<object>(showMessageStep.MessageArgument);
 			var messageString = GetStringValue(message);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Message,
 				Data = new MessageCallbackData()
 				{
-					IsModalWindow = showMessageArguments.IsModalWindow,
+					IsModalWindow = showMessageStep.IsModalWindow,
 					Message = messageString,
-					WithConfirmation = showMessageArguments.WithConfirmation
+					WithConfirmation = showMessageStep.WithConfirmation
 				},
 			};
 
-			if (showMessageArguments.WithConfirmation)
+			if (showMessageStep.WithConfirmation)
 			{
-				var value = SendCallback(showMessageArguments, automationCallbackResult, true);
-				SetValue(showMessageArguments.ConfirmationValueArgument, value);
+				var value = SendCallback(showMessageStep, automationCallbackResult, true);
+				SetValue(showMessageStep.ConfirmationValueArgument, value);
 			}
 			else
-				SendCallback(showMessageArguments, automationCallbackResult);
+				SendCallback(showMessageStep, automationCallbackResult);
 		}
 
-		void ShowDialog(ProcedureStep procedureStep)
+		public void FindObjectStep(ProcedureStep procedureStep)
 		{
-			var windowID = GetValue<string>(procedureStep.ShowDialogArguments.WindowIDArgument);
+			var findObjectStep = (FindObjectStep)procedureStep;
+			var variable = AllVariables.FirstOrDefault(x => x.Uid == findObjectStep.ResultArgument.VariableUid);
+			if (findObjectStep.JoinOperator == JoinOperator.Or)
+				FindObjectsOr(variable, findObjectStep.FindObjectConditions);
+			else
+				FindObjectsAnd(variable, findObjectStep.FindObjectConditions);
+		}
+
+		public void ControlGKDeviceStep(ProcedureStep procedureStep)
+		{
+			var controlGKDeviceStep = (ControlGKDeviceStep)procedureStep;
+			var deviceUid = GetValue<Guid>(controlGKDeviceStep.GKDeviceArgument);
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
+			if (device == null)
+				return;
+			ProcedureExecutionContext.ControlGKDevice(ClientUID, device.UID, controlGKDeviceStep.Command);
+		}
+
+		public void ControlGKFireZoneStep(ProcedureStep procedureStep)
+		{
+			var controlGKFireZoneStep = (ControlGKFireZoneStep)procedureStep;
+			var zoneUid = GetValue<Guid>(controlGKFireZoneStep.GKFireZoneArgument);
+			if (!LicenseManager.CurrentLicenseInfo.HasFirefighting)
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием лицензии", zoneUid);
+				return;
+			}
+			if (!HasPermission(PermissionType.Oper_Zone_Control))
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneUid);
+				return;
+			}
+
+			ProcedureExecutionContext.ControlFireZone(ClientUID, zoneUid, controlGKFireZoneStep.ZoneCommandType);
+		}
+
+		public void ControlGKGuardZoneStep(ProcedureStep procedureStep)
+		{
+			var controlGKGuardZoneStep = (ControlGKGuardZoneStep)procedureStep;
+			var zoneUid = GetValue<Guid>(controlGKGuardZoneStep.GKGuardZoneArgument);
+			if (!LicenseManager.CurrentLicenseInfo.HasGuard)
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием лицензии", zoneUid);
+				return;
+			}
+			if (!HasPermission(PermissionType.Oper_GuardZone_Control))
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneUid);
+				return;
+			}
+
+			ProcedureExecutionContext.ControlGuardZone(ClientUID, zoneUid, controlGKGuardZoneStep.GuardZoneCommandType);
+		}
+
+		public void ControlDirectionStep(ProcedureStep procedureStep)
+		{
+			var controlDirectionStep = (ControlDirectionStep)procedureStep;
+			var directionUid = GetValue<Guid>(controlDirectionStep.DirectionArgument);
+			ProcedureExecutionContext.ControlDirection(ClientUID, directionUid, controlDirectionStep.DirectionCommandType);
+		}
+
+		public void ControlGKDoorStep(ProcedureStep procedureStep)
+		{
+			var controlGKDoorStep = (ControlGKDoorStep)procedureStep;
+			var doorUid = GetValue<Guid>(controlGKDoorStep.DoorArgument);
+			if (!LicenseManager.CurrentLicenseInfo.HasSKD)
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием лицензии", doorUid);
+				return;
+			}
+			if (!HasPermission(PermissionType.Oper_ZonesSKD))
+			{
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием прав пользователя", doorUid);
+				return;
+			}
+
+			ProcedureExecutionContext.ControlGKDoor(ClientUID, doorUid, controlGKDoorStep.DoorCommandType);
+		}
+
+		public void ControlDelayStep(ProcedureStep procedureStep)
+		{
+			var controlDelayStep = (ControlDelayStep)procedureStep;
+			var delayUid = GetValue<Guid>(controlDelayStep.DelayArgument);
+			ProcedureExecutionContext.ControlDelay(ClientUID, delayUid, controlDelayStep.DelayCommandType);
+		}
+
+		public void ControlPumpStationStep(ProcedureStep procedureStep)
+		{
+			var controlPumpStationStep = (ControlPumpStationStep)procedureStep;
+			var pumpStationUid = GetValue<Guid>(controlPumpStationStep.PumpStationArgument);
+			ProcedureExecutionContext.ControlPumpStation(ClientUID, pumpStationUid, controlPumpStationStep.PumpStationCommandType);
+		}
+
+		public void ControlMPTStep(ProcedureStep procedureStep)
+		{
+			var controlMPTStep = (ControlMPTStep)procedureStep;
+			var mptUid = GetValue<Guid>(controlMPTStep.MPTArgument);
+			ProcedureExecutionContext.ControlMPT(ClientUID, mptUid, controlMPTStep.MPTCommandType);
+		}
+
+		public void IncrementValueStep(ProcedureStep procedureStep)
+		{
+			var incrementValueStep = (IncrementValueStep)procedureStep;
+			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueStep.ResultArgument.VariableUid);
+			var value = GetValue<double>(incrementValueStep.ResultArgument);
+			if (incrementValueStep.IncrementType == IncrementType.Inc)
+				ProcedureExecutionContext.SetVariableValue(variable, value + 1, ClientUID);
+			else
+				ProcedureExecutionContext.SetVariableValue(variable, value - 1, ClientUID);
+		}
+
+		public void SetValueStep(ProcedureStep procedureStep)
+		{
+			var setValueStep = (SetValueStep)procedureStep;
+			var value = GetValue<object>(setValueStep.SourceArgument);
+			if (setValueStep.ExplicitType == ExplicitType.String)
+				value = GetStringValue(value);
+			SetValue(setValueStep.TargetArgument, value);
+		}
+
+		public void RandomStep(ProcedureStep procedureStep)
+		{
+			var randomStep = (RandomStep)procedureStep;
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == randomStep.ResultArgument.VariableUid);
+			var maxValue = GetValue<int>(randomStep.MaxValueArgument);
+			if (resultVariable != null)
+				resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
+		}
+
+		public void ChangeListStep(ProcedureStep procedureStep)
+		{
+			var changeListStep = (ChangeListStep)procedureStep;
+			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == changeListStep.ListArgument.VariableUid);
+			var variable = new Variable();
+			variable.ExplicitType = changeListStep.ItemArgument.ExplicitType;
+			variable.EnumType = changeListStep.ItemArgument.EnumType;
+			variable.ObjectType = changeListStep.ItemArgument.ObjectType;
+			var itemValue = GetValue<object>(changeListStep.ItemArgument);
+			ProcedureExecutionContext.SetVariableValue(variable, itemValue, ClientUID);
+			var explicitValue = variable.ExplicitValue;
+			if (listVariable != null)
+			{
+				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
+				switch (changeListStep.ChangeType)
+				{
+					case ChangeType.AddLast:
+						listVariable.ExplicitValues.Add(explicitValue);
+						break;
+					case ChangeType.RemoveFirst:
+						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
+							(x => ExplicitCompare(x, explicitValue, changeListStep.ItemArgument.ExplicitType,
+								changeListStep.ListArgument.EnumType)));
+						break;
+					case ChangeType.RemoveAll:
+						listVariable.ExplicitValues.RemoveAll(
+							(x => ExplicitCompare(x, explicitValue, changeListStep.ListArgument.ExplicitType,
+								changeListStep.ListArgument.EnumType)));
+						break;
+				}
+				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Server);
+			}
+		}
+
+		public void CheckPermissionStep(ProcedureStep procedureStep)
+		{
+			var checkPermissionStep = (CheckPermissionStep)procedureStep;
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == checkPermissionStep.ResultArgument.VariableUid);
+			var permissionValue = GetValue<PermissionType>(checkPermissionStep.PermissionArgument);
+			if (resultVariable != null && User != null)
+				resultVariable.ExplicitValue.BoolValue = User.HasPermission(permissionValue);
+		}
+
+		public void GetListCountStep(ProcedureStep procedureStep)
+		{
+			var getListCountStep = (GetListCountStep)procedureStep;
+			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountStep.ListArgument.VariableUid);
+			var countVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountStep.CountArgument.VariableUid);
+			if ((countVariable != null) && (listVariable != null))
+			{
+				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
+				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
+			}
+		}
+
+		public void GetListItemStep(ProcedureStep procedureStep)
+		{
+			var getListItemStep = (GetListItemStep)procedureStep;
+			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemStep.ListArgument.VariableUid);
+			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemStep.ItemArgument.VariableUid);
+			if (itemVariable != null && listVariable != null)
+			{
+				ProcedureExecutionContext.SynchronizeVariable(listVariable, ClientUID);
+				if (getListItemStep.PositionType == PositionType.First)
+					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+				if (getListItemStep.PositionType == PositionType.Last)
+					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+				if (getListItemStep.PositionType == PositionType.ByIndex)
+				{
+					var indexValue = GetValue<int>(getListItemStep.IndexArgument);
+					if (listVariable.ExplicitValues.Count > indexValue)
+						ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+				}
+			}
+		}
+
+		public void GetJournalItemStep(ProcedureStep procedureStep)
+		{
+			var getJournalItemStep = (GetJournalItemStep)procedureStep;
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == getJournalItemStep.ResultArgument.VariableUid);
+			var value = new object();
+			if (JournalItem != null)
+			{
+				if (getJournalItemStep.JournalColumnType == JournalColumnType.DeviceDateTime)
+					value = JournalItem.DeviceDateTime;
+				if (getJournalItemStep.JournalColumnType == JournalColumnType.SystemDateTime)
+					value = JournalItem.SystemDateTime;
+				if (getJournalItemStep.JournalColumnType == JournalColumnType.JournalEventNameType)
+					value = JournalItem.JournalEventNameType;
+				if (getJournalItemStep.JournalColumnType == JournalColumnType.JournalEventDescriptionType)
+					value = JournalItem.JournalEventDescriptionType;
+				if (getJournalItemStep.JournalColumnType == JournalColumnType.JournalObjectType)
+					value = JournalItem.JournalObjectType;
+				if (getJournalItemStep.JournalColumnType == JournalColumnType.JournalObjectUid)
+					value = JournalItem.ObjectUID.ToString();
+				ProcedureExecutionContext.SetVariableValue(resultVariable, value, ClientUID);
+			}
+		}
+
+		public void ControlVisualGetStep(ProcedureStep procedureStep)
+		{
+			var controlVisualGetStep = (ControlVisualGetStep)procedureStep;
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.GetVisualProperty,
+				Data = new VisualPropertyCallbackData()
+				{
+					LayoutPart = controlVisualGetStep.LayoutPart,
+					Property = controlVisualGetStep.Property.Value
+				},
+			};
+
+			var value = SendCallback(controlVisualGetStep, automationCallbackResult, true);
+			SetValue(controlVisualGetStep.Argument, value);
+		}
+
+		public void ControlVisualSetStep(ProcedureStep procedureStep)
+		{
+			var controlVisualSetStep = (ControlVisualSetStep)procedureStep;
+
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.SetVisualProperty,
+				Data = new VisualPropertyCallbackData()
+				{
+					LayoutPart = controlVisualSetStep.LayoutPart,
+					Property = controlVisualSetStep.Property.Value
+				},
+			};
+			SendCallback(controlVisualSetStep, automationCallbackResult);
+			if (controlVisualSetStep.ForAllClients)
+				ProcedurePropertyCache.SetProperty(controlVisualSetStep.Layout, (VisualPropertyCallbackData)automationCallbackResult.Data);
+		}
+
+		public void ControlPlanGetStep(ProcedureStep procedureStep)
+		{
+			var controlPlanGetStep = (ControlPlanGetStep)procedureStep;
+
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.GetPlanProperty,
+				Data = new PlanCallbackData()
+				{
+					PlanUid = controlPlanGetStep.PlanUid,
+					ElementUid = controlPlanGetStep.ElementUid,
+					ElementPropertyType = controlPlanGetStep.ElementPropertyType
+				},
+			};
+
+			var value = SendCallback(controlPlanGetStep, automationCallbackResult, true);
+			SetValue(controlPlanGetStep.ValueArgument, value);
+
+		}
+
+		public void ControlPlanSetStep(ProcedureStep procedureStep)
+		{
+			var controlPlanSetStep = (ControlPlanSetStep)procedureStep;
+
+			var value = GetValue<object>(controlPlanSetStep.ValueArgument);
+			if (value is int && (int)value < 0)
+				return;
+
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.SetPlanProperty,
+				Data = new PlanCallbackData()
+				{
+					PlanUid = controlPlanSetStep.PlanUid,
+					ElementUid = controlPlanSetStep.ElementUid,
+					ElementPropertyType = controlPlanSetStep.ElementPropertyType
+				},
+			};
+
+			SendCallback(controlPlanSetStep, automationCallbackResult);
+			if (controlPlanSetStep.ForAllClients)
+				ProcedurePropertyCache.SetProperty((PlanCallbackData)automationCallbackResult.Data);
+		}
+
+		public void ControlOpcDaTagGetStep(ProcedureStep procedureStep)
+		{
+			var controlOpcDaTagGetStep = (ControlOpcDaTagGetStep)procedureStep;
+			var value = OpcDaHelper.GetTagValue(controlOpcDaTagGetStep.OpcDaTagUID);
+			SetValue(controlOpcDaTagGetStep.ValueArgument, value);
+		}
+
+		public void ControlOpcDaTagSetStep(ProcedureStep procedureStep)
+		{
+			var controlOpcDaTagSetStep = (ControlOpcDaTagSetStep)procedureStep;
+			var value = GetValue<object>(controlOpcDaTagSetStep.ValueArgument);
+			OpcDaHelper.OnWriteTagValue(controlOpcDaTagSetStep.OpcDaTagUID, value);
+		}
+
+		public void ShowDialogStep(ProcedureStep procedureStep)
+		{
+			var showDialogStep = (ShowDialogStep)procedureStep;
+			var windowID = GetValue<string>(showDialogStep.WindowIDArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.ShowDialog,
 				Data = new ShowDialogCallbackData()
 				{
-					IsModalWindow = procedureStep.ShowDialogArguments.IsModalWindow,
-					Layout = procedureStep.ShowDialogArguments.Layout,
-					Title = procedureStep.ShowDialogArguments.Title,
-					AllowClose = procedureStep.ShowDialogArguments.AllowClose,
-					AllowMaximize = procedureStep.ShowDialogArguments.AllowMaximize,
-					Height = procedureStep.ShowDialogArguments.Height,
-					MinHeight = procedureStep.ShowDialogArguments.MinHeight,
-					MinWidth = procedureStep.ShowDialogArguments.MinWidth,
-					Sizable = procedureStep.ShowDialogArguments.Sizable,
-					TopMost = procedureStep.ShowDialogArguments.TopMost,
-					Width = procedureStep.ShowDialogArguments.Width,
-					CustomPosition = procedureStep.ShowDialogArguments.CustomPosition,
-					Left = procedureStep.ShowDialogArguments.Left,
-					Top = procedureStep.ShowDialogArguments.Top,
+					IsModalWindow = showDialogStep.IsModalWindow,
+					Layout = showDialogStep.Layout,
+					Title = showDialogStep.Title,
+					AllowClose = showDialogStep.AllowClose,
+					AllowMaximize = showDialogStep.AllowMaximize,
+					Height = showDialogStep.Height,
+					MinHeight = showDialogStep.MinHeight,
+					MinWidth = showDialogStep.MinWidth,
+					Sizable = showDialogStep.Sizable,
+					TopMost = showDialogStep.TopMost,
+					Width = showDialogStep.Width,
+					CustomPosition = showDialogStep.CustomPosition,
+					Left = showDialogStep.Left,
+					Top = showDialogStep.Top,
 					WindowID = windowID
 				},
 			};
-			SendCallback(procedureStep.ShowDialogArguments, automationCallbackResult);
+			SendCallback(showDialogStep, automationCallbackResult);
 		}
 
-		void CloseDialog(ProcedureStep procedureStep)
+		public void CloseDialogStep(ProcedureStep procedureStep)
 		{
-			var windowID = GetValue<string>(procedureStep.CloseDialogArguments.WindowIDArgument);
+			var closeDialogStep = (CloseDialogStep)procedureStep;
+			var windowID = GetValue<string>(closeDialogStep.WindowIDArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.CloseDialog,
@@ -104,17 +620,17 @@ namespace Infrastructure.Automation
 					WindowID = windowID
 				}
 			};
-			SendCallback(procedureStep.CloseDialogArguments, automationCallbackResult);
+			SendCallback(closeDialogStep, automationCallbackResult);
 		}
 
-		void ShowProperty(ProcedureStep procedureStep)
+		public void ShowPropertyStep(ProcedureStep procedureStep)
 		{
-			var showPropertyArguments = procedureStep.ShowPropertyArguments;
-			var objectUid = GetValue<Guid>(showPropertyArguments.ObjectArgument);
-			if (showPropertyArguments.ObjectType == ObjectType.Zone && !LicenseManager.CurrentLicenseInfo.HasFirefighting ||
-				showPropertyArguments.ObjectType == ObjectType.GuardZone && !LicenseManager.CurrentLicenseInfo.HasGuard ||
-				showPropertyArguments.ObjectType == ObjectType.GKDoor && !LicenseManager.CurrentLicenseInfo.HasSKD ||
-				showPropertyArguments.ObjectType == ObjectType.VideoDevice && !LicenseManager.CurrentLicenseInfo.HasVideo)
+			var showPropertyStep = (ShowPropertyStep)procedureStep;
+			var objectUid = GetValue<Guid>(showPropertyStep.ObjectArgument);
+			if (showPropertyStep.ObjectType == ObjectType.Zone && !LicenseManager.CurrentLicenseInfo.HasFirefighting ||
+				showPropertyStep.ObjectType == ObjectType.GuardZone && !LicenseManager.CurrentLicenseInfo.HasGuard ||
+				showPropertyStep.ObjectType == ObjectType.GKDoor && !LicenseManager.CurrentLicenseInfo.HasSKD ||
+				showPropertyStep.ObjectType == ObjectType.VideoDevice && !LicenseManager.CurrentLicenseInfo.HasVideo)
 			{
 				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Показать свойства объекта\" заблокировано в связи с отсутствием лицензии", objectUid);
 				return;
@@ -124,24 +640,24 @@ namespace Infrastructure.Automation
 				AutomationCallbackType = AutomationCallbackType.Property,
 				Data = new PropertyCallBackData()
 				{
-					ObjectType = showPropertyArguments.ObjectType,
+					ObjectType = showPropertyStep.ObjectType,
 					ObjectUid = objectUid
 				},
 			};
-			SendCallback(showPropertyArguments, automationCallbackResult);
+			SendCallback(showPropertyStep, automationCallbackResult);
 		}
 
-		void SendEmail(ProcedureStep procedureStep)
+		public void SendEmailStep(ProcedureStep procedureStep)
 		{
-			var sendEmailArguments = procedureStep.SendEmailArguments;
-			var smtp = GetValue<string>(sendEmailArguments.SmtpArgument);
-			var port = GetValue<int>(sendEmailArguments.PortArgument);
-			var login = GetValue<string>(sendEmailArguments.LoginArgument);
-			var password = GetValue<string>(sendEmailArguments.PasswordArgument);
-			var eMailAddressFrom = GetValue<string>(sendEmailArguments.EMailAddressFromArgument);
-			var eMailAddressTo = GetValue<string>(sendEmailArguments.EMailAddressToArgument);
-			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
-			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
+			var sendEmailStep = (SendEmailStep)procedureStep;
+			var smtp = GetValue<string>(sendEmailStep.SmtpArgument);
+			var port = GetValue<int>(sendEmailStep.PortArgument);
+			var login = GetValue<string>(sendEmailStep.LoginArgument);
+			var password = GetValue<string>(sendEmailStep.PasswordArgument);
+			var eMailAddressFrom = GetValue<string>(sendEmailStep.EMailAddressFromArgument);
+			var eMailAddressTo = GetValue<string>(sendEmailStep.EMailAddressToArgument);
+			var title = GetValue<string>(sendEmailStep.EMailTitleArgument);
+			var content = GetValue<string>(sendEmailStep.EMailContentArgument);
 			var Smtp = new SmtpClient(smtp, port);
 			Smtp.Credentials = new NetworkCredential(login, password);
 			Smtp.EnableSsl = true;
@@ -160,129 +676,16 @@ namespace Infrastructure.Automation
 			}
 		}
 
-		void PlaySound(ProcedureStep procedureStep)
+		public void HttpRequestStep(ProcedureStep procedureStep)
 		{
-			var automationCallbackResult = new AutomationCallbackResult()
-			{
-				AutomationCallbackType = AutomationCallbackType.Sound,
-				Data = new SoundCallbackData()
-				{
-					SoundUID = procedureStep.SoundArguments.SoundUid,
-				},
-			};
-			SendCallback(procedureStep.SoundArguments, automationCallbackResult);
-		}
-
-		void ControlVisual(ProcedureStep procedureStep, ControlElementType type)
-		{
-			if (procedureStep.ControlVisualArguments == null || !procedureStep.ControlVisualArguments.Property.HasValue)
-				return;
-			AutomationCallbackType callbackType;
-			object value = null;
-			var waitResponse = false;
-			switch (type)
-			{
-				case ControlElementType.Get:
-					callbackType = AutomationCallbackType.GetVisualProperty;
-					waitResponse = true;
-					break;
-				case ControlElementType.Set:
-					callbackType = AutomationCallbackType.SetVisualProperty;
-					value = GetValue<object>(procedureStep.ControlVisualArguments.Argument);
-					break;
-				default:
-					return;
-			}
-			var automationCallbackResult = new AutomationCallbackResult()
-			{
-				AutomationCallbackType = callbackType,
-				Data = new VisualPropertyCallbackData()
-				{
-					LayoutPart = procedureStep.ControlVisualArguments.LayoutPart,
-					Property = procedureStep.ControlVisualArguments.Property.Value,
-					Value = value,
-				},
-			};
-			if (waitResponse)
-			{
-				value = SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult, true);
-				SetValue(procedureStep.ControlVisualArguments.Argument, value);
-			}
-			else
-			{
-				SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult);
-				if (procedureStep.ControlVisualArguments.ForAllClients)
-					ProcedurePropertyCache.SetProperty(procedureStep.ControlVisualArguments.Layout, (VisualPropertyCallbackData)automationCallbackResult.Data);
-			}
-		}
-
-		void ControlPlan(ProcedureStep procedureStep, ControlElementType controlElementType)
-		{
-			var controlPlanArguments = procedureStep.ControlPlanArguments;
-			var callbackType = new AutomationCallbackType();
-			object value = null;
-
-			if (controlElementType == ControlElementType.Get)
-				callbackType = AutomationCallbackType.GetPlanProperty;
-			if (controlElementType == ControlElementType.Set)
-			{
-				callbackType = AutomationCallbackType.SetPlanProperty;
-				value = GetValue<object>(controlPlanArguments.ValueArgument);
-				if (value is int && (int)value < 0)
-					return;
-			}
-
-			var automationCallbackResult = new AutomationCallbackResult()
-			{
-				AutomationCallbackType = callbackType,
-				Data = new PlanCallbackData()
-				{
-					PlanUid = controlPlanArguments.PlanUid,
-					ElementUid = controlPlanArguments.ElementUid,
-					ElementPropertyType = controlPlanArguments.ElementPropertyType,
-					Value = value,
-				},
-			};
-			switch (controlElementType)
-			{
-				case ControlElementType.Get:
-					value = SendCallback(controlPlanArguments, automationCallbackResult, true);
-					SetValue(controlPlanArguments.ValueArgument, value);
-					break;
-				case ControlElementType.Set:
-					SendCallback(controlPlanArguments, automationCallbackResult);
-					if (controlPlanArguments.ForAllClients)
-						ProcedurePropertyCache.SetProperty((PlanCallbackData)automationCallbackResult.Data);
-					break;
-			}
-		}
-
-		void ControlOpcDaTag(ProcedureStep procedureStep, ControlElementType controlElementType)
-		{
-			var controlOpcDaTagArguments = procedureStep.ControlOpcDaTagArguments;
-
-			if (controlElementType == ControlElementType.Get)
-			{
-				var value = OpcDaHelper.GetTagValue(controlOpcDaTagArguments.OpcDaTagUID);
-				SetValue(controlOpcDaTagArguments.ValueArgument, value);
-			}
-			else
-			{
-				var value = GetValue<object>(controlOpcDaTagArguments.ValueArgument);
-				OpcDaHelper.OnWriteTagValue(controlOpcDaTagArguments.OpcDaTagUID, value);
-			}
-		}
-
-		void HttpRequest(ProcedureStep procedureStep)
-		{
-			var httpRequestArguments = procedureStep.HttpRequestArguments;
-			var url = GetValue<string>(httpRequestArguments.UrlArgument);
-			var content = GetValue<string>(httpRequestArguments.ContentArgument);
-			var responseVariable = AllVariables.FirstOrDefault(x => x.Uid == httpRequestArguments.ResponseArgument.VariableUid);
+			var httpRequestStep = (HttpRequestStep)procedureStep;
+			var url = GetValue<string>(httpRequestStep.UrlArgument);
+			var content = GetValue<string>(httpRequestStep.ContentArgument);
+			var responseVariable = AllVariables.FirstOrDefault(x => x.Uid == httpRequestStep.ResponseArgument.VariableUid);
 			var webClient = new WebClient();
 			webClient.Encoding = System.Text.Encoding.UTF8;
 			var response = "";
-			switch (httpRequestArguments.HttpMethod)
+			switch (httpRequestStep.HttpMethod)
 			{
 				case HttpMethod.Get:
 					response = webClient.DownloadString(url);
@@ -293,127 +696,152 @@ namespace Infrastructure.Automation
 					break;
 			}
 
-			SetValue(httpRequestArguments.ResponseArgument, response);
+			SetValue(httpRequestStep.ResponseArgument, response);
 		}
 
-		void Calculate(ProcedureStep procedureStep)
+		public void StartRecordStep(ProcedureStep procedureStep)
 		{
-			var arithmeticArguments = procedureStep.ArithmeticArguments;
-			object value1;
-			object value2;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == arithmeticArguments.ResultArgument.VariableUid);
-			switch (arithmeticArguments.ExplicitType)
+			var startRecordStep = (StartRecordStep)procedureStep;
+			var cameraUid = GetValue<Guid>(startRecordStep.CameraArgument);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 			{
-				case ExplicitType.Boolean:
-					{
-						value1 = GetValue<bool>(arithmeticArguments.Argument1);
-						value2 = GetValue<bool>(arithmeticArguments.Argument2);
-						bool result = false;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.And)
-							result = (bool)value1 & (bool)value2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
-							result = (bool)value1 || (bool)value2;
-						if (resultVariable != null)
-							resultVariable.ExplicitValue.BoolValue = result;
-						break;
-					}
+				var timeout = GetValue<int>(startRecordStep.TimeoutArgument);
+				switch (startRecordStep.TimeType)
+				{
+					case TimeType.Millisec: timeout = (int)((double)timeout * 0.001); break;
+					case TimeType.Min: timeout *= 60; break;
+					case TimeType.Hour: timeout *= 3600; break;
+					case TimeType.Day: timeout *= 86400; break;
+				}
 
-				case ExplicitType.Integer:
-					{
-						value1 = GetValue<int>(arithmeticArguments.Argument1);
-						value2 = GetValue<int>(arithmeticArguments.Argument2);
-						int result = 0;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							result = (int)value1 + (int)value2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-							result = (int)value1 - (int)value2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
-							result = (int)value1 * (int)value2;
-						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)value2 != 0))
-							result = (int)value1 / (int)value2;
-						if (resultVariable != null)
-							resultVariable.ExplicitValue.IntValue = result;
-						break;
-					}
-				case ExplicitType.Float:
-					{
-						value1 = GetValue<double>(arithmeticArguments.Argument1);
-						value2 = GetValue<double>(arithmeticArguments.Argument2);
-						double result = 0;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							result = (double)value1 + (double)value2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-							result = (double)value1 - (double)value2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
-							result = (double)value1 * (double)value2;
-						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)value2 != 0))
-							result = (double)value1 / (double)value2;
-						if (resultVariable != null)
-							resultVariable.ExplicitValue.FloatValue = result;
-						break;
-					}
+				if (JournalItem != null)
+				{
 
-				case ExplicitType.DateTime:
-					{
-						value1 = GetValue<DateTime>(arithmeticArguments.Argument1);
-						value2 = new TimeSpan();
-						switch (arithmeticArguments.TimeType)
-						{
-							case TimeType.Millisec:
-								value2 = TimeSpan.FromMilliseconds(GetValue<int>(arithmeticArguments.Argument2));
-								break;
-							case TimeType.Sec:
-								value2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Argument2));
-								break;
-							case TimeType.Min:
-								value2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Argument2));
-								break;
-							case TimeType.Hour:
-								value2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Argument2));
-								break;
-							case TimeType.Day:
-								value2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Argument2));
-								break;
-						}
-						var result = new DateTime();
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							result = (DateTime)value1 + (TimeSpan)value2;
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
-							result = (DateTime)value1 - (TimeSpan)value2;
-
-						if (resultVariable != null)
-							resultVariable.ExplicitValue.DateTimeValue = result;
-						break;
-					}
-				case ExplicitType.String:
-					{
-						value1 = GetValue<object>(arithmeticArguments.Argument1);
-						value2 = GetValue<object>(arithmeticArguments.Argument2);
-						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(value1), GetStringValue(value2));
-						break;
-					}
+					Guid eventUid = Guid.NewGuid();
+					SetValue(startRecordStep.EventUIDArgument, eventUid);
+					ProcedureExecutionContext.StartRecord(ClientUID, cameraUid, JournalItem.UID, eventUid, timeout);
+				}
 			}
-			ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Начать запись\" заблокировано в связи с отсутствием лицензии", cameraUid);
 		}
 
-		void CreateColor(ProcedureStep procedureStep)
+		public void StopRecordStep(ProcedureStep procedureStep)
 		{
-			var createColorArguments = procedureStep.CreateColorArguments;
-			var a = GetValue<int>(createColorArguments.AArgument);
-			var r = GetValue<int>(createColorArguments.RArgument);
-			var g = GetValue<int>(createColorArguments.GArgument);
-			var b = GetValue<int>(createColorArguments.BArgument);
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == createColorArguments.ResultArgument.VariableUid);
-
-			if (resultVariable != null)
-			{
-				resultVariable.ExplicitValue.ColorValue = System.Windows.Media.Color.FromArgb(IntToByte(a), IntToByte(r), IntToByte(g), IntToByte(b));
-
-				ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
-			}
+			var stopRecordStep = (StopRecordStep)procedureStep;
+			var cameraUid = GetValue<Guid>(stopRecordStep.CameraArgument);
+			var eventUid = GetValue<Guid>(stopRecordStep.EventUIDArgument);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.StopRecord(ClientUID, cameraUid, eventUid);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraUid);
 		}
+
+		public void PtzStep(ProcedureStep procedureStep)
+		{
+			var ptzStep = (PtzStep)procedureStep;
+			var cameraUid = GetValue<Guid>(ptzStep.CameraArgument);
+			var ptzNumber = GetValue<int>(ptzStep.PtzNumberArgument);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.Ptz(ClientUID, cameraUid, ptzNumber);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Ptz камеры\" заблокировано в связи с отсутствием лицензии", cameraUid);
+		}
+
+		public void RviAlarmStep(ProcedureStep procedureStep)
+		{
+			var rviAlarmStep = (RviAlarmStep)procedureStep;
+			var name = GetValue<string>(rviAlarmStep.NameArgument);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.RviAlarm(ClientUID, name);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Вызвать тревогу в Rvi Оператор\" заблокировано в связи с отсутствием лицензии");
+		}
+
+		public void RviOpenWindowStep(ProcedureStep procedureStep)
+		{
+			var rviOpenWindowStep = (RviOpenWindowStep)procedureStep;
+			var name = GetValue<string>(rviOpenWindowStep.NameArgument);
+			var x = GetValue<int>(rviOpenWindowStep.XArgument);
+			var y = GetValue<int>(rviOpenWindowStep.YArgument);
+			var monitorNumber = GetValue<int>(rviOpenWindowStep.MonitorNumberArgument);
+			var login = GetValue<string>(rviOpenWindowStep.LoginArgument);
+			var ip = GetValue<string>(rviOpenWindowStep.IpArgument);
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.RviOpenWindow(ClientUID, name, x, y, monitorNumber, login, ip);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Показать раскладку в Rvi Оператор\" заблокировано в связи с отсуствием лицензии");
+		}
+
+		public void NowStep(ProcedureStep procedureStep)
+		{
+			var nowStep = (NowStep)procedureStep;
+			SetValue(nowStep.ResultArgument, DateTime.Now);
+		}
+
+		public void RunProgramStep(ProcedureStep procedureStep)
+		{
+			var runProgramStep = (RunProgramStep)procedureStep;
+			var processName = GetValue<string>(runProgramStep.PathArgument);
+			var parameters = GetValue<string>(runProgramStep.ParametersArgument);
+			System.Diagnostics.Process.Start(processName, parameters);
+		}
+
+		public void ExportJournalStep(ProcedureStep procedureStep)
+		{
+			var exportJournalStep = (ExportJournalStep)procedureStep;
+			var isExportJournal = GetValue<bool>(exportJournalStep.IsExportJournalArgument);
+			var isExportPassJournal = GetValue<bool>(exportJournalStep.IsExportPassJournalArgument);
+			var minDate = GetValue<DateTime>(exportJournalStep.MinDateArgument);
+			var maxDate = GetValue<DateTime>(exportJournalStep.MaxDateArgument);
+			var path = GetValue<string>(exportJournalStep.PathArgument);
+			ProcedureExecutionContext.ExportJournal(ClientUID, isExportJournal, isExportPassJournal, minDate, maxDate, path);
+		}
+
+		public void ExportOrganisationStep(ProcedureStep procedureStep)
+		{
+			var exportOrganisationStep = (ExportOrganisationStep)procedureStep;
+			var isWithDeleted = GetValue<bool>(exportOrganisationStep.IsWithDeleted);
+			var organisationUid = GetValue<Guid>(exportOrganisationStep.Organisation);
+			var path = GetValue<string>(exportOrganisationStep.PathArgument);
+			ProcedureExecutionContext.ExportOrganisation(ClientUID, isWithDeleted, organisationUid, path);
+		}
+
+		public void ExportOrganisationListStep(ProcedureStep procedureStep)
+		{
+			var exportOrganisationListStep = (ExportOrganisationListStep)procedureStep;
+			var isWithDeleted = GetValue<bool>(exportOrganisationListStep.IsWithDeleted);
+			var path = GetValue<string>(exportOrganisationListStep.PathArgument);
+			ProcedureExecutionContext.ExportOrganisationList(ClientUID, isWithDeleted, path);
+		}
+
+		public void ExportConfigurationStep(ProcedureStep procedureStep)
+		{
+			var exportConfigurationStep = (ExportConfigurationStep)procedureStep;
+			var isExportDevices = GetValue<bool>(exportConfigurationStep.IsExportDevices);
+			var isExportDoors = GetValue<bool>(exportConfigurationStep.IsExportDoors);
+			var isExportZones = GetValue<bool>(exportConfigurationStep.IsExportZones);
+			var path = GetValue<string>(exportConfigurationStep.PathArgument);
+			ProcedureExecutionContext.ExportConfiguration(ClientUID, isExportDevices, isExportDoors, isExportZones, path);
+		}
+
+		public void ImportOrganisationStep(ProcedureStep procedureStep)
+		{
+			var importOrganisationStep = (ImportOrganisationStep)procedureStep;
+			var isWithDeleted = GetValue<bool>(importOrganisationStep.IsWithDeleted);
+			var path = GetValue<string>(importOrganisationStep.PathArgument);
+			ProcedureExecutionContext.ImportOrganisation(ClientUID, isWithDeleted, path);
+		}
+
+		public void ImportOrganisationListStep(ProcedureStep procedureStep)
+		{
+			var importOrganisationListStep = (ImportOrganisationListStep)procedureStep;
+			var isWithDeleted = GetValue<bool>(importOrganisationListStep.IsWithDeleted);
+			var path = GetValue<string>(importOrganisationListStep.PathArgument);
+			ProcedureExecutionContext.ImportOrganisationList(ClientUID, isWithDeleted, path);
+		}
+
+		#region Common operations
 
 		byte IntToByte(int value)
 		{
@@ -422,28 +850,6 @@ namespace Infrastructure.Automation
 			if (value > 255)
 				value = 255;
 			return Convert.ToByte(value);
-		}
-
-		void FindObjects(ProcedureStep procedureStep)
-		{
-			var findObjectArguments = procedureStep.FindObjectArguments;
-			var variable = AllVariables.FirstOrDefault(x => x.Uid == findObjectArguments.ResultArgument.VariableUid);
-			if (findObjectArguments.JoinOperator == JoinOperator.Or)
-				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
-			else
-				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
-		}
-
-		void GetObjectProperty(ProcedureStep procedureStep)
-		{
-			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
-			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
-			var objectUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
-			var item = InitializeItem(objectUid);
-			if (item == null)
-				return;
-			var propertyValue = GetPropertyValue(getObjectPropertyArguments.Property, item);
-			ProcedureExecutionContext.SetVariableValue(target, propertyValue, ClientUID);
 		}
 
 		Guid GetObjectUid(object item)
@@ -459,6 +865,7 @@ namespace Infrastructure.Automation
 
 			return Guid.Empty;
 		}
+
 		object GetPropertyValue(Property property, object item)
 		{
 			var propertyValue = new object();
@@ -975,352 +1382,6 @@ namespace Infrastructure.Automation
 			return null;
 		}
 
-		void ControlGKDevice(ProcedureStep procedureStep)
-		{
-			var deviceUid = GetValue<Guid>(procedureStep.ControlGKDeviceArguments.GKDeviceArgument);
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
-			if (device == null)
-				return;
-			ProcedureExecutionContext.ControlGKDevice(ClientUID, device.UID, procedureStep.ControlGKDeviceArguments.Command);
-		}
-
-		public void SetJournalItemGuid(ProcedureStep procedureStep)
-		{
-			//var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
-			//if (JournalItem != null)
-			//{
-			//	using (var dbService = new DbService())
-			//	{
-			//		var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
-			//		Guid eventUID;
-			//		if (CheckGuid(eventUIDString))
-			//		{
-			//			eventUID = new Guid(eventUIDString);
-			//		}
-			//		else
-			//		{
-			//			return;
-			//		}
-			//		dbService.JournalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
-			//	}
-			//}
-		}
-
-		void StartRecord(ProcedureStep procedureStep)
-		{
-			var startRecordArguments = procedureStep.StartRecordArguments;
-			var cameraUid = GetValue<Guid>(startRecordArguments.CameraArgument);
-			if (LicenseManager.CurrentLicenseInfo.HasVideo)
-			{
-				var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
-				switch (startRecordArguments.TimeType)
-				{
-					case TimeType.Millisec: timeout = (int)((double)timeout * 0.001); break;
-					case TimeType.Min: timeout *= 60; break;
-					case TimeType.Hour: timeout *= 3600; break;
-					case TimeType.Day: timeout *= 86400; break;
-				}
-
-				if (JournalItem != null)
-				{
-
-					Guid eventUid = Guid.NewGuid();
-					SetValue(startRecordArguments.EventUIDArgument, eventUid);
-					ProcedureExecutionContext.StartRecord(ClientUID, cameraUid, JournalItem.UID, eventUid, timeout);
-				}
-			}
-			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Начать запись\" заблокировано в связи с отсутствием лицензии", cameraUid);
-		}
-
-		private void StopRecord(ProcedureStep procedureStep)
-		{
-			var stopRecordArguments = procedureStep.StopRecordArguments;
-			var cameraUid = GetValue<Guid>(stopRecordArguments.CameraArgument);
-			var eventUid = GetValue<Guid>(stopRecordArguments.EventUIDArgument);
-			if (LicenseManager.CurrentLicenseInfo.HasVideo)
-				ProcedureExecutionContext.StopRecord(ClientUID, cameraUid, eventUid);
-			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraUid);
-		}
-
-		public void Ptz(ProcedureStep procedureStep)
-		{
-			var ptzArguments = procedureStep.PtzArguments;
-			var cameraUid = GetValue<Guid>(ptzArguments.CameraArgument);
-			var ptzNumber = GetValue<int>(ptzArguments.PtzNumberArgument);
-			if (LicenseManager.CurrentLicenseInfo.HasVideo)
-				ProcedureExecutionContext.Ptz(ClientUID, cameraUid, ptzNumber);
-			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Ptz камеры\" заблокировано в связи с отсутствием лицензии", cameraUid);
-		}
-
-		public void RviAlarm(ProcedureStep procedureStep)
-		{
-			var rviAlarmArguments = procedureStep.RviAlarmArguments;
-			var name = GetValue<string>(rviAlarmArguments.NameArgument);
-			if (LicenseManager.CurrentLicenseInfo.HasVideo)
-				ProcedureExecutionContext.RviAlarm(ClientUID, name);
-			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Вызвать тревогу в Rvi Оператор\" заблокировано в связи с отсутствием лицензии");
-		}
-
-		public void RviOpenWindow(ProcedureStep procedureStep)
-		{
-			var rviOpenWindowArguments = procedureStep.RviOpenWindowArguments;
-			var name = GetValue<string>(rviOpenWindowArguments.NameArgument);
-			var x = GetValue<int>(rviOpenWindowArguments.XArgument);
-			var y = GetValue<int>(rviOpenWindowArguments.YArgument);
-			var monitorNumber = GetValue<int>(rviOpenWindowArguments.MonitorNumberArgument);
-			var login = GetValue<string>(rviOpenWindowArguments.LoginArgument);
-			var ip = GetValue<string>(rviOpenWindowArguments.IpArgument);
-			if (LicenseManager.CurrentLicenseInfo.HasVideo)
-				ProcedureExecutionContext.RviOpenWindow(ClientUID, name, x, y, monitorNumber, login, ip);
-			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Показать раскладку в Rvi Оператор\" заблокировано в связи с отсуствием лицензии");
-		}
-
-		public void Now(ProcedureStep procedureStep)
-		{
-			var nowArguments = procedureStep.NowArguments;
-			SetValue(nowArguments.ResultArgument, DateTime.Now);
-		}
-
-		public void RunProgram(ProcedureStep procedureStep)
-		{
-			var processName = GetValue<string>(procedureStep.RunProgramArguments.PathArgument);
-			var parameters = GetValue<string>(procedureStep.RunProgramArguments.ParametersArgument);
-			Process.Start(processName, parameters);
-		}
-
-		void ControlFireZone(ProcedureStep procedureStep)
-		{
-			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);
-			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
-			if (!LicenseManager.CurrentLicenseInfo.HasFirefighting)
-			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием лицензии", zoneUid);
-				return;
-			}
-			if (!HasPermission(PermissionType.Oper_Zone_Control))
-			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneUid);
-				return;
-			}
-
-			ProcedureExecutionContext.ControlFireZone(ClientUID, zoneUid, zoneCommandType);
-		}
-
-		void ControlGuardZone(ProcedureStep procedureStep)
-		{
-			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.GKGuardZoneArgument);
-			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
-			if (!LicenseManager.CurrentLicenseInfo.HasGuard)
-			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием лицензии", zoneUid);
-				return;
-			}
-			if (!HasPermission(PermissionType.Oper_GuardZone_Control))
-			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneUid);
-				return;
-			}
-
-			ProcedureExecutionContext.ControlGuardZone(ClientUID, zoneUid, guardZoneCommandType);
-		}
-
-		void ControlDirection(ProcedureStep procedureStep)
-		{
-			var directionUid = GetValue<Guid>(procedureStep.ControlDirectionArguments.DirectionArgument);
-			var directionCommandType = procedureStep.ControlDirectionArguments.DirectionCommandType;
-			ProcedureExecutionContext.ControlDirection(ClientUID, directionUid, directionCommandType);
-		}
-
-		void ControlGKDoor(ProcedureStep procedureStep)
-		{
-			var doorUid = GetValue<Guid>(procedureStep.ControlGKDoorArguments.DoorArgument);
-			var doorCommandType = procedureStep.ControlGKDoorArguments.DoorCommandType;
-			if (!LicenseManager.CurrentLicenseInfo.HasSKD)
-			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием лицензии", doorUid);
-				return;
-			}
-			if (!HasPermission(PermissionType.Oper_ZonesSKD))
-			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием прав пользователя", doorUid);
-				return;
-			}
-
-			ProcedureExecutionContext.ControlGKDoor(ClientUID, doorUid, doorCommandType);
-		}
-
-		void ControlDelay(ProcedureStep procedureStep)
-		{
-			var delayUid = GetValue<Guid>(procedureStep.ControlDelayArguments.DelayArgument);
-			var delayCommandType = procedureStep.ControlDelayArguments.DelayCommandType;
-			ProcedureExecutionContext.ControlDelay(ClientUID, delayUid, delayCommandType);
-		}
-
-		void ControlPumpStation(ProcedureStep procedureStep)
-		{
-			var pumpStationUid = GetValue<Guid>(procedureStep.ControlPumpStationArguments.PumpStationArgument);
-			var pumpStationCommandType = procedureStep.ControlPumpStationArguments.PumpStationCommandType;
-			ProcedureExecutionContext.ControlPumpStation(ClientUID, pumpStationUid, pumpStationCommandType);
-		}
-
-		void ControlMPT(ProcedureStep procedureStep)
-		{
-			var mptUid = GetValue<Guid>(procedureStep.ControlMPTArguments.MPTArgument);
-			var mptCommandType = procedureStep.ControlMPTArguments.MPTCommandType;
-			ProcedureExecutionContext.ControlMPT(ClientUID, mptUid, mptCommandType);
-		}
-
-		void Pause(ProcedureStep procedureStep)
-		{
-			var pauseArguments = procedureStep.PauseArguments;
-			var pause = new TimeSpan();
-			switch (pauseArguments.TimeType)
-			{
-				case TimeType.Millisec:
-					pause = TimeSpan.FromMilliseconds(GetValue<int>(pauseArguments.PauseArgument));
-					break;
-				case TimeType.Sec:
-					pause = TimeSpan.FromSeconds(GetValue<int>(pauseArguments.PauseArgument));
-					break;
-				case TimeType.Min:
-					pause = TimeSpan.FromMinutes(GetValue<int>(pauseArguments.PauseArgument));
-					break;
-				case TimeType.Hour:
-					pause = TimeSpan.FromHours(GetValue<int>(pauseArguments.PauseArgument));
-					break;
-				case TimeType.Day:
-					pause = TimeSpan.FromDays(GetValue<int>(pauseArguments.PauseArgument));
-					break;
-			}
-			if (AutoResetEvent.WaitOne(pause))
-			{
-			}
-		}
-
-		void IncrementValue(ProcedureStep procedureStep)
-		{
-			var incrementValueArguments = procedureStep.IncrementValueArguments;
-			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
-			var value = GetValue<double>(incrementValueArguments.ResultArgument);
-			if (incrementValueArguments.IncrementType == IncrementType.Inc)
-				ProcedureExecutionContext.SetVariableValue(variable, value + 1, ClientUID);
-			else
-				ProcedureExecutionContext.SetVariableValue(variable, value - 1, ClientUID);
-		}
-
-		void GetRandomValue(ProcedureStep procedureStep)
-		{
-			var randomArguments = procedureStep.RandomArguments;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == randomArguments.ResultArgument.VariableUid);
-			var maxValue = GetValue<int>(randomArguments.MaxValueArgument);
-			if (resultVariable != null)
-				resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
-		}
-
-		void ChangeList(ProcedureStep procedureStep)
-		{
-			var changeListArguments = procedureStep.ChangeListArguments;
-			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == changeListArguments.ListArgument.VariableUid);
-			var variable = new Variable();
-			variable.ExplicitType = changeListArguments.ItemArgument.ExplicitType;
-			variable.EnumType = changeListArguments.ItemArgument.EnumType;
-			variable.ObjectType = changeListArguments.ItemArgument.ObjectType;
-			var itemValue = GetValue<object>(changeListArguments.ItemArgument);
-			ProcedureExecutionContext.SetVariableValue(variable, itemValue, ClientUID);
-			var explicitValue = variable.ExplicitValue;
-			if (listVariable != null)
-			{
-				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
-				switch (changeListArguments.ChangeType)
-				{
-					case ChangeType.AddLast:
-						listVariable.ExplicitValues.Add(explicitValue);
-						break;
-					case ChangeType.RemoveFirst:
-						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
-							(x => ExplicitCompare(x, explicitValue, changeListArguments.ItemArgument.ExplicitType,
-								changeListArguments.ListArgument.EnumType)));
-						break;
-					case ChangeType.RemoveAll:
-						listVariable.ExplicitValues.RemoveAll(
-							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
-								changeListArguments.ListArgument.EnumType)));
-						break;
-				}
-				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Server);
-			}
-		}
-
-		void CheckPermission(ProcedureStep procedureStep)
-		{
-			var checkPermissionArguments = procedureStep.CheckPermissionArguments;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == checkPermissionArguments.ResultArgument.VariableUid);
-			var permissionValue = GetValue<PermissionType>(checkPermissionArguments.PermissionArgument);
-			if (resultVariable != null && User != null)
-				resultVariable.ExplicitValue.BoolValue = User.HasPermission(permissionValue);
-		}
-
-		void GetListCount(ProcedureStep procedureStep)
-		{
-			var getListCountArgument = procedureStep.GetListCountArguments;
-			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.ListArgument.VariableUid);
-			var countVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.CountArgument.VariableUid);
-			if ((countVariable != null) && (listVariable != null))
-			{
-				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
-				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
-			}
-		}
-
-		void GetListItem(ProcedureStep procedureStep)
-		{
-			var getListItemArgument = procedureStep.GetListItemArguments;
-			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
-			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
-			if (itemVariable != null && listVariable != null)
-			{
-				ProcedureExecutionContext.SynchronizeVariable(listVariable, ClientUID);
-				if (getListItemArgument.PositionType == PositionType.First)
-					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
-				if (getListItemArgument.PositionType == PositionType.Last)
-					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
-				if (getListItemArgument.PositionType == PositionType.ByIndex)
-				{
-					var indexValue = GetValue<int>(getListItemArgument.IndexArgument);
-					if (listVariable.ExplicitValues.Count > indexValue)
-						ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
-				}
-			}
-		}
-
-		void GetJournalItem(ProcedureStep procedureStep)
-		{
-			var getJournalItemArguments = procedureStep.GetJournalItemArguments;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == getJournalItemArguments.ResultArgument.VariableUid);
-			var value = new object();
-			if (JournalItem != null)
-			{
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.DeviceDateTime)
-					value = JournalItem.DeviceDateTime;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.SystemDateTime)
-					value = JournalItem.SystemDateTime;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalEventNameType)
-					value = JournalItem.JournalEventNameType;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalEventDescriptionType)
-					value = JournalItem.JournalEventDescriptionType;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectType)
-					value = JournalItem.JournalObjectType;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
-					value = JournalItem.ObjectUID.ToString();
-				ProcedureExecutionContext.SetVariableValue(resultVariable, value, ClientUID);
-			}
-		}
-
 		bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
 		{
 			if (explicitType == ExplicitType.Integer)
@@ -1359,72 +1420,9 @@ namespace Infrastructure.Automation
 			return false;
 		}
 
-		void SetValue(ProcedureStep procedureStep)
-		{
-			var setValueArguments = procedureStep.SetValueArguments;
-			var value = GetValue<object>(setValueArguments.SourceArgument);
-			if (setValueArguments.ExplicitType == ExplicitType.String)
-				value = GetStringValue(value);
-			SetValue(setValueArguments.TargetArgument, value);
-		}
-
 		void SetValue(Argument argument, object value)
 		{
 			ProcedureExecutionContext.SetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), value, ClientUID);
-		}
-
-		void ExportJournal(ProcedureStep procedureStep)
-		{
-			var arguments = procedureStep.ExportJournalArguments;
-			var isExportJournal = GetValue<bool>(arguments.IsExportJournalArgument);
-			var isExportPassJournal = GetValue<bool>(arguments.IsExportPassJournalArgument);
-			var minDate = GetValue<DateTime>(arguments.MinDateArgument);
-			var maxDate = GetValue<DateTime>(arguments.MaxDateArgument);
-			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ExportJournal(ClientUID, isExportJournal, isExportPassJournal, minDate, maxDate, path);
-		}
-
-		void ExportOrganisation(ProcedureStep procedureStep)
-		{
-			var arguments = procedureStep.ExportOrganisationArguments;
-			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
-			var organisationUid = GetValue<Guid>(arguments.Organisation);
-			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ExportOrganisation(ClientUID, isWithDeleted, organisationUid, path);
-		}
-
-		void ExportOrganisationList(ProcedureStep procedureStep)
-		{
-			var arguments = procedureStep.ImportOrganisationArguments;
-			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
-			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ExportOrganisationList(ClientUID, isWithDeleted, path);
-		}
-
-		void ExportConfiguration(ProcedureStep procedureStep)
-		{
-			var arguments = procedureStep.ExportConfigurationArguments;
-			var isExportDevices = GetValue<bool>(arguments.IsExportDevices);
-			var isExportDoors = GetValue<bool>(arguments.IsExportDoors);
-			var isExportZones = GetValue<bool>(arguments.IsExportZones);
-			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ExportConfiguration(ClientUID, isExportDevices, isExportDoors, isExportZones, path);
-		}
-
-		void ImportOrganisation(ProcedureStep procedureStep)
-		{
-			var arguments = procedureStep.ImportOrganisationArguments;
-			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
-			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ImportOrganisation(ClientUID, isWithDeleted, path);
-		}
-
-		void ImportOrganisationList(ProcedureStep procedureStep)
-		{
-			var arguments = procedureStep.ImportOrganisationArguments;
-			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
-			var path = GetValue<string>(arguments.PathArgument);
-			ProcedureExecutionContext.ImportOrganisationList(ClientUID, isWithDeleted, path);
 		}
 
 		T GetValue<T>(Argument argument)
@@ -1449,5 +1447,73 @@ namespace Infrastructure.Automation
 				return true;
 			return false;
 		}
+
+		public void InitializeArguments(List<Variable> variables, List<Argument> arguments, List<Variable> callingProcedureVariables)
+		{
+			int i = 0;
+			foreach (var variable in variables)
+			{
+				variable.ExplicitValues = new List<ExplicitValue>();
+				if (arguments.Count <= i)
+					break;
+				var argument = arguments[i];
+				if (argument == null)
+					break;
+				if (argument.VariableScope == VariableScope.ExplicitValue)
+				{
+					PropertyCopy.Copy(argument.ExplicitValue, variable.ExplicitValue);
+					foreach (var explicitVal in argument.ExplicitValues)
+					{
+						var newExplicitValue = new ExplicitValue();
+						PropertyCopy.Copy(explicitVal, newExplicitValue);
+						variable.ExplicitValues.Add(newExplicitValue);
+					}
+				}
+				else
+				{
+					var argumentVariable = callingProcedureVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+					if (argumentVariable == null)
+						continue;
+					if (argumentVariable.IsReference)
+					{
+						variable.ExplicitValue = argumentVariable.ExplicitValue;
+						variable.ExplicitValues = argumentVariable.ExplicitValues;
+					}
+					else
+					{
+						PropertyCopy.Copy(argumentVariable.ExplicitValue, variable.ExplicitValue);
+						foreach (var explicitVal in argumentVariable.ExplicitValues)
+						{
+							var newExplicitValue = new ExplicitValue();
+							PropertyCopy.Copy(explicitVal, newExplicitValue);
+							variable.ExplicitValues.Add(newExplicitValue);
+						}
+					}
+				}
+				i++;
+			}
+		}
+
+		bool HasPermission(PermissionType permissionType)
+		{
+			return User == null ? false : User.HasPermission(permissionType);
+		}
+
+		bool Compare(ProcedureStep procedureStep)
+		{
+			var conditionStep = (ConditionStep)procedureStep;
+			var result = conditionStep.JoinOperator == JoinOperator.And;
+			foreach (var condition in conditionStep.Conditions)
+			{
+				var variable1 = GetValue<object>(condition.Argument1);
+				var variable2 = GetValue<object>(condition.Argument2);
+				var comparer = Compare(variable1, variable2, condition.ConditionType);
+				if ((comparer != null))
+					result = conditionStep.JoinOperator == JoinOperator.And ? result & comparer.Value : result | comparer.Value;
+			}
+			return result;
+		}
+
+		#endregion
 	}
 }

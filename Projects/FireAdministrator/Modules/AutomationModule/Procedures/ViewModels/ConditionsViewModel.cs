@@ -6,6 +6,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using Infrastructure.Common;
+using Infrastructure.Events;
+using System;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,9 +20,10 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			AddOpcTagFilterCommand = new RelayCommand(OnAddOpcTagFilter);
-			DeleteOpcTagFilterCommand = new RelayCommand(OnDeleteOpcTagFilter, CanDeleteOpcTagFilter);
-			EditOpcTagFilterCommand = new RelayCommand(OnEditOpcTagFilter, CanEditOpcTagFilter);
+			RemoveOpcTagFilterCommand = new RelayCommand(OnRemoveOpcTagFilter, CanDeleteOpcTagFilter);
 			Initialize();
+
+			ServiceFactory.Events.GetEvent<DeleteOpcDaTagFilterEvent>().Subscribe(FilterWasDeleted);
 		}
 
 		void Initialize()
@@ -74,8 +77,32 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			foreach (var filter in Filters.Where(x => !ClientManager.SystemConfiguration.JournalFilters.Any(y => y.UID == x.Filter.UID)).ToList())
+			foreach (var filter in Filters
+				.Where(x => !ClientManager.SystemConfiguration.JournalFilters.Any(y => y.UID == x.Filter.UID)).ToList())
 				Filters.Remove(filter);
+
+			OpcTagFilters.Clear();
+
+			foreach (var opcFilter in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters)
+			{
+				if (Procedure.OpcDaTagFiltersUids.Contains(opcFilter.UID))
+				{
+					var opcFilterViewModel = new OpcTagFilterViewModel(opcFilter);
+					OpcTagFilters.Add(opcFilterViewModel);
+				}
+			}
+
+			SelectedOpcDaTagFilter = OpcTagFilters.FirstOrDefault();
+		}
+
+		public void FilterWasDeleted(Guid filterUID)
+		{
+			var filters = OpcTagFilters.Where(filter => filter.OpcDaTagFilter.UID == filterUID).ToArray();
+
+			foreach (var fltr in filters)
+			{
+				OpcTagFilters.Remove(fltr);
+			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -121,32 +148,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand DeleteOpcTagFilterCommand { get; private set; }
-		void OnDeleteOpcTagFilter()
+		public RelayCommand RemoveOpcTagFilterCommand { get; private set; }
+		void OnRemoveOpcTagFilter()
 		{
 			Procedure.OpcDaTagFiltersUids.Remove(SelectedOpcDaTagFilter.OpcDaTagFilter.UID);
-			ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
-				.Remove(SelectedOpcDaTagFilter.OpcDaTagFilter);
 			OpcTagFilters.Remove(SelectedOpcDaTagFilter);
-			SelectedOpcDaTagFilter = OpcTagFilters.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDeleteOpcTagFilter()
-		{
-			return SelectedOpcDaTagFilter != null;
-		}
-
-		public RelayCommand EditOpcTagFilterCommand { get; private set; }
-		void OnEditOpcTagFilter()
-		{
-			var opcDaTagFilterEditingViewModel = new OpcDaTagFilterEditingViewModel(this.SelectedOpcDaTagFilter);
-
-			if (DialogService.ShowModalWindow(opcDaTagFilterEditingViewModel))
-			{
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
-		}
-		bool CanEditOpcTagFilter()
 		{
 			return SelectedOpcDaTagFilter != null;
 		}

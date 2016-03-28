@@ -36,7 +36,6 @@ namespace GKWebService
 					GlobalSettingsHelper.GlobalSettings.WebLogin, GlobalSettingsHelper.GlobalSettings.WebPassword);
 				if (message == null)
 				{
-					ClientManager.AddAdminUser(GlobalSettingsHelper.GlobalSettings.AdminLogin, RubezhClient.ClientManager.FiresecService);
                     break;
 				}
 				Thread.Sleep(5000);

@@ -180,7 +180,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult, ClientType.Administrator, clientUID);
 		}
 
-		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, Guid clientUid)
+		public static void NotifyOperationResult_GetArchivePage(OperationResult<List<JournalItem>> result, Guid clientUid, string userName)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -191,6 +191,7 @@ namespace FiresecService.Service
 					Error = result.Error,
 					HasError = result.HasError,
 					JournalItems = result.Result,
+					UserName = userName,
 				}
 			};
 			CallbackManager.Add(callbackResult, ClientType.Monitor | ClientType.OPC | ClientType.WebService | ClientType.Other, clientUid);
