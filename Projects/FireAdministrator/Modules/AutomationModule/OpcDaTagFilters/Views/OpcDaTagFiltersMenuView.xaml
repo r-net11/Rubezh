@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Grid>
 		<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-			<ToolBarButton Command="{Binding CreateOpcTagFilterCommand}" ToolTip="Добавить фильтр OPC DA тега " ImageSource="Add"  />
-			<ToolBarButton Command="{Binding EditOpcTagFilterCommand}" ToolTip="Редактировать фильтр OPC DA тега" ImageSource="Edit" />
-			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить фильтр OPC DA тега" ImageSource="Delete"  />
+			<ToolBarButton Command="{Binding CreateOpcTagFilterCommand}" ToolTip="Добавить фильтр OPC DA тега (Ctrl + N)" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding EditOpcTagFilterCommand}" ToolTip="Редактировать фильтр OPC DA тега (Ctrl + Del)" ImageSource="Edit" />
+			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить фильтр OPC DA тега (Ctrl + E)" ImageSource="Delete"  />
 		</StackPanel>
 	</Grid>
 </UserControl>
