@@ -32,6 +32,13 @@ namespace FireAdministrator
 			{
 				try
 				{
+					// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
+					SafeFiresecService.DisconnectClientCommandEvent += () =>
+					{
+						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
+						ApplicationService.ShutDown();
+					};
+
 					// Получаем данные лицензии с Сервера и инициализируем зависимые от них службы
 					var licenseData = FiresecManager.FiresecService.GetLicenseData().Result;
 					ServiceFactory.UiElementsVisibilityService.Initialize(licenseData);
@@ -74,13 +81,6 @@ namespace FireAdministrator
 
 					SafeFiresecService.SKDProgressCallbackEvent -= new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
 					SafeFiresecService.SKDProgressCallbackEvent += new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
-
-					// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
-					SafeFiresecService.DisconnectClientCommandEvent += () =>
-					{
-						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
-						ApplicationService.ShutDown();
-					};
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
