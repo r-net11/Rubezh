@@ -240,8 +240,7 @@ namespace FiresecService.ViewModels
 			foreach (var client in clientsToDisconnect)
 			{
 				// Т.к. "зависший" Клиент не вызовет на Сервере Disconnect, то удаляем информацию о нем (освобождаем занятую лицензию)
-				//ClientsManager.Remove(client.ClientCredentials.ClientUID);
-				FiresecServiceManager.SafeFiresecService.Disconnect(client.ClientCredentials.ClientUID);
+				ClientsManager.Remove(client.ClientCredentials.ClientUID);
 			}
 		}
 		private bool CanReleaseClients()
