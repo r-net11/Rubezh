@@ -36,7 +36,6 @@ namespace FiresecService
 		static void OnRun()
 		{
 			_autoResetEvent = new AutoResetEvent(false);
-			var rviStates = new List<RviState>();
 			var sate = RviStatus.Error;
 			while (true)
 			{
@@ -49,6 +48,7 @@ namespace FiresecService
 					if (ConfigurationCashHelper.SystemConfiguration != null && ConfigurationCashHelper.SystemConfiguration.RviSettings != null && ConfigurationCashHelper.SystemConfiguration.RviServers != null
 						&& ConfigurationCashHelper.SystemConfiguration.Cameras != null)
 					{
+						var rviStates = new List<RviState>();
 						var rviSettings = ConfigurationCashHelper.SystemConfiguration.RviSettings;
 						foreach (var server in ConfigurationCashHelper.SystemConfiguration.RviServers)
 						{
@@ -72,7 +72,7 @@ namespace FiresecService
 									}
 								}
 							}
-							else 
+							else
 							{
 								if (sate != RviStatus.Connected)
 								{
@@ -143,7 +143,6 @@ namespace FiresecService
 						{
 							var rviCallbackResult = new RviCallbackResult();
 							rviCallbackResult.RviStates.AddRange(rviStates);
-							rviStates.Clear();
 							FiresecService.Service.FiresecService.NotifyRviObjectStateChanged(rviCallbackResult);
 						}
 					}
