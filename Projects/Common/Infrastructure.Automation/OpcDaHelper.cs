@@ -129,19 +129,15 @@ namespace Infrastructure.Automation
 				{
 					foreach (var filter in filters)
 					{
-						if (filter.CheckCondition(result))
-						{
-							Value = result;
-							if (ProcedureExecutionContext.ContextType == ContextType.Server)
-								AutomationProcessor.RunOnOpcTagFilters(null, null);
-							else
-								AutomationProcessor.RunOnOpcTagFilters(ClientManager.CurrentUser, ClientManager.FiresecService.UID);
-						}
+						Value = result;
+						if (ProcedureExecutionContext.ContextType == ContextType.Server)
+							AutomationProcessor.RunOnOpcTagFilters(null, null);
+						else
+							AutomationProcessor.RunOnOpcTagFilters(ClientManager.CurrentUser, ClientManager.FiresecService.UID);
 					}
 				}
 				else
 					Value = result;
-
 			}
 		}
 

@@ -57,17 +57,25 @@ namespace Infrastructure.Automation
 			if (ProcedureExecutionContext.SystemConfiguration == null)
 				return;
 
-			foreach (var procedure in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration
-				.Procedures.Where(x => x.ContextType == ProcedureExecutionContext.ContextType))
-			{
-				foreach (var filterUid in procedure.OpcDaTagFiltersUids)
-				{
-					OpcDaTagFilter opcTagFilter = _opcDaTagFilters.FirstOrDefault(x => x.UID == filterUid);
+			var filters = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures
+				.Where(x => x.ContextType == ProcedureExecutionContext.ContextType)
+				.SelectMany(x => x.OpcDaTagFiltersUids).Distinct();
 
-					if (opcTagFilter != null)
+			foreach (var filter in filters)
+			{
+				var opcTagFilter = _opcDaTagFilters.FirstOrDefault(x => x.UID == filter);
+				
+				if (opcTagFilter != null)
+				{
+					var procedures = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures
+						.Where(x => x.ContextType == ProcedureExecutionContext.ContextType 
+							&& x.OpcDaTagFiltersUids.Contains(opcTagFilter.UID));
+
+					var value = OpcDaHelper.GetTagValue(opcTagFilter.TagUID);
+					
+					if (opcTagFilter.CheckCondition(value))
 					{
-						var value = OpcDaHelper.GetTagValue(opcTagFilter.TagUID);
-						if (opcTagFilter.CheckCondition(value))
+						foreach (var procedure in procedures)
 						{
 							RunProcedure(procedure, new List<Argument>(), null, user, null, clientUID);
 						}
