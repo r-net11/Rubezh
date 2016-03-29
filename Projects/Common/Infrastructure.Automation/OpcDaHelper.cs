@@ -177,11 +177,14 @@ namespace Infrastructure.Automation
 							Convert.ToInt32(value);
 					break;
 				case ExplicitType.Double:
+					result = resultIsArray ?
+						(object)((IEnumerable)value).Cast<Double>() :
+						(Double)value;
+					break;
 				case ExplicitType.Float:
-					if (valueTypeName == "System.Double" || valueTypeName == "System.Single")
-						result = resultIsArray ?
-							(object)((IEnumerable)value).Cast<Double>() :
-							Convert.ToDouble(value);
+					result = resultIsArray ?
+						(object)((IEnumerable)value).Cast<Double>() :
+						Convert.ToDouble(value.ToString()); // Необходимо привести к single к строке, потом в double в противном случае возникает прогрешность.
 					break;
 				case ExplicitType.String:
 					result = resultIsArray ?
