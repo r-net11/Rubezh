@@ -14,6 +14,7 @@ namespace RubezhAPI.Automation
 			TagUID = Guid.Empty;
 			Name = string.Empty;
 			Description = string.Empty;
+			Value = null;
 		}
 		public OpcDaTagFilter(Guid filterGuid, string name, string description, Guid tagUid, double hysteresis, ExplicitType valueType)
 		{
@@ -23,19 +24,7 @@ namespace RubezhAPI.Automation
 			ValueType = valueType;
 			Description = description == null ? string.Empty : description;
 			Name = name == null ? string.Empty : name;
-			switch (valueType)
-			{
-				case ExplicitType.Boolean: { Value = false; break; }
-				case ExplicitType.DateTime: { Value = DateTime.Now; break; }
-				case ExplicitType.Integer: { Value = (Int32)0; break; }
-				case ExplicitType.Float: { Value = (Double)0; break; }
-				case ExplicitType.String: { Value = String.Empty; break; }
-				default:
-					{
-						throw new NotSupportedException(String.Format(
-							"Невозможно создать фильтр для типа данных", valueType));
-					}
-			}
+			Value = null;
 		}
 		#endregion
 
@@ -66,13 +55,22 @@ namespace RubezhAPI.Automation
 		{
 			if (tagValue == null)
 				return false;
-			if (Value.GetType() != tagValue.GetType())
+
+			var type = GetExplicitType(tagValue.GetType().ToString());
+
+			if (type == null) // Передано значение с неподдерживаемым типом данных
 				return false;
 
-			var type = GetExplicitType(Value.GetType().ToString());
-
-			if (type == null)
+			if (ValueType != type) // Передано значение имеющее неверный тип данных
 				return false;
+
+			// При создании фильтра текущее значение = null. Поэтому при первом присваивании
+			// текущего значения фильтра предотвращаем запуск процедур 
+			if (Value == null)
+			{
+				Value = tagValue;
+				return false;
+			}
 
 			switch (type)
 			{
