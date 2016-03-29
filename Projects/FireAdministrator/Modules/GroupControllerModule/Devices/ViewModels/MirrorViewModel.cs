@@ -14,44 +14,7 @@ namespace GKModule.ViewModels
 	{
 		public MirrorViewModel(GKDevice device)
 		{
-			switch (device.Driver.DriverType)
-			{
-				case GKDriverType.FireZonesMirror:
-					HasFireZones = true;
-					IsFireZones = true;
-					break;
-
-				case GKDriverType.GuardZonesMirror:
-					HasGuardZones = true;
-					IsGuardZones = true;
-					break;
-
-				case GKDriverType.ControlDevicesMirror:
-					HasMPT = true;
-					HasDevices = true;
-					HasDirections = true;
-					HasNS = true;
-					HasDelay = true;
-					IsDirections = true;
-					break;
-
-				case GKDriverType.FirefightingZonesMirror:
-					HasDirections = true;
-					HasFireZones = true;
-					IsDirections = true;
-					break;
-
-				case GKDriverType.DirectionsMirror:
-					HasDirections = true;
-					IsDirections = true;
-					break;
-
-				case GKDriverType.DetectorDevicesMirror:
-					HasDevices = true;
-					IsDevices = true;
-					break;
-			}
-
+			
 			Title = "Выбор настройки отражения";
 			Device = device;
 			var zones = GKManager.Zones.Where(x => Device.GKReflectionItem.ZoneUIDs.Contains(x.UID)).ToList();
@@ -76,6 +39,48 @@ namespace GKModule.ViewModels
 			PumpStationsSelectationViewModel = new PumpStationsSelectationViewModel(ns);
 			var mpts = GKManager.MPTs.Where(x => Device.GKReflectionItem.MPTUIDs.Contains(x.UID)).ToList();
 			MPTsSelectationViewModel = new MPTsSelectationViewModel(mpts);
+
+			switch (device.Driver.DriverType)
+			{
+				case GKDriverType.FireZonesMirror:
+					HasFireZones = true;
+					IsFireZones = true;
+					break;
+
+				case GKDriverType.GuardZonesMirror:
+					HasGuardZones = true;
+					IsGuardZones = true;
+					break;
+
+				case GKDriverType.ControlDevicesMirror:
+					HasMPT = true;
+					HasDevices = true;
+					HasDirections = true;
+					HasNS = true;
+					HasDelay = true;
+					IsDevices = DevicesSelectationViewModel.DevicesList.Any();
+					IsDirections = !IsDevices && DirectionsSelectationViewModel.TargetDirections.Any();
+					IsDelay =!IsDirections &&!IsDevices && DelaysSelectationViewModel.TargetDelays.Any();
+					IsNS = !IsDirections && !IsDevices && !IsDelay && PumpStationsSelectationViewModel.TargetPumpStations.Any();
+					IsDevices = !(IsMPT = !IsDirections && !IsDevices && !IsDelay &&!IsNS && MPTsSelectationViewModel.TargetMPTs.Any());
+					break;
+
+				case GKDriverType.FirefightingZonesMirror:
+					HasDirections = true;
+					HasFireZones = true;
+					IsFireZones = ZonesSelectationViewModel.TargetZones.Any() ? true :  DirectionsSelectationViewModel.TargetDirections.Any() ? !(IsDirections = true) : true ;
+					break;
+
+				case GKDriverType.DirectionsMirror:
+					HasDirections = true;
+					IsDirections = true;
+					break;
+
+				case GKDriverType.DetectorDevicesMirror:
+					HasDevices = true;
+					IsDevices = true;
+					break;
+			}
 		}
 
 		public ZonesSelectationViewModel ZonesSelectationViewModel { get; private set; }
