@@ -11,19 +11,19 @@ namespace VideoModule.Plans.ViewModels
 	public class CameraPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		ElementCamera _elementCamera;
-		CamerasViewModel _camerasViewModel;
-		List<CameraViewModel> AllCameras { get; set; }
+		CamerasViewModel _camerasViewModelForPlanExtension;
+		List<CameraViewModel> CamerasForUpdate { get; set; }
 
-		public CameraPropertiesViewModel(CamerasViewModel camerasViewModel, ElementCamera elementCamera)
+		public CameraPropertiesViewModel(CamerasViewModel camerasViewModel, CamerasViewModel camerasViewModelForPlanExtension, ElementCamera elementCamera)
 		{
 			Title = "Свойства фигуры: Камера";
 			_elementCamera = elementCamera;
-			_camerasViewModel = camerasViewModel;
-			camerasViewModel.Initialize();
+			_camerasViewModelForPlanExtension = camerasViewModelForPlanExtension;
+			_camerasViewModelForPlanExtension.Initialize();
 
-			Cameras = camerasViewModel.Cameras;
-			AllCameras = camerasViewModel.AllCameras;
-			SelectedCamera = AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == elementCamera.CameraUID);
+			Cameras = camerasViewModelForPlanExtension.Cameras;
+			CamerasForUpdate = camerasViewModel.AllCameras;
+			SelectedCamera = camerasViewModelForPlanExtension.AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == elementCamera.CameraUID);
 			Rotation = elementCamera.Rotation;
 		}
 
@@ -58,13 +58,13 @@ namespace VideoModule.Plans.ViewModels
 
 			if (cameraUID != _elementCamera.CameraUID)
 				Update(cameraUID);
-			_camerasViewModel.SelectedCamera = Update(_elementCamera.CameraUID);
+			_camerasViewModelForPlanExtension.SelectedCamera = Update(_elementCamera.CameraUID);
 			_elementCamera.Rotation = this.Rotation;
 			return base.Save();
 		}
 		CameraViewModel Update(Guid cameraUID)
 		{
-			var camera = AllCameras.FirstOrDefault(x => x.IsCamera && x.Camera.UID == cameraUID);
+			var camera = CamerasForUpdate.FirstOrDefault(x => x.IsCamera && x.Camera.UID == cameraUID);
 			if (camera != null)
 				camera.Update();
 			return camera;
