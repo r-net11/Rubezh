@@ -289,10 +289,6 @@
       <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>
       <Name>FiresecService.Report</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecService\FiresecService.csproj">
-      <Project>{903ca80d-886e-43af-a631-beb260f8f93d}</Project>
-      <Name>FiresecService</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

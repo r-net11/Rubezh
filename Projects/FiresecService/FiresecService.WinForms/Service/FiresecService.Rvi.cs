@@ -7,7 +7,8 @@ namespace FiresecService.Service
 	{
 		public List<RviState> GetRviStates()
 		{
-			return RviProcessor.GetRviStates();
+			//return RviProcessor.GetRviStates();
+			return new List<RviState>();
 		}
 	}
 }
