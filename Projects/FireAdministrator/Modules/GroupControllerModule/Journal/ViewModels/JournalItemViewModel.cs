@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 				return;
 			}
 
-			Address = descriptorAddress.ToString();
+			Address = descriptorAddress!= 0 ? descriptorAddress.ToString(): String.Empty;
 
 			var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == descriptorType);
 			if (driver != null)
@@ -120,6 +120,11 @@ namespace GKModule.ViewModels
 						ImageSource = "/Controls;component/Images/Delay.png";
 						break;
 
+					case 0x104:
+						TypeName = "Точка доступа";
+						ImageSource = "/Controls;component/Images/Door.png";
+						break;
+
 					case 0x106:
 						TypeName = "Направление";
 						ImageSource = "/Controls;component/Images/Blue_Direction.png";
@@ -134,6 +139,8 @@ namespace GKModule.ViewModels
 						TypeName = "Охранная зона";
 						ImageSource = "/Controls;component/Images/GuardZone.png";
 						break;
+
+
 				}
 			}
 		}
@@ -182,6 +189,24 @@ namespace GKModule.ViewModels
 						{
 							PresentationName = pumpStation.PresentationName;
 							ImageSource = "/Controls;component/Images/BPumpStation.png";
+						}
+						break;
+
+					case JournalObjectType.GKDoor:
+						var door = GKManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (door != null)
+						{
+							PresentationName = door.PresentationName;
+							ImageSource = "/Controls;component/Images/Door.png";
+						}
+						break;
+
+					case JournalObjectType.GKMPT:
+						var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (mpt != null)
+						{
+							PresentationName = mpt.PresentationName;
+							ImageSource = "/Controls;component/Images/BMPT.png";
 						}
 						break;
 
