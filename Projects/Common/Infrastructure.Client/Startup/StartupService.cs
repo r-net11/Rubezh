@@ -121,7 +121,7 @@ namespace Infrastructure.Client.Startup
 			{
 				MessageBoxService.ResetMessageBoxHandler();
 				ApplicationService.Invoke(() => { throw new StartupCancellationException(); });
-			//	Dispatcher.CurrentDispatcher.InvokeShutdown();
+				Dispatcher.CurrentDispatcher.InvokeShutdown();
 				//ApplicationService.ShutDown();
 			}
 		}
