@@ -195,7 +195,25 @@ namespace FiresecService.Processor
 
 			if (opcServer == null)
 			{
-				return null;
+				var srv = GetOpcDaServers().FirstOrDefault(s => s.ServerName == server.ServerName);
+				if (srv != null)
+				{
+					var url = new OpcUrl(OpcSpecification.OPC_DA_20, OpcUrlScheme.DA, server.Url);
+					var opcSrv = new TsCDaServer();
+					try
+					{
+						opcSrv.Connect(url, null);
+						var result = opcSrv.GetServerStatus();
+						opcSrv.Disconnect();
+						return result;
+					}
+					catch
+					{
+						return null;
+					}
+				}
+				else
+					return null;
 			}
 			else
 			{

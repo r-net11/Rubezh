@@ -33,7 +33,7 @@ namespace VideoModule
 
 			CamerasViewModel = new CamerasViewModel();
 			CamerasViewModelForPlanExtension = new CamerasViewModel();
-			_planExtension = new PlanExtension(CamerasViewModelForPlanExtension);
+			_planExtension = new PlanExtension(CamerasViewModel, CamerasViewModelForPlanExtension);
 		}
 
 		public override void Initialize()

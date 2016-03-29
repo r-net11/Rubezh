@@ -5,7 +5,7 @@
 
 
 
-<div id="HR" ng-controller="HRCtrl">
+<div id="HR">
     <div class="HrToolbar" ng-show="activeTab === 0">
         <div data-bind="visible:!Employees.EmployeeCards.IsCardSelected()">
             <div class="icon add" data-bind="click: Employees.CanAdd() ? function(data,event) { Employees.AddEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.AddCommandToolTip}, css: {disabled: !Employees.CanAdd()}"></div>
@@ -72,8 +72,8 @@
         <div class="icon delete" title="Отображать архивные сведения" data-bind="visible: !Filter.IsWithDeleted(), click: ChangeIsDeleted"></div>
     </div>
     <div class="HrToolbar"  ng-show="activeTab !== 5">
-        <div class="icon filter" data-bind="click:function(data,event) { EditFilter(data, event, '#filter-box'); }, attr: {title: 'Фильтр'}, visible: !Filter.IsNotEmpty()"></div>
-        <div class="icon archive" data-bind="click:function(data,event) { EditFilter(data, event, '#filter-box'); }, attr: {title: 'Фильтр'}, visible: Filter.IsNotEmpty()"></div>
+        <div class="icon filter" title="Фильтр" ng-show="!Filter.IsNotEmpty()" ng-click="editFilter()"></div>
+        <div class="icon archive" title="Фильтр" ng-show="Filter.IsNotEmpty()" ng-click="editFilter()"></div>
     </div>
 
     <select id="selectPersonType" ng-model="selectedPersonType" ng-show="activeTab === 0">
@@ -104,7 +104,6 @@
     </div>
 </div>
 
-@Html.Action("HrFilter")
 @Html.Action("EmployeeDetails", "Employees")
 @Html.Action("DepartmentSelection", "Employees")
 @Html.Action("PositionSelection", "Employees")
