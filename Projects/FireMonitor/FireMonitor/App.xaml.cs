@@ -17,8 +17,8 @@ namespace FireMonitor
 {
 	public partial class App : Application
 	{
-		private const string SignalId = "{56E74882-C633-45CD-BE94-DCDEE52846BE}";
-		private const string WaitId = "{38A602C9-D6F2-424B-B0FA-97E1B133C473}";
+	//	private const string SignalId = "{56E74882-C633-45CD-BE94-DCDEE52846BE}";
+	//	private const string WaitId = "{38A602C9-D6F2-424B-B0FA-97E1B133C473}";
 		private Bootstrapper _bootstrapper;
 		public bool IsClosingOnException { get; private set; }
 
@@ -53,9 +53,7 @@ namespace FireMonitor
 #endif
 				_bootstrapper = CreateBootstrapper();
 				_bootstrapper.InitializeCommandLineArguments(e.Args);
-				bool result;
-				//using (new DoubleLaunchLocker(SignalId, WaitId, true))
-					result = _bootstrapper.Initialize();
+				var result = _bootstrapper.Initialize();
 				if (!result)
 				{
 					ApplicationService.ShutDown();

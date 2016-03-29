@@ -129,7 +129,7 @@ namespace Infrastructure.Client
 			foreach (IModule module in _modules.OrderBy(module => module.Order))
 				try
 				{
-					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
+			//		StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 					module.Initialize();
 				}
 				catch (StartupCancellationException)
