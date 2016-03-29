@@ -47,5 +47,10 @@ namespace FiresecAPI
 		ConfigurationChanged,
 		Disconnecting,
 		NewSearchDevices,
+
+		/// <summary>
+		/// Команда со стороны Сервера на закрытие соединения Клиентом
+		/// </summary>
+		DisconnectClientCommand
 	}
 }

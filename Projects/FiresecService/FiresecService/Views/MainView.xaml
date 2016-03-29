@@ -14,7 +14,16 @@
 			<TabItem Header="Соединения">
 				<DataGrid ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding UID}" Header="Идентификатор" />
+						<DataGridTemplateColumn Header="Идентификатор">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2 0 2 0" />
+										<TextBlock Text="{Binding UID}"/>
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
 						<DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
 						<DataGridTextColumn Binding="{Binding IpAddress}" Header="Адрес" />
 						<DataGridTextColumn Width="*" Binding="{Binding FriendlyUserName}" Header="Пользователь" />
@@ -102,6 +111,7 @@
 		</TabControl>
 		<Grid Grid.Row="1">
 			<TextBlock Margin="5 0 0 0" FontSize="11" FontWeight="Bold" Foreground="Orange" Text="{Binding LastLog, FallbackValue=None}" />
+			<Button Content="Разорвать соединение" Command="{Binding ReleaseClientsCommand}" Width="150" HorizontalAlignment="Right"/>
 		</Grid>
 	</Grid>
 </UserControl>

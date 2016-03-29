@@ -32,6 +32,13 @@ namespace FireAdministrator
 			{
 				try
 				{
+					// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
+					SafeFiresecService.DisconnectClientCommandEvent += () =>
+					{
+						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
+						ApplicationService.ShutDown();
+					};
+
 					// Получаем данные лицензии с Сервера и инициализируем зависимые от них службы
 					var licenseData = FiresecManager.FiresecService.GetLicenseData().Result;
 					ServiceFactory.UiElementsVisibilityService.Initialize(licenseData);

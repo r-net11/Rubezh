@@ -42,6 +42,13 @@ namespace FireMonitor
 				_password = ServiceFactory.StartupService.Password;
 				try
 				{
+					// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
+					SafeFiresecService.DisconnectClientCommandEvent += () =>
+					{
+						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
+						ApplicationService.ShutDown();
+					};
+
 					// Получаем данные лицензии с Сервера
 					ServiceFactory.UiElementsVisibilityService.Initialize(FiresecManager.FiresecService.GetLicenseData().Result);
 
@@ -69,6 +76,13 @@ namespace FireMonitor
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => ApplicationService.Invoke(OnConfigurationChanged);
+						
+						// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
+						SafeFiresecService.DisconnectClientCommandEvent += () =>
+						{
+							ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером.\nРабота приложения будет завершена."));
+							ApplicationService.ShutDown();
+						};
 
 						if (result)
 						{

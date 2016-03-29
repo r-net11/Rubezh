@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using FiresecAPI.Models;
+using FiresecService.Service;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -64,6 +65,7 @@ namespace FiresecService.ViewModels
 			UserKey = currentLicenseManager.GetUserKey();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			UpdateLicenseStatus();
+			ReleaseClientsCommand = new RelayCommand(OnReleaseClients, CanReleaseClients);
 		}
 
 		private void UpdateLicenseStatus()
@@ -224,6 +226,26 @@ namespace FiresecService.ViewModels
 				MessageBoxService.ShowError(
 					"Выбранный файл не является файлом лицензии и не может быть использован для активации сервера. Выберите другой файл",
 					"Ошибка чтения файла лицензии");
+		}
+
+		public RelayCommand ReleaseClientsCommand { get; private set; }
+		private void OnReleaseClients()
+		{
+			var clientsToDisconnect = Clients.Where(x => x.IsChecked).ToList();
+			foreach (var client in clientsToDisconnect)
+			{
+				// Посылаем Клиенту команду на разрыв соединения с Сервером
+				FiresecServiceManager.SafeFiresecService.SendDisconnectClientCommand(client.ClientCredentials.ClientUID);
+			}
+			foreach (var client in clientsToDisconnect)
+			{
+				// Т.к. "зависший" Клиент не вызовет на Сервере Disconnect, то удаляем информацию о нем (освобождаем занятую лицензию)
+				ClientsManager.Remove(client.ClientCredentials.ClientUID);
+			}
+		}
+		private bool CanReleaseClients()
+		{
+			return Clients.Any(x => x.IsChecked);
 		}
 	}
 }

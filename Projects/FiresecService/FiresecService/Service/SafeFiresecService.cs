@@ -250,5 +250,14 @@ namespace FiresecService.Service
 		}
 	
 		#endregion
+
+		/// <summary>
+		/// Посылает команду Клиенту на закрытие соединения с Сервером
+		/// </summary>
+		/// <param name="clientUid">Идентификатор клиента, которому посылается команда</param>
+		public void SendDisconnectClientCommand(Guid clientUid)
+		{
+			SafeOperationCall(() => FiresecService.SendDisconnectClientCommand(clientUid), "SendDisconnectClientCommand");
+		}
 	}
 }
