@@ -1,9 +1,8 @@
-﻿using System;
-using System.ServiceModel;
-using Common;
-using FiresecService.Models;
-using Infrastructure.Common;
+﻿using Common;
 using FiresecService.Presenters;
+using Infrastructure.Common;
+using System;
+using System.ServiceModel;
 using System.Windows.Forms;
 
 namespace FiresecService.Service
@@ -40,9 +39,9 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
-				Program.ShowBalloonTip(5000, "Ошибка", 
+				Program.ShowBalloonTip(5000, "Ошибка",
 					"Ошибка при запуске хоста сервиса \n" + e.Message, ToolTipIcon.Error);
-				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
+				//UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
 				MainPresenter.SetLocalAddress("<Ошибка>");
 				MainPresenter.SetRemoteAddress("<Ошибка>");
 			}
@@ -53,7 +52,7 @@ namespace FiresecService.Service
 			try
 			{
 				var address = "net.pipe://127.0.0.1/FiresecService/";
-				ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService", 
+				ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService",
 					Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(address));
 				MainPresenter.SetLocalAddress(address);
 			}
@@ -70,10 +69,10 @@ namespace FiresecService.Service
 				var ipAddress = ConnectionSettingsManager.GetIPAddress();
 				if (ipAddress != null)
 				{
-					var address = "http://" + ipAddress + ":" 
-						+ GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() 
+					var address = "http://" + ipAddress + ":"
+						+ GlobalSettingsHelper.GlobalSettings.RemotePort.ToString()
 						+ "/FiresecService/";
-					ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService", 
+					ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService",
 						Common.BindingHelper.CreateWSHttpBinding(), new Uri(address));
 					//MainViewModel.SetRemoteAddress(address);
 					MainPresenter.SetRemoteAddress(address);
@@ -92,9 +91,9 @@ namespace FiresecService.Service
 				var ipAddress = ConnectionSettingsManager.GetIPAddress();
 				if (ipAddress != null)
 				{
-					var address = "net.tcp://" + ipAddress + ":" 
+					var address = "net.tcp://" + ipAddress + ":"
 						+ GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
-					ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService", 
+					ServiceHost.AddServiceEndpoint("RubezhAPI.IFiresecService",
 						Common.BindingHelper.CreateNetTcpBinding(), new Uri(address));
 					//MainViewModel.SetRemoteAddress(address);
 					MainPresenter.SetRemoteAddress(address);

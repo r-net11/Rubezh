@@ -497,7 +497,10 @@ namespace FiresecService.Service
 		{
 			SafeOperationCall(clientUID, () => FiresecService.Ptz(clientUID, cameraUid, ptzNumber), "Ptz");
 		}
-
+		public List<RviState> GetRviStates(Guid clientUid)
+		{
+			return SafeOperationCall(clientUid, () => FiresecService.GetRviStates(), "GetRviStates");
+		}
 		public void RviAlarm(Guid clientUID, string name)
 		{
 			SafeOperationCall(clientUID, () => FiresecService.RviAlarm(clientUID, name), "RviAlarm");
