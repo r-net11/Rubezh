@@ -66,8 +66,8 @@ namespace GKProcessor
 			Formula.AddMirrorLogic(GuardZone, mirrorParents);
 
 			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire1);
-			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
+			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			Formula.Add(FormulaOperationType.END);
 		}
 
