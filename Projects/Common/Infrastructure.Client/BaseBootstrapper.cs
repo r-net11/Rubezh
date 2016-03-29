@@ -111,13 +111,13 @@ namespace Infrastructure.Client
 
 		protected bool RunShell(ShellViewModel shellViewModel)
 		{
-			StartupService.Instance.DoStep("Загрузка модулей приложения");
+		//	StartupService.Instance.DoStep("Загрузка модулей приложения");
 			CreateViewModels();
 			shellViewModel.NavigationItems = new ReadOnlyCollection<NavigationItem>(GetNavigationItems());
 			if (InitializeModules())
 			{
 				ApplicationService.User = FiresecManager.CurrentUser;
-				StartupService.Instance.DoStep("Запуск приложения");
+	//			StartupService.Instance.DoStep("Запуск приложения");
 				ApplicationService.Run(shellViewModel);
 				return true;
 			}

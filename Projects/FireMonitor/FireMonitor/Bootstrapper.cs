@@ -57,26 +57,26 @@ namespace FireMonitor
 					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 15);
 					ServiceFactory.StartupService.AddCount(GetModuleCount());
 
-					ServiceFactory.StartupService.DoStep("Синхронизация файлов");
+				//	ServiceFactory.StartupService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 
-					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
+				//	ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Monitor/Configuration");
 
 					BeforeInitialize(true);
 
-					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
+				//	ServiceFactory.StartupService.DoStep("Старт полинга сервера");
 					FiresecManager.StartPoll();
 
-					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
+			//		ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CheckPermission(PermissionType.Oper_Login))
 					{
-						ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
+				//		ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => ApplicationService.Invoke(OnConfigurationChanged);
-						
+
 						// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
 						SafeFiresecService.DisconnectClientCommandEvent += () =>
 						{
