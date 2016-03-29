@@ -3,39 +3,31 @@
     Layout = null;
 }
 
-<div id="filter-box" class="save-cancel-popup" data-bind="with: HR.Filter">
-    <div class="title-bar">
-        <span>Фильтр</span>
-        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: Cancel" /></a>
+<div>
+    <div class="modal-header">
+        <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+        <h3 class="modal-title">Фильтр</h3>
     </div>
-    <div>
-        <form id="Filter" data-bind="submit: Save">
-            <ul class="tab">
-                <li class="active"><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Organisations'); }"><span>Организации</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Departments'); }"><span>Подразделения</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Positions'); }, visible: IsShowPositions"><span>Должности</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { FilterPageClick(data, event, 'Employees'); }"><span data-bind="text: HRViewModel.EmployeesHeader"></span></a></li>
-            </ul>
-
-            <div data-bind="visible:filterPages.Organisations">
+    <div class="modal-body">
+        <uib-tabset>
+            <uib-tab heading="Организации">
                 @Html.Action("OrganisationsFilter")
-            </div>
-            <div data-bind="visible:filterPages.Departments">
+            </uib-tab>
+            <uib-tab heading="Подразделения">
                 @Html.Action("DepartmentsFilter")
-            </div>
-            <div data-bind="visible:filterPages.Positions">
+            </uib-tab>
+            <uib-tab ng-show="isShowPositions" heading="Должности">
                 @Html.Action("PositionsFilter")
-            </div>
-            <div data-bind="visible:filterPages.Employees">
+            </uib-tab>
+            <uib-tab heading="{{employeesHeader}}">
                 @Html.Action("EmployeesFilter")
-            </div>
-
-            <div style="clear: both"></div>
-            <div class="data-input">
-                <label style="word-wrap: normal"><span><input type="checkbox" name="IsWithDeleted" id="IsWithDeleted" data-bind="checked: IsWithDeleted" value="" /><label for="IsWithDeleted">Отображать архивные данные</label></span></label>
-            </div>
-            <div style="clear: both"></div>
-            <button class="submit ok-cancel-button" type="submit">OK</button>
-        </form>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+    <div mobile-hover-fix class="modal-footer">
+        <div class="checkbox-inline pull-left">
+            <label><input type="checkbox" ng-model="isWithDeleted" value="">Отображать архивные данные</label>
+        </div>
+        <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
     </div>
 </div>

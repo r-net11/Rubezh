@@ -8,7 +8,10 @@
         authServiceFactory.authentication = {
             isAuth: false,
             userName: "",
-            permissions: []
+            permissions: [],
+            checkPermission: function (permission) {
+                return authServiceFactory.authentication.permissions.indexOf(permission) !== -1;
+            }
         };
 
         authServiceFactory.login = function (loginData) {
@@ -18,9 +21,9 @@
             $http.post("Home/Login", loginData).success(function (response) {
 
                 if (response.success) {
-                    authServiceFactory.authentication.isAuth = true;
-                    authServiceFactory.authentication.userName = loginData.userName;
                     $http.get("Home/GetCurrentUserPermissions").then(function (responsePermissions) {
+                        authServiceFactory.authentication.isAuth = true;
+                        authServiceFactory.authentication.userName = loginData.userName;
                         authServiceFactory.authentication.permissions = responsePermissions.data.permissions;
                         deferred.resolve(response);
                     });
@@ -50,14 +53,25 @@
         authServiceFactory.fillAuthData = function () {
             var deferred = $q.defer();
 
-            $http.get("Home/TryGetCurrentUserName").then(function (response) {
-                authServiceFactory.authentication.isAuth = true;
-                authServiceFactory.authentication.userName = response.data.userName;
-                $http.get("Home/GetCurrentUserPermissions").then(function(responsePermissions) {
-                    authServiceFactory.authentication.permissions = responsePermissions.data.permissions;
-                    deferred.resolve(response);
-                });
-            });
+            if (authServiceFactory.authentication.isAuth) {
+                deferred.resolve(authServiceFactory.authentication);
+            } else {
+                var userName;
+                $http.get("Home/TryGetCurrentUserName")
+                    .then(function (response) {
+                        userName = response.data.userName;
+                        return $http.get("Home/GetCurrentUserPermissions");
+                    })
+                    .then(function (responsePermissions) {
+                        authServiceFactory.authentication.isAuth = true;
+                        authServiceFactory.authentication.userName = userName;
+                        authServiceFactory.authentication.permissions = responsePermissions.data.permissions;
+                        deferred.resolve(authServiceFactory.authentication);
+                    })
+                    .catch(function (err) {
+                        deferred.reject(err);
+                    });
+            }
 
             return deferred.promise;
         };

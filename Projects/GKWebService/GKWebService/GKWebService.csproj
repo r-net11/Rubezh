@@ -218,6 +218,8 @@
     <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
     <Content Include="App\controllers\restart\restartDetailsCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
+    <Content Include="App\controllers\SKD\employees\employeesCtrl.js" />
+    <Content Include="App\controllers\SKD\HR\HRFilterCtrl.js" />
     <Content Include="App\controllers\SKD\HR\HRCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\d3Plan.js" />
