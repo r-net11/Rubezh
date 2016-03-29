@@ -962,6 +962,6 @@ namespace RubezhAPI.Journal
 		Пуск = 313,
 
 		[EventDescriptionAttribute("Стоп", JournalEventNameType.Управление_ПМФ)]
-		Стоп = 313
+		Стоп = 314
 	}
 }
