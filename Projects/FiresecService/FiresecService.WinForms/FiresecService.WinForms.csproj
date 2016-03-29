@@ -184,6 +184,7 @@
     <Compile Include="Service\FiresecService.OpcDa.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Service\FiresecService.Rvi.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeTrack.cs" />
     <Compile Include="Service\FiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\FiresecService.GK.cs" />
@@ -287,6 +288,10 @@
     <ProjectReference Include="..\FiresecService.Report\FiresecService.Report.csproj">
       <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>
       <Name>FiresecService.Report</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecService\FiresecService.csproj">
+      <Project>{903ca80d-886e-43af-a631-beb260f8f93d}</Project>
+      <Name>FiresecService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
