@@ -6,6 +6,7 @@ using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI;
 using RubezhDAL;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -81,7 +82,7 @@ namespace GKProcessor
 							break;
 
 						case 7:
-							JournalItem.JournalEventNameType = JournalEventNameType.Вход_пользователя_в_прибор;
+							JournalItem.JournalEventNameType = bytes[56] == 0x0d ? JournalEventNameType.Вход_пользователя_в_ПМФ : JournalEventNameType.Вход_пользователя_в_прибор;
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							var bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							var bytes2 = bytes.GetRange(48, 53 - 48 + 1);
@@ -91,7 +92,7 @@ namespace GKProcessor
 							break;
 
 						case 8:
-							JournalItem.JournalEventNameType = JournalEventNameType.Выход_пользователя_из_прибора;
+							JournalItem.JournalEventNameType = bytes[56] == 0x0d ? JournalEventNameType.Выход_пользователя_из_ПМФ : JournalEventNameType.Выход_пользователя_из_прибора;
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);

@@ -962,6 +962,18 @@ namespace RubezhAPI.Journal
 		Пуск = 313,
 
 		[EventDescriptionAttribute("Стоп", JournalEventNameType.Управление_ПМФ)]
-		Стоп = 314
+		Стоп = 314,
+
+		[EventDescriptionAttribute("КЗ концевого выключателя НОРМА", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		КЗ_концевого_выключателя_НОРМА = 315,
+
+		[EventDescriptionAttribute("Обрыв концевого выключателя НОРМА", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Обрыв_концевого_выключателя_НОРМА = 316,
+
+		[EventDescriptionAttribute("КЗ концевого выключателя ЗАЩИТА", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		КЗ_концевого_выключателя_ЗАЩИТА = 317,
+
+		[EventDescriptionAttribute("Обрыв концевого выключателя ЗАЩИТА", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Обрыв_концевого_выключателя_ЗАЩИТА = 318,
 	}
 }
