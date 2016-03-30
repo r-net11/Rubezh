@@ -154,7 +154,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand RemoveOpcServerCommand { get; private set; }
 		void OnRemoveOpcServer()
 		{
-			// Удаляем фильтры OPC тегов связанные с данным сервером
+			// Удаляем из фильтров OPC тегов поля связанные с данным сервером
 			var tags = SelectedOpcServer.Tags;
 
 			var filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
@@ -162,7 +162,7 @@ namespace AutomationModule.ViewModels
 
 			if (filters.Length > 0)
 			{
-				StringBuilder sb = new StringBuilder();
+				var sb = new StringBuilder();
 				sb.Append(Environment.NewLine);
 
 				for (int i = 0; i < filters.Length; i++)
@@ -176,7 +176,7 @@ namespace AutomationModule.ViewModels
 				}
 
 				if (!MessageBoxService.ShowConfirmation(String.Format(
-					"При удалении OPC сервера будут удалены фильтры: {0} Продолжить?", sb.ToString()), 
+					"При удалении OPC сервера будут изменены фильтры: {0} Продолжить?", sb.ToString()), 
 					"Внимание"))
 				{
 					return;
@@ -184,7 +184,7 @@ namespace AutomationModule.ViewModels
 				else
 				{
 					foreach (var filter in filters)
-						ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Remove(filter);
+						filter.TagUID = Guid.Empty;
 				}
 			}
 
@@ -200,13 +200,53 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditTagListCommand { get; private set; }
 		void OnEditTagList()
 		{
+			var tagsBefor = SelectedTags;
+
 			var editingTagList = new OpcDaClientEditingTagsViewModel(this);
 			DialogService.ShowModalWindow(editingTagList);
 
 			var server = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers
 				.FirstOrDefault(x => x == SelectedOpcServer);
-			server.Tags = SelectedTags;
-			ServiceFactory.SaveService.AutomationChanged = true;
+			
+			var removedTags = tagsBefor.Where(t => !SelectedTags.Contains(t, new OpcDaTagComparer()));
+
+			var changedFilters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
+				.Where(filter => removedTags.Any(tag => tag.Uid == filter.TagUID)).ToArray();
+
+			if (removedTags.Count() > 0)
+			{
+				var sb = new StringBuilder();
+
+				sb.Append(Environment.NewLine);
+
+				for (int i = 0; i < changedFilters.Length; i++)
+				{
+					if (i == changedFilters.Length - 1)
+						sb.Append("    " + changedFilters[i].Name + ".");
+					else
+						sb.Append("    " + changedFilters[i].Name + ",");
+
+					sb.Append(Environment.NewLine);
+				}
+
+				if (!MessageBoxService.ShowConfirmation(String.Format(
+					"При удалении OPC тегов будут изменены фильтры: {0} Продолжить?", sb.ToString()),
+					"Внимание"))
+				{
+					SelectedTags = tagsBefor;
+					return;
+				}
+				else
+				{
+					foreach (var item in changedFilters)
+					{
+						item.TagUID = Guid.Empty;
+					}
+					server.Tags = SelectedTags;
+				}
+
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
 
 		}
 		bool CanEditTagList() { return SelectedOpcServer != null; }

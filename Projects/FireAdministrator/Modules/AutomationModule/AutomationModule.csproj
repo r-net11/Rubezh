@@ -135,6 +135,7 @@
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientMenuViewModel.cs" />
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientReadWriteTagsViewModel.cs" />
     <Compile Include="OpcDaClient\ViewModels\OpcDaClientViewModel.cs" />
+    <Compile Include="OpcDaClient\ViewModels\OpcDaTagComparer.cs" />
     <Compile Include="OpcDaClient\Views\OpcDaClientAddingServersView.xaml.cs">
       <DependentUpon>OpcDaClientAddingServersView.xaml</DependentUpon>
     </Compile>
