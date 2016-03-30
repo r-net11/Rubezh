@@ -21,7 +21,7 @@ namespace RubezhAPI
 		[Description("Датчик не подключен к ТД")]
 		SensorNotConnected = 4,
 
-		[Description("Исполнительное устройство содержит собственную логику")]
+		[Description("Невозможно управлять устройством, содержащим собственную логику")]
 		DeviceHaveSelfLogik = 5,
 	}
 }
