@@ -15,7 +15,7 @@ namespace GKImitator.ViewModels
 	{
 		public BaseDescriptor LogicDescriptor { get; private set; }
 		public List<FormulaOperation> FormulaOperations { get; protected set; }
-		bool IsKauDecriptor;
+		private bool IsKauDecriptor;
 
 		public void SetKauDescriptor(BaseDescriptor kauBaseDescriptor)
 		{
@@ -45,7 +45,8 @@ namespace GKImitator.ViewModels
 		{
 			foreach (var gkBase in LogicDescriptor.GKBase.OutputDescriptors)
 			{
-				var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == gkBase.GKDescriptorNo);
+				var descriptorViewModel =
+					MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == gkBase.GKDescriptorNo);
 				if (descriptorViewModel != null)
 				{
 					descriptorViewModel.RecalculateLogic();
@@ -55,17 +56,24 @@ namespace GKImitator.ViewModels
 
 		public void RecalculateCurrentLogic()
 		{
-			var descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == GKBase.GKDescriptorNo);
+			var descriptorViewModel =
+				MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == GKBase.GKDescriptorNo);
 			if (descriptorViewModel != null)
 			{
 				descriptorViewModel.RecalculateLogic();
 			}
 		}
 
-		List<Tuple<int, int>> usersCurrentZones { get; set; }
-		void RecalculateLogic()
+		static List<Tuple<int, int>> usersCurrentZones = new List<Tuple<int, int>>();
+		int doorCurrentCardNo = 0;
+		int doorCurrentZoneNo = 0;
+
+		private void RecalculateLogic()
 		{
 			Trace.WriteLine("\n" + GKBase.PresentationName);
+			ImitatorUser user = null;
+			Tuple<bool, short> acsDriverTypeAndNo = null;
+			var isACSAccess = false;
 			if (Regime == Regime.Ignore)
 				return;
 			var stack = new List<int>();
@@ -74,7 +82,8 @@ namespace GKImitator.ViewModels
 			for (int i = 0; i < FormulaOperations.Count; i++)
 			{
 				var formulaOperation = FormulaOperations[i];
-				if (formulaOperation.FormulaOperationType == FormulaOperationType.END || formulaOperation.FormulaOperationType == FormulaOperationType.EXIT)
+				if (formulaOperation.FormulaOperationType == FormulaOperationType.END ||
+					formulaOperation.FormulaOperationType == FormulaOperationType.EXIT)
 					break;
 
 				var stateBit = (GKStateBit)formulaOperation.FirstOperand;
@@ -166,11 +175,12 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.PUTP:
-						var cardNo = stack.LastOrDefault();
-						stack.RemoveAt(stack.Count - 1);
 						var zoneNo = stack.LastOrDefault();
 						stack.RemoveAt(stack.Count - 1);
-						usersCurrentZones.Add(new Tuple<int, int> (cardNo, zoneNo));
+						var cardNo = stack.LastOrDefault();
+						stack.RemoveAt(stack.Count - 1);
+						usersCurrentZones.RemoveAll(x => x.Item1 == cardNo);
+						usersCurrentZones.Add(new Tuple<int, int>(cardNo, zoneNo));
 						break;
 
 					case FormulaOperationType.OR:
@@ -283,11 +293,20 @@ namespace GKImitator.ViewModels
 						cardNo = stack.LastOrDefault();
 						stack.RemoveAt(stack.Count - 1);
 						zoneNo = formulaOperation.SecondOperand;
-						var userCurrentZoneNo = usersCurrentZones.FirstOrDefault(x => x.Item1 == cardNo).Item2;
-						if (userCurrentZoneNo != zoneNo)
-							stack.AddRange(new List<int>{cardNo, 1});
+						var usersCurrentZone = usersCurrentZones.FirstOrDefault(x => x.Item1 == cardNo);
+						var userCurrentZoneNo = usersCurrentZone != null ? usersCurrentZone.Item2 : 0;
+						var isTSTPAccess = false;
+						if (userCurrentZoneNo == zoneNo || userCurrentZoneNo == 0)
+						{
+							stack.AddRange(new List<int> { cardNo, 1 });
+							isTSTPAccess = true;
+						}
 						else
+						{
 							stack.Add(0);
+						}
+						if (GKBase is GKDoor && (GKBase as GKDoor).AntipassbackOn && isACSAccess && acsDriverTypeAndNo != null && acsDriverTypeAndNo.Item1)
+							AddAccessJournalItem(user, isTSTPAccess, acsDriverTypeAndNo.Item2);
 						break;
 
 					case FormulaOperationType.CMPKOD:
@@ -300,7 +319,7 @@ namespace GKImitator.ViewModels
 								stack.RemoveAt(stack.Count - 1);
 
 								var newStackValue = 0;
-								if(formulaOperation.FirstOperand == 1)
+								if (formulaOperation.FirstOperand == 1)
 								{
 									newStackValue = (currentStackValue1 == code.Password) ? 1 : 0;
 								}
@@ -323,52 +342,26 @@ namespace GKImitator.ViewModels
 					case FormulaOperationType.ACS:
 					case FormulaOperationType.ACSP:
 						var level = formulaOperation.FirstOperand;
-
-						var isAccess = false;
-
+						int currentCardNo = 0;
 						if (descriptorViewModel != null && descriptorViewModel.CurrentCardNo > 0)
 						{
-							var device = descriptorViewModel.GKBase as GKDevice;
-							if (device != null && (device.Driver.IsCardReaderOrCodeReader))
+							currentCardNo = descriptorViewModel.CurrentCardNo;
+							var userAccess = GetUserAccess(currentCardNo, formulaOperation, descriptorViewModel);
+							user = userAccess.Item1;
+							isACSAccess = userAccess.Item2;
+							if (descriptorViewModel.GKBase is GKDevice)
 							{
-								ImitatorUser user = null;
-								using (var dbService = new DbService())
-								{
-									user = dbService.ImitatorUserTraslator.GetByNo(descriptorViewModel.CurrentCardNo);
-									if (user != null)
-									{
-										if (user.Level >= level)
-										{
-											if (IsInSchedule(dbService, user.ScheduleNo))
-												isAccess = true;
-										}
-
-										foreach (var imitatorUserDevice in user.ImitatorUserDevices)
-										{
-											if (imitatorUserDevice.DescriptorNo == formulaOperation.SecondOperand)
-											{
-												if (IsInSchedule(dbService, imitatorUserDevice.ScheduleNo))
-													isAccess = true;
-											}
-										}
-									}
-								}
-
-								var journalItem = new ImitatorJournalItem(0, isAccess ? (byte)13 : (byte)15, 0, 0);
-								journalItem.ObjectDeviceAddress = (short)device.GKDescriptorNo;
-								if (user != null)
-								{
-									journalItem.ObjectFactoryNo = user.GKNo;
-								}
-								AddJournalItem(journalItem);
+								acsDriverTypeAndNo = new Tuple<bool, short>((descriptorViewModel.GKBase as GKDevice).Driver.IsCardReaderOrCodeReader, (short)(descriptorViewModel.GKBase as GKDevice).GKDescriptorNo);
 							}
 						}
 
 						if (formulaOperation.FormulaOperationType == FormulaOperationType.ACS)
-							stack.Add(isAccess ? 1 : 0);
+							stack.Add(isACSAccess ? 1 : 0);
 						else
-							stack.AddRange(new List<int>{CurrentCardNo, isAccess ? 1 : 0});
+							stack.AddRange(new List<int> { currentCardNo, isACSAccess ? 1 : 0 });
 
+						if (GKBase is GKDoor && !(GKBase as GKDoor).AntipassbackOn || !isACSAccess)
+							AddAccessJournalItem(user, isACSAccess, acsDriverTypeAndNo.Item2);
 						break;
 
 					case FormulaOperationType.BR:
@@ -404,22 +397,20 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.PUTMEMB:
-						var newZoneNo = stack.LastOrDefault();
+						doorCurrentZoneNo = stack.LastOrDefault();
 						stack.RemoveAt(stack.Count - 1);
-						cardNo = stack.LastOrDefault();
+						doorCurrentCardNo = stack.LastOrDefault();
 						stack.RemoveAt(stack.Count - 1);
-						usersCurrentZones.RemoveAll(x => x.Item1 == cardNo);
-						usersCurrentZones.Add(new Tuple<int, int>(cardNo, newZoneNo));
 						break;
 
 					case FormulaOperationType.GETMEMB:
-						zoneNo = usersCurrentZones.FirstOrDefault(x => x.Item1 == CurrentCardNo).Item2;
-						stack.AddRange(new List<int> { CurrentCardNo, zoneNo });
+						stack.AddRange(new List<int> { doorCurrentCardNo, doorCurrentZoneNo });
 						break;
 				}
 
 				if (formulaOperation.FormulaOperationType == FormulaOperationType.PUTBIT)
-					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", (GKStateBit) formulaOperation.FirstOperand));
+					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" +
+									string.Join(" ", (GKStateBit)formulaOperation.FirstOperand));
 				else
 					Trace.WriteLine(formulaOperation.FormulaOperationType + "\t" + string.Join(" ", stack));
 			}
@@ -627,13 +618,57 @@ namespace GKImitator.ViewModels
 						delta = (int)periodsCount * schedule.TotalSeconds;
 					}
 
-					if (nowTotalSeconds > imitatorSheduleInterval.StartSeconds + delta || nowTotalSeconds < imitatorSheduleInterval.EndSeconds + delta)
+					if (nowTotalSeconds > imitatorSheduleInterval.StartSeconds + delta ||
+						nowTotalSeconds < imitatorSheduleInterval.EndSeconds + delta)
 					{
 						return true;
 					}
 				}
 			}
 			return false;
+		}
+
+		static Tuple<ImitatorUser, bool> GetUserAccess(int currentCardNo, FormulaOperation formulaOperation, DescriptorViewModel descriptorViewModel)
+		{
+			var isAccess = false;
+			var level = formulaOperation.FirstOperand;
+			ImitatorUser user = null;
+			var device = descriptorViewModel.GKBase as GKDevice;
+			if (device != null && (device.Driver.IsCardReaderOrCodeReader))
+			{
+				using (var dbService = new DbService())
+				{
+					user = dbService.ImitatorUserTraslator.GetByNo(currentCardNo);
+					if (user != null)
+					{
+						if (user.Level >= level)
+						{
+							if (IsInSchedule(dbService, user.ScheduleNo))
+								isAccess = true;
+						}
+						foreach (var imitatorUserDevice in user.ImitatorUserDevices)
+						{
+							if (imitatorUserDevice.DescriptorNo == formulaOperation.SecondOperand)
+							{
+								if (IsInSchedule(dbService, imitatorUserDevice.ScheduleNo))
+									isAccess = true;
+							}
+						}
+					}
+				}
+			}
+			return new Tuple<ImitatorUser, bool>(user, isAccess);
+		}
+
+		void AddAccessJournalItem(ImitatorUser user, bool isAccess, short gkDescriptorNo)
+		{
+			var journalItem = new ImitatorJournalItem(0, isAccess ? (byte)13 : (byte)15, 0, 0);
+			journalItem.ObjectDeviceAddress = gkDescriptorNo;
+			if (user != null)
+			{
+				journalItem.ObjectFactoryNo = user.GKNo;
+			}
+			AddJournalItem(journalItem);
 		}
 	}
 }
