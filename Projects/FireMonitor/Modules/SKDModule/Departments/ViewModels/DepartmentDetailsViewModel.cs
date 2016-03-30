@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using System;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -19,8 +18,6 @@ namespace SKDModule.ViewModels
 		public bool IsNew { get; private set; }
 		Dictionary<Guid, string> _childDepartments;
 
-		public DepartmentDetailsViewModel() { }
-
 		public bool Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
 		{
 			OrganisationUID = organisation.UID;
@@ -29,10 +26,10 @@ namespace SKDModule.ViewModels
 				Title = "Создание подразделения";
 				IsNew = true;
 				var parentModel = (parentViewModel as DepartmentsViewModel).SelectedItem.Model;
-				Department = new Department()
+				Department = new Department
 				{
 					Name = "Новое подразделение",
-					ParentDepartmentUID = parentModel != null ? parentModel.UID : new Guid?(),
+					ParentDepartmentUID = parentModel != null ? parentModel.UID : Guid.Empty,
 					OrganisationUID = OrganisationUID
 				};
 				_childDepartments = new Dictionary<Guid, string>();
@@ -53,7 +50,7 @@ namespace SKDModule.ViewModels
 		{
 			OrganisationUID = organisationUID;
 			Title = "Создание подразделения";
-			Department = new Department()
+			Department = new Department
 			{
 				Name = "Новое подразделение",
 				ParentDepartmentUID = parentDepartmentUID,
@@ -126,13 +123,13 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ShortDepartment selectedDepartment;
+		ShortDepartment _selectedDepartment;
 		public ShortDepartment SelectedDepartment
 		{
-			get { return selectedDepartment; }
+			get { return _selectedDepartment; }
 			private set
 			{
-				selectedDepartment = value;
+				_selectedDepartment = value;
 				OnPropertyChanged(() => SelectedDepartment);
 				OnPropertyChanged(() => HasSelectedDepartment);
 			}
@@ -184,7 +181,7 @@ namespace SKDModule.ViewModels
 				Department.Photo = new Photo();
 			Department.Photo.Data = PhotoData;
 			Department.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
-			Department.ParentDepartmentUID = SelectedDepartment != null ? (Guid?)SelectedDepartment.UID : null;
+			Department.ParentDepartmentUID = SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty;
 			Department.Phone = Phone;
 
 			var saveResult = DepartmentHelper.Save(Department, IsNew);

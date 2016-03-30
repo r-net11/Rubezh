@@ -17,17 +17,17 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Department item)
 		{
 			var result = base.CanSave(item);
+
 			if (result.HasError)
 				return result;
-			bool hasSameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganisationUID == item.OrganisationUID &&
-				x.UID != item.UID &&
-				x.ParentDepartmentUID == item.ParentDepartmentUID &&
-				x.IsDeleted == false);
-			if (hasSameName)
-				return new OperationResult("Отдел с таким же названием уже содержится в базе данных");
-			else
-				return new OperationResult();
+
+			var hasSameName = Table.Where(x => x.IsDeleted == false)
+									.Where(x => x.UID != item.UID)
+									.Any(x => x.Name == item.Name
+										&& x.OrganisationUID == item.OrganisationUID
+										&& x.ParentDepartmentUID == item.ParentDepartmentUID);
+
+			return hasSameName ? new OperationResult("Отдел с таким же названием уже содержится в базе данных") : new OperationResult();
 		}
 
 		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)
