@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using AutomationModule.Properties;
 using FiresecAPI.Automation;
 using FiresecClient;
 using Infrastructure;
@@ -133,29 +134,28 @@ namespace AutomationModule.ViewModels
 			if (variableDetailsViewModel.SelectedExplicitType != null)
 				variableDetailsViewModel.SelectedExplicitType.ExpandToThis();
 
-			if (DialogService.ShowModalWindow(variableDetailsViewModel))
+			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
+
+			if (SelectedVariableScope == VariableScope.LocalVariable)
 			{
-				if (SelectedVariableScope == VariableScope.LocalVariable)
-				{
-					ProceduresViewModel.Current.SelectedProcedure.VariablesViewModel.Variables.Add(new VariableViewModel(variableDetailsViewModel.Variable));
-					ProceduresViewModel.Current.SelectedProcedure.Procedure.Variables.Add(variableDetailsViewModel.Variable);
-				}
-				else
-				{
-					variableDetailsViewModel.Variable.IsGlobal = true;
-					FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(variableDetailsViewModel.Variable);
-					GlobalVariablesViewModel.Current.GlobalVariables.Add(new VariableViewModel(variableDetailsViewModel.Variable));
-				}
-
-				SelectedVariable = new VariableViewModel(variableDetailsViewModel.Variable);
-				Variables.Add(SelectedVariable);
-
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => LocalVariables);
-				OnPropertyChanged(() => GlobalVariables);
-				if (UpdateContentHandler != null)
-					UpdateContentHandler();
+				ProceduresViewModel.Current.SelectedProcedure.VariablesViewModel.Variables.Add(new VariableViewModel(variableDetailsViewModel.Variable));
+				ProceduresViewModel.Current.SelectedProcedure.Procedure.Variables.Add(variableDetailsViewModel.Variable);
 			}
+			else
+			{
+				variableDetailsViewModel.Variable.IsGlobal = true;
+				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(variableDetailsViewModel.Variable);
+				GlobalVariablesViewModel.Current.GlobalVariables.Add(new VariableViewModel(variableDetailsViewModel.Variable));
+			}
+
+			SelectedVariable = new VariableViewModel(variableDetailsViewModel.Variable);
+			Variables.Add(SelectedVariable);
+
+			ServiceFactory.SaveService.AutomationChanged = true;
+			OnPropertyChanged(() => LocalVariables);
+			OnPropertyChanged(() => GlobalVariables);
+			if (UpdateContentHandler != null)
+				UpdateContentHandler();
 		}
 
 		public bool AddVariableVisibility

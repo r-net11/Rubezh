@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutomationModule.Properties;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using Infrastructure.Common;
@@ -22,19 +23,30 @@ namespace AutomationModule.ViewModels
 				Variables.Add(argumentViewModel);
 			}
 		}
-		
+
 		public new RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент");
-			if (DialogService.ShowModalWindow(variableDetailsViewModel))
+
+			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
+
+			if (IsExist(variableDetailsViewModel.Variable))
 			{
-				var variableViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
-				Procedure.Arguments.Add(variableViewModel.Variable);
-				Variables.Add(variableViewModel);
-				SelectedVariable = variableViewModel;
-				ServiceFactory.SaveService.AutomationChanged = true;
+				MessageBoxService.ShowError(Resources.ArgumentExistError);
+				return;
 			}
+
+			var variableViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
+			Procedure.Arguments.Add(variableViewModel.Variable);
+			Variables.Add(variableViewModel);
+			SelectedVariable = variableViewModel;
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		private bool IsExist(Variable variable)
+		{
+			return Variables.Any(x => string.Equals(x.Variable.Name, variable.Name));
 		}
 
 		public new RelayCommand DeleteCommand { get; private set; }

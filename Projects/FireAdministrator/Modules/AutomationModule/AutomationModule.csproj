@@ -131,6 +131,11 @@
     <Compile Include="Procedures\Views\AddRemoveArgumentView.xaml.cs">
       <DependentUpon>AddRemoveArgumentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
@@ -870,6 +875,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Procedures\Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

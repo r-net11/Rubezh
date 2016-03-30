@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using AutomationModule.Properties;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -20,9 +21,9 @@ namespace AutomationModule.ViewModels
 		{
 			Current = this;
 			Menu = new GlobalVariablesMenuViewModel(this);
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
-			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, () => SelectedGlobalVariable != null);
+			EditCommand = new RelayCommand(OnEdit, () => SelectedGlobalVariable != null);
 			RegisterShortcuts();
 		}
 
@@ -63,21 +64,27 @@ namespace AutomationModule.ViewModels
 		void OnAdd()
 		{
 			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную");
-			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
+
+			if (!DialogService.ShowModalWindow(globalVariableDetailsViewModel)) return;
+
+			if (IsExist(globalVariableDetailsViewModel.Variable))
 			{
-				globalVariableDetailsViewModel.Variable.IsGlobal = true;
-				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
-				var globalVariableViewModel = new VariableViewModel(globalVariableDetailsViewModel.Variable);
-				GlobalVariables.Add(globalVariableViewModel);
-				SelectedGlobalVariable = globalVariableViewModel;
-				SelectedGlobalVariable.Update();
-				ServiceFactory.SaveService.AutomationChanged = true;
+				MessageBoxService.ShowError(Resources.VariableExistError);
+				return;
 			}
+
+			globalVariableDetailsViewModel.Variable.IsGlobal = true;
+			FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
+			var globalVariableViewModel = new VariableViewModel(globalVariableDetailsViewModel.Variable);
+			GlobalVariables.Add(globalVariableViewModel);
+			SelectedGlobalVariable = globalVariableViewModel;
+			SelectedGlobalVariable.Update();
+			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
-		bool CanAdd()
+		private bool IsExist(Variable variable)
 		{
-			return true;
+			return GlobalVariables.Any(x => string.Equals(x.Variable.Name, variable.Name));
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -105,17 +112,10 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool CanEditDelete()
-		{
-			return SelectedGlobalVariable != null;
-		}
-
 		public void Select(Guid globalVariableUid)
 		{
 			if (globalVariableUid != Guid.Empty)
-			{
 				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(item => item.Variable.Uid == globalVariableUid);
-			}
 		}
 
 		private void RegisterShortcuts()
