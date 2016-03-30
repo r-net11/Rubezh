@@ -62,6 +62,8 @@ namespace SKDModule.ViewModels
 				{
 					ServiceFactoryBase.Events.GetEvent<BlockCardEvent>().Publish(uid);
 				}
+
+				SelectedItem.EmployeeCardsViewModel.Cards.Clear();
 			}
 		}
 

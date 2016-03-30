@@ -13,10 +13,11 @@ namespace SKDModule.ViewModels
 			get
 			{
 				var isWithDeleted = (ParentViewModel as EmployeesViewModel).IsWithDeleted;
+
 				if (!IsOrganisation && (isWithDeleted || !IsDepartmentDeleted))
-					return IsOrganisation ? "" : Model.DepartmentName;
-				else
-					return "";
+					return IsOrganisation ? string.Empty : Model.DepartmentName;
+
+				return string.Empty;
 			}
 		}
 		public string PositionName
@@ -24,44 +25,40 @@ namespace SKDModule.ViewModels
 			get
 			{
 				var isWithDeleted = (ParentViewModel as EmployeesViewModel).IsWithDeleted;
+
 				if (!IsOrganisation && (isWithDeleted || !IsPositionDeleted))
 					return Model.PositionName;
-				else
-					return "";
+
+				return string.Empty;
 			}
 		}
 		public string FirstName
 		{
-			get { return IsOrganisation ? "" : Model.FirstName; }
+			get { return IsOrganisation ? string.Empty : Model.FirstName; }
 		}
 		public string SecondName
 		{
-			get { return IsOrganisation ? "" : Model.SecondName; }
+			get { return IsOrganisation ? string.Empty : Model.SecondName; }
 		}
 		public string LastName
 		{
-			get { return IsOrganisation ? "" : Model.LastName; }
+			get { return IsOrganisation ? string.Empty : Model.LastName; }
 		}
 		public string Phone
 		{
-			get { return IsOrganisation ? "" : Model.Phone; }
+			get { return IsOrganisation ? string.Empty : Model.Phone; }
 		}
 		public string OrganisationName
 		{
-			get { return IsOrganisation ? "" : Model.OrganisationName; }
+			get { return IsOrganisation ? string.Empty : Model.OrganisationName; }
 		}
 		public bool IsDepartmentDeleted
 		{
-			get { return IsOrganisation ? false : Model.IsDepartmentDeleted || IsOrganisationDeleted; }
+			get { return !IsOrganisation && (Model.IsDepartmentDeleted || IsOrganisationDeleted); }
 		}
 		public bool IsPositionDeleted
 		{
-			get { return IsOrganisation ? false : Model.IsPositionDeleted || IsOrganisationDeleted; }
-		}
-
-		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
-		{
-			base.InitializeOrganisation(organisation, parentViewModel);
+			get { return !IsOrganisation && (Model.IsPositionDeleted || IsOrganisationDeleted); }
 		}
 
 		public string[] AdditionalColumnValues
@@ -70,7 +67,7 @@ namespace SKDModule.ViewModels
 			{
 				var additionalColumnTypes = (ParentViewModel as EmployeesViewModel).AdditionalColumnTypes;
 				var result = new string[additionalColumnTypes.Count];
-				if (this.IsOrganisation)
+				if (IsOrganisation)
 					return result;
 				var i = 0;
 				foreach (var additionalColumnType in additionalColumnTypes)
