@@ -52,7 +52,16 @@
                 $scope.selectedPersonType = "Guest";
             }
 
-            $scope.filter = {};
+            $scope.filter = {
+                LogicalDeletationType: "Active",
+                OrganisationUIDs: [],
+                DepartmentUIDs: [],
+                PositionUIDs: [],
+                UIDs: [],
+                LastName: '',
+                FirstName: '',
+                SecondName: ''
+            };
 
             $scope.editFilter = function () {
                 var modalInstance = $uibModal.open({
@@ -63,8 +72,15 @@
                     resolve: {
                         filter: function () {
                             return $scope.filter;
+                        },
+                        personType: function () {
+                            return $scope.selectedPersonType;
                         }
                     }
+                });
+
+                modalInstance.result.then(function (filter) {
+                    $scope.filter = filter;
                 });
             };
         }]
