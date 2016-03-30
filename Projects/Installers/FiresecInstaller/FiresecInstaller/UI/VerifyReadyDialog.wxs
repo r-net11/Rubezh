@@ -28,7 +28,7 @@
 				</Control>
 				<Control Id="BannerLine"		Type="Line"			X="0"	Y="44"	Width="370"	Height="0"	TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1"			Type="Text"			X="16"	Y="229"	Width="50"	Height="13"	Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
-				<Control Id="Branding2"			Type="Text"			X="15"	Y="228"	Width="50"	Height="13"	Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
+				<Control Id="Branding2"			Type="Text"			X="15"	Y="228"	Width="50"	Height="13"	Text="{&amp;NormalText}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine"			Type="Line"			X="48"	Y="234"	Width="326"	Height="0"	TabSkip="yes" Disabled="yes" />
 				<Control Id="Install"			Type="PushButton"	X="230"	Y="243"	Width="66"	Height="17"	Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)" ElevationShield="yes">
 					<Condition Action="show">1</Condition>

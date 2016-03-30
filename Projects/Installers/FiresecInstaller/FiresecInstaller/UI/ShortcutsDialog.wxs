@@ -12,7 +12,7 @@
 				<Control Id="ShortcutProgramMenu"	Type="CheckBox"		X="26"	Y="79"		Width="295"	Height="18"	Text="Создать ярлык в меню Пуск" Property="SHORTCUT_PROGRAMMENU" CheckBoxValue="1" />
 				<Control Id="BannerLine"			Type="Line"			X="0"	Y="44"		Width="370"	Height="0"	TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1"				Type="Text"			X="16"	Y="229"		Width="50"	Height="13"	Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
-				<Control Id="Branding2"				Type="Text"			X="15"	Y="228"		Width="50"	Height="13"	Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
+				<Control Id="Branding2"				Type="Text"			X="15"	Y="228"		Width="50"	Height="13"	Text="{&amp;NormalText}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine"				Type="Line"			X="48"	Y="234"		Width="326"	Height="0"	TabSkip="yes" Disabled="yes" />
 				<Control Id="Next"					Type="PushButton"	X="230"	Y="243"		Width="66"	Height="17"	Text="$(var.btnNext)" TabSkip="no" Default="yes" />
 				<Control Id="Cancel"				Type="PushButton"	X="301"	Y="243"		Width="66"	Height="17"	Text="$(var.btnCancel)" TabSkip="no" Cancel="yes" />
