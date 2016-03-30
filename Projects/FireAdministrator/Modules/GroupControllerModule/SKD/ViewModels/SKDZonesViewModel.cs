@@ -156,7 +156,7 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
-				var emptyzone = Zones.Where(x=> !GKManager.Doors.Any(y=> y.EnterZoneUID == x.Zone.UID));
+				var emptyzone = Zones.Where(x=> !GKManager.Doors.Any(y=> y.EnterZoneUID == x.Zone.UID ) && !GKManager.Doors.Any(y => y.ExitZoneUID == x.Zone.UID));
 				if (emptyzone.Any())
 				{
 					for (var i = emptyzone.Count() - 1; i >= 0; i--)
@@ -172,7 +172,7 @@ namespace GKModule.ViewModels
 
 		bool CanDeleteAllEmpty()
 		{
-			return Zones.Any(x => !GKManager.Doors.Any(y => y.EnterZoneUID == x.Zone.UID));
+			return Zones.Any(x => !GKManager.Doors.Any(y => y.EnterZoneUID == x.Zone.UID) && !GKManager.Doors.Any(y => y.ExitZoneUID == x.Zone.UID));
 		}
 
 		void RegisterShortcuts()
