@@ -183,30 +183,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		#endregion
-
-		#region Methods
-		protected override bool CanSave()
-		{
-			//return base.CanSave();
-			return (SelectedOpcDaServer != null) && (SelectedOpcDaTag != null)
-				&& (ErrorMessageByName == null) && (ErrorMessageByHystersis == null);
-		}
-
-		protected override bool Save()
-		{
-			SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID = SelectedOpcDaTag.Uid;
-			SelectedOpcDaTagFilter.OpcDaServer = SelectedOpcDaServer;
-			SelectedOpcDaTagFilter.OpcDaTag = SelectedOpcDaTag;
-			SelectedOpcDaTagFilter.Name = Name;
-			SelectedOpcDaTagFilter.Hysteresis = String.IsNullOrEmpty(Hysteresis) ? 0 : Double.Parse(Hysteresis);
-			SelectedOpcDaTagFilter.Description = Description;
-			return true;
-			//return base.Save();
-		}
-
-		#endregion
-
 		public string Error
 		{
 			get { return null; }
@@ -214,7 +190,7 @@ namespace AutomationModule.ViewModels
 
 		public string this[string columnName]
 		{
-			get 
+			get
 			{
 				string message;
 
@@ -332,5 +308,30 @@ namespace AutomationModule.ViewModels
 				}
 			}
 		}
+
+		#endregion
+
+		#region Methods
+
+		protected override bool CanSave()
+		{
+			//return base.CanSave();
+			return (SelectedOpcDaServer != null) && (SelectedOpcDaTag != null)
+				&& (ErrorMessageByName == null) && (ErrorMessageByHystersis == null);
+		}
+
+		protected override bool Save()
+		{
+			SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID = SelectedOpcDaTag.Uid;
+			SelectedOpcDaTagFilter.OpcDaServer = SelectedOpcDaServer;
+			SelectedOpcDaTagFilter.OpcDaTag = SelectedOpcDaTag;
+			SelectedOpcDaTagFilter.Name = Name;
+			SelectedOpcDaTagFilter.Hysteresis = String.IsNullOrEmpty(Hysteresis) ? 0 : Double.Parse(Hysteresis);
+			SelectedOpcDaTagFilter.Description = Description;
+			return true;
+			//return base.Save();
+		}
+
+		#endregion
 	}
 }

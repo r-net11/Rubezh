@@ -21,8 +21,9 @@ namespace VideoModule.Plans
 	{
 		public static PlanExtension Instance { get; private set; }
 		private CamerasViewModel _camerasViewModel;
+		private CamerasViewModel _camerasViewModelForPlanExtension;
 
-		public PlanExtension(CamerasViewModel camerasViewModel)
+		public PlanExtension(CamerasViewModel camerasViewModel, CamerasViewModel camerasViewModelForPlanExtension)
 		{
 			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -31,6 +32,7 @@ namespace VideoModule.Plans
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_camerasViewModel = camerasViewModel;
+			_camerasViewModelForPlanExtension = camerasViewModelForPlanExtension;
 			Cache.Add<Camera>(() => ClientManager.SystemConfiguration.Cameras);
 		}
 
@@ -133,7 +135,7 @@ namespace VideoModule.Plans
 		{
 			ElementCamera element = e.Element as ElementCamera;
 			if (element != null)
-				e.PropertyViewModel = new CameraPropertiesViewModel(_camerasViewModel, element);
+				e.PropertyViewModel = new CameraPropertiesViewModel(_camerasViewModel, _camerasViewModelForPlanExtension, element);
 		}
 	}
 }

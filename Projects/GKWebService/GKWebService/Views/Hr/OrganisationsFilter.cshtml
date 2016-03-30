@@ -3,6 +3,6 @@
     Layout = null;
 }
 
-<div>
-    <table id="jqGridOrganisationsFilter"></table>
+<div ng-controller="organisationsFilterCtrl">
+    <div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state ui-grid-auto-size-column></div>
 </div>

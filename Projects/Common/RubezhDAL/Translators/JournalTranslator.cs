@@ -258,23 +258,52 @@ namespace RubezhDAL.DataClasses
 		IQueryable<Journal> FilterNames(IQueryable<Journal> journal, JournalFilter filter)
 		{
 			IQueryable<Journal> result = journal;
-			var names = new List<int>();
+			var empltyNames = new List<int>();
+			var nonEmptyNames = new List<int>();
 			var descriptions = new List<int>();
 			if (filter.JournalEventNameTypes.Count > 0)
-				names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
+			{
+				empltyNames = filter.JournalEventNameTypes.Where(x => HasPossibleDescriptions(x)).Select(x => (int)x).ToList();
+				nonEmptyNames = filter.JournalEventNameTypes.Where(x => !HasPossibleDescriptions(x)).Select(x => (int)x).ToList();
+			}
 			if (filter.EventDescriptions.Count > 0)
 			{
 				foreach (var item in filter.EventDescriptions)
 				{
-					names.Add((int)item.JournalEventNameType);
+					nonEmptyNames.Add((int)item.JournalEventNameType);
 					descriptions.AddRange(item.JournalEventDescriptionTypes.Select(x => (int)x).ToList());
 				}
 			}
+			var result1 = empltyNames.IsNotNullOrEmpty() ? result.Where(x => empltyNames.Contains(x.Name)) : result;
+			IQueryable<Journal> result2 = result;
+			if (empltyNames.IsNotNullOrEmpty())
+				result2 = result2.Where(x => empltyNames.Contains(x.Name));
+			if (descriptions.IsNotNullOrEmpty())
+				result2 = result2.Where(x => descriptions.Contains(x.Description));
+			result = result1.Union(result2);
+			return result;
+			//if (nonEmptyNames.IsNotNullOrEmpty())
+			//	result = result.Where(x => nonEmptyNames.Contains(x.Name));
+			//if (descriptions.IsNotNullOrEmpty())
+			//	result = result.Where(x => descriptions.Contains(x.Description));
+			//return result;
+		}
+
+		IQueryable<Journal> FilterDescriptions(IQueryable<Journal> journal, List<int> names, List<int> descriptions)
+		{
+			IQueryable<Journal> result = journal;
 			if (names.IsNotNullOrEmpty())
 				result = result.Where(x => names.Contains(x.Name));
 			if (descriptions.IsNotNullOrEmpty())
 				result = result.Where(x => descriptions.Contains(x.Description));
 			return result;
+		}
+
+		bool HasPossibleDescriptions(JournalEventNameType journalEventNameType)
+		{
+			var nameFieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
+			var descriptionAttributes = (EventNameAttribute[])nameFieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
+			return descriptionAttributes.Length > 0;
 		}
 	}
 }

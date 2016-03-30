@@ -183,6 +183,7 @@
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FiresecService.OpcDa.cs" />
+    <Compile Include="Service\FiresecService.Rvi.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeTrack.cs" />
     <Compile Include="Service\FiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\FiresecService.GK.cs" />

@@ -186,6 +186,14 @@ namespace RubezhAPI
 		[OperationContract]
 		OperationResult<bool> WriteOpcDaTag(Guid clientUID, Guid serverId, object value);
 
+		/// <summary>
+		///  Получает состояния устройств Rvi
+		/// </summary>
+		/// <param name="clientUid"></param>
+		/// <returns></returns>
+		[OperationContract]
+		List<RviState> GetRviStates(Guid clientUid);
+
 		#endregion
 	}
 }

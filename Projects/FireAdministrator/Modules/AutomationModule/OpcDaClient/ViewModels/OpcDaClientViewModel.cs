@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 	public class OpcDaClientViewModel : MenuViewPartViewModel, IDisposable
 	{
 		#region Constructors
-		
+
 		public OpcDaClientViewModel()
 		{
 			Menu = new OpcDaClientMenuViewModel(this);
@@ -37,7 +37,7 @@ namespace AutomationModule.ViewModels
 
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(ConfigurationWasChanged);
 		}
-		
+
 		#endregion
 
 		#region Fields And Properties
@@ -58,8 +58,8 @@ namespace AutomationModule.ViewModels
 		public OpcDaServer SelectedOpcServer
 		{
 			get { return _selectedOpcServer; }
-			set 
-			{ 
+			set
+			{
 				_selectedOpcServer = value;
 				OnPropertyChanged(() => SelectedOpcServer);
 				SelectedTags = _selectedOpcServer == null ? null : _selectedOpcServer.Tags;
@@ -88,8 +88,8 @@ namespace AutomationModule.ViewModels
 		public OpcDaTag[] SelectedTags
 		{
 			get { return _selectedTags; }
-			set 
-			{ 
+			set
+			{
 				_selectedTags = value;
 				OnPropertyChanged(() => SelectedTags);
 			}
@@ -111,14 +111,14 @@ namespace AutomationModule.ViewModels
 			OpcDaServers.Clear();
 			if (ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers == null)
 			{
-				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers = new List<OpcDaServer>(); 
+				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers = new List<OpcDaServer>();
 			}
 			foreach (var opcServer in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers)
 			{
 				OpcDaServers.Add(opcServer);
 			}
 		}
-		
+
 		void SaveConfig()
 		{
 			//throw new NotImplementedException();
@@ -142,9 +142,9 @@ namespace AutomationModule.ViewModels
 		#endregion
 
 		#region Commands
-		
+
 		public RelayCommand AddOpcServerCommand { get; private set; }
-		void OnAddOpcServer() 
+		void OnAddOpcServer()
 		{
 			var addingServersDialog = new OpcDaClientAddingServersViewModel(this);
 			DialogService.ShowModalWindow(addingServersDialog);
@@ -152,17 +152,53 @@ namespace AutomationModule.ViewModels
 		bool CanAddOpcServer() { return OpcDaServers != null; }
 
 		public RelayCommand RemoveOpcServerCommand { get; private set; }
-		void OnRemoveOpcServer() 
+		void OnRemoveOpcServer()
 		{
+			// Удаляем фильтры OPC тегов связанные с данным сервером
+			var tags = SelectedOpcServer.Tags;
+
+			var filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
+				.Where(f => tags.Any(t => t.Uid == f.TagUID)).ToArray();
+
+			if (filters.Length > 0)
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.Append(Environment.NewLine);
+
+				for (int i = 0; i < filters.Length; i++)
+				{
+					if (i == filters.Length - 1)
+						sb.Append("    " + filters[i].Name + ".");
+					else
+						sb.Append("    " + filters[i].Name + ",");
+
+					sb.Append(Environment.NewLine);
+				}
+
+				if (!MessageBoxService.ShowConfirmation(String.Format(
+					"При удалении OPC сервера будут удалены фильтры: {0} Продолжить?", sb.ToString()), 
+					"Внимание"))
+				{
+					return;
+				}
+				else
+				{
+					foreach (var filter in filters)
+						ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Remove(filter);
+				}
+			}
+
+			// Удаляем сервер
 			ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.Remove(SelectedOpcServer);
 			OpcDaServers.Remove(SelectedOpcServer);
+
 			ServiceFactory.SaveService.AutomationChanged = true;
 			SelectedOpcServer = OpcDaServers.FirstOrDefault();
 		}
 		bool CanRemoveOpcServer() { return SelectedOpcServer != null; }
 
 		public RelayCommand EditTagListCommand { get; private set; }
-		void OnEditTagList() 
+		void OnEditTagList()
 		{
 			var editingTagList = new OpcDaClientEditingTagsViewModel(this);
 			DialogService.ShowModalWindow(editingTagList);

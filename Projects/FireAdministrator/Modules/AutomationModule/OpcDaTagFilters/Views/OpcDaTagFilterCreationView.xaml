@@ -31,7 +31,8 @@
 				 Text="{Binding Hysteresis, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
 				 ToolTip="{Binding ErrorMessageByHystersis}" />
 		<TextBlock Grid.Row="4" Grid.Column="0" Text="Описание: " VerticalAlignment="Center" Foreground="White" />
-		<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+		<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
+				 HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 		
 	</Grid>
 </UserControl>

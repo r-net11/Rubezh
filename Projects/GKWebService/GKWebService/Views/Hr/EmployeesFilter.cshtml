@@ -3,17 +3,35 @@
     Layout = null;
 }
 
-<div>
-    <table id="jqGridEmployeesFilter"></table>
-    <div data-bind="with: EmployeesFilter">
-        <div class="data-input">
-            <label><span><input id="IsSearch" type="checkbox" data-bind="checked: IsSearch" value="" /><label for="IsSearch">Поиск</label></span></label>
-        </div>
-        <div style="clear: both"></div>
-        <div class="data-input">
-            <label for="LastName"><span>Фамилия</span><input type="text" name="LastName" id="LastName" data-bind="value: LastName, enable: IsSearch" value="" /></label>
-            <label for="FirstName"><span>Имя</span><input type="text" name="FirstName" id="FirstName" data-bind="value: FirstName, enable: IsSearch" value="" /></label>
-            <label for="SecondName"><span>Отчество</span><input type="text" name="SecondName" id="SecondName" data-bind="value: SecondName, enable: IsSearch" value="" /></label>
-        </div>
+<div ng-controller="employeesFilterCtrl">
+    <div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-selection ui-grid-tree-view ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state ui-grid-auto-size-column></div>
+    <div>
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="isSearch" value="">Поиск</label>
+                    </div>
+                </div>
+             </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="lastName">Фамилия</label>
+                <div class="col-sm-10">
+                    <input id="lastName" class="form-control" ng-model="filter.LastName" ng-disabled="!isSearch">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="firstName">Имя</label>
+                <div class="col-sm-10">
+                    <input id="firstName" class="form-control" ng-model="filter.FirstName" ng-disabled="!isSearch">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="secondName">Отчество</label>
+                <div class="col-sm-10">
+                    <input id="secondName" class="form-control" ng-model="filter.SecondName" ng-disabled="!isSearch">
+                </div>
+            </div>
+        </form>
     </div>
 </div>

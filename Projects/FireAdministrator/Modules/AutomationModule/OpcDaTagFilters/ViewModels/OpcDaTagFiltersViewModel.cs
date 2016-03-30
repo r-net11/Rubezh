@@ -139,9 +139,10 @@ namespace AutomationModule.ViewModels
 			{
 				var filterViewModel = opcDaTagFilterCreationViewModel.OpcDaTagFilterResult;
 				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Add(filterViewModel.OpcDaTagFilter);
-				Filters.Add(new OpcTagFilterViewModel(filterViewModel.OpcDaTagFilter));
+				var newFilter = new OpcTagFilterViewModel(filterViewModel.OpcDaTagFilter);
+				Filters.Add(newFilter);
+				SelectedFilter = newFilter;
 				ServiceFactory.SaveService.AutomationChanged = true;
-
 				ServiceFactoryBase.Events.GetEvent<CreateOpcDaTagFilterEvent>().Publish(filterViewModel.OpcDaTagFilter.UID);
 			}
 		}
