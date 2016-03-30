@@ -195,7 +195,7 @@
 
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Задержка, с" Width="200" Margin="2" />
-                        <extToolkit:IntegerUpDown Value="{Binding Delay}" Minimum="0" Maximum="65535" Margin="2" Width="160"/>						
+                        <extToolkit:IntegerUpDown Value="{Binding Delay}" Minimum="0" Maximum="65535" Width="160" Margin="2"/>						
 					</StackPanel>
 				</StackPanel>
 			</Grid>
