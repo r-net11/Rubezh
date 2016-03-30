@@ -532,6 +532,12 @@ namespace RubezhAPI.Journal
 		Начало_мониторинга = 216,
 
 		[EventName(JournalSubsystemType.GK, "Управление ПМФ", XStateClass.Info)]
-		Управление_ПМФ = 217,
+		Управление_ПМФ = 220,
+
+		[EventName(JournalSubsystemType.GK, "Вход пользователя в ПМФ", XStateClass.Info)]
+		Вход_пользователя_в_ПМФ = 221,
+
+		[EventName(JournalSubsystemType.GK, "Выход пользователя из ПМФ", XStateClass.Info)]
+		Выход_пользователя_из_ПМФ = 222
 	}
 }

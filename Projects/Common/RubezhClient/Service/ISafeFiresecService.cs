@@ -186,6 +186,7 @@ namespace RubezhClient
 		OperationResult<bool> RestoreScheduleScheme(Guid uid, string name);
 		OperationResult<bool> RewritePmfUsers(Guid uid, List<GKUser> users);
 		OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args);
+		List<RviState> GetRviStates();
 		void RviAlarm(string name);
 		void RviOpenWindow(string name, int x, int y, int monitorNumber, string login, string ip);
 		OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew);

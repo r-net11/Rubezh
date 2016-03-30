@@ -14,6 +14,11 @@ namespace VideoModule
 			SafeFiresecService.RviCallbackResultEvent -= new Action<RviCallbackResult>(OnRviCallbackResult);
 			SafeFiresecService.RviCallbackResultEvent += new Action<RviCallbackResult>(OnRviCallbackResult);
 		}
+		void InitializeStates()
+		{
+			var rviStates = ClientManager.FiresecService.GetRviStates();
+			CopyRviStates(rviStates);
+		}
 		void OnRviCallbackResult(RviCallbackResult rviCallbackResult)
 		{
 			ApplicationService.Invoke(() =>

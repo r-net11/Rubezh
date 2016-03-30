@@ -605,6 +605,10 @@ namespace FiresecService.Service
 			return SafeOperationCall(clientUID, () => { return FiresecService.WriteOpcDaTag(tagId, value); },
 				"WriteOpcDaTag");
 		}
+		public List<RviState> GetRviStates(Guid clientUID)
+		{
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetRviStates(); }, "GetRviStates");
+		}
 
 		#endregion
 	}
