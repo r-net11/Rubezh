@@ -9,6 +9,7 @@
 	DataContextChanged="UserControl_DataContextChanged"
 	d:DesignHeight="250"
 	d:DesignWidth="400"
+	xmlns:cms="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -123,6 +124,13 @@
 				Grid.Column="1"
 				Margin="4 -40 0 0"
 				DataContext="{Binding SelectedItem}">
+				<Grid.Resources>
+					<CollectionViewSource x:Key="cvsScheduleZones" Source="{Binding ScheduleZones, IsAsync=True}">
+						<CollectionViewSource.SortDescriptions>
+							<cms:SortDescription PropertyName="Name" />
+						</CollectionViewSource.SortDescriptions>
+					</CollectionViewSource>
+				</Grid.Resources>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
@@ -144,10 +152,11 @@
 				<XDataGrid
 					Grid.Row="1"
 					IsReadOnly="False"
-					ItemsSource="{Binding ScheduleZones}"
+					CanUserSortColumns="True"
+					ItemsSource="{Binding Source={StaticResource cvsScheduleZones}}"
 					SelectedItem="{Binding SelectedScheduleZone}">
 					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="№">
+						<DataGridTemplateColumn Header="№" SortMemberPath="No">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
@@ -160,7 +169,7 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="Название">
+						<DataGridTemplateColumn Width="*" Header="Название" SortMemberPath="Name">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
