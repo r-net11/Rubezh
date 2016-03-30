@@ -1,4 +1,12 @@
-﻿<UserControl x:Class="AutomationModule.Plans.Views.ProcedurePropertiesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Views;assembly=Infrastructure.Common" xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" MinWidth="400" MinHeight="500">
+﻿<UserControl
+	x:Class="AutomationModule.Plans.Views.ProcedurePropertiesView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Views;assembly=Infrastructure.Common"
+	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+	MinWidth="400"
+	MinHeight="500">
 	<TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
 		<TabItem Header="Основные">
 			<Grid Margin="2">
@@ -21,46 +29,190 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Текст" />
-				<Label Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать" />
-				<Label Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать по высоте" />
-				<Label Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет текста" />
-				<Label Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет фона" />
-				<Label Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет границы" />
-				<Label Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Ширина границы" />
-				<Label Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Размер шрифта" />
-				<Label Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Шрифт" />
-				<Label Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Жирный" />
-				<Label Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Курсив" />
-				<Label Grid.Row="11" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Растянуть" />
-				<Label Grid.Row="12" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Перенос слов" />
-
-				<TextBox x:Name="_textBox" Grid.Row="0" Grid.Column="1" Margin="2" AcceptsReturn="True" Background="White" HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" />
-				<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
-				<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding VerticalAlignments}" SelectedIndex="{Binding VerticalAlignment, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker Grid.Row="5" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
-				<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
-				<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Margin="2" Maximum="1000" Minimum="5" Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" />
-				<ComboBox Grid.Row="8" Grid.Column="1" Margin="2" ItemsSource="{Binding Fonts}" SelectedItem="{Binding FontFamilyName, UpdateSourceTrigger=PropertyChanged}">
+				<TextBlock
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Текст"
+					Foreground="White"
+					VerticalAlignment="Top"/>
+				<TextBlock
+					Grid.Row="1"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Выравнивать"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="2"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Выравнивать по высоте"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="3"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Цвет текста"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="4"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Цвет фона"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="5"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Цвет границы"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="6"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Ширина границы"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="7"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Размер шрифта"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="8"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Шрифт"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="9"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Жирный"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="10"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Курсив"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="11"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Растянуть"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Grid.Row="12"
+					Margin="2"
+					HorizontalAlignment="Right"
+					Text="Перенос слов"
+					Foreground="White"
+					VerticalAlignment="Center"/>
+				<TextBox
+					x:Name="_textBox"
+					Grid.Column="1"
+					Margin="2"
+					AcceptsReturn="True"
+					Background="White"
+					HorizontalScrollBarVisibility="Auto"
+					VerticalContentAlignment="Top"
+					Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+					VerticalScrollBarVisibility="Auto" />
+				<ComboBox
+					Grid.Row="1"
+					Grid.Column="1"
+					Margin="2"
+					ItemsSource="{Binding TextAlignments}"
+					SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
+				<ComboBox
+					Grid.Row="2"
+					Grid.Column="1"
+					Margin="2"
+					ItemsSource="{Binding VerticalAlignments}"
+					SelectedIndex="{Binding VerticalAlignment, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker
+					Grid.Row="3"
+					Grid.Column="1"
+					Margin="2"
+					SelectedColor="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker
+					Grid.Row="4"
+					Grid.Column="1"
+					Margin="2"
+					SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker
+					Grid.Row="5"
+					Grid.Column="1"
+					Margin="2"
+					SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown
+					Grid.Row="6"
+					Grid.Column="1"
+					Margin="2"
+					Maximum="100"
+					Minimum="0"
+					Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown
+					Grid.Row="7"
+					Grid.Column="1"
+					Margin="2"
+					Maximum="1000"
+					Minimum="5"
+					Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" />
+				<ComboBox
+					Grid.Row="8"
+					Grid.Column="1"
+					Margin="2"
+					ItemsSource="{Binding Fonts}"
+					SelectedItem="{Binding FontFamilyName, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock FontFamily="{Binding}" Text="{Binding}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-				<CheckBox Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontBold, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontItalic, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding WordWrap, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox
+					Grid.Row="9"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					IsChecked="{Binding FontBold, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox
+					Grid.Row="10"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					IsChecked="{Binding FontItalic, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox
+					Grid.Row="11"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox
+					Grid.Row="12"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					IsChecked="{Binding WordWrap, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Процедура">
-			<ListView ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}">
+			<ListView
+				ItemsSource="{Binding Procedures}"
+				SelectedItem="{Binding SelectedProcedure}">
 				<ListView.Resources>
 					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-						<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type inf:SaveCancelDialogView}}, Mode=OneTime}" MouseAction="LeftDoubleClick" />
+						<MouseBinding
+							Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type inf:SaveCancelDialogView}}, Mode=OneTime}"
+							MouseAction="LeftDoubleClick" />
 					</InputBindingCollection>
 				</ListView.Resources>
 				<ListView.ItemContainerStyle>
@@ -74,8 +226,15 @@
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Image Margin="2 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/ProcedureYellow.png" />
-										<TextBlock Margin="2 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Name}" />
+										<Image
+											Margin="2 0 0 0"
+											VerticalAlignment="Center"
+											Source="/Controls;component/Images/ProcedureYellow.png" />
+										<TextBlock
+											Margin="2 0"
+											HorizontalAlignment="Stretch"
+											VerticalAlignment="Center"
+											Text="{Binding Name}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>

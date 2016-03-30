@@ -7,6 +7,7 @@
 	xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 	MinWidth="720"
 	MinHeight="400">
 	<UserControl.Resources>
@@ -83,6 +84,9 @@
 							VerticalAlignment="Center"
 							Foreground="White" />
 						<DatePicker
+							behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+							behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+							Validation.ErrorTemplate="{x:Null}"
 							VerticalAlignment="Center"
 							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
 							SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
@@ -102,6 +106,9 @@
 							VerticalAlignment="Center"
 							Foreground="White" />
 						<DatePicker
+							behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+							behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+							Validation.ErrorTemplate="{x:Null}"
 							VerticalAlignment="Center"
 							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
 							SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"

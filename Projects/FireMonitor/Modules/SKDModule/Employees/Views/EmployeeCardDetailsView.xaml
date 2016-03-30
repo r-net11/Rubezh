@@ -5,6 +5,7 @@
 	xmlns:Converters="clr-namespace:SKDModule.Converters"
 	xmlns:Views="clr-namespace:SKDModule.Views"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
 	Width="475"
 	MinHeight="500">
 	<UserControl.Resources>
@@ -259,6 +260,9 @@
 					<DatePicker
 						Grid.Row="2"
 						Grid.Column="1"
+						behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+						behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+						Validation.ErrorTemplate="{x:Null}"
 						IsTodayHighlighted="False"
 						VerticalAlignment="Center"
 						HorizontalAlignment="Left"
@@ -275,6 +279,9 @@
 					<DatePicker
 						Grid.Row="3"
 						Grid.Column="1"
+						behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
+						behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+						Validation.ErrorTemplate="{x:Null}"
 						Margin="2 4"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
