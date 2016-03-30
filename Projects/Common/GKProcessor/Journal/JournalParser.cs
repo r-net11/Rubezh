@@ -40,10 +40,10 @@ namespace GKProcessor
 
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			JournalItem.ObjectUID = gkControllerDevice.UID;
-			var ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
-			if (ControllerAddress != 0x200)
+			var controllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
+			if (controllerAddress != 0x200)
 			{
-				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && x.IntAddress == ControllerAddress);
+				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && x.IntAddress == controllerAddress);
 				if (kauDevice != null)
 					JournalItem.ObjectUID = kauDevice.UID;
 				KauJournalRecordNo = BytesHelper.SubstructInt(bytes, 0x20);
@@ -82,23 +82,23 @@ namespace GKProcessor
 							break;
 
 						case 7:
-							JournalItem.JournalEventNameType = bytes[56] == 0x0d ? JournalEventNameType.Вход_пользователя_в_ПМФ : JournalEventNameType.Вход_пользователя_в_прибор;
+							JournalItem.JournalEventNameType = JournalEventNameType.Вход_пользователя_в_прибор;
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							var bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							var bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
+							JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 							break;
 
 						case 8:
-							JournalItem.JournalEventNameType = bytes[56] == 0x0d ? JournalEventNameType.Выход_пользователя_из_ПМФ : JournalEventNameType.Выход_пользователя_из_прибора;
+							JournalItem.JournalEventNameType = JournalEventNameType.Выход_пользователя_из_прибора;
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
+							JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 							break;
 
 						case 9:
@@ -574,6 +574,16 @@ namespace GKProcessor
 					JournalItem.JournalObjectType = JournalObjectType.GKDoor;
 					JournalItem.ObjectUID = Door.UID;
 					JournalItem.ObjectName = Door.PresentationName;
+				}
+			}
+			else
+			{
+				Device = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID && x.GkDatabaseParent == gkDevice);
+				if (Device != null)
+				{
+					JournalItem.JournalObjectType = JournalObjectType.GKDevice;
+					JournalItem.ObjectUID = Device.UID;
+					JournalItem.ObjectName = Device.ShortName + " " + Device.DottedPresentationAddress;
 				}
 			}
 		}
