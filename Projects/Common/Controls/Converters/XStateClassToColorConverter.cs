@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RubezhAPI.GK;
+using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using RubezhAPI.GK;
 
 namespace Controls.Converters
 {
@@ -43,6 +43,9 @@ namespace Controls.Converters
 				case XStateClass.Test:
 				case XStateClass.Norm:
 					return Brushes.Transparent;
+
+				case XStateClass.Connected:
+					return Brushes.PaleGreen;
 
 				default:
 					return Brushes.Transparent;

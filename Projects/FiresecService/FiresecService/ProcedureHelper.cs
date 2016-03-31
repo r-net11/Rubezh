@@ -67,7 +67,7 @@ namespace FiresecService
 			if (camera != null)
 			{
 				objectName = camera.Name;
-				journalObjectType = JournalObjectType.VideoDevice;
+				journalObjectType = JournalObjectType.Camera;
 				return true;
 			}
 

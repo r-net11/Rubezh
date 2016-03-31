@@ -31,7 +31,6 @@ namespace VideoModule
 			{
 				foreach (var remoteRviState in rviStates)
 				{
-
 					if (remoteRviState.RviDeviceUid != Guid.Empty)
 					{
 						var device = ClientManager.SystemConfiguration.RviDevices.FirstOrDefault(x => x.Uid == remoteRviState.RviDeviceUid);
