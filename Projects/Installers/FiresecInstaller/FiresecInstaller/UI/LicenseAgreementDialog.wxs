@@ -10,7 +10,7 @@
 				<Control Id="DlgDesc"		Type="Text"				X="30"	Y="22"	Width="292"	Height="25"		Text="Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить." TabSkip="yes" Transparent="yes" />
 				<Control Id="BannerLine"	Type="Line"				X="0"	Y="44"	Width="370"	Height="0"		TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1"		Type="Text"				X="16"	Y="229"	Width="50"	Height="13"		Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
-				<Control Id="Branding2"		Type="Text"				X="15"	Y="228"	Width="50"	Height="13"		Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
+				<Control Id="Branding2"		Type="Text"				X="15"	Y="228"	Width="50"	Height="13"		Text="{&amp;NormalText}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine"		Type="Line"				X="48"	Y="234"	Width="326"	Height="0"		TabSkip="yes" Disabled="yes" />
 				<Control Id="LicenseText"	Type="ScrollableText"	X="8"	Y="54"	Width="358"	Height="130"	Sunken="yes" TabSkip="yes">
 					<Text SourceFile="Data\License.rtf" />
