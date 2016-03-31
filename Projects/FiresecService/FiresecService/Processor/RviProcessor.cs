@@ -113,7 +113,6 @@ namespace FiresecService
 							{
 								if (server.Status != RviStatus.Connected)
 								{
-									Thread.Sleep(5); // оставляем время серверу, проверить подключение ко всем устройствам. Иначе сперва присылает статус устройства Error, только потом Connected. Должно реализовываться на стороне RviServer, потому что они по сути присылат не актуальный статус устройства.
 									rviStates.Add(new RviState(server, RviStatus.Connected));
 									server.Status = RviStatus.Connected;
 								}
