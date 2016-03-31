@@ -154,7 +154,6 @@
     </Compile>
     <Compile Include="MonitorLayoutModule.cs" />
     <Compile Include="ViewModels\AutoActivationViewModel.cs" />
-    <Compile Include="ViewModels\GlobalPimActivationViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
@@ -165,9 +164,6 @@
       <DependentUpon>AutoActivationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
-    <Compile Include="Views\GlobalPimActivationView.xaml.cs">
-      <DependentUpon>GlobalPimActivationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\RestartApplicationView.xaml.cs">
       <DependentUpon>RestartApplicationView.xaml</DependentUpon>
     </Compile>
@@ -255,10 +251,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AutoActivationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GlobalPimActivationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
