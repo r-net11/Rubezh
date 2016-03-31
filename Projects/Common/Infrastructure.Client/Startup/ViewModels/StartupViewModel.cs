@@ -30,7 +30,6 @@ namespace Infrastructure.Client.Startup.ViewModels
 			AllowClose = false;
 			CloseOnEscape = true;
 			HideInTaskbar = true;
-			AllowClose = true;
 			IsUIEnabled = false;
 			_startupLoginViewModel = new StartupLoginViewModel(_clientType);
 			_startupLoadingViewModel = new StartupLoadingViewModel();

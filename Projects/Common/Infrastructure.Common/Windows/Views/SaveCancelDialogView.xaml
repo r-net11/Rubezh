@@ -7,7 +7,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ContentPresenter Grid.Row="0" Content="{Binding}" />
+		<ContentPresenter Content="{Binding}" />
 		<DockPanel Grid.Row="1" Margin="0, 5, 0, 0">
 			<Button
 				Name="bCancel"
@@ -23,8 +23,7 @@
 				Content="{Binding SaveCaption}"
 				DockPanel.Dock="Right"
 				IsDefault="True"
-				Visibility="{Binding AllowSave,
-			                             Converter={StaticResource BoolToVisibilityConverter}}" />
+				Visibility="{Binding AllowSave, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ContentPresenter Content="{Binding CommandPanel}" />
 		</DockPanel>
 	</Grid>
