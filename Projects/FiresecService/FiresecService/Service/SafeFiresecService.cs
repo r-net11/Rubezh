@@ -75,7 +75,7 @@ namespace FiresecService.Service
 
 		void SafeOperationCall(Guid clientUID, Action action, string operationName)
 		{
-			if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
+			//if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
 			try
 			{
 				BeginOperation(operationName);

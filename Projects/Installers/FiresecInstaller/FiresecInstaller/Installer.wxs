@@ -18,17 +18,17 @@
 
 		<PropertyRef Id="NETFRAMEWORK40FULL" />
 		<Condition Message="Не удалось обнаружить Microsoft .NET Framework 4.0. Установите Microsoft .NET Framework 4.0 и запустите установку заново">
-			NETFRAMEWORK40FULL
+			Installed OR NETFRAMEWORK40FULL
 		</Condition>
 		<!--Framework 2.0 нужет для OPC Core Components-->
 		<PropertyRef Id="NETFRAMEWORK20_SP_LEVEL"/>
 		<Condition Message="Не удалось обнаружить Microsoft .NET Framework 2.0. Установите Microsoft .NET Framework 2.0 и запустите установку заново">
-			NETFRAMEWORK20_SP_LEVEL
+			Installed OR NETFRAMEWORK20_SP_LEVEL
 		</Condition>
-		
+
 		<Icon		Id="ProgramIcon.ico"				SourceFile="Data\ProgramIcon.ico"/>
 		<Property	Id="ARPPRODUCTICON"					Value="ProgramIcon.ico" />
-		
+
 		<Property	Id="_BrowseProperty"				Value="INSTALLLOCATION" />
 		<Property	Id="SHORTCUT_PROGRAMMENU"			Value="1" />
 		<Property	Id="SHORTCUT_DESKTOP"				Value="1" />
@@ -46,11 +46,11 @@
 		<Property	Id="INSTALLMODE" />
 		<Property	Id="IS_INSTALL_POSTGRE32" />
 		<Property	Id="IS_INSTALL_POSTGRE64" />
-		<Property   Id="IS_INSTALL_OPC_CORE_COMPONETSx32" />
-		<Property   Id="IS_INSTALL_OPC_CORE_COMPONETSx64" />
+		<Property	Id="IS_INSTALL_OPC_CORE_COMPONETSx32" />
+		<Property	Id="IS_INSTALL_OPC_CORE_COMPONETSx64" />
 
 		<Property	Id="INSTALL_FIRESEC2"				Secure="yes" />
-		
+
 		<Property	Id="INSTALL_OPC"					Value="0"	Secure="yes" />
 		<Property	Id="INSTALL_GK"						Value="0"	Secure="yes" />
 		<Property	Id="INSTALL_VIDEO"					Value="0"	Secure="yes" />
