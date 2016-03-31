@@ -4,34 +4,107 @@
 }
 
 
-<div id="employee-details-box" class="save-cancel-popup" data-bind="with: HR.Employees.EmployeeDetails">
-    <div class="title-bar">
-        <span data-bind="text: Title"></span>
-        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: EmployeeDetailsClose" /></a>
-    </div>
-    <div data-bind="with: Employee">
-        <form id="Employee" data-bind="submit: $parent.SaveEmployee">
-            <ul class="tab">
-                <li class="active"><a href="" data-bind="click: function(data,event) { $parent.EmployeeDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { $parent.EmployeeDetailsPageClick(data, event, 'Document'); }"><span>Документ</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { $parent.EmployeeDetailsPageClick(data, event, 'Photo'); }"><span>Фото</span></a></li>
-            </ul>
-
-            <div class="data-input" data-bind="visible:$parent.employeeDetailsPages.General">
-                <label for="LastName"><span>Фамилия</span><input type="text" name="LastName" id="LastName" data-bind="value: LastName" value="" /></label>
-                <label for="FirstName"><span>Имя</span><input type="text" name="FirstName" id="FirstName" data-bind="value: FirstName" value="" /></label>
-                <label for="SecondName"><span>Отчество</span><input type="text" name="SecondName" data-bind="value: SecondName" value="" /></label>
-                <label for="Position" data-bind="visible: $parent.IsEmployee"><span>Должность</span><a id="Position" href=""><span data-bind="click: $parent.SelectPosition, text: $parent.IsPositionSelected() ? PositionName() : 'Нажмите для выбора должности'"></span></a></label>
-                <label for="Department"><span>Подразделение</span><a id="Department" href=""><span data-bind="click: $parent.SelectDepartment, text: $parent.IsDepartmentSelected() ? DepartmentName() : 'Нажмите для выбора подразделения'"></span></a></label>
-                <label for="Escort" data-bind="visible: !$parent.IsEmployee()"><span>Сопровождающий</span><a id="Escort" href=""><span data-bind="click: $parent.SelectEscort, text: $parent.IsEscortSelected() ? EscortName() : 'Нажмите для выбора сопровождающего'"></span></a></label>
-                <label for="Description" data-bind="visible: !$parent.IsEmployee()"><span>Примечание</span><input type="text" name="Description" data-bind="value: Description" value="" /></label>
-                <label for="Schedule" data-bind="visible: $parent.IsEmployee"><span>График работы</span><a id="Schedule" href=""><span data-bind="click: $parent.SelectSchedule, text: $parent.IsScheduleSelected() ? $parent.ScheduleName() : 'Нажмите для выбора графика работы'"></span></a></label>
-                <label for="CredentialsStartDate" data-bind="visible: $parent.IsEmployee"><span>Учётные данные действуют с</span><input type="text" id="CredentialsStartDate" name="CredentialsStartDate" data-bind="datepicker: CredentialsStartDate, datepickerOptions: { dateFormat: 'dd.mm.yy' }" value="" /></label>
-                <label for="TabelNo" data-bind="visible: $parent.IsEmployee"><span>Табельный номер</span><input type="text" name="TabelNo" data-bind="value: TabelNo" value="" /></label>
-                <label for="Phone"><span>Телефон</span><input type="text" name="Phone" data-bind="value: Phone" value="" /></label>
-                <label data-bind="visible: $parent.IsEmployee"><span>Руководитель организации</span><input type="checkbox" name="IsOrganisationChief" data-bind="checked: $parent.IsOrganisationChief" value=""></label><br>
-                <label data-bind="visible: $parent.IsEmployee"><span>Руководитель отдела кадров</span><input type="checkbox" name="IsOrganisationHRChief" data-bind="checked: $parent.IsOrganisationHRChief" value="" /></label><br>
-            </div>
+<div class="modal-header">
+    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+    <h3 class="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body">
+    <uib-tabset>
+        <uib-tab heading="Основные">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="lastName">Фамилия</label>
+                    <div class="col-sm-10">
+                        <input id="lastName" class="form-control" ng-model="employee.LastName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="firstName">Имя</label>
+                    <div class="col-sm-10">
+                        <input id="firstName" class="form-control" ng-model="employee.FirstName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="secondName">Отчество</label>
+                    <div class="col-sm-10">
+                        <input id="secondName" class="form-control" ng-model="employee.SecondName">
+                    </div>
+                </div>
+                <div class="form-group" ng-show="isEmployee">
+                    <label class="control-label col-sm-2" for="position">Должность</label>
+                    <div class="col-sm-10">
+                        <a id="position" href="" ng-click="selectPosition">
+                            <span ng-show="isPositionSelected()">{{employee.PositionName}}</span>
+                            <span ng-show="!isPositionSelected()">Нажмите для выбора должности</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="department">Подразделение</label>
+                    <div class="col-sm-10">
+                        <a id="department" href="" ng-click="selectDepartment">
+                            <span ng-show="isDepartmentSelected()">{{employee.DepartmentName}}</span>
+                            <span ng-show="!isDepartmentSelected()">Нажмите для выбора подразделения</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="!isEmployee">
+                    <label class="control-label col-sm-2" for="escort">Сопровождающий</label>
+                    <div class="col-sm-10">
+                        <a id="escort" href="" ng-click="selectEscort">
+                            <span ng-show="isEscortSelected()">{{employee.EscortName}}</span>
+                            <span ng-show="!isEscortSelected()">Нажмите для выбора сопровождающего</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="!isEmployee">
+                    <label class="control-label col-sm-2" for="description">Примечание</label>
+                    <div class="col-sm-10">
+                        <input id="description" class="form-control" ng-model="employee.Description">
+                    </div>
+                </div>
+                <div class="form-group" ng-show="isEmployee">
+                    <label class="control-label col-sm-2" for="schedule">График работы</label>
+                    <div class="col-sm-10">
+                        <a id="schedule" href="" ng-click="selectSchedule">
+                            <span ng-show="isScheduleSelected()">{{employee.ScheduleName}}</span>
+                            <span ng-show="!isScheduleSelected()">Нажмите для выбора графика работы</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="credentialsStartDate">Учётные данные действуют с</label>
+                    <div class="col-sm-10">
+                        <input id="credentialsStartDate" class="form-control" uib-datepicker-popup="dd.MM.yyyy" ng-model="employee.CredentialsStartDate">
+                    </div>
+                </div>
+                <div class="form-group" ng-show="isEmployee">
+                    <label class="control-label col-sm-2" for="tabelNo">Табельный номер</label>
+                    <div class="col-sm-10">
+                        <input id="tabelNo" class="form-control" ng-model="employee.TabelNo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="phone">Телефон</label>
+                    <div class="col-sm-10">
+                        <input id="phone" class="form-control" ng-model="employee.Phone">
+                    </div>
+                </div>
+                <div class="form-group" ng-show="isEmployee">
+                    <label class="control-label col-sm-2" for="isOrganisationChief">Руководитель организации</label>
+                    <div class="checkbox col-sm-10">
+                        <input type="checkbox" ng-model="isOrganisationChief">
+                    </div>
+                </div>
+                <div class="form-group" ng-show="isEmployee">
+                    <label class="control-label col-sm-2" for="isOrganisationHRChief">Руководитель отдела кадров</label>
+                    <div class="checkbox col-sm-10">
+                        <input type="checkbox" ng-model="isOrganisationHRChief">
+                    </div>
+                </div>
+            </form>
+        </uib-tab>
+        <uib-tab heading="Документ">
             <div class="data-input" data-bind="visible:$parent.employeeDetailsPages.Document">
                 <label for="DocumentNumber"><span>Номер</span><input type="text" name="DocumentNumber" data-bind="value: DocumentNumber" value="" /></label>
                 <label for="BirthPlace"><span>Место рождения</span><input type="text" name="BirthPlace" data-bind="value: BirthPlace" value="" /></label>
@@ -55,11 +128,14 @@
                     </select>
                 </label>
             </div>
+        </uib-tab>
+        <uib-tab heading="Фото">
             <div class="data-input" data-bind="visible:$parent.employeeDetailsPages.Photo">
                 <div data-bind="template: { name: 'PhotoSelectionTemplate', data: {PhotoData: $parent.PhotoData} }"></div>
             </div>
-            <button class="submit ok-cancel-button" type="submit">OK</button>
-            <label data-bind="text: $parent.SaveError"></label>
-        </form>
-    </div>
+        </uib-tab>
+    </uib-tabset>
+</div>
+<div mobile-hover-fix class="modal-footer">
+    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
 </div>

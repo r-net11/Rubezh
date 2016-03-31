@@ -222,7 +222,9 @@
     <Content Include="App\controllers\SKD\common\employeesFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\positionsFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\organisationsFilterCtrl.js" />
+    <Content Include="App\controllers\SKD\employees\employeesToolbarCtrl.js" />
     <Content Include="App\controllers\SKD\employees\employeesCtrl.js" />
+    <Content Include="App\controllers\SKD\employees\employeeDetailsCtrl.js" />
     <Content Include="App\controllers\SKD\HR\HRFilterCtrl.js" />
     <Content Include="App\controllers\SKD\HR\HRCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
@@ -249,6 +251,7 @@
     <Content Include="App\services\signalrMPTsService.js" />
     <Content Include="App\services\signalrPumpStationService.js" />
     <Content Include="App\services\signalrService.js" />
+    <Content Include="App\services\SKD\employeesService.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
