@@ -213,7 +213,7 @@ namespace AutomationModule.ViewModels
 			var changedFilters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
 				.Where(filter => removedTags.Any(tag => tag.Uid == filter.TagUID)).ToArray();
 
-			if (removedTags.Count() > 0)
+			if ((removedTags.Count() > 0) && (changedFilters.Count() > 0))
 			{
 				var sb = new StringBuilder();
 
@@ -247,7 +247,11 @@ namespace AutomationModule.ViewModels
 
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
-
+			else
+			{
+				server.Tags = SelectedTags;
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
 		}
 		bool CanEditTagList() { return SelectedOpcServer != null; }
 
