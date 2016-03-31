@@ -9,7 +9,7 @@
                 onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                     gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-                        employeesService.selectedEmployee = row.Entity;
+                        employeesService.selectedEmployee = row.entity;
                     });
                 },                
                 enableRowHeaderSelection: false,

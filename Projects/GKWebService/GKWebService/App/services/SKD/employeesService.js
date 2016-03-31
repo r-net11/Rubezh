@@ -17,6 +17,19 @@
                 });
 
                 return deferred.promise;
+            },
+            getOrganisation: function(UID) {
+                var deferred = $q.defer();
+
+                $http.get('Employees/GetOrganisation/' + UID).then(function (response) {
+                    deferred.resolve(response.data);
+                }, function (response) {
+                    // TODO: реализовать обработку ошибок
+                    alert("Ошибка получения сотрудника");
+                    deferred.reject();
+                });
+
+                return deferred.promise;
             }
         }
     }]);

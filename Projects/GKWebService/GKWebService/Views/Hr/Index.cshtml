@@ -6,7 +6,7 @@
 
 
 <div id="HR">
-    <div class="HrToolbar" ng-show="activeTab === 0">
+    <div class="HrToolbar" ng-show="activeTab === 0" ng-controller="employeesToolbarCtrl">
         <div data-bind="visible:!Employees.EmployeeCards.IsCardSelected()">
             <div class="icon add" data-bind="click: Employees.CanAdd() ? function(data,event) { Employees.AddEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.AddCommandToolTip}, css: {disabled: !Employees.CanAdd()}"></div>
             <div class="icon delete" data-bind="click: Employees.CanRemove() ? function(data,event) { Employees.RemoveEmployeeClick(data, event); } : null, attr: {title: Employees.RemoveCommandToolTip}, css: {disabled: !Employees.CanRemove()}"></div>

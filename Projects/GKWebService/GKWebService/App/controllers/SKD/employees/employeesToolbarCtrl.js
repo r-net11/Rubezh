@@ -2,7 +2,7 @@
 
     'use strict';
 
-    var app = angular.module('gkApp.controllers').controller('employeesCtrl',
+    var app = angular.module('gkApp.controllers').controller('employeesToolbarCtrl',
         ['$scope', '$uibModal', 'employeesService',
          function ($scope, $uibModal, employeesService) {
              $scope.$watch(function() {
@@ -19,6 +19,12 @@
                      resolve: {
                          employee: function () {
                              return employeesService.getEmployeeDetails($scope.selectedEmployee.UID);
+                         },
+                         personType: function() {
+                             return $scope.filter.PersonType;
+                         },
+                         organisation: function() {
+                             return employeesService.getOrganisation($scope.selectedEmployee.OrganisationUID);
                          }
                      }
                  });

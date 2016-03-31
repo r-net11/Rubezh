@@ -11,17 +11,24 @@
 
             $scope.isEmployee = (personType === "Employee");
 
-            $scope.employee = employee;
+            $scope.employee = employee.Employee;
+
+            $scope.photo = employee.PhotoData;
+
+            function FIO() {
+                var names = [$scope.employee.LastName, $scope.employee.FirstName, $scope.employee.SecondName];
+                return names.join(" ");
+            };
 
             if ($scope.isNew) {
                 $scope.title = ($scope.isEmployee ? "Добавить сотрудника" : "Добавить посетителя");
                 $scope.employee.OrganisationUID = organisation.UID;
-                $scope.isOrganisationChief(false);
-                $scope.isOrganisationHRChief(false);
+                $scope.isOrganisationChief = false;
+                $scope.isOrganisationHRChief = false;
             } else {
-                $scope.title = ($scope.isEmployee() ? "Свойства сотрудника: " : "Свойства посетителя: ") + $scope.employee.FIO();
-                $scope.isOrganisationChief(organisation.ChiefUID === $scope.employee.UID());
-                $scope.isOrganisationHRChief(organisation.HRChiefUID === $scope.employee.UID());
+                $scope.title = ($scope.isEmployee ? "Свойства сотрудника: " : "Свойства посетителя: ") + FIO();
+                $scope.isOrganisationChief = organisation.ChiefUID === $scope.employee.UID;
+                $scope.isOrganisationHRChief = organisation.HRChiefUID === $scope.employee.UID;
             }
 
             $scope.isPositionSelected = function () {
