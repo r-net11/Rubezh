@@ -953,10 +953,10 @@ namespace RubezhAPI.Journal
 		Выход_Глобал = 310,
 
 		[EventDescriptionAttribute("Постановка на охрану", JournalEventNameType.Управление_ПМФ)]
-		Постановка_на_охрану = 311,
+		Постановка_на_охрану = 319,
 
 		[EventDescriptionAttribute("Снятие с охраны", JournalEventNameType.Управление_ПМФ)]
-		Снятие_с_охраны = 312,
+		Снятие_с_охраны = 320,
 
 		[EventDescriptionAttribute("Пуск", JournalEventNameType.Управление_ПМФ)]
 		Пуск = 313,
