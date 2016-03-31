@@ -27,9 +27,9 @@
 		<Views:ChangeUserView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:GlobalPimActivationViewModel}">
+	<!--<DataTemplate DataType="{x:Type ViewModels:GlobalPimActivationViewModel}">
 		<Views:GlobalPimActivationView />
-	</DataTemplate>
+	</DataTemplate>-->
 
 
 </ResourceDictionary>

@@ -4,43 +4,46 @@ namespace RubezhAPI.Journal
 {
 	public enum JournalObjectType
 	{
-		[DescriptionAttribute("Нет")]
+		[Description("Нет")]
 		None = 0,
 
-		[DescriptionAttribute("Устройства")]
+		[Description("Устройства")]
 		GKDevice = 1,
 
-		[DescriptionAttribute("Пожарные зоны")]
+		[Description("Пожарные зоны")]
 		GKZone = 2,
 
-		[DescriptionAttribute("Направления")]
+		[Description("Направления")]
 		GKDirection = 3,
 
-		[DescriptionAttribute("МПТ")]
+		[Description("МПТ")]
 		GKMPT = 4,
 
-		[DescriptionAttribute("Насосные станции")]
+		[Description("Насосные станции")]
 		GKPumpStation = 5,
 
-		[DescriptionAttribute("Задержки")]
+		[Description("Задержки")]
 		GKDelay = 6,
 
-		[DescriptionAttribute("ПИМ")]
+		[Description("ПИМ")]
 		GKPim = 7,
 
-		[DescriptionAttribute("Охранные зоны")]
+		[Description("Охранные зоны")]
 		GKGuardZone = 8,
 
-		[DescriptionAttribute("Точки доступа")]
+		[Description("Точки доступа")]
 		GKDoor = 9,
 
-		[DescriptionAttribute("Видеоустройства")]
-		VideoDevice = 10,
+		[Description("Канал Rvi")]
+		Camera = 10,
 
-		[DescriptionAttribute("Пользователи прибора")]
+		[Description("Пользователи прибора")]
 		GKUser = 11,
 
-		[DescriptionAttribute("Зоны СКД")]
+		[Description("Зоны СКД")]
 		GKSKDZone = 12,
+
+		[Description("Устройство Rvi")]
+		RviDevice = 13
 	}
 }

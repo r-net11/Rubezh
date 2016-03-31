@@ -2,7 +2,8 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converters="clr-namespace:GKModule.Converters">
-	<UserControl.Resources>
+    
+    <UserControl.Resources>
 		<Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
 		<Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
 		<Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
@@ -10,19 +11,31 @@
 	</UserControl.Resources>
 
 	<StackPanel Orientation="Horizontal">
-		<AlarmButton Command="{Binding ResetCommand}"
+        <AlarmButton Command="{Binding ChangeGlobalPimActivationCommand}"
 					 GlowColor="Transparent"
-					 IsGlowing="{Binding IsCanReset}"
-					 Background="{DynamicResource ResetAlarmText}">
-			<AlarmButton.ToolTip>
-				<StackPanel Orientation="Horizontal">
-					<Rectangle Fill="{DynamicResource BReset}" Width="16" Margin="2" />
-					<TextBlock Text="Сбросить все(F4)" FontWeight="Black" VerticalAlignment="Center" />
+					 IsGlowing="{Binding IsGlowing}"
+					 Background="{DynamicResource Alarm_main_5_Info}"
+                     DataContext="{Binding GlobalPimActivationViewModel}">
+            <AlarmButton.ToolTip>
+				<StackPanel Orientation="Horizontal">                    
+                    <TextBlock Text="{Binding ToolTipText}" FontWeight="Black" VerticalAlignment="Center" />
 				</StackPanel>
 			</AlarmButton.ToolTip>
 		</AlarmButton>
 
-		<ItemsControl ItemsSource="{Binding AlarmGroups}">
+        <AlarmButton Command="{Binding ResetCommand}"
+					 GlowColor="Transparent"
+					 IsGlowing="{Binding IsCanReset}"
+					 Background="{DynamicResource ResetAlarmText}">
+            <AlarmButton.ToolTip>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Fill="{DynamicResource BReset}" Width="16" Margin="2" />
+                    <TextBlock Text="Сбросить все(F4)" FontWeight="Black" VerticalAlignment="Center" />
+                </StackPanel>
+            </AlarmButton.ToolTip>
+        </AlarmButton>
+
+        <ItemsControl ItemsSource="{Binding AlarmGroups}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<StackPanel Orientation="Horizontal" />
@@ -30,15 +43,15 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<AlarmButton Command="{Binding ShowCommand}"
+                    <AlarmButton Command="{Binding ShowCommand}"
 										  GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
 										  IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}"
-										  Background="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}">
-						<AlarmButton.ToolTip>
+                                          Background="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}">
+                        <AlarmButton.ToolTip>
 							<StackPanel>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToBIconConverter}}" Width="16" Margin="2" />
-									<TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" VerticalAlignment="Center"/>
+                                    <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToBIconConverter}}" Width="16" Margin="2" />
+                                    <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" VerticalAlignment="Center"/>
 								</StackPanel>
 								<ItemsControl ItemsSource="{Binding Alarms}">
 									<ItemsControl.ItemTemplate>

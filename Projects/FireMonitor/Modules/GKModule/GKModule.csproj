@@ -91,6 +91,7 @@
     <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
+    <Compile Include="Alarms\ViewModels\GlobalPimActivationViewModel.cs" />
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Devices\ViewModels\PlotViewModel.cs" />
     <Compile Include="Devices\Views\PlotView.xaml.cs">

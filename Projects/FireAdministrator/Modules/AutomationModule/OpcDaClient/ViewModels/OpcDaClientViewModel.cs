@@ -205,6 +205,13 @@ namespace AutomationModule.ViewModels
 			var editingTagList = new OpcDaClientEditingTagsViewModel(this);
 			DialogService.ShowModalWindow(editingTagList);
 
+			if (tagsBefor.Length == SelectedTags.Length)
+			{
+				var different = tagsBefor.Where(tag => !SelectedTags.Any(t => t.Uid == tag.Uid));
+				if (different.Count() == 0)
+					return;
+			}
+
 			var server = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers
 				.FirstOrDefault(x => x == SelectedOpcServer);
 			
