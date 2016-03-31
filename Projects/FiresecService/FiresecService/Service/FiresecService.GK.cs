@@ -252,7 +252,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit, GetUserName(clientUID, userName) );
 			}
 		}
 
@@ -261,7 +261,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKReset(gkBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKReset(gkBase, GetUserName(clientUID, userName));
 			}
 		}
 
@@ -288,7 +288,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetAutomaticRegime(gkBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKSetAutomaticRegime(gkBase, GetUserName(clientUID, userName));
 			}
 		}
 
@@ -297,7 +297,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetManualRegime(gkBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKSetManualRegime(gkBase, GetUserName(clientUID, userName));
 			}
 		}
 
@@ -306,7 +306,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetIgnoreRegime(gkBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKSetIgnoreRegime(gkBase, GetUserName(clientUID, userName));
 			}
 		}
 
@@ -315,7 +315,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOn(gkBase,  userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKTurnOn(gkBase,  GetUserName(clientUID, userName));
 			}
 		}
 
@@ -324,7 +324,7 @@ namespace FiresecService.Service
 			var xBase = GetGKBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKTurnOnNow(xBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKTurnOnNow(xBase, GetUserName(clientUID, userName));
 			}
 		}
 
@@ -351,7 +351,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOff(gkBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKTurnOff(gkBase, GetUserName(clientUID, userName));
 			}
 		}
 
@@ -360,16 +360,16 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOffNow(gkBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKTurnOffNow(gkBase, GetUserName(clientUID, userName) );
 			}
 		}
 
-		public void GKTurnOffInAutomatic(Guid clientUID,string userName, Guid uid, GKBaseObjectType objectType)
+		public void GKTurnOffInAutomatic(Guid clientUID, string userName, Guid uid, GKBaseObjectType objectType)
 		{
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOffInAutomatic(gkBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKTurnOffInAutomatic(gkBase, GetUserName(clientUID, userName));
 			}
 		}
 
@@ -397,7 +397,7 @@ namespace FiresecService.Service
 			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
-				GKProcessorManager.GKStop(gkBase, userName == null ? GetUserName(clientUID) : userName);
+				GKProcessorManager.GKStop(gkBase, GetUserName(clientUID, userName) );
 			}
 		}
 
