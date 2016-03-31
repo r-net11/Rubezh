@@ -209,23 +209,23 @@ namespace RubezhClient
 			}, "GKGetStates");
 		}
 
-		public void GKExecuteDeviceCommand(GKDevice device, GKStateBit stateBit)
+		public void GKExecuteDeviceCommand(GKDevice device, GKStateBit stateBit, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKExecuteDeviceCommand(FiresecServiceFactory.UID, device.UID, stateBit);
+					firesecService.GKExecuteDeviceCommand(FiresecServiceFactory.UID, device.UID, stateBit,userName);
 			}, "GKExecuteDeviceCommand");
 		}
 
-		public void GKReset(GKBase gkBase)
+		public void GKReset(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKReset(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKReset(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKReset");
 		}
 
@@ -249,53 +249,53 @@ namespace RubezhClient
 			}, "GKResetFire2");
 		}
 
-		public void GKSetAutomaticRegime(GKBase gkBase)
+		public void GKSetAutomaticRegime(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKSetAutomaticRegime(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKSetAutomaticRegime(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKSetAutomaticRegime");
 		}
 
-		public void GKSetManualRegime(GKBase gkBase)
+		public void GKSetManualRegime(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKSetManualRegime(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKSetManualRegime(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKSetManualRegime");
 		}
 
-		public void GKSetIgnoreRegime(GKBase gkBase)
+		public void GKSetIgnoreRegime(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKSetIgnoreRegime(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKSetIgnoreRegime(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKTurnOn");
 		}
 
-		public void GKTurnOn(GKBase gkBase)
+		public void GKTurnOn(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOn(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOn(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKTurnOn");
 		}
 
-		public void GKTurnOnNow(GKBase gkBase)
+		public void GKTurnOnNow(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOnNow(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOnNow(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKTurnOnNow");
 		}
 
@@ -319,33 +319,33 @@ namespace RubezhClient
 			}, "GKTurnOnNowInAutomatic");
 		}
 
-		public void GKTurnOff(GKBase gkBase)
+		public void GKTurnOff(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOff(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOff(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKTurnOff");
 		}
 
-		public void GKTurnOffNow(GKBase gkBase)
+		public void GKTurnOffNow(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOffNow(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOffNow(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKTurnOffNow");
 		}
 
-		public void GKTurnOffInAutomatic(GKBase gkBase)
+		public void GKTurnOffInAutomatic(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKTurnOffInAutomatic(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKTurnOffInAutomatic(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKTurnOffInAutomatic");
 		}
 
@@ -380,13 +380,13 @@ namespace RubezhClient
 				, "GKTurnOffNowGlobalPimsInAutomatic");
 		}
 
-		public void GKStop(GKBase gkBase)
+		public void GKStop(GKBase gkBase, string userName = null)
 		{
 			SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.GKStop(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType);
+					firesecService.GKStop(FiresecServiceFactory.UID, gkBase.UID, gkBase.ObjectType, userName);
 			}, "GKStop");
 		}
 

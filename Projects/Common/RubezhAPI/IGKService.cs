@@ -70,10 +70,10 @@ namespace RubezhAPI
 		GKStates GKGetStates(Guid clientUID);
 
 		[OperationContract]
-		void GKExecuteDeviceCommand(Guid clientUID, Guid deviceUID, GKStateBit stateBit);
+		void GKExecuteDeviceCommand(Guid clientUID, Guid deviceUID, GKStateBit stateBit, string userName = null);
 
 		[OperationContract]
-		void GKReset(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKReset(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
 		void GKResetFire1(Guid clientUID, Guid zoneUID);
@@ -82,19 +82,19 @@ namespace RubezhAPI
 		void GKResetFire2(Guid clientUID, Guid zoneUID);
 
 		[OperationContract]
-		void GKSetAutomaticRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKSetAutomaticRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
-		void GKSetManualRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKSetManualRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
-		void GKSetIgnoreRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKSetIgnoreRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
-		void GKTurnOn(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKTurnOn(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
-		void GKTurnOnNow(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKTurnOnNow(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
 		void GKTurnOnInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType);
@@ -103,19 +103,19 @@ namespace RubezhAPI
 		void GKTurnOnNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOff(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKTurnOff(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null );
 
 		[OperationContract]
-		void GKTurnOffNow(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKTurnOffNow(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
-		void GKTurnOffInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKTurnOffInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
 		void GKTurnOffNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType);
+		void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null);
 
 		[OperationContract]
 		void GKStartMeasureMonitoring(Guid clientUID, Guid deviceUID);

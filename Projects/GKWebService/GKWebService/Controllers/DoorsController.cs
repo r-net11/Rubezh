@@ -38,7 +38,7 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(door);
+				ClientManager.FiresecService.GKSetAutomaticRegime(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -51,7 +51,7 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(door);
+				ClientManager.FiresecService.GKSetManualRegime(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -64,7 +64,7 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKSetIgnoreRegime(door);
+				ClientManager.FiresecService.GKSetIgnoreRegime(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -77,7 +77,7 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKTurnOn(door);
+				ClientManager.FiresecService.GKTurnOn(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -90,7 +90,7 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKTurnOffNow(door);
+				ClientManager.FiresecService.GKTurnOffNow(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -103,7 +103,7 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKTurnOff(door);
+				ClientManager.FiresecService.GKTurnOff(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -116,7 +116,7 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKReset(door);
+				ClientManager.FiresecService.GKReset(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -129,8 +129,8 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(door);
-				ClientManager.FiresecService.GKTurnOffInAutomatic(door);
+				ClientManager.FiresecService.GKSetAutomaticRegime(door, ClientManager.CurrentUser.Name);
+				ClientManager.FiresecService.GKTurnOffInAutomatic(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -144,8 +144,8 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(door);
-				ClientManager.FiresecService.GKTurnOn(door);
+				ClientManager.FiresecService.GKSetManualRegime(door, ClientManager.CurrentUser.Name);
+				ClientManager.FiresecService.GKTurnOn(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -158,8 +158,8 @@ namespace GKWebService.Controllers
 			var door = GKManager.Doors.FirstOrDefault(d => d.UID == id);
 			if (door != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(door);
-				ClientManager.FiresecService.GKTurnOff(door);
+				ClientManager.FiresecService.GKSetManualRegime(door, ClientManager.CurrentUser.Name);
+				ClientManager.FiresecService.GKTurnOff(door, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
