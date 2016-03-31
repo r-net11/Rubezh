@@ -120,9 +120,7 @@ namespace Infrastructure.Client.Startup
 			if (IsActive)
 			{
 				MessageBoxService.ResetMessageBoxHandler();
-				ApplicationService.Invoke(() => { throw new StartupCancellationException(); });
-				Dispatcher.CurrentDispatcher.InvokeShutdown();
-				ApplicationService.ShutDown();
+				ApplicationService.Invoke((Action)(() => { throw new StartupCancellationException(); }));
 			}
 		}
 		private void CloseSplashImage()

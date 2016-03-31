@@ -12,18 +12,21 @@ namespace FiresecClient
 	{
 		FiresecServiceFactory FiresecServiceFactory;
 		public IFiresecService FiresecService { get; set; }
-		readonly string _serverAddress;
+		string _serverAddress;
 		ClientCredentials _clientCredentials;
-		bool IsDisconnecting;
+		bool IsDisconnecting = false;
 
 		public SafeFiresecService(string serverAddress)
 		{
-			FiresecServiceFactory = new FiresecServiceFactory();
+			FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
 			_serverAddress = serverAddress;
 			FiresecService = FiresecServiceFactory.Create(serverAddress);
 
 			StartOperationQueueThread();
-			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) => StopOperationQueueThread();
+			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+			{
+				StopOperationQueueThread();
+			};
 		}
 
 		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName, bool reconnectOnException = true)

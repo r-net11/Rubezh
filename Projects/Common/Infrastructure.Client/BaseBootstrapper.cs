@@ -111,13 +111,13 @@ namespace Infrastructure.Client
 
 		protected bool RunShell(ShellViewModel shellViewModel)
 		{
-		//	StartupService.Instance.DoStep("Загрузка модулей приложения");
+			StartupService.Instance.DoStep("Загрузка модулей приложения");
 			CreateViewModels();
 			shellViewModel.NavigationItems = new ReadOnlyCollection<NavigationItem>(GetNavigationItems());
 			if (InitializeModules())
 			{
 				ApplicationService.User = FiresecManager.CurrentUser;
-	//			StartupService.Instance.DoStep("Запуск приложения");
+				StartupService.Instance.DoStep("Запуск приложения");
 				ApplicationService.Run(shellViewModel);
 				return true;
 			}
@@ -129,7 +129,7 @@ namespace Infrastructure.Client
 			foreach (IModule module in _modules.OrderBy(module => module.Order))
 				try
 				{
-			//		StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
+					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 					module.Initialize();
 				}
 				catch (StartupCancellationException)

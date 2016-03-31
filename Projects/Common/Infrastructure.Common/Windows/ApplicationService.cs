@@ -62,15 +62,15 @@ namespace Infrastructure.Common.Windows
 			{
 				windowBaseView.ClearValue(Window.AllowsTransparencyProperty);
 				windowBaseView.ClearValue(Window.WindowStyleProperty);
-				windowBaseView.ClearValue(Control.BackgroundProperty);
+				windowBaseView.ClearValue(Window.BackgroundProperty);
 				windowBaseView.SetValue(Window.WindowStyleProperty, WindowStyle.None);
-				windowBaseView.SetValue(Control.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
+				windowBaseView.SetValue(Window.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
 			}
 			if (isMaximized.HasValue)
 				windowBaseView.SetValue(Window.WindowStateProperty, isMaximized.Value ? WindowState.Maximized : WindowState.Minimized);
 			windowBaseView.ContentRendered += (s, e) => ApplicationActivated = true;
-			windowBaseView.Closing += win_Closing;
-			windowBaseView.Closed += win_Closed;
+			windowBaseView.Closing += new CancelEventHandler(win_Closing);
+			windowBaseView.Closed += new EventHandler(win_Closed);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
 			model.Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -98,9 +98,9 @@ namespace Infrastructure.Common.Windows
 			model.AllowMinimize = false;
 			model.Width = double.NaN;
 			model.Height = double.NaN;
-			var frameworkElement = new ScrollViewer
+			var frameworkElement = new ScrollViewer()
 			{
-				Content = new ContentControl
+				Content = new ContentControl()
 				{
 					Content = model,
 					ContentTemplateSelector = new MulticlientDataTemplateSelector(),
@@ -121,7 +121,7 @@ namespace Infrastructure.Common.Windows
 			if (Starting != null)
 				Starting(Layout, EventArgs.Empty);
 			if (ApplicationController == null)
-				Run(model, false, true);
+				Run((ApplicationViewModel)model, false, true);
 			else
 			{
 				var frameworkElement = BuildControl(model);
@@ -152,7 +152,7 @@ namespace Infrastructure.Common.Windows
 
 		public static bool IsApplicationThread()
 		{
-			return Application.Current != null && Application.Current.Dispatcher.Thread == Thread.CurrentThread;
+			return Application.Current == null ? false : Application.Current.Dispatcher.Thread == Thread.CurrentThread;
 		}
 
 		public static void DoEvents()
@@ -168,12 +168,13 @@ namespace Infrastructure.Common.Windows
 
 		public static void Invoke(Action action)
 		{
-			if (Application.Current == null) return;
-
-			if (Application.Current.Dispatcher.CheckAccess())
-				action();
-			else
-				Application.Current.Dispatcher.Invoke(action);
+			if (Application.Current != null)
+			{
+				if (Application.Current.Dispatcher.CheckAccess())
+					action();
+				else
+					Application.Current.Dispatcher.Invoke(action);
+			}
 		}
 
 		public static DispatcherOperation BeginInvoke(Action action, DispatcherPriority priority = DispatcherPriority.Normal)
@@ -183,8 +184,11 @@ namespace Infrastructure.Common.Windows
 
 		public static void CloseAllWindows()
 		{
-			var windows = Application.Current.Windows.Cast<Window>().Where(window => window != ApplicationWindow).ToList();
-			foreach (var window in windows)
+			var windows = new List<Window>();
+			foreach (Window window in Application.Current.Windows)
+				if (window != ApplicationWindow)
+					windows.Add(window);
+			foreach (Window window in windows)
 				Invoke(() => window.Close());
 		}
 
@@ -193,7 +197,7 @@ namespace Infrastructure.Common.Windows
 			if (!Application.Current.Dispatcher.CheckAccess())
 				return (int)Application.Current.Dispatcher.Invoke((Func<bool, int>)GetActiveMonitor, shellWindow);
 			var window = shellWindow ? ApplicationWindow : DialogService.GetActiveWindow();
-
+			
 			return window != null ? MonitorHelper.FindMonitor(window.RestoreBounds) : default(int);
 		}
 

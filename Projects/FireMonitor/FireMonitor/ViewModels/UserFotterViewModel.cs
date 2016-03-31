@@ -1,5 +1,5 @@
 ﻿using FiresecClient;
-using Infrastructure.Common.Services;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 
@@ -9,8 +9,8 @@ namespace FireMonitor.ViewModels
 	{
 		public UserFotterViewModel()
 		{
-			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
 
 		public string UserName

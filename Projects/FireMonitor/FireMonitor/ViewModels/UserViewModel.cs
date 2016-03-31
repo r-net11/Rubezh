@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using FiresecClient;
 using Infrastructure;
@@ -32,7 +31,7 @@ namespace FireMonitor.ViewModels
 					OldName = oldUserName,
 					NewName = UserName
 				};
-				ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
+				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
 			}
 		}
 	}
