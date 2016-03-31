@@ -18,6 +18,7 @@ using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
 using System.Reflection;
 using System.ComponentModel;
+using Infrustructure.Plans.Painters;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -99,7 +100,15 @@ namespace SKDModule.PassCard.ViewModels
 					}
 					_passCardCanvas.Initialize(passCardTemplate);
 					foreach (var elementBase in EnumerateElements(passCardTemplate))
-						_passCardCanvas.CreatePresenterItem(elementBase);
+					{
+						var presenterItem = _passCardCanvas.CreatePresenterItem(elementBase);
+						var primitive = elementBase as IPrimitive;
+						if (primitive != null && primitive.Primitive != Primitive.NotPrimitive)
+						{
+							var painter = PrimitivePainterFactory.CreatePainter(_passCardCanvas, elementBase);
+							presenterItem.OverridePainter(painter);
+						}
+					}
 					Update();
 					_passCardCanvas.LoadingFinished();
 					_passCardCanvas.Refresh();

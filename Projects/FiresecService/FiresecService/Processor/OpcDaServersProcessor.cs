@@ -405,7 +405,7 @@ namespace FiresecService.Processor
 						tag.Value = result.Value;
 						tag.OperationResult = result.Result.IsSuccess();
 						OpcDaHelper.OnReadTagValue(tag.Uid, tag.Value);
-						AutomationProcessor.RunOnOpcTagFilters(null, null);
+						//AutomationProcessor.RunOnOpcTagFilters(null, null);
 					}
 				}
 			}

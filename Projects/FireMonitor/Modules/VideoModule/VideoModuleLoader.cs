@@ -91,5 +91,10 @@ namespace VideoModule
 		{
 			RviAfterInitialize();
 		}
+		public override bool BeforeInitialize(bool firstTime)
+		{
+			InitializeStates();
+			return true;
+		}
 	}
 }

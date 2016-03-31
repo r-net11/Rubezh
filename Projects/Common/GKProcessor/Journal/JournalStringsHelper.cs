@@ -235,6 +235,10 @@ namespace GKProcessor
 				case 182: return JournalEventDescriptionType.Сочетание_КВ;
 				case 183: return JournalEventDescriptionType.Сочетание_МВ;
 				case 184: return JournalEventDescriptionType.Сочетание_ДНУ_и_ДВУ;
+				case 186: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАЩИТА;
+				case 187: return JournalEventDescriptionType.КЗ_концевого_выключателя_ЗАЩИТА;
+				case 188: return JournalEventDescriptionType.Обрыв_концевого_выключателя_НОРМА;
+				case 189: return JournalEventDescriptionType.КЗ_концевого_выключателя_НОРМА;
 				case 241: return JournalEventDescriptionType.Обрыв_АЛС_1_2;
 				case 242: return JournalEventDescriptionType.Обрыв_АЛС_3_4;
 				case 243: return JournalEventDescriptionType.Обрыв_АЛС_5_6;

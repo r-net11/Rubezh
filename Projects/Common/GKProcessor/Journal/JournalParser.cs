@@ -6,13 +6,13 @@ using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI;
 using RubezhDAL;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
 	public class JournalParser
 	{
 		public JournalItem JournalItem { get; private set; }
-
 		public GKDevice Device { get; private set; }
 		public GKZone Zone { get; private set; }
 		public GKDirection Direction { get; private set; }
@@ -39,10 +39,10 @@ namespace GKProcessor
 
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			JournalItem.ObjectUID = gkControllerDevice.UID;
-			var ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
-			if (ControllerAddress != 0x200)
+			var controllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
+			if (controllerAddress != 0x200)
 			{
-				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && x.IntAddress == ControllerAddress);
+				var kauDevice = gkControllerDevice.AllChildren.FirstOrDefault(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && x.IntAddress == controllerAddress);
 				if (kauDevice != null)
 					JournalItem.ObjectUID = kauDevice.UID;
 				KauJournalRecordNo = BytesHelper.SubstructInt(bytes, 0x20);
@@ -87,7 +87,7 @@ namespace GKProcessor
 							var bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
+							JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 							break;
 
 						case 8:
@@ -97,7 +97,7 @@ namespace GKProcessor
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
+							JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 							break;
 
 						case 9:
@@ -573,6 +573,16 @@ namespace GKProcessor
 					JournalItem.JournalObjectType = JournalObjectType.GKDoor;
 					JournalItem.ObjectUID = Door.UID;
 					JournalItem.ObjectName = Door.PresentationName;
+				}
+			}
+			else
+			{
+				Device = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID && x.GkDatabaseParent == gkDevice);
+				if (Device != null)
+				{
+					JournalItem.JournalObjectType = JournalObjectType.GKDevice;
+					JournalItem.ObjectUID = Device.UID;
+					JournalItem.ObjectName = Device.ShortName + " " + Device.DottedPresentationAddress;
 				}
 			}
 		}

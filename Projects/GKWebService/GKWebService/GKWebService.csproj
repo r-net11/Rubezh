@@ -218,6 +218,10 @@
     <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
     <Content Include="App\controllers\restart\restartDetailsCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
+    <Content Include="App\controllers\SKD\common\departmentsFilterCtrl.js" />
+    <Content Include="App\controllers\SKD\common\employeesFilterCtrl.js" />
+    <Content Include="App\controllers\SKD\common\positionsFilterCtrl.js" />
+    <Content Include="App\controllers\SKD\common\organisationsFilterCtrl.js" />
     <Content Include="App\controllers\SKD\employees\employeesCtrl.js" />
     <Content Include="App\controllers\SKD\HR\HRFilterCtrl.js" />
     <Content Include="App\controllers\SKD\HR\HRCtrl.js" />

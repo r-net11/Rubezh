@@ -371,7 +371,6 @@ namespace RubezhDAL.DataClasses
 			{
 				return null;
 			}
-			
 		}
 		#endregion
 

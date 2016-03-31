@@ -75,7 +75,7 @@ namespace FiresecService.Service
 
 		void SafeOperationCall(Guid clientUID, Action action, string operationName)
 		{
-			if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
+			//if (!CheckClient(clientUID)) throw new InvalidOperationException("Попытка вызова метода неавторизванным клиентом. OperationName = " + operationName);
 			try
 			{
 				BeginOperation(operationName);
@@ -604,6 +604,10 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(clientUID, () => { return FiresecService.WriteOpcDaTag(tagId, value); },
 				"WriteOpcDaTag");
+		}
+		public List<RviState> GetRviStates(Guid clientUID)
+		{
+			return SafeOperationCall(clientUID, () => { return FiresecService.GetRviStates(); }, "GetRviStates");
 		}
 
 		#endregion

@@ -233,6 +233,14 @@ namespace LayoutModule.ViewModels
 			};
 		}
 
+		public override void OnShow()
+		{
+			if(SelectedLayout != null)
+				SelectedLayout.Update();
+			MonitorLayoutViewModel.Update();
+			base.OnShow();
+		}
+		
 		public override void OnHide()
 		{
 			LayoutDesignerViewModel.Instance.SaveLayout();

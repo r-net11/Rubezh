@@ -429,6 +429,12 @@
     <Compile Include="PassCardDesigner\Views\PassCardTextPropertyView.xaml.cs">
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PassCard\Designer\PrimitivePainter.cs" />
+    <Compile Include="PassCard\Designer\PrimitivePainterFactory.cs" />
+    <Compile Include="PassCard\ViewModels\PrimitiveToolTipViewModel.cs" />
+    <Compile Include="PassCard\Views\PrimitiveToolTipView.xaml.cs">
+      <DependentUpon>PrimitiveToolTipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
     <Compile Include="Reports\ViewModels\Base\IOrganisationItemsFilterPage.cs" />
     <Compile Include="Reports\ViewModels\Base\OrganisationChangedSubscriber.cs" />
@@ -946,6 +952,10 @@
     <Resource Include="Reports\DeviceListReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="PassCard\Views\PrimitiveToolTipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Reports\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -33,10 +33,45 @@ namespace FiresecService
 			Stop();
 			Start();
 		}
+		public static List<RviState> GetRviStates()
+		{
+			var rviStates = new List<RviState>();
+			if (ConfigurationCashHelper.SystemConfiguration != null && ConfigurationCashHelper.SystemConfiguration.RviSettings != null && ConfigurationCashHelper.SystemConfiguration.RviServers != null
+						&& ConfigurationCashHelper.SystemConfiguration.Cameras != null)
+			{
+				var rviSettings = ConfigurationCashHelper.SystemConfiguration.RviSettings;
+				foreach (var server in ConfigurationCashHelper.SystemConfiguration.RviServers)
+				{
+					bool isNotConnected;
+					var newDevices = RviClientHelper.GetRviDevices(server.Url, rviSettings.Login, rviSettings.Password, ConfigurationCashHelper.SystemConfiguration.Cameras, out isNotConnected);
+					if (isNotConnected)
+					{
+						rviStates.Add(new RviState(server, RviStatus.ConnectionLost));
+						foreach (var rviDevice in server.RviDevices)
+						{
+							rviStates.Add(new RviState(rviDevice, RviStatus.ConnectionLost));
+							foreach (var camera in rviDevice.Cameras)
+							{
+								rviStates.Add(new RviState(camera, RviStatus.ConnectionLost, false, false, camera.RviStreams));
+							}
+						}
+					}
+					else
+					{
+						rviStates.Add(new RviState(server, RviStatus.Connected));
+						foreach (var rviDevice in server.RviDevices)
+						{
+							rviStates.Add(new RviState(rviDevice, rviDevice.Status));
+							rviDevice.Cameras.ForEach(camera => new RviState(camera, camera.Status, camera.IsOnGuard, camera.IsRecordOnline, new List<RviStream>()));
+						}
+					}
+				}
+			}
+			return rviStates;
+		}
 		static void OnRun()
 		{
 			_autoResetEvent = new AutoResetEvent(false);
-			var rviStates = new List<RviState>();
 			var sate = RviStatus.Error;
 			while (true)
 			{
@@ -49,6 +84,7 @@ namespace FiresecService
 					if (ConfigurationCashHelper.SystemConfiguration != null && ConfigurationCashHelper.SystemConfiguration.RviSettings != null && ConfigurationCashHelper.SystemConfiguration.RviServers != null
 						&& ConfigurationCashHelper.SystemConfiguration.Cameras != null)
 					{
+						var rviStates = new List<RviState>();
 						var rviSettings = ConfigurationCashHelper.SystemConfiguration.RviSettings;
 						foreach (var server in ConfigurationCashHelper.SystemConfiguration.RviServers)
 						{
@@ -72,7 +108,7 @@ namespace FiresecService
 									}
 								}
 							}
-							else 
+							else
 							{
 								if (sate != RviStatus.Connected)
 								{
@@ -143,7 +179,6 @@ namespace FiresecService
 						{
 							var rviCallbackResult = new RviCallbackResult();
 							rviCallbackResult.RviStates.AddRange(rviStates);
-							rviStates.Clear();
 							FiresecService.Service.FiresecService.NotifyRviObjectStateChanged(rviCallbackResult);
 						}
 					}

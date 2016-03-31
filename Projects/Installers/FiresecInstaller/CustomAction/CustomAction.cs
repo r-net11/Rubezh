@@ -72,7 +72,7 @@ namespace CustomAction
 				{
 					var lKey = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
 					var subKeyNames = lKey.GetSubKeyNames();
-					
+
 					foreach (var subKeyName in subKeyNames)
 					{
 						var subKey = lKey.OpenSubKey(subKeyName);

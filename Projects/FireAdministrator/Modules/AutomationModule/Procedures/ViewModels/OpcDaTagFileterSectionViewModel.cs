@@ -93,7 +93,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		protected override bool Save()
+		protected override bool CanSave()
 		{
 			return SelectedFilter != null;
 		}
