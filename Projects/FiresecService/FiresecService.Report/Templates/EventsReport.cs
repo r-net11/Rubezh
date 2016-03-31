@@ -164,7 +164,7 @@ namespace FiresecService.Report.Templates
 							}
 							break;
 
-						case JournalObjectType.VideoDevice:
+						case JournalObjectType.Camera:
 							//var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							//if (camera != null)
 							//{

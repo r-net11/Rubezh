@@ -16,8 +16,9 @@ namespace GKModule.ViewModels
 		{
 			Current = this;
 			ResetCommand = new RelayCommand(OnReset, CanReset);
-
-			AlarmGroups = new List<AlarmGroupViewModel>();
+            GlobalPimActivationViewModel = new GlobalPimActivationViewModel();
+            
+            AlarmGroups = new List<AlarmGroupViewModel>();
 			if (GKManager.Directions.Count > 0 || GKManager.MPTs.Count > 0)
 				AlarmGroups.Add(new AlarmGroupViewModel(GKAlarmType.NPTOn));
 			if (GKManager.Doors.Count > 0 || GKManager.GuardZones.Count > 0)
@@ -36,8 +37,9 @@ namespace GKModule.ViewModels
 		}
 
 		public List<AlarmGroupViewModel> AlarmGroups { get; private set; }
+        public GlobalPimActivationViewModel GlobalPimActivationViewModel { get; private set; }
 
-		public void Update(List<Alarm> alarms)
+        public void Update(List<Alarm> alarms)
 		{
 			foreach (var alarmGroup in AlarmGroups)
 			{
@@ -81,5 +83,5 @@ namespace GKModule.ViewModels
 		{
 			get { return AlarmsViewModel.Current.GetAlarmsToResetCount(); }
 		}
-	}
+    }
 }

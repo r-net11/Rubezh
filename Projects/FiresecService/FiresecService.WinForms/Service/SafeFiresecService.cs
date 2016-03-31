@@ -329,14 +329,14 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(clientUID, () => { return FiresecService.GKGetStates(clientUID); }, "GKGetStates");
 		}
-		public void GKExecuteDeviceCommand(Guid clientUID, Guid deviceUID, GKStateBit stateBit)
+		public void GKExecuteDeviceCommand(Guid clientUID, Guid deviceUID, GKStateBit stateBit, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKExecuteDeviceCommand(clientUID, deviceUID, stateBit); }, "GKExecuteDeviceCommand");
+			SafeOperationCall(clientUID, () => { FiresecService.GKExecuteDeviceCommand(clientUID, userName, deviceUID, stateBit); }, "GKExecuteDeviceCommand");
 		}
 
-		public void GKReset(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKReset(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKReset(clientUID, uid, objectType); }, "GKReset");
+			SafeOperationCall(clientUID, () => { FiresecService.GKReset(clientUID, userName, uid, objectType); }, "GKReset");
 		}
 
 		public void GKResetFire1(Guid clientUID, Guid zoneUID)
@@ -349,29 +349,29 @@ namespace FiresecService.Service
 			SafeOperationCall(clientUID, () => { FiresecService.GKResetFire2(clientUID, zoneUID); }, "GKResetFire2");
 		}
 
-		public void GKSetAutomaticRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKSetAutomaticRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKSetAutomaticRegime(clientUID, uid, objectType); }, "GKSetAutomaticRegime");
+			SafeOperationCall(clientUID, () => { FiresecService.GKSetAutomaticRegime(clientUID, userName, uid, objectType); }, "GKSetAutomaticRegime");
 		}
 
-		public void GKSetManualRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKSetManualRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKSetManualRegime(clientUID, uid, objectType); }, "GKSetManualRegime");
+			SafeOperationCall(clientUID, () => { FiresecService.GKSetManualRegime(clientUID, userName, uid, objectType); }, "GKSetManualRegime");
 		}
 
-		public void GKSetIgnoreRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKSetIgnoreRegime(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKSetIgnoreRegime(clientUID, uid, objectType); }, "GKSetIgnoreRegime");
+			SafeOperationCall(clientUID, () => { FiresecService.GKSetIgnoreRegime(clientUID, userName, uid, objectType); }, "GKSetIgnoreRegime");
 		}
 
-		public void GKTurnOn(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKTurnOn(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOn(clientUID, uid, objectType); }, "GKTurnOn");
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOn(clientUID, userName, uid, objectType); }, "GKTurnOn");
 		}
 
-		public void GKTurnOnNow(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKTurnOnNow(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOnNow(clientUID, uid, objectType); }, "GKTurnOnNow");
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOnNow(clientUID, userName, uid, objectType); }, "GKTurnOnNow");
 		}
 
 		public void GKTurnOnInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
@@ -384,19 +384,19 @@ namespace FiresecService.Service
 			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOnNowInAutomatic(clientUID, uid, objectType); }, "GKTurnOnNowInAutomatic");
 		}
 
-		public void GKTurnOff(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKTurnOff(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOff(clientUID, uid, objectType); }, "GKTurnOff");
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOff(clientUID, userName, uid, objectType); }, "GKTurnOff");
 		}
 
-		public void GKTurnOffNow(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKTurnOffNow(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffNow(clientUID, uid, objectType); }, "GKTurnOffNow");
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffNow(clientUID, userName, uid, objectType); }, "GKTurnOffNow");
 		}
 
-		public void GKTurnOffInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKTurnOffInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffInAutomatic(clientUID, uid, objectType); }, "GKTurnOffInAutomatic");
+			SafeOperationCall(clientUID, () => { FiresecService.GKTurnOffInAutomatic(clientUID, userName, uid, objectType); }, "GKTurnOffInAutomatic");
 		}
 
 		public void GKTurnOffNowInAutomatic(Guid clientUID, Guid uid, GKBaseObjectType objectType)
@@ -414,9 +414,9 @@ namespace FiresecService.Service
 			SafeOperationCall(clientUID, () => FiresecService.GKTurnOffNowGlobalPimsInAutomatic(clientUID), "GKTurnOffNowGlobalPimsInAutomatic");
 		}
 
-		public void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType)
+		public void GKStop(Guid clientUID, Guid uid, GKBaseObjectType objectType, string userName = null)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.GKStop(clientUID, uid, objectType); }, "GKStop");
+			SafeOperationCall(clientUID, () => { FiresecService.GKStop(clientUID, userName, uid, objectType); }, "GKStop");
 		}
 
 		public void GKStartMeasureMonitoring(Guid clientUID, Guid deviceUID)

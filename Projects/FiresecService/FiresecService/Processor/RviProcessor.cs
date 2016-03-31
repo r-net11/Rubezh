@@ -1,4 +1,5 @@
 ﻿using RubezhAPI;
+using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RviClient;
 using System;
@@ -36,6 +37,7 @@ namespace FiresecService
 		public static List<RviState> GetRviStates()
 		{
 			var rviStates = new List<RviState>();
+
 			if (ConfigurationCashHelper.SystemConfiguration != null && ConfigurationCashHelper.SystemConfiguration.RviSettings != null && ConfigurationCashHelper.SystemConfiguration.RviServers != null
 						&& ConfigurationCashHelper.SystemConfiguration.Cameras != null)
 			{
@@ -62,7 +64,7 @@ namespace FiresecService
 						foreach (var rviDevice in server.RviDevices)
 						{
 							rviStates.Add(new RviState(rviDevice, rviDevice.Status));
-							rviDevice.Cameras.ForEach(camera => new RviState(camera, camera.Status, camera.IsOnGuard, camera.IsRecordOnline, new List<RviStream>()));
+							rviDevice.Cameras.ForEach(camera => rviStates.Add(new RviState(camera, camera.Status, camera.IsOnGuard, camera.IsRecordOnline, camera.RviStreams)));
 						}
 					}
 				}
@@ -72,7 +74,6 @@ namespace FiresecService
 		static void OnRun()
 		{
 			_autoResetEvent = new AutoResetEvent(false);
-			var sate = RviStatus.Error;
 			while (true)
 			{
 				try
@@ -92,10 +93,10 @@ namespace FiresecService
 							var newDevices = RviClientHelper.GetRviDevices(server.Url, rviSettings.Login, rviSettings.Password, ConfigurationCashHelper.SystemConfiguration.Cameras, out isNotConnected);
 							if (isNotConnected)
 							{
-								if (sate != RviStatus.ConnectionLost)
+								if (server.Status != RviStatus.ConnectionLost)
 								{
 									rviStates.Add(new RviState(server, RviStatus.ConnectionLost));
-									sate = RviStatus.ConnectionLost;
+									server.Status = RviStatus.ConnectionLost;
 									foreach (var rviDevice in server.RviDevices)
 									{
 										rviDevice.Status = RviStatus.ConnectionLost;
@@ -110,10 +111,10 @@ namespace FiresecService
 							}
 							else
 							{
-								if (sate != RviStatus.Connected)
+								if (server.Status != RviStatus.Connected)
 								{
 									rviStates.Add(new RviState(server, RviStatus.Connected));
-									sate = RviStatus.Connected;
+									server.Status = RviStatus.Connected;
 								}
 
 								foreach (var oldDevice in server.RviDevices)
@@ -125,7 +126,6 @@ namespace FiresecService
 										{
 											oldDevice.Status = newDevice.Status;
 											rviStates.Add(new RviState(oldDevice, oldDevice.Status));
-
 										}
 										foreach (var oldCamera in oldDevice.Cameras)
 										{
@@ -134,11 +134,14 @@ namespace FiresecService
 											{
 												if (oldCamera.Status != newCamera.Status || oldCamera.IsOnGuard != newCamera.IsOnGuard || oldCamera.IsRecordOnline != newCamera.IsRecordOnline)
 												{
+													var rviState = new RviState(newCamera, newCamera.Status, newCamera.IsOnGuard, newCamera.IsRecordOnline, newCamera.RviStreams);
+													rviState.IsOnGuardChanged = oldCamera.IsOnGuard != newCamera.IsOnGuard;
+													rviState.IsRecordOnlineChanged = oldCamera.IsRecordOnline != newCamera.IsRecordOnline;
+													rviState.IsNotStatusChanged = oldCamera.Status == newCamera.Status;
+													rviStates.Add(rviState);
 													oldCamera.Status = newCamera.Status;
 													oldCamera.IsOnGuard = newCamera.IsOnGuard;
 													oldCamera.IsRecordOnline = newCamera.IsRecordOnline;
-													oldCamera.RviStreams = newCamera.RviStreams;
-													rviStates.Add(new RviState(oldCamera, oldCamera.Status, oldCamera.IsOnGuard, oldCamera.IsRecordOnline, oldCamera.RviStreams));
 												}
 												if (oldCamera.RviStreams.Count() != newCamera.RviStreams.Count()) // спросить у Ромы
 												{
@@ -151,7 +154,7 @@ namespace FiresecService
 												if (oldCamera.Status != RviStatus.Error)
 												{
 													oldCamera.Status = RviStatus.Error;
-													rviStates.Add(new RviState(oldCamera, RviStatus.Error, false, false, oldCamera.RviStreams));
+													rviStates.Add(new RviState(oldCamera, oldCamera.Status, false, false, oldCamera.RviStreams));
 												}
 											}
 										}
@@ -168,7 +171,8 @@ namespace FiresecService
 											if (oldCamera.Status != RviStatus.Error)
 											{
 												oldCamera.Status = RviStatus.Error;
-												rviStates.Add(new RviState(oldCamera, RviStatus.Error, false, false, oldCamera.RviStreams));
+												rviStates.Add(new RviState(oldCamera, oldCamera.Status, false, false, oldCamera.RviStreams));
+
 											}
 										}
 									}
@@ -180,11 +184,104 @@ namespace FiresecService
 							var rviCallbackResult = new RviCallbackResult();
 							rviCallbackResult.RviStates.AddRange(rviStates);
 							FiresecService.Service.FiresecService.NotifyRviObjectStateChanged(rviCallbackResult);
+							Journaling(rviStates, ConfigurationCashHelper.SystemConfiguration.RviServers);
 						}
 					}
 				}
 				catch (Exception) { }
 			}
+		}
+		static void Journaling(List<RviState> rviStates, List<RviServer> rviServers)
+		{
+			var journalItems = new List<JournalItem>();
+			foreach (var rviState in rviStates)
+			{
+				if (rviState.RviServerUrl != null)
+				{
+					journalItems.Add(CreateServerJournalItem(Guid.Empty, rviState.Status, string.Format("{0}:{1}", rviState.ServerIp, rviState.ServerPort)));
+				}
+				if (rviState.RviDeviceUid != Guid.Empty)
+				{
+					if (rviState.Status == RviStatus.Connected || rviState.Status == RviStatus.Error)
+						journalItems.Add(CreateDeviceJournalItem(rviState.RviDeviceUid, rviState.Status));
+				}
+				if (rviState.CameraUid != Guid.Empty)
+				{
+					journalItems.AddRange(CreateCameraJournalItemsList(rviState));
+				}
+			}
+			FiresecService.Service.FiresecService.NotifyJournalItems(journalItems, true);
+		}
+		static JournalItem CreateJournalItem(Guid objectUid, JournalObjectType journalObjectType, JournalEventNameType journalEventNameType, string desriptionText = null)
+		{
+			var journalItem = new JournalItem
+			{
+				SystemDateTime = DateTime.Now,
+				DeviceDateTime = null,
+				JournalObjectType = journalObjectType,
+				JournalEventNameType = journalEventNameType,
+				DescriptionText = desriptionText,
+				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
+				ObjectUID = objectUid,
+				UserName = string.Empty,
+			};
+			return journalItem;
+		}
+		static JournalItem CreateServerJournalItem(Guid objectUid, RviStatus rviStatus, string descriptionText)
+		{
+			JournalItem journalItem;
+			switch (rviStatus)
+			{
+				case RviStatus.Connected:
+					journalItem = CreateJournalItem(objectUid, JournalObjectType.None, JournalEventNameType.Установлена_связь_с_сервером_Rvi, descriptionText);
+					break;
+				case RviStatus.ConnectionLost:
+				default:
+					journalItem = CreateJournalItem(objectUid, JournalObjectType.None, JournalEventNameType.Потеря_связи_с_сервером_Rvi, descriptionText);
+					break;
+			}
+			return journalItem;
+		}
+		static JournalItem CreateDeviceJournalItem(Guid objectUid, RviStatus rviStatus)
+		{
+			JournalItem journalItem;
+			switch (rviStatus)
+			{
+				case RviStatus.Connected:
+					journalItem = CreateJournalItem(objectUid, JournalObjectType.RviDevice, JournalEventNameType.Устройство_Rvi_подключено);
+					break;
+				case RviStatus.Error:
+				default:
+					journalItem = CreateJournalItem(objectUid, JournalObjectType.RviDevice, JournalEventNameType.Ошибка_при_подключении_к_устройству_Rvi);
+					break;
+			}
+			return journalItem;
+		}
+		static List<JournalItem> CreateCameraJournalItemsList(RviState cameraState)
+		{
+			var journalItems = new List<JournalItem>();
+			if (cameraState.IsOnGuardChanged)
+			{
+				if (cameraState.IsOnGuard)
+					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_поставлен_на_охрану));
+				else
+					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_снят_с_охраны));
+			}
+			if (cameraState.IsRecordOnlineChanged)
+			{
+				if (cameraState.IsRecordOnline)
+					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Начата_запись_на_канале_Rvi));
+				else
+					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Прекращена_запись_на_канале_Rvi));
+			}
+			if (!cameraState.IsNotStatusChanged)
+			{
+				if (cameraState.Status == RviStatus.Connected)
+					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_подключен));
+				else if (cameraState.Status == RviStatus.Error)
+					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Ошибка_при_подключении_к_каналу_Rvi));
+			}
+			return journalItems;
 		}
 	}
 }

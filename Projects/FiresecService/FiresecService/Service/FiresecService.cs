@@ -20,10 +20,15 @@ namespace FiresecService.Service
 
 		public static event Action<Guid> AfterConnect;
 
-		static string GetUserName(Guid? clientUID)
+		static string GetUserName(Guid? clientUID, string userName = null)
 		{
-			var clientInfo = clientUID.HasValue ? ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID.Value) : null;
-			return clientInfo == null ? "<Нет>" : clientInfo.ClientCredentials.FriendlyUserName;
+			if (userName == null)
+			{
+				var clientInfo = clientUID.HasValue ? ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID.Value) : null;
+				return clientInfo == null ? "<Нет>" : clientInfo.ClientCredentials.FriendlyUserName;
+			}
+			else
+				return userName;
 		}
 
 		static string GetLogin(Guid clientUID)

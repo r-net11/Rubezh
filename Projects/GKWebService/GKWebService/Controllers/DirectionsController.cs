@@ -46,7 +46,7 @@ namespace GKWebService.Controllers
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(direction);
+				ClientManager.FiresecService.GKSetAutomaticRegime(direction, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -60,7 +60,7 @@ namespace GKWebService.Controllers
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(direction);
+				ClientManager.FiresecService.GKSetManualRegime(direction, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -74,7 +74,7 @@ namespace GKWebService.Controllers
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
 			{
-				ClientManager.FiresecService.GKSetIgnoreRegime(direction);
+				ClientManager.FiresecService.GKSetIgnoreRegime(direction, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -88,7 +88,7 @@ namespace GKWebService.Controllers
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
 			{
-				ClientManager.FiresecService.GKTurnOn(direction);
+				ClientManager.FiresecService.GKTurnOn(direction, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -102,7 +102,7 @@ namespace GKWebService.Controllers
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
 			{
-				ClientManager.FiresecService.GKTurnOnNow(direction);
+				ClientManager.FiresecService.GKTurnOnNow(direction, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -116,7 +116,7 @@ namespace GKWebService.Controllers
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
 			{
-				ClientManager.FiresecService.GKTurnOff(direction);
+				ClientManager.FiresecService.GKTurnOff(direction, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -130,7 +130,7 @@ namespace GKWebService.Controllers
 			var direction = GKManager.Directions.FirstOrDefault(d => d.UID == id);
 			if (direction != null)
 			{
-				ClientManager.FiresecService.GKStop(direction);
+				ClientManager.FiresecService.GKStop(direction, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
