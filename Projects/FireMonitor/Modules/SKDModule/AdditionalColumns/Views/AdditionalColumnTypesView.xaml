@@ -1,9 +1,12 @@
-﻿<UserControl x:Class="SKDModule.Views.AdditionalColumnTypesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:SKDModule.Converters" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+﻿<UserControl x:Class="SKDModule.Views.AdditionalColumnTypesView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:AdditionalColumnTypeViewModelNameComparer x:Key="AdditionalColumnTypeViewModelNameComparer" />
 		<viewModel:AdditionalColumnTypeViewModelDescriptionComparer x:Key="AdditionalColumnTypeViewModelDescriptionComparer" />
 		<viewModel:AdditionalColumnTypeViewModelDataTypeComparer x:Key="AdditionalColumnTypeViewModelDataTypeComparer" />
-		<Converters:DataTypeToStringConverter x:Key="DataTypeToStringConverter" />
 	</UserControl.Resources>
 
 	<tree:TreeList Name="_treeList" Focusable="True" tree:SortBehavior.CanUserSortColumns="True"
@@ -35,7 +38,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-		   </GridView>
+			</GridView>
 		</tree:TreeList.View>
 	</tree:TreeList>
 </UserControl>
