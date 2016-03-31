@@ -25,7 +25,7 @@ namespace AutomationModule.ViewModels
 
 			if (result.HasError)
 			{
-				return;
+				throw new InvalidOperationException(String.Format("Сервер вернул ошибку: {0}", result.Error));
 			}
 			else
 			{
