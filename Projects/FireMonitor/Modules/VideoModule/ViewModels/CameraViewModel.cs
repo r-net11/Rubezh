@@ -31,6 +31,8 @@ namespace VideoModule.ViewModels
 		{
 			Camera = camera;
 			Status = camera.Status;
+			IsOnGuard = camera.IsOnGuard;
+			IsRecordOnline = camera.IsRecordOnline;
 			PresentationName = presentationName;
 			camera.StatusChanged += OnCameraStatusChanged;
 			ImageSource = "/Controls;component/RviDevicesIcons/Camera.png";

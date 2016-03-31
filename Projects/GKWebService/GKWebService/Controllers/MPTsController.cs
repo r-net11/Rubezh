@@ -47,7 +47,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(mpt);
+				ClientManager.FiresecService.GKSetAutomaticRegime(mpt, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -60,7 +60,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(mpt);
+				ClientManager.FiresecService.GKSetManualRegime(mpt, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -73,7 +73,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKSetIgnoreRegime(mpt);
+				ClientManager.FiresecService.GKSetIgnoreRegime(mpt, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -86,7 +86,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKTurnOn(mpt);
+				ClientManager.FiresecService.GKTurnOn(mpt, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -99,7 +99,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKTurnOnNow(mpt);
+				ClientManager.FiresecService.GKTurnOnNow(mpt, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -112,7 +112,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKTurnOff(mpt);
+				ClientManager.FiresecService.GKTurnOff(mpt, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -125,7 +125,7 @@ namespace GKWebService.Controllers
 			var mpt = GKManager.MPTs.FirstOrDefault(d => d.UID == id);
 			if (mpt != null)
 			{
-				ClientManager.FiresecService.GKStop(mpt);
+				ClientManager.FiresecService.GKStop(mpt, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();

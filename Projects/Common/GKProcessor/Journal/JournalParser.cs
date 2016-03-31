@@ -13,7 +13,6 @@ namespace GKProcessor
 	public class JournalParser
 	{
 		public JournalItem JournalItem { get; private set; }
-
 		public GKDevice Device { get; private set; }
 		public GKZone Zone { get; private set; }
 		public GKDirection Direction { get; private set; }

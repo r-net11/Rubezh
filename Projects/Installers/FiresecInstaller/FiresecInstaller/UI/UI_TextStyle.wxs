@@ -9,7 +9,6 @@
 			<TextStyle Id="MSSansBold8"			FaceName="Tahoma" Size="8" Bold="yes" />
 			<TextStyle Id="MSSansBold12"		FaceName="Tahoma" Size="12" Bold="yes" />
 			<TextStyle Id="MSSWhiteSerif8"		FaceName="Tahoma" Size="8" Red="255" Green="255" Blue="255" />
-			<TextStyle Id="Tahoma8"				FaceName="Tahoma" Size="8" />
 		</UI>
 	</Fragment>
 </Wix>

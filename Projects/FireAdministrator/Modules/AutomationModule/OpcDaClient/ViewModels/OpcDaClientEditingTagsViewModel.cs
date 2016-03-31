@@ -19,22 +19,13 @@ namespace AutomationModule.ViewModels
 			Title = "Структура групп тегов";
 
 			OpcDaClientViewModel = vm;
-
-			// Получаем список групп и тегов с сервера
-			//var resultConnect = ClientManager.FiresecService
-			//	.ConnectToOpcDaServer(OpcDaClientViewModel.SelectedOpcServer);
-
-			//if (resultConnect.HasError)
-			//{
-			//	return;
-			//}
 			
 			var result = ClientManager.FiresecService
 				.GetOpcDaServerGroupAndTags(FiresecServiceFactory.UID, OpcDaClientViewModel.SelectedOpcServer);
 
 			if (result.HasError)
 			{
-				return;
+				throw new InvalidOperationException(String.Format("Сервер вернул ошибку: {0}", result.Error));
 			}
 			else
 			{

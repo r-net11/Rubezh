@@ -61,7 +61,7 @@ namespace JournalModule.ViewModels
 					ImageSource = "/Controls;component/Images/Door.png";
 					break;
 
-				case JournalObjectType.VideoDevice:
+				case JournalObjectType.Camera:
 					ImageSource = "/Controls;component/Images/Camera.png";
 					break;
 			}

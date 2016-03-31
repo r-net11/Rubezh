@@ -6,4 +6,8 @@
 		<Views:PassCardView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PrimitiveToolTipViewModel}">
+		<Views:PrimitiveToolTipView />
+	</DataTemplate>
+
 </ResourceDictionary>

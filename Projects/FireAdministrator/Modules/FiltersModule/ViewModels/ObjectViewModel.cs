@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using Controls.Converters;
+using Infrastructure.Common.TreeList;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.SKD;
-using Infrastructure.Common.TreeList;
-using Controls.Converters;
+using System;
+using System.Linq;
 
 namespace FiltersModule.ViewModels
 {
@@ -19,7 +17,7 @@ namespace FiltersModule.ViewModels
 		public bool IsSubsystem { get; private set; }
 		public bool IsObjectGroup { get; private set; }
 		public JournalObjectType JournalObjectType { get; private set; }
-        public bool IsRealChecked { get; set; }
+		public bool IsRealChecked { get; set; }
 
 
 		public ObjectViewModel(JournalSubsystemType journalSubsystemType)
@@ -66,10 +64,10 @@ namespace FiltersModule.ViewModels
 					break;
 
 				case JournalObjectType.GKDoor:
-                    ImageSource = "/Controls;component/Images/Door.png";
+					ImageSource = "/Controls;component/Images/Door.png";
 					break;
 
-				case JournalObjectType.VideoDevice:
+				case JournalObjectType.Camera:
 					ImageSource = "/Controls;component/Images/Camera.png";
 					break;
 
@@ -92,7 +90,7 @@ namespace FiltersModule.ViewModels
 			ImageSource = "/Controls;component/Images/Camera.png";
 		}
 
-	    bool _isChecked;
+		bool _isChecked;
 		public bool IsChecked
 		{
 			get { return _isChecked; }
