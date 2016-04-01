@@ -23,7 +23,6 @@ namespace VideoModule
 	public class VideoModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		CamerasViewModel CamerasViewModel;
-		CamerasViewModel CamerasViewModelForPlanExtension;
 		PlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -32,14 +31,12 @@ namespace VideoModule
 			ServiceFactory.Events.GetEvent<SelectCamerasEvent>().Subscribe(OnSelectCameras);
 
 			CamerasViewModel = new CamerasViewModel();
-			CamerasViewModelForPlanExtension = new CamerasViewModel();
-			_planExtension = new PlanExtension(CamerasViewModel, CamerasViewModelForPlanExtension);
+			_planExtension = new PlanExtension(CamerasViewModel);
 		}
 
 		public override void Initialize()
 		{
 			CamerasViewModel.Initialize();
-			CamerasViewModelForPlanExtension.Initialize();
 		}
 
 		public override void RegisterPlanExtension()
