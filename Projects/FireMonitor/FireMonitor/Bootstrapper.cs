@@ -76,7 +76,7 @@ namespace FireMonitor
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => ApplicationService.Invoke(OnConfigurationChanged);
-						
+
 						// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
 						SafeFiresecService.DisconnectClientCommandEvent += () =>
 						{
@@ -163,6 +163,7 @@ namespace FireMonitor
 		{
 			ApplicationService.ApplicationWindow.IsEnabled = false;
 			ServiceFactoryBase.ContentService.Clear();
+			ServiceFactory.StartupService.Close();
 			FiresecManager.FiresecService.StopPoll();
 			LoadingErrorManager.Clear();
 			ApplicationService.CloseAllWindows();
