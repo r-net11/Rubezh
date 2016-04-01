@@ -158,9 +158,9 @@ namespace ReportsModule.ViewModels
 				}
 				catch (Exception ex)
 				{
-					Logger.Error(ex);
+					Logger.Error(ex, "SKDReportPresenterViewModel.BuidlReport");
 					if (ApplicationService.ApplicationActivated)
-						MessageBoxService.ShowException(ex, "Возникла ошибка при построении отчета");
+						MessageBoxService.ShowError("Возникла ошибка при построении отчета.");
 					if (ex is CommunicationException)
 						CreateClient();
 				}
@@ -178,12 +178,14 @@ namespace ReportsModule.ViewModels
 			if (e.Fault.Message.Contains("Could not connect to"))
 				MessageBoxService.ShowError("Не удалось подключиться к серверу отчетов.");
 			else
-				MessageBoxService.ShowException(e.Fault);
+				MessageBoxService.ShowError("Возникла ошибка при построении отчета.");
+			Logger.Error(e.Fault, "SKDReportPresenterViewModel.Model_CreateDocumentError");
 		}
 		private void Model_GetPageError(object sender, SimpleFaultEventArgs e)
 		{
 			CommandManager.InvalidateRequerySuggested();
-			MessageBoxService.ShowException(e.Fault);
+			MessageBoxService.ShowError("Возникла ошибка при получении страницы отчета.");
+			Logger.Error(e.Fault, "SKDReportPresenterViewModel.Model_GetPageError");
 		}
 
 		public RelayCommand ChangeFilterCommand { get; private set; }
