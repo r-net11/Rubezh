@@ -1,24 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
 using FireMonitor.ViewModels;
+using FiresecAPI.AutomationCallback;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
+using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
-using FiresecAPI.AutomationCallback;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -32,7 +24,7 @@ namespace FireMonitor.Layout.ViewModels
 			Layout = layout;
 			LayoutContainer = new LayoutContainer(this, layout);
 			LayoutContainer.LayoutChanging += LayoutChanging;
-			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
+			ChangeUserCommand = new RelayCommand(OnChangeUser, () => FiresecManager.CheckPermission(PermissionType.Oper_Logout));
 			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
 		}
 
@@ -48,7 +40,7 @@ namespace FireMonitor.Layout.ViewModels
 			if (Layout.IsRibbonEnabled)
 			{
 				RibbonContent = new RibbonMenuViewModel();
-				var ribbonViewModel = new RibbonViewModel()
+				var ribbonViewModel = new RibbonViewModel
 				{
 					Content = RibbonContent,
 				};
@@ -80,10 +72,6 @@ namespace FireMonitor.Layout.ViewModels
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))), "BLayouts"));
 
 			_soundViewModel = new SoundViewModel();
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
-			{
-				new RibbonMenuItemViewModel(string.Empty, _soundViewModel.PlaySoundCommand) { IsNewGroup = true },
-			}, "BConfig"));
 			if (AllowClose)
 				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
 		}
@@ -93,10 +81,6 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			ApplicationService.ShutDown();
 			Process.Start(Application.ResourceAssembly.Location);
-		}
-		private bool CanChangeUser()
-		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_Logout);
 		}
 
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }

@@ -36,7 +36,7 @@ namespace FireMonitor.ViewModels
 
 		List<Sound> Sounds
 		{
-			get { return FiresecClient.FiresecManager.SystemConfiguration.Sounds; }
+			get { return FiresecManager.SystemConfiguration.Sounds; }
 		}
 
 		public void OnStateChanged(object obj)
@@ -83,7 +83,7 @@ namespace FireMonitor.ViewModels
 			}
 			if (minSound != null)
 			{
-				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.BeeperType, minSound.IsContinious);
+				AlarmPlayerHelper.Play(FileHelper.GetSoundFilePath(minSound.SoundName), minSound.BeeperType, minSound.IsContinious);
 			}
 		}
 
