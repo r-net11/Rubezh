@@ -2,7 +2,6 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
@@ -127,7 +126,6 @@ namespace SKDModule.ViewModels
 					currentUserViewModel.SetWithoutSave(true);
 				}
 				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(SelectedOrganisation.Organisation);
-				ServiceFactory.Events.GetEvent<SkdReportOrganisationsListChangedEvent>().Publish(Organisations.Select(x => x.Organisation));
 			}
 		}
 		bool CanAdd()
@@ -158,7 +156,6 @@ namespace SKDModule.ViewModels
 						SelectedOrganisation = Organisations.FirstOrDefault();
 					}
 					ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
-					ServiceFactory.Events.GetEvent<SkdReportOrganisationsListChangedEvent>().Publish(Organisations.Select(x => x.Organisation));
 				}
 			}
 		}
@@ -179,7 +176,6 @@ namespace SKDModule.ViewModels
 				SelectedOrganisation.IsDeleted = false;
 				SetItemsCanSelect(true);
 				ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
-				ServiceFactory.Events.GetEvent<SkdReportOrganisationsListChangedEvent>().Publish(Organisations.Select(x => x.Organisation));
 			}
 		}
 		bool CanRestore()
@@ -197,7 +193,6 @@ namespace SKDModule.ViewModels
 				SelectedOrganisation.Organisation = organisation;
 				SelectedOrganisation.Update();
 				ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Publish(organisation);
-				ServiceFactory.Events.GetEvent<SkdReportOrganisationsListChangedEvent>().Publish(Organisations.Select(x => x.Organisation));
 			}
 		}
 		bool CanEdit()
