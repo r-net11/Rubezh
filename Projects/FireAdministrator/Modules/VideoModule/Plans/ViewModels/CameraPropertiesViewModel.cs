@@ -14,16 +14,16 @@ namespace VideoModule.Plans.ViewModels
 		CamerasViewModel _camerasViewModelForPlanExtension;
 		List<CameraViewModel> CamerasForUpdate { get; set; }
 
-		public CameraPropertiesViewModel(CamerasViewModel camerasViewModel, CamerasViewModel camerasViewModelForPlanExtension, ElementCamera elementCamera)
+		public CameraPropertiesViewModel(CamerasViewModel camerasViewModel, ElementCamera elementCamera)
 		{
 			Title = "Свойства фигуры: Камера";
 			_elementCamera = elementCamera;
-			_camerasViewModelForPlanExtension = camerasViewModelForPlanExtension;
+			_camerasViewModelForPlanExtension = new CamerasViewModel();
 			_camerasViewModelForPlanExtension.Initialize();
 
-			Cameras = camerasViewModelForPlanExtension.Cameras;
+			Cameras = _camerasViewModelForPlanExtension.Cameras;
 			CamerasForUpdate = camerasViewModel.AllCameras;
-			SelectedCamera = camerasViewModelForPlanExtension.AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == elementCamera.CameraUID);
+			SelectedCamera = _camerasViewModelForPlanExtension.AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == elementCamera.CameraUID);
 			Rotation = elementCamera.Rotation;
 		}
 
