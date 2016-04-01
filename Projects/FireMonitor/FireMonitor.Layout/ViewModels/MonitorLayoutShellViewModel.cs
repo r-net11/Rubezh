@@ -16,15 +16,13 @@ namespace FireMonitor.Layout.ViewModels
 {
 	public class MonitorLayoutShellViewModel : MonitorShellViewModel
 	{
-		private SoundViewModel _soundViewModel;
-
 		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
 			: base(ClientType.Monitor)
 		{
 			Layout = layout;
 			LayoutContainer = new LayoutContainer(this, layout);
 			LayoutContainer.LayoutChanging += LayoutChanging;
-			ChangeUserCommand = new RelayCommand(OnChangeUser, () => FiresecManager.CheckPermission(PermissionType.Oper_Logout));
+			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
 			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
 		}
 
@@ -59,9 +57,9 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		private void UpdateRibbonItems()
 		{
-			RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "BSound" : "BMute";
-			RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? "Звук включен" : "Звук выключен";
-			RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? "Выключить звук" : "Включить звук";
+			//RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "BSound" : "BMute";
+			//RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? "Звук включен" : "Звук выключен";
+			//RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? "Выключить звук" : "Включить звук";
 		}
 		private void AddRibbonItem()
 		{
@@ -71,7 +69,6 @@ namespace FireMonitor.Layout.ViewModels
 			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Contains(ip))).OrderBy(item => item.Caption);
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))), "BLayouts"));
 
-			_soundViewModel = new SoundViewModel();
 			if (AllowClose)
 				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
 		}
@@ -81,6 +78,10 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			ApplicationService.ShutDown();
 			Process.Start(Application.ResourceAssembly.Location);
+		}
+		private bool CanChangeUser()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Logout);
 		}
 
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
