@@ -39,8 +39,6 @@ namespace JournalModule.ViewModels
 		GKSKDZone GKSKDZone { get; set; }
 		GKDoor GKDoor { get; set; }
 		Camera Camera { get; set; }
-		RviDevice RviDevice { get; set; }
-
 
 		public JournalItemViewModel(JournalItem journalItem)
 		{
@@ -239,16 +237,6 @@ namespace JournalModule.ViewModels
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Camera.png";
-					break;
-
-				case JournalObjectType.RviDevice:
-					RviDevice = ClientManager.SystemConfiguration.RviDevices.FirstOrDefault(x => x.Uid == JournalItem.ObjectUID);
-					if (RviDevice != null)
-					{
-						ObjectName = RviDevice.Name;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowCameraEvent>();
-					}
-					ObjectImageSource = "/Controls;component/Images/RviDevice.png";
 					break;
 
 				case JournalObjectType.None:

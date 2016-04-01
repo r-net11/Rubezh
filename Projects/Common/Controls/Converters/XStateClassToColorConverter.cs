@@ -44,9 +44,6 @@ namespace Controls.Converters
 				case XStateClass.Norm:
 					return Brushes.Transparent;
 
-				case XStateClass.Connected:
-					return Brushes.PaleGreen;
-
 				default:
 					return Brushes.Transparent;
 			}

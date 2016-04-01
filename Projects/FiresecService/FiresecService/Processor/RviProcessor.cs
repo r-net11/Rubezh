@@ -37,7 +37,6 @@ namespace FiresecService
 		public static List<RviState> GetRviStates()
 		{
 			var rviStates = new List<RviState>();
-
 			if (ConfigurationCashHelper.SystemConfiguration != null && ConfigurationCashHelper.SystemConfiguration.RviSettings != null && ConfigurationCashHelper.SystemConfiguration.RviServers != null
 						&& ConfigurationCashHelper.SystemConfiguration.Cameras != null)
 			{
@@ -86,6 +85,7 @@ namespace FiresecService
 						&& ConfigurationCashHelper.SystemConfiguration.Cameras != null)
 					{
 						var rviStates = new List<RviState>();
+						var journalItems = new List<JournalItem>();
 						var rviSettings = ConfigurationCashHelper.SystemConfiguration.RviSettings;
 						foreach (var server in ConfigurationCashHelper.SystemConfiguration.RviServers)
 						{
@@ -132,16 +132,20 @@ namespace FiresecService
 											var newCamera = newDevice.Cameras.FirstOrDefault(x => x.UID == oldCamera.UID);
 											if (newCamera != null)
 											{
-												if (oldCamera.Status != newCamera.Status || oldCamera.IsOnGuard != newCamera.IsOnGuard || oldCamera.IsRecordOnline != newCamera.IsRecordOnline)
+												var isOnGuardChanged = oldCamera.IsOnGuard != newCamera.IsOnGuard;
+												var isRecordOnlineChanged = oldCamera.IsRecordOnline != newCamera.IsRecordOnline;
+												if (oldCamera.Status != newCamera.Status || isOnGuardChanged || isRecordOnlineChanged)
 												{
 													var rviState = new RviState(newCamera, newCamera.Status, newCamera.IsOnGuard, newCamera.IsRecordOnline, newCamera.RviStreams);
-													rviState.IsOnGuardChanged = oldCamera.IsOnGuard != newCamera.IsOnGuard;
-													rviState.IsRecordOnlineChanged = oldCamera.IsRecordOnline != newCamera.IsRecordOnline;
-													rviState.IsNotStatusChanged = oldCamera.Status == newCamera.Status;
 													rviStates.Add(rviState);
 													oldCamera.Status = newCamera.Status;
 													oldCamera.IsOnGuard = newCamera.IsOnGuard;
 													oldCamera.IsRecordOnline = newCamera.IsRecordOnline;
+
+													if (isOnGuardChanged)
+														journalItems.Add(CreateOnGuardJournalItem(oldCamera.UID, oldCamera.IsOnGuard));
+													if (isRecordOnlineChanged)
+														journalItems.Add(CreateRecordOnlineJournalItem(oldCamera.UID, oldCamera.IsRecordOnline));
 												}
 												if (oldCamera.RviStreams.Count() != newCamera.RviStreams.Count()) // спросить у Ромы
 												{
@@ -184,33 +188,12 @@ namespace FiresecService
 							var rviCallbackResult = new RviCallbackResult();
 							rviCallbackResult.RviStates.AddRange(rviStates);
 							FiresecService.Service.FiresecService.NotifyRviObjectStateChanged(rviCallbackResult);
-							Journaling(rviStates, ConfigurationCashHelper.SystemConfiguration.RviServers);
+							FiresecService.Service.FiresecService.NotifyJournalItems(journalItems, true);
 						}
 					}
 				}
 				catch (Exception) { }
 			}
-		}
-		static void Journaling(List<RviState> rviStates, List<RviServer> rviServers)
-		{
-			var journalItems = new List<JournalItem>();
-			foreach (var rviState in rviStates)
-			{
-				if (rviState.RviServerUrl != null)
-				{
-					journalItems.Add(CreateServerJournalItem(Guid.Empty, rviState.Status, string.Format("{0}:{1}", rviState.ServerIp, rviState.ServerPort)));
-				}
-				if (rviState.RviDeviceUid != Guid.Empty)
-				{
-					if (rviState.Status == RviStatus.Connected || rviState.Status == RviStatus.Error)
-						journalItems.Add(CreateDeviceJournalItem(rviState.RviDeviceUid, rviState.Status));
-				}
-				if (rviState.CameraUid != Guid.Empty)
-				{
-					journalItems.AddRange(CreateCameraJournalItemsList(rviState));
-				}
-			}
-			FiresecService.Service.FiresecService.NotifyJournalItems(journalItems, true);
 		}
 		static JournalItem CreateJournalItem(Guid objectUid, JournalObjectType journalObjectType, JournalEventNameType journalEventNameType, string desriptionText = null)
 		{
@@ -227,61 +210,24 @@ namespace FiresecService
 			};
 			return journalItem;
 		}
-		static JournalItem CreateServerJournalItem(Guid objectUid, RviStatus rviStatus, string descriptionText)
+		static JournalItem CreateOnGuardJournalItem(Guid cameraUid, bool isOnGuard)
 		{
 			JournalItem journalItem;
-			switch (rviStatus)
-			{
-				case RviStatus.Connected:
-					journalItem = CreateJournalItem(objectUid, JournalObjectType.None, JournalEventNameType.Установлена_связь_с_сервером_Rvi, descriptionText);
-					break;
-				case RviStatus.ConnectionLost:
-				default:
-					journalItem = CreateJournalItem(objectUid, JournalObjectType.None, JournalEventNameType.Потеря_связи_с_сервером_Rvi, descriptionText);
-					break;
-			}
+			if (isOnGuard)
+				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_поставлен_на_охрану);
+			else
+				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_снят_с_охраны);
 			return journalItem;
 		}
-		static JournalItem CreateDeviceJournalItem(Guid objectUid, RviStatus rviStatus)
+		static JournalItem CreateRecordOnlineJournalItem(Guid cameraUid, bool isRecordOnline)
 		{
 			JournalItem journalItem;
-			switch (rviStatus)
-			{
-				case RviStatus.Connected:
-					journalItem = CreateJournalItem(objectUid, JournalObjectType.RviDevice, JournalEventNameType.Устройство_Rvi_подключено);
-					break;
-				case RviStatus.Error:
-				default:
-					journalItem = CreateJournalItem(objectUid, JournalObjectType.RviDevice, JournalEventNameType.Ошибка_при_подключении_к_устройству_Rvi);
-					break;
-			}
+			if (isRecordOnline)
+				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Начата_запись_на_канале_Rvi);
+			else
+				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Прекращена_запись_на_канале_Rvi);
 			return journalItem;
 		}
-		static List<JournalItem> CreateCameraJournalItemsList(RviState cameraState)
-		{
-			var journalItems = new List<JournalItem>();
-			if (cameraState.IsOnGuardChanged)
-			{
-				if (cameraState.IsOnGuard)
-					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_поставлен_на_охрану));
-				else
-					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_снят_с_охраны));
-			}
-			if (cameraState.IsRecordOnlineChanged)
-			{
-				if (cameraState.IsRecordOnline)
-					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Начата_запись_на_канале_Rvi));
-				else
-					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Прекращена_запись_на_канале_Rvi));
-			}
-			if (!cameraState.IsNotStatusChanged)
-			{
-				if (cameraState.Status == RviStatus.Connected)
-					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_подключен));
-				else if (cameraState.Status == RviStatus.Error)
-					journalItems.Add(CreateJournalItem(cameraState.CameraUid, JournalObjectType.Camera, JournalEventNameType.Ошибка_при_подключении_к_каналу_Rvi));
-			}
-			return journalItems;
-		}
+
 	}
 }

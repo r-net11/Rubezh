@@ -65,10 +65,6 @@ namespace RubezhAPI.GK
 		Norm = 18,
 
 		[DescriptionAttribute("Нет")]
-		No = 19,
-
-		[DescriptionAttribute("Подключение установлено")]
-		Connected = 20
-
+		No = 19
 	}
 }
