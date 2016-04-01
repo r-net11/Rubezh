@@ -15,19 +15,20 @@ namespace SoundsModule
 
 		public override void CreateViewModels()
 		{
-			SoundsViewModel = new SoundsViewModel();
+	//		SoundsViewModel = new SoundsViewModel();
 		}
 
 		public override void Initialize()
 		{
-			SoundsViewModel.Initialize();
+	//		SoundsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			return new List<NavigationItem>()
-			{
-				new NavigationItem<ShowSoundsEvent>(SoundsViewModel, ModuleType.ToDescription(), "music"),
-			};
+			return null;
+			//return new List<NavigationItem>()
+			//{
+			//	new NavigationItem<ShowSoundsEvent>(SoundsViewModel, ModuleType.ToDescription(), "music"),
+			//};
 		}
 		public override ModuleType ModuleType
 		{
