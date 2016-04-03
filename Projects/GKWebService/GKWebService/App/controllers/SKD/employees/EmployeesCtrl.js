@@ -43,6 +43,7 @@
                             value.$$treeLevel = value.Level;
                         });
                         $scope.gridOptions.data = $scope.employees;
+                        employeesService.selectedEmployee = null;
                         $timeout(function() {
                             $scope.gridApi.treeBase.expandAllRows();
                     });

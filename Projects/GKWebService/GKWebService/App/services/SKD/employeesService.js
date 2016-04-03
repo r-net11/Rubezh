@@ -30,6 +30,32 @@
                 });
 
                 return deferred.promise;
+            },
+            getEmployeeCards: function (UID) {
+                var deferred = $q.defer();
+
+                $http.get('Employees/GetEmployeeCards/' + UID).then(function (response) {
+                    deferred.resolve(response.data);
+                }, function (response) {
+                    // TODO: реализовать обработку ошибок
+                    alert("Ошибка получения сотрудника");
+                    deferred.reject();
+                });
+
+                return deferred.promise;
+            },
+            getEmployeePhoto: function (UID) {
+                var deferred = $q.defer();
+
+                $http.get('Employees/GetEmployeePhoto/' + UID).then(function (response) {
+                    deferred.resolve(response.data);
+                }, function (response) {
+                    // TODO: реализовать обработку ошибок
+                    alert("Ошибка получения сотрудника");
+                    deferred.reject();
+                });
+
+                return deferred.promise;
             }
         }
     }]);

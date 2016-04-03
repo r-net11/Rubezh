@@ -222,6 +222,7 @@
     <Content Include="App\controllers\SKD\common\employeesFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\positionsFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\organisationsFilterCtrl.js" />
+    <Content Include="App\controllers\SKD\employees\employeeCardsCtrl.js" />
     <Content Include="App\controllers\SKD\employees\employeesToolbarCtrl.js" />
     <Content Include="App\controllers\SKD\employees\employeesCtrl.js" />
     <Content Include="App\controllers\SKD\employees\employeeDetailsCtrl.js" />
