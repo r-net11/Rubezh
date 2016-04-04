@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 		public OPCsViewModel()
 		{
 			AddCommand = new RelayCommand(Add);
-			DeleteCommand = new RelayCommand(Delete);
+			DeleteCommand = new RelayCommand(Delete, CanDelete);
 
 			Menu = new OPCMenuViewModel(this);
 		}
@@ -134,6 +134,10 @@ namespace GKModule.ViewModels
 					SelectedDevices = Devices[index];
 				ServiceFactory.SaveService.GKChanged = true;
 			}	
+		}
+		bool CanDelete()
+		{
+			return Devices.Count > 0;
 		}
 
 		public override void OnShow()
