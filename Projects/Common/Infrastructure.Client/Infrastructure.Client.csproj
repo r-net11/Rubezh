@@ -95,7 +95,6 @@
     <Compile Include="Images\Converters\SVGConverter.cs" />
     <Compile Include="Images\Converters\WMFConverter.cs" />
     <Compile Include="Images\WMFImage.cs" />
-    <Compile Include="Layout\LayoutPartIdentities.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartTitleViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartPictureViewModel.cs" />
     <Compile Include="Layout\Views\LayoutPartPictureView.xaml.cs">

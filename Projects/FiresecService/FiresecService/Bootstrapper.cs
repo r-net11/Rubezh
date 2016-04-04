@@ -1,9 +1,12 @@
 ﻿using Common;
+using FiresecAPI.Models;
 using FiresecService.Report;
 using FiresecService.Service;
+using FiresecService.Service.Validators;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Services.Configuration;
 using Infrastructure.Common.Windows;
 using System;
 using System.Diagnostics;
@@ -40,6 +43,21 @@ namespace FiresecService
 				WindowThread.Start(licenseManager);
 				MainViewStartedEvent.WaitOne();
 
+				// Инициализируем валидатор конфигурации
+				IConfigurationElementsAvailabilityService configurationElementsAvailabilityService = new ConfigurationElementsAvailabilityService();
+				configurationElementsAvailabilityService.Initialize(
+					licenseManager.CurrentLicense != null
+						? new LicenseData
+						{
+							IsEnabledAutomation = licenseManager.CurrentLicense.IsEnabledAutomation,
+							IsEnabledPhotoVerification = licenseManager.CurrentLicense.IsEnabledPhotoVerification,
+							IsEnabledRVI = licenseManager.CurrentLicense.IsEnabledRVI,
+							IsEnabledURV = licenseManager.CurrentLicense.IsEnabledURV,
+							IsUnlimitedUsers = licenseManager.CurrentLicense.IsUnlimitedUsers
+						}
+						: new LicenseData());
+				ConfigurationElementsAgainstLicenseDataValidator.Instance.ConfigurationElementsAvailabilityService = configurationElementsAvailabilityService;
+				
 				UILogger.Log("Загрузка конфигурации");
 
 				ConfigurationCashHelper.Update();

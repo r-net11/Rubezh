@@ -128,7 +128,6 @@
     <Compile Include="ConfigManager.cs" />
     <Compile Include="FileConfigurationHelper.cs" />
     <Compile Include="AdministratorModule.cs" />
-    <Compile Include="Services\ConfigurationElementsAvailabilityService.cs" />
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Services\UiElementsVisibilityService.cs" />
     <Compile Include="Services\ValidationService.cs" />

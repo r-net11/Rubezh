@@ -3,6 +3,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.Properties;
+using FiresecService.Service.Validators;
 using Infrastructure.Common;
 using Ionic.Zip;
 using System;
@@ -36,6 +37,9 @@ namespace FiresecService
 
 			SystemConfiguration.UpdateConfiguration();
 			SKDManager.UpdateConfiguration();
+
+			// Проверяем состав конфигурации на предмет соответствия лицензионным ограничениям
+			ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
 		}
 
 		private static void ExtractAllConfigFiles()
@@ -77,7 +81,7 @@ namespace FiresecService
 
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
-			var securityConfiguration = GetConfigurationFomZip("SecurityConfiguration.xml", typeof(SecurityConfiguration)) as SecurityConfiguration;
+			var securityConfiguration = GetConfigurationFromZip("SecurityConfiguration.xml", typeof(SecurityConfiguration)) as SecurityConfiguration;
 
 			if (securityConfiguration == null) return null;
 
@@ -86,9 +90,27 @@ namespace FiresecService
 			return securityConfiguration;
 		}
 
+		public static LayoutsConfiguration GetLayoutsConfiguration()
+		{
+			// Данный метод десериализации конфигурации макетов валится с ошибкой:
+			// Cannot serialize member FiresecAPI.Models.Layouts.LayoutPart.Properties of type FiresecAPI.Models.Layouts.ILayoutProperties because it is an interface.
+			//var configuration = GetConfigurationFromZip("LayoutsConfiguration.xml", typeof(LayoutsConfiguration)) as LayoutsConfiguration;
+			
+			// Поэтому используем другой метод десериализации макетов
+			var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
+			var filePath = Path.Combine(configDirectoryName, "LayoutsConfiguration.xml");
+			var configuration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(filePath, false);
+
+			if (configuration == null) return null;
+
+			configuration.AfterLoad();
+
+			return configuration;
+		}
+
 		private static SystemConfiguration GetSystemConfiguration()
 		{
-			var systemConfiguration = (SystemConfiguration)GetConfigurationFomZip("SystemConfiguration.xml", typeof(SystemConfiguration));
+			var systemConfiguration = (SystemConfiguration)GetConfigurationFromZip("SystemConfiguration.xml", typeof(SystemConfiguration));
 
 			if (systemConfiguration == null) return null;
 
@@ -98,7 +120,7 @@ namespace FiresecService
 
 		private static SKDConfiguration GetSKDConfiguration()
 		{
-			var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip("SKDConfiguration.xml", typeof(SKDConfiguration));
+			var skdConfiguration = (SKDConfiguration)GetConfigurationFromZip("SKDConfiguration.xml", typeof(SKDConfiguration));
 
 			if (skdConfiguration == null) return null;
 
@@ -106,7 +128,7 @@ namespace FiresecService
 			return skdConfiguration;
 		}
 
-		private static VersionedConfiguration GetConfigurationFomZip(string fileName, Type type)
+		private static VersionedConfiguration GetConfigurationFromZip(string fileName, Type type)
 		{
 			try
 			{
