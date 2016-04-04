@@ -29,8 +29,9 @@ namespace GKModule.Validation
 			ValidateDoors();
 			ValidateSKDZones();
 			ValidatePlans();
-			ValidateDescriptors();
 			ValidateLicense();
+			if (Errors.All(x => x.ErrorLevel != ValidationErrorLevel.CannotWrite))
+				ValidateDescriptors();
 			return Errors;
 		}
 
