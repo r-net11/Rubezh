@@ -2,6 +2,7 @@
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Services.Configuration;
 using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Common.Services.Ribbon;

@@ -189,6 +189,7 @@
     <Compile Include="Service\FiresecService.Automation.cs" />
     <Compile Include="Service\DBHelper\DBHelper.cs" />
     <Compile Include="PatchManager\PatchManager.cs" />
+    <Compile Include="Service\Validators\ConfigurationElementsAgainstLicenseDataValidator.cs" />
     <Compile Include="Service\Validators\DayIntervalPartValidator.cs" />
     <Compile Include="Service\Validators\DayIntervalValidator.cs" />
     <Compile Include="Service\Validators\ScheduleDayIntervalValidator.cs" />

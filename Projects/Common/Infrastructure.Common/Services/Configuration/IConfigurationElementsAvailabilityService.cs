@@ -2,7 +2,7 @@
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
 
-namespace Infrastructure
+namespace Infrastructure.Common.Services.Configuration
 {
 	/// <summary>
 	/// Интерфейс, описывающий доступность элементов в текущей конфигурации согласно лицензионным ограничениям

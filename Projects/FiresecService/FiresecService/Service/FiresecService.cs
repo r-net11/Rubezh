@@ -7,6 +7,7 @@ using FiresecAPI.Enums;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using FiresecService.Service.Validators;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using KeyGenerator;
@@ -70,6 +71,11 @@ namespace FiresecService.Service
 
 			// Проверяем активацию лицензии на сервере
 			operationResult = CanConnect();
+			if (operationResult.HasError)
+				return operationResult;
+
+			// Проверяем текущую конфигурацию на соответствие ограничениям лицензии
+			operationResult = CheckConfigurationValidation();
 			if (operationResult.HasError)
 				return operationResult;
 
@@ -271,6 +277,13 @@ namespace FiresecService.Service
 					return OperationResult<bool>.FromError("Количество активных пропусков в базе данных системы превышает лицензированное значение. Загрузка приложения невозможна");
 			}
 			return new OperationResult<bool>(true);
+		}
+
+		private OperationResult<bool> CheckConfigurationValidation()
+		{
+			return ConfigurationElementsAgainstLicenseDataValidator.Instance.IsValidated
+				? new OperationResult<bool>(true)
+				: OperationResult<bool>.FromError("Конфигурация не соответствует ограничениям лицензии. Для продолжения работы загрузите другую лицензию или измените конфигурацию");
 		}
 
 		private OperationResult<bool> CheckConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)

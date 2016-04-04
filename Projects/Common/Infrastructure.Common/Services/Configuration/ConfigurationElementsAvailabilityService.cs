@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
-using Infrastructure;
 
-namespace FireAdministrator
+namespace Infrastructure.Common.Services.Configuration
 {
 	/// <summary>
 	/// Класс, описывающий доступность элементов в текущей конфигурации согласно лицензионным ограничениям
