@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI.Automation;
-using Infrastructure.Common.Windows;
-using AutomationModule.ViewModels;
-using System.Collections.ObjectModel;
-using Infrustructure.Plans.Elements;
-using RubezhAPI.Models;
+﻿using AutomationModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
+using RubezhAPI.Automation;
+using RubezhAPI.Models;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AutomationModule
 {
@@ -54,7 +52,9 @@ namespace AutomationModule
 				var selectGKDeviceEventArg = new SelectGKDeviceEventArg { Device = currentExplicitValue.Device };
 				ServiceFactory.Events.GetEvent<SelectGKDeviceEvent>().Publish(selectGKDeviceEventArg);
 				if (!selectGKDeviceEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKDeviceEventArg.Device == null ? Guid.Empty : selectGKDeviceEventArg.Device.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKDeviceEventArg.Device == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKDeviceEventArg.Device.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -63,7 +63,9 @@ namespace AutomationModule
 				var selectGKZoneEventArg = new SelectGKZoneEventArg { Zone = currentExplicitValue.Zone };
 				ServiceFactory.Events.GetEvent<SelectGKZoneEvent>().Publish(selectGKZoneEventArg);
 				if (!selectGKZoneEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKZoneEventArg.Zone == null ? Guid.Empty : selectGKZoneEventArg.Zone.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKZoneEventArg.Zone == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKZoneEventArg.Zone.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -72,7 +74,9 @@ namespace AutomationModule
 				var selectGKGuardZoneEventArg = new SelectGKGuardZoneEventArg { GuardZone = currentExplicitValue.GuardZone };
 				ServiceFactory.Events.GetEvent<SelectGKGuardZoneEvent>().Publish(selectGKGuardZoneEventArg);
 				if (!selectGKGuardZoneEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKGuardZoneEventArg.GuardZone == null ? Guid.Empty : selectGKGuardZoneEventArg.GuardZone.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKGuardZoneEventArg.GuardZone == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKGuardZoneEventArg.GuardZone.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -81,7 +85,9 @@ namespace AutomationModule
 				var selectGKDoorEventArg = new SelectGKDoorEventArg { Door = currentExplicitValue.GKDoor };
 				ServiceFactory.Events.GetEvent<SelectGKDoorEvent>().Publish(selectGKDoorEventArg);
 				if (!selectGKDoorEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKDoorEventArg.Door == null ? Guid.Empty : selectGKDoorEventArg.Door.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKDoorEventArg.Door == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKDoorEventArg.Door.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -90,7 +96,9 @@ namespace AutomationModule
 				var selectGKDirectionEventArg = new SelectGKDirectionEventArg { Direction = currentExplicitValue.Direction };
 				ServiceFactory.Events.GetEvent<SelectGKDirectionEvent>().Publish(selectGKDirectionEventArg);
 				if (!selectGKDirectionEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKDirectionEventArg.Direction == null ? Guid.Empty : selectGKDirectionEventArg.Direction.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKDirectionEventArg.Direction == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKDirectionEventArg.Direction.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -99,7 +107,9 @@ namespace AutomationModule
 				var selectGKPumpStationEventArg = new SelectGKPumpStationEventArg { PumpStation = currentExplicitValue.PumpStation };
 				ServiceFactory.Events.GetEvent<SelectGKPumpStationEvent>().Publish(selectGKPumpStationEventArg);
 				if (!selectGKPumpStationEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKPumpStationEventArg.PumpStation == null ? Guid.Empty : selectGKPumpStationEventArg.PumpStation.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKPumpStationEventArg.PumpStation == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKPumpStationEventArg.PumpStation.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -108,7 +118,9 @@ namespace AutomationModule
 				var selectGKMPTEventArg = new SelectGKMPTEventArg { MPT = currentExplicitValue.MPT };
 				ServiceFactory.Events.GetEvent<SelectGKMPTEvent>().Publish(selectGKMPTEventArg);
 				if (!selectGKMPTEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKMPTEventArg.MPT == null ? Guid.Empty : selectGKMPTEventArg.MPT.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKMPTEventArg.MPT == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKMPTEventArg.MPT.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -117,7 +129,9 @@ namespace AutomationModule
 				var selectCameraEventArg = new SelectCameraEventArg { Camera = currentExplicitValue.Camera };
 				ServiceFactory.Events.GetEvent<SelectCameraEvent>().Publish(selectCameraEventArg);
 				if (!selectCameraEventArg.Cancel)
-					currentExplicitValue.UidValue = selectCameraEventArg.Camera == null ? Guid.Empty : selectCameraEventArg.Camera.UID;
+					currentExplicitValue.ObjectReferenceValue = selectCameraEventArg.Camera == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectCameraEventArg.Camera.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -126,7 +140,9 @@ namespace AutomationModule
 				var selectGKDelayEventArg = new SelectGKDelayEventArg { Delay = currentExplicitValue.Delay };
 				ServiceFactory.Events.GetEvent<SelectGKDelayEvent>().Publish(selectGKDelayEventArg);
 				if (!selectGKDelayEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKDelayEventArg.Delay == null ? Guid.Empty : selectGKDelayEventArg.Delay.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKDelayEventArg.Delay == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKDelayEventArg.Delay.UID, ObjectType = objectType };
 				return true;
 			}
 
@@ -135,7 +151,9 @@ namespace AutomationModule
 				var selectGKOrganisationEventArg = new SelectOrganisationEventArg { Organisation = currentExplicitValue.Organisation };
 				ServiceFactory.Events.GetEvent<SelectOrganisationEvent>().Publish(selectGKOrganisationEventArg);
 				if (!selectGKOrganisationEventArg.Cancel)
-					currentExplicitValue.UidValue = selectGKOrganisationEventArg.Organisation == null ? Guid.Empty : selectGKOrganisationEventArg.Organisation.UID;
+					currentExplicitValue.ObjectReferenceValue = selectGKOrganisationEventArg.Organisation == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = selectGKOrganisationEventArg.Organisation.UID, ObjectType = objectType };
 				return true;
 			}
 			return false;
@@ -149,7 +167,12 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectGKDevicesEvent>().Publish(selectGKDevicesEventArg);
 				currentExplicitValues = selectGKDevicesEventArg.Cancel ?
 					null :
-					selectGKDevicesEventArg.Devices.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectGKDevicesEventArg.Devices.Select(x =>
+						new ExplicitValueViewModel(new ExplicitValue
+						{
+							ExplicitType = ExplicitType.Object,
+							ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+						})).ToList();
 				return true;
 			}
 
@@ -159,7 +182,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectGKZonesEvent>().Publish(selectGKZonesEventArg);
 				currentExplicitValues = selectGKZonesEventArg.Cancel ?
 					null :
-					selectGKZonesEventArg.Zones.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectGKZonesEventArg.Zones.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 
@@ -169,7 +196,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectGKGuardZonesEvent>().Publish(selectGKGuardZonesEventArg);
 				currentExplicitValues = selectGKGuardZonesEventArg.Cancel ?
 					null :
-					selectGKGuardZonesEventArg.GuardZones.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectGKGuardZonesEventArg.GuardZones.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 
@@ -179,7 +210,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectGKDoorsEvent>().Publish(selectGKDoorsEventArg);
 				currentExplicitValues = selectGKDoorsEventArg.Cancel ?
 					null :
-					selectGKDoorsEventArg.Doors.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectGKDoorsEventArg.Doors.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 
@@ -189,7 +224,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectGKDirectionsEvent>().Publish(selectGKDirectionsEventArg);
 				currentExplicitValues = selectGKDirectionsEventArg.Cancel ?
 					null :
-					selectGKDirectionsEventArg.Directions.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectGKDirectionsEventArg.Directions.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 
@@ -199,7 +238,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectGKPumpStationsEvent>().Publish(selectGKPumpStationsEventArg);
 				currentExplicitValues = selectGKPumpStationsEventArg.Cancel ?
 					null :
-					selectGKPumpStationsEventArg.PumpStations.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectGKPumpStationsEventArg.PumpStations.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 
@@ -209,7 +252,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectGKMPTsEvent>().Publish(selectGKMPTsEventArg);
 				currentExplicitValues = selectGKMPTsEventArg.Cancel ?
 					null :
-					selectGKMPTsEventArg.MPTs.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectGKMPTsEventArg.MPTs.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 
@@ -219,7 +266,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectCamerasEvent>().Publish(selectCamerasEventArg);
 				currentExplicitValues = selectCamerasEventArg.Cancel ?
 					null :
-					selectCamerasEventArg.Cameras.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectCamerasEventArg.Cameras.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 
@@ -229,7 +280,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectGKDelaysEvent>().Publish(selectGKDelaysEventArg);
 				currentExplicitValues = selectGKDelaysEventArg.Cancel ?
 					null :
-					selectGKDelaysEventArg.Delays.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectGKDelaysEventArg.Delays.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 
@@ -239,7 +294,11 @@ namespace AutomationModule
 				ServiceFactory.Events.GetEvent<SelectOrganisationsEvent>().Publish(selectOrganisationsEventArg);
 				currentExplicitValues = selectOrganisationsEventArg.Cancel ?
 					null :
-					selectOrganisationsEventArg.Organisations.Select(x => new ExplicitValueViewModel(new ExplicitValue { UidValue = x.UID })).ToList();
+					selectOrganisationsEventArg.Organisations.Select(x => new ExplicitValueViewModel(new ExplicitValue
+					{
+						ExplicitType = ExplicitType.Object,
+						ObjectReferenceValue = new ObjectReference { UID = x.UID, ObjectType = objectType }
+					})).ToList();
 				return true;
 			}
 			return false;

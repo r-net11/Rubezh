@@ -51,8 +51,8 @@ namespace FiltersModule.ViewModels
             {
                 Names.Add(new NameViewModel(count));
             }
-               
-            foreach (var count in Filter.EventDescriptions.SelectMany(x => x.JournalEventDescriptionTypes))
+
+			foreach (var count in Filter.JournalEventDescriptionTypes)
             {
                 Names.Add(new NameViewModel(count, count.ToDescription()));
             }

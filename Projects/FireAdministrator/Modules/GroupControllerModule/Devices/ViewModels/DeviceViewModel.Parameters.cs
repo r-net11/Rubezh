@@ -240,11 +240,11 @@ namespace GKModule.ViewModels
 						if (deviceProperty == null)
 						{
 							device.DeviceProperties.Add(new GKProperty
-								{
-									DriverProperty = property.DriverProperty,
-									Name = property.Name,
-									Value = property.Value
-								});
+							{
+								DriverProperty = property.DriverProperty,
+								Name = property.Name,
+								Value = property.Value
+							});
 							ServiceFactory.SaveService.GKChanged = true;
 						}
 						if (deviceProperty != null && deviceProperty.Value != property.Value)
@@ -528,7 +528,7 @@ namespace GKModule.ViewModels
 			return false;
 		}
 
-		public bool IsParamtersEnabled
+		public bool IsParametersEnabled
 		{
 			get { return !Device.IsInMPT; }
 		}

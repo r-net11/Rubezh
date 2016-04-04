@@ -24,14 +24,41 @@ namespace RubezhAPI.Automation
 		[DataMember]
 		public ContextType ContextType { get; set; }
 
+		ExplicitType _explicitType;
 		[DataMember]
-		public ExplicitType ExplicitType { get; set; }
+		public ExplicitType ExplicitType
+		{
+			get { return _explicitType; }
+			set
+			{
+				_explicitType = value;
+				ExplicitValue.ExplicitType = value;
+			}
+		}
 
+		ObjectType _objectType;
 		[DataMember]
-		public ObjectType ObjectType { get; set; }
+		public ObjectType ObjectType
+		{
+			get { return _objectType; }
+			set
+			{
+				_objectType = value;
+				ExplicitValue.ObjectReferenceValue = new ObjectReference { ObjectType = value, UID = ExplicitValue.ObjectReferenceValue.UID };
+			}
+		}
 
+		EnumType _enumType;
 		[DataMember]
-		public EnumType EnumType { get; set; }
+		public EnumType EnumType
+		{
+			get { return _enumType; }
+			set
+			{
+				_enumType = value;
+				ExplicitValue.EnumType = value;
+			}
+		}
 
 		[DataMember]
 		public string Name { get; set; }
@@ -59,22 +86,22 @@ namespace RubezhAPI.Automation
 				{
 					switch (ExplicitType)
 					{
-						case ExplicitType.Boolean: return ExplicitValues.Select(x => (object)x.BoolValue).ToArray();
-						case ExplicitType.DateTime: return ExplicitValues.Select(x => (object)x.DateTimeValue).ToArray();
-						case ExplicitType.Integer: return ExplicitValues.Select(x => (object)x.IntValue).ToArray();
-						case ExplicitType.Float: return ExplicitValues.Select(x => (object)x.FloatValue).ToArray();
-						case ExplicitType.String: return ExplicitValues.Select(x => (object)x.StringValue).ToArray();
-						case ExplicitType.Object: return ExplicitValues.Select(x => (object)x.UidValue).ToArray();
+						case ExplicitType.Boolean: return ExplicitValues.Select(x => x.BoolValue).ToArray();
+						case ExplicitType.DateTime: return ExplicitValues.Select(x => x.DateTimeValue).ToArray();
+						case ExplicitType.Integer: return ExplicitValues.Select(x => x.IntValue).ToArray();
+						case ExplicitType.Float: return ExplicitValues.Select(x => x.FloatValue).ToArray();
+						case ExplicitType.String: return ExplicitValues.Select(x => x.StringValue).ToArray();
+						case ExplicitType.Object: return ExplicitValues.Select(x => x.ObjectReferenceValue).ToArray();
 						case ExplicitType.Enum:
 							switch (EnumType)
 							{
-								case EnumType.DriverType: return ExplicitValues.Select(x => (object)x.DriverTypeValue).ToArray();
-								case EnumType.StateType: return ExplicitValues.Select(x => (object)x.StateTypeValue).ToArray();
-								case EnumType.PermissionType: return ExplicitValues.Select(x => (object)x.PermissionTypeValue).ToArray();
-								case EnumType.JournalEventNameType: return ExplicitValues.Select(x => (object)x.JournalEventNameTypeValue).ToArray();
-								case EnumType.JournalEventDescriptionType: return ExplicitValues.Select(x => (object)x.JournalEventDescriptionTypeValue).ToArray();
-								case EnumType.JournalObjectType: return ExplicitValues.Select(x => (object)x.JournalObjectTypeValue).ToArray();
-								case EnumType.ColorType: return ExplicitValues.Select(x => (object)x.ColorValue).ToArray();
+								case EnumType.DriverType: return ExplicitValues.Select(x => x.DriverTypeValue).ToArray();
+								case EnumType.StateType: return ExplicitValues.Select(x => x.StateTypeValue).ToArray();
+								case EnumType.PermissionType: return ExplicitValues.Select(x => x.PermissionTypeValue).ToArray();
+								case EnumType.JournalEventNameType: return ExplicitValues.Select(x => x.JournalEventNameTypeValue).ToArray();
+								case EnumType.JournalEventDescriptionType: return ExplicitValues.Select(x => x.JournalEventDescriptionTypeValue).ToArray();
+								case EnumType.JournalObjectType: return ExplicitValues.Select(x => x.JournalObjectTypeValue).ToArray();
+								case EnumType.ColorType: return ExplicitValues.Select(x => x.ColorValue).ToArray();
 							}
 							break;
 					}
@@ -89,7 +116,7 @@ namespace RubezhAPI.Automation
 						case ExplicitType.Integer: return ExplicitValue.IntValue;
 						case ExplicitType.Float: return ExplicitValue.FloatValue;
 						case ExplicitType.String: return ExplicitValue.StringValue;
-						case ExplicitType.Object: return ExplicitValue.UidValue;
+						case ExplicitType.Object: return ExplicitValue.ObjectReferenceValue;
 						case ExplicitType.Enum:
 							switch (EnumType)
 							{

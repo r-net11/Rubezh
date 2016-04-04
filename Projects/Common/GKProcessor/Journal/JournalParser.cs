@@ -82,7 +82,7 @@ namespace GKProcessor
 
 						case 7:
 							JournalItem.JournalEventNameType = JournalEventNameType.Вход_пользователя_в_прибор;
-							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
+							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15], true);
 							var bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							var bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
@@ -92,7 +92,7 @@ namespace GKProcessor
 
 						case 8:
 							JournalItem.JournalEventNameType = JournalEventNameType.Выход_пользователя_из_прибора;
-							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
+							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15], false);
 							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
@@ -321,19 +321,19 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Неисправность_устранена;
 							}
-
+							bool isFailure = JournalItem.JournalEventNameType == JournalEventNameType.Неисправность;
 							switch (descriptorType)
 							{
 								case 0xD6:
-									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
+									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15], isFailure);
 									break;
 								default:
-									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15], descriptorType == 0xE5);
+									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15], isFailure, descriptorType == 0xE5);
 									if (bytes[32 + 15] >= 241 && bytes[32 + 15] <= 254)
 									{
 										var firstAdditionalDescription = bytes[32 + 16].ToString();
 										var secondAdditionalDescription = bytes[32 + 17].ToString();
-										if (JournalItem.JournalEventDescriptionType == JournalEventDescriptionType.ОЛС)
+										if (JournalItem.JournalEventDescriptionType == JournalEventDescriptionType.ОЛС_Неисправность || JournalItem.JournalEventDescriptionType == JournalEventDescriptionType.ОЛС_Неисправность_устранена)
 										{
 											var gkDevice = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 											if (gkDevice != null)
@@ -382,15 +382,15 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Запыленность_устранена;
 							}
-
+							bool isDust = JournalItem.JournalEventNameType == JournalEventNameType.Запыленность;
 							switch (bytes[32 + 15])
 							{
 								case 1:
-									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Предварительная;
+									JournalItem.JournalEventDescriptionType = isDust ? JournalEventDescriptionType.Предварительная_Запыленность : JournalEventDescriptionType.Предварительная_Запыленность_устранена;
 									break;
 
 								case 2:
-									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Критическая;
+									JournalItem.JournalEventDescriptionType = isDust ? JournalEventDescriptionType.Критическая_Запыленность : JournalEventDescriptionType.Критическая_Запыленность_устранена;
 									break;
 							}
 							break;
@@ -447,11 +447,11 @@ namespace GKProcessor
 							switch (bytes[32 + 15])
 							{
 								case 1:
-									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Перевод_в_автоматический_режим;
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Перевод_в_автоматический_режим_Управление_ПМФ;
 									break;
 
 								case 2:
-									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Перевод_в_ручной_режим;
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Перевод_в_ручной_режим_Управление_ПМФ;
 									break;
 
 								case 4:
@@ -463,7 +463,7 @@ namespace GKProcessor
 									break;
 
 								case 8:
-									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Сброс;
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Сброс_Управление_ПМФ;
 									break;
 
 								case 9:

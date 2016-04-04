@@ -6,13 +6,13 @@ namespace RubezhAPI.Journal
 {
 	public class EventDescriptionAttribute : Attribute
 	{
-		public EventDescriptionAttribute(string name, params JournalEventNameType[] journalEventNameTypes)
+		public EventDescriptionAttribute(string name, JournalEventNameType journalEventNameType)
 		{
 			Name = name;
-			JournalEventNameTypes = journalEventNameTypes.ToList();
+			JournalEventNameType = journalEventNameType;
 		}
 
 		public string Name { get; set; }
-		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
+		public JournalEventNameType JournalEventNameType { get; set; }
 	}
 }

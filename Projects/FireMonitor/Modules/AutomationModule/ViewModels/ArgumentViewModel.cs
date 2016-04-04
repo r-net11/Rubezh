@@ -2,9 +2,9 @@
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
-using RubezhClient;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -127,20 +127,14 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var description = "";
 				if (!IsList)
-					description = GetStringValueHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
+					return Argument.ExplicitValue == null ? "" : Argument.ExplicitValue.ToString();
 				else
 				{
 					if (Argument.ExplicitValues.Count == 0)
 						return "Пустой список";
-					foreach (var explicitValue in Argument.ExplicitValues)
-					{
-						description += GetStringValueHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
-					}
+					return String.Join(", ", Argument.ExplicitValues.Select(x => x.ToString()));
 				}
-				description = description.TrimEnd(',', ' ');
-				return description;
 			}
 		}
 	}

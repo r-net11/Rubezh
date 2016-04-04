@@ -58,8 +58,8 @@ namespace Infrastructure.Automation
 		{
 			var getObjectPropertyStep = (GetObjectPropertyStep)procedureStep;
 			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyStep.ResultArgument.VariableUid);
-			var objectUid = GetValue<Guid>(getObjectPropertyStep.ObjectArgument);
-			var item = InitializeItem(objectUid);
+			var objRef = GetValue<ObjectReference>(getObjectPropertyStep.ObjectArgument);
+			var item = InitializeItem(objRef);
 			if (item == null)
 				return;
 			var propertyValue = GetPropertyValue(getObjectPropertyStep.Property, item);
@@ -157,11 +157,9 @@ namespace Infrastructure.Automation
 					}
 				case ExplicitType.String:
 					{
-						value1 = GetValue<object>(arithmeticStep.Argument1);
-						value2 = GetValue<object>(arithmeticStep.Argument2);
 						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
 							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(value1), GetStringValue(value2));
+								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(arithmeticStep.Argument1), GetStringValue(arithmeticStep.Argument2));
 						break;
 					}
 			}
@@ -227,15 +225,14 @@ namespace Infrastructure.Automation
 		public void JournalStep(ProcedureStep procedureStep)
 		{
 			var journalStep = (JournalStep)procedureStep;
-			var messageValue = GetValue<object>(journalStep.MessageArgument);
-			ProcedureExecutionContext.AddJournalItem(ClientUID, GetStringValue(messageValue));
+			var messageValue = GetStringValue(journalStep.MessageArgument);
+			ProcedureExecutionContext.AddJournalItem(ClientUID, messageValue);
 		}
 
 		public void ShowMessageStep(ProcedureStep procedureStep)
 		{
 			var showMessageStep = (ShowMessageStep)procedureStep;
-			var message = GetValue<object>(showMessageStep.MessageArgument);
-			var messageString = GetStringValue(message);
+			var messageString = GetStringValue(showMessageStep.MessageArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Message,
@@ -372,9 +369,9 @@ namespace Infrastructure.Automation
 		public void SetValueStep(ProcedureStep procedureStep)
 		{
 			var setValueStep = (SetValueStep)procedureStep;
-			var value = GetValue<object>(setValueStep.SourceArgument);
-			if (setValueStep.ExplicitType == ExplicitType.String)
-				value = GetStringValue(value);
+			var value = setValueStep.ExplicitType == ExplicitType.String ?
+				GetStringValue(setValueStep.SourceArgument) :
+				GetValue<object>(setValueStep.SourceArgument);
 			SetValue(setValueStep.TargetArgument, value);
 		}
 
@@ -451,14 +448,20 @@ namespace Infrastructure.Automation
 			{
 				ProcedureExecutionContext.SynchronizeVariable(listVariable, ClientUID);
 				if (getListItemStep.PositionType == PositionType.First)
-					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+				{
+					var firstValue = listVariable.ExplicitValues.FirstOrDefault();
+					ProcedureExecutionContext.SetVariableValue(itemVariable, firstValue == null ? null : firstValue.Value, ClientUID);
+				}
 				if (getListItemStep.PositionType == PositionType.Last)
-					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+				{
+					var lastValue = listVariable.ExplicitValues.LastOrDefault();
+					ProcedureExecutionContext.SetVariableValue(itemVariable, lastValue == null ? null : lastValue.Value, ClientUID);
+				}
 				if (getListItemStep.PositionType == PositionType.ByIndex)
 				{
 					var indexValue = GetValue<int>(getListItemStep.IndexArgument);
 					if (listVariable.ExplicitValues.Count > indexValue)
-						ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+						ProcedureExecutionContext.SetVariableValue(itemVariable, listVariable.ExplicitValues[indexValue].Value, ClientUID);
 				}
 			}
 		}
@@ -843,7 +846,18 @@ namespace Infrastructure.Automation
 
 		#region Common operations
 
-		byte IntToByte(int value)
+		string GetStringValue(Argument argument)
+		{
+			if (argument == null)
+				return null;
+			if (argument.VariableScope == VariableScope.ExplicitValue)
+				return argument.ExplicitValue.ToString();
+
+			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+			return variable == null ? "" : variable.ExplicitValue.ToString();
+		}
+
+		static byte IntToByte(int value)
 		{
 			if (value < 0)
 				value = 0;
@@ -1190,107 +1204,34 @@ namespace Infrastructure.Automation
 			return new List<object>();
 		}
 
-		object InitializeItem(Guid itemUid)
+		object InitializeItem(ObjectReference objRef)
 		{
-			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
-			if (device != null)
-				return device;
-
-			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
-			if (zone != null)
-				return zone;
-
-			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
-			if (guardZone != null)
-				return guardZone;
-
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
-			if (camera != null)
-				return camera;
-
-			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
-			if (direction != null)
-				return direction;
-
-			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
-			if (delay != null)
-				return delay;
-
-			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == itemUid);
-			if (pumpStation != null)
-				return pumpStation;
-
-			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == itemUid);
-			if (mpt != null)
-				return mpt;
-
-			var door = GKManager.Doors.FirstOrDefault(x => x.UID == itemUid);
-			if (door != null)
-				return door;
-
-			var organisations = ProcedureExecutionContext.GetOrganisations(ClientUID);
-			var organisation = organisations == null ? null : organisations.FirstOrDefault(x => x.UID == itemUid);
-			if (organisation != null)
-				return organisation;
+			switch (objRef.ObjectType)
+			{
+				case ObjectType.Device:
+					return GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.Zone:
+					return GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.Direction:
+					return GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.Delay:
+					return GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.GuardZone:
+					return GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.PumpStation:
+					return GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.MPT:
+					return GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.VideoDevice:
+					return ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.GKDoor:
+					return GKManager.Doors.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.Organisation:
+					var organisations = ProcedureExecutionContext.GetOrganisations(ClientUID);
+					return organisations == null ? null : organisations.FirstOrDefault(x => x.UID == objRef.UID);
+			}
 
 			return null;
-		}
-
-		string GetStringValue(object obj)
-		{
-			if (obj == null)
-				return "";
-
-			var objType = obj.GetType();
-			if (objType == typeof(bool))
-				return (bool)obj ? "Да" : "Нет";
-
-			if (objType.IsEnum)
-				return ((Enum)obj).ToDescription();
-
-			if (objType == typeof(Guid))
-				return UidToObjectName((Guid)obj);
-
-			return obj.ToString();
-		}
-
-		string UidToObjectName(Guid uid)
-		{
-			if (uid == Guid.Empty)
-				return "";
-			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uid);
-			if (device != null)
-				return device.PresentationName;
-			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uid);
-			if (zone != null)
-				return zone.PresentationName;
-			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uid);
-			if (guardZone != null)
-				return guardZone.PresentationName;
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uid);
-			if (camera != null)
-				return camera.PresentationName;
-			var gKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uid);
-			if (gKDoor != null)
-				return gKDoor.PresentationName;
-			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uid);
-			if (direction != null)
-				return direction.PresentationName;
-			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uid);
-			if (delay != null)
-				return delay.PresentationName;
-			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == uid);
-			if (pumpStation != null)
-				return pumpStation.PresentationName;
-			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uid);
-			if (mpt != null)
-				return mpt.PresentationName;
-
-			var organisations = ProcedureExecutionContext.GetOrganisations(ClientUID);
-			var organisation = organisations == null ? null : organisations.FirstOrDefault(x => x.UID == uid);
-			if (organisation != null)
-				return organisation.Name;
-			return "";
 		}
 
 		void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
@@ -1307,7 +1248,7 @@ namespace Infrastructure.Automation
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
 					if (comparer != null && comparer.Value)
 					{
-						result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
+						result.ExplicitValues.Add(new ExplicitValue { ExplicitType = ExplicitType.Object, ObjectReferenceValue = new ObjectReference { UID = itemUid, ObjectType = result.ObjectType } });
 						break;
 					}
 				}
@@ -1335,7 +1276,7 @@ namespace Infrastructure.Automation
 					}
 				}
 				if (allTrue)
-					result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
+					result.ExplicitValues.Add(new ExplicitValue { ExplicitType = ExplicitType.Object, ObjectReferenceValue = new ObjectReference { UID = itemUid, ObjectType = result.ObjectType } });
 			}
 		}
 
@@ -1395,7 +1336,8 @@ namespace Infrastructure.Automation
 			if (explicitType == ExplicitType.DateTime)
 				return explicitValue1.DateTimeValue == explicitValue2.DateTimeValue;
 			if (explicitType == ExplicitType.Object)
-				return explicitValue1.UidValue == explicitValue2.UidValue;
+				return explicitValue1.ObjectReferenceValue.UID == explicitValue2.ObjectReferenceValue.UID
+					&& explicitValue1.ObjectReferenceValue.ObjectType == explicitValue2.ObjectReferenceValue.ObjectType;
 			if (explicitType == ExplicitType.Enum)
 			{
 				if (enumType == EnumType.DriverType)
@@ -1413,10 +1355,7 @@ namespace Infrastructure.Automation
 				if (enumType == EnumType.ColorType)
 					return explicitValue1.ColorValue == explicitValue2.ColorValue;
 			}
-			if (explicitType == ExplicitType.Object)
-			{
-				return explicitValue1.UidValue == explicitValue2.UidValue;
-			}
+
 			return false;
 		}
 
@@ -1428,7 +1367,7 @@ namespace Infrastructure.Automation
 		T GetValue<T>(Argument argument)
 		{
 			var result = argument.VariableScope == VariableScope.ExplicitValue ?
-				ProcedureExecutionContext.GetValue(argument.ExplicitValue, argument.ExplicitType, argument.EnumType) :
+				argument.ExplicitValue.Value :
 				ProcedureExecutionContext.GetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid));
 			if (result is string && typeof(T) == typeof(Guid))
 				result = CheckGuid(result.ToString()) ? new Guid(result.ToString()) : Guid.Empty;
@@ -1439,7 +1378,7 @@ namespace Infrastructure.Automation
 			return (T)result;
 		}
 
-		bool CheckGuid(string guidString)
+		static bool CheckGuid(string guidString)
 		{
 			var guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
 				"^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);

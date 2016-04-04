@@ -5,7 +5,6 @@ using Infrastructure.Common.Windows;
 using RubezhAPI.Automation;
 using RubezhAPI.Models;
 using RubezhClient;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -20,7 +19,9 @@ namespace AutomationModule
 				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device != null ? currentExplicitValue.Device : null);
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 				{
-					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
+					currentExplicitValue.ObjectReferenceValue = deviceSelectationViewModel.SelectedDevice == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = deviceSelectationViewModel.SelectedDevice.Device.UID, ObjectType = objectType };
 					return true;
 				}
 			}
@@ -30,7 +31,9 @@ namespace AutomationModule
 				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone != null ? currentExplicitValue.Zone : null);
 				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 				{
-					currentExplicitValue.UidValue = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.Zone.UID : Guid.Empty;
+					currentExplicitValue.ObjectReferenceValue = zoneSelectationViewModel.SelectedZone.Zone == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = zoneSelectationViewModel.SelectedZone.Zone.UID, ObjectType = objectType };
 					return true;
 				}
 			}
@@ -40,7 +43,9 @@ namespace AutomationModule
 				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone != null ? currentExplicitValue.GuardZone : null);
 				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
 				{
-					currentExplicitValue.UidValue = guardZoneSelectationViewModel.SelectedZone != null ? guardZoneSelectationViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
+					currentExplicitValue.ObjectReferenceValue = guardZoneSelectationViewModel.SelectedZone.GuardZone == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = guardZoneSelectationViewModel.SelectedZone.GuardZone.UID, ObjectType = objectType };
 					return true;
 				}
 			}
@@ -50,7 +55,9 @@ namespace AutomationModule
 				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction != null ? currentExplicitValue.Direction : null);
 				if (DialogService.ShowModalWindow(directionSelectationViewModel))
 				{
-					currentExplicitValue.UidValue = directionSelectationViewModel.SelectedDirection != null ? directionSelectationViewModel.SelectedDirection.Direction.UID : Guid.Empty;
+					currentExplicitValue.ObjectReferenceValue = directionSelectationViewModel.SelectedDirection.Direction == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = directionSelectationViewModel.SelectedDirection.Direction.UID, ObjectType = objectType };
 					return true;
 				}
 			}
@@ -60,7 +67,9 @@ namespace AutomationModule
 				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera != null ? currentExplicitValue.Camera : null);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
 				{
-					currentExplicitValue.UidValue = cameraSelectionViewModel.SelectedCamera != null ? cameraSelectionViewModel.SelectedCamera.Camera.UID : Guid.Empty;
+					currentExplicitValue.ObjectReferenceValue = cameraSelectionViewModel.SelectedCamera == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = cameraSelectionViewModel.SelectedCamera.Camera.UID, ObjectType = objectType };
 					return true;
 				}
 			}
@@ -70,7 +79,9 @@ namespace AutomationModule
 				var delaySelectionViewModel = new DelaySelectionViewModel(currentExplicitValue.Delay);
 				if (DialogService.ShowModalWindow(delaySelectionViewModel))
 				{
-					currentExplicitValue.UidValue = delaySelectionViewModel.SelectedDelay != null ? delaySelectionViewModel.SelectedDelay.Delay.UID : Guid.Empty;
+					currentExplicitValue.ObjectReferenceValue = delaySelectionViewModel.SelectedDelay == null ?
+						new ObjectReference() :
+						new ObjectReference { UID = delaySelectionViewModel.SelectedDelay.Delay.UID, ObjectType = objectType };
 					return true;
 				}
 			}
