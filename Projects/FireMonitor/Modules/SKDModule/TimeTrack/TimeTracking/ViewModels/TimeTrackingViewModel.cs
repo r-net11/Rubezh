@@ -1,6 +1,7 @@
 ﻿using System.Reactive;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
+using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -165,23 +166,27 @@ namespace SKDModule.ViewModels
 			SubscribeOnEvents();
 
 			ShowFilterCommand = new RelayCommand(OnShowFilter, () => !IsBisy);
-			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+			PrintCommand = new RelayCommand(OnPrint, () => ApplicationService.IsReportEnabled);
 			CanShowDocumentTypes = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 
 			ShowDocumentTypesCommand = new ReactiveCommand();
 			ShowDocumentTypesCommand.Subscribe(_ => OnShowDocumentTypes());
 
+			Logger.Info("CreateTimeTrackFilter");
 			_timeTrackFilter = CreateTimeTrackFilter();
+			Logger.Info("End_CreateTimeTrackFilter");
+			Logger.Info("Begin_UpdateDataGrid");
 			UpdateGrid();
+			Logger.Info("End_UpdateDataGrid");
 
-			IObservable<bool> canSelectPreviousPage = this.WhenAny(x => x.PageNumber, x => (x.Value > default(int)));
+			var canSelectPreviousPage = this.WhenAny(x => x.PageNumber, x => (x.Value > default(int)));
 			PreviousPageCommand = new ReactiveAsyncCommand(canSelectPreviousPage);
 			PreviousPageCommand.RegisterAsyncAction(_ => PageNumber--);
 
 			FirstPageCommand = new ReactiveAsyncCommand(canSelectPreviousPage);
 			FirstPageCommand.RegisterAsyncAction(_ => PageNumber = default(int));
 
-			IObservable<bool> canSelectNextPage = this.ObservableForProperty(x => x.TotalPageNumber).Select(x => x.Value > PageNumber)
+			var canSelectNextPage = this.ObservableForProperty(x => x.TotalPageNumber).Select(x => x.Value > PageNumber)
 				.Merge(this.WhenAny(x => x.PageNumber, x => (_cachedTimeTracks != null && (x.Value < TotalPageNumber))));
 			NextPageCommand = new ReactiveAsyncCommand(canSelectNextPage);
 			NextPageCommand.RegisterAsyncAction(_ => PageNumber++);
@@ -193,58 +198,74 @@ namespace SKDModule.ViewModels
 				PageNumber = TotalPageNumber;
 			});
 
-			RefreshCommand = new ReactiveAsyncCommand();
-			RefreshCommand.Subscribe(_ => IsBisy = true);
-			RefreshCommand.RegisterAsyncAction(_ => UpdateGrid()).Subscribe(x => { IsBisy = false; });
-
-			var executeUpdateTotalPageCounterCommand = new ReactiveAsyncCommand();
-
-			var executeSearchCommand = new ReactiveAsyncCommand();
-			executeSearchCommand
-				//.ObserveOn(RxApp.TaskpoolScheduler)
-				.Subscribe(x =>
+			try
 			{
-				if (SelectedTimeTrack == null && SearchResults == null) return;
-				SelectedTimeTrack = SelectedTimeTrack ?? SearchResults.FirstOrDefault();
 
-			});
 
-			var resultsTotalPages = executeUpdateTotalPageCounterCommand.RegisterAsyncFunction(x => _cachedTimeTracks != null ? ((_cachedTimeTracks.Count - 1)/RecordsPerPage + 1) - 1 : default(int));
-			_executeUpdateTotalPageCounterCommand = executeUpdateTotalPageCounterCommand;
+				RefreshCommand = new ReactiveAsyncCommand();
+				RefreshCommand.Subscribe(_ => IsBisy = true);
+				RefreshCommand.RegisterAsyncAction(_ => UpdateGrid()).Subscribe(x => { IsBisy = false; });
 
-			var results = executeSearchCommand.RegisterAsyncFunction(s => ExecuteSearch((int) s));
-			_executeSearchCommand = executeSearchCommand;
+				var executeUpdateTotalPageCounterCommand = new ReactiveAsyncCommand();
 
-			this.WhenAny(x => x.IsActive, x => x.PageNumber, x => x.IsFilterAccepted,
-				(isActive, pageNumber, isFilterAccepted) => new { IsActive = isActive.Value, PageNumber = pageNumber.Value, IsFilterAccepted = isFilterAccepted.Value })
-				//.Throttle(TimeSpan.FromMilliseconds(1000))
-				.Select(x => new { x.PageNumber, x.IsFilterAccepted })
-				.Where(x => (x.PageNumber >= default(int) && x.PageNumber <= TotalPageNumber) || x.IsFilterAccepted)
-			//	.ObserveOn(RxApp.TaskpoolScheduler)
-				.Subscribe(value =>
-				{
-					IsBisy = true;
-					_executeSearchCommand.Execute(value.PageNumber);
-					_executeUpdateTotalPageCounterCommand.Execute(null);
-					IsFilterAccepted = false;
-					IsBisy = false;
-				});
+				var executeSearchCommand = new ReactiveAsyncCommand();
+				executeSearchCommand
+					//.ObserveOn(RxApp.TaskpoolScheduler)
+					.Subscribe(x =>
+					{
+						if (SelectedTimeTrack == null && SearchResults == null) return;
+						SelectedTimeTrack = SelectedTimeTrack ?? SearchResults.FirstOrDefault();
 
-			_searchResults = new ObservableAsPropertyHelper<ObservableCollection<TimeTrack>>(results, _ => OnPropertyChanged(() => SearchResults));
-			_totalPageNumber = new ObservableAsPropertyHelper<int>(resultsTotalPages, _ => OnPropertyChanged(() => TotalPageNumber));
+					});
 
-			this.WhenAny(x => x.IsActive, x => x.Value)
-				.Subscribe(value =>
-				{
-					if (!value || (SelectedTimeTrack == null && SearchResults == null)) return;
-					SelectedTimeTrack = SelectedTimeTrack ?? SearchResults.FirstOrDefault();
-				});
+				var resultsTotalPages =
+					executeUpdateTotalPageCounterCommand.RegisterAsyncFunction(
+						x => _cachedTimeTracks != null ? ((_cachedTimeTracks.Count - 1)/RecordsPerPage + 1) - 1 : default(int));
+				_executeUpdateTotalPageCounterCommand = executeUpdateTotalPageCounterCommand;
 
-			this.WhenAny(x => x.SelectedTimeTrack, x => x.Value)
-				.Subscribe(_ =>
-				{
-					HasSelectedTimeTrack = _ != null;
-				});
+				var results = executeSearchCommand.RegisterAsyncFunction(s => ExecuteSearch((int) s));
+				_executeSearchCommand = executeSearchCommand;
+
+				this.WhenAny(x => x.IsActive, x => x.PageNumber, x => x.IsFilterAccepted,
+					(isActive, pageNumber, isFilterAccepted) =>
+						new {IsActive = isActive.Value, PageNumber = pageNumber.Value, IsFilterAccepted = isFilterAccepted.Value})
+					//.Throttle(TimeSpan.FromMilliseconds(1000))
+					.Select(x => new {x.PageNumber, x.IsFilterAccepted})
+					.Where(x => (x.PageNumber >= default(int) && x.PageNumber <= TotalPageNumber) || x.IsFilterAccepted)
+					//	.ObserveOn(RxApp.TaskpoolScheduler)
+					.Subscribe(value =>
+					{
+						IsBisy = true;
+						_executeSearchCommand.Execute(value.PageNumber);
+						_executeUpdateTotalPageCounterCommand.Execute(null);
+						IsFilterAccepted = false;
+						IsBisy = false;
+					});
+
+				_searchResults = new ObservableAsPropertyHelper<ObservableCollection<TimeTrack>>(results,
+					_ => OnPropertyChanged(() => SearchResults));
+				_totalPageNumber = new ObservableAsPropertyHelper<int>(resultsTotalPages,
+					_ => OnPropertyChanged(() => TotalPageNumber));
+
+				this.WhenAny(x => x.IsActive, x => x.Value)
+					.Subscribe(value =>
+					{
+						if (!value || (SelectedTimeTrack == null && SearchResults == null)) return;
+						SelectedTimeTrack = SelectedTimeTrack ?? SearchResults.FirstOrDefault();
+					});
+
+				this.WhenAny(x => x.SelectedTimeTrack, x => x.Value)
+					.Subscribe(_ =>
+					{
+						HasSelectedTimeTrack = _ != null;
+					});
+			}
+			catch (Exception e)
+			{
+				Logger.Info("Error in constructor");
+				Logger.Error(e);
+				throw;
+			}
 		}
 
 		#endregion
@@ -293,54 +314,84 @@ namespace SKDModule.ViewModels
 
 		private Guid GetFirstOrganizationUID()
 		{
-			var resp = OrganisationHelper.GetByCurrentUser();
+			try
+			{
+				var resp = OrganisationHelper.GetByCurrentUser();
 
-			if (resp == null) return Guid.Empty;
+				if (resp == null) return Guid.Empty;
 
-			var firstOrganizationElement = resp.FirstOrDefault();
-			return firstOrganizationElement != null ? firstOrganizationElement.UID : Guid.Empty;
+				var firstOrganizationElement = resp.FirstOrDefault();
+				return firstOrganizationElement != null ? firstOrganizationElement.UID : Guid.Empty;
+			}
+			catch (Exception e)
+			{
+				Logger.Info("Error in get first organisation");
+				Logger.Error(e);
+				throw;
+			}
 		}
 
 		void UpdateGrid()
 		{
-			TotalDays = (int)(_timeTrackFilter.EndDate - _timeTrackFilter.StartDate).TotalDays + 1;
-			FirstDay = _timeTrackFilter.StartDate;
-			IsEnabledTimeTrackFilter = _timeTrackFilter.TotalTimeTrackTypeFilters.Any();
+			try
+			{
+				TotalDays = (int) (_timeTrackFilter.EndDate - _timeTrackFilter.StartDate).TotalDays + 1;
+				FirstDay = _timeTrackFilter.StartDate;
+				IsEnabledTimeTrackFilter = _timeTrackFilter.TotalTimeTrackTypeFilters.Any();
 
-			var timeTrackResult = GetServerTimeTrackResults();
+				var timeTrackResult = GetServerTimeTrackResults();
 
-			if (timeTrackResult == null) return;
+				if (timeTrackResult == null) return;
 
-			_timeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
-			_cachedTimeTracks = _timeTrackEmployeeResults.Select(x => new TimeTrack(_timeTrackFilter, x)).OrderBy(x => x.ShortEmployee.FirstName).ToList();
+				_timeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
+				_cachedTimeTracks =
+					_timeTrackEmployeeResults.Select(x => new TimeTrack(_timeTrackFilter, x))
+						.OrderBy(x => x.ShortEmployee.FirstName)
+						.ToList();
 
-			if(_executeSearchCommand != null)
-				_executeSearchCommand.Execute(PageNumber);
+				if (_executeSearchCommand != null)
+					_executeSearchCommand.Execute(PageNumber);
 
-			RowHeight = 60 + 20 * _timeTrackFilter.TotalTimeTrackTypeFilters.Count;
+				RowHeight = 60 + 20*_timeTrackFilter.TotalTimeTrackTypeFilters.Count;
+			}
+			catch (Exception e)
+			{
+				Logger.Info("Exception in UpdateDataGrid");
+				Logger.Error(e);
+				throw;
+			}
 		}
 
 		private TimeTrackResult GetServerTimeTrackResults()
 		{
-			var resultFileName = Path.Combine(AppDataFolderHelper.GetFolder("Temp"), "ClientTimeTrackResult.xml");
-
-			if (!Directory.Exists(resultFileName))
-				Directory.CreateDirectory(AppDataFolderHelper.GetFolder("Temp"));
-
-			TimeTrackResult timeTrackResult;
-			lock (Locker)
+			try
 			{
-				using (var fileStream = new FileStream(resultFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
-				{
-					using (var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate))
-					{
-						FiresecManager.CopyStream(stream, fileStream);
-					}
-				}
-				timeTrackResult = Deserialize(resultFileName);
-			}
+				var resultFileName = Path.Combine(AppDataFolderHelper.GetFolder("Temp"), "ClientTimeTrackResult.xml");
 
-			return timeTrackResult;
+				if (!Directory.Exists(resultFileName))
+					Directory.CreateDirectory(AppDataFolderHelper.GetFolder("Temp"));
+
+				TimeTrackResult timeTrackResult;
+				lock (Locker)
+				{
+					using (var fileStream = new FileStream(resultFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+					{
+						using (var stream = FiresecManager.FiresecService.GetTimeTracksStream(_timeTrackFilter.EmployeeFilter, _timeTrackFilter.StartDate, _timeTrackFilter.EndDate))
+						{
+							FiresecManager.CopyStream(stream, fileStream);
+						}
+					}
+					timeTrackResult = Deserialize(resultFileName);
+				}
+
+				return timeTrackResult;
+			}
+			catch (Exception e)
+			{
+				Logger.Info("Error in GetServerTimeTrackresult");
+				Logger.Error(e);
+				throw;
+			}
 		}
 
 		public static TimeTrackResult Deserialize(string fileName)
@@ -426,10 +477,6 @@ namespace SKDModule.ViewModels
 
 			var reportSettingsViewModel = new ReportSettingsViewModel(_timeTrackFilter, _timeTrackEmployeeResults);
 			DialogService.ShowModalWindow(reportSettingsViewModel);
-		}
-		bool CanPrint()
-		{
-			return ApplicationService.IsReportEnabled;
 		}
 
 		public ReactiveCommand ShowDocumentTypesCommand { get; private set; }

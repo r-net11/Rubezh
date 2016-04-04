@@ -8,7 +8,6 @@ namespace FiresecAPI.SKD
 	public class EmployeeFilter : OrganisationFilterBase
 	{
 		public EmployeeFilter()
-			: base()
 		{
 			DepartmentUIDs = new List<Guid>();
 			PositionUIDs = new List<Guid>();
@@ -51,9 +50,9 @@ namespace FiresecAPI.SKD
 			get
 			{
 				return
-					(FirstName != null && FirstName != "") ||
-					(LastName != null && LastName != "") ||
-					(SecondName != null && SecondName != "") ||
+					!string.IsNullOrEmpty(FirstName) ||
+					!string.IsNullOrEmpty(LastName) ||
+					!string.IsNullOrEmpty(SecondName) ||
 					DepartmentUIDs.IsNotNullOrEmpty() ||
 					PositionUIDs.IsNotNullOrEmpty() ||
 					ScheduleUIDs.IsNotNullOrEmpty() ||
