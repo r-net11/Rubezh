@@ -49,6 +49,7 @@ namespace GKModule.Validation
 				ValidateDeviceIfInMPTAndDoor(device);
 				if (device.DriverType == GKDriverType.RSR2_CardReader)
 				ValidateWiegand(device);
+				ValidateFirefightingZonesMirror(device);
 			}
 		}
 
@@ -274,6 +275,18 @@ namespace GKModule.Validation
 				))
 					AddError(device, string.Format("Котроллер Wiegand используется в точке доступа, не должно быть настроенных кодов с методом ввода *КОД#   "), ValidationErrorLevel.CannotWrite);
 			}
+		}
+
+		void ValidateFirefightingZonesMirror(GKDevice device)
+		{
+			if (device.DriverType != GKDriverType.FirefightingZonesMirror)
+				return;
+			if (device.GKReflectionItem.Zones.Count == 0 && device.GKReflectionItem.Diretions.Count != 0)
+				AddError(device, string.Format("В образе ЗПЗ отсутсвуют пожарные зоны"), ValidationErrorLevel.CannotWrite);
+			if (device.GKReflectionItem.Zones.Count != 0 && device.GKReflectionItem.Diretions.Count == 0)
+				AddError(device, string.Format("В образе ЗПЗ отсутсвуют направления"), ValidationErrorLevel.CannotWrite);
+			if (device.GKReflectionItem.Zones.Count == 0 && device.GKReflectionItem.Diretions.Count == 0)
+				AddError(device, string.Format("В образе ЗПЗ отсутсвуют пожарные зоны и направления"), ValidationErrorLevel.CannotWrite);
 		}
 	}
 }
