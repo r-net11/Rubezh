@@ -436,6 +436,9 @@ namespace AutomationModule.Validation
 					break;
 			}
 
+			if (step is UIStep && ((UIStep)step).LayoutFilter.Count == 0)
+				Errors.Add(new ProcedureStepValidationError(step, "Необходимо выбрать как минимум один макет в фильтре макетов", ValidationErrorLevel.CannotSave));
+
 			foreach (var childStep in step.Children)
 				ValidateStep(procedure, childStep);
 		}
