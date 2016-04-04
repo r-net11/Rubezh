@@ -188,6 +188,13 @@ namespace FiresecService
 							var rviCallbackResult = new RviCallbackResult();
 							rviCallbackResult.RviStates.AddRange(rviStates);
 							FiresecService.Service.FiresecService.NotifyRviObjectStateChanged(rviCallbackResult);
+						}
+						if (journalItems.Count != 0)
+						{
+							using (var databaseService = new RubezhDAL.DataClasses.DbService())
+							{
+								databaseService.JournalTranslator.AddRange(journalItems);
+							}
 							FiresecService.Service.FiresecService.NotifyJournalItems(journalItems, true);
 						}
 					}
