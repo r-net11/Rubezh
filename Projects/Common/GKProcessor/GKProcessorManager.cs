@@ -387,31 +387,31 @@ namespace GKProcessor
 		public static void GKReset(GKBase gkBase, string userName)
 		{
 			Watcher.SendControlCommand(gkBase, GKStateBit.Reset, "Сброс");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", gkBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс_Команда_оператора, "", gkBase, userName);
 		}
 
 		public static void GKResetFire1(GKZone zone, string userName)
 		{
 			Watcher.SendControlCommand(zone, 0x02, "Сброс Пожар-1");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", zone, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс_Команда_оператора, "", zone, userName);
 		}
 
 		public static void GKResetFire2(GKZone zone, string userName)
 		{
 			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-2");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", zone, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс_Команда_оператора, "", zone, userName);
 		}
 
 		public static void GKSetAutomaticRegime(GKBase gkBase, string userName)
 		{
 			Watcher.SendControlCommand(gkBase, GKStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_автоматический_режим, "", gkBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_автоматический_режим_Команда_оператора, "", gkBase, userName);
 		}
 
 		public static void GKSetManualRegime(GKBase gkBase, string userName)
 		{
 			Watcher.SendControlCommand(gkBase, GKStateBit.SetRegime_Manual, "Перевод в ручной режим");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_ручной_режим, "", gkBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_ручной_режим_Команда_оператора, "", gkBase, userName);
 		}
 
 		public static void GKSetIgnoreRegime(GKBase gkBase, string userName)

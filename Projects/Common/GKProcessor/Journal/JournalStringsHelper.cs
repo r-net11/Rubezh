@@ -81,179 +81,195 @@ namespace GKProcessor
 			return ToState(b);
 		}
 
-		public static JournalEventDescriptionType ToFailure(byte b, bool isMVP = false)
+		public static JournalEventDescriptionType ToFailure(byte b, bool isFailure, bool isMVP = false)
 		{
 			switch (b)
 			{
-				case 1: return isMVP ? JournalEventDescriptionType.КЗ_АЛС_1 : JournalEventDescriptionType.Напряжение_питания_устройства_не_в_норме; // РМК, МПТ, МРО-2М
-				case 2: return isMVP ? JournalEventDescriptionType.КЗ_АЛС_2 : JournalEventDescriptionType.Оптический_канал_или_фотоусилитель; // ИЗВЕЩАТЕЛИ
-				case 3: return isMVP ? JournalEventDescriptionType.КЗ_АЛС_3 : JournalEventDescriptionType.Температурный_канал; // ИЗВЕЩАТЕЛИ
-				case 4: return isMVP ? JournalEventDescriptionType.КЗ_АЛС_4 : JournalEventDescriptionType.КЗ_ШС; // МПТ, АМ
-				case 5: return JournalEventDescriptionType.Обрыв_ШС; // МПТ, АМ
+				case 1:
+					if (isMVP)
+						return isFailure ? JournalEventDescriptionType.КЗ_АЛС_1_Неисправность : JournalEventDescriptionType.КЗ_АЛС_1_Неисправность_устранена;
+					else
+						return isFailure ? JournalEventDescriptionType.Напряжение_питания_устройства_не_в_норме_Неисправность : JournalEventDescriptionType.Неисправность_устраненаНапряжение_питания_устройства_не_в_норме_Неисправность_устранена;
+				case 2:
+					if (isMVP)
+						return isFailure ? JournalEventDescriptionType.КЗ_АЛС_2_Неисправность : JournalEventDescriptionType.КЗ_АЛС_2_Неисправность_устранена;
+					else
+						return isFailure ? JournalEventDescriptionType.Оптический_канал_или_фотоусилитель_Неисправность : JournalEventDescriptionType.Оптический_канал_или_фотоусилитель_Неисправность_устранена;
+				case 3:
+					if (isMVP)
+						return isFailure ? JournalEventDescriptionType.КЗ_АЛС_3_Неисправность : JournalEventDescriptionType.КЗ_АЛС_3_Неисправность_устранена;
+					else
+						return isFailure ? JournalEventDescriptionType.Температурный_канал_Неисправность : JournalEventDescriptionType.Температурный_канал_Неисправность_устранена;
+				case 4:
+					if (isMVP)
+						return isFailure ? JournalEventDescriptionType.КЗ_АЛС_4_Неисправность : JournalEventDescriptionType.КЗ_АЛС_4_Неисправность_устранена;
+					else
+						return isFailure ? JournalEventDescriptionType.КЗ_ШС_Неисправность : JournalEventDescriptionType.КЗ_ШС_Неисправность_устранена;
+				case 5: return isFailure ? JournalEventDescriptionType.Обрыв_ШС_Неисправность : JournalEventDescriptionType.Обрыв_ШС_Неисправность_устранена;
 				//case 6: return "";
 				//case 7: return "";
-				case 8: return JournalEventDescriptionType.Вскрытие_корпуса; // АМ, ШУН, ШУЗ, КАУ, ГК
-				case 9: return JournalEventDescriptionType.Контакт_не_переключается; // РМ
-				case 10: return JournalEventDescriptionType.Напряжение_запуска_реле_ниже_нормы; // РМК
-				case 11: return JournalEventDescriptionType.КЗ_выхода; // РМК
-				case 12: return JournalEventDescriptionType.Обрыв_выхода; // РМК
-				case 13: return JournalEventDescriptionType.Напряжение_питания_ШС_ниже_нормы; // МПТ
-				case 14: return JournalEventDescriptionType.Ошибка_памяти; // МПТ
-				case 15: return JournalEventDescriptionType.КЗ_выхода_1; // МПТ
-				case 16: return JournalEventDescriptionType.КЗ_выхода_2; // МПТ
-				case 17: return JournalEventDescriptionType.КЗ_выхода_3; // МПТ
-				case 18: return JournalEventDescriptionType.КЗ_выхода_4; // МПТ
-				case 19: return JournalEventDescriptionType.КЗ_выхода_5; // МПТ
-				case 20: return JournalEventDescriptionType.Обрыв_выхода_1; // МПТ
-				case 21: return JournalEventDescriptionType.Обрыв_выхода_2; // МПТ
-				case 22: return JournalEventDescriptionType.Обрыв_выхода_3; // МПТ
-				case 23: return JournalEventDescriptionType.Обрыв_выхода_4; // МПТ
-				case 24: return JournalEventDescriptionType.Обрыв_выхода_5; // МПТ
-				case 25: return JournalEventDescriptionType.Блокировка_пуска; // МДУ
-				case 26: return JournalEventDescriptionType.Низкое_напряжение_питания_привода; // МДУ
-				case 27: return JournalEventDescriptionType.Обрыв_кнопки_НОРМА; // МДУ
-				case 28: return JournalEventDescriptionType.КЗ_кнопки_НОРМА; // МДУ
-				case 29: return JournalEventDescriptionType.Обрыв_кнопка_ЗАЩИТА; // МДУ
-				case 30: return JournalEventDescriptionType.КЗ_кнопки_ЗАЩИТА; // МДУ
-				case 31: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО; // МДУ
-				case 32: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО; // МДУ
-				case 33: return JournalEventDescriptionType.Обрыв_цепи_ПД_ЗАЩИТА; // МДУ
-				case 34: return JournalEventDescriptionType.Замкнуты_разомкнуты_оба_концевика; // МДУ
-				case 35: return JournalEventDescriptionType.Превышение_времени_хода; // МДУ, ШУЗ
-				case 36: return JournalEventDescriptionType.Обрыв_в_линии_РЕЛЕ;
-				case 37: return JournalEventDescriptionType.КЗ_в_линии_РЕЛЕ;
-				case 38: return JournalEventDescriptionType.Выход_1;
-				case 39: return JournalEventDescriptionType.Выход_2;
-				case 40: return JournalEventDescriptionType.Выход_3;
+				case 8: return isFailure ? JournalEventDescriptionType.Вскрытие_корпуса_Неисправность : JournalEventDescriptionType.Вскрытие_корпуса_Неисправность_устранена;
+				case 9: return isFailure ? JournalEventDescriptionType.Контакт_не_переключается_Неисправность : JournalEventDescriptionType.Контакт_не_переключается_Неисправность_устранена;
+				case 10: return isFailure ? JournalEventDescriptionType.Напряжение_запуска_реле_ниже_нормы_Неисправность : JournalEventDescriptionType.Напряжение_запуска_реле_ниже_нормы_Неисправность_устранена;
+				case 11: return isFailure ? JournalEventDescriptionType.КЗ_выхода_Неисправность : JournalEventDescriptionType.КЗ_выхода_Неисправность_устранена;
+				case 12: return isFailure ? JournalEventDescriptionType.Обрыв_выхода_Неисправность : JournalEventDescriptionType.Обрыв_выхода_Неисправность_устранена;
+				case 13: return isFailure ? JournalEventDescriptionType.Напряжение_питания_ШС_ниже_нормы_Неисправность : JournalEventDescriptionType.Напряжение_питания_ШС_ниже_нормы_Неисправность_устранена;
+				case 14: return isFailure ? JournalEventDescriptionType.Ошибка_памяти_Неисправность : JournalEventDescriptionType.Ошибка_памяти_Неисправность_устранена;
+				case 15: return isFailure ? JournalEventDescriptionType.КЗ_выхода_1_Неисправность : JournalEventDescriptionType.КЗ_выхода_1_Неисправность_устранена;
+				case 16: return isFailure ? JournalEventDescriptionType.КЗ_выхода_2_Неисправность : JournalEventDescriptionType.КЗ_выхода_2_Неисправность_устранена;
+				case 17: return isFailure ? JournalEventDescriptionType.КЗ_выхода_3_Неисправность : JournalEventDescriptionType.КЗ_выхода_3_Неисправность_устранена;
+				case 18: return isFailure ? JournalEventDescriptionType.КЗ_выхода_4_Неисправность : JournalEventDescriptionType.КЗ_выхода_4_Неисправность_устранена; // МПТ
+				case 19: return isFailure ? JournalEventDescriptionType.КЗ_выхода_5_Неисправность : JournalEventDescriptionType.КЗ_выхода_5_Неисправность_устранена; // МПТ
+				case 20: return isFailure ? JournalEventDescriptionType.Обрыв_выхода_1_Неисправность : JournalEventDescriptionType.Обрыв_выхода_1_Неисправность_устранена; // МПТ
+				case 21: return isFailure ? JournalEventDescriptionType.Обрыв_выхода_2_Неисправность : JournalEventDescriptionType.Обрыв_выхода_2_Неисправность_устранена; // МПТ
+				case 22: return isFailure ? JournalEventDescriptionType.Обрыв_выхода_3_Неисправность : JournalEventDescriptionType.Обрыв_выхода_3_Неисправность_устранена; // МПТ
+				case 23: return isFailure ? JournalEventDescriptionType.Обрыв_выхода_4_Неисправность : JournalEventDescriptionType.Обрыв_выхода_4_Неисправность_устранена; // МПТ
+				case 24: return isFailure ? JournalEventDescriptionType.Обрыв_выхода_5_Неисправность : JournalEventDescriptionType.Обрыв_выхода_5_Неисправность_устранена; // МПТ
+				case 25: return isFailure ? JournalEventDescriptionType.Блокировка_пуска_Неисправность : JournalEventDescriptionType.Блокировка_пуска_Неисправность_устранена; // МДУ
+				case 26: return isFailure ? JournalEventDescriptionType.Низкое_напряжение_питания_привода_Неисправность : JournalEventDescriptionType.Низкое_напряжение_питания_привода_Неисправность_устранена; // МДУ
+				case 27: return isFailure ? JournalEventDescriptionType.Обрыв_кнопки_НОРМА_Неисправность : JournalEventDescriptionType.Обрыв_кнопки_НОРМА_Неисправность_устранена; // МДУ
+				case 28: return isFailure ? JournalEventDescriptionType.КЗ_кнопки_НОРМА_Неисправность : JournalEventDescriptionType.КЗ_кнопки_НОРМА_Неисправность_устранена; // МДУ
+				case 29: return isFailure ? JournalEventDescriptionType.Обрыв_кнопка_ЗАЩИТА_Неисправность : JournalEventDescriptionType.Обрыв_кнопка_ЗАЩИТА_Неисправность_устранена; // МДУ
+				case 30: return isFailure ? JournalEventDescriptionType.КЗ_кнопки_ЗАЩИТА_Неисправность : JournalEventDescriptionType.КЗ_кнопки_ЗАЩИТА_Неисправность_устранена; // МДУ
+				case 31: return isFailure ? JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО_Неисправность : JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО_Неисправность_устранена; // МДУ
+				case 32: return isFailure ? JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО_Неисправность : JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО_Неисправность_устранена; // МДУ
+				case 33: return isFailure ? JournalEventDescriptionType.Обрыв_цепи_ПД_ЗАЩИТА_Неисправность : JournalEventDescriptionType.Обрыв_цепи_ПД_ЗАЩИТА_Неисправность_устранена; // МДУ
+				case 34: return isFailure ? JournalEventDescriptionType.Замкнуты_разомкнуты_оба_концевика_Неисправность : JournalEventDescriptionType.Замкнуты_разомкнуты_оба_концевика_Неисправность_устранена; // МДУ
+				case 35: return isFailure ? JournalEventDescriptionType.Превышение_времени_хода_Неисправность : JournalEventDescriptionType.Превышение_времени_хода_Неисправность_устранена; // МДУ, ШУЗ
+				case 36: return isFailure ? JournalEventDescriptionType.Обрыв_в_линии_РЕЛЕ_Неисправность : JournalEventDescriptionType.Обрыв_в_линии_РЕЛЕ_Неисправность_устранена;
+				case 37: return isFailure ? JournalEventDescriptionType.КЗ_в_линии_РЕЛЕ_Неисправность : JournalEventDescriptionType.КЗ_в_линии_РЕЛЕ_Неисправность_устранена;
+				case 38: return isFailure ? JournalEventDescriptionType.Выход_1_Неисправность : JournalEventDescriptionType.Выход_1_Неисправность_устранена;
+				case 39: return isFailure ? JournalEventDescriptionType.Выход_2_Неисправность : JournalEventDescriptionType.Выход_2_Неисправность_устранена;
+				case 40: return isFailure ? JournalEventDescriptionType.Выход_3_Неисправность : JournalEventDescriptionType.Выход_3_Неисправность_устранена; 
 				//case 41: return "";
-				case 42: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО; // ШУЗ
-				case 43: return JournalEventDescriptionType.КЗ_концевого_выключателя_ОТКРЫТО; // ШУЗ
-				case 44: return JournalEventDescriptionType.Обрыв_муфтового_выключателя_ОТКРЫТО; // ШУЗ
-				case 45: return JournalEventDescriptionType.КЗ_муфтового_выключателя_ОТКРЫТО; // ШУЗ
-				case 46: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО; // ШУЗ
-				case 47: return JournalEventDescriptionType.КЗ_концевого_выключателя_ЗАКРЫТО; // ШУЗ
-				case 48: return JournalEventDescriptionType.Обрыв_муфтового_выключателя_ЗАКРЫТО; // ШУЗ
-				case 49: return JournalEventDescriptionType.КЗ_муфтового_выключателя_ЗАКРЫТО; // ШУЗ
-				case 50: return JournalEventDescriptionType.Обрыв_кнопки_Открыть_УЗЗ_Закрыть_УЗЗ; // ШУЗ
-				case 51: return JournalEventDescriptionType.КЗ_кнопки_Открыть_УЗЗ_Закрыть_УЗЗ; // ШУЗ
-				case 52: return JournalEventDescriptionType.Обрыв_кнопки_СТОП_УЗЗ; // ШУЗ
-				case 53: return JournalEventDescriptionType.КЗ_кнопки_СТОП_УЗЗ; // ШУЗ
-				case 54: return JournalEventDescriptionType.Обрыв_давление_низкое;
-				case 55: return JournalEventDescriptionType.КЗ_давление_низкое;
-				case 56: return JournalEventDescriptionType.Таймаут_по_давлению;
-				case 57: return JournalEventDescriptionType.КВ_МВ; // ШУЗ
-				case 58: return JournalEventDescriptionType.Не_задан_режим; // ШУЗ
-				case 59: return JournalEventDescriptionType.Отказ_ШУЗ; // ШУЗ
-				case 60: return JournalEventDescriptionType.ДУ_ДД; // ШУН
-				case 61: return JournalEventDescriptionType.Обрыв_входа_1; // ШУН
-				case 62: return JournalEventDescriptionType.КЗ_входа_1; // ШУН
-				case 63: return JournalEventDescriptionType.Обрыв_входа_2; // ШУН
-				case 64: return JournalEventDescriptionType.КЗ_входа_2; // ШУН
-				case 65: return JournalEventDescriptionType.Обрыв_входа_3; // ШУН
-				case 66: return JournalEventDescriptionType.КЗ_входа_3; // ШУН
-				case 67: return JournalEventDescriptionType.Обрыв_входа_4; // ШУН
-				case 68: return JournalEventDescriptionType.КЗ_входа_4; // ШУН
-				case 69: return JournalEventDescriptionType.Не_задан_тип; // ШУН
-				case 70: return JournalEventDescriptionType.Отказ_ПН; // ШУН
-				case 71: return JournalEventDescriptionType.Отказ_ШУН; // ШУН
-				case 72: return JournalEventDescriptionType.Питание_1; // КАУ, ГК
-				case 73: return JournalEventDescriptionType.Питание_2; // КАУ, ГК
-				case 74: return JournalEventDescriptionType.Отказ_АЛС_1_или_2; // КАУ
-				case 75: return JournalEventDescriptionType.Отказ_АЛС_3_или_4; // КАУ
-				case 76: return JournalEventDescriptionType.Отказ_АЛС_5_или_6; // КАУ
-				case 77: return JournalEventDescriptionType.Отказ_АЛС_7_или_8; // КАУ
-				case 78: return JournalEventDescriptionType.Обрыв_цепи_ПД_НОРМА; // МДУ
-				case 79: return JournalEventDescriptionType.КЗ_АЛС_1; // КАУ
-				case 80: return JournalEventDescriptionType.КЗ_АЛС_2; // КАУ
-				case 81: return JournalEventDescriptionType.КЗ_АЛС_3; // КАУ
-				case 82: return JournalEventDescriptionType.КЗ_АЛС_4; // КАУ
-				case 83: return JournalEventDescriptionType.КЗ_АЛС_5; // КАУ
-				case 84: return JournalEventDescriptionType.КЗ_АЛС_6; // КАУ
-				case 85: return JournalEventDescriptionType.КЗ_АЛС_7; // КАУ
-				case 86: return JournalEventDescriptionType.КЗ_АЛС_8; // КАУ
-				case 87: return JournalEventDescriptionType.Истекло_время_вкл;
-				case 88: return JournalEventDescriptionType.Истекло_время_выкл;
-				case 89: return JournalEventDescriptionType.Контакт_реле_1;
-				case 90: return JournalEventDescriptionType.Контакт_реле_2;
-				case 91: return JournalEventDescriptionType.Обрыв_кнопки_ПУСК; // МРО-2М
-				case 92: return JournalEventDescriptionType.КЗ_кнопки_ПУСК; // МРО-2М
-				case 93: return JournalEventDescriptionType.Обрыв_кнопки_СТОП; // МРО-2М
-				case 94: return JournalEventDescriptionType.КЗ_кнопки_СТОП; // МРО-2М
-				case 95: return JournalEventDescriptionType.Отсутствуют_или_испорчены_сообщения_для_воспроизведения; // МРО-2М
-				case 96: return JournalEventDescriptionType.Выход;
-				case 97: return JournalEventDescriptionType.Обрыв_Низкий_уровень; // ППУ
-				case 98: return JournalEventDescriptionType.КЗ_Низкий_уровень; // ППУ
-				case 99: return JournalEventDescriptionType.Обрыв_Высокий_уровень; // ППУ
-				case 100: return JournalEventDescriptionType.КЗ_Высокий_уровень; // ППУ
-				case 101: return JournalEventDescriptionType.Обрыв_Аварийный_уровень; // ППУ
-				case 102: return JournalEventDescriptionType.КЗ_Аварийный_уровень; // ППУ
-				case 103: return JournalEventDescriptionType.Аварийный_уровень; // ППУ
-				case 104: return JournalEventDescriptionType.Питание_силовое; // ППУ
-				case 105: return JournalEventDescriptionType.Питание_контроллера; // ППУ
-				case 106: return JournalEventDescriptionType.Несовместимость_сигналов; // ППУ
-				case 107: return JournalEventDescriptionType.Обрыв_цепи_питания_двигателя; // ППУ
-				case 108: return JournalEventDescriptionType.Обрыв_Давление_на_выходе; // ППУ
-				case 109: return JournalEventDescriptionType.КЗ_Давление_на_выходе; // ППУ
-				case 110: return JournalEventDescriptionType.Обрыв_ДУ_ПУСК; // ППУ
-				case 111: return JournalEventDescriptionType.КЗ_ДУ_ПУСК; // ППУ
-				case 112: return JournalEventDescriptionType.Обрыв_ДУ_СТОП; // ППУ
-				case 113: return JournalEventDescriptionType.КЗ_ДУ_СТОП; // ППУ
-				case 148: return JournalEventDescriptionType.АЛС_1_Неизвестное_устройство;
-				case 149: return JournalEventDescriptionType.АЛС_2_Неизвестное_устройство;
-				case 150: return JournalEventDescriptionType.АЛС_3_Неизвестное_устройство;
-				case 151: return JournalEventDescriptionType.АЛС_4_Неизвестное_устройство;
-				case 152: return JournalEventDescriptionType.АЛС_5_Неизвестное_устройство;
-				case 153: return JournalEventDescriptionType.АЛС_6_Неизвестное_устройство;
-				case 154: return JournalEventDescriptionType.АЛС_7_Неизвестное_устройство;
-				case 155: return JournalEventDescriptionType.АЛС_8_Неизвестное_устройство;
-				case 156: return JournalEventDescriptionType.АЛС_1_Неизвестный_тип_устройства;
-				case 157: return JournalEventDescriptionType.АЛС_2_Неизвестный_тип_устройства;
-				case 158: return JournalEventDescriptionType.АЛС_3_Неизвестный_тип_устройства;
-				case 159: return JournalEventDescriptionType.АЛС_4_Неизвестный_тип_устройства;
-				case 160: return JournalEventDescriptionType.АЛС_5_Неизвестный_тип_устройства;
-				case 161: return JournalEventDescriptionType.АЛС_6_Неизвестный_тип_устройства;
-				case 162: return JournalEventDescriptionType.АЛС_7_Неизвестный_тип_устройства;
-				case 163: return JournalEventDescriptionType.АЛС_8_Неизвестный_тип_устройства;
-				case 164: return JournalEventDescriptionType.АЛС_1_Другой_тип_устройства;
-				case 165: return JournalEventDescriptionType.АЛС_2_Другой_тип_устройства;
-				case 166: return JournalEventDescriptionType.АЛС_3_Другой_тип_устройства;
-				case 167: return JournalEventDescriptionType.АЛС_4_Другой_тип_устройства;
-				case 168: return JournalEventDescriptionType.АЛС_5_Другой_тип_устройства;
-				case 169: return JournalEventDescriptionType.АЛС_6_Другой_тип_устройства;
-				case 170: return JournalEventDescriptionType.АЛС_7_Другой_тип_устройства;
-				case 171: return JournalEventDescriptionType.АЛС_8_Другой_тип_устройства;
-				case 172: return JournalEventDescriptionType.Контактор_Открыть;
-				case 173: return JournalEventDescriptionType.Контактор_Закрыть;
-				case 174: return JournalEventDescriptionType.Обрыв_ДУ_Открыть;
-				case 175: return JournalEventDescriptionType.КЗ_ДУ_Открыть;
-				case 176: return JournalEventDescriptionType.Обрыв_ДУ_Закрыть;
-				case 177: return JournalEventDescriptionType.КЗ_ДУ_Закрыть;
-				case 178: return JournalEventDescriptionType.Обрыв_ОГВ;
-				case 179: return JournalEventDescriptionType.КЗ_ОГВ;
-				case 180: return JournalEventDescriptionType.Истекло_Время_Хода;
-				case 181: return JournalEventDescriptionType.Сигнал_МВ_без_КВ;
-				case 182: return JournalEventDescriptionType.Сочетание_КВ;
-				case 183: return JournalEventDescriptionType.Сочетание_МВ;
-				case 184: return JournalEventDescriptionType.Сочетание_ДНУ_и_ДВУ;
-				case 186: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАЩИТА;
-				case 187: return JournalEventDescriptionType.КЗ_концевого_выключателя_ЗАЩИТА;
-				case 188: return JournalEventDescriptionType.Обрыв_концевого_выключателя_НОРМА;
-				case 189: return JournalEventDescriptionType.КЗ_концевого_выключателя_НОРМА;
-				case 241: return JournalEventDescriptionType.Обрыв_АЛС_1_2;
-				case 242: return JournalEventDescriptionType.Обрыв_АЛС_3_4;
-				case 243: return JournalEventDescriptionType.Обрыв_АЛС_5_6;
-				case 244: return JournalEventDescriptionType.Обрыв_АЛС_7_8;
-				case 245: return JournalEventDescriptionType.Обрыв_АЛС_1;
-				case 246: return JournalEventDescriptionType.Обрыв_АЛС_2;
-				case 247: return JournalEventDescriptionType.Обрыв_АЛС_3;
-				case 248: return JournalEventDescriptionType.Обрыв_АЛС_4;
-				case 249: return JournalEventDescriptionType.Обрыв_АЛС_5;
-				case 250: return JournalEventDescriptionType.Обрыв_АЛС_6;
-				case 251: return JournalEventDescriptionType.Обрыв_АЛС_7;
-				case 252: return JournalEventDescriptionType.Обрыв_АЛС_8;
-				case 253: return JournalEventDescriptionType.ОЛС; // ГК
-				case 254: return JournalEventDescriptionType.РЛС; // ГК
-				case 255: return JournalEventDescriptionType.Потеря_связи;
+				case 42: return isFailure ? JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО_Неисправность : JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО_Неисправность_устранена; // ШУЗ
+				case 43: return isFailure ? JournalEventDescriptionType.КЗ_концевого_выключателя_ОТКРЫТО_Неисправность : JournalEventDescriptionType.КЗ_концевого_выключателя_ОТКРЫТО_Неисправность_устранена; // ШУЗ
+				case 44: return isFailure ? JournalEventDescriptionType.Обрыв_муфтового_выключателя_ОТКРЫТО_Неисправность : JournalEventDescriptionType.Обрыв_муфтового_выключателя_ОТКРЫТО_Неисправность_устранена; // ШУЗ
+				case 45: return isFailure ? JournalEventDescriptionType.КЗ_муфтового_выключателя_ОТКРЫТО_Неисправность : JournalEventDescriptionType.КЗ_муфтового_выключателя_ОТКРЫТО_Неисправность_устранена; // ШУЗ
+				case 46: return isFailure ? JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО_Неисправность : JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО_Неисправность_устранена; // ШУЗ
+				case 47: return isFailure ? JournalEventDescriptionType.КЗ_концевого_выключателя_ЗАКРЫТО_Неисправность : JournalEventDescriptionType.КЗ_концевого_выключателя_ЗАКРЫТО_Неисправность_устранена; // ШУЗ
+				case 48: return isFailure ? JournalEventDescriptionType.Обрыв_муфтового_выключателя_ЗАКРЫТО_Неисправность : JournalEventDescriptionType.Обрыв_муфтового_выключателя_ЗАКРЫТО_Неисправность_устранена; // ШУЗ
+				case 49: return isFailure ? JournalEventDescriptionType.КЗ_муфтового_выключателя_ЗАКРЫТО_Неисправность : JournalEventDescriptionType.КЗ_муфтового_выключателя_ЗАКРЫТО_Неисправность_устранена; // ШУЗ
+				case 50: return isFailure ? JournalEventDescriptionType.Обрыв_кнопки_Открыть_УЗЗ_Закрыть_УЗЗ_Неисправность : JournalEventDescriptionType.Обрыв_кнопки_Открыть_УЗЗ_Закрыть_УЗЗ_Неисправность_устранена; // ШУЗ
+				case 51: return isFailure ? JournalEventDescriptionType.КЗ_кнопки_Открыть_УЗЗ_Закрыть_УЗЗ_Неисправность : JournalEventDescriptionType.КЗ_кнопки_Открыть_УЗЗ_Закрыть_УЗЗ_Неисправность_устранена; // ШУЗ
+				case 52: return isFailure ? JournalEventDescriptionType.Обрыв_кнопки_СТОП_УЗЗ_Неисправность : JournalEventDescriptionType.Обрыв_кнопки_СТОП_УЗЗ_Неисправность_устранена; // ШУЗ
+				case 53: return isFailure ? JournalEventDescriptionType.КЗ_кнопки_СТОП_УЗЗ_Неисправность : JournalEventDescriptionType.КЗ_кнопки_СТОП_УЗЗ_Неисправность_устранена; // ШУЗ
+				case 54: return isFailure ? JournalEventDescriptionType.Обрыв_давление_низкое_Неисправность : JournalEventDescriptionType.Обрыв_давление_низкое_Неисправность_устранена;
+				case 55: return isFailure ? JournalEventDescriptionType.КЗ_давление_низкое_Неисправность : JournalEventDescriptionType.КЗ_давление_низкое_Неисправность_устранена;
+				case 56: return isFailure ? JournalEventDescriptionType.Таймаут_по_давлению_Неисправность : JournalEventDescriptionType.Таймаут_по_давлению_Неисправность_устранена;
+				case 57: return isFailure ? JournalEventDescriptionType.КВ_МВ_Неисправность : JournalEventDescriptionType.КВ_МВ_Неисправность_устранена;  // ШУЗ
+				case 58: return isFailure ? JournalEventDescriptionType.Не_задан_режим_Неисправность : JournalEventDescriptionType.Не_задан_режим_Неисправность_устранена;  // ШУЗ
+				case 59: return isFailure ? JournalEventDescriptionType.Отказ_ШУЗ_Неисправность : JournalEventDescriptionType.Отказ_ШУЗ_Неисправность_устранена;  // ШУЗ
+				case 60: return isFailure ? JournalEventDescriptionType.ДУ_ДД_Неисправность : JournalEventDescriptionType.ДУ_ДД_Неисправность_устранена;  // ШУЗ
+				case 61: return isFailure ? JournalEventDescriptionType.Обрыв_входа_1_Неисправность : JournalEventDescriptionType.Обрыв_входа_1_Неисправность_устранена;  // ШУН
+				case 62: return isFailure ? JournalEventDescriptionType.КЗ_входа_1_Неисправность : JournalEventDescriptionType.КЗ_входа_1_Неисправность_устранена;  // ШУН
+				case 63: return isFailure ? JournalEventDescriptionType.Обрыв_входа_2_Неисправность : JournalEventDescriptionType.Обрыв_входа_2_Неисправность_устранена;  // ШУН
+				case 64: return isFailure ? JournalEventDescriptionType.КЗ_входа_2_Неисправность : JournalEventDescriptionType.КЗ_входа_2_Неисправность_устранена;  // ШУН
+				case 65: return isFailure ? JournalEventDescriptionType.Обрыв_входа_3_Неисправность : JournalEventDescriptionType.Обрыв_входа_3_Неисправность_устранена;  // ШУН
+				case 66: return isFailure ? JournalEventDescriptionType.КЗ_входа_3_Неисправность : JournalEventDescriptionType.КЗ_входа_3_Неисправность_устранена;  // ШУН
+				case 67: return isFailure ? JournalEventDescriptionType.Обрыв_входа_4_Неисправность : JournalEventDescriptionType.Обрыв_входа_4_Неисправность_устранена;  // ШУН
+				case 68: return isFailure ? JournalEventDescriptionType.КЗ_входа_4_Неисправность : JournalEventDescriptionType.КЗ_входа_4_Неисправность_устранена;  // ШУН
+				case 69: return isFailure ? JournalEventDescriptionType.Не_задан_тип_Неисправность : JournalEventDescriptionType.Не_задан_тип_Неисправность_устранена;  // ШУН
+				case 70: return isFailure ? JournalEventDescriptionType.Отказ_ПН_Неисправность : JournalEventDescriptionType.Отказ_ПН_Неисправность_устранена;  // ШУН
+				case 71: return isFailure ? JournalEventDescriptionType.Отказ_ШУН_Неисправность : JournalEventDescriptionType.Отказ_ШУН_Неисправность_устранена;  // ШУН
+				case 72: return isFailure ? JournalEventDescriptionType.Питание_1_Неисправность : JournalEventDescriptionType.Питание_1_Неисправность_устранена;  // КАУ, ГК
+				case 73: return isFailure ? JournalEventDescriptionType.Питание_2_Неисправность : JournalEventDescriptionType.Питание_2_Неисправность_устранена;  // КАУ, ГК
+				case 74: return isFailure ? JournalEventDescriptionType.Отказ_АЛС_1_или_2_Неисправность : JournalEventDescriptionType.Отказ_АЛС_1_или_2_Неисправность_устранена;  // КАУ
+				case 75: return isFailure ? JournalEventDescriptionType.Отказ_АЛС_3_или_4_Неисправность : JournalEventDescriptionType.Отказ_АЛС_3_или_4_Неисправность_устранена;  // КАУ
+				case 76: return isFailure ? JournalEventDescriptionType.Отказ_АЛС_5_или_6_Неисправность : JournalEventDescriptionType.Отказ_АЛС_5_или_6_Неисправность_устранена;  // КАУ
+				case 77: return isFailure ? JournalEventDescriptionType.Отказ_АЛС_7_или_8_Неисправность : JournalEventDescriptionType.Отказ_АЛС_7_или_8_Неисправность_устранена;  // КАУ
+				case 78: return isFailure ? JournalEventDescriptionType.Обрыв_цепи_ПД_НОРМА_Неисправность : JournalEventDescriptionType.Обрыв_цепи_ПД_НОРМА_Неисправность_устранена;  // МДУ
+				case 79: return isFailure ? JournalEventDescriptionType.КЗ_АЛС_1_Неисправность : JournalEventDescriptionType.КЗ_АЛС_1_Неисправность_устранена; // КАУ
+				case 80: return isFailure ? JournalEventDescriptionType.КЗ_АЛС_2_Неисправность : JournalEventDescriptionType.КЗ_АЛС_2_Неисправность_устранена; // КАУ
+				case 81: return isFailure ? JournalEventDescriptionType.КЗ_АЛС_3_Неисправность : JournalEventDescriptionType.КЗ_АЛС_3_Неисправность_устранена; // КАУ
+				case 82: return isFailure ? JournalEventDescriptionType.КЗ_АЛС_4_Неисправность : JournalEventDescriptionType.КЗ_АЛС_4_Неисправность_устранена; // КАУ
+				case 83: return isFailure ? JournalEventDescriptionType.КЗ_АЛС_5_Неисправность : JournalEventDescriptionType.КЗ_АЛС_5_Неисправность_устранена; // КАУ
+				case 84: return isFailure ? JournalEventDescriptionType.КЗ_АЛС_6_Неисправность : JournalEventDescriptionType.КЗ_АЛС_6_Неисправность_устранена; // КАУ
+				case 85: return isFailure ? JournalEventDescriptionType.КЗ_АЛС_7_Неисправность : JournalEventDescriptionType.КЗ_АЛС_7_Неисправность_устранена; // КАУ
+				case 86: return isFailure ? JournalEventDescriptionType.КЗ_АЛС_8_Неисправность : JournalEventDescriptionType.КЗ_АЛС_8_Неисправность_устранена; // КАУ
+				case 87: return isFailure ? JournalEventDescriptionType.Истекло_время_вкл_Неисправность : JournalEventDescriptionType.Истекло_время_вкл_Неисправность_устранена;
+				case 88: return isFailure ? JournalEventDescriptionType.Истекло_время_выкл_Неисправность : JournalEventDescriptionType.Истекло_время_выкл_Неисправность_устранена;
+				case 89: return isFailure ? JournalEventDescriptionType.Контакт_реле_1_Неисправность : JournalEventDescriptionType.Контакт_реле_1_Неисправность_устранена;
+				case 90: return isFailure ? JournalEventDescriptionType.Контакт_реле_2_Неисправность : JournalEventDescriptionType.Контакт_реле_2_Неисправность_устранена;
+				case 91: return isFailure ? JournalEventDescriptionType.Обрыв_кнопки_ПУСК_Неисправность : JournalEventDescriptionType.Обрыв_кнопки_ПУСК_Неисправность_устранена; // МРО-2М
+				case 92: return isFailure ? JournalEventDescriptionType.КЗ_кнопки_ПУСК_Неисправность : JournalEventDescriptionType.КЗ_кнопки_ПУСК_Неисправность_устранена; // МРО-2М
+				case 93: return isFailure ? JournalEventDescriptionType.Обрыв_кнопки_СТОП_Неисправность : JournalEventDescriptionType.Обрыв_кнопки_СТОП_Неисправность_устранена; // МРО-2М
+				case 94: return isFailure ? JournalEventDescriptionType.КЗ_кнопки_СТОП_Неисправность : JournalEventDescriptionType.КЗ_кнопки_СТОП_Неисправность_устранена; // МРО-2М
+				case 95: return isFailure ? JournalEventDescriptionType.Отсутствуют_или_испорчены_сообщения_для_воспроизведения_Неисправность : JournalEventDescriptionType.Отсутствуют_или_испорчены_сообщения_для_воспроизведения_Неисправность_устранена; // МРО-2М
+				case 96: return isFailure ? JournalEventDescriptionType.Выход_Неисправность : JournalEventDescriptionType.Выход_Неисправность_устранена;
+				case 97: return isFailure ? JournalEventDescriptionType.Обрыв_Низкий_уровень_Неисправность : JournalEventDescriptionType.Обрыв_Низкий_уровень_Неисправность_устранена; // ППУ
+				case 98: return isFailure ? JournalEventDescriptionType.КЗ_Низкий_уровень_Неисправность : JournalEventDescriptionType.КЗ_Низкий_уровень_Неисправность_устранена; // ППУ
+				case 99: return isFailure ? JournalEventDescriptionType.Обрыв_Высокий_уровень_Неисправность : JournalEventDescriptionType.Обрыв_Высокий_уровень_Неисправность_устранена; // ППУ
+				case 100: return isFailure ? JournalEventDescriptionType.КЗ_Высокий_уровень_Неисправность : JournalEventDescriptionType.КЗ_Высокий_уровень_Неисправность_устранена; // ППУ
+				case 101: return isFailure ? JournalEventDescriptionType.Обрыв_Аварийный_уровень_Неисправность : JournalEventDescriptionType.Обрыв_Аварийный_уровень_Неисправность_устранена; // ППУ
+				case 102: return isFailure ? JournalEventDescriptionType.КЗ_Аварийный_уровень_Неисправность : JournalEventDescriptionType.КЗ_Аварийный_уровень_Неисправность_устранена; // ППУ
+				case 103: return isFailure ? JournalEventDescriptionType.Аварийный_уровень_Неисправность : JournalEventDescriptionType.Аварийный_уровень_Неисправность_устранена; // ППУ
+				case 104: return isFailure ? JournalEventDescriptionType.Питание_силовое_Неисправность : JournalEventDescriptionType.Питание_силовое_Неисправность_устранена; // ППУ
+				case 105: return isFailure ? JournalEventDescriptionType.Питание_контроллера_Неисправность : JournalEventDescriptionType.Питание_контроллера_Неисправность_устранена; // ППУ
+				case 106: return isFailure ? JournalEventDescriptionType.Несовместимость_сигналов_Неисправность : JournalEventDescriptionType.Несовместимость_сигналов_Неисправность_устранена; // ППУ
+				case 107: return isFailure ? JournalEventDescriptionType.Обрыв_цепи_питания_двигателя_Неисправность : JournalEventDescriptionType.Обрыв_цепи_питания_двигателя_Неисправность_устранена; // ППУ
+				case 108: return isFailure ? JournalEventDescriptionType.Обрыв_Давление_на_выходе_Неисправность : JournalEventDescriptionType.Обрыв_Давление_на_выходе_Неисправность_устранена; // ППУ
+				case 109: return isFailure ? JournalEventDescriptionType.КЗ_Давление_на_выходе_Неисправность : JournalEventDescriptionType.КЗ_Давление_на_выходе_Неисправность_устранена; // ППУ
+				case 110: return isFailure ? JournalEventDescriptionType.Обрыв_ДУ_ПУСК_Неисправность : JournalEventDescriptionType.Обрыв_ДУ_ПУСК_Неисправность_устранена; // ППУ
+				case 111: return isFailure ? JournalEventDescriptionType.КЗ_ДУ_ПУСК_Неисправность : JournalEventDescriptionType.КЗ_ДУ_ПУСК_Неисправность_устранена; // ППУ
+				case 112: return isFailure ? JournalEventDescriptionType.Обрыв_ДУ_СТОП_Неисправность : JournalEventDescriptionType.Обрыв_ДУ_СТОП_Неисправность_устранена; // ППУ
+				case 113: return isFailure ? JournalEventDescriptionType.КЗ_ДУ_СТОП_Неисправность : JournalEventDescriptionType.КЗ_ДУ_СТОП_Неисправность_устранена; // ППУ
+				case 148: return isFailure ? JournalEventDescriptionType.АЛС_1_Неизвестное_устройство_Неисправность : JournalEventDescriptionType.АЛС_1_Неизвестное_устройство_Неисправность_устранена;
+				case 149: return isFailure ? JournalEventDescriptionType.АЛС_2_Неизвестное_устройство_Неисправность : JournalEventDescriptionType.АЛС_2_Неизвестное_устройство_Неисправность_устранена;
+				case 150: return isFailure ? JournalEventDescriptionType.АЛС_3_Неизвестное_устройство_Неисправность : JournalEventDescriptionType.АЛС_3_Неизвестное_устройство_Неисправность_устранена;
+				case 151: return isFailure ? JournalEventDescriptionType.АЛС_4_Неизвестное_устройство_Неисправность : JournalEventDescriptionType.АЛС_4_Неизвестное_устройство_Неисправность_устранена;
+				case 152: return isFailure ? JournalEventDescriptionType.АЛС_5_Неизвестное_устройство_Неисправность : JournalEventDescriptionType.АЛС_5_Неизвестное_устройство_Неисправность_устранена;
+				case 153: return isFailure ? JournalEventDescriptionType.АЛС_6_Неизвестное_устройство_Неисправность : JournalEventDescriptionType.АЛС_6_Неизвестное_устройство_Неисправность_устранена;
+				case 154: return isFailure ? JournalEventDescriptionType.АЛС_7_Неизвестное_устройство_Неисправность : JournalEventDescriptionType.АЛС_7_Неизвестное_устройство_Неисправность_устранена;
+				case 155: return isFailure ? JournalEventDescriptionType.АЛС_8_Неизвестное_устройство_Неисправность : JournalEventDescriptionType.АЛС_8_Неизвестное_устройство_Неисправность_устранена;
+				case 156: return isFailure ? JournalEventDescriptionType.АЛС_1_Неизвестный_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_1_Неизвестный_тип_устройства_Неисправность_устранена;
+				case 157: return isFailure ? JournalEventDescriptionType.АЛС_2_Неизвестный_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_2_Неизвестный_тип_устройства_Неисправность_устранена;
+				case 158: return isFailure ? JournalEventDescriptionType.АЛС_3_Неизвестный_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_3_Неизвестный_тип_устройства_Неисправность_устранена;
+				case 159: return isFailure ? JournalEventDescriptionType.АЛС_4_Неизвестный_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_4_Неизвестный_тип_устройства_Неисправность_устранена;
+				case 160: return isFailure ? JournalEventDescriptionType.АЛС_5_Неизвестный_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_5_Неизвестный_тип_устройства_Неисправность_устранена;
+				case 161: return isFailure ? JournalEventDescriptionType.АЛС_6_Неизвестный_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_6_Неизвестный_тип_устройства_Неисправность_устранена;
+				case 162: return isFailure ? JournalEventDescriptionType.АЛС_7_Неизвестный_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_7_Неизвестный_тип_устройства_Неисправность_устранена;
+				case 163: return isFailure ? JournalEventDescriptionType.АЛС_8_Неизвестный_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_8_Неизвестный_тип_устройства_Неисправность_устранена;
+				case 164: return isFailure ? JournalEventDescriptionType.АЛС_1_Другой_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_1_Другой_тип_устройства_Неисправность_устранена;
+				case 165: return isFailure ? JournalEventDescriptionType.АЛС_2_Другой_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_2_Другой_тип_устройства_Неисправность_устранена;
+				case 166: return isFailure ? JournalEventDescriptionType.АЛС_3_Другой_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_3_Другой_тип_устройства_Неисправность_устранена;
+				case 167: return isFailure ? JournalEventDescriptionType.АЛС_4_Другой_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_4_Другой_тип_устройства_Неисправность_устранена;
+				case 168: return isFailure ? JournalEventDescriptionType.АЛС_5_Другой_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_5_Другой_тип_устройства_Неисправность_устранена;
+				case 169: return isFailure ? JournalEventDescriptionType.АЛС_6_Другой_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_6_Другой_тип_устройства_Неисправность_устранена;
+				case 170: return isFailure ? JournalEventDescriptionType.АЛС_7_Другой_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_7_Другой_тип_устройства_Неисправность_устранена;
+				case 171: return isFailure ? JournalEventDescriptionType.АЛС_8_Другой_тип_устройства_Неисправность : JournalEventDescriptionType.АЛС_8_Другой_тип_устройства_Неисправность_устранена;
+				case 172: return isFailure ? JournalEventDescriptionType.Контактор_Открыть_Неисправность : JournalEventDescriptionType.Контактор_Открыть_Неисправность_устранена;
+				case 173: return isFailure ? JournalEventDescriptionType.Контактор_Закрыть_Неисправность : JournalEventDescriptionType.Контактор_Закрыть_Неисправность_устранена;
+				case 174: return isFailure ? JournalEventDescriptionType.Обрыв_ДУ_Открыть_Неисправность : JournalEventDescriptionType.Обрыв_ДУ_Открыть_Неисправность_устранена;
+				case 175: return isFailure ? JournalEventDescriptionType.КЗ_ДУ_Открыть_Неисправность : JournalEventDescriptionType.КЗ_ДУ_Открыть_Неисправность_устранена;
+				case 176: return isFailure ? JournalEventDescriptionType.Обрыв_ДУ_Открыть_Неисправность : JournalEventDescriptionType.Обрыв_ДУ_Открыть_Неисправность_устранена;
+				case 177: return isFailure ? JournalEventDescriptionType.КЗ_ДУ_Открыть_Неисправность : JournalEventDescriptionType.КЗ_ДУ_Открыть_Неисправность_устранена;
+				case 178: return isFailure ? JournalEventDescriptionType.Обрыв_ОГВ_Неисправность : JournalEventDescriptionType.Обрыв_ОГВ_Неисправность_устранена;
+				case 179: return isFailure ? JournalEventDescriptionType.КЗ_ОГВ_Неисправность : JournalEventDescriptionType.КЗ_ОГВ_Неисправность_устранена;
+				case 180: return isFailure ? JournalEventDescriptionType.Истекло_Время_Хода_Неисправность : JournalEventDescriptionType.Истекло_Время_Хода_Неисправность_устранена;
+				case 181: return isFailure ? JournalEventDescriptionType.Сигнал_МВ_без_КВ_Неисправность : JournalEventDescriptionType.Сигнал_МВ_без_КВ_Неисправность_устранена;
+				case 182: return isFailure ? JournalEventDescriptionType.Сочетание_КВ_Неисправность : JournalEventDescriptionType.Сочетание_КВ_Неисправность_устранена;
+				case 183: return isFailure ? JournalEventDescriptionType.Сочетание_МВ_Неисправность : JournalEventDescriptionType.Сочетание_МВ_Неисправность_устранена;
+				case 184: return isFailure ? JournalEventDescriptionType.Сочетание_ДНУ_и_ДВУ_Неисправность : JournalEventDescriptionType.Сочетание_ДНУ_и_ДВУ_Неисправность_устранена;
+				case 186: return isFailure ? JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАЩИТА_Неисправность : JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАЩИТА_Неисправность_устранена;
+				case 187: return isFailure ? JournalEventDescriptionType.КЗ_концевого_выключателя_ЗАЩИТА_Неисправность : JournalEventDescriptionType.КЗ_концевого_выключателя_ЗАЩИТА_Неисправность_устранена;
+				case 188: return isFailure ? JournalEventDescriptionType.Обрыв_концевого_выключателя_НОРМА_Неисправность : JournalEventDescriptionType.Обрыв_концевого_выключателя_НОРМА_Неисправность_устранена;
+				case 189: return isFailure ? JournalEventDescriptionType.КЗ_концевого_выключателя_НОРМА_Неисправность : JournalEventDescriptionType.КЗ_концевого_выключателя_НОРМА_Неисправность_устранена;
+				case 241: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_1_2_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_1_2_Неисправность_устранена;
+				case 242: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_3_4_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_3_4_Неисправность_устранена;
+				case 243: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_5_6_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_5_6_Неисправность_устранена;
+				case 244: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_7_8_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_7_8_Неисправность_устранена;
+				case 245: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_1_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_1_Неисправность_устранена;
+				case 246: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_2_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_2_Неисправность_устранена;
+				case 247: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_3_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_3_Неисправность_устранена;
+				case 248: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_4_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_4_Неисправность_устранена;
+				case 249: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_5_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_5_Неисправность_устранена;
+				case 250: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_6_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_6_Неисправность_устранена;
+				case 251: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_7_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_7_Неисправность_устранена;
+				case 252: return isFailure ? JournalEventDescriptionType.Обрыв_АЛС_8_Неисправность : JournalEventDescriptionType.Обрыв_АЛС_8_Неисправность_устранена;
+				case 253: return isFailure ? JournalEventDescriptionType.ОЛС_Неисправность : JournalEventDescriptionType.ОЛС_Неисправность_устранена; // ГК
+				case 254: return isFailure ? JournalEventDescriptionType.РЛС_Неисправность : JournalEventDescriptionType.РЛС_Неисправность_устранена; // ГК
+				case 255: return isFailure ? JournalEventDescriptionType.Потеря_связи_Неисправность : JournalEventDescriptionType.Потеря_связи_Неисправность_устранена;
 			}
 			return JournalEventDescriptionType.NULL;
 		}
@@ -289,28 +305,28 @@ namespace GKProcessor
 		//	return "";
 		//}
 
-		public static JournalEventDescriptionType ToBatteryFailure(byte b)
+		public static JournalEventDescriptionType ToBatteryFailure(byte b, bool isFailure)
 		{
 			switch (b)
 			{
-				case 1: return JournalEventDescriptionType.Отсутствие_сетевого_напряжения;//
-				case 2: return JournalEventDescriptionType.Выход_1;
-				case 3: return JournalEventDescriptionType.КЗ_Выхода_1;//
-				case 4: return JournalEventDescriptionType.Перегрузка_Выхода_1;//
-				case 5: return JournalEventDescriptionType.Напряжение_Выхода_1_выше_нормы;//
-				case 6: return JournalEventDescriptionType.Выход_2;
-				case 7: return JournalEventDescriptionType.КЗ_Выхода_2;//
-				case 8: return JournalEventDescriptionType.Перегрузка_Выхода_2;//
-				case 9: return JournalEventDescriptionType.Напряжение_Выхода_2_выше_нормы;//
-				case 10: return JournalEventDescriptionType.АКБ_1;
-				case 11: return JournalEventDescriptionType.АКБ_1_Разряд;//
-				case 12: return JournalEventDescriptionType.АКБ_1_Глубокий_Разряд;//
-				case 13: return JournalEventDescriptionType.АКБ_1_Отсутствие;//
-				case 14: return JournalEventDescriptionType.АКБ_2;
-				case 15: return JournalEventDescriptionType.АКБ_2_Разряд;//
-				case 16: return JournalEventDescriptionType.АКБ_2_Глубокий_Разряд;//
-				case 17: return JournalEventDescriptionType.АКБ_2_Отсутствие;//
-				case 255: return JournalEventDescriptionType.Потеря_связи;//
+				case 1: return isFailure ? JournalEventDescriptionType.Отсутствие_сетевого_напряжения_Неисправность : JournalEventDescriptionType.Отсутствие_сетевого_напряжения_Неисправность_устранена;
+				case 2: return isFailure ? JournalEventDescriptionType.Выход_1_Неисправность : JournalEventDescriptionType.Выход_1_Неисправность_устранена;
+				case 3: return isFailure ? JournalEventDescriptionType.КЗ_Выхода_1_Неисправность : JournalEventDescriptionType.КЗ_Выхода_1_Неисправность_устранена;
+				case 4: return isFailure ? JournalEventDescriptionType.Перегрузка_Выхода_1_Неисправность : JournalEventDescriptionType.Перегрузка_Выхода_1_Неисправность_устранена;
+				case 5: return isFailure ? JournalEventDescriptionType.Напряжение_Выхода_1_выше_нормы_Неисправность : JournalEventDescriptionType.Напряжение_Выхода_1_выше_нормы_Неисправность_устранена;
+				case 6: return isFailure ? JournalEventDescriptionType.Выход_2_Неисправность : JournalEventDescriptionType.Выход_2_Неисправность_устранена;
+				case 7: return isFailure ? JournalEventDescriptionType.КЗ_Выхода_2_Неисправность : JournalEventDescriptionType.КЗ_Выхода_2_Неисправность_устранена;
+				case 8: return isFailure ? JournalEventDescriptionType.Перегрузка_Выхода_2_Неисправность : JournalEventDescriptionType.Перегрузка_Выхода_2_Неисправность_устранена;
+				case 9: return isFailure ? JournalEventDescriptionType.Напряжение_Выхода_2_выше_нормы_Неисправность : JournalEventDescriptionType.Напряжение_Выхода_2_выше_нормы_Неисправность_устранена;
+				case 10: return isFailure ? JournalEventDescriptionType.АКБ_1_Неисправность : JournalEventDescriptionType.АКБ_1_Неисправность_устранена;
+				case 11: return isFailure ? JournalEventDescriptionType.АКБ_1_Разряд_Неисправность : JournalEventDescriptionType.АКБ_1_Разряд_Неисправность_устранена;
+				case 12: return isFailure ? JournalEventDescriptionType.АКБ_1_Глубокий_Разряд_Неисправность : JournalEventDescriptionType.АКБ_1_Глубокий_Разряд_Неисправность_устранена;
+				case 13: return isFailure ? JournalEventDescriptionType.АКБ_1_Отсутствие_Неисправность : JournalEventDescriptionType.АКБ_1_Отсутствие_Неисправность_устранена;
+				case 14: return isFailure ? JournalEventDescriptionType.АКБ_2_Неисправность : JournalEventDescriptionType.АКБ_2_Неисправность_устранена;
+				case 15: return isFailure ? JournalEventDescriptionType.АКБ_2_Разряд_Неисправность : JournalEventDescriptionType.АКБ_2_Разряд_Неисправность_устранена;
+				case 16: return isFailure ? JournalEventDescriptionType.АКБ_2_Глубокий_Разряд_Неисправность : JournalEventDescriptionType.АКБ_2_Глубокий_Разряд_Неисправность_устранена;
+				case 17: return isFailure ? JournalEventDescriptionType.АКБ_2_Отсутствие_Неисправность : JournalEventDescriptionType.АКБ_2_Отсутствие_Неисправность_устранена;
+				case 255: return isFailure ? JournalEventDescriptionType.Потеря_связи_Неисправность : JournalEventDescriptionType.АКБ_2_Отсутствие_Неисправность_устранена;
 			}
 			return JournalEventDescriptionType.NULL;
 		}
@@ -411,14 +427,14 @@ namespace GKProcessor
 			return ToInformation(b);
 		}
 
-		public static JournalEventDescriptionType ToUser(byte b)
+		public static JournalEventDescriptionType ToUser(byte b, bool isEnter)
 		{
 			switch (b)
 			{
-				case 1: return JournalEventDescriptionType.Оператор;
-				case 2: return JournalEventDescriptionType.Администратор;
-				case 3: return JournalEventDescriptionType.Инсталлятор;
-				case 4: return JournalEventDescriptionType.Изготовитель;
+				case 1: return isEnter ? JournalEventDescriptionType.Оператор_Вход_пользователя_в_прибор : JournalEventDescriptionType.Оператор_Выход_пользователя_из_прибора;
+				case 2: return isEnter ? JournalEventDescriptionType.Администратор_Вход_пользователя_в_прибор : JournalEventDescriptionType.Администратор_Выход_пользователя_из_прибора;
+				case 3: return isEnter ? JournalEventDescriptionType.Инсталлятор_Вход_пользователя_в_прибор : JournalEventDescriptionType.Инсталлятор_Выход_пользователя_из_прибора;
+				case 4: return isEnter ? JournalEventDescriptionType.Изготовитель_Вход_пользователя_в_прибор : JournalEventDescriptionType.Изготовитель_Выход_пользователя_из_прибора;
 			}
 			return JournalEventDescriptionType.NULL;
 		}

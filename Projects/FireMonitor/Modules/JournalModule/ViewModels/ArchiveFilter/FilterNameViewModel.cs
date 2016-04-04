@@ -33,7 +33,7 @@ namespace JournalModule.ViewModels
 					JournalSubsystemType = eventNameAttribute.JournalSubsystemType;
 					StateClass = eventNameAttribute.StateClass;
 					if (StateClass == XStateClass.Norm)
-						ImageSource = null;
+						ImageSource = "/Controls;component/Images/Blank.png";
 					else
 						ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
 				}

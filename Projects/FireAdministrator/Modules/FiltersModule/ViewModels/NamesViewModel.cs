@@ -67,15 +67,13 @@ namespace FiltersModule.ViewModels
 					if (eventDescriptionAttributes.Length > 0)
 					{
 						EventDescriptionAttribute eventDescriptionAttribute = eventDescriptionAttributes[0];
-						foreach (var journalEventNameType in eventDescriptionAttribute.JournalEventNameTypes)
+						var journalEventNameType = eventDescriptionAttribute.JournalEventNameType;
+						var eventViewModel = AllNames.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
+						if (eventViewModel != null)
 						{
-							var eventViewModel = AllNames.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
-							if (eventViewModel != null)
-							{
-								var descriptionViewModel = new NameViewModel(journalEventDescriptionType, eventDescriptionAttribute.Name);
-								eventViewModel.AddChild(descriptionViewModel);
-								AllNames.Add(descriptionViewModel);
-							}
+							var descriptionViewModel = new NameViewModel(journalEventDescriptionType, eventDescriptionAttribute.Name);
+							eventViewModel.AddChild(descriptionViewModel);
+							AllNames.Add(descriptionViewModel);
 						}
 					}
 				}
@@ -94,21 +92,13 @@ namespace FiltersModule.ViewModels
 					nameViewModel.ExpandToThis();
 				}
 			}
-			foreach (var descriptionDictionary in filter.EventDescriptions)
+			foreach (var description in filter.JournalEventDescriptionTypes)
 			{
-				if (descriptionDictionary.JournalEventDescriptionTypes != null && descriptionDictionary.JournalEventDescriptionTypes.Count > 0)
+				var nameViewModel = AllNames.FirstOrDefault(x => x.JournalEventDescriptionType == description);
+				if (nameViewModel != null)
 				{
-					var parent = AllNames.FirstOrDefault(x => x.JournalEventNameType == descriptionDictionary.JournalEventNameType);
-					var descriptions = descriptionDictionary.JournalEventDescriptionTypes;
-					foreach (var description in descriptions)
-					{
-						var descriptionViewModel = AllNames.FirstOrDefault(x => x.JournalEventDescriptionType == description);
-						if (descriptionViewModel != null)
-						{
-							descriptionViewModel.IsChecked = true;
-						}
-					}
-					parent.IsExpanded = true;
+					nameViewModel.SetIsChecked(true);
+					nameViewModel.ExpandToThis();
 				}
 			}
 			foreach (var journalSubsystemTypes in filter.JournalSubsystemTypes)
@@ -130,9 +120,7 @@ namespace FiltersModule.ViewModels
 				if (eventViewModel.IsChecked)
 					filter.JournalEventNameTypes.Add(eventViewModel.JournalEventNameType);
 				var descriptions = new List<JournalEventDescriptionType>(eventViewModel.Children.Where(x => x.IsChecked).Select(x => x.JournalEventDescriptionType));
-				if (descriptions.Count > 0)
-					filter.EventDescriptions.Add(new EventDescriptions { JournalEventNameType = eventViewModel.JournalEventNameType, JournalEventDescriptionTypes = descriptions });
-				
+				filter.JournalEventDescriptionTypes.AddRange(descriptions);
 			}
 			return filter;
 		}

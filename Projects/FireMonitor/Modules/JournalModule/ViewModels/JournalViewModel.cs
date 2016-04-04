@@ -118,8 +118,7 @@ namespace JournalModule.ViewModels
 				return false;
 			if (Filter.JournalEventNameTypes.Count > 0 && !Filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
 				return false;
-			if (Filter.EventDescriptions.Count > 0 && 
-				!Filter.EventDescriptions.Any(x => x.JournalEventNameType == journalItem.JournalEventNameType && x.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType)))
+			if (Filter.JournalEventDescriptionTypes.Count > 0 && !Filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
 				return false;
 			if (Filter.JournalObjectTypes.Count > 0 && Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
 				return true;

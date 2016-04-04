@@ -36,16 +36,16 @@ namespace FiresecService.Service
 			if (isNew)
 			{
 				if (item.Type == PersonType.Employee)
-					AddJournalMessage(JournalEventNameType.Добавление_нового_сотрудника, item.Name, item.UID, clientUID);
+					AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, item.Name, item.UID, clientUID, JournalEventDescriptionType.Добавление_сотрудник);
 				else if (item.Type == PersonType.Guest)
-					AddJournalMessage(JournalEventNameType.Добавление_нового_посетителя, item.Name, item.UID, clientUID);
+					AddJournalMessage(JournalEventNameType.Редактирование_посетителя, item.Name, item.UID, clientUID, JournalEventDescriptionType.Добавление_посетитель);
 			}
 			else
 			{
 				if (item.Type == PersonType.Employee)
-					AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+					AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_сотрудник);
 				else if (item.Type == PersonType.Guest)
-					AddJournalMessage(JournalEventNameType.Редактирование_посетителя, item.Name, item.UID, clientUID);
+					AddJournalMessage(JournalEventNameType.Редактирование_посетителя, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_посетитель);
 			}
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -54,7 +54,10 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> MarkDeletedEmployee(Guid clientUID, Guid uid, string name, bool isEmployee)
 		{
-			AddJournalMessage(isEmployee ? JournalEventNameType.Удаление_сотрудника : JournalEventNameType.Удаление_посетителя, name, uid, clientUID, JournalEventDescriptionType.Удаление);
+			if(isEmployee)
+				AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, uid, clientUID, JournalEventDescriptionType.Удаление_сотрудник);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_посетителя, name, uid, clientUID, JournalEventDescriptionType.Удаление_посетитель);
 			var errors = new List<string>();
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -103,7 +106,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveEmployeeDepartment(Guid clientUID, Guid uid, Guid? departmentUid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, uid, clientUID, JournalEventDescriptionType.Редактирование_сотрудник);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.SaveDepartment(uid, departmentUid);
@@ -111,7 +114,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveEmployeePosition(Guid clientUID, Guid uid, Guid? PositionUid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, uid, clientUID, JournalEventDescriptionType.Редактирование_сотрудник);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
@@ -119,7 +122,10 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> RestoreEmployee(Guid clientUID, Guid uid, string name, bool isEmployee)
 		{
-			AddJournalMessage(isEmployee ? JournalEventNameType.Восстановление_сотрудника : JournalEventNameType.Восстановление_посетителя, name, uid, clientUID);
+			if (isEmployee)
+				AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, uid, clientUID, JournalEventDescriptionType.Восстановление_сотрудник);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_посетителя, name, uid, clientUID, JournalEventDescriptionType.Восстановление_посетитель);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.EmployeeTranslator.Restore(uid);
@@ -147,9 +153,9 @@ namespace FiresecService.Service
 		public OperationResult<bool> SaveDepartment(Guid clientUID, Department item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_отдела, item.Name, item.UID, clientUID);
+				AddJournalMessage(JournalEventNameType.Редактирование_отдела, item.Name, item.UID, clientUID, JournalEventDescriptionType.Добавление_отдел);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_отдела, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_отдела, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_отдел);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.Save(item);
@@ -157,10 +163,10 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> MarkDeletedDepartment(Guid clientUID, ShortDepartment department)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_отдела, department.Name, department.UID, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_отдела, department.Name, department.UID, clientUID, JournalEventDescriptionType.Удаление_отдел);
 			foreach (var childDepartment in department.ChildDepartments)
 			{
-				AddJournalMessage(JournalEventNameType.Удаление_отдела, childDepartment.Name, childDepartment.UID, clientUID);
+				AddJournalMessage(JournalEventNameType.Редактирование_отдела, childDepartment.Name, childDepartment.UID, clientUID, JournalEventDescriptionType.Удаление_отдел);
 			}
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -169,7 +175,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveDepartmentChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, uid, clientUID, JournalEventDescriptionType.Редактирование_отдел);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.DepartmentTranslator.SaveChief(uid, chiefUID);
@@ -178,10 +184,10 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> RestoreDepartment(Guid clientUID, ShortDepartment department)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_отдела, department.Name, department.UID, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_отдела, department.Name, department.UID, clientUID, JournalEventDescriptionType.Восстановление_отдел);
 			foreach (var parent in department.ParentDepartments)
 			{
-				AddJournalMessage(JournalEventNameType.Восстановление_отдела, parent.Name, parent.UID, clientUID);
+				AddJournalMessage(JournalEventNameType.Редактирование_отдела, parent.Name, parent.UID, clientUID, JournalEventDescriptionType.Восстановление_отдел);
 			}
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -233,9 +239,9 @@ namespace FiresecService.Service
 		public OperationResult<bool> SavePosition(Guid clientUID, Position item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_новой_должности, item.Name, item.UID, clientUID);
+				AddJournalMessage(JournalEventNameType.Редактирование_должности, item.Name, item.UID, clientUID, JournalEventDescriptionType.Добавление_должность);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_должности, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_должности, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_должность);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.PositionTranslator.Save(item);
@@ -243,7 +249,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> MarkDeletedPosition(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_должности, name, uid, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_должности, name, uid, clientUID, JournalEventDescriptionType.Удаление_должность);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.PositionTranslator.MarkDeleted(uid);
@@ -251,7 +257,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> RestorePosition(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_должности, name, uid, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_должности, name, uid, clientUID, JournalEventDescriptionType.Восстановление_должность);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.PositionTranslator.Restore(uid);
@@ -523,9 +529,9 @@ namespace FiresecService.Service
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				if (isNew)
-					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID);
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID, JournalEventDescriptionType.Добавление_шаблона_доступ);
 				else
-					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID, JournalEventDescriptionType.Редактирование);
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID, JournalEventDescriptionType.Редактирование_шаблона_доступ);
 				var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
 				var saveResult = databaseService.AccessTemplateTranslator.Save(accessTemplate);
 
@@ -549,7 +555,7 @@ namespace FiresecService.Service
 		{
 			var operationResult = new OperationResult<List<string>>();
 			var warnings = new List<string>();
-			AddJournalMessage(JournalEventNameType.Удаление_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID, JournalEventDescriptionType.Удаление_шаблона_доступ);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				var cardsResult = databaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
@@ -580,7 +586,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> RestoreAccessTemplate(Guid clientUID, AccessTemplate accessTemplate)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, accessTemplate.Name, accessTemplate.UID, clientUID, JournalEventDescriptionType.Восстановление_шаблона_доступ);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.AccessTemplateTranslator.Restore(accessTemplate.UID);
@@ -599,9 +605,9 @@ namespace FiresecService.Service
 		public OperationResult<bool> SaveOrganisation(Guid clientUID, OrganisationDetails item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_новой_организации, item.Name, item.UID, clientUID);
+				AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Добавление_организация);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_организация);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Save(item);
@@ -609,7 +615,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> MarkDeletedOrganisation(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_организации, name, uid, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, uid, clientUID, JournalEventDescriptionType.Удаление_организация);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				var errors = new List<string>();
@@ -651,7 +657,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> AddOrganisationDoor(Guid clientUID, Organisation item, Guid doorUID)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_организация);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.AddDoor(item.UID, doorUID);
@@ -659,7 +665,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> RemoveOrganisationDoor(Guid clientUID, Organisation item, Guid doorUID)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_организация);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.RemoveDoor(item.UID, doorUID);
@@ -667,7 +673,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveOrganisationUsers(Guid clientUID, Organisation item)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_организация);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.SaveUsers(item.UID, item.UserUIDs);
@@ -682,7 +688,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveOrganisationChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, uid, clientUID, JournalEventDescriptionType.Редактирование_организация);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.SaveChief(uid, chiefUID);
@@ -690,7 +696,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveOrganisationHRChief(Guid clientUID, Guid uid, Guid? chiefUID, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, uid, clientUID, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, uid, clientUID, JournalEventDescriptionType.Редактирование_организация);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.SaveHRChief(uid, chiefUID);
@@ -698,7 +704,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> RestoreOrganisation(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_организации, name, uid, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, uid, clientUID, JournalEventDescriptionType.Восстановление_организация);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.OrganisationTranslator.Restore(uid);
@@ -731,9 +737,9 @@ namespace FiresecService.Service
 		public OperationResult<bool> SaveAdditionalColumnType(Guid clientUID, AdditionalColumnType item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_новой_дополнительной_колонки, item.Name, item.UID, clientUID);
+				AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, item.Name, item.UID, clientUID, JournalEventDescriptionType.Добавление_дополнительная_колонка);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, item.Name, item.UID, clientUID, JournalEventDescriptionType.Редактирование_дополнительная_колонка);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.Save(item);
@@ -741,7 +747,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> MarkDeletedAdditionalColumnType(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_дополнительной_колонки, name, uid, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, name, uid, clientUID, JournalEventDescriptionType.Удаление_дополнительная_колонка);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
@@ -749,7 +755,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> RestoreAdditionalColumnType(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_дополнительной_колонки, name, uid, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, name, uid, clientUID, JournalEventDescriptionType.Восстановление_дополнительная_колонка);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.Restore(uid);
@@ -795,15 +801,15 @@ namespace FiresecService.Service
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				if (isNew)
-					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption, item.UID, clientUID);
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, item.UID, clientUID, JournalEventDescriptionType.Добавление_шаблон_пропуска);
 				else
-					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, item.UID, clientUID, JournalEventDescriptionType.Редактирование);
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, item.UID, clientUID, JournalEventDescriptionType.Редактирование_шаблон_пропуска);
 				return databaseService.PassCardTemplateTranslator.Save(item);
 			}
 		}
 		public OperationResult<bool> MarkDeletedPassCardTemplate(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_шаблона_пропуска, name, uid, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, name, uid, clientUID, JournalEventDescriptionType.Удаление_шаблон_пропуска);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
@@ -811,7 +817,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> RestorePassCardTemplate(Guid clientUID, Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_пропуска, name, uid, clientUID);
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, name, uid, clientUID, JournalEventDescriptionType.Восстановление_шаблон_пропуска);
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
 				return databaseService.PassCardTemplateTranslator.Restore(uid);
@@ -908,7 +914,7 @@ namespace FiresecService.Service
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_ГК, schedule.Name, schedule.UID, clientUID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, schedule.Name, schedule.UID, clientUID, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, schedule.Name, schedule.UID, clientUID);
 
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())
 			{
@@ -965,7 +971,7 @@ namespace FiresecService.Service
 			if (isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика_ГК, daySchedule.Name, daySchedule.UID, clientUID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика_ГК, daySchedule.Name, daySchedule.UID, clientUID, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика_ГК, daySchedule.Name, daySchedule.UID, clientUID);
 
 			IEnumerable<GKSchedule> changedSchedules;
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())

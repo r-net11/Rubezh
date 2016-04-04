@@ -257,53 +257,25 @@ namespace RubezhDAL.DataClasses
 
 		IQueryable<Journal> FilterNames(IQueryable<Journal> journal, JournalFilter filter)
 		{
-			IQueryable<Journal> result = journal;
-			var empltyNames = new List<int>();
-			var nonEmptyNames = new List<int>();
-			var descriptions = new List<int>();
-			if (filter.JournalEventNameTypes.Count > 0)
+			IQueryable<Journal> namesResult = null;
+			IQueryable<Journal> descriptionsResult = null;
+			if (filter.JournalEventNameTypes.IsNotNullOrEmpty())
 			{
-				empltyNames = filter.JournalEventNameTypes.Where(x => HasPossibleDescriptions(x)).Select(x => (int)x).ToList();
-				nonEmptyNames = filter.JournalEventNameTypes.Where(x => !HasPossibleDescriptions(x)).Select(x => (int)x).ToList();
+				var names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
+				namesResult = journal.Where(x => names.Contains(x.Name));
 			}
-			if (filter.EventDescriptions.Count > 0)
+			if (filter.JournalEventDescriptionTypes.IsNotNullOrEmpty())
 			{
-				foreach (var item in filter.EventDescriptions)
-				{
-					nonEmptyNames.Add((int)item.JournalEventNameType);
-					descriptions.AddRange(item.JournalEventDescriptionTypes.Select(x => (int)x).ToList());
-				}
+				var descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
+				descriptionsResult = journal.Where(x => descriptions.Contains(x.Description));
 			}
-			var result1 = empltyNames.IsNotNullOrEmpty() ? result.Where(x => empltyNames.Contains(x.Name)) : result;
-			IQueryable<Journal> result2 = result;
-			if (empltyNames.IsNotNullOrEmpty())
-				result2 = result2.Where(x => empltyNames.Contains(x.Name));
-			if (descriptions.IsNotNullOrEmpty())
-				result2 = result2.Where(x => descriptions.Contains(x.Description));
-			result = result1.Union(result2);
-			return result;
-			//if (nonEmptyNames.IsNotNullOrEmpty())
-			//	result = result.Where(x => nonEmptyNames.Contains(x.Name));
-			//if (descriptions.IsNotNullOrEmpty())
-			//	result = result.Where(x => descriptions.Contains(x.Description));
-			//return result;
-		}
-
-		IQueryable<Journal> FilterDescriptions(IQueryable<Journal> journal, List<int> names, List<int> descriptions)
-		{
-			IQueryable<Journal> result = journal;
-			if (names.IsNotNullOrEmpty())
-				result = result.Where(x => names.Contains(x.Name));
-			if (descriptions.IsNotNullOrEmpty())
-				result = result.Where(x => descriptions.Contains(x.Description));
-			return result;
-		}
-
-		bool HasPossibleDescriptions(JournalEventNameType journalEventNameType)
-		{
-			var nameFieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
-			var descriptionAttributes = (EventNameAttribute[])nameFieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
-			return descriptionAttributes.Length > 0;
+			if(namesResult != null && descriptionsResult != null)
+				return namesResult.Union(descriptionsResult);
+			if (namesResult != null)
+				return namesResult;
+			if (descriptionsResult != null)
+				return descriptionsResult;
+			return journal;
 		}
 	}
 }
