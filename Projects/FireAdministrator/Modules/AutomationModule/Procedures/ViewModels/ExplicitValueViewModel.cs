@@ -43,7 +43,7 @@ namespace AutomationModule.ViewModels
 		{
 			ExplicitValue = explicitValue;
 			InitializeEnums();
-			Initialize(ExplicitValue.UidValue);
+			Initialize(ExplicitValue.ObjectReferenceValue);
 		}
 
 		void InitializeEnums()
@@ -58,7 +58,7 @@ namespace AutomationModule.ViewModels
 			MaxIntValue = Int32.MaxValue;
 		}
 
-		public void Initialize(Guid uidValue)
+		public void Initialize(ObjectReference objRef)
 		{
 			Device = null;
 			Zone = null;
@@ -71,19 +71,41 @@ namespace AutomationModule.ViewModels
 			Delay = null;
 			Organisation = null;
 
-			if (uidValue != Guid.Empty)
+			if (objRef.UID != Guid.Empty)
 			{
-				var flag =
-					(Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(PumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(MPT = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uidValue)) != null ||
-					(Organisation = OrganisationHelper.GetSingle(uidValue)) != null;
+				switch (objRef.ObjectType)
+				{
+					case ObjectType.Device:
+						Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.Zone:
+						Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.Direction:
+						Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.Delay:
+						Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.GuardZone:
+						GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.PumpStation:
+						PumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.MPT:
+						MPT = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.VideoDevice:
+						Camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.GKDoor:
+						GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == objRef.UID);
+						break;
+					case ObjectType.Organisation:
+						Organisation = OrganisationHelper.GetSingle(objRef.UID);
+						break;
+				}
 			}
 			base.OnPropertyChanged(() => PresentationName);
 		}
@@ -92,27 +114,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (Device != null)
-					return (Device.PresentationName);
-				if (Zone != null)
-					return Zone.PresentationName;
-				if (GuardZone != null)
-					return GuardZone.PresentationName;
-				if (Camera != null)
-					return Camera.PresentationName;
-				if (GKDoor != null)
-					return GKDoor.PresentationName;
-				if (Direction != null)
-					return Direction.PresentationName;
-				if (Delay != null)
-					return Delay.PresentationName;
-				if (PumpStation != null)
-					return PumpStation.PresentationName;
-				if (MPT != null)
-					return MPT.PresentationName;
-				if (Organisation != null)
-					return Organisation.Name;
-				return "Null";
+				return ExplicitValue.ToString();
 			}
 		}
 
@@ -200,18 +202,18 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public Guid UidValue
+		public ObjectReference ObjectReferenceValue
 		{
-			get { return ExplicitValue.UidValue; }
+			get { return ExplicitValue.ObjectReferenceValue; }
 			set
 			{
-				if (ExplicitValue.UidValue != value)
+				if (ExplicitValue.ObjectReferenceValue != value)
 				{
-					ExplicitValue.UidValue = value;
+					ExplicitValue.ObjectReferenceValue = value;
 					Initialize(value);
 					if (UpdateObjectHandler != null)
 						UpdateObjectHandler();
-					OnPropertyChanged(() => UidValue);
+					OnPropertyChanged(() => ObjectReferenceValue);
 					OnPropertyChanged(() => IsEmpty);
 				}
 			}

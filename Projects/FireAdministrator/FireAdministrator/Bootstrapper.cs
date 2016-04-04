@@ -13,6 +13,7 @@ using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhClient;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace FireAdministrator
@@ -50,6 +51,8 @@ namespace FireAdministrator
 						ContextType.Client,
 						() => { return ClientManager.SystemConfiguration; }
 						);
+
+					ObjectReference.ResolveObjectName += ObjectReference_ResolveObjectName;
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
@@ -96,6 +99,66 @@ namespace FireAdministrator
 					Application.Current.Shutdown();
 				return;
 			}
+		}
+
+		string ObjectReference_ResolveObjectName(Guid objectUID, ObjectType objectType)
+		{
+			if (objectUID == Guid.Empty)
+				return "Null";
+			switch (objectType)
+			{
+				case ObjectType.Device:
+					var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUID);
+					if (device != null)
+						return device.PresentationName;
+					break;
+				case ObjectType.Zone:
+					var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objectUID);
+					if (zone != null)
+						return zone.PresentationName;
+					break;
+				case ObjectType.Direction:
+					var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objectUID);
+					if (direction != null)
+						return direction.PresentationName;
+					break;
+				case ObjectType.Delay:
+					var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == objectUID);
+					if (delay != null)
+						return delay.PresentationName;
+					break;
+				case ObjectType.GuardZone:
+					var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUID);
+					if (guardZone != null)
+						return guardZone.PresentationName;
+					break;
+				case ObjectType.PumpStation:
+					var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == objectUID);
+					if (pumpStation != null)
+						return pumpStation.PresentationName;
+					break;
+				case ObjectType.MPT:
+					var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == objectUID);
+					if (mpt != null)
+						return mpt.PresentationName;
+					break;
+				case ObjectType.VideoDevice:
+					var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objectUID);
+					if (camera != null)
+						return camera.PresentationName;
+					break;
+				case ObjectType.GKDoor:
+					var gKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == objectUID);
+					if (gKDoor != null)
+						return gKDoor.PresentationName;
+					break;
+				case ObjectType.Organisation:
+					var organisation = RubezhClient.SKDHelpers.OrganisationHelper.GetSingle(objectUID);
+					if (organisation != null)
+						return organisation.Name;
+					break;
+			}
+			return "Null";
 		}
 
 		void OnConfigurationChanged()
