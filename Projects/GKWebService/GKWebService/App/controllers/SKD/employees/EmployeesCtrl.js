@@ -3,10 +3,15 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('employeesCtrl',
-        ['$scope', '$http', '$timeout', '$window',
-        function ($scope, $http, $timeout, $window) {
+        ['$scope', '$http', '$timeout', '$window', 'employeesService',
+         function ($scope, $http, $timeout, $window, employeesService) {
             $scope.gridOptions = {
-                onRegisterApi: function (gridApi) { $scope.gridApi = gridApi; },                
+                onRegisterApi: function(gridApi) {
+                    $scope.gridApi = gridApi;
+                    gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+                        employeesService.selectedEmployee = row.entity;
+                    });
+                },                
                 enableRowHeaderSelection: false,
                 enableSorting: false,
                 showTreeExpandNoChildren: false,
@@ -38,6 +43,7 @@
                             value.$$treeLevel = value.Level;
                         });
                         $scope.gridOptions.data = $scope.employees;
+                        employeesService.selectedEmployee = null;
                         $timeout(function() {
                             $scope.gridApi.treeBase.expandAllRows();
                     });

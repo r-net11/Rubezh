@@ -22,11 +22,6 @@ namespace RubezhAPI
 		public bool IsRecordOnline { get; set; }
 		[DataMember]
 		public List<RviStream> RviStreams { get; set; }
-		public string ServerIp { get; set; }
-		public int ServerPort { get; set; }
-		public bool IsOnGuardChanged { get; set; }
-		public bool IsRecordOnlineChanged { get; set; }
-		public bool IsNotStatusChanged { get; set; }
 		public RviState(RviDevice rviDevice, RviStatus rviStatus)
 		{
 			RviDeviceUid = rviDevice.Uid;
@@ -36,8 +31,6 @@ namespace RubezhAPI
 		{
 			RviServerUrl = rviServer.Url;
 			Status = rviStatus;
-			ServerIp = rviServer.Ip;
-			ServerPort = rviServer.Port;
 		}
 		public RviState(Camera camera, RviStatus rviStatus, bool isOnGuard, bool isRecordOnline, List<RviStream> rviStreams)
 		{

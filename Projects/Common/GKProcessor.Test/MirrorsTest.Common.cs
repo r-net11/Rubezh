@@ -23,7 +23,9 @@ namespace GKProcessor.Test
 		public void CreateConfiguration()
 		{
 			GKDriversCreator.Create();
-			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice { DriverUID = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System).UID };
+			var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
+			Assert.IsNotNull(systemDriver);
+			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice { Driver = systemDriver, DriverUID = systemDriver.UID };
 			gkDevice = GKManager.AddDevice(systemDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK), 0);
 			kauDevice = GKManager.AddDevice(gkDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
 			reflectionDevice1 = GKManager.AddDevice(gkDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKMirror), 2);

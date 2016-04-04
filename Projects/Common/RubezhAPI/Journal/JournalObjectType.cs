@@ -41,9 +41,6 @@ namespace RubezhAPI.Journal
 		GKUser = 11,
 
 		[Description("Зоны СКД")]
-		GKSKDZone = 12,
-
-		[Description("Устройство Rvi")]
-		RviDevice = 13
+		GKSKDZone = 12
 	}
 }

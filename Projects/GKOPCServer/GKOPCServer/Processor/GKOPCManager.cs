@@ -298,8 +298,8 @@ namespace GKOPCServer
 				if (e.ItemIds[i].TagId == 0)
 					continue;
 
-				var tag = TagDevices.FirstOrDefault(x => x.TagId == e.ItemIds[i].TagId);
-				
+				var tag = Tags.FirstOrDefault(t => t.TagId == e.ItemIds[i].TagId);
+
 				if (tag == null)
 				{
 					e.Errors[i] = ErrorCodes.False;
@@ -313,58 +313,25 @@ namespace GKOPCServer
 					var stateCode = Convert.ToInt32(e.Values[i]);
 					var cmd = (Commands)stateCode;
 
-					gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == tag.UID);
+					gkBase = GKObjects.FirstOrDefault(x => x.UID == tag.UID);
 
 					if (gkBase == null)
 					{
-						gkBase = GKManager.Zones.FirstOrDefault(x => x.UID == tag.UID);
-
-						if (gkBase == null)
-						{
-							gkBase = GKManager.Directions.FirstOrDefault(x => x.UID == tag.UID);
-
-							if (gkBase == null)
-							{
-								gkBase = GKManager.GuardZones.FirstOrDefault(x => x.UID == tag.UID);
-
-								if (gkBase == null)
-								{
-									gkBase = GKManager.Delays.FirstOrDefault(x => x.UID == tag.UID);
-
-									if (gkBase == null)
-									{
-										gkBase = GKManager.MPTs.FirstOrDefault(x => x.UID == tag.UID);
-
-										if (gkBase == null)
-										{
-											gkBase = GKManager.PumpStations.FirstOrDefault(x => x.UID == tag.UID);
-
-											if (gkBase == null)
-											{
-												gkBase = GKManager.Doors.FirstOrDefault(x => x.UID == tag.UID);
-
-												if (gkBase == null)
-												{
-													// Необходимо, что бы значение не было записано в тег,
-													// а приходило по обратной связи после выполения команды
-													//throw new CancelWritingException();
-													e.Errors[i] = ErrorCodes.False;
-													e.ItemIds[i].TagId = 0;
-													e.MasterError = ErrorCodes.False;
-													continue;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
+						// Необходимо, что бы значение не было записано в тег,
+						// а приходило по обратной связи после выполения команды
+						// throw new CancelWritingException();
+						e.Errors[i] = ErrorCodes.False;
+						e.ItemIds[i].TagId = 0;
+						e.MasterError = ErrorCodes.False;
+						continue;
 					}
-
-					ExecuteCmd(gkBase, cmd);
-					e.Errors[i] = ErrorCodes.False;
-					e.ItemIds[i].TagId = 0;
-					e.MasterError = ErrorCodes.False;
+					else
+					{
+						ExecuteCmd(gkBase, cmd);
+						e.Errors[i] = ErrorCodes.False;
+						e.ItemIds[i].TagId = 0;
+						e.MasterError = ErrorCodes.False;
+					}
 				}
 				catch (Exception ex)
 				{
@@ -448,6 +415,40 @@ namespace GKOPCServer
 						ClientManager.FiresecService.GKReset(gkBase);
 						break;
 					}
+			}
+		}
+
+		static TagBase[] Tags
+		{
+			get
+			{
+				List<TagBase> allTags = new List<TagBase>();
+				allTags.AddRange(TagDevices);
+				allTags.AddRange(TagZones);
+				allTags.AddRange(TagDirections);
+				allTags.AddRange(TagGuardZones);
+				allTags.AddRange(TagDelays);
+				allTags.AddRange(TagMPTs);
+				allTags.AddRange(TagPumpStations);
+				allTags.AddRange(TagDoors);
+				return allTags.ToArray();
+			}
+		}
+
+		static GKBase[] GKObjects
+		{
+			get
+			{
+				List<GKBase> list = new List<GKBase>();
+				list.AddRange(GKManager.Devices);
+				list.AddRange(GKManager.Zones);
+				list.AddRange(GKManager.Directions);
+				list.AddRange(GKManager.GuardZones);
+				list.AddRange(GKManager.Delays);
+				list.AddRange(GKManager.MPTs);
+				list.AddRange(GKManager.PumpStations);
+				list.AddRange(GKManager.Doors);
+				return list.ToArray();
 			}
 		}
 	}

@@ -2736,10 +2736,7 @@
     <Resource Include="GKIcons\RSR2_KDKR_Part.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="StateClassIcons\Connected.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\RviDevice.png" />
+    <Resource Include="Images\GreyCamera.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

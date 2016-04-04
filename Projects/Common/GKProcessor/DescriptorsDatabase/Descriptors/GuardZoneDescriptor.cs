@@ -18,14 +18,13 @@ namespace GKProcessor
 		readonly IEnumerable<GKGuardZoneDevice> ResetGuardPimDevices;
 		readonly List<GKGuardZoneDevice> ChangeGuardPimDevices;
 		readonly IEnumerable<GKGuardZoneDevice> SetAlarmPimDevices;
-		readonly bool UsePims;
 
 		public GuardZoneDescriptor(GKGuardZone zone)
 			: base(zone)
 		{
 			DescriptorType = DescriptorType.GuardZone;
 			GuardZone = zone;
-			SetGuardDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.SetGuard, false).Select(x=> x.Device);
+			SetGuardDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.SetGuard, false).Select(x => x.Device);
 			ResetGuardDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.ResetGuard, false).Select(x => x.Device);
 			SetAlarmDevices = DescriptorHelper.GetGuardZoneDevices(GuardZone, GKGuardZoneDeviceActionType.SetAlarm, false).Select(x => x.Device);
 
@@ -40,7 +39,6 @@ namespace GKProcessor
 				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
 				GuardZoneChangePimDescriptor = new GuardZoneChangePimDescriptor(GuardZone);
 				GuardZone.LinkToDescriptor(GuardZone.ChangePim);
-				UsePims = true;
 			}
 			else
 				GuardZone.LinkToDescriptor(GuardZone);
@@ -77,9 +75,9 @@ namespace GKProcessor
 			switch (commandStateBit)
 			{
 				case GKStateBit.Fire1:
-					if (count > 0 || UsePims)
+					if (count > 0 || SetAlarmPimDevices.Any())
 					{
-						if (UsePims)
+						if (SetAlarmPimDevices.Any())
 							Formula.AddGetBit(GKStateBit.On, GuardZone.Pim);
 						else
 							Formula.AddGetBit(GKStateBit.Attention, GuardZone);
@@ -87,12 +85,13 @@ namespace GKProcessor
 						if (count > 0)
 							Formula.Add(FormulaOperationType.OR);
 
-						if (UsePims)
+						if (SetAlarmPimDevices.Any())
 						{
 							Formula.AddGetBit(GKStateBit.Fire1, GuardZone.ChangePim);
 							int count2 = DescriptorHelper.AddCodeReadersLogic(SetAlarmPimDevices, Formula, commandStateBit);
 							if (count2 > 0)
 								Formula.Add(FormulaOperationType.AND);
+							if (count > 0)
 							Formula.Add(FormulaOperationType.OR);
 						}
 						Formula.AddPutBit(GKStateBit.Attention, GuardZone);
@@ -100,32 +99,33 @@ namespace GKProcessor
 					break;
 				case GKStateBit.TurnOn_InAutomatic:
 				case GKStateBit.TurnOff_InAutomatic:
-					if (count > 0 || UsePims)
+					var useChangePimLogic = ChangeGuardPimDevices.Count > 0
+						|| (commandStateBit == GKStateBit.TurnOn_InAutomatic && SetGuardPimDevices.Any())
+						|| (commandStateBit == GKStateBit.TurnOff_InAutomatic && ResetGuardPimDevices.Any());
+					if (count > 0 || useChangePimLogic)
 					{
-						if (UsePims)
+						if (useChangePimLogic)
 						{
-							if (ChangeGuardPimDevices.Count > 0)
+							DescriptorHelper.AddChangeLogic(ChangeGuardPimDevices, Formula);
+							int count2 = 0;
+							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
 							{
-								DescriptorHelper.AddChangeLogic(ChangeGuardPimDevices, Formula);
-								if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
-								{
-									int count2 = DescriptorHelper.AddCodeReadersLogic(SetGuardPimDevices, Formula, commandStateBit);
-									if (count2 > 0)
-										Formula.Add(FormulaOperationType.OR);
-									Formula.AddGetBit(GKStateBit.On, GuardZone.ChangePim);
-								}
-								else
-								{
-									int count2 = DescriptorHelper.AddCodeReadersLogic(ResetGuardPimDevices, Formula, commandStateBit);
-									if (count2 > 0)
-										Formula.Add(FormulaOperationType.OR);
-									Formula.AddGetBit(GKStateBit.Off, GuardZone.ChangePim);
-								}
-								Formula.Add(FormulaOperationType.AND);
-
-							if(count > 0)
-								Formula.Add(FormulaOperationType.OR);
+								count2 = DescriptorHelper.AddCodeReadersLogic(SetGuardPimDevices, Formula, commandStateBit);
+								if (ChangeGuardPimDevices.Count > 0 && count2 > 0)
+									Formula.Add(FormulaOperationType.OR);
+								Formula.AddGetBit(GKStateBit.On, GuardZone.ChangePim);
 							}
+							else
+							{
+								count2 = DescriptorHelper.AddCodeReadersLogic(ResetGuardPimDevices, Formula, commandStateBit);
+								if (ChangeGuardPimDevices.Count > 0 && count2 > 0)
+									Formula.Add(FormulaOperationType.OR);
+								Formula.AddGetBit(GKStateBit.Off, GuardZone.ChangePim);
+							}
+							Formula.Add(FormulaOperationType.AND);
+
+							if (count > 0)
+								Formula.Add(FormulaOperationType.OR);
 						}
 						if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
 							AddMissedLogic();

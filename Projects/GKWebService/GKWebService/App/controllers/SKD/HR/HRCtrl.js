@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('HRCtrl', 
-        ['$scope', '$uibModal', 'authData',
-        function ($scope, $uibModal, authData) {
+        ['$scope', '$uibModal', 'authData', 'employeesService',
+        function ($scope, $uibModal, authData, employeesService) {
             $scope.canEmployeesView = function() {
                 return authData.checkPermission('Oper_SKD_Employees_View');
             };

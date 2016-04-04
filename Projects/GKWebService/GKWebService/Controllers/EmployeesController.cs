@@ -72,7 +72,7 @@ namespace GKWebService.Controllers
 		}
 
         [ErrorHandler]
-		public JsonResult GetOrganisations(EmployeeFilter employeeFilter)
+		public JsonNetResult GetOrganisations(EmployeeFilter employeeFilter)
         {
             var employeesViewModel = new EmployeesViewModel();
             employeesViewModel.Initialize(employeeFilter);
@@ -85,7 +85,7 @@ namespace GKWebService.Controllers
                 rows = employeesViewModel.Organisations,
             };
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return new JsonNetResult { Data = result };
         }
 
         [ErrorHandler]

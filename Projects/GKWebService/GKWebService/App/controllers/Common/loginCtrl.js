@@ -18,6 +18,7 @@
 
             $scope.Enter = function () {
                 if (options.validateOnlyPassword) {
+                    // проверка пароля пользователя при выполнении важных операций
                     $http.post("Home/CheckPass", { password: $scope.loginData.password }).then(function (response) {
                         if (response.data.result) {
                             $uibModalInstance.close($scope.loginData.password);
@@ -31,6 +32,7 @@
                         alert(response.data.errorText);
                     });
                 } else {
+                    // аудентификация пользователя при входе
                     authService.login($scope.loginData).then(function (response) {
                         $scope.message = "";
                         $uibModalInstance.close();

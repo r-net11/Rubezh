@@ -534,35 +534,16 @@ namespace RubezhAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Управление ПМФ", XStateClass.Info)]
 		Управление_ПМФ = 220,
 
-		[EventName(JournalSubsystemType.Video, "Потеря связи с сервером Rvi", XStateClass.ConnectionLost)]
-		Потеря_связи_с_сервером_Rvi = 221,
-
-		[EventName(JournalSubsystemType.Video, "Установлена связь с сервером Rvi", XStateClass.Connected)]
-		Установлена_связь_с_сервером_Rvi = 222,
-
-		[EventName(JournalSubsystemType.Video, "Ошибка при подключении к устройству Rvi", XStateClass.Failure)]
-		Ошибка_при_подключении_к_устройству_Rvi = 223,
-
-		[EventName(JournalSubsystemType.Video, "Устройство Rvi подключено", XStateClass.Connected)]
-		Устройство_Rvi_подключено = 224,
-
-		[EventName(JournalSubsystemType.Video, "Ошибка при подключении к каналу Rvi", XStateClass.Failure)]
-		Ошибка_при_подключении_к_каналу_Rvi = 225,
-
-		[EventName(JournalSubsystemType.Video, "Канал Rvi подключен", XStateClass.Connected)]
-		Канал_Rvi_подключен = 226,
-
-
 		[EventName(JournalSubsystemType.Video, "Канал Rvi поставлен на охрану", XStateClass.Info)]
-		Канал_Rvi_поставлен_на_охрану = 227,
+		Канал_Rvi_поставлен_на_охрану = 221,
 
 		[EventName(JournalSubsystemType.Video, "Канал Rvi снят с охраны", XStateClass.Info)]
-		Канал_Rvi_снят_с_охраны = 228,
+		Канал_Rvi_снят_с_охраны = 222,
 
 		[EventName(JournalSubsystemType.Video, "Начата запись на канале Rvi", XStateClass.Info)]
-		Начата_запись_на_канале_Rvi = 229,
+		Начата_запись_на_канале_Rvi = 223,
 
 		[EventName(JournalSubsystemType.Video, "Прекращена запись на канале Rvi", XStateClass.Info)]
-		Прекращена_запись_на_канале_Rvi = 230
+		Прекращена_запись_на_канале_Rvi = 224
 	}
 }

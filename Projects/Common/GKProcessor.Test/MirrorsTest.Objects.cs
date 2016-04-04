@@ -131,7 +131,6 @@ namespace GKProcessor.Test
 			GKManager.AddGuardZone(guardZone);
 			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice);
 			Test(guardZone, GKDriverType.GuardZonesMirror);
-			CheckDeviceLogicOnGK(cardReaderDevice);
 			CheckObjectOnGK(code);
 			Assert.IsNotNull(guardZone.Pim);
 			CheckObjectOnGK(guardZone.Pim);

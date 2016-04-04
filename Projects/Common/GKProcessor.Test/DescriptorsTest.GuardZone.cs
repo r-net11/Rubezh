@@ -135,7 +135,6 @@ namespace GKProcessor.Test
 			Compile();
 
 			CheckObjectLogicOnGK(guardZone);
-			CheckDeviceLogicOnGK(device1);
 		}
 
 		[TestMethod]
@@ -167,7 +166,6 @@ namespace GKProcessor.Test
 			Compile();
 
 			CheckObjectLogicOnKau(guardZone);
-			CheckDeviceLogicOnKau(device1);
 		}
 
 		[TestMethod]
@@ -193,7 +191,6 @@ namespace GKProcessor.Test
 			Compile();
 
 			CheckObjectLogicOnGK(guardZone);
-			CheckDeviceLogicOnGK(device1);
 		}
 
 		[TestMethod]
@@ -226,8 +223,6 @@ namespace GKProcessor.Test
 			Compile();
 
 			CheckObjectLogicOnGK(guardZone);
-			CheckDeviceLogicOnGK(device1);
-			CheckDeviceLogicOnGK(device2);
 			CheckDeviceLogicOnGK(device3);
 			CheckDeviceLogicOnGK(device4);
 		}

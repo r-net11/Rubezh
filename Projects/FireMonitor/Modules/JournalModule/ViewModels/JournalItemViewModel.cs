@@ -39,8 +39,6 @@ namespace JournalModule.ViewModels
 		GKSKDZone GKSKDZone { get; set; }
 		GKDoor GKDoor { get; set; }
 		Camera Camera { get; set; }
-		RviDevice RviDevice { get; set; }
-
 
 		public JournalItemViewModel(JournalItem journalItem)
 		{
@@ -69,6 +67,7 @@ namespace JournalModule.ViewModels
 			}
 
 			IsExistsInConfig = true;
+			_isVideoExist = journalItem.VideoUID != Guid.Empty;
 			ObjectImageSource = "/Controls;component/Images/Blank.png";
 			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 
@@ -241,16 +240,6 @@ namespace JournalModule.ViewModels
 					ObjectImageSource = "/Controls;component/Images/Camera.png";
 					break;
 
-				case JournalObjectType.RviDevice:
-					RviDevice = ClientManager.SystemConfiguration.RviDevices.FirstOrDefault(x => x.Uid == JournalItem.ObjectUID);
-					if (RviDevice != null)
-					{
-						ObjectName = RviDevice.Name;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowCameraEvent>();
-					}
-					ObjectImageSource = "/Controls;component/Images/RviDevice.png";
-					break;
-
 				case JournalObjectType.None:
 				case JournalObjectType.GKUser:
 					ObjectName = JournalItem.ObjectName != null ? JournalItem.ObjectName : "";
@@ -270,8 +259,20 @@ namespace JournalModule.ViewModels
 			{
 				ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowJournalHREvent>();
 			}
+
 		}
 
+		bool _isVideoExist;
+		public bool IsVideoExist
+		{
+			get { return _isVideoExist; }
+			set
+			{
+				_isVideoExist = value;
+				OnPropertyChanged(() => IsVideoExist);
+			}
+
+		}
 		public bool IsStateImage
 		{
 			get { return JournalItem != null && JournalItem.ObjectName != null && JournalItem.ObjectName.EndsWith("АМ-R2"); }
@@ -428,7 +429,7 @@ namespace JournalModule.ViewModels
 		}
 		bool CanShowVideo()
 		{
-			return JournalItem.VideoUID != Guid.Empty;
+			return IsVideoExist;
 		}
 	}
 }
