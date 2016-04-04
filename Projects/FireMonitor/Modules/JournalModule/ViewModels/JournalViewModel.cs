@@ -118,7 +118,7 @@ namespace JournalModule.ViewModels
 				return false;
 			if (Filter.JournalEventNameTypes.Count > 0 && !Filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
 				return false;
-			if (Filter.EventDescriptions.Count > 0 && 
+			if (Filter.EventDescriptions.Count > 0 &&
 				!Filter.EventDescriptions.Any(x => x.JournalEventNameType == journalItem.JournalEventNameType && x.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType)))
 				return false;
 			if (Filter.JournalObjectTypes.Count > 0 && Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
@@ -164,7 +164,7 @@ namespace JournalModule.ViewModels
 				{
 					existingJournalItem.JournalItem.VideoUID = journalItem.VideoUID;
 					existingJournalItem.JournalItem.CameraUID = journalItem.CameraUID;
-					existingJournalItem.OnPropertyChanged(() => existingJournalItem.ShowVideoCommand);
+					existingJournalItem.IsVideoExist = journalItem.VideoUID != Guid.Empty;
 				}
 			}
 		}

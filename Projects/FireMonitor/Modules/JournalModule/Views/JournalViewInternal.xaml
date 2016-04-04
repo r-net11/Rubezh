@@ -38,6 +38,7 @@
 										</MultiBinding>
 									</Image.Source>
 								</Image>
+								<Image Width="16" VerticalAlignment="Center" HorizontalAlignment="Right" Source="pack://application:,,,/Controls;component/Images/GreyCamera.png" Visibility="{Binding IsVideoExist, Converter={StaticResource BoolToVisibilityConverter}}" Margin=" 0 0 2 0 " />
 								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
@@ -84,10 +85,10 @@
 						<Setter Property="ContextMenu">
 							<Setter.Value>
 								<ContextMenu>
-									<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-									<IconedMenuItem ImageSource="BTree"  Text="Показать" Command="{Binding ShowObjectCommand}" />
-									<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
-									<IconedMenuItem ImageSource="BVideo"  Text="Показать видео" Command="{Binding ShowVideoCommand}" />
+									<IconedMenuItem ImageSource="BMap" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+									<IconedMenuItem ImageSource="BTree" Text="Показать" Command="{Binding ShowObjectCommand}" />
+									<IconedMenuItem ImageSource="BSettings" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+									<IconedMenuItem ImageSource="BVideo" Text="Показать видео" Command="{Binding ShowVideoCommand}" />
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>

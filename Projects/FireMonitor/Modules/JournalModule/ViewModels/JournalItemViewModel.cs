@@ -67,6 +67,7 @@ namespace JournalModule.ViewModels
 			}
 
 			IsExistsInConfig = true;
+			_isVideoExist = journalItem.VideoUID != Guid.Empty;
 			ObjectImageSource = "/Controls;component/Images/Blank.png";
 			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 
@@ -258,8 +259,20 @@ namespace JournalModule.ViewModels
 			{
 				ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowJournalHREvent>();
 			}
+
 		}
 
+		bool _isVideoExist;
+		public bool IsVideoExist
+		{
+			get { return _isVideoExist; }
+			set
+			{
+				_isVideoExist = value;
+				OnPropertyChanged(() => IsVideoExist);
+			}
+
+		}
 		public bool IsStateImage
 		{
 			get { return JournalItem != null && JournalItem.ObjectName != null && JournalItem.ObjectName.EndsWith("АМ-R2"); }
@@ -416,7 +429,7 @@ namespace JournalModule.ViewModels
 		}
 		bool CanShowVideo()
 		{
-			return JournalItem.VideoUID != Guid.Empty;
+			return IsVideoExist;
 		}
 	}
 }
