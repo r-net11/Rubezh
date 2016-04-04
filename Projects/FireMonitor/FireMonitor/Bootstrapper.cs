@@ -132,7 +132,8 @@ namespace FireMonitor
 				}
 				catch (StartupCancellationException)
 				{
-					throw;
+					if (Application.Current != null)
+						Application.Current.Shutdown();
 				}
 				catch (Exception e)
 				{
