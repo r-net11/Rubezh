@@ -211,7 +211,7 @@ namespace Infrastructure.Common
 				//	mutex.WaitOne(TimeSpan.FromSeconds(1));
 				for (int i = 0; i < 3; i++)
 				{
-					var tempFileName = FileName + "." + Guid.NewGuid().ToString();
+					var tempFileName = FileName + "." + Guid.NewGuid();
 					try
 					{
 						var registryDataConfiguration = new RegistryDataConfiguration();
@@ -220,7 +220,7 @@ namespace Infrastructure.Common
 							File.Copy(FileName, tempFileName);
 							using (var fileStream = new FileStream(tempFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 							{
-								var xmlSerializer = new XmlSerializer(typeof(RegistryDataConfiguration));
+								var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (RegistryDataConfiguration)})[0]; //new XmlSerializer(typeof(RegistryDataConfiguration));
 								registryDataConfiguration = (RegistryDataConfiguration)xmlSerializer.Deserialize(fileStream);
 							}
 						}
@@ -255,10 +255,10 @@ namespace Infrastructure.Common
 				//	mutex.WaitOne(TimeSpan.FromSeconds(1));
 				for (int i = 0; i < 3; i++)
 				{
-					var tempFileName = FileName + "." + Guid.NewGuid().ToString();
+					var tempFileName = FileName + "." + Guid.NewGuid();
 					try
 					{
-						var xmlSerializer = new XmlSerializer(typeof(RegistryDataConfiguration));
+						var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (RegistryDataConfiguration)})[0]; //new XmlSerializer(typeof(RegistryDataConfiguration));
 						using (var fileStream = new FileStream(tempFileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 						{
 							xmlSerializer.Serialize(fileStream, registryDataConfiguration);

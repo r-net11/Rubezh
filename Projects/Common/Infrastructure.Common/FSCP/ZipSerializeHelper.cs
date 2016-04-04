@@ -13,10 +13,10 @@ namespace Infrastructure.Common
 			where T : VersionedConfiguration
 		{
 			configuration.BeforeSave();
-			configuration.Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 };
+			configuration.Version = new ConfigurationVersion { MajorVersion = 1, MinorVersion = 1 };
 			var memoryStream = new MemoryStream();
 
-			var xmlSerializer = new XmlSerializer(configuration.GetType());
+			var xmlSerializer = XmlSerializer.FromTypes(new[] {configuration.GetType()})[0]; //new XmlSerializer(configuration.GetType());
 			xmlSerializer.Serialize(memoryStream, configuration);
 			return memoryStream;
 		}
@@ -24,9 +24,8 @@ namespace Infrastructure.Common
 		public static T DeSerialize<T>(Stream stream)
 			 where T : VersionedConfiguration, new()
 		{
-			T configuration = null;
-			var xmlSerializer = new XmlSerializer(typeof(T));
-			configuration = (T)xmlSerializer.Deserialize(stream);
+			var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (T)})[0]; //new XmlSerializer(typeof(T));
+			var configuration = (T)xmlSerializer.Deserialize(stream);
 			configuration.ValidateVersion();
 			configuration.AfterLoad();
 			return configuration;
@@ -39,7 +38,7 @@ namespace Infrastructure.Common
 			{
 				if (useXml)
 				{
-					var xmlSerializer = new XmlSerializer(configuration.GetType());
+					var xmlSerializer = XmlSerializer.FromTypes(new[] {configuration.GetType()})[0]; //new XmlSerializer(configuration.GetType());
 					using (var fileStream = new FileStream(fileName, FileMode.Create))
 					{
 						xmlSerializer.Serialize(fileStream, configuration);
@@ -69,10 +68,10 @@ namespace Infrastructure.Common
 			{
 				using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
 				{
-					T configuration = null;
+					T configuration;
 					if (useXml)
 					{
-						var xmlSerializer = new XmlSerializer(typeof(T));
+						var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (T)})[0]; //new XmlSerializer(typeof(T));
 						configuration = (T)xmlSerializer.Deserialize(fileStream);
 					}
 					else

@@ -163,6 +163,9 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackingViewModel()
 		{
+			try
+			{
+
 			SubscribeOnEvents();
 
 			ShowFilterCommand = new RelayCommand(OnShowFilter, () => !IsBisy);
@@ -197,10 +200,6 @@ namespace SKDModule.ViewModels
 				if (_cachedTimeTracks == null) return;
 				PageNumber = TotalPageNumber;
 			});
-
-			try
-			{
-
 
 				RefreshCommand = new ReactiveAsyncCommand();
 				RefreshCommand.Subscribe(_ => IsBisy = true);
@@ -260,7 +259,7 @@ namespace SKDModule.ViewModels
 						HasSelectedTimeTrack = _ != null;
 					});
 			}
-			catch (Exception e)
+			catch (TypeInitializationException e)
 			{
 				Logger.Info("Error in constructor");
 				Logger.Error(e);
