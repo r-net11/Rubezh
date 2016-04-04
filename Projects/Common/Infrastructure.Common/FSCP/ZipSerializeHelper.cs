@@ -38,7 +38,7 @@ namespace Infrastructure.Common
 			{
 				if (useXml)
 				{
-					var xmlSerializer = XmlSerializer.FromTypes(new[] {configuration.GetType()})[0]; //new XmlSerializer(configuration.GetType());
+					var xmlSerializer = XmlSerializer.FromTypes(new[] {configuration.GetType()})[0];
 					using (var fileStream = new FileStream(fileName, FileMode.Create))
 					{
 						xmlSerializer.Serialize(fileStream, configuration);

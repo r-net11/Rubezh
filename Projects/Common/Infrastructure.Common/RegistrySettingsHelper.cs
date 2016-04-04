@@ -220,7 +220,7 @@ namespace Infrastructure.Common
 							File.Copy(FileName, tempFileName);
 							using (var fileStream = new FileStream(tempFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 							{
-								var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (RegistryDataConfiguration)})[0]; //new XmlSerializer(typeof(RegistryDataConfiguration));
+								var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (RegistryDataConfiguration)})[0];
 								registryDataConfiguration = (RegistryDataConfiguration)xmlSerializer.Deserialize(fileStream);
 							}
 						}
@@ -248,17 +248,12 @@ namespace Infrastructure.Common
 		{
 			lock (locker)
 			{
-				//EventWaitHandle eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "");
-				//eventWaitHandle.
-				//using (var mutex = new Mutex(false, "RegistryDataConfiguration"))
-				//{
-				//	mutex.WaitOne(TimeSpan.FromSeconds(1));
 				for (int i = 0; i < 3; i++)
 				{
 					var tempFileName = FileName + "." + Guid.NewGuid();
 					try
 					{
-						var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (RegistryDataConfiguration)})[0]; //new XmlSerializer(typeof(RegistryDataConfiguration));
+						var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (RegistryDataConfiguration)})[0];
 						using (var fileStream = new FileStream(tempFileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 						{
 							xmlSerializer.Serialize(fileStream, registryDataConfiguration);
@@ -276,10 +271,8 @@ namespace Infrastructure.Common
 						{
 							File.Delete(tempFileName);
 						}
-						//mutex.ReleaseMutex();
 					}
 				}
-				//}
 			}
 		}
 	}

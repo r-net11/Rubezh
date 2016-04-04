@@ -26,7 +26,7 @@ namespace Infrastructure.Common
 				{
 					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 					{
-						var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (AppServerSettings)})[0]; //new XmlSerializer(typeof(AppServerSettings));
+						var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (AppServerSettings)})[0];
 						AppServerSettings = (AppServerSettings)xmlSerializer.Deserialize(fileStream);
 					}
 				}
@@ -41,7 +41,7 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (AppServerSettings)})[0]; //new XmlSerializer(typeof(AppServerSettings));
+				var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (AppServerSettings)})[0];
 				using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 				{
 					xmlSerializer.Serialize(fileStream, AppServerSettings);
