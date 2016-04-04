@@ -47,6 +47,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				SetValueStep.EnumType = value;
+				SourceArgument.Argument.ExplicitValue.EnumType = value;
+				TargetArgument.Argument.ExplicitValue.EnumType = value;
 				UpdateContent();
 				OnPropertyChanged(() => SelectedEnumType);
 			}
@@ -79,7 +81,7 @@ namespace AutomationModule.ViewModels
 			else if (SelectedExplicitType == ExplicitType.Integer || SelectedExplicitType == ExplicitType.Float)
 			{
 				SourceArgument.Update(Procedure, new List<ExplicitType> { ExplicitType.Integer, ExplicitType.Float }, isList: false);
-				SourceArgument.ExplicitType = ExplicitType.Float;
+				SourceArgument.ExplicitType = SelectedExplicitType;
 			}
 			else
 				SourceArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);

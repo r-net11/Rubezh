@@ -1,7 +1,8 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.Automation;
-using RubezhClient;
+using System;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,18 +19,9 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var description = "";
-				if (!Variable.IsList)
-					description = GetStringValueHelper.GetStringValue(Variable.ExplicitValue, Variable.ExplicitType, Variable.EnumType);
-				else
-				{
-					foreach (var explicitValue in Variable.ExplicitValues)
-					{
-						description += GetStringValueHelper.GetStringValue(explicitValue, Variable.ExplicitType, Variable.EnumType) + ", ";
-					}
-				}
-				description = description.TrimEnd(',', ' ');
-				return description;
+				return Variable.IsList ?
+					String.Join(", ", Variable.ExplicitValues.Select(x => x.ToString())) :
+					Variable.ExplicitValue == null ? "" : Variable.ExplicitValue.ToString();
 			}
 		}
 

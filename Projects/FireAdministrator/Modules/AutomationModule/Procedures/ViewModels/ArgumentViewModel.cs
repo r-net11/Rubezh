@@ -54,6 +54,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				Argument.ExplicitType = value;
+				Argument.ExplicitValue.ExplicitType = value;
 				OnPropertyChanged(() => ExplicitType);
 			}
 		}
@@ -250,10 +251,10 @@ namespace AutomationModule.ViewModels
 			}
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
 			SelectedVariableScope = Argument.VariableScope;
-			ExplicitValue.Initialize(ExplicitValue.UidValue);
+			ExplicitValue.Initialize(ExplicitValue.ObjectReferenceValue);
 			foreach (var explicitValue in ExplicitValues)
 			{
-				explicitValue.Initialize(explicitValue.UidValue);
+				explicitValue.Initialize(explicitValue.ObjectReferenceValue);
 			}
 			if (explicitTypes != null)
 				ExplicitType = explicitTypes.FirstOrDefault();
@@ -355,20 +356,14 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var description = "";
 				if (!IsList)
-					description = GetStringValueHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
+					return Argument.ExplicitValue == null ? "" : Argument.ExplicitValue.ToString();
 				else
 				{
 					if (Argument.ExplicitValues.Count == 0)
 						return "Пустой список";
-					foreach (var explicitValue in Argument.ExplicitValues)
-					{
-						description += GetStringValueHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
-					}
+					return String.Join(", ", Argument.ExplicitValues.Select(x => x.ToString()));
 				}
-				description = description.TrimEnd(',', ' ');
-				return description;
 			}
 		}
 
@@ -384,7 +379,9 @@ namespace AutomationModule.ViewModels
 					return "<" + SelectedVariable.Variable.Name + ">";
 				}
 
-				return !IsList ? GetStringValueHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType) : "Список";
+				return IsList ?
+					"Список" :
+					ExplicitValue.ExplicitValue == null ? "" : ExplicitValue.ExplicitValue.ToString();
 			}
 		}
 
