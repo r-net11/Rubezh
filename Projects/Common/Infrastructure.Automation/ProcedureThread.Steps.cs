@@ -322,12 +322,12 @@ namespace Infrastructure.Automation
 			var doorUid = GetValue<Guid>(controlGKDoorStep.DoorArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasSKD)
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием лицензии", doorUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа\" заблокировано в связи с отсутствием лицензии", doorUid);
 				return;
 			}
 			if (!HasPermission(PermissionType.Oper_ZonesSKD))
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием прав пользователя", doorUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа\" заблокировано в связи с отсутствием прав пользователя", doorUid);
 				return;
 			}
 

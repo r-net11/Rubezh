@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Common;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace RubezhAPI.Automation
@@ -15,7 +16,7 @@ namespace RubezhAPI.Automation
 		public Argument DoorArgument { get; set; }
 
 		[DataMember]
-		public GKDoorCommandType DoorCommandType { get; set; }
+		public SafeEnum<GKDoorCommandType> DoorCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlGKDoor; } }
 	}
@@ -37,9 +38,6 @@ namespace RubezhAPI.Automation
 		[Description("Закрыть дверь")]
 		Close,
 
-		[Description("Открыть дверь сразу")]
-		OpenNow,
-
 		[Description("Закрыть дверь сразу")]
 		CloseNow,
 
@@ -48,9 +46,6 @@ namespace RubezhAPI.Automation
 
 		[Description("Закрыть дверь в автоматическом режиме")]
 		CloseInAutomatic,
-
-		[Description("Открыть дверь сразу в автоматическом режиме")]
-		OpenNowInAutomatic,
 
 		[Description("Закрыть дверь сразу в автоматическом режиме")]
 		CloseNowInAutomatic,
