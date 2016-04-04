@@ -21,7 +21,7 @@ namespace GKImitator.ViewModels
 			if (GKBase is GKDevice)
 			{
 				var device = GKBase as GKDevice;
-				Failures.Add(new FailureViewModel(this, JournalEventDescriptionType.Потеря_связи, 255));
+				Failures.Add(new FailureViewModel(this, JournalEventDescriptionType.Потеря_связи_Неисправность, 255));
 				HasParameters = device.Properties.Any(x => x.DriverProperty.IsAUParameter);
 				HasMeasure = device.Driver.MeasureParameters.Any();
 				var driverType = device.DriverType;

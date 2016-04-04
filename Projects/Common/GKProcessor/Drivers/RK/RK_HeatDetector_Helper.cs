@@ -24,7 +24,7 @@ namespace GKProcessor
 
 			GKDriversHelper.AddRadioChanelProperties(driver);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог срабатывания по температуре, °C", 70, 54, 85);
-			GKDriversHelper.AddIntProprety(driver, 4, "Порог срабатывания по градиенту температуры, °C/мин", 5, 1, 50).Multiplier = 10;
+			GKDriversHelper.AddIntProprety(driver, 4, "Порог срабатывания по градиенту температуры, °C/мин", 50, 10, 500).Multiplier = 10;
 
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Температура, °C", InternalName = "Temperature", HasNegativeValue = true });
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Градиент температуры, °C/мин", InternalName = "TemperatureDelta", HasNegativeValue = true });
