@@ -8,7 +8,6 @@ namespace RubezhAPI.Automation
 		public ShowPropertyStep()
 		{
 			ObjectArgument = new Argument();
-			LayoutFilter.Add(System.Guid.Empty);
 		}
 
 		[DataMember]
