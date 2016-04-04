@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Common;
 using FiresecAPI.Enums;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
@@ -79,10 +80,18 @@ namespace SKDModule
 
 		public override void Initialize()
 		{
+			Logger.Info("Begin_Init_DayIntervalViewModel");
 			DayIntervalsViewModel.Initialize();
+			Logger.Info("End_Init_DayIntervalViewModel");
+			Logger.Info("Begin_Init_ScheduleSchemesViewModel");
 			ScheduleSchemesViewModel.Initialize();
+			Logger.Info("End_Init_ScheduleSchemesViewModel");
+			Logger.Info("Begin_Init_HolidaysViewModel");
 			HolidaysViewModel.Initialize();
+			Logger.Info("End_Init_HolidaysViewModel");
+			Logger.Info("Begin_Init_HolidaysViewModel");
 			SchedulesViewModel.Initialize();
+			Logger.Info("End_Init_HolidaysViewModel");
 		}
 
 		public override ModuleType ModuleType
