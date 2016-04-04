@@ -54,7 +54,7 @@ namespace GKWebService.Controllers
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
 			if (pumpStation != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(pumpStation);
+				ClientManager.FiresecService.GKSetAutomaticRegime(pumpStation, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -67,7 +67,7 @@ namespace GKWebService.Controllers
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
 			if (pumpStation != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(pumpStation);
+				ClientManager.FiresecService.GKSetManualRegime(pumpStation, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -80,7 +80,7 @@ namespace GKWebService.Controllers
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
 			if (pumpStation != null)
 			{
-				ClientManager.FiresecService.GKSetIgnoreRegime(pumpStation);
+				ClientManager.FiresecService.GKSetIgnoreRegime(pumpStation, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -93,7 +93,7 @@ namespace GKWebService.Controllers
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
 			if (pumpStation != null)
 			{
-				ClientManager.FiresecService.GKTurnOn(pumpStation);
+				ClientManager.FiresecService.GKTurnOn(pumpStation, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -106,7 +106,7 @@ namespace GKWebService.Controllers
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
 			if (pumpStation != null)
 			{
-				ClientManager.FiresecService.GKTurnOnNow(pumpStation);
+				ClientManager.FiresecService.GKTurnOnNow(pumpStation, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -119,7 +119,7 @@ namespace GKWebService.Controllers
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
 			if (pumpStation != null)
 			{
-				ClientManager.FiresecService.GKTurnOff(pumpStation);
+				ClientManager.FiresecService.GKTurnOff(pumpStation, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -132,7 +132,7 @@ namespace GKWebService.Controllers
 			var pumpStation = GKManager.PumpStations.FirstOrDefault(d => d.UID == id);
 			if (pumpStation != null)
 			{
-				ClientManager.FiresecService.GKStop(pumpStation);
+				ClientManager.FiresecService.GKStop(pumpStation, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();

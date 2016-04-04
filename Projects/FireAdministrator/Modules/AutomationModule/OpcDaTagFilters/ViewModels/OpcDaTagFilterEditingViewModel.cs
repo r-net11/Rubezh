@@ -21,19 +21,27 @@ namespace AutomationModule.ViewModels
 			_Filters = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
 			.Where(f => f.UID != filter.OpcDaTagFilter.UID);
 
-			foreach(var server in OpcDaServers)
+			if ((filter.OpcDaServer == null) || (filter.OpcDaTag == null))
 			{
-				SelectedOpcDaTag = server.Tags.FirstOrDefault(tag => tag.Uid == SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID);
-				if (SelectedOpcDaTag != null)
+				Name = SelectedOpcDaTagFilter.OpcDaTagFilter.Name;
+				Description = SelectedOpcDaTagFilter.OpcDaTagFilter.Description;
+				Hysteresis = SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis.ToString();
+			}
+			else
+			{
+				SelectedOpcDaServer = OpcDaServers
+					.FirstOrDefault(srv => srv.Tags
+						.Any(tag => tag.Uid == SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID));
+
+				if (SelectedOpcDaServer != null)
 				{
-					SelectedOpcDaServer = server;
+					SelectedOpcDaTag = OpcDaServers.SelectMany(srv => srv.Tags)
+						.FirstOrDefault(tag => tag.Uid == SelectedOpcDaTagFilter.OpcDaTagFilter.TagUID);
 					Name = SelectedOpcDaTagFilter.OpcDaTagFilter.Name;
 					Description = SelectedOpcDaTagFilter.OpcDaTagFilter.Description;
 					Hysteresis = SelectedOpcDaTagFilter.OpcDaTagFilter.Hysteresis.ToString();
-					break;
 				}
 			}
-
 		}
 
 		#endregion

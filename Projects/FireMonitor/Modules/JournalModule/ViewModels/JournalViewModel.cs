@@ -163,7 +163,7 @@ namespace JournalModule.ViewModels
 				{
 					existingJournalItem.JournalItem.VideoUID = journalItem.VideoUID;
 					existingJournalItem.JournalItem.CameraUID = journalItem.CameraUID;
-					existingJournalItem.OnPropertyChanged(() => existingJournalItem.ShowVideoCommand);
+					existingJournalItem.IsVideoExist = journalItem.VideoUID != Guid.Empty;
 				}
 			}
 		}

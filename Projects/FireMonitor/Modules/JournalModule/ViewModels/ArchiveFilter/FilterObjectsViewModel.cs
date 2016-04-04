@@ -173,7 +173,7 @@ namespace JournalModule.ViewModels
 			videoViewModel.IsExpanded = true;
 			RootFilters.Add(videoViewModel);
 
-			var videoDevicesViewModel = new FilterObjectViewModel(JournalObjectType.VideoDevice);
+			var videoDevicesViewModel = new FilterObjectViewModel(JournalObjectType.Camera);
 			AddChild(videoViewModel, videoDevicesViewModel);
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{

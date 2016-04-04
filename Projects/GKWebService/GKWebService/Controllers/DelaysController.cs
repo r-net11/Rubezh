@@ -38,7 +38,7 @@ namespace GKWebService.Controllers
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
 			if (delay != null)
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(delay);
+				ClientManager.FiresecService.GKSetAutomaticRegime(delay, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -49,7 +49,7 @@ namespace GKWebService.Controllers
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
 			if (delay != null)
 			{
-				ClientManager.FiresecService.GKSetManualRegime(delay);
+				ClientManager.FiresecService.GKSetManualRegime(delay, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -60,7 +60,7 @@ namespace GKWebService.Controllers
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
 			if (delay != null)
 			{
-				ClientManager.FiresecService.GKSetIgnoreRegime(delay);
+				ClientManager.FiresecService.GKSetIgnoreRegime(delay, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -71,7 +71,7 @@ namespace GKWebService.Controllers
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
 			if (delay != null)
 			{
-				ClientManager.FiresecService.GKTurnOn(delay);
+				ClientManager.FiresecService.GKTurnOn(delay, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -82,7 +82,7 @@ namespace GKWebService.Controllers
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
 			if (delay != null)
 			{
-				ClientManager.FiresecService.GKTurnOnNow(delay);
+				ClientManager.FiresecService.GKTurnOnNow(delay, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}
@@ -93,7 +93,7 @@ namespace GKWebService.Controllers
 			var delay = GKManager.Delays.FirstOrDefault(d => d.UID == id);
 			if (delay != null)
 			{
-				ClientManager.FiresecService.GKTurnOff(delay);
+				ClientManager.FiresecService.GKTurnOff(delay, ClientManager.CurrentUser.Name);
 			}
 			return new JsonResult();
 		}

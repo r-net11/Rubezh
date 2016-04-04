@@ -35,12 +35,11 @@ namespace SKDModule.Reports.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SkdReportOrganisationsListChangedEvent>().Unsubscribe(UpdateItemList);
-			ServiceFactory.Events.GetEvent<SkdReportOrganisationsListChangedEvent>().Subscribe(UpdateItemList);
 			var organisationFilter = filter as IReportFilterOrganisation;
 			var uids = organisationFilter == null ? null : organisationFilter.Organisations;
 			if (!AllowMultiple && uids == null && Organisations.Items.Count > 0)
 				uids = new List<Guid>();
+			CreateItemList();
 			Initialize(uids);
 		}
 		public override void UpdateFilter(SKDReportFilter filter)

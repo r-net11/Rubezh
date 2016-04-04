@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RubezhAPI.GK;
+using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using RubezhAPI.GK;
 
 namespace Controls.Converters
 {

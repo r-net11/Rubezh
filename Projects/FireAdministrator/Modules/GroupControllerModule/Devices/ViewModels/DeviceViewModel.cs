@@ -101,7 +101,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => EditingPresentationZone);
 			OnPropertyChanged(() => GuardPresentationZone);
 			OnPropertyChanged(() => IsFireAndGuard);
-			OnPropertyChanged(() => IsParamtersEnabled);
+			OnPropertyChanged(() => IsParametersEnabled);
 			OnPropertyChanged(() => IsInDoor);
 			OnPropertyChanged(() => MPTName);
 			OnPropertyChanged(() => IsInMPT);
@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 		{
 			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged(() => PropertiesViewModel);
-			OnPropertyChanged(() => IsParamtersEnabled);
+			OnPropertyChanged(() => IsParametersEnabled);
 		}
 
 		public void Update()

@@ -6,11 +6,11 @@
 
 
 <div id="HR">
-    <div class="HrToolbar" ng-show="activeTab === 0">
+    <div class="HrToolbar" ng-show="activeTab === 0" ng-controller="employeesToolbarCtrl">
         <div data-bind="visible:!Employees.EmployeeCards.IsCardSelected()">
             <div class="icon add" data-bind="click: Employees.CanAdd() ? function(data,event) { Employees.AddEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.AddCommandToolTip}, css: {disabled: !Employees.CanAdd()}"></div>
             <div class="icon delete" data-bind="click: Employees.CanRemove() ? function(data,event) { Employees.RemoveEmployeeClick(data, event); } : null, attr: {title: Employees.RemoveCommandToolTip}, css: {disabled: !Employees.CanRemove()}"></div>
-            <div class="icon edit" data-bind="click: Employees.CanEdit() ? function(data,event) { Employees.EditEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.EditCommandToolTip}, css: {disabled: !Employees.CanEdit()}"></div>
+            <div class="icon edit" ng-click="editEmployeeClick()" data-bind="click: Employees.CanEdit() ? function(data,event) { Employees.EditEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.EditCommandToolTip}, css: {disabled: !Employees.CanEdit()}"></div>
             <div class="icon redo" title="Восстановить" data-bind="visible:Filter.IsWithDeleted, click: Employees.CanRestore() ? function(data,event) { Employees.RestoreEmployeeClick(data, event); } : null, css: {disabled: !Employees.CanRestore()}"></div>
         </div>
         <div class="icon add" title="Добавить пропуск" data-bind="click: Employees.EmployeeCards.CanAddCard() ? function(data,event) { Employees.EmployeeCards.AddEmployeeCardClick(data, event, '#employee-card-details-box'); } : null, css: {disabled: !Employees.EmployeeCards.CanAddCard()}"></div>
@@ -104,7 +104,6 @@
     </div>
 </div>
 
-@Html.Action("EmployeeDetails", "Employees")
 @Html.Action("DepartmentSelection", "Employees")
 @Html.Action("PositionSelection", "Employees")
 @Html.Action("ScheduleSelection", "Employees")

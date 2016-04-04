@@ -163,8 +163,18 @@ namespace AutomationModule.ViewModels
 
 				ServiceFactory.Events.GetEvent<DeleteOpcDaTagFilterEvent>().Publish(SelectedFilter.OpcDaTagFilter.UID);
 
-				Filters.Remove(SelectedFilter);
-				SelectedFilter = Filters.FirstOrDefault();
+				var removedFilter = SelectedFilter;
+
+				var index = Filters.IndexOf(SelectedFilter);
+
+				if (index - 1 >= 0)
+					SelectedFilter = Filters.ElementAt(index - 1);
+				else if (index + 1 < Filters.Count)
+					SelectedFilter = Filters.ElementAt(index + 1);
+				else
+					SelectedFilter = null;
+
+				Filters.Remove(removedFilter);
 
 				ServiceFactory.SaveService.AutomationChanged = true;
 

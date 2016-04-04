@@ -124,7 +124,7 @@ namespace VideoModule.ViewModels
 					JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 					DescriptionText = SelectedPreset.ToString(),
 					JournalSubsystemType = JournalSubsystemType.Video,
-					JournalObjectType = JournalObjectType.VideoDevice,
+					JournalObjectType = JournalObjectType.Camera,
 					ObjectUID = Camera.UID,
 					ObjectName = Camera.PresentationName,
 				};

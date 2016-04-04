@@ -5,22 +5,25 @@
     app.factory('authService', ['$q', '$http', '$window', '$uibModal', function ($q, $http, $window, $uibModal) {
         var authServiceFactory = {};
 
+        // объект с данными текущего пользователя
         authServiceFactory.authentication = {
             isAuth: false,
             userName: "",
             permissions: [],
             checkPermission: function (permission) {
-                return authServiceFactory.authentication.permissions.indexOf(permission) !== -1;
+                return this.permissions.indexOf(permission) !== -1;
             }
         };
 
+        // аудентификация
         authServiceFactory.login = function (loginData) {
 
             var deferred = $q.defer();
 
-            $http.post("Home/Login", loginData).success(function (response) {
+            $http.post("Home/Login", loginData).then(function (response) {
 
-                if (response.success) {
+                if (response.data.success) {
+                    // если пользователь успешно аудентифицирован, то получаем его список прав
                     $http.get("Home/GetCurrentUserPermissions").then(function (responsePermissions) {
                         authServiceFactory.authentication.isAuth = true;
                         authServiceFactory.authentication.userName = loginData.userName;
@@ -29,16 +32,17 @@
                     });
 
                 } else {
-                    deferred.reject(response.message);
+                    deferred.reject(response.data.message);
                 }
-            }).error(function (err, status) {
-                deferred.reject(err);
+            }, function (response) {
+                deferred.reject(response);
             });
 
             return deferred.promise;
 
         };
 
+        // выход пользователя
         authServiceFactory.logOut = function () {
             $http.post("Home/LogOut").then(function(response) {
 
@@ -50,6 +54,7 @@
             });
         };
 
+        // получение информации о текущем пользователе при старте приложения
         authServiceFactory.fillAuthData = function () {
             var deferred = $q.defer();
 
@@ -76,14 +81,17 @@
             return deferred.promise;
         };
 
+        // проверка наличия прав у пользователя
         authServiceFactory.checkPermission = function (permission) {
             return authServiceFactory.authentication.permissions.indexOf(permission) !== -1;
         };
 
+        // подтверждение пароля пользователя, при выполнении пользователем важных операций
         authServiceFactory.сonfirm = function () {
             var deferred = $q.defer();
 
             if (authServiceFactory.checkPermission('Oper_MayNotConfirmCommands')) {
+                // если пользователя имеет право не подтвержать пароль, то не подтверждать пароль
                 deferred.resolve();
             } else {
                 var modalInstance = $uibModal.open({
@@ -102,7 +110,8 @@
                 });
 
                 modalInstance.result.then(function (password) {
-                    deferred.resolve({ headers: {'Password': password}});
+                    // отправка на сервер важной команды вместе с паролем
+                    deferred.resolve({ headers: { 'Password': password } });
                 }, function () {
                     deferred.reject();
                 });

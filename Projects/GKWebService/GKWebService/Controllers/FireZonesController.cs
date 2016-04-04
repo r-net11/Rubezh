@@ -56,9 +56,11 @@ namespace GKWebService.Controllers
 		[ConfirmCommand]
 		public JsonResult SetIgnore(Guid id)
 		{
-			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
+			var zone = GKManager.Zones.FirstOrDefault(z => z.UID == id);
+			if (zone != null)
 			{
-				ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Ignore);
+				//ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Ignore);
+				ClientManager.FiresecService.GKSetIgnoreRegime(zone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -69,9 +71,11 @@ namespace GKWebService.Controllers
 		[ConfirmCommand]
 		public JsonResult ResetIgnore(Guid id)
 		{
-			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
+			var zone = GKManager.Zones.FirstOrDefault(z => z.UID == id);
+			if (zone != null)
 			{
-				ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.ResetIgnore);
+				//ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.ResetIgnore);
+				ClientManager.FiresecService.GKSetAutomaticRegime(zone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();
@@ -81,9 +85,11 @@ namespace GKWebService.Controllers
 		[ConfirmCommand]
 		public JsonResult ResetFire(Guid id)
 		{
-			if (GKManager.Zones.FirstOrDefault(z => z.UID == id) != null)
+			var zone = GKManager.Zones.FirstOrDefault(z => z.UID == id);
+			if (zone != null)
 			{
-				ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Reset);
+				//ClientManager.FiresecService.ControlFireZone(id, ZoneCommandType.Reset);
+				ClientManager.FiresecService.GKReset(zone, ClientManager.CurrentUser.Name);
 			}
 
 			return new JsonResult();

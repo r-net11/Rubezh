@@ -267,12 +267,12 @@ namespace GKModule.Validation
 			{
 				if (device.GuardZones.Any(x => x.GuardZoneDevices.Any(y =>
 
-					y.DeviceUID == device.UID && ((y.CodeReaderSettings.AlarmSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly && y.CodeReaderSettings.AlarmSettings.CodeUIDs.Any()) ||
-						(y.CodeReaderSettings.ChangeGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly && y.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Any()) ||
-						(y.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly && y.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Any()) ||
-						(y.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly && y.CodeReaderSettings.SetGuardSettings.CodeUIDs.Any())))
+					y.DeviceUID == device.UID && (y.CodeReaderSettings.AlarmSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly ||
+						y.CodeReaderSettings.ChangeGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly ||
+						y.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly ||
+						y.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType == GKCodeReaderEnterType.CodeOnly ))
 				))
-					AddError(device, string.Format("Котроллер Wiegand используется в точки доступа, не должно быть настроенных кодов с методом ввода *КОД#   "), ValidationErrorLevel.CannotWrite);
+					AddError(device, string.Format("Котроллер Wiegand используется в точке доступа, не должно быть настроенных кодов с методом ввода *КОД#   "), ValidationErrorLevel.CannotWrite);
 			}
 		}
 	}

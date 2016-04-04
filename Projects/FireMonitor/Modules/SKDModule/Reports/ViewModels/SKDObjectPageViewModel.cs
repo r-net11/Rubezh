@@ -84,7 +84,7 @@ namespace SKDModule.Reports.ViewModels
 			foreach (var SKDZone in GKManager.SKDZones)
 				gkSKDZonesViewModel.AddChild(new SKDObjectViewModel(SKDZone));
 
-			var gkVideoDevicesViewModel = new SKDObjectViewModel(JournalObjectType.VideoDevice);
+			var gkVideoDevicesViewModel = new SKDObjectViewModel(JournalObjectType.Camera);
 			video.AddChild(gkVideoDevicesViewModel);
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 				gkVideoDevicesViewModel.AddChild(new SKDObjectViewModel(camera));

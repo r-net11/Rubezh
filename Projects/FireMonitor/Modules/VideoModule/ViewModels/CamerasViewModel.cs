@@ -39,10 +39,10 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => SelectedCamera);
 			}
 		}
-		public void Select(Guid cameraUID)
+		public void Select(Guid cameraUid)
 		{
-			if (cameraUID != Guid.Empty)
-				SelectedCamera = AllCameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
+			if (cameraUid != Guid.Empty)
+				SelectedCamera = AllCameras.FirstOrDefault(x => (x.Camera != null && x.Camera.UID == cameraUid) || (x.RviDevice != null && x.RviDevice.Uid == cameraUid));
 		}
 		void BuildTree()
 		{
@@ -58,7 +58,9 @@ namespace VideoModule.ViewModels
 						var cameraViewModel = new CameraViewModel(camera.Name, camera);
 						deviceViewModel.AddChild(cameraViewModel);
 						AllCameras.Add(cameraViewModel);
+
 					}
+					AllCameras.Add(deviceViewModel);
 					serverViewModel.AddChild(deviceViewModel);
 				}
 				Cameras.Add(serverViewModel);

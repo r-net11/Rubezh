@@ -7,57 +7,53 @@
     <div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-tree-view ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-auto-size-column></div>
 </div>
 
-<div data-bind="with: HR.Employees, visible: !HR.Employees.IsOrganisation()">
+<div ng-show="!selectedEmployee.IsOrganisation && selectedEmployee" ng-controller="employeeCardsCtrl">
     <div class="HrCardsPanel">
         <ul>
-            <li>
+            <li ng-class="{active: selectedCard === null}">
                 <img style="vertical-align: middle; padding-right: 3px" src="~/Content/Image/Icon/Hr/Employee.png" />
-                <a href="" data-bind="click: function(data,event) { EmployeeCards.EmployeeClick(data, event); }">
+                <a href="" ng-click="cardClick(null)">
                     <span>Сотрудник</span>
                 </a>
             </li>
-        </ul>
-        <ul data-bind="foreach: EmployeeCards.Cards">
-            <li>
+            <li ng-repeat="card in employeeCards.Cards" ng-class="{active: selectedCard === card}">
                 <img style="vertical-align: middle; padding-right: 3px" src="~/Content/Image/Icon/Hr/Card.png" />
-                <a href="" data-bind="click: function(data,event) { $parent.EmployeeCards.CardClick(data, event, $data); }">
-                    <span data-bind="text: 'Пропуск ' + Number()"></span>
+                <a href="" ng-click="cardClick(card)">
+                    <span>Пропуск {{card.Number}}</span>
                 </a>
             </li>
         </ul>
     </div><!-- .left-sidebar -->
     <div class="HrCardDoorsPanel">
-        <div data-bind="visible: !EmployeeCards.IsCardSelected()">
+        <div class="HrCardDoorsProperties" ng-show="selectedCard === null">
             <div style="width: 50%; float: left">
-                <div><span>Фамилия</span><label data-bind="text: LastName"></label>
+                <div><span>Фамилия</span><label>{{selectedEmployee.Model.LastName}}</label>
                 </div>
-                <div><span>Имя</span><label data-bind="text: FirstName"></label>
+                <div><span>Имя</span><label>{{selectedEmployee.Model.FirstName}}</label>
                 </div>
-                <div><span>Отчество</span><label data-bind="text: SecondName"></label>
+                <div><span>Отчество</span><label>{{selectedEmployee.Model.SecondName}}</label>
                 </div>
-                <div><span>Телефон</span><label data-bind="text: Phone"></label>
+                <div><span>Телефон</span><label>{{selectedEmployee.Model.Phone}}</label>
                 </div>
-                <div data-bind="visible: IsGuest"><span>Примечание</span><label data-bind="text: Description"></label>
+                <div ng-show="isGuest"><span>Примечание</span><label>{{selectedEmployee.Model.Description}}</label>
                 </div>
-                <div data-bind="visible: !IsGuest()"><span>Должность</span><label data-bind="text: PositionName"></label>
+                <div ng-show="!isGuest"><span>Должность</span><label>{{selectedEmployee.Model.PositionName}}</label>
                 </div>
-                <div><span>Подразделение</span><label data-bind="text: DepartmentName"></label>
+                <div><span>Подразделение</span><label>{{selectedEmployee.Model.DepartmentName}}</label>
                 </div>
-                <div><span>Организация</span><label data-bind="text: OrganisationName"></label>
+                <div><span>Организация</span><label>{{selectedEmployee.Model.OrganisationName}}</label>
                 </div>
-                <div data-bind="visible: IsDeleted"><span>Дата удаления</span><label data-bind="text: RemovalDate"></label>
+                <div ng-show="selectedEmployee.IsDeleted"><span>Дата удаления</span><label>{{selectedEmployee.Model.RemovalDate}}</label>
                 </div>
             </div>
             <div style="width: 50%; float: left">
-                <img data-bind="attr: {src: PhotoData}" />
+                <img ng-src="{{photoData.photo}}"/>
             </div>
+            <div style="clear: left"/> 
         </div>
-        <div data-bind="visible: EmployeeCards.IsCardSelected">
-            <table id="jqGridDoors"></table>
+        <div style="clear: left" />
+        <div ng-show="selectedCard !== null">
+            <div ui-grid="gridOptionsDoors" style="{{gridStyleDoors}}" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-auto-size-column></div>
         </div>
     </div>
 </div>
-
-
-@Html.Action("EmployeeCardDetails")
-@Html.Action("CardRemovalReason")

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using Infrastructure;
-using Infrastructure.Events;
-using RubezhAPI.Journal;
-using RubezhAPI.GK;
-using System.Windows;
-using RubezhClient;
-using RubezhAPI.SKD;
+﻿using Infrastructure;
 using Infrastructure.Common.Windows;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
+using Infrastructure.Events;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhClient;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 
 namespace FireMonitor
 {
@@ -65,7 +60,7 @@ namespace FireMonitor
 								if (ShowOnPlanHelper.CanShowMPT(mpt))
 									ShowOnPlanHelper.ShowMPT(mpt);
 								break;
-							case JournalObjectType.VideoDevice:
+							case JournalObjectType.Camera:
 								var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (ShowOnPlanHelper.CanShowCamera(camera))
 									ShowOnPlanHelper.ShowCamera(camera);

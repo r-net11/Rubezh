@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Journal;
+using RubezhClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Journal;
-using RubezhAPI.SKD;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using RubezhClient;
-using RubezhAPI;
 
 namespace FiltersModule.ViewModels
 {
@@ -172,7 +170,7 @@ namespace FiltersModule.ViewModels
 			videoViewModel.IsExpanded = true;
 			RootObjects.Add(videoViewModel);
 
-			var videoDevicesViewModel = new ObjectViewModel(JournalObjectType.VideoDevice);
+			var videoDevicesViewModel = new ObjectViewModel(JournalObjectType.Camera);
 			AddChild(videoViewModel, videoDevicesViewModel);
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
 			{
