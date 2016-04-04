@@ -57,6 +57,7 @@ namespace JournalModule.ViewModels
 				ApplicationService.BeginInvoke(() =>
 				{
 					JournalItems = new ObservableCollection<JournalItemViewModel>();
+					if (callbackOperationResult.JournalItems != null)
 					foreach (var journalItem in callbackOperationResult.JournalItems)
 					{
 						var journalItemViewModel = new JournalItemViewModel(journalItem);

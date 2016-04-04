@@ -12,6 +12,7 @@ namespace RubezhAPI
 		public CallbackOperationResult()
 		{
 			Users = new List<GKUser>();
+			JournalItems = new List<JournalItem>();
 		}
 
 		[DataMember]
