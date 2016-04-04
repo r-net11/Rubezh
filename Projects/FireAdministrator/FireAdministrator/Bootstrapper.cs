@@ -53,7 +53,6 @@ namespace FireAdministrator
 						);
 
 					ObjectReference.ResolveObjectName += ObjectReference_ResolveObjectName;
-					ObjectReference.ResolveObjectValue += ObjectReference_ResolveObjectValue;
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
@@ -100,11 +99,6 @@ namespace FireAdministrator
 					Application.Current.Shutdown();
 				return;
 			}
-		}
-
-		object ObjectReference_ResolveObjectValue(Guid objectUID, ObjectType objectType)
-		{
-			throw new NotImplementedException();
 		}
 
 		string ObjectReference_ResolveObjectName(Guid objectUID, ObjectType objectType)
