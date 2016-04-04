@@ -61,7 +61,7 @@ namespace Infrastructure.Client
 				}
 				catch (StartupCancellationException)
 				{
-					throw;
+					ApplicationService.ShutDown();
 				}
 				catch (Exception e)
 				{
@@ -81,7 +81,7 @@ namespace Infrastructure.Client
 				}
 				catch (StartupCancellationException)
 				{
-					throw;
+					ApplicationService.ShutDown();
 				}
 				catch (Exception e)
 				{
@@ -101,7 +101,7 @@ namespace Infrastructure.Client
 				}
 				catch (StartupCancellationException)
 				{
-					throw;
+					ApplicationService.ShutDown();
 				}
 				catch (Exception e)
 				{
