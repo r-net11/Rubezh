@@ -10,7 +10,6 @@ namespace RubezhAPI.Automation
 		public ControlPlanStep()
 		{
 			ValueArgument = new Argument();
-			LayoutFilter.Add(Guid.Empty);
 		}
 
 		[DataMember]

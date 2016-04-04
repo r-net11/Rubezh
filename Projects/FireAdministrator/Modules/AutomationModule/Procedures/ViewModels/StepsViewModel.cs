@@ -146,24 +146,19 @@ namespace AutomationModule.ViewModels
 			RootSteps = new ObservableCollection<StepViewModel>();
 			foreach (var step in Procedure.Steps)
 			{
-				var stepViewModel = AddStepInternal(step, null);
+				var stepViewModel = AddStep(step, null);
 				RootSteps.Add(stepViewModel);
 			}
 		}
 
-		public StepViewModel AddStep(ProcedureStep step, StepViewModel parentStepViewModel)
-		{
-			var stepViewModel = AddStepInternal(step, parentStepViewModel);
-			return stepViewModel;
-		}
-		private StepViewModel AddStepInternal(ProcedureStep step, StepViewModel parentStepViewModel)
+		StepViewModel AddStep(ProcedureStep step, StepViewModel parentStepViewModel)
 		{
 			var stepViewModel = new StepViewModel(step, Procedure);
 			if (parentStepViewModel != null)
 				parentStepViewModel.AddChild(stepViewModel);
 
 			foreach (var childStep in step.Children)
-				AddStepInternal(childStep, stepViewModel);
+				AddStep(childStep, stepViewModel);
 			return stepViewModel;
 		}
 		#endregion

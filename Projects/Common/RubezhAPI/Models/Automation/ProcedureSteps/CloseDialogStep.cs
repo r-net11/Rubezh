@@ -8,7 +8,6 @@ namespace RubezhAPI.Automation
 		public CloseDialogStep()
 		{
 			WindowIDArgument = new Argument();
-			LayoutFilter.Add(System.Guid.Empty);
 		}
 
 		[DataMember]

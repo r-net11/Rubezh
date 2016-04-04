@@ -48,6 +48,15 @@ namespace GKImitator.ViewModels
 					property = device.Properties.FirstOrDefault(x => x.Name == "Время удержания на выключение, с");
 					if (property != null)
 						HoldOffDelay = property.Value;
+					property = device.Properties.FirstOrDefault(x => x.Name == "Время включения, с");
+					if (property != null)
+						HoldDelay = property.Value;
+					property = device.Properties.FirstOrDefault(x => x.Name == "Время выключения, с");
+					if (property != null)
+						OffDelay = property.Value;
+					property = device.Properties.FirstOrDefault(x => x.Name == "Удержание открытия, мин");
+					if (property != null)
+						HoldDelay = (ushort) (property.Value * 60);
 				}
 				property = device.Properties.FirstOrDefault(x => x.Name == "Задержка на выключение, с");
 				if (property != null)
@@ -56,7 +65,7 @@ namespace GKImitator.ViewModels
 				}
 				property = device.Properties.FirstOrDefault(x => x.Name == "Режим после удержания включенного состояния");
 				if (property != null)
-					DelayRegime = property.Value == 0 ? RubezhAPI.GK.DelayRegime.Off: RubezhAPI.GK.DelayRegime.On;
+					DelayRegime = property.Value == 0 ? RubezhAPI.GK.DelayRegime.Off : RubezhAPI.GK.DelayRegime.On;
 
 			}
 			var direction = GKBase as GKDirection;
@@ -104,7 +113,7 @@ namespace GKImitator.ViewModels
 				DelayRegime = RubezhAPI.GK.DelayRegime.On;
 			}
 		}
-		
+
 		ushort _currentOnDelay;
 		public ushort CurrentOnDelay
 		{
@@ -167,14 +176,24 @@ namespace GKImitator.ViewModels
 				{
 					if (CurrentOnDelay == 0)
 					{
-						bool changed = SetStateBit(GKStateBit.TurningOn, false);
-						changed = SetStateBit(GKStateBit.Off, false) || changed;
-						changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
-						changed = SetStateBit(GKStateBit.On, true) || changed;
+						if (!IsMduOrBuz)
+						{
+							bool changed = SetStateBit(GKStateBit.TurningOn, false);
+							changed = SetStateBit(GKStateBit.Off, false) || changed;
+							changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+							changed = SetStateBit(GKStateBit.On, true) || changed;
+						}
+						else
+						{
+							TurningState = TurningState.Holding;
+							CurrentHoldDelay = HoldDelay;
+						}
 					}
 					else
 					{
 						AdditionalShortParameters[0] = CurrentOnDelay;
+						if (IsBush || IsMduOrBuz)
+							AdditionalShortParameters[1] = 1;
 						CurrentOnDelay--;
 					}
 				}
@@ -182,21 +201,33 @@ namespace GKImitator.ViewModels
 				{
 					if (CurrentHoldDelay == 0)
 					{
-						if (DelayRegime != null)
+						if (IsMduOrBuz)
 						{
-							if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
+							bool changed = SetStateBit(GKStateBit.TurningOn, false);
+							changed = SetStateBit(GKStateBit.Off, false) || changed;
+							changed = SetStateBit(GKStateBit.TurningOff, false) || changed;
+							changed = SetStateBit(GKStateBit.On, true) || changed;
+						}
+						else
+						{
+							if (DelayRegime != null)
 							{
-								TurnOffNow();
-							}
-							if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
-							{
-								TurnOnNow();
+								if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.Off)
+								{
+									TurnOffNow();
+								}
+								if (DelayRegime.Value == RubezhAPI.GK.DelayRegime.On)
+								{
+									TurnOnNow();
+								}
 							}
 						}
 					}
 					else
 					{
-						AdditionalShortParameters[1] = CurrentHoldDelay;
+						if (IsMduOrBuz)
+							AdditionalShortParameters[1] = 2;
+						AdditionalShortParameters[IsMduOrBuz ? 0 : 1] = CurrentHoldDelay;
 						CurrentHoldDelay--;
 					}
 				}
@@ -211,7 +242,9 @@ namespace GKImitator.ViewModels
 					}
 					else
 					{
-						AdditionalShortParameters[GKBase is GKGuardZone || GKBase is GKDoor ? 0 : 2] = CurrentOffDelay;
+						if (IsBush || IsMduOrBuz)
+							AdditionalShortParameters[1] = 2;
+						AdditionalShortParameters[GKBase is GKGuardZone || GKBase is GKDoor || IsBush || IsMduOrBuz ? 0 : 2] = CurrentOffDelay;
 						CurrentOffDelay--;
 					}
 				}
@@ -229,6 +262,27 @@ namespace GKImitator.ViewModels
 						CurrentAlarmDelay--;
 					}
 				}
+			}
+		}
+
+		bool IsBush
+		{
+			get
+			{
+				var device = GKBase as GKDevice;
+				return (device != null && (device.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.DriverType == GKDriverType.RSR2_Bush_Jokey
+					|| device.DriverType == GKDriverType.RSR2_Bush_Fire || device.DriverType == GKDriverType.RSR2_Bush_Shuv || device.DriverType == GKDriverType.RSR2_Valve_DU
+					|| device.DriverType == GKDriverType.RSR2_Valve_KV || device.DriverType == GKDriverType.RSR2_Valve_KVMV));
+			}
+		}
+
+		bool IsMduOrBuz
+		{
+			get
+			{
+				var device = GKBase as GKDevice;
+				return (device != null && (device.DriverType == GKDriverType.RSR2_MDU || device.DriverType == GKDriverType.RSR2_MDU24 || device.DriverType == GKDriverType.RSR2_Buz_KV
+					|| device.DriverType == GKDriverType.RSR2_Buz_KVMV || device.DriverType == GKDriverType.RSR2_Buz_KVDU));
 			}
 		}
 

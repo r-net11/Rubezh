@@ -7,6 +7,7 @@ namespace Infrustructure.Plans.Events
 	{
 		public Guid PlanUID { get; private set; }
 		public Guid ElementUID { get; private set; }
+		public bool WasShown { get; set; }
 
 		public NavigateToPlanElementEventArgs(Guid planUID, Guid elementUID)
 		{
