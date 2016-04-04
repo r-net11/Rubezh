@@ -280,44 +280,46 @@ namespace GKModule.ViewModels
 			{
 				oldAlarm = SelectedAlarm.Alarm.Clone();
 			}
+
 			if (sortingAlarmType.HasValue)
 			{
-				Alarms.Clear();
-				foreach (var alarm in alarms)
-				{
-					if (sortingAlarmType.Value == alarm.AlarmType)
-						Alarms.Add(new AlarmViewModel(alarm));
-				}
+				RefreshAlarms(alarms.Where(x => x.AlarmType == sortingAlarmType.Value));
 			}
 			else
 			{
-				for (int i = 0; i < alarms.Count; i++)
-				{
-					var alarm = alarms[i];
-					var alarmViewModel = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(alarm));
-					if (alarmViewModel == null)
-					{
-						var newAlarmViewModel = new AlarmViewModel(alarm);
-						Alarms.Insert(i, newAlarmViewModel);
-					}
-					else
-					{
-						alarmViewModel.OnPropertyChanged(() => alarmViewModel.ObjectStateClass);
-					}
-				}
-				for (int i = 0; i < Alarms.Count; i++)
-				{
-					var alarm = alarms.FirstOrDefault(x => x.IsEqualTo(Alarms[i].Alarm));
-					if (alarm == null)
-					{
-						Alarms.RemoveAt(i);
-						i--;
-					}
-				}
+				RefreshAlarms(alarms);
 			}
+
 			if (oldAlarm != null)
 			{
 				SelectedAlarm = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(oldAlarm));
+			}
+		}
+		void RefreshAlarms(IEnumerable<Alarm> alarms)
+		{
+			int counter = 0;
+			foreach (var alarm in alarms)
+			{
+				var alarmViewModel = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(alarm));
+				if (alarmViewModel == null)
+				{
+					var newAlarmViewModel = new AlarmViewModel(alarm);
+					Alarms.Insert(counter, newAlarmViewModel);
+				}
+				else
+				{
+					alarmViewModel.OnPropertyChanged(() => alarmViewModel.ObjectStateClass);
+				}
+				counter++;
+			}
+			for (int i = 0; i < Alarms.Count; i++)
+			{
+				var alarm = alarms.FirstOrDefault(x => x.IsEqualTo(Alarms[i].Alarm));
+				if (alarm == null)
+				{
+					Alarms.RemoveAt(i);
+					i--;
+				}
 			}
 		}
 
