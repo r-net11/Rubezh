@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.Client.Layout
+namespace Infrastructure.Common.Layouts
 {
 	public static class LayoutPartIdentities
 	{

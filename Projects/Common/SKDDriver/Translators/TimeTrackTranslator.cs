@@ -193,7 +193,7 @@ namespace SKDDriver.Translators
 				var realDate = date;
 				var ignoreHolidays = false;
 				var holiday = Holidays.FirstOrDefault(x => x.Date == date && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
-				if (holiday != null)
+				if (holiday != null && !schedule.IsIgnoreHoliday)
 				{
 					if (holiday.TransferDate.HasValue)
 					{

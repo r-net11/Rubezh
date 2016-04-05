@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
+using Infrastructure.Common.Services.Configuration;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;

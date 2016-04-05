@@ -187,11 +187,11 @@ namespace FiresecClient
 		#region Organisation
 		public OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Organisation>>>(() => FiresecService.GetOrganisations(filter));
+			return SafeContext.Execute(() => FiresecService.GetOrganisations(filter));
 		}
 		public OperationResult SaveOrganisation(OrganisationDetails item, bool isNew)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisation(item, isNew));
+			return SafeContext.Execute(() => FiresecService.SaveOrganisation(item, isNew));
 		}
 		public OperationResult MarkDeletedOrganisation(Guid uid, string name)
 		{
@@ -199,7 +199,7 @@ namespace FiresecClient
 		}
 		public OperationResult SaveOrganisationDoors(Organisation item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationDoors(item));
+			return SafeContext.Execute(() => FiresecService.SaveOrganisationDoors(item));
 		}
 		public OperationResult SaveOrganisationUsers(Organisation item)
 		{
