@@ -1,4 +1,5 @@
 ﻿using FireMonitor.ViewModels;
+using Infrastructure;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -116,6 +117,7 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			if (ClientManager.FiresecService.LayoutChanged(FiresecServiceFactory.UID, layout == null ? Guid.Empty : layout.UID))
 			{
+				ShowOnPlanHelper.LayoutUID = layout == null ? Guid.Empty : layout.UID;
 				ApplicationService.CloseAllWindows();
 				LayoutContainer.UpdateLayout(layout);
 			}

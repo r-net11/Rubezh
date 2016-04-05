@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrustructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -50,7 +51,12 @@ namespace GKModule.ViewModels
 		void OnShowOnPlanOrProperties()
 		{
 			if (CanShowOnPlan())
-				ShowOnPlanHelper.ShowGuardZone(GuardZone);
+			{
+				var navigateToPlanElementEventArgs = new NavigateToPlanElementEventArgs(Guid.Empty, GuardZone.UID);
+				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(navigateToPlanElementEventArgs);
+				if(!navigateToPlanElementEventArgs.WasShown)
+					DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
+			}
 			else
 				DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
 			GuardZonesViewModel.Current.SelectedZone = this;
@@ -59,7 +65,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		public void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowGuardZone(GuardZone);
+			var navigateToPlanElementEventArgs = new NavigateToPlanElementEventArgs(Guid.Empty, GuardZone.UID);
+			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(navigateToPlanElementEventArgs);
 		}
 		public bool CanShowOnPlan()
 		{
