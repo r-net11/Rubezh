@@ -559,7 +559,8 @@ namespace Infrastructure.Automation
 				{
 					PlanUid = controlPlanSetStep.PlanUid,
 					ElementUid = controlPlanSetStep.ElementUid,
-					ElementPropertyType = controlPlanSetStep.ElementPropertyType
+					ElementPropertyType = controlPlanSetStep.ElementPropertyType,
+					Value = value
 				},
 			};
 
