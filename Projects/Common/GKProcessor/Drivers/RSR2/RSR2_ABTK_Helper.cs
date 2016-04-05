@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_ABTK,
 				UID = new Guid("45BA7A5E-BF4B-4F63-B80E-95FE422DC70D"),
 				Name = "Адресный барьер термокабеля",
-				ShortName = "АБТК-R2",
+				ShortName = "АБТК",
 				HasZone = true,
 				IsPlaceable = true
 			};

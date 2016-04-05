@@ -14,7 +14,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_KDKR,
 				UID = new Guid("CEF793CA-7E3E-446C-82DE-A032445B6CBA"),
 				Name = "Контроллер доступа",
-				ShortName = "КД-R2",
+				ShortName = "КД",
 				IsPlaceable = true,
 			};
 

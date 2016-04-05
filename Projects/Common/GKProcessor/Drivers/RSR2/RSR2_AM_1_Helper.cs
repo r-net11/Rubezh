@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0xDB,
 				DriverType = GKDriverType.RSR2_AM_1,
 				UID = new Guid("860F3F6A-9EE9-437B-8220-B66AFDDBD285"),
-				Name = "Метка адресная АМ-R2",
-				ShortName = "АМ-R2",
+				Name = "Метка адресная АМ",
+				ShortName = "АМ",
 				HasGuardZone = true,
 				HasZone = true,
 				IsPlaceable = true
