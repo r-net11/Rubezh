@@ -75,7 +75,7 @@ namespace Infrastructure
 			{
 				using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
-					var xmlSerializer = new XmlSerializer(typeof(ArchiveDefaultState));
+					var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (ArchiveDefaultState)})[0];
 					ArchiveDefaultState = (ArchiveDefaultState)xmlSerializer.Deserialize(fileStream);
 					if (ArchiveDefaultState.XAdditionalColumns == null)
 						ArchiveDefaultState.XAdditionalColumns = new List<XJournalColumnType>();
@@ -92,7 +92,7 @@ namespace Infrastructure
 		{
 			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Create))
 			{
-				var xmlSerializer = new XmlSerializer(typeof(ArchiveDefaultState));
+				var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (ArchiveDefaultState)})[0];
 				xmlSerializer.Serialize(fileStream, ArchiveDefaultState);
 			}
 		}
@@ -129,7 +129,7 @@ namespace Infrastructure
 			{
 				using (var fileStream = new FileStream(SKDSettingsFileName, FileMode.Open))
 				{
-					var xmlSerializer = new XmlSerializer(typeof(SKDSettings));
+					var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (SKDSettings)})[0];
 					SKDSettings = (SKDSettings)xmlSerializer.Deserialize(fileStream);
 				}
 			}
@@ -142,7 +142,7 @@ namespace Infrastructure
 		{
 			using (var fileStream = new FileStream(SKDSettingsFileName, FileMode.Create))
 			{
-				var xmlSerializer = new XmlSerializer(typeof(SKDSettings));
+				var xmlSerializer = XmlSerializer.FromTypes(new[] {typeof (SKDSettings)})[0];
 				xmlSerializer.Serialize(fileStream, SKDSettings);
 			}
 		}

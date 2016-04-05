@@ -5,7 +5,6 @@ using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Client;
-using Infrastructure.Client.ConnectionIndicator.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Navigation;
