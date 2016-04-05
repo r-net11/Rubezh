@@ -3,9 +3,15 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('employeeDetailsCtrl',
-        ['$scope', '$uibModalInstance', 'personType', 'employee', 'organisation',
-        function ($scope, $uibModalInstance, personType, employee, organisation) {
+        ['$scope', '$uibModalInstance', 'personType', 'employee', 'organisation', 'employeesService',
+        function ($scope, $uibModalInstance, personType, employee, organisation, employeesService) {
             var emptyGuid = '00000000-0000-0000-0000-000000000000';
+
+            $scope.model = {
+                photoData: '',
+                isOrganisationChief: false,
+                isOrganisationHRChief: false
+            };
 
             $scope.isNew = !angular.isObject(employee);
 
@@ -13,7 +19,15 @@
 
             $scope.employee = employee.Employee;
 
-            $scope.photo = employee.PhotoData;
+            $scope.model.photoData = employee.PhotoData;
+
+            $scope.popupDocumentValidTo = {
+                opened: false
+            };
+
+            $scope.popupGivenDate = {
+                opened: false
+            };
 
             function FIO() {
                 var names = [$scope.employee.LastName, $scope.employee.FirstName, $scope.employee.SecondName];
@@ -23,12 +37,10 @@
             if ($scope.isNew) {
                 $scope.title = ($scope.isEmployee ? "Добавить сотрудника" : "Добавить посетителя");
                 $scope.employee.OrganisationUID = organisation.UID;
-                $scope.isOrganisationChief = false;
-                $scope.isOrganisationHRChief = false;
             } else {
                 $scope.title = ($scope.isEmployee ? "Свойства сотрудника: " : "Свойства посетителя: ") + FIO();
-                $scope.isOrganisationChief = organisation.ChiefUID === $scope.employee.UID;
-                $scope.isOrganisationHRChief = organisation.HRChiefUID === $scope.employee.UID;
+                $scope.model.isOrganisationChief = (organisation.ChiefUID === $scope.employee.UID);
+                $scope.model.isOrganisationHRChief = (organisation.HRChiefUID === $scope.employee.UID);
             }
 
             $scope.isPositionSelected = function () {
@@ -48,7 +60,14 @@
             };
 
             $scope.save = function () {
-                $uibModalInstance.close();
+                employeesService.saveEmployee($scope.employee,
+                    $scope.model.photoData,
+                    $scope.isNew,
+                    organisation,
+                    $scope.model.isOrganisationChief,
+                    $scope.model.isOrganisationHRChief).then(function() {
+                        $uibModalInstance.close();
+                    });
             };
 
             $scope.cancel = function () {
