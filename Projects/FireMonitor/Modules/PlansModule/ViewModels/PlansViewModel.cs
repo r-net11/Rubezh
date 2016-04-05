@@ -8,6 +8,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Interfaces;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
@@ -36,7 +37,7 @@ namespace PlansModule.ViewModels
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters)
 			: this(planPresenters, new LayoutPartPlansProperties { Type = LayoutPartPlansType.All, AllowChangePlanZoom = true, ShowZoomSliders = true })
 		{
-			isOnLayout = false;
+			//isOnLayout = false;
 		}
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters, LayoutPartPlansProperties properties)
 		{
@@ -188,16 +189,45 @@ namespace PlansModule.ViewModels
 				}
 			return false;
 		}
+
+		///////////////////////////////////////////////////////////////////////////////
+
 		private void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
+			ElementBase elementBase = null;
+			var planUID = args.PlanUID;
+			if (planUID != Guid.Empty)
+			{
+				if (PlanTreeViewModel != null)
+				{
+					var plan = PlanTreeViewModel.AllPlans.FirstOrDefault(x => x.Plan.UID == planUID);
+					if (plan != null)
+					{
+						elementBase = plan.Plan.AllElements.FirstOrDefault(x => x is IElementReference && (x as IElementReference).ItemUID == args.ElementUID);
+					}
+				}
+			}
+			if (PlanTreeViewModel != null)
+			{
+				foreach (var plan in PlanTreeViewModel.AllPlans)
+				{
+					elementBase = plan.Plan.AllElements.FirstOrDefault(x => x is IElementReference && (x as IElementReference).ItemUID == args.ElementUID);
+					if (elementBase != null)
+					{
+						planUID = plan.Plan.UID;
+						break;
+					}
+				}
+			}
 
-
-			//Debug.WriteLine("[{0}]Navigation: PlanUID={1}\t\tElementUID={2}", DateTime.Now, args.PlanUID, args.ElementUID);
-			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-			var result = OnSelectPlan(args.PlanUID);
-			if (result && isOnLayout)
-				args.WasShown = true;
-			OnShowElement(args.ElementUID);
+			if (elementBase != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
+				var result = OnSelectPlan(planUID);
+				if (result && isOnLayout)
+					args.WasShown = true;
+				OnShowElement(elementBase.UID);
+			}
 		}
 
 		public bool IsPlanTreeVisible
