@@ -70,10 +70,20 @@ namespace KeyGenerator
 			if (VerifyProductKey(lic))
 			{
 				_licFileManager.SaveToFile(lic, _pathToLicense);
+				RaiseLicenseChangedEvent();
 				return true;
 			}
 
 			return false;
+		}
+
+		public event Action LicenseChanged;
+
+		private void RaiseLicenseChangedEvent()
+		{
+			var temp = LicenseChanged;
+			if (temp != null)
+				temp();
 		}
 
 		private bool VerifyProductKey(string key)
