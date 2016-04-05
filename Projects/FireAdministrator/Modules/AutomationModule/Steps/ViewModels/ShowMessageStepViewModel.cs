@@ -15,8 +15,8 @@ namespace AutomationModule.ViewModels
 			: base(stepViewModel)
 		{
 			ShowMessageStep = (ShowMessageStep)stepViewModel.Step;
-			MessageArgument = new ArgumentViewModel(ShowMessageStep.MessageArgument, stepViewModel.Update, null);
-			ConfirmationValueArgument = new ArgumentViewModel(ShowMessageStep.ConfirmationValueArgument, stepViewModel.Update, null, false);
+			MessageArgument = new ArgumentViewModel(ShowMessageStep.MessageArgument, stepViewModel.Update, UpdateContent);
+			ConfirmationValueArgument = new ArgumentViewModel(ShowMessageStep.ConfirmationValueArgument, stepViewModel.Update, UpdateContent, false);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>());
 			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
 			IsServerContext = Procedure.ContextType == ContextType.Server;
