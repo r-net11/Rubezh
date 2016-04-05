@@ -47,7 +47,12 @@ namespace FiresecService
 				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
 
 				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
-				licenseManager.LicenseChanged += () => ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
+				// и уведомляем всех Клиентов
+				licenseManager.LicenseChanged += () =>
+				{
+					ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
+					FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
+				};
 				
 				UILogger.Log("Загрузка конфигурации");
 
