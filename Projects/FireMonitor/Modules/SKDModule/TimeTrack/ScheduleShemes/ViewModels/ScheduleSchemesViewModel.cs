@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -19,12 +20,11 @@ namespace SKDModule.ViewModels
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
 		
 		public ScheduleSchemesViewModel()
-			:base()
 		{
 			_isInitialized = false;
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
-			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Unsubscribe(OnEditDayInterval);
-			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Subscribe(OnEditDayInterval);
+			ServiceFactoryBase.Events.GetEvent<EditDayIntervalEvent>().Unsubscribe(OnEditDayInterval);
+			ServiceFactoryBase.Events.GetEvent<EditDayIntervalEvent>().Subscribe(OnEditDayInterval);
 		}
 
 		public LogicalDeletationType LogicalDeletationType { get; set; }
@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
+			var filter = new ScheduleSchemeFilter { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
 			Initialize(filter);
 		}
 

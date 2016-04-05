@@ -51,7 +51,7 @@ namespace Infrastructure.Common
 					configurationEntry.Extract(configurationMemoryStream);
 					configurationMemoryStream.Position = 0;
 
-					var xmlSerializer = new XmlSerializer(type);
+					var xmlSerializer = XmlSerializer.FromTypes(new[] {type})[0]; //new XmlSerializer(type);
 					return (VersionedConfiguration)xmlSerializer.Deserialize(configurationMemoryStream);
 				}
 			}
