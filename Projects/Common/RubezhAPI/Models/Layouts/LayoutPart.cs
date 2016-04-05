@@ -25,6 +25,7 @@ namespace RubezhAPI.Models.Layouts
 		[XmlElement("LayoutPartTimeProperties", Type = typeof(LayoutPartTimeProperties))]
 		[XmlElement("LayoutPartTextProperties", Type = typeof(LayoutPartTextProperties))]
 		[XmlElement("LayoutPartAdditionalProperties", Type = typeof(LayoutPartAdditionalProperties))]
+		[XmlElement("LayoutPartJournalProperties", Type = typeof(LayoutPartJournalProperties))]
 		public object Properties { get; set; }
 	}
 }

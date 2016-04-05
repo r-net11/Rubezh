@@ -173,6 +173,7 @@
     <Compile Include="Models\Automation\ProcedureSteps\ExportOrganisationStep.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\HttpRequestStep.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\CloseDialogStep.cs" />
+    <Compile Include="Models\Layouts\LayoutPartJournalProperties.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKPumpStation.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\RviOpenWindowStep.cs" />
     <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />
