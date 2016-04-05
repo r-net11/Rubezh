@@ -51,6 +51,11 @@ namespace FiresecAPI
 		/// <summary>
 		/// Команда со стороны Сервера на закрытие соединения Клиентом
 		/// </summary>
-		DisconnectClientCommand
+		DisconnectClientCommand,
+
+		/// <summary>
+		/// Уведовление о том, что на Сервере сменилась лицензия
+		/// </summary>
+		LicenseChanged
 	}
 }

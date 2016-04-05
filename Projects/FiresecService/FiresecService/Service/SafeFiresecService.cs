@@ -259,5 +259,13 @@ namespace FiresecService.Service
 		{
 			SafeOperationCall(() => FiresecService.SendDisconnectClientCommand(clientUid), "SendDisconnectClientCommand");
 		}
+
+		/// <summary>
+		/// Посылает Клиентам уведомление о смене лицензии на Сервере
+		/// </summary>
+		public void NotifyLicenseChanged()
+		{
+			SafeOperationCall(() => FiresecService.NotifyLicenseChanged(), "NotifyLicenseChanged");
+		}
 	}
 }
