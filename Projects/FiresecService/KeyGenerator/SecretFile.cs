@@ -19,6 +19,14 @@ namespace KeyGenerator
 			_path = fileName;
 		}
 
+		public SecretFile(SymmetricAlgorithm algorithm, string fileName, string key, string iv)
+		{
+			_symmetricAlgorithm = algorithm;
+			_path = fileName;
+			Key = Convert.FromBase64String(key);
+			IV = Convert.FromBase64String(iv);
+		}
+
 		public void SaveSensitiveData(string sensitiveData)
 		{
 			//Encode data string to be stored in encrypted file.
@@ -30,9 +38,10 @@ namespace KeyGenerator
 				using (var fs = new FileStream(_path, FileMode.Create, FileAccess.Write))
 				{
 					//Generate and save secret key and init vector.
-					GenerateSecretKey();
-					GenerateSecretInitVector();
-
+					//	GenerateSecretKey();
+					//	GenerateSecretInitVector();
+					//	var key = Convert.ToBase64String(Key);
+					//var Iv = Convert.ToBase64String(IV);
 					//Create crypto transform and stream objects
 					using (var transform = _symmetricAlgorithm.CreateEncryptor(Key, IV))
 					{
@@ -71,11 +80,15 @@ namespace KeyGenerator
 							//Print out the contents of the decrypted file
 							using (var srDecrypted = new StreamReader(cryptoStream, new UnicodeEncoding()))
 							{
-								decrypted = srDecrypted.ReadToEnd(); //TODO: catch cryptographic exception
+								decrypted = srDecrypted.ReadToEnd();
 							}
 						}
 					}
 				}
+			}
+			catch (CryptographicException)
+			{
+				return null;
 			}
 			catch (FileNotFoundException)
 			{
