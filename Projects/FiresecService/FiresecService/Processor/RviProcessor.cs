@@ -191,11 +191,7 @@ namespace FiresecService
 						}
 						if (journalItems.Count != 0)
 						{
-							using (var databaseService = new RubezhDAL.DataClasses.DbService())
-							{
-								databaseService.JournalTranslator.AddRange(journalItems);
-							}
-							FiresecService.Service.FiresecService.NotifyJournalItems(journalItems, true);
+							FiresecService.Service.FiresecService.AddCommonJournalItems(journalItems, null);
 						}
 					}
 				}
