@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using FiresecAPI.Models;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Services.Configuration;
+using KeyGenerator;
 
 namespace FiresecService.Service.Validators
 {
@@ -12,6 +14,7 @@ namespace FiresecService.Service.Validators
 
 		private ConfigurationElementsAgainstLicenseDataValidator()
 		{
+			_configurationElementsAvailabilityService = new ConfigurationElementsAvailabilityService();
 		}
 
 		public static ConfigurationElementsAgainstLicenseDataValidator Instance
@@ -19,12 +22,26 @@ namespace FiresecService.Service.Validators
 			get { return _instance.Value; }
 		}
 
-		public IConfigurationElementsAvailabilityService ConfigurationElementsAvailabilityService { private get; set; }
+		private IConfigurationElementsAvailabilityService _configurationElementsAvailabilityService;
+
+		public ILicenseManager LicenseManager { private get; set; }
 
 		public bool IsValidated { get; private set; }
 
 		public void Validate()
 		{
+			_configurationElementsAvailabilityService.Initialize(
+				LicenseManager.CurrentLicense != null
+					? new LicenseData
+					{
+						IsEnabledAutomation = LicenseManager.CurrentLicense.IsEnabledAutomation,
+						IsEnabledPhotoVerification = LicenseManager.CurrentLicense.IsEnabledPhotoVerification,
+						IsEnabledRVI = LicenseManager.CurrentLicense.IsEnabledRVI,
+						IsEnabledURV = LicenseManager.CurrentLicense.IsEnabledURV,
+						IsUnlimitedUsers = LicenseManager.CurrentLicense.IsUnlimitedUsers
+					}
+					: new LicenseData());
+			
 			IsValidated = 
 				ValidateCameras() &&
 				ValidateProcedureSteps() &&
@@ -42,7 +59,7 @@ namespace FiresecService.Service.Validators
 			// Проверяем каждую процедуру автоматизации на присутствие запрещенных лицензией шагов процедуры
 			foreach (var procedure in automationConfiguration.Procedures)
 			{
-				if (procedure.Steps.Any(procedureStep => ConfigurationElementsAvailabilityService.AvailableProcedureSteps.All(x => x != procedureStep.ProcedureStepType)))
+				if (procedure.Steps.Any(procedureStep => _configurationElementsAvailabilityService.AvailableProcedureSteps.All(x => x != procedureStep.ProcedureStepType)))
 					return false;
 			}
 
@@ -58,7 +75,7 @@ namespace FiresecService.Service.Validators
 				return true;
 
 			// Находим запрещенные лицензией камеры
-			if (!ConfigurationElementsAvailabilityService.IsCamerasAvailable && systemConfiguration.Cameras.Any())
+			if (!_configurationElementsAvailabilityService.IsCamerasAvailable && systemConfiguration.Cameras.Any())
 				return false;
 			
 			// Камеры разрешены лицензией
@@ -77,7 +94,7 @@ namespace FiresecService.Service.Validators
 			foreach (var layout in layoutsConfiguration.Layouts)
 			{
 				// Находим запрещенные лицензией элементы "Верификация"
-				if (!ConfigurationElementsAvailabilityService.IsLayoutVerificationElementsAvailable &&
+				if (!_configurationElementsAvailabilityService.IsLayoutVerificationElementsAvailable &&
 				    layout.GetLayoutPartByType(LayoutPartIdentities.SKDVerification) != null)
 					return false;
 			}

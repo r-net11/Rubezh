@@ -44,19 +44,10 @@ namespace FiresecService
 				MainViewStartedEvent.WaitOne();
 
 				// Инициализируем валидатор конфигурации
-				IConfigurationElementsAvailabilityService configurationElementsAvailabilityService = new ConfigurationElementsAvailabilityService();
-				configurationElementsAvailabilityService.Initialize(
-					licenseManager.CurrentLicense != null
-						? new LicenseData
-						{
-							IsEnabledAutomation = licenseManager.CurrentLicense.IsEnabledAutomation,
-							IsEnabledPhotoVerification = licenseManager.CurrentLicense.IsEnabledPhotoVerification,
-							IsEnabledRVI = licenseManager.CurrentLicense.IsEnabledRVI,
-							IsEnabledURV = licenseManager.CurrentLicense.IsEnabledURV,
-							IsUnlimitedUsers = licenseManager.CurrentLicense.IsUnlimitedUsers
-						}
-						: new LicenseData());
-				ConfigurationElementsAgainstLicenseDataValidator.Instance.ConfigurationElementsAvailabilityService = configurationElementsAvailabilityService;
+				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
+
+				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
+				licenseManager.LicenseChanged += () => ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
 				
 				UILogger.Log("Загрузка конфигурации");
 
