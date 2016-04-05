@@ -73,6 +73,7 @@ namespace KeyGenerator
 			{
 				_licFileManager.SaveToFile(lic, _pathToLicense, Key, IV);
 				RaiseLicenseChangedEvent();
+				RaiseLicenseChangedEvent();
 				return true;
 			}
 
