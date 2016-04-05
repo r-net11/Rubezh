@@ -168,9 +168,12 @@
     <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="AppServerSettingsHelper.cs" />
+    <Compile Include="Layouts\LayoutPartIdentities.cs" />
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />
     <Compile Include="NetworkHelper.cs" />
     <Compile Include="Ribbon\RibbonViewModel.cs" />
+    <Compile Include="Services\Configuration\ConfigurationElementsAvailabilityService.cs" />
+    <Compile Include="Services\Configuration\IConfigurationElementsAvailabilityService.cs" />
     <Compile Include="Services\DragDrop\DragCorrectionEventArgs.cs" />
     <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
     <Compile Include="Services\Layout\ILayoutPartContainer.cs" />

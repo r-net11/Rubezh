@@ -2,10 +2,10 @@
 using System.Linq;
 using Common;
 using FiresecAPI.Models.Layouts;
+using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Services.Layout;
 using System.Collections.Generic;
 using System;
-using Infrastructure.Client.Layout;
 using LayoutModule.ViewModels;
 
 namespace LayoutModule.LayoutParts.ViewModels

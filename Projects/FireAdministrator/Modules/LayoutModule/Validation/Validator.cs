@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure;
+using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Validation;
 using FiresecClient;
 using FiresecAPI.Models.Layouts;
-using Infrastructure.Client.Layout;
 
 namespace LayoutModule.Validation
 {

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using FiresecAPI.Enums;
 
 namespace KeyGenerator
@@ -12,5 +13,6 @@ namespace KeyGenerator
 		bool CanLoadModule(ModuleType type);
 		bool CanAddCard(int currentCount);
 		bool LoadLicenseFromFile(string pathToLicense);
+		event Action LicenseChanged;
 	}
 }

@@ -1,9 +1,12 @@
 ﻿using Common;
+using FiresecAPI.Models;
 using FiresecService.Report;
 using FiresecService.Service;
+using FiresecService.Service.Validators;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Services.Configuration;
 using Infrastructure.Common.Windows;
 using System;
 using System.Diagnostics;
@@ -40,6 +43,12 @@ namespace FiresecService
 				WindowThread.Start(licenseManager);
 				MainViewStartedEvent.WaitOne();
 
+				// Инициализируем валидатор конфигурации
+				ConfigurationElementsAgainstLicenseDataValidator.Instance.LicenseManager = licenseManager;
+
+				// При смене лицензии Сервера производим валидацию конфигурации Сервера на соответствие новой лицензии
+				licenseManager.LicenseChanged += () => ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
+				
 				UILogger.Log("Загрузка конфигурации");
 
 				ConfigurationCashHelper.Update();
