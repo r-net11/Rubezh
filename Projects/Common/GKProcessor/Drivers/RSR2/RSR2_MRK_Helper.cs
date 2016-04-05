@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_MRK,
 				UID = new Guid("1EF2C05C-B86A-44E5-8F4C-662AF92DAF20"),
 				Name = "Модуль радиоканальный",
-				ShortName = "МРК-R2",
+				ShortName = "МРК",
 				IsPlaceable = true
 			};
 

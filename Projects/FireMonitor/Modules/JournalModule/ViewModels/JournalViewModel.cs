@@ -72,11 +72,8 @@ namespace JournalModule.ViewModels
 		public void SetJournalItems()
 		{
 			var result = ClientManager.FiresecService.BeginGetJournal(Filter, _uid);
-			if (result.HasError)
-			{
-				MessageBoxService.Show(result.Error);
+			if (result == null || result.HasError)
 				return;
-			}
 			IsLoading = true;
 		}
 

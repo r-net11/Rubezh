@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_ABPC,
 				UID = new Guid("6260F52C-D047-4F64-BFE8-B9D0547A39B4"),
 				Name = "Адресный барьер пусковой цепи",
-				ShortName = "АБПЦ-R2",
+				ShortName = "АБПЦ",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true
