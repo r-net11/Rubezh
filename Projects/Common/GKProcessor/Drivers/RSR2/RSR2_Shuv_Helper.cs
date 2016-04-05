@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_Bush_Shuv,
 				UID = new Guid("B33E2D92-E3C5-4309-8897-C9EF7C81E568"),
 				Name = "Прибор пожарный управления вентилятором",
-				ShortName = "ППУ В R2",
+				ShortName = "ППУВ",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,

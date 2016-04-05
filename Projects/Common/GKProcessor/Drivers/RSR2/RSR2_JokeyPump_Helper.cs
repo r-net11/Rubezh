@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_Bush_Jokey,
 				UID = new Guid("0F6B6AEE-4D7A-4e9d-9C16-0072CDC40932"),
 				Name = "Прибор пожарный управления Жокей Насосом",
-				ShortName = "ППУ ЖН R2",
+				ShortName = "ППУ ЖН",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,
