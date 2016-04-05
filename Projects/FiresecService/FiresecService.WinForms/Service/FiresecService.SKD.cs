@@ -203,6 +203,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<List<Guid>> GetDepartmentEmployeeUIDs(Guid clientUID, Guid uid)
+		{
+			using (var databaseService = new RubezhDAL.DataClasses.DbService())
+			{
+				return databaseService.DepartmentTranslator.GetEmployeeUIDs(uid);
+			}
+		}
+
 		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid clientUID, Guid uid)
 		{
 			using (var databaseService = new RubezhDAL.DataClasses.DbService())

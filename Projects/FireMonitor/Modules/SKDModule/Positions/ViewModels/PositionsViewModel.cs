@@ -123,5 +123,15 @@ namespace SKDModule.ViewModels
 		{
 			base.Initialize(filter);
 		}
+
+		protected override void AfterEdit(ShortPosition model)
+		{
+			base.AfterEdit(model);
+			var employeeUIDs = PositionHelper.GetEmployeeUIDs(model.UID);
+			foreach (var uid in employeeUIDs)
+			{
+				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
+			}
+		}
 	}
 }

@@ -160,6 +160,15 @@ namespace RubezhClient
 					return firesecService.GetChildEmployeeUIDs(FiresecServiceFactory.UID, uid);
 			}, "GetChildEmployeeUIDs");
 		}
+		public OperationResult<List<Guid>> GetDepartmentEmployeeUIDs(Guid uid)
+		{
+			return SafeOperationCall<OperationResult<List<Guid>>>(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					return firesecService.GetDepartmentEmployeeUIDs(FiresecServiceFactory.UID, uid);
+			}, "GetDepartmentEmployeeUIDs");
+		}
 		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid)
 		{
 			return SafeOperationCall<OperationResult<List<Guid>>>(() =>
