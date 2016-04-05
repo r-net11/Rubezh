@@ -82,7 +82,10 @@ namespace RubezhAPI.Automation
 
 		public static T CreateStep<T>() where T : ProcedureStep, new()
 		{
-			return new T();
+			var step = new T();
+			if (step is UIStep)
+				(step as UIStep).LayoutFilter.Add(Guid.Empty);
+			return step;
 		}
 
 		public static ProcedureStep CreateStep(ProcedureStepType procedureStepType)

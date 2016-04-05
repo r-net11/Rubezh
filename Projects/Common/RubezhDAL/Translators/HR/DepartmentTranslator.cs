@@ -142,6 +142,17 @@ namespace RubezhDAL.DataClasses
 			});
 		}
 
+		public OperationResult<List<Guid>> GetEmployeeUIDs(Guid uid)
+		{
+			return DbServiceHelper.InTryCatch(() =>
+			{
+				var result = new List<Guid>();
+				var tableItem = Table.Include(x => x.Employees).FirstOrDefault(x => x.UID == uid);
+				result.AddRange(tableItem.Employees.Select(x => x.UID));
+				return result;
+			});
+		}
+
 		public OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid)
 		{
 			return DbServiceHelper.InTryCatch(() =>

@@ -24,7 +24,7 @@
 			<Controls:IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<Controls:IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
 			<Separator />
-			<Controls:IconedMenuItem  ImageSource="BPaste" Text="Генерация отражения" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
+			<Controls:IconedMenuItem  ImageSource="BPaste" Text="Зона пожаротушения в МПТ" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
 				<Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenerateZonesCommand}" />
 				<Controls:IconedMenuItem Text="Охранные зоны" Command="{Binding GenerateGuardZonesCommand}" />
 				<Controls:IconedMenuItem Text="Зоны пожаратушения" Command="{Binding GenerateMPTCommand}" />
@@ -44,11 +44,11 @@
 			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Разрешить множественную визуализацию" />
 			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Запретить множественную визуализацию" />
 			<Separator />
-            <Controls:IconedMenuItem Command="{Binding IgnoreLogicValidationCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Игнорировать отсутствие логики срабатывания" />
-            <Controls:IconedMenuItem Command="{Binding IgnoreLogicValidationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Отображать отсутствие логики срабатывания" />
-            <Separator />
-            <Controls:IconedMenuItem Command ="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
-			<Controls:IconedMenuItem ImageSource="BParametersReadWrite" Text="Параметры">
+			<Controls:IconedMenuItem Command="{Binding IgnoreLogicValidationCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Игнорировать отсутствие логики срабатывания" />
+			<Controls:IconedMenuItem Command="{Binding IgnoreLogicValidationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Отображать отсутствие логики срабатывания" />
+			<Separator />
+			<Controls:IconedMenuItem Command ="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
+			<Controls:IconedMenuItem ImageSource="BParametersReadWrite" Text="Параметры" IsEnabled="{Binding IsParametersEnabled}">
 				<Controls:IconedMenuItem Command="{Binding ReadCommand}" ImageSource="BParametersRead" Text="Считать параметры" />
 				<Controls:IconedMenuItem Command="{Binding ReadAllCommand}" ImageSource="BParametersReadAll" Text="Считать параметры дочерних устройств" />
 				<Controls:IconedMenuItem Command="{Binding WriteCommand}" ImageSource="BParametersWrite" Text="Записать параметры" />
@@ -103,7 +103,7 @@
 															DynamicCursor="True"
 															IsSource="True">
 										<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}"
-											   ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
+											ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
 									</drag:DragDropDecorator>
 									<Controls:EditorPresenter IsEnabled="{Binding CanChangeDriver}">
 										<Controls:EditorPresenter.ViewTemplate>
@@ -111,22 +111,22 @@
 												<StackPanel Orientation="Horizontal">
 													<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
 													<TextBlock Text="{Binding Device.ShortName}"
-															   Visibility="{Binding IsDisabled, Converter={StaticResource BoolToVisibilityConverter}}"
-															   Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Gray" />
+															Visibility="{Binding IsDisabled, Converter={StaticResource BoolToVisibilityConverter}}"
+															Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Gray" />
 													<TextBlock Text="{Binding Device.ShortName}"
-															   Foreground="{Binding PropertiesViewModel.DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}"
-															   Visibility="{Binding IsDisabled, Converter={StaticResource InversedBoolToVisibilityConverter}}"
-															   Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" />
+															Foreground="{Binding PropertiesViewModel.DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}"
+															Visibility="{Binding IsDisabled, Converter={StaticResource InversedBoolToVisibilityConverter}}"
+															Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" />
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
 										<Controls:EditorPresenter.EditTemplate>
 											<ControlTemplate>
 												<ComboBox ItemsSource="{Binding AvailvableDrivers, UpdateSourceTrigger=PropertyChanged}"
-														  SelectedValue="{Binding Driver}"
-														  SelectedValuePath=""
-														  HorizontalAlignment="Left"
-														  Height="19">
+														SelectedValue="{Binding Driver}"
+														SelectedValuePath=""
+														HorizontalAlignment="Left"
+														Height="19">
 													<ComboBox.ItemTemplate>
 														<DataTemplate>
 															<Controls:IconLabel Foreground="{DynamicResource ForegroundColorDark}"
@@ -158,7 +158,7 @@
 												<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}"
 																	 Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
 												<TextBlock Text="{Binding PresentationAddress}"
-														   Visibility="{Binding Device.CanEditAddress, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+														Visibility="{Binding Device.CanEditAddress, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 											</Grid>
 										</ControlTemplate>
 									</Controls:EditorPresenter.EditTemplate>
@@ -174,13 +174,13 @@
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
 											<TextBlock Text="{Binding EditingPresentationZone}"
-													   Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}"
-													   TextWrapping="NoWrap"
-													   VerticalAlignment="Top"
-													   Cursor="Hand"
-													   LineHeight="15"
-													   Margin="0 4 0 0"
-													   MinWidth="100">
+													Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}"
+													TextWrapping="NoWrap"
+													VerticalAlignment="Top"
+													Cursor="Hand"
+													LineHeight="15"
+													Margin="0 4 0 0"
+													MinWidth="100">
 												<TextBlock.Style>
 													<Style TargetType="TextBlock">
 														<Style.Triggers>
@@ -407,13 +407,13 @@
 							</TextBlock>
 						</StackPanel>
 
-						<Grid IsEnabled="{Binding IsParamtersEnabled}">
+						<Grid IsEnabled="{Binding IsParametersEnabled}">
 							<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
 						</Grid>
 					</StackPanel>
 				</ScrollViewer>
 				<Grid Grid.Row="1">
-					<StackPanel IsEnabled="{Binding IsParamtersEnabled}" HorizontalAlignment="Right" Orientation="Horizontal">
+					<StackPanel IsEnabled="{Binding IsParametersEnabled}" HorizontalAlignment="Right" Orientation="Horizontal">
 						<ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="leftLeft" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
 						<ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="left" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
 						<ToolBarButton Command="{Binding ReadCommand}" ImageSource="ParametersRead" ToolTip="Считать параметры" />

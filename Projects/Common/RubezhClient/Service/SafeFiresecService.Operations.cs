@@ -1,4 +1,5 @@
 ﻿using RubezhAPI;
+using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -111,7 +112,15 @@ namespace RubezhClient
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
+				{
+					firesecService.AddJournalItem(FiresecServiceFactory.UID, new RubezhAPI.Journal.JournalItem
+					{
+						SystemDateTime = DateTime.Now,
+						JournalEventNameType = JournalEventNameType.Применение_конфигурации,
+						JournalObjectType = JournalObjectType.None,
+					});
 					firesecService.SetRemoteConfig(stream);
+				}
 			}, "SetRemoteConfig");
 		}
 

@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_OPKS,
 				UID = new Guid("8e339f21-e32e-4548-adc3-3ab6c0d2768a"),
 				Name = "Оповещатель пожарный световой адресный комбинированный",
-				ShortName = "ОПКС-R2",
+				ShortName = "ОПКС",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true,

@@ -59,14 +59,28 @@ namespace FiltersModule.ViewModels
 			get { return SelectedFilter != null; }
 		}
 
+		bool _oldIsShowBottomPanel;
+		bool _isShowBottomPanel;
+		public bool IsShowBottomPanel
+		{
+			get { return _isShowBottomPanel; }
+			set
+			{
+				_isShowBottomPanel = value;
+				OnPropertyChanged(() => IsShowBottomPanel);
+			}
+		}
+		
 		public override string Header
 		{
 			get { return "Фильтр журнала"; }
 		}
 		public override void CopyProperties()
 		{
-			var properties = (LayoutPartReferenceProperties)_layoutPartJournalViewModel.Properties;
-			SelectedFilter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == properties.ReferenceUID);
+			var properties = (LayoutPartJournalProperties)_layoutPartJournalViewModel.Properties;
+			SelectedFilter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == properties.FilterUID);
+			IsShowBottomPanel = properties.IsVisibleBottomPanel;
+			_oldIsShowBottomPanel = properties.IsVisibleBottomPanel;
 		}
 		public override bool CanSave()
 		{
@@ -74,11 +88,12 @@ namespace FiltersModule.ViewModels
 		}
 		public override bool Save()
 		{
-			var properties = (LayoutPartReferenceProperties)_layoutPartJournalViewModel.Properties;
-			var hasChanges = SelectedFilter != null && properties.ReferenceUID != SelectedFilter.UID || oldLastItemsCount != LastItemsCount;
-			if ((SelectedFilter == null && properties.ReferenceUID != Guid.Empty) || hasChanges)
+			var properties = (LayoutPartJournalProperties)_layoutPartJournalViewModel.Properties;
+			var hasChanges = SelectedFilter != null && properties.FilterUID != SelectedFilter.UID || oldLastItemsCount != LastItemsCount || _oldIsShowBottomPanel != IsShowBottomPanel;
+			if ((SelectedFilter == null && properties.FilterUID != Guid.Empty) || hasChanges)
 			{
-				properties.ReferenceUID = SelectedFilter == null ? Guid.Empty : SelectedFilter.UID;
+				properties.FilterUID = SelectedFilter == null ? Guid.Empty : SelectedFilter.UID;
+				properties.IsVisibleBottomPanel = IsShowBottomPanel;
 				if (SelectedFilter != null)
 					SelectedFilter.LastItemsCount = LastItemsCount;
 				_layoutPartJournalViewModel.UpdateLayoutPart(SelectedFilter);

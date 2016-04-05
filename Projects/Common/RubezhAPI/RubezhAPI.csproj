@@ -160,6 +160,7 @@
     <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="Models\Automation\ObjectReference.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaElement.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaGroup.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaTagValue.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Models\Automation\ProcedureSteps\ExportOrganisationStep.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\HttpRequestStep.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\CloseDialogStep.cs" />
+    <Compile Include="Models\Layouts\LayoutPartJournalProperties.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKPumpStation.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\RviOpenWindowStep.cs" />
     <Compile Include="Models\Plans\ElementPolygonSubPlan.cs" />

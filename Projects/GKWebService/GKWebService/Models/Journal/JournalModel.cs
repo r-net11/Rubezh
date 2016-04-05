@@ -175,7 +175,7 @@ namespace GKWebService.Models
 					ObjectImageSource = "/Content/Image/Images/Door.png";
 					break;
 
-				case JournalObjectType.VideoDevice:
+				case JournalObjectType.Camera:
 					var camera = RubezhClient.ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					if (camera != null)
 					{

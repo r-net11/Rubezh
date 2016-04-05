@@ -158,7 +158,7 @@ namespace AutomationModule.Validation
 					if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveSelfLogik))
 					{
 						var controlGKDeviceStep = (ControlGKDeviceStep)step;
-						var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceStep.GKDeviceArgument.ExplicitValue.UidValue);
+						var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceStep.GKDeviceArgument.ExplicitValue.ObjectReferenceValue.UID);
 						if (gkDevice != null && gkDevice.Logic.OnClausesGroup.Clauses.Count > 0)
 							Errors.Add(new ProcedureStepValidationError(step, "Исполнительное устройство содержит собственную логику", ValidationErrorLevel.Warning));
 						ValidateArgument(procedure, step, controlGKDeviceStep.GKDeviceArgument);
@@ -435,6 +435,9 @@ namespace AutomationModule.Validation
 					ValidateArgument(procedure, step, httpRequestStep.ResponseArgument);
 					break;
 			}
+
+			if (step is UIStep && ((UIStep)step).LayoutFilter.Count == 0)
+				Errors.Add(new ProcedureStepValidationError(step, "Необходимо выбрать как минимум один макет в фильтре макетов", ValidationErrorLevel.CannotSave));
 
 			foreach (var childStep in step.Children)
 				ValidateStep(procedure, childStep);

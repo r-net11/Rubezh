@@ -411,6 +411,7 @@ namespace SKDModule.ViewModels
 					SelectedItem.Update(model);
 					UpdateSelected();
 					UpdateParent();
+					AfterEdit(model);
 				}
 				else
 				{
@@ -422,6 +423,7 @@ namespace SKDModule.ViewModels
 		{
 			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation && IsEditAllowed;
 		}
+		protected virtual void AfterEdit(TModel model) { }
 
 		public RelayCommand CopyCommand { get; private set; }
 		protected virtual void OnCopy()

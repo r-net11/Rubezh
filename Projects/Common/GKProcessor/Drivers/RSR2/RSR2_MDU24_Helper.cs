@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_MDU24,
 				UID = new Guid("2C149B68-FFE9-4680-B3CB-BE4CD37BF646"),
 				Name = "Модуль автоматики дымоудаления 24В",
-				ShortName = "МДУ24-R2",
+				ShortName = "МДУ24",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true

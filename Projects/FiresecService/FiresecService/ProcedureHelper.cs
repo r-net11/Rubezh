@@ -262,12 +262,8 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.CloseInAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(clientUID, uid, GKBaseObjectType.Door);
-			if (commandType == GKDoorCommandType.OpenNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.CloseNow)
 				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(clientUID, uid, GKBaseObjectType.Door);
-			if (commandType == GKDoorCommandType.OpenNowInAutomatic)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.CloseNowInAutomatic)
 				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(clientUID, uid, GKBaseObjectType.Door);
 			if (commandType == GKDoorCommandType.OpenForever)

@@ -58,8 +58,8 @@ namespace Infrastructure.Automation
 		{
 			var getObjectPropertyStep = (GetObjectPropertyStep)procedureStep;
 			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyStep.ResultArgument.VariableUid);
-			var objectUid = GetValue<Guid>(getObjectPropertyStep.ObjectArgument);
-			var item = InitializeItem(objectUid);
+			var objRef = GetValue<ObjectReference>(getObjectPropertyStep.ObjectArgument);
+			var item = InitializeItem(objRef);
 			if (item == null)
 				return;
 			var propertyValue = GetPropertyValue(getObjectPropertyStep.Property, item);
@@ -157,11 +157,9 @@ namespace Infrastructure.Automation
 					}
 				case ExplicitType.String:
 					{
-						value1 = GetValue<object>(arithmeticStep.Argument1);
-						value2 = GetValue<object>(arithmeticStep.Argument2);
 						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
 							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(value1), GetStringValue(value2));
+								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(arithmeticStep.Argument1), GetStringValue(arithmeticStep.Argument2));
 						break;
 					}
 			}
@@ -227,15 +225,14 @@ namespace Infrastructure.Automation
 		public void JournalStep(ProcedureStep procedureStep)
 		{
 			var journalStep = (JournalStep)procedureStep;
-			var messageValue = GetValue<object>(journalStep.MessageArgument);
-			ProcedureExecutionContext.AddJournalItem(ClientUID, GetStringValue(messageValue));
+			var messageValue = GetStringValue(journalStep.MessageArgument);
+			ProcedureExecutionContext.AddJournalItem(ClientUID, messageValue);
 		}
 
 		public void ShowMessageStep(ProcedureStep procedureStep)
 		{
 			var showMessageStep = (ShowMessageStep)procedureStep;
-			var message = GetValue<object>(showMessageStep.MessageArgument);
-			var messageString = GetStringValue(message);
+			var messageString = GetStringValue(showMessageStep.MessageArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Message,
@@ -269,8 +266,8 @@ namespace Infrastructure.Automation
 		public void ControlGKDeviceStep(ProcedureStep procedureStep)
 		{
 			var controlGKDeviceStep = (ControlGKDeviceStep)procedureStep;
-			var deviceUid = GetValue<Guid>(controlGKDeviceStep.GKDeviceArgument);
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
+			var deviceRef = GetValue<ObjectReference>(controlGKDeviceStep.GKDeviceArgument);
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceRef.UID);
 			if (device == null)
 				return;
 			ProcedureExecutionContext.ControlGKDevice(ClientUID, device.UID, controlGKDeviceStep.Command);
@@ -279,83 +276,83 @@ namespace Infrastructure.Automation
 		public void ControlGKFireZoneStep(ProcedureStep procedureStep)
 		{
 			var controlGKFireZoneStep = (ControlGKFireZoneStep)procedureStep;
-			var zoneUid = GetValue<Guid>(controlGKFireZoneStep.GKFireZoneArgument);
+			var zoneRef = GetValue<ObjectReference>(controlGKFireZoneStep.GKFireZoneArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasFirefighting)
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием лицензии", zoneUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием лицензии", zoneRef.UID);
 				return;
 			}
 			if (!HasPermission(PermissionType.Oper_Zone_Control))
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneRef.UID);
 				return;
 			}
 
-			ProcedureExecutionContext.ControlFireZone(ClientUID, zoneUid, controlGKFireZoneStep.ZoneCommandType);
+			ProcedureExecutionContext.ControlFireZone(ClientUID, zoneRef.UID, controlGKFireZoneStep.ZoneCommandType);
 		}
 
 		public void ControlGKGuardZoneStep(ProcedureStep procedureStep)
 		{
 			var controlGKGuardZoneStep = (ControlGKGuardZoneStep)procedureStep;
-			var zoneUid = GetValue<Guid>(controlGKGuardZoneStep.GKGuardZoneArgument);
+			var zoneRef = GetValue<ObjectReference>(controlGKGuardZoneStep.GKGuardZoneArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasGuard)
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием лицензии", zoneUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием лицензии", zoneRef.UID);
 				return;
 			}
 			if (!HasPermission(PermissionType.Oper_GuardZone_Control))
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием прав пользователя", zoneRef.UID);
 				return;
 			}
 
-			ProcedureExecutionContext.ControlGuardZone(ClientUID, zoneUid, controlGKGuardZoneStep.GuardZoneCommandType);
+			ProcedureExecutionContext.ControlGuardZone(ClientUID, zoneRef.UID, controlGKGuardZoneStep.GuardZoneCommandType);
 		}
 
 		public void ControlDirectionStep(ProcedureStep procedureStep)
 		{
 			var controlDirectionStep = (ControlDirectionStep)procedureStep;
-			var directionUid = GetValue<Guid>(controlDirectionStep.DirectionArgument);
-			ProcedureExecutionContext.ControlDirection(ClientUID, directionUid, controlDirectionStep.DirectionCommandType);
+			var directionRef = GetValue<ObjectReference>(controlDirectionStep.DirectionArgument);
+			ProcedureExecutionContext.ControlDirection(ClientUID, directionRef.UID, controlDirectionStep.DirectionCommandType);
 		}
 
 		public void ControlGKDoorStep(ProcedureStep procedureStep)
 		{
 			var controlGKDoorStep = (ControlGKDoorStep)procedureStep;
-			var doorUid = GetValue<Guid>(controlGKDoorStep.DoorArgument);
+			var doorRef = GetValue<ObjectReference>(controlGKDoorStep.DoorArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasSKD)
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием лицензии", doorUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа\" заблокировано в связи с отсутствием лицензии", doorRef.UID);
 				return;
 			}
 			if (!HasPermission(PermissionType.Oper_ZonesSKD))
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа ГК\" заблокировано в связи с отсутствием прав пользователя", doorUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа\" заблокировано в связи с отсутствием прав пользователя", doorRef.UID);
 				return;
 			}
 
-			ProcedureExecutionContext.ControlGKDoor(ClientUID, doorUid, controlGKDoorStep.DoorCommandType);
+			ProcedureExecutionContext.ControlGKDoor(ClientUID, doorRef.UID, controlGKDoorStep.DoorCommandType);
 		}
 
 		public void ControlDelayStep(ProcedureStep procedureStep)
 		{
 			var controlDelayStep = (ControlDelayStep)procedureStep;
-			var delayUid = GetValue<Guid>(controlDelayStep.DelayArgument);
-			ProcedureExecutionContext.ControlDelay(ClientUID, delayUid, controlDelayStep.DelayCommandType);
+			var delayRef = GetValue<ObjectReference>(controlDelayStep.DelayArgument);
+			ProcedureExecutionContext.ControlDelay(ClientUID, delayRef.UID, controlDelayStep.DelayCommandType);
 		}
 
 		public void ControlPumpStationStep(ProcedureStep procedureStep)
 		{
 			var controlPumpStationStep = (ControlPumpStationStep)procedureStep;
-			var pumpStationUid = GetValue<Guid>(controlPumpStationStep.PumpStationArgument);
-			ProcedureExecutionContext.ControlPumpStation(ClientUID, pumpStationUid, controlPumpStationStep.PumpStationCommandType);
+			var pumpStationRef = GetValue<ObjectReference>(controlPumpStationStep.PumpStationArgument);
+			ProcedureExecutionContext.ControlPumpStation(ClientUID, pumpStationRef.UID, controlPumpStationStep.PumpStationCommandType);
 		}
 
 		public void ControlMPTStep(ProcedureStep procedureStep)
 		{
 			var controlMPTStep = (ControlMPTStep)procedureStep;
-			var mptUid = GetValue<Guid>(controlMPTStep.MPTArgument);
-			ProcedureExecutionContext.ControlMPT(ClientUID, mptUid, controlMPTStep.MPTCommandType);
+			var mptRef = GetValue<ObjectReference>(controlMPTStep.MPTArgument);
+			ProcedureExecutionContext.ControlMPT(ClientUID, mptRef.UID, controlMPTStep.MPTCommandType);
 		}
 
 		public void IncrementValueStep(ProcedureStep procedureStep)
@@ -372,9 +369,9 @@ namespace Infrastructure.Automation
 		public void SetValueStep(ProcedureStep procedureStep)
 		{
 			var setValueStep = (SetValueStep)procedureStep;
-			var value = GetValue<object>(setValueStep.SourceArgument);
-			if (setValueStep.ExplicitType == ExplicitType.String)
-				value = GetStringValue(value);
+			var value = setValueStep.ExplicitType == ExplicitType.String ?
+				GetStringValue(setValueStep.SourceArgument) :
+				GetValue<object>(setValueStep.SourceArgument);
 			SetValue(setValueStep.TargetArgument, value);
 		}
 
@@ -451,14 +448,20 @@ namespace Infrastructure.Automation
 			{
 				ProcedureExecutionContext.SynchronizeVariable(listVariable, ClientUID);
 				if (getListItemStep.PositionType == PositionType.First)
-					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+				{
+					var firstValue = listVariable.ExplicitValues.FirstOrDefault();
+					ProcedureExecutionContext.SetVariableValue(itemVariable, firstValue == null ? null : firstValue.Value, ClientUID);
+				}
 				if (getListItemStep.PositionType == PositionType.Last)
-					ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+				{
+					var lastValue = listVariable.ExplicitValues.LastOrDefault();
+					ProcedureExecutionContext.SetVariableValue(itemVariable, lastValue == null ? null : lastValue.Value, ClientUID);
+				}
 				if (getListItemStep.PositionType == PositionType.ByIndex)
 				{
 					var indexValue = GetValue<int>(getListItemStep.IndexArgument);
 					if (listVariable.ExplicitValues.Count > indexValue)
-						ProcedureExecutionContext.SetVariableValue(itemVariable, ProcedureExecutionContext.GetValue(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType), ClientUID);
+						ProcedureExecutionContext.SetVariableValue(itemVariable, listVariable.ExplicitValues[indexValue].Value, ClientUID);
 				}
 			}
 		}
@@ -556,7 +559,8 @@ namespace Infrastructure.Automation
 				{
 					PlanUid = controlPlanSetStep.PlanUid,
 					ElementUid = controlPlanSetStep.ElementUid,
-					ElementPropertyType = controlPlanSetStep.ElementPropertyType
+					ElementPropertyType = controlPlanSetStep.ElementPropertyType,
+					Value = value
 				},
 			};
 
@@ -626,13 +630,13 @@ namespace Infrastructure.Automation
 		public void ShowPropertyStep(ProcedureStep procedureStep)
 		{
 			var showPropertyStep = (ShowPropertyStep)procedureStep;
-			var objectUid = GetValue<Guid>(showPropertyStep.ObjectArgument);
+			var objectRef = GetValue<ObjectReference>(showPropertyStep.ObjectArgument);
 			if (showPropertyStep.ObjectType == ObjectType.Zone && !LicenseManager.CurrentLicenseInfo.HasFirefighting ||
 				showPropertyStep.ObjectType == ObjectType.GuardZone && !LicenseManager.CurrentLicenseInfo.HasGuard ||
 				showPropertyStep.ObjectType == ObjectType.GKDoor && !LicenseManager.CurrentLicenseInfo.HasSKD ||
 				showPropertyStep.ObjectType == ObjectType.VideoDevice && !LicenseManager.CurrentLicenseInfo.HasVideo)
 			{
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Показать свойства объекта\" заблокировано в связи с отсутствием лицензии", objectUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Показать свойства объекта\" заблокировано в связи с отсутствием лицензии", objectRef.UID);
 				return;
 			}
 			var automationCallbackResult = new AutomationCallbackResult()
@@ -641,7 +645,7 @@ namespace Infrastructure.Automation
 				Data = new PropertyCallBackData()
 				{
 					ObjectType = showPropertyStep.ObjectType,
-					ObjectUid = objectUid
+					ObjectUid = objectRef.UID
 				},
 			};
 			SendCallback(showPropertyStep, automationCallbackResult);
@@ -702,7 +706,7 @@ namespace Infrastructure.Automation
 		public void StartRecordStep(ProcedureStep procedureStep)
 		{
 			var startRecordStep = (StartRecordStep)procedureStep;
-			var cameraUid = GetValue<Guid>(startRecordStep.CameraArgument);
+			var cameraRef = GetValue<ObjectReference>(startRecordStep.CameraArgument);
 			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 			{
 				var timeout = GetValue<int>(startRecordStep.TimeoutArgument);
@@ -719,33 +723,33 @@ namespace Infrastructure.Automation
 
 					Guid eventUid = Guid.NewGuid();
 					SetValue(startRecordStep.EventUIDArgument, eventUid);
-					ProcedureExecutionContext.StartRecord(ClientUID, cameraUid, JournalItem.UID, eventUid, timeout);
+					ProcedureExecutionContext.StartRecord(ClientUID, cameraRef.UID, JournalItem.UID, eventUid, timeout);
 				}
 			}
 			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Начать запись\" заблокировано в связи с отсутствием лицензии", cameraUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Начать запись\" заблокировано в связи с отсутствием лицензии", cameraRef.UID);
 		}
 
 		public void StopRecordStep(ProcedureStep procedureStep)
 		{
 			var stopRecordStep = (StopRecordStep)procedureStep;
-			var cameraUid = GetValue<Guid>(stopRecordStep.CameraArgument);
+			var cameraRef = GetValue<ObjectReference>(stopRecordStep.CameraArgument);
 			var eventUid = GetValue<Guid>(stopRecordStep.EventUIDArgument);
 			if (LicenseManager.CurrentLicenseInfo.HasVideo)
-				ProcedureExecutionContext.StopRecord(ClientUID, cameraUid, eventUid);
+				ProcedureExecutionContext.StopRecord(ClientUID, cameraRef.UID, eventUid);
 			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraRef.UID);
 		}
 
 		public void PtzStep(ProcedureStep procedureStep)
 		{
 			var ptzStep = (PtzStep)procedureStep;
-			var cameraUid = GetValue<Guid>(ptzStep.CameraArgument);
+			var cameraRef = GetValue<ObjectReference>(ptzStep.CameraArgument);
 			var ptzNumber = GetValue<int>(ptzStep.PtzNumberArgument);
 			if (LicenseManager.CurrentLicenseInfo.HasVideo)
-				ProcedureExecutionContext.Ptz(ClientUID, cameraUid, ptzNumber);
+				ProcedureExecutionContext.Ptz(ClientUID, cameraRef.UID, ptzNumber);
 			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Ptz камеры\" заблокировано в связи с отсутствием лицензии", cameraUid);
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Ptz камеры\" заблокировано в связи с отсутствием лицензии", cameraRef.UID);
 		}
 
 		public void RviAlarmStep(ProcedureStep procedureStep)
@@ -802,9 +806,9 @@ namespace Infrastructure.Automation
 		{
 			var exportOrganisationStep = (ExportOrganisationStep)procedureStep;
 			var isWithDeleted = GetValue<bool>(exportOrganisationStep.IsWithDeleted);
-			var organisationUid = GetValue<Guid>(exportOrganisationStep.Organisation);
+			var organisationRef = GetValue<ObjectReference>(exportOrganisationStep.Organisation);
 			var path = GetValue<string>(exportOrganisationStep.PathArgument);
-			ProcedureExecutionContext.ExportOrganisation(ClientUID, isWithDeleted, organisationUid, path);
+			ProcedureExecutionContext.ExportOrganisation(ClientUID, isWithDeleted, organisationRef.UID, path);
 		}
 
 		public void ExportOrganisationListStep(ProcedureStep procedureStep)
@@ -843,7 +847,18 @@ namespace Infrastructure.Automation
 
 		#region Common operations
 
-		byte IntToByte(int value)
+		string GetStringValue(Argument argument)
+		{
+			if (argument == null)
+				return null;
+			if (argument.VariableScope == VariableScope.ExplicitValue)
+				return argument.ExplicitValue.ToString();
+
+			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+			return variable == null ? "" : variable.ExplicitValue.ToString();
+		}
+
+		static byte IntToByte(int value)
 		{
 			if (value < 0)
 				value = 0;
@@ -1190,107 +1205,34 @@ namespace Infrastructure.Automation
 			return new List<object>();
 		}
 
-		object InitializeItem(Guid itemUid)
+		object InitializeItem(ObjectReference objRef)
 		{
-			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
-			if (device != null)
-				return device;
-
-			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
-			if (zone != null)
-				return zone;
-
-			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
-			if (guardZone != null)
-				return guardZone;
-
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
-			if (camera != null)
-				return camera;
-
-			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
-			if (direction != null)
-				return direction;
-
-			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
-			if (delay != null)
-				return delay;
-
-			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == itemUid);
-			if (pumpStation != null)
-				return pumpStation;
-
-			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == itemUid);
-			if (mpt != null)
-				return mpt;
-
-			var door = GKManager.Doors.FirstOrDefault(x => x.UID == itemUid);
-			if (door != null)
-				return door;
-
-			var organisations = ProcedureExecutionContext.GetOrganisations(ClientUID);
-			var organisation = organisations == null ? null : organisations.FirstOrDefault(x => x.UID == itemUid);
-			if (organisation != null)
-				return organisation;
+			switch (objRef.ObjectType)
+			{
+				case ObjectType.Device:
+					return GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.Zone:
+					return GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.Direction:
+					return GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.Delay:
+					return GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.GuardZone:
+					return GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.PumpStation:
+					return GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.MPT:
+					return GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.VideoDevice:
+					return ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.GKDoor:
+					return GKManager.Doors.FirstOrDefault(x => x.UID == objRef.UID);
+				case ObjectType.Organisation:
+					var organisations = ProcedureExecutionContext.GetOrganisations(ClientUID);
+					return organisations == null ? null : organisations.FirstOrDefault(x => x.UID == objRef.UID);
+			}
 
 			return null;
-		}
-
-		string GetStringValue(object obj)
-		{
-			if (obj == null)
-				return "";
-
-			var objType = obj.GetType();
-			if (objType == typeof(bool))
-				return (bool)obj ? "Да" : "Нет";
-
-			if (objType.IsEnum)
-				return ((Enum)obj).ToDescription();
-
-			if (objType == typeof(Guid))
-				return UidToObjectName((Guid)obj);
-
-			return obj.ToString();
-		}
-
-		string UidToObjectName(Guid uid)
-		{
-			if (uid == Guid.Empty)
-				return "";
-			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uid);
-			if (device != null)
-				return device.PresentationName;
-			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uid);
-			if (zone != null)
-				return zone.PresentationName;
-			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uid);
-			if (guardZone != null)
-				return guardZone.PresentationName;
-			var camera = ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uid);
-			if (camera != null)
-				return camera.PresentationName;
-			var gKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uid);
-			if (gKDoor != null)
-				return gKDoor.PresentationName;
-			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uid);
-			if (direction != null)
-				return direction.PresentationName;
-			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uid);
-			if (delay != null)
-				return delay.PresentationName;
-			var pumpStation = GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == uid);
-			if (pumpStation != null)
-				return pumpStation.PresentationName;
-			var mpt = GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == uid);
-			if (mpt != null)
-				return mpt.PresentationName;
-
-			var organisations = ProcedureExecutionContext.GetOrganisations(ClientUID);
-			var organisation = organisations == null ? null : organisations.FirstOrDefault(x => x.UID == uid);
-			if (organisation != null)
-				return organisation.Name;
-			return "";
 		}
 
 		void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
@@ -1307,7 +1249,7 @@ namespace Infrastructure.Automation
 					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
 					if (comparer != null && comparer.Value)
 					{
-						result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
+						result.ExplicitValues.Add(new ExplicitValue { ExplicitType = ExplicitType.Object, ObjectReferenceValue = new ObjectReference { UID = itemUid, ObjectType = result.ObjectType } });
 						break;
 					}
 				}
@@ -1335,7 +1277,7 @@ namespace Infrastructure.Automation
 					}
 				}
 				if (allTrue)
-					result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
+					result.ExplicitValues.Add(new ExplicitValue { ExplicitType = ExplicitType.Object, ObjectReferenceValue = new ObjectReference { UID = itemUid, ObjectType = result.ObjectType } });
 			}
 		}
 
@@ -1395,7 +1337,8 @@ namespace Infrastructure.Automation
 			if (explicitType == ExplicitType.DateTime)
 				return explicitValue1.DateTimeValue == explicitValue2.DateTimeValue;
 			if (explicitType == ExplicitType.Object)
-				return explicitValue1.UidValue == explicitValue2.UidValue;
+				return explicitValue1.ObjectReferenceValue.UID == explicitValue2.ObjectReferenceValue.UID
+					&& explicitValue1.ObjectReferenceValue.ObjectType == explicitValue2.ObjectReferenceValue.ObjectType;
 			if (explicitType == ExplicitType.Enum)
 			{
 				if (enumType == EnumType.DriverType)
@@ -1413,10 +1356,7 @@ namespace Infrastructure.Automation
 				if (enumType == EnumType.ColorType)
 					return explicitValue1.ColorValue == explicitValue2.ColorValue;
 			}
-			if (explicitType == ExplicitType.Object)
-			{
-				return explicitValue1.UidValue == explicitValue2.UidValue;
-			}
+
 			return false;
 		}
 
@@ -1428,7 +1368,7 @@ namespace Infrastructure.Automation
 		T GetValue<T>(Argument argument)
 		{
 			var result = argument.VariableScope == VariableScope.ExplicitValue ?
-				ProcedureExecutionContext.GetValue(argument.ExplicitValue, argument.ExplicitType, argument.EnumType) :
+				argument.ExplicitValue.Value :
 				ProcedureExecutionContext.GetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid));
 			if (result is string && typeof(T) == typeof(Guid))
 				result = CheckGuid(result.ToString()) ? new Guid(result.ToString()) : Guid.Empty;
@@ -1439,7 +1379,7 @@ namespace Infrastructure.Automation
 			return (T)result;
 		}
 
-		bool CheckGuid(string guidString)
+		static bool CheckGuid(string guidString)
 		{
 			var guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
 				"^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);

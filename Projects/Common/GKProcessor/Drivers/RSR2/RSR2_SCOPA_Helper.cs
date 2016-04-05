@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_SCOPA,
 				UID = new Guid("4F9DFCDD-B98B-4D2B-BD7E-635BB5728DCE"),
 				Name = "Взрывозащищенный оповещатель - табло",
-				ShortName = "СКОПА-R2",
+				ShortName = "СКОПА",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true

@@ -108,7 +108,7 @@ namespace FiresecService.Service
 			Directory.Delete(newConfigDirectory, true);
 
 			CreateZipConfigFromFiles();
-			RestartWithNewConfig();
+			RestartWithNewConfig(isLocal: false);
 		}
 
 		public void SetSecurityConfiguration(Guid clientUID, SecurityConfiguration securityConfiguration)
@@ -128,9 +128,10 @@ namespace FiresecService.Service
 			output.Close();
 		}
 
-		void RestartWithNewConfig(Guid? clientUid = null)
+		void RestartWithNewConfig(Guid? clientUid = null, bool isLocal = true)
 		{
-			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null, null, clientUid);
+			if(isLocal)
+				AddJournalMessage(JournalEventNameType.Применение_конфигурации, null, null, clientUid);
 			ServerState = RubezhAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();

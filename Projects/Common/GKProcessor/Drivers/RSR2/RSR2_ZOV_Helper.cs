@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_ZOV,
 				UID = new Guid("58795922-F023-4A90-BCEC-ACDB3CD0725F"),
 				Name = "Оповещатель свето-звуковой взрывозащищенный",
-				ShortName = "ЗОВ-R2",
+				ShortName = "ЗОВ",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true

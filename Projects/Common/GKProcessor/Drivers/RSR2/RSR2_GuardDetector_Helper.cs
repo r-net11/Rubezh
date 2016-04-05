@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0x10,
 				DriverType = GKDriverType.RSR2_GuardDetector,
 				UID = new Guid("501AA41F-248B-4A4E-982A-6BC93505C7A9"),
-				Name = "Извещатель охранный инфракрасный R2",
-				ShortName = "ИО-ИК R2",
+				Name = "Извещатель охранный инфракрасный",
+				ShortName = "ИО-ИК",
 				HasZone = false,
 				HasGuardZone = true,
 				IsPlaceable = true

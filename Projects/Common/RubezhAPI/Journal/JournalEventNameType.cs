@@ -360,42 +360,6 @@ namespace RubezhAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Редактирование дневного графика ГК", XStateClass.Info)]
 		Редактирование_дневного_графика_ГК = 162,
 
-		[EventName(JournalSubsystemType.SKD, "Добавление нового сотрудника", XStateClass.Info)]
-		Добавление_нового_сотрудника = 163,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление нового посетителя", XStateClass.Info)]
-		Добавление_нового_посетителя = 217,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление нового подразделения", XStateClass.Info)]
-		Добавление_нового_отдела = 164,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление новой должности", XStateClass.Info)]
-		Добавление_новой_должности = 165,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона доступа", XStateClass.Info)]
-		Добавление_нового_шаблона_доступа = 166,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление новой организации", XStateClass.Info)]
-		Добавление_новой_организации = 167,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление новой дополнительной колонки", XStateClass.Info)]
-		Добавление_новой_дополнительной_колонки = 168,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление нового дневного графика", XStateClass.Info)]
-		Добавление_нового_дневного_графика = 169,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление нового графика работы", XStateClass.Info)]
-		Добавление_нового_графика_работы = 170,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление нового графика работы сотрудника", XStateClass.Info)]
-		Добавление_нового_графика_работы_сотрудника = 171,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление нового сокращённого дня", XStateClass.Info)]
-		Добавление_нового_праздничного_дня = 172,
-
-		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона пропуска", XStateClass.Info)]
-		Добавление_нового_шаблона_пропуска = 173,
-
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
 		Внесение_оправдательного_документа = 174,
 
@@ -438,83 +402,11 @@ namespace RubezhAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Рабочий график", XStateClass.TechnologicalRegime)]
 		Рабочий_график = 187,
 
-		[EventName(JournalSubsystemType.SKD, "Удаление сотрудника", XStateClass.Info)]
-		Удаление_сотрудника = 188,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление посетителя", XStateClass.Info)]
-		Удаление_посетителя = 219,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление подразделения", XStateClass.Info)]
-		Удаление_отдела = 189,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление должности", XStateClass.Info)]
-		Удаление_должности = 190,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление шаблона доступа", XStateClass.Info)]
-		Удаление_шаблона_доступа = 191,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление организации", XStateClass.Info)]
-		Удаление_организации = 192,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление дополнительной колонки", XStateClass.Info)]
-		Удаление_дополнительной_колонки = 193,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление дневного графика", XStateClass.Info)]
-		Удаление_дневного_графика = 194,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление графика работы", XStateClass.Info)]
-		Удаление_графика_работы = 195,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление графика работы сотрудника", XStateClass.Info)]
-		Удаление_графика_работы_сотрудника = 196,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление сокращённого дня", XStateClass.Info)]
-		Удаление_праздничного_дня = 197,
-
-		[EventName(JournalSubsystemType.SKD, "Удаление шаблона пропуска", XStateClass.Info)]
-		Удаление_шаблона_пропуска = 198,
-
 		[EventName(JournalSubsystemType.GK, "Удаление графика ГК", XStateClass.Info)]
 		Удаление_графика_ГК = 199,
 
 		[EventName(JournalSubsystemType.GK, "Удаление дневного графика ГК", XStateClass.Info)]
 		Удаление_дневного_графика_ГК = 200,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление сотрудника", XStateClass.Info)]
-		Восстановление_сотрудника = 201,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление посетителя", XStateClass.Info)]
-		Восстановление_посетителя = 217,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление подразделения", XStateClass.Info)]
-		Восстановление_отдела = 202,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление должности", XStateClass.Info)]
-		Восстановление_должности = 203,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона доступа", XStateClass.Info)]
-		Восстановление_шаблона_доступа = 204,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление организации", XStateClass.Info)]
-		Восстановление_организации = 205,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление дополнительной колонки", XStateClass.Info)]
-		Восстановление_дополнительной_колонки = 206,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление дневного графика", XStateClass.Info)]
-		Восстановление_дневного_графика = 207,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление графика работы", XStateClass.Info)]
-		Восстановление_графика_работы = 208,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление графика работы сотрудника", XStateClass.Info)]
-		Восстановление_графика_работы_сотрудника = 209,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление сокращённого дня", XStateClass.Info)]
-		Восстановление_праздничного_дня = 210,
-
-		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона пропуска", XStateClass.Info)]
-		Восстановление_шаблона_пропуска = 211,
 
 		[EventName(JournalSubsystemType.GK, "Открытие зоны СКД", XStateClass.On)]
 		Открытие_зоны_СКД = 212,

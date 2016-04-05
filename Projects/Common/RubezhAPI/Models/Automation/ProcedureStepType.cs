@@ -106,7 +106,7 @@ namespace RubezhAPI.Automation
 		[DescriptionAttribute("Управление направлением")]
 		ControlDirection,
 
-		[DescriptionAttribute("Управление точкой доступа ГК")]
+		[DescriptionAttribute("Управление точкой доступа")]
 		ControlGKDoor,
 
 		[DescriptionAttribute("Управление задержкой")]

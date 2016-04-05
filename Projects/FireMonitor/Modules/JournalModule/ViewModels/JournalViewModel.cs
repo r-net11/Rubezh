@@ -36,6 +36,7 @@ namespace JournalModule.ViewModels
 			}
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			IsVisibleBottomPanel = true;
 		}
 
 		public void Initialize()
@@ -57,6 +58,7 @@ namespace JournalModule.ViewModels
 				ApplicationService.BeginInvoke(() =>
 				{
 					JournalItems = new ObservableCollection<JournalItemViewModel>();
+					if (callbackOperationResult.JournalItems != null)
 					foreach (var journalItem in callbackOperationResult.JournalItems)
 					{
 						var journalItemViewModel = new JournalItemViewModel(journalItem);
@@ -71,11 +73,8 @@ namespace JournalModule.ViewModels
 		public void SetJournalItems()
 		{
 			var result = ClientManager.FiresecService.BeginGetJournal(Filter, _uid);
-			if (result.HasError)
-			{
-				MessageBoxService.Show(result.Error);
+			if (result == null || result.HasError)
 				return;
-			}
 			IsLoading = true;
 		}
 
@@ -118,8 +117,7 @@ namespace JournalModule.ViewModels
 				return false;
 			if (Filter.JournalEventNameTypes.Count > 0 && !Filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
 				return false;
-			if (Filter.EventDescriptions.Count > 0 && 
-				!Filter.EventDescriptions.Any(x => x.JournalEventNameType == journalItem.JournalEventNameType && x.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType)))
+			if (Filter.JournalEventDescriptionTypes.Count > 0 && !Filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
 				return false;
 			if (Filter.JournalObjectTypes.Count > 0 && Filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
 				return true;
@@ -164,7 +162,7 @@ namespace JournalModule.ViewModels
 				{
 					existingJournalItem.JournalItem.VideoUID = journalItem.VideoUID;
 					existingJournalItem.JournalItem.CameraUID = journalItem.CameraUID;
-					existingJournalItem.OnPropertyChanged(() => existingJournalItem.ShowVideoCommand);
+					existingJournalItem.IsVideoExist = journalItem.VideoUID != Guid.Empty;
 				}
 			}
 		}
@@ -232,5 +230,7 @@ namespace JournalModule.ViewModels
 				SetJournalItems();
 			}
 		}
+
+		public bool IsVisibleBottomPanel { get; set; }
 	}
 }

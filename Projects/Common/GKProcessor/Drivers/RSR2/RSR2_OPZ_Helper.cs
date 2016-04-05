@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_OPZ,
 				UID = new Guid("24A6FC19-0428-43A9-8B1C-35B748BD202B"),
 				Name = "Оповещатель охранно-пожарный звуковой адресный",
-				ShortName = "ОПЗ-R2",
+				ShortName = "ОПЗ",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true

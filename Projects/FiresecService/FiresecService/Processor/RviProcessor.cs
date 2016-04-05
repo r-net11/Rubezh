@@ -188,7 +188,10 @@ namespace FiresecService
 							var rviCallbackResult = new RviCallbackResult();
 							rviCallbackResult.RviStates.AddRange(rviStates);
 							FiresecService.Service.FiresecService.NotifyRviObjectStateChanged(rviCallbackResult);
-							FiresecService.Service.FiresecService.NotifyJournalItems(journalItems, true);
+						}
+						if (journalItems.Count != 0)
+						{
+							FiresecService.Service.FiresecService.AddCommonJournalItems(journalItems, null);
 						}
 					}
 				}

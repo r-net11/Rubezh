@@ -55,84 +55,6 @@ namespace Infrastructure.Automation
 			return variable == null ? null : variable.Value;
 		}
 
-		public static object GetValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
-		{
-			switch (explicitType)
-			{
-				case ExplicitType.Boolean:
-					return explicitValue.BoolValue;
-				case ExplicitType.DateTime:
-					return explicitValue.DateTimeValue;
-				case ExplicitType.Integer:
-					return explicitValue.IntValue;
-				case ExplicitType.Float:
-					return explicitValue.FloatValue;
-				case ExplicitType.String:
-					return explicitValue.StringValue;
-				case ExplicitType.Object:
-					return explicitValue.UidValue;
-				case ExplicitType.Enum:
-					switch (enumType)
-					{
-						case EnumType.DriverType:
-							return explicitValue.DriverTypeValue;
-						case EnumType.StateType:
-							return explicitValue.StateTypeValue;
-						case EnumType.PermissionType:
-							return explicitValue.PermissionTypeValue;
-						case EnumType.JournalEventNameType:
-							return explicitValue.JournalEventNameTypeValue;
-						case EnumType.JournalEventDescriptionType:
-							return explicitValue.JournalEventDescriptionTypeValue;
-						case EnumType.JournalObjectType:
-							return explicitValue.JournalObjectTypeValue;
-						case EnumType.ColorType:
-							return explicitValue.ColorValue.ToString();
-					}
-					break;
-			}
-			return new object();
-		}
-
-		public static object[] GetListValue(IEnumerable<ExplicitValue> explicitValues, ExplicitType explicitType, EnumType enumType)
-		{
-			switch (explicitType)
-			{
-				case ExplicitType.Boolean:
-					return explicitValues.Select(x => (object)x.BoolValue).ToArray();
-				case ExplicitType.DateTime:
-					return explicitValues.Select(x => (object)x.DateTimeValue).ToArray();
-				case ExplicitType.Integer:
-					return explicitValues.Select(x => (object)x.IntValue).ToArray();
-				case ExplicitType.Float:
-					return explicitValues.Select(x => (object)x.FloatValue).ToArray();
-				case ExplicitType.String:
-					return explicitValues.Select(x => (object)x.StringValue).ToArray();
-				case ExplicitType.Object:
-					return explicitValues.Select(x => (object)x.UidValue).ToArray();
-				case ExplicitType.Enum:
-					switch (enumType)
-					{
-						case EnumType.DriverType:
-							return explicitValues.Select(x => (object)x.DriverTypeValue).ToArray();
-						case EnumType.StateType:
-							return explicitValues.Select(x => (object)x.StateTypeValue).ToArray();
-						case EnumType.PermissionType:
-							return explicitValues.Select(x => (object)x.PermissionTypeValue).ToArray();
-						case EnumType.JournalEventNameType:
-							return explicitValues.Select(x => (object)x.JournalEventNameTypeValue).ToArray();
-						case EnumType.JournalEventDescriptionType:
-							return explicitValues.Select(x => (object)x.JournalEventDescriptionTypeValue).ToArray();
-						case EnumType.JournalObjectType:
-							return explicitValues.Select(x => (object)x.JournalObjectTypeValue).ToArray();
-						case EnumType.ColorType:
-							return explicitValues.Select(x => (object)x.ColorValue.ToString()).ToArray();
-					}
-					break;
-			}
-			return new object[0];
-		}
-
 		public static void SetVariableValue(Variable target, object value, Guid? initialClientUID)
 		{
 			if (target == null)
@@ -143,65 +65,104 @@ namespace Infrastructure.Automation
 				var listValue = value as IEnumerable<object>;
 
 				if (target.ExplicitType == ExplicitType.Integer)
-					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { IntValue = Convert.ToInt32(x) }).ToList();
+					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { IntValue = Convert.ToInt32(x), ExplicitType = target.ExplicitType }).ToList();
 				if (target.ExplicitType == ExplicitType.Float)
-					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { FloatValue = Convert.ToDouble(x) }).ToList();
+					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { FloatValue = Convert.ToDouble(x), ExplicitType = target.ExplicitType }).ToList();
 				if (target.ExplicitType == ExplicitType.String)
-					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { StringValue = Convert.ToString(x) }).ToList();
+					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { StringValue = Convert.ToString(x), ExplicitType = target.ExplicitType }).ToList();
 				if (target.ExplicitType == ExplicitType.Boolean)
-					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { BoolValue = Convert.ToBoolean(x) }).ToList();
+					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { BoolValue = Convert.ToBoolean(x), ExplicitType = target.ExplicitType }).ToList();
 				if (target.ExplicitType == ExplicitType.DateTime)
-					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { DateTimeValue = Convert.ToDateTime(x) }).ToList();
+					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { DateTimeValue = Convert.ToDateTime(x), ExplicitType = target.ExplicitType }).ToList();
 				if (target.ExplicitType == ExplicitType.Object)
-					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { UidValue = (Guid)x }).ToList();
+					target.ExplicitValues = listValue.Select(x => new ExplicitValue() { ObjectReferenceValue = AutomationHelper.GetObjectReference(value), ExplicitType = target.ExplicitType }).ToList();
 				if (target.ExplicitType == ExplicitType.Enum)
 				{
 					if (target.EnumType == EnumType.DriverType)
-						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { DriverTypeValue = (GKDriverType)x }).ToList();
+						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { DriverTypeValue = (GKDriverType)x, ExplicitType = target.ExplicitType }).ToList();
 					if (target.EnumType == EnumType.StateType)
-						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { StateTypeValue = (XStateClass)x }).ToList();
+						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { StateTypeValue = (XStateClass)x, ExplicitType = target.ExplicitType }).ToList();
 					if (target.EnumType == EnumType.PermissionType)
-						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { PermissionTypeValue = (PermissionType)x }).ToList();
+						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { PermissionTypeValue = (PermissionType)x, ExplicitType = target.ExplicitType }).ToList();
 					if (target.EnumType == EnumType.JournalEventNameType)
-						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { JournalEventNameTypeValue = (JournalEventNameType)x }).ToList();
+						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { JournalEventNameTypeValue = (JournalEventNameType)x, ExplicitType = target.ExplicitType }).ToList();
 					if (target.EnumType == EnumType.JournalEventDescriptionType)
-						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { JournalEventDescriptionTypeValue = (JournalEventDescriptionType)x }).ToList();
+						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { JournalEventDescriptionTypeValue = (JournalEventDescriptionType)x, ExplicitType = target.ExplicitType }).ToList();
 					if (target.EnumType == EnumType.JournalObjectType)
-						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { JournalObjectTypeValue = (JournalObjectType)x }).ToList();
+						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { JournalObjectTypeValue = (JournalObjectType)x, ExplicitType = target.ExplicitType }).ToList();
 					if (target.EnumType == EnumType.ColorType)
-						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { ColorValue = (Color)x }).ToList();
+						target.ExplicitValues = listValue.Select(x => new ExplicitValue() { ColorValue = (Color)x, ExplicitType = target.ExplicitType }).ToList();
 				}
 			}
 			else
 			{
 				if (target.ExplicitType == ExplicitType.Integer)
+				{
 					target.ExplicitValue.IntValue = Convert.ToInt32(value);
+					target.ExplicitValue.ExplicitType = target.ExplicitType;
+				}
 				if (target.ExplicitType == ExplicitType.Float)
+				{
 					target.ExplicitValue.FloatValue = Convert.ToDouble(value);
+					target.ExplicitValue.ExplicitType = target.ExplicitType;
+				}
 				if (target.ExplicitType == ExplicitType.String)
+				{
 					target.ExplicitValue.StringValue = Convert.ToString(value);
+					target.ExplicitValue.ExplicitType = target.ExplicitType;
+				}
 				if (target.ExplicitType == ExplicitType.Boolean)
+				{
 					target.ExplicitValue.BoolValue = Convert.ToBoolean(value);
+					target.ExplicitValue.ExplicitType = target.ExplicitType;
+				}
 				if (target.ExplicitType == ExplicitType.DateTime)
+				{
 					target.ExplicitValue.DateTimeValue = Convert.ToDateTime(value);
+					target.ExplicitValue.ExplicitType = target.ExplicitType;
+				}
 				if (target.ExplicitType == ExplicitType.Object)
-					target.ExplicitValue.UidValue = (Guid)value;
+				{
+					target.ExplicitValue.ObjectReferenceValue = AutomationHelper.GetObjectReference(value);
+					target.ExplicitValue.ExplicitType = target.ExplicitType;
+				}
 				if (target.ExplicitType == ExplicitType.Enum)
 				{
 					if (target.EnumType == EnumType.DriverType)
+					{
 						target.ExplicitValue.DriverTypeValue = (GKDriverType)value;
+						target.ExplicitValue.ExplicitType = target.ExplicitType;
+					}
 					if (target.EnumType == EnumType.StateType)
+					{
 						target.ExplicitValue.StateTypeValue = (XStateClass)value;
+						target.ExplicitValue.ExplicitType = target.ExplicitType;
+					}
 					if (target.EnumType == EnumType.PermissionType)
+					{
 						target.ExplicitValue.PermissionTypeValue = (PermissionType)value;
+						target.ExplicitValue.ExplicitType = target.ExplicitType;
+					}
 					if (target.EnumType == EnumType.JournalEventNameType)
+					{
 						target.ExplicitValue.JournalEventNameTypeValue = (JournalEventNameType)value;
+						target.ExplicitValue.ExplicitType = target.ExplicitType;
+					}
 					if (target.EnumType == EnumType.JournalEventDescriptionType)
+					{
 						target.ExplicitValue.JournalEventDescriptionTypeValue = (JournalEventDescriptionType)value;
+						target.ExplicitValue.ExplicitType = target.ExplicitType;
+					}
 					if (target.EnumType == EnumType.JournalObjectType)
+					{
 						target.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)value;
+						target.ExplicitValue.ExplicitType = target.ExplicitType;
+					}
 					if (target.EnumType == EnumType.ColorType)
+					{
 						target.ExplicitValue.ColorValue = (Color)value;
+						target.ExplicitValue.ExplicitType = target.ExplicitType;
+					}
 				}
 			}
 			if (ContextType == ContextType.Server && target.IsGlobal && target.ContextType == ContextType.Server)
