@@ -192,10 +192,10 @@ namespace FiresecService.Report.Templates
 					dataSet.Data.Rows.Add(dataRow);
 				}
 			}
-			else
-			{
+			if (journalItemsResult.HasError)
 				ThrowException(journalItemsResult.Error);
-			}
+			else
+				ThrowException("Exception was trown in EventsReport.CreateDataSet()");
 			return dataSet;
 		}
 
