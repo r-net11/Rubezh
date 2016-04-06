@@ -4,13 +4,20 @@
 
 	<DataGrid Focusable="True" SelectedItem="{Binding SelectedCamera}" ItemsSource="{Binding Cameras}" UIBehavior.ShowSelectionMark="True">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Камера" Width="*">
+			<DataGridTemplateColumn Header="Камера" Width="2*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<Image Width="16" Height="16" Margin="5 0 5 0" Source="{Binding ImageSource}" />
-							<TextBlock Text="{Binding  PresentationName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+							<TextBlock Text="{Binding PresentationName}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Адрес" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Camera.Ip}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
