@@ -1,12 +1,12 @@
-﻿using System;
+﻿using DevExpress.XtraReports.UI;
+using RubezhAPI.SKD.ReportFilters;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
-using DevExpress.XtraReports.UI;
-using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Templates
 {
@@ -15,7 +15,7 @@ namespace FiresecService.Report.Templates
 		private float _topMargin;
 		private float _bottomMargin;
 
-	    protected BaseReport()
+		protected BaseReport()
 		{
 			InitializeComponent();
 			_topMargin = TopMargin.HeightF;
@@ -124,10 +124,10 @@ namespace FiresecService.Report.Templates
 
 		protected virtual bool IsNotDataBase
 		{
-			get { return false;}
+			get { return false; }
 		}
 
-	    protected virtual DataSet CreateDataSet(DataProvider dataProvider)
+		protected virtual DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			return new DataSet();
 		}
@@ -237,6 +237,15 @@ namespace FiresecService.Report.Templates
 					sb.AppendFormat("{0} = '{1}'\r\n", property.Name, value);
 			}
 			return sb.ToString();
+		}
+		///<summary>
+		/// Метод позволяет вручную создать исключительную ситуацию при создании отчета.
+		/// Исключение обробатывается внутри сборки DevExpress.
+		/// Вызванное исключение может быть обработано на клиенте с помощью события CreateDocumentError.
+		/// </summary>
+		protected void ThrowException(string message)
+		{
+			throw new Exception(message);
 		}
 	}
 }

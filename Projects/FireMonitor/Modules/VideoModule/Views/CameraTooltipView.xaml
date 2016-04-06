@@ -9,8 +9,8 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Image Width="16" Height="16" Margin="5 0 5 0" Source="{Binding Camera.ImageSource}" />
-			<TextBlock FontWeight="Bold" Text="{Binding Camera.RviDeviceName}" />
+			<Image Width="16" Height="16" Margin="0 0 2 0" Source="{Binding Camera.ImageSource}" />
+			<TextBlock FontWeight="Bold" Text="{Binding Camera.PresentationName}" />
 		</StackPanel>
 		<StackPanel>
 			<StackPanel Orientation="Horizontal" >

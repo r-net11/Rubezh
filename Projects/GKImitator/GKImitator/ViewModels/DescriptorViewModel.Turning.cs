@@ -66,7 +66,6 @@ namespace GKImitator.ViewModels
 				property = device.Properties.FirstOrDefault(x => x.Name == "Режим после удержания включенного состояния");
 				if (property != null)
 					DelayRegime = property.Value == 0 ? RubezhAPI.GK.DelayRegime.Off : RubezhAPI.GK.DelayRegime.On;
-
 			}
 			var direction = GKBase as GKDirection;
 			if (direction != null)

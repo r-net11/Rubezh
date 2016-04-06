@@ -48,7 +48,7 @@
 				<DataGridTemplateColumn Header="Должность" Width="*" Visibility="{Binding DataContext.CanEditPosition, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding Employee.PositionName}"  Style="{StaticResource IsPositionDeletedStyle}" Margin="2" />
+							<TextBlock Text="{Binding Employee.PositionName}"  Style="{StaticResource IsPositionDeletedStyle}" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -59,9 +59,9 @@
 				<ToolBarButton ImageSource="Add"  ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
 				<ToolBarButton ImageSource="Delete"  ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
 				<ToolBarButton ImageSource="Edit"  ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
-                <ToolBarButton ImageSource="ChiefW"  ToolTip="Назначить руководителя" 
+				<ToolBarButton ImageSource="ChiefW"  ToolTip="Назначить руководителя" 
 							   Command="{Binding SetChiefCommand}" />
-                <ToolBarButton ImageSource="Delete"  ToolTip="Снять руководителя" 
+				<ToolBarButton ImageSource="Delete"  ToolTip="Снять руководителя" 
 							   Command="{Binding UnSetChiefCommand}" />
 			</StackPanel>
 		</StackPanel>

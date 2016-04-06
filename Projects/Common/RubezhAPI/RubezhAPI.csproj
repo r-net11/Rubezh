@@ -160,6 +160,7 @@
     <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="IImitatorService.cs" />
     <Compile Include="Models\Automation\ObjectReference.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaElement.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaGroup.cs" />

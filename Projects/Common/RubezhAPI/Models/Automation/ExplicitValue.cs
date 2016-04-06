@@ -59,8 +59,7 @@ namespace RubezhAPI.Automation
 				switch (ExplicitType)
 				{
 					case ExplicitType.Integer: return IntValue;
-					case ExplicitType.Float:
-					case ExplicitType.Double: return FloatValue;
+					case ExplicitType.Float: return FloatValue;
 					case ExplicitType.Boolean: return BoolValue;
 					case ExplicitType.DateTime: return DateTimeValue;
 					case ExplicitType.String: return StringValue;
@@ -176,8 +175,7 @@ namespace RubezhAPI.Automation
 			switch (ExplicitType)
 			{
 				case ExplicitType.Integer: return IntValue.ToString();
-				case ExplicitType.Float:
-				case ExplicitType.Double: return FloatValue.ToString();
+				case ExplicitType.Float: return FloatValue.ToString();
 				case ExplicitType.Boolean: return BoolValue ? "Да" : "Нет";
 				case ExplicitType.DateTime: return DateTimeValue.ToString();
 				case ExplicitType.String: return StringValue;

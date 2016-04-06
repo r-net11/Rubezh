@@ -275,8 +275,11 @@ namespace FireMonitor
 					{
 						if (messageData.WithConfirmation)
 						{
-							var confirm = MessageBoxService.ShowConfirmation(messageData.Message, "Сообщение");
-							ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
+							ApplicationService.BeginInvoke(() =>
+								{
+									var confirm = MessageBoxService.ShowConfirmation(messageData.Message, "Сообщение");
+									ProcedureExecutionContext.CallbackResponse(FiresecServiceFactory.UID, automationCallbackResult.ContextType, automationCallbackResult.CallbackUID, confirm);
+								});
 						}
 						else
 							MessageBoxService.ShowExtended(messageData.Message, "Сообщение", messageData.IsModalWindow);

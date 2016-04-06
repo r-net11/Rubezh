@@ -172,11 +172,6 @@ namespace Infrastructure.Automation
 							(object)((IEnumerable)value).Cast<Int32>() :
 							Convert.ToInt32(value);
 					break;
-				case ExplicitType.Double:
-					result = resultIsArray ?
-						(object)((IEnumerable)value).Cast<Double>() :
-						(Double)value;
-					break;
 				case ExplicitType.Float:
 					result = resultIsArray ?
 						(object)((IEnumerable)value).Cast<Double>() :

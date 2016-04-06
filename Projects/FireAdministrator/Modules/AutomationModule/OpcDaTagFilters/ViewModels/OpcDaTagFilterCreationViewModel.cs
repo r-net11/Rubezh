@@ -1,6 +1,4 @@
-﻿using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using RubezhClient;
 using System;
@@ -28,7 +26,7 @@ namespace AutomationModule.ViewModels
 			get { return ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers; }
 		}
 
-		List<OpcDaTagFilter> _Filters = 
+		List<OpcDaTagFilter> _Filters =
 			ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters;
 
 		OpcDaServer _selectedOpcDaServer;
@@ -56,8 +54,8 @@ namespace AutomationModule.ViewModels
 						var type = OpcDaTagFilter.GetExplicitType(tag.TypeNameOfValue);
 						if (null != type)
 							if ((type.Value == ExplicitType.Boolean) || (type.Value == ExplicitType.Float) ||
-								(type.Value == ExplicitType.Integer) || (type.Value == ExplicitType.Double))
-							tags.Add(tag);
+								(type.Value == ExplicitType.Integer))
+								tags.Add(tag);
 					}
 				}
 				return tags;
@@ -168,7 +166,7 @@ namespace AutomationModule.ViewModels
 		{
 			//return base.CanSave();
 			bool canSave = false;
-			canSave = _selectedOpcDaTag != null && _selectedOpcDaServer != null 
+			canSave = _selectedOpcDaTag != null && _selectedOpcDaServer != null
 				&& ErrorMessageByName == null && ErrorMessageByHystersis == null;
 
 			return canSave;
@@ -189,7 +187,6 @@ namespace AutomationModule.ViewModels
 							hysteresis = Double.Parse(Hysteresis); break;
 						}
 					case ExplicitType.Float:
-					case ExplicitType.Double:
 						{
 							hysteresis = Double.Parse(Hysteresis); break;
 						}
@@ -229,7 +226,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		string _errorMessageByHystersis;
-		public string ErrorMessageByHystersis 
+		public string ErrorMessageByHystersis
 		{
 			get { return _errorMessageByHystersis; }
 			private set
@@ -246,13 +243,13 @@ namespace AutomationModule.ViewModels
 
 		public string this[string columnName]
 		{
-			get 
+			get
 			{
 				string message;
 
 				switch (columnName)
 				{
-					case "Name": 
+					case "Name":
 						{
 							if (String.IsNullOrEmpty(Name.Trim()))
 							{
@@ -264,7 +261,7 @@ namespace AutomationModule.ViewModels
 							{
 								message = "Название фильтра не может быть более 30 символов";
 								ErrorMessageByName = message;
-								return message; 
+								return message;
 							}
 							if (_Filters.Any(filter => filter.Name == Name))
 							{
@@ -328,7 +325,6 @@ namespace AutomationModule.ViewModels
 										}
 									}
 								case ExplicitType.Float:
-								case ExplicitType.Double:
 									{
 										double x;
 										if (Double.TryParse(Hysteresis, out x))

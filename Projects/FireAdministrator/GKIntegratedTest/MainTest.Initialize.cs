@@ -37,6 +37,8 @@ namespace GKIntegratedTest
 		public void InitializeConnection()
 		{
 			CheckTime(()=>RunProcess("FiresecService", "FiresecServerPath"), "Запуск сервера");
+			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
+			var connectionStatus = CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
 			for (int i = 1; i <= 10; i++)
 			{
 				var message = CheckTime(() => ClientManager.Connect(ClientType.Other, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.AdminLogin, GlobalSettingsHelper.GlobalSettings.AdminPassword), "Соединение с сервером (" + i + " попытка)");
@@ -81,7 +83,6 @@ namespace GKIntegratedTest
 			SaveConfigToFile(true);
 			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
-			RunProcess("GKImitator", "GKImitatorPath");
 		}
 
 		void InitializeRootDevices()
@@ -134,14 +135,11 @@ namespace GKIntegratedTest
 		}
 
 
-		public void RunProcess(string processName, string processPathName)
+		public void RunProcess(string processName, string processPathName) // sync (max 10 sec)
 		{
 			try
 			{
-				var processes = Process.GetProcessesByName(processName);
-				var processes2 = Process.GetProcessesByName(processName + ".vshost");
-				var runningVsProcess = processes2.Any(x => x.Threads.Count > 20);
-				if (!processes.Any() && !runningVsProcess)
+				if (!CheckProcessIsRunning(processName))
 				{
 					var processPath = RegistrySettingsHelper.GetString(processPathName);
 					if (!String.IsNullOrEmpty(processPath))
@@ -149,6 +147,26 @@ namespace GKIntegratedTest
 						Process.Start(processPath);
 					}
 				}
+				for (int i = 0; i < 10; i ++)
+				{
+					Thread.Sleep(1000);
+					if (CheckProcessIsRunning(processName))
+						return;
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		public bool CheckProcessIsRunning(string processName)
+		{
+			try
+			{
+				var processes = Process.GetProcessesByName(processName);
+				var processes2 = Process.GetProcessesByName(processName + ".vshost");
+				return processes.Any() || processes2.Any(x => x.Threads.Count > 20);
 			}
 			catch (Exception ex)
 			{
