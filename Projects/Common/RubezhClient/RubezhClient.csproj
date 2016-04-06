@@ -153,6 +153,9 @@
     <Compile Include="FiresecManager\SKDHelpers\OrganisationHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DocumentTypeHelper.cs" />
+    <Compile Include="ImitatorManager.cs" />
+    <Compile Include="Service\ImitatorService.cs" />
+    <Compile Include="Service\ImitatorServiceFactory.cs" />
     <Compile Include="Service\ISafeFiresecService.cs" />
     <Compile Include="Service\SafeFiresecService.Rvi.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />

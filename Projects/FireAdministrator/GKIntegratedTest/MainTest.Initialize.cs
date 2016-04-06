@@ -36,6 +36,7 @@ namespace GKIntegratedTest
 		[TestInitialize]
 		public void InitializeConnection()
 		{
+			var connectionStatus = ImitatorManager.Connect(ConnectionSettingsManager.ImitatorAddress);
 			CheckTime(()=>RunProcess("FiresecService", "FiresecServerPath"), "Запуск сервера");
 			for (int i = 1; i <= 10; i++)
 			{

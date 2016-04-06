@@ -79,6 +79,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\BytesToStringConverter.cs" />
     <Compile Include="Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Service\ImitatorService.cs" />
     <Compile Include="Processor\JournalCash.cs" />
     <Compile Include="Processor\NetProcessor.cs" />
     <Compile Include="Processor\HashHelper.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Models\TurningState.cs" />
     <Compile Include="Processor\SchedulesProcessor.cs" />
     <Compile Include="Processor\UsersProcessor.cs" />
+    <Compile Include="Service\ImitatorServiceManager.cs" />
     <Compile Include="ViewModels\CardReaderViewModel.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.Fire.cs" />
     <Compile Include="ViewModels\DescriptorViewModel.States.cs" />
