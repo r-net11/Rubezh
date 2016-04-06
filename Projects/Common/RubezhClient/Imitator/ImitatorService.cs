@@ -6,9 +6,9 @@ namespace RubezhClient
 	{
 		readonly ImitatorServiceFactory ImitatorServiceFactory;
 		
-		public ImitatorService(string serverAddress)
+		public ImitatorService()
 		{
-			ImitatorServiceFactory = new ImitatorServiceFactory(serverAddress);
+			ImitatorServiceFactory = new ImitatorServiceFactory();
 		}
 
 		public OperationResult<string> TestImitator()

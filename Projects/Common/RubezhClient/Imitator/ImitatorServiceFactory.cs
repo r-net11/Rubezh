@@ -9,10 +9,10 @@ namespace RubezhClient
 	{
 		readonly ChannelFactory<IImitatorService> _channelFactory;
 
-		public ImitatorServiceFactory(string imitatorAddress)
+		public ImitatorServiceFactory()
 		{
-			var binding = BindingHelper.CreateBindingFromAddress(imitatorAddress);
-			var endpointAddress = new EndpointAddress(new Uri(imitatorAddress));
+			var binding = BindingHelper.CreateBindingFromAddress("net.pipe://127.0.0.1/GKImitator/");
+			var endpointAddress = new EndpointAddress(new Uri("net.pipe://127.0.0.1/GKImitator/"));
 			_channelFactory = new ChannelFactory<IImitatorService>(binding, endpointAddress);
 			_channelFactory.Open();
 		}

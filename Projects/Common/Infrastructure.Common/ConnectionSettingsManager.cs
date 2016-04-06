@@ -32,14 +32,6 @@ namespace Infrastructure.Common
 			}
 		}
 
-		public static string ImitatorAddress
-		{
-			get
-			{
-				return "net.pipe://127.0.0.1/GKImitator/";
-			}
-		}
-
 		public static string ReportServerAddress
 		{
 			get
