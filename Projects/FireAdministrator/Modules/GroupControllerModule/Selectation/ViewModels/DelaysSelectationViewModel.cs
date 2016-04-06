@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -26,8 +27,8 @@ namespace GKModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
 			Delays = delays;
-			TargetDelays = new ObservableCollection<GKDelay>();
-			SourceDelays = new ObservableCollection<GKDelay>();
+			TargetDelays = new SortableObservableCollection<GKDelay>();
+			SourceDelays = new SortableObservableCollection<GKDelay>();
 
 			foreach (var delay in GKManager.DeviceConfiguration.Delays)
 			{
@@ -41,7 +42,7 @@ namespace GKModule.ViewModels
 			SelectedSourceDelay = SourceDelays.FirstOrDefault();
 		}
 
-		public ObservableCollection<GKDelay> SourceDelays { get; private set; }
+		public SortableObservableCollection<GKDelay> SourceDelays { get; private set; }
 
 		GKDelay _selectedSourceDelay;
 		public GKDelay SelectedSourceDelay
@@ -54,7 +55,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKDelay> TargetDelays { get; private set; }
+		public SortableObservableCollection<GKDelay> TargetDelays { get; private set; }
 
 		GKDelay _selectedTargetDelay;
 		public GKDelay SelectedTargetDelay
@@ -86,6 +87,7 @@ namespace GKModule.ViewModels
 				TargetDelays.Add(delayViewModel);
 				SourceDelays.Remove(delayViewModel);
 			}
+			TargetDelays.Sort(x => x.No);
 			SelectedTargetDelay = TargetDelays.LastOrDefault();
 			OnPropertyChanged("SourceDelays");
 
@@ -113,6 +115,7 @@ namespace GKModule.ViewModels
 				SourceDelays.Add(delayViewModel);
 				TargetDelays.Remove(delayViewModel);
 			}
+			SourceDelays.Sort(x => x.No);
 			SelectedSourceDelay = SourceDelays.LastOrDefault();
 			OnPropertyChanged(() => TargetDelays);
 
@@ -128,6 +131,7 @@ namespace GKModule.ViewModels
 			{
 				TargetDelays.Add(delayViewModel);
 			}
+			TargetDelays.Sort(x => x.No);
 			SourceDelays.Clear();
 			SelectedTargetDelay = TargetDelays.FirstOrDefault();
 		}
@@ -139,6 +143,7 @@ namespace GKModule.ViewModels
 			{
 				SourceDelays.Add(delayViewModel);
 			}
+			SourceDelays.Sort(x => x.No);
 			TargetDelays.Clear();
 			SelectedSourceDelay = SourceDelays.FirstOrDefault();
 		}

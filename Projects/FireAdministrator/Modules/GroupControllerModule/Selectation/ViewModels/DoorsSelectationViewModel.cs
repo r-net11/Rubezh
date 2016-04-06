@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -26,8 +27,8 @@ namespace GKModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
 			Doors = doors;
-			TargetDoors = new ObservableCollection<GKDoor>();
-			SourceDoors = new ObservableCollection<GKDoor>();
+			TargetDoors = new SortableObservableCollection<GKDoor>();
+			SourceDoors = new SortableObservableCollection<GKDoor>();
 
 			var allDoors = GKManager.DeviceConfiguration.Doors;
 			if (doorsTypes != null)
@@ -56,7 +57,7 @@ namespace GKModule.ViewModels
 			SelectedSourceDoor = SourceDoors.FirstOrDefault();
 		}
 
-		public ObservableCollection<GKDoor> SourceDoors { get; private set; }
+		public SortableObservableCollection<GKDoor> SourceDoors { get; private set; }
 
 		GKDoor _selectedSourceDoor;
 		public GKDoor SelectedSourceDoor
@@ -69,7 +70,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKDoor> TargetDoors { get; private set; }
+		public SortableObservableCollection<GKDoor> TargetDoors { get; private set; }
 
 		GKDoor _selectedTargetDoor;
 		public GKDoor SelectedTargetDoor
@@ -101,6 +102,7 @@ namespace GKModule.ViewModels
 				TargetDoors.Add(doorViewModel);
 				SourceDoors.Remove(doorViewModel);
 			}
+			TargetDoors.Sort(x => x.No);
 			SelectedTargetDoor = TargetDoors.LastOrDefault();
 			OnPropertyChanged(() => SourceDoors);
 
@@ -128,6 +130,7 @@ namespace GKModule.ViewModels
 				SourceDoors.Add(doorViewModel);
 				TargetDoors.Remove(doorViewModel);
 			}
+			SourceDoors.Sort(x => x.No);
 			SelectedSourceDoor = SourceDoors.LastOrDefault();
 			OnPropertyChanged(() => TargetDoors);
 
@@ -143,6 +146,7 @@ namespace GKModule.ViewModels
 			{
 				TargetDoors.Add(doorViewModel);
 			}
+			TargetDoors.Sort(x => x.No);
 			SourceDoors.Clear();
 			SelectedTargetDoor = TargetDoors.FirstOrDefault();
 		}
@@ -154,6 +158,7 @@ namespace GKModule.ViewModels
 			{
 				SourceDoors.Add(doorViewModel);
 			}
+			SourceDoors.Sort(x => x.No);
 			TargetDoors.Clear();
 			SelectedSourceDoor = SourceDoors.FirstOrDefault();
 		}
