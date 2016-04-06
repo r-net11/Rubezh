@@ -66,6 +66,7 @@ namespace RubezhClient
 		OperationResult<List<SKDCard>> GetCards(CardFilter filter);
 		OperationResult<DateTime> GetCardsMinDate();
 		OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid);
+		OperationResult<List<Guid>> GetDepartmentEmployeeUIDs(Guid uid);
 		Stream GetConfig();
 		T GetConfiguration<T>(string filename) where T : VersionedConfiguration, new();
 		OperationResult<List<CurrentConsumption>> GetCurrentConsumption(CurrentConsumptionFilter item);

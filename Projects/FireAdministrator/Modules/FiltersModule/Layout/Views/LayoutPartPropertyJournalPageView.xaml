@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<DataGrid Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}">
 			<DataGrid.Columns>
@@ -18,6 +19,8 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Grid.Column="0" Text="Количество последних записей" Margin="2" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding LastItemsCount}" Minimum="10" Maximum="100" Margin="5" IsEnabled="{Binding IsLastItemsCountEnabled}" />
+		<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding LastItemsCount}" Minimum="10" Maximum="100" Margin="5" IsEnabled="{Binding IsLastItemsCountEnabled}" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Text="Отображать нижнюю панель" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsShowBottomPanel}" VerticalAlignment="Center" Margin="2" />
 	</Grid>
 </UserControl>

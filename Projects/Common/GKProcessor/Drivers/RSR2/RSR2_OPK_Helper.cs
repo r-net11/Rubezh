@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_OPK,
 				UID = new Guid("F5BCB799-26F9-4225-9866-ACDE37C78C03"),
 				Name = "Оповещатель охранно-пожарный комбинированный свето-звуковой адресный",
-				ShortName = "ОПК-R2",
+				ShortName = "ОПК",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true

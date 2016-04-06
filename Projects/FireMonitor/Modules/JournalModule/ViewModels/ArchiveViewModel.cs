@@ -36,7 +36,7 @@ namespace JournalModule.ViewModels
 			PreviousPageCommand = new RelayCommand(OnPreviousPage, CanPreviousPage);
 			NextPageCommand = new RelayCommand(OnNextPage, CanNextPage);
 			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
-
+			IsVisibleBottomPanel = true;
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 			SafeFiresecService.CallbackOperationResultEvent -= OnCallbackOperationResult;
@@ -329,5 +329,7 @@ namespace JournalModule.ViewModels
 		}
 
 		#endregion
+
+		public static bool IsVisibleBottomPanel { get; set; }
 	}
 }

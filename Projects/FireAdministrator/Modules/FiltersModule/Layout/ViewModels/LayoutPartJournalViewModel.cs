@@ -12,14 +12,14 @@ namespace FiltersModule.ViewModels
 {
 	public class LayoutPartJournalViewModel : LayoutPartTitleViewModel
 	{
-		private LayoutPartReferenceProperties _properties;
+		private LayoutPartJournalProperties _properties;
 
-		public LayoutPartJournalViewModel(LayoutPartReferenceProperties properties)
+		public LayoutPartJournalViewModel(LayoutPartJournalProperties properties)
 		{
 			Title = "Журнал событий";
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
-			_properties = properties ?? new LayoutPartReferenceProperties();
-			var journalFilter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.ReferenceUID);
+			_properties = properties ?? new LayoutPartJournalProperties();
+			var journalFilter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.FilterUID);
 			UpdateLayoutPart(journalFilter);
 		}
 

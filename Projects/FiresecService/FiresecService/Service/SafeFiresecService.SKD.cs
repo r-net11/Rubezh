@@ -80,6 +80,10 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(clientUID, () => FiresecService.GetChildEmployeeUIDs(clientUID, uid), "GetChildEmployeeUIDs");
 		}
+		public OperationResult<List<Guid>> GetDepartmentEmployeeUIDs(Guid clientUID, Guid uid)
+		{
+			return SafeOperationCall(clientUID, () => FiresecService.GetDepartmentEmployeeUIDs(clientUID, uid), "GetEmployeeUIDs");
+		}
 		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid clientUID, Guid uid)
 		{
 			return SafeOperationCall(clientUID, () => FiresecService.GetParentEmployeeUIDs(clientUID, uid), "GetParentEmployeeUIDs");

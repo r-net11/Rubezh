@@ -36,6 +36,7 @@ namespace JournalModule.ViewModels
 			}
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			IsVisibleBottomPanel = true;
 		}
 
 		public void Initialize()
@@ -57,6 +58,7 @@ namespace JournalModule.ViewModels
 				ApplicationService.BeginInvoke(() =>
 				{
 					JournalItems = new ObservableCollection<JournalItemViewModel>();
+					if (callbackOperationResult.JournalItems != null)
 					foreach (var journalItem in callbackOperationResult.JournalItems)
 					{
 						var journalItemViewModel = new JournalItemViewModel(journalItem);
@@ -71,11 +73,8 @@ namespace JournalModule.ViewModels
 		public void SetJournalItems()
 		{
 			var result = ClientManager.FiresecService.BeginGetJournal(Filter, _uid);
-			if (result.HasError)
-			{
-				MessageBoxService.Show(result.Error);
+			if (result == null || result.HasError)
 				return;
-			}
 			IsLoading = true;
 		}
 
@@ -231,5 +230,7 @@ namespace JournalModule.ViewModels
 				SetJournalItems();
 			}
 		}
+
+		public bool IsVisibleBottomPanel { get; set; }
 	}
 }

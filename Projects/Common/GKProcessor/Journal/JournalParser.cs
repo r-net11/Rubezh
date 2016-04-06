@@ -338,12 +338,19 @@ namespace GKProcessor
 											var gkDevice = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 											if (gkDevice != null)
 											{
-												var kauCount = gkDevice.AllChildren.FindAll(x => x.Driver.IsKau).Count;
+												var kauCount = gkDevice.AllChildren.FindAll(x => x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror).Count;
 												if (firstAdditionalDescription == "0")
 													firstAdditionalDescription = "ГК";
 												else
 													firstAdditionalDescription = "КАУ " + bytes[32 + 16];
-												secondAdditionalDescription = bytes[32 + 17] > kauCount ? "ГК" : "КАУ " + bytes[32 + 17];
+												if (bytes[32 + 17] > kauCount)
+													secondAdditionalDescription = "ГК";
+												else
+												{
+													var device = gkDevice.Children.FirstOrDefault(x => (x.Driver.IsKau || x.DriverType == GKDriverType.GKMirror) && x.IntAddress == bytes[32 + 17]);
+													if (device != null)
+														secondAdditionalDescription = device.PresentationName;
+												}
 											}
 										}
 										else
@@ -362,7 +369,7 @@ namespace GKProcessor
 										if (JournalItem.JournalEventNameType == JournalEventNameType.Неисправность_устранена)
 											break;
 
-										JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + "_" + secondAdditionalDescription;
+										JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + " _ " + secondAdditionalDescription;
 									}
 									break;
 							}

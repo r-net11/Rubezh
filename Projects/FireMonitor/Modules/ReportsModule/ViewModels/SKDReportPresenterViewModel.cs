@@ -175,7 +175,9 @@ namespace ReportsModule.ViewModels
 		{
 			e.Handled = true;
 			CommandManager.InvalidateRequerySuggested();
-			if (e.Fault.Message.Contains("Could not connect to"))
+			if (e.Fault.Message.Contains("Exception of type 'System.OutOfMemoryException' was thrown."))
+				MessageBoxService.ShowError("Размер отчета, который вы пытаетесь построить слишком велик.\r\n" + "Измените настройки фильтра, что бы в отчете было меньше записей.");
+			else if (e.Fault.Message.Contains("Could not connect to"))
 				MessageBoxService.ShowError("Не удалось подключиться к серверу отчетов.");
 			else
 				MessageBoxService.ShowError("Возникла ошибка при построении отчета.");

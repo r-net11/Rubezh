@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -28,8 +29,8 @@ namespace GKModule.ViewModels
 
 			MPTs = mpts;
 			CanCreateNew = canCreateNew;
-			TargetMPTs = new ObservableCollection<GKMPT>();
-			SourceMPTs = new ObservableCollection<GKMPT>();
+			TargetMPTs = new SortableObservableCollection<GKMPT>();
+			SourceMPTs = new SortableObservableCollection<GKMPT>();
 
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
 			{
@@ -43,7 +44,7 @@ namespace GKModule.ViewModels
 			SelectedSourceMPT = SourceMPTs.FirstOrDefault();
 		}
 
-		public ObservableCollection<GKMPT> SourceMPTs { get; private set; }
+		public SortableObservableCollection<GKMPT> SourceMPTs { get; private set; }
 
 		GKMPT _selectedSourceMPT;
 		public GKMPT SelectedSourceMPT
@@ -56,7 +57,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKMPT> TargetMPTs { get; private set; }
+		public SortableObservableCollection<GKMPT> TargetMPTs { get; private set; }
 
 		GKMPT _selectedTargetMPT;
 		public GKMPT SelectedTargetMPT
@@ -88,6 +89,7 @@ namespace GKModule.ViewModels
 				TargetMPTs.Add(mptViewModel);
 				SourceMPTs.Remove(mptViewModel);
 			}
+			TargetMPTs.Sort(x => x.No);
 			SelectedTargetMPT = TargetMPTs.LastOrDefault();
 			OnPropertyChanged(() => SourceMPTs);
 
@@ -115,6 +117,7 @@ namespace GKModule.ViewModels
 				SourceMPTs.Add(mptViewModel);
 				TargetMPTs.Remove(mptViewModel);
 			}
+			SourceMPTs.Sort(x => x.No);
 			SelectedSourceMPT = SourceMPTs.LastOrDefault();
 			OnPropertyChanged(() => TargetMPTs);
 
@@ -130,6 +133,7 @@ namespace GKModule.ViewModels
 			{
 				TargetMPTs.Add(mptViewModel);
 			}
+			TargetMPTs.Sort(x => x.No);
 			SourceMPTs.Clear();
 			SelectedTargetMPT = TargetMPTs.FirstOrDefault();
 		}
@@ -141,6 +145,7 @@ namespace GKModule.ViewModels
 			{
 				SourceMPTs.Add(mptViewModel);
 			}
+			SourceMPTs.Sort(x => x.No);
 			TargetMPTs.Clear();
 			SelectedSourceMPT = SourceMPTs.FirstOrDefault();
 		}

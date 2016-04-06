@@ -121,7 +121,8 @@
 		<StackPanel Visibility="Collapsed">
 			<CheckBox Name="CheckBox_AdditionalColumns" Checked="CheckBox_AdditionalColumns_Checked" Unchecked="CheckBox_AdditionalColumns_Checked" IsChecked="{Binding AdditionalColumnsChanged, Mode=OneWay}" />
 		</StackPanel>
-		<Border Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" Padding="5" Margin="0 5 0 0">
+		<Border Grid.Row="1" TextElement.Foreground="White" BorderThickness="0" CornerRadius="5" Padding="5" Margin="0 5 0 0"
+				DataContext="{Binding SelectedJournal}" Background="{DynamicResource BackgroundBrush}" Visibility="{Binding DataContext.IsVisibleBottomPanel, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />

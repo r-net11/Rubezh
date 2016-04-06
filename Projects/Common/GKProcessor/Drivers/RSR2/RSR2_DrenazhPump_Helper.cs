@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_Bush_Drenazh,
 				UID = new Guid("1743FA7E-EF69-45B7-90CD-D9BF2B44644C"),
 				Name = "Прибор пожарный управления Дренажным Насосом",
-				ShortName = "ППУ ДН R2",
+				ShortName = "ППУ ДН",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,

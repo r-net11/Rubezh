@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using GKModule.Events;
 using Infrastructure;
 using RubezhAPI;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -29,8 +30,8 @@ namespace GKModule.ViewModels
 			CreateNewCommand = new RelayCommand(OnCreateNew);
 
 			GuardZones = guardZones;
-			TargetZones = new ObservableCollection<GKGuardZone>();
-			SourceZones = new ObservableCollection<GKGuardZone>();
+			TargetZones = new SortableObservableCollection<GKGuardZone>();
+			SourceZones = new SortableObservableCollection<GKGuardZone>();
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
@@ -44,7 +45,7 @@ namespace GKModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
-		public ObservableCollection<GKGuardZone> SourceZones { get; private set; }
+		public SortableObservableCollection<GKGuardZone> SourceZones { get; private set; }
 
 		GKGuardZone _selectedSourceZone;
 		public GKGuardZone SelectedSourceZone
@@ -57,7 +58,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKGuardZone> TargetZones { get; private set; }
+		public SortableObservableCollection<GKGuardZone> TargetZones { get; private set; }
 
 		GKGuardZone _selectedTargetZone;
 		public GKGuardZone SelectedTargetZone
@@ -89,6 +90,7 @@ namespace GKModule.ViewModels
 				TargetZones.Add(zoneViewModel);
 				SourceZones.Remove(zoneViewModel);
 			}
+			TargetZones.Sort(x => x.No);
 			SelectedTargetZone = TargetZones.LastOrDefault();
 			OnPropertyChanged(() => SourceZones);
 
@@ -116,6 +118,7 @@ namespace GKModule.ViewModels
 				SourceZones.Add(zoneViewModel);
 				TargetZones.Remove(zoneViewModel);
 			}
+			SourceZones.Sort(x => x.No);
 			SelectedSourceZone = SourceZones.LastOrDefault();
 			OnPropertyChanged(() => TargetZones);
 
@@ -131,6 +134,7 @@ namespace GKModule.ViewModels
 			{
 				TargetZones.Add(zoneViewModel);
 			}
+			TargetZones.Sort(x => x.No);
 			SourceZones.Clear();
 			SelectedTargetZone = TargetZones.FirstOrDefault();
 		}
@@ -142,6 +146,7 @@ namespace GKModule.ViewModels
 			{
 				SourceZones.Add(zoneViewModel);
 			}
+			SourceZones.Sort(x => x.No);
 			TargetZones.Clear();
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}

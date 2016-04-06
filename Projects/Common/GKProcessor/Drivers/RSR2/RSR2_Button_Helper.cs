@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_Button,
 				UID = new Guid("CCBABF42-F134-47E6-AF5F-51D82E5F77A5"),
 				Name = "Устройство дистанционного пуска",
-				ShortName = "УДП-R2",
+				ShortName = "УДП",
 				HasZone = true,
 				IsPlaceable = true
 			};

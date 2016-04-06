@@ -229,11 +229,15 @@
     <Content Include="App\controllers\SKD\HR\HRFilterCtrl.js" />
     <Content Include="App\controllers\SKD\HR\HRCtrl.js" />
     <Content Include="App\directives\alarmBtn.js" />
+    <Content Include="App\directives\convertToNumber.js" />
     <Content Include="App\directives\d3Plan.js" />
+    <Content Include="App\directives\fileChange.js" />
     <Content Include="App\directives\mobileHoverFix.js" />
     <Content Include="App\directives\modaless.js" />
     <Content Include="App\directives\devicesGrid.js" />
     <Content Include="App\directives\modalDraggable.js" />
+    <Content Include="App\directives\photoSelection.js" />
+    <Content Include="App\directives\uibDatepickerPopup.js" />
     <Content Include="App\route.js" />
     <Content Include="App\services\authInterceptorService.js" />
     <Content Include="App\services\broadcastService.js" />

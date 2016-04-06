@@ -11,8 +11,8 @@ namespace GKProcessor
 			{
 				DriverType = GKDriverType.RSR2_AM_2,
 				UID = new Guid("F8496E34-8F48-436F-954C-79B6BA918BBB"),
-				Name = "Метка адресная АМ2-R2",
-				ShortName = "АМ2-R2",
+				Name = "Метка адресная АМ2",
+				ShortName = "АМ2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_AM_1,
 				GroupDeviceChildrenCount = 2

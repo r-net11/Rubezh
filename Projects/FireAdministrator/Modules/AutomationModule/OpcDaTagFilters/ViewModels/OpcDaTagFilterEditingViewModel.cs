@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace AutomationModule.ViewModels
 {
@@ -280,7 +279,6 @@ namespace AutomationModule.ViewModels
 										}
 									}
 								case ExplicitType.Float:
-								case ExplicitType.Double:
 									{
 										double x;
 										if (Double.TryParse(Hysteresis, out x))

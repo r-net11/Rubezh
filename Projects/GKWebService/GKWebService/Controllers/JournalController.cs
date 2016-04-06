@@ -112,7 +112,7 @@ namespace GKWebService.Controllers
 										if (eventDescriptionAttributes.Length > 0)
 										{
 											var eventDescriptionAttribute = eventDescriptionAttributes[0];
-											if (eventDescriptionAttribute.JournalEventNameTypes.Any(x => x == journalEventNameType))
+											if (eventDescriptionAttribute.JournalEventNameType == journalEventNameType)
 												result.Add(new JournalFilterEvent(2, (int)journalEventDescriptionType, journalEventDescriptionType.ToDescription(), "Images/blank.png", 2, (int)journalEventNameType));
 										}
 
@@ -166,12 +166,7 @@ namespace GKWebService.Controllers
 				{
 					journalFilter.JournalSubsystemTypes.AddRange(filter.Events.Where(x => x.Type == 0).Select(x => (JournalSubsystemType)x.Value));
 					journalFilter.JournalEventNameTypes.AddRange(filter.Events.Where(x => x.Type == 1).Select(x => (JournalEventNameType)x.Value));
-					foreach (var item in filter.Events.Where(x => x.Type == 2).GroupBy(x => x.ParentValue))
-						journalFilter.EventDescriptions.Add(new EventDescriptions
-						{
-							JournalEventNameType = (JournalEventNameType)item.Key,
-							JournalEventDescriptionTypes = item.Select(x => (JournalEventDescriptionType)x.Value).ToList()
-						});
+					journalFilter.JournalEventDescriptionTypes.AddRange(filter.Events.Where(x => x.Type == 2).Select(x => (JournalEventDescriptionType)x.Value));
 				}
 				if (useDateTime)
 				{

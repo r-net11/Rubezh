@@ -302,13 +302,13 @@ namespace GKModule.Validation
 			}
 		}
 
-        void ValidateZoneDifference(GKDoor door)
-        {
-            if (door.EnterZoneUID == door.ExitZoneUID)
-            {
-                AddError(door, "В точке доступа зона входа и зона выхода должны быть разными", ValidationErrorLevel.CannotWrite);
-            }
-        }
+		void ValidateZoneDifference(GKDoor door)
+		{
+			if ((door.EnterZoneUID == door.ExitZoneUID)&&(door.EnterZoneUID != Guid.Empty) && (door.ExitZoneUID != Guid.Empty))
+			{
+				AddError(door, "В точке доступа зона входа и зона выхода должны быть разными", ValidationErrorLevel.CannotWrite);
+			}
+		}
 
-    }
+	}
 }

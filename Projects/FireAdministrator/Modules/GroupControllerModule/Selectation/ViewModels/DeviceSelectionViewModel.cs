@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -17,7 +16,7 @@ namespace GKModule.ViewModels
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == device.UID);
 			if (SelectedDevice == null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault();
-			if(SelectedDevice != null)
+			if (SelectedDevice != null)
 				SelectedDevice.ExpandToThis();
 		}
 
@@ -61,7 +60,7 @@ namespace GKModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return true; //((SelectedDevice == null) || ((SelectedDevice.Device.Driver.IsControlDevice) || (SelectedDevice.Device.Driver.IsDeviceOnShleif)));
+			return SelectedDevice == null || SelectedDevice.Device.Driver.IsControlDevice || SelectedDevice.Device.Driver.IsDeviceOnShleif;
 		}
 	}
 }

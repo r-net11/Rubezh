@@ -134,7 +134,9 @@ namespace GKModule.Plans
 				foreach (var element in plan.ElementGKDevices)
 					if (element.DeviceUID == device.UID)
 					{
-						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						var eventArgs = new NavigateToPlanElementEventArgs(plan.UID, element.UID);
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(eventArgs);
+						var xxx = eventArgs.WasShown;
 						return;
 					}
 		}

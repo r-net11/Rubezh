@@ -78,6 +78,12 @@ namespace RubezhClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
+		public static IEnumerable<Guid> GetEmployeeUIDs(Guid uid)
+		{
+			var operationResult = ClientManager.FiresecService.GetDepartmentEmployeeUIDs(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
 		public static IEnumerable<Guid> GetParentEmployeeUIDs(Guid uid)
 		{
 			var operationResult = ClientManager.FiresecService.GetParentEmployeeUIDs(uid);

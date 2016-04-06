@@ -62,6 +62,9 @@ namespace RubezhAPI
 		OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid clientUID, Guid uid);//
 
 		[OperationContract]
+		OperationResult<List<Guid>> GetDepartmentEmployeeUIDs(Guid clientUID, Guid uid);//
+
+		[OperationContract]
 		OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid clientUID, Guid uid);//
 		#endregion
 

@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0x11,
 				DriverType = GKDriverType.RSR2_GuardDetectorSound,
 				UID = new Guid("38618571-FA63-4a8f-9D39-F16E36567E32"),
-				Name = "Извещатель охранный поверхностнозвуковой R2",
-				ShortName = "ИО-ПЗ R2",
+				Name = "Извещатель охранный поверхностнозвуковой",
+				ShortName = "ИО-ПЗ",
 				HasGuardZone = true,
 				HasZone = false,
 				IsPlaceable = true

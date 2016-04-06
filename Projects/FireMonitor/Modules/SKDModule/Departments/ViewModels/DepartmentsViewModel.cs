@@ -267,5 +267,15 @@ namespace SKDModule.ViewModels
 		{
 			get { return SelectedItem != null && !SelectedItem.IsOrganisation && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
+
+		protected override void AfterEdit(ShortDepartment model)
+		{
+			base.AfterEdit(model);
+			var employeeUIDs = DepartmentHelper.GetEmployeeUIDs(model.UID);
+			foreach (var uid in employeeUIDs)
+			{
+				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
+			}
+		}
 	}
 }

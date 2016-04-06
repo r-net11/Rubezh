@@ -1,23 +1,66 @@
-﻿using System;
-using System.Linq;
+﻿using Infrastructure.Events;
+using Infrustructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhAPI.SKD;
+using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using Infrastructure.Events;
-using Infrustructure.Plans.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure
 {
 	public static class ShowOnPlanHelper
 	{
+		static Guid _layoutUID;
+		public static Guid LayoutUID
+		{
+			get { return _layoutUID; }
+			set
+			{
+				_layoutUID = value;
+				;
+			}
+		}
+
+		public static List<Plan> GetPlans()
+		{
+			if (LayoutUID == Guid.Empty)
+			{
+				return ClientManager.PlansConfiguration.AllPlans;
+			}
+			else
+			{
+				var plans = new List<Guid>();
+				var layout = ClientManager.LayoutsConfiguration.Layouts.FirstOrDefault(x => x.UID == LayoutUID);
+				if (layout != null)
+				{
+					foreach (var part in layout.Parts)
+					{
+						if (part.Properties != null && part.Properties is LayoutPartPlansProperties)
+						{
+							var layoutPartPlansProperties = part.Properties as LayoutPartPlansProperties;
+							foreach (var planUID in layoutPartPlansProperties.Plans)
+							{
+								if (!plans.Any(x => x == planUID))
+								{
+									plans.Add(planUID);
+								}
+							}
+						}
+					}
+				}
+				return ClientManager.PlansConfiguration.AllPlans.Where(x => plans.Any(w => w == x.UID)).ToList();
+			}
+		}
+
 		public static void ShowDevice(GKDevice device, Plan plan = null)
 		{
-			var element = plan == null ? null : plan.ElementGKDevices.FirstOrDefault(item => item.DeviceUID == device.UID);
-			if (plan == null || element == null)
-				ServiceFactory.Events.GetEvent<ShowGKDeviceOnPlanEvent>().Publish(device);
-			else
-				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+			//var element = plan == null ? null : plan.ElementGKDevices.FirstOrDefault(item => item.DeviceUID == device.UID);
+			//if (plan == null || element == null)
+			//ServiceFactory.Events.GetEvent<ShowGKDeviceOnPlanEvent>().Publish(device);
+			//else
+			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(Guid.Empty, device.UID));
 		}
 		public static bool CanShowDevice(GKDevice device)
 		{
