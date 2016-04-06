@@ -11,14 +11,14 @@
 <div>
 	<div ng-controller="archiveCtrl">
 		<div class="toolbar">
-				<button ng-click="showFilter()" class="icon"><span class="glyphicon glyphicon-filter"></span></button>
-				<button ng-click="firstPage()" class="icon"><span class="glyphicon glyphicon-fast-backward"></span></button>
-				<button ng-click="previousPage()" class="icon"><span class="glyphicon glyphicon-step-backward"></span></button>
-				<input type="number" ng-model="filter.Page" min="1" max="{{MaxPage}}" ng-change="pageNumberChanged(filter.Page)" required>
-				<span>/{{MaxPage}}</span>
-				<button ng-click="nextPage()" class="icon"><span class="glyphicon glyphicon-step-forward"></span></button>
-				<button ng-click="lastPage()" class="icon"><span class="glyphicon glyphicon-fast-forward"></span></button>
-				<span ng-show="isLoading">Загрузка</span>
+			<button ng-click="showFilter()" ng-disabled="isLoading" class="icon"><span class="glyphicon glyphicon-filter"></span></button>
+			<button ng-click="firstPage()" ng-disabled="isLoading" class="icon"><span class="glyphicon glyphicon-fast-backward"></span></button>
+			<button ng-click="previousPage()" ng-disabled="isLoading" class="icon"><span class="glyphicon glyphicon-step-backward"></span></button>
+			<input type="number" ng-disabled="isLoading" ng-model="filter.Page" min="1" max="{{MaxPage}}" ng-change="pageNumberChanged(filter.Page)" required>
+			<span>/{{MaxPage}}</span>
+			<button ng-click="nextPage()" ng-disabled="isLoading" class="icon"><span class="glyphicon glyphicon-step-forward"></span></button>
+			<button ng-click="lastPage()" ng-disabled="isLoading" class="icon"><span class="glyphicon glyphicon-fast-forward"></span></button>
+			<span ng-show="isLoading">Загрузка</span>
 		</div>
 		<div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-selection style="{{gridStyle}}"></div>
 		<div class="report_item_info">

@@ -133,6 +133,7 @@ namespace RviClient
 						RviServerUrl = url,
 						RviDeviceName = device.Name,
 						RviDeviceUID = device.Guid,
+						Ip = device.Ip,
 						Number = channel.Number,
 						Vendor = channel.Vendor,
 						CountPresets = channel.CountPresets,

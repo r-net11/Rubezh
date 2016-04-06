@@ -66,7 +66,7 @@
 									{{row.entity.Name}}\
 								</div>'
 						},
-						{ name: 'Уточнение', field: 'Desc', cellTemplate: coloredCellTemplate },
+						{ name: 'Уточнение', field: 'Description', cellTemplate: coloredCellTemplate },
 						{
 							name: 'Объект',
 							cellTemplate:
