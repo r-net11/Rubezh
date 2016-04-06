@@ -192,6 +192,10 @@ namespace FiresecService.Report.Templates
 					dataSet.Data.Rows.Add(dataRow);
 				}
 			}
+			else
+			{
+				ThrowException(journalItemsResult.Error);
+			}
 			return dataSet;
 		}
 
