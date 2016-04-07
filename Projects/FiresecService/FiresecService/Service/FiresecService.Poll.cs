@@ -111,19 +111,18 @@ namespace FiresecService.Service
 		}
 
 		/// <summary>
-		/// Посылает Клиентам уведомление о смене лицензии на Сервере
+		/// Посылает подключенным в данный момент Клиентам уведомление о смене лицензии на Сервере
 		/// </summary>
 		public void NotifyLicenseChanged()
 		{
-			// Если к Серверу не подключено ни одного Клиента, то выходим
-			if (!ClientsManager.ClientInfos.Any())
-				return;
-			
-			var callbackResult = new CallbackResult()
+			foreach (var clientInfo in ClientsManager.ClientInfos)
 			{
-				CallbackResultType = CallbackResultType.LicenseChanged
-			};
-			CallbackManager.Add(callbackResult);
+				var callbackResult = new CallbackResult()
+				{
+					CallbackResultType = CallbackResultType.LicenseChanged
+				};
+				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
+			}
 		}
 	}
 }
