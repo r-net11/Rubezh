@@ -252,6 +252,8 @@ namespace GKModuleTest
 			deviceViewModel.RemoveCommand.Execute();
 			Assert.IsTrue(mpt.MPTDevices.Count == 0);
 			Assert.IsTrue(mpt.InputDependentElements.Count == 0);
+			Assert.IsTrue(mptViewModel.Devices.Count == 1);
+			GroupControllerModule.MPTsViewModel.OnShow();
 			Assert.IsTrue(mptViewModel.Devices.Count == 0);
 		}
 		[Test]
@@ -276,6 +278,8 @@ namespace GKModuleTest
 			deviceViewModel.Driver = cardReaderDriver;
 			Assert.IsTrue(mpt.MPTDevices.Count == 0);
 			Assert.IsTrue(mpt.InputDependentElements.Count == 0);
+			Assert.IsTrue(mptViewModel.Devices.Count == 1);
+			GroupControllerModule.MPTsViewModel.OnShow();
 			Assert.IsTrue(mptViewModel.Devices.Count == 0);
 		}
 	}
