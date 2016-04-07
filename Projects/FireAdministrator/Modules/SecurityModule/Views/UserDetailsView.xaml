@@ -54,7 +54,7 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Удаленный доступ">
-			<Views:RemoteAccessView DataContext="{Binding RemoteAccess}" HorizontalAlignment="Left" Margin="2" />
+			<Views:RemoteAccessView DataContext="{Binding RemoteAccess}" HorizontalAlignment="Stretch" Margin="2" />
 		</TabItem>
 	</TabControl>
 </UserControl>
