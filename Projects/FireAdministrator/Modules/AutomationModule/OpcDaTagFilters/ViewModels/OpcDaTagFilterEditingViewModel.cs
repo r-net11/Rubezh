@@ -334,6 +334,8 @@ namespace AutomationModule.ViewModels
 			SelectedOpcDaTagFilter.Name = Name;
 			SelectedOpcDaTagFilter.Hysteresis = String.IsNullOrEmpty(Hysteresis) ? 0 : Double.Parse(Hysteresis);
 			SelectedOpcDaTagFilter.Description = Description;
+			SelectedOpcDaTagFilter.OpcDaTagFilter.ValueType =
+				OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue).Value;
 			return true;
 			//return base.Save();
 		}
