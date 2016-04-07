@@ -9,15 +9,35 @@ namespace SecurityModule.ViewModels
 			Title = "Задайте имя или адрес компьютера";
 			IsDnsName = true;
 		}
-
-		string _hostNameOrAddress;
+		
+		string _hostAddress;
+		string _hostName;
 		public string HostNameOrAddress
 		{
-			get { return _hostNameOrAddress; }
+			get
+			{
+				if (_isDnsName)
+					return _hostName;
+				else
+					return _hostAddress;
+			}
+		}
+		public string HostName
+		{
+			get { return _hostName; }
 			set
 			{
-				_hostNameOrAddress = value;
-				OnPropertyChanged(() => HostNameOrAddress);
+				_hostName = value;
+				OnPropertyChanged(() => HostName);
+			}
+		}
+		public string HostAddress
+		{
+			get { return _hostAddress; }
+			set
+			{
+				_hostAddress = value;
+				OnPropertyChanged(() => HostAddress);
 			}
 		}
 
@@ -30,7 +50,7 @@ namespace SecurityModule.ViewModels
 				_isIpAddress = value;
 				if (_isIpAddress)
 				{
-					HostNameOrAddress = string.Empty;
+					HostName = string.Empty;
 					IsDnsName = false;
 				}
 
@@ -47,7 +67,7 @@ namespace SecurityModule.ViewModels
 				_isDnsName = value;
 				if (_isDnsName)
 				{
-					HostNameOrAddress = string.Empty;
+					HostAddress = string.Empty;
 					IsIpAddress = false;
 				}
 
