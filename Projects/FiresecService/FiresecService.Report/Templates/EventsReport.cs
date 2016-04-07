@@ -38,35 +38,29 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<EventsReportFilter>();
 			var dataSet = new EventsDataSet();
-			var archiveFilter = new ArchiveFilter();
-			archiveFilter.StartDate = filter.DateTimeFrom;
-			archiveFilter.EndDate = filter.DateTimeTo;
-			if (filter.JournalEventNameTypes != null && filter.JournalEventNameTypes.Count > 0)
-			{
+			var archiveFilter = new ArchiveFilter {StartDate = filter.DateTimeFrom, EndDate = filter.DateTimeTo};
+
+			if (!filter.JournalEventNameTypes.IsEmpty())
 				archiveFilter.JournalEventNameTypes = filter.JournalEventNameTypes;
-			}
-			if (filter.JournalObjectTypes != null && filter.JournalObjectTypes.Count > 0)
-			{
+
+			if (!filter.JournalObjectTypes.IsEmpty())
 				archiveFilter.JournalObjectTypes = filter.JournalObjectTypes;
-			}
-			if (filter.JournalEventSubsystemTypes != null && filter.JournalEventSubsystemTypes.Count > 0)
-			{
+
+			if (!filter.JournalEventSubsystemTypes.IsEmpty())
 				archiveFilter.JournalSubsystemTypes = filter.JournalEventSubsystemTypes;
-			}
-			if (filter.JournalObjectTypes != null && filter.JournalObjectTypes.Count > 0)
-			{
+
+			if (!filter.JournalObjectTypes.IsEmpty())
 				archiveFilter.JournalObjectTypes = filter.JournalObjectTypes;
-			}
-			if (filter.ObjectUIDs != null && filter.ObjectUIDs.Count > 0)
-			{
+
+			if (!filter.ObjectUIDs.IsEmpty())
 				archiveFilter.ObjectUIDs = filter.ObjectUIDs;
-			}
-			if (filter.Employees != null && filter.Employees.Count > 0)
-			{
+
+			if (!filter.Employees.IsEmpty())
 				archiveFilter.EmployeeUIDs = filter.Employees;
-			}
+
 			if (!filter.Users.IsEmpty())
 				archiveFilter.Users = filter.Users;
+
 			var journalItemsResult = GetFilteredJournalItems(archiveFilter);
 			if (journalItemsResult.Result != null)
 			{
@@ -74,15 +68,12 @@ namespace FiresecService.Report.Templates
 				{
 					var dataRow = dataSet.Data.NewDataRow();
 					dataRow.SystemDateTime = journalItem.SystemDateTime;
+
 					if (journalItem.DeviceDateTime.HasValue)
-					{
 						dataRow.DeviceDateTime = journalItem.DeviceDateTime.Value;
-					}
 
 					if (journalItem.JournalEventNameType != JournalEventNameType.NULL)
-					{
 						dataRow.Name = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
-					}
 
 					if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
 					{
@@ -91,56 +82,35 @@ namespace FiresecService.Report.Templates
 							dataRow.Description += " " + journalItem.DescriptionText;
 					}
 					else
-					{
 						dataRow.Description = journalItem.DescriptionText;
-					}
 
 					switch (journalItem.JournalObjectType)
 					{
 						case JournalObjectType.SKDDevice:
 							var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (skdDevice != null)
-							{
 								dataRow.Object = skdDevice.Name;
-							}
 							break;
 
 						case JournalObjectType.SKDZone:
 							var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (skdZone != null)
-							{
 								dataRow.Object = skdZone.Name;
-							}
 							break;
 
 						case JournalObjectType.SKDDoor:
 							var skdDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							if (skdDoor != null)
-							{
 								dataRow.Object = skdDoor.Name;
-							}
 							break;
 
 						case JournalObjectType.VideoDevice:
-							//var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							//if (camera != null)
-							//{
-							//	dataRow.Object = camera.Name;
-							//}
 							break;
 
 						case JournalObjectType.None:
-							dataRow.Object = journalItem.ObjectName != null ? journalItem.ObjectName : "";
+							dataRow.Object = journalItem.ObjectName ?? string.Empty;
 							break;
 					}
-
-					//if (dataRow.Object == null)
-					//{
-					//	dataRow.Object = journalItem.ObjectName;
-					//}
-
-					//if (dataRow.Object == null)
-					//	dataRow.Object = "<Нет в конфигурации>";
 
 					dataRow.System = journalItem.JournalSubsystemType.ToDescription();
 					dataRow.User = journalItem.UserName;
@@ -153,12 +123,10 @@ namespace FiresecService.Report.Templates
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(ArchiveFilter archiveFilter)
 		{
-			var ConnectionString = SKDDatabaseService.JournalConnectionString;
-
 			try
 			{
 				var journalItems = new List<JournalItem>();
-				using (var dataContext = new SqlConnection(ConnectionString))
+				using (var dataContext = new SqlConnection(SKDDatabaseService.JournalConnectionString))
 				{
 					var query = BuildQuery(archiveFilter);
 					var sqlCommand = new SqlCommand(query, dataContext);
@@ -182,21 +150,17 @@ namespace FiresecService.Report.Templates
 
 		private string BuildQuery(ArchiveFilter archiveFilter)
 		{
-			string dateTimeTypeString;
-			if (archiveFilter.UseDeviceDateTime)
-				dateTimeTypeString = "DeviceDate";
-			else
-				dateTimeTypeString = "SystemDate";
+			var dateTimeTypeString = archiveFilter.UseDeviceDateTime ? "DeviceDate" : "SystemDate";
 
 			var query =
 				"SELECT * FROM Journal WHERE " +
 				"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-ddTHH:mm:ss") + "'" +
 				"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-ddTHH:mm:ss") + "'";
 
-			if (archiveFilter.JournalEventNameTypes.Count > 0)
+			if (archiveFilter.JournalEventNameTypes.Any())
 			{
 				query += "\n and (";
-				int index = 0;
+				var index = 0;
 				foreach (var journalEventNameType in archiveFilter.JournalEventNameTypes)
 				{
 					if (index > 0)
@@ -207,10 +171,10 @@ namespace FiresecService.Report.Templates
 				query += ")";
 			}
 
-			if (archiveFilter.JournalSubsystemTypes.Count > 0)
+			if (archiveFilter.JournalSubsystemTypes.Any())
 			{
 				query += "\n AND (";
-				int index = 0;
+				var index = 0;
 				foreach (var journalSubsystemType in archiveFilter.JournalSubsystemTypes)
 				{
 					if (index > 0)
@@ -221,10 +185,10 @@ namespace FiresecService.Report.Templates
 				query += ")";
 			}
 
-			if (archiveFilter.JournalObjectTypes.Count > 0)
+			if (archiveFilter.JournalObjectTypes.Any())
 			{
 				query += "\n AND (";
-				int index = 0;
+				var index = 0;
 				foreach (var journalObjectType in archiveFilter.JournalObjectTypes)
 				{
 					if (index > 0)
@@ -235,10 +199,10 @@ namespace FiresecService.Report.Templates
 				query += ")";
 			}
 
-			if (archiveFilter.ObjectUIDs.Count > 0)
+			if (archiveFilter.ObjectUIDs.Any())
 			{
 				query += "\n AND (";
-				int index = 0;
+				var index = 0;
 				foreach (var objectUID in archiveFilter.ObjectUIDs)
 				{
 					if (index > 0)
@@ -249,10 +213,10 @@ namespace FiresecService.Report.Templates
 				query += ")";
 			}
 
-			if (archiveFilter.EmployeeUIDs.Count > 0)
+			if (archiveFilter.EmployeeUIDs.Any())
 			{
-				query += "\n AND (";
-				int index = 0;
+				query += "\n AND ((";
+				var index = 0;
 				foreach (var employeeUID in archiveFilter.EmployeeUIDs)
 				{
 					if (index > 0)
@@ -264,10 +228,29 @@ namespace FiresecService.Report.Templates
 				query += ")";
 			}
 
-			if (archiveFilter.Users.Count > 0)
+			if (archiveFilter.EmployeeUIDs.Any())
+			{
+				query += "\n OR (";
+				var index = 0;
+				foreach (var employeeUID in archiveFilter.EmployeeUIDs)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					using (var db = new SKDDatabaseService())
+					{
+						var shortEmployee = db.EmployeeTranslator.GetByUid(employeeUID);
+						if (shortEmployee.Result != null)
+							query += "UserName = '" + shortEmployee.Result.FIO + "'";
+					}
+				}
+				query += "))";
+			}
+
+			if (archiveFilter.Users.Any())
 			{
 				query += "\n AND (";
-				int index = 0;
+				var index = 0;
 				foreach (var user in archiveFilter.Users)
 				{
 					if (index > 0)

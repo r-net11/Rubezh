@@ -24,6 +24,47 @@ namespace SKDDriver
 				multipleactiveresultsets=True'");
 		}
 
+
+		public OperationResult<ShortEmployee> GetByUid(Guid id)
+		{
+			try
+			{
+				var result = new ShortEmployee();
+				Context.CommandTimeout = 600;
+				var tableItems =
+					from employee in Context.Employees.Where(x => x.UID == id)
+					join department in Context.Departments on employee.DepartmentUID equals department.UID into departments
+					from department in departments.DefaultIfEmpty()
+					join position in Context.Positions on employee.PositionUID equals position.UID into positions
+					from position in positions.DefaultIfEmpty()
+					join schedule in Context.Schedules on employee.ScheduleUID equals schedule.UID into schedules
+					from schedule in schedules.DefaultIfEmpty()
+					join organisation in Context.Organisations on employee.OrganisationUID equals organisation.UID into organisations
+					from organisation in organisations.DefaultIfEmpty()
+					join additionalColumn in Context.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == (int?)AdditionalColumnDataType.Text).DefaultIfEmpty()
+						on employee.UID equals additionalColumn.EmployeeUID into additionalColumns
+					select new
+					{
+						Employee = employee,
+						Department = department,
+						Position = position,
+						Organisation = organisation,
+						Schedule = schedule,
+						Cards = new List<CardWithDoors>(),
+						AdditionalColumns = additionalColumns,
+					};
+
+				var emp = tableItems.FirstOrDefault();
+				if (emp != null)
+					result = TranslateToShort(emp.Employee, emp.Department, emp.Position, emp.Organisation, emp.Schedule, emp.AdditionalColumns);
+				return new OperationResult<ShortEmployee>(result);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<ShortEmployee>.FromError(e.Message);
+			}
+		}
+
 		public override OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
 		{
 			try
@@ -459,58 +500,7 @@ namespace SKDDriver
 
 		#region TestData
 
-		private DataAccess.Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
-		{
-			return new DataAccess.Department
-			{
-				Name = name,
-				OrganisationUID = orgUID,
-				UID = Guid.NewGuid(),
-				ParentDepartmentUID = parentUID,
-				RemovalDate = _minDate,
-				ExternalKey = "-1"
-			};
-		}
-
-		private DataAccess.Employee CreateEmployee(string no, Guid orgUID, Guid scheduleUid, Guid? deptUID = null, Guid? posUID = null)
-		{
-			return new DataAccess.Employee
-			{
-				LastName = "Фамилия " + no,
-				FirstName = "Имя " + no,
-				SecondName = "Отчество " + no,
-				PhotoUID = Guid.Empty,
-				ScheduleUID = scheduleUid,
-				DepartmentUID = Guid.Empty,
-				PositionUID = Guid.Empty,
-				OrganisationUID = orgUID,
-				UID = Guid.NewGuid(),
-				RemovalDate = _minDate,
-				BirthDate = _minDate,
-				DocumentGivenDate = DateTime.Now.AddDays(-30),
-				DocumentValidTo = _minDate,
-				LastEmployeeDayUpdate = _minDate,
-				ScheduleStartDate = DateTime.Now.AddDays(-30),
-				ExternalKey = "-1",
-				Type = 0
-			};
-		}
-
 		private static DateTime _minDate = new DateTime(1900, 1, 1);
-
-		private DataAccess.Card CreateCard(int no, Guid emplUID)
-		{
-			return new DataAccess.Card
-			{
-				UID = Guid.NewGuid(),
-				Number = no,
-				EmployeeUID = emplUID,
-				CardType = 0,
-				StartDate = _minDate,
-				EndDate = _minDate,
-				ExternalKey = "-1"
-			};
-		}
 
 		public OperationResult GenerateEmployeeDays()
 		{
