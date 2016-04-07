@@ -270,9 +270,9 @@ namespace GKModule.ViewModels
 		{
 			if (IsDisabled || GetAllParents().Any(x => x.IsDisabled))
 				return false;
-			if (Device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
+			if (Device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU) || Device.AllParents.Any(x => x.DriverType == GKDriverType.GKMirror))
 			{
-				if (Device.DriverType == GKDriverType.KAUIndicator)
+				if (Device.DriverType == GKDriverType.KAUIndicator || Device.DriverType == GKDriverType.GKIndicatorsGroup || Device.DriverType == GKDriverType.GKRelaysGroup)
 					return false;
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 					return false;
