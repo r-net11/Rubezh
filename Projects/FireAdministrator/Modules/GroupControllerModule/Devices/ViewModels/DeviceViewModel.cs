@@ -274,6 +274,8 @@ namespace GKModule.ViewModels
 			{
 				if (Device.DriverType == GKDriverType.KAUIndicator || Device.DriverType == GKDriverType.GKIndicatorsGroup || Device.DriverType == GKDriverType.GKRelaysGroup)
 					return false;
+				if (Device.Parent.DriverType == GKDriverType.GKRelaysGroup || Device.Parent.DriverType == GKDriverType.GKIndicatorsGroup)
+					return false;
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 					return false;
 				return true;
