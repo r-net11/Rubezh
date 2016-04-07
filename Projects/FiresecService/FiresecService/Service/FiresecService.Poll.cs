@@ -109,5 +109,20 @@ namespace FiresecService.Service
 		{
 			CallbackManager.Add(new CallbackResult { CallbackResultType = CallbackResultType.DisconnectClientCommand }, clientUid);
 		}
+
+		/// <summary>
+		/// Посылает подключенным в данный момент Клиентам уведомление о смене лицензии на Сервере
+		/// </summary>
+		public void NotifyLicenseChanged()
+		{
+			foreach (var clientInfo in ClientsManager.ClientInfos)
+			{
+				var callbackResult = new CallbackResult()
+				{
+					CallbackResultType = CallbackResultType.LicenseChanged
+				};
+				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
+			}
+		}
 	}
 }

@@ -23,6 +23,7 @@ namespace FiresecClient
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
 		public static event Action<SKDDeviceSearchInfo> NewSearchDeviceEvent;
 		public static event Action DisconnectClientCommandEvent;
+		public static event Action LicenseChangedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -156,6 +157,15 @@ namespace FiresecClient
 						{
 							if (DisconnectClientCommandEvent != null)
 								DisconnectClientCommandEvent();
+						});
+						break;
+
+					// Поступило уведомление о смене лицензии на Сервере
+					case CallbackResultType.LicenseChanged:
+						SafeOperationCall(() =>
+						{
+							if (LicenseChangedEvent != null)
+								LicenseChangedEvent();
 						});
 						break;
 				}

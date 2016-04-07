@@ -40,6 +40,13 @@ namespace FireAdministrator
 						ApplicationService.ShutDown();
 					};
 
+					// При получении от сервера уведомления о смене лицензии выводим соответствующее предупреждение и завершаем работу
+					SafeFiresecService.LicenseChangedEvent += () =>
+					{
+						ApplicationService.Invoke(() => MessageBoxService.ShowWarning("Соединение было разорвано Сервером в связи с изменением лицензии.\nРабота приложения будет завершена."));
+						ApplicationService.ShutDown();
+					};
+
 					// Получаем данные лицензии с Сервера и инициализируем зависимые от них службы
 					var licenseData = FiresecManager.FiresecService.GetLicenseData().Result;
 					ServiceFactory.UiElementsVisibilityService.Initialize(licenseData);
