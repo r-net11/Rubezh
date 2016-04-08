@@ -23,8 +23,6 @@ namespace KeyGenerator
 		{
 			var resultKey = string.Empty;
 			resultKey += RunQuery("BaseBoard", "Product");
-			resultKey += RunQuery("BIOS", "Version");
-			resultKey += RunQuery("OperatingSystem", "SerialNumber");
 			resultKey += RunQuery("Processor", "ProcessorId");
 
 			return resultKey;
