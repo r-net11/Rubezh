@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -94,10 +95,11 @@ namespace GKIntegratedTest
 			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Reset);
 			CheckTime(() => WaitWhileState(zone, XStateClass.Norm, 3000), "Проверка того, что зона перешла в норму");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона перешла в норму");
+			GKProcessorManager.Stop();
 			ClientManager.Disconnect();
 		}
 
-		void InitializeRootDevices()
+		void InitializeRootDevices()	
 		{
 			var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
 			Assert.IsNotNull(systemDriver, "В GKManager.Drivers не найден драйвер System");
