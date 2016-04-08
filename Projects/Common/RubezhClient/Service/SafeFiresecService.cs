@@ -49,7 +49,7 @@ namespace RubezhClient
 				if (e is TimeoutException)
 					ShowTimeoutException(methodName);
 			}
-			return OperationResult<T>.FromError("Ошибка при при вызове операции");
+			return OperationResult<T>.FromError("Ошибка при вызове операции");
 		}
 
 		T SafeOperationCall<T>(Func<T> func, string methodName)
