@@ -134,23 +134,18 @@ namespace FiresecService
 											{
 												var isOnGuardChanged = oldCamera.IsOnGuard != newCamera.IsOnGuard;
 												var isRecordOnlineChanged = oldCamera.IsRecordOnline != newCamera.IsRecordOnline;
-												if (oldCamera.Status != newCamera.Status || isOnGuardChanged || isRecordOnlineChanged)
+												if (oldCamera.Status != newCamera.Status || isOnGuardChanged || isRecordOnlineChanged || !StreamsIsEquals(oldCamera.RviStreams, newCamera.RviStreams))
 												{
-													var rviState = new RviState(newCamera, newCamera.Status, newCamera.IsOnGuard, newCamera.IsRecordOnline, newCamera.RviStreams);
-													rviStates.Add(rviState);
 													oldCamera.Status = newCamera.Status;
 													oldCamera.IsOnGuard = newCamera.IsOnGuard;
 													oldCamera.IsRecordOnline = newCamera.IsRecordOnline;
+													oldCamera.RviStreams = newCamera.RviStreams;
+													rviStates.Add(new RviState(oldCamera, oldCamera.Status, oldCamera.IsOnGuard, oldCamera.IsRecordOnline, oldCamera.RviStreams));
 
 													if (isOnGuardChanged)
 														journalItems.Add(CreateOnGuardJournalItem(oldCamera.UID, oldCamera.IsOnGuard));
 													if (isRecordOnlineChanged)
 														journalItems.Add(CreateRecordOnlineJournalItem(oldCamera.UID, oldCamera.IsRecordOnline));
-												}
-												if (oldCamera.RviStreams.Count() != newCamera.RviStreams.Count()) // спросить у Ромы
-												{
-													oldCamera.RviStreams = newCamera.RviStreams;
-													rviStates.Add(new RviState(oldCamera, oldCamera.Status, oldCamera.IsOnGuard, oldCamera.IsRecordOnline, oldCamera.RviStreams));
 												}
 											}
 											else
@@ -231,6 +226,17 @@ namespace FiresecService
 				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Прекращена_запись_на_канале_Rvi);
 			return journalItem;
 		}
+		static bool StreamsIsEquals(List<RviStream> oldRviStreams, List<RviStream> newRviStreams)
+		{
+			if (oldRviStreams.Count != newRviStreams.Count)
+				return false;
 
+			foreach (var rviStream in oldRviStreams)
+			{
+				if (!newRviStreams.Any(x => x.Number == rviStream.Number))
+					return false;
+			}
+			return true;
+		}
 	}
 }
