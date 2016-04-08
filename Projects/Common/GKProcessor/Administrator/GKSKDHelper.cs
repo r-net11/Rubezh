@@ -248,7 +248,9 @@ namespace GKProcessor
 							UserType = (GKCardType)pack[3],
 							IsActive = pack[4] == 0,
 							Fio = BytesHelper.BytesToStringDescription(pack, 5),
-							Password = (uint)BytesHelper.SubstructInt(pack, 37)
+							Password = (uint)BytesHelper.SubstructInt(pack, 37),
+							GkLevel = pack[41],
+							GkLevelSchedule = pack[42]
 						};
 						var totalSeconds = BytesHelper.SubstructInt(pack, 45);
 						user.ExpirationDate = new DateTime(2000, 1, 1);
