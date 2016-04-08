@@ -287,28 +287,42 @@ namespace AutomationModule
 					break;
 				case ExplicitType.Enum:
 					{
-						if (enumType == EnumType.StateType)
-							result = explicitValue.StateTypeValue.ToDescription();
-						if (enumType == EnumType.PermissionType)
-							result = explicitValue.PermissionTypeValue.ToDescription();
-						if (enumType == EnumType.JournalEventDescriptionType)
-							result = explicitValue.JournalEventDescriptionTypeValue.ToDescription();
-						if (enumType == EnumType.JournalEventNameType)
-							result = explicitValue.JournalEventNameTypeValue.ToDescription();
-						if (enumType == EnumType.JournalObjectType)
-							result = explicitValue.JournalObjectTypeValue.ToDescription();
-						if (enumType == EnumType.ColorType)
-							result = explicitValue.ColorValue.ToString();
-						if (enumType == EnumType.CardType)
-							result = explicitValue.CardTypeValue.ToDescription();
-						if (enumType == EnumType.AccessState)
-							result = explicitValue.AccessStateValue.ToDescription();
-						if (enumType == EnumType.DoorStatus)
-							result = explicitValue.DoorStatusValue.ToDescription();
-						if (enumType == EnumType.BreakInStatus)
-							result = explicitValue.BreakInStatusValue.ToDescription();
-						if (enumType == EnumType.ConnectionStatus)
-							result = explicitValue.ConnectionStatusValue.ToDescription();
+						switch (enumType)
+						{
+							case EnumType.StateType:
+								result = explicitValue.StateTypeValue.ToDescription();
+								break;
+							case EnumType.PermissionType:
+								result = explicitValue.PermissionTypeValue.ToDescription();
+								break;
+							case EnumType.JournalEventDescriptionType:
+								result = explicitValue.JournalEventDescriptionTypeValue.ToDescription();
+								break;
+							case EnumType.JournalEventNameType:
+								result = explicitValue.JournalEventNameTypeValue.ToDescription();
+								break;
+							case EnumType.JournalObjectType:
+								result = explicitValue.JournalObjectTypeValue.ToDescription();
+								break;
+							case EnumType.ColorType:
+								result = explicitValue.ColorValue.ToString();
+								break;
+							case EnumType.CardType:
+								result = explicitValue.CardTypeValue.ToDescription();
+								break;
+							case EnumType.AccessState:
+								result = explicitValue.AccessStateValue.HasValue ? explicitValue.AccessStateValue.ToDescription() : "NULL";
+								break;
+							case EnumType.DoorStatus:
+								result = explicitValue.DoorStatusValue.HasValue ? explicitValue.DoorStatusValue.ToDescription() : "NULL";
+								break;
+							case EnumType.BreakInStatus:
+								result = explicitValue.BreakInStatusValue.HasValue ? explicitValue.BreakInStatusValue.ToDescription() : "NULL";
+								break;
+							case EnumType.ConnectionStatus:
+								result = explicitValue.ConnectionStatusValue.HasValue ? explicitValue.ConnectionStatusValue.ToDescription() : "NULL";
+								break;
+						}
 					}
 					break;
 				case ExplicitType.Object:
