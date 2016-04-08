@@ -322,31 +322,31 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.GKDevice:
 					if (Device != null)
 					{
-						ShowOnPlanHelper.ShowDevice(Device);
+						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Device.UID), Device.UID);
 					}
 					break;
 				case JournalObjectType.GKZone:
 					if (Zone != null)
 					{
-						ShowOnPlanHelper.ShowZone(Zone);
+						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Zone.UID), Zone.UID);
 					}
 					break;
 				case JournalObjectType.GKDirection:
 					if (Direction != null)
 					{
-						ShowOnPlanHelper.ShowDirection(Direction);
+						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Direction.UID), Direction.UID);
 					}
 					break;
 				case JournalObjectType.GKMPT:
 					if (MPT != null)
 					{
-						ShowOnPlanHelper.ShowMPT(MPT);
+						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(MPT.UID), MPT.UID);
 					}
 					break;
 				case JournalObjectType.GKGuardZone:
 					if (GuardZone != null)
 					{
-						ShowOnPlanHelper.ShowGuardZone(GuardZone);
+						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(GuardZone.UID), GuardZone.UID);
 					}
 					break;
 				case JournalObjectType.GKSKDZone:
@@ -358,7 +358,21 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.GKDoor:
 					if (GKDoor != null)
 					{
-						ShowOnPlanHelper.ShowDoor(GKDoor);
+						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(GKDoor.UID), GKDoor.UID);
+					}
+					break;
+
+				case JournalObjectType.GKDelay:
+					if (Delay != null)
+					{
+						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Delay.UID), Delay.UID);
+					}
+					break;
+
+				case JournalObjectType.Camera:
+					if (Camera != null)
+					{
+						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Camera.UID), Camera.UID);
 					}
 					break;
 			}
@@ -373,43 +387,55 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.GKDevice:
 					if (Device != null)
 					{
-						return ShowOnPlanHelper.CanShowDevice(Device);
+						return ShowOnPlanHelper.GetPlan(Device.UID)!=null;
 					}
 					break;
 				case JournalObjectType.GKZone:
 					if (Zone != null)
 					{
-						return ShowOnPlanHelper.CanShowZone(Zone);
+						return ShowOnPlanHelper.GetPlan(Zone.UID)!= null;
 					}
 					break;
 				case JournalObjectType.GKDirection:
 					if (Direction != null)
 					{
-						return ShowOnPlanHelper.CanShowDirection(Direction);
+						return ShowOnPlanHelper.GetPlan(Direction.UID)!= null;
 					}
 					break;
 				case JournalObjectType.GKMPT:
 					if (MPT != null)
 					{
-						return ShowOnPlanHelper.CanShowMPT(MPT);
+						return ShowOnPlanHelper.GetPlan(MPT.UID)!= null;
 					}
 					break;
 				case JournalObjectType.GKGuardZone:
 					if (GuardZone != null)
 					{
-						return ShowOnPlanHelper.CanShowGuardZone(GuardZone);
+						return ShowOnPlanHelper.GetPlan(GuardZone.UID)!= null;
 					}
 					break;
 				case JournalObjectType.GKSKDZone:
 					if (GKSKDZone != null)
 					{
-						return ShowOnPlanHelper.CanShowGKSKDZone(GKSKDZone);
+						return ShowOnPlanHelper.GetPlan(GKSKDZone.UID)!= null;
 					}
 					break;
 				case JournalObjectType.GKDoor:
 					if (GKDoor != null)
 					{
-						return ShowOnPlanHelper.CanShowDoor(GKDoor);
+						return ShowOnPlanHelper.GetPlan(GKDoor.UID)!= null;
+					}
+					break;
+				case JournalObjectType.GKDelay:
+					if (Delay != null)
+					{
+						return ShowOnPlanHelper.GetPlan(Delay.UID) != null;
+					}
+					break;
+				case JournalObjectType.Camera:
+					if (Camera != null)
+					{
+						return ShowOnPlanHelper.GetPlan(Camera.UID) != null;
 					}
 					break;
 			}

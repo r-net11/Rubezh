@@ -23,7 +23,8 @@ namespace GKModule.ViewModels
 		public DelayViewModel(GKDelay delay)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			Delay = delay;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
@@ -43,10 +44,25 @@ namespace GKModule.ViewModels
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Delay.UID });
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
+
+		void OnShowOnPlanOrProperties()
 		{
-			DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
+			var plan = ShowOnPlanHelper.GetPlan(Delay.UID);
+			if (plan != null)
+				ShowOnPlanHelper.ShowObjectOnPlan(plan, Delay.UID);
+			else
+				DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Delay.UID), Delay.UID);
+		}
+		public bool CanShowOnPlan()
+		{
+			return ShowOnPlanHelper.GetPlan(Delay.UID) != null;
 		}
 
 		public bool HasOnDelay

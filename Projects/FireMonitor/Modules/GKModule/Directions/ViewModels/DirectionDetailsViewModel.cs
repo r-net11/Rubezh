@@ -12,6 +12,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 
 namespace GKModule.ViewModels
 {
@@ -187,25 +188,10 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			ShowOnPlanHelper.GetAllPlans(Direction.UID).ForEach(x =>
 			{
-				ElementBase elementBase = plan.ElementRectangleGKDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Direction;
-					Plans.Add(alarmPlanViewModel);
-					continue;
-				}
-
-				elementBase = plan.ElementPolygonGKDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Direction;
-					Plans.Add(alarmPlanViewModel);
-				}
-			}
+				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First(y => (y as IElementReference).ItemUID == Direction.UID)) { GkBaseEntity = Direction });
+			});
 		}
 
 		public bool CanControl

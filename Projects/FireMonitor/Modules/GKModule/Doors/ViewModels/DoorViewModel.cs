@@ -52,7 +52,7 @@ namespace GKModule.ViewModels
 
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			//ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
 			ShowDeviceCommand = new RelayCommand<GKDevice>(OnShowDevice);
 			ShowZoneCommand = new RelayCommand<GKSKDZone>(OnShowZone);
@@ -67,8 +67,9 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void OnShowOnPlanOrProperties()
 		{
-			if (CanShowOnPlan())
-				ShowOnPlanHelper.ShowDoor(Door);
+			var plan = ShowOnPlanHelper.GetPlan(Door.UID);
+			if (plan!= null)
+				ShowOnPlanHelper.ShowObjectOnPlan(plan, Door.UID);
 			else
 				DialogService.ShowWindow(new DoorDetailsViewModel(Door));
 		}
@@ -76,11 +77,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowDoor(Door);
+			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Door.UID), Door.UID );
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowDoor(Door);
+			return ShowOnPlanHelper.GetPlan(Door.UID)!= null;
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -90,11 +91,11 @@ namespace GKModule.ViewModels
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Door.UID });
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		private void OnShowProperties()
-		{
-			DialogService.ShowWindow(new DoorDetailsViewModel(Door));
-		}
+		//public RelayCommand ShowPropertiesCommand { get; private set; }
+		//private void OnShowProperties()
+		//{
+		//	DialogService.ShowWindow(new DoorDetailsViewModel(Door));
+		//}
 
 		public RelayCommand<GKDevice> ShowDeviceCommand { get; private set; }
 		private void OnShowDevice(GKDevice device)

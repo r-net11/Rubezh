@@ -46,7 +46,7 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Subscribe(OnNavigate);
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnFindElementEvent);
-			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(x => OnSelectPlan(x));
+			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 			ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Unsubscribe(OnChangePlanProperties);
 			ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Subscribe(OnChangePlanProperties);
 			ServiceFactory.Events.GetEvent<ControlPlanEvent>().Unsubscribe(OnControlPlan);
@@ -121,19 +121,19 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private bool OnSelectPlan(Guid planUID)
+		private void OnSelectPlan(Guid planUID)
 		{
 			if (PlanTreeViewModel != null)
 			{
 				var newPlan = PlanTreeViewModel.FindPlan(planUID);
-				if (newPlan == null)
-					return false;
+				//if (newPlan == null)
+				//	return false;
 				if (PlanTreeViewModel.SelectedPlan == newPlan)
 					PlanDesignerViewModel.Update();
 				else
 					PlanTreeViewModel.SelectedPlan = newPlan;
 			}
-			return true; ;
+			//return true;
 		}
 		private void SelectedPlanChanged(object sender, EventArgs e)
 		{
@@ -194,39 +194,12 @@ namespace PlansModule.ViewModels
 
 		private void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
-			ElementBase elementBase = null;
-			var planUID = args.PlanUID;
-			if (planUID != Guid.Empty)
-			{
-				if (PlanTreeViewModel != null)
-				{
-					var plan = PlanTreeViewModel.AllPlans.FirstOrDefault(x => x.Plan.UID == planUID);
-					if (plan != null)
-					{
-						elementBase = plan.Plan.AllElements.FirstOrDefault(x => x is IElementReference && (x as IElementReference).ItemUID == args.ElementUID);
-					}
-				}
-			}
-			if (PlanTreeViewModel != null)
-			{
-				foreach (var plan in PlanTreeViewModel.AllPlans)
-				{
-					elementBase = plan.Plan.AllElements.FirstOrDefault(x => x is IElementReference && (x as IElementReference).ItemUID == args.ElementUID);
-					if (elementBase != null)
-					{
-						planUID = plan.Plan.UID;
-						break;
-					}
-				}
-			}
-
-			if (elementBase != null)
+			
+			if (args.PlanUID != null)
 			{
 				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-				var result = OnSelectPlan(planUID);
-				if (result && isOnLayout)
-					args.WasShown = true;
-				OnShowElement(elementBase.UID);
+				OnSelectPlan(args.PlanUID);
+				OnShowElement(args.ElementUID);
 			}
 		}
 
