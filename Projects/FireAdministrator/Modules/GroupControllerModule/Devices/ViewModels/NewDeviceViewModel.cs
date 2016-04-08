@@ -20,23 +20,33 @@ namespace GKModule.ViewModels
 			ParentDeviceViewModel = deviceViewModel;
 			ParentDevice = ParentDeviceViewModel.Device;
 			AddedDevices = new List<DeviceViewModel>();
-			if (ParentDevice.IsConnectedToKAU)
+			if (ParentDevice.IsConnectedToMirror && ParentDevice.DriverType != GKDriverType.GKMirror)
 			{
-				RealParentDevice = ParentDevice.MVPPartParent ?? ParentDevice.KDPartParent ?? ParentDevice.MRKParent ?? ParentDevice.KAUShleifParent;
+				RealParentDevice = ParentDevice.MirrorParent;
 				Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => RealParentDevice.Driver.Children.Contains(x.DriverType)));
 				SelectedDriver = Drivers.FirstOrDefault();
 				MinAddress = 1;
-				MaxAddress = 255;
+				MaxAddress = 2000;
 			}
-			else
-			{
-				Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => ParentDevice.Driver.Children.Contains(x.DriverType)));
-				SelectedDriver = Drivers.FirstOrDefault();
-				MinAddress = SelectedDriver.MinAddress;
-				MaxAddress = SelectedDriver.MaxAddress;
+			else {
+				if (ParentDevice.IsConnectedToKAU)
+				{
+					RealParentDevice = ParentDevice.MVPPartParent ?? ParentDevice.KDPartParent ?? ParentDevice.MRKParent ?? ParentDevice.KAUShleifParent;
+					Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => RealParentDevice.Driver.Children.Contains(x.DriverType)));
+					SelectedDriver = Drivers.FirstOrDefault();
+					MinAddress = 1;
+					MaxAddress = 255;
+				}
+				else
+				{
+					Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => ParentDevice.Driver.Children.Contains(x.DriverType)));
+					SelectedDriver = Drivers.FirstOrDefault();
+					MinAddress = SelectedDriver.MinAddress;
+					MaxAddress = SelectedDriver.MaxAddress;
+				}
 			}
 
-			Count = 1;
+		Count = 1;
 		}
 		GKDevice RealParentDevice;
 		DeviceViewModel ParentDeviceViewModel;
@@ -97,14 +107,31 @@ namespace GKModule.ViewModels
 		public bool CreateDevices()
 		{
 			AddedDevices = new List<DeviceViewModel>();
-			var startAddress = RealParentDevice == null ? GKManager.GetAddress(ParentDevice.Children.Where(x=> x.Driver.HasAddress)) : GKManager.GetAddress(RealParentDevice.KAUShleifParent.AllChildren);
+			int startAddress = 0;
+			if (RealParentDevice == null)
+				startAddress = GKManager.GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress));
+			if (RealParentDevice != null && RealParentDevice != ParentDevice.MirrorParent)
+				startAddress = GKManager.GetAddress(RealParentDevice.KAUShleifParent.AllChildren);
+			if (RealParentDevice != null && RealParentDevice == ParentDevice.MirrorParent)
+				startAddress = GKManager.GetAddress(RealParentDevice.MirrorParent.AllChildren);
 
 			if (RealParentDevice != null)
 			{
-				if (Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) + startAddress > 255)
+				if (RealParentDevice == ParentDevice.MirrorParent)
 				{
-					ServiceFactory.MessageBoxService.ShowWarning("При добавлении количество устройств на АЛС максимально допустимое значения в 255");
-					return false;
+					if (Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) + startAddress > 2000)
+					{
+						ServiceFactory.MessageBoxService.ShowWarning("При добавлении количество устройств на ПМФ максимально допустимое значения в 2000");
+						return false;
+					}
+
+				}
+				else {
+					if (Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) + startAddress > 255)
+					{
+						ServiceFactory.MessageBoxService.ShowWarning("При добавлении количество устройств на АЛС максимально допустимое значения в 255");
+						return false;
+					}
 				}
 			}
 			else

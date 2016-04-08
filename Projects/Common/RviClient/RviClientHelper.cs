@@ -133,6 +133,7 @@ namespace RviClient
 						RviServerUrl = url,
 						RviDeviceName = device.Name,
 						RviDeviceUID = device.Guid,
+						Ip = device.Ip,
 						Number = channel.Number,
 						Vendor = channel.Vendor,
 						CountPresets = channel.CountPresets,
@@ -163,6 +164,7 @@ namespace RviClient
 						camera.ShowDetailsWidth = existingCamera.ShowDetailsWidth;
 						camera.ShowDetailsMarginLeft = existingCamera.ShowDetailsMarginLeft;
 						camera.ShowDetailsMarginTop = existingCamera.ShowDetailsMarginTop;
+						camera.PlanElementUIDs = existingCamera.PlanElementUIDs;
 					}
 				}
 			}

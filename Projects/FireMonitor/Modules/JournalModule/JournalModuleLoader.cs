@@ -141,12 +141,13 @@ namespace JournalModule
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) =>
 			{
-				var layoutPartJournalProperties = p as LayoutPartReferenceProperties;
-				var filter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.ReferenceUID);
-				if(filter == null)
+				var layoutPartJournalProperties = p as LayoutPartJournalProperties;
+				var filter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.FilterUID);
+				if (filter == null)
 					filter = new JournalFilter();
 
 				var journalViewModel = new JournalViewModel(filter);
+				journalViewModel.IsVisibleBottomPanel = layoutPartJournalProperties.IsVisibleBottomPanel;
 				journalViewModel.Initialize();
 				journalViewModel.SetJournalItems();
 				

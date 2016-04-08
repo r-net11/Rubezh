@@ -24,7 +24,7 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, °C", 70, 54, 85);
-			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, °C/мин", 5, 1, 50).Multiplier = 10;
+			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, °C/мин", 50, 10, 500).Multiplier = 10;
 			GKDriversHelper.AddIntProprety(driver, 2, "Порог срабатывания по дыму, дБ/м", 180, 50, 255).Multiplier = 1000;
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог запыленности, дБ/м", 200, 50, 255).Multiplier = 1000;
 

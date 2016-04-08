@@ -39,14 +39,14 @@
 				<DataGridTemplateColumn Header="Подразделение" Width="*" Visibility="{Binding DataContext.CanEditDepartment, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding Employee.DepartmentName}" Style="{StaticResource IsDepartmentDeletedStyle}" Margin="2" />
+							<TextBlock Text="{Binding Employee.DepartmentName}" Style="{StaticResource IsDepartmentDeletedStyle}" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Должность" Width="*" Visibility="{Binding DataContext.CanEditPosition, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding Employee.PositionName}"  Style="{StaticResource IsPositionDeletedStyle}" Margin="2" />
+							<TextBlock Text="{Binding Employee.PositionName}"  Style="{StaticResource IsPositionDeletedStyle}" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

@@ -75,7 +75,12 @@
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="credentialsStartDate">Учётные данные действуют с</label>
                     <div class="col-sm-8">
-                        <input id="credentialsStartDate" class="form-control" uib-datepicker-popup="dd.MM.yyyy" ng-model="employee.CredentialsStartDate">
+                        <p class="input-group">
+                            <input type="text" id="credentialsStartDate" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open="popupCredentialsStartDate.opened" ng-model="employee.CredentialsStartDate">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="popupCredentialsStartDate.opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
                     </div>
                 </div>
                 <div class="form-group" ng-show="isEmployee">
@@ -93,45 +98,99 @@
                 <div class="form-group" ng-show="isEmployee">
                     <label class="control-label col-sm-4" for="isOrganisationChief">Руководитель организации</label>
                     <div class="checkbox col-sm-8">
-                        <input type="checkbox" ng-model="isOrganisationChief">
+                        <input type="checkbox" ng-model="model.isOrganisationChief">
                     </div>
                 </div>
                 <div class="form-group" ng-show="isEmployee">
                     <label class="control-label col-sm-4" for="isOrganisationHRChief">Руководитель отдела кадров</label>
                     <div class="checkbox col-sm-8">
-                        <input type="checkbox" ng-model="isOrganisationHRChief">
+                        <input type="checkbox" ng-model="model.isOrganisationHRChief">
                     </div>
                 </div>
             </form>
         </uib-tab>
         <uib-tab heading="Документ">
-            <div class="data-input" data-bind="visible:$parent.employeeDetailsPages.Document">
-                <label for="DocumentNumber"><span>Номер</span><input type="text" name="DocumentNumber" ng-model="employee.DocumentNumber" value="" /></label>
-                <label for="BirthPlace"><span>Место рождения</span><input type="text" name="BirthPlace" ng-model="employee.BirthPlace" value="" /></label>
-                <label for="BirthDate"><span>Дата рождения</span><input type="text" id="BirthDate" name="BirthDate" ng-model="employee.BirthDate" uib-datepicker-popup="dd.MM.yyyy" value="" /></label>
-                <label for="GivenBy"><span>Кем выдан</span><input type="text" name="GivenBy" ng-model="employee.DocumentGivenBy" value="" /></label>
-                <label for="GivenDate"><span>Дата выдачи</span><input type="text" id="GivenDate" name="GivenDate" ng-model="employee.DocumentGivenDate" uib-datepicker-popup="dd.MM.yyyy" value="" /></label>
-                <label for="ValidTo"><span>Документ действителен до</span><input type="text" id="ValidTo" name="ValidTo" ng-model="employee.DocumentValidTo" uib-datepicker-popup="dd.MM.yyyy" value="" /></label>
-                <label for="Citizenship"><span>Гражданство</span><input type="text" name="Citizenship" ng-model="employee.Citizenship" value="" /></label>
-                <label for="Gender">
-                    <span>Пол</span>
-                    <select name="Gender" ng-model="employee.Gender">
-                        <option value="Male">Мужской</option>
-                        <option value="Female">Женский</option>
-                    </select>
-                </label>
-                <label for="DocumentType">
-                    <span>Тип документа</span>
-                    <select name="DocumentType" ng-model="employee.DocumentType">
-                        <option value="Passport">Паспорт РФ</option>
-                        <option value="ForeignPassport">Паспорт иного государства</option>
-                    </select>
-                </label>
-            </div>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="documentNumber">Номер</label>
+                    <div class="col-sm-8">
+                        <input id="documentNumber" class="form-control" ng-model="employee.DocumentNumber">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="birthPlace">Место рождения</label>
+                    <div class="col-sm-8">
+                        <input id="birthPlace" class="form-control" ng-model="employee.BirthPlace">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="birthDate">Дата рождения</label>
+                    <div class="col-sm-8">
+                        <p class="input-group">
+                            <input type="text" id="birthDate" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open="popupBirthDate.opened" ng-model="employee.BirthDate">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="popupBirthDate.opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="givenBy">Кем выдан</label>
+                    <div class="col-sm-8">
+                        <input id="givenBy" class="form-control" ng-model="employee.DocumentGivenBy">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="givenDate">Дата выдачи</label>
+                    <div class="col-sm-8">
+                        <p class="input-group">
+                            <input type="text" id="givenDate" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open="popupGivenDate.opened" ng-model="employee.DocumentGivenDate">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="popupGivenDate.opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="validTo">Документ действителен до</label>
+                    <div class="col-sm-8">
+                        <p class="input-group">
+                            <input type="text" id="validTo" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open="popupDocumentValidTo.opened" ng-model="employee.DocumentValidTo">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="popupDocumentValidTo.opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="citizenship">Гражданство</label>
+                    <div class="col-sm-8">
+                        <input id="citizenship" class="form-control" ng-model="employee.Citizenship">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="gender">Пол</label>
+                    <div class="col-sm-8">
+                        <select id="gender" class="form-control" ng-model="employee.Gender" convert-to-number>
+                            <option value="0">Мужской</option>
+                            <option value="1">Женский</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="documentType">Тип документа</label>
+                    <div class="col-sm-8">
+                        <select id="documentType" class="form-control" ng-model="employee.DocumentType" convert-to-number>
+                            <option value="0">Паспорт РФ</option>
+                            <option value="1">Паспорт иного государства</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
         </uib-tab>
         <uib-tab heading="Фото">
             <div id="PhotoSelection">
-                <img ng-src="photo">
+                <photo-selection ng-model="model.photoData"></photo-selection>
                 @*<div data-bind="template: { name: 'PhotoSelectionTemplate', data: {PhotoData: $parent.PhotoData} }"></div>*@
             </div>
         </uib-tab>

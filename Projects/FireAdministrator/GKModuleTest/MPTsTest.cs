@@ -40,7 +40,9 @@ namespace GKModuleTest
 			GKManager.DeviceLibraryConfiguration = new GKDeviceLibraryConfiguration();
 			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
 			GKDriversCreator.Create();
-			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice { DriverUID = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System).UID };
+			var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
+			Assert.IsNotNull(systemDriver);
+			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice { Driver = systemDriver, DriverUID = systemDriver.UID };
 			GkDevice = GKManager.AddDevice(systemDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK), 0);
 			KauDevice = GKManager.AddDevice(GkDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
 			AlsDevice = GKManager.AddDevice(KauDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif), 1);
@@ -250,6 +252,8 @@ namespace GKModuleTest
 			deviceViewModel.RemoveCommand.Execute();
 			Assert.IsTrue(mpt.MPTDevices.Count == 0);
 			Assert.IsTrue(mpt.InputDependentElements.Count == 0);
+			Assert.IsTrue(mptViewModel.Devices.Count == 1);
+			GroupControllerModule.MPTsViewModel.OnShow();
 			Assert.IsTrue(mptViewModel.Devices.Count == 0);
 		}
 		[Test]
@@ -274,6 +278,8 @@ namespace GKModuleTest
 			deviceViewModel.Driver = cardReaderDriver;
 			Assert.IsTrue(mpt.MPTDevices.Count == 0);
 			Assert.IsTrue(mpt.InputDependentElements.Count == 0);
+			Assert.IsTrue(mptViewModel.Devices.Count == 1);
+			GroupControllerModule.MPTsViewModel.OnShow();
 			Assert.IsTrue(mptViewModel.Devices.Count == 0);
 		}
 	}

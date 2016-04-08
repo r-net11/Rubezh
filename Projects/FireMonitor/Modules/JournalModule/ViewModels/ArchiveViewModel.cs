@@ -36,7 +36,7 @@ namespace JournalModule.ViewModels
 			PreviousPageCommand = new RelayCommand(OnPreviousPage, CanPreviousPage);
 			NextPageCommand = new RelayCommand(OnNextPage, CanNextPage);
 			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
-
+			IsVisibleBottomPanel = true;
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 			SafeFiresecService.CallbackOperationResultEvent -= OnCallbackOperationResult;
@@ -214,15 +214,19 @@ namespace JournalModule.ViewModels
 			get { return _currentPageNumber; }
 			set
 			{
-				JournalItems = new ObservableCollection<JournalItemViewModel>();
+				int newValue;
 				if (value < 1)
-					_currentPageNumber = 1;
+					newValue = 1;
 				if (value > TotalPageNumber)
-					_currentPageNumber = TotalPageNumber;
+					newValue = TotalPageNumber;
 				else
-					_currentPageNumber = value;
-				OnPropertyChanged(() => CurrentPageNumber);
-				QueryPage(_currentPageNumber);
+					newValue = value;
+				if (QueryPage(newValue))
+				{
+					_currentPageNumber = newValue;
+					JournalItems = new ObservableCollection<JournalItemViewModel>();
+					OnPropertyChanged(() => CurrentPageNumber);
+				}
 			}
 		}
 
@@ -284,15 +288,13 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		void QueryPage(int pageNo)
+		bool QueryPage(int pageNo)
 		{
 			var result = ClientManager.FiresecService.BeginGetArchivePage(Filter, pageNo);
-			if (result.HasError)
-			{
-				MessageBoxService.Show(result.Error);
-				return;
-			}
+			if (result == null || result.HasError)
+				return false;
 			IsLoading = true;
+			return true;
 		}
 
 		public List<JournalColumnType> AdditionalColumns
@@ -329,5 +331,7 @@ namespace JournalModule.ViewModels
 		}
 
 		#endregion
+
+		public static bool IsVisibleBottomPanel { get; set; }
 	}
 }

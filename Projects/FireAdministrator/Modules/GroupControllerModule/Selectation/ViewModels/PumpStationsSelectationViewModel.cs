@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -26,8 +27,8 @@ namespace GKModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
 			PumpStations = pumpStations;
-			TargetPumpStations = new ObservableCollection<GKPumpStation>();
-			SourcePumpStations = new ObservableCollection<GKPumpStation>();
+			TargetPumpStations = new SortableObservableCollection<GKPumpStation>();
+			SourcePumpStations = new SortableObservableCollection<GKPumpStation>();
 
 			foreach (var pumpStation in GKManager.PumpStations)
 			{
@@ -41,7 +42,7 @@ namespace GKModule.ViewModels
 			SelectedSourcePumpStation = SourcePumpStations.FirstOrDefault();
 		}
 
-		public ObservableCollection<GKPumpStation> SourcePumpStations { get; private set; }
+		public SortableObservableCollection<GKPumpStation> SourcePumpStations { get; private set; }
 
 		GKPumpStation _selectedSourcePumpStation;
 		public GKPumpStation SelectedSourcePumpStation
@@ -54,7 +55,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKPumpStation> TargetPumpStations { get; private set; }
+		public SortableObservableCollection<GKPumpStation> TargetPumpStations { get; private set; }
 
 		GKPumpStation _selectedTargetPumpStation;
 		public GKPumpStation SelectedTargetPumpStation
@@ -87,6 +88,7 @@ namespace GKModule.ViewModels
 				TargetPumpStations.Add(SourcePumpStationViewModel);
 				SourcePumpStations.Remove(SourcePumpStationViewModel);
 			}
+			TargetPumpStations.Sort(x => x.No);
 			SelectedTargetPumpStation = TargetPumpStations.LastOrDefault();
 			OnPropertyChanged(() => SourcePumpStations);
 
@@ -114,6 +116,7 @@ namespace GKModule.ViewModels
 				SourcePumpStations.Add(TargetPumpStationViewModel);
 				TargetPumpStations.Remove(TargetPumpStationViewModel);
 			}
+			SourcePumpStations.Sort(x => x.No);
 			SelectedSourcePumpStation = SourcePumpStations.LastOrDefault();
 			OnPropertyChanged(() => TargetPumpStations);
 
@@ -131,25 +134,7 @@ namespace GKModule.ViewModels
 		{
 			return SelectedTargetPumpStation != null;
 		}
-
-		public RelayCommand AddOneCommand { get; private set; }
-		void OnAddOne()
-		{
-			TargetPumpStations.Add(SelectedSourcePumpStation);
-			SelectedTargetPumpStation = SelectedSourcePumpStation;
-			SourcePumpStations.Remove(SelectedSourcePumpStation);
-			SelectedSourcePumpStation = SourcePumpStations.FirstOrDefault();
-		}
-
-		public RelayCommand RemoveOneCommand { get; private set; }
-		void OnRemoveOne()
-		{
-			SourcePumpStations.Add(SelectedTargetPumpStation);
-			SelectedSourcePumpStation = SelectedTargetPumpStation;
-			TargetPumpStations.Remove(SelectedTargetPumpStation);
-			SelectedTargetPumpStation = TargetPumpStations.FirstOrDefault();
-		}
-
+		
 		public RelayCommand AddAllCommand { get; private set; }
 		void OnAddAll()
 		{
@@ -157,6 +142,7 @@ namespace GKModule.ViewModels
 			{
 				TargetPumpStations.Add(zoneViewModel);
 			}
+			TargetPumpStations.Sort(x => x.No);
 			SourcePumpStations.Clear();
 			SelectedTargetPumpStation = TargetPumpStations.FirstOrDefault();
 		}
@@ -168,6 +154,7 @@ namespace GKModule.ViewModels
 			{
 				SourcePumpStations.Add(zoneViewModel);
 			}
+			SourcePumpStations.Sort(x => x.No);
 			TargetPumpStations.Clear();
 			SelectedSourcePumpStation = SourcePumpStations.FirstOrDefault();
 		}

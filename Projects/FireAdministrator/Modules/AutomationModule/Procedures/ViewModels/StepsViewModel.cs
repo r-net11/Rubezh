@@ -185,6 +185,7 @@ namespace AutomationModule.ViewModels
 		void OnPaste()
 		{
 			var stepViewModel = new StepViewModel(Utils.Clone(ProceduresViewModel.StepToCopy), Procedure);
+			stepViewModel.Step.UID = Guid.NewGuid();
 			Add(stepViewModel);
 			foreach (var childStep in stepViewModel.Step.Children)
 			{

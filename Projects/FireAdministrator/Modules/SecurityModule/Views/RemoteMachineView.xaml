@@ -16,7 +16,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<RadioButton Grid.Column="0" Grid.Row="0" IsChecked="{Binding IsDnsName}" Content="Имя" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
-                <TextBox Grid.Column="1" Grid.Row="0" MaxLength="100" Text="{Binding HostNameOrAddress, Mode=OneWayToSource}" IsEnabled="{Binding IsDnsName}" Margin="2" />
+				<TextBox Grid.Column="1" Grid.Row="0" MaxLength="100" Text="{Binding HostName}" IsEnabled="{Binding IsDnsName}" Margin="2"/>
 				<RadioButton Grid.Column="0" Grid.Row="1" IsChecked="{Binding IsIpAddress}" Content="IP адрес" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" />
 				<TextBox Grid.Column="1" Grid.Row="1" Margin="2"
 					Name="addressEditor"
@@ -29,7 +29,7 @@
 					PreviewDragLeave="OnPreviewDragLeave"
 					PreviewDragOver="OnPreviewDragOver"
 					PreviewDrop="OnPreviewDrop"
-					Text="{Binding HostNameOrAddress , Mode=OneWayToSource}"
+					Text="{Binding HostAddress}"
 					IsEnabled="{Binding IsIpAddress}"
 					ContextMenu="{x:Null}">
 				</TextBox>

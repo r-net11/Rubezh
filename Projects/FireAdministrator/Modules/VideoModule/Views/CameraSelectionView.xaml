@@ -5,7 +5,7 @@
 			 MinWidth="400" MinHeight="400">
 
 	<DataGrid Focusable="True" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}" SelectionMode="Single"
-			  VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
+			 VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
 		<DataGrid.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 				<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -17,13 +17,20 @@
 			</Style>
 		</DataGrid.ItemContainerStyle>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Камера" Width="*">
+			<DataGridTemplateColumn Header="Камера" Width="2*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<Image Width="16" Height="16" Margin="5 0 5 0" Source="{Binding ImageSource}" />
-							<TextBlock Text="{Binding  PresentationName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+							<TextBlock Text="{Binding PresentationName}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Адрес" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Camera.Ip}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>

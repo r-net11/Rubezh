@@ -36,6 +36,7 @@ namespace JournalModule.ViewModels
 			}
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			IsVisibleBottomPanel = true;
 		}
 
 		public void Initialize()
@@ -229,5 +230,7 @@ namespace JournalModule.ViewModels
 				SetJournalItems();
 			}
 		}
+
+		public bool IsVisibleBottomPanel { get; set; }
 	}
 }

@@ -34,7 +34,7 @@ namespace GKImitator.ViewModels
 				HasUserCommands = driverType == GKDriverType.GK;
 				HasSetFireHandDetector = driverType == GKDriverType.RSR2_HandDetector || driverType == GKDriverType.RSR2_HandDetectorEridan;
 				HasSetFireSmoke = driverType == GKDriverType.RSR2_SmokeDetector;
-				HasSetFireTemperature = driverType == GKDriverType.RSR2_HeatDetector || driverType == GKDriverType.RSR2_HeatDetectorEridan;
+				HasSetFireTemperature = driverType == GKDriverType.RSR2_HeatDetector || driverType == GKDriverType.RSR2_HeatDetectorEridan || driverType == GKDriverType.RSR2_ABTK;
 				HasSetFireTemperatureGradient = driverType == GKDriverType.RSR2_CombinedDetector || driverType == GKDriverType.RSR2_IOLIT;
 				HasDustiness = driverType == GKDriverType.RSR2_SmokeDetector || driverType == GKDriverType.RSR2_HandDetector || driverType == GKDriverType.RSR2_CombinedDetector;
 				HasFire12 = driverType == GKDriverType.RSR2_AM_1 || driverType == GKDriverType.RSR2_MAP4 || driverType == GKDriverType.RSR2_ABShS;

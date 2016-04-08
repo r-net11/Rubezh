@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Journal;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using RubezhAPI.Journal;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
 {
@@ -34,6 +33,10 @@ namespace FiltersModule.ViewModels
 			skdViewModel.IsExpanded = true;
 			RootNames.Add(skdViewModel);
 
+			var videoViewModel = new NameViewModel(JournalSubsystemType.Video);
+			videoViewModel.IsExpanded = true;
+			RootNames.Add(videoViewModel);
+
 			foreach (JournalEventNameType journalEventNameType in Enum.GetValues(typeof(JournalEventNameType)))
 			{
 				var nameViewModel = new NameViewModel(journalEventNameType);
@@ -54,6 +57,10 @@ namespace FiltersModule.ViewModels
 
 					case JournalSubsystemType.SKD:
 						skdViewModel.AddChild(nameViewModel);
+						break;
+
+					case JournalSubsystemType.Video:
+						videoViewModel.AddChild(nameViewModel);
 						break;
 				}
 			}

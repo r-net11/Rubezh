@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace LayoutModule.ViewModels
 {
@@ -34,10 +34,9 @@ namespace LayoutModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			using (new WaitWrapper())
-				foreach (var page in PropertyPages)
-					if (!page.CanSave())
-						return false;
+			foreach (var page in PropertyPages)
+				if (!page.CanSave())
+					return false;
 			return true;
 		}
 		protected override bool Save()

@@ -406,12 +406,12 @@ namespace Infrastructure.Automation
 					case ChangeType.RemoveFirst:
 						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
 							(x => ExplicitCompare(x, explicitValue, changeListStep.ItemArgument.ExplicitType,
-								changeListStep.ListArgument.EnumType)));
+								changeListStep.ItemArgument.EnumType)));
 						break;
 					case ChangeType.RemoveAll:
 						listVariable.ExplicitValues.RemoveAll(
-							(x => ExplicitCompare(x, explicitValue, changeListStep.ListArgument.ExplicitType,
-								changeListStep.ListArgument.EnumType)));
+							(x => ExplicitCompare(x, explicitValue, changeListStep.ItemArgument.ExplicitType,
+								changeListStep.ItemArgument.EnumType)));
 						break;
 				}
 				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Server);
