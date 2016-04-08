@@ -27,7 +27,7 @@
 			<Controls:IconedMenuItem ImageSource="BPaste" Text="Генерация отражения" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
 				<Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenerateZonesCommand}" />
 				<Controls:IconedMenuItem Text="Охранные зоны" Command="{Binding GenerateGuardZonesCommand}" />
-				<Controls:IconedMenuItem Text="Зоны пожаратушения" Command="{Binding GenerateMPTCommand}" />
+				<Controls:IconedMenuItem Text="Зона пожаратушения в МПТ" Command="{Binding GenerateMPTCommand}" />
 				<Controls:IconedMenuItem Text="Исполнительные устройства" Command="{Binding GenerateForPerformersDevicesCommand}" />
 				<Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenerateForDetectorDevicesCommand}" />
 				<Controls:IconedMenuItem Text="Направления" Command="{Binding GenerateDirectionsCommand}" />

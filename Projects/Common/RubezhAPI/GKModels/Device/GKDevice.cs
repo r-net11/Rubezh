@@ -706,12 +706,6 @@ namespace RubezhAPI.GK
 			get { return KAUParent != null; }
 		}
 
-		[XmlIgnore]
-		public bool IsConnectedToMirror
-		{
-			get { return MirrorParent != null; }
-		}
-
 		public bool UseReservedIP { get; set; }
 
 		public string GetGKIpAddress()
