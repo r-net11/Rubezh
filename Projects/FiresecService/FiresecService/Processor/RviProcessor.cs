@@ -143,9 +143,9 @@ namespace FiresecService
 													rviStates.Add(new RviState(oldCamera, oldCamera.Status, oldCamera.IsOnGuard, oldCamera.IsRecordOnline, oldCamera.RviStreams));
 
 													if (isOnGuardChanged)
-														journalItems.Add(CreateOnGuardJournalItem(oldCamera.UID, oldCamera.IsOnGuard));
+														journalItems.Add(CreateOnGuardJournalItem(oldCamera, oldCamera.IsOnGuard));
 													if (isRecordOnlineChanged)
-														journalItems.Add(CreateRecordOnlineJournalItem(oldCamera.UID, oldCamera.IsRecordOnline));
+														journalItems.Add(CreateRecordOnlineJournalItem(oldCamera, oldCamera.IsRecordOnline));
 												}
 											}
 											else
@@ -193,7 +193,7 @@ namespace FiresecService
 				catch (Exception) { }
 			}
 		}
-		static JournalItem CreateJournalItem(Guid objectUid, JournalObjectType journalObjectType, JournalEventNameType journalEventNameType, string desriptionText = null)
+		static JournalItem CreateJournalItem(Guid objectUid, string objectName, JournalObjectType journalObjectType, JournalEventNameType journalEventNameType, string desriptionText = null)
 		{
 			var journalItem = new JournalItem
 			{
@@ -204,26 +204,27 @@ namespace FiresecService
 				DescriptionText = desriptionText,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				ObjectUID = objectUid,
+				ObjectName = objectName,
 				UserName = string.Empty,
 			};
 			return journalItem;
 		}
-		static JournalItem CreateOnGuardJournalItem(Guid cameraUid, bool isOnGuard)
+		static JournalItem CreateOnGuardJournalItem(Camera camera, bool isOnGuard)
 		{
 			JournalItem journalItem;
 			if (isOnGuard)
-				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_поставлен_на_охрану);
+				journalItem = CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_поставлен_на_охрану);
 			else
-				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_снят_с_охраны);
+				journalItem = CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_снят_с_охраны);
 			return journalItem;
 		}
-		static JournalItem CreateRecordOnlineJournalItem(Guid cameraUid, bool isRecordOnline)
+		static JournalItem CreateRecordOnlineJournalItem(Camera camera, bool isRecordOnline)
 		{
 			JournalItem journalItem;
 			if (isRecordOnline)
-				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Начата_запись_на_канале_Rvi);
+				journalItem = CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Начата_запись_на_канале_Rvi);
 			else
-				journalItem = CreateJournalItem(cameraUid, JournalObjectType.Camera, JournalEventNameType.Прекращена_запись_на_канале_Rvi);
+				journalItem = CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Прекращена_запись_на_канале_Rvi);
 			return journalItem;
 		}
 		static bool StreamsIsEquals(List<RviStream> oldRviStreams, List<RviStream> newRviStreams)
