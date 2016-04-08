@@ -11,7 +11,7 @@ namespace GKProcessor
 			{
 				DriverType = GKDriverType.RSR2_RM_2,
 				UID = new Guid("A2959070-BB9D-45C0-8113-F9662A1CE7BF"),
-				Name = "Модуль релейный РМ2",
+				Name = "Модуль релейный групповой",
 				ShortName = "РМ2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_RM_1,

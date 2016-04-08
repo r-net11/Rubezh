@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverTypeNo = 0xDA,
 				DriverType = GKDriverType.RSR2_RM_1,
 				UID = new Guid("58C2A881-783F-4638-A27C-42257D5B31F9"),
-				Name = "Модуль релейный РМ",
+				Name = "Модуль релейный",
 				ShortName = "РМ",
 				IsControlDevice = true,
 				HasLogic = true,
