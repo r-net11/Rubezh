@@ -52,6 +52,8 @@ namespace GKModule.ViewModels
 				else
 					SourceDoors.Add(door);
 			}
+			TargetDoors.Sort(x => x.No);
+			SourceDoors.Sort(x => x.No);
 
 			SelectedTargetDoor = TargetDoors.FirstOrDefault();
 			SelectedSourceDoor = SourceDoors.FirstOrDefault();
