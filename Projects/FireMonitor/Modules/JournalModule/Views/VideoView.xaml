@@ -2,8 +2,9 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer"
+			 xmlns:rviClientUi="clr-namespace:RviClient.UI;assembly=RviClient.UI"
 			 MinWidth="400" MinHeight="300">
 	<Grid>
-		<mediaSourcePlayer:MediaPlayer x:Name="MediaSourcePlayer"/>
+		<rviClientUi:VideoCellControl x:Name="videoCellControl"/>
 	</Grid>
 </UserControl>

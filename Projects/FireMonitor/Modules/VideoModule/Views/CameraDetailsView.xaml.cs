@@ -39,8 +39,8 @@ namespace VideoModule.Views
 				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
 				{
 					var ms = MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId);
-					MediaSourcePlayer.Open(ms);
-					MediaSourcePlayer.Play();
+					videoCellControl.MediaPlayer.Open(ms);
+					videoCellControl.MediaPlayer.Play();
 				}
 			}
 			catch (Exception e)
@@ -54,8 +54,8 @@ namespace VideoModule.Views
 			// Останавливаем видео ячейку и освобождаем занятые ей ресурсы
 			if (_needStopPlaying)
 			{
-				MediaSourcePlayer.Stop();
-				MediaSourcePlayer.Close();
+				videoCellControl.MediaPlayer.Stop();
+				videoCellControl.MediaPlayer.Close();
 				_needStopPlaying = false;
 			}
 			
@@ -69,8 +69,8 @@ namespace VideoModule.Views
 			// Останавливаем видео ячейку и освобождаем занятые ей ресурсы, если данное окно не закрывали, а вышли из приложения (т.к. окно не модальное)
 			if (_needStopPlaying)
 			{
-				MediaSourcePlayer.Stop();
-				MediaSourcePlayer.Close();
+				videoCellControl.MediaPlayer.Stop();
+				videoCellControl.MediaPlayer.Close();
 				_needStopPlaying = false;
 			}
 		}

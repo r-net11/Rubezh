@@ -41,8 +41,8 @@ namespace VideoModule.Views
 				int vendorId;
 				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
 				{
-					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
-					MediaSourcePlayer.Play();
+					videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+					videoCellControl.MediaPlayer.Play();
 				}
 			}
 			catch (Exception e)
@@ -53,8 +53,8 @@ namespace VideoModule.Views
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
+			videoCellControl.MediaPlayer.Stop();
+			videoCellControl.MediaPlayer.Close();
 
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)

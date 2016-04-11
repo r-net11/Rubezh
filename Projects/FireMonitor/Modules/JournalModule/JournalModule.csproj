@@ -238,6 +238,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\RviClient.UI\RviClient.UI.csproj">
+      <Project>{0153177b-67b2-471f-b737-381f8ebc39c5}</Project>
+      <Name>RviClient.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\RviClient\RviClient.csproj">
       <Project>{112658EB-3244-4922-AEF7-6376E688B7A7}</Project>
       <Name>RviClient</Name>
