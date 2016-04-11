@@ -87,9 +87,8 @@
 								<TextBlock>
 									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding Delay.No}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 											<Image Width="16" Source="/Controls;component/Images/Delay.png" Margin="2" />
-											<TextBlock Text="{Binding Delay.Name}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
+											<TextBlock Text="{Binding Delay.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>
