@@ -12,12 +12,14 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using System.Collections.Generic;
 using Infrustructure.Plans.Interfaces;
+using Infrastructure.PlanLink.ViewModels;
 
 namespace GKModule.ViewModels
 {
 	public class DoorDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public GKDoor Door { get; private set; }
+		public PlanLinksViewModel Planlink { get; private set; }
 		public GKState State
 		{
 			get { return Door.State; }
@@ -42,7 +44,7 @@ namespace GKModule.ViewModels
 			Door = door;
 			State.StateChanged -= OnStateChanged;
 			State.StateChanged += OnStateChanged;
-			InitializePlans();
+			Planlink = new PlanLinksViewModel(Door.PlanElementUIDs);
 			Title = Door.PresentationName;
 		}
 
@@ -54,21 +56,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => HasOffDelay);
 			OnPropertyChanged(() => HasHoldDelay);
 			CommandManager.InvalidateRequerySuggested();
-		}
-
-		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
-		public bool HasPlans
-		{
-			get { return Plans.Count > 0; }
-		}
-
-		void InitializePlans()
-		{
-			Plans = new ObservableCollection<PlanLinkViewModel>();
-			ShowOnPlanHelper.GetAllPlans(Door.UID).ForEach(x =>
-			{
-				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First(y => (y as IElementReference).ItemUID == Door.UID)) { GkBaseEntity = Door });
-			});
 		}
 
 		public bool HasOffDelay

@@ -91,11 +91,12 @@ namespace VideoModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Camera.UID), Camera.UID);
+			if (Camera != null)
+			ShowOnPlanHelper.ShowObjectOnPlan(Camera.PlanElementUIDs);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.GetPlan(Camera.UID) != null;
+			return Camera!= null && ShowOnPlanHelper.CanShowOnPlan(Camera.PlanElementUIDs);
 		}
 	}
 }

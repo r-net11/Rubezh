@@ -6,7 +6,7 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:converters="clr-namespace:VideoModule.Converters">
 	<UserControl.Resources>
-		<converters:CameraViewModelNameComparer x:Key="CamerasViewModelNameComparer" />
+		<converters:CameraViewModelNameComparer x:Key="CameraViewModelNameComparer" />
 		<converters:CamerasViewModelAddressComparer x:Key="CamerasViewModelAddressComparer" />
 	</UserControl.Resources>
 	<tree:TreeList
@@ -20,7 +20,7 @@
 					<GridViewColumn
 						ListViewLayoutManager.StarWidth="1" 
 						Header="Камера"
-						tree:SortBehavior.SortComparer="{StaticResource CamerasViewModelNameComparer}">
+						tree:SortBehavior.SortComparer="{StaticResource CameraViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

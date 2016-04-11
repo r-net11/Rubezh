@@ -11,7 +11,7 @@
 	</UserControl.Resources>
 	<StackPanel MaxWidth="800">
 		<StackPanel Orientation="Horizontal">
-			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/Zone.png" />
+			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/SKDZone.png" />
 			<TextBlock Text="{Binding SKDZone.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
 		<TextBlock Text="{Binding SKDZone.Description}" Visibility="{Binding SKDZone.Description, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap" />

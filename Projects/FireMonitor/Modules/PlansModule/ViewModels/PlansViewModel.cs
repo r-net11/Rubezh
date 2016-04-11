@@ -193,14 +193,10 @@ namespace PlansModule.ViewModels
 		///////////////////////////////////////////////////////////////////////////////
 
 		private void OnNavigate(NavigateToPlanElementEventArgs args)
-		{
-			
-			if (args.PlanUID != null)
-			{
+		{	
 				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 				OnSelectPlan(args.PlanUID);
 				OnShowElement(args.ElementUID);
-			}
 		}
 
 		public bool IsPlanTreeVisible

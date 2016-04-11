@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="Infrastructure.PlanLink.View.PlanLinksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" >
+	<ItemsControl ItemsSource="{Binding Plans}">
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<StackPanel Orientation="Vertical"/>
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
+		<ItemsControl.ItemTemplate>
+			<DataTemplate>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="План: "/>
+					<TextBlock>
+						<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" Source="/Controls;component/Images/CMap.png" Margin="1" />
+								<TextBlock Text="{Binding PlanName}" VerticalAlignment="Center" Margin="1" />
+							</StackPanel>
+						</Hyperlink>
+					</TextBlock>
+				</StackPanel>
+			</DataTemplate>
+		</ItemsControl.ItemTemplate>
+	</ItemsControl>
+</UserControl>
