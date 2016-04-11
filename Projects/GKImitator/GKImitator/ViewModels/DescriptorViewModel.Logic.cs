@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Documents;
 using RubezhAPI.GK;
 using GKImitator.Processor;
 using GKProcessor;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Diagnostics;
 using RubezhDAL.DataClasses;
@@ -51,16 +49,6 @@ namespace GKImitator.ViewModels
 				{
 					descriptorViewModel.RecalculateLogic();
 				}
-			}
-		}
-
-		public void RecalculateCurrentLogic()
-		{
-			var descriptorViewModel =
-				MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKDescriptorNo == GKBase.GKDescriptorNo);
-			if (descriptorViewModel != null)
-			{
-				descriptorViewModel.RecalculateLogic();
 			}
 		}
 
@@ -448,6 +436,13 @@ namespace GKImitator.ViewModels
 			{
 				if (stateBitVale.Value)
 				{
+					if (stateBitVale.Key == GKStateBit.Test)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnTestButton();
+						}
+					}
 					if (stateBitVale.Key == GKStateBit.TurnOn_InAutomatic)
 					{
 						if (Regime == Regime.Automatic)
@@ -555,6 +550,16 @@ namespace GKImitator.ViewModels
 							&& attentionStateBit != null && !attentionStateBit.IsActive && fire1 != null && !fire1.IsActive)
 						{
 							SetGuardAlarm();
+						}
+					}
+				}
+				else
+				{
+					if (stateBitVale.Key == GKStateBit.Test)
+					{
+						if (Regime == Regime.Automatic)
+						{
+							OnResetTest();
 						}
 					}
 				}
