@@ -28,8 +28,8 @@ namespace VideoModule.Views
 				int vendorId;
 				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
 				{
-					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
-					MediaSourcePlayer.Play();
+					videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+					videoCellControl.MediaPlayer.Play();
 				}
 			}
 			catch (Exception e)
@@ -40,8 +40,8 @@ namespace VideoModule.Views
 
 		private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
 		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
+			videoCellControl.MediaPlayer.Stop();
+			videoCellControl.MediaPlayer.Close();
 
 			DataContextChanged -= OnDataContextChanged;
 			Dispatcher.ShutdownStarted -= DispatcherOnShutdownStarted;
