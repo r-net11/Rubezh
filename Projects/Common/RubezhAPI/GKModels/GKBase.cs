@@ -280,7 +280,10 @@ namespace RubezhAPI.GK
 				if (guardZone.GuardZoneDevices.FindAll(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard || x.Device.Driver.IsCardReaderOrCodeReader).Count > 0)
 				{
 					if (guardZone.Pim != null)
+					{
 						guardZone.Pim.LinkToDescriptor(guardZone);
+						guardZone.LinkToDescriptor(guardZone.Pim);
+					}
 					if (guardZone.ChangePim != null)
 					{ 
 						guardZone.GuardZoneDevices.Where(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard || x.Device.Driver.IsCardReaderOrCodeReader).ForEach(x => guardZone.ChangePim.LinkToDescriptor(x.Device));
