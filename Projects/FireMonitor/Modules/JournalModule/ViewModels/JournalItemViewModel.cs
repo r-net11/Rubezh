@@ -215,7 +215,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKSKDZoneEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					ObjectImageSource = "/Controls;component/Images/SKDZone.png";
 					break;
 
 				case JournalObjectType.GKDoor:

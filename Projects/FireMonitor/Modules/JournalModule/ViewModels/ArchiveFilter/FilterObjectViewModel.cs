@@ -54,7 +54,7 @@ namespace JournalModule.ViewModels
 					break;
 
 				case JournalObjectType.GKSKDZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
+					ImageSource = "/Controls;component/Images/SKDZone.png";
 					break;
 
 				case JournalObjectType.GKDoor:
