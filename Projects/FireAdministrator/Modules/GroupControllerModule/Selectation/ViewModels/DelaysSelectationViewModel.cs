@@ -37,6 +37,8 @@ namespace GKModule.ViewModels
 				else
 					SourceDelays.Add(delay);
 			}
+			TargetDelays.Sort(x => x.No);
+			SourceDelays.Sort(x => x.No);
 
 			SelectedTargetDelay = TargetDelays.FirstOrDefault();
 			SelectedSourceDelay = SourceDelays.FirstOrDefault();

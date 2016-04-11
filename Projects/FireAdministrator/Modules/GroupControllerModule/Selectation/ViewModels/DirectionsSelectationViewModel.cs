@@ -37,6 +37,8 @@ namespace GKModule.ViewModels
 				else
 					SourceDirections.Add(direction);
 			}
+			TargetDirections.Sort(x => x.No);
+			SourceDirections.Sort(x => x.No);
 
 			SelectedTargetDirection = TargetDirections.FirstOrDefault();
 			SelectedSourceDirection = SourceDirections.FirstOrDefault();

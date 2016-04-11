@@ -10,7 +10,7 @@
 			<ColumnDefinition Width="50" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" CanUserSortColumns="False"
+		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" CanUserSortColumns="True"
 				  VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" SelectionMode="Extended">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -23,7 +23,7 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Выбранные устройства">
+				<DataGridTemplateColumn Header="Выбранные устройства" SortMemberPath="DescriptorPresentationName">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -33,8 +33,8 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding DottedPresentationAddress}" Header="Адрес" Width="Auto" />
-				<DataGridTemplateColumn Header="Примечание" Width="*" >
+				<DataGridTextColumn Binding="{Binding DottedPresentationAddress}" Header="Адрес" Width="Auto" SortMemberPath="IntDottedPresentationAddress"/>
+				<DataGridTemplateColumn Header="Примечание" Width="*" SortMemberPath="Description">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Controls:EditorPresenter>
@@ -65,7 +65,7 @@
 			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="leftLeft"  />
 			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="rightRight"  />
 		</StackPanel>
-		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" CanUserSortColumns="False"
+		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" CanUserSortColumns="True"
 				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" SelectionMode="Extended">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -78,7 +78,7 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Устройства">
+				<DataGridTemplateColumn Header="Устройства" SortMemberPath="DescriptorPresentationName">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -88,8 +88,8 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding DottedPresentationAddress}" Header="Адрес" Width="Auto" />
-				<DataGridTemplateColumn Header="Примечание" Width="*" >
+				<DataGridTextColumn Binding="{Binding DottedPresentationAddress}" Header="Адрес" Width="Auto" SortMemberPath="IntDottedPresentationAddress"/>
+				<DataGridTemplateColumn Header="Примечание" Width="*" SortMemberPath="Description">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Controls:EditorPresenter>

@@ -25,7 +25,9 @@ namespace GKModule.ViewModels
 		public MPTViewModel(GKMPT mpt)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
+
 			MPT = mpt;
 			MPTDetailsViewModel = new MPTDetailsViewModel(MPT);
 			State.StateChanged -= OnStateChanged;
@@ -55,11 +57,11 @@ namespace GKModule.ViewModels
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { MPT.UID });
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
-		{
-			DialogService.ShowWindow(new MPTDetailsViewModel(MPT));
-		}
+		//public RelayCommand ShowPropertiesCommand { get; private set; }
+		//void OnShowProperties()
+		//{
+		//	DialogService.ShowWindow(new MPTDetailsViewModel(MPT));
+		//}
 
 		public bool HasOnDelay
 		{
@@ -79,6 +81,27 @@ namespace GKModule.ViewModels
 		public string SuspendPresentationName
 		{
 			get { return GKManager.GetPresentationLogic(MPT.MptLogic.StopClausesGroup); }
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(MPT.UID), MPT.UID);
+		}
+		public bool CanShowOnPlan()
+		{
+			return ShowOnPlanHelper.GetPlan(MPT.UID) != null;
+		}
+
+		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
+
+		void OnShowOnPlanOrProperties()
+		{
+			var plan = ShowOnPlanHelper.GetPlan(MPT.UID);
+			if (plan != null)
+				ShowOnPlanHelper.ShowObjectOnPlan(plan, MPT.UID);
+			else
+				DialogService.ShowWindow(new MPTDetailsViewModel(MPT));
 		}
 	}
 }

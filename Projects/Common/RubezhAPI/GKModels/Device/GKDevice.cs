@@ -459,6 +459,19 @@ namespace RubezhAPI.GK
 		}
 
 		[XmlIgnore]
+		public int IntDottedPresentationAddress
+		{
+			get
+			{
+				if (Driver.IsKau)
+					return 256 * 256 * IntAddress;
+				if (KAUParent != null)
+					return 256 * 256 * KAUParent.IntAddress + ShleifNo * 256 + IntAddress;
+				return IntAddress;
+			}
+		}
+
+		[XmlIgnore]
 		public string ShortName
 		{
 			get
@@ -691,12 +704,6 @@ namespace RubezhAPI.GK
 		public bool IsConnectedToKAU
 		{
 			get { return KAUParent != null; }
-		}
-
-		[XmlIgnore]
-		public bool IsConnectedToMirror
-		{
-			get { return MirrorParent != null; }
 		}
 
 		public bool UseReservedIP { get; set; }

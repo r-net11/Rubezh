@@ -101,7 +101,7 @@ namespace GKModule.ViewModels
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowGKSKDZone(SKDZone);
+			return ShowOnPlanHelper.GetPlan(SKDZone.UID)!= null;
 		}
 
 

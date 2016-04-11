@@ -86,8 +86,9 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void OnShowOnPlanOrProperties()
 		{
-			if (CanShowOnPlan())
-				ShowOnPlanHelper.ShowDevice(Device);
+			var plan = ShowOnPlanHelper.GetPlan(Device.UID);
+			if (plan != null)
+				ShowOnPlanHelper.ShowObjectOnPlan(plan, Device.UID);
 			else if (CanShowProperties())
 				OnShowProperties();
 		}
@@ -95,11 +96,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowDevice(Device);
+			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Device.UID), Device.UID);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowDevice(Device);
+			return ShowOnPlanHelper.GetPlan(Device.UID) != null;
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

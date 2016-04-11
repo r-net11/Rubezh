@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
-		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />
+		<!--<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit" />-->
 		<ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
 		<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать (Ctrl+C)" ImageSource="Copy" />
 		<ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать (Ctrl+Х)" ImageSource="Cut" />

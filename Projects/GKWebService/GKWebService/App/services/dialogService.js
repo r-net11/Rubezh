@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('dialogService', ['$uibModal', function ($uibModal) {
+    app.factory('dialogService', ['$uibModal', '$window', function ($uibModal, $window) {
         var openedWindows = [];
 
         function indexOf(arr, item) {
@@ -21,34 +21,41 @@
             }
         };
 
-        return {
-            showWindow: function (costants, entity) {
-                var openedIndex = indexOf(openedWindows, entity.UID);
+        var _showWindow = function(costants, entity) {
+            var openedIndex = indexOf(openedWindows, entity.UID);
 
-                if (openedIndex === -1) {
-                    var modalInstance = $uibModal.open({
-                        animation: false,
-                        templateUrl: costants.detailsTemplate,
-                        controller: costants.detailsCtrl,
-                        backdrop: false,
-                        size: 'rbzh',
-                        resolve: {
-                            entity: function () {
-                                return entity;
-                            }
+            if (openedIndex === -1) {
+                var modalInstance = $uibModal.open({
+                    animation: false,
+                    templateUrl: costants.detailsTemplate,
+                    controller: costants.detailsCtrl,
+                    backdrop: false,
+                    size: 'rbzh',
+                    resolve: {
+                        entity: function() {
+                            return entity;
                         }
-                    });
+                    }
+                });
 
-                    modalInstance.result.then(function () {
+                modalInstance.result.then(function() {
                         tryRemove(openedWindows, entity.UID);
                     },
-                    function () {
+                    function() {
                         tryRemove(openedWindows, entity.UID);
                     });
 
-                    openedWindows.push(entity.UID);
-                }
+                openedWindows.push(entity.UID);
             }
+        };
+
+        var _showConfirm = function (message) {
+            return $window.confirm(message);
+        };
+
+        return {
+            showWindow: _showWindow,
+            showConfirm: _showConfirm
         }
     }]);
 }());

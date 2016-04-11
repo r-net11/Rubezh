@@ -16,7 +16,7 @@
 			</Grid.ColumnDefinitions>
 			<DataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True" HorizontalScrollBarVisibility="Auto">
 				<DataGrid.InputBindings>
-					<MouseBinding Command="{Binding DataContext.SelectedMPT.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+					<MouseBinding Command="{Binding DataContext.SelectedMPT.ShowOnPlanOrPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
 								  MouseAction="LeftDoubleClick" />
 				</DataGrid.InputBindings>
 				<DataGrid.Columns>
@@ -37,13 +37,14 @@
 									<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center"
 										   Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
 									<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="Auto">
-										<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<TextBlock Text="{Binding MPT.Name}" />
 										</Hyperlink>
 										<TextBlock.ContextMenu>
 											<ContextMenu>
-												<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-												<IconedMenuItem ImageSource="BSettings" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+												<IconedMenuItem Text ="Показать на плане" Command="{Binding ShowOnPlanCommand}" ImageSource="BMap" />
+												<IconedMenuItem Text="Показать связанные события" Command="{Binding ShowJournalCommand}" ImageSource="BJournal"/>
+												<IconedMenuItem  Text="Свойства" Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings"/>
 											</ContextMenu>
 										</TextBlock.ContextMenu>
 									</TextBlock>

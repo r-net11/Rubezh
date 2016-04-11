@@ -25,8 +25,99 @@
             return deferred.promise;
         };
 
+        var _markDeleted = function (employee) {
+            var deferred = $q.defer();
+
+            $http.post("Employees/MarkDeleted", {
+                uid: employee.UID,
+                name: employee.Name,
+                isOrganisation: employee.IsOrganisation
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка сохранения сотрудника");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
+        var _getEmployeeCardDetails = function (UID, organisationUID) {
+            var deferred = $q.defer();
+
+            $http.get('Employees/GetEmployeeCardDetails', { params: { organisationId: organisationUID, cardId: UID } })
+                .then(function (response) {
+                    deferred.resolve(response.data);
+                }, function (response) {
+                    // TODO: реализовать обработку ошибок
+                    alert("Ошибка получения пропуска");
+                    deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
+        var _saveEmployeeCardDetails = function (card, employee, organisationUID, isNew) {
+            var deferred = $q.defer();
+
+            card.Card.OrganisationUID = organisationUID;
+            card.Card.EmployeeUID = employee.UID;
+            card.Card.EmployeeName = employee.Name;
+
+            $http.post("Employees/EmployeeCardDetails", {
+                cardModel: card,
+                employeeName: employee.Name,
+                isNew: isNew
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка сохранения сотрудника");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
+        var _deleteCard = function (UID) {
+            var deferred = $q.defer();
+
+            $http.post("Employees/DeleteCard", {
+                id: UID,
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка сохранения сотрудника");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
+        var _deleteCardFromEmployee = function (UID, employeeName, removalReason) {
+            var deferred = $q.defer();
+
+            $http.post("Employees/DeleteFromEmployee", {
+                id: UID,
+                employeeName: employeeName,
+                reason: removalReason
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка сохранения сотрудника");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
         return {
             selectedEmployee: null,
+            selectedCard: null,
+            reload: null,
             getEmployeeDetails: function(UID) {
                 var deferred = $q.defer();
 
@@ -102,7 +193,12 @@
                 });
 
                 return deferred.promise;
-            }
+            },
+            markDeleted: _markDeleted,
+            getEmployeeCardDetails: _getEmployeeCardDetails,
+            saveEmployeeCardDetails: _saveEmployeeCardDetails,
+            deleteCard: _deleteCard,
+            deleteCardFromEmployee: _deleteCardFromEmployee
         }
     }]);
 }());

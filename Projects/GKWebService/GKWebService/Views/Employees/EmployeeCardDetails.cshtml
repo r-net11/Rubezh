@@ -4,20 +4,130 @@
     Layout = null;
 }
 
-<div id="employee-card-details-box" class="save-cancel-popup" data-bind="with: HR.Employees.EmployeeCardDetails">
+<div class="modal-header">
+    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+    <h3 class="modal-title">{{title}}</h3>
+</div>
+
+<div class="modal-body">
+    <uib-tabset>
+        <uib-tab heading="Основные">
+            <form class="form-horizontal" role="form">
+                <div class="form-group" ng-show="canChangeCardType">
+                    <label class="control-label col-sm-5" for="GKCardType">Тип пропуска</label>
+                    <div class="col-sm-7">
+                        <select id="GKCardType" class="form-control" ng-model="card.Card.GKCardType" convert-to-number>
+                            <option value=0>Сотрудник</option>
+                            <option value=1>Оператор</option>
+                            <option value=2>Администратор</option>
+                            <option value=3>Инсталлятор</option>
+                            <option value=4>Изготовитель</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="endDate">Конец действия</label>
+                    <div class="col-sm-7">
+                        <p class="input-group">
+                            <input type="text" id="endDate" class="form-control" uib-datepicker-popup="dd.MM.yyyy" is-open="popupEndDate.opened" ng-model="card.Card.EndDate">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="popupEndDate.opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="GKLevel">Уровень доступа</label>
+                    <div class="col-sm-7">
+                        <input type="number" id="GKLevel" class="form-control" ng-model="card.Card.GKLevel">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="GKSchedule">График доступа</label>
+                    <div class="col-sm-7">
+                        <select id="GKSchedule" class="form-control" ng-model="card.SelectedSchedule" ng-options="schedule.No + ' ' + schedule.Name for schedule in card.Schedules track by schedule.No">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="employeeCardDetailsNumber">Номер</label>
+                    <div class="col-sm-7">
+                        <input type="number" id="employeeCardDetailsNumber" class="form-control" ng-model="card.Card.Number" ng-disabled="!isNew || card.UseStopList">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5"><input type="checkbox" ng-model="card.UseStopList" ng-disabled="!isNew">Из списка деактивированных</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" ng-model="card.SelectedStopListCard" ng-options="stopListCard.Number for stopListCard in card.StopListCards" ng-disabled="!isNew || !card.UseStopList"></select>
+                    </div>
+                </div>
+            </form>
+        </uib-tab>
+        <uib-tab ng-show="canSelectGKControllers()" heading="Контроллеры">
+            <form class="form-horizontal" role="form">
+                <ul class="SelectableList">
+                    <li ng-repeat="controller in card.AvailableGKControllers">
+                        <div>
+                            <label>
+                                <input type="checkbox" ng-model="controller.IsChecked" value="">
+                                <span>{{controller.PresentationName}}</span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </uib-tab>
+        <uib-tab heading="Точки доступа">
+            <form class="form-horizontal" role="form">
+                <ul id="EmployeeCardDetailsDoors" class="SelectableList">
+                    <li ng-repeat="door in card.Doors" ng-class="{selected: door === card.SelectedDoor}">
+                        <div ng-click="card.SelectedDoor = door">
+                            <img src="~/Content/Image/Icon/Hr/Door.png" />
+                            <input type="checkbox" ng-model="door.IsChecked" value="">
+                            <span>{{door.PresentationName}}</span>
+                        </div>
+                    </li>
+                </ul>
+                <div id="EmployeeCardDetailsDoor" ng-show="card.SelectedDoor">
+                    <label for="EnterSchedule">
+                        <span>Временной критерий для входа</span><br/>
+                        <select name="EnterSchedule" class="form-control" ng-model="card.SelectedDoor.SelectedEnterSchedule" ng-options="schedule.Name for schedule in card.SelectedDoor.EnterSchedules track by schedule.ScheduleNo" ng-disabled="!card.SelectedDoor.IsChecked"></select>
+                    </label>
+                    <br/>
+                    <label for="ExitSchedule" ng-show="card.SelectedDoor.HasExit">
+                        <span>Временной критерий для выхода</span><br/>
+                        <select name="ExitSchedule" class="form-control" ng-model="card.SelectedDoor.SelectedExitSchedule" ng-options="schedule.Name for schedule in card.SelectedDoor.ExitSchedules track by schedule.ScheduleNo" ng-disabled="!card.SelectedDoor.IsChecked"></select>
+                    </label>
+                </div>
+            </form>
+        </uib-tab>
+        <uib-tab heading="Шаблон доступа">
+            <form class="form-horizontal" role="form">
+                <ul id="EmployeeCardDetailsTemplates" class="SelectableList">
+                    <li ng-repeat="template in card.AvailableAccessTemplates track by template.UID" ng-class="{selected: template.UID === card.SelectedAccessTemplate.UID}">
+                        <div ng-click="card.SelectedAccessTemplate = template">
+                            <label>
+                                <img src="~/Content/Image/Icon/Hr/zone.png" />
+                                <span>{{template.Name}}</span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </uib-tab>
+    </uib-tabset>
+</div>
+<div mobile-hover-fix class="modal-footer">
+    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
+</div>
+
+@*<div id="employee-card-details-box" class="save-cancel-popup" data-bind="with: HR.Employees.EmployeeCardDetails">
     <div class="title-bar">
         <span data-bind="text: Title"></span>
         <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: EmployeeCardDetailsClose" /></a>
     </div>
     <div>
         <form id="EmployeeCard" data-bind="submit: SaveEmployeeCard">
-            <ul class="tab">
-                <li class="active"><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
-                <li data-bind="visible: CanSelectGKControllers"><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'GKControllers'); }"><span>Контроллеры</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'AccessDoors'); }"><span>Точки доступа</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { EmployeeCardDetailsPageClick(data, event, 'AccessTemplates'); }"><span>Шаблон доступа</span></a></li>
-            </ul>
-
             <div class="data-input" data-bind="visible:employeeCardDetailsPages.General">
                 <label for="GKCardType" data-bind="visible: CanChangeCardType">
                     <span>Тип пропуска</span>
@@ -98,4 +208,4 @@
             <button class="submit ok-cancel-button" type="button" data-bind="click: SaveEmployeeCard">OK</button>
         </form>
     </div>
-</div>
+</div>*@

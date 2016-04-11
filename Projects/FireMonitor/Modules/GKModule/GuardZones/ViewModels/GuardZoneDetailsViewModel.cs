@@ -72,26 +72,10 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			ShowOnPlanHelper.GetAllPlans(Zone.UID).ForEach(x =>
 			{
-				ElementBase elementBase;
-				elementBase = plan.ElementRectangleGKGuardZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Zone;
-					Plans.Add(alarmPlanViewModel);
-					continue;
-				}
-
-				elementBase = plan.ElementPolygonGKGuardZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Zone;
-					Plans.Add(alarmPlanViewModel);
-				}
-			}
+				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First()) { GkBaseEntity = Zone});
+			});
 		}
 
 		public DeviceControlRegime ControlRegime

@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -37,7 +38,7 @@ namespace GKModule.ViewModels
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
-			ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
+			//ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			Device = device;
@@ -208,36 +209,30 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			ShowOnPlanHelper.GetAllPlans(Device.UID).ForEach(x =>
 			{
-				ElementBase elementBase = plan.ElementGKDevices.FirstOrDefault(x => x.DeviceUID == Device.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Device;
-					Plans.Add(alarmPlanViewModel);
-				}
-			}
+				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First(y => (y as IElementReference).ItemUID == Device.UID)) { GkBaseEntity = Device });
+			});
 		}
 
-		public ObservableCollection<PlanViewModel> PlanNames
-		{
-			get
-			{
-				var planes = ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == Device.UID));
-				var planViewModels = new ObservableCollection<PlanViewModel>();
-				foreach (var plan in planes)
-				{
-					planViewModels.Add(new PlanViewModel(plan, Device));
-				}
-				return planViewModels;
-			}
-		}
-		public RelayCommand<Plan> ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan(Plan plan)
-		{
-			ShowOnPlanHelper.ShowDevice(Device, plan);
-		}
+		//public ObservableCollection<PlanViewModel> PlanNames
+		//{
+		//	get
+		//	{
+		//		var planes = ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == Device.UID));
+		//		var planViewModels = new ObservableCollection<PlanViewModel>();
+		//		foreach (var plan in planes)
+		//		{
+		//			planViewModels.Add(new PlanViewModel(plan, Device));
+		//		}
+		//		return planViewModels;
+		//	}
+		//}
+		//public RelayCommand<Plan> ShowOnPlanCommand { get; private set; }
+		//void OnShowOnPlan(Plan plan)
+		//{
+		//	ShowOnPlanHelper.ShowDevice(Device, plan);
+		//}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
@@ -281,25 +276,25 @@ namespace GKModule.ViewModels
 		}
 	}
 
-	public class PlanViewModel : BaseViewModel
-	{
-		Plan Plan;
-		GKDevice Device;
-		public string Name
-		{
-			get { return Plan.Caption; }
-		}
-		public PlanViewModel(Plan plan, GKDevice device)
-		{
-			Plan = plan;
-			Device = device;
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
-		}
+	//public class PlanViewModel : BaseViewModel
+	//{
+	//	Plan Plan;
+	//	GKDevice Device;
+	//	public string Name
+	//	{
+	//		get { return Plan.Caption; }
+	//	}
+	//	public PlanViewModel(Plan plan, GKDevice device)
+	//	{
+	//		Plan = plan;
+	//		Device = device;
+	//		ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+	//	}
 
-		public RelayCommand ShowOnPlanCommand { get; private set; }
-		private void OnShowOnPlan()
-		{
-			ShowOnPlanHelper.ShowDevice(Device, Plan);
-		}
-	}
+	//	public RelayCommand ShowOnPlanCommand { get; private set; }
+	//	private void OnShowOnPlan()
+	//	{
+	//		ShowOnPlanHelper.ShowDevice(Device, Plan);
+	//	}
+	//}
 }
