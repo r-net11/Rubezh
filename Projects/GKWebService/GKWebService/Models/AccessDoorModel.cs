@@ -61,9 +61,8 @@ namespace GKWebService.Models
 				selectedEnterSchedule = EnterSchedules.FirstOrDefault();
 				selectedExitSchedule = ExitSchedules.FirstOrDefault();
 			}
-
-			SelectedEnterScheduleNo = (selectedEnterSchedule == null ? null : (int?)selectedEnterSchedule.ScheduleNo);
-			SelectedExitScheduleNo = (selectedExitSchedule == null ? null : (int?)selectedExitSchedule.ScheduleNo);
+			SelectedEnterSchedule = selectedEnterSchedule;
+			SelectedExitSchedule = selectedExitSchedule;
 		}
 	}
 
@@ -79,7 +78,7 @@ namespace GKWebService.Models
 			Name = name;
 		}
 
-		public int ScheduleNo { get; private set; }
-		public string Name { get; private set; }
+		public int ScheduleNo { get; set; }
+		public string Name { get; set; }
 	}
 }

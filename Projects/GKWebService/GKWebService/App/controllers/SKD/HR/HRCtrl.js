@@ -5,7 +5,9 @@
     var app = angular.module('gkApp.controllers').controller('HRCtrl', 
         ['$scope', '$uibModal', 'authData', 'employeesService',
         function ($scope, $uibModal, authData, employeesService) {
-            $scope.canEmployeesView = function() {
+            $scope.authData = authData;
+
+            $scope.canEmployeesView = function () {
                 return authData.checkPermission('Oper_SKD_Employees_View');
             };
 
@@ -51,6 +53,10 @@
             } else if ($scope.canGuestsView()) {
                 $scope.selectedPersonType = "Guest";
             }
+
+            $scope.isWithDeleted = function() {
+                return $scope.filter.LogicalDeletationType === "All";
+            };
 
             $scope.filter = {
                 LogicalDeletationType: "Active",

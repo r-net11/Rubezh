@@ -7,16 +7,16 @@
 
 <div id="HR">
     <div class="HrToolbar" ng-show="activeTab === 0" ng-controller="employeesToolbarCtrl">
-        <div data-bind="visible:!Employees.EmployeeCards.IsCardSelected()">
-            <div class="icon add" data-bind="click: Employees.CanAdd() ? function(data,event) { Employees.AddEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.AddCommandToolTip}, css: {disabled: !Employees.CanAdd()}"></div>
-            <div class="icon delete" data-bind="click: Employees.CanRemove() ? function(data,event) { Employees.RemoveEmployeeClick(data, event); } : null, attr: {title: Employees.RemoveCommandToolTip}, css: {disabled: !Employees.CanRemove()}"></div>
-            <div class="icon edit" ng-click="editEmployeeClick()" data-bind="click: Employees.CanEdit() ? function(data,event) { Employees.EditEmployeeClick(data, event, '#employee-details-box'); } : null, attr: {title: Employees.EditCommandToolTip}, css: {disabled: !Employees.CanEdit()}"></div>
-            <div class="icon redo" title="Восстановить" data-bind="visible:Filter.IsWithDeleted, click: Employees.CanRestore() ? function(data,event) { Employees.RestoreEmployeeClick(data, event); } : null, css: {disabled: !Employees.CanRestore()}"></div>
+        <div ng-show="selectedCard === null">
+            <div class="icon add" ng-attr-title="{{addCommandToolTip()}}" ng-disabled="!canAdd()" ng-click="canAdd() && addEmployeeClick()"></div>
+            <div class="icon delete" ng-attr-title="{{removeCommandToolTip()}}" ng-disabled="!canRemove()" ng-click="canRemove() && removeEmployeeClick()"></div>
+            <div class="icon edit" ng-attr-title="{{editCommandToolTip()}}" ng-disabled="!canEdit()" ng-click="canEdit() && editEmployeeClick()"></div>
+            <div class="icon redo" title="Восстановить" ng-show="isWithDeleted()" ng-disabled="!canRestore()" ng-click="canRestore() && restoreEmployeeClick()"></div>
         </div>
-        <div class="icon add" title="Добавить пропуск" data-bind="click: Employees.EmployeeCards.CanAddCard() ? function(data,event) { Employees.EmployeeCards.AddEmployeeCardClick(data, event, '#employee-card-details-box'); } : null, css: {disabled: !Employees.EmployeeCards.CanAddCard()}"></div>
-        <div data-bind="visible:Employees.EmployeeCards.IsCardSelected">
-            <div class="icon delete" title="Удалить пропуск" data-bind="click: Employees.EmployeeCards.CanEditCard() ? function(data,event) { Employees.EmployeeCards.RemoveEmployeeCardClick(data, event); } : null, css: {disabled: !Employees.EmployeeCards.CanEditCard()}"></div>
-            <div class="icon edit" title="Редактировать пропуск" data-bind="click: Employees.EmployeeCards.CanEditCard() ? function(data,event) { Employees.EmployeeCards.EditEmployeeCardClick(data, event, '#employee-card-details-box'); } : null, css: {disabled: !Employees.EmployeeCards.CanEditCard()}"></div>
+        <div class="icon add" title="Добавить пропуск" ng-disabled="!canAddCard()" ng-click="canAddCard() && addEmployeeCardClick()"></div>
+        <div ng-show="selectedCard !== null">
+            <div class="icon delete" title="Удалить пропуск" ng-disabled="!canEditCard()" ng-click="canEditCard() && removeEmployeeCardClick()"></div>
+            <div class="icon edit" title="Редактировать пропуск"  ng-disabled="!canEditCard()" ng-click="canEditCard() && editEmployeeCardClick()"></div>
             <div class="icon print" title="Печать удостоверения"></div>
         </div>
     </div>
