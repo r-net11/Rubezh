@@ -98,7 +98,6 @@ namespace VideoModule.ViewModels
 				{
 					ClientManager.SystemConfiguration.RviServers = rviDeviceSelectionViewModel.RviServers;
 					ClientManager.SystemConfiguration.UpdateRviConfiguration();
-					ClientManager.UpdatePlansConfiguration();
 					Initialize();
 					ServiceFactory.SaveService.CamerasChanged = true;
 					PlanExtension.Instance.Cache.BuildSafe<Camera>();

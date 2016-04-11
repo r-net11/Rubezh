@@ -136,7 +136,6 @@ namespace GKModule.Plans
 					{
 						var eventArgs = new NavigateToPlanElementEventArgs(plan.UID, element.UID);
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(eventArgs);
-						var xxx = eventArgs.WasShown;
 						return;
 					}
 		}

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace AutomationModule.ViewModels
 {
@@ -280,7 +279,6 @@ namespace AutomationModule.ViewModels
 										}
 									}
 								case ExplicitType.Float:
-								case ExplicitType.Double:
 									{
 										double x;
 										if (Double.TryParse(Hysteresis, out x))
@@ -336,6 +334,8 @@ namespace AutomationModule.ViewModels
 			SelectedOpcDaTagFilter.Name = Name;
 			SelectedOpcDaTagFilter.Hysteresis = String.IsNullOrEmpty(Hysteresis) ? 0 : Double.Parse(Hysteresis);
 			SelectedOpcDaTagFilter.Description = Description;
+			SelectedOpcDaTagFilter.OpcDaTagFilter.ValueType =
+				OpcDaTagFilter.GetExplicitType(SelectedOpcDaTag.TypeNameOfValue).Value;
 			return true;
 			//return base.Save();
 		}

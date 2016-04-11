@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Infrastructure.Client.Layout.ViewModels;
+using Infrastructure.Common.Services.Layout;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using Infrastructure.Client.Layout.ViewModels;
-using Infrastructure.Common.Services.Layout;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VideoModule.ViewModels
 {
@@ -47,7 +47,7 @@ namespace VideoModule.ViewModels
 
 		public void UpdateLayoutPart(Camera selectedCamera)
 		{
-			CameraTitle = selectedCamera == null ? Title : selectedCamera.Name;
+			CameraTitle = selectedCamera == null ? Title : selectedCamera.PresentationName;
 		}
 	}
 }

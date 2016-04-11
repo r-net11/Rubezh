@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Journal;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhAPI.Journal;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System.Reflection;
 
 namespace JournalModule.ViewModels
 {
@@ -127,9 +125,9 @@ namespace JournalModule.ViewModels
 						skdViewModel.AddChild(filterNameViewModel);
 						break;
 
-					//case JournalSubsystemType.Video:
-					//    videoViewModel.AddChild(filterNameViewModel);
-					//    break;
+					case JournalSubsystemType.Video:
+						videoViewModel.AddChild(filterNameViewModel);
+						break;
 				}
 			}
 

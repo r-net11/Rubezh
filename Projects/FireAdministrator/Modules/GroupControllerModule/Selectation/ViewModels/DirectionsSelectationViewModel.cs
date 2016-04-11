@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -26,8 +27,8 @@ namespace GKModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
 			Directions = directions;
-			TargetDirections = new ObservableCollection<GKDirection>();
-			SourceDirections = new ObservableCollection<GKDirection>();
+			TargetDirections = new SortableObservableCollection<GKDirection>();
+			SourceDirections = new SortableObservableCollection<GKDirection>();
 
 			foreach (var direction in GKManager.Directions)
 			{
@@ -36,12 +37,14 @@ namespace GKModule.ViewModels
 				else
 					SourceDirections.Add(direction);
 			}
+			TargetDirections.Sort(x => x.No);
+			SourceDirections.Sort(x => x.No);
 
 			SelectedTargetDirection = TargetDirections.FirstOrDefault();
 			SelectedSourceDirection = SourceDirections.FirstOrDefault();
 		}
 
-		public ObservableCollection<GKDirection> SourceDirections { get; private set; }
+		public SortableObservableCollection<GKDirection> SourceDirections { get; private set; }
 
 		GKDirection _selectedSourceDirection;
 		public GKDirection SelectedSourceDirection
@@ -54,7 +57,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GKDirection> TargetDirections { get; private set; }
+		public SortableObservableCollection<GKDirection> TargetDirections { get; private set; }
 
 		GKDirection _selectedTargetDirection;
 		public GKDirection SelectedTargetDirection
@@ -87,6 +90,7 @@ namespace GKModule.ViewModels
 				TargetDirections.Add(SourceDirectionViewModel);
 				SourceDirections.Remove(SourceDirectionViewModel);
 			}
+			TargetDirections.Sort(x => x.No);
 			SelectedTargetDirection = TargetDirections.LastOrDefault();
 			OnPropertyChanged(() => SourceDirections);
 
@@ -114,6 +118,7 @@ namespace GKModule.ViewModels
 				SourceDirections.Add(TargetDirectionViewModel);
 				TargetDirections.Remove(TargetDirectionViewModel);
 			}
+			SourceDirections.Sort(x => x.No);
 			SelectedSourceDirection = SourceDirections.LastOrDefault();
 			OnPropertyChanged(() => TargetDirections);
 
@@ -132,24 +137,6 @@ namespace GKModule.ViewModels
 			return SelectedTargetDirection != null;
 		}
 
-		public RelayCommand AddOneCommand { get; private set; }
-		void OnAddOne()
-		{
-			TargetDirections.Add(SelectedSourceDirection);
-			SelectedTargetDirection = SelectedSourceDirection;
-			SourceDirections.Remove(SelectedSourceDirection);
-			SelectedSourceDirection = SourceDirections.FirstOrDefault();
-		}
-
-		public RelayCommand RemoveOneCommand { get; private set; }
-		void OnRemoveOne()
-		{
-			SourceDirections.Add(SelectedTargetDirection);
-			SelectedSourceDirection = SelectedTargetDirection;
-			TargetDirections.Remove(SelectedTargetDirection);
-			SelectedTargetDirection = TargetDirections.FirstOrDefault();
-		}
-
 		public RelayCommand AddAllCommand { get; private set; }
 		void OnAddAll()
 		{
@@ -157,6 +144,7 @@ namespace GKModule.ViewModels
 			{
 				TargetDirections.Add(zoneViewModel);
 			}
+			TargetDirections.Sort(x => x.No);
 			SourceDirections.Clear();
 			SelectedTargetDirection = TargetDirections.FirstOrDefault();
 		}
@@ -168,6 +156,7 @@ namespace GKModule.ViewModels
 			{
 				SourceDirections.Add(zoneViewModel);
 			}
+			SourceDirections.Sort(x => x.No);
 			TargetDirections.Clear();
 			SelectedSourceDirection = SourceDirections.FirstOrDefault();
 		}

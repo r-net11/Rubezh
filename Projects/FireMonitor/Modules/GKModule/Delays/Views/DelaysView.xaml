@@ -10,7 +10,7 @@
 		<DataGrid ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}" CanUserSortColumns="True">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-					<MouseBinding Command="{Binding DataContext.SelectedDelay.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+					<MouseBinding Command="{Binding DataContext.SelectedDelay.ShowOnPlanOrPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
 				</InputBindingCollection>
 			</DataGrid.Resources>
 			<DataGrid.ItemContainerStyle>
@@ -40,6 +40,7 @@
 									</Hyperlink>
 									<TextBlock.ContextMenu>
 										<ContextMenu>
+											<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap"  Text="Показать на плане" />
 											<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 											<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 										</ContextMenu>

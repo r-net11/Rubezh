@@ -17,7 +17,7 @@ namespace GKWebService.Models
 		public string DeviceDate { get; set; }
 		public string SystemDate { get; set; }
         public string Name { get; set; }
-        public string Desc { get; set; }
+        public string Description { get; set; }
 		public string ObjectName { get; set; }
 		public string ObjectImageSource { get; set; }
         public string User { get; set; }
@@ -29,7 +29,16 @@ namespace GKWebService.Models
 		public bool CanShow { get; set; }
 		public JournalModel(JournalItem journalItem)
 		{
-			Desc = journalItem.JournalEventDescriptionType.ToDescription();
+			if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
+			{
+				Description = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventDescriptionType);
+				if (!string.IsNullOrEmpty(journalItem.DescriptionText))
+					Description += " " + journalItem.DescriptionText;
+			}
+			else
+			{
+				Description = journalItem.DescriptionText;
+			}
 			SystemDate = journalItem.SystemDateTime.ToString();
 			Name = journalItem.JournalEventNameType.ToDescription();
 			DeviceDate = journalItem.DeviceDateTime.ToString();

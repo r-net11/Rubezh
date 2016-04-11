@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using GKImitator.Processor;
 using RubezhAPI.GK;
 using GKProcessor;
@@ -24,13 +23,11 @@ namespace GKImitator.ViewModels
 			Current = this;
 			ShowUsersCommand = new RelayCommand(OnShowUsers);
 			ShowSchedulesCommand = new RelayCommand(OnShowSchedules);
-
 			ConfigurationCashHelper.Update();
 			InitializeDescriptors();
-
 			GKProcessor = new NetProcessor();
 			GKProcessor.Start();
-
+			ImitatorServiceManager.Open();
 			DelayThread = new Thread(OnCheckDelays);
 			DelayThread.Start();
 		}

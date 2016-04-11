@@ -9,6 +9,7 @@ using RubezhAPI.Models;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -50,12 +51,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void OnShowOnPlanOrProperties()
 		{
-			if (CanShowOnPlan())
+			var plan = ShowOnPlanHelper.GetPlan(GuardZone.UID);
+			if (plan != null)
 			{
-				var navigateToPlanElementEventArgs = new NavigateToPlanElementEventArgs(Guid.Empty, GuardZone.UID);
-				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(navigateToPlanElementEventArgs);
-				if(!navigateToPlanElementEventArgs.WasShown)
-					DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
+				ShowOnPlanHelper.ShowObjectOnPlan(plan, GuardZone.UID);
 			}
 			else
 				DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
@@ -65,12 +64,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		public void OnShowOnPlan()
 		{
-			var navigateToPlanElementEventArgs = new NavigateToPlanElementEventArgs(Guid.Empty, GuardZone.UID);
-			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(navigateToPlanElementEventArgs);
+			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(GuardZone.UID), GuardZone.UID);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowGuardZone(GuardZone);
+			return ShowOnPlanHelper.GetPlan(GuardZone.UID)!= null;
 		}
 
 

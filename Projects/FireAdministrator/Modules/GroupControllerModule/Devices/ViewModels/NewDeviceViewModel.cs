@@ -14,29 +14,35 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class NewDeviceViewModel : SaveCancelDialogViewModel
 	{
+
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
-		{
+		{			
 			Title = "Добавление устройства";
+
+			if (deviceViewModel.Device.Parent != null && deviceViewModel.Device.Parent.DriverType == GKDriverType.GKMirror)
+				deviceViewModel = deviceViewModel.Parent;
+
 			ParentDeviceViewModel = deviceViewModel;
 			ParentDevice = ParentDeviceViewModel.Device;
 			AddedDevices = new List<DeviceViewModel>();
+			
 			if (ParentDevice.IsConnectedToKAU)
-			{
-				RealParentDevice = ParentDevice.MVPPartParent ?? ParentDevice.KDPartParent ?? ParentDevice.MRKParent ?? ParentDevice.KAUShleifParent;
-				Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => RealParentDevice.Driver.Children.Contains(x.DriverType)));
-				SelectedDriver = Drivers.FirstOrDefault();
-				MinAddress = 1;
-				MaxAddress = 255;
-			}
-			else
-			{
-				Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => ParentDevice.Driver.Children.Contains(x.DriverType)));
-				SelectedDriver = Drivers.FirstOrDefault();
-				MinAddress = SelectedDriver.MinAddress;
-				MaxAddress = SelectedDriver.MaxAddress;
-			}
+				{
+					RealParentDevice = ParentDevice.MVPPartParent ?? ParentDevice.KDPartParent ?? ParentDevice.MRKParent ?? ParentDevice.KAUShleifParent;
+					Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => RealParentDevice.Driver.Children.Contains(x.DriverType)));
+					SelectedDriver = Drivers.FirstOrDefault();
+					MinAddress = 1;
+					MaxAddress = 255;
+				}
+				else
+				{
+					Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => ParentDevice.Driver.Children.Contains(x.DriverType)));
+					SelectedDriver = Drivers.FirstOrDefault();
+					MinAddress = SelectedDriver.MinAddress;
+					MaxAddress = SelectedDriver.MaxAddress;
+				}
 
-			Count = 1;
+		Count = 1;
 		}
 		GKDevice RealParentDevice;
 		DeviceViewModel ParentDeviceViewModel;
@@ -97,15 +103,15 @@ namespace GKModule.ViewModels
 		public bool CreateDevices()
 		{
 			AddedDevices = new List<DeviceViewModel>();
-			var startAddress = RealParentDevice == null ? GKManager.GetAddress(ParentDevice.Children.Where(x=> x.Driver.HasAddress)) : GKManager.GetAddress(RealParentDevice.KAUShleifParent.AllChildren);
+			var startAddress = RealParentDevice == null ? GKManager.GetAddress(ParentDevice.Children.Where(x => x.Driver.HasAddress)) : GKManager.GetAddress(RealParentDevice.KAUShleifParent.AllChildren);
 
 			if (RealParentDevice != null)
 			{
-				if (Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) + startAddress > 255)
-				{
-					ServiceFactory.MessageBoxService.ShowWarning("При добавлении количество устройств на АЛС максимально допустимое значения в 255");
-					return false;
-				}
+					if (Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) + startAddress > 255)
+					{
+						ServiceFactory.MessageBoxService.ShowWarning("При добавлении количество устройств на АЛС максимально допустимое значения в 255");
+						return false;
+					}
 			}
 			else
 			{

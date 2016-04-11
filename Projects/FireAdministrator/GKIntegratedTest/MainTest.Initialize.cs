@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows.Threading;
 using Common;
 using Ionic.Zip;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -73,15 +74,27 @@ namespace GKIntegratedTest
 		[TestMethod]
 		public void TestFireZone()
 		{
-			var device = AddDevice(kauDevice11, GKDriverType.RSR2_GuardDetector);
-			var guardZone = new GKGuardZone { Name = "Новая зона", No = 1 };
-			var guardZoneDevice = new GKGuardZoneDevice { Device = device, DeviceUID = device.UID};
-			GKManager.AddGuardZone(guardZone);
-			GKManager.AddDeviceToGuardZone(guardZone, guardZoneDevice);
+			var device = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
+			var zone = new GKZone { Name = "Новая зона", No = 1 };
+			GKManager.AddZone(zone);
+			GKManager.AddDeviceToZone(device, zone);
 			SaveConfigToFile(true);
+			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
+			var connectionStatus = CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
 			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
-			RunProcess("GKImitator", "GKImitatorPath");
+			CheckTime(()=>WaitWhileState(zone, XStateClass.Norm, 5000), "Инициализация состояний");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
+			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Fire1);
+			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 3000), "Переход зоны в сработку1");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, что зона перешла в пожар1");
+			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Fire2);
+			CheckTime(() => WaitWhileState(zone, XStateClass.Fire2, 3000), "Переход зоны в сработку2");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire2, "Проверка того, что зона перешла в пожар2");
+			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Reset);
+			CheckTime(() => WaitWhileState(zone, XStateClass.Norm, 3000), "Проверка того, что зона перешла в норму");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона перешла в норму");
+			ClientManager.Disconnect();
 		}
 
 		void InitializeRootDevices()
@@ -133,15 +146,21 @@ namespace GKIntegratedTest
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
+		void WaitWhileState(GKBase gkBase, XStateClass gkState, int milliseconds)
+		{
+			int timeOut = 0;
+			while (gkBase.State.StateClass != gkState && timeOut < milliseconds)
+			{
+				Thread.Sleep(50);
+				timeOut += 50;
+			}
+		}
 
-		public void RunProcess(string processName, string processPathName)
+		public void RunProcess(string processName, string processPathName) // sync (max 10 sec)
 		{
 			try
 			{
-				var processes = Process.GetProcessesByName(processName);
-				var processes2 = Process.GetProcessesByName(processName + ".vshost");
-				var runningVsProcess = processes2.Any(x => x.Threads.Count > 20);
-				if (!processes.Any() && !runningVsProcess)
+				if (!CheckProcessIsRunning(processName))
 				{
 					var processPath = RegistrySettingsHelper.GetString(processPathName);
 					if (!String.IsNullOrEmpty(processPath))
@@ -149,6 +168,26 @@ namespace GKIntegratedTest
 						Process.Start(processPath);
 					}
 				}
+				for (int i = 0; i < 10; i ++)
+				{
+					Thread.Sleep(1000);
+					if (CheckProcessIsRunning(processName))
+						return;
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		public bool CheckProcessIsRunning(string processName)
+		{
+			try
+			{
+				var processes = Process.GetProcessesByName(processName);
+				var processes2 = Process.GetProcessesByName(processName + ".vshost");
+				return processes.Any() || processes2.Any(x => x.Threads.Count > 20);
 			}
 			catch (Exception ex)
 			{
@@ -183,7 +222,8 @@ namespace GKIntegratedTest
 
 		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
-			ApplicationService.Invoke(() => CopyGKStates(gkCallbackResult.GKStates));
+			//ApplicationService.Invoke(() => CopyGKStates(gkCallbackResult.GKStates));
+			Dispatcher.CurrentDispatcher.Invoke(() => CopyGKStates(gkCallbackResult.GKStates));
 		}
 
 		public void OnNewJournalItems(List<JournalItem> journalItems, bool isNew)
@@ -235,15 +275,82 @@ namespace GKIntegratedTest
 					pumpStation.State.OnStateChanged();
 				}
 			}
+			foreach (var remoteMPTState in gkStates.MPTStates)
+			{
+				var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == remoteMPTState.UID);
+				if (mpt != null)
+				{
+					remoteMPTState.CopyTo(mpt.State);
+					mpt.State.OnStateChanged();
+				}
+			}
 			foreach (var delayState in gkStates.DelayStates)
 			{
 				var delay = GKManager.Delays.FirstOrDefault(x => x.UID == delayState.UID);
-				if (delay == null)
-					delay = GKManager.Delays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
 					delay.State.OnStateChanged();
+				}
+				else
+				{
+					delay = GKManager.AutoGeneratedDelays.FirstOrDefault(x => x.UID == delayState.UID);
+					if (delay == null)
+						delay = GKManager.AutoGeneratedDelays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
+					if (delay != null)
+					{
+						delayState.CopyTo(delay.State);
+						delay.State.OnStateChanged();
+					}
+				}
+			}
+			foreach (var remotePimState in gkStates.PimStates)
+			{
+				var pim = GKManager.AutoGeneratedPims.FirstOrDefault(x => x.UID == remotePimState.UID);
+				if (pim == null)
+					pim = GKManager.AutoGeneratedPims.FirstOrDefault(x => x.PresentationName == remotePimState.PresentationName);
+				if (pim == null)
+					pim = GKManager.GlobalPims.FirstOrDefault(x => x.DeviceUid == remotePimState.ReferenceUid);
+				if (pim != null)
+				{
+					remotePimState.CopyTo(pim.State);
+					pim.State.OnStateChanged();
+				}
+			}
+			foreach (var remoteGuardZoneState in gkStates.GuardZoneStates)
+			{
+				var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == remoteGuardZoneState.UID);
+				if (guardZone != null)
+				{
+					remoteGuardZoneState.CopyTo(guardZone.State);
+					guardZone.State.OnStateChanged();
+				}
+			}
+			foreach (var remoteDoorState in gkStates.DoorStates)
+			{
+				var door = GKManager.Doors.FirstOrDefault(x => x.UID == remoteDoorState.UID);
+				if (door != null)
+				{
+					remoteDoorState.CopyTo(door.State);
+					door.State.OnStateChanged();
+				}
+			}
+			foreach (var remoteSKDZoneState in gkStates.SKDZoneStates)
+			{
+				var skdZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == remoteSKDZoneState.UID);
+				if (skdZone != null)
+				{
+					remoteSKDZoneState.CopyTo(skdZone.State);
+					skdZone.State.OnStateChanged();
+				}
+			}
+			foreach (var deviceMeasureParameter in gkStates.DeviceMeasureParameters)
+			{
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceMeasureParameter.DeviceUID);
+				if (device != null)
+				{
+					device.State.XMeasureParameterValues = deviceMeasureParameter.MeasureParameterValues;
+					device.State.OnMeasureParametersChanged();
 				}
 			}
 		}

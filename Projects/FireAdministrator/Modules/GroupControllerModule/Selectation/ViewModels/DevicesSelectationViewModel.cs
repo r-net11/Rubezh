@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -35,8 +36,8 @@ namespace GKModule.ViewModels
 
 		void UpdateDevices()
 		{
-			AvailableDevices = new ObservableCollection<GKDevice>();
-			Devices = new ObservableCollection<GKDevice>();
+			AvailableDevices = new SortableObservableCollection<GKDevice>();
+			Devices = new SortableObservableCollection<GKDevice>();
 			SelectedAvailableDevice = null;
 			SelectedDevice = null;
 
@@ -50,6 +51,8 @@ namespace GKModule.ViewModels
 						AvailableDevices.Add(device);
 				}
 			}
+			Devices.Sort(x => x.DescriptorPresentationName);
+			AvailableDevices.Sort(x => x.DescriptorPresentationName);
 
 			SelectedDevice = Devices.FirstOrDefault();
 			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
@@ -59,8 +62,8 @@ namespace GKModule.ViewModels
 		}
 
 		public List<GKDevice> DevicesList { get; private set; }
-		public ObservableCollection<GKDevice> AvailableDevices { get; private set; }
-		public ObservableCollection<GKDevice> Devices { get; private set; }
+		public SortableObservableCollection<GKDevice> AvailableDevices { get; private set; }
+		public SortableObservableCollection<GKDevice> Devices { get; private set; }
 
 		GKDevice _selectedAvailableDevice;
 		public GKDevice SelectedAvailableDevice
@@ -103,6 +106,7 @@ namespace GKModule.ViewModels
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
 			}
+			Devices.Sort(x => x.DescriptorPresentationName);
 			SelectedDevice = Devices.LastOrDefault();
 			OnPropertyChanged(() => AvailableDevices);
 
@@ -130,6 +134,7 @@ namespace GKModule.ViewModels
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
 			}
+			AvailableDevices.Sort(x => x.DescriptorPresentationName);
 			SelectedAvailableDevice = AvailableDevices.LastOrDefault();
 			OnPropertyChanged("Devices");
 
@@ -166,6 +171,7 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(device);
 			}
+			Devices.Sort(x => x.DescriptorPresentationName);
 			AvailableDevices.Clear();
 			SelectedDevice = Devices.FirstOrDefault();
 		}
@@ -178,6 +184,7 @@ namespace GKModule.ViewModels
 			{
 				AvailableDevices.Add(device);
 			}
+			AvailableDevices.Sort(x => x.DescriptorPresentationName);
 			Devices.Clear();
 			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 		}

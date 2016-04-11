@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using System.Collections.Generic;
+using Infrustructure.Plans.Interfaces;
 
 namespace GKModule.ViewModels
 {
@@ -55,26 +56,10 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			ShowOnPlanHelper.GetAllPlans(Zone.UID).ForEach(x =>
 			{
-				ElementBase elementBase;
-				elementBase = plan.ElementRectangleGKZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Zone;
-					Plans.Add(alarmPlanViewModel);
-					continue;
-				}
-
-				elementBase = plan.ElementPolygonGKZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Zone;
-					Plans.Add(alarmPlanViewModel);
-				}
-			}
+				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First(y => (y as IElementReference).ItemUID == Zone.UID)) { GkBaseEntity = Zone});
+			});
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }
