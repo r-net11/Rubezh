@@ -89,7 +89,7 @@ namespace Infrastructure
 
 		public static bool CanShowOnPlan(List<Guid> planElementUIDs)
 		{
-			return GetAllPlans(planElementUIDs) != null;
+			return GetAllPlans(planElementUIDs).Any();
 		}
 
 		public static void ShowGKSKDZone(GKSKDZone zone)
