@@ -40,6 +40,8 @@ namespace GKModule.ViewModels
 				else
 					SourceZones.Add(guardZone);
 			}
+			TargetZones.Sort(x => x.No);
+			SourceZones.Sort(x => x.No);
 
 			SelectedTargetZone = TargetZones.FirstOrDefault();
 			SelectedSourceZone = SourceZones.FirstOrDefault();

@@ -62,13 +62,14 @@ namespace VideoModule.ViewModels
 		}
 		void OnCameraStatusChanged()
 		{
-			if (!IsConnected && Camera.Status == RviStatus.Connected)
-				OnPlay();
-			else if (IsConnected && Camera.Status != RviStatus.Connected)
-				OnStop();
+			var oldStatus = Status;
 			IsRecordOnline = Camera.IsRecordOnline;
 			IsOnGuard = Camera.IsOnGuard;
 			Status = Camera.Status;
+			if (oldStatus != RviStatus.Connected && Camera.Status == RviStatus.Connected)
+				OnPlay();
+			else if (oldStatus == RviStatus.Connected && Camera.Status != RviStatus.Connected)
+				OnStop();
 			OnPropertyChanged(() => IsRecordOnline);
 			OnPropertyChanged(() => IsOnGuard);
 			OnPropertyChanged(() => Status);

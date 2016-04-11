@@ -43,7 +43,7 @@
 									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Image Width="16" Source="{Binding Zone.ImageSource}" />
-											<TextBlock Text="{Binding Zone.Name}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
+											<TextBlock Text="{Binding Zone.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>

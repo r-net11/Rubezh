@@ -112,7 +112,7 @@ namespace RviClient
 					}
 				}
 			}
-			catch (Exception) { }
+			catch { }
 			return rviServers;
 		}
 		public static List<RviDevice> GetRviDevices(string url, string login, string password, List<Camera> existingCameras, out bool isNotConnected)

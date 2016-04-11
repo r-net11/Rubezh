@@ -36,9 +36,9 @@ namespace GKProcessor
 
 		public override void BuildObjects()
 		{
+			RestructCollection(Devices);
 			Descriptors = new List<BaseDescriptor>();
 			AddKauDevices();
-			RestructCollection(Devices);
 
 			foreach (var device in Devices)
 			{

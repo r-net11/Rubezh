@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0x1A,
 				DriverType = GKDriverType.RK_RM,
 				UID = new Guid("BA81D3F6-840B-4B9A-8592-C0EEF80C673F"),
-				Name = "Модуль релейный радиоканальный РМ-RK",
-				ShortName = "РМ-RK",
+				Name = "Модуль релейный радиоканальный",
+				ShortName = "РМ-РК",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true

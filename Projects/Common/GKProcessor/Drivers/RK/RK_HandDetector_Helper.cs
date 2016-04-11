@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RK_HandDetector,
 				UID = new Guid("88652A0E-BA4C-4CED-A130-761BED8872A0"),
 				Name = "Извещатель пожарный ручной радиоканальный",
-				ShortName = "ИПР-RK",
+				ShortName = "ИПР-РК",
 				HasZone = true,
 				IsPlaceable = true
 			};

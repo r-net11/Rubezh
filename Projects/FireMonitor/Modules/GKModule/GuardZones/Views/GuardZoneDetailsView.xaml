@@ -70,8 +70,8 @@
 					</StackPanel>
 					<Grid Grid.Row="1" Background="White">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
-							<ColumnDefinition />
+							<ColumnDefinition Width="8*"/>
+							<ColumnDefinition Width="10*"/>
 						</Grid.ColumnDefinitions>
 						<StackPanel Grid.Column="0">
 							<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
@@ -99,7 +99,7 @@
 									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Image Width="16" Source="/Controls;component/Images/GuardZone.png" Margin="2" />
-											<TextBlock Text="{Binding Zone.Name}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
+											<TextBlock Text="{Binding Zone.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>

@@ -59,11 +59,15 @@
 								<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Source="/Controls;component/Images/Door.png" Margin="0 0 0 2" />
-										<TextBlock Text="{Binding Door.Name}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
+										<TextBlock Text="{Binding Door.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 									</StackPanel>
 								</Hyperlink>
 							</TextBlock>
 						</WrapPanel>
+						<StackPanel Orientation="Horizontal" Margin="2" >
+							<TextBlock Text="Номер в ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
+							<TextBlock Text="{Binding Door.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="2">
 							<WrapPanel>
 								<TextBlock>
@@ -76,16 +80,19 @@
 								</TextBlock>
 							</WrapPanel>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal" Margin="2" >
-							<TextBlock Text="Номер в ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
-							<TextBlock Text="{Binding Door.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
-						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="2">
 							<views:PlanLinksView DataContext="{Binding PlanLinks}" />
 						</StackPanel>
+						<StackPanel Orientation="Horizontal" Margin="2">
+							<TextBlock Text="Задержка на выключение, с: " />
+							<TextBlock Text="{Binding Door.Delay}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Margin="2">
+							<TextBlock Text="Удержание, с: " />
+							<TextBlock Text="{Binding Door.Hold}" />
+						</StackPanel>
 					</ItemsControl.Items>
 				</ItemsControl>
-
 			</TabItem>
 			<TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel Background="White">

@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RK_SmokeDetector,
 				UID = new Guid("2685C3BE-FB9B-4D8E-AA57-C66A135B0D76"),
 				Name = "Извещатель пожарный дымовой оптико-электронный радиоканальный",
-				ShortName = "ИП-RK",
+				ShortName = "ИП-РК",
 				HasZone = true,
 				IsPlaceable = true
 			};

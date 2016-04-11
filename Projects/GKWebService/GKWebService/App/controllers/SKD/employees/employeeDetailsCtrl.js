@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('employeeDetailsCtrl',
-        ['$scope', '$uibModalInstance', 'personType', 'employee', 'organisation', 'employeesService',
-        function ($scope, $uibModalInstance, personType, employee, organisation, employeesService) {
+        ['$scope', '$uibModalInstance', 'personType', 'employee', 'organisation', 'isNew', 'employeesService',
+        function ($scope, $uibModalInstance, personType, employee, organisation, isNew, employeesService) {
             var emptyGuid = '00000000-0000-0000-0000-000000000000';
 
             $scope.model = {
@@ -13,7 +13,7 @@
                 isOrganisationHRChief: false
             };
 
-            $scope.isNew = !angular.isObject(employee);
+            $scope.isNew = isNew;
 
             $scope.isEmployee = (personType === "Employee");
 

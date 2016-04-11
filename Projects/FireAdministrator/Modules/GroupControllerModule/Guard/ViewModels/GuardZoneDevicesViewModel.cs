@@ -31,23 +31,6 @@ namespace GKModule.ViewModels
 			Devices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.Driver.HasLogic)
-				{
-					foreach (var clause in device.Logic.OnClausesGroup.Clauses)
-					{
-						foreach (var clauseZone in clause.GuardZones)
-						{
-							if (clauseZone.UID == zone.UID)
-							{
-								var guardZoneDevice = new GKGuardZoneDevice();
-								guardZoneDevice.Device = device;
-								guardZoneDevice.DeviceUID = device.UID;
-								var deviceViewModel = new GuardZoneDeviceViewModel(guardZoneDevice);
-								Devices.Add(deviceViewModel);
-							}
-						}
-					}
-				}
 				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_HandGuardDetector
 					|| device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.Driver.IsCardReaderOrCodeReader)
 				{

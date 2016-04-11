@@ -32,7 +32,7 @@ namespace GKModule.Validation
 		void ValidateDevices()
 		{
 			ValidateAddressEquality();
-
+			secondAndWindowProperties = new List<Tuple<int, int>>();
 			foreach (var device in GKManager.Devices)
 			{
 				ValidateObjectOnlyOnOneGK(device);
@@ -50,6 +50,7 @@ namespace GKModule.Validation
 				if (device.DriverType == GKDriverType.RSR2_CardReader)
 				ValidateWiegand(device);
 				ValidateFirefightingZonesMirror(device);
+				ValidateRKDevices(device);
 			}
 		}
 
@@ -287,6 +288,35 @@ namespace GKModule.Validation
 				AddError(device, string.Format("В образе ЗПЗ отсутсвуют направления"), ValidationErrorLevel.CannotWrite);
 			if (device.GKReflectionItem.Zones.Count == 0 && device.GKReflectionItem.Diretions.Count == 0)
 				AddError(device, string.Format("В образе ЗПЗ отсутсвуют пожарные зоны и направления"), ValidationErrorLevel.CannotWrite);
+		}
+
+		List<Tuple<int, int>> secondAndWindowProperties { get; set; }
+		void ValidateRKDevices(GKDevice device)
+		{
+			if (device.DriverType == GKDriverType.RSR2_MRK)
+			{
+				var mrkProperty = device.Properties.FirstOrDefault(x => x.Name == "Число радиоканальных устройств");
+				if (mrkProperty != null && mrkProperty.Value != device.Children.Count)
+					AddError(device, string.Format("Количество радиоканальных устройств не соответствует параметру МРК"), ValidationErrorLevel.Warning);
+				var periodProperty = device.Properties.FirstOrDefault(x => x.Name == "Период опроса, с");
+				if (periodProperty != null)
+				{
+					foreach (var mrkChildren in device.Children)
+					{
+						
+						var secondProperty = mrkChildren.Properties.FirstOrDefault(x => x.Name == "Секунда периода (не более ПЕРИОД - 1)");
+						var windowProperty = mrkChildren.Properties.FirstOrDefault(x => x.Name == "Окно");
+						if (secondProperty != null && windowProperty != null)
+						{
+							if (secondProperty.Value >= periodProperty.Value)
+								AddError(mrkChildren, string.Format("Секунда не меньше периода"), ValidationErrorLevel.CannotWrite);
+							if (secondAndWindowProperties.Any(x => x.Item1 == secondProperty.Value && x.Item2 == windowProperty.Value))
+								AddError(mrkChildren, string.Format("У различных устройств есть совпадающие пара секунда/окно"), ValidationErrorLevel.CannotWrite);
+							secondAndWindowProperties.Add(new Tuple<int, int>(secondProperty.Value, windowProperty.Value));
+						}
+					}
+				}
+			}
 		}
 	}
 }

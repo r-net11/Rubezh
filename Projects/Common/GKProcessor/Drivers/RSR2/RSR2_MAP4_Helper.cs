@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverTypeNo = 0xE1,
 				DriverType = GKDriverType.RSR2_MAP4,
 				UID = new Guid("42B3C448-2FDD-43D4-AEE0-F173CB8D6CF8"),
-				Name = "Метка адресная пожарная АМП",
+				Name = "Метка адресная пожарная",
 				ShortName = "АМП",
 				HasGuardZone = true,
 				HasZone = true,

@@ -5,13 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
 using Common;
-using Ionic.Zip;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure;
@@ -24,17 +21,15 @@ using Stopwatch = NUnit.Framework.Compatibility.Stopwatch;
 
 namespace GKIntegratedTest
 {
-	[TestClass]
-	public class MainTest
+	[TestFixture]
+	public partial class ItegratedTest
 	{
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
 		GKDevice kauDevice12;
+		List<JournalItem> jourlnalItems;
 
-		GKDevice gkDevice2;
-		GKDevice kauDevice21;
-		GKDevice kauDevice22;
-		[TestInitialize]
+		[SetUp]
 		public void InitializeConnection()
 		{
 			CheckTime(()=>RunProcess("FiresecService", "FiresecServerPath"), "Запуск сервера");
@@ -63,6 +58,7 @@ namespace GKIntegratedTest
 			DescriptorsManager.Create();
 			InitializeStates();
 			ServiceFactory.Initialize(null, null);
+			jourlnalItems = new List<JournalItem>();
 
 			SafeFiresecService.GKCallbackResultEvent -= OnGKCallbackResult;
 			SafeFiresecService.GKCallbackResultEvent += OnGKCallbackResult;
@@ -71,33 +67,17 @@ namespace GKIntegratedTest
 			SafeFiresecService.JournalItemsEvent += OnNewJournalItems;
 		}
 
-		[TestMethod]
-		public void TestFireZone()
+		public void SetConfigAndRestartImitator()
 		{
-			var device = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
-			var zone = new GKZone { Name = "Новая зона", No = 1 };
-			GKManager.AddZone(zone);
-			GKManager.AddDeviceToZone(device, zone);
 			SaveConfigToFile(true);
+			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
 			var connectionStatus = CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
 			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
-			CheckTime(()=>WaitWhileState(zone, XStateClass.Norm, 5000), "Инициализация состояний");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
-			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Fire1);
-			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 3000), "Переход зоны в сработку1");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, что зона перешла в пожар1");
-			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Fire2);
-			CheckTime(() => WaitWhileState(zone, XStateClass.Fire2, 3000), "Переход зоны в сработку2");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire2, "Проверка того, что зона перешла в пожар2");
-			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Reset);
-			CheckTime(() => WaitWhileState(zone, XStateClass.Norm, 3000), "Проверка того, что зона перешла в норму");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона перешла в норму");
-			ClientManager.Disconnect();
 		}
 
-		void InitializeRootDevices()
+		void InitializeRootDevices()	
 		{
 			var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
 			Assert.IsNotNull(systemDriver, "В GKManager.Drivers не найден драйвер System");
@@ -110,10 +90,6 @@ namespace GKIntegratedTest
 			}
 			kauDevice11 = GKManager.AddDevice(gkDevice1, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
 			kauDevice12 = GKManager.AddDevice(gkDevice1, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
-
-			gkDevice2 = GKManager.AddDevice(systemDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK), 0);
-			kauDevice21 = GKManager.AddDevice(gkDevice2, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
-			kauDevice22 = GKManager.AddDevice(gkDevice2, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
 		}
 
 		static string SaveConfigToFile(bool isLocal)
@@ -195,6 +171,30 @@ namespace GKIntegratedTest
 			}
 		}
 
+		public void KillProcess(string processName)
+		{
+			try
+			{
+				if (CheckProcessIsRunning(processName))
+				{
+					var processes = Process.GetProcessesByName(processName);
+					var processes2 = Process.GetProcessesByName(processName + ".vshost");
+					processes.ForEach(x => x.Kill());
+					processes2.ForEach(x => x.Kill());
+				}
+				for (int i = 0; i < 10; i++)
+				{
+					Thread.Sleep(1000);
+					if (!CheckProcessIsRunning(processName))
+						return;
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
 		T CheckTime<T>(Func<T> a, string traceMessage)
 		{
 			var stopwatch = new Stopwatch();
@@ -222,7 +222,6 @@ namespace GKIntegratedTest
 
 		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
-			//ApplicationService.Invoke(() => CopyGKStates(gkCallbackResult.GKStates));
 			Dispatcher.CurrentDispatcher.Invoke(() => CopyGKStates(gkCallbackResult.GKStates));
 		}
 
@@ -230,10 +229,7 @@ namespace GKIntegratedTest
 		{
 			if (isNew)
 			{
-				ApplicationService.Invoke(() =>
-				{
-					//JournalsViewModel.OnNewJournalItems(journalItems);
-				});
+				ApplicationService.Invoke(() => jourlnalItems.AddRange(journalItems));
 			}
 		}
 

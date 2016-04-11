@@ -51,6 +51,14 @@
                                 @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
                                 <a ui-sref="archive({uid: door.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
                             </div>
+							<div>
+								<span>Задержка на выключение, с: </span>
+								<span>{{door.Delay}}</span>
+							</div>
+							<div>
+								<span>Удержание, с: </span>
+								<span>{{door.Hold}}</span>
+							</div>
                         </div>
                     </div>
                 </uib-tab>

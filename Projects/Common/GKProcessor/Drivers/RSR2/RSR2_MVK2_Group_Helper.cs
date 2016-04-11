@@ -11,7 +11,7 @@ namespace GKProcessor
 			{
 				DriverType = GKDriverType.RSR2_MVK2_Group,
 				UID = new Guid("2ABAF6C0-6B9B-4658-8AB6-7FF15914B06F"),
-				Name = "Модуль выходов с контролем МВК2",
+				Name = "Модуль выходов с контролем групповой",
 				ShortName = "МВК2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_MVK8,
