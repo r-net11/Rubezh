@@ -39,6 +39,8 @@ namespace GKModule.ViewModels
 				else
 					SourceMPTs.Add(mpt);
 			}
+			TargetMPTs.Sort(x => x.No);
+			SourceMPTs.Sort(x => x.No);
 
 			SelectedTargetMPT = TargetMPTs.FirstOrDefault();
 			SelectedSourceMPT = SourceMPTs.FirstOrDefault();

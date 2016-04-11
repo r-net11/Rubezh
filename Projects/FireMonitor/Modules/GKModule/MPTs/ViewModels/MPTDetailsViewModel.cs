@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrustructure.Plans.Interfaces;
 
 namespace GKModule.ViewModels
 {
@@ -185,6 +186,10 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
+			ShowOnPlanHelper.GetAllPlans(MPT.UID).ForEach(x =>
+			{
+				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First(y => (y as IElementReference).ItemUID == MPT.UID)) { GkBaseEntity = MPT });
+			});
 		}
 
 		public bool CanControl

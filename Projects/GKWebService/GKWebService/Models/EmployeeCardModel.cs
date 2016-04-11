@@ -16,15 +16,11 @@ namespace GKWebService.Models
 		
 		public GKSchedule SelectedSchedule { get; set; }
 
-		public int? SelectedScheduleNo { get; set; }
-
 		public bool UseStopList { get; set; }
 
 		public List<SKDCard> StopListCards { get; set; }
 
 		public SKDCard SelectedStopListCard { get; set; }
-
-		public Guid? SelectedStopListCardId { get; set; }
 
 		public List<GKControllerModel> AvailableGKControllers { get; set; }
 
@@ -34,19 +30,18 @@ namespace GKWebService.Models
 
 		public List<AccessTemplate> AvailableAccessTemplates { get; set; }
 
-		public Guid? SelectedAccessTemplateId { get; set; }
-
 		public bool IsGuest { get; set; }
-		
+		public AccessTemplate SelectedAccessTemplate { get; set; }
+
 		public EmployeeCardModel()
 		{
 		}
 
 		public void Save()
 		{
-			if (UseStopList && SelectedStopListCardId.HasValue)
+			if (UseStopList && SelectedStopListCard != null)
 			{
-				Card.UID = SelectedStopListCardId.Value;
+				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
 			}
@@ -58,30 +53,30 @@ namespace GKWebService.Models
 				Card.GKControllerUIDs = AvailableGKControllers.Where(x => x.IsChecked).Select(x => x.UID).ToList();
 			}
 
-			if (SelectedScheduleNo.HasValue)
+			if (SelectedSchedule != null)
 			{
-				Card.GKLevelSchedule = SelectedScheduleNo.Value;
+				Card.GKLevelSchedule = SelectedSchedule.No;
 			}
 
 			Card.CardDoors = Doors.Where(d => d.IsChecked)
 				.Select(d => new CardDoor
 				{
 					DoorUID = d.DoorUID,
-					EnterScheduleNo = d.SelectedEnterScheduleNo ?? 0,
-					ExitScheduleNo = d.SelectedExitScheduleNo ?? 0,
+					EnterScheduleNo = (d.SelectedEnterSchedule == null) ? 0 : d.SelectedEnterSchedule.ScheduleNo,
+					ExitScheduleNo = (d.SelectedExitSchedule == null) ? 0 : d.SelectedExitSchedule.ScheduleNo,
 					CardUID = Card.UID,
 				})
 				.ToList();
 
-			if (SelectedAccessTemplateId != null)
+			if (SelectedAccessTemplate != null)
 			{
-				if (SelectedAccessTemplateId.Equals(Guid.Empty))
+				if (SelectedAccessTemplate.UID.Equals(Guid.Empty))
 				{
 					Card.AccessTemplateUID = null;
 				}
 				else
 				{
-					Card.AccessTemplateUID = SelectedAccessTemplateId;
+					Card.AccessTemplateUID = SelectedAccessTemplate.UID;
 				}
 			}
 

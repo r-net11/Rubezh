@@ -1,9 +1,7 @@
 ﻿<UserControl x:Class="VideoModule.Views.LayoutPartCameraView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer"
-			 Unloaded="UserControl_Unloaded"
-			 Loaded="UserControl_Loaded">
+			 xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer">
 	<Grid Background="Black">
 		<mediaSourcePlayer:MediaPlayer x:Name="MediaSourcePlayer" OriginalAspectRatio="True" />
 	</Grid>

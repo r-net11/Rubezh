@@ -24,10 +24,10 @@
 			<Controls:IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<Controls:IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />
 			<Separator />
-			<Controls:IconedMenuItem  ImageSource="BPaste" Text="Зона пожаротушения в МПТ" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
+			<Controls:IconedMenuItem ImageSource="BPaste" Text="Генерация отражения" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
 				<Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenerateZonesCommand}" />
 				<Controls:IconedMenuItem Text="Охранные зоны" Command="{Binding GenerateGuardZonesCommand}" />
-				<Controls:IconedMenuItem Text="Зоны пожаратушения" Command="{Binding GenerateMPTCommand}" />
+				<Controls:IconedMenuItem Text="Зона пожаратушения в МПТ" Command="{Binding GenerateMPTCommand}" />
 				<Controls:IconedMenuItem Text="Исполнительные устройства" Command="{Binding GenerateForPerformersDevicesCommand}" />
 				<Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenerateForDetectorDevicesCommand}" />
 				<Controls:IconedMenuItem Text="Направления" Command="{Binding GenerateDirectionsCommand}" />

@@ -10,6 +10,7 @@
                     $scope.gridApi = gridApi;
                     gridApi.selection.on.rowSelectionChanged($scope, function(row) {
                         employeesService.selectedEmployee = row.entity;
+                        employeesService.selectedCard = null;
                     });
                 },                
                 enableRowHeaderSelection: false,
@@ -31,7 +32,7 @@
                 return "height:" + ctrlHeight + "px";
             }();
 
-            $scope.reloadTree = function() {
+            var reloadTree = function() {
                 $http({
                         method: 'POST',
                         url: 'Employees/GetOrganisations',
@@ -44,21 +45,24 @@
                         });
                         $scope.gridOptions.data = $scope.employees;
                         employeesService.selectedEmployee = null;
+                        employeesService.selectedCard = null;
                         $timeout(function() {
                             $scope.gridApi.treeBase.expandAllRows();
                     });
                 });
             }
 
+            employeesService.reload = reloadTree;
+
             $scope.$watch('filter', function (newValue, oldValue) {
-                $scope.reloadTree();
+                reloadTree();
             }, true);
 
             $scope.toggleRow = function (row, evt) {
                 $scope.gridApi.treeBase.toggleRowTreeState(row);
             };
 
-            $scope.reloadTree();
+            reloadTree();
         }]
     );
 

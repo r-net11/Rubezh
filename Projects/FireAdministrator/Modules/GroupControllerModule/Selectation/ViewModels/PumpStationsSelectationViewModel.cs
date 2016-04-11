@@ -37,6 +37,8 @@ namespace GKModule.ViewModels
 				else
 					SourcePumpStations.Add(pumpStation);
 			}
+			TargetPumpStations.Sort(x => x.No);
+			SourcePumpStations.Sort(x => x.No);
 
 			SelectedTargetPumpStation = TargetPumpStations.FirstOrDefault();
 			SelectedSourcePumpStation = SourcePumpStations.FirstOrDefault();

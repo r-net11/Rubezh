@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
+using RubezhAPI.GK;
 
 namespace RubezhAPI
 {
@@ -7,5 +9,8 @@ namespace RubezhAPI
 	{
 		[OperationContract]
 		OperationResult<string> TestImitator();
+
+		[OperationContract]
+		OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command);
 	}
 }

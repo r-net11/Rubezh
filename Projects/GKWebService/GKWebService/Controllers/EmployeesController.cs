@@ -172,7 +172,7 @@ namespace GKWebService.Controllers
 			cardModel.Card = card;
 
 			cardModel.Schedules = GKScheduleHelper.GetSchedules();
-			cardModel.SelectedScheduleNo = cardModel.Card.GKLevelSchedule;
+	        cardModel.SelectedSchedule = cardModel.Schedules.FirstOrDefault(s => s.No == cardModel.Card.GKLevelSchedule);
 
 			var operationResult = CardHelper.Get(new CardFilter { DeactivationType = LogicalDeletationType.Deleted });
 			cardModel.StopListCards = operationResult.Where(x => x.IsInStopList).ToList();
@@ -196,7 +196,7 @@ namespace GKWebService.Controllers
 				.Concat(AccessTemplateHelper.Get(accessTemplateFilter))
 				.ToList();
             var selectedAccessTemplate = cardModel.AvailableAccessTemplates.FirstOrDefault(x => x.UID == cardModel.Card.AccessTemplateUID);
-            cardModel.SelectedAccessTemplateId = (selectedAccessTemplate == null ? (Guid?) null : selectedAccessTemplate.UID);
+            cardModel.SelectedAccessTemplate = selectedAccessTemplate;
 
             return new JsonNetResult { Data = cardModel };
 		}

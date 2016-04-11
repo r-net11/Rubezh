@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using System.Collections.Generic;
+using Infrustructure.Plans.Interfaces;
 
 namespace GKModule.ViewModels
 {
@@ -64,18 +65,10 @@ namespace GKModule.ViewModels
 		void InitializePlans()
 		{
 			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
+			ShowOnPlanHelper.GetAllPlans(Door.UID).ForEach(x =>
 			{
-				ElementBase elementBase;
-				elementBase = plan.ElementGKDoors.FirstOrDefault(x => x.DoorUID == Door.UID);
-				if (elementBase != null)
-				{
-					var planLinkViewModel = new PlanLinkViewModel(plan, elementBase);
-					planLinkViewModel.GkBaseEntity = Door;
-					Plans.Add(planLinkViewModel);
-					continue;
-				}
-			}
+				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First(y => (y as IElementReference).ItemUID == Door.UID)) { GkBaseEntity = Door });
+			});
 		}
 
 		public bool HasOffDelay

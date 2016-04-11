@@ -1,4 +1,6 @@
-﻿using RubezhAPI;
+﻿using System;
+using RubezhAPI;
+using RubezhAPI.GK;
 
 namespace RubezhClient
 {
@@ -15,6 +17,12 @@ namespace RubezhClient
 		{
 			var imitatorService = ImitatorServiceFactory.Create();
 			return imitatorService.TestImitator();
+		}
+
+		public OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command)
+		{
+			var imitatorService = ImitatorServiceFactory.Create();
+			return imitatorService.ConrtolGKBase(uid, command);
 		}
 	}
 }

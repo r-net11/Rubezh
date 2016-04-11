@@ -164,6 +164,7 @@ namespace RviClient
 						camera.ShowDetailsWidth = existingCamera.ShowDetailsWidth;
 						camera.ShowDetailsMarginLeft = existingCamera.ShowDetailsMarginLeft;
 						camera.ShowDetailsMarginTop = existingCamera.ShowDetailsMarginTop;
+						camera.PlanElementUIDs = existingCamera.PlanElementUIDs;
 					}
 				}
 			}

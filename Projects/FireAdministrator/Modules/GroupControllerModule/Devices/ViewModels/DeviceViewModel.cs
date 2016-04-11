@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			SelectCommand = new RelayCommand(OnSelect, CanSelect);
 			ShowAsListCommand = new RelayCommand(OnShowAsList, CanShowAsList);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			//ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
 			ShowNSLogicCommand = new RelayCommand(OnShowNSLogic, CanShowNSLogic);
 			ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
@@ -270,9 +270,11 @@ namespace GKModule.ViewModels
 		{
 			if (IsDisabled || GetAllParents().Any(x => x.IsDisabled))
 				return false;
-			if (Device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
+			if (Device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU) || Device.AllParents.Any(x => x.DriverType == GKDriverType.GKMirror))
 			{
-				if (Device.DriverType == GKDriverType.KAUIndicator)
+				if (Device.DriverType == GKDriverType.KAUIndicator || Device.DriverType == GKDriverType.GKIndicatorsGroup || Device.DriverType == GKDriverType.GKRelaysGroup)
+					return false;
+				if (Device.Parent.DriverType == GKDriverType.GKRelaysGroup || Device.Parent.DriverType == GKDriverType.GKIndicatorsGroup)
 					return false;
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 					return false;
@@ -493,14 +495,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
-		{
-		}
-		bool CanShowProperties()
-		{
-			return false;
-		}
+		//public RelayCommand ShowPropertiesCommand { get; private set; }
+		//void OnShowProperties()
+		//{
+		//}
+		//bool CanShowProperties()
+		//{
+		//	return false;
+		//}
 
 		public string PresentationZone
 		{

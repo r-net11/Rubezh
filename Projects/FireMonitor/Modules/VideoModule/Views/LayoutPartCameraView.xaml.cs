@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Common;
+using MediaSourcePlayer.MediaSource;
+using System;
 using System.Net;
 using System.Windows;
-using Common;
-using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
@@ -10,19 +10,26 @@ namespace VideoModule.Views
 	public partial class LayoutPartCameraView
 	{
 		bool isLoaded;
+		LayoutPartCameraViewModel viewModel;
 		public LayoutPartCameraView()
 		{
 			InitializeComponent();
 
+			Loaded += UserControl_Loaded;
+			Unloaded += UserControl_Unloaded;
 			DataContextChanged += OnDataContextChanged;
 			Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
 		}
 		void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
 		{
+			Load();
+		}
+		void Load()
+		{
 			if (isLoaded)
 			{
 				Close();
-				Start(); 
+				Start();
 			}
 		}
 		void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
@@ -34,11 +41,16 @@ namespace VideoModule.Views
 		}
 		void UserControl_Unloaded(object sender, RoutedEventArgs e)
 		{
+			if (viewModel != null && viewModel.Camera != null)
+				viewModel.Camera.StatusChanged -= Load;
 			Close();
 			isLoaded = false;
 		}
 		void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
+			viewModel = DataContext as LayoutPartCameraViewModel;
+			if (viewModel != null && viewModel.Camera != null)
+				viewModel.Camera.StatusChanged += Load;
 			Start();
 			isLoaded = true;
 		}
@@ -49,9 +61,9 @@ namespace VideoModule.Views
 		}
 		void Start()
 		{
-			var viewModel = DataContext as LayoutPartCameraViewModel;
 			if (viewModel == null)
 				return;
+
 			try
 			{
 				IPEndPoint ipEndPoint;

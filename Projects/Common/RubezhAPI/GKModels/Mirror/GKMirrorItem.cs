@@ -91,7 +91,6 @@ namespace RubezhAPI.GK
 
 		[DataMember]
 		public List<Guid> MPTUIDs { get; set; }
-
 		
 	}
 }
