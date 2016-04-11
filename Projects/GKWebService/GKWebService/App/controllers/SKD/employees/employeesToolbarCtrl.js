@@ -109,7 +109,7 @@
                  });
 
                  modalInstance.result.then(function () {
-                     employeesService.reload();
+                     employeesService.reloadCards();
                  });
              };
 
@@ -130,11 +130,30 @@
              };
 
              $scope.removeEmployeeCardClick = function () {
-                 if (dialogService.showConfirm("Вы уверены, что хотите архивировать " + itemRemovingName() + "?")) {
-                     employeesService.markDeleted($scope.selectedEmployee).then(function() {
-                         employeesService.reload();
-                     });
-                 }
+                 var modalInstance = $uibModal.open({
+                     animation: false,
+                     templateUrl: 'Employees/CardRemovalReason',
+                     controller: 'cardRemovalReasonCtrl',
+                     backdrop: 'static'
+                 });
+
+                 modalInstance.result.then(function (cardRemovalReason) {
+                     if (cardRemovalReason.removeType === "remove") {
+                         if (dialogService.showConfirm("Вы уверены, что хотите удалить карту?")) {
+                             employeesService.deleteCard($scope.selectedCard.UID).then(function () {
+                                 employeesService.reloadCards();
+                             });
+                         }
+                     };
+                     if (cardRemovalReason.removeType === "deactivate") {
+                        employeesService.deleteCardFromEmployee($scope.selectedCard.UID,
+                            $scope.selectedEmployee.Name,
+                            cardRemovalReason.removalReason)
+                            .then(function () {
+                            employeesService.reloadCards();
+                        });
+                     };
+                 });
              };
 
              $scope.canAddCard = function () {

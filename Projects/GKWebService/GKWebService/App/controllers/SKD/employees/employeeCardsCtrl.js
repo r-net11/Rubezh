@@ -5,7 +5,7 @@
     var app = angular.module('gkApp.controllers').controller('employeeCardsCtrl',
         ['$scope', '$uibModal', '$window', 'employeesService',
          function ($scope, $uibModal, $window, employeesService) {
-             $scope.selectedCard = null;
+             $scope.selectedCard = employeesService.selectedCard = null;
 
              $scope.photoData = { photo: null };
 
@@ -23,21 +23,27 @@
                  ]
              };
 
+             var reload = function() {
+                 $scope.selectedCard = employeesService.selectedCard = null;
+                 employeesService.getEmployeeCards($scope.selectedEmployee.UID).then(function(cards) {
+                     $scope.employeeCards = cards;
+                 });
+             };
+
              $scope.$watch(function () {
                  return employeesService.selectedEmployee;
              }, function(employee) {
                  $scope.selectedEmployee = employee;
-                 $scope.selectedCard = null;
                  $scope.isGuest = (employee.Model.Type === 1);
-                 employeesService.getEmployeeCards($scope.selectedEmployee.UID).then(function(cards) {
-                     $scope.employeeCards = cards;
-                     return employeesService.getEmployeePhoto($scope.selectedEmployee.UID);
-                 }).then(function(photo) {
+                 employeesService.getEmployeePhoto($scope.selectedEmployee.UID).then(function (photo) {
                      $scope.photoData.photo = photo || "//:0";
+                     reload();
                  });
              });
 
-             $scope.cardClick = function(card) {
+             employeesService.reloadCards = reload;
+
+             $scope.cardClick = function (card) {
                  $scope.selectedCard = employeesService.selectedCard = card;
                  if (card) {
                      $scope.gridOptionsDoors.data = card.Doors;
