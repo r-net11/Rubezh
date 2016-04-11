@@ -12,12 +12,14 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using Infrastructure.PlanLink.ViewModels;
 
 namespace GKModule.ViewModels
 {
 	public class GuardZoneDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public GKGuardZone Zone { get; private set; }
+		public PlanLinksViewModel PlanLinks { get; private set; }
 		public GKState State
 		{
 			get { return Zone.State; }
@@ -38,7 +40,7 @@ namespace GKModule.ViewModels
 			Zone = zone;
 			Title = Zone.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
-			InitializePlans();
+			PlanLinks = new PlanLinksViewModel(Zone.PlanElementUIDs);
 		}
 
 		void OnStateChanged()
@@ -61,21 +63,6 @@ namespace GKModule.ViewModels
 				stateClasses.Sort();
 				return stateClasses;
 			}
-		}
-
-		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
-		public bool HasPlans
-		{
-			get { return Plans.Count > 0; }
-		}
-
-		void InitializePlans()
-		{
-			Plans = new ObservableCollection<PlanLinkViewModel>();
-			ShowOnPlanHelper.GetAllPlans(Zone.UID).ForEach(x =>
-			{
-				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First()) { GkBaseEntity = Zone});
-			});
 		}
 
 		public DeviceControlRegime ControlRegime

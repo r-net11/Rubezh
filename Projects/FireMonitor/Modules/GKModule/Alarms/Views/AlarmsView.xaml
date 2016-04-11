@@ -46,7 +46,7 @@
 				<DataGridTemplateColumn Header="План" Width="200">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<ItemsControl ItemsSource="{Binding Plans}">
+							<ItemsControl ItemsSource="{Binding PlanLinks.Plans}">
 								<ItemsControl.ItemsPanel>
 									<ItemsPanelTemplate>
 										<StackPanel Orientation="Horizontal" />
@@ -58,7 +58,7 @@
 											<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
 												<StackPanel Orientation="Horizontal">
 													<Image Width="16" Source="/Controls;component/Images/CMap.png" VerticalAlignment="Center" Margin="1" />
-													<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" />
+													<TextBlock Text="{Binding PlanName}" VerticalAlignment="Center" Margin="1" />
 												</StackPanel>
 											</Hyperlink>
 										</TextBlock>

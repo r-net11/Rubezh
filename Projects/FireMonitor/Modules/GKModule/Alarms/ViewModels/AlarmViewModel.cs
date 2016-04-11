@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.PlanLink.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
 using RubezhAPI.GK;
@@ -18,6 +19,7 @@ namespace GKModule.ViewModels
 	public class AlarmViewModel : BaseViewModel
 	{
 		public Alarm Alarm { get; private set; }
+		public PlanLinksViewModel PlanLinks { get; private set; }
 
 		public AlarmViewModel(Alarm alarm)
 		{
@@ -30,7 +32,9 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			Alarm = alarm;
-			InitializePlans();
+			var Iplan = Alarm.GkBaseEntity as IPlanPresentable;
+			if(Iplan != null)
+				PlanLinks = new PlanLinksViewModel(Iplan.PlanElementUIDs);	
 		}
 
 		public string ObjectName
@@ -59,34 +63,6 @@ namespace GKModule.ViewModels
 				if (Alarm.GkBaseEntity != null)
 					return Alarm.GkBaseEntity.State.StateClass;
 				return XStateClass.Norm;
-			}
-		}
-
-		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
-
-		void InitializePlans()
-		{
-			Plans = new ObservableCollection<PlanLinkViewModel>();
-
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
-			{
-				ElementBase elementBase;
-				var elementUnion = plan.ElementUnion;
-				var gkBaseEntity = Alarm.GkBaseEntity as IPlanPresentable;
-				if (gkBaseEntity != null)
-				{
-					foreach (var planElementUID in gkBaseEntity.PlanElementUIDs)
-					{
-						elementBase = elementUnion.FirstOrDefault(x => x.UID == planElementUID);
-						if (elementBase != null)
-						{
-							var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-							alarmPlanViewModel.GkBaseEntity = Alarm.GkBaseEntity;
-							Plans.Add(alarmPlanViewModel);
-							break;
-						}
-					}
-				}
 			}
 		}
 
@@ -145,35 +121,39 @@ namespace GKModule.ViewModels
 			GKMPT mpt;
 			GKDelay delay;
 			GKDoor door;
-			//Camera camera;
+			GKPumpStation pumpStation;
 
 			if ((device = Alarm.GkBaseEntity as GKDevice) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(device.UID), device.UID);
+				ShowOnPlanHelper.ShowObjectOnPlan(device.PlanElementUIDs);
 			}
 			if ((zone = Alarm.GkBaseEntity as GKZone) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(zone.UID), zone.UID);
+				ShowOnPlanHelper.ShowObjectOnPlan(zone.PlanElementUIDs);
+			}
+			if ((pumpStation = Alarm.GkBaseEntity as GKPumpStation) != null)
+			{
+				ShowOnPlanHelper.ShowObjectOnPlan(pumpStation.PlanElementUIDs);
 			}
 			if ((guardZone = Alarm.GkBaseEntity as GKGuardZone) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(guardZone.UID), guardZone.UID);
+				ShowOnPlanHelper.ShowObjectOnPlan(guardZone.PlanElementUIDs);
 			}
 			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(direction.UID), direction.UID);
+				ShowOnPlanHelper.ShowObjectOnPlan(direction.PlanElementUIDs);
 			}
 			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(mpt.UID), mpt.UID);
+				ShowOnPlanHelper.ShowObjectOnPlan(mpt.PlanElementUIDs);
 			}
 			if ((delay = Alarm.GkBaseEntity as GKDelay) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(delay.UID), delay.UID);
+				ShowOnPlanHelper.ShowObjectOnPlan(delay.PlanElementUIDs);
 			}
 			if ((door = Alarm.GkBaseEntity as GKDoor) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(door.UID), door.UID);
+				ShowOnPlanHelper.ShowObjectOnPlan(door.PlanElementUIDs);
 			}
 		}
 		bool CanShowOnPlan()
@@ -185,40 +165,41 @@ namespace GKModule.ViewModels
 			GKMPT mpt;
 			GKDelay delay;
 			GKDoor door;
-			//Camera camera;
+			GKPumpStation pumpStation;
 
 			if ((device = Alarm.GkBaseEntity as GKDevice) != null)
 			{
-				return ShowOnPlanHelper.GetPlan(device.UID)!= null;
+				return ShowOnPlanHelper.CanShowOnPlan(device.PlanElementUIDs);
 			}
 			if ((zone = Alarm.GkBaseEntity as GKZone) != null)
 			{
-				return ShowOnPlanHelper.GetPlan(zone.UID)!= null;
+				return ShowOnPlanHelper.CanShowOnPlan(zone.PlanElementUIDs);
+			}
+			if ((pumpStation = Alarm.GkBaseEntity as GKPumpStation) != null)
+			{
+				return ShowOnPlanHelper.CanShowOnPlan(pumpStation.PlanElementUIDs);
 			}
 			if ((guardZone = Alarm.GkBaseEntity as GKGuardZone) != null)
 			{
-				return ShowOnPlanHelper.GetPlan(guardZone.UID)!= null;
+				return ShowOnPlanHelper.CanShowOnPlan(guardZone.PlanElementUIDs);
 			}
 			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
 			{
-				return ShowOnPlanHelper.GetPlan(direction.UID)!= null;
+				return ShowOnPlanHelper.CanShowOnPlan(direction.PlanElementUIDs);
 			}
 			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
 			{
-				return ShowOnPlanHelper.GetPlan(mpt.UID)!= null;
+				return ShowOnPlanHelper.CanShowOnPlan(mpt.PlanElementUIDs);
 			}
 			if ((delay = Alarm.GkBaseEntity as GKDelay) != null)
 			{
-				return ShowOnPlanHelper.GetPlan(delay.UID)!= null;
+				return ShowOnPlanHelper.CanShowOnPlan(delay.PlanElementUIDs);
 			}
 			if ((door = Alarm.GkBaseEntity as GKDoor) != null)
 			{
-				return ShowOnPlanHelper.GetPlan(door.UID)!= null;
+				return ShowOnPlanHelper.CanShowOnPlan(door.PlanElementUIDs);
 			}
-			//if ((camera = Alarm.GkBaseEntity as Camera) != null)
-			//{
-			//	return ShowOnPlanHelper.GetPlan(door.UID) != null;
-			//}
+			
 			return false;
 		}
 

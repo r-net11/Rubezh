@@ -30,8 +30,7 @@ namespace Infrastructure
 		{
 			if(LayoutUID == Guid.Empty)
 			{
-				CashPlans = new List<Plan>(ClientManager.PlansConfiguration.AllPlans);
-				return ClientManager.PlansConfiguration.AllPlans;
+				return CashPlans = ClientManager.PlansConfiguration.AllPlans;
 			}
 			else
 			{
@@ -44,6 +43,10 @@ namespace Infrastructure
 						if(part.Properties != null && part.Properties is LayoutPartPlansProperties)
 						{
 							var layoutPartPlansProperties = part.Properties as LayoutPartPlansProperties;
+							if (layoutPartPlansProperties.Type == LayoutPartPlansType.All)
+							{
+								return CashPlans = ClientManager.PlansConfiguration.AllPlans;
+							}
 							foreach(var planUID in layoutPartPlansProperties.Plans)
 							{
 								if(!plans.Any(x=>x == planUID))
@@ -58,20 +61,35 @@ namespace Infrastructure
 			}
 		}
 
-		public static void ShowObjectOnPlan(Plan plan, Guid objectUID)
+		public static bool ShowObjectOnPlan( List<Guid> planElementUIDs)
 		{
-			if (plan != null)
-			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, plan.AllElements.First(x=> (x as IElementReference).ItemUID == objectUID).UID));
+			var plan = GetAllPlans(planElementUIDs).FirstOrDefault();
+			if (plan.Key != null)
+			{
+				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.Key.UID, plan.Value));
+				return false;
+			}
+			return true;
 		}
 
-		public static List<Plan> GetAllPlans(Guid objectUID)
+		public static Dictionary<Plan, Guid> GetAllPlans(List<Guid> planElementUIDs)
 		{
-			return CashPlans == null ? GetPlans().Where(x => x.AllElements.Any(y => y is IElementReference && (y as IElementReference).ItemUID == objectUID)).ToList() : CashPlans.Where(x => x.AllElements.Any(y => y is IElementReference && (y as IElementReference).ItemUID == objectUID)).ToList();
+			Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
+
+			var plans = CashPlans == null ? GetPlans() : CashPlans;
+			plans.ForEach(x =>
+			{
+				var element = x.ElementUnion.FirstOrDefault(y => planElementUIDs.Contains(y.UID));
+				if (element != null)
+					planDictinary.Add(x, element.UID);
+			});
+
+			return planDictinary;
 		}
 
-		public static Plan GetPlan(Guid deviceUID)
+		public static bool CanShowOnPlan(List<Guid> planElementUIDs)
 		{
-			return GetAllPlans(deviceUID).FirstOrDefault();
+			return GetAllPlans(planElementUIDs) != null;
 		}
 
 		public static void ShowGKSKDZone(GKSKDZone zone)

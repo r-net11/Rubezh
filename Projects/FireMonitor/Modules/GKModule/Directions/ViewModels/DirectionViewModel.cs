@@ -40,21 +40,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void OnShowOnPlanOrProperties()
 		{
-			var plan = ShowOnPlanHelper.GetPlan(Direction.UID);
-			if (plan != null)
-				ShowOnPlanHelper.ShowObjectOnPlan(plan, Direction.UID);
-			else
+			if (ShowOnPlanHelper.ShowObjectOnPlan(Direction.PlanElementUIDs))
 				DialogService.ShowWindow(new DirectionDetailsViewModel(Direction));
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Direction.UID), Direction.UID);
+			ShowOnPlanHelper.ShowObjectOnPlan(Direction.PlanElementUIDs);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.GetPlan(Direction.UID) != null;
+			return ShowOnPlanHelper.CanShowOnPlan(Direction.PlanElementUIDs);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

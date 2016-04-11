@@ -4,6 +4,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.PlanLink.ViewModels;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
@@ -27,6 +28,7 @@ namespace VideoModule.ViewModels
 		public bool IsOnGuard { get; private set; }
 		public RviStatus Status { get; private set; }
 		public bool IsConnected { get { return Status == RviStatus.Connected; } }
+		public PlanLinksViewModel PlanLinks { get; private set; }
 
 		public CameraDetailsViewModel(Camera camera)
 		{
@@ -54,6 +56,8 @@ namespace VideoModule.ViewModels
 				IsRecordOnline = Camera.IsRecordOnline;
 				IsOnGuard = Camera.IsOnGuard;
 				Status = Camera.Status;
+				PlanLinks = new PlanLinksViewModel(Camera.PlanElementUIDs);
+
 			}
 		}
 		void OnCameraStatusChanged()
@@ -77,19 +81,19 @@ namespace VideoModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowCameraEvent>().Publish(Camera.UID);
 		}
 
-		public ObservableCollection<PlanViewModel> PlanNames
-		{
-			get
-			{
-				var planes = ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementExtensions.OfType<ElementCamera>().Any(element => element.CameraUID == Camera.UID));
-				var planViewModels = new ObservableCollection<PlanViewModel>();
-				foreach (var plan in planes)
-				{
-					planViewModels.Add(new PlanViewModel(plan, Camera));
-				}
-				return planViewModels;
-			}
-		}
+		//public ObservableCollection<PlanViewModel> PlanNames
+		//{
+		//	get
+		//	{
+		//		var planes = ClientManager.PlansConfiguration.AllPlans.Where(item => item.ElementExtensions.OfType<ElementCamera>().Any(element => element.CameraUID == Camera.UID));
+		//		var planViewModels = new ObservableCollection<PlanViewModel>();
+		//		foreach (var plan in planes)
+		//		{
+		//			planViewModels.Add(new PlanViewModel(plan, Camera));
+		//		}
+		//		return planViewModels;
+		//	}
+		//}
 
 		public string Guid
 		{
@@ -179,43 +183,43 @@ namespace VideoModule.ViewModels
 				Stop(this, EventArgs.Empty);
 		}
 
-		public class PlanViewModel : BaseViewModel
-		{
-			Plan Plan;
-			Camera Camera;
+		//public class PlanViewModel : BaseViewModel
+		//{
+		//	Plan Plan;
+		//	Camera Camera;
 
-			public string Name
-			{
-				get { return Plan.Caption; }
-			}
+		//	public string Name
+		//	{
+		//		get { return Plan.Caption; }
+		//	}
 
-			public PlanViewModel(Plan plan, Camera camera)
-			{
-				Plan = plan;
-				Camera = camera;
-				ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
-			}
+		//	//public PlanViewModel(Plan plan, Camera camera)
+		//	//{
+		//	//	Plan = plan;
+		//	//	Camera = camera;
+		//	//	ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+		//	//}
 
-			public RelayCommand ShowOnPlanCommand { get; private set; }
+		//	public RelayCommand ShowOnPlanCommand { get; private set; }
 
-			void OnShowOnPlan()
-			{
-				ShowCamera(Camera, Plan);
-			}
+		//	void OnShowOnPlan()
+		//	{
+		//		ShowCamera(Camera, Plan);
+		//	}
 
-			public static void ShowCamera(Camera camera, Plan plan)
-			{
-				var element = plan == null ? null : plan.ElementExtensions.OfType<ElementCamera>().FirstOrDefault(item => item.CameraUID == camera.UID);
-				if (plan == null || element == null)
-					ShowCamera(camera);
-				else
-					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
-			}
+		//	public static void ShowCamera(Camera camera, Plan plan)
+		//	{
+		//		var element = plan == null ? null : plan.ElementExtensions.OfType<ElementCamera>().FirstOrDefault(item => item.CameraUID == camera.UID);
+		//		if (plan == null || element == null)
+		//			ShowCamera(camera);
+		//		else
+		//			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+		//	}
 
-			public static void ShowCamera(Camera camera)
-			{
-				ServiceFactoryBase.Events.GetEvent<ShowCameraOnPlanEvent>().Publish(camera);
-			}
-		}
+		//	public static void ShowCamera(Camera camera)
+		//	{
+		//		ServiceFactoryBase.Events.GetEvent<ShowCameraOnPlanEvent>().Publish(camera);
+		//	}
+		//}
 	}
 }

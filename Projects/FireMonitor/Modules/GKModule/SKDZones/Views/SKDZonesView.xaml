@@ -52,7 +52,7 @@
 												<IconedMenuItem ImageSource="BTurnOff" Text="Закрыть" Command="{Binding CloseCommand}" />
 												<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 												<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-												<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+												<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowOnPlanOrPropertiesCommand}" />
 											</ContextMenu>
 										</Grid.ContextMenu>
 										<Grid.InputBindings>

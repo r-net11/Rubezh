@@ -35,14 +35,14 @@
 							<StackPanel Orientation="Horizontal">
 								<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
 								<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-									<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+									<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<TextBlock Text="{Binding Delay.Name}" />
 									</Hyperlink>
 									<TextBlock.ContextMenu>
 										<ContextMenu>
 											<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap"  Text="Показать на плане" />
 											<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-											<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+											<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowOnPlanOrPropertiesCommand}" />
 										</ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>
