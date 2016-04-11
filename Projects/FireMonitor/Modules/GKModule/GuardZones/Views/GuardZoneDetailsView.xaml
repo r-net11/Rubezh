@@ -69,8 +69,8 @@
 					</StackPanel>
 					<Grid Grid.Row="1" Background="White">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
-							<ColumnDefinition />
+							<ColumnDefinition Width="8*"/>
+							<ColumnDefinition Width="10*"/>
 						</Grid.ColumnDefinitions>
 						<StackPanel Grid.Column="0">
 							<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
