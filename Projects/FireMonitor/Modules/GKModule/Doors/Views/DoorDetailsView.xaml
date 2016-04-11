@@ -64,7 +64,10 @@
 								</Hyperlink>
 							</TextBlock>
 						</WrapPanel>
-
+						<StackPanel Orientation="Horizontal" Margin="2" >
+							<TextBlock Text="Номер в ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
+							<TextBlock Text="{Binding Door.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="2">
 							<WrapPanel>
 								<TextBlock>
@@ -76,10 +79,6 @@
 									</Hyperlink>
 								</TextBlock>
 							</WrapPanel>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" Margin="2" >
-							<TextBlock Text="Номер в ГК:" TextWrapping="Wrap" Width="110" VerticalAlignment="Center" FontWeight="Bold" />
-							<TextBlock Text="{Binding Door.GKDescriptorNo}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
 						</StackPanel>
 						<WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
 							<TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
@@ -103,9 +102,16 @@
 								</ItemsControl.ItemTemplate>
 							</ItemsControl>
 						</WrapPanel>
+						<StackPanel Orientation="Horizontal" Margin="2">
+							<TextBlock Text="Задержка на выключение, с: " />
+							<TextBlock Text="{Binding Door.Delay}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Margin="2">
+							<TextBlock Text="Удержание, с: " />
+							<TextBlock Text="{Binding Door.Hold}" />
+						</StackPanel>
 					</ItemsControl.Items>
 				</ItemsControl>
-
 			</TabItem>
 			<TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel Background="White">
