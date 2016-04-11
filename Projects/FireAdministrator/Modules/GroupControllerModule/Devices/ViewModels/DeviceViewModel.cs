@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			SelectCommand = new RelayCommand(OnSelect, CanSelect);
 			ShowAsListCommand = new RelayCommand(OnShowAsList, CanShowAsList);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			//ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
 			ShowNSLogicCommand = new RelayCommand(OnShowNSLogic, CanShowNSLogic);
 			ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
@@ -495,14 +495,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
-		{
-		}
-		bool CanShowProperties()
-		{
-			return false;
-		}
+		//public RelayCommand ShowPropertiesCommand { get; private set; }
+		//void OnShowProperties()
+		//{
+		//}
+		//bool CanShowProperties()
+		//{
+		//	return false;
+		//}
 
 		public string PresentationZone
 		{

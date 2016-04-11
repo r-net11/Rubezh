@@ -57,11 +57,12 @@ namespace FiresecService.Service
 			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
 		}
 
-		public void SetLocalConfig(Guid clientUID)
+		public void SetLocalConfig(Guid clientUid)
 		{
 			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			CreateZipConfigFromFiles();
-			RestartWithNewConfig(clientUID);
+			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null, null, clientUid);
+			RestartWithNewConfig();
 		}
 
 		public void SetRemoteConfig(Stream stream)
@@ -108,7 +109,7 @@ namespace FiresecService.Service
 			Directory.Delete(newConfigDirectory, true);
 
 			CreateZipConfigFromFiles();
-			RestartWithNewConfig(isLocal: false);
+			RestartWithNewConfig();
 		}
 
 		public void SetSecurityConfiguration(Guid clientUID, SecurityConfiguration securityConfiguration)
@@ -128,10 +129,8 @@ namespace FiresecService.Service
 			output.Close();
 		}
 
-		void RestartWithNewConfig(Guid? clientUid = null, bool isLocal = true)
+		void RestartWithNewConfig()
 		{
-			if(isLocal)
-				AddJournalMessage(JournalEventNameType.Применение_конфигурации, null, null, clientUid);
 			ServerState = RubezhAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();

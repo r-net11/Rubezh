@@ -87,6 +87,7 @@
 								<TextBlock>
 									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="{Binding Delay.No}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 											<Image Width="16" Source="/Controls;component/Images/Delay.png" Margin="2" />
 											<TextBlock Text="{Binding Delay.Name}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 										</StackPanel>
@@ -109,17 +110,17 @@
 									</TextBlock>
 								</WrapPanel>
 							</StackPanel>
-                            <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-                                <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
-                                <ItemsControl ItemsSource="{Binding Plans}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Margin="2 0">
+							<WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+								<TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+								<ItemsControl ItemsSource="{Binding Plans}">
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel Orientation="Horizontal" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Margin="2 0">
 												<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
 													<StackPanel Orientation="Horizontal">
 														<Image Width="16" Source="/Controls;component/Images/CMap.png" Margin="1" />
@@ -127,11 +128,11 @@
 													</StackPanel>
 												</Hyperlink>
 											</TextBlock>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </WrapPanel>
-                            <StackPanel Orientation="Horizontal" Margin="2">
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</WrapPanel>
+							<StackPanel Orientation="Horizontal" Margin="2">
 								<TextBlock Text="Задержка: " />
 								<TextBlock Text="{Binding Delay.DelayTime}" />
 							</StackPanel>
