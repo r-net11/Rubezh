@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhAPI.Journal;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace GKIntegratedTest
@@ -21,6 +23,7 @@ namespace GKIntegratedTest
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
 			ConrtolGKBase(device, GKStateBit.Fire1, "Сработка датчика");
 			WaitWhileState(zone, XStateClass.Attention, 3000, "Ждем внимание в зоне");
+			CheckJournal(JournalEventNameType.Сработка_1, JournalEventNameType.Внимание);
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Attention, "Проверка того, что зона перешла во внимание");
 			ConrtolGKBase(device, GKStateBit.Reset, "Сброс датчика");
 			WaitWhileState(zone, XStateClass.Norm, 3000, "Ждем норму в зоне");
