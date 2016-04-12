@@ -41,6 +41,7 @@ namespace SKDModule.ViewModels
 		
 		void InitializeYears()
 		{
+			CanSelectYear = true;
 			AvailableYears = new ObservableCollection<int>();
 			for (int i = 2014; i <= 2020; i++)
 				AvailableYears.Add(i);
@@ -71,6 +72,18 @@ namespace SKDModule.ViewModels
 				Initialize(filter);
 			}
 		}
+
+		bool _canSelectYear;
+		public bool CanSelectYear
+		{
+			get { return _canSelectYear; }
+			set
+			{
+				_canSelectYear = value;
+				OnPropertyChanged(() => CanSelectYear);
+			}
+		}
+		 
 
 		public void Initialize()
 		{
@@ -117,6 +130,18 @@ namespace SKDModule.ViewModels
 		protected override bool IsAddViewModel(Holiday model)
 		{
 			return model.Date.Year == SelectedYear && base.IsAddViewModel(model);
+		}
+
+		public override void OnConnectionLost()
+		{
+			base.OnConnectionLost();
+			CanSelectYear = false;
+		}
+
+		public override void OnConnectionAppeared()
+		{
+			base.OnConnectionAppeared();
+			CanSelectYear = true;
 		}
 	}
 }

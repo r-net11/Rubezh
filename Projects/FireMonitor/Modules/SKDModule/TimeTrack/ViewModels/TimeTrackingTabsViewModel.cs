@@ -24,8 +24,9 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackingTabsViewModel(SKDTabItems skdTabItems)
 		{
+			_isConnected = true;
 			SKDTabItems = skdTabItems;
-			EditFilterCommand = new RelayCommand(OnEditFilter);
+			EditFilterCommand = new RelayCommand(OnEditFilter, CanEditFilter);
 			DayIntervalsViewModel = new DayIntervalsViewModel();
 			ScheduleSchemesViewModel = new ScheduleSchemesViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
@@ -145,6 +146,10 @@ namespace SKDModule.ViewModels
 				SKDTabItems.Initialize();
 			}
 		}
+		bool CanEditFilter()
+		{
+			return _isConnected;
+		}
 
 		public bool ShowFromJournal(Guid uid)
 		{
@@ -172,6 +177,28 @@ namespace SKDModule.ViewModels
 			if (isFounded)
 				ApplicationService.Layout.Show(this);
 			return isFounded;
+		}
+
+		bool _isConnected;
+
+		public void OnConnectionLost()
+		{
+			_isConnected = false;
+			DayIntervalsViewModel.OnConnectionLost();
+			ScheduleSchemesViewModel.OnConnectionLost();
+			HolidaysViewModel.OnConnectionLost();
+			SchedulesViewModel.OnConnectionLost();
+			TimeTrackingViewModel.OnConnectionLost();
+		}
+
+		public void OnConnectionAppeared()
+		{
+			_isConnected = true;
+			DayIntervalsViewModel.OnConnectionAppeared();
+			ScheduleSchemesViewModel.OnConnectionAppeared();
+			HolidaysViewModel.OnConnectionAppeared();
+			SchedulesViewModel.OnConnectionAppeared();
+			TimeTrackingViewModel.OnConnectionAppeared();
 		}
 	}
 }

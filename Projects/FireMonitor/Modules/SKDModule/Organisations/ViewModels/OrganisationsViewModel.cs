@@ -27,6 +27,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(LogicalDeletationType logicalDeletationType)
 		{
+			_isConnected = true;
 			_logicalDeletationType = logicalDeletationType;
 			OnPropertyChanged(() => IsWithDeleted);
 			Organisations = new ObservableCollection<OrganisationViewModel>();
@@ -39,6 +40,19 @@ namespace SKDModule.ViewModels
 					Organisations.Add(organisationViewModel);
 				}
 			}
+			SelectedOrganisation = Organisations.FirstOrDefault();
+		}
+
+		bool _isConnected;
+		public void OnConnectionLost()
+		{
+			_isConnected = false;
+			SelectedOrganisation = Organisations.FirstOrDefault();
+		}
+
+		public void OnConnectionAppeared()
+		{
+			_isConnected = true;
 			SelectedOrganisation = Organisations.FirstOrDefault();
 		}
 
@@ -64,8 +78,8 @@ namespace SKDModule.ViewModels
 
 				if (value != null)
 				{
-					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation);
-					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
+					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation, _isConnected);
+					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation, _isConnected);
 				}
 				else
 				{
@@ -130,7 +144,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove) && _isConnected;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -162,7 +176,7 @@ namespace SKDModule.ViewModels
 
 		bool CanRemove()
 		{
-			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove) && _isConnected;
 		}
 
 		public RelayCommand RestoreCommand { get; private set; }
@@ -180,7 +194,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRestore()
 		{
-			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove);
+			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_AddRemove) && _isConnected;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -197,7 +211,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit) && _isConnected;
 		}
 
 		void SetItemsCanSelect(bool canSelect)
