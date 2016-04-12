@@ -91,7 +91,16 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			Helper.ThreadMetod();
+			var d = ClientManager.PlansConfiguration.AllPlans.Where(x => !x.IsAsynchronousLoad);
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans.Where(x=> !x.IsAsynchronousLoad))
+			{
+				if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
+					plan.BackgroundImageSource = null;
+				Helper.UpgradeBackground(plan);
+				foreach (var elementBase in PlanEnumerator.Enumerate(plan))
+					Helper.UpgradeBackground(elementBase);
+			}
+
 			SelectedPlan = null;
 			Plans = new ObservableCollection<PlanViewModel>();
 			foreach (var plan in ClientManager.PlansConfiguration.Plans)
@@ -150,20 +159,10 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedPlan = value;
-				if (value != null)
-				{
-					if (value.Plan != null && !Helper.Plans.Contains(value.Plan))
-					{
-						Helper.Plan = value.Plan;
-						Helper.Flag = false;
-					}
-				}
 				OnPropertyChanged(() => SelectedPlan);
 				DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null && SelectedPlan.PlanFolder == null;
 				PlanDesignerViewModel.Save();
 				PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);
-				if (!Helper.WiteHandle.SafeWaitHandle.IsClosed && !Helper.Flag)
-					Helper.WiteHandle.Set();
 				ElementsViewModel.Update();
 				DesignerCanvas.Toolbox.SetDefault();
 				DesignerCanvas.DeselectAll();
