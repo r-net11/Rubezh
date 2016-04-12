@@ -1,6 +1,7 @@
 ﻿using Common;
 using Controls.Menu.ViewModels;
 using Infrastructure;
+using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
@@ -88,7 +89,6 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			var d = ClientManager.PlansConfiguration.AllPlans.Where(x => !x.IsAsynchronousLoad);
 			foreach (var plan in ClientManager.PlansConfiguration.AllPlans.Where(x=> !x.IsAsynchronousLoad))
 			{
 				if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
