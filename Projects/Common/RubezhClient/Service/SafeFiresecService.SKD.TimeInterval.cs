@@ -9,7 +9,7 @@ namespace RubezhClient
 	{
 		public RubezhAPI.OperationResult<List<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
 		{
-			return SafeOperationCall<RubezhAPI.OperationResult<List<DayInterval>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)

@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using Common;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Common;
+using Controls.Menu.ViewModels;
 using Infrastructure;
-using Infrastructure.Client.Plans;
 using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
+using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
-using Infrastructure.Events;
-using Infrastructure.Common.Navigation;
-using System.Windows.Input;
-using Controls.Menu.ViewModels;
-using System.Threading;
-using Infrastructure.Common.Services;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -207,12 +204,15 @@ namespace PlansModule.ViewModels
 			if (selectedPlan.Parent == null)
 			{
 				MoveItem(this.Plans, selectedPlan, +1);
+				MoveItem(ClientManager.PlansConfiguration.Plans, selectedPlan.Plan, +1);
 			}
 			else
 			{
 				MoveItem(this.SelectedPlan.Parent.Nodes, selectedPlan, +1);
+				MoveItem(ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == selectedPlan.Parent.Plan.UID).Children, selectedPlan.Plan, +1);
 			}
 			this.SelectedPlan = selectedPlan;
+			ServiceFactory.SaveService.PlansChanged = true;
 		}
 		private bool CanMoveDown()
 		{
@@ -240,12 +240,15 @@ namespace PlansModule.ViewModels
 			if (selectedPlan.Parent == null)
 			{
 				MoveItem(this.Plans, selectedPlan, -1);
+				MoveItem(ClientManager.PlansConfiguration.Plans, selectedPlan.Plan, -1);
 			}
 			else
 			{
 				MoveItem(this.SelectedPlan.Parent.Nodes, selectedPlan, -1);
+				MoveItem(ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == selectedPlan.Parent.Plan.UID).Children, selectedPlan.Plan, -1);
 			}
 			this.SelectedPlan = selectedPlan;
+			ServiceFactory.SaveService.PlansChanged = true;
 		}
 		private bool CanMoveUp()
 		{
@@ -428,13 +431,12 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private static void MoveItem<T>(ObservableCollection<T> parent, T item, int increment)
+		private static void MoveItem<T>(IList<T> parent, T item, int increment)
 		{
 			int itemIndex = parent.IndexOf(item);
-			int targetIndex = itemIndex + increment;
 			T temp = item;
-			parent[itemIndex] = parent[targetIndex];
-			parent[targetIndex] = temp;
+			parent.RemoveAt(itemIndex);
+			parent.Insert(itemIndex + increment, temp);
 		}
 
 		private double _splitterDistance;

@@ -153,6 +153,8 @@ public class SKDTabItems
 
 		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Unsubscribe(OnShowJournalHR);
 		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Subscribe(OnShowJournalHR);
+		SafeFiresecService.OnConnectionLost += OnConnectionLost;
+		SafeFiresecService.OnConnectionAppeared += OnConnectionAppeared;
 	}
 
 	public void Initialize()
@@ -166,5 +168,17 @@ public class SKDTabItems
 		if (HRViewModel.ShowFromJournal(uid))
 			return;
 		TimeTrackingTabsViewModel.ShowFromJournal(uid);
+	}
+
+	void OnConnectionLost()
+	{
+		HRViewModel.OnConnectionLost();
+		TimeTrackingTabsViewModel.OnConnectionLost();
+	}
+
+	void OnConnectionAppeared()
+	{
+		HRViewModel.OnConnectionAppeared();
+		TimeTrackingTabsViewModel.OnConnectionAppeared();
 	}
 }

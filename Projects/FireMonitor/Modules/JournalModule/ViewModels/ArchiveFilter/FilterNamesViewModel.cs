@@ -18,6 +18,10 @@ namespace JournalModule.ViewModels
 		public void Initialize(JournalFilter filter)
 		{
 			AllFilters.ForEach(x => x.IsChecked = false);
+			foreach (var item in RootFilters)
+			{
+				item.IsChecked = false;
+			}
 			foreach (var eventName in filter.JournalEventNameTypes)
 			{
 				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.JournalEventNameType == eventName);

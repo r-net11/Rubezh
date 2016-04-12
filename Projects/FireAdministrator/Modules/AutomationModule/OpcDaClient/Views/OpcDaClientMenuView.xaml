@@ -4,8 +4,8 @@
 	<Grid>
 		<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 			<ToolBarButton Command="{Binding AddOpcServerCommand}" ToolTip="Добавать OPC DA сервер (Ctrl + N)" ImageSource="Add" />
-			<ToolBarButton Command="{Binding RemoveOpcServerCommand}" ToolTip="Удалить OPC DA сервер (Ctrl + Del)" ImageSource="Delete" />
 			<ToolBarButton Command="{Binding EditTagListCommand}" ToolTip="Редактировать список тегов (Ctrl + E)" ImageSource="Edit" />
+			<ToolBarButton Command="{Binding RemoveOpcServerCommand}" ToolTip="Удалить OPC DA сервер (Ctrl + Del)" ImageSource="Delete" />
 			<ToolBarButton Command="{Binding GetServerStatusCommand}" ToolTip="Состояние OPC DA сервера" ImageSource="information" />
 		</StackPanel>
 	</Grid>

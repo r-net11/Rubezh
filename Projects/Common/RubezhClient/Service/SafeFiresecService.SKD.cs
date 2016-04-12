@@ -14,7 +14,7 @@ namespace RubezhClient
 		#region Employee
 		public OperationResult<List<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<ShortEmployee>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -23,7 +23,7 @@ namespace RubezhClient
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<Employee>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -59,7 +59,7 @@ namespace RubezhClient
 		}
 		public Stream GetTimeTracksStream(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var result = SafeOperationCall<Stream>(() =>
+			var result = SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -99,7 +99,7 @@ namespace RubezhClient
 		#region Department
 		public OperationResult<List<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<ShortDepartment>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -108,7 +108,7 @@ namespace RubezhClient
 		}
 		public OperationResult<Department> GetDepartmentDetails(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<Department>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -117,7 +117,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveDepartment(Department item, bool isNew)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -126,7 +126,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> MarkDeletedDepartment(ShortDepartment item)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -135,7 +135,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveDepartmentChief(Guid uid, Guid? chiefUID, string name)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -153,7 +153,7 @@ namespace RubezhClient
 		}
 		public OperationResult<List<Guid>> GetChildEmployeeUIDs(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<List<Guid>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -162,7 +162,7 @@ namespace RubezhClient
 		}
 		public OperationResult<List<Guid>> GetDepartmentEmployeeUIDs(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<List<Guid>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -171,7 +171,7 @@ namespace RubezhClient
 		}
 		public OperationResult<List<Guid>> GetParentEmployeeUIDs(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<List<Guid>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -183,7 +183,7 @@ namespace RubezhClient
 		#region Position
 		public OperationResult<List<ShortPosition>> GetPositionList(PositionFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<ShortPosition>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -193,7 +193,7 @@ namespace RubezhClient
 
 		public OperationResult<List<Guid>> GetPositionEmployees(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<List<Guid>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -203,7 +203,7 @@ namespace RubezhClient
 
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<Position>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -212,7 +212,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SavePosition(Position item, bool isNew)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -242,7 +242,7 @@ namespace RubezhClient
 		#region Journal
 		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
-			return SafeOperationCall<OperationResult<DateTime>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -251,7 +251,7 @@ namespace RubezhClient
 		}
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<JournalItem>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -260,7 +260,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> BeginGetJournal(JournalFilter filter, Guid clientUid)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() => 
+			return SafeOperationCall(() => 
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -269,7 +269,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -278,7 +278,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, string userName = null)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() => 
+			return SafeOperationCall(() => 
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -287,7 +287,7 @@ namespace RubezhClient
 		}
 		public OperationResult<int> GetArchiveCount(JournalFilter filter)
 		{
-			return SafeOperationCall<OperationResult<int>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -299,7 +299,7 @@ namespace RubezhClient
 		#region Card
 		public OperationResult<List<SKDCard>> GetCards(CardFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<SKDCard>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -308,7 +308,7 @@ namespace RubezhClient
 		}
 		public OperationResult<SKDCard> GetSingleCard(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<SKDCard>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -317,7 +317,7 @@ namespace RubezhClient
 		}
 		public OperationResult<List<SKDCard>> GetEmployeeCards(Guid employeeUID)
 		{
-			return SafeOperationCall<OperationResult<List<SKDCard>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -326,7 +326,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> AddCard(SKDCard item, string employeeName)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -335,7 +335,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> EditCard(SKDCard item, string employeeName)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -344,7 +344,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string employeeName, string reason = null)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -383,7 +383,7 @@ namespace RubezhClient
 		#region AccessTemplate
 		public OperationResult<List<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<AccessTemplate>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -392,7 +392,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -422,7 +422,7 @@ namespace RubezhClient
 		#region Organisation
 		public OperationResult<List<Organisation>> GetOrganisations(OrganisationFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<Organisation>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -431,7 +431,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveOrganisation(OrganisationDetails item, bool isNew)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -449,7 +449,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> AddOrganisationDoor(Organisation item, Guid doorUID)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -458,7 +458,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> RemoveOrganisationDoor(Organisation item, Guid doorUID)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -467,7 +467,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveOrganisationUsers(Organisation item)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -476,7 +476,7 @@ namespace RubezhClient
 		}
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<OrganisationDetails>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -485,7 +485,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveOrganisationChief(Guid uid, Guid? chiefUID, string name)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -494,7 +494,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveOrganisationHRChief(Guid uid, Guid? chiefUID, string name)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -524,7 +524,7 @@ namespace RubezhClient
 		#region AdditionalColumnType
 		public OperationResult<List<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<AdditionalColumnType>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -533,7 +533,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -563,7 +563,7 @@ namespace RubezhClient
 		#region NightSettings
 		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
 		{
-			return SafeOperationCall<OperationResult<NightSettings>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -572,7 +572,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SaveNightSettings(NightSettings nightSettings)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -584,7 +584,7 @@ namespace RubezhClient
 		#region PassCardTemplate
 		public OperationResult<List<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
 		{
-			return SafeOperationCall<OperationResult<List<ShortPassCardTemplate>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -593,7 +593,7 @@ namespace RubezhClient
 		}
 		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
 		{
-			return SafeOperationCall<OperationResult<PassCardTemplate>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -602,7 +602,7 @@ namespace RubezhClient
 		}
 		public OperationResult<bool> SavePassCardTemplate(PassCardTemplate item, bool isNew)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -661,7 +661,7 @@ namespace RubezhClient
 
 		public OperationResult<bool> SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -671,7 +671,7 @@ namespace RubezhClient
 
 		public OperationResult<bool> SaveJournalCameraUID(Guid journalItemUID, Guid CameraUID)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -682,7 +682,7 @@ namespace RubezhClient
 		#region GKSchedule
 		public OperationResult<List<GKSchedule>> GetGKSchedules()
 		{
-			return SafeOperationCall<OperationResult<List<GKSchedule>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -692,7 +692,7 @@ namespace RubezhClient
 
 		public OperationResult<bool> SaveGKSchedule(GKSchedule item, bool isNew)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -702,7 +702,7 @@ namespace RubezhClient
 
 		public OperationResult<bool> DeleteGKSchedule(GKSchedule item)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -714,7 +714,7 @@ namespace RubezhClient
 		#region GKDaySchedule
 		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules()
 		{
-			return SafeOperationCall<OperationResult<List<GKDaySchedule>>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -724,7 +724,7 @@ namespace RubezhClient
 
 		public OperationResult<bool> SaveGKDaySchedule(GKDaySchedule item, bool isNew)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -734,7 +734,7 @@ namespace RubezhClient
 
 		public OperationResult<bool> DeleteGKDaySchedule(GKDaySchedule item)
 		{
-			return SafeOperationCall<OperationResult<bool>>(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)

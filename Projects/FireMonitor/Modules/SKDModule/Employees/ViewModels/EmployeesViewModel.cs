@@ -224,5 +224,14 @@ namespace SKDModule.ViewModels
 				return RubezhAPI.Models.PermissionType.Oper_SKD_Guests_Edit;
 			}
 		}
+
+		public override void OnConnectionLost()
+		{
+			base.OnConnectionLost();
+			foreach (var item in Organisations.SelectMany(x => x.Children))
+			{
+				item.EmployeeCardsViewModel = null;
+			}
+		}
 	}
 }

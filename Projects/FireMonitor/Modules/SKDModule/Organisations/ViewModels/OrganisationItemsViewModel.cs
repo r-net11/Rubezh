@@ -14,10 +14,10 @@ namespace SKDModule.ViewModels
 		public Organisation Organisation { get; protected set; }
 		protected abstract PermissionType Permission { get; }
 
-		public OrganisationItemsViewModel(Organisation organisation)
+		public OrganisationItemsViewModel(Organisation organisation, bool isConnected)
 		{
 			Organisation = organisation;
-			CanSelect = !organisation.IsDeleted && ClientManager.CheckPermission(Permission);
+			CanSelect = !organisation.IsDeleted && ClientManager.CheckPermission(Permission) && isConnected;
 			SelectAllCommand = new RelayCommand(OnSelectAll, () => CanSelect);
 			SelectNoneCommand = new RelayCommand(OnSelectNone, () => CanSelect);
 		}

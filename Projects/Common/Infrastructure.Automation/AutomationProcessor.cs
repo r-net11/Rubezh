@@ -133,8 +133,11 @@ namespace Infrastructure.Automation
 
 		public static void Terminate()
 		{
-			_resetEvent.Set();
-			_checkThread.Join(TimeSpan.FromMinutes(1));
+			if (_resetEvent != null)
+			{
+				_resetEvent.Set();
+				_checkThread.Join(TimeSpan.FromMinutes(1));
+			}
 		}
 
 		public static void SetNewConfig()

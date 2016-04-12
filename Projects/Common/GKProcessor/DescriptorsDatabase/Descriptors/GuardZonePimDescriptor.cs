@@ -28,10 +28,18 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.END);
 				return;
 			}
-			
+
 			Formula.AddGetBit(GKStateBit.Attention, PimGuardZone);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Pim);
+			Formula.AddGetBit(GKStateBit.Fire1, PimGuardZone);
+			Formula.AddGetBit(GKStateBit.Fire2, PimGuardZone);
+			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim);
 			Formula.AddGetBit(GKStateBit.Attention, PimGuardZone);
+			Formula.AddGetBit(GKStateBit.Fire1, PimGuardZone);
+			Formula.Add(FormulaOperationType.OR);
+			Formula.AddGetBit(GKStateBit.Fire2, PimGuardZone);
+			Formula.Add(FormulaOperationType.OR);
 			Formula.Add(FormulaOperationType.COM);
 			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim);
 			Formula.Add(FormulaOperationType.END);

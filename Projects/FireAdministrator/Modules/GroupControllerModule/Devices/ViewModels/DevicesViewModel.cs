@@ -375,14 +375,7 @@ namespace GKModule.ViewModels
 						SelectedDevice.RemoveCommand.Execute();
 				}
 			});
-			//RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), () =>
-			//{
-			//	if (SelectedDevice != null)
-			//	{
-			//		if (SelectedDevice.ShowPropertiesCommand.CanExecute(null))
-			//			SelectedDevice.ShowPropertiesCommand.Execute();
-			//	}
-			//});
+
 			RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
 			{
 				if (SelectedDevice != null)
@@ -453,7 +446,6 @@ namespace GKModule.ViewModels
 		{
 			base.UpdateRibbonItems();
 			RibbonItems[0][0].Command = SelectedDevice == null ? null : SelectedDevice.AddCommand;
-			//RibbonItems[0][1].Command = SelectedDevice == null ? null : SelectedDevice.ShowPropertiesCommand;
 			RibbonItems[0][2].Command = SelectedDevice == null ? null : SelectedDevice.RemoveCommand;
 
 			RibbonItems[1][8][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;

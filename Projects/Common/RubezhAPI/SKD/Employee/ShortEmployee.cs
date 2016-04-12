@@ -34,10 +34,16 @@ namespace RubezhAPI.SKD
 		public bool IsDepartmentDeleted { get; set; }
 
 		[DataMember]
+		public Guid? DepartmentUid { get; set; }
+
+		[DataMember]
 		public string PositionName { get; set; }
 
 		[DataMember]
 		public bool IsPositionDeleted { get; set; }
+
+		[DataMember]
+		public Guid? PositionUid { get; set; }
 
 		[DataMember]
 		public PersonType Type { get; set; }
