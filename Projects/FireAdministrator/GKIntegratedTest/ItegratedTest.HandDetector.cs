@@ -1,9 +1,6 @@
 ﻿using System.Threading;
-using GKProcessor;
 using NUnit.Framework;
-using RubezhAPI;
 using RubezhAPI.GK;
-using RubezhClient;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace GKIntegratedTest
@@ -11,7 +8,6 @@ namespace GKIntegratedTest
 	public partial class ItegratedTest
 	{
 		[Test]
-		[Category("Integration")]
 		public void TestHandDetectorFire2()
 		{
 			var device = AddDevice(kauDevice11, GKDriverType.RSR2_HandDetector);
