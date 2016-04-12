@@ -14,7 +14,7 @@ namespace GKIntegratedTest
 		[Test]
 		[Category("Integration")]
 		//RG-1223
-		public void TestGuardZoneIsOnAfterResetCase1()
+		public void TestGuardZoneIsOnAfterResetCasetWithCardReader()
 		{
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_CardReader);
 			var cardReader = new GKGuardZoneDevice { Device = device1, DeviceUID = device1.UID };
@@ -33,34 +33,25 @@ namespace GKIntegratedTest
 
 			CheckTime(() => WaitWhileState(zone, XStateClass.Off, 10000), "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.SetRegime_Manual), "Перевод зоны в ручной режим");
-			CheckTime(() => WaitWhileState(zone, XStateClass.AutoOff, 3000), "Ждем пока зона не перейдёт в ручной режим");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.AutoOff, "Проверка того, что зона перешла в ручной режим");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.TurnOn_InManual), "Постановка зоны на охрану");
+			CheckTime(() => ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic), "Постановка зоны на охрану");
 			CheckTime(() => WaitWhileState(zone, XStateClass.On, 3000), "Ждем пока зона не встанет на охрану");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.On, "Проверка того, что зона установилась на охрану");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(device3.UID, GKStateBit.Fire1), "Сработка тревоги у датчика");
-			CheckTime(() => WaitWhileState(zone, XStateClass.Attention, 3000), "Ждем пока зона не перейдёт во внимание");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Attention, "Проверка того, что зона во внимимание");
-			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 3000), "Ждем пока зона не перейдёт в тревогу");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, что зона установилась на охрану");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.On, "Проверка того, что зона на охране");
+			CheckTime(() => ConrtolGKBase(device3, GKStateBit.Fire1), "Сработка тревоги у датчика");
+			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 10000), "Ждем пока зона не перейдёт в тревогу");
+			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.Fire1), "Проверка того, что зона перешла в тревогу");
+			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
 			CheckTime(() => Thread.Sleep(1000), "Ждем 1 секунду");
-			Assert.IsTrue(device2.State.StateClass == XStateClass.Fire1, "Проверка того, что датчик в тревоге");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Reset), "Cброс зоны");
-			CheckTime(() => WaitWhileState(zone, XStateClass.Attention, 3000), "Ждем пока зона не перейдёт во внимание");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Attention, "Проверка того, что зона во внимимании");
-			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 3000), "Ждем пока зона не перейдёт в тревогу");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, что зона установилась на охрану");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.On, "Проверка того, что зона на охране");
+			Assert.IsTrue(device3.State.StateClass == XStateClass.Fire1, "Проверка того, что датчик ещё в тревоге");
+			CheckTime(() => ConrtolGKBase(zone, GKStateBit.Reset), "Cброс зоны");
+			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 10000), "Ждем пока зона не перейдёт в тревогу");
+			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.Fire1), "Проверка того, что зона перешла в тревогу");
+			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
 
-			GKProcessorManager.Stop();
-			ClientManager.Disconnect();
 		}
 		[Test]
 		[Category("Integration")]
 		//RG-1223
-		public void TestGuardZoneIsOnAfterResetCase2()
+		public void TestGuardZoneIsOnAfterResetCasetWithoutCardReader()
 		{
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
 			var aM_1 = new GKGuardZoneDevice { Device = device1, DeviceUID = device1.UID };
@@ -76,29 +67,19 @@ namespace GKIntegratedTest
 
 			CheckTime(() => WaitWhileState(zone, XStateClass.Off, 10000), "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.SetRegime_Manual), "Перевод зоны в ручной режим");
-			CheckTime(() => WaitWhileState(zone, XStateClass.AutoOff, 3000), "Ждем пока зона не перейдёт в ручной режим");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.AutoOff, "Проверка того, что зона перешла в ручной режим");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.TurnOn_InManual), "Постановка зоны на охрану");
+			CheckTime(() => ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic), "Постановка зоны на охрану");
 			CheckTime(() => WaitWhileState(zone, XStateClass.On, 3000), "Ждем пока зона не встанет на охрану");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.On, "Проверка того, что зона установилась на охрану");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(device2.UID, GKStateBit.Fire1), "Сработка тревоги у датчика");
-			CheckTime(() => WaitWhileState(zone, XStateClass.Attention, 3000), "Ждем пока зона не перейдёт во внимание");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Attention, "Проверка того, что зона во внимимание");
-			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 3000), "Ждем пока зона не перейдёт в тревогу");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, что зона установилась на охрану");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.On, "Проверка того, что зона на охране");
+			CheckTime(() => ConrtolGKBase(device2, GKStateBit.Fire1), "Сработка тревоги у датчика");
+			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 10000), "Ждем пока зона не перейдёт в тревогу");
+			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.Fire1), "Проверка того, что зона перешла в тревогу");
+			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
 			CheckTime(() => Thread.Sleep(1000), "Ждем 1 секунду");
-			Assert.IsTrue(device1.State.StateClass == XStateClass.Fire1, "Проверка того, что датчик в тревоге");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Reset), "Cброс зоны");
-			CheckTime(() => WaitWhileState(zone, XStateClass.Attention, 3000), "Ждем пока зона не перейдёт во внимание");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Attention, "Проверка того, что зона во внимимании");
-			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 3000), "Ждем пока зона не перейдёт в тревогу");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, что зона установилась на охрану");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.On, "Проверка того, что зона на охране");
-
-			GKProcessorManager.Stop();
-			ClientManager.Disconnect();
+			Assert.IsTrue(device2.State.StateClass == XStateClass.Fire1, "Проверка того, что датчик ещё в тревоге");
+			CheckTime(() => ConrtolGKBase(zone, GKStateBit.Reset), "Cброс зоны");
+			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 10000), "Ждем пока зона не перейдёт в тревогу");
+			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.Fire1), "Проверка того, что зона перешла в тревогу");
+			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
 		}
 	}
 }
