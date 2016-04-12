@@ -61,25 +61,28 @@ namespace Infrastructure
 			}
 		}
 
-		public static bool ShowObjectOnPlan( List<Guid> planElementUIDs)
+		public static bool ShowObjectOnPlan(IPlanPresentable planElement)
 		{
-			var plan = GetAllPlans(planElementUIDs).FirstOrDefault();
-			if (plan.Key != null)
+			if (planElement.PlanElementUIDs.Any())
 			{
-				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.Key.UID, plan.Value));
-				return false;
+				var plan = GetAllPlans(planElement).FirstOrDefault();
+				if (plan.Key != null)
+				{
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.Key.UID, plan.Value));
+					return false;
+				}
+				return true;
 			}
 			return true;
 		}
 
-		public static Dictionary<Plan, Guid> GetAllPlans(List<Guid> planElementUIDs)
+		public static Dictionary<Plan, Guid> GetAllPlans(IPlanPresentable planElement)
 		{
 			Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
-
 			var plans = CashPlans == null ? GetPlans() : CashPlans;
 			plans.ForEach(x =>
 			{
-				var element = x.ElementUnion.FirstOrDefault(y => planElementUIDs.Contains(y.UID));
+				var element = x.AllElements.FirstOrDefault(y => planElement.PlanElementUIDs.Contains(y.UID));
 				if (element != null)
 					planDictinary.Add(x, element.UID);
 			});
@@ -87,10 +90,11 @@ namespace Infrastructure
 			return planDictinary;
 		}
 
-		public static bool CanShowOnPlan(List<Guid> planElementUIDs)
+		public static bool CanShowOnPlan(IPlanPresentable planElement)
 		{
-			return GetAllPlans(planElementUIDs).Any();
+			return GetAllPlans(planElement).Any();
 		}
+
 
 		public static void ShowGKSKDZone(GKSKDZone zone)
 		{

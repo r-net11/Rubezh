@@ -40,7 +40,7 @@ namespace GKModule.ViewModels
 			Zone = zone;
 			Title = Zone.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
-			PlanLinks = new PlanLinksViewModel(Zone.PlanElementUIDs);
+			PlanLinks = new PlanLinksViewModel(Zone);
 		}
 
 		void OnStateChanged()

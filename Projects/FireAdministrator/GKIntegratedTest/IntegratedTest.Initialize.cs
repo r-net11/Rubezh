@@ -16,6 +16,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using RubezhAPI.Journal;
 using System.Collections.Generic;
+using GKModule.Validation;
+using Infrastructure.Common.Validation;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using Stopwatch = NUnit.Framework.Compatibility.Stopwatch;
 
@@ -65,6 +67,8 @@ namespace GKIntegratedTest
 			InitializeStates();
 			ServiceFactory.Initialize(null, null);
 			jourlnalItems = new List<JournalItem>();
+			ClientManager.PlansConfiguration = new PlansConfiguration();
+			ClientManager.PlansConfiguration.AllPlans = new List<Plan>();
 
 			SafeFiresecService.GKCallbackResultEvent -= OnGKCallbackResult;
 			SafeFiresecService.GKCallbackResultEvent += OnGKCallbackResult;
@@ -76,6 +80,9 @@ namespace GKIntegratedTest
 		public void SetConfigAndRestartImitator()
 		{
 			GKManager.UpdateConfiguration();
+			var validator = new Validator();
+			var errors = validator.Validate();
+			Assert.IsFalse(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite), "Конфигурация содержит критическую ошибку");
 			SaveConfigToFile();
 			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");

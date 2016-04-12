@@ -77,6 +77,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="IntegratedTest.CardReader.cs" />
     <Compile Include="IntegratedTest.GuardZone.cs" />
     <Compile Include="IntegratedTest.Initialize.cs" />
     <Compile Include="ItegratedTest.HandDetector.cs" />
@@ -102,6 +103,10 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{7e982f7a-e8b8-4b63-a204-9fc7e5f97170}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\GroupControllerModule\GKModule.csproj">
+      <Project>{75276eba-15d7-4f08-8239-3c40e6835cb6}</Project>
+      <Name>GKModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
