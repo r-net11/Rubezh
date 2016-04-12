@@ -144,28 +144,12 @@ namespace GKIntegratedTest
 
 		void CheckJournal(params JournalEventNameType[] journalEventNameTypes)
 		{
-			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
-			var lastJournalNo = jourlnalItems.Count;
-			int delta = 10;
-			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
-			int matches = 0;
-			for (int i = lastJournalNo - 1; i >= lastJournalNo - delta; i--)
-			{
-				var journalItem = jourlnalItems[i];
-				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches])
-					matches ++;
-				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1])
-					matches = 1;
-				else
-					matches = 0;
-				if (matches == journalEventNameTypes.Count())
-					return;
-			}
-			Assert.Fail("Сообщения в журнале не найдены");
+			CheckJournal(10, journalEventNameTypes);
 		}
 
-		bool CheckJournal(int delta, params JournalEventNameType[] journalEventNameTypes)
+		void CheckJournal(int delta, params JournalEventNameType[] journalEventNameTypes)
 		{
+			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
 			var lastJournalNo = jourlnalItems.Count;
 			delta = lastJournalNo - delta > 0 ? delta : 0;
 			int matches = 0;
@@ -177,9 +161,9 @@ namespace GKIntegratedTest
 				else
 					matches = 0;
 				if (matches == journalEventNameTypes.Count())
-					return true;
+					return;
 			}
-			return false;
+			Assert.Fail("Сообщения в журнале не найдены");
 		}
 
 		public void RunProcess(string processName, string processPathName) // sync (max 10 sec)
