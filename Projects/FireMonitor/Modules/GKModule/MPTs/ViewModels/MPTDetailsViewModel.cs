@@ -12,12 +12,14 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Interfaces;
+using Infrastructure.PlanLink.ViewModels;
 
 namespace GKModule.ViewModels
 {
 	public class MPTDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public GKMPT MPT { get; private set; }
+		public PlanLinksViewModel PlanLinks { get; private set; }
 		public GKState State
 		{
 			get { return MPT.State; }
@@ -27,7 +29,7 @@ namespace GKModule.ViewModels
 			MPT = mpt;
 			Title = MPT.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
-			InitializePlans();
+			PlanLinks = new PlanLinksViewModel(MPT.PlanElementUIDs);
 
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -175,21 +177,6 @@ namespace GKModule.ViewModels
 		{
 			if (MPT != null)
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { MPT.UID });
-		}
-
-		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
-		public bool HasPlans
-		{
-			get { return Plans.Count > 0; }
-		}
-
-		void InitializePlans()
-		{
-			Plans = new ObservableCollection<PlanLinkViewModel>();
-			ShowOnPlanHelper.GetAllPlans(MPT.UID).ForEach(x =>
-			{
-				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First(y => (y as IElementReference).ItemUID == MPT.UID)) { GkBaseEntity = MPT });
-			});
 		}
 
 		public bool CanControl

@@ -69,6 +69,7 @@ namespace GKIntegratedTest
 
 		public void SetConfigAndRestartImitator()
 		{
+			GKManager.UpdateConfiguration();
 			SaveConfigToFile(true);
 			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");

@@ -40,15 +40,11 @@ namespace GKProcessor
 				return;
 			}
 
+			// Фиктивная логика для того, чтобы состояние охранной зоны всегда пересчитывалось, даже когда состояние ПИМ не изменилось
 			Formula.AddGetBit(GKStateBit.Test, GuardZone.ChangePim);
 			Formula.Add(FormulaOperationType.COM);
 			Formula.AddPutBit(GKStateBit.Test, GuardZone.ChangePim);
-			// Фиктивная логика для того, чтобы состояние охранной зоны всегда пересчитывалось, даже когда состояние ПИМ не изменилось
-			//Formula.AddGetBit(GKStateBit.Fire1, Pim);
-			//Formula.Add(FormulaOperationType.DUP);
-			//Formula.AddPutBit(GKStateBit.Reset, Pim);
-			//Formula.Add(FormulaOperationType.COM);
-			//Formula.AddPutBit(GKStateBit.Fire1, Pim);
+
 
 			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire1);
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOnNow_InAutomatic);

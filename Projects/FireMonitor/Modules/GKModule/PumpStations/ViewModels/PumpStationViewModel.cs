@@ -25,7 +25,8 @@ namespace GKModule.ViewModels
 		public PumpStationViewModel(GKPumpStation pumpStation)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowOnPlanOrPropertiesCommand = new RelayCommand(ShowOnPlanOrProperties);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			PumpStation = pumpStation;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
@@ -54,10 +55,21 @@ namespace GKModule.ViewModels
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { PumpStation.UID });
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
+		void ShowOnPlanOrProperties()
 		{
+			if(ShowOnPlanHelper.ShowObjectOnPlan(PumpStation.PlanElementUIDs))
 			DialogService.ShowWindow(new PumpStationDetailsViewModel(PumpStation));
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			ShowOnPlanHelper.ShowObjectOnPlan(PumpStation.PlanElementUIDs);
+		}
+		public bool CanShowOnPlan()
+		{
+			return ShowOnPlanHelper.CanShowOnPlan(PumpStation.PlanElementUIDs);
 		}
 
 		public bool HasOnDelay

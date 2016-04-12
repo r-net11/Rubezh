@@ -38,8 +38,9 @@
 								</Hyperlink>
 								<TextBlock.ContextMenu>
 									<ContextMenu>
+										<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap"  Text="Показать на плане" />
 										<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-										<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+										<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowOnPlanOrPropertiesCommand}" />
 									</ContextMenu>
 								</TextBlock.ContextMenu>
 							</TextBlock>

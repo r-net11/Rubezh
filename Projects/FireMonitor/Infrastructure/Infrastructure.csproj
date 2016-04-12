@@ -80,7 +80,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -152,6 +154,11 @@
     <Compile Include="Models\RviMultiLayoutCameraSettings.cs" />
     <Compile Include="Models\SKDSettings.cs" />
     <Compile Include="Models\JournalColumnType.cs" />
+    <Compile Include="PlanLink\ViewModels\PlanLinksViewModel.cs" />
+    <Compile Include="PlanLink\ViewModels\PlanLinkViewModel.cs" />
+    <Compile Include="PlanLink\View\PlanLinksView.xaml.cs">
+      <DependentUpon>PlanLinksView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Models\AutoActivationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -189,6 +196,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Page Include="PlanLink\View\PlanLinksView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

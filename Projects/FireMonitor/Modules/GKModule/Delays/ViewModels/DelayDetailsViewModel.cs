@@ -12,12 +12,14 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using Infrastructure.PlanLink.ViewModels;
 
 namespace GKModule.ViewModels
 {
 	public class DelayDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public GKDelay Delay { get; private set; }
+		public PlanLinksViewModel PlanLinks { get; private set; }
 		public GKState State
 		{
 			get { return Delay.State; }
@@ -28,7 +30,7 @@ namespace GKModule.ViewModels
 			Delay = delay;
 			Title = Delay.Name;
 			State.StateChanged += new Action(OnStateChanged);
-			this.InitializePlans();
+			PlanLinks = new PlanLinksViewModel(Delay.PlanElementUIDs);
 
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -39,30 +41,7 @@ namespace GKModule.ViewModels
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 		}
-		private void InitializePlans()
-		{
-			this.Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
-			{
-				ElementBase elementBase = plan.ElementRectangleGKDelays.FirstOrDefault(x => x.DelayUID == this.Delay.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = this.Delay;
-					Plans.Add(alarmPlanViewModel);
-					continue;
-				}
-
-				elementBase = plan.ElementPolygonGKDelays.FirstOrDefault(x => x.DelayUID == this.Delay.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = this.Delay;
-					Plans.Add(alarmPlanViewModel);
-				}
-			}
-		}
-
+		
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => StateClasses);
@@ -193,12 +172,6 @@ namespace GKModule.ViewModels
 		{
 			if(Delay != null)
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Delay.UID });
-		}
-
-		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
-		public bool HasPlans
-		{
-			get { return Plans.Count > 0; }
 		}
 
 		public bool CanControl

@@ -11,11 +11,11 @@ namespace GKModule.ViewModels
 {
 	public class PlanLinkViewModel : BaseViewModel
 	{
-		public PlanLinkViewModel(Plan plan, ElementBase elementBase)
+		public PlanLinkViewModel(Plan plan, Guid elementBaseUID)
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			Plan = plan;
-			ElementUID = elementBase.UID;
+			ElementUID = elementBaseUID;
 		}
 
 		public Plan Plan { get; set; }

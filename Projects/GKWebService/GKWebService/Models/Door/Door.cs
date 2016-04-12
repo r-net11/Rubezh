@@ -26,6 +26,8 @@ namespace GKWebService.Models.Door
 			DoorTypeString = door.DoorType.ToDescription();
 			DoorType = door.DoorType;
 			Desription = door.Description;
+			Delay = door.Delay;
+			Hold = door.Hold;
 			ImageSource = door.ImageSource.Replace("/Controls;component/", "");
 			if (door.EnterDevice != null)
 				EnterDevice = new DoorDevice(door.EnterDevice);
@@ -91,11 +93,13 @@ namespace GKWebService.Models.Door
 		public string StateColor { get; set; }
 		public string State { get; set; }
 		public string HoldDelay { get; set; }
-		public string  OffDelay { get; set; }
+		public string OffDelay { get; set; }
 		public bool HasOffDelay { get; set; }
 		public bool HasHoldDelay { get; set; }
 		public bool FullCanControl { get; set; }
 		public bool CanControl { get; set; }
+		public int Delay { get; set; }
+		public int Hold { get; set; }
 
 		public string DoorTypeString { get; set; }
 

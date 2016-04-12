@@ -322,31 +322,37 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.GKDevice:
 					if (Device != null)
 					{
-						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Device.UID), Device.UID);
+						ShowOnPlanHelper.ShowObjectOnPlan(Device.PlanElementUIDs);
+					}
+					break;
+				case JournalObjectType.GKPumpStation:
+					if (PumpStation != null)
+					{
+						ShowOnPlanHelper.ShowObjectOnPlan(Device.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKZone:
 					if (Zone != null)
 					{
-						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Zone.UID), Zone.UID);
+						ShowOnPlanHelper.ShowObjectOnPlan(Zone.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKDirection:
 					if (Direction != null)
 					{
-						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Direction.UID), Direction.UID);
+						ShowOnPlanHelper.ShowObjectOnPlan(Direction.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKMPT:
 					if (MPT != null)
 					{
-						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(MPT.UID), MPT.UID);
+						ShowOnPlanHelper.ShowObjectOnPlan(MPT.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKGuardZone:
 					if (GuardZone != null)
 					{
-						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(GuardZone.UID), GuardZone.UID);
+						ShowOnPlanHelper.ShowObjectOnPlan(GuardZone.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKSKDZone:
@@ -358,21 +364,21 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.GKDoor:
 					if (GKDoor != null)
 					{
-						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(GKDoor.UID), GKDoor.UID);
+						ShowOnPlanHelper.ShowObjectOnPlan(GKDoor.PlanElementUIDs);
 					}
 					break;
 
 				case JournalObjectType.GKDelay:
 					if (Delay != null)
 					{
-						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Delay.UID), Delay.UID);
+						ShowOnPlanHelper.ShowObjectOnPlan(Delay.PlanElementUIDs);
 					}
 					break;
 
 				case JournalObjectType.Camera:
 					if (Camera != null)
 					{
-						ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Camera.UID), Camera.UID);
+						ShowOnPlanHelper.ShowObjectOnPlan(Camera.PlanElementUIDs);
 					}
 					break;
 			}
@@ -387,55 +393,55 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.GKDevice:
 					if (Device != null)
 					{
-						return ShowOnPlanHelper.GetPlan(Device.UID)!=null;
+						return ShowOnPlanHelper.CanShowOnPlan(Device.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKZone:
 					if (Zone != null)
 					{
-						return ShowOnPlanHelper.GetPlan(Zone.UID)!= null;
+						return ShowOnPlanHelper.CanShowOnPlan(Zone.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKDirection:
 					if (Direction != null)
 					{
-						return ShowOnPlanHelper.GetPlan(Direction.UID)!= null;
+						return ShowOnPlanHelper.CanShowOnPlan(Direction.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKMPT:
 					if (MPT != null)
 					{
-						return ShowOnPlanHelper.GetPlan(MPT.UID)!= null;
+						return ShowOnPlanHelper.CanShowOnPlan(MPT.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKGuardZone:
 					if (GuardZone != null)
 					{
-						return ShowOnPlanHelper.GetPlan(GuardZone.UID)!= null;
+						return ShowOnPlanHelper.CanShowOnPlan(GuardZone.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKSKDZone:
 					if (GKSKDZone != null)
 					{
-						return ShowOnPlanHelper.GetPlan(GKSKDZone.UID)!= null;
+						return ShowOnPlanHelper.CanShowOnPlan(GKSKDZone.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKDoor:
 					if (GKDoor != null)
 					{
-						return ShowOnPlanHelper.GetPlan(GKDoor.UID)!= null;
+						return ShowOnPlanHelper.CanShowOnPlan(GKDoor.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.GKDelay:
 					if (Delay != null)
 					{
-						return ShowOnPlanHelper.GetPlan(Delay.UID) != null;
+						return ShowOnPlanHelper.CanShowOnPlan(Delay.PlanElementUIDs);
 					}
 					break;
 				case JournalObjectType.Camera:
 					if (Camera != null)
 					{
-						return ShowOnPlanHelper.GetPlan(Camera.UID) != null;
+						return ShowOnPlanHelper.CanShowOnPlan(Camera.PlanElementUIDs);
 					}
 					break;
 			}

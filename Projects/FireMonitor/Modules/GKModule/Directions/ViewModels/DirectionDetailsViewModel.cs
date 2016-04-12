@@ -13,12 +13,14 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using Infrastructure.PlanLink.ViewModels;
 
 namespace GKModule.ViewModels
 {
 	public class DirectionDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public GKDirection Direction { get; private set; }
+		public PlanLinksViewModel PlanLinks { get; private set; }
 		public GKState State
 		{
 			get { return Direction.State; }
@@ -29,7 +31,7 @@ namespace GKModule.ViewModels
 			Direction = direction;
 			Title = Direction.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
-			InitializePlans();
+			PlanLinks = new PlanLinksViewModel(Direction.PlanElementUIDs);			
 
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -76,6 +78,7 @@ namespace GKModule.ViewModels
 				return DeviceControlRegime.Manual;
 			}
 		}
+
 
 		public bool IsControlRegime
 		{
@@ -177,21 +180,6 @@ namespace GKModule.ViewModels
 		{
 			if (Direction != null)
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Direction.UID });
-		}
-
-		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
-		public bool HasPlans
-		{
-			get { return Plans.Count > 0; }
-		}
-
-		void InitializePlans()
-		{
-			Plans = new ObservableCollection<PlanLinkViewModel>();
-			ShowOnPlanHelper.GetAllPlans(Direction.UID).ForEach(x =>
-			{
-				Plans.Add(new PlanLinkViewModel(x, x.AllElements.First(y => (y as IElementReference).ItemUID == Direction.UID)) { GkBaseEntity = Direction });
-			});
 		}
 
 		public bool CanControl
