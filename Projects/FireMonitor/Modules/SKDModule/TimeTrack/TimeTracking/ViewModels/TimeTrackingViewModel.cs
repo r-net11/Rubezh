@@ -24,10 +24,11 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackingViewModel()
 		{
-			ShowFilterCommand = new RelayCommand(OnShowFilter);
-			RefreshCommand = new RelayCommand(OnRefresh);
+			_isConnected = true;
+			ShowFilterCommand = new RelayCommand(OnShowFilter, CanShowFilter);
+			RefreshCommand = new RelayCommand(OnRefresh, CanRefresh);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
-			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
+			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes, CanShowDocumentTypes);
 			ShowNightSettingsCommand = new RelayCommand(OnShowNightSettingsCommand, CanShowNightSettings);
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Unsubscribe(OnEditDocument);
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
@@ -49,7 +50,6 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.EndDate = DateTime.Today;
 
 			TimeTracks = new SortableObservableCollection<TimeTrackViewModel>();
-			//UpdateGrid();
 		}
 
 		Guid _chiefUID;
@@ -108,11 +108,19 @@ namespace SKDModule.ViewModels
 			}
 			OnInitializeLeadUIDs(filterViewModel);
 		}
+		bool CanShowFilter()
+		{
+			return _isConnected;
+		}
 
 		public RelayCommand RefreshCommand { get; private set; }
 		void OnRefresh()
 		{
 			UpdateGrid();
+		}
+		bool CanRefresh()
+		{
+			return _isConnected;
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
@@ -127,7 +135,6 @@ namespace SKDModule.ViewModels
 				DialogService.ShowModalWindow(reportSettingsViewModel);
 			}
 		}
-
 		public bool ValidatePrint()
 		{
 			if (TimeTracks.Count == 0)
@@ -167,7 +174,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPrint()
 		{
-			return ApplicationService.IsReportEnabled && ClientManager.CheckPermission(PermissionType.Oper_Reports_T13);
+			return ApplicationService.IsReportEnabled && ClientManager.CheckPermission(PermissionType.Oper_Reports_T13) && _isConnected;
 		}
 
 		void UpdateGrid()
@@ -238,6 +245,11 @@ namespace SKDModule.ViewModels
 			var documentTypesViewModel = new DocumentTypesViewModel();
 			DialogService.ShowModalWindow(documentTypesViewModel);
 		}
+		bool CanShowDocumentTypes()
+		{
+			return _isConnected;
+		}
+
 		public RelayCommand ShowNightSettingsCommand { get; private set; }
 		void OnShowNightSettingsCommand()
 		{
@@ -246,7 +258,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowNightSettings()
 		{
-			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit) && _isConnected;
 		}
 
 		public void OnInitializeLeadUIDs(TimeTrackFilterViewModel filterViewModel)
@@ -292,5 +304,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 		#endregion
+
+		bool _isConnected;
+
+		public void OnConnectionLost()
+		{
+			_isConnected = false;
+		}
+
+		public void OnConnectionAppeared()
+		{
+			_isConnected = true;
+		}
 	}
 }

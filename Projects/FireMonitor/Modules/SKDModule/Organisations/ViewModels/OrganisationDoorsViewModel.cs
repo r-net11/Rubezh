@@ -7,7 +7,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationDoorsViewModel : OrganisationItemsViewModel<OrganisationDoorViewModel>
 	{
-		public OrganisationDoorsViewModel(Organisation organisation):base(organisation)
+		public OrganisationDoorsViewModel(Organisation organisation, bool isConnected):base(organisation, isConnected)
 		{
 			Items = new ObservableCollection<OrganisationDoorViewModel>();
 			foreach (var door in GKManager.DeviceConfiguration.Doors)  

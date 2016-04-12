@@ -37,10 +37,10 @@ namespace SKDModule.ViewModels
 
 		public HRViewModel(SKDTabItems skdTabItems)
 		{
+			IsConnected = true;
 			SKDTabItems = skdTabItems;
-			EditFilterCommand = new RelayCommand(OnEditFilter);
-			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted);
-
+			EditFilterCommand = new RelayCommand(OnEditFilter, CanEditFilter);
+			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted, CanChangeIsDeleted);
 			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
@@ -52,27 +52,70 @@ namespace SKDModule.ViewModels
 			DepartmentFilter = new DepartmentFilter();
 			PositionFilter = new PositionFilter();
 			CardFilter = new CardFilter();
-			if (CanSelectEmployees) IsEmployeesSelected = true;
-			else if (CanSelectDepartments) IsDepartmentsSelected = true;
-			else if (CanSelectPositions) IsPositionsSelected = true;
-			else if (CanSelectAdditionalColumns) IsAdditionalColumnTypesSelected = true;
-			else if (CanSelectCards) IsCardsSelected = true;
-			else if (CanSelectAccessTemplates) IsAccessTemplatesSelected = true;
-			else if (CanSelectPassCardTemplates) IsPassCardTemplatesSelected = true;
-			else if (CanSelectOrganisations) IsOrganisationsSelected = true;
-				
-
+			if (CanSelectEmployees) 
+				IsEmployeesSelected = true;
+			else if (CanSelectDepartments) 
+				IsDepartmentsSelected = true;
+			else if (CanSelectPositions) 
+				IsPositionsSelected = true;
+			else if (CanSelectAdditionalColumns) 
+				IsAdditionalColumnTypesSelected = true;
+			else if (CanSelectCards) 
+				IsCardsSelected = true;
+			else if (CanSelectAccessTemplates) 
+				IsAccessTemplatesSelected = true;
+			else if (CanSelectPassCardTemplates) 
+				IsPassCardTemplatesSelected = true;
+			else if (CanSelectOrganisations) 
+				IsOrganisationsSelected = true;
 			PersonTypes = new ObservableCollection<PersonType>();
 			if (ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View))
 				PersonTypes.Add(PersonType.Employee);
 			if (ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View))
 				PersonTypes.Add(PersonType.Guest);
 			_selectedPersonType = PersonTypes.FirstOrDefault();
-			CanSelectPersonType = PersonTypes.Count == 2;
-
 			var userUID = ClientManager.CurrentUser.UID;
 			Filter = new HRFilter() { UserUID = userUID };
 			Filter.EmployeeFilter.UserUID = userUID;
+		}
+
+		bool _isConnected;
+		bool IsConnected
+		{
+			get { return _isConnected; }
+			set
+			{
+				_isConnected = value;
+				OnPropertyChanged(() => CanSelectPersonType);
+			}
+		}
+
+		public void OnConnectionLost()
+		{
+			IsConnected = false;
+			EmployeesViewModel.OnConnectionLost();
+			DepartmentsViewModel.OnConnectionLost();
+			PositionsViewModel.OnConnectionLost();
+			AdditionalColumnTypesViewModel.OnConnectionLost();
+			CardsViewModel.OnConnectionLost();
+			AccessTemplatesViewModel.OnConnectionLost();
+			AccessTemplatesViewModel.OnConnectionLost();
+			PassCardTemplatesViewModel.OnConnectionLost();
+			OrganisationsViewModel.OnConnectionLost();
+		}
+
+		public void OnConnectionAppeared()
+		{
+			IsConnected = true;
+			EmployeesViewModel.OnConnectionAppeared();
+			DepartmentsViewModel.OnConnectionAppeared();
+			PositionsViewModel.OnConnectionAppeared();
+			AdditionalColumnTypesViewModel.OnConnectionAppeared();
+			CardsViewModel.OnConnectionAppeared();
+			AccessTemplatesViewModel.OnConnectionAppeared();
+			AccessTemplatesViewModel.OnConnectionAppeared();
+			PassCardTemplatesViewModel.OnConnectionAppeared();
+			OrganisationsViewModel.OnConnectionAppeared();
 		}
 
 		bool _isEmployeesSelected;
@@ -229,7 +272,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool CanSelectPersonType { get; private set; }
+		public bool CanSelectPersonType { get { return PersonTypes.Count == 2 && IsConnected; } }
 
 		public RelayCommand EditFilterCommand { get; private set; }
 		void OnEditFilter()
@@ -243,10 +286,19 @@ namespace SKDModule.ViewModels
 				SKDTabItems.Initialize();
 			}
 		}
+		bool CanEditFilter()
+		{
+			return IsConnected;
+		}
+
 		public RelayCommand ChangeIsDeletedCommand { get; private set; }
 		void OnChangeIsDeleted()
 		{
 			IsWithDeleted = !IsWithDeleted;
+		}
+		bool CanChangeIsDeleted()
+		{
+			return IsConnected;
 		}
 
 		public string FilterImageSource { get { return Filter.EmployeeFilter.IsNotEmpty ? "archive" : "filter"; } }
@@ -284,7 +336,6 @@ namespace SKDModule.ViewModels
 				LogicalDeletationType = Filter.LogicalDeletationType 
 			};
 			InitializeEmployeeFilter();
-
 			DepartmentsViewModel.Initialize(DepartmentFilter);
 			PositionsViewModel.Initialize(PositionFilter);
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
