@@ -1,12 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;
@@ -17,8 +8,15 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using KeyboardKey = System.Windows.Input.Key;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -78,7 +76,7 @@ namespace GKModule.ViewModels
 					ZoneDevices.Initialize(value.Zone);
 				}
 				OnPropertyChanged(() => SelectedZone);
-				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs != null  && _selectedZone.Zone.PlanElementUIDs.Count > 0)
+				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
 			}
 		}
@@ -114,15 +112,15 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			OnEdit(SelectedZone.Zone);
+			OnEdit(SelectedZone);
 		}
-		void OnEdit(GKGuardZone zone)
+		void OnEdit(GuardZoneViewModel zoneViewModel)
 		{
-			var guardZoneDetailsViewModel = new GuardZoneDetailsViewModel(zone);
+			var guardZoneDetailsViewModel = new GuardZoneDetailsViewModel(zoneViewModel.Zone);
 			if (DialogService.ShowModalWindow(guardZoneDetailsViewModel))
 			{
-				GKManager.EditGuardZone(guardZoneDetailsViewModel.Zone);
-				SelectedZone.Update();
+				GKManager.EditGuardZone(zoneViewModel.Zone);
+				zoneViewModel.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -211,7 +209,7 @@ namespace GKModule.ViewModels
 		{
 			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zoneViewModel != null)
-				OnEdit(zoneViewModel.Zone);
+				OnEdit(zoneViewModel);
 		}
 
 		public override void OnShow()

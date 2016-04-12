@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;
@@ -16,8 +8,15 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using KeyboardKey = System.Windows.Input.Key;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -97,7 +96,7 @@ namespace GKModule.ViewModels
 		}
 		private DirectionDetailsViewModel OnAddResult()
 		{
-            var directionDetailsViewModel = new DirectionDetailsViewModel();
+			var directionDetailsViewModel = new DirectionDetailsViewModel();
 			if (ServiceFactory.DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				GKManager.AddDirection(directionDetailsViewModel.Direction);
@@ -114,19 +113,19 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			OnEdit(SelectedDirection.Direction);
+			OnEdit(SelectedDirection);
 		}
-		void OnEdit(GKDirection direction)
+		void OnEdit(DirectionViewModel directionViewModel)
 		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
+			var directionDetailsViewModel = new DirectionDetailsViewModel(directionViewModel.Direction);
 			if (ServiceFactory.DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				SelectedDirection.Update();
-				GKManager.EditDirection(SelectedDirection.Direction);
+				directionViewModel.Update();
+				GKManager.EditDirection(directionViewModel.Direction);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-		
+
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
@@ -199,7 +198,7 @@ namespace GKModule.ViewModels
 
 		bool CanPaste()
 		{
-			return _directionToCopy != null && SelectedDirection!= null;
+			return _directionToCopy != null && SelectedDirection != null;
 		}
 
 		public RelayCommand CopyLogicCommand { get; private set; }
@@ -269,7 +268,7 @@ namespace GKModule.ViewModels
 		{
 			var directionViewModel = directionUID == Guid.Empty ? null : Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (directionViewModel != null)
-				OnEdit(directionViewModel.Direction);
+				OnEdit(directionViewModel);
 		}
 
 		private void OnDirectionChanged(Guid directionUID)

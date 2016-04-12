@@ -1,22 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using RubezhClient;
+using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
-using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
-using RubezhAPI.Models;
-using GKModule.Events;
-using RubezhAPI.GK;
+using Infrustructure.Plans.Events;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -113,16 +112,16 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			OnEdit(SelectedMPT.MPT);
+			OnEdit(SelectedMPT);
 		}
 
-		void OnEdit(GKMPT mpt)
+		void OnEdit(MPTViewModel mptViewModel)
 		{
-			var mptDetailsViewModel = new MPTDetailsViewModel(mpt);
+			var mptDetailsViewModel = new MPTDetailsViewModel(mptViewModel.MPT);
 			if (DialogService.ShowModalWindow(mptDetailsViewModel))
 			{
-				SelectedMPT.Update();
-				GKManager.EditMPT(SelectedMPT.MPT);
+				mptViewModel.Update();
+				GKManager.EditMPT(mptViewModel.MPT);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -232,7 +231,7 @@ namespace GKModule.ViewModels
 		{
 			var mptViewModel = mptUID == Guid.Empty ? null : MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
 			if (mptViewModel != null)
-				OnEdit(mptViewModel.MPT);
+				OnEdit(mptViewModel);
 		}
 
 		public void Select(Guid mptUID)

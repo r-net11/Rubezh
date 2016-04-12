@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using RubezhAPI.GK;
-using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;
@@ -13,8 +6,14 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -27,7 +26,7 @@ namespace GKModule.ViewModels
 			Current = this;
 			Menu = new DelaysMenuViewModel(this);
 			AddCommand = new RelayCommand(() => OnAdd());
-			EditCommand = new RelayCommand(() => OnEdit(SelectedDelay.Delay), () => HasSelectedDelay);
+			EditCommand = new RelayCommand(() => OnEdit(SelectedDelay), () => HasSelectedDelay);
 			DeleteCommand = new RelayCommand(OnDelete, () => HasSelectedDelay);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			CopyCommand = new RelayCommand(OnCopy, () => HasSelectedDelay);
@@ -102,13 +101,13 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit(GKDelay delay)
+		private void OnEdit(DelayViewModel delayViewModel)
 		{
-			var delayDetailsViewModel = new DelayDetailsViewModel(delay);
+			var delayDetailsViewModel = new DelayDetailsViewModel(delayViewModel.Delay);
 			if (ServiceFactory.DialogService.ShowModalWindow(delayDetailsViewModel))
 			{
-				GKManager.EditDelay(SelectedDelay.Delay);
-				SelectedDelay.Update();
+				GKManager.EditDelay(delayViewModel.Delay);
+				delayViewModel.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -150,7 +149,7 @@ namespace GKModule.ViewModels
 			return GetEmptyDelays().Any();
 		}
 
-		List <DelayViewModel> GetEmptyDelays()
+		List<DelayViewModel> GetEmptyDelays()
 		{
 			return Delays.Where(x => !x.Delay.Logic.GetObjects().Any()).ToList();
 		}
@@ -251,7 +250,7 @@ namespace GKModule.ViewModels
 		{
 			var delayViewModel = delayUID == Guid.Empty ? null : this.Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
 			if (delayViewModel != null)
-				this.OnEdit(delayViewModel.Delay);
+				this.OnEdit(delayViewModel);
 		}
 
 		public void Select(Guid delayUID)

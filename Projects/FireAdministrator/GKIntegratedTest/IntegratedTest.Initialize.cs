@@ -16,6 +16,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using RubezhAPI.Journal;
 using System.Collections.Generic;
+using GKModule.Validation;
+using Infrastructure.Common.Validation;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using Stopwatch = NUnit.Framework.Compatibility.Stopwatch;
 
@@ -65,6 +67,8 @@ namespace GKIntegratedTest
 			InitializeStates();
 			ServiceFactory.Initialize(null, null);
 			jourlnalItems = new List<JournalItem>();
+			ClientManager.PlansConfiguration = new PlansConfiguration();
+			ClientManager.PlansConfiguration.AllPlans = new List<Plan>();
 
 			SafeFiresecService.GKCallbackResultEvent -= OnGKCallbackResult;
 			SafeFiresecService.GKCallbackResultEvent += OnGKCallbackResult;
@@ -76,6 +80,9 @@ namespace GKIntegratedTest
 		public void SetConfigAndRestartImitator()
 		{
 			GKManager.UpdateConfiguration();
+			var validator = new Validator();
+			var errors = validator.Validate();
+			Assert.IsFalse(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite), "Конфигурация содержит критическую ошибку");
 			SaveConfigToFile();
 			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
@@ -144,28 +151,12 @@ namespace GKIntegratedTest
 
 		void CheckJournal(params JournalEventNameType[] journalEventNameTypes)
 		{
-			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
-			var lastJournalNo = jourlnalItems.Count;
-			int delta = 10;
-			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
-			int matches = 0;
-			for (int i = lastJournalNo - 1; i >= lastJournalNo - delta; i--)
-			{
-				var journalItem = jourlnalItems[i];
-				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches])
-					matches ++;
-				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1])
-					matches = 1;
-				else
-					matches = 0;
-				if (matches == journalEventNameTypes.Count())
-					return;
-			}
-			Assert.Fail("Сообщения в журнале не найдены");
+			CheckJournal(10, journalEventNameTypes);
 		}
 
-		bool CheckJournal(int delta, params JournalEventNameType[] journalEventNameTypes)
+		void CheckJournal(int delta, params JournalEventNameType[] journalEventNameTypes)
 		{
+			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
 			var lastJournalNo = jourlnalItems.Count;
 			delta = lastJournalNo - delta > 0 ? delta : 0;
 			int matches = 0;
@@ -177,9 +168,9 @@ namespace GKIntegratedTest
 				else
 					matches = 0;
 				if (matches == journalEventNameTypes.Count())
-					return true;
+					return;
 			}
-			return false;
+			Assert.Fail("Сообщения в журнале не найдены");
 		}
 
 		public void RunProcess(string processName, string processPathName) // sync (max 10 sec)
