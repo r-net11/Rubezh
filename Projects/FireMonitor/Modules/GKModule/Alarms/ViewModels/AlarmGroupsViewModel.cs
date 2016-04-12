@@ -37,9 +37,9 @@ namespace GKModule.ViewModels
 		}
 
 		public List<AlarmGroupViewModel> AlarmGroups { get; private set; }
-        public GlobalPimActivationViewModel GlobalPimActivationViewModel { get; private set; }
+		public GlobalPimActivationViewModel GlobalPimActivationViewModel { get; private set; }
 
-        public void Update(List<Alarm> alarms)
+		public void Update(List<Alarm> alarms)
 		{
 			foreach (var alarmGroup in AlarmGroups)
 			{
@@ -83,5 +83,5 @@ namespace GKModule.ViewModels
 		{
 			get { return AlarmsViewModel.Current.GetAlarmsToResetCount(); }
 		}
-    }
+	}
 }
