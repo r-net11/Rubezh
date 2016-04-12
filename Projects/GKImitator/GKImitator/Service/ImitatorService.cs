@@ -36,8 +36,20 @@ namespace GKImitator
 				case GKStateBit.Reset:
 					descriptor.ResetFireCommand.Execute();
 					break;
+				case GKStateBit.TurnOn_InAutomatic:
+					descriptor.TurnOnCommand.Execute();
+					break;
+				case GKStateBit.TurnOnNow_InAutomatic:
+					descriptor.TurnOnNowCommand.Execute();
+					break;
+				case GKStateBit.TurnOff_InAutomatic:
+					descriptor.TurnOffCommand.Execute();
+					break;
+				case GKStateBit.TurnOffNow_InAutomatic:
+					descriptor.TurnOffNowCommand.Execute();
+					break;  
 				default:
-					return OperationResult<bool>.FromError("Такая команда ещё не реализована");
+					return OperationResult<bool>.FromError("Команда " + command.ToDescription() + " ещё не реализована");
 			}
 			return new OperationResult<bool>(true);
 		}

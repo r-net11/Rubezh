@@ -76,12 +76,13 @@ namespace GKIntegratedTest
 		public void SetConfigAndRestartImitator()
 		{
 			GKManager.UpdateConfiguration();
-			SaveConfigToFile(true);
+			SaveConfigToFile();
 			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
-			var connectionStatus = CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
+			CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
 			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
+			GKManager.UpdateConfiguration();
 		}
 
 		void InitializeRootDevices()	
@@ -99,7 +100,7 @@ namespace GKIntegratedTest
 			kauDevice12 = GKManager.AddDevice(gkDevice1, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
 		}
 
-		static string SaveConfigToFile(bool isLocal)
+		static void SaveConfigToFile()
 		{
 			try
 			{
@@ -108,20 +109,18 @@ namespace GKIntegratedTest
 					Directory.CreateDirectory(tempFolderName);
 				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 				AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration);
-				return null;
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "ConfigManager.SaveAllConfigToFile");
 			}
-			return null;
 		}
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion = 1, int majorVersion = 1)
 		{
 			configuration.BeforeSave();
-			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
+			configuration.Version = new ConfigurationVersion { MinorVersion = minorVersion, MajorVersion = majorVersion };
 			var filePath = Path.Combine(folderName, name);
 			if (File.Exists(filePath))
 				File.Delete(filePath);
@@ -129,14 +128,18 @@ namespace GKIntegratedTest
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
-		void WaitWhileState(GKBase gkBase, XStateClass gkState, int milliseconds)
+		void WaitWhileState(GKBase gkBase, XStateClass gkState, int milliseconds, string traceMessage)
 		{
-			int timeOut = 0;
-			while (gkBase.State.StateClass != gkState && timeOut < milliseconds)
+			CheckTime(() =>
 			{
-				Thread.Sleep(50);
-				timeOut += 50;
+				int timeOut = 0;
+				while (gkBase.State.StateClass != gkState && timeOut < milliseconds)
+				{
+					Thread.Sleep(50);
+					timeOut += 50;
+				}
 			}
+			, traceMessage);
 		}
 
 		public void RunProcess(string processName, string processPathName) // sync (max 10 sec)
@@ -208,7 +211,7 @@ namespace GKIntegratedTest
 			stopwatch.Start();
 			var t = a();
 			stopwatch.Stop();
-			Trace.WriteLine(traceMessage + "=" + stopwatch.Elapsed);
+			Console.WriteLine(traceMessage + "=" + stopwatch.Elapsed);
 			return t;
 		}
 
@@ -362,10 +365,10 @@ namespace GKIntegratedTest
 		{
 			return GKManager.AddDevice(device.Children[1], GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
 		}
-		
-		public OperationResult<bool> ConrtolGKBase(GKBase gkBase, GKStateBit command)
+
+		public OperationResult<bool> ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage)
 		{
-			var result = ImitatorManager.ImitatorService.ConrtolGKBase(gkBase.UID, command);
+			var result = CheckTime (() =>ImitatorManager.ImitatorService.ConrtolGKBase(gkBase.UID, command), traceMessage);
 			Assert.IsTrue(result.Result, result.Error);
 			return result;
 		}
