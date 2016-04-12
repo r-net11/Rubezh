@@ -142,6 +142,46 @@ namespace GKIntegratedTest
 			, traceMessage);
 		}
 
+		void CheckJournal(params JournalEventNameType[] journalEventNameTypes)
+		{
+			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
+			var lastJournalNo = jourlnalItems.Count;
+			int delta = 10;
+			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
+			int matches = 0;
+			for (int i = lastJournalNo - 1; i >= lastJournalNo - delta; i--)
+			{
+				var journalItem = jourlnalItems[i];
+				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches])
+					matches ++;
+				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1])
+					matches = 1;
+				else
+					matches = 0;
+				if (matches == journalEventNameTypes.Count())
+					return;
+			}
+			Assert.Fail("Сообщения в журнале не найдены");
+		}
+
+		bool CheckJournal(int delta, params JournalEventNameType[] journalEventNameTypes)
+		{
+			var lastJournalNo = jourlnalItems.Count;
+			delta = lastJournalNo - delta > 0 ? delta : 0;
+			int matches = 0;
+			for (int i = lastJournalNo; i >= lastJournalNo - delta; i--)
+			{
+				var journalItem = jourlnalItems[i];
+				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches])
+					matches++;
+				else
+					matches = 0;
+				if (matches == journalEventNameTypes.Count())
+					return true;
+			}
+			return false;
+		}
+
 		public void RunProcess(string processName, string processPathName) // sync (max 10 sec)
 		{
 			try
@@ -239,7 +279,7 @@ namespace GKIntegratedTest
 		{
 			if (isNew)
 			{
-				ApplicationService.Invoke(() => jourlnalItems.AddRange(journalItems));
+				Dispatcher.CurrentDispatcher.Invoke(() => jourlnalItems.AddRange(journalItems));
 			}
 		}
 

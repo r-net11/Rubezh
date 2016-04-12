@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 			MPT = mpt;
 			Title = MPT.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
-			PlanLinks = new PlanLinksViewModel(MPT.PlanElementUIDs);
+			PlanLinks = new PlanLinksViewModel(MPT);
 
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);

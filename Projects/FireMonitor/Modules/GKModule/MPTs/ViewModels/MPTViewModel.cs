@@ -86,18 +86,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowObjectOnPlan(MPT.PlanElementUIDs);
+			ShowOnPlanHelper.ShowObjectOnPlan(MPT);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowOnPlan(MPT.PlanElementUIDs);
+			return ShowOnPlanHelper.CanShowOnPlan(MPT);
 		}
 
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 
 		void OnShowOnPlanOrProperties()
 		{
-			if (ShowOnPlanHelper.ShowObjectOnPlan(MPT.PlanElementUIDs))
+			if (ShowOnPlanHelper.ShowObjectOnPlan(MPT))
 				DialogService.ShowWindow(new MPTDetailsViewModel(MPT));
 		}
 	}

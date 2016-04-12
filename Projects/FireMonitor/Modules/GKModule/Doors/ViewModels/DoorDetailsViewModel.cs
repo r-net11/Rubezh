@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
 			Door = door;
 			State.StateChanged -= OnStateChanged;
 			State.StateChanged += OnStateChanged;
-			Planlink = new PlanLinksViewModel(Door.PlanElementUIDs);
+			Planlink = new PlanLinksViewModel(Door);
 			Title = Door.PresentationName;
 		}
 

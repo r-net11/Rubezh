@@ -567,35 +567,18 @@ namespace GKImitator.ViewModels
 
 			if (GKBase is GKZone && hasZoneBitsChanged)
 			{
-				var hasChanged = false;
 				foreach (var stateBitVale in stateBitVales)
 				{
-					if (SetStateBit(stateBitVale.Key, stateBitVale.Value))
-						hasChanged = true;
+					SetStateBit(stateBitVale.Key, stateBitVale.Value);
 				}
 
-				if (hasChanged)
+				if (stateBitVales.All(x => !x.Value))
 				{
-					if (stateBitVales.ContainsKey(GKStateBit.Attention) && stateBitVales[GKStateBit.Attention])
-					{
-						var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
-						AddJournalItem(journalItem);
-					}
-					else if (stateBitVales.ContainsKey(GKStateBit.Fire1) && stateBitVales[GKStateBit.Fire1])
-					{
-						var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
-						AddJournalItem(journalItem);
-					}
-					else if (stateBitVales.ContainsKey(GKStateBit.Fire2) && stateBitVales[GKStateBit.Fire2])
-					{
-						var journalItem = new ImitatorJournalItem(2, 3, 0, 0);
-						AddJournalItem(journalItem);
-					}
-					else
-					{
-						var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
-						AddJournalItem(journalItem);
-					}
+					SetStateBit(GKStateBit.Norm, true);
+				}
+				else
+				{
+					SetStateBit(GKStateBit.Norm, false);
 				}
 			}
 

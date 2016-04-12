@@ -194,9 +194,9 @@
 									</TextBlock>
 								</WrapPanel>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
+							
 								<views:PlanLinksView DataContext="{Binding PlanLinks}" />
-							</StackPanel>
+							
 						</ItemsControl.Items>
 					</ItemsControl>
 				</ScrollViewer>

@@ -47,7 +47,7 @@ namespace GKModule.ViewModels
 			State.MeasureParametersChanged += OnMeasureParametersChanged;
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
 			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
-			PlanLinks = new PlanLinksViewModel(Device.PlanElementUIDs);
+			PlanLinks = new PlanLinksViewModel(Device);
 
 			Title = Device.PresentationName;
 			StartMeasureParametersMonitoring();
