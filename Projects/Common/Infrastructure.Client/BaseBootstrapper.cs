@@ -48,8 +48,9 @@ namespace Infrastructure.Client
 		}
 		protected void BeforeInitialize(bool firstTime)
 		{
-			foreach (IModule module in _modules)
-				try
+			try
+			{
+				foreach (IModule module in _modules)
 				{
 					var result = module.BeforeInitialize(firstTime);
 					ApplicationService.DoEvents();
@@ -59,17 +60,17 @@ namespace Infrastructure.Client
 						break;
 					}
 				}
-				catch (StartupCancellationException)
-				{
-					ApplicationService.ShutDown();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "BaseBootstrapper.PreInitialize");
-					MessageBoxService.ShowException(e);
-					ApplicationService.ShutDown();
-					break;
-				}
+			}
+			catch (StartupCancellationException)
+			{
+				throw;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "BaseBootstrapper.PreInitialize");
+				MessageBoxService.ShowException(e);
+				ApplicationService.ShutDown();
+			}	
 		}
 		protected void AterInitialize()
 		{
@@ -81,7 +82,7 @@ namespace Infrastructure.Client
 				}
 				catch (StartupCancellationException)
 				{
-					ApplicationService.ShutDown();
+					throw;
 				}
 				catch (Exception e)
 				{
@@ -101,7 +102,7 @@ namespace Infrastructure.Client
 				}
 				catch (StartupCancellationException)
 				{
-					ApplicationService.ShutDown();
+					throw;
 				}
 				catch (Exception e)
 				{
