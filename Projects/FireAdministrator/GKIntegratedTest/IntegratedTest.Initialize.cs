@@ -48,6 +48,12 @@ namespace GKIntegratedTest
 			InitializeConfiguration();
 		}
 
+		[TearDown]
+		public void TearDown()
+		{
+			ClientManager.Disconnect();
+		}
+
 		public void InitializeConfiguration()
 		{
 			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
@@ -355,6 +361,13 @@ namespace GKIntegratedTest
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
 		{
 			return GKManager.AddDevice(device.Children[1], GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
+		}
+		
+		public OperationResult<bool> ConrtolGKBase(GKBase gkBase, GKStateBit command)
+		{
+			var result = ImitatorManager.ImitatorService.ConrtolGKBase(gkBase.UID, command);
+			Assert.IsTrue(result.Result, result.Error);
+			return result;
 		}
 	}
 }
