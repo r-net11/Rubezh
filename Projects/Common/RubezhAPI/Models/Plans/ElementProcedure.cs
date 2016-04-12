@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
+using System;
 using System.Runtime.Serialization;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.Models
 {
@@ -21,6 +21,7 @@ namespace RubezhAPI.Models
 			BackgroundColor = Colors.Transparent;
 
 			Text = "Процедура";
+			PresentationName = "Процедура";
 			ForegroundColor = Colors.Black;
 			FontSize = 10;
 			TextAlignment = 0;
