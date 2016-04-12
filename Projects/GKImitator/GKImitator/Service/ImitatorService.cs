@@ -49,7 +49,7 @@ namespace GKImitator
 					descriptor.TurnOffNowCommand.Execute();
 					break;  
 				default:
-					return OperationResult<bool>.FromError("Такая команда ещё не реализована");
+					return OperationResult<bool>.FromError("Команда " + command.ToDescription() + " ещё не реализована");
 			}
 			return new OperationResult<bool>(true);
 		}
