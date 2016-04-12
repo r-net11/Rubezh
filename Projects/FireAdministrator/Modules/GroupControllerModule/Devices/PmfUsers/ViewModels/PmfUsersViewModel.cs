@@ -87,10 +87,14 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = Users.IndexOf(SelectedUser);
 			var user = SelectedUser.User;
 			Users.Remove(SelectedUser);
 			Pmf.PmfUsers.RemoveAll(x => x.Password == user.Password);
-			SelectedUser = Users.FirstOrDefault();
+			if(index > 0)
+				index--;
+			if(Users.Count > 0)
+				SelectedUser = Users.ElementAt(index);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanDelete()
@@ -123,7 +127,7 @@ namespace GKModule.ViewModels
 		{
 			Pmf.PmfUsers = new List<GKUser>(users.Where(x => x.IsActive));
 			ServiceFactory.SaveService.GKChanged = true;
-			Users = new ObservableCollection<PmfUserViewModel>(users.Select(x => new PmfUserViewModel(x)));
+			Users = new ObservableCollection<PmfUserViewModel>(Pmf.PmfUsers.Select(x => new PmfUserViewModel(x)));
 			OnPropertyChanged(() => Users);
 		}
 	}
