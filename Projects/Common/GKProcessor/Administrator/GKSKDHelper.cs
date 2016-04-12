@@ -3,6 +3,7 @@ using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -57,7 +58,7 @@ namespace GKProcessor
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes(user.GkNo));
 			bytes.Add((byte)user.UserType);
-			bytes.Add(0);
+			bytes.Add(user.IsActive ? (byte)0 : (byte)1);
 			var nameBytes = BytesHelper.StringDescriptionToBytes(user.Fio);
 			bytes.AddRange(nameBytes);
 			bytes.AddRange(BytesHelper.IntToBytes((int)user.Password));
@@ -454,20 +455,20 @@ namespace GKProcessor
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				int oldUsersCount = -1;
 				var getUsersCountResult = GetUsersCount(device, progressCallback);
 				if (getUsersCountResult.HasError)
 					return OperationResult<bool>.FromError(getUsersCountResult.Error);
-				oldUsersCount = getUsersCountResult.Result;
+				var oldUsersCount = getUsersCountResult.Result;
 				var removeAllUsersInternalResult = RemoveAllUsersInternal(device, oldUsersCount, progressCallback);
 				if (removeAllUsersInternalResult.HasError)
 					return OperationResult<bool>.FromError(removeAllUsersInternalResult.Error);
 				progressCallback = GKProcessorManager.StartProgress("Запись пользователей", "", users.Count, true, GKProgressClientType.Administrator);
-				ushort gkNo = 0;
+				ushort gkNo = 1;
 				foreach (var user in users.OrderBy(x => x.Password))
 				{
 					user.GkNo = gkNo++;
-					AddOrEditUser(user, device);
+					user.IsActive = true;
+					AddOrEditUser(user, device, gkNo > oldUsersCount + 1);
 					if (progressCallback.IsCanceled)
 					{
 						return OperationResult<bool>.FromError("Операция отменена");
@@ -491,51 +492,22 @@ namespace GKProcessor
 		{
 			progressCallback = GKProcessorManager.StartProgress("Удаление пользователей", "", usersCount, true, GKProgressClientType.Administrator);
 			int cardsCount = 0;
-			for (int no = 1; no <= usersCount; no++)
+			for (ushort i = 1; i <= usersCount; i++)
 			{
-				var bytes = new List<byte>();
-				bytes.Add(0);
-				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
-
-				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
-				if (sendResult.HasError)
+				var user = new GKUser
 				{
-					break;
-				}
-				if (sendResult.Bytes.Count == 0)
-				{
-					break;
-				}
-
-				bytes = new List<byte>();
-				bytes.Add(0);
-				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
-				bytes.Add(0);
-				bytes.Add(1);
-				var nameBytes = BytesHelper.StringDescriptionToBytes("-");
-				bytes.AddRange(nameBytes);
-				bytes.AddRange(BytesHelper.IntToBytes(-1));
-				bytes.Add(0);
-				bytes.Add(0);
-				for (int i = 0; i < 256 - 42; i++)
-				{
-					bytes.Add(0);
-				}
-
-				sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
-				if (sendResult.HasError)
-				{
-					break;
-				}
-				if (sendResult.Bytes.Count == 256)
-				{
-					break;
-				}
-
-				cardsCount++;
+					Fio = "-",
+					IsActive = false,
+					Password = 1,
+					GkNo = i,
+					UserType = GKCardType.Operator,
+				};
+				var removeResult = AddOrEditUser(user, device, false);
+				if (!removeResult.HasError)
+					cardsCount++;
 				if (progressCallback != null)
 				{
-					GKProcessorManager.DoProgress("Пользователь " + no, progressCallback);
+					GKProcessorManager.DoProgress("Пользователь " + i, progressCallback);
 					if (progressCallback.IsCanceled)
 						return OperationResult<int>.FromError("Операция отменена", cardsCount);
 				}
