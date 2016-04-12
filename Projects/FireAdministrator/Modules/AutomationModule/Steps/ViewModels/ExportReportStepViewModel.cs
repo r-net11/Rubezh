@@ -26,6 +26,18 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		private bool _isUseDateInFileName;
+
+		public bool IsUseDateInFileName
+		{
+			get { return ExportReportArguments.IsUseDateInFileName; }
+			set
+			{
+				ExportReportArguments.IsUseDateInFileName = value;
+				OnPropertyChanged(() => IsUseDateInFileName);
+			}
+		}
+
 		private bool _isUseArchiveSection;
 
 		public bool IsUseArchiveSection

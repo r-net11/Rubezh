@@ -75,8 +75,15 @@ namespace FiresecService.Report.Export
 		private string GetReportName(BaseReport report, ReportExportFilter filter)
 		{
 			var result = report.GetType().Name;
+
 			if (filter.IsFilterNameInHeader)
 				result += " (" + filter.ReportFilter.Name + ")";
+			if (filter.IsUseDateInFileName)
+			{
+				var time = DateTime.Now;
+				result += string.Format("_{0}-{1}-{2}_{3}_{4}_{5}", time.Day, time.Month, time.Year, time.Hour, time.Minute, time.Second);
+			}
+
 			return result + EnumHelper.GetEnumDescription(filter.ReportFormat).Replace("*", string.Empty);
 		}
 
