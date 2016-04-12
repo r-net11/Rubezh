@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 			Direction = direction;
 			Title = Direction.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
-			PlanLinks = new PlanLinksViewModel(Direction.PlanElementUIDs);			
+			PlanLinks = new PlanLinksViewModel(Direction);			
 
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);

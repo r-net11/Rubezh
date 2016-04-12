@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 			PumpStation = pumpStation;
 			Title = PumpStation.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
-			PlanLinks = new PlanLinksViewModel(PumpStation.PlanElementUIDs);
+			PlanLinks = new PlanLinksViewModel(PumpStation);
 
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);

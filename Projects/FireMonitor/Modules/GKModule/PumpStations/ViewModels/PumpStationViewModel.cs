@@ -58,18 +58,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void ShowOnPlanOrProperties()
 		{
-			if(ShowOnPlanHelper.ShowObjectOnPlan(PumpStation.PlanElementUIDs))
+			if(ShowOnPlanHelper.ShowObjectOnPlan(PumpStation))
 			DialogService.ShowWindow(new PumpStationDetailsViewModel(PumpStation));
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowObjectOnPlan(PumpStation.PlanElementUIDs);
+			ShowOnPlanHelper.ShowObjectOnPlan(PumpStation);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowOnPlan(PumpStation.PlanElementUIDs);
+			return ShowOnPlanHelper.CanShowOnPlan(PumpStation);
 		}
 
 		public bool HasOnDelay

@@ -92,11 +92,11 @@ namespace VideoModule.ViewModels
 		void OnShowOnPlan()
 		{
 			if (Camera != null)
-			ShowOnPlanHelper.ShowObjectOnPlan(Camera.PlanElementUIDs);
+			ShowOnPlanHelper.ShowObjectOnPlan(Camera);
 		}
 		public bool CanShowOnPlan()
 		{
-			return Camera!= null && ShowOnPlanHelper.CanShowOnPlan(Camera.PlanElementUIDs);
+			return Camera!= null && ShowOnPlanHelper.CanShowOnPlan(Camera);
 		}
 	}
 }

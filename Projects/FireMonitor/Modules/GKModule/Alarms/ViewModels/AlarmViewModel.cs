@@ -32,9 +32,9 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			Alarm = alarm;
-			var Iplan = Alarm.GkBaseEntity as IPlanPresentable;
-			if(Iplan != null)
-				PlanLinks = new PlanLinksViewModel(Iplan.PlanElementUIDs);	
+			var IplanElement = Alarm.GkBaseEntity as IPlanPresentable;
+			if(IplanElement != null)
+				PlanLinks = new PlanLinksViewModel(IplanElement);	
 		}
 
 		public string ObjectName
@@ -125,35 +125,35 @@ namespace GKModule.ViewModels
 
 			if ((device = Alarm.GkBaseEntity as GKDevice) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(device.PlanElementUIDs);
+				ShowOnPlanHelper.ShowObjectOnPlan(device);
 			}
 			if ((zone = Alarm.GkBaseEntity as GKZone) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(zone.PlanElementUIDs);
+				ShowOnPlanHelper.ShowObjectOnPlan(zone);
 			}
 			if ((pumpStation = Alarm.GkBaseEntity as GKPumpStation) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(pumpStation.PlanElementUIDs);
+				ShowOnPlanHelper.ShowObjectOnPlan(pumpStation);
 			}
 			if ((guardZone = Alarm.GkBaseEntity as GKGuardZone) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(guardZone.PlanElementUIDs);
+				ShowOnPlanHelper.ShowObjectOnPlan(guardZone);
 			}
 			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(direction.PlanElementUIDs);
+				ShowOnPlanHelper.ShowObjectOnPlan(direction);
 			}
 			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(mpt.PlanElementUIDs);
+				ShowOnPlanHelper.ShowObjectOnPlan(mpt);
 			}
 			if ((delay = Alarm.GkBaseEntity as GKDelay) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(delay.PlanElementUIDs);
+				ShowOnPlanHelper.ShowObjectOnPlan(delay);
 			}
 			if ((door = Alarm.GkBaseEntity as GKDoor) != null)
 			{
-				ShowOnPlanHelper.ShowObjectOnPlan(door.PlanElementUIDs);
+				ShowOnPlanHelper.ShowObjectOnPlan(door);
 			}
 		}
 		bool CanShowOnPlan()
@@ -169,35 +169,35 @@ namespace GKModule.ViewModels
 
 			if ((device = Alarm.GkBaseEntity as GKDevice) != null)
 			{
-				return ShowOnPlanHelper.CanShowOnPlan(device.PlanElementUIDs);
+				return ShowOnPlanHelper.CanShowOnPlan(device);
 			}
 			if ((zone = Alarm.GkBaseEntity as GKZone) != null)
 			{
-				return ShowOnPlanHelper.CanShowOnPlan(zone.PlanElementUIDs);
+				return ShowOnPlanHelper.CanShowOnPlan(zone);
 			}
 			if ((pumpStation = Alarm.GkBaseEntity as GKPumpStation) != null)
 			{
-				return ShowOnPlanHelper.CanShowOnPlan(pumpStation.PlanElementUIDs);
+				return ShowOnPlanHelper.CanShowOnPlan(pumpStation);
 			}
 			if ((guardZone = Alarm.GkBaseEntity as GKGuardZone) != null)
 			{
-				return ShowOnPlanHelper.CanShowOnPlan(guardZone.PlanElementUIDs);
+				return ShowOnPlanHelper.CanShowOnPlan(guardZone);
 			}
 			if ((direction = Alarm.GkBaseEntity as GKDirection) != null)
 			{
-				return ShowOnPlanHelper.CanShowOnPlan(direction.PlanElementUIDs);
+				return ShowOnPlanHelper.CanShowOnPlan(direction);
 			}
 			if ((mpt = Alarm.GkBaseEntity as GKMPT) != null)
 			{
-				return ShowOnPlanHelper.CanShowOnPlan(mpt.PlanElementUIDs);
+				return ShowOnPlanHelper.CanShowOnPlan(mpt);
 			}
 			if ((delay = Alarm.GkBaseEntity as GKDelay) != null)
 			{
-				return ShowOnPlanHelper.CanShowOnPlan(delay.PlanElementUIDs);
+				return ShowOnPlanHelper.CanShowOnPlan(delay);
 			}
 			if ((door = Alarm.GkBaseEntity as GKDoor) != null)
 			{
-				return ShowOnPlanHelper.CanShowOnPlan(door.PlanElementUIDs);
+				return ShowOnPlanHelper.CanShowOnPlan(door);
 			}
 			
 			return false;

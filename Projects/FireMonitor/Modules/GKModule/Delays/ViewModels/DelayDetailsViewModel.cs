@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 			Delay = delay;
 			Title = Delay.Name;
 			State.StateChanged += new Action(OnStateChanged);
-			PlanLinks = new PlanLinksViewModel(Delay.PlanElementUIDs);
+			PlanLinks = new PlanLinksViewModel(Delay);
 
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
