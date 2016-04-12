@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Common;
+﻿using Common;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -9,6 +7,8 @@ using Infrustructure.Plans.Interfaces;
 using PlansModule.Designer;
 using RubezhAPI.Models;
 using RubezhClient;
+using System;
+using System.Linq;
 
 namespace PlansModule.ViewModels
 {
@@ -20,7 +20,7 @@ namespace PlansModule.ViewModels
 		{
 			PlanCopyCommand = new RelayCommand(OnPlanCopy, CanPlanCopyCut);
 			PlanCutCommand = new RelayCommand(OnPlanCut, CanPlanCopyCut);
-			PlanPasteCommand = new RelayCommand<bool>(OnPlanPaste, CanPlanPaste);
+			PlanPasteCommand = new RelayCommand(OnPlanPaste, CanPlanPaste);
 		}
 
 		public RelayCommand PlanCopyCommand { get; private set; }
@@ -47,9 +47,10 @@ namespace PlansModule.ViewModels
 			return SelectedPlan != null;
 		}
 
-		public RelayCommand<bool> PlanPasteCommand { get; private set; }
-		private void OnPlanPaste(bool isRoot)
+		public RelayCommand PlanPasteCommand { get; private set; }
+		private void OnPlanPaste()
 		{
+			var isRoot = SelectedPlan == null;
 			var copy = Utils.Clone(this.clipboard.Buffer);
 			if (this.clipboard.SourceAction == ClipboardSourceAction.Copy)
 			{
@@ -75,10 +76,9 @@ namespace PlansModule.ViewModels
 			RenewPlan(copy);
 			OnPlanPaste(copy, isRoot);
 		}
-		private bool CanPlanPaste(bool isRoot)
+		private bool CanPlanPaste()
 		{
-			return (this.clipboard.Buffer != null)
-				&& (SelectedPlan != null);
+			return (this.clipboard.Buffer != null);
 		}
 
 		private void OnPlanPaste(Plan plan, bool isRoot)

@@ -44,6 +44,7 @@ namespace LayoutModule.ViewModels
 					HostNameOrAddressList.Any(x => x == ipFilterDetails.HostNameOrAddress) == false)
 				{
 					HostNameOrAddressList.Add(ipFilterDetails.HostNameOrAddress);
+
 				}
 			}
 		}
@@ -63,5 +64,6 @@ namespace LayoutModule.ViewModels
 		{
 			return HostNameOrAddressList.ToList();
 		}
+
 	}
 }
