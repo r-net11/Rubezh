@@ -20,88 +20,21 @@ namespace SKDModule.ViewModels
 		public Guid DepartmentChiefUID { get; set; }
 		public Guid HRChiefUID { get; set; }
 
-		public ReportSettingsViewModel(TimeTrackFilter timeTrackFilter, List<TimeTrackEmployeeResult> timeTrackEmployeeResults,Guid chiefUID,Guid depUID,Guid hrUID)
+		public ReportSettingsViewModel(TimeTrackFilter timeTrackFilter, List<TimeTrackEmployeeResult> timeTrackEmployeeResults, Guid chiefUID, Guid departmentChiefUID, Guid hrChiefUID, Guid organisationUid, Guid departmentUid)
 		{
 			Title = "Настройка печати отчета Т-13";
 			TimeTrackFilter = timeTrackFilter;
 			TimeTrackEmployeeResults = timeTrackEmployeeResults;
 			DateTime = DateTime.Now;
-			FillViewModel = new EmployeeSelectationViewModel(chiefUID, timeTrackFilter.EmployeeFilter);
-			LeadViewModel = new EmployeeSelectationViewModel(depUID, timeTrackFilter.EmployeeFilter);
-			var hrFilter = new EmployeeFilter { OrganisationUIDs = timeTrackFilter.EmployeeFilter.OrganisationUIDs };
-			HRViewModel = new EmployeeSelectationViewModel(hrUID, hrFilter);
+			FillViewModel = new EmployeeSelectationViewModel(chiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { organisationUid } });
+			LeadViewModel = new EmployeeSelectationViewModel(departmentChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { departmentUid } });
+			HRViewModel = new EmployeeSelectationViewModel(hrChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { organisationUid } });
 		}
 
 		public EmployeeSelectationViewModel FillViewModel { get; private set; }
 		public EmployeeSelectationViewModel LeadViewModel { get; private set; }
 		public EmployeeSelectationViewModel HRViewModel { get; private set; }
 		
-		//string _fillName;
-		//public string FillName
-		//{
-		//	get { return _fillName; }
-		//	set
-		//	{
-		//		_fillName = value;
-		//		OnPropertyChanged(() => FillName);
-		//	}
-		//}
-
-		//string _leadName;
-		//public string LeadName
-		//{
-		//	get { return _leadName; }
-		//	set
-		//	{
-		//		_leadName = value;
-		//		OnPropertyChanged(() => LeadName);
-		//	}
-		//}
-
-		//string _hrName;
-		//public string HRName
-		//{
-		//	get { return _hrName; }
-		//	set
-		//	{
-		//		_hrName = value;
-		//		OnPropertyChanged(() => HRName);
-		//	}
-		//}
-
-		//string _fillPosition;
-		//public string FillPosition
-		//{
-		//	get { return _fillPosition; }
-		//	set
-		//	{
-		//		_fillPosition = value;
-		//		OnPropertyChanged(() => FillPosition);
-		//	}
-		//}
-
-		//string _leadPosition;
-		//public string LeadPosition
-		//{
-		//	get { return _leadPosition; }
-		//	set
-		//	{
-		//		_leadPosition = value;
-		//		OnPropertyChanged(() => LeadPosition);
-		//	}
-		//}
-
-		//string _hrPosition;
-		//public string HRPosition
-		//{
-		//	get { return _hrPosition; }
-		//	set
-		//	{
-		//		_hrPosition = value;
-		//		OnPropertyChanged(() => HRPosition);
-		//	}
-		//}
-
 		DateTime _dateTime;
 		public DateTime DateTime
 		{
