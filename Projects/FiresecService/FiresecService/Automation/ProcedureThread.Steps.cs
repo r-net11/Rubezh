@@ -132,7 +132,7 @@ namespace FiresecService
 			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
 			var eMailAttachedFiles = sendEmailArguments.EMailAttachedFileArguments.Select(x => GetValue<string>(x)).ToList();
-			
+
 			using (var smtpClient = new SmtpClient(smtp, port, login, password))
 			{
 				var message = new SmtpMessage();
@@ -1057,7 +1057,8 @@ namespace FiresecService
 					IsUseExpirationDate = arguments.IsUseExpirationDate,
 					ReportEndDateType = arguments.ReportEndDateType,
 					IsUseDateTimeNow = arguments.IsUseDateTimeNow,
-					ReportPeriodType = arguments.ReportPeriodType
+					ReportPeriodType = arguments.ReportPeriodType,
+					IsUseDateInFileName = arguments.IsUseDateInFileName
 				});
 		}
 

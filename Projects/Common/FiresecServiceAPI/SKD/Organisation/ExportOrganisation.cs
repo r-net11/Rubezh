@@ -224,6 +224,7 @@ namespace FiresecAPI.SKD
 		public bool IsShowArchive { get; set; }
 		public bool IsUseExpirationDate { get; set; }
 		public bool IsUseDateTimeNow { get; set; }
+		public bool IsUseDateInFileName { get; set; }
 	}
 
 	public class ImportFilter
