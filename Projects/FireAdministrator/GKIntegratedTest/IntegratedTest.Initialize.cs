@@ -82,6 +82,7 @@ namespace GKIntegratedTest
 			CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
 			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
+			GKManager.UpdateConfiguration();
 		}
 
 		void InitializeRootDevices()	

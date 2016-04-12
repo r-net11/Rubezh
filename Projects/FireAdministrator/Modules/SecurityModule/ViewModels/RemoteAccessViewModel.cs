@@ -8,7 +8,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SecurityModule.Events;
-using System.Text.RegularExpressions;
 
 namespace SecurityModule.ViewModels
 {
@@ -56,14 +55,7 @@ namespace SecurityModule.ViewModels
 				if (string.IsNullOrEmpty(remoteMachineViewModel.HostNameOrAddress) == false &&
 					HostNameOrAddressList.Any(x => x == remoteMachineViewModel.HostNameOrAddress) == false)
 				{
-					if (remoteMachineViewModel.IsIpAddress && !IsCorrectIP(remoteMachineViewModel.HostNameOrAddress))
-					{
-						ServiceFactory.MessageBoxService.ShowWarning("Не корректный IP адрес");
-					}
-					else 
-					{
-						HostNameOrAddressList.Add(remoteMachineViewModel.HostNameOrAddress);
-					}
+					HostNameOrAddressList.Add(remoteMachineViewModel.HostNameOrAddress);
 				}
 			}
 		}
@@ -101,16 +93,6 @@ namespace SecurityModule.ViewModels
 				remoteAccess.HostNameOrAddressList = new List<string>(HostNameOrAddressList.ToList());
 
 			return remoteAccess;
-		}
-
-		bool IsCorrectIP(string address)
-		{
-			const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
-			if (!Regex.IsMatch(address, pattern))
-			{
-				return false;
-			}
-			return true;
 		}
 	}
 }

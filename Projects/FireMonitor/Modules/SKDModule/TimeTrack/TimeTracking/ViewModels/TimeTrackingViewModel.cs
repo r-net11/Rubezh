@@ -120,7 +120,10 @@ namespace SKDModule.ViewModels
 		{
 			if (ValidatePrint())
 			{
-				var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults, _chiefUID, _departmentChiefUID, _hrChiefUID);
+				var employee = TimeTracks.FirstOrDefault().ShortEmployee;
+				var organisationUid = employee.OrganisationUID;
+				var departmentUid = employee.DepartmentUid.Value;
+				var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults, _chiefUID, _departmentChiefUID, _hrChiefUID, organisationUid, departmentUid);
 				DialogService.ShowModalWindow(reportSettingsViewModel);
 			}
 		}
@@ -132,26 +135,26 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("В отчете нет ни одного сотрудника");
 				return false;
 			}
-			var organisationUIDs = new HashSet<Guid>();
-			var departmentNames = new HashSet<string>();
+			var organisationUids = new HashSet<Guid>();
+			var departmentUids = new HashSet<Guid>();
 			foreach (var timeTrack in TimeTracks)
 			{
 				if (timeTrack.ShortEmployee.OrganisationUID != Guid.Empty)
-					organisationUIDs.Add(timeTrack.ShortEmployee.OrganisationUID);
+					organisationUids.Add(timeTrack.ShortEmployee.OrganisationUID);
 
-				if (string.IsNullOrEmpty(timeTrack.ShortEmployee.DepartmentName))
+				if (timeTrack.ShortEmployee.DepartmentUid == null)
 				{
 					MessageBoxService.ShowWarning("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному из подразделений");
 					return false;
 				}
-				departmentNames.Add(timeTrack.ShortEmployee.DepartmentName);
+				departmentUids.Add(timeTrack.ShortEmployee.DepartmentUid.Value);
 			}
-			if (organisationUIDs.Count > 1)
+			if (organisationUids.Count > 1)
 			{
 				MessageBoxService.ShowWarning("В отчете должны быть сотрудники только из одной организации");
 				return false;
 			}
-			if (departmentNames.Count > 1)
+			if (departmentUids.Count > 1)
 			{
 				MessageBoxService.ShowWarning("В отчете должны быть сотрудники только из одного подразделения");
 				return false;

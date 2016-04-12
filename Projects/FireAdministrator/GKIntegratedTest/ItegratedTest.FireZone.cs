@@ -9,6 +9,7 @@ namespace GKIntegratedTest
 	public partial class ItegratedTest
 	{
 		[Test]
+		[Category("Integration")]
 		public void TestFireZoneAttention()
 		{
 			var device = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
@@ -27,6 +28,7 @@ namespace GKIntegratedTest
 		}
 
 		[Test]
+		[Category("Integration")]
 		public void TestFireZoneFire1()
 		{
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
@@ -52,6 +54,7 @@ namespace GKIntegratedTest
 		}
 
 		[Test]
+		[Category("Integration")]
 		public void TestFireZoneFire2()
 		{
 			var device = AddDevice(kauDevice11, GKDriverType.RSR2_HandDetector);
