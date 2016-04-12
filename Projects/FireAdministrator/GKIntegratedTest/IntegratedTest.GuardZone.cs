@@ -17,14 +17,14 @@ namespace GKIntegratedTest
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_CardReader);
 			var cardReader = new GKGuardZoneDevice { Device = device1, DeviceUID = device1.UID };
 			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
-			var aM_1 = new GKGuardZoneDevice { Device = device2, DeviceUID = device2.UID };
-			aM_1.ActionType = GKGuardZoneDeviceActionType.SetAlarm;
+			var aM = new GKGuardZoneDevice { Device = device2, DeviceUID = device2.UID };
+			aM.ActionType = GKGuardZoneDeviceActionType.SetAlarm;
 			var device3 = AddDevice(kauDevice11, GKDriverType.RSR2_GuardDetector);
 			var guardDetector = new GKGuardZoneDevice { Device = device3, DeviceUID = device3.UID };
 			guardDetector.ActionType = GKGuardZoneDeviceActionType.SetAlarm;
 			var zone = new GKGuardZone { Name = "Охранная зона", No = 1 };
 			GKManager.AddGuardZone(zone);
-			GKManager.AddDeviceToGuardZone(zone, aM_1);
+			GKManager.AddDeviceToGuardZone(zone, aM);
 			GKManager.AddDeviceToGuardZone(zone, cardReader);
 			GKManager.AddDeviceToGuardZone(zone, guardDetector);
 			SetConfigAndRestartImitator();
@@ -52,14 +52,14 @@ namespace GKIntegratedTest
 		public void TestGuardZoneIsOnAfterResetCasetWithoutCardReader()
 		{
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
-			var aM_1 = new GKGuardZoneDevice { Device = device1, DeviceUID = device1.UID };
-			aM_1.ActionType = GKGuardZoneDeviceActionType.ChangeGuard;
+			var aM = new GKGuardZoneDevice { Device = device1, DeviceUID = device1.UID };
+			aM.ActionType = GKGuardZoneDeviceActionType.ChangeGuard;
 			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_GuardDetector);
 			var guardDetector = new GKGuardZoneDevice { Device = device2, DeviceUID = device2.UID };
 			guardDetector.ActionType = GKGuardZoneDeviceActionType.SetAlarm;
 			var zone = new GKGuardZone { Name = "Охранная зона", No = 1 };
 			GKManager.AddGuardZone(zone);
-			GKManager.AddDeviceToGuardZone(zone, aM_1);
+			GKManager.AddDeviceToGuardZone(zone, aM);
 			GKManager.AddDeviceToGuardZone(zone, guardDetector);
 			SetConfigAndRestartImitator();
 

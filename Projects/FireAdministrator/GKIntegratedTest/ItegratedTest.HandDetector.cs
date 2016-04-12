@@ -18,16 +18,14 @@ namespace GKIntegratedTest
 			SetConfigAndRestartImitator();
 			WaitWhileState(device, XStateClass.Norm, 10000, "Инициализация состояний");
 			Assert.IsTrue(device.State.StateClass == XStateClass.Norm, "Проверка того, что ИПР находится в норме");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(device.UID, GKStateBit.Fire2), "Сработка ручника");
+			ConrtolGKBase(device, GKStateBit.Fire2, "Сработка ручника");
 			WaitWhileState(device, XStateClass.Fire2, 3000, "Ждем пожар2 в ИПР");
 			Assert.IsTrue(device.State.StateClass == XStateClass.Fire2, "Проверка того, что ИПР перешёл в пожар2");
 			CheckTime(() => Thread.Sleep(1000), "Ждем 1 секунду");
 			Assert.IsTrue(device.State.StateClass == XStateClass.Fire2, "Проверка того, что ИПР еще в состоянии пожар2");
-			CheckTime(() => ImitatorManager.ImitatorService.ConrtolGKBase(device.UID, GKStateBit.Reset), "Сброс ИПР");
+			ConrtolGKBase(device, GKStateBit.Reset, "Сброс ИПР");
 			WaitWhileState(device, XStateClass.Norm, 3000, "Ждем норму в ИПР");
 			Assert.IsTrue(device.State.StateClass == XStateClass.Norm, "Проверка того, что ИПР перешла в норму");
-			GKProcessorManager.Stop();
-			ClientManager.Disconnect();
 		}
 	}
 }
