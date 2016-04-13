@@ -79,6 +79,7 @@ namespace GKIntegratedTest
 
 		public void SetConfigAndRestartImitator()
 		{
+			ClientManager.GetLicense();
 			GKManager.UpdateConfiguration();
 			var validator = new Validator();
 			var errors = validator.Validate();
