@@ -834,6 +834,7 @@ namespace GKModule.ViewModels
 					Update();
 
 					ServiceFactory.SaveService.GKChanged = true;
+					GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				}
 			}
 		}
