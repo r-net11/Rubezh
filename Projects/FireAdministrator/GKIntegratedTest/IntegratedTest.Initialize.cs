@@ -88,7 +88,7 @@ namespace GKIntegratedTest
 			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
 			CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
-			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
+			CheckTime(() => ClientManager.FiresecService.SetLocalConfig(), "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
 			GKManager.UpdateConfiguration();
 		}

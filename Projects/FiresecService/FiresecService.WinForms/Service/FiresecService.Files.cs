@@ -57,11 +57,20 @@ namespace FiresecService.Service
 			return new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
 		}
 
-		public void SetLocalConfig(Guid clientUID)
+		public OperationResult<bool> SetLocalConfig(Guid clientUid)
 		{
-			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			CreateZipConfigFromFiles();
-			RestartWithNewConfig(clientUID);
+			try
+			{
+				var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+				CreateZipConfigFromFiles();
+				AddJournalMessage(JournalEventNameType.Применение_конфигурации, null, null, clientUid);
+				RestartWithNewConfig();
+				return new OperationResult<bool>(true);
+			}
+			catch (Exception e)
+			{
+				return OperationResult<bool>.FromError(e.Message);
+			}
 		}
 
 		public void SetRemoteConfig(Stream stream)
