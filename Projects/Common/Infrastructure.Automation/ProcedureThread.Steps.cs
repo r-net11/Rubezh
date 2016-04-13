@@ -1342,6 +1342,12 @@ namespace Infrastructure.Automation
 				return conditionType == ConditionType.IsEqual && (bool)param1 == (bool)param2
 						|| conditionType == ConditionType.IsNotEqual && (bool)param1 != (bool)param2;
 			}
+			
+			if (param1 is ObjectReference)
+			{
+				return conditionType == ConditionType.IsEqual && (ObjectReference)param1 == (ObjectReference)param2
+						|| conditionType == ConditionType.IsNotEqual && (ObjectReference)param1 != (ObjectReference)param2;
+			}
 
 			return null;
 		}
