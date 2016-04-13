@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
 		{
 			if (No <= 0)
 			{
-                ServiceFactory.MessageBoxService.Show("Номер должен быть положительным числом");
+				ServiceFactory.MessageBoxService.Show("Номер должен быть положительным числом");
 				return false;
 			}
 			if (Direction.No != No && GKManager.Directions.Any(x => x.No == No))

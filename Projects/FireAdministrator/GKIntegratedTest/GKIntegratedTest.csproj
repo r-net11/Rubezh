@@ -77,7 +77,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="IntegratedTest.CardReader.cs" />
     <Compile Include="IntegratedTest.GuardZone.cs" />
     <Compile Include="IntegratedTest.Initialize.cs" />
     <Compile Include="ItegratedTest.HandDetector.cs" />
