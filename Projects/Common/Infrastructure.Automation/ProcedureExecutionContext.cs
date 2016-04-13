@@ -1,4 +1,5 @@
-﻿using RubezhAPI.Automation;
+﻿using Common;
+using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.Models;
 using System;
@@ -21,6 +22,13 @@ namespace Infrastructure.Automation
 		}
 
 		public static List<Variable> GlobalVariables { get; private set; }
+
+		public static void InitializeGlobalVariables()
+		{
+			GlobalVariables = SystemConfiguration != null ?
+				Utils.Clone(SystemConfiguration.AutomationConfiguration.GlobalVariables) :
+				new List<Variable>();
+		}
 
 		public static void CallbackResponse(Guid clientUID, ContextType contextType, Guid callbackUid, object value)
 		{

@@ -142,8 +142,8 @@ namespace FiresecService.Service
 			ServerState = RubezhAPI.ServerState.Restarting;
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
-			ScheduleRunner.SetNewConfig();
 			AutomationProcessor.SetNewConfig();
+			ScheduleRunner.SetNewConfig();
 			RviProcessor.SetNewConfig();
 			ServerTaskRunner.SetNewConfig();
 			OpcDaServersProcessor.SetNewConfig();

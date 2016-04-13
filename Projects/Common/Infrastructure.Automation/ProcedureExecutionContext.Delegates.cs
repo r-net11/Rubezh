@@ -1,5 +1,4 @@
-﻿using Common;
-using RubezhAPI.Automation;
+﻿using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -92,7 +91,7 @@ namespace Infrastructure.Automation
 			OnImportOrganisationList = onImportOrganisationList;
 			OnGetOrganisations = onGetOrganisations;
 
-			GlobalVariables = SystemConfiguration != null ? Utils.Clone(SystemConfiguration.AutomationConfiguration.GlobalVariables) : new List<Variable>();
+			InitializeGlobalVariables();
 		}
 
 		public static void SendCallback(AutomationCallbackResult callback, Guid? clientUID)
@@ -140,7 +139,7 @@ namespace Infrastructure.Automation
 		public static void RviOpenWindow(Guid clientUid, string name, int x, int y, int monitorNumber, string login, string ip)
 		{
 			if (OnRviOpenWindow != null)
-				OnRviOpenWindow(clientUid, name, x, y, monitorNumber,login,ip);
+				OnRviOpenWindow(clientUid, name, x, y, monitorNumber, login, ip);
 		}
 
 		public static void ControlFireZone(Guid clientUID, Guid uid, ZoneCommandType commandType)
