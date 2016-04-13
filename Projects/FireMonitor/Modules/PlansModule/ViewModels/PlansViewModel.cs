@@ -8,7 +8,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Interfaces;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
@@ -90,17 +89,17 @@ namespace PlansModule.ViewModels
 							var globalVariable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
 							if (globalVariable != null)
 							{
-								//globalVariable.ValueChanged += () =>
-								//{
-								//	var planCallbackData = new PlanCallbackData()
-								//	{
-								//		ElementPropertyType = ElementPropertyType.BorderThickness,
-								//		//Value = globalVariable.ExplicitValue.IntValue,
-								//		ElementUid = element.UID,
-								//		PlanUid = plan.Plan.UID
-								//	};
-								//	SetPlanProperty(planCallbackData);
-								//};
+								globalVariable.ValueChanged += () =>
+								{
+									var planCallbackData = new PlanCallbackData()
+									{
+										ElementPropertyType = ElementPropertyType.BorderThickness,
+										Value = globalVariable.IntValue,
+										ElementUid = element.UID,
+										PlanUid = plan.Plan.UID
+									};
+									SetPlanProperty(planCallbackData);
+								};
 							}
 						}
 					}
@@ -193,10 +192,10 @@ namespace PlansModule.ViewModels
 		///////////////////////////////////////////////////////////////////////////////
 
 		private void OnNavigate(NavigateToPlanElementEventArgs args)
-		{	
-				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-				OnSelectPlan(args.PlanUID);
-				OnShowElement(args.ElementUID);
+		{
+			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
+			OnSelectPlan(args.PlanUID);
+			OnShowElement(args.ElementUID);
 		}
 
 		public bool IsPlanTreeVisible

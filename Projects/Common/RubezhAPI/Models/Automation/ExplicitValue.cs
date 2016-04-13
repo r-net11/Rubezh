@@ -49,7 +49,7 @@ namespace RubezhAPI.Automation
 	[KnownType(typeof(JournalObjectType))]
 	[KnownType(typeof(Color))]
 	[KnownType(typeof(Guid))]
-	public abstract class ExplicitValue
+	public abstract class ExplicitValue : Bindable
 	{
 		public ExplicitValue()
 		{

@@ -107,7 +107,7 @@ namespace AutomationModule
 
 		internal static bool SelectObjects(ObjectType ObjectType, ref List<ObjectReference> objectReferences)
 		{
-			throw new System.NotImplementedException();
+			return false;
 		}
 	}
 }
