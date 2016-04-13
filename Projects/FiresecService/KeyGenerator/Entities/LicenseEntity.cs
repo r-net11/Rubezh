@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using License.Model.Entities;
+using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using License.Model.Entities;
 
 namespace KeyGenerator.Entities
 {

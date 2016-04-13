@@ -12,24 +12,28 @@
 			<IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" ImageSource="BPaste"  Text="Вставить" />
 		</ContextMenu>
 	</UserControl.Resources>
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="50" />
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="300" MinHeight="150"/>
+			<RowDefinition Height="315" MinHeight="150"/>
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
+		<StackPanel Orientation="Horizontal">
 			<ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="Add"  />
 			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="Delete"  />
 			<ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="AddCondition"  />
 			<ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="arrowUp"  />
 			<ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="arrowDown"  />
 			<ToolBarButton Command="{Binding DownIntoCommand}" ToolTip="Войти" ImageSource="arrowInto"  />
-
 		</StackPanel>
-		<tree:TreeList ctrl:ListViewLayoutManager.Enabled="True" Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">
+		<tree:TreeList
+			ctrl:ListViewLayoutManager.Enabled="True"
+			Grid.Row="1"
+			Focusable="True"
+			SelectedTreeNode="{Binding SelectedStep}"
+			Source="{Binding RootSteps}"
+			tree:SortBehavior.CanUserSortColumns="False">
 			<tree:TreeList.Resources>
 				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
 					<Setter Property="MinWidth" Value="0" />
@@ -46,8 +50,14 @@
 										<EditorPresenter.ViewTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
-													<Image VerticalAlignment="Center"  Source="{Binding ImageSource}" Margin="1 0 0 0" />
-													<TextBlock VerticalAlignment="Center" Text="{Binding Step.ProcedureStepType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
+													<Image
+														VerticalAlignment="Center"
+														Source="{Binding ImageSource}"
+														Margin="1 0 0 0" />
+													<TextBlock
+														VerticalAlignment="Center"
+														Text="{Binding Step.ProcedureStepType, Converter={StaticResource EnumToDescriptionConverter}}"
+														Margin="2" />
 												</StackPanel>
 											</ControlTemplate>
 										</EditorPresenter.ViewTemplate>
@@ -56,7 +66,6 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-
 					<GridViewColumn Width="100" ctrl:ProportionalColumn.Width="1"  Header="Значение">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -73,9 +82,22 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-		<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-		<Border Grid.Row="3" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5" DataContext="{Binding SelectedStep}">
-			<ContentPresenter Margin="5" Content="{Binding Content}" ContentTemplateSelector="{StaticResource stepTypeTemplateSelector}" />
+		<GridSplitter
+			Grid.Row="2"
+			Height="5"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Background="Transparent"
+			Cursor="SizeNS" />
+		<Border
+			Grid.Row="3"
+			Background="{DynamicResource BackgroundBrush}"
+			CornerRadius="5,0,0,5"
+			DataContext="{Binding SelectedStep}">
+			<ContentPresenter
+				Margin="5"
+				Content="{Binding Content}"
+				ContentTemplateSelector="{StaticResource stepTypeTemplateSelector}" />
 		</Border>
 	</Grid>
 </UserControl>

@@ -127,14 +127,16 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
-			Variable = new Variable();
-			Variable.Name = Name;
-			Variable.IsList = IsList;
-			Variable.IsReference = IsReference;
-			Variable.ExplicitType = SelectedExplicitType.ExplicitType;
-			Variable.EnumType = SelectedExplicitType.EnumType;
-			Variable.ObjectType = SelectedExplicitType.ObjectType;
-			Variable.ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
+			Variable = new Variable
+			{
+				Name = Name,
+				IsList = IsList,
+				IsReference = IsReference,
+				ExplicitType = SelectedExplicitType.ExplicitType,
+				EnumType = SelectedExplicitType.EnumType,
+				ObjectType = SelectedExplicitType.ObjectType,
+				ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue
+			};
 			foreach(var explicitValue in ExplicitValuesViewModel.ExplicitValues)
 				Variable.ExplicitValues.Add(explicitValue.ExplicitValue);
 			return base.Save();

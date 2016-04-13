@@ -144,5 +144,7 @@ namespace FiresecAPI.Automation
 		public bool IsUseExpirationDate { get; set; }
 		[DataMember]
 		public bool IsUseDateTimeNow { get; set; }
+		[DataMember]
+		public bool IsUseDateInFileName { get; set; }
 	}
 }
