@@ -13,18 +13,22 @@ namespace GKIntegratedTest
 		[Test]
 		public void TestFireZoneAttention()
 		{
-			var device = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
+			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
+			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_HandDetector);
+			var device3 = AddDevice(kauDevice11, GKDriverType.RSR2_CombinedDetector);
 			var zone = new GKZone { Name = "Пожарная зона", No = 1 };
 			GKManager.AddZone(zone);
-			GKManager.AddDeviceToZone(device, zone);
+			GKManager.AddDeviceToZone(device1, zone);
+			GKManager.AddDeviceToZone(device2, zone);
+			GKManager.AddDeviceToZone(device3, zone);
 			SetConfigAndRestartImitator();
 			WaitWhileState(zone, XStateClass.Norm, 10000, "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
-			ConrtolGKBase(device, GKStateBit.Fire1, "Сработка датчика");
+			ConrtolGKBase(device1, GKStateBit.Fire1, "Сработка датчика");
 			WaitWhileState(zone, XStateClass.Attention, 3000, "Ждем внимание в зоне");
 			CheckJournal(JournalEventNameType.Сработка_1, JournalEventNameType.Внимание);
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Attention, "Проверка того, что зона перешла во внимание");
-			ConrtolGKBase(device, GKStateBit.Reset, "Сброс датчика");
+			ConrtolGKBase(device1, GKStateBit.Reset, "Сброс датчика");
 			WaitWhileState(zone, XStateClass.Norm, 3000, "Ждем норму в зоне");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона перешла в норму");
 		}
@@ -34,10 +38,12 @@ namespace GKIntegratedTest
 		{
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
 			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
+			var device3 = AddDevice(kauDevice11, GKDriverType.RSR2_CombinedDetector);
 			var zone = new GKZone { Name = "Пожарная зона", No = 1 };
 			GKManager.AddZone(zone);
 			GKManager.AddDeviceToZone(device1, zone);
 			GKManager.AddDeviceToZone(device2, zone);
+			GKManager.AddDeviceToZone(device3, zone);
 			SetConfigAndRestartImitator();
 			WaitWhileState(zone, XStateClass.Norm, 10000, "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
