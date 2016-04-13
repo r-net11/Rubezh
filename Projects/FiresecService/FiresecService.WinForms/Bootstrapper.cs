@@ -159,8 +159,7 @@ namespace FiresecService
 					Data = new GlobalVariableCallBackData
 					{
 						VariableUID = variable.Uid,
-						ExplicitValue = variable.ExplicitValue,
-						ExplicitValues = variable.ExplicitValues
+						ExplicitValue = (ExplicitValue)variable
 					}
 				}, clientUID);
 		}
