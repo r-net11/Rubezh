@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using Common;
+using MediaSourcePlayer;
 using RviClient.UI.VideoCell;
 
 namespace RviClient.UI
@@ -24,6 +26,7 @@ namespace RviClient.UI
 			}));
 		public static readonly DependencyProperty TopToolbarTitleProperty = DependencyProperty.Register("TopToolbarTitle", typeof (string), typeof (VideoCellControl));
 		public static readonly DependencyProperty BottomToolbarTitleProperty = DependencyProperty.Register("BottomToolbarTitle", typeof(string), typeof(VideoCellControl));
+		public static readonly DependencyProperty ShowReconnectButtonProperty = DependencyProperty.Register("ShowReconnectButton", typeof (bool), typeof (VideoCellControl));
 
 		public VideoCellControl()
 		{
@@ -40,6 +43,35 @@ namespace RviClient.UI
 			playerPanel.HostedElement = MediaPlayer;
 			playerPanel.TopToolbarContent = _topToolbarGrid;
 			playerPanel.BottomToolbarContent = _bottomToolbarGrid;
+
+			// При ошибке воспроизведения потока, скрыть ячейку и вместо нее показать кнопку "Перезапустить"
+			MediaPlayer.MediaFailed += (sender, args) =>
+			{
+#if DEBUG
+				Logger.Info("Ошибка получения потока воспроизведения");
+#endif
+				ShowReconnectButton = true;
+			};
+
+			MediaPlayer.MediaOpened += (sender, args) =>
+			{
+#if DEBUG
+				Logger.Info("Открыт источник для потока воспроизведения");
+#endif
+				ShowReconnectButton = false;
+			};
+
+			// Выполняем обработчик нажатия на клавижу "Перезапустить"
+			reconnectButton.Click += (sender, args) =>
+			{
+				if (ReconnectEvent != null)
+				{
+#if DEBUG
+					Logger.Info("Попытка перезапустить видео ячейку");
+#endif
+					ReconnectEvent(null, EventArgs.Empty);
+				}
+			};
 		}
 
 		#region <Реализация интерфейса IDisposable>
@@ -92,6 +124,20 @@ namespace RviClient.UI
 			get { return (string)GetValue(BottomToolbarTitleProperty); }
 			set { SetValue(BottomToolbarTitleProperty, value); }
 		}
+
+		/// <summary>
+		/// Показать кнопку "Перазапустить"
+		/// </summary>
+		public bool ShowReconnectButton
+		{
+			get { return (bool) GetValue(ShowReconnectButtonProperty); }
+			set { SetValue(ShowReconnectButtonProperty, value); }
+		}
+
+		/// <summary>
+		/// Событие возникает, когда нажата клавиша "Перезапустить"
+		/// </summary>
+		public event EventHandler ReconnectEvent;
 
 		#endregion </Реализация интерфейса IVideoCellControl>
 

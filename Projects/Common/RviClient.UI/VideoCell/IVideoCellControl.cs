@@ -1,4 +1,5 @@
-﻿using RviClient.UI.VideoCell;
+﻿using System;
+using RviClient.UI.VideoCell;
 
 namespace RviClient.UI
 {
@@ -28,5 +29,15 @@ namespace RviClient.UI
 		/// Заголовок, отображаемый на нижней всплывающей панели
 		/// </summary>
 		string BottomToolbarTitle { get; set; }
+
+		/// <summary>
+		/// Показать кнопку "Перазапустить"
+		/// </summary>
+		bool ShowReconnectButton { get; set; }
+
+		/// <summary>
+		/// Событие возникает, когда нажата клавиша "Перезапустить"
+		/// </summary>
+		event EventHandler ReconnectEvent;
 	}
 }
