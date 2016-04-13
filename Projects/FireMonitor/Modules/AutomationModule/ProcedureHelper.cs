@@ -19,9 +19,8 @@ namespace AutomationModule
 				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device != null ? currentExplicitValue.Device : null);
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 				{
-					currentExplicitValue.ObjectReferenceValue = deviceSelectationViewModel.SelectedDevice == null ?
-						new ObjectReference() :
-						new ObjectReference { UID = deviceSelectationViewModel.SelectedDevice.Device.UID, ObjectType = objectType };
+					currentExplicitValue.ExplicitValue.Value = deviceSelectationViewModel.SelectedDevice.Device;
+					currentExplicitValue.Initialize();
 					return true;
 				}
 			}
@@ -31,9 +30,8 @@ namespace AutomationModule
 				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone != null ? currentExplicitValue.Zone : null);
 				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 				{
-					currentExplicitValue.ObjectReferenceValue = zoneSelectationViewModel.SelectedZone.Zone == null ?
-						new ObjectReference() :
-						new ObjectReference { UID = zoneSelectationViewModel.SelectedZone.Zone.UID, ObjectType = objectType };
+					currentExplicitValue.ExplicitValue.Value = zoneSelectationViewModel.SelectedZone.Zone;
+					currentExplicitValue.Initialize();
 					return true;
 				}
 			}
@@ -43,9 +41,8 @@ namespace AutomationModule
 				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone != null ? currentExplicitValue.GuardZone : null);
 				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
 				{
-					currentExplicitValue.ObjectReferenceValue = guardZoneSelectationViewModel.SelectedZone.GuardZone == null ?
-						new ObjectReference() :
-						new ObjectReference { UID = guardZoneSelectationViewModel.SelectedZone.GuardZone.UID, ObjectType = objectType };
+					currentExplicitValue.ExplicitValue.Value = guardZoneSelectationViewModel.SelectedZone.GuardZone;
+					currentExplicitValue.Initialize();
 					return true;
 				}
 			}
@@ -55,9 +52,8 @@ namespace AutomationModule
 				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction != null ? currentExplicitValue.Direction : null);
 				if (DialogService.ShowModalWindow(directionSelectationViewModel))
 				{
-					currentExplicitValue.ObjectReferenceValue = directionSelectationViewModel.SelectedDirection.Direction == null ?
-						new ObjectReference() :
-						new ObjectReference { UID = directionSelectationViewModel.SelectedDirection.Direction.UID, ObjectType = objectType };
+					currentExplicitValue.ExplicitValue.Value = directionSelectationViewModel.SelectedDirection.Direction;
+					currentExplicitValue.Initialize();
 					return true;
 				}
 			}
@@ -67,9 +63,8 @@ namespace AutomationModule
 				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera != null ? currentExplicitValue.Camera : null);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
 				{
-					currentExplicitValue.ObjectReferenceValue = cameraSelectionViewModel.SelectedCamera == null ?
-						new ObjectReference() :
-						new ObjectReference { UID = cameraSelectionViewModel.SelectedCamera.Camera.UID, ObjectType = objectType };
+					currentExplicitValue.ExplicitValue.Value = cameraSelectionViewModel.SelectedCamera;
+					currentExplicitValue.Initialize();
 					return true;
 				}
 			}
@@ -79,9 +74,8 @@ namespace AutomationModule
 				var delaySelectionViewModel = new DelaySelectionViewModel(currentExplicitValue.Delay);
 				if (DialogService.ShowModalWindow(delaySelectionViewModel))
 				{
-					currentExplicitValue.ObjectReferenceValue = delaySelectionViewModel.SelectedDelay == null ?
-						new ObjectReference() :
-						new ObjectReference { UID = delaySelectionViewModel.SelectedDelay.Delay.UID, ObjectType = objectType };
+					currentExplicitValue.ExplicitValue.Value = delaySelectionViewModel.SelectedDelay;
+					currentExplicitValue.Initialize();
 					return true;
 				}
 			}
@@ -109,6 +103,11 @@ namespace AutomationModule
 				while (!thread.Join(50))
 					ApplicationService.DoEvents();
 			}
+		}
+
+		internal static bool SelectObjects(ObjectType ObjectType, ref List<ObjectReference> objectReferences)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

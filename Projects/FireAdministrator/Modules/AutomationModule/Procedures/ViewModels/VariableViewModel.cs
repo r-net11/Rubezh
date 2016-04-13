@@ -1,8 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.Automation;
-using System;
-using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -17,12 +15,7 @@ namespace AutomationModule.ViewModels
 
 		public string ValueDescription
 		{
-			get
-			{
-				return Variable.IsList ?
-					String.Join(", ", Variable.ExplicitValues.Select(x => x.ToString())) :
-					Variable.ExplicitValue == null ? "" : Variable.ExplicitValue.ToString();
-			}
+			get { return Variable.ToString(); }
 		}
 
 		public string TypeDescription

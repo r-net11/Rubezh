@@ -90,17 +90,17 @@ namespace PlansModule.ViewModels
 							var globalVariable = ProcedureExecutionContext.GlobalVariables.FirstOrDefault(x => x.Uid == planElementBindingItem.GlobalVariableUID);
 							if (globalVariable != null)
 							{
-								globalVariable.ValueChanged += () =>
-								{
-									var planCallbackData = new PlanCallbackData()
-									{
-										ElementPropertyType = ElementPropertyType.BorderThickness,
-										Value = globalVariable.ExplicitValue.IntValue,
-										ElementUid = element.UID,
-										PlanUid = plan.Plan.UID
-									};
-									SetPlanProperty(planCallbackData);
-								};
+								//globalVariable.ValueChanged += () =>
+								//{
+								//	var planCallbackData = new PlanCallbackData()
+								//	{
+								//		ElementPropertyType = ElementPropertyType.BorderThickness,
+								//		//Value = globalVariable.ExplicitValue.IntValue,
+								//		ElementUid = element.UID,
+								//		PlanUid = plan.Plan.UID
+								//	};
+								//	SetPlanProperty(planCallbackData);
+								//};
 							}
 						}
 					}

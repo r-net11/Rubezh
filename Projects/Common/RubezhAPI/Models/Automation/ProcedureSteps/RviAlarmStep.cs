@@ -8,7 +8,7 @@ namespace RubezhAPI.Automation
 		public RviAlarmStep()
 		{
 			NameArgument = new Argument();
-			NameArgument.ExplicitValue.StringValue = "";
+			NameArgument.StringValue = "";
 		}
 
 		[DataMember]

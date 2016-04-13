@@ -1,5 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels" xmlns:Views="clr-namespace:AutomationModule.Views">
 
+	<DataTemplate DataType="{x:Type ViewModels:StringDetailsViewModel}">
+		<Views:StringDetailsView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:LayoutProcedurePartViewModel}">
 		<Views:LayoutProcedurePartView />
 	</DataTemplate>
@@ -14,10 +18,6 @@
 
 	<DataTemplate DataType="{x:Type ViewModels:ProcedureTooltipViewModel}">
 		<Views:ProcedureTooltipView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ArgumentDetailsViewModel}">
-		<Views:ArgumentDetailsView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:DeviceSelectionViewModel}">

@@ -1,7 +1,6 @@
 ﻿using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -94,17 +93,7 @@ namespace RubezhAPI.Automation
 		{
 			var argument = new Argument();
 			argument.VariableScope = VariableScope.GlobalVariable;
-			argument.ExplicitType = variable.ExplicitType;
-			argument.EnumType = variable.EnumType;
-			argument.ObjectType = variable.ObjectType;
-			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
-			argument.ExplicitValues = new List<ExplicitValue>();
-			foreach (var explicitValues in variable.ExplicitValues)
-			{
-				var explicitValue = new ExplicitValue();
-				PropertyCopy.Copy(explicitValues, explicitValue);
-				argument.ExplicitValues.Add(explicitValue);
-			}
+			argument.Value = variable.Value;
 			return argument;
 		}
 
