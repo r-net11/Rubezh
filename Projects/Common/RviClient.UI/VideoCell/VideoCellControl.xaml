@@ -9,7 +9,24 @@
              d:DesignHeight="300" d:DesignWidth="300"
 			 x:Name="videoCellControl">
 	<Grid x:Name="topGrid">
-		<WindowsFormsHost>
+
+		<!-- Отображается, когда видео ячейка теряет поток -->
+		<StackPanel
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			Visibility="{Binding ElementName=videoCellControl, Path=ShowReconnectButton, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TextBlock
+				Text="В процессе воспроизведения видео возники проблемы."
+				Foreground="{DynamicResource ForegroundColorLight}"
+				Margin="10"/>
+			<Button
+				Name="reconnectButton"
+				Content="Перезапустить"
+				Width="150"/>
+		</StackPanel>
+
+		<!-- Видео ячейка -->
+		<WindowsFormsHost Visibility="{Binding ElementName=videoCellControl, Path=ShowReconnectButton, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 			<rviClientUi:PlayerPanel x:Name="playerPanel"/>
 		</WindowsFormsHost>
 
@@ -24,7 +41,7 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Grid.Column="0"
 					   x:Name="topToolbarTitleTextBlock"
-					   Text="{Binding  ElementName=videoCellControl, Path=TopToolbarTitle}"
+					   Text="{Binding ElementName=videoCellControl, Path=TopToolbarTitle}"
 					   Foreground="White"
 					   VerticalAlignment="Center"
 					   Margin="2"/>
