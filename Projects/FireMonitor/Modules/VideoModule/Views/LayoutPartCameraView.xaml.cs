@@ -15,9 +15,20 @@ namespace VideoModule.Views
 
 			DataContextChanged += OnDataContextChanged;
 			Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
+			videoCellControl.ReconnectEvent += VideoCellControlOnReconnectEvent;
+		}
+
+		private void VideoCellControlOnReconnectEvent(object sender, EventArgs eventArgs)
+		{
+			StartPlaying();
 		}
 
 		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+		{
+			StartPlaying();
+		}
+
+		private void StartPlaying()
 		{
 			var viewModel = DataContext as LayoutPartCameraViewModel;
 			if (viewModel == null)
@@ -35,11 +46,13 @@ namespace VideoModule.Views
 			catch (Exception e)
 			{
 				Logger.Error(e);
+				videoCellControl.ShowReconnectButton = true;
 			}
 		}
 
 		private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
 		{
+			videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
 			videoCellControl.MediaPlayer.Stop();
 			videoCellControl.MediaPlayer.Close();
 

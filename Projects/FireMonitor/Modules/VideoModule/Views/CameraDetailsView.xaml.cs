@@ -23,15 +23,25 @@ namespace VideoModule.Views
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
 			Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
+			videoCellControl.ReconnectEvent += VideoCellControlOnReconnectEvent;
+		}
+
+		private void VideoCellControlOnReconnectEvent(object sender, EventArgs eventArgs)
+		{
+			StartPlaying();
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
+			StartPlaying();
+		}
+
+		private void StartPlaying()
+		{
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
 				return;
-			
-			// При загрузке формы сразу стартуем просмотр видео ячейки
+
 			try
 			{
 				IPEndPoint ipEndPoint;
@@ -46,6 +56,7 @@ namespace VideoModule.Views
 			catch (Exception e)
 			{
 				Logger.Error(e);
+				videoCellControl.ShowReconnectButton = true;
 			}
 		}
 
@@ -58,7 +69,8 @@ namespace VideoModule.Views
 				videoCellControl.MediaPlayer.Close();
 				_needStopPlaying = false;
 			}
-			
+
+			videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
 			Loaded -= OnLoaded;
 			Unloaded -= OnUnloaded;
 			Dispatcher.ShutdownStarted -= Dispatcher_ShutdownStarted;
