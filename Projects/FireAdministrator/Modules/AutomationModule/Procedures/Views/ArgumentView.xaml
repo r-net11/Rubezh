@@ -3,6 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:RubezhAPI.Automation;assembly=RubezhAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+			 xmlns:Views="clr-namespace:AutomationModule.Views"
 			 xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit">
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -80,131 +81,7 @@
 				  Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.GlobalVariable}}" />
 
 		<StackPanel Visibility="{Binding SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.ExplicitValue}}">
-			<StackPanel Visibility="{Binding IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				<extToolkit:IntegerUpDown Width="200" Maximum="{Binding ExplicitValue.MaxIntValue}" Minimum="{Binding ExplicitValue.MinIntValue}"
-										  Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}"
-										  Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" />
-				<TextBox Width="200" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Float}}"
-										  Text="{Binding ExplicitValue.FloatValue, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Width="200" IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}"
-						  Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
-				<DockPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}"
-						   Width="202">
-					<TextBox Width="182" Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" />
-					<Button Command="{Binding EditStringCommand}"
-							Content="..."
-							FontSize="20"
-							Foreground="{DynamicResource ForegroundColorLight}"
-							Width="20" Height="25" Margin="-5,0,0,0">
-						<Button.Style>
-							<Style TargetType="Button">
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="Button">
-											<Border Name="border" Background="Orange" BorderThickness="0" CornerRadius="0,3,3,0">
-												<ContentPresenter x:Name="contentPresenter"
-																  Margin="{TemplateBinding Padding}"
-																  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-																  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-																  Content="{TemplateBinding Content}"
-																  ContentTemplate="{TemplateBinding ContentTemplate}" />
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger Property="UIElement.IsMouseOver" Value="True">
-													<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
-													<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-							</Style>
-						</Button.Style>
-					</Button>
-				</DockPanel>
-				
-				
-				<StackPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}"
-							Grid.Column="1"
-							HorizontalAlignment="Right"
-							Orientation="Horizontal"
-							Width="200" Margin="2">
-					<DatePicker SelectedDate="{Binding ExplicitValue.DateTimeValue}"
-								DisplayDate="{Binding ExplicitValue.DateTimeValue}"
-								Height="26"
-								Padding="0"
-								Margin="0 0 5 0" />
-					<TimePicker TimeSpan="{Binding ExplicitValue.TimeValue}" Height="30" />
-				</StackPanel>
-
-				<StackPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}">
-					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.StateTypeValues}" SelectedItem="{Binding ExplicitValue.StateTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.DriverTypeValues}" SelectedItem="{Binding ExplicitValue.DriverTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.PermissionTypeValues}" SelectedItem="{Binding ExplicitValue.PermissionTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.PermissionType}}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.JournalEventNameTypeValues}" SelectedItem="{Binding ExplicitValue.JournalEventNameTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventNameType}}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.JournalEventDescriptionTypeValues}" SelectedItem="{Binding ExplicitValue.JournalEventDescriptionTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventDescriptionType}}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.JournalObjectTypeValues}" SelectedItem="{Binding ExplicitValue.JournalObjectTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalObjectType}}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-					<xc:ColorPicker Width="200" Height="25" SelectedColor="{Binding ExplicitValue.ColorValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}" />
-				</StackPanel>
-				<TextBlock Margin="7 7 0 0" VerticalAlignment="Top" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}">
-					<Hyperlink Command="{Binding ChangeCommand}" Style="{StaticResource HyperlinkStyle}">
-						<TextBlock Text="{Binding ExplicitValue.PresentationName}" Visibility="{Binding IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-						<TextBlock Text="Нажмите для выбора объекта">
-							<TextBlock.Style>
-								<Style>
-									<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-									<Style.Triggers>
-										<DataTrigger Binding="{Binding IsEmpty}" Value="True">
-											<Setter Property="TextBlock.Visibility" Value="Visible" />
-										</DataTrigger>
-									</Style.Triggers>
-								</Style>
-							</TextBlock.Style>
-						</TextBlock>
-					</Hyperlink>
-				</TextBlock>
-			</StackPanel>
-			<TextBlock Margin="7 7 0 0" VerticalAlignment="Top" Visibility="{Binding IsList, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Hyperlink Command="{Binding EditCommand}" Style="{StaticResource HyperlinkStyle}">
-					<TextBlock Text="{Binding ValueDescription}" />
-				</Hyperlink>
-			</TextBlock>
+			<Views:ExplicitValueView DataContext="{Binding ExplicitValue}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

@@ -28,7 +28,8 @@ namespace AutomationModule.Plans.Designer
 			PresenterItem.IsPoint = false;
 			PresenterItem.ShowBorderOnMouseOver = true;
 			PresenterItem.Cursor = Cursors.Hand;
-			PresenterItem.ClickEvent += (s, e) => ProcedureArgumentsViewModel.Run(Item);
+			PresenterItem.ClickEvent += (s, e) => 
+				ProcedureArgumentsViewModel.Run(Item);
 			_tooltip = new ProcedureTooltipViewModel(Item);
 		}
 

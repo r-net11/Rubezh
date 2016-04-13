@@ -158,7 +158,7 @@ namespace AutomationModule.Validation
 					if (!GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(ValidationErrorType.DeviceHaveSelfLogik))
 					{
 						var controlGKDeviceStep = (ControlGKDeviceStep)step;
-						var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceStep.GKDeviceArgument.ExplicitValue.ObjectReferenceValue.UID);
+						var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceStep.GKDeviceArgument.UidValue);
 						if (gkDevice != null && gkDevice.Logic.OnClausesGroup.Clauses.Count > 0)
 							Errors.Add(new ProcedureStepValidationError(step, "Исполнительное устройство содержит собственную логику", ValidationErrorLevel.Warning));
 						ValidateArgument(procedure, step, controlGKDeviceStep.GKDeviceArgument);

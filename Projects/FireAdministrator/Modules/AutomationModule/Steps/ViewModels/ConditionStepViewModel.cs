@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.Automation;
-using Infrastructure;
+﻿using Infrastructure;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Automation;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Linq.Expressions;
-using Infrastructure.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -15,7 +15,8 @@ namespace AutomationModule.ViewModels
 		public ConditionStep ConditionStep { get; private set; }
 		public ObservableCollection<ConditionViewModel> Conditions { get; private set; }
 
-		public ConditionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ConditionStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
 			ConditionStep = (ConditionStep)stepViewModel.Step;
 			Conditions = new ObservableCollection<ConditionViewModel>();
@@ -45,7 +46,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ConditionStep.JoinOperator = value;
-				OnPropertyChanged(()=>JoinOperator);
+				OnPropertyChanged(() => JoinOperator);
 			}
 		}
 
@@ -76,7 +77,7 @@ namespace AutomationModule.ViewModels
 		{
 			get { return Conditions.Count > 1; }
 		}
-		
+
 		public override void UpdateContent()
 		{
 			foreach (var conditionViewModel in Conditions)
@@ -158,6 +159,8 @@ namespace AutomationModule.ViewModels
 				Condition.ExplicitType = value;
 				ConditionTypes = new ObservableCollection<ConditionType>(AutomationHelper.ObjectTypeToConditionTypesList(SelectedExplicitType));
 				OnPropertyChanged(() => ConditionTypes);
+				Argument1.ExplicitType = value;
+				Argument2.ExplicitType = value;
 				UpdateContent();
 				OnPropertyChanged(() => SelectedExplicitType);
 			}
@@ -166,7 +169,7 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			SelectedEnumType = Argument1.EnumType;
-			Argument1.Update(Procedure, SelectedExplicitType, isList:false);
+			Argument1.Update(Procedure, SelectedExplicitType, isList: false);
 			Argument1.ExplicitType = SelectedExplicitType;
 			Argument1.EnumType = SelectedEnumType;
 			UpdateArgument2();

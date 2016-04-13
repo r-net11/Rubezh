@@ -7,11 +7,11 @@ using RubezhAPI.License;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text.RegularExpressions;
 
 namespace Infrastructure.Automation
 {
@@ -58,8 +58,7 @@ namespace Infrastructure.Automation
 		{
 			var getObjectPropertyStep = (GetObjectPropertyStep)procedureStep;
 			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyStep.ResultArgument.VariableUid);
-			var objRef = GetValue<ObjectReference>(getObjectPropertyStep.ObjectArgument);
-			var item = InitializeItem(objRef);
+			var item = GetResolvedValue(getObjectPropertyStep.ObjectArgument);
 			if (item == null)
 				return;
 			var propertyValue = GetPropertyValue(getObjectPropertyStep.Property, item);
@@ -76,22 +75,22 @@ namespace Infrastructure.Automation
 			{
 				case ExplicitType.Boolean:
 					{
-						value1 = GetValue<bool>(arithmeticStep.Argument1);
-						value2 = GetValue<bool>(arithmeticStep.Argument2);
+						value1 = GetValue(arithmeticStep.Argument1);
+						value2 = GetValue(arithmeticStep.Argument2);
 						bool result = false;
 						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.And)
 							result = (bool)value1 & (bool)value2;
 						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Or)
 							result = (bool)value1 || (bool)value2;
 						if (resultVariable != null)
-							resultVariable.ExplicitValue.BoolValue = result;
+							resultVariable.BoolValue = result;
 						break;
 					}
 
 				case ExplicitType.Integer:
 					{
-						value1 = GetValue<int>(arithmeticStep.Argument1);
-						value2 = GetValue<int>(arithmeticStep.Argument2);
+						value1 = GetValue(arithmeticStep.Argument1);
+						value2 = GetValue(arithmeticStep.Argument2);
 						int result = 0;
 						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
 							result = (int)value1 + (int)value2;
@@ -102,13 +101,13 @@ namespace Infrastructure.Automation
 						if ((arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)value2 != 0))
 							result = (int)value1 / (int)value2;
 						if (resultVariable != null)
-							resultVariable.ExplicitValue.IntValue = result;
+							resultVariable.IntValue = result;
 						break;
 					}
 				case ExplicitType.Float:
 					{
-						value1 = GetValue<double>(arithmeticStep.Argument1);
-						value2 = GetValue<double>(arithmeticStep.Argument2);
+						value1 = GetValue(arithmeticStep.Argument1);
+						value2 = GetValue(arithmeticStep.Argument2);
 						double result = 0;
 						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
 							result = (double)value1 + (double)value2;
@@ -119,30 +118,30 @@ namespace Infrastructure.Automation
 						if ((arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)value2 != 0))
 							result = (double)value1 / (double)value2;
 						if (resultVariable != null)
-							resultVariable.ExplicitValue.FloatValue = result;
+							resultVariable.FloatValue = result;
 						break;
 					}
 
 				case ExplicitType.DateTime:
 					{
-						value1 = GetValue<DateTime>(arithmeticStep.Argument1);
+						value1 = GetValue(arithmeticStep.Argument1);
 						value2 = new TimeSpan();
 						switch (arithmeticStep.TimeType)
 						{
 							case TimeType.Millisec:
-								value2 = TimeSpan.FromMilliseconds(GetValue<int>(arithmeticStep.Argument2));
+								value2 = TimeSpan.FromMilliseconds((int)GetValue(arithmeticStep.Argument2));
 								break;
 							case TimeType.Sec:
-								value2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticStep.Argument2));
+								value2 = TimeSpan.FromSeconds((int)GetValue(arithmeticStep.Argument2));
 								break;
 							case TimeType.Min:
-								value2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticStep.Argument2));
+								value2 = TimeSpan.FromMinutes((int)GetValue(arithmeticStep.Argument2));
 								break;
 							case TimeType.Hour:
-								value2 = TimeSpan.FromHours(GetValue<int>(arithmeticStep.Argument2));
+								value2 = TimeSpan.FromHours((int)GetValue(arithmeticStep.Argument2));
 								break;
 							case TimeType.Day:
-								value2 = TimeSpan.FromDays(GetValue<int>(arithmeticStep.Argument2));
+								value2 = TimeSpan.FromDays((int)GetValue(arithmeticStep.Argument2));
 								break;
 						}
 						var result = new DateTime();
@@ -152,14 +151,14 @@ namespace Infrastructure.Automation
 							result = (DateTime)value1 - (TimeSpan)value2;
 
 						if (resultVariable != null)
-							resultVariable.ExplicitValue.DateTimeValue = result;
+							resultVariable.DateTimeValue = result;
 						break;
 					}
 				case ExplicitType.String:
 					{
 						if (arithmeticStep.ArithmeticOperationType == ArithmeticOperationType.Add)
 							if (resultVariable != null)
-								resultVariable.ExplicitValue.StringValue = String.Concat(GetStringValue(arithmeticStep.Argument1), GetStringValue(arithmeticStep.Argument2));
+								resultVariable.StringValue = String.Concat(GetStringValue(arithmeticStep.Argument1), GetStringValue(arithmeticStep.Argument2));
 						break;
 					}
 			}
@@ -169,15 +168,15 @@ namespace Infrastructure.Automation
 		public void CreateColorStep(ProcedureStep procedureStep)
 		{
 			var createColorStep = (CreateColorStep)procedureStep;
-			var a = GetValue<int>(createColorStep.AArgument);
-			var r = GetValue<int>(createColorStep.RArgument);
-			var g = GetValue<int>(createColorStep.GArgument);
-			var b = GetValue<int>(createColorStep.BArgument);
+			var a = (int)GetValue(createColorStep.AArgument);
+			var r = (int)GetValue(createColorStep.RArgument);
+			var g = (int)GetValue(createColorStep.GArgument);
+			var b = (int)GetValue(createColorStep.BArgument);
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == createColorStep.ResultArgument.VariableUid);
 
 			if (resultVariable != null)
 			{
-				resultVariable.ExplicitValue.ColorValue = System.Windows.Media.Color.FromArgb(IntToByte(a), IntToByte(r), IntToByte(g), IntToByte(b));
+				resultVariable.ColorValue = System.Windows.Media.Color.FromArgb(IntToByte(a), IntToByte(r), IntToByte(g), IntToByte(b));
 				ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
 			}
 		}
@@ -203,19 +202,19 @@ namespace Infrastructure.Automation
 			switch (pauseStep.TimeType)
 			{
 				case TimeType.Millisec:
-					pause = TimeSpan.FromMilliseconds(GetValue<int>(pauseStep.PauseArgument));
+					pause = TimeSpan.FromMilliseconds((int)GetValue(pauseStep.PauseArgument));
 					break;
 				case TimeType.Sec:
-					pause = TimeSpan.FromSeconds(GetValue<int>(pauseStep.PauseArgument));
+					pause = TimeSpan.FromSeconds((int)GetValue(pauseStep.PauseArgument));
 					break;
 				case TimeType.Min:
-					pause = TimeSpan.FromMinutes(GetValue<int>(pauseStep.PauseArgument));
+					pause = TimeSpan.FromMinutes((int)GetValue(pauseStep.PauseArgument));
 					break;
 				case TimeType.Hour:
-					pause = TimeSpan.FromHours(GetValue<int>(pauseStep.PauseArgument));
+					pause = TimeSpan.FromHours((int)GetValue(pauseStep.PauseArgument));
 					break;
 				case TimeType.Day:
-					pause = TimeSpan.FromDays(GetValue<int>(pauseStep.PauseArgument));
+					pause = TimeSpan.FromDays((int)GetValue(pauseStep.PauseArgument));
 					break;
 			}
 
@@ -266,8 +265,7 @@ namespace Infrastructure.Automation
 		public void ControlGKDeviceStep(ProcedureStep procedureStep)
 		{
 			var controlGKDeviceStep = (ControlGKDeviceStep)procedureStep;
-			var deviceRef = GetValue<ObjectReference>(controlGKDeviceStep.GKDeviceArgument);
-			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceRef.UID);
+			var device = GetResolvedValue(controlGKDeviceStep.GKDeviceArgument) as GKDevice;
 			if (device == null)
 				return;
 			ProcedureExecutionContext.ControlGKDevice(ClientUID, device.UID, controlGKDeviceStep.Command);
@@ -276,7 +274,7 @@ namespace Infrastructure.Automation
 		public void ControlGKFireZoneStep(ProcedureStep procedureStep)
 		{
 			var controlGKFireZoneStep = (ControlGKFireZoneStep)procedureStep;
-			var zoneRef = GetValue<ObjectReference>(controlGKFireZoneStep.GKFireZoneArgument);
+			var zoneRef = (ObjectReference)GetValue(controlGKFireZoneStep.GKFireZoneArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasFirefighting)
 			{
 				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием лицензии", zoneRef.UID);
@@ -294,7 +292,7 @@ namespace Infrastructure.Automation
 		public void ControlGKGuardZoneStep(ProcedureStep procedureStep)
 		{
 			var controlGKGuardZoneStep = (ControlGKGuardZoneStep)procedureStep;
-			var zoneRef = GetValue<ObjectReference>(controlGKGuardZoneStep.GKGuardZoneArgument);
+			var zoneRef = (ObjectReference)GetValue(controlGKGuardZoneStep.GKGuardZoneArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasGuard)
 			{
 				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием лицензии", zoneRef.UID);
@@ -312,14 +310,14 @@ namespace Infrastructure.Automation
 		public void ControlDirectionStep(ProcedureStep procedureStep)
 		{
 			var controlDirectionStep = (ControlDirectionStep)procedureStep;
-			var directionRef = GetValue<ObjectReference>(controlDirectionStep.DirectionArgument);
+			var directionRef = (ObjectReference)GetValue(controlDirectionStep.DirectionArgument);
 			ProcedureExecutionContext.ControlDirection(ClientUID, directionRef.UID, controlDirectionStep.DirectionCommandType);
 		}
 
 		public void ControlGKDoorStep(ProcedureStep procedureStep)
 		{
 			var controlGKDoorStep = (ControlGKDoorStep)procedureStep;
-			var doorRef = GetValue<ObjectReference>(controlGKDoorStep.DoorArgument);
+			var doorRef = (ObjectReference)GetValue(controlGKDoorStep.DoorArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasSKD)
 			{
 				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа\" заблокировано в связи с отсутствием лицензии", doorRef.UID);
@@ -337,21 +335,21 @@ namespace Infrastructure.Automation
 		public void ControlDelayStep(ProcedureStep procedureStep)
 		{
 			var controlDelayStep = (ControlDelayStep)procedureStep;
-			var delayRef = GetValue<ObjectReference>(controlDelayStep.DelayArgument);
+			var delayRef = (ObjectReference)GetValue(controlDelayStep.DelayArgument);
 			ProcedureExecutionContext.ControlDelay(ClientUID, delayRef.UID, controlDelayStep.DelayCommandType);
 		}
 
 		public void ControlPumpStationStep(ProcedureStep procedureStep)
 		{
 			var controlPumpStationStep = (ControlPumpStationStep)procedureStep;
-			var pumpStationRef = GetValue<ObjectReference>(controlPumpStationStep.PumpStationArgument);
+			var pumpStationRef = (ObjectReference)GetValue(controlPumpStationStep.PumpStationArgument);
 			ProcedureExecutionContext.ControlPumpStation(ClientUID, pumpStationRef.UID, controlPumpStationStep.PumpStationCommandType);
 		}
 
 		public void ControlMPTStep(ProcedureStep procedureStep)
 		{
 			var controlMPTStep = (ControlMPTStep)procedureStep;
-			var mptRef = GetValue<ObjectReference>(controlMPTStep.MPTArgument);
+			var mptRef = (ObjectReference)GetValue(controlMPTStep.MPTArgument);
 			ProcedureExecutionContext.ControlMPT(ClientUID, mptRef.UID, controlMPTStep.MPTCommandType);
 		}
 
@@ -359,11 +357,12 @@ namespace Infrastructure.Automation
 		{
 			var incrementValueStep = (IncrementValueStep)procedureStep;
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueStep.ResultArgument.VariableUid);
-			var value = GetValue<double>(incrementValueStep.ResultArgument);
-			if (incrementValueStep.IncrementType == IncrementType.Inc)
-				ProcedureExecutionContext.SetVariableValue(variable, value + 1, ClientUID);
-			else
-				ProcedureExecutionContext.SetVariableValue(variable, value - 1, ClientUID);
+			var value = GetValue(incrementValueStep.ResultArgument);
+			var incrementValue = incrementValueStep.IncrementType == IncrementType.Inc ? 1 : -1;
+			if (value is int)
+				ProcedureExecutionContext.SetVariableValue(variable, (int)value + incrementValue, ClientUID);
+			else if (value is double)
+				ProcedureExecutionContext.SetVariableValue(variable, (double)value + incrementValue, ClientUID);
 		}
 
 		public void SetValueStep(ProcedureStep procedureStep)
@@ -371,7 +370,7 @@ namespace Infrastructure.Automation
 			var setValueStep = (SetValueStep)procedureStep;
 			var value = setValueStep.ExplicitType == ExplicitType.String ?
 				GetStringValue(setValueStep.SourceArgument) :
-				GetValue<object>(setValueStep.SourceArgument);
+				GetValue(setValueStep.SourceArgument);
 			SetValue(setValueStep.TargetArgument, value);
 		}
 
@@ -379,42 +378,35 @@ namespace Infrastructure.Automation
 		{
 			var randomStep = (RandomStep)procedureStep;
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == randomStep.ResultArgument.VariableUid);
-			var maxValue = GetValue<int>(randomStep.MaxValueArgument);
+			var maxValue = (int)GetValue(randomStep.MaxValueArgument);
 			if (resultVariable != null)
-				resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
+				resultVariable.IntValue = new Random().Next(0, maxValue);
 		}
 
 		public void ChangeListStep(ProcedureStep procedureStep)
 		{
 			var changeListStep = (ChangeListStep)procedureStep;
 			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == changeListStep.ListArgument.VariableUid);
-			var variable = new Variable();
-			variable.ExplicitType = changeListStep.ItemArgument.ExplicitType;
-			variable.EnumType = changeListStep.ItemArgument.EnumType;
-			variable.ObjectType = changeListStep.ItemArgument.ObjectType;
-			var itemValue = GetValue<object>(changeListStep.ItemArgument);
-			ProcedureExecutionContext.SetVariableValue(variable, itemValue, ClientUID);
-			var explicitValue = variable.ExplicitValue;
+			var itemValue = GetValue(changeListStep.ItemArgument);
 			if (listVariable != null)
 			{
-				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
-				switch (changeListStep.ChangeType)
+				var list = listVariable.Value as IList;
+				if (list != null)
 				{
-					case ChangeType.AddLast:
-						listVariable.ExplicitValues.Add(explicitValue);
-						break;
-					case ChangeType.RemoveFirst:
-						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
-							(x => ExplicitCompare(x, explicitValue, changeListStep.ItemArgument.ExplicitType,
-								changeListStep.ItemArgument.EnumType)));
-						break;
-					case ChangeType.RemoveAll:
-						listVariable.ExplicitValues.RemoveAll(
-							(x => ExplicitCompare(x, explicitValue, changeListStep.ItemArgument.ExplicitType,
-								changeListStep.ItemArgument.EnumType)));
-						break;
+					switch (changeListStep.ChangeType)
+					{
+						case ChangeType.AddLast:
+							listVariable.AddToList(itemValue);
+							break;
+						case ChangeType.RemoveFirst:
+							list.Remove(itemValue is ObjectReference ? ((ObjectReference)itemValue).UID : itemValue);
+							break;
+						case ChangeType.RemoveAll:
+							while (list.Contains(itemValue is ObjectReference ? ((ObjectReference)itemValue).UID : itemValue))
+								list.Remove(itemValue is ObjectReference ? ((ObjectReference)itemValue).UID : itemValue);
+							break;
+					}
 				}
-				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Server);
 			}
 		}
 
@@ -422,9 +414,9 @@ namespace Infrastructure.Automation
 		{
 			var checkPermissionStep = (CheckPermissionStep)procedureStep;
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == checkPermissionStep.ResultArgument.VariableUid);
-			var permissionValue = GetValue<PermissionType>(checkPermissionStep.PermissionArgument);
+			var permissionValue = (PermissionType)GetValue(checkPermissionStep.PermissionArgument);
 			if (resultVariable != null && User != null)
-				resultVariable.ExplicitValue.BoolValue = User.HasPermission(permissionValue);
+				resultVariable.BoolValue = User.HasPermission(permissionValue);
 		}
 
 		public void GetListCountStep(ProcedureStep procedureStep)
@@ -434,8 +426,11 @@ namespace Infrastructure.Automation
 			var countVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountStep.CountArgument.VariableUid);
 			if ((countVariable != null) && (listVariable != null))
 			{
-				//ProcedureExecutionContext.SynchronizeVariable(listVariable, ContextType.Client);
-				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
+				var list = listVariable.Value as IList;
+				if (list != null)
+				{
+					countVariable.Value = list.Count;
+				}
 			}
 		}
 
@@ -446,22 +441,35 @@ namespace Infrastructure.Automation
 			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemStep.ItemArgument.VariableUid);
 			if (itemVariable != null && listVariable != null)
 			{
-				ProcedureExecutionContext.SynchronizeVariable(listVariable, ClientUID);
-				if (getListItemStep.PositionType == PositionType.First)
+				var list = listVariable.Value as IList;
+				if (list != null)
 				{
-					var firstValue = listVariable.ExplicitValues.FirstOrDefault();
-					ProcedureExecutionContext.SetVariableValue(itemVariable, firstValue == null ? null : firstValue.Value, ClientUID);
-				}
-				if (getListItemStep.PositionType == PositionType.Last)
-				{
-					var lastValue = listVariable.ExplicitValues.LastOrDefault();
-					ProcedureExecutionContext.SetVariableValue(itemVariable, lastValue == null ? null : lastValue.Value, ClientUID);
-				}
-				if (getListItemStep.PositionType == PositionType.ByIndex)
-				{
-					var indexValue = GetValue<int>(getListItemStep.IndexArgument);
-					if (listVariable.ExplicitValues.Count > indexValue)
-						ProcedureExecutionContext.SetVariableValue(itemVariable, listVariable.ExplicitValues[indexValue].Value, ClientUID);
+					object obj = null;
+					ProcedureExecutionContext.SynchronizeVariable(listVariable, ClientUID);
+					if (getListItemStep.PositionType == PositionType.First)
+					{
+						obj = list.Count == 0 ? null : list[0];
+						if (obj is Guid && listVariable.ExplicitType == ExplicitType.Object)
+							obj = new ObjectReference { ObjectType = listVariable.ObjectType, UID = (Guid)obj };
+					}
+
+					if (getListItemStep.PositionType == PositionType.Last)
+					{
+						obj = list.Count == 0 ? null : list[list.Count - 1];
+						if (obj is Guid && listVariable.ExplicitType == ExplicitType.Object)
+							obj = new ObjectReference { ObjectType = listVariable.ObjectType, UID = (Guid)obj };
+					}
+
+					if (getListItemStep.PositionType == PositionType.ByIndex)
+					{
+						var indexValue = (int)GetValue(getListItemStep.IndexArgument);
+						if (indexValue < list.Count && indexValue >= 0)
+							obj = list[indexValue];
+						if (obj is Guid && listVariable.ExplicitType == ExplicitType.Object)
+							obj = new ObjectReference { ObjectType = listVariable.ObjectType, UID = (Guid)obj };
+					}
+
+					ProcedureExecutionContext.SetVariableValue(itemVariable, obj, ClientUID);
 				}
 			}
 		}
@@ -548,7 +556,7 @@ namespace Infrastructure.Automation
 		{
 			var controlPlanSetStep = (ControlPlanSetStep)procedureStep;
 
-			var value = GetValue<object>(controlPlanSetStep.ValueArgument);
+			var value = GetValue(controlPlanSetStep.ValueArgument);
 			if (value is int && (int)value < 0)
 				return;
 
@@ -579,14 +587,14 @@ namespace Infrastructure.Automation
 		public void ControlOpcDaTagSetStep(ProcedureStep procedureStep)
 		{
 			var controlOpcDaTagSetStep = (ControlOpcDaTagSetStep)procedureStep;
-			var value = GetValue<object>(controlOpcDaTagSetStep.ValueArgument);
+			var value = GetValue(controlOpcDaTagSetStep.ValueArgument);
 			OpcDaHelper.OnWriteTagValue(controlOpcDaTagSetStep.OpcDaTagUID, value);
 		}
 
 		public void ShowDialogStep(ProcedureStep procedureStep)
 		{
 			var showDialogStep = (ShowDialogStep)procedureStep;
-			var windowID = GetValue<string>(showDialogStep.WindowIDArgument);
+			var windowID = GetStringValue(showDialogStep.WindowIDArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.ShowDialog,
@@ -615,7 +623,7 @@ namespace Infrastructure.Automation
 		public void CloseDialogStep(ProcedureStep procedureStep)
 		{
 			var closeDialogStep = (CloseDialogStep)procedureStep;
-			var windowID = GetValue<string>(closeDialogStep.WindowIDArgument);
+			var windowID = GetStringValue(closeDialogStep.WindowIDArgument);
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.CloseDialog,
@@ -630,7 +638,7 @@ namespace Infrastructure.Automation
 		public void ShowPropertyStep(ProcedureStep procedureStep)
 		{
 			var showPropertyStep = (ShowPropertyStep)procedureStep;
-			var objectRef = GetValue<ObjectReference>(showPropertyStep.ObjectArgument);
+			var objectRef = (ObjectReference)GetValue(showPropertyStep.ObjectArgument);
 			if (showPropertyStep.ObjectType == ObjectType.Zone && !LicenseManager.CurrentLicenseInfo.HasFirefighting ||
 				showPropertyStep.ObjectType == ObjectType.GuardZone && !LicenseManager.CurrentLicenseInfo.HasGuard ||
 				showPropertyStep.ObjectType == ObjectType.GKDoor && !LicenseManager.CurrentLicenseInfo.HasSKD ||
@@ -654,14 +662,14 @@ namespace Infrastructure.Automation
 		public void SendEmailStep(ProcedureStep procedureStep)
 		{
 			var sendEmailStep = (SendEmailStep)procedureStep;
-			var smtp = GetValue<string>(sendEmailStep.SmtpArgument);
-			var port = GetValue<int>(sendEmailStep.PortArgument);
-			var login = GetValue<string>(sendEmailStep.LoginArgument);
-			var password = GetValue<string>(sendEmailStep.PasswordArgument);
-			var eMailAddressFrom = GetValue<string>(sendEmailStep.EMailAddressFromArgument);
-			var eMailAddressTo = GetValue<string>(sendEmailStep.EMailAddressToArgument);
-			var title = GetValue<string>(sendEmailStep.EMailTitleArgument);
-			var content = GetValue<string>(sendEmailStep.EMailContentArgument);
+			var smtp = (string)GetValue(sendEmailStep.SmtpArgument);
+			var port = (int)GetValue(sendEmailStep.PortArgument);
+			var login = (string)GetValue(sendEmailStep.LoginArgument);
+			var password = (string)GetValue(sendEmailStep.PasswordArgument);
+			var eMailAddressFrom = (string)GetValue(sendEmailStep.EMailAddressFromArgument);
+			var eMailAddressTo = (string)GetValue(sendEmailStep.EMailAddressToArgument);
+			var title = (string)GetValue(sendEmailStep.EMailTitleArgument);
+			var content = (string)GetValue(sendEmailStep.EMailContentArgument);
 			var Smtp = new SmtpClient(smtp, port);
 			Smtp.Credentials = new NetworkCredential(login, password);
 			Smtp.EnableSsl = true;
@@ -683,8 +691,8 @@ namespace Infrastructure.Automation
 		public void HttpRequestStep(ProcedureStep procedureStep)
 		{
 			var httpRequestStep = (HttpRequestStep)procedureStep;
-			var url = GetValue<string>(httpRequestStep.UrlArgument);
-			var content = GetValue<string>(httpRequestStep.ContentArgument);
+			var url = (string)GetValue(httpRequestStep.UrlArgument);
+			var content = (string)GetValue(httpRequestStep.ContentArgument);
 			var responseVariable = AllVariables.FirstOrDefault(x => x.Uid == httpRequestStep.ResponseArgument.VariableUid);
 			var webClient = new WebClient();
 			webClient.Encoding = System.Text.Encoding.UTF8;
@@ -706,10 +714,10 @@ namespace Infrastructure.Automation
 		public void StartRecordStep(ProcedureStep procedureStep)
 		{
 			var startRecordStep = (StartRecordStep)procedureStep;
-			var cameraRef = GetValue<ObjectReference>(startRecordStep.CameraArgument);
+			var cameraRef = (ObjectReference)GetValue(startRecordStep.CameraArgument);
 			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 			{
-				var timeout = GetValue<int>(startRecordStep.TimeoutArgument);
+				var timeout = (int)GetValue(startRecordStep.TimeoutArgument);
 				switch (startRecordStep.TimeType)
 				{
 					case TimeType.Millisec: timeout = (int)((double)timeout * 0.001); break;
@@ -733,19 +741,23 @@ namespace Infrastructure.Automation
 		public void StopRecordStep(ProcedureStep procedureStep)
 		{
 			var stopRecordStep = (StopRecordStep)procedureStep;
-			var cameraRef = GetValue<ObjectReference>(stopRecordStep.CameraArgument);
-			var eventUid = GetValue<Guid>(stopRecordStep.EventUIDArgument);
-			if (LicenseManager.CurrentLicenseInfo.HasVideo)
-				ProcedureExecutionContext.StopRecord(ClientUID, cameraRef.UID, eventUid);
-			else
-				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraRef.UID);
+			var cameraRef = (ObjectReference)GetValue(stopRecordStep.CameraArgument);
+			var eventUidString = (string)GetValue(stopRecordStep.EventUIDArgument);
+			Guid eventUid;
+			if (Guid.TryParse(eventUidString, out eventUid))
+			{
+				if (LicenseManager.CurrentLicenseInfo.HasVideo)
+					ProcedureExecutionContext.StopRecord(ClientUID, cameraRef.UID, eventUid);
+				else
+					ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraRef.UID);
+			}
 		}
 
 		public void PtzStep(ProcedureStep procedureStep)
 		{
 			var ptzStep = (PtzStep)procedureStep;
-			var cameraRef = GetValue<ObjectReference>(ptzStep.CameraArgument);
-			var ptzNumber = GetValue<int>(ptzStep.PtzNumberArgument);
+			var cameraRef = (ObjectReference)GetValue(ptzStep.CameraArgument);
+			var ptzNumber = (int)GetValue(ptzStep.PtzNumberArgument);
 			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 				ProcedureExecutionContext.Ptz(ClientUID, cameraRef.UID, ptzNumber);
 			else
@@ -755,7 +767,7 @@ namespace Infrastructure.Automation
 		public void RviAlarmStep(ProcedureStep procedureStep)
 		{
 			var rviAlarmStep = (RviAlarmStep)procedureStep;
-			var name = GetValue<string>(rviAlarmStep.NameArgument);
+			var name = GetStringValue(rviAlarmStep.NameArgument);
 			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 				ProcedureExecutionContext.RviAlarm(ClientUID, name);
 			else
@@ -765,12 +777,12 @@ namespace Infrastructure.Automation
 		public void RviOpenWindowStep(ProcedureStep procedureStep)
 		{
 			var rviOpenWindowStep = (RviOpenWindowStep)procedureStep;
-			var name = GetValue<string>(rviOpenWindowStep.NameArgument);
-			var x = GetValue<int>(rviOpenWindowStep.XArgument);
-			var y = GetValue<int>(rviOpenWindowStep.YArgument);
-			var monitorNumber = GetValue<int>(rviOpenWindowStep.MonitorNumberArgument);
-			var login = GetValue<string>(rviOpenWindowStep.LoginArgument);
-			var ip = GetValue<string>(rviOpenWindowStep.IpArgument);
+			var name = GetStringValue(rviOpenWindowStep.NameArgument);
+			var x = (int)GetValue(rviOpenWindowStep.XArgument);
+			var y = (int)GetValue(rviOpenWindowStep.YArgument);
+			var monitorNumber = (int)GetValue(rviOpenWindowStep.MonitorNumberArgument);
+			var login = (string)GetValue(rviOpenWindowStep.LoginArgument);
+			var ip = (string)GetValue(rviOpenWindowStep.IpArgument);
 			if (LicenseManager.CurrentLicenseInfo.HasVideo)
 				ProcedureExecutionContext.RviOpenWindow(ClientUID, name, x, y, monitorNumber, login, ip);
 			else
@@ -786,62 +798,62 @@ namespace Infrastructure.Automation
 		public void RunProgramStep(ProcedureStep procedureStep)
 		{
 			var runProgramStep = (RunProgramStep)procedureStep;
-			var processName = GetValue<string>(runProgramStep.PathArgument);
-			var parameters = GetValue<string>(runProgramStep.ParametersArgument);
+			var processName = (string)GetValue(runProgramStep.PathArgument);
+			var parameters = (string)GetValue(runProgramStep.ParametersArgument);
 			System.Diagnostics.Process.Start(processName, parameters);
 		}
 
 		public void ExportJournalStep(ProcedureStep procedureStep)
 		{
 			var exportJournalStep = (ExportJournalStep)procedureStep;
-			var isExportJournal = GetValue<bool>(exportJournalStep.IsExportJournalArgument);
-			var isExportPassJournal = GetValue<bool>(exportJournalStep.IsExportPassJournalArgument);
-			var minDate = GetValue<DateTime>(exportJournalStep.MinDateArgument);
-			var maxDate = GetValue<DateTime>(exportJournalStep.MaxDateArgument);
-			var path = GetValue<string>(exportJournalStep.PathArgument);
+			var isExportJournal = (bool)GetValue(exportJournalStep.IsExportJournalArgument);
+			var isExportPassJournal = (bool)GetValue(exportJournalStep.IsExportPassJournalArgument);
+			var minDate = (DateTime)GetValue(exportJournalStep.MinDateArgument);
+			var maxDate = (DateTime)GetValue(exportJournalStep.MaxDateArgument);
+			var path = (string)GetValue(exportJournalStep.PathArgument);
 			ProcedureExecutionContext.ExportJournal(ClientUID, isExportJournal, isExportPassJournal, minDate, maxDate, path);
 		}
 
 		public void ExportOrganisationStep(ProcedureStep procedureStep)
 		{
 			var exportOrganisationStep = (ExportOrganisationStep)procedureStep;
-			var isWithDeleted = GetValue<bool>(exportOrganisationStep.IsWithDeleted);
-			var organisationRef = GetValue<ObjectReference>(exportOrganisationStep.Organisation);
-			var path = GetValue<string>(exportOrganisationStep.PathArgument);
+			var isWithDeleted = (bool)GetValue(exportOrganisationStep.IsWithDeleted);
+			var organisationRef = (ObjectReference)GetValue(exportOrganisationStep.Organisation);
+			var path = (string)GetValue(exportOrganisationStep.PathArgument);
 			ProcedureExecutionContext.ExportOrganisation(ClientUID, isWithDeleted, organisationRef.UID, path);
 		}
 
 		public void ExportOrganisationListStep(ProcedureStep procedureStep)
 		{
 			var exportOrganisationListStep = (ExportOrganisationListStep)procedureStep;
-			var isWithDeleted = GetValue<bool>(exportOrganisationListStep.IsWithDeleted);
-			var path = GetValue<string>(exportOrganisationListStep.PathArgument);
+			var isWithDeleted = (bool)GetValue(exportOrganisationListStep.IsWithDeleted);
+			var path = (string)GetValue(exportOrganisationListStep.PathArgument);
 			ProcedureExecutionContext.ExportOrganisationList(ClientUID, isWithDeleted, path);
 		}
 
 		public void ExportConfigurationStep(ProcedureStep procedureStep)
 		{
 			var exportConfigurationStep = (ExportConfigurationStep)procedureStep;
-			var isExportDevices = GetValue<bool>(exportConfigurationStep.IsExportDevices);
-			var isExportDoors = GetValue<bool>(exportConfigurationStep.IsExportDoors);
-			var isExportZones = GetValue<bool>(exportConfigurationStep.IsExportZones);
-			var path = GetValue<string>(exportConfigurationStep.PathArgument);
+			var isExportDevices = (bool)GetValue(exportConfigurationStep.IsExportDevices);
+			var isExportDoors = (bool)GetValue(exportConfigurationStep.IsExportDoors);
+			var isExportZones = (bool)GetValue(exportConfigurationStep.IsExportZones);
+			var path = (string)GetValue(exportConfigurationStep.PathArgument);
 			ProcedureExecutionContext.ExportConfiguration(ClientUID, isExportDevices, isExportDoors, isExportZones, path);
 		}
 
 		public void ImportOrganisationStep(ProcedureStep procedureStep)
 		{
 			var importOrganisationStep = (ImportOrganisationStep)procedureStep;
-			var isWithDeleted = GetValue<bool>(importOrganisationStep.IsWithDeleted);
-			var path = GetValue<string>(importOrganisationStep.PathArgument);
+			var isWithDeleted = (bool)GetValue(importOrganisationStep.IsWithDeleted);
+			var path = (string)GetValue(importOrganisationStep.PathArgument);
 			ProcedureExecutionContext.ImportOrganisation(ClientUID, isWithDeleted, path);
 		}
 
 		public void ImportOrganisationListStep(ProcedureStep procedureStep)
 		{
 			var importOrganisationListStep = (ImportOrganisationListStep)procedureStep;
-			var isWithDeleted = GetValue<bool>(importOrganisationListStep.IsWithDeleted);
-			var path = GetValue<string>(importOrganisationListStep.PathArgument);
+			var isWithDeleted = (bool)GetValue(importOrganisationListStep.IsWithDeleted);
+			var path = (string)GetValue(importOrganisationListStep.PathArgument);
 			ProcedureExecutionContext.ImportOrganisationList(ClientUID, isWithDeleted, path);
 		}
 
@@ -852,10 +864,10 @@ namespace Infrastructure.Automation
 			if (argument == null)
 				return null;
 			if (argument.VariableScope == VariableScope.ExplicitValue)
-				return argument.ExplicitValue.ToString();
+				return argument.ToString();
 
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
-			return variable == null ? "" : variable.ExplicitValue.ToString();
+			return variable == null ? "" : variable.ToString();
 		}
 
 		static byte IntToByte(int value)
@@ -1237,20 +1249,25 @@ namespace Infrastructure.Automation
 
 		void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
-			var items = GetObjects(result.ObjectType);
-			result.ExplicitValues.Clear();
-			foreach (var item in items)
+			var list = result.Value as List<object>;
+
+			if (list != null)
 			{
-				var itemUid = GetObjectUid(item);
-				foreach (var findObjectCondition in findObjectConditions)
+				var items = GetObjects(result.ObjectType);
+				list.Clear();
+				foreach (var item in items)
 				{
-					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
-					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
-					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
-					if (comparer != null && comparer.Value)
+					var itemUid = GetObjectUid(item);
+					foreach (var findObjectCondition in findObjectConditions)
 					{
-						result.ExplicitValues.Add(new ExplicitValue { ExplicitType = ExplicitType.Object, ObjectReferenceValue = new ObjectReference { UID = itemUid, ObjectType = result.ObjectType } });
-						break;
+						var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
+						var conditionValue = GetValue(findObjectCondition.SourceArgument);
+						var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
+						if (comparer != null && comparer.Value)
+						{
+							result.AddToList(item);
+							break;
+						}
 					}
 				}
 			}
@@ -1258,26 +1275,31 @@ namespace Infrastructure.Automation
 
 		void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
-			var items = GetObjects(result.ObjectType);
-			result.ExplicitValues.Clear();
-			bool allTrue;
-			foreach (var item in items)
+			var list = result.Value as IList;
+
+			if (list != null)
 			{
-				allTrue = true;
-				var itemUid = GetObjectUid(item);
-				foreach (var findObjectCondition in findObjectConditions)
+				var items = GetObjects(result.ObjectType);
+				list.Clear();
+				bool allTrue;
+				foreach (var item in items)
 				{
-					var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
-					var conditionValue = GetValue<object>(findObjectCondition.SourceArgument);
-					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
-					if (comparer == null || !comparer.Value)
+					allTrue = true;
+					var itemUid = GetObjectUid(item);
+					foreach (var findObjectCondition in findObjectConditions)
 					{
-						allTrue = false;
-						break;
+						var propertyValue = GetPropertyValue(findObjectCondition.Property, item);
+						var conditionValue = GetValue(findObjectCondition.SourceArgument);
+						var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
+						if (comparer == null || !comparer.Value)
+						{
+							allTrue = false;
+							break;
+						}
 					}
+					if (allTrue)
+						result.AddToList(item);
 				}
-				if (allTrue)
-					result.ExplicitValues.Add(new ExplicitValue { ExplicitType = ExplicitType.Object, ObjectReferenceValue = new ObjectReference { UID = itemUid, ObjectType = result.ObjectType } });
 			}
 		}
 
@@ -1326,6 +1348,8 @@ namespace Infrastructure.Automation
 
 		bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
 		{
+			if (explicitValue1.IsList || explicitValue2.IsList)
+				return false;
 			if (explicitType == ExplicitType.Integer)
 				return explicitValue1.IntValue == explicitValue2.IntValue;
 			if (explicitType == ExplicitType.Float)
@@ -1337,8 +1361,8 @@ namespace Infrastructure.Automation
 			if (explicitType == ExplicitType.DateTime)
 				return explicitValue1.DateTimeValue == explicitValue2.DateTimeValue;
 			if (explicitType == ExplicitType.Object)
-				return explicitValue1.ObjectReferenceValue.UID == explicitValue2.ObjectReferenceValue.UID
-					&& explicitValue1.ObjectReferenceValue.ObjectType == explicitValue2.ObjectReferenceValue.ObjectType;
+				return explicitValue1.UidValue == explicitValue2.UidValue
+					&& explicitValue1.ObjectType == explicitValue2.ObjectType;
 			if (explicitType == ExplicitType.Enum)
 			{
 				if (enumType == EnumType.DriverType)
@@ -1365,27 +1389,30 @@ namespace Infrastructure.Automation
 			ProcedureExecutionContext.SetVariableValue(AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid), value, ClientUID);
 		}
 
-		T GetValue<T>(Argument argument)
+		object GetResolvedValue(Argument argument)
 		{
-			var result = argument.VariableScope == VariableScope.ExplicitValue ?
-				argument.ExplicitValue.Value :
-				ProcedureExecutionContext.GetVariableValue(ClientUID, AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid));
-			if (result is string && typeof(T) == typeof(Guid))
-				result = CheckGuid(result.ToString()) ? new Guid(result.ToString()) : Guid.Empty;
-			if (result is int && typeof(T) == typeof(double))
-				result = Convert.ToDouble(result);
-			if (result is double && typeof(T) == typeof(int))
-				result = Convert.ToInt32(Math.Round((double)result));
-			return (T)result;
+			if (argument.VariableScope == VariableScope.ExplicitValue)
+				return argument.ResolvedValue;
+			else
+			{
+				var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+				if (variable != null)
+					return variable.ResolvedValue;
+			}
+			return null;
 		}
 
-		static bool CheckGuid(string guidString)
+		object GetValue(Argument argument)
 		{
-			var guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
-				"^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);
-			if (!String.IsNullOrEmpty(guidString) && guidRegEx.IsMatch(guidString))
-				return true;
-			return false;
+			if (argument.VariableScope == VariableScope.ExplicitValue)
+				return argument.Value;
+			else
+			{
+				var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+				if (variable != null)
+					return variable.Value;
+			}
+			return null;
 		}
 
 		public void InitializeArguments(List<Variable> variables, List<Argument> arguments, List<Variable> callingProcedureVariables)
@@ -1393,7 +1420,7 @@ namespace Infrastructure.Automation
 			int i = 0;
 			foreach (var variable in variables)
 			{
-				variable.ExplicitValues = new List<ExplicitValue>();
+				var list = new List<object>();
 				if (arguments.Count <= i)
 					break;
 				var argument = arguments[i];
@@ -1401,13 +1428,7 @@ namespace Infrastructure.Automation
 					break;
 				if (argument.VariableScope == VariableScope.ExplicitValue)
 				{
-					PropertyCopy.Copy(argument.ExplicitValue, variable.ExplicitValue);
-					foreach (var explicitVal in argument.ExplicitValues)
-					{
-						var newExplicitValue = new ExplicitValue();
-						PropertyCopy.Copy(explicitVal, newExplicitValue);
-						variable.ExplicitValues.Add(newExplicitValue);
-					}
+					variable.Value = argument.Value;
 				}
 				else
 				{
@@ -1415,20 +1436,9 @@ namespace Infrastructure.Automation
 					if (argumentVariable == null)
 						continue;
 					if (argumentVariable.IsReference)
-					{
-						variable.ExplicitValue = argumentVariable.ExplicitValue;
-						variable.ExplicitValues = argumentVariable.ExplicitValues;
-					}
+						variable.Value = argumentVariable.Value;
 					else
-					{
-						PropertyCopy.Copy(argumentVariable.ExplicitValue, variable.ExplicitValue);
-						foreach (var explicitVal in argumentVariable.ExplicitValues)
-						{
-							var newExplicitValue = new ExplicitValue();
-							PropertyCopy.Copy(explicitVal, newExplicitValue);
-							variable.ExplicitValues.Add(newExplicitValue);
-						}
-					}
+						variable.Value = argumentVariable.Value;
 				}
 				i++;
 			}
@@ -1445,8 +1455,8 @@ namespace Infrastructure.Automation
 			var result = conditionStep.JoinOperator == JoinOperator.And;
 			foreach (var condition in conditionStep.Conditions)
 			{
-				var variable1 = GetValue<object>(condition.Argument1);
-				var variable2 = GetValue<object>(condition.Argument2);
+				var variable1 = GetValue(condition.Argument1);
+				var variable2 = GetValue(condition.Argument2);
 				var comparer = Compare(variable1, variable2, condition.ConditionType);
 				if ((comparer != null))
 					result = conditionStep.JoinOperator == JoinOperator.And ? result & comparer.Value : result | comparer.Value;

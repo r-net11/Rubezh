@@ -61,7 +61,7 @@
 					</StackPanel>
 				</StackPanel>
 
-				<Views:ExplicitValuesView Grid.Column="2" Grid.Row="1" DataContext="{Binding ExplicitValuesViewModel}"
+				<Views:ExplicitValueView Grid.Column="2" Grid.Row="1" DataContext="{Binding ExplicitValueViewModel}"
 					Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.IsRealType, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</Grid>
 		</TabItem>
