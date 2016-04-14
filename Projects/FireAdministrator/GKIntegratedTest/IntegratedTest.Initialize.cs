@@ -9,6 +9,7 @@ using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhAPI.SKD;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure;
@@ -18,6 +19,7 @@ using RubezhAPI.Journal;
 using System.Collections.Generic;
 using GKModule.Validation;
 using Infrastructure.Common.Validation;
+using RubezhClient.SKDHelpers;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using Stopwatch = NUnit.Framework.Compatibility.Stopwatch;
 
@@ -79,6 +81,7 @@ namespace GKIntegratedTest
 
 		public void SetConfigAndRestartImitator()
 		{
+			ClientManager.GetLicense();
 			GKManager.UpdateConfiguration();
 			var validator = new Validator();
 			var errors = validator.Validate();
@@ -87,7 +90,7 @@ namespace GKIntegratedTest
 			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
 			CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
-			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
+			CheckTime(() => ClientManager.FiresecService.SetLocalConfig(), "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
 			GKManager.UpdateConfiguration();
 		}
@@ -158,13 +161,15 @@ namespace GKIntegratedTest
 		{
 			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
 			var lastJournalNo = jourlnalItems.Count;
-			delta = lastJournalNo - delta > 0 ? delta : 0;
+			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
 			int matches = 0;
-			for (int i = lastJournalNo; i >= lastJournalNo - delta; i--)
+			for (int i = lastJournalNo - 1; i >= lastJournalNo - delta; i--)
 			{
 				var journalItem = jourlnalItems[i];
 				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches])
 					matches++;
+				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1])
+					matches = 1;
 				else
 					matches = 0;
 				if (matches == journalEventNameTypes.Count())
@@ -397,11 +402,83 @@ namespace GKIntegratedTest
 			return GKManager.AddDevice(device.Children[1], GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
 		}
 
-		public OperationResult<bool> ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage)
+		void ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage)
 		{
 			var result = CheckTime (() =>ImitatorManager.ImitatorService.ConrtolGKBase(gkBase.UID, command), traceMessage);
 			Assert.IsTrue(result.Result, result.Error);
-			return result;
+		}
+
+		void EnterCard(GKBase gkBase, SKDCard card, GKCodeReaderEnterType enterType, string traceMessage)
+		{
+			var result = CheckTime(() => ImitatorManager.ImitatorService.EnterCard(gkBase.UID, card.Number, enterType), traceMessage);
+			Assert.IsTrue(result.Result, result.Error);
+		}
+
+		SKDCard AddNewUser(int level, params GKDoor[] doors)
+		{
+			var cards = CardHelper.Get(new CardFilter { DeactivationType = LogicalDeletationType.All }).ToList();
+			var card = cards.FirstOrDefault(x => x.EmployeeName == "Тестовый пользователь");
+			if (card == null)
+				card = new SKDCard();
+			else
+				return card;
+			
+			for (uint i = 1; i < 1000; i ++)
+			{
+				if (cards.All(x => x.Number != i))
+				{
+					card.Number = i;
+					break;
+				}
+			}
+
+			var organisations = OrganisationHelper.Get(new OrganisationFilter { LogicalDeletationType = LogicalDeletationType.All });
+			var organisation = organisations.FirstOrDefault(x => x.Name == "Тестовая организация");
+
+			OperationResult<bool> result;
+			var organisationDetails = new OrganisationDetails();
+			if (organisation == null)
+			{
+				organisationDetails.Name = "Тестовая организация";
+				organisationDetails.UserUIDs = new List<Guid>();
+				result = ClientManager.FiresecService.SaveOrganisation(organisationDetails, true);
+				Assert.IsFalse(result.HasError, result.Error);
+			}
+			else
+			{
+				organisationDetails.Name = organisation.Name;
+				organisationDetails.UID = organisation.UID;
+				organisationDetails.UserUIDs = organisation.UserUIDs;
+			}
+
+			var employees = EmployeeHelper.Get(new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, FirstName = "Тестовый пользователь" });
+			var shortEmployee = employees.FirstOrDefault();
+			var employee = new Employee();
+			if (shortEmployee == null)
+			{
+				employee.FirstName = "Тестовый пользователь";
+				employee.OrganisationUID = organisationDetails.UID;
+				result = ClientManager.FiresecService.SaveEmployee(employee, true);
+				Assert.IsFalse(result.HasError, result.Error);
+			}
+			else
+			{
+				employee.FirstName = shortEmployee.FirstName;
+				employee.UID = shortEmployee.UID;
+				employee.OrganisationUID = shortEmployee.UID;
+			}
+			card.GKCardType = GKCardType.Employee;
+			card.GKControllerUIDs = new List<Guid> {gkDevice1.UID};
+			card.EndDate = new DateTime(2099, 1, 1);
+			card.GKLevel = level;
+			card.GKLevelSchedule = 1;
+			card.CardDoors = doors.Select(x => new CardDoor { DoorUID = x.UID, EnterScheduleNo = 1, ExitScheduleNo = 1, CardUID = card.UID }).ToList();
+			card.OrganisationUID = organisationDetails.UID;
+			card.EmployeeUID = employee.UID;
+			card.EmployeeName = "Тестовый пользователь";
+			result = ClientManager.FiresecService.AddCard(card, card.EmployeeName);
+			Assert.IsFalse(result.HasError, result.Error);
+			return card;
 		}
 	}
 }

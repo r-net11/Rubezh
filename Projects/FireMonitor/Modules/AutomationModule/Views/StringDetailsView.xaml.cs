@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class ExplicitValuesView
+	public partial class StringDetailsView
 	{
-		public ExplicitValuesView()
+		public StringDetailsView()
 		{
 			InitializeComponent();
 		}

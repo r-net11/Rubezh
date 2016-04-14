@@ -57,6 +57,10 @@
     <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
@@ -100,7 +104,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="AutomationModuleLoader.cs" />
-    <Compile Include="ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
@@ -108,30 +111,22 @@
     <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionViewModel.cs" />
-    <Compile Include="ViewModels\ExplicitValuesViewModel.cs" />
+    <Compile Include="ViewModels\ExplicitValueInstanceViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValueViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\GuardZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\LayoutTextBlockPartViewModel.cs" />
     <Compile Include="ViewModels\LayoutTextBoxPartViewModel.cs" />
+    <Compile Include="ViewModels\ObjectReferenceViewModel.cs" />
     <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
     <Compile Include="ViewModels\LayoutProcedurePartViewModel.cs" />
     <Compile Include="ViewModels\ProcedureTooltipViewModel.cs" />
     <Compile Include="ViewModels\ProcedureViewModel.cs" />
     <Compile Include="ViewModels\ArgumentViewModel.cs" />
-    <Compile Include="ViewModels\VariableViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Views\ArgumentDetailsView.xaml.cs">
-      <DependentUpon>ArgumentDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ArgumentView.xaml.cs">
-      <DependentUpon>ArgumentView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExplicitValuesView.xaml.cs">
-      <DependentUpon>ExplicitValuesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExplicitValueViews.xaml.cs">
-      <DependentUpon>ExplicitValueViews.xaml</DependentUpon>
+    <Compile Include="ViewModels\StringDetailsViewModel.cs" />
+    <Compile Include="Views\ExplicitValueView.xaml.cs">
+      <DependentUpon>ExplicitValueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutProcedurePartView.xaml.cs">
       <DependentUpon>LayoutProcedurePartView.xaml</DependentUpon>
@@ -151,6 +146,7 @@
     <Compile Include="Views\ProcedureTooltipView.xaml.cs">
       <DependentUpon>ProcedureTooltipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\StringDetailsView.xaml.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -190,21 +186,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ArgumentDetailsView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\ExplicitValueView.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ArgumentView.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ExplicitValuesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ExplicitValueViews.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutProcedurePartView.xaml">
       <SubType>Designer</SubType>
@@ -233,6 +217,10 @@
     <Page Include="Views\ProcedureTooltipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StringDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

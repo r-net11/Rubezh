@@ -161,7 +161,6 @@
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="IImitatorService.cs" />
-    <Compile Include="Models\Automation\ObjectReference.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaElement.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaGroup.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaTagValue.cs" />
@@ -184,6 +183,7 @@
     <Compile Include="Models\Video\RviStatus.cs" />
     <Compile Include="Models\Video\RviServer.cs" />
     <Compile Include="Models\Video\RviStream.cs" />
+    <Compile Include="Models\Automation\ObjectReference.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\ControlOpcDaTagStep.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />

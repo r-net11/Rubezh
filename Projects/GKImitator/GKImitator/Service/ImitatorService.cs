@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.Windows.Documents;
 using GKImitator.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -51,6 +50,18 @@ namespace GKImitator
 				default:
 					return OperationResult<bool>.FromError("Команда " + command.ToDescription() + " ещё не реализована");
 			}
+			return new OperationResult<bool>(true);
+		}
+
+		public OperationResult<bool> EnterCard(Guid uid, uint cardNo, GKCodeReaderEnterType enterType)
+		{
+			var descriptor = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.UID == uid);
+			if (descriptor == null)
+				return OperationResult<bool>.FromError("Не найден элемент " + uid + " в конфигурации");
+			var device = descriptor.GKBase as GKDevice;
+			if (device == null || !device.Driver.IsCardReaderOrCodeReader)
+				return OperationResult<bool>.FromError("Ввод кода для данного объекта запрещен");
+			descriptor.EnterCard(cardNo, enterType);
 			return new OperationResult<bool>(true);
 		}
 

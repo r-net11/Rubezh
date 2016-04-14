@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 		public DelayDetailsViewModel(GKDelay delay)
 		{
 			Delay = delay;
-			Title = Delay.Name;
+			Title = Delay.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
 			PlanLinks = new PlanLinksViewModel(Delay);
 

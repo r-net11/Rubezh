@@ -214,8 +214,8 @@ namespace RubezhClient
 		OperationResult<bool> SavePosition(Position item, bool isNew);
 		OperationResult<bool> SaveSchedule(Schedule item, bool isNew);
 		OperationResult<bool> SaveScheduleScheme(ScheduleScheme item, bool isNew);
-		void SetLocalConfig();
-		void SetRemoteConfig(Stream stream);
+		OperationResult<bool> SetLocalConfig();
+		OperationResult<bool> SetRemoteConfig(Stream stream);
 		void SetVariableValue(Guid variableUid, object value);
 		void StartOperationQueueThread();
 		void StartPoll();

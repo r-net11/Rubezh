@@ -62,7 +62,7 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
+		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.IsConnected}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />

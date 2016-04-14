@@ -27,6 +27,8 @@ namespace SKDModule.ViewModels
 
 		public void Select(Guid scheduleUID)
 		{
+			if (!IsConnected)
+				return;
 			if (scheduleUID != Guid.Empty)
 			{
 				var scheduleViewModel = Organisations.SelectMany(x => x.Children).FirstOrDefault(x => x.Model != null && x.Model.UID == scheduleUID);

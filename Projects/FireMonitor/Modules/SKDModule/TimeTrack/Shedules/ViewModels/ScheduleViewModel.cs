@@ -63,16 +63,19 @@ namespace SKDModule.ViewModels
 			{
 				if (!IsOrganisation)
 				{
-					var schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter()
+					var schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter
 					{
 						OrganisationUIDs = new List<Guid>() { Organisation.UID },
 						Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
 						WithDays = false,
-					});
-					var scheme = schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
-					if (scheme != null)
+					}, showError: false);
+					if (schemes != null)
 					{
-						return scheme.Name + " (" + scheme.Type.ToDescription() + ")";
+						var scheme = schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
+						if (scheme != null)
+						{
+							return scheme.Name + " (" + scheme.Type.ToDescription() + ")";
+						}
 					}
 				}
 				return null;

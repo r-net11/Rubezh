@@ -52,7 +52,8 @@ namespace FireAdministrator
 						() => { return ClientManager.SystemConfiguration; }
 						);
 
-					ObjectReference.ResolveObjectName += ObjectReference_ResolveObjectName;
+					ExplicitValue.ResolveObjectName += ObjectReference_ResolveObjectName;
+					ExplicitValue.ResolveObjectValue += ExplicitValue_ResolveObjectValue;
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
@@ -99,6 +100,26 @@ namespace FireAdministrator
 					Application.Current.Shutdown();
 				return;
 			}
+		}
+
+		object ExplicitValue_ResolveObjectValue(Guid objectUID, ObjectType objectType)
+		{
+			if (objectUID == Guid.Empty)
+				return null;
+			switch (objectType)
+			{
+				case ObjectType.Device: return GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.Zone: return GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.Direction: return GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.Delay: return GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.GuardZone: return GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.PumpStation: return GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.MPT: return GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.VideoDevice: return ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.GKDoor: return GKManager.Doors.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.Organisation: return RubezhClient.SKDHelpers.OrganisationHelper.GetSingle(objectUID);
+			}
+			return null;
 		}
 
 		string ObjectReference_ResolveObjectName(Guid objectUID, ObjectType objectType)

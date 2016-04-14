@@ -37,7 +37,7 @@ namespace Infrastructure.Automation
 
 						if (filter.JournalSubsystemTypes.Count > 0 && !filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
 							continue;
-						if ((filter.JournalEventNameTypes.Count > 0 && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType)) || 
+						if ((filter.JournalEventNameTypes.Count > 0 && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType)) ||
 							(filter.JournalEventDescriptionTypes.Count > 0 && !filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType)))
 							continue;
 						if (filter.JournalObjectTypes.Count > 0 && !filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
@@ -62,15 +62,15 @@ namespace Infrastructure.Automation
 			foreach (var filter in filters)
 			{
 				var opcTagFilter = _opcDaTagFilters.FirstOrDefault(x => x.UID == filter);
-				
+
 				if (opcTagFilter != null)
 				{
 					var procedures = ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.Procedures
-						.Where(x => x.ContextType == ProcedureExecutionContext.ContextType 
+						.Where(x => x.ContextType == ProcedureExecutionContext.ContextType
 							&& x.OpcDaTagFiltersUids.Contains(opcTagFilter.UID));
 
 					var value = OpcDaHelper.GetTagValue(opcTagFilter.TagUID);
-					
+
 					if (opcTagFilter.CheckCondition(value))
 					{
 						foreach (var procedure in procedures)
@@ -103,6 +103,8 @@ namespace Infrastructure.Automation
 
 		public static void Start()
 		{
+			ProcedureExecutionContext.InitializeGlobalVariables();
+
 			_procedureThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
 			_resetEvent = new AutoResetEvent(false);
 
@@ -144,6 +146,7 @@ namespace Infrastructure.Automation
 		{
 			Stop();
 			Start();
+			RunOnApplicationRun();
 		}
 
 		static void CheckProcedureThread()

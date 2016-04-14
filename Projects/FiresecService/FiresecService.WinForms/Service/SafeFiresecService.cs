@@ -167,21 +167,23 @@ namespace FiresecService.Service
 			return SafeOperationCall(clientUID, () => { return FiresecService.GetConfig(clientUID); }, "GetConfig");
 		}
 
-		public void SetRemoteConfig(Stream stream)
+		public OperationResult<bool> SetRemoteConfig(Stream stream)
 		{
 			try
 			{
 				FiresecService.SetRemoteConfig(stream);
+				return new OperationResult<bool>(true);
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SetRemoteConfig");
+				return OperationResult<bool>.FromError(e.Message);
 			}
 		}
 
-		public void SetLocalConfig(Guid clientUID)
+		public OperationResult<bool> SetLocalConfig(Guid clientUID)
 		{
-			SafeOperationCall(clientUID, () => { FiresecService.SetLocalConfig(clientUID); }, "SetLocalConfig");
+			return SafeOperationCall(clientUID, () => { return FiresecService.SetLocalConfig(clientUID); }, "SetLocalConfig");
 		}
 
 		public string Test(Guid clientUID, string arg)

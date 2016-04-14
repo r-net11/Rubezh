@@ -8,7 +8,7 @@ namespace RubezhAPI.Automation
 		public PauseStep()
 		{
 			PauseArgument = new Argument();
-			PauseArgument.ExplicitValue.IntValue = 1;
+			PauseArgument.IntValue = 1;
 		}
 
 		[DataMember]

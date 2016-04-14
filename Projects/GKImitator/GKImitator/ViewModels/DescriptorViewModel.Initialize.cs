@@ -113,6 +113,7 @@ namespace GKImitator.ViewModels
 				AddStateBit(GKStateBit.TurningOff);
 				AddStateBit(GKStateBit.Fire1);
 				AddStateBit(GKStateBit.Fire2);
+				AddStateBit(GKStateBit.Test);
 				HasFire12 = true;
 				OnDelay = 1;
 				HoldDelay = 1;

@@ -51,8 +51,8 @@ namespace GKModule.ViewModels
 						AvailableDevices.Add(device);
 				}
 			}
-			Devices.Sort(x => x.DescriptorPresentationName);
-			AvailableDevices.Sort(x => x.DescriptorPresentationName);
+			Devices.Sort(x => x.IntDottedPresentationAddress);
+			AvailableDevices.Sort(x => x.IntDottedPresentationAddress);
 
 			SelectedDevice = Devices.FirstOrDefault();
 			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
