@@ -20,13 +20,13 @@
             <div class="icon print" title="Печать удостоверения"></div>
         </div>
     </div>
-    <div class="HrToolbar" ng-show="activeTab === 1">
-        <div class="icon add" title="Добавить" data-bind="click: Departments.CanAdd() ? function(data,event) { Departments.Add(data, event); } : null, css: {disabled: !Departments.CanAdd()}"></div>
-        <div class="icon delete" title="Удалить" data-bind="click: Departments.CanRemove() ? function(data,event) { Departments.Remove(data, event); } : null, css: {disabled: !Departments.CanRemove()}"></div>
-        <div class="icon edit" title="Редактировать" data-bind="click: Departments.CanEdit() ? function(data,event) { Departments.EditDepartmentClick(data, event, '#department-details-box'); } : null, css: {disabled: !Departments.CanEdit()}"></div>
-        <div class="icon copy" title="Копировать" data-bind="click: Departments.CanCopy() ? function(data,event) { Departments.Copy(data, event); } : null, css: {disabled: !Departments.CanCopy()}"></div>
-        <div class="icon paste" title="Вставить" data-bind="click: Departments.CanPaste() ? function(data,event) { Departments.Paste(data, event); } : null, css: {disabled: !Departments.CanPaste()}"></div>
-        <div class="icon redo" title="Восстановить" data-bind="visible:Filter.IsWithDeleted, click: Departments.CanRestore() ? function(data,event) { Departments.Restore(data, event); } : null, css: {disabled: !Departments.CanRestore()}"></div>
+    <div class="HrToolbar" ng-show="activeTab === 1" ng-controller="departmentsToolbarCtrl">
+        <div class="icon add" title="Добавить" ng-disabled="!canAdd()" ng-click="canAdd() && add()"></div>
+        <div class="icon delete" title="Удалить" ng-disabled="!canRemove()" ng-click="canRemove() && remove()"></div>
+        <div class="icon edit" title="Редактировать" ng-disabled="!canEdit()" ng-click="canEdit() && edit()"></div>
+        <div class="icon copy" title="Копировать" ng-disabled="!canCopy()" ng-click="canCopy() && copy()"></div>
+        <div class="icon paste" title="Вставить" ng-disabled="!canPaste()" ng-click="canPaste() && paste()"></div>
+        <div class="icon redo" title="Восстановить" ng-show="isWithDeleted()" ng-disabled="!canRestore()" ng-click="canRestore() && restore()"></div>
     </div>
     <div class="HrToolbar" ng-show="activeTab === 2">
         <div class="icon add" title="Добавить" data-bind="click: Positions.CanAdd() ? function(data,event) { Positions.Add(data, event); } : null, css: {disabled: !Positions.CanAdd()}"></div>
@@ -85,10 +85,10 @@
             <uib-tab index="0" ng-show="canSelectEmployees()" heading="{{employeesHeader()}}">
                 @Html.Action("Index", "Employees")
             </uib-tab>
-            <uib-tab index="1" ng-show="canSelectPositions()" heading="Подразделения">
+            <uib-tab index="1" ng-show="canSelectDepartments()" heading="Подразделения">
                 @Html.Action("Index", "Departments")
             </uib-tab>
-            <uib-tab index="2" ng-show="canSelectDepartments()" heading="Должности">
+            <uib-tab index="2" ng-show="canSelectPositions()" heading="Должности">
                 @Html.Action("Index", "Positions")
             </uib-tab>
             <uib-tab index="3" ng-show="canSelectCards()" heading="Пропуска">
@@ -103,9 +103,3 @@
         </uib-tabset>
     </div>
 </div>
-
-@Html.Action("DepartmentSelection", "Employees")
-@Html.Action("PositionSelection", "Employees")
-@Html.Action("ScheduleSelection", "Employees")
-@Html.Action("EmployeeSelectionDialog")
-

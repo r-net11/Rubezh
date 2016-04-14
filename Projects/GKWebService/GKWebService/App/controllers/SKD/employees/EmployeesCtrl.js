@@ -33,10 +33,8 @@
             }();
 
             var reloadTree = function() {
-                $http({
-                        method: 'POST',
-                        url: 'Employees/GetOrganisations',
-                        data: { employeeFilter: $scope.filter }
+                $http.get('Employees/GetOrganisations', {
+                        params: $scope.filter 
                     })
                     .then(function (response) {
                         $scope.employees = response.data.rows;
@@ -61,8 +59,6 @@
             $scope.toggleRow = function (row, evt) {
                 $scope.gridApi.treeBase.toggleRowTreeState(row);
             };
-
-            reloadTree();
         }]
     );
 
