@@ -23,15 +23,25 @@ namespace VideoModule.Views
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
 			Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
+			videoCellControl.ReconnectEvent += VideoCellControlOnReconnectEvent;
+		}
+
+		private void VideoCellControlOnReconnectEvent(object sender, EventArgs eventArgs)
+		{
+			StartPlaying();
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
+			StartPlaying();
+		}
+
+		private void StartPlaying()
+		{
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
 				return;
-			
-			// При загрузке формы сразу стартуем просмотр видео ячейки
+
 			try
 			{
 				IPEndPoint ipEndPoint;
@@ -39,13 +49,14 @@ namespace VideoModule.Views
 				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
 				{
 					var ms = MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId);
-					MediaSourcePlayer.Open(ms);
-					MediaSourcePlayer.Play();
+					videoCellControl.MediaPlayer.Open(ms);
+					videoCellControl.MediaPlayer.Play();
 				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e);
+				videoCellControl.ShowReconnectButton = true;
 			}
 		}
 
@@ -54,11 +65,12 @@ namespace VideoModule.Views
 			// Останавливаем видео ячейку и освобождаем занятые ей ресурсы
 			if (_needStopPlaying)
 			{
-				MediaSourcePlayer.Stop();
-				MediaSourcePlayer.Close();
+				videoCellControl.MediaPlayer.Stop();
+				videoCellControl.MediaPlayer.Close();
 				_needStopPlaying = false;
 			}
-			
+
+			videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
 			Loaded -= OnLoaded;
 			Unloaded -= OnUnloaded;
 			Dispatcher.ShutdownStarted -= Dispatcher_ShutdownStarted;
@@ -69,8 +81,8 @@ namespace VideoModule.Views
 			// Останавливаем видео ячейку и освобождаем занятые ей ресурсы, если данное окно не закрывали, а вышли из приложения (т.к. окно не модальное)
 			if (_needStopPlaying)
 			{
-				MediaSourcePlayer.Stop();
-				MediaSourcePlayer.Close();
+				videoCellControl.MediaPlayer.Stop();
+				videoCellControl.MediaPlayer.Close();
 				_needStopPlaying = false;
 			}
 		}

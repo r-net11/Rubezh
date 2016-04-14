@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using Common;
-using Infrastructure.Common.Windows;
 using JournalModule.ViewModels;
 using MediaSourcePlayer.MediaSource;
 
@@ -43,8 +42,8 @@ namespace JournalModule.Views
 
 		private void ModelOnStop(object sender, EventArgs eventArgs)
 		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
+			videoCellControl.MediaPlayer.Stop();
+			videoCellControl.MediaPlayer.Close();
 		}
 
 		private void ModelOnPlay(object sender, EventArgs eventArgs)
@@ -54,8 +53,8 @@ namespace JournalModule.Views
 				return;
 			try
 			{
-				MediaSourcePlayer.Open(MediaSourceFactory.GetMediaSource(new Uri(model.VideoPath)));
-				MediaSourcePlayer.Play();
+				videoCellControl.MediaPlayer.Open(MediaSourceFactory.GetMediaSource(new Uri(model.VideoPath)));
+				videoCellControl.MediaPlayer.Play();
 			}
 			catch (Exception e)
 			{

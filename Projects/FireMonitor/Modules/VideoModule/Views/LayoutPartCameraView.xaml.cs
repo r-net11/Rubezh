@@ -15,9 +15,20 @@ namespace VideoModule.Views
 
 			DataContextChanged += OnDataContextChanged;
 			Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
+			videoCellControl.ReconnectEvent += VideoCellControlOnReconnectEvent;
+		}
+
+		private void VideoCellControlOnReconnectEvent(object sender, EventArgs eventArgs)
+		{
+			StartPlaying();
 		}
 
 		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+		{
+			StartPlaying();
+		}
+
+		private void StartPlaying()
 		{
 			var viewModel = DataContext as LayoutPartCameraViewModel;
 			if (viewModel == null)
@@ -28,20 +39,22 @@ namespace VideoModule.Views
 				int vendorId;
 				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
 				{
-					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
-					MediaSourcePlayer.Play();
+					videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+					videoCellControl.MediaPlayer.Play();
 				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e);
+				videoCellControl.ShowReconnectButton = true;
 			}
 		}
 
 		private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
 		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
+			videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
+			videoCellControl.MediaPlayer.Stop();
+			videoCellControl.MediaPlayer.Close();
 
 			DataContextChanged -= OnDataContextChanged;
 			Dispatcher.ShutdownStarted -= DispatcherOnShutdownStarted;
