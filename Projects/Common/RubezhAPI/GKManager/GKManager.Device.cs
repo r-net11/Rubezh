@@ -1,15 +1,14 @@
-﻿using System;
+﻿using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using RubezhAPI.GK;
-using System.Collections.ObjectModel;
 
 namespace RubezhAPI
 {
 	public partial class GKManager
 	{
-		public static GKDevice CopyDevice(GKDevice device, bool fullCopy , bool paste = false)
+		public static GKDevice CopyDevice(GKDevice device, bool fullCopy, bool paste = false)
 		{
 			var newDevice = new GKDevice();
 			if (fullCopy)
@@ -68,10 +67,6 @@ namespace RubezhAPI
 				deviceTo.Children.Add(newChildDevice);
 			}
 
-			deviceTo.PlanElementUIDs = new List<Guid>();
-			foreach (var deviceElementUID in deviceFrom.PlanElementUIDs)
-				deviceTo.PlanElementUIDs.Add(deviceElementUID);
-
 			var newGuardZone = new List<GKGuardZone>();
 			foreach (var zone in deviceFrom.GuardZones)
 			{
@@ -101,7 +96,7 @@ namespace RubezhAPI
 				DriverUID = driver.UID,
 				Driver = driver,
 				IntAddress = intAddress,
-				Parent =  parentDevice,
+				Parent = parentDevice,
 			};
 			device.InitializeDefaultProperties();
 
