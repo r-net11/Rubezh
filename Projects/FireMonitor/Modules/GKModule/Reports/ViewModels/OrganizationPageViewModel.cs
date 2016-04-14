@@ -13,7 +13,7 @@ using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
-	public class OrganizationPageViewModel : FilterContainerViewModel, IUnsubscribe
+	public class OrganizationPageViewModel : FilterContainerViewModel
 	{
 		public OrganizationPageViewModel(bool allowMultiple)
 		{
@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 				Organisations.SelectedOrganisation = Organisations.Items.FirstOrDefault();
 		}
 
-		public void Unsubscribe()
+		public override void Unsubscribe()
 		{
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 		}
