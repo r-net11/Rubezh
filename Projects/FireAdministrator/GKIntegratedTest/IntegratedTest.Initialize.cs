@@ -428,6 +428,11 @@ namespace GKIntegratedTest
 			return GKManager.AddDevice(device.Children[1], GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
 		}
 
+		GKGuardZoneDevice AddGuardZoneDevice(GKDevice device)
+		{
+			return new GKGuardZoneDevice {Device = device, DeviceUID = device.UID};
+		}
+
 		void ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage)
 		{
 			var result = CheckTime (() =>ImitatorManager.ImitatorService.ConrtolGKBase(gkBase.UID, command), traceMessage);
