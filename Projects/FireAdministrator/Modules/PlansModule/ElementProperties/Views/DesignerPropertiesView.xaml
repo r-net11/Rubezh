@@ -40,8 +40,8 @@
 					<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0">
-						<Button Margin="2" Command="{Binding ImagePropertiesViewModel.SelectPictureCommand}" Content="Выбрать картинку" />
-						<Button Margin="2" Command="{Binding ImagePropertiesViewModel.RemovePictureCommand}" Content="Очистить картинку" />
+						<Button Margin="2" Width="150" Command="{Binding ImagePropertiesViewModel.SelectPictureCommand}" Content="Выбрать картинку" />
+						<Button Margin="2" Width="150" Command="{Binding ImagePropertiesViewModel.RemovePictureCommand}" Content="Очистить картинку" />
 					</StackPanel>
 					<StackPanel Grid.Row="1"  Orientation ="Horizontal" Margin="2">
 						<CheckBox Margin="2" IsChecked="{Binding IsAsynchronousLoadChecked, Mode=TwoWay}" />
