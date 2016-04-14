@@ -4,7 +4,6 @@ using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
@@ -357,13 +356,8 @@ namespace PlansModule.ViewModels
 			IEnumerable<ElementGKDevice> allDevices = this.Plans
 				.SelectMany(plan => this.GetAllChildren(plan))
 				.SelectMany(plan => plan.Plan.ElementGKDevices)
-				.Where(device => device.DeviceUID == deviceUID)
-				.ToArray();
-			foreach (var device in allDevices)
-			{
-				DesignerCanvas.RemoveDesignerItem(device);
-				ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { device });
-			}
+				.Where(device => device.DeviceUID == deviceUID);
+			DesignerCanvas.RemoveDesignerItems(new List<ElementBase>(allDevices));
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
