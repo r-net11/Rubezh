@@ -54,7 +54,7 @@ namespace PlansModule.ViewModels
 			_initialized = false;
 			if (_properties.Type != LayoutPartPlansType.Single)
 			{
-				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null);
+				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null, _properties.Type == LayoutPartPlansType.All);
 				PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
 				var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
 				if (planNavigationWidth == 0)

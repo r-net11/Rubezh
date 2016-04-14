@@ -30,7 +30,7 @@ namespace Infrastructure
 		{
 			if(LayoutUID == Guid.Empty)
 			{
-				return CashPlans = ClientManager.PlansConfiguration.AllPlans;
+				return CashPlans = ClientManager.PlansConfiguration.AllPlans.Where(x => !x.IsNotShowPlan).ToList();
 			}
 			else
 			{
@@ -45,7 +45,7 @@ namespace Infrastructure
 							var layoutPartPlansProperties = part.Properties as LayoutPartPlansProperties;
 							if (layoutPartPlansProperties.Type == LayoutPartPlansType.All)
 							{
-								return CashPlans = ClientManager.PlansConfiguration.AllPlans;
+								return CashPlans = ClientManager.PlansConfiguration.AllPlans.Where(x=> !x.IsNotShowPlan).ToList();
 							}
 							foreach(var planUID in layoutPartPlansProperties.Plans)
 							{
