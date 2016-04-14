@@ -1,6 +1,5 @@
 using GKModule.Models;
 using GKModule.Plans;
-using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -213,26 +212,22 @@ namespace GKModule.ViewModels
 			using (new WaitWrapper())
 			{
 				GKDevice device = null;
-				using (var cache = new ElementDeviceUpdater())
+				foreach (var deviceToCopy in DevicesToCopy)
 				{
-					foreach (var deviceToCopy in DevicesToCopy)
+					var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut, true);
+					device = PasteDevice(pasteDevice);
+					if (device == null)
+						break;
+					device.UID = pasteDevice.UID;
+				}
+				if (device != null)
+				{
+					if (device.IsConnectedToKAU)
 					{
-						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut, true);
-						device = PasteDevice(pasteDevice);
-						if (device == null)
-							break;
-						device.UID = pasteDevice.UID;
-						cache.UpdateDeviceBinding(device);
+						GKManager.UpdateConfiguration();
+						SelectedDevice.Device.ChangedLogic();
 					}
-					if (device != null)
-					{
-						if (device.IsConnectedToKAU)
-						{
-							GKManager.UpdateConfiguration();
-							SelectedDevice.Device.ChangedLogic();
-						}
-						SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
-					}
+					SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 				}
 				GKManager.DeviceConfiguration.Update();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();

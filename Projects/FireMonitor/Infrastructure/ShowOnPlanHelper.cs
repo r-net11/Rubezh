@@ -78,7 +78,7 @@ namespace Infrastructure
 
 		public static Dictionary<Plan, Guid> GetAllPlans(IPlanPresentable planElement)
 		{
-			Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
+		    Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
 			var plans = CashPlans == null ? GetPlans() : CashPlans;
 			plans.ForEach(x =>
 			{
@@ -92,7 +92,7 @@ namespace Infrastructure
 
 		public static bool CanShowOnPlan(IPlanPresentable planElement)
 		{
-			return GetAllPlans(planElement).Any();
+			return planElement.PlanElementUIDs.Any() &&  GetAllPlans(planElement).Any();
 		}
 
 

@@ -257,7 +257,6 @@
     </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
-    <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
     <Compile Include="Plans\InstrumentAdorners\PumpStationRectangleAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\PumpStationPolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\DelayPolygonAdorner.cs" />
