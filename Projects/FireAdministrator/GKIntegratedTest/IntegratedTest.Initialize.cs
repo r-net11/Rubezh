@@ -79,6 +79,7 @@ namespace GKIntegratedTest
 
 		public void SetConfigAndRestartImitator()
 		{
+			InitializeComplete = false;
 			ClientManager.GetLicense();
 			GKManager.UpdateConfiguration();
 			var validator = new Validator();
@@ -92,6 +93,7 @@ namespace GKIntegratedTest
 			ClientManager.StartPoll();
 			GKManager.UpdateConfiguration();
 			WaitWhileInitializeComplete(10000);
+			journalItems.Clear();
 		}
 
 		void InitializeRootDevices()	
@@ -165,23 +167,30 @@ namespace GKIntegratedTest
 			, "Инициализация состояний");
 		}
 
-		void CheckJournal(params JournalEventNameType[] journalEventNameTypes)
+		void CheckJournal(params Tuple<GKBase, JournalEventNameType>[] journalEventNameTypes)
 		{
 			CheckJournal(10, journalEventNameTypes);
 		}
 
-		void CheckJournal(int delta, params JournalEventNameType[] journalEventNameTypes)
+		Tuple<GKBase, JournalEventNameType> JournalItem(GKBase gkBase, JournalEventNameType journalEventNameType)
 		{
-			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
+			return new Tuple<GKBase, JournalEventNameType>(gkBase, journalEventNameType);
+		}
+
+		void CheckJournal(int delta, params Tuple<GKBase, JournalEventNameType>[] journalEventNameTypes)
+		{
+			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes.Select(x => x.Item2)));
 			var lastJournalNo = journalItems.Count;
 			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
 			int matches = 0;
 			for (int i = lastJournalNo - 1; i >= lastJournalNo - delta; i--)
 			{
 				var journalItem = journalItems[i];
-				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches])
+				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches].Item2
+					&& journalItem.ObjectUID == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches].Item1.UID)
 					matches++;
-				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1])
+				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1].Item2
+					&& journalItem.ObjectUID == journalEventNameTypes[journalEventNameTypes.Count() - 1].Item1.UID)
 					matches = 1;
 				else
 					matches = 0;
@@ -288,8 +297,10 @@ namespace GKIntegratedTest
 		{
 			if (isNew)
 			{
-				//Dispatcher.CurrentDispatcher.Invoke(() => jourlnalItems.AddRange(journalItems));
-				journalItems.AddRange(newJournalItems);
+				journalItems.AddRange(newJournalItems.Where(x => x.JournalObjectType != JournalObjectType.GKPim));
+				if (!InitializeComplete)
+					if (newJournalItems.Any(x => x.JournalEventNameType == JournalEventNameType.Начало_мониторинга))
+						InitializeComplete = true;
 			}
 		}
 
@@ -410,7 +421,6 @@ namespace GKIntegratedTest
 					device.State.OnMeasureParametersChanged();
 				}
 			}
-			InitializeComplete = true;
 		}
 
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)

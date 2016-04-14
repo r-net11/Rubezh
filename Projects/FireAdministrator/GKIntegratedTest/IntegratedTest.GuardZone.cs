@@ -27,6 +27,7 @@ namespace GKIntegratedTest
 			GKManager.AddDeviceToGuardZone(zone, cardReader);
 			GKManager.AddDeviceToGuardZone(zone, guardDetector);
 			SetConfigAndRestartImitator();
+			WaitWhileState(zone, XStateClass.Off, 10000, "Ждем норму в охранной зоне");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
 			ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic, "Постановка зоны на охрану");
 			WaitWhileState(zone, XStateClass.On, 3000, "Ждем пока зона не встанет на охрану");
@@ -59,6 +60,7 @@ namespace GKIntegratedTest
 			GKManager.AddDeviceToGuardZone(zone, aM);
 			GKManager.AddDeviceToGuardZone(zone, guardDetector);
 			SetConfigAndRestartImitator();
+			WaitWhileState(zone, XStateClass.Off, 10000, "Ждем норму в охранной зоне");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
 			ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic, "Постановка зоны на охрану");
 			WaitWhileState(zone, XStateClass.On, 3000, "Ждем пока зона не встанет на охрану");
@@ -87,10 +89,11 @@ namespace GKIntegratedTest
 			GKManager.AddGuardZone(zone);
 			GKManager.AddDeviceToGuardZone(zone, aM);
 			SetConfigAndRestartImitator();
+			WaitWhileState(zone, XStateClass.Off, 10000, "Ждем норму в охранной зоне");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
 			if (mode1 == XStateClass.Off) ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic, "включаем зону, case#1");
 			ConrtolGKBase(device1, GKStateBit.Fire1, "Сработка1 у АМ");
-			WaitWhileState(device1, XStateClass.Fire1, 3000, "Ждем АМ не перейдёт в режим сработка1");
+			WaitWhileState(device1, XStateClass.Fire1, 6000, "Ждем АМ не перейдёт в режим сработка1");
 			Assert.IsTrue(device1.State.StateClass == XStateClass.Fire1, "Проверка того, что АМ перешёл в сработку");
 			WaitWhileState(zone, mode1, 3000, "Ждем пока зона не встанет на охрану");
 			Assert.IsTrue(zone.State.StateClasses.Contains(mode1), "Проверка того, что зона установилась в mode1");
