@@ -536,7 +536,9 @@ CREATE TABLE [dbo].[GlobalVariables]
 (
 [UID] UNIQUEIDENTIFIER NOT NULL,
 [Name] NVARCHAR(50) NOT NULL,
-[XMLContent] NVARCHAR(MAX) NOT NULL
+[Id] UNIQUEIDENTIFIER NOT NULL,
+[XMLContent] NVARCHAR(MAX) NOT NULL,
+[IsSaveWhenRestart] bit NOT NULL
 CONSTRAINT [PK_GlobalVariables] PRIMARY KEY CLUSTERED
 (
 	[UID] ASC
@@ -1017,6 +1019,8 @@ INSERT INTO Patches (Id) VALUES
 ('FiltersTableAdded')
 INSERT INTO Patches (Id) VALUES
 ('RemoveCredentialsStartDateField')
+INSERT INTO Patches (Id) VALUES
+('AddingGlobalVariablesTable')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();
