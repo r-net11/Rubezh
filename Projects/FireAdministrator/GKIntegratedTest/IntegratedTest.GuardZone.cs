@@ -27,8 +27,6 @@ namespace GKIntegratedTest
 			GKManager.AddDeviceToGuardZone(zone, cardReader);
 			GKManager.AddDeviceToGuardZone(zone, guardDetector);
 			SetConfigAndRestartImitator();
-
-			WaitWhileState(zone, XStateClass.Off, 10000, "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
 			ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic, "Постановка зоны на охрану");
 			WaitWhileState(zone, XStateClass.On, 3000, "Ждем пока зона не встанет на охрану");
@@ -61,8 +59,6 @@ namespace GKIntegratedTest
 			GKManager.AddDeviceToGuardZone(zone, aM);
 			GKManager.AddDeviceToGuardZone(zone, guardDetector);
 			SetConfigAndRestartImitator();
-
-			WaitWhileState(zone, XStateClass.Off, 10000, "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
 			ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic, "Постановка зоны на охрану");
 			WaitWhileState(zone, XStateClass.On, 3000, "Ждем пока зона не встанет на охрану");
@@ -91,8 +87,6 @@ namespace GKIntegratedTest
 			GKManager.AddGuardZone(zone);
 			GKManager.AddDeviceToGuardZone(zone, aM);
 			SetConfigAndRestartImitator();
-
-			WaitWhileState(zone, XStateClass.Off, 10000, "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
 			if (mode1 == XStateClass.Off) ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic, "включаем зону, case#1");
 			ConrtolGKBase(device1, GKStateBit.Fire1, "Сработка1 у АМ");

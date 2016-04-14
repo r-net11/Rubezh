@@ -31,7 +31,7 @@ namespace GKIntegratedTest
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
 		GKDevice kauDevice12;
-		List<JournalItem> jourlnalItems;
+		List<JournalItem> journalItems;
 
 		[SetUp]
 		public void InitializeConnection()
@@ -60,6 +60,7 @@ namespace GKIntegratedTest
 
 		public void InitializeConfiguration()
 		{
+			journalItems = new List<JournalItem>();
 			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
 			GKDriversCreator.Create();
 			InitializeRootDevices();
@@ -68,13 +69,10 @@ namespace GKIntegratedTest
 			DescriptorsManager.Create();
 			InitializeStates();
 			ServiceFactory.Initialize(null, null);
-			jourlnalItems = new List<JournalItem>();
 			ClientManager.PlansConfiguration = new PlansConfiguration();
 			ClientManager.PlansConfiguration.AllPlans = new List<Plan>();
-
 			SafeFiresecService.GKCallbackResultEvent -= OnGKCallbackResult;
 			SafeFiresecService.GKCallbackResultEvent += OnGKCallbackResult;
-
 			SafeFiresecService.JournalItemsEvent -= OnNewJournalItems;
 			SafeFiresecService.JournalItemsEvent += OnNewJournalItems;
 		}
@@ -93,6 +91,7 @@ namespace GKIntegratedTest
 			CheckTime(() => ClientManager.FiresecService.SetLocalConfig(), "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
 			GKManager.UpdateConfiguration();
+			WaitWhileInitializeComplete(10000);
 		}
 
 		void InitializeRootDevices()	
@@ -152,6 +151,20 @@ namespace GKIntegratedTest
 			, traceMessage);
 		}
 
+		void WaitWhileInitializeComplete(int milliseconds)
+		{
+			CheckTime(() =>
+			{
+				int timeOut = 0;
+				while (!InitializeComplete && timeOut < milliseconds)
+				{
+					Thread.Sleep(50);
+					timeOut += 50;
+				}
+			}
+			, "Инициализация состояний");
+		}
+
 		void CheckJournal(params JournalEventNameType[] journalEventNameTypes)
 		{
 			CheckJournal(10, journalEventNameTypes);
@@ -160,12 +173,12 @@ namespace GKIntegratedTest
 		void CheckJournal(int delta, params JournalEventNameType[] journalEventNameTypes)
 		{
 			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
-			var lastJournalNo = jourlnalItems.Count;
+			var lastJournalNo = journalItems.Count;
 			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
 			int matches = 0;
 			for (int i = lastJournalNo - 1; i >= lastJournalNo - delta; i--)
 			{
-				var journalItem = jourlnalItems[i];
+				var journalItem = journalItems[i];
 				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches])
 					matches++;
 				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1])
@@ -271,14 +284,16 @@ namespace GKIntegratedTest
 			Dispatcher.CurrentDispatcher.Invoke(() => CopyGKStates(gkCallbackResult.GKStates));
 		}
 
-		public void OnNewJournalItems(List<JournalItem> journalItems, bool isNew)
+		public void OnNewJournalItems(List<JournalItem> newJournalItems, bool isNew)
 		{
 			if (isNew)
 			{
-				Dispatcher.CurrentDispatcher.Invoke(() => jourlnalItems.AddRange(journalItems));
+				//Dispatcher.CurrentDispatcher.Invoke(() => jourlnalItems.AddRange(journalItems));
+				journalItems.AddRange(newJournalItems);
 			}
 		}
 
+		bool InitializeComplete { get; set; }
 		void CopyGKStates(GKStates gkStates)
 		{
 			foreach (var remoteDeviceState in gkStates.DeviceStates)
@@ -395,6 +410,7 @@ namespace GKIntegratedTest
 					device.State.OnMeasureParametersChanged();
 				}
 			}
+			InitializeComplete = true;
 		}
 
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
@@ -417,7 +433,7 @@ namespace GKIntegratedTest
 		SKDCard AddNewUser(int level, params GKDoor[] doors)
 		{
 			var cards = CardHelper.Get(new CardFilter { DeactivationType = LogicalDeletationType.All }).ToList();
-			var card = cards.FirstOrDefault(x => x.EmployeeName == "Тестовый пользователь");
+			var card = cards.FirstOrDefault(x => x.EmployeeName == " Тестовый пользователь ");
 			if (card == null)
 				card = new SKDCard();
 			else

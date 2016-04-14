@@ -22,7 +22,6 @@ namespace GKIntegratedTest
 			GKManager.AddDeviceToZone(device2, zone);
 			GKManager.AddDeviceToZone(device3, zone);
 			SetConfigAndRestartImitator();
-			WaitWhileState(zone, XStateClass.Norm, 10000, "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
 			ConrtolGKBase(device1, GKStateBit.Fire1, "Сработка датчика");
 			WaitWhileState(zone, XStateClass.Attention, 3000, "Ждем внимание в зоне");
@@ -45,7 +44,6 @@ namespace GKIntegratedTest
 			GKManager.AddDeviceToZone(device2, zone);
 			GKManager.AddDeviceToZone(device3, zone);
 			SetConfigAndRestartImitator();
-			WaitWhileState(zone, XStateClass.Norm, 10000, "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
 			ConrtolGKBase(device1, GKStateBit.Fire1, "Сработка датчика1");
 			ConrtolGKBase(device2, GKStateBit.Fire1, "Сработка датчика2");
@@ -68,7 +66,6 @@ namespace GKIntegratedTest
 			GKManager.AddZone(zone);
 			GKManager.AddDeviceToZone(device, zone);
 			SetConfigAndRestartImitator();
-			WaitWhileState(zone, XStateClass.Norm, 10000, "Инициализация состояний");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
 			ConrtolGKBase(device, GKStateBit.Fire2, "Сработка ручника");
 			WaitWhileState(zone, XStateClass.Fire2, 3000, "Ждем пожар2 в зоне");
