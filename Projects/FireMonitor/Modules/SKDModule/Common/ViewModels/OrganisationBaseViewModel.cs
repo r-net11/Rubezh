@@ -25,6 +25,7 @@ namespace SKDModule.ViewModels
 	{
 		public OrganisationBaseViewModel()
 		{
+			IsConnected = true;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -43,6 +44,22 @@ namespace SKDModule.ViewModels
 			_filter = new TFilter();
 		}
 
+		public virtual void OnConnectionLost()
+		{
+			IsConnected = false;
+			SelectedItem = null;
+			OnPropertyChanged(() => IsConnected);
+		}
+
+		public virtual void OnConnectionAppeared()
+		{
+			IsConnected = true;
+			SelectedItem = null;
+			OnPropertyChanged(() => IsConnected);
+		}
+
+		public bool IsConnected { get; private set; }
+		
 		public virtual void Unsubscribe()
 		{
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
@@ -267,7 +284,8 @@ namespace SKDModule.ViewModels
 				if (value != null)
 				{
 					value.ExpandToThis();
-					UpdateSelected();
+					if(IsConnected)
+						UpdateSelected();
 				}
 				OnPropertyChanged(() => SelectedItem);
 			}
@@ -303,7 +321,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && IsEditAllowed && IsConnected;
 		}
 
 		protected virtual bool IsAddViewModel(TModel model) { return true; }
@@ -361,7 +379,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanRemove()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed && IsConnected;
 		}
 		protected virtual void AfterRemove(TModel model) { }
 		protected virtual string ItemRemovingName
@@ -396,7 +414,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRestore()
 		{
-			return SelectedItem != null && SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && ParentOrganisation != null && !ParentOrganisation.IsDeleted && IsEditAllowed;
+			return SelectedItem != null && SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && ParentOrganisation != null && !ParentOrganisation.IsDeleted && IsEditAllowed && IsConnected;
 		}
 		protected virtual void AfterRestore(TModel model) { }
 
@@ -421,7 +439,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanEdit()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation && IsEditAllowed && IsConnected;
 		}
 		protected virtual void AfterEdit(TModel model) { }
 
@@ -440,7 +458,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanCopy()
 		{
-			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed;
+			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed && IsConnected;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -459,7 +477,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanPaste()
 		{
-			return SelectedItem != null && _clipboard != null && ParentOrganisation != null && IsEditAllowed;
+			return SelectedItem != null && _clipboard != null && ParentOrganisation != null && IsEditAllowed && IsConnected;
 		}
 
 		protected virtual TModel CopyModel(TModel source)

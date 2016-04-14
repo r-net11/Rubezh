@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -76,7 +77,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MainTest.Initialize.cs" />
+    <Compile Include="IntegratedTest.GuardZone.cs" />
+    <Compile Include="IntegratedTest.Initialize.cs" />
+    <Compile Include="ItegratedTest.HandDetector.cs" />
+    <Compile Include="ItegratedTest.FireZone.cs" />
+    <Compile Include="ItegratedTest.SKD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +104,16 @@
       <Project>{7e982f7a-e8b8-4b63-a204-9fc7e5f97170}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\GroupControllerModule\GKModule.csproj">
+      <Project>{75276eba-15d7-4f08-8239-3c40e6835cb6}</Project>
+      <Name>GKModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ionic.Zip.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -3,10 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Threading;
-using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
 {
@@ -36,8 +33,8 @@ namespace GKImitator.ViewModels
 			}
 		}
 
-		int _cardNo;
-		public int CardNo
+		uint _cardNo;
+		public uint CardNo
 		{
 			get { return _cardNo; }
 			set
@@ -50,41 +47,7 @@ namespace GKImitator.ViewModels
 		public RelayCommand EnterCommand { get; private set; }
 		void OnEnter()
 		{
-			DescriptorViewModel.CurrentCardNo = CardNo;
-			var backgroundWorker = new BackgroundWorker();
-			backgroundWorker.DoWork += backgroundWorker_DoWork;
-			backgroundWorker.RunWorkerAsync();
-			switch (SelectedEnterType)
-			{
-				case GKCodeReaderEnterType.CodeOnly:
-					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
-					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
-					DescriptorViewModel.SetStateBit(GKStateBit.Attention, true);
-					break;
-
-				case GKCodeReaderEnterType.CodeAndOne:
-					DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
-					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
-					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, true);
-					break;
-
-				case GKCodeReaderEnterType.CodeAndTwo:
-					DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
-					DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
-					DescriptorViewModel.SetStateBit(GKStateBit.Fire2, true);
-					break;
-			}
-		}
-
-		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			Thread.Sleep(TimeSpan.FromSeconds(3));
-			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
-			DescriptorViewModel.SetStateBit(GKStateBit.Attention, false);
-			DescriptorViewModel.SetStateBit(GKStateBit.Fire1, false);
-			DescriptorViewModel.SetStateBit(GKStateBit.Fire2, false);
-			DescriptorViewModel.AddJournalItem(journalItem);
-			DescriptorViewModel.CurrentCardNo = 0;
+			DescriptorViewModel.EnterCard(CardNo, SelectedEnterType);
 		}
 	}
 }

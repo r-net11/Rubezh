@@ -88,20 +88,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void OnShowOnPlanOrProperties()
 		{
-			if (CanShowOnPlan())
-				ShowOnPlanHelper.ShowGKSKDZone(SKDZone);
-			else
+			if (ShowOnPlanHelper.ShowObjectOnPlan(SKDZone))
 				DialogService.ShowWindow(new SKDZoneDetailsViewModel(SKDZone));
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		public void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowGKSKDZone(SKDZone);
+			ShowOnPlanHelper.ShowObjectOnPlan(SKDZone);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.GetPlan(SKDZone.UID)!= null;
+			return ShowOnPlanHelper.CanShowOnPlan(SKDZone);
 		}
 
 

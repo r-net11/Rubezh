@@ -40,14 +40,20 @@ namespace GKModule.ViewModels
 					SelectedDaySchedule = AvailableDaySchedules.FirstOrDefault();
 				else
 				{
-					_selectedDaySchedule = value;
-					OnPropertyChanged(() => SelectedDaySchedule);
 					if (Schedule.ScheduleParts.Count > DayNo)
 					{
-						Schedule.ScheduleParts[DayNo].DayScheduleUID = SelectedDaySchedule.UID;
+						Schedule.ScheduleParts[DayNo].DayScheduleUID = value.UID;
 					}
 				}
-				GKScheduleHelper.SaveSchedule(Schedule, false);
+				if (GKScheduleHelper.SaveSchedule(Schedule, false))
+				{
+					_selectedDaySchedule = value;
+				}
+				else
+				{
+					Schedule.ScheduleParts[DayNo].DayScheduleUID = _selectedDaySchedule.UID;
+				}
+				OnPropertyChanged(() => SelectedDaySchedule);
 			}
 		}
 

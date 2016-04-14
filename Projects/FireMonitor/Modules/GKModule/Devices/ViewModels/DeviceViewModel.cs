@@ -86,21 +86,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void OnShowOnPlanOrProperties()
 		{
-			var plan = ShowOnPlanHelper.GetPlan(Device.UID);
-			if (plan != null)
-				ShowOnPlanHelper.ShowObjectOnPlan(plan, Device.UID);
-			else if (CanShowProperties())
+			if (ShowOnPlanHelper.ShowObjectOnPlan(Device) && CanShowProperties())
 				OnShowProperties();
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Device.UID), Device.UID);
+			ShowOnPlanHelper.ShowObjectOnPlan(Device);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.GetPlan(Device.UID) != null;
+			return ShowOnPlanHelper.CanShowOnPlan(Device);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

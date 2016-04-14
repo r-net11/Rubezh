@@ -8,17 +8,17 @@ namespace RubezhAPI.Automation
 		public RviOpenWindowStep()
 		{
 			NameArgument = new Argument();
-			NameArgument.ExplicitValue.StringValue = "";
+			NameArgument.StringValue = "";
 			XArgument = new Argument();
-			XArgument.ExplicitValue.IntValue = 0;
+			XArgument.IntValue = 0;
 			YArgument = new Argument();
-			YArgument.ExplicitValue.IntValue = 0;
+			YArgument.IntValue = 0;
 			MonitorNumberArgument = new Argument();
-			MonitorNumberArgument.ExplicitValue.IntValue = 1;
+			MonitorNumberArgument.IntValue = 1;
 			LoginArgument = new Argument();
-			LoginArgument.ExplicitValue.StringValue = "";
+			LoginArgument.StringValue = "";
 			IpArgument = new Argument();
-			IpArgument.ExplicitValue.StringValue = "";
+			IpArgument.StringValue = "";
 		}
 		[DataMember]
 		public Argument NameArgument { get; set; }

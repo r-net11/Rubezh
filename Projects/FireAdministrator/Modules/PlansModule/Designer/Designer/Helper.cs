@@ -16,78 +16,10 @@ namespace PlansModule.Designer
 	public static class Helper
 	{
 		public const string SubPlanAlias = "SubPlan";
-		public static Thread TwoThread {get; private set;}
-		public static bool Flag {get;set;}
-		public static List<Plan> Plans {get; private set;}
-		public static Plan Plan { get; set;}
-		public static EventWaitHandle WiteHandle { get; private set; }
-
-		static Helper()
+		
+		public static void UpgradeBackground(IElementBackground element)
 		{
-			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(CloseThread);
-		}
-
-		public static void ThreadMetod()
-		{
-			TwoThread = new Thread(() => { CreatPlans(); }) { IsBackground = true };
-			Flag = true;
-			Plans = new List<Plan>();
-			WiteHandle = new AutoResetEvent(true);
-			TwoThread.Start();
-		}
-
-		private static void CloseThread(object obj)
-		{
-			TwoThread.Abort();
-			WiteHandle.Close();
-		}
-
-		static void CreatPlans()
-		{
-			while (Flag)
-			{
-				foreach (var plan in ClientManager.PlansConfiguration.AllPlans.Where(x => !Plans.Contains(x)))
-				{
-					if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
-						plan.BackgroundImageSource = null;
-
-					if (!Flag)
-						break;
-					PainterCache.CacheBrush(plan);
-
-					foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-					{
-						if (!Flag)
-							break;
-						PainterCache.CacheBrush(elementBase);
-					}
-
-					if (!Flag)
-						break;
-					Plans.Add(plan);
-				}
-
-				break;
-			}
-
-			if (!Flag && !Plans.Contains(Plan))
-			{
-				Plans.Add(Plan);
-				WiteHandle.WaitOne();
-				Flag = true;
-				CreatPlans();
-			}
-			else if (ClientManager.PlansConfiguration.AllPlans.Count != Plans.Count)
-			{
-				Flag = true;
-				CreatPlans();
-			}
-			else
-			{
-				WiteHandle.Close();
-				Flag = false;
-				return;
-			}
+			PainterCache.CacheBrush(element);
 		}
 
 		public static Plan GetPlan(IElementSubPlan element)

@@ -58,16 +58,12 @@ namespace Infrustructure.Plans.Painters
 			_pens.Clear();
 			_pictureBrushes.Clear();
 		}
-		static object locker = new object();
 		public static void CacheBrush(IElementBackground element)
 		{
-			lock (locker)
+			if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
 			{
-				if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
-				{
-					var brush = GetBrush(element.BackgroundImageSource.Value, element.ImageType);
-					_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
-				}
+				var brush = GetBrush(element.BackgroundImageSource.Value, element.ImageType);
+				_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
 			}
 		}
 		public static Brush GetBrush(Color color)

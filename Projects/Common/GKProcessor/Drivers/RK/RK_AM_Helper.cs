@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0x1B,
 				DriverType = GKDriverType.RK_AM,
 				UID = new Guid("FE25BE41-EBE9-4469-A176-47F3F4EF7D05"),
-				Name = "Метка адресная радиоканальная АМ-RK",
-				ShortName = "АМ-RK",
+				Name = "Метка адресная радиоканальная",
+				ShortName = "АМ-РК",
 				HasGuardZone = true,
 				HasZone = true,
 				IsPlaceable = true

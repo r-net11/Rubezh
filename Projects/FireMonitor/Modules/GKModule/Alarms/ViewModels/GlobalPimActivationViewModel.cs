@@ -66,14 +66,14 @@ namespace GKModule.ViewModels
                     GlobalPimStatusType = GlobalPimStatusType.Unknown;
                     break;
             }
-            OnPropertyChanged(() => IsGlowing);
-            OnPropertyChanged(() => ToolTipText);
+            //OnPropertyChanged(() => IsGlowing);
+            //OnPropertyChanged(() => ToolTipText);
         }
 
-        public bool IsGlowing
-        {
-            get { return (GlobalPimStatusType == GlobalPimStatusType.Off)||(GlobalPimStatusType == GlobalPimStatusType.Unknown); }
-        }
+        //public bool IsGlowing
+        //{
+        //    get { return (GlobalPimStatusType == GlobalPimStatusType.Off)||(GlobalPimStatusType == GlobalPimStatusType.Unknown); }
+        //}
 
         public string ToolTipText
         {
@@ -98,7 +98,6 @@ namespace GKModule.ViewModels
 
         void OnChangeGlobalPimActivation()
         {
-            Trace.WriteLine("OnChangeGlobalPimActivation");
             if (GlobalPimStatusType == GlobalPimStatusType.On)
             {
                 ClientManager.FiresecService.GKTurnOffNowGlobalPimsInAutomatic();

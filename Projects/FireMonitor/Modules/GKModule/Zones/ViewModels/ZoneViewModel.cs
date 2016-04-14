@@ -45,10 +45,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void OnShowOnPlanOrProperties()
 		{
-			var plan = ShowOnPlanHelper.GetPlan(Zone.UID);
-			if (plan!= null)
-				ShowOnPlanHelper.ShowObjectOnPlan(plan, Zone.UID);
-			else
+			if (ShowOnPlanHelper.ShowObjectOnPlan(Zone))
 				DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 			ZonesViewModel.Current.SelectedZone = this;
 		}
@@ -56,12 +53,12 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Zone.UID), Zone.UID);
+			ShowOnPlanHelper.ShowObjectOnPlan(Zone);
 		}
 
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.GetPlan(Zone.UID)!= null;
+			return ShowOnPlanHelper.CanShowOnPlan(Zone);
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }

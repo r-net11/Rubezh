@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand RunCommand { get; private set; }
 		void OnRun()
 		{
-			ProcedureHelper.Run(Procedure, ArgumentsViewModel.Arguments.Select(x => x.Argument).ToList(), RubezhClient.ClientManager.CurrentUser);
+			//ProcedureHelper.Run(Procedure, ArgumentsViewModel.Arguments.Select(x => x.Argument).ToList(), RubezhClient.ClientManager.CurrentUser);
 		}
 
 		public string Name

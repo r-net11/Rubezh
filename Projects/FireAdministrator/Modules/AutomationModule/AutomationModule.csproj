@@ -190,8 +190,9 @@
     <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ObjectReferenceViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ExplicitValueInstanceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\OpcDaTagFileterSectionViewModel.cs" />
     <Compile Include="OpcDaTagFilters\ViewModels\OpcDaTagFilterCreationViewModel.cs" />
     <Compile Include="OpcDaTagFilters\ViewModels\OpcDaTagFilterEditingViewModel.cs" />
@@ -229,7 +230,6 @@
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\ExplicitValuesViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitValueViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureLayoutCollectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StringDetailsViewModel.cs" />
@@ -290,9 +290,6 @@
     <Compile Include="Procedures\ViewModels\VariableDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariableViewModel.cs" />
-    <Compile Include="Procedures\Views\ArgumentDetailsView.xaml.cs">
-      <DependentUpon>ArgumentDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Procedures\Views\ArgumentsView.xaml.cs">
       <DependentUpon>ArgumentsView.xaml</DependentUpon>
     </Compile>
@@ -326,8 +323,8 @@
     <Compile Include="Steps\Views\ControlGKDeviceStepView.xaml.cs">
       <DependentUpon>ControlGKDeviceStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\ExplicitValuesView.xaml.cs">
-      <DependentUpon>ExplicitValuesView.xaml</DependentUpon>
+    <Compile Include="Procedures\Views\ExplicitValueView.xaml.cs">
+      <DependentUpon>ExplicitValueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ProcedureDetailsView.xaml.cs">
       <DependentUpon>ProcedureDetailsView.xaml</DependentUpon>
@@ -703,10 +700,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\ArgumentDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Procedures\Views\ArgumentsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -855,7 +848,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\ExplicitValuesView.xaml">
+    <Page Include="Procedures\Views\ExplicitValueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

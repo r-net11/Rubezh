@@ -39,6 +39,8 @@ namespace PlansModule.ViewModels
 			Description = Plan.Description;
 			Width = Plan.Width;
 			Height = Plan.Height;
+			IsAsynchronousLoadChecked = Plan.IsAsynchronousLoad;
+			IsNotShowPlanChecked = Plan.IsNotShowPlan;
 		}
 
 		Color _backgroundColor;
@@ -61,6 +63,32 @@ namespace PlansModule.ViewModels
 				_caption = value;
 				OnPropertyChanged(() => Caption);
 			}
+		}
+
+		bool _isAsynchronousLoadChecked;
+
+		public bool IsAsynchronousLoadChecked
+		{
+			get { return _isAsynchronousLoadChecked; }
+			set
+			{
+				_isAsynchronousLoadChecked = value;
+				OnPropertyChanged(() => IsAsynchronousLoadChecked);
+			}
+
+		}
+
+		bool _isNotShowPlanChecked;
+
+		public bool IsNotShowPlanChecked
+		{
+			get { return _isNotShowPlanChecked; }
+			set
+			{
+				_isNotShowPlanChecked = value;
+				OnPropertyChanged(() => IsNotShowPlanChecked);
+			}
+
 		}
 
 		string _description;
@@ -112,6 +140,8 @@ namespace PlansModule.ViewModels
 			Plan.Width = Width;
 			Plan.Height = Height;
 			Plan.BackgroundColor = BackgroundColor;
+			Plan.IsAsynchronousLoad = IsAsynchronousLoadChecked;
+			Plan.IsNotShowPlan = IsNotShowPlanChecked;
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

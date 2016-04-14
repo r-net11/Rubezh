@@ -67,21 +67,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
 		void OnShowOnPlanOrProperties()
 		{
-			var plan = ShowOnPlanHelper.GetPlan(Door.UID);
-			if (plan!= null)
-				ShowOnPlanHelper.ShowObjectOnPlan(plan, Door.UID);
-			else
+			if (ShowOnPlanHelper.ShowObjectOnPlan(Door))
 				DialogService.ShowWindow(new DoorDetailsViewModel(Door));
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Door.UID), Door.UID );
+			ShowOnPlanHelper.ShowObjectOnPlan(Door);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.GetPlan(Door.UID)!= null;
+			return ShowOnPlanHelper.CanShowOnPlan(Door);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -90,12 +87,6 @@ namespace GKModule.ViewModels
 			if (Door != null)
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Door.UID });
 		}
-
-		//public RelayCommand ShowPropertiesCommand { get; private set; }
-		//private void OnShowProperties()
-		//{
-		//	DialogService.ShowWindow(new DoorDetailsViewModel(Door));
-		//}
 
 		public RelayCommand<GKDevice> ShowDeviceCommand { get; private set; }
 		private void OnShowDevice(GKDevice device)

@@ -9,7 +9,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
-	public class DepartmentPageViewModel : FilterContainerViewModel, IOrganisationItemsFilterPage
+	public class DepartmentPageViewModel : FilterContainerViewModel, IOrganisationItemsFilterPage, IUnsubscribe
 	{
 		public DepartmentPageViewModel()
 		{
@@ -48,6 +48,7 @@ namespace SKDModule.Reports.ViewModels
 		public void Unsubscribe()
 		{
 			_OrganisationChangedSubscriber.Unsubscribe();
+			Filter.Unsubscribe();
 		}
 	}
 }

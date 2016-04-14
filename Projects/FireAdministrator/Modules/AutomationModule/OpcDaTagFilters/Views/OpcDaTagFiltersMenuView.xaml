@@ -4,8 +4,8 @@
 	<Grid>
 		<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 			<ToolBarButton Command="{Binding CreateOpcTagFilterCommand}" ToolTip="Добавить фильтр OPC DA тега (Ctrl + N)" ImageSource="Add"  />
-			<ToolBarButton Command="{Binding EditOpcTagFilterCommand}" ToolTip="Редактировать фильтр OPC DA тега (Ctrl + Del)" ImageSource="Edit" />
-			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить фильтр OPC DA тега (Ctrl + E)" ImageSource="Delete"  />
+			<ToolBarButton Command="{Binding EditOpcTagFilterCommand}" ToolTip="Редактировать фильтр OPC DA тега (Ctrl + E)" ImageSource="Edit" />
+			<ToolBarButton Command="{Binding DeleteOpcTagFilterCommand}" ToolTip="Удалить фильтр OPC DA тега (Ctrl + Del)" ImageSource="Delete"  />
 		</StackPanel>
 	</Grid>
 </UserControl>

@@ -230,8 +230,10 @@ namespace RubezhDAL.DataClasses
 					Description = employee.Description,
 					DepartmentName = employee.Department != null ? employee.Department.Name : null,
 					IsDepartmentDeleted = employee.Department != null && employee.Department.IsDeleted,
+					DepartmentUid = employee.DepartmentUID,
 					PositionName = employee.Position != null ? employee.Position.Name : null,
 					IsPositionDeleted = employee.Position != null && employee.Position.IsDeleted,
+					PositionUid = employee.PositionUID,
 					Type = (API.PersonType)employee.Type,
 					TextColumns = employee.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == 0).
 						Select(x => new TextColumn { ColumnTypeUID = x.AdditionalColumnType.UID, Text = x.TextData }).ToList(),

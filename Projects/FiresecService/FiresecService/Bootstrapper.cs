@@ -92,7 +92,8 @@ namespace FiresecService
 					GetOrganisations
 					);
 
-				ObjectReference.ResolveObjectName += ObjectReference_ResolveObjectName;
+				ExplicitValue.ResolveObjectName += ObjectReference_ResolveObjectName;
+				ExplicitValue.ResolveObjectValue += ExplicitValue_ResolveObjectValue;
 
 				OpcDaHelper.Initialize(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers, ReadTagValue, WriteTagValue);
 
@@ -130,6 +131,26 @@ namespace FiresecService
 				UILogger.Log("Ошибка при запуске сервера", true);
 				Close();
 			}
+		}
+
+		static object ExplicitValue_ResolveObjectValue(Guid objectUID, ObjectType objectType)
+		{
+			if (objectUID == Guid.Empty)
+				return null;
+			switch (objectType)
+			{
+				case ObjectType.Device: return GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.Zone: return GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.Direction: return GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.Delay: return GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.GuardZone: return GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.PumpStation: return GKManager.DeviceConfiguration.PumpStations.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.MPT: return GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.VideoDevice: return ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.GKDoor: return GKManager.Doors.FirstOrDefault(x => x.UID == objectUID);
+				case ObjectType.Organisation: return RubezhClient.SKDHelpers.OrganisationHelper.GetSingle(objectUID);
+			}
+			return null;
 		}
 
 		static string ObjectReference_ResolveObjectName(Guid objectUID, ObjectType objectType)
@@ -184,10 +205,7 @@ namespace FiresecService
 						return gKDoor.PresentationName;
 					break;
 				case ObjectType.Organisation:
-					var result = FiresecServiceManager.SafeFiresecService.FiresecService.GetOrganisations(Guid.Empty, new RubezhAPI.SKD.OrganisationFilter());
-					if (result.HasError)
-						return "";
-					var organisation = result.Result.FirstOrDefault(x => x.UID == objectUID);
+					var organisation = RubezhClient.SKDHelpers.OrganisationHelper.GetSingle(objectUID);
 					if (organisation != null)
 						return organisation.Name;
 					break;
@@ -241,8 +259,7 @@ namespace FiresecService
 					Data = new GlobalVariableCallBackData
 					{
 						VariableUID = variable.Uid,
-						ExplicitValue = variable.ExplicitValue,
-						ExplicitValues = variable.ExplicitValues
+						ExplicitValue = (ExplicitValue)variable
 					}
 				}, clientUID);
 		}

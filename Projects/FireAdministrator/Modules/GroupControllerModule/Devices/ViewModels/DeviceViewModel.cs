@@ -2,7 +2,6 @@
 using DeviceControls;
 using GKModule.Events;
 using GKModule.Plans;
-using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -314,8 +313,6 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactoryBase.Events.GetEvent<RemoveGKDeviceEvent>().Publish(device.UID);
 			}
-			using (var cache = new ElementDeviceUpdater())
-				cache.ResetDevices(allDevices);
 
 			if (Parent != null)
 			{
@@ -811,6 +808,7 @@ namespace GKModule.ViewModels
 						MessageBoxService.ShowWarning("Невозможно сменить тип устройства");
 						return;
 					}
+					ServiceFactoryBase.Events.GetEvent<RemoveGKDeviceEvent>().Publish(Device.UID);
 					Device = device;
 					Device.Changed += OnChanged;
 					Nodes.Clear();
@@ -834,6 +832,7 @@ namespace GKModule.ViewModels
 					Update();
 
 					ServiceFactory.SaveService.GKChanged = true;
+					GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				}
 			}
 		}

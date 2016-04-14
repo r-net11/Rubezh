@@ -14,7 +14,7 @@ namespace AutomationModule.ViewModels
 		bool _isNameEdited;
 		List<Variable> _availableVariables;
 		readonly bool automationChanged;
-		public ExplicitValuesViewModel ExplicitValuesViewModel { get; protected set; }
+		public ExplicitValueViewModel ExplicitValueViewModel { get; protected set; }
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; set; }
 
@@ -22,43 +22,51 @@ namespace AutomationModule.ViewModels
 		{
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			_availableVariables = availableVariables;
-			Variable = variable;
+
+			Variable = new Variable { IsGlobal = isGlobal };
+			if (variable == null)
+			{
+				ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(AutomationHelper.GetEnumList<ExplicitType>(),
+				AutomationHelper.GetEnumList<EnumType>(), AutomationHelper.GetEnumList<ObjectType>()));
+				_selectedExplicitType = ExplicitTypes.FirstOrDefault();
+			}
+			else
+			{
+				Variable.Uid = variable.Uid;
+				Variable.Value = variable.Value;
+				Variable.IsReference = variable.IsReference;
+				Variable.IsGlobal = variable.IsGlobal;
+				Variable.IsList = variable.IsList;
+				Variable.ObjectType = variable.ObjectType;
+				Name = variable.Name;
+				IsEditMode = true;
+				_isNameEdited = true;
+
+				ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType> { variable.ExplicitType },
+				new List<EnumType> { variable.EnumType }, new List<ObjectType> { variable.ObjectType }));
+				var explicitTypeViewModel = ExplicitTypes.FirstOrDefault();
+				if (explicitTypeViewModel != null)
+				{
+					_selectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
+					if (_selectedExplicitType != null) _selectedExplicitType.ExpandToThis();
+				}
+			}
+
+			SelectedContextType = Variable.ContextType;
+
 			Title = title;
 			IsGlobal = isGlobal;
 			ContextTypes = AutomationHelper.GetEnumObs<ContextType>();
-			ExplicitValuesViewModel = new ExplicitValuesViewModel();
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(AutomationHelper.GetEnumList<ExplicitType>(),
-				AutomationHelper.GetEnumList<EnumType>(), AutomationHelper.GetEnumList<ObjectType>()));
-			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
-			if (variable != null)
-				Copy(variable);
+			ExplicitValueViewModel = new ExplicitValueViewModel((ExplicitValue)Variable);
+
 		}
 
-		void Copy(Variable variable)
-		{
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType> { variable.ExplicitType },
-				new List<EnumType> { variable.EnumType }, new List<ObjectType> { variable.ObjectType }));
-			var explicitTypeViewModel = ExplicitTypes.FirstOrDefault();
-			if (explicitTypeViewModel != null)
-			{
-				SelectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
-				if (SelectedExplicitType != null) SelectedExplicitType.ExpandToThis();
-			}
-			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.ExplicitValue, variable.ExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
-			Name = variable.Name;
-			IsEditMode = true;
-			IsReference = variable.IsReference;
-			IsGlobal = variable.IsGlobal;
-			SelectedContextType = variable.ContextType;
-		}
-
-		bool _isGlobal;
 		public bool IsGlobal
 		{
-			get { return _isGlobal; }
+			get { return Variable.IsGlobal; }
 			set
 			{
-				_isGlobal = value;
+				Variable.IsGlobal = value;
 				OnPropertyChanged(() => IsGlobal);
 			}
 		}
@@ -84,11 +92,11 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedExplicitType = value;
 				GenerateName();
-				ExplicitValuesViewModel.ExplicitType = _selectedExplicitType.ExplicitType;
-				if (_selectedExplicitType.ExplicitType == ExplicitType.Enum)
-					ExplicitValuesViewModel.EnumType = _selectedExplicitType.EnumType;
-				if (_selectedExplicitType.ExplicitType == ExplicitType.Object)
-					ExplicitValuesViewModel.ObjectType = _selectedExplicitType.ObjectType;
+				Variable.ExplicitType = SelectedExplicitType.ExplicitType;
+				ExplicitValueViewModel.ExplicitType = SelectedExplicitType.ExplicitType;
+				ExplicitValueViewModel.EnumType = SelectedExplicitType.EnumType;
+				ExplicitValueViewModel.ObjectType = SelectedExplicitType.ObjectType;
+				ExplicitValueViewModel.OnPropertyChanged("IsEmpty");
 				OnPropertyChanged(() => SelectedExplicitType);
 				OnPropertyChanged(() => IsRealType);
 			}
@@ -108,22 +116,22 @@ namespace AutomationModule.ViewModels
 
 		public bool IsList
 		{
-			get { return ExplicitValuesViewModel.IsList; }
+			get { return Variable.IsList; }
 			set
 			{
-				ExplicitValuesViewModel.IsList = value;
+				Variable.IsList = value;
+				ExplicitValueViewModel.IsList = value;
 				GenerateName();
 				OnPropertyChanged(() => IsList);
 			}
 		}
 
-		private bool _isReference;
 		public bool IsReference
 		{
-			get { return _isReference; }
+			get { return Variable.IsReference; }
 			set
 			{
-				_isReference = value;
+				Variable.IsReference = value;
 				OnPropertyChanged(() => IsReference);
 			}
 		}
@@ -146,18 +154,11 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Переменная с таким именем уже существует");
 				return false;
 			}
-			Variable = new Variable();
-			Variable.Name = Name;
-			Variable.IsList = IsList;
-			Variable.IsGlobal = IsGlobal;
-			Variable.ContextType = SelectedContextType;
-			Variable.IsReference = IsReference;
-			Variable.ExplicitType = SelectedExplicitType.ExplicitType;
-			Variable.EnumType = SelectedExplicitType.EnumType;
-			Variable.ObjectType = SelectedExplicitType.ObjectType;
-			Variable.ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
-			foreach (var explicitValue in ExplicitValuesViewModel.ExplicitValues)
-				Variable.ExplicitValues.Add(explicitValue.ExplicitValue);
+
+			Variable.Name = _name;
+			if (IsList)
+				Variable.Value = ExplicitValueViewModel.GetListValue();
+
 			return base.Save();
 		}
 
@@ -187,44 +188,44 @@ namespace AutomationModule.ViewModels
 			switch (SelectedExplicitType.ExplicitType)
 			{
 				case ExplicitType.Integer:
-					_name = "Целое";
+					_name = "целое";
 					break;
 				case ExplicitType.Float:
-					_name = "Вещественное";
+					_name = "вещественное";
 					break;
 				case ExplicitType.Boolean:
-					_name = "Логическое";
+					_name = "логическое";
 					break;
 				case ExplicitType.DateTime:
-					_name = "ДатаВремя";
+					_name = "датаВремя";
 					break;
 				case ExplicitType.String:
-					_name = "Строка";
+					_name = "строка";
 					break;
 
 				case ExplicitType.Enum:
 					switch (SelectedExplicitType.EnumType)
 					{
 						case EnumType.StateType:
-							_name = "Состояние";
+							_name = "состояние";
 							break;
 						case EnumType.DriverType:
-							_name = "ТипУстройства";
+							_name = "типУстройства";
 							break;
 						case EnumType.PermissionType:
-							_name = "ПраваПользователя";
+							_name = "праваПользователя";
 							break;
 						case EnumType.JournalEventNameType:
-							_name = "НазваниеСобытия";
+							_name = "названиеСобытия";
 							break;
 						case EnumType.JournalEventDescriptionType:
-							_name = "УточнениеСобытия";
+							_name = "уточнениеСобытия";
 							break;
 						case EnumType.JournalObjectType:
-							_name = "ТипОбъекта";
+							_name = "типОбъекта";
 							break;
 						case EnumType.ColorType:
-							_name = "Цвет";
+							_name = "цвет";
 							break;
 					}
 					break;
@@ -233,44 +234,43 @@ namespace AutomationModule.ViewModels
 					switch (SelectedExplicitType.ObjectType)
 					{
 						case ObjectType.Device:
-							_name = "Устройство";
+							_name = "устройство";
 							break;
 						case ObjectType.Zone:
-							_name = "ПожарнаяЗона";
+							_name = "пожарнаяЗона";
 							break;
 						case ObjectType.Direction:
-							_name = "Направление";
+							_name = "направление";
 							break;
 						case ObjectType.Delay:
-							_name = "Задержка";
+							_name = "задержка";
 							break;
 						case ObjectType.GuardZone:
-							_name = "ОхраннаяЗона";
+							_name = "охраннаяЗона";
 							break;
 						case ObjectType.VideoDevice:
-							_name = "Видеоустройство";
+							_name = "видеоустройство";
 							break;
 						case ObjectType.GKDoor:
-							_name = "ТочкаДоступа";
+							_name = "точкаДоступа";
 							break;
 						case ObjectType.PumpStation:
-							_name = "НасоснаяСтанция";
+							_name = "насоснаяСтанция";
 							break;
 						case ObjectType.MPT:
-							_name = "МПТ";
+							_name = "мпт";
 							break;
 						case ObjectType.Organisation:
-							_name = "Организация";
+							_name = "организация";
 							break;
 					}
 					break;
 			}
 
+			if (IsGlobal)
+				_name = _name[0].ToString().ToUpper() + _name.Substring(1);
 			if (IsList)
-				_name = "Список" + _name;
-
-			if (!IsGlobal)
-				_name = _name[0].ToString().ToLower() + _name.Substring(1);
+				_name = _name += "Список";
 
 			int i = 0;
 			do { i++; } while (_availableVariables.Any(x => x.Name == _name + i));

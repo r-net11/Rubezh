@@ -83,9 +83,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 						_drawing = null;
 						_wmf = null;
 
-						var uri = new Uri(_sourceName);
-						FileInfo fileInfo = new FileInfo(uri.OriginalString);
-						if (fileInfo.Length > 0)
+						if (new FileInfo(_sourceName).Length > 0)
 						{
 							ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
 							_imageType = ResourceType.Image;
@@ -101,24 +99,26 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 				}
 		}
 
+		bool isWasDelete;
 		public RelayCommand RemovePictureCommand { get; private set; }
 		void OnRemovePicture()
 		{
-			if (_imageSource.HasValue)
-				ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
-			if (_svgImageSource.HasValue)
-				ServiceFactoryBase.ContentService.RemoveContent(_svgImageSource.Value);
-			_imageSource = null;
-			_sourceName = null;
 			_newImage = false;
 			_drawing = null;
 			_wmf = null;
 			_svg = null;
-			UpdateImage();
+			isWasDelete = true;
+			ImageBrush = null;
+			OnPropertyChanged(() => ImageBrush);
 		}
 		bool CanRemovePicture()
 		{
 			return ImageBrush != null;
+		}
+
+		bool ValidateImage()
+		{
+			return new FileInfo(_sourceName).Length >0;
 		}
 
 		public void Save()
@@ -147,6 +147,20 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			{
 				_element.BackgroundSVGImageSource = null;
 			}
+
+			if (isWasDelete)
+			{
+				if (_imageSource.HasValue)
+					ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
+				if (_svgImageSource.HasValue)
+					ServiceFactoryBase.ContentService.RemoveContent(_svgImageSource.Value);
+				if (!_newImage)
+				{
+					_imageSource = null;
+					_sourceName = null;
+				}
+			}
+
 			_element.BackgroundImageSource = _imageSource;
 			_element.BackgroundSourceName = _sourceName;
 			_element.ImageType = _imageType;

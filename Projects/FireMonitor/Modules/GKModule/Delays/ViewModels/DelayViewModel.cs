@@ -48,21 +48,18 @@ namespace GKModule.ViewModels
 
 		void OnShowOnPlanOrProperties()
 		{
-			var plan = ShowOnPlanHelper.GetPlan(Delay.UID);
-			if (plan != null)
-				ShowOnPlanHelper.ShowObjectOnPlan(plan, Delay.UID);
-			else
+			if (ShowOnPlanHelper.ShowObjectOnPlan(Delay))
 				DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(Delay.UID), Delay.UID);
+			ShowOnPlanHelper.ShowObjectOnPlan(Delay);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.GetPlan(Delay.UID) != null;
+			return ShowOnPlanHelper.CanShowOnPlan(Delay);
 		}
 
 		public bool HasOnDelay

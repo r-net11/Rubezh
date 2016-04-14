@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RK_OPZ,
 				UID = new Guid("A816B11B-67B9-450D-814E-C5DA393F41C6"),
 				Name = "Оповещатель охранно-пожарный звуковой радиоканальный",
-				ShortName = "ОПЗ-RK",
+				ShortName = "ОПЗ-РК",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true

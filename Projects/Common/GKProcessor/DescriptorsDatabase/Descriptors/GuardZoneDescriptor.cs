@@ -19,6 +19,7 @@ namespace GKProcessor
 		readonly List<GKGuardZoneDevice> ChangeGuardPimDevices;
 		readonly IEnumerable<GKGuardZoneDevice> SetAlarmPimDevices;
 
+		readonly private bool UsePim;
 		public GuardZoneDescriptor(GKGuardZone zone)
 			: base(zone)
 		{
@@ -36,9 +37,11 @@ namespace GKProcessor
 
 			if (GuardZone.GuardZoneDevices.FindAll(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard || x.Device.Driver.IsCardReaderOrCodeReader).Count > 0)
 			{
+				UsePim = true;
 				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone);
 				GuardZoneChangePimDescriptor = new GuardZoneChangePimDescriptor(GuardZone);
 				GuardZone.LinkToDescriptor(GuardZone.ChangePim);
+				GuardZone.LinkToDescriptor(GuardZone.Pim);
 			}
 			else
 				GuardZone.LinkToDescriptor(GuardZone);
@@ -77,8 +80,8 @@ namespace GKProcessor
 				case GKStateBit.Fire1:
 					if (count > 0 || SetAlarmPimDevices.Any())
 					{
-						if (SetAlarmPimDevices.Any())
-							Formula.AddGetBit(GKStateBit.On, GuardZone.Pim);
+						if (UsePim)
+							Formula.AddGetBit(GKStateBit.TurningOn, GuardZone.Pim);
 						else
 							Formula.AddGetBit(GKStateBit.Attention, GuardZone);
 

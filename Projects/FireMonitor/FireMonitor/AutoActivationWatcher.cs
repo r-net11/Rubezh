@@ -33,42 +33,47 @@ namespace FireMonitor
 							case JournalObjectType.GKDevice:
 								var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (device != null)
-									ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(device.UID), device.UID);
+									ShowOnPlanHelper.ShowObjectOnPlan(device);
+								break;
+							case JournalObjectType.GKPumpStation:
+								var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								if (pumpStation != null)
+									ShowOnPlanHelper.ShowObjectOnPlan(pumpStation);
 								break;
 							case JournalObjectType.GKZone:
 								var zone = GKManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (zone != null)
-									ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(zone.UID), zone.UID);
+									ShowOnPlanHelper.ShowObjectOnPlan(zone);
 								break;
 							case JournalObjectType.GKDelay:
 								var delay = GKManager.Delays.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (delay!= null)
-									ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(delay.UID), delay.UID);
+									ShowOnPlanHelper.ShowObjectOnPlan(delay);
 								break;
 							case JournalObjectType.GKDirection:
 								var direction = GKManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (direction != null)
-									ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(direction.UID), direction.UID);
+									ShowOnPlanHelper.ShowObjectOnPlan(direction);
 								break;
 							case JournalObjectType.GKGuardZone:
 								var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (guardZone!= null)
-									ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(guardZone.UID), guardZone.UID);
+									ShowOnPlanHelper.ShowObjectOnPlan(guardZone);
 								break;
 							case JournalObjectType.GKMPT:
 								var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (mpt != null)
-									ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(mpt.UID), mpt.UID);
+									ShowOnPlanHelper.ShowObjectOnPlan(mpt);
 								break;
 							case JournalObjectType.GKDoor:
 								var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (door != null)
-									ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(door.UID), door.UID);
+									ShowOnPlanHelper.ShowObjectOnPlan(door);
 								break;
 							case JournalObjectType.Camera:
 								var camera = ClientManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (camera != null)
-									ShowOnPlanHelper.ShowObjectOnPlan(ShowOnPlanHelper.GetPlan(camera.UID), camera.UID);
+									ShowOnPlanHelper.ShowObjectOnPlan(camera);
 								break;
 						}
 				}

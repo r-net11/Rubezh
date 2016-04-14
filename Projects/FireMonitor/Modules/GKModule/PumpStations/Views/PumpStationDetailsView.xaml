@@ -3,6 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converters="clr-namespace:GKModule.Converters"
 			 xmlns:Views="clr-namespace:GKModule.Views"
+			  xmlns:views="clr-namespace:Infrastructure.PlanLink.View;assembly=Infrastructure"
 			 MinWidth="400" MinHeight="400" MaxWidth="600" MaxHeight="600">
 	<UserControl.Resources>
 		<Converters:DeviceControlRegimeToStringConverter x:Key="DeviceControlRegimeToStringConverter" />
@@ -110,29 +111,10 @@
 									</TextBlock>
 								</WrapPanel>
 							</StackPanel>
-                            <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
-                                <ItemsControl ItemsSource="{Binding Plans}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Margin="2 0">
-												<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
-													<StackPanel Orientation="Horizontal">
-														<Image Width="16" Source="/Controls;component/Images/CMap.png" Margin="1" />
-														<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" />
-													</StackPanel>
-												</Hyperlink>
-											</TextBlock>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </WrapPanel>
-                            <StackPanel Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal" Margin="2">
+								<views:PlanLinksView DataContext="{Binding PlanLinks}" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
 								<TextBlock Text="Задержка: " Margin="2" />
 								<TextBlock Text="{Binding PumpStation.Delay}" Margin="2" />
 							</StackPanel>

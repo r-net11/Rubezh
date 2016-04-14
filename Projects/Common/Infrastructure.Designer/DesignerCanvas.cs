@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Common;
+﻿using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.DragDrop;
@@ -14,6 +8,12 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Infrastructure.Designer
 {
@@ -72,16 +72,16 @@ namespace Infrastructure.Designer
 		{
 			RemoveDesignerItems(SelectedItems);
 		}
-		private void RemoveDesignerItems(IEnumerable<DesignerItem> designerItems)
+		void RemoveDesignerItems(IEnumerable<DesignerItem> designerItems)
 		{
-			if (designerItems.Count() == 0)
-				return;
-
-			var elements = designerItems.Select(item => item.Element).ToList();
-			foreach (var designerItem in designerItems.ToList())
-				RemoveDesignerItem(designerItem);
-			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements);
-			DesignerChanged();
+			if (designerItems.Count() != 0)
+			{
+				var elements = designerItems.Select(item => item.Element).ToList();
+				foreach (var designerItem in designerItems.ToList())
+					RemoveDesignerItem(designerItem);
+				ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements);
+				DesignerChanged();
+			}
 		}
 
 		protected override void OnDragOver(DragEventArgs e)
@@ -205,7 +205,12 @@ namespace Infrastructure.Designer
 				DesignerChanged();
 			}
 		}
-		public void RemoveDesignerItem(ElementBase elementBase)
+		public void RemoveDesignerItems(List<ElementBase> elements)
+		{
+			elements.ForEach(x => RemoveDesignerItem(x));
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements);
+		}
+		void RemoveDesignerItem(ElementBase elementBase)
 		{
 			var designerItem = GetDesignerItem(elementBase);
 			if (designerItem != null)
@@ -216,6 +221,7 @@ namespace Infrastructure.Designer
 			RemoveElement(designerItem.Element);
 			Remove(designerItem);
 			Refresh();
+			designerItem.OnRemoved();
 		}
 		public DesignerItem UpdateElement(ElementBase elementBase)
 		{

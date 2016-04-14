@@ -19,7 +19,7 @@
 						<Grid>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
 								<Label Content="{Binding Name}" ToolTip="{Binding Name}" Style="{StaticResource LabelStyle}" Width="150" />
-								<Views:ArgumentView  DataContext="{Binding .}" HorizontalAlignment="Left" />
+								<Views:ExplicitValueView DataContext="{Binding ExplicitValue}" HorizontalAlignment="Left" />
 							</StackPanel>
 						</Grid>
 					</DataTemplate>

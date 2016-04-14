@@ -32,7 +32,7 @@
 			</Grid>
 			<Grid Visibility="{Binding IsHolidaysSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding HolidaysViewModel}" Orientation="Horizontal">
-					<ComboBox ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}">
+					<ComboBox ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}" IsEnabled="{Binding IsConnected}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding .}" />

@@ -69,6 +69,11 @@ namespace RubezhAPI.Models
 		public string Caption { get; set; }
 		[DataMember]
 		public string Description { get; set; }
+		[DataMember]
+		public bool IsAsynchronousLoad { get; set; }
+
+		[DataMember]
+		public bool IsNotShowPlan { get; set; }
 
 		[DataMember]
 		public List<Plan> Children { get; set; }

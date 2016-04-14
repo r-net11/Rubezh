@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RSR2_OPSZ,
 				UID = new Guid("7e03462f-d397-449c-a7b7-48abed3579d1"),
 				Name = "Оповещатель cвето-звуковой",
-				ShortName = "ОПСЗ-RS",
+				ShortName = "ОПСЗ",
 				GroupDeviceChildrenCount = 2,
 				IsGroupDevice = true,
 			};

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
-using RubezhAPI.Models;
+﻿using Common;
+using Infrastructure.Common.Services;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
-using Infrastructure.Common.Services;
 using Microsoft.Practices.Prism.Events;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Client.Plans
 {
@@ -58,7 +58,7 @@ namespace Infrastructure.Client.Plans
 			var item = GetItem<TItem>((IElementReference)designerItem.Element);
 			if (item != null)
 			{
-				item.Changed += () =>
+				Action onChanged = () =>
 				{
 					Cache.BuildSafe<TItem>();
 					UpdateProperties<TItem>(designerItem);
@@ -68,12 +68,16 @@ namespace Infrastructure.Client.Plans
 						DesignerCanvas.Refresh();
 					}
 				};
-				item.UIDChanged += (oldUID, newUID) =>
-				{
-					var elementReference = designerItem.Element as IElementReference;
-					if (elementReference != null && elementReference.ItemUID == oldUID)
-						elementReference.ItemUID = newUID;
-				};
+				Action<Guid, Guid> onUidChanged = (oldUID, newUID) =>
+				 {
+					 var elementReference = designerItem.Element as IElementReference;
+					 if (elementReference != null && elementReference.ItemUID == oldUID)
+						 elementReference.ItemUID = newUID;
+				 };
+				item.Changed += onChanged;
+				item.UIDChanged += onUidChanged;
+				designerItem.Removed += () => item.Changed -= onChanged;
+				designerItem.Removed += () => item.UIDChanged -= onUidChanged;
 			}
 		}
 		protected virtual void UpdateProperties<TItem>(CommonDesignerItem designerItem)

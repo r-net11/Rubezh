@@ -12,12 +12,14 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using Infrastructure.PlanLink.ViewModels;
 
 namespace GKModule.ViewModels
 {
 	public class SKDZoneDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public GKSKDZone Zone { get; private set; }
+		public PlanLinksViewModel PlanLinks { get; private set; }
 		public GKState State
 		{
 			get { return Zone.State; }
@@ -32,7 +34,7 @@ namespace GKModule.ViewModels
 			Zone = zone;
 			Title = Zone.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
-			InitializePlans();
+			PlanLinks = new PlanLinksViewModel(Zone);
 		}
 
 		void OnStateChanged()
@@ -49,37 +51,6 @@ namespace GKModule.ViewModels
 				var stateClasses = State.StateClasses.ToList();
 				stateClasses.Sort();
 				return stateClasses;
-			}
-		}
-
-		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
-		public bool HasPlans
-		{
-			get { return Plans.Count > 0; }
-		}
-
-		void InitializePlans()
-		{
-			Plans = new ObservableCollection<PlanLinkViewModel>();
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
-			{
-				ElementBase elementBase;
-				elementBase = plan.ElementRectangleGKSKDZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Zone;
-					Plans.Add(alarmPlanViewModel);
-					continue;
-				}
-
-				elementBase = plan.ElementPolygonGKSKDZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
-				if (elementBase != null)
-				{
-					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
-					alarmPlanViewModel.GkBaseEntity = Zone;
-					Plans.Add(alarmPlanViewModel);
-				}
 			}
 		}
 

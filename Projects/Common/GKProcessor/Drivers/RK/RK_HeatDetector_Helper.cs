@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = GKDriverType.RK_HeatDetector,
 				UID = new Guid("5D8010FF-B6B8-4A80-9191-211D008BC86B"),
 				Name = "Извещатель пожарный тепловой радиоканальный",
-				ShortName = "ИПТ-RK",
+				ShortName = "ИПТ-РК",
 				HasZone = true,
 				IsPlaceable = true
 			};

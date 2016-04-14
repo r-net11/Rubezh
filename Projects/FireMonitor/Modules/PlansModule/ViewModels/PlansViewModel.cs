@@ -8,7 +8,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Interfaces;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
@@ -55,7 +54,7 @@ namespace PlansModule.ViewModels
 			_initialized = false;
 			if (_properties.Type != LayoutPartPlansType.Single)
 			{
-				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null);
+				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null, _properties.Type == LayoutPartPlansType.All);
 				PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
 				var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
 				if (planNavigationWidth == 0)
@@ -95,7 +94,7 @@ namespace PlansModule.ViewModels
 									var planCallbackData = new PlanCallbackData()
 									{
 										ElementPropertyType = ElementPropertyType.BorderThickness,
-										Value = globalVariable.ExplicitValue.IntValue,
+										Value = globalVariable.IntValue,
 										ElementUid = element.UID,
 										PlanUid = plan.Plan.UID
 									};
@@ -194,13 +193,9 @@ namespace PlansModule.ViewModels
 
 		private void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
-			
-			if (args.PlanUID != null)
-			{
-				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-				OnSelectPlan(args.PlanUID);
-				OnShowElement(args.ElementUID);
-			}
+			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
+			OnSelectPlan(args.PlanUID);
+			OnShowElement(args.ElementUID);
 		}
 
 		public bool IsPlanTreeVisible

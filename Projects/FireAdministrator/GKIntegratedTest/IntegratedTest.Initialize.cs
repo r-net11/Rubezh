@@ -5,13 +5,11 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
 using Common;
-using Ionic.Zip;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
+using RubezhAPI.SKD;
 using RubezhClient;
 using GKProcessor;
 using Infrastructure;
@@ -19,22 +17,23 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using RubezhAPI.Journal;
 using System.Collections.Generic;
+using GKModule.Validation;
+using Infrastructure.Common.Validation;
+using RubezhClient.SKDHelpers;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using Stopwatch = NUnit.Framework.Compatibility.Stopwatch;
 
 namespace GKIntegratedTest
 {
-	[TestClass]
-	public class MainTest
+	[TestFixture]
+	public partial class ItegratedTest
 	{
 		GKDevice gkDevice1;
 		GKDevice kauDevice11;
 		GKDevice kauDevice12;
+		List<JournalItem> journalItems;
 
-		GKDevice gkDevice2;
-		GKDevice kauDevice21;
-		GKDevice kauDevice22;
-		[TestInitialize]
+		[SetUp]
 		public void InitializeConnection()
 		{
 			CheckTime(()=>RunProcess("FiresecService", "FiresecServerPath"), "Запуск сервера");
@@ -53,8 +52,15 @@ namespace GKIntegratedTest
 			InitializeConfiguration();
 		}
 
+		[TearDown]
+		public void TearDown()
+		{
+			ClientManager.Disconnect();
+		}
+
 		public void InitializeConfiguration()
 		{
+			journalItems = new List<JournalItem>();
 			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
 			GKDriversCreator.Create();
 			InitializeRootDevices();
@@ -63,41 +69,34 @@ namespace GKIntegratedTest
 			DescriptorsManager.Create();
 			InitializeStates();
 			ServiceFactory.Initialize(null, null);
-
+			ClientManager.PlansConfiguration = new PlansConfiguration();
+			ClientManager.PlansConfiguration.AllPlans = new List<Plan>();
 			SafeFiresecService.GKCallbackResultEvent -= OnGKCallbackResult;
 			SafeFiresecService.GKCallbackResultEvent += OnGKCallbackResult;
-
 			SafeFiresecService.JournalItemsEvent -= OnNewJournalItems;
 			SafeFiresecService.JournalItemsEvent += OnNewJournalItems;
 		}
 
-		[TestMethod]
-		public void TestFireZone()
+		public void SetConfigAndRestartImitator()
 		{
-			var device = AddDevice(kauDevice11, GKDriverType.RSR2_SmokeDetector);
-			var zone = new GKZone { Name = "Новая зона", No = 1 };
-			GKManager.AddZone(zone);
-			GKManager.AddDeviceToZone(device, zone);
-			SaveConfigToFile(true);
+			InitializeComplete = false;
+			ClientManager.GetLicense();
+			GKManager.UpdateConfiguration();
+			var validator = new Validator();
+			var errors = validator.Validate();
+			Assert.IsFalse(errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite), "Конфигурация содержит критическую ошибку");
+			SaveConfigToFile();
+			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
-			var connectionStatus = CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
-			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
+			CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
+			CheckTime(() => ClientManager.FiresecService.SetLocalConfig(), "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
-			CheckTime(()=>WaitWhileState(zone, XStateClass.Norm, 5000), "Инициализация состояний");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона находится в норме");
-			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Fire1);
-			CheckTime(() => WaitWhileState(zone, XStateClass.Fire1, 3000), "Переход зоны в сработку1");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, что зона перешла в пожар1");
-			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Fire2);
-			CheckTime(() => WaitWhileState(zone, XStateClass.Fire2, 3000), "Переход зоны в сработку2");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire2, "Проверка того, что зона перешла в пожар2");
-			ImitatorManager.ImitatorService.ConrtolGKBase(zone.UID, GKStateBit.Reset);
-			CheckTime(() => WaitWhileState(zone, XStateClass.Norm, 3000), "Проверка того, что зона перешла в норму");
-			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона перешла в норму");
-			ClientManager.Disconnect();
+			GKManager.UpdateConfiguration();
+			WaitWhileInitializeComplete(10000);
+			journalItems.Clear();
 		}
 
-		void InitializeRootDevices()
+		void InitializeRootDevices()	
 		{
 			var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
 			Assert.IsNotNull(systemDriver, "В GKManager.Drivers не найден драйвер System");
@@ -110,13 +109,9 @@ namespace GKIntegratedTest
 			}
 			kauDevice11 = GKManager.AddDevice(gkDevice1, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
 			kauDevice12 = GKManager.AddDevice(gkDevice1, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
-
-			gkDevice2 = GKManager.AddDevice(systemDevice, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK), 0);
-			kauDevice21 = GKManager.AddDevice(gkDevice2, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 1);
-			kauDevice22 = GKManager.AddDevice(gkDevice2, GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU), 2);
 		}
 
-		static string SaveConfigToFile(bool isLocal)
+		static void SaveConfigToFile()
 		{
 			try
 			{
@@ -125,20 +120,18 @@ namespace GKIntegratedTest
 					Directory.CreateDirectory(tempFolderName);
 				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 				AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration);
-				return null;
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "ConfigManager.SaveAllConfigToFile");
 			}
-			return null;
 		}
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion = 1, int majorVersion = 1)
 		{
 			configuration.BeforeSave();
-			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
+			configuration.Version = new ConfigurationVersion { MinorVersion = minorVersion, MajorVersion = majorVersion };
 			var filePath = Path.Combine(folderName, name);
 			if (File.Exists(filePath))
 				File.Delete(filePath);
@@ -146,14 +139,65 @@ namespace GKIntegratedTest
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
-		void WaitWhileState(GKBase gkBase, XStateClass gkState, int milliseconds)
+		void WaitWhileState(GKBase gkBase, XStateClass gkState, int milliseconds, string traceMessage)
 		{
-			int timeOut = 0;
-			while (gkBase.State.StateClass != gkState && timeOut < milliseconds)
+			CheckTime(() =>
 			{
-				Thread.Sleep(50);
-				timeOut += 50;
+				int timeOut = 0;
+				while (gkBase.State.StateClass != gkState && timeOut < milliseconds)
+				{
+					Thread.Sleep(50);
+					timeOut += 50;
+				}
 			}
+			, traceMessage);
+		}
+
+		void WaitWhileInitializeComplete(int milliseconds)
+		{
+			CheckTime(() =>
+			{
+				int timeOut = 0;
+				while (!InitializeComplete && timeOut < milliseconds)
+				{
+					Thread.Sleep(50);
+					timeOut += 50;
+				}
+			}
+			, "Инициализация состояний");
+		}
+
+		void CheckJournal(params Tuple<GKBase, JournalEventNameType>[] journalEventNameTypes)
+		{
+			CheckJournal(10, journalEventNameTypes);
+		}
+
+		Tuple<GKBase, JournalEventNameType> JournalItem(GKBase gkBase, JournalEventNameType journalEventNameType)
+		{
+			return new Tuple<GKBase, JournalEventNameType>(gkBase, journalEventNameType);
+		}
+
+		void CheckJournal(int delta, params Tuple<GKBase, JournalEventNameType>[] journalEventNameTypes)
+		{
+			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes.Select(x => x.Item2)));
+			var lastJournalNo = journalItems.Count;
+			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
+			int matches = 0;
+			for (int i = lastJournalNo - 1; i >= lastJournalNo - delta; i--)
+			{
+				var journalItem = journalItems[i];
+				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches].Item2
+					&& journalItem.ObjectUID == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches].Item1.UID)
+					matches++;
+				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1].Item2
+					&& journalItem.ObjectUID == journalEventNameTypes[journalEventNameTypes.Count() - 1].Item1.UID)
+					matches = 1;
+				else
+					matches = 0;
+				if (matches == journalEventNameTypes.Count())
+					return;
+			}
+			Assert.Fail("Сообщения в журнале не найдены");
 		}
 
 		public void RunProcess(string processName, string processPathName) // sync (max 10 sec)
@@ -195,13 +239,37 @@ namespace GKIntegratedTest
 			}
 		}
 
+		public void KillProcess(string processName)
+		{
+			try
+			{
+				if (CheckProcessIsRunning(processName))
+				{
+					var processes = Process.GetProcessesByName(processName);
+					var processes2 = Process.GetProcessesByName(processName + ".vshost");
+					processes.ForEach(x => x.Kill());
+					processes2.ForEach(x => x.Kill());
+				}
+				for (int i = 0; i < 10; i++)
+				{
+					Thread.Sleep(1000);
+					if (!CheckProcessIsRunning(processName))
+						return;
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
 		T CheckTime<T>(Func<T> a, string traceMessage)
 		{
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
 			var t = a();
 			stopwatch.Stop();
-			Trace.WriteLine(traceMessage + "=" + stopwatch.Elapsed);
+			Console.WriteLine(traceMessage + "=" + stopwatch.Elapsed);
 			return t;
 		}
 
@@ -222,21 +290,21 @@ namespace GKIntegratedTest
 
 		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
-			//ApplicationService.Invoke(() => CopyGKStates(gkCallbackResult.GKStates));
 			Dispatcher.CurrentDispatcher.Invoke(() => CopyGKStates(gkCallbackResult.GKStates));
 		}
 
-		public void OnNewJournalItems(List<JournalItem> journalItems, bool isNew)
+		public void OnNewJournalItems(List<JournalItem> newJournalItems, bool isNew)
 		{
 			if (isNew)
 			{
-				ApplicationService.Invoke(() =>
-				{
-					//JournalsViewModel.OnNewJournalItems(journalItems);
-				});
+				journalItems.AddRange(newJournalItems.Where(x => x.JournalObjectType != JournalObjectType.GKPim));
+				if (!InitializeComplete)
+					if (newJournalItems.Any(x => x.JournalEventNameType == JournalEventNameType.Начало_мониторинга))
+						InitializeComplete = true;
 			}
 		}
 
+		bool InitializeComplete { get; set; }
 		void CopyGKStates(GKStates gkStates)
 		{
 			foreach (var remoteDeviceState in gkStates.DeviceStates)
@@ -358,6 +426,85 @@ namespace GKIntegratedTest
 		GKDevice AddDevice(GKDevice device, GKDriverType driverType)
 		{
 			return GKManager.AddDevice(device.Children[1], GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
+		}
+
+		void ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage)
+		{
+			var result = CheckTime (() =>ImitatorManager.ImitatorService.ConrtolGKBase(gkBase.UID, command), traceMessage);
+			Assert.IsTrue(result.Result, result.Error);
+		}
+
+		void EnterCard(GKBase gkBase, SKDCard card, GKCodeReaderEnterType enterType, string traceMessage)
+		{
+			var result = CheckTime(() => ImitatorManager.ImitatorService.EnterCard(gkBase.UID, card.Number, enterType), traceMessage);
+			Assert.IsTrue(result.Result, result.Error);
+		}
+
+		SKDCard AddNewUser(int level, params GKDoor[] doors)
+		{
+			var cards = CardHelper.Get(new CardFilter { DeactivationType = LogicalDeletationType.All }).ToList();
+			var card = cards.FirstOrDefault(x => x.EmployeeName == " Тестовый пользователь ");
+			if (card == null)
+				card = new SKDCard();
+			else
+				return card;
+			
+			for (uint i = 1; i < 1000; i ++)
+			{
+				if (cards.All(x => x.Number != i))
+				{
+					card.Number = i;
+					break;
+				}
+			}
+
+			var organisations = OrganisationHelper.Get(new OrganisationFilter { LogicalDeletationType = LogicalDeletationType.All });
+			var organisation = organisations.FirstOrDefault(x => x.Name == "Тестовая организация");
+
+			OperationResult<bool> result;
+			var organisationDetails = new OrganisationDetails();
+			if (organisation == null)
+			{
+				organisationDetails.Name = "Тестовая организация";
+				organisationDetails.UserUIDs = new List<Guid>();
+				result = ClientManager.FiresecService.SaveOrganisation(organisationDetails, true);
+				Assert.IsFalse(result.HasError, result.Error);
+			}
+			else
+			{
+				organisationDetails.Name = organisation.Name;
+				organisationDetails.UID = organisation.UID;
+				organisationDetails.UserUIDs = organisation.UserUIDs;
+			}
+
+			var employees = EmployeeHelper.Get(new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, FirstName = "Тестовый пользователь" });
+			var shortEmployee = employees.FirstOrDefault();
+			var employee = new Employee();
+			if (shortEmployee == null)
+			{
+				employee.FirstName = "Тестовый пользователь";
+				employee.OrganisationUID = organisationDetails.UID;
+				result = ClientManager.FiresecService.SaveEmployee(employee, true);
+				Assert.IsFalse(result.HasError, result.Error);
+			}
+			else
+			{
+				employee.FirstName = shortEmployee.FirstName;
+				employee.UID = shortEmployee.UID;
+				employee.OrganisationUID = shortEmployee.UID;
+			}
+			card.GKCardType = GKCardType.Employee;
+			card.GKControllerUIDs = new List<Guid> {gkDevice1.UID};
+			card.EndDate = new DateTime(2099, 1, 1);
+			card.GKLevel = level;
+			card.GKLevelSchedule = 1;
+			card.CardDoors = doors.Select(x => new CardDoor { DoorUID = x.UID, EnterScheduleNo = 1, ExitScheduleNo = 1, CardUID = card.UID }).ToList();
+			card.OrganisationUID = organisationDetails.UID;
+			card.EmployeeUID = employee.UID;
+			card.EmployeeName = "Тестовый пользователь";
+			result = ClientManager.FiresecService.AddCard(card, card.EmployeeName);
+			Assert.IsFalse(result.HasError, result.Error);
+			return card;
 		}
 	}
 }

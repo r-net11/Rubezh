@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Events;
 using GKModule.Plans;
 using Infrastructure;
@@ -16,8 +8,15 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using KeyboardKey = System.Windows.Input.Key;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -121,15 +120,15 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			OnEdit(SelectedPumpStation.PumpStation);
+			OnEdit(SelectedPumpStation);
 		}
-		void OnEdit(GKPumpStation pumpStation)
+		void OnEdit(PumpStationViewModel pumpStationViewModel)
 		{
-			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel(pumpStation);
+			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel(pumpStationViewModel.PumpStation);
 			if (ServiceFactory.DialogService.ShowModalWindow(pumpStationDetailsViewModel))
 			{
-				SelectedPumpStation.Update();
-				GKManager.EditPumpStation(SelectedPumpStation.PumpStation);
+				pumpStationViewModel.Update();
+				GKManager.EditPumpStation(pumpStationViewModel.PumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -298,7 +297,7 @@ namespace GKModule.ViewModels
 		{
 			var pumpStationViewModel = pumpStationUID == Guid.Empty ? null : PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
 			if (pumpStationViewModel != null)
-				OnEdit(pumpStationViewModel.PumpStation);
+				OnEdit(pumpStationViewModel);
 		}
 
 		private void OnPumpStationChanged(Guid pumpStationUID)

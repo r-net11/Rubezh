@@ -1,6 +1,5 @@
 using GKModule.Models;
 using GKModule.Plans;
-using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -213,26 +212,22 @@ namespace GKModule.ViewModels
 			using (new WaitWrapper())
 			{
 				GKDevice device = null;
-				using (var cache = new ElementDeviceUpdater())
+				foreach (var deviceToCopy in DevicesToCopy)
 				{
-					foreach (var deviceToCopy in DevicesToCopy)
+					var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut, true);
+					device = PasteDevice(pasteDevice);
+					if (device == null)
+						break;
+					device.UID = pasteDevice.UID;
+				}
+				if (device != null)
+				{
+					if (device.IsConnectedToKAU)
 					{
-						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut, true);
-						device = PasteDevice(pasteDevice);
-						if (device == null)
-							break;
-						device.UID = pasteDevice.UID;
-						cache.UpdateDeviceBinding(device);
+						GKManager.UpdateConfiguration();
+						SelectedDevice.Device.ChangedLogic();
 					}
-					if (device != null)
-					{
-						if (device.IsConnectedToKAU)
-						{
-							GKManager.UpdateConfiguration();
-							SelectedDevice.Device.ChangedLogic();
-						}
-						SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
-					}
+					SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 				}
 				GKManager.DeviceConfiguration.Update();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
@@ -375,14 +370,7 @@ namespace GKModule.ViewModels
 						SelectedDevice.RemoveCommand.Execute();
 				}
 			});
-			//RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), () =>
-			//{
-			//	if (SelectedDevice != null)
-			//	{
-			//		if (SelectedDevice.ShowPropertiesCommand.CanExecute(null))
-			//			SelectedDevice.ShowPropertiesCommand.Execute();
-			//	}
-			//});
+
 			RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
 			{
 				if (SelectedDevice != null)
@@ -453,7 +441,6 @@ namespace GKModule.ViewModels
 		{
 			base.UpdateRibbonItems();
 			RibbonItems[0][0].Command = SelectedDevice == null ? null : SelectedDevice.AddCommand;
-			//RibbonItems[0][1].Command = SelectedDevice == null ? null : SelectedDevice.ShowPropertiesCommand;
 			RibbonItems[0][2].Command = SelectedDevice == null ? null : SelectedDevice.RemoveCommand;
 
 			RibbonItems[1][8][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;

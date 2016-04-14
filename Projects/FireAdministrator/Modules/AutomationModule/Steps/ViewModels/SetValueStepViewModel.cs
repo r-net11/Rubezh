@@ -31,6 +31,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				SetValueStep.ExplicitType = value;
+				SourceArgument.ExplicitType = value;
 				OnPropertyChanged(() => SelectedExplicitType);
 				UpdateContent();
 			}
@@ -47,8 +48,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				SetValueStep.EnumType = value;
-				SourceArgument.Argument.ExplicitValue.EnumType = value;
-				TargetArgument.Argument.ExplicitValue.EnumType = value;
+				SourceArgument.EnumType = value;
 				UpdateContent();
 				OnPropertyChanged(() => SelectedEnumType);
 			}
@@ -65,6 +65,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				SetValueStep.ObjectType = value;
+				SourceArgument.ObjectType = value;
+				SourceArgument.ExplicitValue.IsEmpty = true;
 				UpdateContent();
 				OnPropertyChanged(() => SelectedObjectType);
 			}

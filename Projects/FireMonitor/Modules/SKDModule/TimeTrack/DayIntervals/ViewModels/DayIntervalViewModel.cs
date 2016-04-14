@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !IsOrganisation && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit) && Name != "Выходной";
+			return !IsOrganisation && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -130,5 +130,5 @@ namespace SKDModule.ViewModels
 			}
 			OnPropertyChanged(() => DayIntervalParts);
 		}
-	}
+}
 }

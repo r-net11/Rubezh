@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using RubezhAPI.Models;
+using GKModule.Events;
+using GKModule.Plans;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -12,12 +8,15 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using GKModule.Events;
-using GKModule.Plans;
-using KeyboardKey = System.Windows.Input.Key;
-using RubezhClient;
-using RubezhAPI.GK;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -99,7 +98,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.ShowWarning("Невозможно добавить больше 255 зон");
 				return;
 			}
-			
+
 			OnAddResult();
 		}
 		SKDZoneDetailsViewModel OnAddResult()
@@ -121,16 +120,16 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			OnEdit(SelectedZone.Zone);
+			OnEdit(SelectedZone);
 		}
-		void OnEdit(GKSKDZone zone)
+		void OnEdit(SKDZoneViewModel zoneViewModel)
 		{
-			var zoneDetailsViewModel = new SKDZoneDetailsViewModel(zone);
+			var zoneDetailsViewModel = new SKDZoneDetailsViewModel(zoneViewModel.Zone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				GKManager.EditSKDZone(SelectedZone.Zone);
-				SelectedZone.Update();
-				if (DoorsViewModel.Current.SelectedDoor!= null)
+				GKManager.EditSKDZone(zoneViewModel.Zone);
+				zoneViewModel.Update();
+				if (DoorsViewModel.Current.SelectedDoor != null)
 					DoorsViewModel.Current.SelectedDoor.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -156,7 +155,7 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
-				var emptyzone = Zones.Where(x=> !GKManager.Doors.Any(y=> y.EnterZoneUID == x.Zone.UID ) && !GKManager.Doors.Any(y => y.ExitZoneUID == x.Zone.UID));
+				var emptyzone = Zones.Where(x => !GKManager.Doors.Any(y => y.EnterZoneUID == x.Zone.UID) && !GKManager.Doors.Any(y => y.ExitZoneUID == x.Zone.UID));
 				if (emptyzone.Any())
 				{
 					for (var i = emptyzone.Count() - 1; i >= 0; i--)
@@ -288,7 +287,7 @@ namespace GKModule.ViewModels
 		{
 			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zoneViewModel != null)
-				OnEdit(zoneViewModel.Zone);
+				OnEdit(zoneViewModel);
 		}
 	}
 }
