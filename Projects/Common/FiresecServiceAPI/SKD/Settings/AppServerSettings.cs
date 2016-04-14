@@ -13,7 +13,6 @@ namespace FiresecAPI
 			ServicePort = 8000;
 			ReportServicePort = 8800;
 			EnableRemoteConnections = false;
-			CreateNewDBOnOversize = true;
 			EnableOfflineLog = true;
 
 			DBServerAddress = ".";
@@ -53,9 +52,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string DBUserPwd { get; set; }
-
-		[DataMember]
-		public bool CreateNewDBOnOversize { get; set; }
 
 		public bool EnableOfflineLog { get; set; }
 	}
