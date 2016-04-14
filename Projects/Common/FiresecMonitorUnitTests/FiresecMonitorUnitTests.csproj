@@ -56,6 +56,7 @@
     <Compile Include="FireMonitorTests\AppDataFolderHelperTests.cs" />
     <Compile Include="FireMonitorTests\DayTimeTrackTests.cs" />
     <Compile Include="FireMonitorTests\DayTimeTrack\ApplyDeviationPoliticsTests.cs" />
+    <Compile Include="FireMonitorTests\DayTimeTrack\GetDocumentTimeTrackType.cs" />
     <Compile Include="FireMonitorTests\DayTimeTrack\SetBackgroundColor.cs" />
     <Compile Include="FireMonitorTests\DayTimeTrack\SetLetterCodeTests.cs" />
     <Compile Include="FireMonitorTests\DayTimeTrack\TransferPresentToOvertimeTests.cs" />
