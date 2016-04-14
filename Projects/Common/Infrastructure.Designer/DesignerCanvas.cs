@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Common;
+﻿using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.DragDrop;
@@ -14,6 +8,12 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Infrastructure.Designer
 {
@@ -216,6 +216,7 @@ namespace Infrastructure.Designer
 			RemoveElement(designerItem.Element);
 			Remove(designerItem);
 			Refresh();
+			designerItem.OnRemoved();
 		}
 		public DesignerItem UpdateElement(ElementBase elementBase)
 		{

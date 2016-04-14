@@ -12,7 +12,7 @@ namespace GKIntegratedTest
 		{
 			var device = AddDevice(kauDevice11, GKDriverType.RSR2_HandDetector);
 			SetConfigAndRestartImitator();
-			WaitWhileState(device, XStateClass.Norm, 10000, "Инициализация состояний");
+			WaitWhileState(device, XStateClass.Norm, 10000, "Ждем норму в ручнике");
 			Assert.IsTrue(device.State.StateClass == XStateClass.Norm, "Проверка того, что ИПР находится в норме");
 			ConrtolGKBase(device, GKStateBit.Fire2, "Сработка ручника");
 			WaitWhileState(device, XStateClass.Fire2, 3000, "Ждем пожар2 в ИПР");
