@@ -106,9 +106,9 @@ namespace RubezhClient
 			}, "GetConfig");
 		}
 
-		public void SetRemoteConfig(Stream stream)
+		public OperationResult<bool> SetRemoteConfig(Stream stream)
 		{
-			SafeOperationCall(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
@@ -119,18 +119,18 @@ namespace RubezhClient
 						JournalEventNameType = JournalEventNameType.Применение_конфигурации,
 						JournalObjectType = JournalObjectType.None,
 					});
-					firesecService.SetRemoteConfig(stream);
+					return firesecService.SetRemoteConfig(stream);
 				}
 			}, "SetRemoteConfig");
 		}
 
-		public void SetLocalConfig()
+		public OperationResult<bool> SetLocalConfig()
 		{
-			SafeOperationCall(() =>
+			return SafeOperationCall(() =>
 			{
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
-					firesecService.SetLocalConfig(FiresecServiceFactory.UID);
+					return firesecService.SetLocalConfig(FiresecServiceFactory.UID);
 			}, "SetLocalConfig");
 		}
 

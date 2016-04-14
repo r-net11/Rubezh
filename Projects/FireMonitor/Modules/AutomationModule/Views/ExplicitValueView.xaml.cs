@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class ExplicitValuesView
+	public partial class ExplicitValueView
 	{
-		public ExplicitValuesView()
+		public ExplicitValueView()
 		{
 			InitializeComponent();
 		}

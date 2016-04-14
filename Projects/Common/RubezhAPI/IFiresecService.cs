@@ -133,10 +133,10 @@ namespace RubezhAPI
 		Stream GetConfig(Guid clientUID);
 
 		[OperationContract]
-		void SetRemoteConfig(Stream stream);
+		OperationResult<bool> SetRemoteConfig(Stream stream);
 
 		[OperationContract]
-		void SetLocalConfig(Guid clientUID);
+		OperationResult<bool> SetLocalConfig(Guid clientUID);
 		#endregion
 
 		#region OPC DA

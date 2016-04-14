@@ -38,7 +38,8 @@ namespace SKDModule.ViewModels
 					organisation.AddChildFirst(dayoff);
 				}
 			}
-			if (isAdd) base.Initialize(filter);
+			if (isAdd) 
+				base.Initialize(filter);
 		}
 
 		public void Select(Guid dayIntervalUID)

@@ -170,14 +170,14 @@ namespace Infrastructure.Automation
 				case ProcedureStepType.For:
 					var forStep = (ForStep)procedureStep;
 					var indexerVariable = AllVariables.FirstOrDefault(x => x.Uid == forStep.IndexerArgument.VariableUid);
-					var initialValue = GetValue<int>(forStep.InitialValueArgument);
-					var value = GetValue<int>(forStep.ValueArgument);
-					var iterator = GetValue<int>(forStep.IteratorArgument);
+					var initialValue = (int)GetValue(forStep.InitialValueArgument);
+					var value = (int)GetValue(forStep.ValueArgument);
+					var iterator = (int)GetValue(forStep.IteratorArgument);
 					if (indexerVariable != null)
 					{
 						var condition = Compare(initialValue, value, forStep.ConditionType);
-						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
-						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value; )
+						var currentIntValue = indexerVariable.IntValue;
+						for (indexerVariable.IntValue = initialValue; condition != null && condition.Value; )
 						{
 							if (IsTimeOut)
 								return Result.Normal;
@@ -186,7 +186,7 @@ namespace Infrastructure.Automation
 								var result = RunStep(childStep);
 								if (result == Result.Break)
 								{
-									indexerVariable.ExplicitValue.IntValue = currentIntValue;
+									indexerVariable.IntValue = currentIntValue;
 									return Result.Normal;
 								}
 								if (result == Result.Continue)
@@ -194,10 +194,10 @@ namespace Infrastructure.Automation
 								if (result == Result.Exit)
 									return Result.Exit;
 							}
-							indexerVariable.ExplicitValue.IntValue = indexerVariable.ExplicitValue.IntValue + iterator;
-							condition = Compare(indexerVariable.ExplicitValue.IntValue, value, forStep.ConditionType);
+							indexerVariable.IntValue = indexerVariable.IntValue + iterator;
+							condition = Compare(indexerVariable.IntValue, value, forStep.ConditionType);
 						}
-						indexerVariable.ExplicitValue.IntValue = currentIntValue;
+						indexerVariable.IntValue = currentIntValue;
 					}
 					break;
 

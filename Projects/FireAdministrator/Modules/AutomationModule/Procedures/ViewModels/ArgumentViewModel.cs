@@ -21,26 +21,17 @@ namespace AutomationModule.ViewModels
 		Action UpdateContentHandler { get; set; }
 		Action UpdateDescriptionHandler { get; set; }
 		public ExplicitValueViewModel ExplicitValue { get; protected set; }
-		public ObservableCollection<ExplicitValueViewModel> ExplicitValues { get; set; }
 		public Argument Argument { get; private set; }
 
 		public ArgumentViewModel(Argument argument, Action updateDescriptionHandler, Action updateContentHandler, bool allowExplicitValue = true, bool allowLocalValue = true, bool allowGlobalValue = true)
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
-			EditCommand = new RelayCommand(OnEdit);
-			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
-			EditStringCommand = new RelayCommand(OnEditString);
 			AddVariableCommand = new RelayCommand(OnAddVariable);
 
 			Argument = argument;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			UpdateContentHandler = updateContentHandler;
-			ExplicitValue = new ExplicitValueViewModel(argument.ExplicitValue);
+			ExplicitValue = new ExplicitValueViewModel((ExplicitValue)argument, true);
 			ExplicitValue.UpdateObjectHandler += () => OnPropertyChanged(() => IsEmpty);
-			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-			foreach (var explicitValue in argument.ExplicitValues)
-				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 			ExplicitValue.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variables = new List<VariableViewModel>();
 			VariableScopes = new ObservableCollection<VariableScope>(AutomationHelper.GetEnumList<VariableScope>().FindAll(x => (allowExplicitValue || x != VariableScope.ExplicitValue) && (allowLocalValue || x != VariableScope.LocalVariable) && (allowGlobalValue || x != VariableScope.GlobalVariable)));
@@ -54,7 +45,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				Argument.ExplicitType = value;
-				Argument.ExplicitValue.ExplicitType = value;
+				ExplicitValue.ExplicitType = value;
 				OnPropertyChanged(() => ExplicitType);
 			}
 		}
@@ -65,6 +56,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				Argument.EnumType = value;
+				ExplicitValue.EnumType = value;
 				OnPropertyChanged(() => EnumType);
 			}
 		}
@@ -75,6 +67,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				Argument.ObjectType = value;
+				ExplicitValue.ObjectType = value;
 				OnPropertyChanged(() => ObjectType);
 				OnPropertyChanged(() => IsEmpty);
 			}
@@ -170,66 +163,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var explicitValue = new ExplicitValueViewModel();
-			if (ExplicitType == ExplicitType.Object)
-				if (!ProcedureHelper.SelectObject(ObjectType, explicitValue))
-					return;
-			ExplicitValues.Add(explicitValue);
-			Argument.ExplicitValues.Add(explicitValue.ExplicitValue);
-			OnPropertyChanged(() => ExplicitValues);
-		}
-
-		public RelayCommand<ExplicitValueViewModel> RemoveCommand { get; private set; }
-		void OnRemove(ExplicitValueViewModel explicitValueViewModel)
-		{
-			ExplicitValues.Remove(explicitValueViewModel);
-			Argument.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
-			OnPropertyChanged(() => ExplicitValues);
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument, IsList);
-			if (DialogService.ShowModalWindow(argumentDetailsViewModel))
-			{
-				PropertyCopy.Copy(argumentDetailsViewModel.Argument, Argument);
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => ValueDescription);
-			}
-		}
-
-		public RelayCommand<ExplicitValueViewModel> ChangeCommand { get; private set; }
-		void OnChange(ExplicitValueViewModel explicitValueViewModel)
-		{
-			if (IsList)
-			{
-				var explicitValues = ExplicitValues.ToList();
-				ProcedureHelper.SelectObjects(ObjectType, ref explicitValues);
-				if (explicitValues != null)
-					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>(explicitValues);
-			}
-			else
-				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
-			OnPropertyChanged(() => ExplicitValues);
-			OnPropertyChanged(() => ExplicitValue);
-		}
-
-		public RelayCommand EditStringCommand { get; private set; }
-		void OnEditString()
-		{
-			var stringDetailsViewModel = new StringDetailsViewModel(ExplicitValue.StringValue);
-			if (DialogService.ShowModalWindow(stringDetailsViewModel))
-			{
-				ExplicitValue.StringValue = stringDetailsViewModel.StringValue;
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => ValueDescription);
-			}
-		}
-
 		List<ExplicitTypeViewModel> ExplicitTypes { get; set; }
 		public void Update(List<Variable> allVariables, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null, bool? isList = null)
 		{
@@ -251,11 +184,6 @@ namespace AutomationModule.ViewModels
 			}
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
 			SelectedVariableScope = Argument.VariableScope;
-			ExplicitValue.Initialize(ExplicitValue.ObjectReferenceValue);
-			foreach (var explicitValue in ExplicitValues)
-			{
-				explicitValue.Initialize(explicitValue.ObjectReferenceValue);
-			}
 			if (explicitTypes != null)
 				ExplicitType = explicitTypes.FirstOrDefault();
 			if (enumTypes != null)
@@ -263,7 +191,6 @@ namespace AutomationModule.ViewModels
 			if (objectTypes != null)
 				ObjectType = objectTypes.FirstOrDefault();
 			OnPropertyChanged(() => ExplicitValue);
-			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => LocalVariables);
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => AddVariableVisibility);
@@ -356,14 +283,8 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (!IsList)
-					return Argument.ExplicitValue == null ? "" : Argument.ExplicitValue.ToString();
-				else
-				{
-					if (Argument.ExplicitValues.Count == 0)
-						return "Пустой список";
-					return String.Join(", ", Argument.ExplicitValues.Select(x => x.ToString()));
-				}
+				var description = Argument.ToString();
+				return string.IsNullOrEmpty(description) ? "Пустой список" : description;
 			}
 		}
 

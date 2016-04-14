@@ -811,6 +811,7 @@ namespace GKModule.ViewModels
 						MessageBoxService.ShowWarning("Невозможно сменить тип устройства");
 						return;
 					}
+					ServiceFactoryBase.Events.GetEvent<RemoveGKDeviceEvent>().Publish(Device.UID);
 					Device = device;
 					Device.Changed += OnChanged;
 					Nodes.Clear();
@@ -834,6 +835,7 @@ namespace GKModule.ViewModels
 					Update();
 
 					ServiceFactory.SaveService.GKChanged = true;
+					GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				}
 			}
 		}

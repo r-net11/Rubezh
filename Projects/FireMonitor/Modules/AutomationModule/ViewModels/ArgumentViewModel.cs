@@ -1,63 +1,21 @@
 ﻿using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
 	public class ArgumentViewModel : BaseViewModel
 	{
-		public Action UpdateVariableScopeHandler { get; set; }
-		public Action UpdateVariableHandler { get; set; }
-		Action UpdateDescriptionHandler { get; set; }
 		public ExplicitValueViewModel ExplicitValue { get; protected set; }
-		public ObservableCollection<ExplicitValueViewModel> ExplicitValues { get; set; }
-		public Argument Argument { get; private set; }
+		public Variable Argument { get; private set; }
 
-		public ArgumentViewModel(Argument argument)
+		public ArgumentViewModel(Variable argument)
 		{
 			Argument = argument;
-			ExplicitValue = new ExplicitValueViewModel(argument.ExplicitValue);
-			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-			foreach (var explicitValue in argument.ExplicitValues)
-				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
-			EditCommand = new RelayCommand(OnEdit);
+			ExplicitValue = new ExplicitValueViewModel((ExplicitValue)argument, true);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
-		}
-
-		public ExplicitType ExplicitType
-		{
-			get { return Argument.ExplicitType; }
-			set
-			{
-				Argument.ExplicitType = value;
-				OnPropertyChanged(() => ExplicitType);
-			}
-		}
-
-		public EnumType EnumType
-		{
-			get { return Argument.EnumType; }
-			set
-			{
-				Argument.EnumType = value;
-				OnPropertyChanged(() => EnumType);
-			}
-		}
-
-		public ObjectType ObjectType
-		{
-			get { return Argument.ObjectType; }
-			set
-			{
-				Argument.ObjectType = value;
-				OnPropertyChanged(() => ObjectType);
-			}
+			Name = argument.Name;
+			IsList = argument.IsList;
 		}
 
 		string _name;
@@ -82,44 +40,13 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var explicitValue = new ExplicitValueViewModel();
-			if (ExplicitType == ExplicitType.Object)
-				ProcedureHelper.SelectObject(ObjectType, explicitValue);
-			ExplicitValues.Add(explicitValue);
-			Argument.ExplicitValues.Add(explicitValue.ExplicitValue);
-			OnPropertyChanged(() => ExplicitValues);
-		}
-
-		public RelayCommand<ExplicitValueViewModel> RemoveCommand { get; private set; }
-		void OnRemove(ExplicitValueViewModel explicitValueViewModel)
-		{
-			ExplicitValues.Remove(explicitValueViewModel);
-			Argument.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
-			OnPropertyChanged(() => ExplicitValues);
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument, IsList);
-			if (DialogService.ShowModalWindow(argumentDetailsViewModel))
-			{
-				PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
-				OnPropertyChanged(() => ValueDescription);
-			}
-		}
-
 		public RelayCommand<ExplicitValueViewModel> ChangeCommand { get; private set; }
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
 			if (IsList)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
+				ProcedureHelper.SelectObject(Argument.ObjectType, explicitValueViewModel);
 			else
-				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
-			OnPropertyChanged(() => ExplicitValues);
+				ProcedureHelper.SelectObject(Argument.ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValue);
 		}
 
@@ -127,14 +54,15 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (!IsList)
+				/*if (!IsList)
 					return Argument.ExplicitValue == null ? "" : Argument.ExplicitValue.ToString();
 				else
 				{
 					if (Argument.ExplicitValues.Count == 0)
 						return "Пустой список";
 					return String.Join(", ", Argument.ExplicitValues.Select(x => x.ToString()));
-				}
+				}*/
+				return "refactoring";
 			}
 		}
 	}

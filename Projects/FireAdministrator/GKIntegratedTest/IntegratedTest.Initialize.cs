@@ -90,7 +90,7 @@ namespace GKIntegratedTest
 			KillProcess("GKImitator");
 			CheckTime(() => RunProcess("GKImitator", "GKImitatorPath"), "Запуск имитатора");
 			CheckTime<string>(ImitatorManager.Connect, "Подключение к имитатору");
-			CheckTime(ClientManager.FiresecService.SetLocalConfig, "Загрузка конфигурации на сервер");
+			CheckTime(() => ClientManager.FiresecService.SetLocalConfig(), "Загрузка конфигурации на сервер");
 			ClientManager.StartPoll();
 			GKManager.UpdateConfiguration();
 		}
@@ -161,13 +161,15 @@ namespace GKIntegratedTest
 		{
 			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes));
 			var lastJournalNo = jourlnalItems.Count;
-			delta = lastJournalNo - delta > 0 ? delta : 0;
+			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
 			int matches = 0;
-			for (int i = lastJournalNo; i >= lastJournalNo - delta; i--)
+			for (int i = lastJournalNo - 1; i >= lastJournalNo - delta; i--)
 			{
 				var journalItem = jourlnalItems[i];
 				if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1 - matches])
 					matches++;
+				else if (journalItem.JournalEventNameType == journalEventNameTypes[journalEventNameTypes.Count() - 1])
+					matches = 1;
 				else
 					matches = 0;
 				if (matches == journalEventNameTypes.Count())

@@ -32,10 +32,6 @@
 		<Views:ArgumentView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ArgumentDetailsViewModel}">
-		<Views:ArgumentDetailsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:StringDetailsViewModel}">
 		<Views:StringDetailsView />
 	</DataTemplate>

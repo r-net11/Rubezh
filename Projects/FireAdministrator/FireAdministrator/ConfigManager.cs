@@ -39,6 +39,7 @@ namespace FireAdministrator
 						return false;
 				}
 
+				var setConfigResult = new OperationResult<bool>();
 				WaitHelper.Execute(() =>
 				{
 					ClientManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
@@ -53,17 +54,22 @@ namespace FireAdministrator
 						var tempFileName = SaveConfigToFile(false);
 						using (var fileStream = new FileStream(tempFileName, FileMode.Open))
 						{
-							ClientManager.FiresecService.SetRemoteConfig(fileStream);
+							setConfigResult = ClientManager.FiresecService.SetRemoteConfig(fileStream);
 						}
 						File.Delete(tempFileName);
 					}
 					else
 					{
 						SaveConfigToFile(true);
-						ClientManager.FiresecService.SetLocalConfig();
+						setConfigResult = ClientManager.FiresecService.SetLocalConfig();
 					}
 				});
 				LoadingService.Close();
+				if (setConfigResult.HasError)
+				{
+					MessageBoxService.ShowWarning(setConfigResult.Error);
+					return false;
+				}
 				ServiceFactory.SaveService.Reset();
 				return true;
 			}
