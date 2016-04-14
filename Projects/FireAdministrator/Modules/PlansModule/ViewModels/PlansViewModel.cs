@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Client.Plans;
 
 namespace PlansModule.ViewModels
 {
@@ -90,7 +89,7 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans.Where(x=> !x.IsAsynchronousLoad))
+			foreach (var plan in ClientManager.PlansConfiguration.AllPlans.Where(x => !x.IsAsynchronousLoad))
 			{
 				if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
 					plan.BackgroundImageSource = null;
@@ -365,6 +364,7 @@ namespace PlansModule.ViewModels
 				DesignerCanvas.RemoveDesignerItem(device);
 				ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { device });
 			}
+			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
 		/// <summary>
