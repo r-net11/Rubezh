@@ -41,7 +41,7 @@ namespace ChinaSKDDriver
 		public DeviceProcessor(SKDDevice device)
 		{
 			Device = device;
-			Wrapper = new Wrapper();
+			Wrapper = new Wrapper(Device.UID);
 			Wrapper.NewJournalItem -= new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 			Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 		}
@@ -329,41 +329,53 @@ namespace ChinaSKDDriver
 
 			if (IsConnected)
 			{
+				Logger.Info(string.Format("Контроллер '{0}'. Доступен по сети.", Device.UID));
 				if (_isOfflineLogEnabled)
 				{
 					var getLastJournalItemTimeProducedByControllerEvent = new AutoResetEvent(false);
-#if DEBUG
-					Logger.Info(String.Format("Контроллер \"{0}\" стал доступным по сети. Запускаем задачу чтения оффлайн логов.", Device.Name));
-#endif
+
 					Task.Factory.StartNew(() =>
 					{
+						Logger.Info(string.Format("Контроллер '{0}'. Запущена задача чтения оффлайн логов.", Device.UID));
 						using (var journalTranslator = new JournalTranslator())
 						{
 							var timeOperationResult = journalTranslator.GetLastJournalItemTimeProducedByController(Device.UID);
+							Logger.Info(string.Format("Контроллер '{0}'. Завершена процедура поиска в журнале событий даты последнего зарегистрированного для данного контроллера события", Device.UID));
 							getLastJournalItemTimeProducedByControllerEvent.Set();
 							if (!timeOperationResult.HasError)
 							{
+								Logger.Info(string.Format("Контроллер '{0}'. По журналу событий определена дата последнего зарегистрированного для данного контроллера события - '{1}'", Device.UID, timeOperationResult.Result));
 								var offlineLogItems = Wrapper.GetOfflineLogItems(timeOperationResult.Result);
+								
+								Logger.Info(string.Format("Контроллер '{0}'. Передаем полученные оффлайн-события в стандартный тракт регистрации событий в системе", Device.UID));
 								offlineLogItems.ForEach(Wrapper_NewJournalItem);
 							}
 						}
-#if DEBUG
-						Logger.Info(String.Format("Задача чтения оффлайн логов для контроллера \"{0}\" завершилась.", Device.Name));
-#endif
+						Logger.Info(string.Format("Контроллер '{0}'. Завершилась задача чтения оффлайн логов.", Device.UID));
 					});
 
+					Logger.Info(string.Format("Контроллер '{0}'. Ожидаем завершения процедуры поиска в журнале событий даты последнего зарегистрированного для данного контроллера события", Device.UID));
 					getLastJournalItemTimeProducedByControllerEvent.WaitOne();
 				}
 
 				if (ConnectionAppeared != null)
+				{
+					Logger.Info(string.Format("Контроллер '{0}'. Уведомляем всех подписчиков события DeviceProcessor.ConnectionAppeared", Device.UID));
 					ConnectionAppeared(this);
+				}
 			}
 		}
 
+		/// <summary>
+		/// Запускает механизм управления контроллером
+		/// </summary>
 		public void Start()
 		{
+			Logger.Info(string.Format("Контроллер '{0}'. Запускаем механизм управления.", Device.UID));
+
 			// Загружать ли оффлайн лог в случае восстановления соединения с контроллером задается в конфигурационном файле для Сервера приложений
 			_isOfflineLogEnabled = AppServerSettingsHelper.AppServerSettings.EnableOfflineLog;
+			Logger.Info(string.Format("Контроллер '{0}'. Параметр конфигурации сервера 'EnableOfflineLog'='{1}'", Device.UID, _isOfflineLogEnabled));
 
 			Device.State.StateClass = XStateClass.Unknown;
 			Device.State.StateClasses = new List<XStateClass>() { Device.State.StateClass };
@@ -379,8 +391,13 @@ namespace ChinaSKDDriver
 			Thread.Start();
 		}
 
+		/// <summary>
+		/// Останавливает механизм управления контроллером
+		/// </summary>
 		public void Stop()
 		{
+			Logger.Info(string.Format("Контроллер '{0}'. Останавливаем механизм управления.", Device.UID));
+
 			Wrapper.NewJournalItem -= new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 			Wrapper.Disconnect();
 			IsStopping = true;
@@ -428,15 +445,19 @@ namespace ChinaSKDDriver
 			}
 		}
 
+		/// <summary>
+		/// Перезапускает механизм управления контроллером
+		/// </summary>
 		public void Reconnect()
 		{
+			Logger.Info(string.Format("Контроллер '{0}'. Перезапускаем механизм управления.", Device.UID));
 			LoginID = 0;
 			Start();
 		}
 
 		public void Connect()
 		{
-			var addresss = "";
+			var address = "";
 			var port = 0;
 			var login = "";
 			var password = "";
@@ -444,7 +465,7 @@ namespace ChinaSKDDriver
 			var addressProperty = Device.Properties.FirstOrDefault(x => x.Name == "Address");
 			if (addressProperty != null)
 			{
-				addresss = addressProperty.StringValue;
+				address = addressProperty.StringValue;
 			}
 			var portProperty = Device.Properties.FirstOrDefault(x => x.Name == "Port");
 			if (portProperty != null)
@@ -462,8 +483,14 @@ namespace ChinaSKDDriver
 				password = passwordProperty.StringValue;
 			}
 			string error;
-			LoginID = Wrapper.Connect(addresss, port, login, password, out error);
+			
+			Logger.Info(string.Format("Контроллер '{0}'. Пытаемся соединиться по адресу '{1}:{2}'", Device.UID, address, port));
+
+			LoginID = Wrapper.Connect(address, port, login, password, out error);
 			LoginFailureReason = error;
+
+			if (!string.IsNullOrEmpty(LoginFailureReason))
+				Logger.Info(string.Format("Контроллер '{0}'. Попытка соединиться по адресу '{1}:{2}' не удалась по причине: {3}", Device.UID, address, port, LoginFailureReason));
 		}
 	}
 }

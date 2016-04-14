@@ -1,4 +1,5 @@
-﻿using ChinaSKDDriver;
+﻿using System;
+using ChinaSKDDriver;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 
@@ -28,7 +29,7 @@ namespace ControllerSDK.ViewModels
 
 		public MainViewModel()
 		{
-			Wrapper = new Wrapper();
+			Wrapper = new Wrapper(Guid.Empty);
 
 			ConnectionViewModel = new ConnectionViewModel();
 			CardsViewModel = new CardsViewModel();

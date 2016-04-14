@@ -15,7 +15,7 @@ namespace ControllerSDK.Views
 		{
 			InitializeComponent();
 
-			MainViewModel.Wrapper = new Wrapper();
+			MainViewModel.Wrapper = new Wrapper(Guid.Empty);
 			MainViewModel = new MainViewModel();
 			DataContext = MainViewModel;
 		}

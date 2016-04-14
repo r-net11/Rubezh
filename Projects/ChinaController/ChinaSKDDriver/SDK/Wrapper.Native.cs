@@ -21,6 +21,13 @@ namespace ChinaSKDDriver
 		private const int DH_ALARM_ALARM_EX2 = 0x2175;		// local alarm event
 		private const int DH_ALARM_ACCESS_LOCK_STATUS = 0x31a8; // Door status events
 
+		private Guid _deviceUid;
+
+		public Wrapper(Guid deviceUid)
+		{
+			_deviceUid = deviceUid;
+		}
+
 		public static void Initialize()
 		{
 			fDisConnectDelegate = new NativeWrapper.fDisConnectDelegate(OnDisConnectDelegate);
