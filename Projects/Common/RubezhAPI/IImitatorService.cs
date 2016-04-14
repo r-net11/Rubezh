@@ -12,5 +12,8 @@ namespace RubezhAPI
 
 		[OperationContract]
 		OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command);
+
+		[OperationContract]
+		OperationResult<bool> EnterCard(Guid uid, uint cardNo, GKCodeReaderEnterType enterType);
 	}
 }

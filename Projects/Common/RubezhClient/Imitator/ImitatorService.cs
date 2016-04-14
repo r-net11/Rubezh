@@ -24,5 +24,11 @@ namespace RubezhClient
 			var imitatorService = ImitatorServiceFactory.Create();
 			return imitatorService.ConrtolGKBase(uid, command);
 		}
+
+		public OperationResult<bool> EnterCard(Guid uid, uint cardNo, GKCodeReaderEnterType enterType)
+		{
+			var imitatorService = ImitatorServiceFactory.Create();
+			return imitatorService.EnterCard(uid, cardNo, enterType);
+		}
 	}
 }

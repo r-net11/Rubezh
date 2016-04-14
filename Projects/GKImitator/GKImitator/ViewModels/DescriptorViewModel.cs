@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using GKImitator.Processor;
@@ -8,7 +10,6 @@ using GKProcessor;
 using Infrastructure.Common;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows;
-using RubezhAPI.Journal;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels
@@ -255,7 +256,7 @@ namespace GKImitator.ViewModels
 			DialogService.ShowModalWindow(cardReaderViewModel);
 		}
 
-		public int CurrentCardNo { get; set; }
+		public uint CurrentCardNo { get; set; }
 
 		public bool HasCard { get; private set; }
 		public List<byte> GetStateBytes(int no, DatabaseType databaseType)
@@ -296,7 +297,7 @@ namespace GKImitator.ViewModels
 				if (databaseType == DatabaseType.Gk && HasCard)
 				{
 					result.RemoveRange(52, 4);
-					result.InsertRange(52, IntToBytes(CurrentCardNo));
+					result.InsertRange(52, UIntToBytes(CurrentCardNo));
 				}
 
 				return result;
@@ -311,6 +312,11 @@ namespace GKImitator.ViewModels
 		List<byte> IntToBytes(int intValue)
 		{
 			return BitConverter.GetBytes(intValue).ToList();
+		}
+		
+		List<byte> UIntToBytes(uint uintValue)
+		{
+			return BitConverter.GetBytes(uintValue).ToList();
 		}
 
 		List<byte> ShortToBytes(ushort shortValue)
@@ -334,6 +340,45 @@ namespace GKImitator.ViewModels
 				dbService.ImitatorJournalTranslator.Add(journalItem);
 			}
 			JournalCash.Add(journalItem);
+		}
+
+		public void EnterCard(uint cardNo, GKCodeReaderEnterType enterType)
+		{
+			CurrentCardNo = cardNo;
+			var backgroundWorker = new BackgroundWorker();
+			backgroundWorker.DoWork += backgroundWorker_DoWork;
+			backgroundWorker.RunWorkerAsync();
+			switch (enterType)
+			{
+				case GKCodeReaderEnterType.CodeOnly:
+					SetStateBit(GKStateBit.Fire1, false);
+					SetStateBit(GKStateBit.Fire2, false);
+					SetStateBit(GKStateBit.Attention, true);
+					break;
+
+				case GKCodeReaderEnterType.CodeAndOne:
+					SetStateBit(GKStateBit.Attention, false);
+					SetStateBit(GKStateBit.Fire2, false);
+					SetStateBit(GKStateBit.Fire1, true);
+					break;
+
+				case GKCodeReaderEnterType.CodeAndTwo:
+					SetStateBit(GKStateBit.Attention, false);
+					SetStateBit(GKStateBit.Fire1, false);
+					SetStateBit(GKStateBit.Fire2, true);
+					break;
+			}
+		}
+
+		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			Thread.Sleep(TimeSpan.FromSeconds(3));
+			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
+			SetStateBit(GKStateBit.Attention, false);
+			SetStateBit(GKStateBit.Fire1, false);
+			SetStateBit(GKStateBit.Fire2, false);
+			AddJournalItem(journalItem);
+			CurrentCardNo = 0;
 		}
 	}
 }

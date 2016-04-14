@@ -52,9 +52,9 @@ namespace GKImitator.ViewModels
 			}
 		}
 
-		static List<Tuple<int, int>> usersCurrentZones = new List<Tuple<int, int>>();
-		int doorCurrentCardNo = 0;
-		int doorCurrentZoneNo = 0;
+		static List<Tuple<uint, uint>> usersCurrentZones = new List<Tuple<uint, uint>>();
+		uint doorCurrentCardNo;
+		uint doorCurrentZoneNo;
 
 		private void RecalculateLogic()
 		{
@@ -64,7 +64,7 @@ namespace GKImitator.ViewModels
 			var isACSAccess = false;
 			if (Regime == Regime.Ignore)
 				return;
-			var stack = new List<int>();
+			var stack = new List<uint>();
 			var stateBitVales = new Dictionary<GKStateBit, bool>();
 
 			for (int i = 0; i < FormulaOperations.Count; i++)
@@ -76,7 +76,7 @@ namespace GKImitator.ViewModels
 
 				var stateBit = (GKStateBit)formulaOperation.FirstOperand;
 				var descriptorNo = formulaOperation.SecondOperand;
-				DescriptorViewModel descriptorViewModel = null;
+				DescriptorViewModel descriptorViewModel;
 				if (IsKauDecriptor)
 					descriptorViewModel = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.KAUDescriptorNo == descriptorNo && x.GKBase == formulaOperation.GKBaseSecondOperand); // TODO проверить для больше чем одного КАУ
 				else
@@ -87,7 +87,7 @@ namespace GKImitator.ViewModels
 					case FormulaOperationType.GETBIT:
 						if (descriptorViewModel != null)
 						{
-							var bitValue = descriptorViewModel.GetStateBit(stateBit) ? 1 : 0;
+							var bitValue = (uint) (descriptorViewModel.GetStateBit(stateBit) ? 1 : 0);
 							stack.Add(bitValue);
 						}
 						break;
@@ -168,7 +168,7 @@ namespace GKImitator.ViewModels
 						var cardNo = stack.LastOrDefault();
 						stack.RemoveAt(stack.Count - 1);
 						usersCurrentZones.RemoveAll(x => x.Item1 == cardNo);
-						usersCurrentZones.Add(new Tuple<int, int>(cardNo, zoneNo));
+						usersCurrentZones.Add(new Tuple<uint, uint>(cardNo, zoneNo));
 						break;
 
 					case FormulaOperationType.OR:
@@ -180,7 +180,7 @@ namespace GKImitator.ViewModels
 							var currentStackValue2 = stack.LastOrDefault();
 							stack.RemoveAt(stack.Count - 1);
 
-							var newStackValue = (currentStackValue1 != 0 || currentStackValue2 != 0) ? 1 : 0;
+							var newStackValue = (uint) ((currentStackValue1 != 0 || currentStackValue2 != 0) ? 1 : 0);
 							stack.Add(newStackValue);
 						}
 						break;
@@ -194,7 +194,7 @@ namespace GKImitator.ViewModels
 							var currentStackValue2 = stack.LastOrDefault();
 							stack.RemoveAt(stack.Count - 1);
 
-							var newStackValue = (currentStackValue1 != 0 && currentStackValue2 != 0) ? 1 : 0;
+							var newStackValue = (uint) ((currentStackValue1 != 0 && currentStackValue2 != 0) ? 1 : 0);
 							stack.Add(newStackValue);
 						}
 						break;
@@ -206,7 +206,7 @@ namespace GKImitator.ViewModels
 						if (stack.Any())
 						{
 							var currentStackValue = stack.LastOrDefault();
-							currentStackValue = currentStackValue != 0 ? 0 : 1;
+							currentStackValue = (uint) (currentStackValue != 0 ? 0 : 1);
 							stack.RemoveAt(stack.Count - 1);
 							stack.Add(currentStackValue);
 						}
@@ -230,7 +230,7 @@ namespace GKImitator.ViewModels
 							var currentStackValue2 = stack.LastOrDefault();
 							stack.RemoveAt(stack.Count - 1);
 
-							var newStackValue = (currentStackValue2 > currentStackValue1) ? 1 : 0;
+							var newStackValue = (uint) ((currentStackValue2 > currentStackValue1) ? 1 : 0);
 							stack.Add(newStackValue);
 						}
 						break;
@@ -244,7 +244,7 @@ namespace GKImitator.ViewModels
 							var currentStackValue2 = stack.LastOrDefault();
 							stack.RemoveAt(stack.Count - 1);
 
-							var newStackValue = (currentStackValue2 >= currentStackValue1) ? 1 : 0;
+							var newStackValue = (uint) ((currentStackValue2 >= currentStackValue1) ? 1 : 0);
 							stack.Add(newStackValue);
 						}
 						break;
@@ -258,7 +258,7 @@ namespace GKImitator.ViewModels
 							var currentStackValue2 = stack.LastOrDefault();
 							stack.RemoveAt(stack.Count - 1);
 
-							var newStackValue = (currentStackValue2 < currentStackValue1) ? 1 : 0;
+							var newStackValue = (uint) ((currentStackValue2 < currentStackValue1) ? 1 : 0);
 							stack.Add(newStackValue);
 						}
 						break;
@@ -272,7 +272,7 @@ namespace GKImitator.ViewModels
 							var currentStackValue2 = stack.LastOrDefault();
 							stack.RemoveAt(stack.Count - 1);
 
-							var newStackValue = (currentStackValue2 <= currentStackValue1) ? 1 : 0;
+							var newStackValue = (uint) ((currentStackValue2 <= currentStackValue1) ? 1 : 0);
 							stack.Add(newStackValue);
 						}
 						break;
@@ -286,7 +286,7 @@ namespace GKImitator.ViewModels
 						var isTSTPAccess = false;
 						if (userCurrentZoneNo == zoneNo || userCurrentZoneNo == 0)
 						{
-							stack.AddRange(new List<int> { cardNo, 1 });
+							stack.AddRange(new List<uint> { cardNo, 1 });
 							isTSTPAccess = true;
 						}
 						else
@@ -306,14 +306,14 @@ namespace GKImitator.ViewModels
 								var currentStackValue1 = stack.LastOrDefault();
 								stack.RemoveAt(stack.Count - 1);
 
-								var newStackValue = 0;
+								uint newStackValue = 0;
 								if (formulaOperation.FirstOperand == 1)
 								{
-									newStackValue = (currentStackValue1 == code.Password) ? 1 : 0;
+									newStackValue = (uint) ((currentStackValue1 == code.Password) ? 1 : 0);
 								}
 								if (formulaOperation.FirstOperand == 2)
 								{
-									newStackValue = (currentStackValue1 != code.Password) ? 1 : 0;
+									newStackValue = (uint) ((currentStackValue1 != code.Password) ? 1 : 0);
 								}
 								stack.Add(newStackValue);
 							}
@@ -329,8 +329,7 @@ namespace GKImitator.ViewModels
 
 					case FormulaOperationType.ACS:
 					case FormulaOperationType.ACSP:
-						var level = formulaOperation.FirstOperand;
-						int currentCardNo = 0;
+						uint currentCardNo = 0;
 						if (descriptorViewModel != null && descriptorViewModel.CurrentCardNo > 0)
 						{
 							currentCardNo = descriptorViewModel.CurrentCardNo;
@@ -344,9 +343,9 @@ namespace GKImitator.ViewModels
 						}
 
 						if (formulaOperation.FormulaOperationType == FormulaOperationType.ACS)
-							stack.Add(isACSAccess ? 1 : 0);
+							stack.Add((uint) (isACSAccess ? 1 : 0));
 						else
-							stack.AddRange(new List<int> { currentCardNo, isACSAccess ? 1 : 0 });
+							stack.AddRange(new List<uint> { currentCardNo, (uint) (isACSAccess ? 1 : 0) });
 
 						if (GKBase is GKDoor && !(GKBase as GKDoor).AntipassbackOn || !isACSAccess)
 							AddAccessJournalItem(user, isACSAccess, acsDriverTypeAndNo.Item2);
@@ -392,7 +391,7 @@ namespace GKImitator.ViewModels
 						break;
 
 					case FormulaOperationType.GETMEMB:
-						stack.AddRange(new List<int> { doorCurrentCardNo, doorCurrentZoneNo });
+						stack.AddRange(new List<uint> { doorCurrentCardNo, doorCurrentZoneNo });
 						break;
 				}
 
@@ -616,7 +615,7 @@ namespace GKImitator.ViewModels
 			return false;
 		}
 
-		static Tuple<ImitatorUser, bool> GetUserAccess(int currentCardNo, FormulaOperation formulaOperation, DescriptorViewModel descriptorViewModel)
+		static Tuple<ImitatorUser, bool> GetUserAccess(uint currentCardNo, FormulaOperation formulaOperation, DescriptorViewModel descriptorViewModel)
 		{
 			var isAccess = false;
 			var level = formulaOperation.FirstOperand;

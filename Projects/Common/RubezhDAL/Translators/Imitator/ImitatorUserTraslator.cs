@@ -84,7 +84,7 @@ namespace RubezhDAL.DataClasses
 			}
 		}
 
-		public ImitatorUser GetByNo(int no)
+		public ImitatorUser GetByNo(uint no)
 		{
 			try
 			{

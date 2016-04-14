@@ -81,6 +81,7 @@
     <Compile Include="IntegratedTest.Initialize.cs" />
     <Compile Include="ItegratedTest.HandDetector.cs" />
     <Compile Include="ItegratedTest.FireZone.cs" />
+    <Compile Include="ItegratedTest.SKD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
