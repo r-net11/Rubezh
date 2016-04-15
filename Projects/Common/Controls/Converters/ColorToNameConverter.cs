@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Windows.Data;
-using System.Windows.Media;
-using Common;
 
 namespace Controls.Converters
 {

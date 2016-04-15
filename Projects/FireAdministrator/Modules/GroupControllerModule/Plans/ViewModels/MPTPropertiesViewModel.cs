@@ -24,7 +24,7 @@ namespace GKModule.Plans.ViewModels
 			_element = element;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Title = "Свойства фигуры: ГК МПТ";
+			Title = "Свойства фигуры: МПТ";
 			MPTs = new ObservableCollection<MPTViewModel>();
 			foreach (var mpt in GKManager.MPTs)
 			{

@@ -22,7 +22,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			_directionsViewModel = directionsViewModel;
 			_element = element;
-			Title = "Свойства фигуры: ГК Направление";
+			Title = "Свойства фигуры: Направление";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 

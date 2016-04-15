@@ -6,6 +6,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
 using SKDModule.PassCardDesigner.ViewModels;
 using SKDModule.ViewModels;
+using Common;
 
 namespace SKDModule.PassCardDesigner.InstrumentAdorners
 {
@@ -21,7 +22,7 @@ namespace SKDModule.PassCardDesigner.InstrumentAdorners
 
 		protected override ElementBaseRectangle CreateElement()
 		{
-			var element = new ElementPassCardImageProperty() { BackgroundColor = System.Windows.Media.Colors.Transparent };
+			var element = new ElementPassCardImageProperty() { BackgroundColor = Colors.Transparent };
 			element.OrganisationUID = _organisationUID;
 			var propertiesViewModel = new PassCardImagePropertyViewModel(element);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))

@@ -1,20 +1,18 @@
 ﻿#region Usings
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media;
 using Common;
 using GKWebService.Models.Plan;
 using GKWebService.Models.Plan.PlanElement;
 using GKWebService.Utils;
-using Infrastructure.Common.Services.Content;
+using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -30,11 +28,13 @@ namespace GKWebService.DataProviders.Plan
 		/// </summary>
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Корневой элемент плана.</returns>
-		private PlanElement LoadPlanRoot(RubezhAPI.Models.Plan plan) {
-			return new PlanElement {
-				Border = InternalConverterOld.ConvertColor(Colors.Black),
+		private PlanElement LoadPlanRoot(RubezhAPI.Models.Plan plan)
+		{
+			return new PlanElement
+			{
+				Border = InternalConverterOld.ConvertColor(System.Windows.Media.Colors.Black),
 				BorderThickness = 0,
-				Fill = InternalConverterOld.ConvertColor(plan.BackgroundColor),
+				Fill = InternalConverterOld.ConvertColor(plan.BackgroundColor.ToWindowsColor()),
 				Id = "pe" + plan.UID,
 				Name = plan.Caption,
 				Path =
@@ -56,7 +56,8 @@ namespace GKWebService.DataProviders.Plan
 		/// </summary>
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Коллекция элементов плана.</returns>
-		private IEnumerable<PlanElement> LoadPlanSubElements(RubezhAPI.Models.Plan plan) {
+		private IEnumerable<PlanElement> LoadPlanSubElements(RubezhAPI.Models.Plan plan)
+		{
 			var rectangles = LoadRectangleElements(plan);
 			var polygons = LoadPolygonElements(plan);
 			var polylines = LoadPolyLineElements(plan);
@@ -76,22 +77,26 @@ namespace GKWebService.DataProviders.Plan
 		/// </summary>
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Коллекция элементов плана.</returns>
-		private IEnumerable<PlanElement> LoadRectangleElements(RubezhAPI.Models.Plan plan) {
+		private IEnumerable<PlanElement> LoadRectangleElements(RubezhAPI.Models.Plan plan)
+		{
 			return
 				plan.AllElements.Where(elem => elem is ElementBaseRectangle && !(elem is IElementTextBlock))
-				    .Select(elem => PlanElement.FromRectangle(elem as ElementBaseRectangle))
-				    .Where(elem => elem != null);
+					.Select(elem => PlanElement.FromRectangle(elem as ElementBaseRectangle))
+					.Where(elem => elem != null);
 		}
 
-		private IEnumerable<PlanElement> LoadPolyLineElements(RubezhAPI.Models.Plan plan) {
+		private IEnumerable<PlanElement> LoadPolyLineElements(RubezhAPI.Models.Plan plan)
+		{
 			return plan.ElementPolylines.Select(PlanElement.FromPolyline).Where(elem => elem != null);
 		}
 
-		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan) {
+		private IEnumerable<PlanElement> LoadPolygonElements(RubezhAPI.Models.Plan plan)
+		{
 			return plan.AllElements.Where(elem => elem is ElementBasePolygon).Select(elem => PlanElement.FromPolygon(elem as ElementBasePolygon)).Where(elem => elem != null);
 		}
 
-		private IEnumerable<PlanElement> LoadEllipseElements(RubezhAPI.Models.Plan plan) {
+		private IEnumerable<PlanElement> LoadEllipseElements(RubezhAPI.Models.Plan plan)
+		{
 			return plan.ElementEllipses.Select(PlanElement.FromEllipse).Where(elem => elem != null);
 		}
 
@@ -101,20 +106,23 @@ namespace GKWebService.DataProviders.Plan
 		/// </summary>
 		/// <param name="plan">План</param>
 		/// <returns>Элемент-группа, содержащий групповой элемент, внутри которого текст и прямоугольник.</returns>
-		private IEnumerable<PlanElement> LoadStaticTextElements(RubezhAPI.Models.Plan plan) {
+		private IEnumerable<PlanElement> LoadStaticTextElements(RubezhAPI.Models.Plan plan)
+		{
 			var textBlockElements = plan.ElementTextBlocks;
 			var procedureElements = plan.AllElements.OfType<ElementProcedure>();
-			return textBlockElements.Where(t=>!string.IsNullOrWhiteSpace(t.Text)).Select(
+			return textBlockElements.Where(t => !string.IsNullOrWhiteSpace(t.Text)).Select(
 				PlanElement.FromTextBlock)
-			                        .Where(elem => elem != null)
-			                        .Union(procedureElements.Where(p=>!string.IsNullOrWhiteSpace(p.Text)).Select(PlanElement.FromProcedure).Where(elem => elem != null));
+									.Where(elem => elem != null)
+									.Union(procedureElements.Where(p => !string.IsNullOrWhiteSpace(p.Text)).Select(PlanElement.FromProcedure).Where(elem => elem != null));
 		}
 
-		private IEnumerable<PlanElement> LoadDeviceElements(RubezhAPI.Models.Plan plan) {
+		private IEnumerable<PlanElement> LoadDeviceElements(RubezhAPI.Models.Plan plan)
+		{
 			return plan.ElementGKDevices.Select(PlanElement.FromDevice);
 		}
 
-		private IEnumerable<PlanElement> LoadDoorElements(RubezhAPI.Models.Plan plan) {
+		private IEnumerable<PlanElement> LoadDoorElements(RubezhAPI.Models.Plan plan)
+		{
 			return plan.ElementGKDoors.ToList().Select(PlanElement.FromGkDoor);
 		}
 
@@ -122,7 +130,8 @@ namespace GKWebService.DataProviders.Plan
 		/// Обработка событий изменения состояния элементов.
 		/// </summary>
 		/// <param name="obj">Информация об изменении состояния.</param>
-		private void OnServiceCallback(GKCallbackResult obj) {
+		private void OnServiceCallback(GKCallbackResult obj)
+		{
 			var states = obj.GKStates;
 			Parallel.ForEach(states.DeviceStates, PlanElement.UpdateDeviceState);
 			Parallel.ForEach(states.GuardZoneStates.Union(states.SKDZoneStates).Union(states.ZoneStates), PlanElement.UpdateZoneState);
@@ -145,7 +154,8 @@ namespace GKWebService.DataProviders.Plan
 		/// <param name="width">Ширина плана</param>
 		/// <param name="height">Высота плана</param>
 		/// <returns></returns>
-		private string RenderPlanBackgound(Guid? source, ResourceType resourceType, int width, int height) {
+		private string RenderPlanBackgound(Guid? source, ResourceType resourceType, int width, int height)
+		{
 			return PlanElement.GetBackgroundContent(source, resourceType, width, height);
 		}
 
@@ -155,13 +165,16 @@ namespace GKWebService.DataProviders.Plan
 		///     Получить список планов в текущей конфигурации.
 		/// </summary>
 		/// <returns>Иерархический список планов.</returns>
-		public IEnumerable<PlanSimpl> GetPlansList() {
+		public IEnumerable<PlanSimpl> GetPlansList()
+		{
 			if (RubezhClient.ClientManager.PlansConfiguration == null
-			    || RubezhClient.ClientManager.PlansConfiguration.Plans == null) {
+				|| RubezhClient.ClientManager.PlansConfiguration.Plans == null)
+			{
 				return null;
 			}
 			var webFolder = RubezhClient.ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.Caption == "WEB");
-			if (webFolder != null) {
+			if (webFolder != null)
+			{
 				return webFolder.Children.Select(GetPlanInfo).ToList();
 			}
 			return null;
@@ -172,8 +185,10 @@ namespace GKWebService.DataProviders.Plan
 		/// </summary>
 		/// <param name="plan">Объект плана.</param>
 		/// <returns>Основная информация о плане, включая вложенные планы.</returns>
-		private PlanSimpl GetPlanInfo(RubezhAPI.Models.Plan plan) {
-			return new PlanSimpl {
+		private PlanSimpl GetPlanInfo(RubezhAPI.Models.Plan plan)
+		{
+			return new PlanSimpl
+			{
 				Name = plan.Caption,
 				Uid = plan.UID,
 				Description = plan.Description,
@@ -190,14 +205,17 @@ namespace GKWebService.DataProviders.Plan
 		/// </summary>
 		/// <param name="planId">UID плана.</param>
 		/// <returns>Готовая к сериализации полная информация о плане.</returns>
-		public PlanSimpl GetPlan(Guid planId) {
+		public PlanSimpl GetPlan(Guid planId)
+		{
 			var plan = RubezhClient.ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(p => p.UID == planId);
 			// Корень плана
-			if (plan == null) {
+			if (plan == null)
+			{
 				throw new KeyNotFoundException(string.Format("План с ID {0} не найден, либо недоступен.", planId));
 			}
 
-			var planToAdd = new PlanSimpl {
+			var planToAdd = new PlanSimpl
+			{
 				Name = plan.Caption,
 				Uid = plan.UID,
 				Description = plan.Description,
@@ -221,13 +239,17 @@ namespace GKWebService.DataProviders.Plan
 
 		private static PlansDataProvider _instance;
 
-		private PlansDataProvider() {
+		private PlansDataProvider()
+		{
 			SafeFiresecService.GKCallbackResultEvent += OnServiceCallback;
 		}
 
-		public static PlansDataProvider Instance {
-			get {
-				if (_instance != null) {
+		public static PlansDataProvider Instance
+		{
+			get
+			{
+				if (_instance != null)
+				{
 					return _instance;
 				}
 				return _instance = new PlansDataProvider();

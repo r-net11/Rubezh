@@ -1,8 +1,8 @@
-﻿using System.Globalization;
+﻿using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {

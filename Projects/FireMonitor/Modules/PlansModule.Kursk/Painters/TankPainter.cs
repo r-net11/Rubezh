@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Windows;
-using System.Windows.Media;
+﻿using Infrustructure.Plans.Painters;
+using Infrustructure.Plans.Presenter;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Presenter;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 
 namespace PlansModule.Kursk.Painters
 {
@@ -66,7 +66,7 @@ namespace PlansModule.Kursk.Painters
 					break;
 				case TankState.Error:
 				default:
-					_brush = PainterCache.GetTransparentBrush(Colors.Black);
+					_brush = PainterCache.GetTransparentBrush(Common.Colors.Black);
 					break;
 			}
 		}

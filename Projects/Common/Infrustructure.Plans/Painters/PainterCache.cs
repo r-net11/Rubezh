@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Common;
+using Infrustructure.Plans.Elements;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Common;
-using Infrustructure.Plans.Elements;
-using System.Threading;
+using Color = Common.Color;
+using Colors = Common.Colors;
+using WindowsColor = System.Windows.Media.Color;
+using WindowsColors = System.Windows.Media.Colors;
+
 
 namespace Infrustructure.Plans.Painters
 {
@@ -32,13 +36,13 @@ namespace Infrustructure.Plans.Painters
 			UseTransparentImage = true;
 			try
 			{
-				TransparentBrush = new SolidColorBrush(Colors.Transparent);
+				TransparentBrush = new SolidColorBrush(WindowsColors.Transparent);
 				TransparentBrush.Freeze();
-				BlackBrush = new SolidColorBrush(Colors.Black);
+				BlackBrush = new SolidColorBrush(WindowsColors.Black);
 				BlackBrush.Freeze();
-				WhiteBrush = new SolidColorBrush(Colors.White);
+				WhiteBrush = new SolidColorBrush(WindowsColors.White);
 				WhiteBrush.Freeze();
-				GridLineBrush = new SolidColorBrush(Colors.Orange);
+				GridLineBrush = new SolidColorBrush(WindowsColors.Orange);
 				GridLineBrush.Freeze();
 			}
 			catch (Exception e)
@@ -70,7 +74,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			if (!_brushes.ContainsKey(color))
 			{
-				var brush = new SolidColorBrush(color);
+				var brush = new SolidColorBrush(color.ToWindowsColor());
 				brush.Freeze();
 				_brushes.Add(color, brush);
 			}
@@ -115,7 +119,7 @@ namespace Infrustructure.Plans.Painters
 						drawing.Freeze();
 						brush = new DrawingBrush(drawing);
 					}
-					else brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+					else brush = new SolidColorBrush(WindowsColor.FromRgb(255, 255, 255));
 					break;
 				case ResourceType.Visual:
 					var visual = _visualFactory(guid);
@@ -123,7 +127,7 @@ namespace Infrustructure.Plans.Painters
 					{
 						brush = new VisualBrush(visual);
 					}
-					else brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+					else brush = new SolidColorBrush(WindowsColor.FromRgb(255, 255, 255));
 					break;
 				case ResourceType.Image:
 					var bitmap = _imageFactory(guid);
@@ -182,7 +186,7 @@ namespace Infrustructure.Plans.Painters
 			if (element.BackgroundImageSource.HasValue)
 			{
 				if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
-				CacheBrush(element);
+					CacheBrush(element);
 
 				return _pictureBrushes[element.BackgroundImageSource.Value];
 				//return GetBrush(element.BackgroundImageSource.Value);

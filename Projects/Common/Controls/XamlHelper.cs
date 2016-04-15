@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Markup;
 
-namespace Common
+namespace Controls
 {
 	public static class XamlHelper
 	{

@@ -92,6 +92,7 @@ namespace GKImitator.ViewModels
 			var ignoreState = StateBits.FirstOrDefault(x => x.StateBit == GKStateBit.Ignore);
 			return ignoreState == null || !ignoreState.IsActive;
 		}
+		public bool HasFire1 { get; private set; }
 		public bool HasFire12 { get; private set; }
 		public bool HasAlarm { get; private set; }
 	}

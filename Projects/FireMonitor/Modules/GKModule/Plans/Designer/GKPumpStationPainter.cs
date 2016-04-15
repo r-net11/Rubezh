@@ -1,11 +1,4 @@
-﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using GKModule.ViewModels;
+﻿using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
@@ -15,8 +8,17 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Color = Common.Color;
+using Colors = Common.Colors;
 
 namespace GKModule.Plans.Designer
 {

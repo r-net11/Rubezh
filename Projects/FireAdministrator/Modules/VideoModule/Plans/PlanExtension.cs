@@ -5,6 +5,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Interfaces;
 using Infrustructure.Plans.Services;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -118,6 +119,11 @@ namespace VideoModule.Plans
 			{
 				var camera = item as Camera;
 				designerItem.Title = camera == null ? "Неизвестная камера" : camera.PresentationName;
+				var vizualizationItem = designerItem.Element as IMultipleVizualization;
+				if (camera != null && vizualizationItem != null)
+				{
+					vizualizationItem.AllowMultipleVizualization = camera.AllowMultipleVizualization;
+				}
 			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);

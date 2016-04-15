@@ -78,7 +78,7 @@ namespace GKImitator
 				availableCommands.Add(GKStateBit.Reset);
 			if (descriptor.HasSetFireHandDetector || descriptor.HasFire12)
 				availableCommands.Add(GKStateBit.Fire2);
-			if (descriptor.HasSetFireSmoke || descriptor.HasSetFireTemperature || descriptor.HasSetFireTemperatureGradient || descriptor.HasFire12)
+			if (descriptor.HasSetFireSmoke || descriptor.HasSetFireTemperature || descriptor.HasSetFireTemperatureGradient || descriptor.HasFire12 || descriptor.HasFire1)
 				availableCommands.Add(GKStateBit.Fire1);
 			if (descriptor.HasTest)
 				availableCommands.Add(GKStateBit.Test);
