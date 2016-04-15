@@ -37,28 +37,33 @@ namespace FiresecService
 					SKDManager.UpdateConfiguration();
 					SKDManager.CreateStates();
 				}
+
+				Logger.Info("SKDProcessor. Запускаем Processor");
 				Processor.Start();
+
 				foreach (var deviceProcessor in Processor.DeviceProcessors)
 				{
-					deviceProcessor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
-					deviceProcessor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
+					// Подключаем обработчик для фиксации событий прохода в журнале проходов и фиксации информации о событии в журнале событий
+					deviceProcessor.NewJournalItem -= OnNewJournalItem;
+					deviceProcessor.NewJournalItem += OnNewJournalItem;
 
-					deviceProcessor.ConnectionAppeared -= new Action<DeviceProcessor>(OnConnectionAppeared);
-					deviceProcessor.ConnectionAppeared += new Action<DeviceProcessor>(OnConnectionAppeared);
+					// При подключении к контроллеру запускаем обработку Pending Cards (добавление/редактирование/удаление, повторный проход)
+					deviceProcessor.ConnectionAppeared -= OnConnectionAppeared;
+					deviceProcessor.ConnectionAppeared += OnConnectionAppeared;
 				}
 
-				Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
-				Processor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
+				Processor.NewJournalItem -= OnNewJournalItem;
+				Processor.NewJournalItem += OnNewJournalItem;
 
-				Processor.StatesChangedEvent -= new Action<SKDStates>(OnSKDStates);
-				Processor.StatesChangedEvent += new Action<SKDStates>(OnSKDStates);
+				Processor.StatesChangedEvent -= OnSKDStates;
+				Processor.StatesChangedEvent += OnSKDStates;
 
-				Processor.SKDProgressCallbackEvent -= new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
-				Processor.SKDProgressCallbackEvent += new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
+				Processor.SKDProgressCallbackEvent -= OnSKDProgressCallbackEvent;
+				Processor.SKDProgressCallbackEvent += OnSKDProgressCallbackEvent;
 
 				// События функционала автопоиска контроллеров в сети
-				Processor.NewSearchDevice -= new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
-				Processor.NewSearchDevice += new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
+				Processor.NewSearchDevice -= OnNewSearchDevice;
+				Processor.NewSearchDevice += OnNewSearchDevice;
 			}
 			catch (Exception e)
 			{
@@ -71,6 +76,11 @@ namespace FiresecService
 			ChinaSKDDriver.Processor.Stop();
 		}
 
+		/// <summary>
+		/// Для онлайн событий прохода выполняем фиксацию факта прохода в БД журнала проходов.
+		/// Фиксируем информацию о событии в БД журнала событий
+		/// </summary>
+		/// <param name="journalItem">Информация о событии контроллера</param>
 		private static void OnNewJournalItem(JournalItem journalItem)
 		{
 			var cardNo = 0;
@@ -270,6 +280,10 @@ namespace FiresecService
 			FiresecService.Service.FiresecService.NotifySKDProgress(SKDProgressCallback);
 		}
 
+		/// <summary>
+		/// При подключении к контроллеру запускаем обработку Pending Cards (добавление/редактирование/удаление, повторный проход)
+		/// </summary>
+		/// <param name="deviceProcessor">Экземпляр класса DeviceProcessor, отвечающий за работу с данным контроллером</param>
 		private static void OnConnectionAppeared(DeviceProcessor deviceProcessor)
 		{
 			using (var databaseService = new SKDDatabaseService())

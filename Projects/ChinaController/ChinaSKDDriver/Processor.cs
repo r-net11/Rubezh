@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ChinaSKDDriverAPI;
+using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -67,8 +68,10 @@ namespace ChinaSKDDriver
 
 		public static void Start()
 		{
+			Logger.Info("Processor. Инициализируем СДК контроллеров");
 			Wrapper.Initialize();
 
+			Logger.Info("Processor. Для каждого контроллера из конфигурации создаем управляющий экземпляр DeviceProcessor и запускаем его");
 			DeviceProcessors = new List<DeviceProcessor>();
 			foreach (var device in SKDManager.SKDConfiguration.RootDevice.Children)
 			{
@@ -77,17 +80,22 @@ namespace ChinaSKDDriver
 				deviceProcessor.Start();
 			}
 
-			Wrapper.NewSearchDevice -= new Action<DeviceSearchInfo>(OnNewSearchDevice);
-			Wrapper.NewSearchDevice += new Action<DeviceSearchInfo>(OnNewSearchDevice);
+			Logger.Info("Processor. Подписываемся на событие 'Wrapper.NewSearchDevice'");
+			Wrapper.NewSearchDevice -= OnNewSearchDevice;
+			Wrapper.NewSearchDevice += OnNewSearchDevice;
 		}
 
 		public static void Stop()
 		{
-			Wrapper.NewSearchDevice -= new Action<DeviceSearchInfo>(OnNewSearchDevice);
+			Logger.Info("Processor. Отписываемся от события 'Wrapper.NewSearchDevice'");
+			Wrapper.NewSearchDevice -= OnNewSearchDevice;
 
+			Logger.Info("Processor. Для каждого контроллера из конфигурации останавливаем управляющий экземпляр DeviceProcessor");
 			if (DeviceProcessors != null)
 				foreach (var deviceProcessor in DeviceProcessors)
 					deviceProcessor.Stop();
+
+			Logger.Info("Processor. Деинициализируем СДК контроллеров");
 			Wrapper.Deinitialize();
 		}
 

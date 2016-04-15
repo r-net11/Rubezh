@@ -3,6 +3,7 @@ using ChinaSKDDriverNativeApi;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Common;
 using FiresecAPI.Journal;
 
 namespace ChinaSKDDriver
@@ -97,38 +98,46 @@ namespace ChinaSKDDriver
 		{
 			var resultAccesses = new List<AccessLogItem>();
 			var finderID = 0;
-			NativeWrapper.WRAP_BeginGetAll_Accesses(LoginID, ref finderID);
 
-			if (finderID > 0)
+			try
 			{
-				var continueSearch = true;
-				while (continueSearch)
+				NativeWrapper.WRAP_BeginGetAll_Accesses(LoginID, ref finderID);
+
+				if (finderID > 0)
 				{
-					var structSize = Marshal.SizeOf(typeof(NativeWrapper.AccessesCollection));
-					var intPtr = Marshal.AllocCoTaskMem(structSize);
-
-					var result = NativeWrapper.WRAP_GetAll_Accesses(finderID, intPtr);
-					if (result == 0)
-						break;
-
-					var accessesCollection = (NativeWrapper.AccessesCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.AccessesCollection)));
-					Marshal.FreeCoTaskMem(intPtr);
-					intPtr = IntPtr.Zero;
-
-					for (var i = 0; i < Math.Min(accessesCollection.Count, 10); i++)
+					var continueSearch = true;
+					while (continueSearch)
 					{
-						var access = NativeAccessToAccessLogItem(accessesCollection.Accesses[i]);
-						if (access.Time > dateTime)
-							resultAccesses.Add(access);
-						else
-						{
-							continueSearch = false;
+						var structSize = Marshal.SizeOf(typeof(NativeWrapper.AccessesCollection));
+						var intPtr = Marshal.AllocCoTaskMem(structSize);
+
+						var result = NativeWrapper.WRAP_GetAll_Accesses(finderID, intPtr);
+						if (result == 0)
 							break;
+
+						var accessesCollection = (NativeWrapper.AccessesCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.AccessesCollection)));
+						Marshal.FreeCoTaskMem(intPtr);
+						intPtr = IntPtr.Zero;
+
+						for (var i = 0; i < Math.Min(accessesCollection.Count, 10); i++)
+						{
+							var access = NativeAccessToAccessLogItem(accessesCollection.Accesses[i]);
+							if (access.Time > dateTime)
+								resultAccesses.Add(access);
+							else
+							{
+								continueSearch = false;
+								break;
+							}
 						}
 					}
-				}
 
-				NativeWrapper.WRAP_EndGetAll(finderID);
+					NativeWrapper.WRAP_EndGetAll(finderID);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, string.Format("Контроллер '{0}'. Исключение при вызове Wrapper.GetAccessLogItemsOlderThan({1})", _deviceUid, dateTime));
 			}
 
 			return resultAccesses;

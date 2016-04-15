@@ -30,7 +30,7 @@ namespace ChinaSKDDriver
 
 		private Thread Thread;
 		private bool IsStopping;
-		private static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+		private static AutoResetEvent stopEvent = new AutoResetEvent(false);
 
 		public event Action<JournalItem> NewJournalItem;
 
@@ -329,7 +329,6 @@ namespace ChinaSKDDriver
 
 			if (IsConnected)
 			{
-				Logger.Info(string.Format("Контроллер '{0}'. Доступен по сети.", Device.UID));
 				if (_isOfflineLogEnabled)
 				{
 					var getLastJournalItemTimeProducedByControllerEvent = new AutoResetEvent(false);
@@ -371,7 +370,7 @@ namespace ChinaSKDDriver
 		/// </summary>
 		public void Start()
 		{
-			Logger.Info(string.Format("Контроллер '{0}'. Запускаем механизм управления.", Device.UID));
+			Logger.Info(string.Format("Контроллер '{0}'. Запускаем DeviceProcessor.", Device.UID));
 
 			// Загружать ли оффлайн лог в случае восстановления соединения с контроллером задается в конфигурационном файле для Сервера приложений
 			_isOfflineLogEnabled = AppServerSettingsHelper.AppServerSettings.EnableOfflineLog;
@@ -386,7 +385,7 @@ namespace ChinaSKDDriver
 			}
 
 			IsStopping = false;
-			AutoResetEvent = new AutoResetEvent(false);
+			stopEvent = new AutoResetEvent(false);
 			Thread = new Thread(OnStart);
 			Thread.Start();
 		}
@@ -396,14 +395,14 @@ namespace ChinaSKDDriver
 		/// </summary>
 		public void Stop()
 		{
-			Logger.Info(string.Format("Контроллер '{0}'. Останавливаем механизм управления.", Device.UID));
+			Logger.Info(string.Format("Контроллер '{0}'. Останавливаем DeviceProcessor.", Device.UID));
 
-			Wrapper.NewJournalItem -= new Action<SKDJournalItem>(Wrapper_NewJournalItem);
+			Wrapper.NewJournalItem -= Wrapper_NewJournalItem;
 			Wrapper.Disconnect();
 			IsStopping = true;
-			if (AutoResetEvent != null)
+			if (stopEvent != null)
 			{
-				AutoResetEvent.Set();
+				stopEvent.Set();
 				if (Thread != null)
 				{
 					Thread.Join(TimeSpan.FromSeconds(1));
@@ -418,12 +417,14 @@ namespace ChinaSKDDriver
 			while (true)
 			{
 				attemptCount++;
+				Logger.Info(string.Format("Контроллер '{0}'. Попытка подключения {1}", Device.UID, attemptCount));
 				try
 				{
 					Connect();
 					IsConnected = LoginID > 0;
 					if (IsConnected)
 					{
+						Logger.Info(string.Format("Контроллер '{0}'. Подключились с {1} попытки", Device.UID, attemptCount));
 						Thread = null;
 						OnConnectionChanged(true, attemptCount > 2);
 						break;
@@ -436,7 +437,7 @@ namespace ChinaSKDDriver
 
 					if (IsStopping)
 						return;
-					if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(5)))
+					if (stopEvent.WaitOne(TimeSpan.FromSeconds(5)))
 					{
 						return;
 					}
@@ -455,6 +456,9 @@ namespace ChinaSKDDriver
 			Start();
 		}
 
+		/// <summary>
+		/// Подключение к контроллеру
+		/// </summary>
 		public void Connect()
 		{
 			var address = "";
