@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Painters;
+using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -246,6 +247,13 @@ namespace Infrustructure.Plans.Designer
 			if (visualItem == null)
 				visualItem = base.HitTest(point);
 			return visualItem;
+		}
+
+		public event Action Removed;
+		public void OnRemoved()
+		{
+			if (Removed != null)
+				Removed();
 		}
 	}
 }

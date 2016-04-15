@@ -4,33 +4,57 @@
     Layout = null;
 }
 
-<script type="text/html" id="DepartmentDetailsTemplate">
-<div id="department-details-box" class="save-cancel-popup">
-    <div class="title-bar">
-        <span data-bind="text: Title"></span>
-        <a href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: DepartmentDetailsClose"/></a>
-    </div>
-    <div>
-        <form id="Department" data-bind="submit: SaveDepartment">
-            <ul class="tab">
-                <li class="active"><a href="" data-bind="click: function(data,event) { DepartmentDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { DepartmentDetailsPageClick(data, event, 'Photo'); }"><span>Логотип</span></a></li>
-            </ul>
-            <div class="data-input" data-bind="visible:departmentDetailsPages.General, with: Department">
-                <label for="Name"><span>Название</span><input type="text" name="Name" id="Name" data-bind="value: Name" value=""/></label>
-                <label for="Description"><span>Примечание</span><input type="text" name="Description" id="Description" data-bind="value: Description" value=""/></label>
-                <label for="Chief" data-bind="visible: !$parent.IsNew()"><span>Руководитель</span><a id="Chief" href=""><span data-bind="click: $parent.SelectChief, text: $parent.IsChiefSelected() ? $parent.SelectedChief().Name : 'Нажмите для выбора'"></span></a></label>
-                <label for="SelectedDepartment"><span>Родительское подразделение</span><a id="SelectedDepartment" href=""><span data-bind="click: $parent.SelectDepartment, text: $parent.IsDepartmentSelected() ? $parent.SelectedDepartment().Name : 'Нажмите для выбора'"></span></a></label>
-                <label for="Phone"><span>Телефон</span><input type="text" name="Phone" id="Phone" data-bind="value: Phone" value=""/></label>
-            </div>
-            <div data-bind="visible:departmentDetailsPages.Photo">
-                <div data-bind="template: { name: 'PhotoSelectionTemplate', data: {PhotoData: PhotoData} }"></div>
-            </div>
-
-            <button class="submit ok-cancel-button" type="submit">OK</button>
-        </form>
-    </div>
+<div class="modal-header">
+    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+    <h3 class="modal-title">{{title}}</h3>
 </div>
-</script>
-
-<div data-bind="template: { name: 'DepartmentDetailsTemplate', data: HR.Departments.DepartmentDetails}"></div>
+<div class="modal-body">
+    <uib-tabset>
+        <uib-tab heading="Основные">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="departmentDetailsName">Название</label>
+                    <div class="col-sm-8">
+                        <input id="departmentDetailsName" class="form-control" ng-model="department.Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="departmentDetailsDescription">Примечание</label>
+                    <div class="col-sm-8">
+                        <input id="departmentDetailsDescription" class="form-control" ng-model="department.Description">
+                    </div>
+                </div>
+                <div class="form-group" ng-show="!isNew">
+                    <label class="control-label col-sm-4" for="departmentDetailsChief">Руководитель</label>
+                    <div class="col-sm-8">
+                        <a id="departmentDetailsChief" href="" ng-click="selectChief()">
+                            <span ng-show="model.selectedChief">{{selectedChief.Name}}</span>
+                            <span ng-show="!model.selectedChief">Нажмите для выбора</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="departmentDetailsDepartment">Родительское подразделение</label>
+                    <div class="col-sm-8">
+                        <a id="departmentDetailsDepartment" href="" ng-click="selectDepartment()">
+                            <span ng-show="model.selectedDepartment">{{selectedDepartment.Name}}</span>
+                            <span ng-show="!model.selectedDepartment">Нажмите для выбора</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="departmentDetailsPhone">Телефон</label>
+                    <div class="col-sm-8">
+                        <input id="departmentDetailsPhone" class="form-control" ng-model="department.Phone">
+                    </div>
+                </div>
+            </form>
+        </uib-tab>
+        <uib-tab heading="Логотип">
+            <photo-selection ng-model="model.photoData"></photo-selection>
+        </uib-tab>
+    </uib-tabset>
+</div>
+<div mobile-hover-fix class="modal-footer">
+    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
+</div>

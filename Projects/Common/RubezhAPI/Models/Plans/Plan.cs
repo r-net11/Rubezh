@@ -73,6 +73,9 @@ namespace RubezhAPI.Models
 		public bool IsAsynchronousLoad { get; set; }
 
 		[DataMember]
+		public bool IsNotShowPlan { get; set; }
+
+		[DataMember]
 		public List<Plan> Children { get; set; }
 
 		[DataMember]

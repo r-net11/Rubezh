@@ -17,12 +17,14 @@ namespace PlansModule.ViewModels
 		public List<PlanViewModel> AllPlans { get; private set; }
 		private PlansViewModel _plansViewModel;
 		private List<Guid> _filter;
+		private readonly bool _isAllPlan;
 
-		public PlanTreeViewModel(PlansViewModel plansViewModel, List<Guid> filter)
+		public PlanTreeViewModel(PlansViewModel plansViewModel, List<Guid> filter, bool IsAllPlan )
 		{
 			Current = this;
 			_filter = filter;
 			_plansViewModel = plansViewModel;
+			_isAllPlan = IsAllPlan;
 		}
 
 		public void Initialize()
@@ -38,7 +40,7 @@ namespace PlansModule.ViewModels
 		}
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
-			if (_filter == null || _filter.Contains(plan.UID))
+			if ((_filter == null || _filter.Contains(plan.UID)) && !(_isAllPlan && plan.IsNotShowPlan))
 			{
 				var planViewModel = new PlanViewModel(_plansViewModel, plan);
 				planViewModel.IsExpanded = true;

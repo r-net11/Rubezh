@@ -514,7 +514,7 @@ namespace GKModule.Plans
 			LayerGroupService.Instance.RegisterGroup("GKSKDZone", "Зоны СКД", 15);
 			LayerGroupService.Instance.RegisterGroup("GKDirection", "Направления", 16);
 			LayerGroupService.Instance.RegisterGroup("GKMPT", "МПТ", 17);
-			LayerGroupService.Instance.RegisterGroup("GKDoors", "ГК Точки доступа", 18);
+			LayerGroupService.Instance.RegisterGroup("GKDoors", "Точки доступа", 18);
 			LayerGroupService.Instance.RegisterGroup("GKDelay", "Задержки", 19);
 		}
 		public override void ExtensionAttached()
