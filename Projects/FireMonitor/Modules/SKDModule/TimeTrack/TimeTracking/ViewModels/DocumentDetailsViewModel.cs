@@ -196,9 +196,15 @@ namespace SKDModule.ViewModels
 					AvailableDocumentsCollectionView.Refresh();
 
 					if (_isNew)
-						SelectedDocument = (TimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
+						SelectedDocument = (TimeTrackDocument) AvailableDocumentsCollectionView.CurrentItem;
+					else
+					{
+						AvailableDocumentsCollectionView.MoveCurrentToFirst();
+						SelectedDocument = (TimeTrackDocument) AvailableDocumentsCollectionView.CurrentItem;
+					}
 
 					IsEnableAbsence = SelectedDocumentType == DocumentType.Absence || SelectedDocumentType == DocumentType.AbsenceReasonable;
+
 				});
 		}
 
@@ -218,7 +224,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedDocument == null)
 			{
-				MessageBoxService.ShowWarning("Необходимо выбрать тип документа");
+				MessageBoxService.ShowWarning("Необходимо выбрать вид документа");
 				return false;
 			}
 
