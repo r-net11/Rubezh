@@ -12,8 +12,8 @@ namespace FireMonitor.ViewModels
 			TopMost = true;
 			AllowClose = false;
 			Sizable = false;
-			SaveCaption = "Да";
-			CancelCaption = "Нет";
+			SaveCaption = "Перезапуск";
+			CancelCaption = "Отложить перезапуск";
 			Total = 60;
 			var timer = new DispatcherTimer();
 			timer.Tick += (s, e) => Counter++;

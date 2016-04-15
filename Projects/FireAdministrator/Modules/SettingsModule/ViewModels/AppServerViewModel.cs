@@ -108,19 +108,6 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		private bool _createNewDBOnOversize;
-		public bool CreateNewDBOnOversize
-		{
-			get { return _createNewDBOnOversize; }
-			set
-			{
-				if (_createNewDBOnOversize == value)
-					return;
-				_createNewDBOnOversize = value;
-				OnPropertyChanged(() => CreateNewDBOnOversize);
-			}
-		}
-
 		private string _dbServerAddress;
 		public string DBServerAddress
 		{
@@ -232,7 +219,6 @@ namespace SettingsModule.ViewModels
 			ServicePort = settings.ServicePort;
 			ReportServicePort = settings.ReportServicePort;
 			EnableRemoteConnections = settings.EnableRemoteConnections;
-			CreateNewDBOnOversize = settings.CreateNewDBOnOversize;
 
 			// Параметры соединения с СУБД
 			DBServerAddress = settings.DBServerAddress;
@@ -253,7 +239,6 @@ namespace SettingsModule.ViewModels
 			settings.ServicePort = ServicePort;
 			settings.ReportServicePort = ReportServicePort;
 			settings.EnableRemoteConnections = EnableRemoteConnections;
-			settings.CreateNewDBOnOversize = CreateNewDBOnOversize;
 
 			// Параметры соединения с СУБД
 			settings.DBServerAddress = DBServerAddress;

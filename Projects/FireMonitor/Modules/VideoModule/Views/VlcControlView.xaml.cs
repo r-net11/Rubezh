@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
@@ -35,12 +34,12 @@ namespace VideoModule.Views
 
 		private void OnStart(object sender, EventArgs eventArgs)
 		{
-			MediaPlayer.Play();
+			videoCellControl.MediaPlayer.Play();
 		}
 
 		private void OnStop(object sender, EventArgs eventArgs)
 		{
-			MediaPlayer.Stop();
+			videoCellControl.MediaPlayer.Stop();
 		}
 	}
 }

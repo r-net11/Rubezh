@@ -87,6 +87,8 @@ namespace FiresecService
 
 		public static void Terminate()
 		{
+			if (_resetEvent == null) return;
+
 			_resetEvent.Set();
 			_checkThread.Join(TimeSpan.FromMinutes(1));
 		}

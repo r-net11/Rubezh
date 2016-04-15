@@ -17,6 +17,7 @@ namespace VideoModule.Views
 
 			DataContextChanged += OnDataContextChanged;
 			Unloaded += OnUnloaded;
+			videoCellControl.ReconnectEvent += VideoCellControlOnReconnectEvent;
 		}
 
 		void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -31,6 +32,14 @@ namespace VideoModule.Views
 
 		private void ViewModelOnPlay(object sender, EventArgs eventArgs)
 		{
+			StartPlaying();
+		}
+
+		private void StartPlaying()
+		{
+#if DEBUG
+			Logger.Info("CameraDetilsView.StartPlaying()");
+#endif
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
 				return;
@@ -41,26 +50,46 @@ namespace VideoModule.Views
 				int vendorId;
 				if (viewModel.PrepareToTranslation(out ipEndPoint, out vendorId))
 				{
-					MediaSourcePlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
-					MediaSourcePlayer.Play();
+					videoCellControl.MediaPlayer.Open(MediaSourceFactory.CreateFromTcpSocket(ipEndPoint, vendorId));
+					Logger.Info("Источник данных для видео ячейки открыт.");
+					videoCellControl.MediaPlayer.Play();
+					Logger.Info("Видео ячейка начала проигрывание");
 				}
+#if DEBUG
+				else
+				{
+					Logger.Info("Ошибка при получении от видео источника ip-адреса для трансляции");
+				}
+#endif
 			}
 			catch (Exception e)
 			{
+				Logger.Info("Ошибка перазапуска видео ячейки");
 				Logger.Error(e);
+				videoCellControl.ShowReconnectButton = true;
 			}
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			MediaSourcePlayer.Stop();
-			MediaSourcePlayer.Close();
+#if DEBUG
+			Logger.Info("CameraDetailsView.OnUnloaded()");
+#endif
+			videoCellControl.ReconnectEvent -= VideoCellControlOnReconnectEvent;
+
+			videoCellControl.MediaPlayer.Stop();
+			videoCellControl.MediaPlayer.Close();
 
 			var viewModel = DataContext as CameraDetailsViewModel;
 			if (viewModel == null)
 				return;
 
 			viewModel.Play -= ViewModelOnPlay;
+		}
+
+		private void VideoCellControlOnReconnectEvent(object sender, EventArgs eventArgs)
+		{
+			StartPlaying();
 		}
 	}
 }

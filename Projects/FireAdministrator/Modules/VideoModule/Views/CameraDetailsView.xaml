@@ -5,7 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:viewModels="clr-namespace:VideoModule.ViewModels"
-	xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer"
+	xmlns:rviClientUi="clr-namespace:RviClient.UI;assembly=RviClient.UI"
 	MinWidth="545"
 	MinHeight="380"
 	d:DataContext="{d:DesignInstance viewModels:CameraDetailsViewModel}"
@@ -87,9 +87,10 @@
 					<RowDefinition/>
 				</Grid.RowDefinitions>
 				<Button Grid.Row="0" BorderBrush="#D8FFFFFF" Content="Просмотр видео" Command="{Binding PlayCommand}" VerticalAlignment="Center" Margin="2"/>
-				<mediaSourcePlayer:MediaPlayer
+				<rviClientUi:VideoCellControl
 					Grid.Row="1"
-					x:Name="MediaSourcePlayer"
+					x:Name="videoCellControl"
+					TopToolbarTitle="{Binding Camera.Name}"
 					Margin="2"/>
 			</Grid>
 		</TabItem>

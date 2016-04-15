@@ -18,6 +18,7 @@
 				<File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
 
 				<File Id="Monitor.RviClient.dll" Name="RviClient.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.RviClient.UI.dll" Name="RviClient.UI.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.RviCommonClient.dll" Name="RviCommonClient.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Monitor.TargetDir)" />

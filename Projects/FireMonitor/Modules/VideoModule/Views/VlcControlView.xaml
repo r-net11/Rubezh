@@ -1,8 +1,9 @@
 ﻿<UserControl x:Class="VideoModule.Views.VlcControlView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:rviClientUi="clr-namespace:RviClient.UI;assembly=RviClient.UI"
 			 xmlns:mediaSourcePlayer="clr-namespace:MediaSourcePlayer;assembly=MediaSourcePlayer">
 	<Grid Background="Black">
-		<mediaSourcePlayer:MediaPlayer x:Name="MediaPlayer" />
+		<rviClientUi:VideoCellControl x:Name="videoCellControl" />
 	</Grid>
 </UserControl>

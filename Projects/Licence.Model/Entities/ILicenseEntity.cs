@@ -13,6 +13,6 @@ namespace License.Model.Entities
 		bool IsEnabledPhotoVerification { get; set; }
 		bool IsEnabledRVI { get; set; }
 		bool IsEnabledAutomation { get; set; }
-		bool IsEnabledServer { get; set; }
+		bool IsEnabledServer { get; }
 	}
 }

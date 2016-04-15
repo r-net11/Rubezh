@@ -39,6 +39,7 @@
 				<File Id="Administrator.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Administrator.TargetDir)" />
 
 				<File Id="Administrator.RviClient.dll" Name="RviClient.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.RviClient.UI.dll" Name="RviClient.UI.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RviCommonClient.dll" Name="RviCommonClient.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RviIntegratorClient.dll" Name="RviIntegratorClient.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.RviOperatorClient.dll" Name="RviOperatorClient.dll" Source="$(var.Administrator.TargetDir)" />
