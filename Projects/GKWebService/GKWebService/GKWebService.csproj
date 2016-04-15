@@ -223,6 +223,10 @@
     <Content Include="App\controllers\SKD\common\employeesFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\positionsFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\organisationsFilterCtrl.js" />
+    <Content Include="App\controllers\SKD\positions\positionDetailsCtrl.js" />
+    <Content Include="App\controllers\SKD\positions\positionEmployeeListCtrl.js" />
+    <Content Include="App\controllers\SKD\positions\positionsCtrl.js" />
+    <Content Include="App\controllers\SKD\positions\positionsToolbarCtrl.js" />
     <Content Include="App\controllers\SKD\departments\departmentEmployeeListCtrl.js" />
     <Content Include="App\controllers\SKD\departments\departmentsCtrl.js" />
     <Content Include="App\controllers\SKD\departments\departmentsToolbarCtrl.js" />
@@ -263,6 +267,7 @@
     <Content Include="App\services\signalrMPTsService.js" />
     <Content Include="App\services\signalrPumpStationService.js" />
     <Content Include="App\services\signalrService.js" />
+    <Content Include="App\services\SKD\positionsService.js" />
     <Content Include="App\services\SKD\departmentsService.js" />
     <Content Include="App\services\SKD\employeesService.js" />
     <Content Include="Content\bootstrap-theme.css" />

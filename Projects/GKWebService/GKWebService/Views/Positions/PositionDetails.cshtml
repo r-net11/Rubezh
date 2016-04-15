@@ -3,30 +3,33 @@
     Layout = null;
 }
 
-<script type="text/html" id="PositionDetailsTemplate">
-    <div id="position-details-box" class="save-cancel-popup">
-        <div class="title-bar">
-            <span data-bind="text: Title"></span>
-            <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: PositionDetailsClose"/></a>
-        </div>
-        <div>
-            <form id="Position" data-bind="submit: SavePosition">
-                <ul class="tab">
-                    <li class="active"><a href="" data-bind="click: function(data,event) { PositionDetailsPageClick(data, event, 'General'); }"><span>Основные</span></a></li>
-                    <li><a href="" data-bind="click: function(data,event) { PositionDetailsPageClick(data, event, 'Photo'); }"><span>Логотип</span></a></li>
-                </ul>
-                <div class="data-input" data-bind="visible:positionDetailsPages.General, with: Position">
-                    <label for="Name"><span>Название</span><input type="text" name="Name" id="Name" data-bind="value: Name" value=""/></label>
-                    <label for="Description"><span>Примечание</span><input type="text" name="Description" id="Description" data-bind="value: Description" value=""/></label>
+<div class="modal-header">
+    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+    <h3 class="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body">
+    <uib-tabset>
+        <uib-tab heading="Основные">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="positionDetailsName">Название</label>
+                    <div class="col-sm-8">
+                        <input id="positionDetailsName" class="form-control" ng-model="position.Name">
+                    </div>
                 </div>
-                <div data-bind="visible:positionDetailsPages.Photo">
-                    <div data-bind="template: { name: 'PhotoSelectionTemplate', data: {PhotoData: PhotoData} }"></div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="positionDetailsDescription">Примечание</label>
+                    <div class="col-sm-8">
+                        <input id="positionDetailsDescription" class="form-control" ng-model="position.Description">
+                    </div>
                 </div>
-
-                <button class="submit ok-cancel-button" type="submit">OK</button>
             </form>
-        </div>
-    </div>
-</script>
-
-<div data-bind="template: { name: 'PositionDetailsTemplate', data: HR.Positions.PositionDetails}"></div>
+        </uib-tab>
+        <uib-tab heading="Логотип">
+            <photo-selection ng-model="model.photoData"></photo-selection>
+        </uib-tab>
+    </uib-tabset>
+</div>
+<div mobile-hover-fix class="modal-footer">
+    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
+</div>

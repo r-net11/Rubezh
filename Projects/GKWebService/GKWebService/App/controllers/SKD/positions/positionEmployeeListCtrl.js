@@ -2,9 +2,9 @@
 
     'use strict';
 
-    var app = angular.module('gkApp.controllers').controller('departmentEmployeeListCtrl',
-        ['$scope', '$http', '$timeout', '$window', '$uibModal', 'departmentsService', 'employeesService', 'authService',
-        function ($scope, $http, $timeout, $window, $uibModal, departmentsService, employeesService, authService) {
+    var app = angular.module('gkApp.controllers').controller('positionEmployeeListCtrl',
+        ['$scope', '$http', '$timeout', '$window', '$uibModal', 'positionsService', 'employeesService', 'authService',
+        function ($scope, $http, $timeout, $window, $uibModal, positionsService, employeesService, authService) {
             $scope.gridOptions = {
                 onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
@@ -19,8 +19,8 @@
                 enableRowSelection: true,
                 noUnselect: true,
                 columnDefs: [
-                    { field: 'FIO', width: 210, displayName: 'ФИО', cellTemplate: "<div class='ui-grid-cell-contents'><img style='vertical-align: middle; padding-right: 3px' ng-src='/Content/Image/Icon/Hr/Employee.png'/><img ng-if='row.entity.IsChief' style='vertical-align: middle; padding-right: 3px' ng-src='/Content/Image/Icon/Hr/Chief.png' /><span ng-style='row.entity.IsDeleted && {opacity:0.5}'>{{row.entity[col.field]}}</span></div>" },
-                    { field: 'PositionName', width: 210, displayName: 'Должность' }
+                    { field: 'FIO', width: 310, displayName: 'ФИО', cellTemplate: "<div class='ui-grid-cell-contents'><img style='vertical-align: middle; padding-right: 3px' ng-src='/Content/Image/Icon/Hr/Employee.png'/><span ng-style='row.entity.IsDeleted && {opacity:0.5}'>{{row.entity[col.field]}}</span></div>" },
+                    { field: 'DepartmentName', width: 210, displayName: 'Подразделение' }
                 ]
             };
 
@@ -30,8 +30,8 @@
             }();
 
             var reload = function () {
-                if ($scope.selectedDepartment && !$scope.selectedDepartment.IsOrganisation) {
-                    departmentsService.getDepartmentEmployeeList($scope.filter).then(function(employees) {
+                if ($scope.selectedPosition && !$scope.selectedPosition.IsOrganisation) {
+                    positionsService.getPositionEmployeeList($scope.filter).then(function (employees) {
                         $scope.gridOptions.data = employees;
                         $scope.selectedEmployee = null;
                     });
@@ -42,36 +42,28 @@
             };
 
             $scope.$watch(function () {
-                return departmentsService.selectedDepartment;
-            }, function (department) {
-                $scope.selectedDepartment = department;
+                return positionsService.selectedPosition;
+            }, function (position) {
+                $scope.selectedPosition = position;
                 reload();
             });
 
             $scope.isShowEmployeeList = function () {
-                return $scope.selectedDepartment && !$scope.selectedDepartment.IsOrganisation && authService.checkPermission('Oper_SKD_Employees_View');
+                return $scope.selectedPosition && !$scope.selectedPosition.IsOrganisation && authService.checkPermission('Oper_SKD_Employees_View');
             };
 
             $scope.isEmployeesEditAllowed = authService.checkPermission('Oper_SKD_Employees_Edit');
 
             $scope.canAdd = function () {
-                return $scope.selectedDepartment && !$scope.selectedDepartment.IsDeleted && $scope.isEmployeesEditAllowed;
+                return $scope.selectedPosition && !$scope.selectedPosition.IsDeleted && $scope.isEmployeesEditAllowed;
             };
 
             $scope.canRemove = function () {
-                return $scope.selectedEmployee && !$scope.selectedEmployee.IsDeleted && !$scope.selectedDepartment.IsDeleted && $scope.isEmployeesEditAllowed;
+                return $scope.selectedEmployee && !$scope.selectedEmployee.IsDeleted && !$scope.selectedPosition.IsDeleted && $scope.isEmployeesEditAllowed;
             };
 
             $scope.canEdit = function () {
-                return $scope.selectedEmployee && !$scope.selectedEmployee.IsDeleted && !$scope.selectedDepartment.IsDeleted && $scope.isEmployeesEditAllowed;
-            };
-
-            $scope.canSetChief = function () {
-                return $scope.selectedEmployee && !$scope.selectedEmployee.IsDeleted && !$scope.selectedEmployee.IsChief && !$scope.selectedDepartment.IsDeleted && $scope.isEmployeesEditAllowed;
-            };
-
-            $scope.canUnSetChief = function () {
-                return $scope.selectedEmployee && !$scope.selectedEmployee.IsDeleted && $scope.selectedEmployee.IsChief && !$scope.selectedDepartment.IsDeleted && $scope.isEmployeesEditAllowed;
+                return $scope.selectedEmployee && !$scope.selectedEmployee.IsDeleted && !$scope.selectedPosition.IsDeleted && $scope.isEmployeesEditAllowed;
             };
 
             $scope.add = function() {
@@ -82,20 +74,20 @@
                     backdrop: 'static',
                     resolve: {
                         employees: function () {
-                            return $http.get('Hr/GetEmptyDepartmentEmployees/' + $scope.selectedDepartment.OrganisationUID);
+                            return $http.get('Hr/GetEmptyPositionEmployees/' + $scope.selectedPosition.OrganisationUID);
                         }
                     }
                 });
 
                 modalInstance.result.then(function (employee) {
-                    return departmentsService.saveEmployeeDepartment(employee, $scope.selectedDepartment.UID);
+                    return positionsService.saveEmployeePosition(employee, $scope.selectedPosition.UID);
                 }).then(function() {
                     reload();
                 });
             };
 
             $scope.remove = function () {
-                departmentsService.saveEmployeeDepartment($scope.selectedEmployee, null).then(function () {
+                positionsService.saveEmployeePosition($scope.selectedEmployee, null).then(function () {
                     reload();
                 });
             };
@@ -123,20 +115,6 @@
                 });
 
                 modalInstance.result.then(function () {
-                    reload();
-                });
-            };
-
-            $scope.setChief = function () {
-                departmentsService.saveDepartmentChief($scope.selectedDepartment, $scope.selectedEmployee.UID).then(function () {
-                    $scope.selectedDepartment.Model.ChiefUID = $scope.selectedEmployee.UID;
-                    reload();
-                });
-            };
-
-            $scope.unSetChief = function () {
-                departmentsService.saveDepartmentChief($scope.selectedDepartment, null).then(function () {
-                    $scope.selectedDepartment.Model.ChiefUID = "00000000-0000-0000-0000-000000000000";
                     reload();
                 });
             };
