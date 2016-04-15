@@ -556,11 +556,19 @@ namespace GKModule.Plans
 			if (typeof(TItem) == typeof(GKDevice))
 			{
 				var device = item as GKDevice;
-				designerItem.Title = device == null ? "Неизвестное устройство" : device.PresentationName;
-				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
-				var elementGKDevice = designerItem.Element as ElementGKDevice;
-				if (elementGKDevice != null && device != null)
-					elementGKDevice.AllowMultipleVizualization = device.AllowMultipleVizualization;
+				if (device == null)
+				{
+					designerItem.Title = "Неизвестное устройство";
+					designerItem.IconSource = null;
+				}
+				else
+				{
+					designerItem.Title = device.PresentationName;
+					designerItem.IconSource = device.Driver.ImageSource;
+					var vizializationElement = designerItem.Element as IMultipleVizualization;
+					if (vizializationElement != null)
+						vizializationElement.AllowMultipleVizualization = device.AllowMultipleVizualization;
+				}
 			}
 			else if (typeof(TItem) == typeof(GKZone))
 			{

@@ -112,6 +112,7 @@
     <Compile Include="Events\ShowElementEvent.cs" />
     <Compile Include="Interfaces\IChangedNotification.cs" />
     <Compile Include="Interfaces\IElementReference.cs" />
+    <Compile Include="Interfaces\IMultipleVizualization.cs" />
     <Compile Include="Interfaces\IPlanPresentable.cs" />
     <Compile Include="IPlanExtension.cs" />
     <Compile Include="IPlanPresenter.cs" />
