@@ -1,14 +1,9 @@
-﻿using System;
-using RubezhAPI.Models.Layouts;
+﻿using Common;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
-using Xceed.Wpf.AvalonDock;
-using System.Collections.Generic;
 using RubezhAPI.Automation;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media;
-using Common;
+using RubezhAPI.Models.Layouts;
+using System;
 
 namespace FireMonitor.Layout.ViewModels
 {

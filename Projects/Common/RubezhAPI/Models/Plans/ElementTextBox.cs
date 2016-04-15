@@ -1,10 +1,5 @@
-﻿using Infrustructure.Plans.Elements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Windows.Media;
+﻿using Common;
+using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
 
 namespace RubezhAPI.Models

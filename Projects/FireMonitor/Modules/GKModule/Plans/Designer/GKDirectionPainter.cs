@@ -17,6 +17,9 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using System;
 using System.Collections.Generic;
+using Color = Common.Color;
+using Colors = Common.Colors;
+
 
 namespace GKModule.Plans.Designer
 {

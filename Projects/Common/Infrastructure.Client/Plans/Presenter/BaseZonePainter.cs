@@ -1,12 +1,12 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Media;
-using RubezhAPI.GK;
+﻿using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
+using RubezhAPI.GK;
+using System;
+using System.Windows.Controls;
 
 namespace Infrastructure.Client.Plans.Presenter
 {
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Plans.Presenter
 		{
 			return Helper.Tooltip;
 		}
-		protected override Brush GetBrush()
+		protected override System.Windows.Media.Brush GetBrush()
 		{
 			return PainterCache.GetTransparentBrush(GetStateColor());
 		}

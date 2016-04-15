@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using RubezhAPI.Models;
+using Infrustructure.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,15 +89,9 @@ namespace Infrastructure.Designer.ViewModels
 
 		private bool AllowPaste(ElementBase element)
 		{
-			if (!(element is ElementGKDevice))
-				return true;
-
-			var elementGKDevice = element as ElementGKDevice;
-			if (!elementGKDevice.AllowMultipleVizualization)
-			{
-				if (this.clipboard.SourceAction == ClipboardSourceAction.Copy)
-					return false;
-			}
+			var vizualizationElement = element as IMultipleVizualization;
+			if (vizualizationElement != null && !vizualizationElement.AllowMultipleVizualization && this.clipboard.SourceAction == ClipboardSourceAction.Copy)
+				return false;
 			return true;
 		}
 

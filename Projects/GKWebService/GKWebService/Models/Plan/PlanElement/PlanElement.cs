@@ -1,5 +1,19 @@
 ﻿#region Usings
 
+using Common;
+using Controls;
+using Controls.Converters;
+using GKWebService.DataProviders.Plan;
+using GKWebService.DataProviders.Resources;
+using GKWebService.Models.Plan.PlanElement.Hint;
+using GKWebService.Utils;
+using ImageMagick;
+using Infrastructure.Common.Services.Content;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Elements;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,22 +34,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xaml;
-using Common;
-using Controls;
-using Controls.Converters;
-using GKWebService.DataProviders.Plan;
-using GKWebService.DataProviders.Resources;
-using GKWebService.Models.Plan.PlanElement.Hint;
-using GKWebService.Utils;
-using ImageMagick;
-using ImageProcessor.Imaging.Formats;
-using Infrastructure.Common.Services.Content;
-using Infrustructure.Plans.Elements;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using Color = System.Drawing.Color;
+using Colors = System.Windows.Media.Colors;
 using Point = System.Windows.Point;
 using Size = System.Drawing.Size;
 
@@ -60,33 +59,42 @@ namespace GKWebService.Models.Plan.PlanElement
 
 		#region Methods
 
-		public static bool HasProperty(object objectToCheck, string properyName) {
+		public static bool HasProperty(object objectToCheck, string properyName)
+		{
 			var type = objectToCheck.GetType();
 			return type.GetProperty(properyName) != null;
 		}
 
-		public static object GetProperty(object objectToCheck, string properyName) {
+		public static object GetProperty(object objectToCheck, string properyName)
+		{
 			var type = objectToCheck.GetType();
 			return type.GetProperty(properyName).GetValue(objectToCheck);
 		}
 
-		public static PlanElement FromRectangle(ElementBaseRectangle elem) {
-			if (elem is ElementEllipse) {
+		public static PlanElement FromRectangle(ElementBaseRectangle elem)
+		{
+			if (elem is ElementEllipse)
+			{
 				return null;
 			}
 			var showState = false;
-			if (HasProperty(elem, "ShowState")) {
+			if (HasProperty(elem, "ShowState"))
+			{
 				showState = (bool)GetProperty(elem, "ShowState");
 			}
-			if (elem is ElementRectangleGKMPT) {
+			if (elem is ElementRectangleGKMPT)
+			{
 				showState = true;
 			}
 			Guid zoneUID = Guid.Empty;
-			if (HasProperty(elem, "ZoneUID")) {
+			if (HasProperty(elem, "ZoneUID"))
+			{
 				zoneUID = (Guid)GetProperty(elem, "ZoneUID");
 			}
-			if (!showState) {
-				if (elem is ElementRectangle) {
+			if (!showState)
+			{
+				if (elem is ElementRectangle)
+				{
 					return FromRectangleSimple(elem, false);
 				}
 				return FromRectangleSimple(elem, true);
@@ -94,13 +102,14 @@ namespace GKWebService.Models.Plan.PlanElement
 
 			// Получаем прямоугольник, в который вписан текст
 			// Получаем элемент текста
-			var textElement = new ElementTextBlock {
+			var textElement = new ElementTextBlock
+			{
 				FontBold = true,
 				FontFamilyName = "Arial",
 				FontItalic = true,
 				Text = "Неизвестно",
 				FontSize = 18,
-				ForegroundColor = Colors.Black,
+				ForegroundColor = Common.Colors.Black,
 				WordWrap = false,
 				BorderThickness = 1,
 				Stretch = true,
@@ -123,7 +132,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			planElementRect.HasOverlay = false;
 			planElementRect.Id = Guid.Empty.ToString();
 			// Задаем групповой элемент
-			var planElement = new PlanElement {
+			var planElement = new PlanElement
+			{
 				ChildElements = new[] { planElementRect, planElementText },
 				Id = zoneUID == Guid.Empty ? "pe" + elem.UID : "pe" + zoneUID,
 				Hint = GetElementHint(elem),
@@ -142,7 +152,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			return planElement;
 		}
 
-		public static Rect GetRectangle(RGPointCollection points) {
+		public static Rect GetRectangle(RGPointCollection points)
+		{
 			double minLeft = double.MaxValue;
 			double minTop = double.MaxValue;
 			double maxLeft = 0;
@@ -150,7 +161,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			if (points == null)
 				points = new RGPointCollection();
 
-			foreach (var point in points.Points) {
+			foreach (var point in points.Points)
+			{
 				if (point.X < minLeft)
 					minLeft = point.X;
 				if (point.Y < minTop)
@@ -167,40 +179,48 @@ namespace GKWebService.Models.Plan.PlanElement
 			return new Rect(minLeft, minTop, maxLeft - minLeft, maxTop - minTop);
 		}
 
-		public static PointCollection PointsFromRgPoints(RGPointCollection points) {
+		public static PointCollection PointsFromRgPoints(RGPointCollection points)
+		{
 			var coll = new PointCollection();
-			foreach (var rgPoint in points.Points) {
+			foreach (var rgPoint in points.Points)
+			{
 				var point = new Point(rgPoint.X, rgPoint.Y);
 				coll.Add(point);
 			}
 			return coll;
 		}
 
-		public static PlanElement FromPolygon(ElementBasePolygon elem) {
+		public static PlanElement FromPolygon(ElementBasePolygon elem)
+		{
 			var rect = GetRectangle(elem.RGPoints);
 			var showState = false;
-			if (HasProperty(elem, "ShowState")) {
+			if (HasProperty(elem, "ShowState"))
+			{
 				showState = (bool)GetProperty(elem, "ShowState");
 			}
-			if (elem is ElementPolygonGKMPT) {
+			if (elem is ElementPolygonGKMPT)
+			{
 				showState = true;
 			}
-			if (!showState) {
+			if (!showState)
+			{
 				return FromPolygonSimple(elem, !(elem is ElementPolygon));
 			}
 			Guid zoneUID = Guid.Empty;
-			if (HasProperty(elem, "ZoneUID")) {
+			if (HasProperty(elem, "ZoneUID"))
+			{
 				zoneUID = (Guid)GetProperty(elem, "ZoneUID");
 			}
 			// Получаем прямоугольник, в который вписан текст
 			// Получаем элемент текста
-			var textElement = new ElementTextBlock {
+			var textElement = new ElementTextBlock
+			{
 				FontBold = true,
 				FontFamilyName = "Arial",
 				FontItalic = true,
 				Text = "Неизвестно",
 				FontSize = 18,
-				ForegroundColor = Colors.Black,
+				ForegroundColor = Common.Colors.Black,
 				WordWrap = false,
 				BorderThickness = 1,
 				Stretch = true,
@@ -223,7 +243,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			planElementRect.HasOverlay = false;
 			planElementRect.Id = Guid.Empty.ToString();
 			// Задаем групповой элемент
-			var planElement = new PlanElement {
+			var planElement = new PlanElement
+			{
 				ChildElements = new[] { planElementRect, planElementText },
 				Id = zoneUID == Guid.Empty ? "pe" + elem.UID : "pe" + zoneUID,
 				Hint = GetElementHint(elem),
@@ -241,8 +262,10 @@ namespace GKWebService.Models.Plan.PlanElement
 			return planElement;
 		}
 
-		static System.Windows.Media.Color GetGKZoneStateColor(XStateClass stateClass) {
-			switch (stateClass) {
+		static System.Windows.Media.Color GetGKZoneStateColor(XStateClass stateClass)
+		{
+			switch (stateClass)
+			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
 				case XStateClass.TechnologicalRegime:
@@ -268,8 +291,10 @@ namespace GKWebService.Models.Plan.PlanElement
 			}
 		}
 
-		static System.Windows.Media.Color GetGKGuardZoneStateColor(XStateClass stateClass) {
-			switch (stateClass) {
+		static System.Windows.Media.Color GetGKGuardZoneStateColor(XStateClass stateClass)
+		{
+			switch (stateClass)
+			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
 				case XStateClass.TechnologicalRegime:
@@ -296,8 +321,10 @@ namespace GKWebService.Models.Plan.PlanElement
 			}
 		}
 
-		static System.Windows.Media.Color GetGKSKDZoneStateColor(XStateClass stateClass) {
-			switch (stateClass) {
+		static System.Windows.Media.Color GetGKSKDZoneStateColor(XStateClass stateClass)
+		{
+			switch (stateClass)
+			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
 				case XStateClass.TechnologicalRegime:
@@ -326,7 +353,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			}
 		}
 
-		private static PlanElement FromRectangleSimple(ElementBaseRectangle elem, bool mouseOver) {
+		private static PlanElement FromRectangleSimple(ElementBaseRectangle elem, bool mouseOver)
+		{
 			var rect = elem.GetRectangle();
 			var pt = new PointCollection {
 				rect.TopLeft,
@@ -337,19 +365,22 @@ namespace GKWebService.Models.Plan.PlanElement
 
 			var showHint = true;
 
-			if (HasProperty(elem, "ShowTooltip")) {
+			if (HasProperty(elem, "ShowTooltip"))
+			{
 				showHint = (bool)GetProperty(elem, "ShowTooltip");
 			}
 
 			Guid zoneUID = Guid.Empty;
-			if (HasProperty(elem, "ZoneUID")) {
+			if (HasProperty(elem, "ZoneUID"))
+			{
 				zoneUID = (Guid)GetProperty(elem, "ZoneUID");
 			}
 
 			var backgroundImage = GetBackgroundContent(elem.BackgroundImageSource, elem.ImageType, elem.Width, elem.Height);
-			var shape = new PlanElement {
+			var shape = new PlanElement
+			{
 				Path = InternalConverter.PointsToPath(pt, PathKind.ClosedLine),
-				Border = InternalConverter.ConvertColor(elem.BorderColor),
+				Border = InternalConverter.ConvertColor(elem.BorderColor.ToWindowsColor()),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				Name = elem.PresentationName,
 				Id = zoneUID == Guid.Empty ? "pe" + elem.UID : "pe" + zoneUID,
@@ -368,28 +399,33 @@ namespace GKWebService.Models.Plan.PlanElement
 			if (asZone == null)
 				return shape;
 			var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			if (zone != null) {
+			if (zone != null)
+			{
 				var background = GetGKZoneStateColor(zone.State.StateClass);
 				shape.Fill = InternalConverter.ConvertColor(background);
 				return shape;
 			}
 			var zoneSkd = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			if (zoneSkd != null) {
+			if (zoneSkd != null)
+			{
 				var background = GetGKSKDZoneStateColor(zoneSkd.State.StateClass);
 				shape.Fill = InternalConverter.ConvertColor(background);
 				return shape;
 			}
 			var zoneSec = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			if (zoneSec != null) {
+			if (zoneSec != null)
+			{
 				var background = GetGKGuardZoneStateColor(zoneSec.State.StateClass);
 				shape.Fill = InternalConverter.ConvertColor(background);
 			}
 			return shape;
 		}
 
-		public static PlanElement FromEllipse(ElementEllipse item) {
+		public static PlanElement FromEllipse(ElementEllipse item)
+		{
 			var result = Dispatcher.CurrentDispatcher.Invoke(
-				() => {
+				() =>
+				{
 					Debug.WriteLine(
 						"App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState());
 					return item.GetRectangle();
@@ -401,12 +437,13 @@ namespace GKWebService.Models.Plan.PlanElement
 				rect.BottomRight,
 				rect.BottomLeft
 			};
-			var shape = new PlanElement {
+			var shape = new PlanElement
+			{
 				Path = InternalConverter.PointsToPath(pt, PathKind.Ellipse),
-				Border = InternalConverter.ConvertColor(item.BorderColor),
-				Fill = InternalConverter.ConvertColor(item.BackgroundColor),
-				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor),
-				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor),
+				Border = InternalConverter.ConvertColor(item.BorderColor.ToWindowsColor()),
+				Fill = InternalConverter.ConvertColor(item.BackgroundColor.ToWindowsColor()),
+				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor.ToWindowsColor()),
+				FillMouseOver = InternalConverter.ConvertColor(item.BackgroundColor.ToWindowsColor()),
 				Name = item.PresentationName,
 				Id = "pe" + item.UID,
 				Hint = item.ShowTooltip ? GetElementHint(item) : null,
@@ -417,20 +454,24 @@ namespace GKWebService.Models.Plan.PlanElement
 			return shape;
 		}
 
-		public static PlanElement FromPolygonSimple(ElementBasePolygon item, bool mouseOver) {
+		public static PlanElement FromPolygonSimple(ElementBasePolygon item, bool mouseOver)
+		{
 
 			var showHint = true;
 
-			if (HasProperty(item, "ShowTooltip")) {
+			if (HasProperty(item, "ShowTooltip"))
+			{
 				showHint = (bool)GetProperty(item, "ShowTooltip");
 			}
 			Guid zoneUID = Guid.Empty;
-			if (HasProperty(item, "ZoneUID")) {
+			if (HasProperty(item, "ZoneUID"))
+			{
 				zoneUID = (Guid)GetProperty(item, "ZoneUID");
 			}
-			var shape = new PlanElement {
+			var shape = new PlanElement
+			{
 				Path = InternalConverter.PointsToPath(PointsFromRgPoints(item.RGPoints), PathKind.ClosedLine),
-				Border = InternalConverter.ConvertColor(item.BorderColor),
+				Border = InternalConverter.ConvertColor(item.BorderColor.ToWindowsColor()),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				Name = item.PresentationName,
 				Id = zoneUID == Guid.Empty ? "pe" + item.UID : "pe" + zoneUID,
@@ -444,21 +485,24 @@ namespace GKWebService.Models.Plan.PlanElement
 			if (asZone == null)
 				return shape;
 			var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			if (zone != null) {
+			if (zone != null)
+			{
 				var converter = new XStateClassToColorConverter2();
 				var background = ((SolidColorBrush)converter.Convert(zone.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
 				shape.Fill = InternalConverter.ConvertColor(background);
 				return shape;
 			}
 			var zoneSkd = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			if (zoneSkd != null) {
+			if (zoneSkd != null)
+			{
 				var converter = new XStateClassToColorConverter2();
 				var background = ((SolidColorBrush)converter.Convert(zoneSkd.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
 				shape.Fill = InternalConverter.ConvertColor(background);
 				return shape;
 			}
 			var zoneSec = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-			if (zoneSec != null) {
+			if (zoneSec != null)
+			{
 				var converter = new XStateClassToColorConverter2();
 				var background = ((SolidColorBrush)converter.Convert(zoneSec.State.StateClass, typeof(SolidColorBrush), null, CultureInfo.InvariantCulture)).Color;
 				shape.Fill = InternalConverter.ConvertColor(background);
@@ -466,13 +510,15 @@ namespace GKWebService.Models.Plan.PlanElement
 			return shape;
 		}
 
-		public static PlanElement FromPolyline(ElementPolyline elem) {
-			var shape = new PlanElement {
+		public static PlanElement FromPolyline(ElementPolyline elem)
+		{
+			var shape = new PlanElement
+			{
 				Path = InternalConverter.PointsToPath(elem.Points, PathKind.Line),
-				Border = InternalConverter.ConvertColor(elem.BorderColor),
+				Border = InternalConverter.ConvertColor(elem.BorderColor.ToWindowsColor()),
 				Fill = System.Drawing.Color.Transparent,
-				BorderMouseOver = InternalConverter.ConvertColor(elem.BorderColor),
-				FillMouseOver = InternalConverter.ConvertColor(elem.BackgroundColor),
+				BorderMouseOver = InternalConverter.ConvertColor(elem.BorderColor.ToWindowsColor()),
+				FillMouseOver = InternalConverter.ConvertColor(elem.BackgroundColor.ToWindowsColor()),
 				Name = elem.PresentationName,
 				Id = "pe" + elem.UID,
 				Hint = elem.ShowTooltip ? GetElementHint(elem) : null,
@@ -488,7 +534,8 @@ namespace GKWebService.Models.Plan.PlanElement
 		/// </summary>
 		/// <param name="elem">ElementTextBlock</param>
 		/// <returns>групповой PlanElement</returns>
-		public static PlanElement FromTextBlock(ElementTextBlock elem) {
+		public static PlanElement FromTextBlock(ElementTextBlock elem)
+		{
 			// Получаем прямоугольник, в который вписан текст
 			// Получаем элемент текста
 			var planElementText = FromTextElement(
@@ -503,7 +550,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			planElementRect.HasOverlay = false;
 			planElementRect.Id = Guid.Empty.ToString();
 			// Задаем групповой элемент
-			var planElement = new PlanElement {
+			var planElement = new PlanElement
+			{
 				ChildElements = new[] { planElementRect, planElementText },
 				Id = planElementText.Id,
 				Hint = GetElementHint(elem),
@@ -523,7 +571,8 @@ namespace GKWebService.Models.Plan.PlanElement
 		/// </summary>
 		/// <param name="elem">ElementProcedure</param>
 		/// <returns></returns>
-		public static PlanElement FromProcedure(ElementProcedure elem) {
+		public static PlanElement FromProcedure(ElementProcedure elem)
+		{
 			// Получаем элемент текста
 			var planElementText = FromTextElement(
 				elem, new System.Windows.Size(elem.Width, elem.Height), elem.Left, elem.Top, true);
@@ -536,7 +585,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			planElementRect.Hint = null;
 			planElementRect.HasOverlay = false;
 			// Задаем групповой элемент
-			var planElement = new PlanElement {
+			var planElement = new PlanElement
+			{
 				ChildElements = new[] { planElementRect, planElementText },
 				Id = planElementText.Id,
 				Hint = GetElementHint(elem),
@@ -562,8 +612,10 @@ namespace GKWebService.Models.Plan.PlanElement
 		/// <param name="top">Координата Y</param>
 		/// <param name="showHint">Показывать всплывающую подсказку.</param>
 		/// <returns></returns>
-		private static PlanElement FromTextElement(IElementTextBlock item, System.Windows.Size size, double left, double top, bool showHint) {
-			if (string.IsNullOrWhiteSpace(item.Text)) {
+		private static PlanElement FromTextElement(IElementTextBlock item, System.Windows.Size size, double left, double top, bool showHint)
+		{
+			if (string.IsNullOrWhiteSpace(item.Text))
+			{
 				return null;
 			}
 			var fontFamily = new System.Windows.Media.FontFamily(item.FontFamilyName);
@@ -571,38 +623,47 @@ namespace GKWebService.Models.Plan.PlanElement
 			var fontWeight = item.FontBold ? FontWeights.Bold : FontWeights.Normal;
 			var text = new FormattedText(
 				item.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
-				new Typeface(fontFamily, fontStyle, fontWeight, FontStretches.Normal), item.FontSize, new SolidColorBrush(item.ForegroundColor)) {
-				Trimming = TextTrimming.WordEllipsis,
-				MaxLineCount = item.WordWrap ? int.MaxValue : 1
-			};
+				new Typeface(fontFamily, fontStyle, fontWeight, FontStretches.Normal), item.FontSize, new SolidColorBrush(item.ForegroundColor.ToWindowsColor()))
+				{
+					Trimming = TextTrimming.WordEllipsis,
+					MaxLineCount = item.WordWrap ? int.MaxValue : 1
+				};
 			// Делаем первый рендер без трансформаций
 			var pathGeometry = text.BuildGeometry(new Point(left + item.BorderThickness, top + item.BorderThickness));
 			// Добавляем Scale-трансформацию, если включен Stretch, либо Translate-трансформацию
-			if (item.Stretch) {
+			if (item.Stretch)
+			{
 				var scaleFactorX = (size.Width - item.BorderThickness * 2) / text.Width;
 				var scaleFactorY = (size.Height - item.BorderThickness * 2) / text.Height;
 				pathGeometry = Geometry.Combine(Geometry.Empty, pathGeometry, GeometryCombineMode.Union, new ScaleTransform(
 					scaleFactorX, scaleFactorY, left + item.BorderThickness, top + item.BorderThickness));
 			}
-			else {
+			else
+			{
 				double offsetX = 0;
 				double offsetY = 0;
-				switch (item.TextAlignment) {
-					case 1: {
+				switch (item.TextAlignment)
+				{
+					case 1:
+						{
 							offsetX = size.Width - item.BorderThickness * 2 - text.Width;
 							break;
 						}
-					case 2: {
+					case 2:
+						{
 							offsetX = (size.Width - item.BorderThickness * 2 - text.Width) / 2;
 							break;
 						}
 				}
-				switch (item.VerticalAlignment) {
-					case 1: {
+				switch (item.VerticalAlignment)
+				{
+					case 1:
+						{
 							offsetY = (size.Height - item.BorderThickness * 2 - text.Height) / 2;
 							break;
 						}
-					case 2: {
+					case 2:
+						{
 							offsetY = size.Height - item.BorderThickness * 2 - text.Height;
 							break;
 						}
@@ -612,10 +673,11 @@ namespace GKWebService.Models.Plan.PlanElement
 			// Делаем финальный рендер
 			var path = pathGeometry.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture).Substring(2);
 
-			var shape = new PlanElement {
+			var shape = new PlanElement
+			{
 				Path = path,
 				Border = InternalConverter.ConvertColor(Colors.Transparent),
-				Fill = InternalConverter.ConvertColor(item.ForegroundColor),
+				Fill = InternalConverter.ConvertColor(item.ForegroundColor.ToWindowsColor()),
 				Name = item.PresentationName,
 				Id = "pe" + item.UID,
 				Hint = (item as ElementBase) != null && showHint ? GetElementHint((ElementBase)item) : null,
@@ -626,11 +688,13 @@ namespace GKWebService.Models.Plan.PlanElement
 			return shape;
 		}
 
-		public static PlanElement FromGkDoor(ElementGKDoor item) {
+		public static PlanElement FromGkDoor(ElementGKDoor item)
+		{
 			var strings = EmbeddedResourceLoader.LoadResource("GKWebService.Content.SvgIcons.GKDoor.txt")
 												.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 			var result = Dispatcher.CurrentDispatcher.Invoke(
-				() => {
+				() =>
+				{
 					Debug.WriteLine(
 						"App thread is {0}, with appartment = {1}", Thread.CurrentThread.ManagedThreadId, Thread.CurrentThread.GetApartmentState());
 					return item.GetRectangle();
@@ -643,7 +707,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			Enum.TryParse(strings[1], true, out color1);
 			KnownColor color2;
 			Enum.TryParse(strings[2], true, out color2);
-			var shape1 = new PlanElement {
+			var shape1 = new PlanElement
+			{
 				Path = flatten.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture),
 				Border = System.Drawing.Color.FromKnownColor(color1),
 				Fill = System.Drawing.Color.FromKnownColor(color2),
@@ -660,7 +725,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			Enum.TryParse(strings[4], true, out color1);
 			Enum.TryParse(strings[5], true, out color2);
 
-			var shape2 = new PlanElement {
+			var shape2 = new PlanElement
+			{
 				Path = flatten.GetFlattenedPathGeometry().ToString(CultureInfo.InvariantCulture),
 				Border = System.Drawing.Color.FromKnownColor(color1),
 				Fill = System.Drawing.Color.FromKnownColor(color2),
@@ -672,7 +738,8 @@ namespace GKWebService.Models.Plan.PlanElement
 				HasOverlay = false
 			};
 
-			var planElement = new PlanElement {
+			var planElement = new PlanElement
+			{
 				ChildElements = new[] { shape1, shape2 },
 				Id = "pe" + item.UID,
 				Hint = GetElementHint(item),
@@ -688,16 +755,19 @@ namespace GKWebService.Models.Plan.PlanElement
 			return planElement;
 		}
 
-		public static PlanElement FromDevice(ElementGKDevice item) {
+		public static PlanElement FromDevice(ElementGKDevice item)
+		{
 			// Находим девайс и набор его состояний
 			var device =
 				GKManager.Devices.FirstOrDefault(d => d.UID == item.DeviceUID);
-			if (device == null) {
+			if (device == null)
+			{
 				return null;
 			}
 
 			// Создаем элемент плана
-			var shape = new PlanElement {
+			var shape = new PlanElement
+			{
 				Id = "pe" + device.UID,
 				SubElementId = device.UID.ToString(),
 				Name = device.PresentationName,
@@ -710,7 +780,8 @@ namespace GKWebService.Models.Plan.PlanElement
 				HasOverlay = false
 			};
 			// Добавляем рамку хинта
-			var planElement = new PlanElement {
+			var planElement = new PlanElement
+			{
 				ChildElements = new[] { shape },
 				Id = "pe" + device.UID,
 				SubElementId = device.UID + "GroupElement",
@@ -729,9 +800,11 @@ namespace GKWebService.Models.Plan.PlanElement
 			return planElement;
 		}
 
-		public static void UpdateZoneState(GKState state) {
+		public static void UpdateZoneState(GKState state)
+		{
 			var zone = GKManager.Zones.Union<GKBase>(GKManager.GuardZones).Union(GKManager.SKDZones).FirstOrDefault(z => state.UID == z.UID);
-			if (zone == null) {
+			if (zone == null)
+			{
 				throw new Exception(string.Format("Зона {0} не найдена.", state.UID));
 			}
 			var hint = new ElementHint();
@@ -740,48 +813,58 @@ namespace GKWebService.Models.Plan.PlanElement
 			hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName, Icon = (hintImageSource.Trim() != string.Empty) ? GetImageResource(hintImageSource).Item1 : null });
 
 			// Добавляем состояния
-			foreach (var stateClass in zone.State.StateClasses) {
+			foreach (var stateClass in zone.State.StateClasses)
+			{
 				//Получаем источник иконки для основного класса
 				var iconSourceForStateClasses = stateClass.ToIconSource();
 				hint.StateHintLines.Add(
-					new HintLine {
+					new HintLine
+					{
 						Text = stateClass.ToDescription(),
 						Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
 					});
 			}
 			// Добавляем доп. состояния
-			foreach (var stateClass in zone.State.AdditionalStates) {
+			foreach (var stateClass in zone.State.AdditionalStates)
+			{
 				//Получаем источник иконки для основного класса
 				var iconSourceForAdditionalStateClasses = stateClass.StateClass.ToIconSource();
 				hint.StateHintLines.Add(
-					new HintLine {
+					new HintLine
+					{
 						Text = stateClass.Name,
 						Icon = iconSourceForAdditionalStateClasses != null ? GetImageResource(iconSourceForAdditionalStateClasses.Replace("/Controls;component/", "")).Item1 : null
 					});
 			}
 
 			System.Windows.Media.Color background;
-			switch (zone.GetType().ToString()) {
-				case "RubezhAPI.GK.GKZone": {
+			switch (zone.GetType().ToString())
+			{
+				case "RubezhAPI.GK.GKZone":
+					{
 						background = GetGKZoneStateColor(state.StateClass);
 						break;
 					}
-				case "RubezhAPI.GK.GKSKDZone": {
+				case "RubezhAPI.GK.GKSKDZone":
+					{
 						background = GetGKSKDZoneStateColor(state.StateClass);
 						break;
 					}
-				case "RubezhAPI.GK.GKGuardZone": {
+				case "RubezhAPI.GK.GKGuardZone":
+					{
 						background = GetGKGuardZoneStateColor(state.StateClass);
 						break;
 					}
-				default: {
-						background =System.Windows.Media.Colors.Transparent;
+				default:
+					{
+						background = System.Windows.Media.Colors.Transparent;
 						break;
 					}
 			}
 
 			// Собираем обновление для передачи
-			var statusUpdate = new {
+			var statusUpdate = new
+			{
 				Id = "pe" + state.UID,
 				Background = new { R = background.R, G = background.G, B = background.B, A = background.A },
 				Hint = hint
@@ -789,12 +872,15 @@ namespace GKWebService.Models.Plan.PlanElement
 			PlansUpdater.Instance.UpdateZoneState(statusUpdate);
 		}
 
-		public static void UpdateDeviceState(GKState state) {
-			if (state.BaseObjectType != GKBaseObjectType.Device) {
+		public static void UpdateDeviceState(GKState state)
+		{
+			if (state.BaseObjectType != GKBaseObjectType.Device)
+			{
 				throw new ArgumentException(@"BaseObjectType должен быть GKBaseObjectType.Device", "state");
 			}
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == state.UID);
-			if (device == null) {
+			if (device == null)
+			{
 				throw new Exception(string.Format("Устройство {0} не найдено.", state.UID));
 			}
 
@@ -809,27 +895,32 @@ namespace GKWebService.Models.Plan.PlanElement
 			hint.StateHintLines.Add(new HintLine { Text = device.PresentationName, Icon = (hintImageSource.Trim() != string.Empty) ? GetImageResource(hintImageSource).Item1 : null });
 
 			// Добавляем состояния
-			foreach (var stateClass in device.State.StateClasses) {
+			foreach (var stateClass in device.State.StateClasses)
+			{
 				//Получаем источник иконки для основного класса
 				var iconSourceForStateClasses = stateClass.ToIconSource();
 				hint.StateHintLines.Add(
-					new HintLine {
+					new HintLine
+					{
 						Text = stateClass.ToDescription(),
 						Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
 					});
 			}
 			// Добавляем доп. состояния
-			foreach (var stateClass in device.State.AdditionalStates) {
+			foreach (var stateClass in device.State.AdditionalStates)
+			{
 				//Получаем источник иконки для основного класса
 				var iconSourceForAdditionalStateClasses = stateClass.StateClass.ToIconSource();
 				hint.StateHintLines.Add(
-					new HintLine {
+					new HintLine
+					{
 						Text = stateClass.Name,
 						Icon = iconSourceForAdditionalStateClasses != null ? GetImageResource(iconSourceForAdditionalStateClasses.Replace("/Controls;component/", "")).Item1 : null
 					});
 			}
 			// Собираем обновление для передачи
-			var statusUpdate = new {
+			var statusUpdate = new
+			{
 				Id = "pe" + state.UID,
 				Picture = pic,
 				Hint = hint
@@ -837,40 +928,49 @@ namespace GKWebService.Models.Plan.PlanElement
 			PlansUpdater.Instance.UpdateDeviceState(statusUpdate);
 		}
 
-		private static string GetDeviceStatePic(GKDevice device, GKState state) {
+		private static string GetDeviceStatePic(GKDevice device, GKState state)
+		{
 			var deviceConfig =
 				GKManager.DeviceLibraryConfiguration.GKDevices.FirstOrDefault(d => d.DriverUID == device.DriverUID);
-			if (deviceConfig == null) {
+			if (deviceConfig == null)
+			{
 				return null;
 			}
 			var stateWithPic =
 				deviceConfig.States.FirstOrDefault(s => s.StateClass == state.StateClass) ??
 				deviceConfig.States.FirstOrDefault(s => s.StateClass == XStateClass.No);
-			if (stateWithPic == null) {
+			if (stateWithPic == null)
+			{
 				return null;
 			}
 			// Перебираем кадры в состоянии и генерируем gif картинку
 			byte[] bytes;
-			using (var collection = new MagickImageCollection()) {
-				foreach (var frame in stateWithPic.Frames) {
+			using (var collection = new MagickImageCollection())
+			{
+				foreach (var frame in stateWithPic.Frames)
+				{
 					var frame1 = frame;
 					frame1.Image = frame1.Image.Replace("#000000", "#FF0F0F0F");
 					Canvas surface;
 					var imageBytes = Encoding.Unicode.GetBytes(frame1.Image ?? "");
-					using (var stream = new MemoryStream(imageBytes)) {
+					using (var stream = new MemoryStream(imageBytes))
+					{
 						surface = (Canvas)XamlServices.Load(stream);
 					}
 					var pngBitmap = surface != null ? InternalConverter.XamlCanvasToPngBitmap(surface) : null;
-					if (pngBitmap == null) {
+					if (pngBitmap == null)
+					{
 						continue;
 					}
-					var img = new MagickImage(pngBitmap) {
+					var img = new MagickImage(pngBitmap)
+					{
 						AnimationDelay = frame.Duration / 10,
 						HasAlpha = true
 					};
 					collection.Add(img);
 				}
-				if (collection.Count == 0) {
+				if (collection.Count == 0)
+				{
 					return string.Empty;
 				}
 				//Optionally reduce colors
@@ -880,7 +980,8 @@ namespace GKWebService.Models.Plan.PlanElement
 				// Optionally optimize the images (images should have the same size).
 				collection.Optimize();
 
-				using (var str = new MemoryStream()) {
+				using (var str = new MemoryStream())
+				{
 					collection.Write(str, MagickFormat.Gif);
 					bytes = str.ToArray();
 				}
@@ -890,14 +991,18 @@ namespace GKWebService.Models.Plan.PlanElement
 			return Convert.ToBase64String(bytes);
 		}
 
-		private static GKBaseModel GetGkObject(ElementBase elem) {
+		private static GKBaseModel GetGkObject(ElementBase elem)
+		{
 			var asZone = elem as IElementZone;
-			if (asZone != null) {
-				if (elem is ElementRectangleGKZone || elem is ElementPolygonGKZone) {
+			if (asZone != null)
+			{
+				if (elem is ElementRectangleGKZone || elem is ElementPolygonGKZone)
+				{
 					var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 					return new FireZone.FireZone(zone);
 				}
-				if (elem is ElementRectangleGKGuardZone || elem is ElementPolygonGKGuardZone) {
+				if (elem is ElementRectangleGKGuardZone || elem is ElementPolygonGKGuardZone)
+				{
 					var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
 					return new GuardZones.GuardZone(zone);
 				}
@@ -906,7 +1011,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			return null;
 		}
 
-		private static ElementHint GetElementHint(ElementBase element) {
+		private static ElementHint GetElementHint(ElementBase element)
+		{
 			var hint = new ElementHint();
 
 			//var asDoor = element as ElementGKDoor;
@@ -920,30 +1026,37 @@ namespace GKWebService.Models.Plan.PlanElement
 			//}
 
 			var asZone = element as IElementZone;
-			if (asZone != null) {
-				if (element is ElementRectangleGKZone || element is ElementPolygonGKZone) {
+			if (asZone != null)
+			{
+				if (element is ElementRectangleGKZone || element is ElementPolygonGKZone)
+				{
 					var zone = GKManager.Zones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-					if (zone != null && zone.PresentationName != null) {
+					if (zone != null && zone.PresentationName != null)
+					{
 						var imagePath = "Images/Zone.png";
 						var imageData = GetImageResource(imagePath);
 						hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName, Icon = imageData.Item1 });
 
 						// Добавляем состояния
-						foreach (var stateClass in zone.State.StateClasses) {
+						foreach (var stateClass in zone.State.StateClasses)
+						{
 							//Получаем источник иконки для основного класса
 							var iconSourceForStateClasses = stateClass.ToIconSource();
 							hint.StateHintLines.Add(
-								new HintLine {
+								new HintLine
+								{
 									Text = stateClass.ToDescription(),
 									Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
 								});
 						}
 						// Добавляем доп. состояния
-						foreach (var stateClass in zone.State.AdditionalStates) {
+						foreach (var stateClass in zone.State.AdditionalStates)
+						{
 							//Получаем источник иконки для основного класса
 							var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
 							hint.StateHintLines.Add(
-								new HintLine {
+								new HintLine
+								{
 									Text = stateClass.Name,
 									Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
 								});
@@ -952,29 +1065,35 @@ namespace GKWebService.Models.Plan.PlanElement
 					}
 				}
 				if (element is ElementRectangleGKGuardZone
-					|| element is ElementPolygonGKGuardZone) {
+					|| element is ElementPolygonGKGuardZone)
+				{
 					var zone = GKManager.GuardZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-					if (zone != null && zone.PresentationName != null) {
+					if (zone != null && zone.PresentationName != null)
+					{
 						var imagePath = "Images/GuardZone.png";
 						var imageData = GetImageResource(imagePath);
 						hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName, Icon = imageData.Item1 });
 
 						// Добавляем состояния
-						foreach (var stateClass in zone.State.StateClasses) {
+						foreach (var stateClass in zone.State.StateClasses)
+						{
 							//Получаем источник иконки для основного класса
 							var iconSourceForStateClasses = stateClass.ToIconSource();
 							hint.StateHintLines.Add(
-								new HintLine {
+								new HintLine
+								{
 									Text = stateClass.ToDescription(),
 									Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
 								});
 						}
 						// Добавляем доп. состояния
-						foreach (var stateClass in zone.State.AdditionalStates) {
+						foreach (var stateClass in zone.State.AdditionalStates)
+						{
 							//Получаем источник иконки для основного класса
 							var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
 							hint.StateHintLines.Add(
-								new HintLine {
+								new HintLine
+								{
 									Text = stateClass.Name,
 									Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
 								});
@@ -984,29 +1103,35 @@ namespace GKWebService.Models.Plan.PlanElement
 
 				}
 				if (element is ElementRectangleGKSKDZone
-					|| element is ElementPolygonGKSKDZone) {
+					|| element is ElementPolygonGKSKDZone)
+				{
 					var zone = GKManager.SKDZones.FirstOrDefault(z => z.UID == asZone.ZoneUID);
-					if (zone != null && zone.PresentationName != null) {
+					if (zone != null && zone.PresentationName != null)
+					{
 						var imagePath = "Images/Zone.png";
 						var imageData = GetImageResource(imagePath);
 						hint.StateHintLines.Add(new HintLine { Text = zone.PresentationName, Icon = imageData.Item1 });
 
 						// Добавляем состояния
-						foreach (var stateClass in zone.State.StateClasses) {
+						foreach (var stateClass in zone.State.StateClasses)
+						{
 							//Получаем источник иконки для основного класса
 							var iconSourceForStateClasses = stateClass.ToIconSource();
 							hint.StateHintLines.Add(
-								new HintLine {
+								new HintLine
+								{
 									Text = stateClass.ToDescription(),
 									Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
 								});
 						}
 						// Добавляем доп. состояния
-						foreach (var stateClass in zone.State.AdditionalStates) {
+						foreach (var stateClass in zone.State.AdditionalStates)
+						{
 							//Получаем источник иконки для основного класса
 							var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
 							hint.StateHintLines.Add(
-								new HintLine {
+								new HintLine
+								{
 									Text = stateClass.Name,
 									Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
 								});
@@ -1017,29 +1142,35 @@ namespace GKWebService.Models.Plan.PlanElement
 				}
 			}
 			var asMpt = element as IElementMPT;
-			if (asMpt != null) {
+			if (asMpt != null)
+			{
 				var mpt = GKManager.MPTs.FirstOrDefault(m => m.UID == asMpt.MPTUID);
-				if (mpt != null && mpt.PresentationName != null) {
+				if (mpt != null && mpt.PresentationName != null)
+				{
 					var imagePath = "Images/BMPT.png";
 					var imageData = GetImageResource(imagePath);
 					hint.StateHintLines.Add(new HintLine { Text = mpt.PresentationName, Icon = imageData.Item1 });
 
 					// Добавляем состояния
-					foreach (var stateClass in mpt.State.StateClasses) {
+					foreach (var stateClass in mpt.State.StateClasses)
+					{
 						//Получаем источник иконки для основного класса
 						var iconSourceForStateClasses = stateClass.ToIconSource();
 						hint.StateHintLines.Add(
-							new HintLine {
+							new HintLine
+							{
 								Text = stateClass.ToDescription(),
 								Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
 							});
 					}
 					// Добавляем доп. состояния
-					foreach (var stateClass in mpt.State.AdditionalStates) {
+					foreach (var stateClass in mpt.State.AdditionalStates)
+					{
 						//Получаем источник иконки для основного класса
 						var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
 						hint.StateHintLines.Add(
-							new HintLine {
+							new HintLine
+							{
 								Text = stateClass.Name,
 								Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
 							});
@@ -1065,30 +1196,36 @@ namespace GKWebService.Models.Plan.PlanElement
 			//	}
 			//}
 			var asDirection = element as IElementDirection;
-			if (asDirection != null) {
+			if (asDirection != null)
+			{
 				var direction = GKManager.Directions.FirstOrDefault(
 					d => d.UID == asDirection.DirectionUID);
-				if (direction != null && direction.PresentationName != null) {
+				if (direction != null && direction.PresentationName != null)
+				{
 					var imagePath = "Images/Blue_Direction.png";
 					var imageData = GetImageResource(imagePath);
 					hint.StateHintLines.Add(new HintLine { Text = direction.PresentationName, Icon = imageData.Item1 });
 
 					// Добавляем состояния
-					foreach (var stateClass in direction.State.StateClasses) {
+					foreach (var stateClass in direction.State.StateClasses)
+					{
 						//Получаем источник иконки для основного класса
 						var iconSourceForStateClasses = stateClass.ToIconSource();
 						hint.StateHintLines.Add(
-							new HintLine {
+							new HintLine
+							{
 								Text = stateClass.ToDescription(),
 								Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
 							});
 					}
 					// Добавляем доп. состояния
-					foreach (var stateClass in direction.State.AdditionalStates) {
+					foreach (var stateClass in direction.State.AdditionalStates)
+					{
 						//Получаем источник иконки для основного класса
 						var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
 						hint.StateHintLines.Add(
-							new HintLine {
+							new HintLine
+							{
 								Text = stateClass.Name,
 								Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
 							});
@@ -1097,29 +1234,35 @@ namespace GKWebService.Models.Plan.PlanElement
 				}
 			}
 			var asDevice = element as ElementGKDevice;
-			if (asDevice != null) {
+			if (asDevice != null)
+			{
 				var device = GKManager.Devices.FirstOrDefault(
 					d => d.UID == asDevice.DeviceUID);
 				if (device != null
-					&& device.PresentationName != null) {
+					&& device.PresentationName != null)
+				{
 					hint.StateHintLines.Add(new HintLine { Text = device.PresentationName, Icon = GetElementHintIcon(asDevice).Item1 });
 
 					// Добавляем состояния
-					foreach (var stateClass in device.State.StateClasses) {
+					foreach (var stateClass in device.State.StateClasses)
+					{
 						//Получаем источник иконки для основного класса
 						var iconSourceForStateClasses = stateClass.ToIconSource();
 						hint.StateHintLines.Add(
-							new HintLine {
+							new HintLine
+							{
 								Text = stateClass.ToDescription(),
 								Icon = iconSourceForStateClasses != null ? GetImageResource(iconSourceForStateClasses.Replace("/Controls;component/", "")).Item1 : null
 							});
 					}
 					// Добавляем доп. состояния
-					foreach (var stateClass in device.State.AdditionalStates) {
+					foreach (var stateClass in device.State.AdditionalStates)
+					{
 						//Получаем источник иконки для основного класса
 						var iconSourceForAdditionalStateClassses = stateClass.StateClass.ToIconSource();
 						hint.StateHintLines.Add(
-							new HintLine {
+							new HintLine
+							{
 								Text = stateClass.Name,
 								Icon = iconSourceForAdditionalStateClassses != null ? GetImageResource(iconSourceForAdditionalStateClassses.Replace("/Controls;component/", "")).Item1 : null
 							});
@@ -1129,24 +1272,29 @@ namespace GKWebService.Models.Plan.PlanElement
 			return hint;
 		}
 
-		private static Tuple<string, Size> GetElementHintIcon(ElementBasePoint item) {
+		private static Tuple<string, Size> GetElementHintIcon(ElementBasePoint item)
+		{
 			var imagePath = string.Empty;
 
 			var gkDevice = item as ElementGKDevice;
-			if (gkDevice != null) {
+			if (gkDevice != null)
+			{
 				var device =
 					GKManager.Devices.FirstOrDefault(d => d.UID == gkDevice.DeviceUID);
-				if (device == null) {
+				if (device == null)
+				{
 					return null;
 				}
 
 				imagePath = device.ImageSource.Replace("/Controls;component/", "");
 			}
 			var gkDoor = item as ElementGKDoor;
-			if (gkDoor != null) {
+			if (gkDoor != null)
+			{
 				var door =
 					GKManager.Doors.FirstOrDefault(d => d.UID == gkDoor.DoorUID);
-				if (door == null) {
+				if (door == null)
+				{
 					return null;
 				}
 
@@ -1163,16 +1311,19 @@ namespace GKWebService.Models.Plan.PlanElement
 		/// </summary>
 		/// <param name="resName">Путь к ресурсу формата GKIcons/RSR2_Bush_Fire.png</param>
 		/// <returns></returns>
-		private static Tuple<string, Size> GetImageResource(string resName) {
+		private static Tuple<string, Size> GetImageResource(string resName)
+		{
 			var assembly = Assembly.GetAssembly(typeof(AlarmButton));
 			var name =
 				assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(".resources", StringComparison.Ordinal));
 			var resourceStream = assembly.GetManifestResourceStream(name);
-			if (resourceStream == null) {
+			if (resourceStream == null)
+			{
 				return new Tuple<string, Size>("", new Size());
 			}
 			byte[] values;
-			using (var reader = new ResourceReader(resourceStream)) {
+			using (var reader = new ResourceReader(resourceStream))
+			{
 				string type;
 				reader.GetResourceData(resName.ToLowerInvariant(), out type, out values);
 			}
@@ -1185,7 +1336,8 @@ namespace GKWebService.Models.Plan.PlanElement
 			var size = BitConverter.ToInt32(values, 0);
 			var value1 = new Bitmap(new MemoryStream(values, offset, size));
 			byte[] byteArray;
-			using (var stream = new MemoryStream()) {
+			using (var stream = new MemoryStream())
+			{
 				value1.Save(stream, ImageFormat.Png);
 				stream.Close();
 
@@ -1197,36 +1349,45 @@ namespace GKWebService.Models.Plan.PlanElement
 
 		private static readonly ContentService _contentService;
 
-		static PlanElement() {
+		static PlanElement()
+		{
 			_contentService = new ContentService("GKWEB");
 		}
 
-		public static string GetBackgroundContent(Guid? source, ResourceType imageType, double width, double height) {
-			if (!source.HasValue) {
+		public static string GetBackgroundContent(Guid? source, ResourceType imageType, double width, double height)
+		{
+			if (!source.HasValue)
+			{
 				return string.Empty;
 			}
-			switch (imageType) {
-				case ResourceType.Image: {
+			switch (imageType)
+			{
+				case ResourceType.Image:
+					{
 						var bmp = _contentService.GetBitmapContent(source.Value);
 						bmp.Freeze();
 						var encoder = new PngBitmapEncoder();
 						encoder.Frames.Add(BitmapFrame.Create(bmp));
-						using (MemoryStream ms = new MemoryStream()) {
+						using (MemoryStream ms = new MemoryStream())
+						{
 							encoder.Save(ms);
 							var data = ms.ToArray();
 							return Convert.ToBase64String(data);
 						}
 					}
-				case ResourceType.Drawing: {
+				case ResourceType.Drawing:
+					{
 						var drawing = _contentService.GetDrawing(source.Value);
 						drawing.Freeze();
 						return InternalConverterOld.XamlDrawingToPngBase64String(width, height, drawing);
 					}
-				case ResourceType.Visual: {
+				case ResourceType.Visual:
+					{
 						var canvas = _contentService.GetObject<Canvas>(source.Value);
 						return canvas == null ? string.Empty : InternalConverter.XamlCanvasToPngBase64(canvas, width, height);
 					}
-				default: {
+				default:
+					{
 						return string.Empty;
 					}
 			}
@@ -1235,5 +1396,5 @@ namespace GKWebService.Models.Plan.PlanElement
 
 	}
 
-	#endregion
+		#endregion
 }

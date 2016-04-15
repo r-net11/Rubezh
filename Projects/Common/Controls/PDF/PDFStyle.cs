@@ -3,7 +3,7 @@ using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace Common.PDF
+namespace Controls.PDF
 {
 	public static class PDFStyle
 	{

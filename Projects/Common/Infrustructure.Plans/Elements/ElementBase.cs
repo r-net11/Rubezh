@@ -5,8 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows;
-using System.Windows.Media;
 using System.Xml.Serialization;
+using Color = Common.Color;
+using Colors = Common.Colors;
+using PointCollection = System.Windows.Media.PointCollection;
 
 namespace Infrustructure.Plans.Elements
 {

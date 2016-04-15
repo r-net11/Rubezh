@@ -1,22 +1,17 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Media;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Common;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Collections.Generic;
-using System.Threading;
-using Infrastructure.Client.Plans;
-using Infrastructure;
-using Infrastructure.Events;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Linq;
 
 namespace PlansModule.Designer
 {
 	public static class Helper
 	{
 		public const string SubPlanAlias = "SubPlan";
-		
+
 		public static void UpgradeBackground(IElementBackground element)
 		{
 			PainterCache.CacheBrush(element);

@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhClient
 {
@@ -342,43 +341,43 @@ namespace RubezhClient
 		private static void UpdateZoneType(IElementZone elementZone, GKGuardZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 20 : 40);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Brown;
+			elementZone.BackgroundColor = zone == null ? Colors.Black : Colors.Brown;
 		}
 		private static void UpdateZoneType(IElementZone elementZone, GKZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+			elementZone.BackgroundColor = zone == null ? Colors.Black : Colors.Green;
 		}
 		private static void UpdateSKDZoneType(IElementZone elementZone, GKSKDZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+			elementZone.BackgroundColor = zone == null ? Colors.Black : Colors.Green;
 		}
 		private static void UpdateDelayType(IElementDelay elementGKDelay, GKDelay gkDelay)
 		{
-			elementGKDelay.BackgroundColor = gkDelay == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
+			elementGKDelay.BackgroundColor = gkDelay == null ? Colors.Black : Colors.LightBlue;
 		}
 		private static void UpdatePumpStationType(IElementPumpStation elementGKPumpStation, GKPumpStation gkPumpStation)
 		{
-			elementGKPumpStation.BackgroundColor = (gkPumpStation == null) ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Cyan;
+			elementGKPumpStation.BackgroundColor = (gkPumpStation == null) ? Colors.Black : Colors.Cyan;
 		}
 		private static void UpdateDirectionType(IElementDirection elementGKDirection, GKDirection gkDirection)
 		{
 			elementGKDirection.SetZLayer(gkDirection == null ? 10 : 11);
-			elementGKDirection.BackgroundColor = gkDirection == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
+			elementGKDirection.BackgroundColor = gkDirection == null ? Colors.Black : Colors.LightBlue;
 		}
 		private static void UpdateMPTType(IElementMPT elementGKMPT, GKMPT gkMPT)
 		{
 			elementGKMPT.SetZLayer(gkMPT == null ? 10 : 11);
-			elementGKMPT.BackgroundColor = gkMPT == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
+			elementGKMPT.BackgroundColor = gkMPT == null ? Colors.Black : Colors.LightBlue;
 		}
 		private static void UpdateSubPlan(ElementRectangleSubPlan elementSubPlan, Plan plan)
 		{
-			elementSubPlan.BackgroundColor = plan == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+			elementSubPlan.BackgroundColor = plan == null ? Colors.Black : Colors.Green;
 		}
 		private static void UpdateSubPlan(ElementPolygonSubPlan elementSubPlan, Plan plan)
 		{
-			elementSubPlan.BackgroundColor = (plan == null) ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+			elementSubPlan.BackgroundColor = (plan == null) ? Colors.Black : Colors.Green;
 		}
 
 		public static void InvalidateContent()

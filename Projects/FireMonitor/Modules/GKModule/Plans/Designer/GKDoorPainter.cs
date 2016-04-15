@@ -1,8 +1,6 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
+﻿using Common;
 using DeviceControls;
-using RubezhAPI.Models;
-using RubezhAPI.SKD;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
@@ -12,9 +10,10 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using RubezhAPI.GK;
-using GKModule.ViewModels;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace GKModule.Plans.Designer
 {
@@ -60,7 +59,7 @@ namespace GKModule.Plans.Designer
 				ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(new List<Guid> { Item.UID });
 		}
 
-		protected override Brush GetBrush()
+		protected override System.Windows.Media.Brush GetBrush()
 		{
 			var background = PainterCache.GetBrush(GetStateColor());
 			return PictureCacheSource.DoorPicture.GetBrush(background);

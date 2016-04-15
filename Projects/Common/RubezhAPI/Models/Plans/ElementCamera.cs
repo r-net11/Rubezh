@@ -1,12 +1,12 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using System;
+using System.Runtime.Serialization;
 
 namespace RubezhAPI.Models
 {
 	[DataContract]
-	public class ElementCamera : ElementBasePoint, IElementReference
+	public class ElementCamera : ElementBasePoint, IElementReference, IMultipleVizualization
 	{
 		public ElementCamera()
 		{
@@ -16,6 +16,9 @@ namespace RubezhAPI.Models
 
 		[DataMember]
 		public Guid CameraUID { get; set; }
+
+		[DataMember]
+		public bool AllowMultipleVizualization { get; set; }
 
 		[DataMember()]
 		public int Rotation { get; set; }
@@ -37,7 +40,6 @@ namespace RubezhAPI.Models
 			get { return CameraUID; }
 			set { CameraUID = value; }
 		}
-
 		#endregion
 	}
 }

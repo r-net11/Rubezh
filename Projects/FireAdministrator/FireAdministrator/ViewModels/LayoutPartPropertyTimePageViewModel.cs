@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using RubezhAPI.Models.Layouts;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
+﻿using Common;
 using Infrastructure.Common.Services.Layout;
-using Microsoft.Win32;
-using Infrastructure.Client.Converters;
-using System.Windows.Controls;
-using Common;
-using Infrastructure.Client.Images;
+//using System.Windows.Media;
+using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FireAdministrator.ViewModels
 {
@@ -22,7 +12,7 @@ namespace FireAdministrator.ViewModels
 		private LayoutPartTimeViewModel _layoutPartTimeViewModel;
 		private const int MaxFontSize = 1000;
 		private bool _haveChanges;
-		public List<FontFamily> Fonts { get; private set; }
+		public List<System.Windows.Media.FontFamily> Fonts { get; private set; }
 		public List<string> HorizontalAlignments { get; private set; }
 		public List<string> VerticalAlignments { get; private set; }
 		public List<string> Formats { get; private set; }
@@ -191,9 +181,9 @@ namespace FireAdministrator.ViewModels
 				OnPropertyChanged(() => VerticalAlignment);
 			}
 		}
-		
-		private FontFamily _fontFamily;
-		public FontFamily FontFamily
+
+		private System.Windows.Media.FontFamily _fontFamily;
+		public System.Windows.Media.FontFamily FontFamily
 		{
 			get { return _fontFamily; }
 			set
@@ -221,7 +211,7 @@ namespace FireAdministrator.ViewModels
 				FontSize = properties.FontSize;
 				FontItalic = properties.FontItalic;
 				FontBold = properties.FontBold;
-				FontFamily = new FontFamily(properties.FontFamilyName);
+				FontFamily = new System.Windows.Media.FontFamily(properties.FontFamilyName);
 				Stretch = properties.Stretch;
 				HorizontalAlignment = properties.HorizontalAlignment;
 				VerticalAlignment = properties.VerticalAlignment;
