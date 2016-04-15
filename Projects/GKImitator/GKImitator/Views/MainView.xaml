@@ -111,6 +111,9 @@
 					<Button Content="Сработка по градиенту температуры" Command="{Binding SetFireTemperatureGradientCommand}" Visibility="{Binding HasSetFireTemperatureGradient, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
 					<Button Content="Ручник сорван" Command="{Binding SetFireHeandDetectorCommand}" Visibility="{Binding HasSetFireHandDetector, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Width="200" Margin="2" />
 				</StackPanel>
+				<StackPanel Visibility="{Binding HasFire1, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Orientation="Horizontal">
+					<Button Content="Сработка-1" Command="{Binding SetFire1Command}" Width="200" Margin="2" />
+				</StackPanel>
 				<StackPanel Visibility="{Binding HasFire12, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Orientation="Horizontal">
 					<Button Content="Сработка-1" Command="{Binding SetFire1Command}" Width="200" Margin="2" />
 					<Button Content="Сработка-2" Command="{Binding SetFire2Command}" Width="200" Margin="2" />
