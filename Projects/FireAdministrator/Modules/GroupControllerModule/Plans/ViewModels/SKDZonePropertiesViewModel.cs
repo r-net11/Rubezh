@@ -24,7 +24,7 @@ namespace GKModule.Plans.ViewModels
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Title = "Свойства фигуры: Зона";
+			Title = "Свойства фигуры: СКД Зона";
 			var zones = GKManager.SKDZones;
 			Zones = new ObservableCollection<SKDZoneViewModel>();
 			foreach (var zone in zones)
