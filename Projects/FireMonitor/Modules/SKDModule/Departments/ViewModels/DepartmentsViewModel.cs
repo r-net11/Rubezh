@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Extensions;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -27,7 +28,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var model in models)
 				{
-					if (model.OrganisationUID == organisation.Organisation.UID && (model.ParentDepartmentUID == null || model.ParentDepartmentUID == Guid.Empty))
+					if (model.OrganisationUID == organisation.Organisation.UID && (model.ParentDepartmentUID.IsNullOrEmpty()))
 					{
 						var itemViewModel = new DepartmentViewModel();
 						itemViewModel.InitializeModel(organisation.Organisation, model, this);
@@ -66,8 +67,6 @@ namespace SKDModule.ViewModels
 
 		protected override DepartmentViewModel GetParentItem(ShortDepartment model)
 		{
-			if (SelectedItem.IsOrganisation)
-				return SelectedItem;
 			return GetParentItemInternal(model);
 		}
 
