@@ -16,10 +16,10 @@ namespace SKDModule.ViewModels
 	{
 		List<ShortDepartment> _clipboardChildren;
 
-		public DepartmentsViewModel():base()
+		public DepartmentsViewModel()
 		{
-			ServiceFactory.Events.GetEvent<NewDepartmentEvent>().Unsubscribe(OnNewDepartment);
-			ServiceFactory.Events.GetEvent<NewDepartmentEvent>().Subscribe(OnNewDepartment);
+			ServiceFactoryBase.Events.GetEvent<NewDepartmentEvent>().Unsubscribe(OnNewDepartment);
+			ServiceFactoryBase.Events.GetEvent<NewDepartmentEvent>().Subscribe(OnNewDepartment);
 		}
 
 		protected override void InitializeModels(IEnumerable<ShortDepartment> models)
@@ -41,16 +41,16 @@ namespace SKDModule.ViewModels
 
 		void AddChildren(DepartmentViewModel parentViewModel, IEnumerable<ShortDepartment> models)
 		{
-			if (parentViewModel.Model.ChildDepartments != null && parentViewModel.Model.ChildDepartments.Count > 0)
+			if (parentViewModel.Model.ChildDepartments == null || !parentViewModel.Model.ChildDepartments.Any()) return;
+
+			var children = models.Where(x => x.ParentDepartmentUID == parentViewModel.Model.UID);
+
+			foreach (var child in children)
 			{
-				var children = models.Where(x => x.ParentDepartmentUID == parentViewModel.Model.UID);
-				foreach (var child in children)
-				{
-					var itemViewModel = new DepartmentViewModel();
-					itemViewModel.InitializeModel(parentViewModel.Organisation, child, this);
-					parentViewModel.AddChild(itemViewModel);
-					AddChildren(itemViewModel, models);
-				}
+				var itemViewModel = new DepartmentViewModel();
+				itemViewModel.InitializeModel(parentViewModel.Organisation, child, this);
+				parentViewModel.AddChild(itemViewModel);
+				AddChildren(itemViewModel, models);
 			}
 		}
 
@@ -72,8 +72,11 @@ namespace SKDModule.ViewModels
 
 		DepartmentViewModel GetParentItemInternal(ShortDepartment model)
 		{
-			return Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != null && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) ||
-				(model.ParentDepartmentUID == null && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
+			return Organisations.SelectMany(x => x.GetAllChildren())
+				.FirstOrDefault(x =>
+					(!model.ParentDepartmentUID.IsNullOrEmpty() && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) ||
+					(model.ParentDepartmentUID.IsNullOrEmpty() && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID)
+				);
 		}
 
 		protected override void UpdateParent()
@@ -84,12 +87,8 @@ namespace SKDModule.ViewModels
 				var newParent = GetParentItemInternal(model);
 				newParent.AddChild(SelectedItem);
 			}
-			base.UpdateParent();
-		}
 
-		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
-		{
-			base.OnOrganisationUsersChanged(newOrganisation);
+			base.UpdateParent();
 		}
 
 		protected override IEnumerable<ShortDepartment> GetModels(DepartmentFilter filter)
@@ -105,20 +104,24 @@ namespace SKDModule.ViewModels
 		protected override bool MarkDeleted(ShortDepartment model)
 		{
 			model.ChildDepartments = new Dictionary<Guid, string>();
+
 			foreach (var child in SelectedItem.GetAllChildren(false))
 			{
 				model.ChildDepartments.Add(child.UID, child.Name);
 			}
+
 			return DepartmentHelper.MarkDeleted(model);
 		}
 
 		protected override bool Restore(ShortDepartment model)
 		{
 			model.ParentDepartments = new Dictionary<Guid, string>();
+
 			foreach (var parent in SelectedItem.GetAllParents().Where(x => !x.IsOrganisation && x.IsDeleted))
 			{
 				model.ParentDepartments.Add(parent.UID, parent.Name);
 			}
+
 			return DepartmentHelper.Restore(model);
 		}
 
@@ -131,17 +134,21 @@ namespace SKDModule.ViewModels
 			department.ParentDepartmentUID = item.ParentDepartmentUID;
 			department.OrganisationUID = item.OrganisationUID;
 			department.ChildDepartmentUIDs = item.ChildDepartments.Select(x => x.Key).ToList();
+
 			return DepartmentHelper.Save(department, true);
 		}
 
 		protected override void OnPaste()
 		{
 			Guid? parentDepartmentUID = null;
+
 			if (SelectedItem.Parent != null && !SelectedItem.Parent.IsOrganisation)
 				parentDepartmentUID = SelectedItem.Parent.Model.UID;
+
 			_clipboard.ParentDepartmentUID = parentDepartmentUID;
 			var newItem = CopyModel(_clipboard);
 			var newItemChildren = CopyChildren(newItem, _clipboardChildren);
+
 			if (Add(newItem) && SaveMany(newItemChildren))
 			{
 				var itemViewModel = new DepartmentViewModel();
@@ -154,18 +161,12 @@ namespace SKDModule.ViewModels
 
 		bool SaveMany(List<ShortDepartment> models)
 		{
-			foreach (var item in models)
-			{
-				var saveResult = Add(item);
-				if (!saveResult)
-					return false;
-			}
-			return true;
+			return models.Select(Add).All(saveResult => saveResult);
 		}
 
 		protected override bool CanPaste()
 		{
-			return SelectedItem != null && _clipboard != null && ParentOrganisation != null;
+			return SelectedItem != null && _clipboard != null && ParentOrganisation != null && !SelectedItem.IsDeleted;
 		}
 
 		protected override void OnCopy()
@@ -177,8 +178,10 @@ namespace SKDModule.ViewModels
 		protected override ShortDepartment CopyModel(ShortDepartment source)
 		{
 			var copy = base.CopyModel(source);
+
 			if (SelectedItem.Model != null)
 				copy.ParentDepartmentUID = SelectedItem.Model.UID;
+
 			return copy;
 		}
 
@@ -186,6 +189,7 @@ namespace SKDModule.ViewModels
 		{
 			var result = new List<ShortDepartment>();
 			parent.ChildDepartments = new Dictionary<Guid,string>();
+
 			foreach (var item in children)
 			{
 				var shortDepartment = base.CopyModel(item);
@@ -193,13 +197,14 @@ namespace SKDModule.ViewModels
 				result.Add(shortDepartment);
 				parent.ChildDepartments.Add(shortDepartment.UID, shortDepartment.Name);
 			}
+
 			return result;
 		}
 
 		protected override void Remove()
 		{
 			var employeeUIDs = DepartmentHelper.GetChildEmployeeUIDs(SelectedItem.UID);
-			if (employeeUIDs == null || employeeUIDs.Count() == 0 ||
+			if (employeeUIDs == null || !employeeUIDs.Any() ||
 				MessageBoxService.ShowQuestion("Существуют привязанные к подразделению сотрудники. Продожить?"))
 			{
 				base.Remove();
@@ -213,7 +218,7 @@ namespace SKDModule.ViewModels
 				}
 				foreach (var uid in employeeUIDs)
 				{
-					ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
+					ServiceFactoryBase.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
 				}
 			}
 		}
@@ -237,7 +242,6 @@ namespace SKDModule.ViewModels
 		{
 			get { return "подразделение"; }
 		}
-
 
 		protected override FiresecAPI.Models.PermissionType Permission
 		{
