@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
+using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.Models
 {

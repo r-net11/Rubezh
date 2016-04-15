@@ -1,8 +1,8 @@
-﻿using Infrustructure.Plans.Elements;
+﻿using Common;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
 using System;
 using System.Runtime.Serialization;
-using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace RubezhAPI.Models

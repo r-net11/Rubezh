@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using Common;
+﻿using Common;
+using Controls;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using System.Windows.Documents;
+using System;
 using System.IO;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace Infrastructure.Client.Images
 {

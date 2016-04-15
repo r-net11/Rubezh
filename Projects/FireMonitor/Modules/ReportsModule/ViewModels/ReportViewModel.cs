@@ -1,15 +1,15 @@
-﻿using System.Diagnostics;
+﻿using CodeReason.Reports;
+using Common;
+using Controls.PDF;
+using Infrastructure.Common;
+using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 using System.IO;
 using System.Printing;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Resources;
-using CodeReason.Reports;
-using Common;
-using Common.PDF;
-using Infrastructure.Common;
-using Infrastructure.Common.Reports;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace ReportsModule.ViewModels
 {

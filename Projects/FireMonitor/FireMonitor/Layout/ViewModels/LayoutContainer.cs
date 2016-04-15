@@ -3,6 +3,7 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrustructure.Plans;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
@@ -148,9 +149,9 @@ namespace FireMonitor.Layout.ViewModels
 				if (layoutPart != null)
 				{
 					layoutPart.Margin = e.Model.Margin;
-					layoutPart.BorderColor = e.Model.BorderColor;
+					layoutPart.BorderColor = e.Model.BorderColor.ToRubezhColor();
 					layoutPart.BorderThickness = e.Model.BorderThickness;
-					layoutPart.BackgroundColor = e.Model.BackgroundColor;
+					layoutPart.BackgroundColor = e.Model.BackgroundColor.ToRubezhColor();
 				}
 				e.Content = layoutPart;
 			}

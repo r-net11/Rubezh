@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
+//using System.Windows.Media;
 
 namespace GKModule.Plans
 {
@@ -695,7 +695,7 @@ namespace GKModule.Plans
 				using (new WaitWrapper())
 				using (new TimeCounter("\tUpdateGKDeviceInZones: {0}"))
 				{
-					Dictionary<Geometry, IElementZone> geometries = GetZoneGeometryMap();
+					Dictionary<System.Windows.Media.Geometry, IElementZone> geometries = GetZoneGeometryMap();
 					foreach (var designerItem in DesignerCanvas.Items)
 					{
 						var elementGKDevice = designerItem.Element as ElementGKDevice;
@@ -753,9 +753,9 @@ namespace GKModule.Plans
 						return true;
 			return false;
 		}
-		private Dictionary<Geometry, IElementZone> GetZoneGeometryMap()
+		private Dictionary<System.Windows.Media.Geometry, IElementZone> GetZoneGeometryMap()
 		{
-			var geometries = new Dictionary<Geometry, IElementZone>();
+			var geometries = new Dictionary<System.Windows.Media.Geometry, IElementZone>();
 			foreach (var designerItem in DesignerCanvas.Items)
 			{
 				var elementZone = designerItem.Element as IElementZone;

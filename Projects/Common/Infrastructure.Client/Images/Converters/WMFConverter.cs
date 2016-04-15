@@ -1,14 +1,13 @@
-﻿using System;
-using Common;
+﻿using Controls;
+using Infrastructure.Client.Images;
+using System;
 using System.Drawing.Printing;
 using System.IO;
-using System.IO.Packaging;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Xps.Packaging;
-using Infrastructure.Client.Images;
 
 namespace Infrastructure.Client.Converters
 {
@@ -17,8 +16,8 @@ namespace Infrastructure.Client.Converters
 		public static WMFImage ReadWMF(string fileName)
 		{
 			#region createTempFile
-				var temp = Path.Combine(Path.GetTempPath() + Path.GetRandomFileName());
-				temp = temp.Remove(temp.Length - 3) + "xps"; 
+			var temp = Path.Combine(Path.GetTempPath() + Path.GetRandomFileName());
+			temp = temp.Remove(temp.Length - 3) + "xps";
 			#endregion
 			using (PrintDocument pdx = new PrintDocument())
 			{
@@ -62,7 +61,7 @@ namespace Infrastructure.Client.Converters
 				{
 					System.Threading.Thread.Sleep(1000);
 				}
-			} 
+			}
 			#endregion
 			WMFImage wmf = new WMFImage();
 			using (XpsDocument xpsDocument = new XpsDocument(temp, FileAccess.Read))

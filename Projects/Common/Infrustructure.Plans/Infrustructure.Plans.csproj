@@ -51,6 +51,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="ColorExtentions.cs" />
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
     <Compile Include="Designer\CommonDesignerItem.cs" />
     <Compile Include="Designer\DesignerHelper.cs" />

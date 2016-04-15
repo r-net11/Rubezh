@@ -1,4 +1,4 @@
-﻿using Infrastructure;
+﻿using Common;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -13,7 +13,6 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Windows.Media;
 
 namespace AutomationModule.ViewModels
 {
