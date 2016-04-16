@@ -194,14 +194,17 @@ namespace SKDModule.ViewModels
 				.Subscribe(_ =>
 				{
 					AvailableDocumentsCollectionView.Refresh();
+
 					if (_isNew)
-						SelectedDocument = (TimeTrackDocument)AvailableDocumentsCollectionView.CurrentItem;
-					IsEnableAbsence = (SelectedDocument != null
-										&& SelectedDocument.TimeTrackDocumentType != null
-										&& SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.Absence) ||
-										(SelectedDocument != null
-										&& SelectedDocument.TimeTrackDocumentType != null
-										&& SelectedDocument.TimeTrackDocumentType.DocumentType == DocumentType.AbsenceReasonable);
+						SelectedDocument = (TimeTrackDocument) AvailableDocumentsCollectionView.CurrentItem;
+					else
+					{
+						AvailableDocumentsCollectionView.MoveCurrentToFirst();
+						SelectedDocument = (TimeTrackDocument) AvailableDocumentsCollectionView.CurrentItem;
+					}
+
+					IsEnableAbsence = SelectedDocumentType == DocumentType.Absence || SelectedDocumentType == DocumentType.AbsenceReasonable;
+
 				});
 		}
 
@@ -221,7 +224,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedDocument == null)
 			{
-				MessageBoxService.ShowWarning("Необходимо выбрать тип документа");
+				MessageBoxService.ShowWarning("Необходимо выбрать вид документа");
 				return false;
 			}
 

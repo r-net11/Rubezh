@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Extensions;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -80,7 +81,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var model in models)
 				{
-					if (model.OrganisationUID == organisation.Organisation.UID && (model.ParentDepartmentUID == null || model.ParentDepartmentUID == Guid.Empty))
+					if (model.OrganisationUID == organisation.Organisation.UID && (model.ParentDepartmentUID.IsNullOrEmpty()))
 					{
 						var itemViewModel = new DepartmentFilterItemViewModel();
 						itemViewModel.InitializeModel(organisation.Organisation, model, this);

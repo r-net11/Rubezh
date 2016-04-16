@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.Extensions;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -23,8 +24,8 @@ namespace SKDModule.ViewModels
 			Title = "Выбор подразделения";
 			_organisationUID = organisationUID;
 			_firstSelectedDepartmentUID = departmentUID;
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			ClearCommand = new RelayCommand(OnClear, CanClear);
+			AddCommand = new RelayCommand(OnAdd, () => FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit));
+			ClearCommand = new RelayCommand(OnClear, () => SelectedDepartment != null);
 		}
 
 		public void Initialize()
@@ -42,7 +43,7 @@ namespace SKDModule.ViewModels
 			RootDepartments = new ObservableCollection<DepartmentSelectionItemViewModel>();
 			foreach (var department in AllDepartments)
 			{
-				if (department.Department.ParentDepartmentUID == null)
+				if (department.Department.ParentDepartmentUID.IsNullOrEmpty()) //проверка на null добавлена для совместимости с предыдущими версиями. В новых версиях ParentDepartmentUID никогда не может является null.
 				{
 					RootDepartments.Add(department);
 					SetChildren(department);
@@ -95,6 +96,7 @@ namespace SKDModule.ViewModels
 				parentDepartmentUID = SelectedDepartment.Department.UID;
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel();
 			departmentDetailsViewModel.Initialize(_organisationUID, parentDepartmentUID);
+
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Model;
@@ -110,20 +112,11 @@ namespace SKDModule.ViewModels
 				}
 				departmentViewModel.ExpandToThis();
 				SelectedDepartment = departmentViewModel;
-				ServiceFactory.Events.GetEvent<NewDepartmentEvent>().Publish(department);
+				ServiceFactoryBase.Events.GetEvent<NewDepartmentEvent>().Publish(department);
 			}
-		}
-		bool CanAdd()
-		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit);
 		}
 
 		public RelayCommand ClearCommand { get; private set; }
-
-		private bool CanClear()
-		{
-			return SelectedDepartment != null;
-		}
 
 		void OnClear()
 		{
@@ -138,7 +131,7 @@ namespace SKDModule.ViewModels
 
 	public class DepartmentParentSelectionViewModel : DepartmentSelectionViewModel
 	{
-		Guid _departmentUID;
+		readonly Guid _departmentUID;
 
 		public DepartmentParentSelectionViewModel(Guid organisationUID, Guid parentDepartmentUID, Guid departmentUID) : base(organisationUID, parentDepartmentUID)
 		{

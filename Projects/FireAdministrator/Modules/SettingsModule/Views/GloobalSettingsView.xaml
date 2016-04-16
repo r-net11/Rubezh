@@ -22,7 +22,6 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
@@ -36,21 +35,6 @@
 
 					<TextBlock Grid.Row="3" Grid.Column="0" Text="Порт сервиса отчетов" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
 					<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding ReportServicePort, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="65535" VerticalAlignment="Center" Margin="2" />
-					<TextBlock
-						Grid.Row="6"
-						Grid.Column="0"
-						Margin="2"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Text="Создавать новую БД при переполнении"
-						Foreground="{DynamicResource ForegroundColorLight}"/>
-					<CheckBox
-						Grid.Row="6"
-						Grid.Column="1"
-						Margin="2"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Center"
-						IsChecked="{Binding CreateNewDBOnOversize}" />
 				</Grid>
 				<GroupBox Grid.Row="1" Header="Настройка базы данных" Margin="2 10">
 					<GroupBox.HeaderTemplate>

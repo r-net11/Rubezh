@@ -215,14 +215,13 @@
 					Grid.Column="2"
 					Background="White"
 					CornerRadius="5"
-					Visibility="{Binding IsEmployeeSelected,
-				                             Converter={StaticResource BoolToVisibilityConverter}}">
+					Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-						<StackPanel Grid.Column="0" Margin="5">
+						<StackPanel Margin="5">
 							<StackPanel Orientation="Horizontal">
 								<TextBlock
 									Width="100"

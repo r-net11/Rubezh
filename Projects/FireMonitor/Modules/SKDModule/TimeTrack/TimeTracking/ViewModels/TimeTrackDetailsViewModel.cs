@@ -198,7 +198,14 @@ namespace SKDModule.ViewModels
 
 		public TimeSpan SlideTimeValue
 		{
-			get { return DayTimeTrack == null ? default(TimeSpan) : DayTimeTrack.SlideTime; }
+			get
+			{
+				if (DayTimeTrack == null) return default(TimeSpan);
+				if (DayTimeTrack.SlideTime == TimeSpan.Zero)
+					return DayTimeTrack.PlannedTimeTrackParts.Aggregate(default(TimeSpan),
+						(accumulate, part) => part.Delta + accumulate);
+				return DayTimeTrack.SlideTime;
+			}
 		}
 
 		private bool _isShowOnlyScheduledIntervals;
