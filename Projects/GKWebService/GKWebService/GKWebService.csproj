@@ -218,6 +218,8 @@
     <Content Include="App\controllers\PumpStations\pumpStationsCtrl.js" />
     <Content Include="App\controllers\restart\restartDetailsCtrl.js" />
     <Content Include="App\controllers\signalrCtrl.js" />
+    <Content Include="App\controllers\SKD\Cards\cardsCtrl.js" />
+    <Content Include="App\controllers\SKD\Cards\cardsToolbarCtrl.js" />
     <Content Include="App\controllers\SKD\common\departmentsFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\employeeSelectionDialogCtrl.js" />
     <Content Include="App\controllers\SKD\common\employeesFilterCtrl.js" />
@@ -267,6 +269,7 @@
     <Content Include="App\services\signalrMPTsService.js" />
     <Content Include="App\services\signalrPumpStationService.js" />
     <Content Include="App\services\signalrService.js" />
+    <Content Include="App\services\SKD\cardsService.js" />
     <Content Include="App\services\SKD\positionsService.js" />
     <Content Include="App\services\SKD\departmentsService.js" />
     <Content Include="App\services\SKD\employeesService.js" />

@@ -44,8 +44,8 @@
         <div class="icon paste"></div>
         <div class="icon redo"></div>
     </div>
-    <div class="HrToolbar" ng-show="activeTab === 3">
-        <div class="icon delete" title="Удалить" data-bind="click: Cards.CanRemove() ? function(data,event) { Cards.Remove(data, event); } : null, css: {disabled: !Cards.CanRemove()}"></div>
+    <div class="HrToolbar" ng-show="activeTab === 3" ng-controller="cardsToolbarCtrl">
+        <div class="icon delete" title="Удалить" ng-disabled="!canRemove()" ng-click="canRemove() && remove()"></div>
     </div>
     <div class="HrToolbar" ng-show="activeTab === 4">
         <div class="icon add" title="Добавить" data-bind="click: AccessTemplates.CanAdd() ? function(data,event) { AccessTemplates.Add(data, event); } : null, css: {disabled: !AccessTemplates.CanAdd()}"></div>
