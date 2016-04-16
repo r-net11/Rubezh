@@ -134,8 +134,8 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel Argument2 { get; set; }
 		Procedure Procedure { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
-		private EnumType SelectedEnumType { get; set; }
-		private ObjectType SelectedObjectType { get; set; }
+		private EnumType _selectedEnumType { get; set; }
+		private ObjectType _selectedObjectType { get; set; }
 
 		public ConditionViewModel(Condition condition, Procedure procedure, Action updateDescriptionHandler, Action updateContentHandler)
 		{
@@ -165,19 +165,19 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			SelectedEnumType = Argument1.EnumType;
-			SelectedObjectType = Argument1.ObjectType;
+			_selectedEnumType = Argument1.EnumType;
+			_selectedObjectType = Argument1.ObjectType;
 			Argument1.Update(Procedure, SelectedExplicitType, isList: false);
 			Argument1.ExplicitType = SelectedExplicitType;
-			Argument1.EnumType = SelectedEnumType;
-			Argument1.ObjectType = SelectedObjectType;
+			Argument1.EnumType = _selectedEnumType;
+			Argument1.ObjectType = _selectedObjectType;
 			UpdateArgument2();
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
 		}
 
 		void UpdateArgument2()
 		{
-			Argument2.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);
+			Argument2.Update(Procedure, SelectedExplicitType, Argument1.EnumType, Argument1.ObjectType, false);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }
