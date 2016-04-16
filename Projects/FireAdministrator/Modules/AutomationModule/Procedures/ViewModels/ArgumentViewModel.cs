@@ -87,7 +87,10 @@ namespace AutomationModule.ViewModels
 						|| ((ObjectType == ObjectType.SKDDevice) && (ExplicitValue.SKDDevice == null))
 						|| ((ObjectType == ObjectType.SKDZone) && (ExplicitValue.SKDZone == null))
 						|| ((ObjectType == ObjectType.VideoDevice) && (ExplicitValue.Camera == null))
-						|| ((ObjectType == ObjectType.Organisation) && (ExplicitValue.Organisation == null)));
+						|| ((ObjectType == ObjectType.Organisation) && (ExplicitValue.Organisation == null))
+						|| ((ObjectType == ObjectType.User) && (ExplicitValue.User == null))
+						|| ((ObjectType == ObjectType.Employee) && (ExplicitValue.Employee == null))
+						|| ((ObjectType == ObjectType.Visitor) && (ExplicitValue.Visitor == null)));
 			}
 		}
 
