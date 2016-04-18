@@ -385,7 +385,7 @@ namespace GKImitator.ViewModels
 
 		void TurnOff()
 		{
-			if (OffDelay == 0 || (GKBase is GKDoor && Regime == Regime.Manual))
+			if (OffDelay == 0)
 			{
 				TurnOffNow();
 			}
