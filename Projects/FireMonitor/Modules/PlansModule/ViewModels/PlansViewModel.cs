@@ -124,14 +124,13 @@ namespace PlansModule.ViewModels
 			if (PlanTreeViewModel != null)
 			{
 				var newPlan = PlanTreeViewModel.FindPlan(planUID);
-				//if (newPlan == null)
-				//	return false;
+				if (newPlan == null)
+					return;
 				if (PlanTreeViewModel.SelectedPlan == newPlan)
 					PlanDesignerViewModel.Update();
 				else
 					PlanTreeViewModel.SelectedPlan = newPlan;
 			}
-			//return true;
 		}
 		private void SelectedPlanChanged(object sender, EventArgs e)
 		{

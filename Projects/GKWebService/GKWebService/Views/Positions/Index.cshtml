@@ -4,11 +4,11 @@
     Layout = null;
 }
 
-<div>
-    <table id="jqGridPositions"></table>
+<div ng-controller="positionsCtrl">
+    <div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-tree-view ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-auto-size-column></div>
 </div>
 
-<div data-bind="visible: HR.Positions.IsShowEmployeeList">
+<div ng-controller="positionEmployeeListCtrl" ng-show="isShowEmployeeList()">
     @Html.Action("PositionEmployeeList")
 </div>
-@Html.Action("PositionDetails")
+

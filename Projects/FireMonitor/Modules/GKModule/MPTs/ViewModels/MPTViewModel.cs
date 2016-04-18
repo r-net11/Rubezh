@@ -27,6 +27,7 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 			MPT = mpt;
 			MPTDetailsViewModel = new MPTDetailsViewModel(MPT);
@@ -99,6 +100,12 @@ namespace GKModule.ViewModels
 		{
 			if (ShowOnPlanHelper.ShowObjectOnPlan(MPT))
 				DialogService.ShowWindow(new MPTDetailsViewModel(MPT));
+		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		private void OnShowProperties()
+		{
+			DialogService.ShowWindow(new MPTDetailsViewModel(MPT));
 		}
 	}
 }

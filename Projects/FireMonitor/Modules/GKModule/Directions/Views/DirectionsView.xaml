@@ -7,7 +7,7 @@
 	<DataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" CanUserSortColumns="True">
 		<DataGrid.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-				<MouseBinding Command="{Binding DataContext.SelectedDirection.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+				<MouseBinding Command="{Binding DataContext.SelectedDirection.ShowOnPlanOrPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
 							  MouseAction="LeftDoubleClick" />
 			</InputBindingCollection>
 		</DataGrid.Resources>
@@ -33,14 +33,14 @@
 						<StackPanel Orientation="Horizontal">
 							<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
 							<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center">
-								<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<TextBlock Text="{Binding Direction.Name}" />
 								</Hyperlink>
 								<TextBlock.ContextMenu>
 									<ContextMenu>
 										<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap"  Text="Показать на плане" />
 										<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-										<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowOnPlanOrPropertiesCommand}" />
+										<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 									</ContextMenu>
 								</TextBlock.ContextMenu>
 							</TextBlock>

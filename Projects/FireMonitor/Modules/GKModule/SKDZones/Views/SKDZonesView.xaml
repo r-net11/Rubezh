@@ -52,11 +52,11 @@
 												<IconedMenuItem ImageSource="BTurnOff" Text="Закрыть" Command="{Binding CloseCommand}" />
 												<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 												<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-												<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowOnPlanOrPropertiesCommand}" />
+												<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 											</ContextMenu>
 										</Grid.ContextMenu>
 										<Grid.InputBindings>
-											<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftDoubleClick" />
+											<MouseBinding Command="{Binding ShowOnPlanOrPropertiesCommand}" MouseAction="LeftDoubleClick" />
 										</Grid.InputBindings>
 										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
 										<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >

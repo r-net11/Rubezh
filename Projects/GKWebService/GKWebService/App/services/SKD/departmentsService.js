@@ -149,10 +149,9 @@
 
         return {
             selectedDepartment: null,
-            selectedEmployee: null,
             reload: null,
             getDepartments: _getDepartments,
-            detDepartmentEmployeeList: _getDepartmentEmployeeList,
+            getDepartmentEmployeeList: _getDepartmentEmployeeList,
             saveEmployeeDepartment: _saveEmployeeDepartment,
             saveDepartmentChief: _saveDepartmentChief,
             saveDepartment: _saveDepartment,
