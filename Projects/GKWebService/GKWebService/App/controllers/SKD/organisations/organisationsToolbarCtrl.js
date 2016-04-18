@@ -1,0 +1,86 @@
+﻿(function () {
+
+    'use strict';
+
+    var app = angular.module('gkApp.controllers').controller('organisationsToolbarCtrl',
+        ['$scope', '$uibModal', 'organisationsService', 'dialogService', 'authService',
+         function ($scope, $uibModal, organisationsService, dialogService, authService) {
+             $scope.$watch(function() {
+                 return organisationsService.selectedOrganisation;
+             }, function (organisation) {
+                 $scope.selectedOrganisation = organisation;
+             });
+
+             $scope.isOrganisationsEditAllowed = authService.checkPermission('Oper_SKD_Organisations_Edit');
+             $scope.isOrganisationsAddRemoveAllowed = authService.checkPermission('Oper_SKD_Organisations_AddRemove');
+
+             $scope.canAdd = function () {
+                 return $scope.selectedOrganisation && !$scope.selectedOrganisation.IsDeleted && $scope.isOrganisationsAddRemoveAllowed;
+             };
+             $scope.canRemove = function () {
+                 return $scope.selectedOrganisation && !$scope.selectedOrganisation.IsDeleted && $scope.isOrganisationsAddRemoveAllowed;
+             };
+             $scope.canEdit = function () {
+                 return $scope.selectedOrganisation && !$scope.selectedOrganisation.IsDeleted && $scope.isOrganisationsEditAllowed;
+             };
+             $scope.canRestore = function () {
+                 return $scope.selectedOrganisation && $scope.selectedOrganisation.IsDeleted && $scope.isOrganisationsAddRemoveAllowed;
+             };
+
+             var showOrganisationDetails = function (UID, isNew) {
+                 var modalInstance = $uibModal.open({
+                     animation: false,
+                     templateUrl: 'Organisations/OrganisationDetails',
+                     controller: 'organisationDetailsCtrl',
+                     backdrop: 'static',
+                     resolve: {
+                         organisation: function () {
+                             return organisationsService.getOrganisationDetails(UID);
+                         },
+                         isNew: function () {
+                             return isNew;
+                         }
+                     }
+                 });
+
+                 modalInstance.result.then(function () {
+                     organisationsService.reload();
+                 });
+             };
+
+             $scope.edit = function () {
+                 showOrganisationDetails($scope.selectedOrganisation.UID, false);
+             };
+
+             $scope.add = function () {
+                 showOrganisationDetails('', true);
+             };
+
+             $scope.remove = function () {
+                 if (dialogService.showConfirm("Вы уверены, что хотите удалить огранизацию?")) {
+                     organisationsService.isAnyOrganisationItems($scope.selectedOrganisation.UID).then(function (isAnyOrganisationItems) {
+                         if (isAnyOrganisationItems) {
+                             if (dialogService.showConfirm("Привязанные к организации объекты будут также архивированы. Продолжить?")) {
+                                 organisationsService.markDeleted($scope.selectedOrganisation.UID, $scope.selectedOrganisation.Name).then(function () {
+                                     organisationsService.reload();
+                                });
+                            }
+                        } else {
+                             organisationsService.markDeleted($scope.selectedOrganisation.UID, $scope.selectedOrganisation.Name).then(function () {
+                                 organisationsService.reload();
+                            });
+                        }
+                    });
+                 }
+             };
+
+             $scope.changeIsDeleted = function () {
+                 if ($scope.isWithDeleted())
+                     $scope.filter.LogicalDeletationType = "Active";
+                 else 
+                     $scope.filter.LogicalDeletationType = "All";
+             };
+         }]
+    );
+
+}());

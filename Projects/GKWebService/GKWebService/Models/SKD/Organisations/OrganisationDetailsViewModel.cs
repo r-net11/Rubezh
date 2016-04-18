@@ -14,15 +14,11 @@ namespace GKWebService.Models.SKD.Organisations
     {
         public OrganisationDetails Organisation { get; set; }
 
-        public bool IsChiefSelected { get; set; }
-
         public ShortEmployeeModel SelectedChief { get; set; }
-
-        public bool IsHRChiefSelected { get; set; }
 
         public ShortEmployeeModel SelectedHRChief { get; set; }
 
-        public string PhotoData { get; set; }
+        public string photoData { get; set; }
 
         public void Initialize(Guid? id)
         {
@@ -43,39 +39,37 @@ namespace GKWebService.Models.SKD.Organisations
 
             if (Organisation.Photo != null && Organisation.Photo.Data != null)
             {
-                PhotoData = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Organisation.Photo.Data));
+                photoData = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Organisation.Photo.Data));
                 Organisation.Photo.Data = null;
             }
 
             var filter = new EmployeeFilter { LogicalDeletationType = LogicalDeletationType.All, UIDs = new List<Guid> { Organisation.ChiefUID }, IsAllPersonTypes = true };
             var chiefOperationResult = EmployeeHelper.Get(filter);
-            IsChiefSelected = chiefOperationResult.Any();
-            SelectedChief = chiefOperationResult.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault() ?? new ShortEmployeeModel();
+            SelectedChief = chiefOperationResult.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault();
 
             filter.UIDs = new List<Guid> {Organisation.HRChiefUID};
             var hrChiefOperationResult = EmployeeHelper.Get(filter);
-            IsHRChiefSelected = hrChiefOperationResult.Any();
-            SelectedHRChief = hrChiefOperationResult.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault() ?? new ShortEmployeeModel();
+            SelectedHRChief = hrChiefOperationResult.Select(e => ShortEmployeeModel.CreateFromModel(e)).FirstOrDefault();
         }
 
         public bool Save(bool isNew)
         {
-            if (IsChiefSelected)
+            if (SelectedChief != null)
             {
                 Organisation.ChiefUID = SelectedChief.UID;
             }
-            if (IsHRChiefSelected)
+            if (SelectedHRChief != null)
             {
                 Organisation.HRChiefUID = SelectedHRChief.UID;
             }
 
-            if ((PhotoData != null && PhotoData.Length > 0) || Organisation.Photo != null)
+            if ((photoData != null && photoData.Length > 0) || Organisation.Photo != null)
             {
                 Organisation.Photo = new Photo();
                 byte[] data = null;
-                if (PhotoData != null)
+                if (photoData != null)
                 {
-                    data = Convert.FromBase64String(PhotoData.Remove(0, "data:image/gif;base64,".Length));
+                    data = Convert.FromBase64String(photoData.Remove(0, "data:image/gif;base64,".Length));
                 }
                 Organisation.Photo.Data = data;
             }
