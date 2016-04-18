@@ -22,8 +22,8 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList: false);
-			ConfirmationValueArgument.Update(Procedure, ExplicitType.Boolean, isList: false);
+			MessageArgument.Update(Procedure, ExplicitType, EnumType);
+			ConfirmationValueArgument.Update(Procedure, ExplicitType.Boolean);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}

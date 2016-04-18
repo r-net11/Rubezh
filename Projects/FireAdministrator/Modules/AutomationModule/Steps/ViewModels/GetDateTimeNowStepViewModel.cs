@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Result.Update(Procedure, ExplicitType.Time, isList: false);
+			Result.Update(Procedure, ExplicitType.Time);
 		}
 
 		public override string Description

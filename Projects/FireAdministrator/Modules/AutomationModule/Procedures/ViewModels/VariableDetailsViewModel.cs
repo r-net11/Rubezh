@@ -49,16 +49,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public bool IsList
-		{
-			get { return ExplicitValuesViewModel.IsList; }
-			set
-			{
-				ExplicitValuesViewModel.IsList = value;
-				OnPropertyChanged(() => IsList);
-			}
-		}
-
 		private bool _isReference;
 		public bool IsReference
 		{
@@ -108,7 +98,7 @@ namespace AutomationModule.ViewModels
 				SelectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
 				if (SelectedExplicitType != null) SelectedExplicitType.ExpandToThis();
 			}
-			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.ExplicitValue, variable.ExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
+			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.ExplicitValue, variable.ExplicitValues, variable.ExplicitType, variable.EnumType, variable.ObjectType);
 			Name = variable.Name;
 			IsEditMode = true;
 			IsReference = variable.IsReference;
@@ -130,7 +120,6 @@ namespace AutomationModule.ViewModels
 			Variable = new Variable
 			{
 				Name = Name,
-				IsList = IsList,
 				IsReference = IsReference,
 				ExplicitType = SelectedExplicitType.ExplicitType,
 				EnumType = SelectedExplicitType.EnumType,

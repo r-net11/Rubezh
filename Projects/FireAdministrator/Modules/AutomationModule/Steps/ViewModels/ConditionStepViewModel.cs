@@ -167,7 +167,7 @@ namespace AutomationModule.ViewModels
 		{
 			_selectedEnumType = Argument1.EnumType;
 			_selectedObjectType = Argument1.ObjectType;
-			Argument1.Update(Procedure, SelectedExplicitType, isList: false);
+			Argument1.Update(Procedure, SelectedExplicitType);
 			Argument1.ExplicitType = SelectedExplicitType;
 			Argument1.EnumType = _selectedEnumType;
 			Argument1.ObjectType = _selectedObjectType;
@@ -177,7 +177,7 @@ namespace AutomationModule.ViewModels
 
 		void UpdateArgument2()
 		{
-			Argument2.Update(Procedure, SelectedExplicitType, Argument1.EnumType, Argument1.ObjectType, false);
+			Argument2.Update(Procedure, SelectedExplicitType, Argument1.EnumType, Argument1.ObjectType);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

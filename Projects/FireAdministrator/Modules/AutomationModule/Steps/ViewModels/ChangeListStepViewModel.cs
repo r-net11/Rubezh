@@ -13,8 +13,10 @@ namespace AutomationModule.ViewModels
 		public ChangeListStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ChangeListArguments = stepViewModel.Step.ChangeListArguments;
-			ListArgument = new ArgumentViewModel(ChangeListArguments.ListArgument, stepViewModel.Update, UpdateContent, false);
-			ListArgument.UpdateVariableHandler = UpdateItemArgument;
+			ListArgument = new ArgumentViewModel(ChangeListArguments.ListArgument, stepViewModel.Update, UpdateContent, false)
+			{
+				UpdateVariableHandler = UpdateItemArgument
+			};
 			ItemArgument = new ArgumentViewModel(ChangeListArguments.ItemArgument, stepViewModel.Update, UpdateContent);
 			ChangeTypes = ProcedureHelper.GetEnumObs<ChangeType>();
 		}
@@ -32,12 +34,12 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(Procedure, isList:true);
+			ListArgument.Update(Procedure);
 		}
 
 		void UpdateItemArgument()
 		{
-			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType, false);
+			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType);
 		}
 
 		public override string Description

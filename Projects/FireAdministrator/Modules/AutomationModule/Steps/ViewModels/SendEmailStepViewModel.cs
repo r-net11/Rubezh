@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Documents;
+﻿using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.Automation.Enums;
 using Infrastructure;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
@@ -92,9 +89,9 @@ namespace AutomationModule.ViewModels
 				SendEmailArguments.EMailAddressToArguments.Add(addingArgument);
 			}
 			var addRemoveArgumentViewModel = canAdd
-			? new AddRemoveArgumentViewModel(addingArgument, UpdateDescriptionHandler, UpdateContent, canAdd: true, addAction: AddNextAddressToArgument)
-			: new AddRemoveArgumentViewModel(addingArgument, UpdateDescriptionHandler, UpdateContent, removeAction: RemoveAddressToArgument);
-			addRemoveArgumentViewModel.Update(Procedure, ExplicitType.String, false);
+											? new AddRemoveArgumentViewModel(addingArgument, UpdateDescriptionHandler, UpdateContent, canAdd: true, addAction: AddNextAddressToArgument)
+											: new AddRemoveArgumentViewModel(addingArgument, UpdateDescriptionHandler, UpdateContent, removeAction: RemoveAddressToArgument);
+			addRemoveArgumentViewModel.Update(Procedure, ExplicitType.String);
 			EMailAddressToArguments.Add(addRemoveArgumentViewModel);
 		}
 
@@ -127,36 +124,33 @@ namespace AutomationModule.ViewModels
 		private void InitEMailAttachedFileArguments()
 		{
 			EMailAttachedFileArguments = new ObservableCollection<AddRemoveArgumentViewModel>();
+
 			if (SendEmailArguments.EMailAttachedFileArguments.Count == 0)
-			{
 				AddFirstAttachedFileArgument();
-			}
 			else
 			{
 				for (var i = 0; i < SendEmailArguments.EMailAttachedFileArguments.Count; i++)
-				{
 					AddAttachedFileArgument(SendEmailArguments.EMailAttachedFileArguments[i], i == 0);
-				}
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			EMailAddressFromArgument.Update(Procedure, ExplicitType.String, isList: false);
+			EMailAddressFromArgument.Update(Procedure, ExplicitType.String);
+
 			foreach (var eMailAddressToArgument in EMailAddressToArguments)
-			{
-				eMailAddressToArgument.Update(Procedure, ExplicitType.String, false);
-			}
-			EMailTitleArgument.Update(Procedure, ExplicitType.String, isList: false);
-			EMailContentArgument.Update(Procedure, ExplicitType.String, isList: false);
+				eMailAddressToArgument.Update(Procedure, ExplicitType.String);
+
+			EMailTitleArgument.Update(Procedure, ExplicitType.String);
+			EMailContentArgument.Update(Procedure, ExplicitType.String);
+
 			foreach (var eMailAttachedFileArgument in EMailAttachedFileArguments)
-			{
-				eMailAttachedFileArgument.Update(Procedure, ExplicitType.String, false);
-			}
-			SmtpArgument.Update(Procedure, ExplicitType.String, isList: false);
-			PortArgument.Update(Procedure, ExplicitType.Integer, isList: false);
-			LoginArgument.Update(Procedure, ExplicitType.String, isList: false);
-			PasswordArgument.Update(Procedure, ExplicitType.String, isList: false);
+				eMailAttachedFileArgument.Update(Procedure, ExplicitType.String);
+
+			SmtpArgument.Update(Procedure, ExplicitType.String);
+			PortArgument.Update(Procedure, ExplicitType.Integer);
+			LoginArgument.Update(Procedure, ExplicitType.String);
+			PasswordArgument.Update(Procedure, ExplicitType.String);
 		}
 
 		/// <summary>
@@ -166,9 +160,10 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var addressTo = EMailAddressToArguments.Count > 0
-					? EMailAddressToArguments[0].Argument.Description
-					: string.Empty;
+				var addressTo = EMailAddressToArguments.Any()
+								? EMailAddressToArguments[0].Argument.Description
+								: string.Empty;
+
 				return string.Format("От кого: {0} Кому: {1} Адрес сервера: {2} Порт: {3}",
 					EMailAddressFromArgument.Description,
 					addressTo,
@@ -191,10 +186,11 @@ namespace AutomationModule.ViewModels
 				addingArgument = new Argument();
 				SendEmailArguments.EMailAttachedFileArguments.Add(addingArgument);
 			}
+
 			var addRemoveArgumentViewModel = canAdd
-			? new AddRemoveArgumentViewModel(addingArgument, UpdateDescriptionHandler, UpdateContent, canAdd: true, addAction: AddNextAttachedFileArgument)
-			: new AddRemoveArgumentViewModel(addingArgument, UpdateDescriptionHandler, UpdateContent, removeAction: RemoveAttachedFileArgument);
-			addRemoveArgumentViewModel.Update(Procedure, ExplicitType.String, false);
+											? new AddRemoveArgumentViewModel(addingArgument, UpdateDescriptionHandler, UpdateContent, canAdd: true, addAction: AddNextAttachedFileArgument)
+											: new AddRemoveArgumentViewModel(addingArgument, UpdateDescriptionHandler, UpdateContent, removeAction: RemoveAttachedFileArgument);
+			addRemoveArgumentViewModel.Update(Procedure, ExplicitType.String);
 			EMailAttachedFileArguments.Add(addRemoveArgumentViewModel);
 		}
 

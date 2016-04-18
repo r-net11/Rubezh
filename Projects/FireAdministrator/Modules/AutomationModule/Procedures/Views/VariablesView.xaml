@@ -38,13 +38,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Список" Width="60" MinWidth="60" MaxWidth="60">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<CheckBox IsChecked="{Binding Variable.IsList}" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2 0" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</XDataGrid>
 	</Grid>

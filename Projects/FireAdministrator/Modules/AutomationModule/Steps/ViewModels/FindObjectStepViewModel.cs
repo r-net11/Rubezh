@@ -20,8 +20,10 @@ namespace AutomationModule.ViewModels
 		public FindObjectStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			FindObjectArguments = stepViewModel.Step.FindObjectArguments;
-			ResultArgument = new ArgumentViewModel(FindObjectArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
-			ResultArgument.UpdateVariableHandler = UpdateConditions;
+			ResultArgument = new ArgumentViewModel(FindObjectArguments.ResultArgument, stepViewModel.Update, UpdateContent, false)
+			{
+				UpdateVariableHandler = UpdateConditions
+			};
 			JoinOperator = FindObjectArguments.JoinOperator;
 			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
 			FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultArgument.ObjectType));
@@ -41,7 +43,7 @@ namespace AutomationModule.ViewModels
 			var findObjectCondition = new FindObjectCondition();
 			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler, UpdateContent);
 			FindObjectArguments.FindObjectConditions.Add(findObjectCondition);
-			FindObjectConditions.Add(findObjectConditionViewModel);			
+			FindObjectConditions.Add(findObjectConditionViewModel);
 			OnPropertyChanged(() => FindObjectConditions);
 			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
@@ -68,8 +70,8 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			variableUidValidator = ResultArgument.Argument.VariableUid;
-			ResultArgument.Update(Procedure, ExplicitType.Object, isList:true);
+			_variableUidValidator = ResultArgument.Argument.VariableUid;
+			ResultArgument.Update(Procedure, ExplicitType.Object);
 			foreach (var findObjectCondition in FindObjectConditions)
 			{
 				findObjectCondition.UpdateContent();
@@ -80,7 +82,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get 
+			get
 			{
 				var conditionViewModel = FindObjectConditions.FirstOrDefault();
 				if (conditionViewModel == null)
@@ -126,17 +128,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		Guid variableUidValidator;
+		Guid _variableUidValidator;
 		void UpdateConditions()
 		{
-			if (ResultArgument.Argument.VariableUid != variableUidValidator)
-			{
-				variableUidValidator = ResultArgument.Argument.VariableUid;
-				FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
-				FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
-				FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultArgument.ObjectType));
-				OnPropertyChanged(() => FindObjectConditions);
-			}
+			if (ResultArgument.Argument.VariableUid == _variableUidValidator) return;
+
+			_variableUidValidator = ResultArgument.Argument.VariableUid;
+			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
+			FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
+			FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultArgument.ObjectType));
+			OnPropertyChanged(() => FindObjectConditions);
 		}
 	}
 
@@ -153,7 +154,7 @@ namespace AutomationModule.ViewModels
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
 			SourceArgument = new ArgumentViewModel(findObjectCondition.SourceArgument, updateDescriptionHandler, updateContentHandler);
-			SelectedProperty = FindObjectCondition.Property;			
+			SelectedProperty = FindObjectCondition.Property;
 			SelectedConditionType = FindObjectCondition.ConditionType;
 		}
 
@@ -162,14 +163,14 @@ namespace AutomationModule.ViewModels
 		{
 			get { return FindObjectCondition.Property; }
 			set
-			{							
+			{
 				FindObjectCondition.Property = value;
 				if (value == Property.IntAddress)
 				{ MinValue = 1; MaxValue = 255; }
 				if (value == Property.ShleifNo)
 				{ MinValue = 1; MaxValue = 8; }
 				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ExplicitType));
-				SourceArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
+				SourceArgument.Update(Procedure, ExplicitType, EnumType);
 				OnPropertyChanged(() => SelectedProperty);
 				OnPropertyChanged(() => ConditionTypes);
 				OnPropertyChanged(() => MinValue);
@@ -179,7 +180,7 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			SourceArgument.Update(Procedure, ExplicitType, EnumType, isList: false);
+			SourceArgument.Update(Procedure, ExplicitType, EnumType);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }
@@ -206,7 +207,7 @@ namespace AutomationModule.ViewModels
 
 		int _maxValue;
 		public int MaxValue
-		{ 
+		{
 			get { return _maxValue; }
 			set
 			{

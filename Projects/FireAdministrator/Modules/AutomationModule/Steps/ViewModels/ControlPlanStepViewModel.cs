@@ -27,7 +27,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsChanged);
-			ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Subscribe((o) => UpdateContent());
+			ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Subscribe(o => UpdateContent());
 		}
 
 		private void OnElementsChanged(List<ElementBase> elements)
@@ -83,7 +83,7 @@ namespace AutomationModule.ViewModels
 				_selectedElementPropertyType = value;
 				ControlPlanArguments.ElementPropertyType = _selectedElementPropertyType;
 				var explicitTypeViewModel = PropertyTypeToExplicitType(SelectedElementPropertyType);
-				ValueArgument.Update(Procedure, explicitTypeViewModel.ExplicitType, explicitTypeViewModel.EnumType, isList: false);
+				ValueArgument.Update(Procedure, explicitTypeViewModel.ExplicitType, explicitTypeViewModel.EnumType);
 				OnPropertyChanged(() => SelectedElementPropertyType);
 			}
 		}

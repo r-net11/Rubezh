@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			SKDZoneArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.SKDZone, isList:false);
+			SKDZoneArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.SKDZone);
 		}
 
 		public override string Description

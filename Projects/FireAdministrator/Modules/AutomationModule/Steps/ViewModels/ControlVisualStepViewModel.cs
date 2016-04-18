@@ -35,7 +35,9 @@ namespace AutomationModule.ViewModels
 				_selectedLayout = value;
 				ControlVisualArguments.Layout = SelectedLayout == null ? Guid.Empty : SelectedLayout.Layout.UID;
 				OnPropertyChanged(() => SelectedLayout);
-				LayoutParts = new ObservableCollection<LayoutPartViewModel>(SelectedLayout == null ? Enumerable.Empty<LayoutPartViewModel>() : SelectedLayout.Layout.Parts.Select(item => new LayoutPartViewModel(item, GetDescription(item))).Where(item => item.Description != null && item.Description.Properties.Count() > 0));
+				LayoutParts = new ObservableCollection<LayoutPartViewModel>(SelectedLayout == null
+					? Enumerable.Empty<LayoutPartViewModel>()
+					: SelectedLayout.Layout.Parts.Select(item => new LayoutPartViewModel(item, GetDescription(item))).Where(item => item.Description != null && item.Description.Properties.Any()));
 				SelectedLayoutPart = LayoutParts.FirstOrDefault(x => x.LayoutPart.UID == ControlVisualArguments.LayoutPart);
 				OnPropertyChanged(() => LayoutParts);
 			}
@@ -67,7 +69,7 @@ namespace AutomationModule.ViewModels
 				if (SelectedLayoutPartProperty != null)
 				{
 					var explicitTypeViewModel = PropertyTypeToExplicitType(SelectedLayoutPartProperty);
-					ValueArgument.Update(Procedure, explicitTypeViewModel.ExplicitType, explicitTypeViewModel.EnumType, isList: false);
+					ValueArgument.Update(Procedure, explicitTypeViewModel.ExplicitType, explicitTypeViewModel.EnumType);
 				}
 				OnPropertyChanged(() => SelectedLayoutPartProperty);
 			}

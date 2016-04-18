@@ -18,9 +18,6 @@ namespace FiresecAPI.Automation
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public bool IsList { get; set; }
-
-		[DataMember]
 		public ExplicitType ExplicitType { get; set; }
 
 		[DataMember]

@@ -33,7 +33,7 @@ namespace AutomationModule.ViewModels
 		
 		public override void UpdateContent()
 		{
-			DoorArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.Door, isList:false);
+			DoorArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.Door);
 		}
 
 		public override string Description
