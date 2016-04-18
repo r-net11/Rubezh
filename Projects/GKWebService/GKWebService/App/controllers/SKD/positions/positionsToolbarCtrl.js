@@ -54,11 +54,11 @@
              };
 
              $scope.edit = function () {
-                 showPositionDetails($scope.selectedPosition.UID, false, $scope.selectedPosition.ParentUID);
+                 showPositionDetails($scope.selectedPosition.UID, false);
              };
 
              $scope.add = function () {
-                 showPositionDetails('', true, $scope.selectedPosition.UID);
+                 showPositionDetails('', true);
              };
 
              $scope.remove = function () {

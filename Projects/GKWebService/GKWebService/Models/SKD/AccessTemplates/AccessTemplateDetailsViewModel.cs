@@ -53,8 +53,8 @@ namespace GKWebService.Models.SKD.AccessTemplates
                 .Select(d => new CardDoor
                 {
                     DoorUID = d.DoorUID,
-                    EnterScheduleNo = d.SelectedEnterScheduleNo ?? 0,
-                    ExitScheduleNo = d.SelectedExitScheduleNo ?? 0,
+                    EnterScheduleNo = d.SelectedEnterSchedule == null ? 0 : d.SelectedEnterSchedule.ScheduleNo,
+                    ExitScheduleNo = d.SelectedExitSchedule == null ? 0 : d.SelectedExitSchedule.ScheduleNo,
                     AccessTemplateUID = AccessTemplate.UID
                 })
                 .ToList();

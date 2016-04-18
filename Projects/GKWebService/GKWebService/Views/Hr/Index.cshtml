@@ -47,13 +47,13 @@
     <div class="HrToolbar" ng-show="activeTab === 3" ng-controller="cardsToolbarCtrl">
         <div class="icon delete" title="Удалить" ng-disabled="!canRemove()" ng-click="canRemove() && remove()"></div>
     </div>
-    <div class="HrToolbar" ng-show="activeTab === 4">
-        <div class="icon add" title="Добавить" data-bind="click: AccessTemplates.CanAdd() ? function(data,event) { AccessTemplates.Add(data, event); } : null, css: {disabled: !AccessTemplates.CanAdd()}"></div>
-        <div class="icon delete" title="Удалить" data-bind="click: AccessTemplates.CanRemove() ? function(data,event) { AccessTemplates.Remove(data, event); } : null, css: {disabled: !AccessTemplates.CanRemove()}"></div>
-        <div class="icon edit" title="Редактировать" data-bind="click: AccessTemplates.CanEdit() ? function(data,event) { AccessTemplates.Edit(data, event); } : null, css: {disabled: !AccessTemplates.CanEdit()}"></div>
-        <div class="icon copy" title="Копировать" data-bind="click: AccessTemplates.CanCopy() ? function(data,event) { AccessTemplates.Copy(data, event); } : null, css: {disabled: !AccessTemplates.CanCopy()}"></div>
-        <div class="icon paste" title="Вставить" data-bind="click: AccessTemplates.CanPaste() ? function(data,event) { AccessTemplates.Paste(data, event); } : null, css: {disabled: !AccessTemplates.CanPaste()}"></div>
-        <div class="icon redo" title="Восстановить" data-bind="visible:Filter.IsWithDeleted, click: AccessTemplates.CanRestore() ? function(data,event) { AccessTemplates.Restore(data, event); } : null, css: {disabled: !AccessTemplates.CanRestore()}"></div>
+    <div class="HrToolbar" ng-show="activeTab === 4" ng-controller="accessTemplatesToolbarCtrl">
+        <div class="icon add" title="Добавить" ng-disabled="!canAdd()" ng-click="canAdd() && add()"></div>
+        <div class="icon delete" title="Удалить" ng-disabled="!canRemove()" ng-click="canRemove() && remove()"></div>
+        <div class="icon edit" title="Редактировать" ng-disabled="!canEdit()" ng-click="canEdit() && edit()"></div>
+        <div class="icon copy" title="Копировать" ng-disabled="!canCopy()" ng-click="canCopy() && copy()"></div>
+        <div class="icon paste" title="Вставить" ng-disabled="!canPaste()" ng-click="canPaste() && paste()"></div>
+        <div class="icon redo" title="Восстановить" ng-show="isWithDeleted()" ng-disabled="!canRestore()" ng-click="canRestore() && restore()"></div>
     </div>
     <div class="HrToolbar" ng-show="false">
         <div class="icon add"></div>
