@@ -86,10 +86,10 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public bool CloseOnEscape { get; set; }
 		public bool HideInTaskbar { get; set; }
-		
+
 		public virtual void OnLoad()
 		{
-			Surface.Owner = DialogService.GetActiveWindow();
+			Surface.Owner = DialogService.GetMainWindow();
 			Surface.ShowInTaskbar = Surface.Owner == null;
 			Surface.WindowStartupLocation = Surface.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
 		}
