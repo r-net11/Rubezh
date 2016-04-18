@@ -81,7 +81,7 @@
 							</WrapPanel>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="2">
-							<views:PlanLinksView DataContext="{Binding PlanLinks}" />
+							<views:PlanLinksView DataContext="{Binding Planlink}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="2">
 							<TextBlock Text="Задержка на выключение, с: " />
