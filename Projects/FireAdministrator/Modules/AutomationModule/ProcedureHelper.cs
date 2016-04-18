@@ -50,30 +50,28 @@ namespace AutomationModule
 			return elements;
 		}
 
-		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType, bool isList)
+		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType)
 		{
-			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType && x.ObjectType == objectType && x.IsList == isList);
+			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType && x.ObjectType == objectType);
 		}
 
-		public static List<Variable> GetAllVariables(List<Variable> allVariables, List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes, bool? isList = null)
+		public static List<Variable> GetAllVariables(List<Variable> allVariables, List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes)
 		{
 			var variables = new List<Variable>(allVariables);
-			if (explicitTypes != null)
+			if (explicitTypes == null) return variables;
+
+			variables = variables.FindAll(x => explicitTypes.Contains(x.ExplicitType));
+
+			if (explicitTypes.Contains(ExplicitType.Enum))
 			{
-				variables = variables.FindAll(x => explicitTypes.Contains(x.ExplicitType));
-				if (explicitTypes.Contains(ExplicitType.Enum))
-				{
-					variables = variables.FindAll(x => enumTypes.Contains(x.EnumType));
-				}
-				if (explicitTypes.Contains(ExplicitType.Object))
-				{
-					variables = variables.FindAll(x => objectTypes.Contains(x.ObjectType));
-				}
+				variables = variables.FindAll(x => enumTypes.Contains(x.EnumType));
 			}
-			if (isList != null)
+
+			if (explicitTypes.Contains(ExplicitType.Object))
 			{
-				variables = variables.FindAll(x => x.IsList == isList);
+				variables = variables.FindAll(x => objectTypes.Contains(x.ObjectType));
 			}
+
 			return variables;
 		}
 
@@ -270,7 +268,7 @@ namespace AutomationModule
 
 		public static string GetStringValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
-			var result = "";
+			var result = string.Empty;
 			switch (explicitType)
 			{
 				case ExplicitType.Boolean:

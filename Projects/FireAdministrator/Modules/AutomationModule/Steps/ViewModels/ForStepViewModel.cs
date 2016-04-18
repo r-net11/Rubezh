@@ -24,10 +24,10 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			IndexerArgument.Update(Procedure, ExplicitType.Integer, isList: false);
-			InitialValueArgument.Update(Procedure, ExplicitType.Integer, isList: false);
-			ValueArgument.Update(Procedure, ExplicitType.Integer, isList: false);
-			IteratorArgument.Update(Procedure, ExplicitType.Integer, isList: false);
+			IndexerArgument.Update(Procedure, ExplicitType.Integer);
+			InitialValueArgument.Update(Procedure, ExplicitType.Integer);
+			ValueArgument.Update(Procedure, ExplicitType.Integer);
+			IteratorArgument.Update(Procedure, ExplicitType.Integer);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }
@@ -45,7 +45,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var op = "";
+				var op = string.Empty;
 				switch (SelectedConditionType)
 				{
 					case ConditionType.IsLess:

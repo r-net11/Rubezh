@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
@@ -68,19 +67,19 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			TargetArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);
+			TargetArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType);
 			if (SelectedExplicitType == ExplicitType.String)
 			{
-				SourceArgument.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object), isList: false);
+				SourceArgument.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 				SourceArgument.ExplicitType = ExplicitType.String;
 			}
 			else
-				SourceArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);
+				SourceArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType);
 		}
 
-		public override string Description 
-		{ 
-			get { return TargetArgument.Description + " = " + SourceArgument.Description; } 
+		public override string Description
+		{
+			get { return TargetArgument.Description + " = " + SourceArgument.Description; }
 		}
 	}
 }

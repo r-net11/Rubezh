@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			SKDDeviceArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.SKDDevice, isList:false);
+			SKDDeviceArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.SKDDevice);
 		}
 
 		public override string Description

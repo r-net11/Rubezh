@@ -1,4 +1,6 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Diagnostics;
+using FiresecAPI.Extensions;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -65,7 +67,10 @@ namespace SKDModule.ViewModels
 			Name = Department.Name;
 			Description = Department.Description;
 			Phone = Department.Phone;
-			SelectedDepartment = Department.ParentDepartmentUID != null ? DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID.Value) : null;
+			SelectedDepartment = !Department.ParentDepartmentUID.IsNullOrEmpty()
+				? DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID.Value)
+				: null;
+
 			if (Department.Photo != null)
 				PhotoData = Department.Photo.Data;
 		}
@@ -76,11 +81,9 @@ namespace SKDModule.ViewModels
 			get { return _name; }
 			set
 			{
-				if (_name != value)
-				{
-					_name = value;
-					OnPropertyChanged(() => Name);
-				}
+				if (_name == value) return;
+				_name = value;
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -90,11 +93,9 @@ namespace SKDModule.ViewModels
 			get { return _description; }
 			set
 			{
-				if (_description != value)
-				{
-					_description = value;
-					OnPropertyChanged(() => Description);
-				}
+				if (_description == value) return;
+				_description = value;
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -104,11 +105,9 @@ namespace SKDModule.ViewModels
 			get { return _phone; }
 			set
 			{
-				if (_phone != value)
-				{
-					_phone = value;
-					OnPropertyChanged(() => Phone);
-				}
+				if (_phone == value) return;
+				_phone = value;
+				OnPropertyChanged(() => Phone);
 			}
 		}
 

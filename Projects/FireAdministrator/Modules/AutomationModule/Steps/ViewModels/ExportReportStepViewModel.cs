@@ -26,8 +26,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		private bool _isUseDateInFileName;
-
 		public bool IsUseDateInFileName
 		{
 			get { return ExportReportArguments.IsUseDateInFileName; }
@@ -289,9 +287,9 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			FilePath.Update(Procedure, ExplicitType.String, isList: false);
-			StartDate.Update(Procedure, ExplicitType.DateTime, isList: false);
-			EndDate.Update(Procedure, ExplicitType.DateTime, isList: false);
+			FilePath.Update(Procedure, ExplicitType.String);
+			StartDate.Update(Procedure, ExplicitType.DateTime);
+			EndDate.Update(Procedure, ExplicitType.DateTime);
 		}
 
 		public override string Description

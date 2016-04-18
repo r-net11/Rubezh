@@ -25,9 +25,9 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Argument1.Update(Procedure, SelectedExplicitType, isList: false);
-			Argument2.Update(Procedure, (SelectedExplicitType == ExplicitType.DateTime) ? ExplicitType.Integer : SelectedExplicitType, isList: false);
-			ResultArgument.Update(Procedure, SelectedExplicitType, isList: false);
+			Argument1.Update(Procedure, SelectedExplicitType);
+			Argument2.Update(Procedure, (SelectedExplicitType == ExplicitType.DateTime) ? ExplicitType.Integer : SelectedExplicitType);
+			ResultArgument.Update(Procedure, SelectedExplicitType);
 			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
 		}
 
@@ -35,7 +35,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var op = "";
+				var op = string.Empty;
 				switch (SelectedArithmeticOperationType)
 				{
 					case ArithmeticOperationType.Add:

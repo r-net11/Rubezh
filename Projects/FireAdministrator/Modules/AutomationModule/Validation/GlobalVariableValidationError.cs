@@ -3,7 +3,6 @@ using AutomationModule.Events;
 using FiresecAPI.Automation;
 using FiresecAPI.Enums;
 using Infrastructure.Common.Validation;
-using Infrastructure.Common;
 
 namespace AutomationModule.Validation
 {
@@ -24,7 +23,7 @@ namespace AutomationModule.Validation
 		}
 		public override string Address
 		{
-			get { return ""; }
+			get { return string.Empty; }
 		}
 		public override string Source
 		{

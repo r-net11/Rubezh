@@ -29,7 +29,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{			
-			ResultArgument.Update(Procedure, ExplicitType.Integer, isList:false);
+			ResultArgument.Update(Procedure, ExplicitType.Integer);
 		}
 
 		public override string Description 

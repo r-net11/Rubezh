@@ -87,7 +87,10 @@ namespace AutomationModule.ViewModels
 						|| ((ObjectType == ObjectType.SKDDevice) && (ExplicitValue.SKDDevice == null))
 						|| ((ObjectType == ObjectType.SKDZone) && (ExplicitValue.SKDZone == null))
 						|| ((ObjectType == ObjectType.VideoDevice) && (ExplicitValue.Camera == null))
-						|| ((ObjectType == ObjectType.Organisation) && (ExplicitValue.Organisation == null)));
+						|| ((ObjectType == ObjectType.Organisation) && (ExplicitValue.Organisation == null))
+						|| ((ObjectType == ObjectType.User) && (ExplicitValue.User == null))
+						|| ((ObjectType == ObjectType.Employee) && (ExplicitValue.Employee == null))
+						|| ((ObjectType == ObjectType.Visitor) && (ExplicitValue.Visitor == null)));
 			}
 		}
 
@@ -102,17 +105,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool _isList;
-		public bool IsList
-		{
-			get { return _isList; }
-			set
-			{
-				_isList = value;
-				OnPropertyChanged(() => IsList);
-			}
-		}
-
 		public RelayCommand AddVariableCommand { get; private set; }
 		void OnAddVariable()
 		{
@@ -124,7 +116,6 @@ namespace AutomationModule.ViewModels
 				: "Добавить глобальную переменную";
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, defaultName, title)
 			{
-				IsList = IsList,
 				ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes)
 			};
 			var explicitTypeViewModel = variableDetailsViewModel.ExplicitTypes.FirstOrDefault();
@@ -189,7 +180,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument, IsList);
+			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument);
 			if (DialogService.ShowModalWindow(argumentDetailsViewModel))
 			{
 				PropertyCopy.Copy(argumentDetailsViewModel.Argument, Argument);
@@ -201,10 +192,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand<ExplicitValueViewModel> ChangeCommand { get; private set; }
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
-			if (IsList)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
-			else
-				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
+			ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => ExplicitValue);
 		}
@@ -222,7 +210,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		List<ExplicitTypeViewModel> ExplicitTypes { get; set; }
-		public void Update(List<Variable> allVariables, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null, bool? isList = null)
+		public void Update(List<Variable> allVariables, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null)
 		{
 			if (explicitTypes == null)
 				explicitTypes = ProcedureHelper.GetEnumList<ExplicitType>();
@@ -231,9 +219,8 @@ namespace AutomationModule.ViewModels
 			if (enumTypes == null)
 				enumTypes = ProcedureHelper.GetEnumList<EnumType>();
 			ExplicitTypes = ProcedureHelper.BuildExplicitTypes(explicitTypes, enumTypes, objectTypes);
-			var variables = ProcedureHelper.GetAllVariables(allVariables, explicitTypes, enumTypes, objectTypes, isList);
-			if (isList != null)
-				IsList = isList.Value;
+			var variables = ProcedureHelper.GetAllVariables(allVariables, explicitTypes, enumTypes, objectTypes);
+
 			Variables = new List<VariableViewModel>();
 			foreach (var variable in variables)
 			{
@@ -260,21 +247,21 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => AddVariableVisibility);
 		}
 
-		public void Update(List<Variable> variables, ExplicitType explicitType = ExplicitType.Integer, EnumType enumType = EnumType.DriverType, ObjectType objectType = ObjectType.SKDDevice, bool? isList = null)
+		public void Update(List<Variable> variables, ExplicitType explicitType = ExplicitType.Integer, EnumType enumType = EnumType.DriverType, ObjectType objectType = ObjectType.SKDDevice)
 		{
-			Update(variables, new List<ExplicitType> { explicitType }, new List<EnumType> { enumType }, new List<ObjectType> { objectType }, isList);
+			Update(variables, new List<ExplicitType> { explicitType }, new List<EnumType> { enumType }, new List<ObjectType> { objectType });
 		}
 
-		public void Update(Procedure procedure, ExplicitType explicitType, EnumType? enumType = null, ObjectType? objectType = null, bool? isList = null)
+		public void Update(Procedure procedure, ExplicitType explicitType, EnumType? enumType = null, ObjectType? objectType = null)
 		{
 			var variables = ProcedureHelper.GetAllVariables(procedure);
-			Update(variables, new List<ExplicitType> { explicitType }, enumType != null ? new List<EnumType> { enumType.Value } : null, objectType != null ? new List<ObjectType> { objectType.Value } : null, isList);
+			Update(variables, new List<ExplicitType> { explicitType }, enumType != null ? new List<EnumType> { enumType.Value } : null, objectType != null ? new List<ObjectType> { objectType.Value } : null);
 		}
 
-		public void Update(Procedure procedure, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null, bool? isList = null)
+		public void Update(Procedure procedure, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null)
 		{
 			var variables = ProcedureHelper.GetAllVariables(procedure);
-			Update(variables, explicitTypes, enumTypes, objectTypes, isList);
+			Update(variables, explicitTypes, enumTypes, objectTypes);
 		}
 
 		public void Update()
@@ -341,18 +328,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var description = "";
-				if (!IsList)
-					description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
-				else
-				{
-					if (Argument.ExplicitValues.Count == 0)
-						return "Пустой список";
-					foreach (var explicitValue in Argument.ExplicitValues)
-					{
-						description += ProcedureHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
-					}
-				}
+				var description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
 				description = description.TrimEnd(',', ' ');
 				return description;
 			}
@@ -362,15 +338,14 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (SelectedVariableScope != VariableScope.ExplicitValue)
-				{
-					if ((SelectedVariable == null) || (SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.LocalVariable)
-						|| (!SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.GlobalVariable))
-						return EmptyText;
-					return "<" + SelectedVariable.Variable.Name + ">";
-				}
+				if (SelectedVariableScope == VariableScope.ExplicitValue)
+					return ProcedureHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType);
 
-				return !IsList ? ProcedureHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType) : "Список";
+				if ((SelectedVariable == null) || (SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.LocalVariable)
+				    || (!SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.GlobalVariable))
+					return EmptyText;
+
+				return "<" + SelectedVariable.Variable.Name + ">";
 			}
 		}
 

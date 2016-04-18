@@ -18,12 +18,12 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(Procedure, isList:true);
+			ListArgument.Update(Procedure);
 		}
 
 		void UpdateItemVariable()
 		{
-			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType, false);
+			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType);
 		}
 
 		public override string Description

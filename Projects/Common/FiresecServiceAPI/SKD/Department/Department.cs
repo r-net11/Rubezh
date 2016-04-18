@@ -20,7 +20,7 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		public Guid? ParentDepartmentUID { get; set; }
+		public Guid? ParentDepartmentUID { get; set; } //данное поле nullable для совместимости с предыдущими версиями. В новых версиях значение поля никогда не будет являться null.
 
 		[DataMember]
 		public List<Guid> ChildDepartmentUIDs { get; set; }

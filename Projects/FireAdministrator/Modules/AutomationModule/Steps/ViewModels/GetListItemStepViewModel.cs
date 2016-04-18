@@ -23,16 +23,16 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(Procedure, isList:true);
-			IndexArgument.Update(Procedure, ExplicitType.Integer, isList:false);
+			ListArgument.Update(Procedure);
+			IndexArgument.Update(Procedure, ExplicitType.Integer);
 		}
 
 		void UpdateItemVariable()
 		{
-			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType, false);
+			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType);
 		}
 
-		public ObservableCollection<PositionType> PositionTypes { get; private set; } 
+		public ObservableCollection<PositionType> PositionTypes { get; private set; }
 		public PositionType SelectedPositionType
 		{
 			get { return GetListItemArguments.PositionType; }

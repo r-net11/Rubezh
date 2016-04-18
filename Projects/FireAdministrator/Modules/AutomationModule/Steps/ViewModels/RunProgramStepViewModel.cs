@@ -18,8 +18,8 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			PathArgument.Update(Procedure, ExplicitType.String, isList: false);
-			ParametersArgument.Update(Procedure, ExplicitType.String, isList: false);
+			PathArgument.Update(Procedure, ExplicitType.String);
+			ParametersArgument.Update(Procedure, ExplicitType.String);
 		}
 
 		public override string Description

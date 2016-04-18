@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Windows.Input;
-using FiresecAPI.Automation;
-using FiresecClient;
-using Infrastructure;
+﻿using FiresecAPI.Automation;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
+using System.Windows.Input;
 
 namespace AutomationModule.ViewModels
 {
@@ -49,9 +42,9 @@ namespace AutomationModule.ViewModels
 				: "Delete";
 		}
 
-		public void Update(Procedure procedure, ExplicitType explicitType, bool isList)
+		public void Update(Procedure procedure, ExplicitType explicitType)
 		{
-			Argument.Update(procedure, explicitType, isList: isList);
+			Argument.Update(procedure, explicitType);
 		}
 	}
 }

@@ -5,6 +5,7 @@
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
     xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+	xmlns:listViewLayoutManager="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls"
 	MinWidth="500" MinHeight="500">
 	<UserControl.Resources>
 		<viewModel:DepartmentSelectionItemViewModelNameComparer x:Key="DepartmentSelectionItemViewModelNameComparer"/>
@@ -15,10 +16,10 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<tree:TreeList
-			Grid.Row="0"
 			Focusable="True"
 			Source="{Binding RootDepartments}"
 			SelectedItem="{Binding SelectedDepartment}"
+			listViewLayoutManager:ListViewLayoutManager.Enabled="True"
 			UIBehavior.ShowSelectionMark="True"
 			UIBehavior.IsActiveSelectionMark="True"
 			tree:SortBehavior.CanUserSortColumns="True">
@@ -36,6 +37,7 @@
 				<GridView>
 					<GridViewColumn
 						Header="Название"
+						listViewLayoutManager:ProportionalColumn.Width="1"
 						tree:SortBehavior.SortDirection="Ascending"
 						tree:SortBehavior.SortComparer="{StaticResource DepartmentSelectionItemViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
@@ -52,7 +54,7 @@
 		</tree:TreeList>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" >
             <Button Content="Открепить от подразделения" Command="{Binding ClearCommand}" Width="205" Margin="2" />
-            <Button Content="Добавить новое подразделение" Command="{Binding AddCommand}" Width="205" Margin="2" />    
+            <Button Content="Добавить новое подразделение" Command="{Binding AddCommand}" Width="205" Margin="2" />
         </StackPanel>
 	</Grid>
 </UserControl>

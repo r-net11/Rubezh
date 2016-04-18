@@ -77,7 +77,7 @@
 		<ComboBox Width="200" ItemsSource="{Binding Source={StaticResource globalVariables}}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource VariableComboBox}" Visibility="{Binding Path=SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.GlobalVariable}}" />
 
 		<StackPanel Visibility="{Binding SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.ExplicitValue}}">
-			<StackPanel Visibility="{Binding IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+			<StackPanel>
 				<extToolkit:IntegerUpDown Width="200" Maximum="{Binding ExplicitValue.MaxIntValue}" Minimum="{Binding ExplicitValue.MinIntValue}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}" Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox Width="200" IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
 				<DockPanel Width="202" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}">
@@ -204,11 +204,6 @@
 					</Hyperlink>
 				</TextBlock>
 			</StackPanel>
-			<TextBlock Margin="7 7 0 0" VerticalAlignment="Top" Visibility="{Binding IsList, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Hyperlink Command="{Binding EditCommand}" Style="{StaticResource HyperlinkStyle}">
-					<TextBlock Text="{Binding ValueDescription}" />
-				</Hyperlink>
-			</TextBlock>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

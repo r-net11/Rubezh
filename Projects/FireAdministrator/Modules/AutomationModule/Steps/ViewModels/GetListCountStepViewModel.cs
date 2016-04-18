@@ -18,8 +18,8 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(Procedure, isList:true);
-			CountArgument.Update(Procedure, ExplicitType.Integer, isList:false);
+			ListArgument.Update(Procedure);
+			CountArgument.Update(Procedure, ExplicitType.Integer);
 		}
 
 		public override string Description
