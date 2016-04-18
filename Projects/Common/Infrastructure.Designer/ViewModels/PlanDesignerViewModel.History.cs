@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Services;
+using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Designer;
+using System.Collections.Generic;
 
 namespace Infrastructure.Designer.ViewModels
 {
@@ -94,9 +94,7 @@ namespace Infrastructure.Designer.ViewModels
 					ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Publish(historyItem.ElementsBefore);
 					break;
 				case ActionType.Added:
-					foreach (var elementBase in historyItem.ElementsAfter)
-						DesignerCanvas.RemoveDesignerItem(elementBase);
-					ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(historyItem.ElementsAfter);
+					DesignerCanvas.RemoveDesignerItems(historyItem.ElementsAfter);
 					break;
 				case ActionType.Removed:
 					foreach (var elementBase in historyItem.ElementsBefore)
@@ -139,9 +137,7 @@ namespace Infrastructure.Designer.ViewModels
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsAfter);
 					break;
 				case ActionType.Removed:
-					foreach (var elementBase in historyItem.ElementsBefore)
-						DesignerCanvas.RemoveDesignerItem(elementBase);
-					ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(historyItem.ElementsBefore);
+					DesignerCanvas.RemoveDesignerItems(historyItem.ElementsBefore);
 					break;
 			}
 			DesignerCanvas.DeselectAll();

@@ -1,8 +1,7 @@
-﻿using System.Windows.Media;
-using RubezhAPI.SKD;
-using Infrastructure.Common;
+﻿using Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using RubezhAPI.SKD;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {

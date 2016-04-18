@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Windows;
 
 [assembly: AssemblyCompany("Группа компаний 'Рубеж'")]
 [assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2016")]

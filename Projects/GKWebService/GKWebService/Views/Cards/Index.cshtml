@@ -3,7 +3,6 @@
     Layout = null;
 }
 
-<div>
-    <table id="jqGridCards"></table>
+<div ng-controller="cardsCtrl">
+    <div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-tree-view ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-auto-size-column></div>
 </div>
-

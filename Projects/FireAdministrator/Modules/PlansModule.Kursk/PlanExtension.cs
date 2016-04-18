@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Events;
 using Infrustructure.Plans.Designer;
@@ -14,6 +8,12 @@ using Infrustructure.Plans.Services;
 using PlansModule.Kursk.Designer;
 using PlansModule.Kursk.InstrumentAdorners;
 using PlansModule.Kursk.ViewModels;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PlansModule.Kursk
 {

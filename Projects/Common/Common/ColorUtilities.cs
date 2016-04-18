@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Media;
 
 namespace Common
 {
@@ -158,7 +157,7 @@ namespace Common
 				{ Colors.YellowGreen, "Желто-зеленый" },
 			};
 		}
-		
+
 		public static string GetColorName(this Color color)
 		{
 			string str = (from kvp in KnownColors where kvp.Value.Equals(color) select kvp.Key).FirstOrDefault<string>();

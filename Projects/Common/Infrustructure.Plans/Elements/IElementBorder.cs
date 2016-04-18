@@ -1,4 +1,4 @@
-﻿using System.Windows.Media;
+﻿using Common;
 
 namespace Infrustructure.Plans.Elements
 {

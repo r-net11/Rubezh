@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Reports;
-using System.Windows.Documents;
-using System.Windows.Controls;
-using System.Printing;
-using System.Windows.Xps;
-using System.Windows;
+﻿using CodeReason.Reports;
 using Common;
-using CodeReason.Reports;
-using System.Windows.Resources;
+using Controls.PDF;
 using Infrastructure.Common;
-using System.IO;
-using System.Windows.Controls.Primitives;
-using Common.PDF;
-using System.Diagnostics;
+using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows.ViewModels;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Printing;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Resources;
+using System.Windows.Xps;
 
 namespace ReportsModule.ViewModels
 {

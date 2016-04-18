@@ -37,6 +37,7 @@ namespace GKImitator.ViewModels
 				HasSetFireTemperature = driverType == GKDriverType.RSR2_HeatDetector || driverType == GKDriverType.RSR2_HeatDetectorEridan || driverType == GKDriverType.RSR2_ABTK;
 				HasSetFireTemperatureGradient = driverType == GKDriverType.RSR2_CombinedDetector || driverType == GKDriverType.RSR2_IOLIT;
 				HasDustiness = driverType == GKDriverType.RSR2_SmokeDetector || driverType == GKDriverType.RSR2_HandDetector || driverType == GKDriverType.RSR2_CombinedDetector;
+				HasFire1 = driverType == GKDriverType.RSR2_Button;
 				HasFire12 = driverType == GKDriverType.RSR2_AM_1 || driverType == GKDriverType.RSR2_MAP4 || driverType == GKDriverType.RSR2_ABShS;
 				HasCard = driverType == GKDriverType.RSR2_CodeReader || driverType == GKDriverType.RSR2_CardReader || driverType == GKDriverType.RSR2_CodeCardReader;
 				HasResetFire = device.Driver.AvailableStateBits.Any(x => x == GKStateBit.Fire1 || x == GKStateBit.Fire2);
@@ -49,7 +50,7 @@ namespace GKImitator.ViewModels
 				HasOffDelay = HasTurnOffNow;
 				HasHoldDelay = HasTurnOn;
 				device.Driver.AvailableStateBits.ForEach(stateBit =>  AddStateBit(stateBit, stateBit == GKStateBit.Norm || stateBit == GKStateBit.Off));
-				HasAlarm = driverType == GKDriverType.RSR2_GuardDetectorSound || driverType == GKDriverType.RSR2_GuardDetector;
+				HasAlarm = driverType == GKDriverType.RSR2_GuardDetectorSound || driverType == GKDriverType.RSR2_GuardDetector || driverType == GKDriverType.RSR2_HandGuardDetector;
 			}
 
 			if (GKBase is GKZone)

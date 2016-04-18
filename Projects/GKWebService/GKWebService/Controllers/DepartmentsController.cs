@@ -22,7 +22,6 @@ namespace GKWebService.Controllers
             return View();
         }
 
-        [HttpPost]
         [ErrorHandler]
         public JsonResult GetOrganisations(DepartmentFilter departmentFilter)
         {

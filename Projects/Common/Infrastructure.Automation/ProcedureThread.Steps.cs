@@ -1,4 +1,5 @@
-﻿using RubezhAPI;
+﻿using Common;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
@@ -176,7 +177,7 @@ namespace Infrastructure.Automation
 
 			if (resultVariable != null)
 			{
-				resultVariable.ColorValue = System.Windows.Media.Color.FromArgb(IntToByte(a), IntToByte(r), IntToByte(g), IntToByte(b));
+				resultVariable.ColorValue = Color.FromArgb(IntToByte(a), IntToByte(r), IntToByte(g), IntToByte(b));
 				ProcedureExecutionContext.SynchronizeVariable(resultVariable, ClientUID);
 			}
 		}
@@ -1342,7 +1343,7 @@ namespace Infrastructure.Automation
 				return conditionType == ConditionType.IsEqual && (bool)param1 == (bool)param2
 						|| conditionType == ConditionType.IsNotEqual && (bool)param1 != (bool)param2;
 			}
-			
+
 			if (param1 is ObjectReference)
 			{
 				return conditionType == ConditionType.IsEqual && (ObjectReference)param1 == (ObjectReference)param2

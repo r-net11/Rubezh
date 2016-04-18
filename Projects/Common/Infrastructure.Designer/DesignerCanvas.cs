@@ -72,16 +72,16 @@ namespace Infrastructure.Designer
 		{
 			RemoveDesignerItems(SelectedItems);
 		}
-		private void RemoveDesignerItems(IEnumerable<DesignerItem> designerItems)
+		void RemoveDesignerItems(IEnumerable<DesignerItem> designerItems)
 		{
-			if (designerItems.Count() == 0)
-				return;
-
-			var elements = designerItems.Select(item => item.Element).ToList();
-			foreach (var designerItem in designerItems.ToList())
-				RemoveDesignerItem(designerItem);
-			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements);
-			DesignerChanged();
+			if (designerItems.Count() != 0)
+			{
+				var elements = designerItems.Select(item => item.Element).ToList();
+				foreach (var designerItem in designerItems.ToList())
+					RemoveDesignerItem(designerItem);
+				ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements);
+				DesignerChanged();
+			}
 		}
 
 		protected override void OnDragOver(DragEventArgs e)
@@ -205,7 +205,12 @@ namespace Infrastructure.Designer
 				DesignerChanged();
 			}
 		}
-		public void RemoveDesignerItem(ElementBase elementBase)
+		public void RemoveDesignerItems(List<ElementBase> elements)
+		{
+			elements.ForEach(x => RemoveDesignerItem(x));
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements);
+		}
+		void RemoveDesignerItem(ElementBase elementBase)
 		{
 			var designerItem = GetDesignerItem(elementBase);
 			if (designerItem != null)

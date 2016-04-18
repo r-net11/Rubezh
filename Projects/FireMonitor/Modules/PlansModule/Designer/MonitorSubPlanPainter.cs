@@ -9,6 +9,8 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.ViewModels;
+using Color = Common.Color;
+using Colors = Common.Colors;
 
 namespace PlansModule.Designer
 {

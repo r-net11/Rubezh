@@ -1,11 +1,7 @@
-﻿using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using RubezhAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -35,7 +31,7 @@ namespace PlansModule.Designer
 
 			var textBox = new TextBox();
 			textBox.Style = null;
-			textBox.BorderBrush = new SolidColorBrush(elementTextBox.BorderColor);
+			textBox.BorderBrush = new SolidColorBrush(elementTextBox.BorderColor.ToWindowsColor());
 			textBox.BorderThickness = new Thickness(elementTextBox.BorderThickness);
 			textBox.Width = elementTextBox.Width;
 			textBox.Height = elementTextBox.Height;
@@ -48,8 +44,8 @@ namespace PlansModule.Designer
 				textBox.FontWeight = FontWeights.Bold;
 			if (elementTextBox.WordWrap)
 				textBox.TextWrapping = TextWrapping.Wrap;
-			textBox.Background = new SolidColorBrush(elementTextBox.BackgroundColor);
-			textBox.Foreground = new SolidColorBrush(elementTextBox.ForegroundColor);
+			textBox.Background = new SolidColorBrush(elementTextBox.BackgroundColor.ToWindowsColor());
+			textBox.Foreground = new SolidColorBrush(elementTextBox.ForegroundColor.ToWindowsColor());
 			Canvas.SetLeft(textBox, elementTextBox.Left);
 			Canvas.SetTop(textBox, elementTextBox.Top);
 			WPFControl = textBox;

@@ -81,7 +81,11 @@ namespace RubezhAPI.GK
 					device.Door = null;
 				}
 			}
-			foreach (var zone in Zones)
+			foreach (var guardZone in GuardZones)
+			{
+				guardZone.ClearClauseDependencies();
+			}
+			 foreach (var zone in Zones)
 			{
 				zone.ClearClauseDependencies();
 				zone.Devices = new List<GKDevice>();

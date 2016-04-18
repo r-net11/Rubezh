@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Media;
+﻿using Common;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhClient;
-using RubezhAPI;
+using System;
+using System.Linq;
 
 namespace PlansModule.Kursk.Designer
 {

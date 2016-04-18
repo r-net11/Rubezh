@@ -19,7 +19,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			_delaysViewModel = delaysViewModel;
 			_element = element;
-			Title = "Свойства фигуры: ГК Задержка";
+			Title = "Свойства фигуры: Задержка";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 

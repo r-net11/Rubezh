@@ -17,6 +17,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Color = Common.Color;
+using Colors = Common.Colors;
 
 namespace GKModule.Plans.Designer
 {

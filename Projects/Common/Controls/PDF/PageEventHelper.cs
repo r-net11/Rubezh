@@ -2,7 +2,7 @@
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace Common.PDF
+namespace Controls.PDF
 {
 	public class PageEventHelper : PdfPageEventHelper
 	{
