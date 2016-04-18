@@ -24,6 +24,7 @@ namespace GKModule.ViewModels
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			Delay = delay;
 			State.StateChanged += new System.Action(OnStateChanged);
@@ -79,5 +80,13 @@ namespace GKModule.ViewModels
 				return presentationZone;
 			}
 		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+
+		void OnShowProperties()
+		{
+			DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
+		}
+
 	}
 }
