@@ -4,7 +4,7 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using System.Windows.Media;
+using Common;
 
 namespace RubezhAPI
 {

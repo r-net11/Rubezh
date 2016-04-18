@@ -43,8 +43,8 @@ namespace FireMonitor.Layout.ViewModels
 				Initialize();
 				Manager.GridSplitterHeight = Layout.SplitterSize;
 				Manager.GridSplitterWidth = Layout.SplitterSize;
-				Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
-				Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor);
+				Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor.ToWindowsColor());
+				Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor.ToWindowsColor());
 				Manager.BorderThickness = new Thickness(Layout.BorderThickness);
 				if (_serializer != null && Layout != null && !string.IsNullOrEmpty(Layout.Content))
 					using (var tr = new StringReader(Layout.Content))

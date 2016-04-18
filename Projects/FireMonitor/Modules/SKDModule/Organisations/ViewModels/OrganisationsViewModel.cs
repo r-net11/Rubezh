@@ -78,8 +78,8 @@ namespace SKDModule.ViewModels
 
 				if (value != null)
 				{
-					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation, _isConnected);
-					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation, _isConnected);
+					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation);
+					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
 				}
 				else
 				{

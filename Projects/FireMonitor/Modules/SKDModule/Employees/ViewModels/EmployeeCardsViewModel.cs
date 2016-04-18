@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAddCard()
 		{
-			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsOrganisation && !_employeeViewModel.IsDeleted;
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsOrganisation && !_employeeViewModel.IsDeleted && IsConnected;
 		}
 
 		public RelayCommand SelectEmployeeCommand { get; private set; }
@@ -109,6 +109,11 @@ namespace SKDModule.ViewModels
 		public List<EmployeeCardViewModel> DoorsParents
 		{
 			get { return Cards.ToList(); }
+		}
+
+		public bool IsConnected
+		{
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
 	}
 }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Infrastructure.Common.Services.Layout;
+using Infrustructure.Plans;
+using LayoutModule.ViewModels;
+using RubezhAPI.Models.Layouts;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -6,12 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
-using LayoutModule.ViewModels;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {
@@ -50,8 +51,8 @@ namespace LayoutModule.LayoutParts.ViewModels
 			{
 				Manager.GridSplitterHeight = Layout.SplitterSize;
 				Manager.GridSplitterWidth = Layout.SplitterSize;
-				Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
-				Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor);
+				Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor.ToWindowsColor());
+				Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor.ToWindowsColor());
 				Manager.BorderThickness = new Thickness(Layout.BorderThickness);
 				if (_serializer != null && !string.IsNullOrEmpty(Layout.Content))
 					using (var tr = new StringReader(Layout.Content))

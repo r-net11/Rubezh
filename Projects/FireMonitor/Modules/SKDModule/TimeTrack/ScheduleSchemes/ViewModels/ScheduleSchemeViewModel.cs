@@ -90,7 +90,10 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return IsSlide && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
+			return IsSlide && 
+				!IsDeleted && 
+				ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit) && 
+				IsConnected;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -108,7 +111,11 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
+			return IsSlide && 
+				SelectedSheduleDayInterval != null && 
+				SheduleDayIntervals.Count > 1 && !IsDeleted && 
+				ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit) && 
+				IsConnected;
 		}
 
 		void Sort()
@@ -142,6 +149,11 @@ namespace SKDModule.ViewModels
 		{
 			Model.DaysCount = Model.DayIntervals.Count;
 			ScheduleSchemeHelper.Save(Model, false);
+		}
+
+		public bool IsConnected
+		{
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
 	}
 }

@@ -104,7 +104,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !_parent.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit) && IsConnected;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit) && IsConnected;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Employees_Edit) && IsConnected;
 		}
 
 		protected abstract bool AddToParent(ShortEmployee employee);
@@ -178,6 +178,11 @@ namespace SKDModule.ViewModels
 						employeeListItemViewModel.Update(shortEmployee);
 				}
 			}
+		}
+
+		public bool IsConnected
+		{
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
 	}
 

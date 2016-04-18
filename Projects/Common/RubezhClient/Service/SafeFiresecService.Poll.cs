@@ -21,7 +21,7 @@ namespace RubezhClient
 		public static event Action RestartEvent;
 		public static event Action<List<JournalItem>, bool> JournalItemsEvent;
 
-		bool isConnected = true;
+		public bool IsConnected { get; private set; }
 		public bool SuspendPoll = false;
 		Thread PollThread;
 		int CallbackIndex = -1;

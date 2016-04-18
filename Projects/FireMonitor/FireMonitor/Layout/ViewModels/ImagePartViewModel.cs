@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows.Media;
-using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Services;
+﻿using Infrastructure.Client.Images;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Client.Images;
+using Infrustructure.Plans;
+using RubezhAPI.Models.Layouts;
+using System.Windows.Media;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -15,7 +14,7 @@ namespace FireMonitor.Layout.ViewModels
 			{
 				var brush = ImageHelper.GetResourceBrush(properties.ReferenceUID, properties.ImageType);
 				if (brush != null)
-					brush.Stretch = properties.Stretch;
+					brush.Stretch = properties.Stretch.ToWindowsStretch();
 				ImageBrush = brush;
 			}
 		}
