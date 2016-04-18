@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.Models.Layouts;
+using Infrustructure.Plans;
 using RubezhAPI.Automation;
+using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using Infrastructure.Common;
-using System.Windows.Media;
+using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 
 namespace AutomationModule.ViewModels
 {
@@ -24,9 +22,9 @@ namespace AutomationModule.ViewModels
 			UseCustomStyle = properties.UseCustomStyle;
 			if (UseCustomStyle)
 			{
-				BackgroundBrush = new SolidColorBrush(properties.BackgroundColor);
-				ForegroundBrush = new SolidColorBrush(properties.ForegroundColor);
-				BorderBrush = new SolidColorBrush(properties.BorderColor);
+				BackgroundBrush = new SolidColorBrush(properties.BackgroundColor.ToWindowsColor());
+				ForegroundBrush = new SolidColorBrush(properties.ForegroundColor.ToWindowsColor());
+				BorderBrush = new SolidColorBrush(properties.BorderColor.ToWindowsColor());
 				BorderThickness = properties.BorderThickness;
 				FontSize = properties.FontSize;
 				FontStyle = properties.FontItalic ? FontStyles.Italic : FontStyles.Normal;

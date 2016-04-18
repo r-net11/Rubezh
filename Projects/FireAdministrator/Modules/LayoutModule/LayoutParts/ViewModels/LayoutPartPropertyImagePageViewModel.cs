@@ -12,6 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Infrustructure.Plans;
+using Stretch = System.Windows.Media.Stretch;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {
@@ -124,7 +126,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			_wmf = null;
 			var properties = (LayoutPartImageProperties)_layoutPartImageViewModel.Properties;
 			ImageBrush = ImageHelper.GetResourceBrush(properties.ReferenceUID, properties.ImageType);
-			Stretch = properties.Stretch;
+			Stretch = properties.Stretch.ToWindowsStretch();
 			_imageChanged = false;
 		}
 		public override bool CanSave()
@@ -134,7 +136,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 		public override bool Save()
 		{
 			var properties = (LayoutPartImageProperties)_layoutPartImageViewModel.Properties;
-			if (properties.Stretch != Stretch || _imageChanged)
+			if (properties.Stretch != Stretch.ToRubezhStretch() || _imageChanged)
 			{
 				if (_imageChanged)
 					using (new WaitWrapper())
@@ -166,7 +168,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 					properties.ReferenceSVGUID = ServiceFactoryBase.ContentService.AddContent(_svg);
 				else
 					properties.ReferenceSVGUID = null;
-				properties.Stretch = Stretch;
+				properties.Stretch = Stretch.ToRubezhStretch();
 				_layoutPartImageViewModel.ImageBrush = ImageBrush;
 				return true;
 			}

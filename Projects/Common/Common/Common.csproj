@@ -169,6 +169,7 @@
     <Compile Include="State\XStateClass.cs" />
     <Compile Include="State\IDeviceState.cs" />
     <Compile Include="State\NamedStateClass.cs" />
+    <Compile Include="Stretch.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TimeCounter.cs" />
     <Compile Include="Utils.cs" />
