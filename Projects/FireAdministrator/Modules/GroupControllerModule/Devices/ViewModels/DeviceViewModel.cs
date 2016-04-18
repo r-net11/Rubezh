@@ -802,13 +802,13 @@ namespace GKModule.ViewModels
 			{
 				if (Device.DriverType != value.DriverType)
 				{
+					Device.AllChildrenAndSelf.ForEach(x => ServiceFactoryBase.Events.GetEvent<RemoveGKDeviceEvent>().Publish(x.UID));
 					var device = GKManager.ChangeDriver(Device, value);
 					if (device == null)
 					{
 						MessageBoxService.ShowWarning("Невозможно сменить тип устройства");
 						return;
 					}
-					ServiceFactoryBase.Events.GetEvent<RemoveGKDeviceEvent>().Publish(Device.UID);
 					Device = device;
 					Device.Changed += OnChanged;
 					Nodes.Clear();
