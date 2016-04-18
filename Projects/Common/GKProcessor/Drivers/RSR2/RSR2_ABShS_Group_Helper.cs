@@ -15,7 +15,8 @@ namespace GKProcessor
 				ShortName = "АБШС2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_ABShS,
-				GroupDeviceChildrenCount = 2
+				GroupDeviceChildrenCount = 2,
+				TypeOfBranche = GKDriver.TypesOfBranches.Other
 			};
 			return driver;
 		}

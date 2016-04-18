@@ -414,8 +414,6 @@ namespace GKImitator.ViewModels
 			{
 				SetStateBit(GKStateBit.Fire1, false);
 				SetStateBit(GKStateBit.Attention, true);
-				var journalItem = new ImitatorJournalItem(2, 4, 0, 0);
-				AddJournalItem(journalItem);
 				IsSettingGuardAlarm = true;
 				CurrentAlarmDelay = GuardZoneAlarmDelay;
 			}
@@ -423,8 +421,6 @@ namespace GKImitator.ViewModels
 			{
 				SetStateBit(GKStateBit.Attention, false);
 				SetStateBit(GKStateBit.Fire1, true);
-				var journalItem = new ImitatorJournalItem(2, 2, 0, 0);
-				AddJournalItem(journalItem);
 			}
 		}
 	}

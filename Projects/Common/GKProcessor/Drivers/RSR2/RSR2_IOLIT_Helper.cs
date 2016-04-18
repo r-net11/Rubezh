@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "ИОЛИТ",
 				ShortName = "ИОЛИТ",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.FireDetector
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);

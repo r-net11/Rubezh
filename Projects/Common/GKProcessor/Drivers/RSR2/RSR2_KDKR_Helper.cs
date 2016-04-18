@@ -16,6 +16,7 @@ namespace GKProcessor
 				Name = "Контроллер доступа",
 				ShortName = "КД",
 				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.AccessControl
 			};
 
 			driver.AutoCreateChildren.Add(GKDriverType.KD_KDZ);

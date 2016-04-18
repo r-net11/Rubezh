@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows.Views;
 
 namespace Infrastructure.Common.Windows
 {
@@ -17,6 +17,11 @@ namespace Infrastructure.Common.Windows
 				return (Window)Application.Current.Dispatcher.Invoke((Func<Window>)GetActiveWindow);
 			var window = Application.Current.Windows.Cast<Window>().SingleOrDefault(x => x.IsActive && !(x is BalloonTrayTip.Views.BalloonToolTipView));
 			return window ?? ApplicationService.ApplicationWindow;
+		}
+
+		public static Window GetMainWindow()
+		{
+			return ApplicationService.ApplicationWindow;
 		}
 
 		public static bool ShowModalWindow(WindowBaseViewModel windowBaseViewModel)
