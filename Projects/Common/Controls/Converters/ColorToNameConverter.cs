@@ -1,4 +1,5 @@
 ﻿using Common;
+using Infrustructure.Plans;
 using System;
 using System.Windows.Data;
 
@@ -8,7 +9,7 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			Color color = (Color)value;
+			var color = ((System.Windows.Media.Color)value).ToRubezhColor();
 			return ColorUtilities.ColorNames.ContainsKey(color) ? ColorUtilities.ColorNames[color] : null;
 		}
 
