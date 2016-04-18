@@ -13,7 +13,7 @@ namespace FiresecAPI
 			ServicePort = 8000;
 			ReportServicePort = 8800;
 			EnableRemoteConnections = false;
-			EnableOfflineLog = true;
+			EnableOfflineLog = false;
 
 			DBServerAddress = ".";
 			DBServerPort = 1433;

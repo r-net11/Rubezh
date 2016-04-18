@@ -11,5 +11,5 @@
   <DBUserID />
   <DBUserPwd />
   <CreateNewDBOnOversize>true</CreateNewDBOnOversize>
-  <EnableOfflineLog>true</EnableOfflineLog>
+  <EnableOfflineLog>false</EnableOfflineLog>
 </AppServerSettings>
