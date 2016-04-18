@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
-using Common;
+﻿using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using RubezhAPI.Models;
+using Infrustructure.Plans.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Infrastructure.Designer.ViewModels
 {
@@ -48,8 +48,6 @@ namespace Infrastructure.Designer.ViewModels
 				OnCopy();
 				this.clipboard.SourceAction = ClipboardSourceAction.Cut;
 				DesignerCanvas.RemoveAllSelected();
-				DesignerCanvas.DesignerChanged();
-
 			}
 		}
 		private bool CanCopyCut(object obj)
@@ -91,15 +89,9 @@ namespace Infrastructure.Designer.ViewModels
 
 		private bool AllowPaste(ElementBase element)
 		{
-			if (!(element is ElementGKDevice))
-				return true;
-
-			var elementGKDevice = element as ElementGKDevice;
-			if (!elementGKDevice.AllowMultipleVizualization)
-			{
-				if (this.clipboard.SourceAction == ClipboardSourceAction.Copy)
-					return false;
-			}
+			var vizualizationElement = element as IMultipleVizualization;
+			if (vizualizationElement != null && !vizualizationElement.AllowMultipleVizualization && this.clipboard.SourceAction == ClipboardSourceAction.Copy)
+				return false;
 			return true;
 		}
 

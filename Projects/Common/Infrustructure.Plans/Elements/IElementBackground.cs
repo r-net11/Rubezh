@@ -1,6 +1,5 @@
 ﻿using Common;
 using System;
-using System.Windows.Media;
 
 namespace Infrustructure.Plans.Elements
 {

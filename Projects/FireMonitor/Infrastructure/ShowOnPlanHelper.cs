@@ -30,7 +30,7 @@ namespace Infrastructure
 		{
 			if(LayoutUID == Guid.Empty)
 			{
-				return CashPlans = ClientManager.PlansConfiguration.AllPlans;
+				return CashPlans = ClientManager.PlansConfiguration.AllPlans.Where(x => !x.IsNotShowPlan).ToList();
 			}
 			else
 			{
@@ -45,7 +45,7 @@ namespace Infrastructure
 							var layoutPartPlansProperties = part.Properties as LayoutPartPlansProperties;
 							if (layoutPartPlansProperties.Type == LayoutPartPlansType.All)
 							{
-								return CashPlans = ClientManager.PlansConfiguration.AllPlans;
+								return CashPlans = ClientManager.PlansConfiguration.AllPlans.Where(x=> !x.IsNotShowPlan).ToList();
 							}
 							foreach(var planUID in layoutPartPlansProperties.Plans)
 							{
@@ -78,7 +78,7 @@ namespace Infrastructure
 
 		public static Dictionary<Plan, Guid> GetAllPlans(IPlanPresentable planElement)
 		{
-			Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
+		    Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
 			var plans = CashPlans == null ? GetPlans() : CashPlans;
 			plans.ForEach(x =>
 			{
@@ -92,7 +92,7 @@ namespace Infrastructure
 
 		public static bool CanShowOnPlan(IPlanPresentable planElement)
 		{
-			return GetAllPlans(planElement).Any();
+			return planElement.PlanElementUIDs.Any() &&  GetAllPlans(planElement).Any();
 		}
 
 

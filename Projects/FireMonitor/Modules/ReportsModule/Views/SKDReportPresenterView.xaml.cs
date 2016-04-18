@@ -15,6 +15,7 @@ using Common;
 using DevExpress.Xpf.Printing.Native;
 using DevExpress.Xpf.Printing;
 using ReportsModule.ViewModels;
+using Controls;
 
 namespace ReportsModule.Views
 {

@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace RubezhAPI.Models
 {
 	[DataContract]
-	public class ElementGKDevice : ElementBasePoint, IElementReference
+	public class ElementGKDevice : ElementBasePoint, IElementReference, IMultipleVizualization
 	{
 		public ElementGKDevice()
 		{

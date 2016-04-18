@@ -34,11 +34,15 @@
                  return employeesService.selectedEmployee;
              }, function(employee) {
                  $scope.selectedEmployee = employee;
-                 $scope.isGuest = (employee.Model.Type === 1);
-                 employeesService.getEmployeePhoto($scope.selectedEmployee.UID).then(function (photo) {
-                     $scope.photoData.photo = photo || "//:0";
-                     reload();
-                 });
+                 if (employee && !employee.IsOrganisation) {
+                     $scope.isGuest = (employee.Model.Type === 1);
+                     employeesService.getEmployeePhoto($scope.selectedEmployee.UID).then(function(photo) {
+                         $scope.photoData.photo = photo || "//:0";
+                         reload();
+                     });
+                 } else {
+                     $scope.employeeCards = null;
+                 }
              });
 
              employeesService.reloadCards = reload;

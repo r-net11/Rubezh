@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 
 namespace PlansModule.ViewModels
 {
@@ -54,7 +53,7 @@ namespace PlansModule.ViewModels
 			_initialized = false;
 			if (_properties.Type != LayoutPartPlansType.Single)
 			{
-				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null);
+				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null, _properties.Type == LayoutPartPlansType.All);
 				PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
 				var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
 				if (planNavigationWidth == 0)
@@ -125,14 +124,13 @@ namespace PlansModule.ViewModels
 			if (PlanTreeViewModel != null)
 			{
 				var newPlan = PlanTreeViewModel.FindPlan(planUID);
-				//if (newPlan == null)
-				//	return false;
+				if (newPlan == null)
+					return;
 				if (PlanTreeViewModel.SelectedPlan == newPlan)
 					PlanDesignerViewModel.Update();
 				else
 					PlanTreeViewModel.SelectedPlan = newPlan;
 			}
-			//return true;
 		}
 		private void SelectedPlanChanged(object sender, EventArgs e)
 		{

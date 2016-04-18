@@ -1,16 +1,13 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
+﻿using Common;
 using DeviceControls;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
 using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using RubezhAPI.Models;
+using System.Windows.Controls;
 using VideoModule.ViewModels;
-using RubezhClient;
-using System.Linq;
 
 namespace VideoModule.Plans.Designer
 {
@@ -21,7 +18,7 @@ namespace VideoModule.Plans.Designer
 		public CameraPainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
-			
+
 		}
 
 
@@ -51,7 +48,7 @@ namespace VideoModule.Plans.Designer
 			_rotateTransform.Angle = rotation;
 			base.Transform();
 		}
-		protected override Brush GetBrush()
+		protected override System.Windows.Media.Brush GetBrush()
 		{
 			var background = PainterCache.GetBrush(GetStateColor());
 			return PictureCacheSource.CameraPicture.GetBrush(background);
@@ -83,7 +80,7 @@ namespace VideoModule.Plans.Designer
 				return Colors.DarkBlue;
 			}
 
-			else 
+			else
 			{
 				return Colors.Green;
 			}

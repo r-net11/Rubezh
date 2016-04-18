@@ -5,7 +5,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.Win32;
 
-namespace Common.PDF
+namespace Controls.PDF
 {
 	public static class PDFHelper
 	{

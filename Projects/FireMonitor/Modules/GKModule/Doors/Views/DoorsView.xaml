@@ -33,12 +33,12 @@
 										<ContextMenu>
 											<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="BMap"  Text="Показать на плане" />
 											<IconedMenuItem Command="{Binding ShowJournalCommand}" ImageSource="BJournal" Text="Показать связанные события" />
-											<IconedMenuItem Command="{Binding ShowOnPlanOrPropertiesCommand}" ImageSource="BSettings"  Text="Свойства" />
+											<IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings"  Text="Свойства" />
 										</ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>
 								<StackPanel.InputBindings>
-									<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftDoubleClick" />
+									<MouseBinding Command="{Binding ShowOnPlanOrPropertiesCommand}" MouseAction="LeftDoubleClick" />
 								</StackPanel.InputBindings>
 								<StackPanel.ToolTip>
 									<Views:DoorToolTipView />

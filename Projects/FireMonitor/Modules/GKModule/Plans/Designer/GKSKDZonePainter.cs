@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Media;
+using Common;
 using RubezhAPI.GK;
 using GKModule.ViewModels;
 using Infrastructure.Client.Plans;

@@ -4,24 +4,23 @@
     Layout = null;
 }
 
-<div id="employee-selection-box" class="save-cancel-popup" data-bind="with: HR.Common.EmployeeSelectionDialog">
-    <div class="title-bar">
-        <span>Выбор сотрудника</span>
-        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: Close" /></a>
-    </div>
-    <div>
-        <form id="EmployeeSelectionDialogForm" data-bind="submit: Save">
-            <ul id="EmployeeSelectionDialogList" class="SelectableList" data-bind="foreach: Employees">
-                <li>
-                    <div data-bind="click: function(data,event) { $parent.EmployeeClick(data, event, $data); return true; }">
-                        <label>
-                            <span data-bind="text: Name"></span>
-                        </label>
-                    </div>
-                </li>
-            </ul>
-            <button class="submit ok-cancel-button" type="submit">OK</button>
-        </form>
-    </div>
+<div class="modal-header">
+    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()"/></a>
+    <h3 class="modal-title">Выбор сотрудника</h3>
 </div>
-        
+<div class="modal-body">
+    <form id="EmployeeSelectionDialogForm">
+        <ul id="EmployeeSelectionDialogList" class="SelectableList">
+            <li ng-repeat="employee in employees" ng-class="{selected: employee === model.selectedEmployee}">
+                <div ng-click="model.selectedEmployee = employee">
+                    <label>
+                        <span>{{employee.Name}}</span>
+                    </label>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
+<div mobile-hover-fix class="modal-footer">
+    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
+</div>

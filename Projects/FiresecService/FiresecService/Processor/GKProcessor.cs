@@ -45,13 +45,9 @@ namespace FiresecService
 		{
 			CheckPendingCards(gkCallbackResult);
 
-			if (gkCallbackResult.JournalItems.Count > 0)
+			foreach (var journalItem in gkCallbackResult.JournalItems)
 			{
-				FiresecService.Service.FiresecService.AddCommonJournalItems(gkCallbackResult.JournalItems, null);
-				foreach (var journalItem in gkCallbackResult.JournalItems)
-				{
-					ProcessPassJournal(journalItem);
-				}
+				ProcessPassJournal(journalItem);
 			}
 
 			foreach (var doorState in gkCallbackResult.GKStates.DoorStates)
@@ -79,6 +75,8 @@ namespace FiresecService
 				}
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
+			if (gkCallbackResult.JournalItems.Count > 0)
+				FiresecService.Service.FiresecService.AddCommonJournalItems(gkCallbackResult.JournalItems, null);
 		}
 
 		static void ProcessPassJournal(JournalItem journalItem)

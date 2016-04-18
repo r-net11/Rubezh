@@ -22,7 +22,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			_zonesViewModel = zonesViewModel;
 			IElementZone = iElementZone;
-			Title = "Свойства фигуры: Зона";
+			Title = "Свойства фигуры: Пожарная зона";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 

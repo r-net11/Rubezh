@@ -14,7 +14,6 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -111,15 +110,6 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="itextsharp">
-      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp.pdfa">
-      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp.xtra">
-      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
-    </Reference>
     <Reference Include="NLog">
       <HintPath>..\..\..\3rdParty\NLog.2.0.1.2\NLog.dll</HintPath>
     </Reference>
@@ -138,22 +128,20 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyHelper.cs" />
     <Compile Include="AssemblyInfoCommon.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="ClipboardSourceAction.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="Colors.cs" />
     <Compile Include="ColorUtilities.cs" />
     <Compile Include="EnumHelper.cs" />
-    <Compile Include="EnvironmentParameters.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="IIdentity.cs" />
-    <Compile Include="ImageCapturer.cs" />
     <Compile Include="ResourceType.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
@@ -161,10 +149,6 @@
     <Compile Include="MapSource.cs" />
     <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="ObservableCollectionAdv.cs" />
-    <Compile Include="PDF\PageEventHelper.cs" />
-    <Compile Include="PDF\PDFDocument.cs" />
-    <Compile Include="PDF\PDFHelper.cs" />
-    <Compile Include="PDF\PDFStyle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -185,12 +169,11 @@
     <Compile Include="State\XStateClass.cs" />
     <Compile Include="State\IDeviceState.cs" />
     <Compile Include="State\NamedStateClass.cs" />
+    <Compile Include="Stretch.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TimeCounter.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="VisualHelper.cs" />
     <Compile Include="WCF\BindingHelper.cs" />
-    <Compile Include="XamlHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

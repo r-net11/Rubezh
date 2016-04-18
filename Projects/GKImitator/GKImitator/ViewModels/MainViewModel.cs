@@ -45,7 +45,7 @@ namespace GKImitator.ViewModels
 						{
 							foreach (var descriptor in Descriptors)
 							{
-								if (!(descriptor.GKBase is GKPim) && !(descriptor.GKBase is GKDoor && descriptor.Regime == Regime.Manual))
+								if (!(descriptor.GKBase is GKPim))
 									descriptor.CheckDelays();
 							}
 						}

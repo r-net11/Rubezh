@@ -21,7 +21,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			_pumpStationsViewModel = pumpStationsViewModel;
 			_element = element;
-			Title = "Свойства фигуры: ГК Насосная станция";
+			Title = "Свойства фигуры: Насосная станция";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 

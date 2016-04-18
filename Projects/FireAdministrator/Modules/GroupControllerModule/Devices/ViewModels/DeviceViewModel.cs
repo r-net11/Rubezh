@@ -2,7 +2,6 @@
 using DeviceControls;
 using GKModule.Events;
 using GKModule.Plans;
-using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -314,8 +313,6 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactoryBase.Events.GetEvent<RemoveGKDeviceEvent>().Publish(device.UID);
 			}
-			using (var cache = new ElementDeviceUpdater())
-				cache.ResetDevices(allDevices);
 
 			if (Parent != null)
 			{

@@ -76,6 +76,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
+			if (ShowOnPlanHelper.ShowObjectOnPlan(Camera))
 			DialogService.ShowWindow(new CameraDetailsViewModel(Camera));
 		}
 		bool CanShowProperties()

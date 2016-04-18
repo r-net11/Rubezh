@@ -78,6 +78,16 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -198,6 +208,11 @@
     <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="ExtendedBinding.cs" />
+    <Compile Include="IVSSContract.cs" />
+    <Compile Include="PDF\PageEventHelper.cs" />
+    <Compile Include="PDF\PDFDocument.cs" />
+    <Compile Include="PDF\PDFHelper.cs" />
+    <Compile Include="PDF\PDFStyle.cs" />
     <Compile Include="UIBehavior.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
@@ -230,6 +245,8 @@
     <Compile Include="TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VisualHelper.cs" />
+    <Compile Include="XamlHelper.cs" />
     <Compile Include="XStateHelper.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />

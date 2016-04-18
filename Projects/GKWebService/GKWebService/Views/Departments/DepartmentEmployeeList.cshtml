@@ -5,13 +5,13 @@
 }
 
 <div>
-    <table id="jqGridDepartmentEmployeeList"></table>
+    <div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-save-state ui-grid-auto-size-column></div>
 </div>
 
-<div class="HrToolbar" data-bind="with: HR.Departments.DepartmentEmployeeList">
-    <div class="icon add" title="Добавить сотрудника" data-bind="click: CanAdd() ? function(data,event) { Add(data, event); } : null, css: {disabled: !CanAdd()}"></div>
-    <div class="icon delete" title="Удалить сотрудника" data-bind="click: CanRemove() ? function(data,event) { Remove(data, event); } : null, css: {disabled: !CanRemove()}"></div>
-    <div class="icon edit" title="Редактировать сотрудника" data-bind="click: CanEdit() ? function(data,event) { Edit(data, event); } : null, css: {disabled: !CanEdit()}"></div>
-    <div class="icon chiefw" title="Назначить руководителя" data-bind="click: CanSetChief() ? function(data,event) { SetChief(data, event); } : null, css: {disabled: !CanSetChief()}"></div>
-    <div class="icon delete" title="Снять руководителя" data-bind="click: CanUnSetChief() ? function(data,event) { UnSetChief(data, event); } : null, css: {disabled: !CanUnSetChief()}"></div>
+<div class="HrToolbar">
+    <div class="icon add" title="Добавить сотрудника" ng-disabled="!canAdd()" ng-click="canAdd() && add()"></div>
+    <div class="icon delete" title="Удалить сотрудника" ng-disabled="!canRemove()" ng-click="canRemove() && remove()"></div>
+    <div class="icon edit" title="Редактировать сотрудника" ng-click="canEdit() && edit()" ng-disabled="!canEdit()"></div>
+    <div class="icon chiefw" title="Назначить руководителя" ng-click="canSetChief() && setChief()" ng-disabled="!canSetChief()"></div>
+    <div class="icon delete" title="Снять руководителя" ng-click="canUnSetChief() && unSetChief()" ng-disabled="!canUnSetChief()"></div>
 </div>

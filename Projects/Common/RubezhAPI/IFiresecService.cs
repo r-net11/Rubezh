@@ -1,4 +1,5 @@
-﻿using OpcClientSdk;
+﻿using Common;
+using OpcClientSdk;
 using RubezhAPI.Automation;
 using RubezhAPI.Journal;
 using RubezhAPI.License;
@@ -7,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using System.Windows.Media;
 
 namespace RubezhAPI
 {

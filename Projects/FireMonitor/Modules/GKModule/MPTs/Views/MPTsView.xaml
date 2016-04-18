@@ -44,7 +44,7 @@
 											<ContextMenu>
 												<IconedMenuItem Text ="Показать на плане" Command="{Binding ShowOnPlanCommand}" ImageSource="BMap" />
 												<IconedMenuItem Text="Показать связанные события" Command="{Binding ShowJournalCommand}" ImageSource="BJournal"/>
-												<IconedMenuItem  Text="Свойства" Command="{Binding ShowOnPlanOrPropertiesCommand}" ImageSource="BSettings"/>
+												<IconedMenuItem  Text="Свойства" Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings"/>
 											</ContextMenu>
 										</TextBlock.ContextMenu>
 									</TextBlock>

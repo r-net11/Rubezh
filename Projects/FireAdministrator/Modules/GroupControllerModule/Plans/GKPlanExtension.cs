@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
+//using System.Windows.Media;
 
 namespace GKModule.Plans
 {
@@ -514,7 +514,7 @@ namespace GKModule.Plans
 			LayerGroupService.Instance.RegisterGroup("GKSKDZone", "Зоны СКД", 15);
 			LayerGroupService.Instance.RegisterGroup("GKDirection", "Направления", 16);
 			LayerGroupService.Instance.RegisterGroup("GKMPT", "МПТ", 17);
-			LayerGroupService.Instance.RegisterGroup("GKDoors", "ГК Точки доступа", 18);
+			LayerGroupService.Instance.RegisterGroup("GKDoors", "Точки доступа", 18);
 			LayerGroupService.Instance.RegisterGroup("GKDelay", "Задержки", 19);
 		}
 		public override void ExtensionAttached()
@@ -556,11 +556,19 @@ namespace GKModule.Plans
 			if (typeof(TItem) == typeof(GKDevice))
 			{
 				var device = item as GKDevice;
-				designerItem.Title = device == null ? "Неизвестное устройство" : device.PresentationName;
-				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
-				var elementGKDevice = designerItem.Element as ElementGKDevice;
-				if (elementGKDevice != null && device != null)
-					elementGKDevice.AllowMultipleVizualization = device.AllowMultipleVizualization;
+				if (device == null)
+				{
+					designerItem.Title = "Неизвестное устройство";
+					designerItem.IconSource = null;
+				}
+				else
+				{
+					designerItem.Title = device.PresentationName;
+					designerItem.IconSource = device.Driver.ImageSource;
+					var vizializationElement = designerItem.Element as IMultipleVizualization;
+					if (vizializationElement != null)
+						vizializationElement.AllowMultipleVizualization = device.AllowMultipleVizualization;
+				}
 			}
 			else if (typeof(TItem) == typeof(GKZone))
 			{
@@ -695,7 +703,7 @@ namespace GKModule.Plans
 				using (new WaitWrapper())
 				using (new TimeCounter("\tUpdateGKDeviceInZones: {0}"))
 				{
-					Dictionary<Geometry, IElementZone> geometries = GetZoneGeometryMap();
+					Dictionary<System.Windows.Media.Geometry, IElementZone> geometries = GetZoneGeometryMap();
 					foreach (var designerItem in DesignerCanvas.Items)
 					{
 						var elementGKDevice = designerItem.Element as ElementGKDevice;
@@ -753,9 +761,9 @@ namespace GKModule.Plans
 						return true;
 			return false;
 		}
-		private Dictionary<Geometry, IElementZone> GetZoneGeometryMap()
+		private Dictionary<System.Windows.Media.Geometry, IElementZone> GetZoneGeometryMap()
 		{
-			var geometries = new Dictionary<Geometry, IElementZone>();
+			var geometries = new Dictionary<System.Windows.Media.Geometry, IElementZone>();
 			foreach (var designerItem in DesignerCanvas.Items)
 			{
 				var elementZone = designerItem.Element as IElementZone;

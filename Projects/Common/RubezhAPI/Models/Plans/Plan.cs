@@ -3,7 +3,6 @@ using Infrustructure.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace RubezhAPI.Models
@@ -71,6 +70,9 @@ namespace RubezhAPI.Models
 		public string Description { get; set; }
 		[DataMember]
 		public bool IsAsynchronousLoad { get; set; }
+
+		[DataMember]
+		public bool IsNotShowPlan { get; set; }
 
 		[DataMember]
 		public List<Plan> Children { get; set; }

@@ -51,6 +51,8 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="StretchExtentions.cs" />
+    <Compile Include="ColorExtentions.cs" />
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
     <Compile Include="Designer\CommonDesignerItem.cs" />
     <Compile Include="Designer\DesignerHelper.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Events\ShowElementEvent.cs" />
     <Compile Include="Interfaces\IChangedNotification.cs" />
     <Compile Include="Interfaces\IElementReference.cs" />
+    <Compile Include="Interfaces\IMultipleVizualization.cs" />
     <Compile Include="Interfaces\IPlanPresentable.cs" />
     <Compile Include="IPlanExtension.cs" />
     <Compile Include="IPlanPresenter.cs" />

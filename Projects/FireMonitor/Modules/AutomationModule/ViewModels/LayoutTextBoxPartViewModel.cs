@@ -1,9 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans;
 using RubezhAPI.Automation;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
+using System.Windows.Media;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,12 +14,12 @@ namespace AutomationModule.ViewModels
 		{
 			AcceptsReturn = properties.AcceptReturn;
 			AcceptsTab = properties.AcceptTab;
-			BackgroundBrush = new SolidColorBrush(properties.BackgroundColor);
+			BackgroundBrush = new SolidColorBrush(properties.BackgroundColor.ToWindowsColor());
 			FontStyle = properties.FontItalic ? FontStyles.Italic : FontStyles.Normal;
 			FontWeight = properties.FontBold ? FontWeights.Bold : FontWeights.Normal;
 			FontFamily = new FontFamily(properties.FontFamilyName);
 			FontSize = properties.FontSize;
-			ForegroundBrush = new SolidColorBrush(properties.ForegroundColor);
+			ForegroundBrush = new SolidColorBrush(properties.ForegroundColor.ToWindowsColor());
 			Text = properties.Text;
 			TextAlignment = (TextAlignment)properties.TextAlignment;
 			HorizontalAlignment = (HorizontalAlignment)properties.HorizontalAlignment;

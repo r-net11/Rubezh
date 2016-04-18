@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-namespace RubezhAPI.Models
+namespace Controls
 {
 	public interface IVSSContract
 	{

@@ -4,6 +4,7 @@ using System.Windows.Media.Imaging;
 using RubezhAPI.SKD;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
+using Infrustructure.Plans;
 
 namespace SKDModule.PassCard.Designer
 {
@@ -23,7 +24,7 @@ namespace SKDModule.PassCard.Designer
 					bitmapImage.EndInit();
 					_brush = new ImageBrush(bitmapImage)
 					{
-						Stretch = element.Stretch,
+						Stretch = element.Stretch.ToWindowsStretch(),
 					};
 					_brush.Freeze();
 				}
