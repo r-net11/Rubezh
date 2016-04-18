@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;
