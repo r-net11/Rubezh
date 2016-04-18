@@ -80,12 +80,20 @@ namespace SKDModule.ViewModels
             {
                 if (SelectedDayInterval != dayInterval)
                 {
-                    _selectedDayInterval = dayInterval ?? DayIntervals[0];
-                    if (_initialized || Model.DayIntervalUID != _selectedDayInterval.UID)
+                    var selectedDayInterval = dayInterval ?? DayIntervals[0];
+					if (_initialized || Model.DayIntervalUID != selectedDayInterval.UID)
                     {
-                        Model.DayIntervalUID = _selectedDayInterval.UID;
-                        Model.DayIntervalName = _selectedDayInterval.Name;
-                        _scheduleScheme.EditSave(Model);
+						Model.DayIntervalUID = selectedDayInterval.UID;
+						Model.DayIntervalName = selectedDayInterval.Name;
+						if (_scheduleScheme.EditSave(Model))
+						{
+							_selectedDayInterval = selectedDayInterval;
+						}
+						else
+						{
+							Model.DayIntervalUID = _selectedDayInterval.UID;
+							Model.DayIntervalName = _selectedDayInterval.Name;
+						}
                     }
                 }
 				OnPropertyChanged(() => SelectedDayInterval);

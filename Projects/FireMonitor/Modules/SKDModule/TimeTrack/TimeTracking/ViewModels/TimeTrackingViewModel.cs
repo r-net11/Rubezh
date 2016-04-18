@@ -24,7 +24,6 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackingViewModel()
 		{
-			_isConnected = true;
 			ShowFilterCommand = new RelayCommand(OnShowFilter, CanShowFilter);
 			RefreshCommand = new RelayCommand(OnRefresh, CanRefresh);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
@@ -110,7 +109,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowFilter()
 		{
-			return _isConnected;
+			return IsConnected;
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -120,7 +119,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRefresh()
 		{
-			return _isConnected;
+			return IsConnected;
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
@@ -174,7 +173,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPrint()
 		{
-			return ApplicationService.IsReportEnabled && ClientManager.CheckPermission(PermissionType.Oper_Reports_T13) && _isConnected;
+			return ApplicationService.IsReportEnabled && ClientManager.CheckPermission(PermissionType.Oper_Reports_T13) && IsConnected;
 		}
 
 		void UpdateGrid()
@@ -247,7 +246,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowDocumentTypes()
 		{
-			return _isConnected;
+			return IsConnected;
 		}
 
 		public RelayCommand ShowNightSettingsCommand { get; private set; }
@@ -258,7 +257,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowNightSettings()
 		{
-			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit) && _isConnected;
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_NightSettings_Edit) && IsConnected;
 		}
 
 		public void OnInitializeLeadUIDs(TimeTrackFilterViewModel filterViewModel)
@@ -305,16 +304,6 @@ namespace SKDModule.ViewModels
 		}
 		#endregion
 
-		bool _isConnected;
-
-		public void OnConnectionLost()
-		{
-			_isConnected = false;
-		}
-
-		public void OnConnectionAppeared()
-		{
-			_isConnected = true;
-		}
+		public bool IsConnected { get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; } }
 	}
 }

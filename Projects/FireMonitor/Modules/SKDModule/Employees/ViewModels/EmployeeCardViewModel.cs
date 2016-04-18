@@ -24,8 +24,8 @@ namespace SKDModule.ViewModels
 		{
 			RemoveCommand = new RelayCommand(OnRemove, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			PrintCommand = new RelayCommand(OnPrint);
-			SelectCardCommand = new RelayCommand(OnSelectCard);
+			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+			SelectCardCommand = new RelayCommand(OnSelectCard, CanSelectCard);
 
 			Organisation = organisation;
 			EmployeeCardsViewModel = employeeCardsViewModel;
@@ -118,7 +118,7 @@ namespace SKDModule.ViewModels
 
 		bool CanEditDelete()
 		{
-			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
+			return ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && IsConnected;
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
@@ -127,12 +127,20 @@ namespace SKDModule.ViewModels
 			var passCardViewModel = new PassCardViewModel(EmployeeCardsViewModel.Employee.UID, Card);
 			DialogService.ShowModalWindow(passCardViewModel);
 		}
+		bool CanPrint()
+		{
+			return IsConnected;
+		}
 
 		public RelayCommand SelectCardCommand { get; private set; }
 		void OnSelectCard()
 		{
 			EmployeeCardsViewModel.SelectCard(this);
 			IsCardSelected = true;
+		}
+		bool CanSelectCard()
+		{
+			return IsConnected;
 		}
 
 		bool _isCardSelected;
@@ -150,6 +158,11 @@ namespace SKDModule.ViewModels
 		{
 			Card.CardDoors.RemoveAll(x => !doorUIDs.Any(y => y == x.DoorUID));
 			CardDoorsViewModel.UpdateDoors(doorUIDs);
+		}
+
+		public bool IsConnected
+		{
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
 	}
 }

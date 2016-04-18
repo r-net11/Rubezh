@@ -33,21 +33,25 @@ namespace SKDModule.ViewModels
 			get { return _isChecked; }
 			set
 			{
-				_isChecked = value;
-				OnPropertyChanged(() => IsChecked);
+				var userUids = Organisation.UserUIDs;
 				if (value)
 				{
-					if (!Organisation.UserUIDs.Contains(User.UID))
-						Organisation.UserUIDs.Add(User.UID);
+					if (!userUids.Contains(User.UID))
+						userUids.Add(User.UID);
 				}
 				else
 				{
-					if (Organisation.UserUIDs.Contains(User.UID))
-						Organisation.UserUIDs.Remove(User.UID);
+					if (userUids.Contains(User.UID))
+						userUids.Remove(User.UID);
 				}
 				var saveResult = OrganisationHelper.SaveUsers(Organisation);
-				if(saveResult)
+				if (saveResult)
+				{
+					Organisation.UserUIDs = userUids;
 					ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(Organisation);
+					_isChecked = value;
+					OnPropertyChanged(() => IsChecked);
+				}
 			}
 		}
 

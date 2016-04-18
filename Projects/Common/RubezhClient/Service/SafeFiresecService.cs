@@ -21,6 +21,7 @@ namespace RubezhClient
 
 		public SafeFiresecService(string serverAddress)
 		{
+			IsConnected = true;
 			FiresecServiceFactory = new RubezhClient.FiresecServiceFactory(serverAddress);
 			_serverAddress = serverAddress;
 
@@ -126,23 +127,23 @@ namespace RubezhClient
 		public static event Action OnConnectionLost;
 		void ConnectionLost()
 		{
-			if (isConnected == false)
+			if (IsConnected == false)
 				return;
 			if (OnConnectionLost != null)
 				OnConnectionLost();
-			isConnected = false;
+			IsConnected = false;
 		}
 
 		public static event Action OnConnectionAppeared;
 		void ConnectionAppeared()
 		{
-			if (isConnected == true)
+			if (IsConnected == true)
 				return;
 
 			if (OnConnectionAppeared != null)
 				OnConnectionAppeared();
 
-			isConnected = true;
+			IsConnected = true;
 		}
 
 		public OperationResult<bool> Connect(ClientCredentials clientCredentials)
