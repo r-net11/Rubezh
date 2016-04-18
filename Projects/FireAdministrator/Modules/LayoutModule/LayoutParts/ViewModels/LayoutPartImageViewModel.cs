@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Client.Images;
 using Infrastructure.Common.Services.Layout;
+using Infrustructure.Plans;
 using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -45,7 +46,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 		{
 			var brush = ImageHelper.GetResourceBrush(_properties.ReferenceUID, _properties.ImageType);
 			if (brush != null)
-				brush.Stretch = _properties.Stretch;
+				brush.Stretch = _properties.Stretch.ToWindowsStretch();
 			ImageBrush = brush;
 		}
 	}

@@ -20,8 +20,8 @@ namespace SKDModule.ViewModels
 			{
 				chief.IsChief = true;
 			}
-			SetChiefCommand = new RelayCommand(OnSetChief, () => CanSetChief);
-			UnSetChiefCommand = new RelayCommand(OnUnSetChief, () => CanUnSetChief);
+			SetChiefCommand = new RelayCommand(OnSetChief, () => CanSetChief && IsConnected);
+			UnSetChiefCommand = new RelayCommand(OnUnSetChief, () => CanUnSetChief && IsConnected);
 			ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Unsubscribe(OnChangeDepartmentChief);
 			ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Subscribe(OnChangeDepartmentChief);
 		}

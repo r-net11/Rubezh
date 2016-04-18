@@ -16,7 +16,8 @@ namespace GKProcessor
 				ShortName = "АМ",
 				HasGuardZone = true,
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.Other
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);

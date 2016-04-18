@@ -208,6 +208,7 @@
     <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="ExtendedBinding.cs" />
+    <Compile Include="IVSSContract.cs" />
     <Compile Include="PDF\PageEventHelper.cs" />
     <Compile Include="PDF\PDFDocument.cs" />
     <Compile Include="PDF\PDFHelper.cs" />

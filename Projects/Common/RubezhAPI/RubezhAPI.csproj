@@ -14,7 +14,6 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -141,8 +140,6 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
@@ -418,7 +415,6 @@
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnType.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnTypeFilter.cs" />
     <Compile Include="SKD\Department\ShortDepartment.cs" />
-    <Compile Include="Models\Video\IVSSContract.cs" />
     <Compile Include="SKD\Card\CardDoor.cs" />
     <Compile Include="SKD\TimeTrack\ScheduleZoneFilter.cs" />
     <Compile Include="SKD\TimeTrack\ScheduleFilter.cs" />
@@ -601,7 +597,7 @@
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\RubezhLicense\RubezhLicense.csproj">

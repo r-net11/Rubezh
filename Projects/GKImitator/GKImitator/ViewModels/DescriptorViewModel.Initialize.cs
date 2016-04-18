@@ -51,6 +51,11 @@ namespace GKImitator.ViewModels
 				HasHoldDelay = HasTurnOn;
 				device.Driver.AvailableStateBits.ForEach(stateBit =>  AddStateBit(stateBit, stateBit == GKStateBit.Norm || stateBit == GKStateBit.Off));
 				HasAlarm = driverType == GKDriverType.RSR2_GuardDetectorSound || driverType == GKDriverType.RSR2_GuardDetector || driverType == GKDriverType.RSR2_HandGuardDetector;
+				if (device.Driver.IsCardReaderOrCodeReader)
+				{
+					AddStateBit(GKStateBit.Fire1);
+					AddStateBit(GKStateBit.Fire2);
+				}
 			}
 
 			if (GKBase is GKZone)

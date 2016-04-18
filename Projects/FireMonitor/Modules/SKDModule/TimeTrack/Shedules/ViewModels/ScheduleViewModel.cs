@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
+			return !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit) && IsConnected;
 		}
 
 		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs)
@@ -139,6 +139,11 @@ namespace SKDModule.ViewModels
 		{
 			Model.Zones.RemoveAll(x => zones.Any(y => y.UID == x.UID));
 			return ScheduleHelper.Save(Model, false);
+		}
+
+		public bool IsConnected
+		{
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
 	}
 }

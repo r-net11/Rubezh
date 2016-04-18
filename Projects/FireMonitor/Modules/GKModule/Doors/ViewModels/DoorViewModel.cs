@@ -52,11 +52,12 @@ namespace GKModule.ViewModels
 
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			//ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
 			ShowDeviceCommand = new RelayCommand<GKDevice>(OnShowDevice);
 			ShowZoneCommand = new RelayCommand<GKSKDZone>(OnShowZone);
 		}
+
 
 		void OnStateChanged()
 		{
@@ -118,5 +119,11 @@ namespace GKModule.ViewModels
 		}
 
 		public bool IsBold { get; set; }
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		private void OnShowProperties()
+		{
+			DialogService.ShowWindow(new DoorDetailsViewModel(Door));
+		}
 	}
 }

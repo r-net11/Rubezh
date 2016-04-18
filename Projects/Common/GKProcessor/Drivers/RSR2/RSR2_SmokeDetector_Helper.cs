@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Извещатель пожарный дымовой оптико-электронный адресно-аналоговый",
 				ShortName = "ИП 212-149",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.FireDetector
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);

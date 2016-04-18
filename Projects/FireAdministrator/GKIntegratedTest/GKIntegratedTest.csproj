@@ -79,7 +79,7 @@
   <ItemGroup>
     <Compile Include="IntegratedTest.GuardZone.cs" />
     <Compile Include="IntegratedTest.Initialize.cs" />
-    <Compile Include="ItegratedTest.HandDetector.cs" />
+    <Compile Include="ItegratedTest.Device.cs" />
     <Compile Include="ItegratedTest.FireZone.cs" />
     <Compile Include="ItegratedTest.SKD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

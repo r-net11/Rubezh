@@ -94,7 +94,6 @@ namespace GKProcessor
 							int count2 = DescriptorHelper.AddCodeReadersLogic(SetAlarmPimDevices, Formula, commandStateBit);
 							if (count2 > 0)
 								Formula.Add(FormulaOperationType.AND);
-							if (count > 0)
 							Formula.Add(FormulaOperationType.OR);
 						}
 						Formula.AddPutBit(GKStateBit.Attention, GuardZone);

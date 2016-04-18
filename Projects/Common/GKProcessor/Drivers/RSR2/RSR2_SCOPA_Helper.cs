@@ -16,7 +16,8 @@ namespace GKProcessor
 				ShortName = "СКОПА",
 				IsControlDevice = true,
 				HasLogic = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.Announcers
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

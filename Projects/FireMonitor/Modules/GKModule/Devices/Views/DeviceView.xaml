@@ -25,7 +25,7 @@
 					<IconedMenuItem ImageSource="BResetIgnore" Text="Снять отключения всех дочерних устройств" Command="{Binding ResetIgnoreAllCommand}" />
 					<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 					<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-					<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowOnPlanOrPropertiesCommand}" />
+					<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 				</ContextMenu>
 			</TextBlock.ContextMenu>
 			<TextBlock.ToolTip>
