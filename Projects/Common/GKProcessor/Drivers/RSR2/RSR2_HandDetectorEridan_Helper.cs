@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Извещатель пожарный ручной Эридан",
 				ShortName = "ИПРЭ",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.FireDetector
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire2);

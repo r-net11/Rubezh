@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Адресный барьер шлейфа сигнализации",
 				ShortName = "АБШС",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche =GKDriver.TypesOfBranches.Other
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);

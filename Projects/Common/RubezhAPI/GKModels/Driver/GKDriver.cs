@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace RubezhAPI.GK
 {
@@ -99,6 +100,35 @@ namespace RubezhAPI.GK
 			if (obj == null || !(obj is GKDriver))
 				return false;
 			return ((GKDriver)obj).UID == this.UID;
+		}
+
+		public TypesOfBranches TypeOfBranche { get; set; }
+
+		public enum TypesOfBranches
+		{
+			[Description("Извещатели пожарные")]
+			FireDetector = 1,
+
+			[Description("Извещатели охранные")]
+			IntruderDetector = 2,
+
+			[Description("Исполнительные устройства")]
+			ActuatingDevice = 3,
+
+			[Description("Шкафы управления")]
+			ControlCabinet = 4,
+
+			[Description("Оповещатели")]
+			Announcers = 5,
+
+			[Description("Радиоканал")]
+			RadioChannel = 6,
+
+			[Description("Прочие")]
+			Other = 7,
+
+			[Description("Контроль доступа")]
+			AccessControl = 8,
 		}
 	}
 }

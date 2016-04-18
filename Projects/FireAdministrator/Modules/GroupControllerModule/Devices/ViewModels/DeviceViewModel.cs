@@ -492,15 +492,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		//public RelayCommand ShowPropertiesCommand { get; private set; }
-		//void OnShowProperties()
-		//{
-		//}
-		//bool CanShowProperties()
-		//{
-		//	return false;
-		//}
-
 		public string PresentationZone
 		{
 			get

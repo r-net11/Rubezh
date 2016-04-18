@@ -15,7 +15,9 @@ namespace GKProcessor
 				ShortName = "РМ2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_RM_1,
-				GroupDeviceChildrenCount = 2
+				GroupDeviceChildrenCount = 2,
+				TypeOfBranche = GKDriver.TypesOfBranches.ActuatingDevice
+
 			};
 			return driver;
 		}

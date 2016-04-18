@@ -15,7 +15,8 @@ namespace GKProcessor
 				ShortName = "АМ4",
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_AM_1,
-				GroupDeviceChildrenCount = 4
+				GroupDeviceChildrenCount = 4,
+				TypeOfBranche = GKDriver.TypesOfBranches.Other
 			};
 			return driver;
 		}
