@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Извещатель пожарный тепловой",
 				ShortName = "ИП 101-52-PR",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.FireDetector
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);

@@ -22,6 +22,7 @@ namespace VideoModule.Views
 		}
 		void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
 		{
+			viewModel = DataContext as LayoutPartCameraViewModel;
 			Load();
 		}
 		void Load()

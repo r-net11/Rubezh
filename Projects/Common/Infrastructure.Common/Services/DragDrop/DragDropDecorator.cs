@@ -144,18 +144,27 @@ namespace Infrastructure.Common.Services.DragDrop
 			}
 		}
 
+		bool IsPressed { get; set; }
 		private void OnPreviewMouseMove(object sender, MouseEventArgs e)
 		{
 			UpdateCursor();
-			if (e.LeftButton == MouseButtonState.Pressed && !IsDragging)
+			if (IsPressed && e.LeftButton == MouseButtonState.Pressed)
 			{
-				Point position = e.GetPosition(Child);
-				if (Math.Abs(position.X - DragStartPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(position.Y - DragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+				if (!IsDragging)
 				{
-					IsDragging = true;
-					StartDrag();
-					IsDragging = false;
+					Point position = e.GetPosition(Child);
+					if (Math.Abs(position.X - DragStartPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(position.Y - DragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+					{
+						IsDragging = true;
+						StartDrag();
+						IsDragging = false;
+						IsPressed = false;
+					}
 				}
+			}
+			else
+			{
+				IsPressed = e.LeftButton == MouseButtonState.Pressed;
 			}
 		}
 		private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

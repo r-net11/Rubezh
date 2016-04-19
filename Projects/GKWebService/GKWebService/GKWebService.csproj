@@ -228,6 +228,9 @@
     <Content Include="App\controllers\SKD\common\employeesFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\positionsFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\organisationsFilterCtrl.js" />
+    <Content Include="App\controllers\SKD\organisations\organisationDetailsCtrl.js" />
+    <Content Include="App\controllers\SKD\organisations\organisationsCtrl.js" />
+    <Content Include="App\controllers\SKD\organisations\organisationsToolbarCtrl.js" />
     <Content Include="App\controllers\SKD\positions\positionDetailsCtrl.js" />
     <Content Include="App\controllers\SKD\positions\positionEmployeeListCtrl.js" />
     <Content Include="App\controllers\SKD\positions\positionsCtrl.js" />
@@ -274,6 +277,7 @@
     <Content Include="App\services\signalrService.js" />
     <Content Include="App\services\SKD\cardsService.js" />
     <Content Include="App\services\SKD\accessTemplatesService.js" />
+    <Content Include="App\services\SKD\organisationsService.js" />
     <Content Include="App\services\SKD\positionsService.js" />
     <Content Include="App\services\SKD\departmentsService.js" />
     <Content Include="App\services\SKD\employeesService.js" />

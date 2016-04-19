@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Извещатель охранный вскрытия",
 				ShortName = "ИОВ",
 				HasGuardZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.IntruderDetector
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);

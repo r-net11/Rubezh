@@ -16,13 +16,14 @@ namespace JournalModule.ViewModels
 			Name = journalSubsystemType.ToDescription();
 			var converter = new JournalSubsystemTypeToIconConverter();
 			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
+			FilterObjectType = FilterObjectType.Subsystem;
 		}
 
 		public FilterObjectViewModel(JournalObjectType journalObjectType)
 		{
 			JournalObjectType = journalObjectType;
 			Name = journalObjectType.ToDescription();
-			IsObjectGroup = true;
+			FilterObjectType = FilterObjectType.ObjectType;
 			switch (journalObjectType)
 			{
 				case JournalObjectType.GKDevice:
@@ -64,6 +65,18 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.Camera:
 					ImageSource = "/Controls;component/Images/Camera.png";
 					break;
+
+				case RubezhAPI.Journal.JournalObjectType.GKUser:
+					ImageSource = "/Controls;component/Images/PCUser.png";
+					break;
+
+				case RubezhAPI.Journal.JournalObjectType.GKPim:
+					ImageSource = "/Controls;component/Images/Pim.png";
+					break;
+
+				case JournalObjectType.None:
+					ImageSource = "/Controls;component/StateClassIcons/No.png";
+					break;
 			}
 		}
 
@@ -72,6 +85,7 @@ namespace JournalModule.ViewModels
 			Name = gkBase.PresentationName;
 			UID = gkBase.UID;
 			ImageSource = gkBase.ImageSource;
+			FilterObjectType = FilterObjectType.Object;
 		}
 
 		public FilterObjectViewModel(RubezhAPI.Models.Camera camera)
@@ -79,13 +93,14 @@ namespace JournalModule.ViewModels
 			Name = camera.PresentationName;
 			UID = camera.UID;
 			ImageSource = "/Controls;component/Images/Camera.png";
+			FilterObjectType = FilterObjectType.Camera;
 		}
 
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
-		public bool IsObjectGroup { get; private set; }
 		public JournalObjectType JournalObjectType { get; private set; }
+		public FilterObjectType FilterObjectType { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked
@@ -119,5 +134,13 @@ namespace JournalModule.ViewModels
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);
 		}
+	}
+
+	public enum FilterObjectType
+	{
+		Subsystem,
+		ObjectType,
+		Object,
+		Camera
 	}
 }

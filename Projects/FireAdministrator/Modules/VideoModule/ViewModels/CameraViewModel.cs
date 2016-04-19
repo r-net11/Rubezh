@@ -99,6 +99,7 @@ namespace VideoModule.ViewModels
 		void OnAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			Camera.AllowMultipleVizualization = isAllow;
+			Camera.OnChanged();
 			Update();
 			CommandManager.InvalidateRequerySuggested();
 			ServiceFactory.SaveService.CamerasChanged = true;
