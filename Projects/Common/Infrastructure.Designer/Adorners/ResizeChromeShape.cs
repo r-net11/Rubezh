@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
+using RubezhAPI.Plans.Elements;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using PointCollection = Common.PointCollection;
 
 namespace Infrastructure.Designer.Adorners
 {

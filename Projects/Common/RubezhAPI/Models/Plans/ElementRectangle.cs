@@ -1,13 +1,14 @@
-﻿using System.Runtime.Serialization;
+﻿using RubezhAPI.Plans.Elements;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Elements;
 
 namespace RubezhAPI.Models
 {
 	[DataContract]
 	public class ElementRectangle : ElementBaseRectangle, IPrimitive
 	{
-		public ElementRectangle() : base()
+		public ElementRectangle()
+			: base()
 		{
 			PresentationName = "Прямоугольник";
 		}
@@ -20,7 +21,7 @@ namespace RubezhAPI.Models
 		[XmlIgnore]
 		public virtual Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.Rectangle; }
+			get { return RubezhAPI.Plans.Elements.Primitive.Rectangle; }
 		}
 
 		#endregion

@@ -13,7 +13,7 @@ using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
 using System.Reflection;

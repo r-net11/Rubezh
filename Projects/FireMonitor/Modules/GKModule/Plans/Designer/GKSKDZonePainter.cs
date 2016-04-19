@@ -1,13 +1,13 @@
-﻿using System.Windows.Controls;
-using Common;
-using RubezhAPI.GK;
+﻿using Common;
 using GKModule.ViewModels;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Presenter;
+using RubezhAPI.GK;
+using RubezhAPI.Plans.Elements;
+using System.Windows.Controls;
 
 namespace GKModule.Plans.Designer
 {

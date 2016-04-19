@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Painters;
+using RubezhAPI.Plans.Elements;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Presenter
 {

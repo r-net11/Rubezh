@@ -1,12 +1,12 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using Infrastructure.Client.Converters;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Devices;
 using Microsoft.Win32;
-using Infrastructure.Client.Converters;
+using RubezhAPI.Plans.Devices;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Infrastructure.Client.Library
 {

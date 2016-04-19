@@ -1,6 +1,6 @@
 ﻿using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using Microsoft.Practices.Prism.Events;
+using RubezhAPI.Plans.Elements;
 
 namespace Infrustructure.Plans.Events
 {

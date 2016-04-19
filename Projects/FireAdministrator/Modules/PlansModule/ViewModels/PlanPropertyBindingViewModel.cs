@@ -1,12 +1,9 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
 using RubezhAPI.Automation;
+using RubezhAPI.Plans.Elements;
 using RubezhClient;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace PlansModule.ViewModels
 {

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Input;
-using System.Windows.Media;
-using RubezhAPI.GK;
-using Infrastructure;
-using Infrustructure.Plans.Elements;
+﻿using Infrastructure;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.ViewModels;
+using RubezhAPI.GK;
+using RubezhAPI.Plans.Elements;
+using System;
+using System.Linq;
+using System.Windows.Input;
+using System.Windows.Media;
 using Color = Common.Color;
 using Colors = Common.Colors;
 

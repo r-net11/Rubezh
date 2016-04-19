@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Elements;
+﻿using RubezhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using System;
@@ -233,7 +233,7 @@ namespace Infrustructure.Plans.Designer
 				if (shift.X != 0 || shift.Y != 0)
 					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 					{
-						designerItem.Element.Position += shift;
+						designerItem.Element.SetPosition(designerItem.Element.GetPosition() + shift);
 						designerItem.RefreshPainter();
 					}
 			}

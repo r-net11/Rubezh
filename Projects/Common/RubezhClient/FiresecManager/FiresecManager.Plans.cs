@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Common;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common;
-using RubezhAPI.Models;
-using RubezhAPI.SKD;
-using Infrustructure.Plans.Elements;
-using RubezhAPI;
 
 namespace RubezhClient
 {

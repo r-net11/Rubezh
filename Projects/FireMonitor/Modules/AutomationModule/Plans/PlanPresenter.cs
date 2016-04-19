@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AutomationModule.Plans.Designer;
 using Common;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Infrustructure.Plans;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using RubezhAPI.Automation;
-using AutomationModule.Plans.Designer;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AutomationModule.Plans
 {
