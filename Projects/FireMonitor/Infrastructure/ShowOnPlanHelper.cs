@@ -20,17 +20,17 @@ namespace Infrastructure
 			set
 			{
 				_layoutUID = value;
-				CashPlans = GetPlans();
+				//CashPlans = GetPlans();
 			}
 		}
 
-		public static List<Plan> CashPlans { get; private set; }
+		//public static List<Plan> CashPlans { get; private set; }
 
 		public static List<Plan> GetPlans()
 		{
 			if(LayoutUID == Guid.Empty)
 			{
-				return CashPlans = ClientManager.PlansConfiguration.AllPlans.Where(x => !x.IsNotShowPlan).ToList();
+				return ClientManager.PlansConfiguration.AllPlans.Where(x => !x.IsNotShowPlan).ToList();
 			}
 			else
 			{
@@ -45,7 +45,7 @@ namespace Infrastructure
 							var layoutPartPlansProperties = part.Properties as LayoutPartPlansProperties;
 							if (layoutPartPlansProperties.Type == LayoutPartPlansType.All)
 							{
-								return CashPlans = ClientManager.PlansConfiguration.AllPlans.Where(x=> !x.IsNotShowPlan).ToList();
+								return ClientManager.PlansConfiguration.AllPlans.Where(x=> !x.IsNotShowPlan).ToList();
 							}
 							foreach(var planUID in layoutPartPlansProperties.Plans)
 							{
@@ -79,10 +79,10 @@ namespace Infrastructure
 		public static Dictionary<Plan, Guid> GetAllPlans(IPlanPresentable planElement)
 		{
 		    Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
-			var plans = CashPlans == null ? GetPlans() : CashPlans;
-			plans.ForEach(x =>
+			//var plans = CashPlans == null ? GetPlans() : CashPlans;
+			GetPlans().ForEach(x =>
 			{
-				var element = x.AllElements.FirstOrDefault(y => planElement.PlanElementUIDs.Contains(y.UID));
+				var element = x.AllElements.FirstOrDefault(y => planElement.PlanElementUIDs.Contains(y.UID) && !y.IsHidden );
 				if (element != null)
 					planDictinary.Add(x, element.UID);
 			});
@@ -93,17 +93,6 @@ namespace Infrastructure
 		public static bool CanShowOnPlan(IPlanPresentable planElement)
 		{
 			return planElement.PlanElementUIDs.Any() &&  GetAllPlans(planElement).Any();
-		}
-
-
-		public static void ShowGKSKDZone(GKSKDZone zone)
-		{
-			ServiceFactory.Events.GetEvent<ShowGKSKDZoneOnPlanEvent>().Publish(zone);
-		}
-
-		public static void ShowCamera(Camera camera)
-		{
-			ServiceFactory.Events.GetEvent<ShowCameraOnPlanEvent>().Publish(camera);
 		}
 	}
 }
