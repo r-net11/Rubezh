@@ -112,6 +112,7 @@ namespace GKImitator.ViewModels
 				{
 					pumpStation.Delay = properties[0].Value;
 					pumpStation.Hold = properties[1].Value;
+					pumpStation.DelayRegime = (DelayRegime)properties[2].Value;
 				}
 			}
 
