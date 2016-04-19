@@ -208,6 +208,7 @@ namespace FiresecService
 				DeviceDateTime = null,
 				JournalObjectType = journalObjectType,
 				JournalEventNameType = journalEventNameType,
+				JournalSubsystemType = JournalSubsystemType.Video,
 				DescriptionText = desriptionText,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				ObjectUID = objectUid,
@@ -218,14 +219,14 @@ namespace FiresecService
 		static JournalItem CreateOnGuardJournalItem(Camera camera, bool isOnGuard)
 		{
 			if (isOnGuard)
-				return CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_поставлен_на_охрану);
-			return CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Канал_Rvi_снят_с_охраны);
+				return CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Канал_RVi_поставлен_на_охрану);
+			return CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Канал_RVi_снят_с_охраны);
 		}
 		static JournalItem CreateRecordOnlineJournalItem(Camera camera, bool isRecordOnline)
 		{
 			if (isRecordOnline)
-				return CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Начата_запись_на_канале_Rvi);
-			return CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Прекращена_запись_на_канале_Rvi);
+				return CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Начата_запись_на_канале_RVi);
+			return CreateJournalItem(camera.UID, camera.PresentationName, JournalObjectType.Camera, JournalEventNameType.Прекращена_запись_на_канале_RVi);
 		}
 		static bool StreamsIsEquals(List<RviStream> oldRviStreams, List<RviStream> newRviStreams)
 		{
