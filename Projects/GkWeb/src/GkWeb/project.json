@@ -47,7 +47,7 @@
 		"**.vspscc"
 	],
     "scripts": {
-        "prepublish": [ "npm install", "bower install", "gulp copyLibs" ]
+		"prepublish": [ "npm install", "bower install" ]
     },
     "configurations": {
         "AspCoreDev": { }

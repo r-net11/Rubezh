@@ -1,4 +1,4 @@
-﻿/// <binding AfterBuild='copyLibs' />
+﻿/// <binding BeforeBuild='clean:libs, bower' AfterBuild='copyLibs, copyLibs:d3' Clean='clean:libs' />
 "use strict";
 
 var gulp = require("gulp"),
@@ -6,30 +6,41 @@ var gulp = require("gulp"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     uglify = require("gulp-uglify");
+var bower = require('gulp-bower');
+
 
 var paths = {
-    webroot: "./wwwroot/"
+	webroot: "./wwwroot/"
 };
+paths.concatJsDest = paths.webroot + "lib";
 
-gulp.task("copyLibs:angular", function() {
-   gulp.src(['./node_modules/angular2/bundles/*.*', './node_modules/systemjs/dist/*.*', './node_modules/es6-shim/*.js', './node_modules/es6-shim/*.map', './node_modules/angular2/es6/dev/src/testing/shims_for_IE.js', './node_modules/rxjs/bundles/*.*'])
-   .pipe(gulp.dest('./wwwroot/lib/angular2/'));
-} );
+gulp.task("clean:libs", function (cb) {
+	rimraf(paths.concatJsDest, cb);
+});
 
-gulp.task("copyLibs", ["copyLibs:angular"]);
+gulp.task('bower', function() {
+  return bower().pipe(gulp.dest('./wwwroot/lib/'));;
+});
+
+gulp.task("copyLibs:angular", function () {
+	gulp.src(['./node_modules/angular2/bundles/*.*', './node_modules/systemjs/dist/*.*', './node_modules/es6-shim/*.js', './node_modules/es6-shim/*.map', './node_modules/angular2/es6/dev/src/testing/shims_for_IE.js', './node_modules/rxjs/bundles/*.*'])
+	.pipe(gulp.dest('./wwwroot/lib/angular2/'));
+});
+gulp.task("copyLibs:d3", function () {
+	gulp.src(['./node_modules/d3/d3*.js'])
+	.pipe(gulp.dest('./wwwroot/lib/d3/'));
+});
+
+gulp.task("copyLibs", ["copyLibs:angular", "copyLibs:d3"]);
 
 //paths.js = paths.webroot + "js/**/*.js";
 //paths.minJs = paths.webroot + "js/**/*.min.js";
 //paths.css = paths.webroot + "css/**/*.css";
 //paths.minCss = paths.webroot + "css/**/*.min.css";
-//paths.concatJsDest = paths.webroot + "js/site.min.js";
+
 //paths.concatCssDest = paths.webroot + "css/site.min.css";
 
 
-
-//gulp.task("clean:js", function (cb) {
-//    rimraf(paths.concatJsDest, cb);
-//});
 
 //gulp.task("clean:css", function (cb) {
 //    rimraf(paths.concatCssDest, cb);
