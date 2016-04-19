@@ -194,20 +194,7 @@ namespace RubezhDAL.DataClasses
 			if (filter.ItemUID.HasValue)
 				result = result.Where(x => x.UID == filter.ItemUID.Value);
 			result = FilterNames(result, filter);
-			if (filter.JournalSubsystemTypes.Count > 0 && filter.JournalEventNameTypes.Count == 0)
-			{
-				var subsystems = filter.JournalSubsystemTypes.Select(x => (int)x).ToList();
-				result = result.Where(x => subsystems.Contains(x.Subsystem));
-			}
-			if (filter.ObjectUIDs.Count > 0)
-			{
-				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
-			}
-			else if (filter.JournalObjectTypes.Count > 0)
-			{
-				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();
-				result = result.Where(x => objects.Contains(x.ObjectType));
-			}
+			result = FilterObjects(result, filter);
 			result = result.OrderByDescending(x => x.SystemDate).Take(filter.LastItemsCount);
 			return result;
 		}
@@ -216,15 +203,7 @@ namespace RubezhDAL.DataClasses
 		{
 			IQueryable<Journal> result = Context.Journals;
 			result = FilterNames(result, filter);
-			if (filter.JournalObjectTypes.Count > 0)
-			{
-				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();
-				result = result.Where(x => objects.Contains(x.ObjectType));
-			}
-			if (filter.ObjectUIDs.Count > 0)
-			{
-				result = result.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
-			}
+			result = FilterObjects(result, filter);
 			if (filter.EmployeeUIDs.Count > 0)
 			{
 				result = result.Where(x => filter.EmployeeUIDs.Contains(x.ObjectUID) ||
@@ -259,14 +238,16 @@ namespace RubezhDAL.DataClasses
 		{
 			IQueryable<Journal> namesResult = null;
 			IQueryable<Journal> descriptionsResult = null;
+			var names = new List<int>();
+			var descriptions = new List<int>();
 			if (filter.JournalEventNameTypes.IsNotNullOrEmpty())
 			{
-				var names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
+				names = filter.JournalEventNameTypes.Select(x => (int)x).ToList();
 				namesResult = journal.Where(x => names.Contains(x.Name));
 			}
 			if (filter.JournalEventDescriptionTypes.IsNotNullOrEmpty())
 			{
-				var descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
+				descriptions = filter.JournalEventDescriptionTypes.Select(x => (int)x).ToList();
 				descriptionsResult = journal.Where(x => descriptions.Contains(x.Description));
 			}
 			if(namesResult != null && descriptionsResult != null)
@@ -275,6 +256,28 @@ namespace RubezhDAL.DataClasses
 				return namesResult;
 			if (descriptionsResult != null)
 				return descriptionsResult;
+			return journal;
+		}
+
+		IQueryable<Journal> FilterObjects(IQueryable<Journal> journal, JournalFilter filter)
+		{
+			IQueryable<Journal> objectTypesResult = null;
+			IQueryable<Journal> objectUidsResult = null;
+			if (filter.JournalObjectTypes.Count > 0)
+			{
+				var objects = filter.JournalObjectTypes.Select(x => (int)x).ToList();
+				objectTypesResult = journal.Where(x => objects.Contains(x.ObjectType));
+			}
+			if (filter.ObjectUIDs.Count > 0)
+			{
+				objectUidsResult = journal.Where(x => filter.ObjectUIDs.Contains(x.ObjectUID));
+			}
+			if (objectTypesResult != null && objectUidsResult != null)
+				return objectTypesResult.Union(objectUidsResult);
+			else if (objectTypesResult != null)
+				return objectTypesResult;
+			else if (objectUidsResult != null)
+				return objectUidsResult;
 			return journal;
 		}
 	}

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
-using GKModule.Events;
+﻿using GKModule.Events;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Plans.Elements;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -62,7 +61,7 @@ namespace GKModule.Plans.ViewModels
 			}
 			UpdateZones(zoneUID);
 			if (!createSKDZoneEventArg.Cancel)
-			    Close(true);
+				Close(true);
 		}
 
 		public RelayCommand EditCommand { get; private set; }

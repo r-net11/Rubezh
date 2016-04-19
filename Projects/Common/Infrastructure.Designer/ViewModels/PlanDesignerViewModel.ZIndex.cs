@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Plans.Elements;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Designer.ViewModels
 {

@@ -1,14 +1,9 @@
-﻿using System;
+﻿using Infrastructure.Common.Services.Layout;
+using Infrustructure.Plans;
+using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Services.Layout;
-using System.Collections.ObjectModel;
-using RubezhAPI.Automation;
-using RubezhClient;
-using RubezhAPI.Models.Layouts;
 using System.Windows.Media;
-using System.Windows.Controls;
 
 namespace AutomationModule.Layout.ViewModels
 {
@@ -188,9 +183,9 @@ namespace AutomationModule.Layout.ViewModels
 			{
 				UseCustomStyle = properties.UseCustomStyle;
 				Text = properties.Text;
-				BackgroundColor = properties.BackgroundColor;
-				ForegroundColor = properties.ForegroundColor;
-				BorderColor = properties.BorderColor;
+				BackgroundColor = properties.BackgroundColor.ToWindowsColor();
+				ForegroundColor = properties.ForegroundColor.ToWindowsColor();
+				BorderColor = properties.BorderColor.ToWindowsColor();
 				BorderThickness = properties.BorderThickness;
 				FontSize = properties.FontSize;
 				FontItalic = properties.FontItalic;
@@ -212,9 +207,9 @@ namespace AutomationModule.Layout.ViewModels
 			if (_haveChanges)
 			{
 				properties.Text = Text;
-				properties.BackgroundColor = BackgroundColor;
-				properties.ForegroundColor = ForegroundColor;
-				properties.BorderColor = BorderColor;
+				properties.BackgroundColor = BackgroundColor.ToRubezhColor();
+				properties.ForegroundColor = ForegroundColor.ToRubezhColor();
+				properties.BorderColor = BorderColor.ToRubezhColor();
 				properties.BorderThickness = BorderThickness;
 				properties.FontSize = FontSize;
 				properties.FontBold = FontBold;

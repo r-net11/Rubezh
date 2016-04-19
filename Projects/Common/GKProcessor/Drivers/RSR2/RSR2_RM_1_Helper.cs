@@ -16,7 +16,8 @@ namespace GKProcessor
 				ShortName = "РМ",
 				IsControlDevice = true,
 				HasLogic = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.ActuatingDevice
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

@@ -23,11 +23,11 @@ namespace GKWebService.Controllers
         }
 
         [ErrorHandler]
-        public JsonResult GetOrganisations(OrganisationFilter filter)
+        public JsonNetResult GetOrganisations(OrganisationFilter filter)
         {
             var result = OrganisationHelper.Get(new OrganisationFilter { LogicalDeletationType = filter.LogicalDeletationType});
 
-            return Json(new { Organisations = result }, JsonRequestBehavior.AllowGet);
+			return new JsonNetResult { Data = result };
         }
 
         public ActionResult OrganisationDetails()
@@ -109,9 +109,9 @@ namespace GKWebService.Controllers
         }
 
         [ErrorHandler]
-        public JsonNetResult IsAnyOrganisationItems(Guid uid)
+        public JsonNetResult IsAnyOrganisationItems(Guid id)
         {
-            var operationResult = OrganisationHelper.IsAnyItems(uid);
+            var operationResult = OrganisationHelper.IsAnyItems(id);
             return new JsonNetResult { Data = operationResult};
         }
 

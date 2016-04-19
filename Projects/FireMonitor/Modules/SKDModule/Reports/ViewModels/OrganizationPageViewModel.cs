@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace SKDModule.Reports.ViewModels
 {
-	public class OrganizationPageViewModel : FilterContainerViewModel, IUnsubscribe
+	public class OrganizationPageViewModel : FilterContainerViewModel
 	{
 		public OrganizationPageViewModel(bool allowMultiple)
 		{
@@ -89,7 +89,7 @@ namespace SKDModule.Reports.ViewModels
 				Organisations.SelectedOrganisation = Organisations.Items.FirstOrDefault();
 		}
 
-		public void Unsubscribe()
+		public override void Unsubscribe()
 		{
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 		}

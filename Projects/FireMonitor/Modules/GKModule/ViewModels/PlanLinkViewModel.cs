@@ -1,11 +1,10 @@
-﻿using System;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
 
 namespace GKModule.ViewModels
 {

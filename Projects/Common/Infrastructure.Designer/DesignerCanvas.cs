@@ -4,10 +4,11 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Designer.DesignerItems;
 using Infrastructure.Designer.ViewModels;
+using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,9 +105,9 @@ namespace Infrastructure.Designer
 				Toolbox.SetDefault();
 				//elementBase.SetDefault();
 				Point position = e.GetPosition(this);
-				elementBase.Position = position;
+				elementBase.SetPosition(position);
 				if (GridLineController != null)
-					elementBase.Position += GridLineController.Pull(elementBase.GetRectangle());
+					elementBase.SetPosition(elementBase.GetPosition() + GridLineController.Pull(elementBase.GetRectangle()));
 				CreateDesignerItem(elementBase);
 				e.Handled = true;
 			}
@@ -134,9 +135,9 @@ namespace Infrastructure.Designer
 					Toolbox.SetDefault();
 					//elementBase.SetDefault();
 					Point position = Mouse.GetPosition(this);
-					elementBase.Position = position;
+					elementBase.SetPosition(position);
 					if (GridLineController != null)
-						elementBase.Position += GridLineController.Pull(elementBase.GetRectangle());
+						elementBase.SetPosition(elementBase.GetPosition() + GridLineController.Pull(elementBase.GetRectangle()));
 					CreateDesignerItem(elementBase);
 					e.Handled = true;
 				}
@@ -360,9 +361,9 @@ namespace Infrastructure.Designer
 				{
 					if (vector.HasValue)
 					{
-						var point = designerItem.Element.Position;
+						var point = designerItem.Element.GetPosition();
 						if (!e.IsRepeat)
-							designerItem.DragStarted(designerItem.Element.Position);
+							designerItem.DragStarted(designerItem.Element.GetPosition());
 						designerItem.DragDelta(point, vector.Value);
 						e.Handled = true;
 					}
@@ -381,7 +382,7 @@ namespace Infrastructure.Designer
 					var designerItem = SelectedItems.FirstOrDefault();
 					if (designerItem != null)
 					{
-						designerItem.DragCompleted(designerItem.Element.Position);
+						designerItem.DragCompleted(designerItem.Element.GetPosition());
 						e.Handled = true;
 					}
 					break;

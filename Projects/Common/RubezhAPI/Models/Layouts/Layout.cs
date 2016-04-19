@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Windows.Media;
+using Common;
 
 namespace RubezhAPI.Models.Layouts
 {

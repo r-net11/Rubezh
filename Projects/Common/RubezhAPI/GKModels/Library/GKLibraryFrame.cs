@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Infrustructure.Plans.Devices;
+﻿using RubezhAPI.Plans.Devices;
+using System.Runtime.Serialization;
 
 namespace RubezhAPI.GK
 {

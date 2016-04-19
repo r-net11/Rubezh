@@ -16,7 +16,8 @@ namespace GKProcessor
 				ShortName = "ИО-ИК",
 				HasZone = false,
 				HasGuardZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.IntruderDetector
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

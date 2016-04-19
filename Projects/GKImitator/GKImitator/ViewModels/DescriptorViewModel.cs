@@ -64,11 +64,13 @@ namespace GKImitator.ViewModels
 			}
 			else if (isActive)
 			{
-				CurrentOnDelay = 0;
-				CurrentOffDelay = 0;
-				CurrentHoldDelay = 0;
-				TurningState = TurningState.None;
-
+				if (stateBit != GKStateBit.Norm)
+				{
+					CurrentOnDelay = 0;
+					CurrentOffDelay = 0;
+					CurrentHoldDelay = 0;
+					TurningState = TurningState.None;
+				}
 				if (stateBit == GKStateBit.On)
 				{
 					journalItem = new ImitatorJournalItem(2, 9, 2, 0);

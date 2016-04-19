@@ -1,9 +1,10 @@
-﻿using RubezhAPI.Models;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
 using PlansModule.Kursk.Designer;
 using PlansModule.Kursk.ViewModels;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 
 namespace PlansModule.Kursk.InstrumentAdorners
 {
@@ -14,7 +15,7 @@ namespace PlansModule.Kursk.InstrumentAdorners
 		{
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleTank();
 			var propertiesViewModel = new TankPropertiesViewModel(element);

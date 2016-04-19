@@ -1,5 +1,5 @@
 ﻿using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Microsoft.Practices.Prism.Events;
 

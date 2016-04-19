@@ -3,11 +3,11 @@ using Infrustructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
+using RubezhAPI.Plans.Interfaces;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Infrustructure.Plans.Interfaces;
 
 namespace Infrastructure
 {
@@ -28,7 +28,7 @@ namespace Infrastructure
 
 		public static List<Plan> GetPlans()
 		{
-			if(LayoutUID == Guid.Empty)
+			if (LayoutUID == Guid.Empty)
 			{
 				return ClientManager.PlansConfiguration.AllPlans.Where(x => !x.IsNotShowPlan).ToList();
 			}
@@ -36,20 +36,20 @@ namespace Infrastructure
 			{
 				var plans = new List<Guid>();
 				var layout = ClientManager.LayoutsConfiguration.Layouts.FirstOrDefault(x => x.UID == LayoutUID);
-				if(layout != null)
+				if (layout != null)
 				{
-					foreach(var part in layout.Parts)
+					foreach (var part in layout.Parts)
 					{
-						if(part.Properties != null && part.Properties is LayoutPartPlansProperties)
+						if (part.Properties != null && part.Properties is LayoutPartPlansProperties)
 						{
 							var layoutPartPlansProperties = part.Properties as LayoutPartPlansProperties;
 							if (layoutPartPlansProperties.Type == LayoutPartPlansType.All)
 							{
 								return ClientManager.PlansConfiguration.AllPlans.Where(x=> !x.IsNotShowPlan).ToList();
 							}
-							foreach(var planUID in layoutPartPlansProperties.Plans)
+							foreach (var planUID in layoutPartPlansProperties.Plans)
 							{
-								if(!plans.Any(x=>x == planUID))
+								if (!plans.Any(x => x == planUID))
 								{
 									plans.Add(planUID);
 								}
@@ -78,7 +78,7 @@ namespace Infrastructure
 
 		public static Dictionary<Plan, Guid> GetAllPlans(IPlanPresentable planElement)
 		{
-		    Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
+			Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
 			//var plans = CashPlans == null ? GetPlans() : CashPlans;
 			GetPlans().ForEach(x =>
 			{
@@ -92,7 +92,7 @@ namespace Infrastructure
 
 		public static bool CanShowOnPlan(IPlanPresentable planElement)
 		{
-			return planElement.PlanElementUIDs.Any() &&  GetAllPlans(planElement).Any();
+			return planElement.PlanElementUIDs.Any() && GetAllPlans(planElement).Any();
 		}
 	}
 }

@@ -7,7 +7,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
-	public class EmployeePageViewModel : FilterContainerViewModel, IUnsubscribe
+	public class EmployeePageViewModel : FilterContainerViewModel
 	{
 		public EmployeePageViewModel()
 		{
@@ -80,7 +80,7 @@ namespace SKDModule.Reports.ViewModels
 				((IReportFilterEmployeeAndVisitor)employeeFilter).IsEmployee = IsEmployee;
 		}
 
-		public void Unsubscribe()
+		public override void Unsubscribe()
 		{
 			Filter.Unsubscribe();
 		}

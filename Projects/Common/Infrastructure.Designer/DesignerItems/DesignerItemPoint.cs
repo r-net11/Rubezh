@@ -1,6 +1,6 @@
-﻿using System.Windows;
-using Infrastructure.Designer.Adorners;
-using Infrustructure.Plans.Elements;
+﻿using Infrastructure.Designer.Adorners;
+using RubezhAPI.Plans.Elements;
+using System.Windows;
 
 namespace Infrastructure.Designer.DesignerItems
 {

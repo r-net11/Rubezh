@@ -26,7 +26,7 @@ namespace JournalModule.ViewModels
 
 			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
-				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
+				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.FilterObjectType == FilterObjectType.ObjectType && x.JournalObjectType == journalObjectType);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
@@ -49,28 +49,22 @@ namespace JournalModule.ViewModels
 		public JournalFilter GetModel()
 		{
 			var filter = new JournalFilter();
-
-			foreach (var subsystemFilter in RootFilters)
+			foreach (var filterObject in RootFilters.SelectMany(x => x.GetAllChildren()).Where(x => x.IsChecked))
 			{
-				foreach (var objectTypeFilter in subsystemFilter.Children)
+				switch (filterObject.FilterObjectType)
 				{
-					if (objectTypeFilter.IsChecked)
-					{
-						filter.JournalObjectTypes.Add(objectTypeFilter.JournalObjectType);
-					}
-					else
-					{
-						foreach (var filterViewModel in objectTypeFilter.GetAllChildren())
-						{
-							if (filterViewModel.IsChecked && filterViewModel.UID != Guid.Empty)
-							{
-								filter.ObjectUIDs.Add(filterViewModel.UID);
-							}
-						}
-					}
+					case FilterObjectType.ObjectType:
+						filter.JournalObjectTypes.Add(filterObject.JournalObjectType);
+						break;
+					case FilterObjectType.Object:
+					case FilterObjectType.Camera:
+						filter.ObjectUIDs.Add(filterObject.UID);
+						break;
+					case FilterObjectType.Subsystem:	
+					default:
+						break;
 				}
 			}
-
 			return filter;
 		}
 
@@ -169,6 +163,14 @@ namespace JournalModule.ViewModels
 				AddChild(gkDoorsViewModel, filterObjectViewModel);
 			}
 
+			var gkPIMsViewModel = new FilterObjectViewModel(JournalObjectType.GKPim);
+			AddChild(gkViewModel, gkPIMsViewModel);
+			foreach (var pim in GKManager.GlobalPims)
+			{
+				var filterObjectViewModel = new FilterObjectViewModel(pim);
+				AddChild(gkPIMsViewModel, filterObjectViewModel);
+			}
+
 			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video);
 			videoViewModel.IsExpanded = true;
 			RootFilters.Add(videoViewModel);
@@ -180,6 +182,14 @@ namespace JournalModule.ViewModels
 				var filterObjectViewModel = new FilterObjectViewModel(camera);
 				AddChild(videoDevicesViewModel, filterObjectViewModel);
 			}
+
+			var gkUsersViewModel = new FilterObjectViewModel(JournalObjectType.GKUser);
+			RootFilters.Add(gkUsersViewModel);
+			AllFilters.Add(gkUsersViewModel);
+
+			var noneViewModel = new FilterObjectViewModel(JournalObjectType.None);
+			RootFilters.Add(noneViewModel);
+			AllFilters.Add(noneViewModel);
 		}
 
 		FilterObjectViewModel AddGKDeviceInternal(GKDevice device, FilterObjectViewModel parentDeviceViewModel)

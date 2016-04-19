@@ -2,47 +2,43 @@
 @{
     Layout = null;
 }
-<div data-bind="with: HR.Organisations">
-    <ul id="OrganisationList" class="SelectableList" data-bind="foreach: Organisations">
-        <li>
-            <div data-bind="click: function(data,event) { $parent.OrganisationClick(data, event, $data);}">
+<div ng-controller="organisationsCtrl">
+    <ul id="OrganisationList" class="SelectableList col-sm-4">
+        <li ng-repeat="organisation in organisations" ng-class="{selected: model.selectedOrganisation === organisation}">
+            <div ng-click="model.selectedOrganisation = organisation">
                 <label>
                     <img src="~/Content/Image/Icon/Hr/Organisation.png"/>
-                    <span data-bind="text: Name, css: {IsDeleted: IsDeleted}"></span>
+                    <span ng-class="{IsDeleted: organisation.IsDeleted}">{{organisation.Name}}</span>
                 </label>
             </div>
         </li>
     </ul>
-    <div id="OrganisationsRightPanel">
-        <div id="OrganisationsRightPanelTabs">
-            <ul class="tab">
-                <li class="active"><a href="" data-bind="click: function(data,event) { OrganisationPageClick(data, event, 'Users'); }"><span>Пользователи</span></a></li>
-                <li><a href="" data-bind="click: function(data,event) { OrganisationPageClick(data, event, 'Doors'); }"><span>Точки доступа</span></a></li>
-            </ul>
-        </div>
-        <div data-bind="visible:organisationPages.Users">
-            <ul id="OrganisationUsers" class="SelectableList" data-bind="foreach: Users">
-                <li>
-                    <div data-bind="click: function(data,event) { if($parent.CanSelectUsers()) {$parent.UserClick(data, event, $data); return true;} else return null; }">
-                        <img src="~/Content/Image/Icon/Hr/SKDUser.png"/>
-                            <input type="checkbox" data-bind="checked: IsChecked, enable: $parent.CanSelectUsers()" value="">
-                            <span data-bind="text: User.Name"></span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div data-bind="visible:organisationPages.Doors">
-            <ul id="OrganisationDoors" class="SelectableList" data-bind="foreach: Doors">
-                <li>
-                    <div data-bind="click: function(data,event) { if($parent.CanSelectDoors()) {$parent.DoorClick(data, event, $data); return true;} else return null;}">
-                        <img src="~/Content/Image/Icon/Hr/Door.png"/>
-                            <input type="checkbox" data-bind="checked: IsChecked, enable: $parent.CanSelectDoors()" value="">
-                            <span data-bind="text: PresentationName"></span>
-                    </div>
-                </li>
-            </ul>
+    <div class="col-sm-8">
+        <div>
+            <uib-tabset>
+                <uib-tab heading="Пользователи">
+                    <ul id="OrganisationUsers" class="SelectableList">
+                        <li ng-repeat="user in model.users" ng-class="{selected: selectedUser === user}">
+                            <div ng-click="canSelectUsers && userClick(user)">
+                                <img src="~/Content/Image/Icon/Hr/SKDUser.png" />
+                                <input type="checkbox" ng-disabled="!canSelectUsers" ng-model="user.IsChecked" value="">
+                                <span>{{user.User.Name}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </uib-tab>
+                <uib-tab heading="Точки доступа">
+                    <ul id="OrganisationDoors" class="SelectableList">
+                        <li ng-repeat="door in model.doors" ng-class="{selected: selectedDoor === door}">
+                            <div ng-click="canSelectDoors && doorClick(door)">
+                                <img src="~/Content/Image/Icon/Hr/Door.png" />
+                                <input type="checkbox" ng-disabled="!canSelectDoors" ng-model="door.IsChecked" value="">
+                                <span>{{door.PresentationName}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </uib-tab>
+            </uib-tabset>
         </div>
     </div>
 </div>
-
-@Html.Action("OrganisationDetails")

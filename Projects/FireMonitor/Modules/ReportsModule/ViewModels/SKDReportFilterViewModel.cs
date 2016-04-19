@@ -53,10 +53,7 @@ namespace ReportsModule.ViewModels
 			base.OnClosed();
 			foreach (var page in Pages)
 			{
-				if (page is IUnsubscribe)
-				{
-					(page as IUnsubscribe).Unsubscribe();
-				}
+				page.Unsubscribe();
 			}
 		}
 		void LoadFilter(SKDReportFilter filter)

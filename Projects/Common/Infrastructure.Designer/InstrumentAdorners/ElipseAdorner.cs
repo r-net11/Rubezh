@@ -1,5 +1,6 @@
 ﻿using System.Windows.Shapes;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {
@@ -14,7 +15,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 			return new Ellipse();
 		}
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			return new ElementEllipse();
 		}

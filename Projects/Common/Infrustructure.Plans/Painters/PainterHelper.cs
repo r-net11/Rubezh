@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using RubezhAPI.Plans.Elements;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Infrustructure.Plans.Elements;
+using PointCollection = Common.PointCollection;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -12,9 +13,9 @@ namespace Infrustructure.Plans.Painters
 		{
 			return
 				element is ElementBaseShape ?
-					Normalize(element.GetRectangle().TopLeft, ((ElementBaseShape)element).Points, element.BorderThickness) :
+					Normalize(((ElementBaseShape)element).GetRectangle().TopLeft, ((ElementBaseShape)element).Points, element.BorderThickness) :
 				element is ElementBaseRectangle ?
-					Normalize(element.GetRectangle(), element.BorderThickness) :
+					Normalize(((ElementBaseRectangle)element).GetRectangle(), element.BorderThickness) :
 					new PointCollection();
 		}
 		public static PointCollection GetRealPoints(ElementBase element)
@@ -22,7 +23,7 @@ namespace Infrustructure.Plans.Painters
 			if (element is ElementBaseShape)
 				return ((ElementBaseShape)element).Points;
 			else if (element is ElementBaseRectangle)
-				return GetPoints(element.GetRectangle());
+				return GetPoints(((ElementBaseRectangle)element).GetRectangle());
 			return new PointCollection();
 		}
 		public static PointCollection GetPoints(Rect rect, double margin = 0)

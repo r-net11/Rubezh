@@ -25,7 +25,6 @@ namespace SKDModule.ViewModels
 	{
 		public OrganisationBaseViewModel()
 		{
-			IsConnected = true;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -44,21 +43,10 @@ namespace SKDModule.ViewModels
 			_filter = new TFilter();
 		}
 
-		public virtual void OnConnectionLost()
+		public bool IsConnected
 		{
-			IsConnected = false;
-			SelectedItem = null;
-			OnPropertyChanged(() => IsConnected);
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
-
-		public virtual void OnConnectionAppeared()
-		{
-			IsConnected = true;
-			SelectedItem = null;
-			OnPropertyChanged(() => IsConnected);
-		}
-
-		public bool IsConnected { get; private set; }
 		
 		public virtual void Unsubscribe()
 		{

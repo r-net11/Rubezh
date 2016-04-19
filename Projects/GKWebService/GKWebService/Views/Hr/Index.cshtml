@@ -63,13 +63,13 @@
         <div class="icon paste"></div>
         <div class="icon redo"></div>
     </div>
-    <div class="HrToolbar"  ng-show="activeTab === 5">
-        <div class="icon add" title="Добавить" data-bind="click: Organisations.CanAdd() ? function(data,event) { Organisations.Add(data, event); } : null, css: {disabled: !Organisations.CanAdd()}"></div>
-        <div class="icon delete" title="Удалить" data-bind="click: Organisations.CanRemove() ? function(data,event) { Organisations.Remove(data, event); } : null, css: {disabled: !Organisations.CanRemove()}"></div>
-        <div class="icon edit" title="Редактировать" data-bind="click: Organisations.CanEdit() ? function(data,event) { Organisations.Edit(data, event); } : null, css: {disabled: !Organisations.CanEdit()}"></div>
-        <div class="icon redo" title="Восстановить" data-bind="visible:Filter.IsWithDeleted, click: Organisations.CanRestore() ? function(data,event) { Organisations.Restore(data, event); } : null, css: {disabled: !Organisations.CanRestore()}"></div>
-        <div class="icon add" title="Скрыть архивные сведения" data-bind="visible: Filter.IsWithDeleted, click: ChangeIsDeleted"></div>
-        <div class="icon delete" title="Отображать архивные сведения" data-bind="visible: !Filter.IsWithDeleted(), click: ChangeIsDeleted"></div>
+    <div class="HrToolbar"  ng-show="activeTab === 5" ng-controller="organisationsToolbarCtrl">
+        <div class="icon add" title="Добавить" ng-disabled="!canAdd()" ng-click="canAdd() && add()"></div>
+        <div class="icon delete" title="Удалить" ng-disabled="!canRemove()" ng-click="canRemove() && remove()"></div>
+        <div class="icon edit" title="Редактировать" ng-disabled="!canEdit()" ng-click="canEdit() && edit()"></div>
+        <div class="icon redo" title="Восстановить" ng-show="isWithDeleted()" ng-disabled="!canRestore()" ng-click="canRestore() && restore()"></div>
+        <div class="icon add" title="Скрыть архивные сведения" ng-show="isWithDeleted()" ng-click="changeIsDeleted()"></div>
+        <div class="icon delete" title="Отображать архивные сведения" ng-show="!isWithDeleted()" ng-click="changeIsDeleted()"></div>
     </div>
     <div class="HrToolbar"  ng-show="activeTab !== 5">
         <div class="icon filter" title="Фильтр" ng-show="!Filter.IsNotEmpty()" ng-click="editFilter()"></div>

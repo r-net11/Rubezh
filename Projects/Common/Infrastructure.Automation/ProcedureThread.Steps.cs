@@ -743,15 +743,12 @@ namespace Infrastructure.Automation
 		{
 			var stopRecordStep = (StopRecordStep)procedureStep;
 			var cameraRef = (ObjectReference)GetValue(stopRecordStep.CameraArgument);
-			var eventUidString = (string)GetValue(stopRecordStep.EventUIDArgument);
-			Guid eventUid;
-			if (Guid.TryParse(eventUidString, out eventUid))
-			{
-				if (LicenseManager.CurrentLicenseInfo.HasVideo)
-					ProcedureExecutionContext.StopRecord(ClientUID, cameraRef.UID, eventUid);
-				else
-					ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraRef.UID);
-			}
+			var eventUid = (Guid)GetValue(stopRecordStep.EventUIDArgument);
+
+			if (LicenseManager.CurrentLicenseInfo.HasVideo)
+				ProcedureExecutionContext.StopRecord(ClientUID, cameraRef.UID, eventUid);
+			else
+				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Остановить запись\" заблокировано в связи с отсутствием лицензии", cameraRef.UID);
 		}
 
 		public void PtzStep(ProcedureStep procedureStep)

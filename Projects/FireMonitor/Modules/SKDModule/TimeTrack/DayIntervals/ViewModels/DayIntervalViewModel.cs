@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !IsOrganisation && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+			return !IsOrganisation && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit) && IsConnected;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -87,7 +87,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedDayIntervalPart != null && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+			return SelectedDayIntervalPart != null && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit) && IsConnected;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -107,7 +107,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDayIntervalPart != null && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+			return SelectedDayIntervalPart != null && !IsDeleted && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit) && IsConnected;
 		}
 		public override void Update()
 		{
@@ -130,5 +130,10 @@ namespace SKDModule.ViewModels
 			}
 			OnPropertyChanged(() => DayIntervalParts);
 		}
-}
+
+		public bool IsConnected
+		{
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
+		}
+	}
 }
