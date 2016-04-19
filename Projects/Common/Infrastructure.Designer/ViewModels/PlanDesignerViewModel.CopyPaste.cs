@@ -93,7 +93,10 @@ namespace Infrastructure.Designer.ViewModels
 		private bool AllowPaste(ElementBase element)
 		{
 			var vizualizationElement = element as IMultipleVizualization;
-			if (vizualizationElement != null && !vizualizationElement.AllowMultipleVizualization && this.clipboard.SourceAction == ClipboardSourceAction.Copy)
+			if (vizualizationElement != null
+				&& !vizualizationElement.AllowMultipleVizualization
+				&& this.clipboard.SourceAction == ClipboardSourceAction.Copy
+				&& DesignerCanvas.Items.Select(x => x.Element).Any(existElement => existElement is IMultipleVizualization && ((IMultipleVizualization)existElement).ItemUID == vizualizationElement.ItemUID))
 				return false;
 			return true;
 		}
