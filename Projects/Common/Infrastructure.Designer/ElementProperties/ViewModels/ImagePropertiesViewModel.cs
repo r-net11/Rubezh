@@ -27,6 +27,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		WMFImage _wmf;
 		byte[] _svg;
 		public TileBrush ImageBrush { get; private set; }
+		public event Action<bool> UpdateProperty;
 
 		public ImagePropertiesViewModel(IElementBackground element)
 		{
@@ -41,6 +42,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
 			UpdateImage();
+
 		}
 
 		public RelayCommand SelectPictureCommand { get; private set; }
@@ -96,6 +98,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 					}
 					OnPropertyChanged(() => ImageBrush);
+					if (UpdateProperty != null)
+					UpdateProperty(false);
 				}
 		}
 
@@ -110,6 +114,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			isWasDelete = true;
 			ImageBrush = null;
 			OnPropertyChanged(() => ImageBrush);
+			if (UpdateProperty != null)
+			UpdateProperty(true);
 		}
 		bool CanRemovePicture()
 		{
