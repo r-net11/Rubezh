@@ -52,7 +52,6 @@ namespace GkWeb
 
 			app.UseSignalR();
 
-			app.UseMvc();
 			app.UseMvc(routes => {
 				routes.MapRoute(
 					name: "default",

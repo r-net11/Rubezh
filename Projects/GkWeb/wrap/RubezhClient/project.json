@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "dnx451": {
+      "bin": {
+        "assembly": "../../lib/dnx451/RubezhClient.dll"
+      },
+      "dependencies": {
+        "Common": "1.0.0-*",
+        "GKProcessor": "1.0.0-*",
+        "Infrastructure.Common": "1.0.0-*",
+        "Infrustructure.Plans": "1.0.0-*",
+        "RubezhAPI": "1.0.0-*"
+      }
+    }
+  }
+}
