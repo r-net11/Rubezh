@@ -84,6 +84,8 @@ namespace Infrastructure.Designer.ViewModels
 					newItems.ForEach(item => item.IsSelected = true);
 					MoveToFrontCommand.Execute();
 					DesignerCanvas.DesignerChanged();
+					if (this.clipboard.SourceAction == ClipboardSourceAction.Cut)
+						this.clipboard.Clear();
 					this.clipboard.SourceAction = ClipboardSourceAction.Copy;
 				}
 		}
