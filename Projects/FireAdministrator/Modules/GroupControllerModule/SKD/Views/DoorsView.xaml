@@ -20,7 +20,7 @@
 			<RowDefinition Height="3*" />
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
-			<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
+			<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" SelectionChanged="DataGrid_SelectionChanged">
 				<DataGrid.InputBindings>
 					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 				</DataGrid.InputBindings>

@@ -1,5 +1,5 @@
 ﻿using Common;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Plans.Elements;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -56,7 +56,7 @@ namespace RubezhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.TextBlock; }
+			get { return RubezhAPI.Plans.Elements.Primitive.TextBlock; }
 		}
 
 		#endregion

@@ -1,8 +1,8 @@
-﻿using System.Globalization;
+﻿using Infrustructure.Plans.Designer;
+using RubezhAPI.Plans.Elements;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -13,7 +13,7 @@ namespace Infrustructure.Plans.Painters
 		ScaleTransform _scaleTransform;
 
 		public TextBoxPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
-			:base(designerCanvas, element)
+			: base(designerCanvas, element)
 		{
 			_textDrawing = new GeometryDrawing(null, null, null);
 		}
@@ -21,20 +21,20 @@ namespace Infrustructure.Plans.Painters
 		protected override void InnerDraw(DrawingContext drawingContext)
 		{
 			base.InnerDraw(drawingContext);
-			if(_scaleTransform != null)
+			if (_scaleTransform != null)
 			{
 				drawingContext.PushTransform(_scaleTransform);
 			}
-			if(_clipGeometry != null)
+			if (_clipGeometry != null)
 			{
 				drawingContext.PushClip(_clipGeometry);
 			}
 			drawingContext.DrawDrawing(_textDrawing);
-			if(_clipGeometry != null)
+			if (_clipGeometry != null)
 			{
 				drawingContext.Pop();
 			}
-			if(_scaleTransform != null)
+			if (_scaleTransform != null)
 			{
 				drawingContext.Pop();
 			}
@@ -51,28 +51,28 @@ namespace Infrustructure.Plans.Painters
 			var formattedText = new FormattedText(elementText.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, elementText.FontSize, PainterCache.BlackBrush);
 			formattedText.TextAlignment = (TextAlignment)elementText.TextAlignment;
 			Point point = bound.TopLeft;
-			if(!elementText.WordWrap || _scaleTransform != null)
+			if (!elementText.WordWrap || _scaleTransform != null)
 			{
-				switch(formattedText.TextAlignment)
+				switch (formattedText.TextAlignment)
 				{
 					case TextAlignment.Right:
 						point = bound.TopRight;
 						break;
 					case TextAlignment.Center:
-						point = new Point(bound.Left + bound.Width /2, bound.Top);
+						point = new Point(bound.Left + bound.Width / 2, bound.Top);
 						break;
 				}
 			}
-			if(_clipGeometry != null)
+			if (_clipGeometry != null)
 			{
 				_clipGeometry.Rect = bound;
-				if(elementText.WordWrap)
+				if (elementText.WordWrap)
 				{
 					formattedText.MaxTextWidth = bound.Width;
 					formattedText.MaxTextHeight = bound.Height;
 				}
 				var valign = (VerticalAlignment)elementText.VerticalAlignment;
-				switch(valign)
+				switch (valign)
 				{
 					case VerticalAlignment.Center:
 						point.Y = bound.Top + (bound.Height - formattedText.Height) / 2;
@@ -82,7 +82,7 @@ namespace Infrustructure.Plans.Painters
 						break;
 				}
 			}
-			if(_scaleTransform != null)
+			if (_scaleTransform != null)
 			{
 				_scaleTransform.CenterX = point.X;
 				_scaleTransform.CenterY = point.Y;
@@ -96,7 +96,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			IElementTextBlock elementText = (IElementTextBlock)Element;
 			_textDrawing.Brush = PainterCache.GetBrush(elementText.ForegroundColor);
-			if(elementText.Stretch)
+			if (elementText.Stretch)
 			{
 				_clipGeometry = null;
 				_scaleTransform = new ScaleTransform();

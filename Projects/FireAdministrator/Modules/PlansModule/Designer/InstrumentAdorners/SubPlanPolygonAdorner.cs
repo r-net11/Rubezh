@@ -1,10 +1,11 @@
-﻿using System.Windows.Media;
-using System.Windows.Shapes;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
 using PlansModule.ViewModels;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace PlansModule.InstrumentAdorners
 {
@@ -25,7 +26,7 @@ namespace PlansModule.InstrumentAdorners
 			get { return ((Polygon)Rubberband).Points; }
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseShape CreateElement()
+		protected override ElementBaseShape CreateElement()
 		{
 			var element = new ElementPolygonSubPlan();
 			var propertiesViewModel = new SubPlanPropertiesViewModel(element);

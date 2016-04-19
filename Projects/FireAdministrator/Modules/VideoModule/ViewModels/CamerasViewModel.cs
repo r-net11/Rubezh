@@ -3,9 +3,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using RubezhClient;
 using RviClient;
 using System;
@@ -96,8 +96,13 @@ namespace VideoModule.ViewModels
 				var rviDeviceSelectionViewModel = new RviDeviceSelectionViewModel(rviServers);
 				if (DialogService.ShowModalWindow(rviDeviceSelectionViewModel))
 				{
+					var oldCameras = ClientManager.SystemConfiguration.Cameras;
 					ClientManager.SystemConfiguration.RviServers = rviDeviceSelectionViewModel.RviServers;
 					ClientManager.SystemConfiguration.UpdateRviConfiguration();
+					foreach (var removedCamera in oldCameras.Where(oldCamera => !ClientManager.SystemConfiguration.Cameras.Any(newCamera => newCamera.UID == oldCamera.UID)))
+					{
+						removedCamera.OnChanged();
+					}
 					Initialize();
 					ServiceFactory.SaveService.CamerasChanged = true;
 					PlanExtension.Instance.Cache.BuildSafe<Camera>();

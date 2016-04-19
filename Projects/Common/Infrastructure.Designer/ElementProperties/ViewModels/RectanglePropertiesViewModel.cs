@@ -2,8 +2,8 @@
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.Events;
-using Infrustructure.Plans.Elements;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
 using System.Windows.Media;
 
@@ -30,7 +30,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 			PlanElementBindingItems = new List<PlanElementBindingItem>();
 			if (ElementRectangle.PlanElementBindingItems != null && ElementRectangle.PlanElementBindingItems.Count > 0)
-				foreach(var planElementBindingItem in ElementRectangle.PlanElementBindingItems)
+				foreach (var planElementBindingItem in ElementRectangle.PlanElementBindingItems)
 				{
 					var planElementBindingItemClone = new PlanElementBindingItem()
 					{

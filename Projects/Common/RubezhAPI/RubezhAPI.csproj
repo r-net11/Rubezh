@@ -181,6 +181,35 @@
     <Compile Include="Models\Video\RviServer.cs" />
     <Compile Include="Models\Video\RviStream.cs" />
     <Compile Include="Models\Automation\ObjectReference.cs" />
+    <Compile Include="Plans\Devices\ILibraryDevice.cs" />
+    <Compile Include="Plans\Devices\ILibraryFrame.cs" />
+    <Compile Include="Plans\Devices\ILibraryState.cs" />
+    <Compile Include="Plans\Elements\ElementBase.cs" />
+    <Compile Include="Plans\Elements\ElementBasePoint.cs" />
+    <Compile Include="Plans\Elements\ElementBasePolygon.cs" />
+    <Compile Include="Plans\Elements\ElementBasePolyline.cs" />
+    <Compile Include="Plans\Elements\ElementBaseRectangle.cs" />
+    <Compile Include="Plans\Elements\ElementBaseShape.cs" />
+    <Compile Include="Plans\Elements\ElementError.cs" />
+    <Compile Include="Plans\Elements\ElementType.cs" />
+    <Compile Include="Plans\Elements\IElementBackground.cs" />
+    <Compile Include="Plans\Elements\IElementBase.cs" />
+    <Compile Include="Plans\Elements\IElementBorder.cs" />
+    <Compile Include="Plans\Elements\IElementDelay.cs" />
+    <Compile Include="Plans\Elements\IElementDirection.cs" />
+    <Compile Include="Plans\Elements\IElementMPT.cs" />
+    <Compile Include="Plans\Elements\IElementPumpStation.cs" />
+    <Compile Include="Plans\Elements\IElementRectangle.cs" />
+    <Compile Include="Plans\Elements\IElementSubPlan.cs" />
+    <Compile Include="Plans\Elements\IElementTextBlock.cs" />
+    <Compile Include="Plans\Elements\IElementZone.cs" />
+    <Compile Include="Plans\Elements\IPrimitive.cs" />
+    <Compile Include="Plans\Elements\PlanElementBindingItem.cs" />
+    <Compile Include="Plans\Elements\Primitive.cs" />
+    <Compile Include="Plans\Interfaces\IChangedNotification.cs" />
+    <Compile Include="Plans\Interfaces\IElementReference.cs" />
+    <Compile Include="Plans\Interfaces\IMultipleVizualization.cs" />
+    <Compile Include="Plans\Interfaces\IPlanPresentable.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\ControlOpcDaTagStep.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
@@ -595,10 +624,6 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
-      <Name>Infrustructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\RubezhLicense\RubezhLicense.csproj">
       <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>

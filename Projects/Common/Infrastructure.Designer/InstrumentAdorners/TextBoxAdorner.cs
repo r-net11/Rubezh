@@ -1,7 +1,7 @@
-﻿using RubezhAPI.Models;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {
@@ -12,7 +12,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementTextBox();
 			var propertiesViewModel = new TextBoxPropertiesViewModel(element);

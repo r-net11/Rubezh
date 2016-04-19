@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Common;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.SKD;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -15,7 +6,15 @@ using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
 using RubezhAPI;
-using Infrustructure.Plans.Interfaces;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Interfaces;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace FireAdministrator.ViewModels
 {

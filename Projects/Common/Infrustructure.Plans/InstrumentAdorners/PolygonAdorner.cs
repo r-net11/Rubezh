@@ -1,9 +1,10 @@
-﻿using System.Windows;
+﻿using Infrustructure.Plans.Designer;
+using RubezhAPI.Plans.Elements;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+//using PointCollection = Common.PointCollection;
 
 namespace Infrustructure.Plans.InstrumentAdorners
 {
@@ -84,7 +85,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 							ElementBaseShape element = CreateElement();
 							if (element != null)
 							{
-								element.Points = new PointCollection(Points);
+								element.Points = Points.ToRubezhPointCollection();
 								DesignerCanvas.CreateDesignerItem(element);
 							}
 						}
@@ -131,7 +132,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 				if (element != null)
 				{
 					Points.RemoveAt(Points.Count - 1);
-					element.Points = new PointCollection(Points);
+					element.Points = Points.ToRubezhPointCollection();
 					DesignerCanvas.CreateDesignerItem(element);
 				}
 				Cleanup();

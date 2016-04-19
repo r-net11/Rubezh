@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Interfaces;
+﻿using RubezhAPI.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -158,7 +158,7 @@ namespace RubezhAPI.GK
 				}
 			}
 		}
-		
+
 		void CreatReflectionDevices(GKDeviceConfiguration deviceConfiguration, bool isDetectorMirror = false)
 		{
 			var _device = new List<GKDevice>();

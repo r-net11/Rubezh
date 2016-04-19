@@ -1,6 +1,6 @@
-﻿using System.Windows.Media;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Designer;
+using RubezhAPI.Plans.Elements;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {

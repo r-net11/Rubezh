@@ -1,4 +1,10 @@
-﻿using System;
+﻿using Infrastructure.Common.Services;
+using Infrastructure.Designer.DesignerItems;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.InstrumentAdorners;
+using RubezhAPI.Plans.Elements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -6,11 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrastructure.Common.Services;
-using Infrastructure.Designer.DesignerItems;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.InstrumentAdorners;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {
@@ -37,13 +38,13 @@ namespace Infrastructure.Designer.InstrumentAdorners
 					case ElementType.Polygon:
 						shape = new Polygon()
 						{
-							Points = element.Points
+							Points = element.Points.ToWindowsPointCollection()
 						};
 						break;
 					case ElementType.Polyline:
 						shape = new Polyline()
 						{
-							Points = element.Points
+							Points = element.Points.ToWindowsPointCollection()
 						};
 						break;
 				}
@@ -74,7 +75,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 					var element = (ElementBaseShape)designerItem.Element;
 					var points = element.Points;
 
-					int index = CalculateIndex(element.Points, e.GetPosition(AdornerCanvas), element.Type == ElementType.Polygon);
+					int index = CalculateIndex(element.Points.ToWindowsPointCollection(), e.GetPosition(AdornerCanvas), element.Type == ElementType.Polygon);
 					if (index > -1)
 					{
 						designerItem.IsSelected = true;

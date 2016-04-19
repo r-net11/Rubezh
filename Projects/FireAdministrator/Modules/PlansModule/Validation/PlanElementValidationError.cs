@@ -1,10 +1,10 @@
-﻿using System;
-using RubezhClient;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Plans.Elements;
+using RubezhClient;
+using System;
 
 namespace PlansModule.Validation
 {

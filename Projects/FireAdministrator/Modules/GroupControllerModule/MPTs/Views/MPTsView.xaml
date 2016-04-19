@@ -28,7 +28,7 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="2*" MinWidth="200" />
 			</Grid.ColumnDefinitions>
-			<DataGrid Grid.Column="0" ContextMenu="{StaticResource MptContextMenu}" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True">
+			<DataGrid Grid.Column="0" ContextMenu="{StaticResource MptContextMenu}" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True" SelectionChanged="DataGrid_SelectionChanged">
 				<DataGrid.InputBindings>
 					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 				</DataGrid.InputBindings>

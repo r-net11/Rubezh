@@ -12,7 +12,7 @@
 			<ColumnDefinition Width="3*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0">
-			<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+			<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="DataGrid_SelectionChanged">
 				<DataGrid.InputBindings>
 					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 				</DataGrid.InputBindings>

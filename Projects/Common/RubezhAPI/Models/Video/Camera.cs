@@ -1,6 +1,6 @@
 ﻿using Common;
-using Infrustructure.Plans.Interfaces;
 using RubezhAPI.GK;
+using RubezhAPI.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using RubezhAPI.Plans.Devices;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Infrustructure.Plans.Devices;
 
 namespace RubezhAPI.GK
 {

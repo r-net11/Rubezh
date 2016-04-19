@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using Infrastructure.Automation;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
-using RubezhAPI.Models;
-using Infrastructure.Automation;
-using RubezhClient;
-using System.Linq;
-using System.Collections.Generic;
 using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,7 +24,7 @@ namespace AutomationModule.ViewModels
 
 		public string PresentationName
 		{
-			get 
+			get
 			{
 				if (ElementType == typeof(ElementGKDevice))
 				{
@@ -131,8 +130,8 @@ namespace AutomationModule.ViewModels
 				}
 				if (ElementType == typeof(ElementProcedure))
 					return "Процедура: " + AutomationHelper.GetProcedureName(((ElementProcedure)ElementBase).ProcedureUID);
-				
-				return ElementBase.PresentationName; 
+
+				return ElementBase.PresentationName;
 			}
 		}
 
@@ -149,7 +148,7 @@ namespace AutomationModule.ViewModels
 				if (plan != null)
 					return plan;
 			}
-			return null;				
+			return null;
 		}
 
 		public Guid Uid

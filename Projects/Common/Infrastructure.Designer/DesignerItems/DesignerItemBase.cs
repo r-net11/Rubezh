@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using Infrastructure.Client.Plans.ViewModels;
+﻿using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using RubezhAPI.Plans.Elements;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Infrastructure.Designer.DesignerItems
 {

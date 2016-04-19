@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
 using Infrastructure.Designer.InstrumentAdorners;
 using PlansModule.ViewModels;
+using RubezhAPI.Plans.Elements;
 
 namespace PlansModule.InstrumentAdorners
 {
@@ -13,7 +14,7 @@ namespace PlansModule.InstrumentAdorners
 		{
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleSubPlan();
 			var propertiesViewModel = new SubPlanPropertiesViewModel(element);

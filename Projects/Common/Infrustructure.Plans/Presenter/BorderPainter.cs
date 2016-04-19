@@ -1,5 +1,5 @@
-﻿using System.Windows.Media;
-using Infrustructure.Plans.Painters;
+﻿using Infrustructure.Plans.Painters;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Presenter
 {
@@ -60,7 +60,7 @@ namespace Infrustructure.Plans.Presenter
 					var figure = _geometry.Figures[0];
 					figure.StartPoint = points[0];
 					var polyLine = (PolyLineSegment)figure.Segments[0];
-					polyLine.Points = points;
+					polyLine.Points = points.ToWindowsPointCollection();
 				}
 			}
 		}

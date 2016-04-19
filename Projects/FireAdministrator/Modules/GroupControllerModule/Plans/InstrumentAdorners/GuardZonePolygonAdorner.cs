@@ -1,13 +1,14 @@
 ﻿using System.Windows.Media;
-using System.Windows.Shapes;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
 using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
+using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using System.Windows.Shapes;
 
 namespace GKModule.Plans.InstrumentAdorners
 {

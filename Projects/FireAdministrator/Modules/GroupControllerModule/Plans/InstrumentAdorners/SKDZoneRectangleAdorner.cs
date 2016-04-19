@@ -1,11 +1,11 @@
-﻿using RubezhAPI.GK;
-using RubezhAPI.Models;
-using GKModule.Plans.ViewModels;
+﻿using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
@@ -19,7 +19,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			_skdZonesViewModel = skdZonesViewModel;
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleGKSKDZone();
 			var propertiesViewModel = new SKDZonePropertiesViewModel(element, _skdZonesViewModel);
