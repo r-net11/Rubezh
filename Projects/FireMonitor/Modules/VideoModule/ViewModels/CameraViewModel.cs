@@ -24,6 +24,7 @@ namespace VideoModule.ViewModels
 		public CameraViewModel()
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
+			ShowPropertiesOrPlanCommand = new RelayCommand(OnShowOrPlanProperties, CanShowProperties);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 		}
@@ -73,8 +74,8 @@ namespace VideoModule.ViewModels
 			OnPropertyChanged(() => IsOnGuard);
 			OnPropertyChanged(() => IsRecordOnline);
 		}
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		public RelayCommand ShowPropertiesOrPlanCommand { get; private set; }
+		void OnShowOrPlanProperties()
 		{
 			if (ShowOnPlanHelper.ShowObjectOnPlan(Camera))
 			DialogService.ShowWindow(new CameraDetailsViewModel(Camera));
@@ -99,5 +100,13 @@ namespace VideoModule.ViewModels
 		{
 			return Camera!= null && ShowOnPlanHelper.CanShowOnPlan(Camera);
 		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+
+		void OnShowProperties()
+		{
+			DialogService.ShowWindow(new CameraDetailsViewModel(Camera));
+		}
+
 	}
 }
