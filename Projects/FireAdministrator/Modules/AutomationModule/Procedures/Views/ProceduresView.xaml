@@ -63,7 +63,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<DataGrid ContextMenu="{StaticResource ProcedureContextMenu}" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
+			<DataGrid ContextMenu="{StaticResource ProcedureContextMenu}" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False" SelectionChanged="DataGrid_SelectionChanged">
 				<DataGrid.InputBindings>
 					<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 				</DataGrid.InputBindings>

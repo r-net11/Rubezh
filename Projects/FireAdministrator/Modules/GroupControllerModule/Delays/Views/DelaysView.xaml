@@ -1,7 +1,7 @@
 <UserControl x:Class="GKModule.Views.DelaysView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}">
+	<DataGrid CanUserSortColumns="True" ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}" SelectionChanged="DataGrid_SelectionChanged">
 		<DataGrid.InputBindings>
 			<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 			<KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCommand}" />
