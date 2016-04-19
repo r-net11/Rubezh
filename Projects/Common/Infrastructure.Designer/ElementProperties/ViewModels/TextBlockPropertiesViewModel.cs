@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Plans.Elements;
+using System.Collections.Generic;
 using System.Windows.Media;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {

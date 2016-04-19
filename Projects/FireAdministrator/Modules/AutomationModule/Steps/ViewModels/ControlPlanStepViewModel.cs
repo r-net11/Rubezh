@@ -1,10 +1,10 @@
 ﻿using Infrastructure.Automation;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using RubezhClient;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

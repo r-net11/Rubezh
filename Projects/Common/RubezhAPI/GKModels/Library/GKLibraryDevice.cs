@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RubezhAPI.Plans.Devices;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Devices;
 
 namespace RubezhAPI.GK
 {

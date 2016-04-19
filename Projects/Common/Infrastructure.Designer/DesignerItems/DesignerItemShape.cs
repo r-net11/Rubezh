@@ -1,10 +1,10 @@
-﻿using RubezhAPI;
-using RubezhAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.Adorners;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Services;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.DesignerItems
 {

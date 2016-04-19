@@ -4,15 +4,12 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.PlanLink.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Interfaces;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -33,8 +30,8 @@ namespace GKModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			Alarm = alarm;
 			var IplanElement = Alarm.GkBaseEntity as IPlanPresentable;
-			if(IplanElement != null)
-				PlanLinks = new PlanLinksViewModel(IplanElement);	
+			if (IplanElement != null)
+				PlanLinks = new PlanLinksViewModel(IplanElement);
 		}
 
 		public string ObjectName
@@ -199,7 +196,7 @@ namespace GKModule.ViewModels
 			{
 				return ShowOnPlanHelper.CanShowOnPlan(door);
 			}
-			
+
 			return false;
 		}
 

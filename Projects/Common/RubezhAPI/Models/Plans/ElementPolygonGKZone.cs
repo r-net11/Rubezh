@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RubezhAPI.Plans.Elements;
+using RubezhAPI.Plans.Interfaces;
+using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 
 namespace RubezhAPI.Models
 {
@@ -26,7 +26,7 @@ namespace RubezhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.PolygonZone; }
+			get { return RubezhAPI.Plans.Elements.Primitive.PolygonZone; }
 		}
 
 		#endregion

@@ -1,6 +1,6 @@
 ﻿using RubezhAPI.Models;
 using Infrastructure.Designer.DesignerItems;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Plans.Elements;
 using PlansModule.ViewModels;
 
 namespace PlansModule.Designer.DesignerItems

@@ -10,10 +10,10 @@ using GKWebService.Utils;
 using ImageMagick;
 using Infrastructure.Common.Services.Content;
 using Infrustructure.Plans;
-using Infrustructure.Plans.Elements;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,6 +36,7 @@ using System.Windows.Threading;
 using System.Xaml;
 using Colors = System.Windows.Media.Colors;
 using Point = System.Windows.Point;
+using PointCollection = Common.PointCollection;
 using Size = System.Drawing.Size;
 
 #endregion
@@ -152,16 +153,16 @@ namespace GKWebService.Models.Plan.PlanElement
 			return planElement;
 		}
 
-		public static Rect GetRectangle(RGPointCollection points)
+		public static Rect GetRectangle(PointCollection points)
 		{
 			double minLeft = double.MaxValue;
 			double minTop = double.MaxValue;
 			double maxLeft = 0;
 			double maxTop = 0;
 			if (points == null)
-				points = new RGPointCollection();
+				points = new PointCollection();
 
-			foreach (var point in points.Points)
+			foreach (var point in points)
 			{
 				if (point.X < minLeft)
 					minLeft = point.X;
@@ -179,20 +180,9 @@ namespace GKWebService.Models.Plan.PlanElement
 			return new Rect(minLeft, minTop, maxLeft - minLeft, maxTop - minTop);
 		}
 
-		public static PointCollection PointsFromRgPoints(RGPointCollection points)
-		{
-			var coll = new PointCollection();
-			foreach (var rgPoint in points.Points)
-			{
-				var point = new Point(rgPoint.X, rgPoint.Y);
-				coll.Add(point);
-			}
-			return coll;
-		}
-
 		public static PlanElement FromPolygon(ElementBasePolygon elem)
 		{
-			var rect = GetRectangle(elem.RGPoints);
+			var rect = GetRectangle(elem.Points);
 			var showState = false;
 			if (HasProperty(elem, "ShowState"))
 			{
@@ -379,7 +369,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			var backgroundImage = GetBackgroundContent(elem.BackgroundImageSource, elem.ImageType, elem.Width, elem.Height);
 			var shape = new PlanElement
 			{
-				Path = InternalConverter.PointsToPath(pt, PathKind.ClosedLine),
+				Path = InternalConverter.PointsToPath(pt.ToWindowsPointCollection(), PathKind.ClosedLine),
 				Border = InternalConverter.ConvertColor(elem.BorderColor.ToWindowsColor()),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				Name = elem.PresentationName,
@@ -439,7 +429,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			};
 			var shape = new PlanElement
 			{
-				Path = InternalConverter.PointsToPath(pt, PathKind.Ellipse),
+				Path = InternalConverter.PointsToPath(pt.ToWindowsPointCollection(), PathKind.Ellipse),
 				Border = InternalConverter.ConvertColor(item.BorderColor.ToWindowsColor()),
 				Fill = InternalConverter.ConvertColor(item.BackgroundColor.ToWindowsColor()),
 				BorderMouseOver = InternalConverter.ConvertColor(item.BorderColor.ToWindowsColor()),
@@ -470,7 +460,7 @@ namespace GKWebService.Models.Plan.PlanElement
 			}
 			var shape = new PlanElement
 			{
-				Path = InternalConverter.PointsToPath(PointsFromRgPoints(item.RGPoints), PathKind.ClosedLine),
+				Path = InternalConverter.PointsToPath(item.Points.ToWindowsPointCollection(), PathKind.ClosedLine),
 				Border = InternalConverter.ConvertColor(item.BorderColor.ToWindowsColor()),
 				BorderMouseOver = InternalConverter.ConvertColor(Colors.Orange),
 				Name = item.PresentationName,
@@ -514,7 +504,7 @@ namespace GKWebService.Models.Plan.PlanElement
 		{
 			var shape = new PlanElement
 			{
-				Path = InternalConverter.PointsToPath(elem.Points, PathKind.Line),
+				Path = InternalConverter.PointsToPath(elem.Points.ToWindowsPointCollection(), PathKind.Line),
 				Border = InternalConverter.ConvertColor(elem.BorderColor.ToWindowsColor()),
 				Fill = System.Drawing.Color.Transparent,
 				BorderMouseOver = InternalConverter.ConvertColor(elem.BorderColor.ToWindowsColor()),

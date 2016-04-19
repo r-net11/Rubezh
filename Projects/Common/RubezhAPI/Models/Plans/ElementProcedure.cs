@@ -1,6 +1,6 @@
 ﻿using Common;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
+using RubezhAPI.Plans.Elements;
+using RubezhAPI.Plans.Interfaces;
 using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Services;
+using RubezhAPI.Plans.Elements;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Services;
 
 namespace Infrastructure.Designer.ViewModels
 {

@@ -1,10 +1,11 @@
-﻿using RubezhAPI.GK;
-using RubezhAPI.Models;
-using GKModule.Plans.ViewModels;
+﻿using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
@@ -16,7 +17,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			this.pumpStationsViewModel = pumpStationsViewModel;
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleGKPumpStation();
 			var propertiesViewModel = new PumpStationPropertiesViewModel(element, this.pumpStationsViewModel);

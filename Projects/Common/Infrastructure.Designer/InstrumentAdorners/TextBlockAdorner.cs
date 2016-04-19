@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common.Windows;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementTextBlock();
 			var propertiesViewModel = new TextBlockPropertiesViewModel(element);

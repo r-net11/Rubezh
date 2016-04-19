@@ -3,9 +3,10 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
+using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Interfaces;
+using RubezhAPI.Plans.Elements;
+using RubezhAPI.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -152,7 +153,7 @@ namespace Infrastructure.Designer.ViewModels
 				}
 				Vector shift = new Vector(border.X - minLeft, border.Y - minTop);
 				foreach (var elementBase in elements)
-					elementBase.Position += shift;
+					elementBase.SetPosition(elementBase.GetPosition() + shift);
 			}
 		}
 	}

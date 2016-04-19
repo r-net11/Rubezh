@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
 using Infrustructure.Plans;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Kursk.Painters;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PlansModule.Kursk
 {

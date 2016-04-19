@@ -109,7 +109,7 @@ namespace Infrustructure.Plans.Designer
 				if (IsMoved)
 					foreach (var designerItem in _selectedItems)
 					{
-						designerItem.Element.Position += shift;
+						designerItem.Element.SetPosition(designerItem.Element.GetPosition() + shift);
 						designerItem.IsVisibleLayout = true;
 						designerItem.IsSelected = true;
 						designerItem.RefreshPainter();

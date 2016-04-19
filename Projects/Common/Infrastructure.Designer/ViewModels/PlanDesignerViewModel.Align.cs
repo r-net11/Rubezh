@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
+using System;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
 
 namespace Infrastructure.Designer.ViewModels
 {
@@ -30,7 +31,7 @@ namespace Infrastructure.Designer.ViewModels
 			Align((item, root) =>
 				{
 					Rect rect = item.Element.GetRectangle();
-					item.Element.Position = new Point(root.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+					item.Element.SetPosition(new Point(root.Left + rect.Width / 2, rect.Top + rect.Height / 2));
 				});
 		}
 		public RelayCommand AlignHorizontalCenterCommand { get; private set; }
@@ -39,7 +40,7 @@ namespace Infrastructure.Designer.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.Position = new Point(root.Left + root.Width / 2, rect.Top + rect.Height / 2);
+				item.Element.SetPosition(new Point(root.Left + root.Width / 2, rect.Top + rect.Height / 2));
 			});
 		}
 		public RelayCommand AlignHorizontalRightCommand { get; private set; }
@@ -48,7 +49,7 @@ namespace Infrastructure.Designer.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.Position = new Point(root.Right - rect.Width / 2, rect.Top + rect.Height / 2);
+				item.Element.SetPosition(new Point(root.Right - rect.Width / 2, rect.Top + rect.Height / 2));
 			});
 		}
 		public RelayCommand AlignVerticalTopCommand { get; private set; }
@@ -57,7 +58,7 @@ namespace Infrastructure.Designer.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.Position = new Point(rect.Left + rect.Width / 2, root.Top + rect.Height / 2);
+				item.Element.SetPosition(new Point(rect.Left + rect.Width / 2, root.Top + rect.Height / 2));
 			});
 		}
 		public RelayCommand AlignVerticalCenterCommand { get; private set; }
@@ -66,7 +67,7 @@ namespace Infrastructure.Designer.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.Position = new Point(rect.Left + rect.Width / 2, root.Top + root.Height / 2);
+				item.Element.SetPosition(new Point(rect.Left + rect.Width / 2, root.Top + root.Height / 2));
 			});
 		}
 		public RelayCommand AlignVerticalBottomCommand { get; private set; }
@@ -75,7 +76,7 @@ namespace Infrastructure.Designer.ViewModels
 			Align((item, root) =>
 			{
 				Rect rect = item.Element.GetRectangle();
-				item.Element.Position = new Point(rect.Left + rect.Width / 2, root.Bottom - rect.Height / 2);
+				item.Element.SetPosition(new Point(rect.Left + rect.Width / 2, root.Bottom - rect.Height / 2));
 			});
 		}
 

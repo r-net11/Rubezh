@@ -4,8 +4,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.PlanLink.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;

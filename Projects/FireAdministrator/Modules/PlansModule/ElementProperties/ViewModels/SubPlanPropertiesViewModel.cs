@@ -1,9 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
-using Infrustructure.Plans.Elements;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using RubezhClient;
+using System.Collections.ObjectModel;
 
 namespace PlansModule.ViewModels
 {
