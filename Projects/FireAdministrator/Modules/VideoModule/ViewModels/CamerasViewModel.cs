@@ -96,8 +96,13 @@ namespace VideoModule.ViewModels
 				var rviDeviceSelectionViewModel = new RviDeviceSelectionViewModel(rviServers);
 				if (DialogService.ShowModalWindow(rviDeviceSelectionViewModel))
 				{
+					var oldCameras = ClientManager.SystemConfiguration.Cameras;
 					ClientManager.SystemConfiguration.RviServers = rviDeviceSelectionViewModel.RviServers;
 					ClientManager.SystemConfiguration.UpdateRviConfiguration();
+					foreach (var removedCamera in oldCameras.Where(oldCamera => !ClientManager.SystemConfiguration.Cameras.Any(newCamera => newCamera.UID == oldCamera.UID)))
+					{
+						removedCamera.OnChanged();
+					}
 					Initialize();
 					ServiceFactory.SaveService.CamerasChanged = true;
 					PlanExtension.Instance.Cache.BuildSafe<Camera>();
