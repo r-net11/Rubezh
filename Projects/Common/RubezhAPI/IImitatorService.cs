@@ -11,7 +11,7 @@ namespace RubezhAPI
 		OperationResult<string> TestImitator();
 
 		[OperationContract]
-		OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command);
+		OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command, bool isPim);
 
 		[OperationContract]
 		OperationResult<bool> EnterCard(Guid uid, uint cardNo, GKCodeReaderEnterType enterType);
