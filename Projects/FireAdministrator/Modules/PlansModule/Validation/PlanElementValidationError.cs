@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Validation;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Events;
 using RubezhAPI.Plans.Elements;
 using RubezhClient;

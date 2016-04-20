@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {

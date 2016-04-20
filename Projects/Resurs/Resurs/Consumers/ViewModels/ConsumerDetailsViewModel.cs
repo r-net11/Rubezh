@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.Windows.ViewModels;
 using ResursAPI;
 using ResursDAL;
 using System;

@@ -1,6 +1,6 @@
 ﻿using GKProcessor;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.License;
 using RubezhAPI.Models;

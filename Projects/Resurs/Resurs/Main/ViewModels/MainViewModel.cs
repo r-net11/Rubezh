@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace Resurs.ViewModels
 {

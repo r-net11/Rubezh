@@ -2,7 +2,7 @@
 using RubezhAPI;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Common;
 using Npgsql;
 using System.Data.SqlClient;

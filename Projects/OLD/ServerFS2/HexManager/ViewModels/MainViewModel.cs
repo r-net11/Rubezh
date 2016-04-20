@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 using FS2Api;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using FiresecAPI.Models;

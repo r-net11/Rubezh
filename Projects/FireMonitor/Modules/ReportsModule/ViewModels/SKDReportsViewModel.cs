@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using RubezhClient;
-using Infrastructure.Common.SKDReports;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.SKDReports;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace ReportsModule.ViewModels
 {

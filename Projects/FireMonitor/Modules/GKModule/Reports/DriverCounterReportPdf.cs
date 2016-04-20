@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using CodeReason.Reports;
 using Controls.PDF;
-using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows.Reports;
 using iTextSharp.text;
 
 namespace GKModule.Reports

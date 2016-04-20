@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI.Automation;
 using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels

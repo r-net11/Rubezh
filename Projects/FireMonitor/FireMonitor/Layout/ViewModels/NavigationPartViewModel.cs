@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 

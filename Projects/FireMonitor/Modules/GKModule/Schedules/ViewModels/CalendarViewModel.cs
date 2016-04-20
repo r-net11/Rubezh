@@ -5,8 +5,8 @@ using System.Globalization;
 using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

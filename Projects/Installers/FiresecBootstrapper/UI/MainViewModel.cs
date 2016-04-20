@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
 
 namespace UI

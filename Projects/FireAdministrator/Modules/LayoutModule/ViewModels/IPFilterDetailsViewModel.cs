@@ -1,5 +1,5 @@
 ﻿using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using System.Text.RegularExpressions;
 
 namespace LayoutModule.ViewModels

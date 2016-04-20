@@ -3,8 +3,8 @@ using RubezhAPI;
 using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Client;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
 using Infrastructure.Events;
 using SecurityModule.ViewModels;
 

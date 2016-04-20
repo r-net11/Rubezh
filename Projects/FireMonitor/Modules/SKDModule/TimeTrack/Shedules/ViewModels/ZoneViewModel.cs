@@ -2,7 +2,7 @@
 //using System.Collections.ObjectModel;
 //using System.Linq;
 //using RubezhAPI;
-//using Infrastructure.Common.TreeList;
+//using Infrastructure.Common.Windows.TreeList;
 //using RubezhAPI.GK;
 
 //namespace SKDModule.ViewModels

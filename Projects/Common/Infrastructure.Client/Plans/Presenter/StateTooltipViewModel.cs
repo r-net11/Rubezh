@@ -1,6 +1,6 @@
 ﻿using Common;
 using RubezhAPI.GK;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace Infrastructure.Client.Plans.Presenter
 {

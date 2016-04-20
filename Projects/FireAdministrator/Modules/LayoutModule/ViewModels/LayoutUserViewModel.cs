@@ -1,6 +1,6 @@
 ﻿using System;
 using RubezhAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {

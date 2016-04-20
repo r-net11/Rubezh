@@ -1,8 +1,8 @@
 ﻿using DeviceControls;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.TreeList;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using RubezhAPI.Models;

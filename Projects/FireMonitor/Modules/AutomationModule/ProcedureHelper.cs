@@ -1,7 +1,7 @@
 ﻿using AutomationModule.ViewModels;
 using Infrastructure.Automation;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using RubezhAPI.Automation;
 using RubezhAPI.Models;
 using RubezhClient;

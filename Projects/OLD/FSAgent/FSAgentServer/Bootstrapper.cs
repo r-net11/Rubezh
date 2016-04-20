@@ -4,9 +4,9 @@ using System.Threading;
 using Common;
 using FiresecDB;
 using FSAgentServer.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.BalloonTrayTip;
+using Infrastructure.Common.Windows.Windows;
 
 namespace FSAgentServer
 {

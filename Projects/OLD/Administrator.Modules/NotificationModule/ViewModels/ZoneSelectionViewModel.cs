@@ -5,8 +5,8 @@ using System.Linq;
 using DevicesModule.ViewModels;
 using FiresecAPI;
 using FiresecClient;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace NotificationModule.ViewModels
 {

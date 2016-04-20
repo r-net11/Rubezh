@@ -4,7 +4,7 @@ using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.Validation;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhAPI;
 

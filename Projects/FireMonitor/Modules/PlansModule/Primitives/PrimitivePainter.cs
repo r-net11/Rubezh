@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrustructure.Plans.Painters;
 using RubezhAPI.Plans.Elements;
 using System;

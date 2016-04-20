@@ -3,7 +3,7 @@
 //using FiresecClient;
 //using FS2Api;
 //using Infrastructure;
-//using Infrastructure.Common.Windows;
+//using Infrastructure.Common.Windows.Windows;
 
 //namespace DevicesModule.ViewModels
 //{

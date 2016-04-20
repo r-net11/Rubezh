@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
@@ -34,7 +34,7 @@ namespace DevicesModule.ViewModels
 
 			if (device.IndicatorLogic.Device == null && device.IndicatorLogic.Zones.Count == 0)
 			{
-				var intLogicType = Infrastructure.Common.RegistrySettingsHelper.GetInt("FireAdministrator.Indicator.IndicatorLogicType");
+				var intLogicType = Infrastructure.Common.Windows.RegistrySettingsHelper.GetInt("FireAdministrator.Indicator.IndicatorLogicType");
 				if (intLogicType != 0)
 				{
 					device.IndicatorLogic.IndicatorLogicType = (IndicatorLogicType)intLogicType;

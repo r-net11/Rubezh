@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
 using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;

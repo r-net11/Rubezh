@@ -1,8 +1,8 @@
 ﻿using GKImitator.ViewModels;
 using GKImitator.Views;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.Windows;
 
 namespace GKImitator
 {

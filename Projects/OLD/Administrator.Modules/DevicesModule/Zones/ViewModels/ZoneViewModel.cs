@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {

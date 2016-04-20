@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecClient;
-using Infrastructure.Common.Validation;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Windows;
 
 namespace OPCModule.Validation
 {

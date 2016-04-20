@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common;
+﻿using Infrastructure.Common.Windows;
 using Resurs.Processor;
 using ResursAPI;
 using System;

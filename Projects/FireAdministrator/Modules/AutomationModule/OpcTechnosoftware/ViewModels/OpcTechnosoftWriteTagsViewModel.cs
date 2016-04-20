@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpcClientSdk.Da;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {

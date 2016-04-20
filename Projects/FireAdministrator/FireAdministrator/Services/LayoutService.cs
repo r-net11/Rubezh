@@ -1,13 +1,13 @@
-﻿using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace FireAdministrator
 {
 	public class LayoutService : Infrastructure.ILayoutService
 	{
-		private Infrastructure.Common.Windows.ILayoutService ApplicationLayoutService
+		private Infrastructure.Common.Windows.Windows.ILayoutService ApplicationLayoutService
 		{
-			get { return Infrastructure.Common.Windows.ApplicationService.Layout; }
+			get { return Infrastructure.Common.Windows.Windows.ApplicationService.Layout; }
 		}
 
 		#region ILayoutService Members

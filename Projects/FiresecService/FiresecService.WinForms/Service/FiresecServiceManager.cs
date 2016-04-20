@@ -1,6 +1,6 @@
 ﻿using Common;
 using FiresecService.Presenters;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using System;
 using System.ServiceModel;
 using System.Windows.Forms;

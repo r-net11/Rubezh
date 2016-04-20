@@ -10,7 +10,7 @@ using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 using RubezhAPI;
 using FiresecService.Report.DataSources;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace FiresecService.Report.Templates
 {

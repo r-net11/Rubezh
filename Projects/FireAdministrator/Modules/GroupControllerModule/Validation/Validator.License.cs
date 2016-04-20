@@ -1,5 +1,5 @@
 ﻿using RubezhClient;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 using RubezhAPI.License;
 using RubezhAPI;
 

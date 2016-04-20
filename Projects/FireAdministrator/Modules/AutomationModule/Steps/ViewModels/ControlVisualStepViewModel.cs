@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Windows.Windows;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.Models.Layouts;

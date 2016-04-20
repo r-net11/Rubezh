@@ -1,11 +1,11 @@
 ﻿using RubezhAPI.GK;
 using RubezhClient;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.TreeList;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using RubezhAPI;
 
 namespace GKModule.ViewModels

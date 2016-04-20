@@ -2,7 +2,7 @@
 using System.Linq;
 using RubezhAPI.Models.Layouts;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows.Services.Layout;
 using System;
 using RubezhAPI.GK;
 using RubezhClient;

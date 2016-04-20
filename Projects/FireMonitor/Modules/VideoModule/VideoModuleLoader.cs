@@ -1,10 +1,10 @@
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using RubezhAPI;

@@ -1,6 +1,6 @@
 using RubezhAPI;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Windows.TreeList;
 
 namespace LayoutModule.ViewModels
 {

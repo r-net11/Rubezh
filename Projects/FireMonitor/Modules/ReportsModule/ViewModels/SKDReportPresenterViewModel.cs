@@ -1,17 +1,17 @@
 ﻿using Common;
 using DevExpress.DocumentServices.ServiceModel.Client;
 using DevExpress.Xpf.Printing;
-using Infrastructure.Common;
-using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.SKDReports;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using RubezhAPI.SKD.ReportFilters;
 using RubezhClient;
 using System;
 using System.ServiceModel;
 using System.Windows.Input;
 using System.Windows.Threading;
-using DialogService = Infrastructure.Common.Windows.DialogService;
+using DialogService = Infrastructure.Common.Windows.Windows.DialogService;
 
 namespace ReportsModule.ViewModels
 {

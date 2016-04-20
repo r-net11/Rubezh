@@ -1,7 +1,7 @@
 ﻿using GKProcessor;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhClient;

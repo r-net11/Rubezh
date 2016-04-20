@@ -14,7 +14,7 @@
 				<File Id="OPC.GKOPCServer.exe"							Name="GKOPCServer.exe"					Source="$(var.OPC.TargetDir)" KeyPath="yes" />
 				<File Id="OPC.GKOPCServer.exe.config"					Name="GKOPCServer.exe.config"			Source="$(var.OPC.TargetDir)" />
 				<File Id="OPC.GKOPCServer.exe.manifest"					Name="GKOPCServer.exe.manifest"			Source="$(var.OPC.TargetDir)" />
-				<File Id="OPC.Infrastructure.Common.dll"				Name="Infrastructure.Common.dll"		Source="$(var.Common.TargetDir)" />
+				<File Id="OPC.Infrastructure.Common.Windows.dll"				Name="Infrastructure.Common.Windows.dll"		Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.Infrustructure.Plans.dll"					Name="Infrustructure.Plans.dll"			Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.Common.dll"								Name="Common.dll"						Source="$(var.Common.TargetDir)" />
 				<File Id="OPC.GKProcessor.dll"							Name="GKProcessor.dll"					Source="$(var.Common.TargetDir)" />

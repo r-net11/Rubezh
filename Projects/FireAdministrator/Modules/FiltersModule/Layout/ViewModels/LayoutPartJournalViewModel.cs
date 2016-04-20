@@ -4,7 +4,7 @@ using RubezhAPI;
 using RubezhAPI.Models.Layouts;
 using RubezhAPI.SKD;
 using Infrastructure.Client.Layout.ViewModels;
-using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows.Services.Layout;
 using RubezhClient;
 using RubezhAPI.Journal;
 

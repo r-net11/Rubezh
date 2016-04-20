@@ -5,8 +5,8 @@ using System.Linq;
 using Common;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD.ReportFilters;
-using Infrastructure.Common;
-using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.SKDReports;
 
 namespace SKDModule.Reports.ViewModels
 {

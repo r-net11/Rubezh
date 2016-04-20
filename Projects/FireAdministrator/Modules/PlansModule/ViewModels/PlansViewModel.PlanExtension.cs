@@ -1,7 +1,7 @@
 ﻿using Controls.Converters;
 using Infrastructure.Client.Plans;
-using Infrastructure.Common;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Validation;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer;

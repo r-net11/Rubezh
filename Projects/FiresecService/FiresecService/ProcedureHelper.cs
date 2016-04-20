@@ -1,6 +1,6 @@
 ﻿using FiresecService.Service;
 using Infrastructure.Automation;
-using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows.BalloonTrayTip;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;

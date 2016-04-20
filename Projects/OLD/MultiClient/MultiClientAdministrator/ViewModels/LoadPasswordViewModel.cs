@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using MuliclientAPI;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using MuliclientAPI;
+using Infrastructure.Common.Windows.Windows;
 
 namespace MultiClientAdministrator.ViewModels
 {

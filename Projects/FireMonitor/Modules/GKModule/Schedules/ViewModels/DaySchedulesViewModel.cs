@@ -5,9 +5,9 @@ using System.Linq;
 using System.Windows.Input;
 using RubezhAPI.GK;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels

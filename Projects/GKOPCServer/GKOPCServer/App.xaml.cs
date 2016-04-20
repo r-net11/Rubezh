@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
 using Common;
-using Infrastructure.Common;
-using Infrastructure.Common.Theme;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Theme;
 
 namespace GKOPCServer
 {

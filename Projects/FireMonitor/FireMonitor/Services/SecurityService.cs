@@ -1,8 +1,8 @@
 ﻿using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Client.Login.ViewModels;
 
 namespace FireMonitor

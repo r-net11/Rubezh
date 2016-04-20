@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using RubezhClient;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 
 namespace AutomationModule.Validation
 {

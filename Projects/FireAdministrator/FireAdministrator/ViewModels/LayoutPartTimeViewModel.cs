@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using Common;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Client.Images;
 using Infrastructure.Client.Layout.ViewModels;
 

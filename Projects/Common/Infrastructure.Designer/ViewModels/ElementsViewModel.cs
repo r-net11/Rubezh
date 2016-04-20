@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using RubezhAPI.Plans.Elements;

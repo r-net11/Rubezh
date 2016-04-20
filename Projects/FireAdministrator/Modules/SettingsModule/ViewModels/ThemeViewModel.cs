@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Infrastructure.Common.Theme;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Theme;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace SettingsModule.ViewModels
 {

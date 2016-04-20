@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using ResursAPI;
@@ -132,7 +132,7 @@ namespace Resurs.ViewModels
 		void OnShowReceipt()
 		{
 			//var receiptViewModel = new ReceiptViewModel(SelectedReceipt, Bill);
-			//Infrastructure.Common.Windows.DialogService.ShowModalWindow(receiptViewModel);
+			//Infrastructure.Common.Windows.Windows.DialogService.ShowModalWindow(receiptViewModel);
 		}
 		bool CanShowReceipt()
 		{

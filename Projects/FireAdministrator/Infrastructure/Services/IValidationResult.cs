@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common;
+﻿using Infrastructure.Common.Windows;
 namespace Infrastructure
 {
 	public interface IValidationResult

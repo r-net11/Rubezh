@@ -1,5 +1,5 @@
 ﻿using Infrastructure;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.TreeList;
 using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels

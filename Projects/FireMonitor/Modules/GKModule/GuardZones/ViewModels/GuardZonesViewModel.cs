@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using RubezhAPI.Models.Layouts;
 using System.Windows;
 using RubezhAPI;

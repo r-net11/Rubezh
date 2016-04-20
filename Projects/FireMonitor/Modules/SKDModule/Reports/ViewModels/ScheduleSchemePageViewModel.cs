@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows.SKDReports;
 using RubezhAPI.SKD.ReportFilters;
 using SKDModule.ViewModels;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Common;
 using RubezhClient.SKDHelpers;
 using RubezhAPI.SKD;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.TreeList;
 
 namespace SKDModule.Reports.ViewModels
 {

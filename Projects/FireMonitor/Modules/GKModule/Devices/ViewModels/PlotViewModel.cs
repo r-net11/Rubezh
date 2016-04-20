@@ -5,9 +5,9 @@ using System.Windows;
 using System.Windows.Threading;
 using RubezhAPI.GK;
 using RubezhClient;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Microsoft.Research.DynamicDataDisplay.Common;
 
 namespace GKModule.ViewModels

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows.Windows;
 using RubezhAPI;
 using RubezhClient;
 using System;

@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using CodeReason.Reports;
 using JournalModule.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Reports;
+using Infrastructure.Common.Windows.Windows;
 using RubezhAPI.Journal;
 using System;
 

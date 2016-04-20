@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows.Threading;
 using Common;
 using FiresecAPI;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using System.Text;
 
 namespace FSAgentServer

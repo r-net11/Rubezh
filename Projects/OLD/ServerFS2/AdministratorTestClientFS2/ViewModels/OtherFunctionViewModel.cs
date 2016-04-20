@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using ServerFS2;
 using ServerFS2.Operations;
 

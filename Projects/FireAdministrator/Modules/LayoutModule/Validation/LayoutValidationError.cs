@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 using Infrastructure.Events;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace LayoutModule.Validation
 {

@@ -1,5 +1,5 @@
 ﻿using GKModule.Plans;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Interfaces;

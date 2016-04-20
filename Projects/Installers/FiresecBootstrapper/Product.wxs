@@ -8,7 +8,7 @@
     <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
       <Payload SourceFile="UI\BootstrapperCore.config"/>
       <Payload SourceFile="UI\bin\Release\UI.dll"/>
-      <Payload SourceFile="UI\bin\Release\Infrastructure.Common.dll"/>
+      <Payload SourceFile="UI\bin\Release\Infrastructure.Common.Windows.dll"/>
       <Payload SourceFile="UI\bin\Release\Common.dll"/>
       <Payload SourceFile="UI\bin\Release\Infrustructure.Plans.dll"/>
       <Payload SourceFile="UI\bin\Release\NLog.dll"/>

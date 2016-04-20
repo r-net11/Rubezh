@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using GKOPCServer.ViewModels;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 
 namespace GKOPCServer.Views
 {

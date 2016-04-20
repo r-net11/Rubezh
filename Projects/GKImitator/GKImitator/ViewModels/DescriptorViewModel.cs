@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using RubezhAPI.GK;
 using GKImitator.Processor;
 using GKProcessor;
-using Infrastructure.Common;
-using System.Collections.Generic;
 using Infrastructure.Common.Windows;
+using System.Collections.Generic;
+using Infrastructure.Common.Windows.Windows;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels

@@ -8,7 +8,7 @@ using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using RubezhAPI;
 using GKProcessor;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Ionic.Zip;
 
 namespace FiresecService

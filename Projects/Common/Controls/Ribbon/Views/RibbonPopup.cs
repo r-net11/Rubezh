@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Common;
-using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows.Ribbon;
 
 namespace Controls.Ribbon.Views
 {

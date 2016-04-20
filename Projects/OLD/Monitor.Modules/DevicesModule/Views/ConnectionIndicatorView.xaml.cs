@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using FiresecClient;
 using FSAgentClient;
-using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows.BalloonTrayTip;
 
 namespace DevicesModule.Views
 {

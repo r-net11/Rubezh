@@ -1,5 +1,5 @@
 ﻿using RubezhAPI.GK;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.TreeList;
 
 namespace GKModule.ViewModels
 {

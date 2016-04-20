@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RubezhAPI;
-using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows.SKDReports;
 using System.Collections.Specialized;
 
 namespace ReportsModule.ViewModels

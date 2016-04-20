@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using RubezhAPI;
-using Infrastructure.Common.Theme;
+using Infrastructure.Common.Windows.Theme;
 
 namespace SettingsModule.Converters
 {

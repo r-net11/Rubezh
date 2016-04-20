@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using RubezhAPI.GK;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using RubezhAPI;
 
 namespace GKProcessor

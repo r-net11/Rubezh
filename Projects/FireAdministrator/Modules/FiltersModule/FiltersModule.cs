@@ -7,10 +7,10 @@ using RubezhAPI;
 using RubezhAPI.Models.Layouts;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Windows.Validation;
 
 namespace FiltersModule
 {

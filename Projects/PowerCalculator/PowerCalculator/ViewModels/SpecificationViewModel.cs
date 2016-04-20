@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using PowerCalculator.Models;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
+using PowerCalculator.Models;
+using Infrastructure.Common.Windows.Windows;
 using System;
 using System.Collections.Generic;
 

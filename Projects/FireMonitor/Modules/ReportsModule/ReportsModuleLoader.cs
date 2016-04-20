@@ -3,15 +3,15 @@ using RubezhAPI;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Reports;
-using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common.Windows.Reports;
+using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Events;
 using Infrastructure.Events.Reports;
 using ReportsModule.ViewModels;
-using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows.SKDReports;
 using System.Linq;
 
 namespace ReportsModule

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Validation;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrastructure.Events;
 
 namespace FireAdministrator.ViewModels

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 
 namespace Infrastructure.Designer.ViewModels

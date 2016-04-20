@@ -216,9 +216,9 @@
       <Project>{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}</Project>
       <Name>FS2API</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+    <ProjectReference Include="..\..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
-      <Name>Infrastructure.Common</Name>
+      <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServerFS2\ServerFS2.csproj">
       <Project>{41D4B526-16ED-449D-883C-684C7EA59FD7}</Project>

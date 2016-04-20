@@ -3,9 +3,9 @@ using DiagnosticsModule.Events;
 using DiagnosticsModule.ViewModels;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common.Windows.Services.Layout;
 using Infrastructure.Events;
 
 namespace DiagnosticsModule

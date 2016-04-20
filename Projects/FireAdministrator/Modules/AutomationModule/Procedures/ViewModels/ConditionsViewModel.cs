@@ -2,10 +2,10 @@
 using System.Linq;
 using RubezhClient;
 using Infrastructure;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using RubezhAPI.Automation;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using System;
 

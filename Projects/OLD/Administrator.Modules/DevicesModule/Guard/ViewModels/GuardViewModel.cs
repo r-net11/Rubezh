@@ -8,9 +8,9 @@ using DevicesModule.Validation;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Ribbon;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels

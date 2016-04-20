@@ -5,7 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FSAgentClient;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace Firesec
 {

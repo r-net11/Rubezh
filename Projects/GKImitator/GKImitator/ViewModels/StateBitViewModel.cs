@@ -2,7 +2,7 @@
 using RubezhAPI.GK;
 using GKImitator.Processor;
 using GKProcessor;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace GKImitator.ViewModels
 {

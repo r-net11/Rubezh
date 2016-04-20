@@ -4,8 +4,8 @@ using System.Linq;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels

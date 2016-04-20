@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using System.Diagnostics;
 using System.Data.Objects;
 using System.Data.Entity.Infrastructure;

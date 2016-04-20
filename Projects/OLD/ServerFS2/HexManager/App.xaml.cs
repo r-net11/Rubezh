@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using HexManager.ViewModels;
 using HexManager.Views;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 
 namespace HexManager
 {

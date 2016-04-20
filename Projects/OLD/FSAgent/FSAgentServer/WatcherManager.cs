@@ -2,7 +2,7 @@
 using System.Threading;
 using Common;
 using FSAgentServer.ViewModels;
-using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows.BalloonTrayTip;
 
 namespace FSAgentServer
 {

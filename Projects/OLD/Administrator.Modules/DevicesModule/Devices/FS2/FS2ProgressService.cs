@@ -3,7 +3,7 @@
 //using System.Windows.Threading;
 //using Common;
 //using Infrastructure;
-//using Infrastructure.Common.Windows;
+//using Infrastructure.Common.Windows.Windows;
 
 //namespace DevicesModule.ViewModels
 //{

@@ -1,10 +1,10 @@
 using AutomationModule.Plans;
 using AutomationModule.ViewModels;
 using Infrastructure.Client.Layout;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.Services.Layout;
 using Infrustructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;

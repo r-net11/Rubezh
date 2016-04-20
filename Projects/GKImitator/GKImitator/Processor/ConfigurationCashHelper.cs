@@ -5,7 +5,7 @@ using Common;
 using RubezhAPI;
 using RubezhAPI.GK;
 using GKProcessor;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Ionic.Zip;
 
 namespace GKImitator

@@ -18,7 +18,7 @@
         <File Id="FSAgent.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Common.TargetDir)" />
         <File Id="FSAgent.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="FSAgent.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="FSAgent.Infrastructure.Common.Windows.dll" Name="Infrastructure.Common.Windows.dll" Source="$(var.Common.TargetDir)" />
         <File Id="FSAgent.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
         <File Id="FSAgent.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
         <File Id="FSAgent.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Common.TargetDir)" />

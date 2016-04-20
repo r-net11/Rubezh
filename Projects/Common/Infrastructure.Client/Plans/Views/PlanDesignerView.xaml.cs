@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Plans
 {

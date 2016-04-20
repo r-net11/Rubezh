@@ -2,8 +2,8 @@
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
 using Infrustructure.Plans.Events;
 
 namespace PlansModule.Kursk

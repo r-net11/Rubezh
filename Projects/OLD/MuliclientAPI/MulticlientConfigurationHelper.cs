@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using Common;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace MuliclientAPI
 {

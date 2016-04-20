@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
 using System.IO;
 using MuliclientAPI;
 using System.Runtime.Serialization;
 using Common;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 
 namespace MultiClientAdministrator.ViewModels
 {

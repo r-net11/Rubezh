@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using RubezhAPI;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common.Windows.Ribbon;
 using Infrastructure.Events;
 using SettingsModule.ViewModels;
 using System.Collections.ObjectModel;
 using System;
-using Infrastructure.Common.Theme;
+using Infrastructure.Common.Windows.Theme;
 
 namespace SettingsModule
 {

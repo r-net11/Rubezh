@@ -1,9 +1,9 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+﻿using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Events;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using System.Diagnostics;
 using System.Windows;
 

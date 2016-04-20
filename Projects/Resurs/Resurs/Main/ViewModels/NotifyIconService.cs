@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace Resurs.Service
 {

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common;
+﻿using Infrastructure.Common.Windows;
 using RubezhDAL.DataClasses;
 using RubezhDAL.DataContext;
 using System;

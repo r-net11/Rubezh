@@ -2,8 +2,8 @@
 using System.ServiceModel;
 using Common;
 using FiresecService.Models;
-using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.BalloonTrayTip;
 
 namespace FiresecService.Service
 {

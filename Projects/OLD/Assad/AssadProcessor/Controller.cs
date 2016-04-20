@@ -6,7 +6,7 @@ using AssadProcessor.Devices;
 using FiresecAPI.Models;
 using FiresecClient;
 using Firesec;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace AssadProcessor
 {

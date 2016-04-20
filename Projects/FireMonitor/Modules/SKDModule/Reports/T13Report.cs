@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using CodeReason.Reports;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows.Reports;
 using Common;
 
 namespace SKDModule.Reports

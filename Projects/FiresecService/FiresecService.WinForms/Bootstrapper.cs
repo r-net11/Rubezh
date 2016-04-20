@@ -5,7 +5,7 @@ using FiresecService.Report;
 using FiresecService.Service;
 //using FiresecService.ViewModels;
 using Infrastructure.Automation;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;

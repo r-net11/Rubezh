@@ -1,7 +1,7 @@
 ﻿using System;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrastructure;
 using SKDModule.Events;
 

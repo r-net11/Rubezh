@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Windows;
 using Common;
 using Resurs;
-using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Common.Theme;
-using System.Threading;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.BalloonTrayTip;
+using Infrastructure.Common.Windows.Theme;
+using System.Threading;
+using Infrastructure.Common.Windows.Windows;
 using Resurs.Processor;
 
 namespace ResursRunner

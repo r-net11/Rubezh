@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Client.Layout.ViewModels;
-using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows.Services.Layout;
 using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 

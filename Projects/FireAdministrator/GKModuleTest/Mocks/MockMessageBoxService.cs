@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Services;
+﻿using Infrastructure.Common.Windows.Services;
 using NUnit.Framework;
 using System;
 using System.Windows;
@@ -66,7 +66,7 @@ namespace GKModuleTest
 			return MessageBoxResult.OK;
 		}
 
-		public void SetMessageBoxHandler(Action<Infrastructure.Common.Windows.ViewModels.MessageBoxViewModel, bool> handler)
+		public void SetMessageBoxHandler(Action<Infrastructure.Common.Windows.Windows.ViewModels.MessageBoxViewModel, bool> handler)
 		{
 		}
 

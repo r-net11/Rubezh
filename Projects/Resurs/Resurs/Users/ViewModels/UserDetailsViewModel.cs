@@ -1,7 +1,7 @@
 ﻿using Common;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using ResursAPI;
 using ResursDAL;
 using System;

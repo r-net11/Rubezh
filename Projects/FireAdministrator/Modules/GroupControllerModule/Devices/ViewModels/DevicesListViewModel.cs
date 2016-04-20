@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using RubezhClient;
 using RubezhAPI;

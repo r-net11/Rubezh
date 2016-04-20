@@ -5,8 +5,8 @@ using System.Linq;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 using RubezhClient;
 using RubezhAPI;
 

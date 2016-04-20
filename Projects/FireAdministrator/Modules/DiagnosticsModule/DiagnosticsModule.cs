@@ -3,8 +3,8 @@ using System.Diagnostics;
 using DiagnosticsModule.ViewModels;
 using RubezhAPI;
 using Infrastructure.Client;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Navigation;
 using Infrastructure.Events;
 
 namespace DiagnosticsModule

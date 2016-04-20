@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using GKProcessor;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

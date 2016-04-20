@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using Common;
-using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows.BalloonTrayTip;
 
 namespace GKImitator
 {

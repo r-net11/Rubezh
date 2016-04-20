@@ -1,6 +1,6 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 
 namespace DevicesModule.Validation
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.TreeList;
 using System.Collections.Specialized;
 
 namespace ReportsModule.ViewModels

@@ -3,12 +3,12 @@ using System.Linq;
 using GKImitator.Processor;
 using RubezhAPI.GK;
 using GKProcessor;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using System.Threading;
 using System;
 using System.Windows;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 
 namespace GKImitator.ViewModels
 {

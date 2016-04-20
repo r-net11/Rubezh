@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using FS2Api;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
 using MonitorTestClientFS2.ViewModels;
 using ServerFS2;
@@ -15,7 +15,7 @@ using ServerFS2.Monitoring;
 using ServerFS2.Processor;
 using ServerFS2.Service;
 using ServerFS2.USB;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using ServerFS2.ViewModels;
 
 namespace MonitorClientFS2

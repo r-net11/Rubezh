@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Shapes;
 using Controls;
 using Infrastructure;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Shell = FireMonitor;
 
 namespace FireMonitor.Layout

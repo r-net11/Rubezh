@@ -2,8 +2,8 @@
 using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
-using Infrastructure.Common.Validation;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Windows;
 using RubezhAPI;
 
 namespace GKModule.Validation

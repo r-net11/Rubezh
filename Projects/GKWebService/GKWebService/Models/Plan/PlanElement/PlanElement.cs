@@ -8,7 +8,7 @@ using GKWebService.DataProviders.Resources;
 using GKWebService.Models.Plan.PlanElement.Hint;
 using GKWebService.Utils;
 using ImageMagick;
-using Infrastructure.Common.Services.Content;
+using Infrastructure.Common.Windows.Services.Content;
 using Infrustructure.Plans;
 using RubezhAPI;
 using RubezhAPI.GK;

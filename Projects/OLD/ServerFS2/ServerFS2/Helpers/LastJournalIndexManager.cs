@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.Models;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using System.Diagnostics;
 
 namespace ServerFS2.Helpers

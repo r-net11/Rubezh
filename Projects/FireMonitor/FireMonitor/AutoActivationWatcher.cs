@@ -1,5 +1,5 @@
 ﻿using Infrastructure;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Events;
 using RubezhAPI;
 using RubezhAPI.GK;

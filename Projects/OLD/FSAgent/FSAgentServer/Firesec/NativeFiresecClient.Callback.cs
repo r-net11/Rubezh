@@ -2,7 +2,7 @@
 using Common;
 using FiresecDB;
 using FSAgentAPI;
-using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows.BalloonTrayTip;
 
 namespace FSAgentServer
 {

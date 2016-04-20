@@ -1,9 +1,9 @@
 ﻿using CodeReason.Reports;
 using Common;
 using Controls.PDF;
-using Infrastructure.Common;
-using Infrastructure.Common.Reports;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Reports;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using System.Diagnostics;
 using System.IO;
 using System.Printing;

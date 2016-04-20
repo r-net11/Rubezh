@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using GKProcessor;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.ViewModels;
 
 namespace GKModule.ViewModels

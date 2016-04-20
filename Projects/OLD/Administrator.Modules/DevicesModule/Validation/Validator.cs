@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecClient;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 
 namespace DevicesModule.Validation
 {

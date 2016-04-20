@@ -2,7 +2,7 @@
 using System.Linq;
 using RubezhAPI.Models;
 using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {

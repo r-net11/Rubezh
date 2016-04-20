@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using AdministratorTestClientFS2.ViewModels;
 using AdministratorTestClientFS2.Views;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using ServerFS2;
 
 namespace AdministratorTestClientFS2

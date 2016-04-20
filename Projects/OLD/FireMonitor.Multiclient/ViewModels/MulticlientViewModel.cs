@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using FiresecAPI;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using MuliclientAPI;
 
 namespace FireMonitor.Multiclient.ViewModels

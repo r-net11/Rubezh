@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using FiresecAPI.Models;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Ionic.Zip;
 
 namespace ServerFS2

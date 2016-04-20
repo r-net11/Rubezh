@@ -5,8 +5,8 @@ using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
 

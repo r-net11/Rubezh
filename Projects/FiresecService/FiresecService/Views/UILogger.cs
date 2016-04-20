@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.BalloonTrayTip;
+﻿using Infrastructure.Common.Windows.BalloonTrayTip;
 namespace FiresecService.Models
 {
 	public static class UILogger

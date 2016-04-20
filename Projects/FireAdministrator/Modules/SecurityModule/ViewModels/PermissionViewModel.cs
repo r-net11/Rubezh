@@ -2,7 +2,7 @@
 using System.Linq;
 using RubezhAPI;
 using RubezhAPI.Models;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.TreeList;
 
 namespace SecurityModule.ViewModels
 {

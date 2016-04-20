@@ -1,8 +1,8 @@
 ﻿using System;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using ServerFS2.Monitoring;
 
 namespace MonitorTestClientFS2.ViewModels

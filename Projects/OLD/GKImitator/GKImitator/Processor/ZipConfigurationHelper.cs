@@ -5,7 +5,7 @@ using System.Text;
 using XFiresecAPI;
 using System.IO;
 using Ionic.Zip;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using FiresecAPI;
 using System.Runtime.Serialization;
 using Common;

@@ -1,6 +1,6 @@
 ﻿using RubezhAPI.Models;
 using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using SecurityModule.Events;
 
 namespace SecurityModule.ViewModels

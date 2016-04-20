@@ -4,7 +4,7 @@ using Controls.Converters;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.TreeList;
 
 namespace SKDModule.Reports.ViewModels
 {

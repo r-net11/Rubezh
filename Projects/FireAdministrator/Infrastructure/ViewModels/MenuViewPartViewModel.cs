@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Ribbon;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace Infrastructure.ViewModels
 {

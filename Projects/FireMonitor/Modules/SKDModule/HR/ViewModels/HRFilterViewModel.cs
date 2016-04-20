@@ -1,5 +1,5 @@
 ﻿using RubezhAPI.SKD;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {

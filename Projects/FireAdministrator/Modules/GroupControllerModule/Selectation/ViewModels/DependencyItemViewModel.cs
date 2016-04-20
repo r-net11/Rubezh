@@ -1,7 +1,7 @@
 ﻿using RubezhAPI.GK;
 using GKModule.Events;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Services;
 using Infrastructure.Events;
 
 namespace GKModule.ViewModels

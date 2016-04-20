@@ -4,10 +4,10 @@ using Common;
 using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Client.Properties;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace Infrastructure.Client.Login.ViewModels
 {

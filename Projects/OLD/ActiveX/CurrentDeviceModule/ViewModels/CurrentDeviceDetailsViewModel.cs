@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using DevicesModule.Views;
 using DevicesModule.ViewModels;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using CurrentDeviceModule.Views;
 
 namespace CurrentDeviceModule.ViewModels

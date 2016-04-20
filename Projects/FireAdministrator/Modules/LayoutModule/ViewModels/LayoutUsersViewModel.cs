@@ -5,7 +5,7 @@ using System.Linq;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrastructure;
 using Infrastructure.Events;
 

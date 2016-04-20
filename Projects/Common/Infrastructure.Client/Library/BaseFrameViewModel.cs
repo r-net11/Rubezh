@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Client.Converters;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Microsoft.Win32;
 using RubezhAPI.Plans.Devices;
 using System.Threading;

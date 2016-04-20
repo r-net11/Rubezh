@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using RubezhClient;
 using Infrastructure;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 
 namespace FireMonitor.Views

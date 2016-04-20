@@ -1,7 +1,7 @@
 ﻿using Common;
 using Controls;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.Windows;
 using System;
 using System.IO;
 using System.Windows.Documents;

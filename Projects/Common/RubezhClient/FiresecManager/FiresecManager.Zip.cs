@@ -2,7 +2,7 @@
 using System.Text;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Ionic.Zip;
 using RubezhAPI;
 

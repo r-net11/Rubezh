@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Client.Images;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrustructure.Plans;
 using RubezhAPI.Models.Layouts;
 using System.Windows.Media;

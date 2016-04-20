@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Firesec.Models.CoreState;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace Firesec.Imitator.ViewModels
 {

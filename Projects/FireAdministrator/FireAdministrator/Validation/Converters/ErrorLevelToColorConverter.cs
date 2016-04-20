@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 
 namespace FireAdministrator.Converters
 {

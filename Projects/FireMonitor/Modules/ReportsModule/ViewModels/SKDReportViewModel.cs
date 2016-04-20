@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows.SKDReports;
 using DevExpress.Xpf.Printing;
 using RubezhAPI.SKD.ReportFilters;
 

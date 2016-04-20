@@ -2,10 +2,10 @@
 using System.Linq;
 using RubezhAPI.GK;
 using GKProcessor;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
+using System.Collections.Generic;
+using Infrastructure.Common.Windows.Windows;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels

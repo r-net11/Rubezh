@@ -3,8 +3,8 @@ using System.Linq;
 using RubezhAPI;
 using RubezhAPI.GK;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

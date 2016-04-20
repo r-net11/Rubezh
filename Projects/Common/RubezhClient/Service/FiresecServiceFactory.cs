@@ -1,6 +1,6 @@
 ﻿using Common;
-using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.BalloonTrayTip;
 using RubezhAPI;
 using System;
 using System.ServiceModel;

@@ -7,8 +7,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using RubezhAPI.Models;
 using Infrastructure.Client.Startup.ViewModels;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace Infrastructure.Client.Startup
 {

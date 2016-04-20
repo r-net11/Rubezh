@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Services.Ribbon;
+﻿using Infrastructure.Common.Windows.Ribbon;
+using Infrastructure.Common.Windows.Services.Ribbon;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 

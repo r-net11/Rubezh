@@ -1,7 +1,7 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.Windows.ViewModels;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows.Services.Layout;
 
 namespace AutomationModule.ViewModels
 {

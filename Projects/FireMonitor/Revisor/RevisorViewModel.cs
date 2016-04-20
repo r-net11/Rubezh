@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace Revisor
 {

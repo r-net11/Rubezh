@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using RubezhAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels
 {

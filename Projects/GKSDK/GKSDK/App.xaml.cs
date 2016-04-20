@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Infrastructure.Common.Theme;
+using Infrastructure.Common.Windows.Theme;
 
 namespace GKSDK
 {

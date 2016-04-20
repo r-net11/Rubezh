@@ -6,7 +6,7 @@ using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using Common;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 
 namespace ResursDAL
 {

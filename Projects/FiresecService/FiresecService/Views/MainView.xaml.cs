@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using FiresecService.Service;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 
 namespace FiresecService.Views
 {

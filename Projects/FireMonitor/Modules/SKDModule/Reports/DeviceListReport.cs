@@ -2,7 +2,7 @@
 using CodeReason.Reports;
 using RubezhAPI;
 using RubezhAPI.GK;
-using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows.Reports;
 using RubezhAPI.SKD;
 using RubezhClient;
 

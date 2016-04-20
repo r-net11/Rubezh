@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.Validation;
 
 namespace DevicesModule.Validation
 {

@@ -1,7 +1,7 @@
 ﻿using RubezhAPI.GK;
 using GKImitator.Processor;
 using GKProcessor;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using System;
 using System.Linq;
 using System.Collections.Generic;

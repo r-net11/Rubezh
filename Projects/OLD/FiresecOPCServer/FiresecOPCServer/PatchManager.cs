@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using FiresecClient;
 using XFiresecAPI;
 using GKProcessor;

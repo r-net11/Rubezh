@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.Windows.ViewModels;
 using RubezhAPI;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace SettingsModule.ViewModels
 {

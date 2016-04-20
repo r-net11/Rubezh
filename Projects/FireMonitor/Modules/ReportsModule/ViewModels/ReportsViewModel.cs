@@ -6,10 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Xps;
 using Common;
-using Infrastructure.Common;
-using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Reports;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 
 namespace ReportsModule.ViewModels
 {

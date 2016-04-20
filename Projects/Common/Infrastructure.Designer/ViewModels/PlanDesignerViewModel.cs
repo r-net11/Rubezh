@@ -1,7 +1,7 @@
 ﻿using System;
 using Infrastructure.Client.Plans;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
 

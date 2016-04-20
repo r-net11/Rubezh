@@ -2,9 +2,9 @@
 using System.IO;
 using System.Windows;
 using FireMonitor.Multiclient.ViewModels;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Theme;
+using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.Theme;
 
 namespace FireMonitor.Multiclient
 {

@@ -6,8 +6,8 @@ using System.Windows;
 using System.Xml.Serialization;
 using FiresecClient.Itv;
 using ItvIntergation.Ngi;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows;
 
 namespace RepFileManager
 {

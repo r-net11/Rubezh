@@ -1,5 +1,5 @@
 ﻿using System;
-using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows.SKDReports;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace SKDModule.Reports.ViewModels

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Controls;
 using RubezhAPI.GK;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.Windows.ViewModels;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
