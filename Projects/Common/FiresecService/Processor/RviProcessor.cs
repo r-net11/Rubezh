@@ -1,5 +1,4 @@
 ﻿using Common;
-using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
@@ -71,7 +70,6 @@ namespace FiresecService
 			}
 			catch (Exception e)
 			{
-				MessageBoxService.ShowException(e);
 				Logger.Error(e, "Исключение при вызове RviProcessor.GetRviStates()");
 			}
 			return rviStates;
@@ -195,7 +193,6 @@ namespace FiresecService
 				}
 				catch (Exception e)
 				{
-					MessageBoxService.ShowException(e);
 					Logger.Error(e, "Исключение при вызове RviProcessor.OnRun()");
 				}
 			}

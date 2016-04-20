@@ -1,5 +1,4 @@
-﻿using FiresecService.Models;
-using Infrastructure.Automation;
+﻿using Infrastructure.Automation;
 using OpcClientSdk;
 using OpcClientSdk.Da;
 using RubezhAPI.Automation;
@@ -43,7 +42,7 @@ namespace FiresecService.Processor
 			{
 				if (!servers.Any(x => x.Url == server.Url))
 				{
-					UILogger.Log(string.Format("Не удалось запусть OPC DA сервер {0}. Сервер не найден", server.Url), true);
+					Notifier.UILog(string.Format("Не удалось запусть OPC DA сервер {0}. Сервер не найден", server.Url), true);
 					//MainViewModel.SetReportAddress("<Ошибка>");
 					continue;
 				}
@@ -132,7 +131,7 @@ namespace FiresecService.Processor
 				}
 				catch (Exception ex)
 				{
-					UILogger.Log(ex.Message, true);
+					Notifier.UILog(ex.Message, true);
 				}
 			}
 		}
@@ -148,7 +147,7 @@ namespace FiresecService.Processor
 				server.Item1.CancelSubscription(subscription);
 				subscription.DataChangedEvent -= EventHandler_Subscription_DataChangedEvent;
 				subscription.Dispose();
-				
+
 				// Отключаемся от сервера
 				server.Item1.Disconnect();
 				server.Item1.Dispose();
@@ -183,9 +182,9 @@ namespace FiresecService.Processor
 			catch (Exception ex)
 			{
 				result = new OpcDaServer[0];
-				UILogger.Log(ex.Message, true);
+				Notifier.UILog(ex.Message, true);
 			}
-			
+
 			return result;
 		}
 
@@ -347,7 +346,7 @@ namespace FiresecService.Processor
 				}
 				catch (Exception ex)
 				{
-					error = String.Format("Тип данный заначения тега не соответствует заданному. Не удалось привести типы. {0}", 
+					error = String.Format("Тип данный заначения тега не соответствует заданному. Не удалось привести типы. {0}",
 						ex.Message);
 					return false;
 				}

@@ -1,6 +1,5 @@
 ﻿using FiresecService.Service;
 using Infrastructure.Automation;
-using Infrastructure.Common.BalloonTrayTip;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
@@ -365,7 +364,7 @@ namespace FiresecService
 					Path = path
 				});
 			if (result.HasError)
-				BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
+				Notifier.BalloonShowFromServer("Экспорт журнала " + result.Error);
 		}
 
 		public static void ExportOrganisation(Guid clientUID, bool isWithDeleted, Guid organisationUid, string path)
@@ -378,7 +377,7 @@ namespace FiresecService
 					Path = path
 				});
 			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+				Notifier.BalloonShowFromServer(result.Error);
 		}
 		public static void ExportOrganisationList(Guid clientUID, bool isWithDeleted, string path)
 		{
@@ -389,7 +388,7 @@ namespace FiresecService
 					Path = path
 				});
 			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+				Notifier.BalloonShowFromServer(result.Error);
 		}
 
 		public static void ExportConfiguration(Guid clientUID, bool isExportDevices, bool isExportDoors, bool isExportZones, string path)
@@ -403,7 +402,7 @@ namespace FiresecService
 					Path = path
 				});
 			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+				Notifier.BalloonShowFromServer(result.Error);
 		}
 		public static void ImportOrganisation(Guid clientUID, bool isWithDeleted, string path)
 		{
@@ -414,7 +413,7 @@ namespace FiresecService
 					Path = path
 				});
 			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+				Notifier.BalloonShowFromServer(result.Error);
 		}
 		public static void ImportOrganisationList(Guid clientUID, bool isWithDeleted, string path)
 		{
@@ -425,7 +424,7 @@ namespace FiresecService
 					Path = path
 				});
 			if (result.HasError)
-				BalloonHelper.ShowFromServer(result.Error);
+				Notifier.BalloonShowFromServer(result.Error);
 		}
 	}
 }

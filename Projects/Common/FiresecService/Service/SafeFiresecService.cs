@@ -171,7 +171,7 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				FiresecService.SetRemoteConfig(stream); 
+				FiresecService.SetRemoteConfig(stream);
 				return new OperationResult<bool>(true);
 			}
 			catch (Exception e)

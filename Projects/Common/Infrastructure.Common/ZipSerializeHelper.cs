@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
-using Common;
+﻿using Common;
 using RubezhAPI;
-using Infrastructure.Common.Windows;
+using System;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {

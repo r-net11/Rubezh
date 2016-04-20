@@ -1,11 +1,8 @@
 ﻿using RubezhAPI;
-using FiresecService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using FiresecService.Presenters;
 
 namespace FiresecService
 {
@@ -25,19 +22,17 @@ namespace FiresecService
 		{
 			foreach (var serverTask in ServerTasks)
 			{
-				if(serverTask.ProgressCallback != null)
+				if (serverTask.ProgressCallback != null)
 				{
 					serverTask.ProgressCallback.IsCanceled = true;
-					//MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
-					//MainPresenter.Current.ServerTasksViewModel.Remove(serverTask);
-					MainPresenter.Current.RemoveTask(serverTask);
+					Notifier.RemoveServerTask(serverTask);
 				}
 			}
 
-			if(AutoResetEvent != null)
+			if (AutoResetEvent != null)
 			{
 				AutoResetEvent.Set();
-				if(Thread != null)
+				if (Thread != null)
 				{
 					Thread.Join(TimeSpan.FromSeconds(2));
 				}
@@ -53,19 +48,17 @@ namespace FiresecService
 		static void OnRun()
 		{
 			AutoResetEvent = new AutoResetEvent(false);
-			while(true)
+			while (true)
 			{
-				if(AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
+				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
 				{
 					return;
 				}
 				var serverTask = ServerTasks.FirstOrDefault();
-				if(serverTask != null)
+				if (serverTask != null)
 				{
 					serverTask.Action();
-					//MainViewModel.Current.ServerTasksViewModel.Remove(serverTask);
-					//MainPresenter.Current.ServerTasksViewModel.Remove(serverTask);
-					MainPresenter.Current.RemoveTask(serverTask);
+					Notifier.RemoveServerTask(serverTask);
 					ServerTasks.Remove(serverTask);
 				}
 			}
@@ -75,9 +68,7 @@ namespace FiresecService
 		{
 			var serverTask = new ServerTask() { Action = action, ProgressCallback = progressCallback, Name = name };
 			ServerTasks.Add(serverTask);
-			//MainViewModel.Current.ServerTasksViewModel.Add(serverTask);
-			//MainPresenter.Current.ServerTasksViewModel.Add(serverTask);
-			MainPresenter.Current.AddTask(serverTask);
+			Notifier.AddServerTask(serverTask);
 		}
 	}
 

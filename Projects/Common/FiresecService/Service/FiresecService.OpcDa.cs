@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecService.Processor;
 using OpcClientSdk;
 using OpcClientSdk.Da;
 using RubezhAPI;
 using RubezhAPI.Automation;
-using FiresecService.Processor;
+using System;
+using System.Collections.Generic;
 
 namespace FiresecService.Service
 {

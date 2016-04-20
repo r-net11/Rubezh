@@ -1,5 +1,4 @@
 ﻿using GKProcessor;
-using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
@@ -18,13 +17,6 @@ namespace FiresecService
 			GKProcessorManager.GKProgressCallbackEvent += OnGKProgressCallbackEvent;
 			GKProcessorManager.GKCallbackResultEvent -= OnGKCallbackResultEvent;
 			GKProcessorManager.GKCallbackResultEvent += OnGKCallbackResultEvent;
-			ApplicationService.Closing += ApplicationService_Closing;
-		}
-
-		static void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			if (!e.Cancel)
-				Stop();
 		}
 
 		public static void Start()
