@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService", "FiresecService\FiresecService.csproj", "{903CA80D-886E-43AF-A631-BEB260F8F93D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.WPF", "FiresecService.WPF\FiresecService.WPF.csproj", "{903CA80D-886E-43AF-A631-BEB260F8F93D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF} = {E6D24912-812B-42B4-B6B0-97CA33C0F4AF}
 	EndProjectSection
