@@ -35,6 +35,8 @@ namespace Infrastructure.Automation
 		static Action<Guid, bool, string> OnImportOrganisation;
 		static Action<Guid, bool, string> OnImportOrganisationList;
 		static GetOrganisationsEventHandler OnGetOrganisations;
+		static Func<User> OnGetCurrentUser;
+		static Func<Guid> OnGetClientUID;
 
 		public static void Initialize(ContextType contextType,
 			GetSystemConfigurationDelegate getSystemConfiguration,
@@ -61,7 +63,9 @@ namespace Infrastructure.Automation
 			Action<Guid, bool, bool, bool, string> onExportConfiguration = null,
 			Action<Guid, bool, string> onImportOrganisation = null,
 			Action<Guid, bool, string> onImportOrganisationList = null,
-			GetOrganisationsEventHandler onGetOrganisations = null
+			GetOrganisationsEventHandler onGetOrganisations = null,
+			Func<User> onGetCurrentUser = null,
+			Func<Guid> onGetClientUID = null
 			)
 		{
 			ContextType = contextType;
@@ -90,6 +94,8 @@ namespace Infrastructure.Automation
 			OnImportOrganisation = onImportOrganisation;
 			OnImportOrganisationList = onImportOrganisationList;
 			OnGetOrganisations = onGetOrganisations;
+			OnGetCurrentUser = onGetCurrentUser;
+			OnGetClientUID = onGetClientUID;
 
 			InitializeGlobalVariables();
 		}
@@ -214,6 +220,16 @@ namespace Infrastructure.Automation
 		public static List<Organisation> GetOrganisations(Guid clientUID)
 		{
 			return OnGetOrganisations == null ? null : OnGetOrganisations(clientUID);
+		}
+
+		public static User GetCurrentUser()
+		{
+			return OnGetCurrentUser == null ? null : OnGetCurrentUser();
+		}
+
+		public static Guid? GetClientUID()
+		{
+			return OnGetClientUID == null ? null : (Guid?)OnGetClientUID();
 		}
 
 		public delegate List<Organisation> GetOrganisationsEventHandler(Guid clientUID);

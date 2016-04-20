@@ -3,7 +3,7 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using RubezhClient;
 using System;
 using System.Collections.Generic;

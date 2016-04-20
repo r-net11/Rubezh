@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
 
 namespace Infrastructure.Designer
 {

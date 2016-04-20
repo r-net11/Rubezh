@@ -1,5 +1,5 @@
 ﻿using System;
-using Infrustructure.Plans.Designer;
+using Infrastructure.Plans.Designer;
 
 namespace Infrastructure.Client.Plans
 {

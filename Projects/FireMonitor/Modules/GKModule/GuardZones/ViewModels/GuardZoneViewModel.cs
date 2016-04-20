@@ -3,7 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Plans.Elements;
 
 namespace DevicesModule.Plans.Designer
 {

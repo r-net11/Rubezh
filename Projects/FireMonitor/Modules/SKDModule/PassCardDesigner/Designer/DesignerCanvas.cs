@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Designer;
+﻿using Infrastructure.Plans.Designer;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;

@@ -658,9 +658,9 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>

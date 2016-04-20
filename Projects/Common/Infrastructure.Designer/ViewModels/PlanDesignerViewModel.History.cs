@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Designer;
+using Infrastructure.Plans.Designer;
 using RubezhAPI.Plans.Elements;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using System.Collections.Generic;
 
 namespace Infrastructure.Designer.ViewModels

@@ -3,7 +3,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.DragDrop;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 namespace PlansModule.ViewModels
 {
 	public class PlansTreeViewModel

@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Services;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Services;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Presenter;
 using PlansModule.ViewModels;
 
 namespace PlansModule.Designer

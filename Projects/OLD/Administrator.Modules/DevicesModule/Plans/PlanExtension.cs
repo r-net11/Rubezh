@@ -16,12 +16,12 @@ using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Services;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Elements;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.Services;
 using FiresecAPI;
 
 namespace DevicesModule.Plans

@@ -8,7 +8,7 @@ using Infrastructure;
 using Infrastructure.ViewModels;
 using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using System;
 using Infrastructure.Automation;
 

@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Designer;
+﻿using Infrastructure.Plans.Designer;
 using RubezhAPI.Plans.Elements;
 using System.Windows;
 using System.Windows.Media;

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Infrustructure.Plans.Designer;
+using Infrastructure.Plans.Designer;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {

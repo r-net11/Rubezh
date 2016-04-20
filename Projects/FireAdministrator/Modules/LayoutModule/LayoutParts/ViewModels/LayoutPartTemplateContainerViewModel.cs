@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common.Services.Layout;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using LayoutModule.ViewModels;
 using RubezhAPI.Models.Layouts;
 using System;

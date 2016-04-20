@@ -1,5 +1,4 @@
 ﻿using RubezhAPI.Automation;
-using RubezhClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -130,10 +129,7 @@ namespace Infrastructure.Automation
 					foreach (var filter in filters)
 					{
 						Value = result;
-						if (ProcedureExecutionContext.ContextType == ContextType.Server)
-							AutomationProcessor.RunOnOpcTagFilters(null, null);
-						else
-							AutomationProcessor.RunOnOpcTagFilters(ClientManager.CurrentUser, ClientManager.FiresecService.UID);
+						AutomationProcessor.RunOnOpcTagFilters();
 					}
 				}
 				else

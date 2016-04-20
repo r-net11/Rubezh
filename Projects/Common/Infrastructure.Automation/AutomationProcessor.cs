@@ -50,7 +50,7 @@ namespace Infrastructure.Automation
 			}
 		}
 
-		public static void RunOnOpcTagFilters(User user, Guid? clientUID)
+		public static void RunOnOpcTagFilters()
 		{
 			if (ProcedureExecutionContext.SystemConfiguration == null)
 				return;
@@ -75,7 +75,7 @@ namespace Infrastructure.Automation
 					{
 						foreach (var procedure in procedures)
 						{
-							RunProcedure(procedure, new List<Argument>(), null, user, null, clientUID);
+							RunProcedure(procedure, new List<Argument>(), null, ProcedureExecutionContext.GetCurrentUser(), null, ProcedureExecutionContext.GetClientUID());
 						}
 					}
 				}

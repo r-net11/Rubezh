@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.InstrumentAdorners;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.InstrumentAdorners;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
 using SKDModule.PassCardDesigner.ViewModels;

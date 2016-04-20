@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Designer;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
 using System;
 using System.Linq;
 using System.Windows;

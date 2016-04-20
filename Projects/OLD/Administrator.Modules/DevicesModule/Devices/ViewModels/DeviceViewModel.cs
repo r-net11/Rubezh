@@ -14,7 +14,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans.Painters;
 
 namespace DevicesModule.ViewModels
 {

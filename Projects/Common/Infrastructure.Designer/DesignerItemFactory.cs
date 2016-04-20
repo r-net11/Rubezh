@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common.Services;
 using Infrastructure.Designer.DesignerItems;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Events;
 using RubezhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer

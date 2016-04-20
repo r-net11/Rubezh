@@ -797,9 +797,9 @@
       <Project>{9193BC5C-3DEF-49B0-844A-9385B1540381}</Project>
       <Name>Infrastructure.Designer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>

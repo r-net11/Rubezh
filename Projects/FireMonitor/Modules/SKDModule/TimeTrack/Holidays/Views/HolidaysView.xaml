@@ -1,4 +1,9 @@
-<UserControl x:Class="SKDModule.Views.HolidaysView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:SKDModule.Converters" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:SKDModule.ViewModels" DataContextChanged="UserControl_DataContextChanged">
+<UserControl x:Class="SKDModule.Views.HolidaysView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+			 DataContextChanged="UserControl_DataContextChanged">
 	<UserControl.Resources>
 		<viewModel:HolidayViewModelNameComparer x:Key="HolidayViewModelNameComparer" />
 	<!--	<viewModel:HolidayViewModelTypeComparer x:Key="HolidayViewModelTypeComparer" />
@@ -12,11 +17,12 @@
 			Source="{Binding Organisations}"
 			SelectedTreeNode="{Binding SelectedItem}"
 			ItemActivatedCommand="{Binding EditCommand}"
+			ListViewLayoutManager.Enabled="True"
 			Focusable="True"
 			tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
+					<GridViewColumn Header="Название" Width="150" tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -27,28 +33,28 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Дата"> <!--tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">-->
+					<GridViewColumn Header="Дата" Width="150"> <!--tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">-->
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding Path=Model.Date, StringFormat=dd-MM}" Style="{StaticResource IsDeletedStyle}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Тип"> <!--tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelTypeComparer}"> -->
+					<GridViewColumn Header="Тип" Width="150"> <!--tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelTypeComparer}"> -->
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding Model.Type, Converter={StaticResource EnumToDescriptionConverter}}" Style="{StaticResource IsDeletedStyle}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Величина сокращения"> <!--tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelReductionTimeComparer}"> -->
+					<GridViewColumn Header="Величина сокращения" Width="150"> <!--tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelReductionTimeComparer}"> -->
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding ReductionTime}" Style="{StaticResource IsDeletedStyle}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Дата переноса"> <!--tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelTransitionDateComparer}"> -->
+					<GridViewColumn Header="Дата переноса" Width="150"> <!--tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelTransitionDateComparer}"> -->
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding TransitionDate}" Style="{StaticResource IsDeletedStyle}" />
