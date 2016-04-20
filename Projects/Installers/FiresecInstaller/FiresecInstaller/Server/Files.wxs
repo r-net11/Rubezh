@@ -24,7 +24,6 @@
 				<File Id="Server.Infrastructure.Automation.dll"								Name="Infrastructure.Automation.dll"				Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Controls.dll"												Name="Controls.dll"									Source="$(var.Common.TargetDir)" />
 				<File Id="Server.RubezhAPI.dll"												Name="RubezhAPI.dll"								Source="$(var.Common.TargetDir)" />
-				<File Id="Server.RubezhClient.dll"											Name="RubezhClient.dll"								Source="$(var.Server.TargetDir)" />
 				<File Id="Server.GKProcessor.dll"											Name="GKProcessor.dll"								Source="$(var.Common.TargetDir)" />
 				<File Id="Server.RviClient.dll"												Name="RviClient.dll"								Source="$(var.Server.TargetDir)" />
 				<File Id="Server.RubezhDAL.dll"												Name="RubezhDAL.dll"								Source="$(var.Server.TargetDir)" />
