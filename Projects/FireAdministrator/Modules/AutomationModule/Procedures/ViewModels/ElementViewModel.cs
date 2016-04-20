@@ -1,5 +1,4 @@
-﻿using Infrastructure.Automation;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
@@ -129,7 +128,7 @@ namespace AutomationModule.ViewModels
 						return "План: " + item.Caption;
 				}
 				if (ElementType == typeof(ElementProcedure))
-					return "Процедура: " + AutomationHelper.GetProcedureName(((ElementProcedure)ElementBase).ProcedureUID);
+					return "Процедура: " + ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.First(x => x.Uid == ((ElementProcedure)ElementBase).ProcedureUID).Name;
 
 				return ElementBase.PresentationName;
 			}

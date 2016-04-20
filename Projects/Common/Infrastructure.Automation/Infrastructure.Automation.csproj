@@ -65,10 +65,6 @@
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RubezhClient\RubezhClient.csproj">
-      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
-      <Name>RubezhClient</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

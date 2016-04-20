@@ -87,7 +87,9 @@ namespace FireMonitor
 						((SafeFiresecService)ClientManager.FiresecService).ExportConfiguration,
 						((SafeFiresecService)ClientManager.FiresecService).ImportOrganisation,
 						((SafeFiresecService)ClientManager.FiresecService).ImportOrganisationList,
-						GetOrganisations
+						GetOrganisations,
+						() => { return ClientManager.CurrentUser; },
+						() => { return FiresecServiceFactory.UID; }
 						);
 
 					ExplicitValue.ResolveObjectName += ObjectReference_ResolveObjectName;
