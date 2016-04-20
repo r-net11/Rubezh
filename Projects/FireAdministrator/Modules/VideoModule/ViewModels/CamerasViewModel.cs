@@ -257,7 +257,7 @@ namespace VideoModule.ViewModels
 		{
 			if (cameraUID != Guid.Empty)
 			{
-				SelectedCamera = Cameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == cameraUID);
+				SelectedCamera = AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == cameraUID);
 			}
 		}
 	}
