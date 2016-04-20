@@ -16,6 +16,7 @@
 				<File Id="Server.FiresecService.exe"										Name="$(var.Server.TargetFileName)"					Source="$(var.Server.TargetPath)" KeyPath="yes" />
 				<File Id="Server.FiresecService.exe.config"									Name="FiresecService.exe.config"					Source="$(var.Server.TargetDir)" />
 				<File Id="Server.FiresecService.exe.manifest"								Name="FiresecService.exe.manifest"					Source="$(var.Server.TargetDir)" />
+				<File Id="Server.FiresecService.Core.dll"									Name="FiresecService.Core.dll"					Source="$(var.Server.TargetDir)" />
 				<File Id="Server.FiresecService.Report.dll"									Name="FiresecService.Report.dll"					Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Common.dll"												Name="Common.dll"									Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Infrastructure.Common.dll"									Name="Infrastructure.Common.dll"					Source="$(var.Common.TargetDir)" />
