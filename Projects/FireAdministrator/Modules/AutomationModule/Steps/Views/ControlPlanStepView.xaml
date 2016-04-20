@@ -35,7 +35,8 @@
 		</ComboBox>
 
 		<TextBlock Grid.Column="0" Grid.Row="1" Text="Элемент" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<ComboBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" ItemsSource="{Binding Elements}" SelectedItem="{Binding SelectedElement}">
+		<ComboBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" ItemsSource="{Binding Elements}" 
+				  SelectedItem="{Binding SelectedElement}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding PresentationName}" />
@@ -44,7 +45,9 @@
 		</ComboBox>
 
 		<TextBlock Grid.Column="0" Grid.Row="2" Text="Свойство" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<ComboBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" ItemsSource="{Binding ElementPropertyTypes}" SelectedItem="{Binding SelectedElementPropertyType}">
+		<ComboBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" ItemsSource="{Binding ElementPropertyTypes}" 
+				  SelectedItem="{Binding SelectedElementPropertyType}" 
+				  Visibility="{Binding IsElementPropertyTypesEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
