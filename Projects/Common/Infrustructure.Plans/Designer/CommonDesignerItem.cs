@@ -134,6 +134,9 @@ namespace Infrustructure.Plans.Designer
 		internal virtual void Render(DrawingContext drawingContext)
 		{
 			IsEnabled = !Element.IsLocked;
+			if (IsEnabled && !IsVisibleLayout)
+				IsEnabled = false;
+
 			if (Painter != null && IsVisibleLayout)
 				Painter.Draw(drawingContext);
 		}
