@@ -11,7 +11,23 @@ namespace AutomationModule.ViewModels
 	public class ControlGKDeviceStepViewModel : BaseStepViewModel
 	{
 		ControlGKDeviceStep ControlGkDeviceStep { get; set; }
-		public ArgumentViewModel GKDeviceArgument { get; private set; }
+
+		ArgumentViewModel _GKDeviceArgument;
+		public ArgumentViewModel GKDeviceArgument 
+		{
+			get { return _GKDeviceArgument; } 
+			private set 
+			{ 
+				_GKDeviceArgument = value;
+				_GKDeviceArgument.ExplicitValue.PropertyChanged += ExplicitValue_PropertyChanged;
+			}
+		}
+
+		void ExplicitValue_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "ExplicitValue")
+				Update();
+		}
 
 		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
