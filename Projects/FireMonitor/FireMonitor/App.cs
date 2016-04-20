@@ -1,4 +1,5 @@
 ﻿using Common;
+using Controls;
 using Infrastructure;
 using Infrastructure.Automation;
 using Infrastructure.Client.Startup;
@@ -15,11 +16,11 @@ using System.Windows;
 
 namespace FireMonitor
 {
-	public partial class App : Application
+	public class App : Application
 	{
-		private const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
-		private const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
-		private Bootstrapper _bootstrapper;
+		const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
+		const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
+		Bootstrapper _bootstrapper;
 		public bool IsClosingOnException { get; private set; }
 
 		public App()
@@ -111,7 +112,8 @@ namespace FireMonitor
 			return;
 			//ApplicationService.ShutDown();
 		}
-		private void ApplicationService_Closing(object sender, CancelEventArgs e)
+
+		void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
 			if (e.Cancel)
 				return;
@@ -128,12 +130,13 @@ namespace FireMonitor
 				ShellIntegrationHelper.ShutDown();
 			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);
 		}
-		private void ApplicationService_Closed(object sender, EventArgs e)
+
+		void ApplicationService_Closed(object sender, EventArgs e)
 		{
 			Application.Current.Shutdown();
 		}
 
-		private bool CheckIntegrateCommandLineArguments(string[] args)
+		bool CheckIntegrateCommandLineArguments(string[] args)
 		{
 			if (args != null)
 			{
@@ -157,11 +160,11 @@ namespace FireMonitor
 		}
 
 		[STAThread]
-		private static void Main()
+		static void Main()
 		{
 			ServiceFactory.StartupService.Run();
 			var app = new App();
-			app.InitializeComponent();
+			ServiceFactory.ResourceService.AddResource(typeof(UIBehavior).Assembly, "Themes/Styles.xaml");
 			app.Run();
 		}
 	}

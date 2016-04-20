@@ -1,20 +1,14 @@
-﻿using System;
-using System.Windows;
-using RubezhAPI.Models;
-using Infrastructure.Client.Login;
-using Infrastructure.Client.Startup;
-using Infrastructure.Common;
+﻿using Infrastructure.Client.Startup;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
-using Microsoft.Practices.Prism.Events;
-using Infrastructure.Services;
+using RubezhAPI.Models;
 
 namespace Infrastructure
 {
 	public class ServiceFactory : ServiceFactoryBase
 	{
-		private static StartupService _startupService;
+		static StartupService _startupService;
 		public static StartupService StartupService
 		{
 			get

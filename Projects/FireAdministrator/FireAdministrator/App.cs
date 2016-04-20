@@ -1,20 +1,21 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
-using RubezhClient;
+﻿using Controls;
 using Infrastructure;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
+using RubezhClient;
+using System;
+using System.ComponentModel;
+using System.Windows;
 
 namespace FireAdministrator
 {
-	public partial class App : Application
+	public class App : Application
 	{
-		private const string SignalId = "{8599F876-2147-4694-A822-B24E36D7F92F}";
-		private const string WaitId = "{07193C2C-CE04-478C-880A-49AB239C6550}";
-		private Bootstrapper _bootstrapper;
+		const string SignalId = "{8599F876-2147-4694-A822-B24E36D7F92F}";
+		const string WaitId = "{07193C2C-CE04-478C-880A-49AB239C6550}";
+		Bootstrapper _bootstrapper;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -49,7 +50,7 @@ namespace FireAdministrator
 			}
 		}
 
-		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			MessageBoxService.ShowException(e.ExceptionObject as Exception);
 			if (MessageBoxService.ShowQuestion("В результате работы программы произошло исключение. Приложение будет закрыто. Вы хотите сохранить конфигурацию в файл"))
@@ -57,7 +58,7 @@ namespace FireAdministrator
 				FileConfigurationHelper.SaveToFile();
 			}
 		}
-		private void ApplicationService_Closing(object sender, CancelEventArgs e)
+		void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
 			if (e.Cancel)
 				return;
@@ -69,11 +70,11 @@ namespace FireAdministrator
 		}
 
 		[STAThread]
-		private static void Main()
+		static void Main()
 		{
 			ServiceFactory.StartupService.Run();
 			var app = new App();
-			app.InitializeComponent();
+			ServiceFactory.ResourceService.AddResource(typeof(UIBehavior).Assembly, "Themes/Styles.xaml");
 			app.Run();
 		}
 	}

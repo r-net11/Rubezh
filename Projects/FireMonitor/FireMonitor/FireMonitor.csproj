@@ -109,17 +109,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="App.cs" />
     <Compile Include="AutoActivationWatcher.cs" />
     <Compile Include="Layout\ViewModels\ContentPartViewModel.cs" />
     <Compile Include="Layout\ViewModels\EmptyPartViewModel.cs" />
