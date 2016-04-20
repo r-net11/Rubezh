@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
+﻿using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
 using PlansModule.ViewModels;
+using RubezhAPI.Plans.Elements;
+using System;
+using System.Collections.Generic;
 
 namespace PlansModule.Primitives
 {

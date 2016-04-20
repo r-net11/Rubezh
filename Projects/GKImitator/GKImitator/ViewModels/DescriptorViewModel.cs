@@ -121,11 +121,13 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.Fire1)
 				{
+					SetStateBit(GKStateBit.Norm, false);
 					journalItem = new ImitatorJournalItem(2, 2, 0, 0);
 				}
 
 				if (stateBit == GKStateBit.Fire2)
 				{
+					SetStateBit(GKStateBit.Norm, false);
 					journalItem = new ImitatorJournalItem(2, 3, 0, 0);
 				}
 

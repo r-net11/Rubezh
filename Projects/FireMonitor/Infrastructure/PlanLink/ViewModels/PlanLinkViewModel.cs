@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;

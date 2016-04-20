@@ -1,14 +1,11 @@
-﻿using System;
+﻿using RubezhAPI;
+using RubezhAPI.SKD;
+using System;
 using System.Collections.Generic;
-using System.Data.Linq;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Xml.Serialization;
-using RubezhAPI;
-using RubezhAPI.SKD;
-using LinqKit;
-using System.Data.Entity;
 
 namespace RubezhDAL.DataClasses
 {
@@ -21,7 +18,7 @@ namespace RubezhDAL.DataClasses
 		protected DatabaseContext Context;
 		protected abstract string Name { get; }
 		protected abstract string XmlHeaderName { get; }
-		public string NameXml { get { return Name +  ".xml"; } }
+		public string NameXml { get { return Name + ".xml"; } }
 
 		public Synchroniser(DbSet<TTableItem> table, DbService databaseService)
 		{
@@ -121,7 +118,7 @@ namespace RubezhDAL.DataClasses
 
 		public virtual OperationResult<bool> Import(ImportFilter filter)
 		{
-			return DbServiceHelper.InTryCatch(() => 
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				if (!Directory.Exists(filter.Path))
 					throw new Exception("Папка не существует");
@@ -145,7 +142,7 @@ namespace RubezhDAL.DataClasses
 
 		public virtual OperationResult<bool> ImportForignKeys(OrganisationHRCash hrCash)
 		{
-			return DbServiceHelper.InTryCatch(() => 
+			return DbServiceHelper.InTryCatch(() =>
 			{
 				using (var stream = new FileStream(NameXml, FileMode.Open))
 				{
@@ -167,7 +164,7 @@ namespace RubezhDAL.DataClasses
 		protected virtual IQueryable<TTableItem> GetFilteredItems(ExportFilter filter)
 		{
 			var result = GetTableItems().Where(x => x != null);
-			if(!filter.IsWithDeleted)
+			if (!filter.IsWithDeleted)
 				result = result.Where(x => !x.IsDeleted);
 			return result;
 		}

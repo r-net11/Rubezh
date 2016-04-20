@@ -1,10 +1,10 @@
-﻿using System.Windows.Input;
-using RubezhAPI.Models;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Designer;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Plans.Designer;
 using PlansModule.ViewModels;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using System.Windows.Input;
 
 namespace PlansModule.Designer
 {

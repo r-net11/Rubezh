@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using Stretch = System.Windows.Media.Stretch;
 
 namespace LayoutModule.LayoutParts.ViewModels

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.Presenter;
+using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
-using Infrastructure;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Presenter;
+using System.Collections.Generic;
 
 namespace SKDModule.PassCard.Designer
 {

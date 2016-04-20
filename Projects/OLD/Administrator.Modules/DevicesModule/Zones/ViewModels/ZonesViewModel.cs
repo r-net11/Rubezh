@@ -14,8 +14,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Elements;
+using Infrastructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace DevicesModule.ViewModels

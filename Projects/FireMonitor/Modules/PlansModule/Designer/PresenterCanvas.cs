@@ -2,10 +2,10 @@
 using System.Windows.Media;
 using RubezhAPI.Models;
 using Infrastructure;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Designer;
+using RubezhAPI.Plans.Elements;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.Presenter;
 
 namespace PlansModule.Designer
 {

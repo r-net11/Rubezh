@@ -11,8 +11,8 @@ namespace GKModule.Views
 
 		private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var dataGrid = sender as DataGrid;
-			if (dataGrid != null && dataGrid.SelectedItem != null)
+			DataGrid dataGrid = sender as DataGrid;
+			if (dataGrid != null && dataGrid.SelectedItem != null && !dataGrid.IsMouseOver)
 			{
 				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
 			}

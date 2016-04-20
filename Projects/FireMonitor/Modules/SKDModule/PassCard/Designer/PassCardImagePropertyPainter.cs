@@ -2,9 +2,9 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using RubezhAPI.SKD;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans;
 
 namespace SKDModule.PassCard.Designer
 {

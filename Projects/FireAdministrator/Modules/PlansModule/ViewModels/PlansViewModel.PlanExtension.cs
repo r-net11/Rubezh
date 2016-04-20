@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Data;
-using Controls.Converters;
-using RubezhAPI;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Controls.Converters;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
 using PlansModule.Designer;
 using PlansModule.Validation;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using RubezhClient;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace PlansModule.ViewModels
 {

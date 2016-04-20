@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Painters;
+using RubezhAPI.Plans.Elements;
+using System;
 using System.Windows;
 using System.Windows.Media;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
 
 namespace PlansModule.Primitives
 {

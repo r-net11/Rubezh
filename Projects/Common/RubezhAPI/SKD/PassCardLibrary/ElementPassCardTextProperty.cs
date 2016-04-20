@@ -1,7 +1,6 @@
-﻿using System;
+﻿using RubezhAPI.Models;
+using System;
 using System.Runtime.Serialization;
-using RubezhAPI.Models;
-using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
 
 namespace RubezhAPI.SKD

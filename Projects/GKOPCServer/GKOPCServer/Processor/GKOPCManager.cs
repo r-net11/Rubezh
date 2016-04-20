@@ -377,11 +377,15 @@ namespace GKOPCServer
 					}
 				case Commands.SetManualMode:
 					{
+						if (gkBase is GKZone) // Для охранной зоны данная команда запрещена
+							break;
+
 						ClientManager.FiresecService.GKSetManualRegime(gkBase);
 						break;
 					}
 				case Commands.SetDisabledMode:
 					{
+
 						ClientManager.FiresecService.GKSetIgnoreRegime(gkBase);
 						break;
 					}

@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</ProjectGuid>
+    <ProjectGuid>{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Infrastructure.Common</RootNamespace>
@@ -21,8 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,429 +29,30 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Debug\Infrastructure.Common.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Infrastructure.Common.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <DelaySign>true</DelaySign>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CodeReason.Reports">
-      <HintPath>..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
-    </Reference>
-    <Reference Include="Entities">
-      <HintPath>..\..\..\3rdParty\RVIVSS\Entities.dll</HintPath>
-    </Reference>
-    <Reference Include="GalaSoft.MvvmLight.WPF4, Version=4.2.30.23173, Culture=neutral, PublicKeyToken=63eb5c012e0b3c1c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\RVIVSS\GalaSoft.MvvmLight.WPF4.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp.pdfa">
-      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp.xtra">
-      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity">
-      <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="PresentationFramework.Aero" />
-    <Reference Include="ProcessPrivileges, Version=1.5.7.0, Culture=neutral, PublicKeyToken=fa3ff549c00ac058, processorArchitecture=MSIL">
-      <HintPath>..\..\..\3rdParty\ProcessPrivileges_1.5.7.0_Release\ProcessPrivileges.dll</HintPath>
-    </Reference>
-    <Reference Include="ReachFramework" />
-    <Reference Include="SdkWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\3rdParty\RVIVSS\SdkWrapper.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Activities" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Printing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Activities" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="UIAutomationTypes" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\AssemblyInfoCommon.cs">
-      <Link>Properties\AssemblyInfoCommon.cs</Link>
-    </Compile>
-    <Compile Include="About\ViewModels\AboutViewModel.cs" />
-    <Compile Include="About\Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AlarmPlayerHelper.cs" />
     <Compile Include="AppDataFolderHelper.cs" />
-    <Compile Include="CheckBoxList\ChechBoxItemList.cs" />
-    <Compile Include="CheckBoxList\CheckBoxItemViewModel.cs" />
-    <Compile Include="CheckBoxList\ICheckBoxItem.cs" />
-    <Compile Include="ConnectionSettingsManager.cs" />
-    <Compile Include="BalloonToolTip\BalloonHelper.cs" />
-    <Compile Include="BalloonToolTip\ViewModels\BalloonToolTipViewModel.cs" />
-    <Compile Include="BalloonToolTip\Views\BalloonToolTipView.xaml.cs">
-      <DependentUpon>BalloonToolTipView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BindingErrorListener.cs" />
-    <Compile Include="EncryptHelper.cs" />
-    <Compile Include="Navigation\ShowOnPlanArgs.cs" />
-    <Compile Include="Ribbon\RibbonViewModel.cs" />
-    <Compile Include="Services\DragDrop\DragCorrectionEventArgs.cs" />
-    <Compile Include="Services\IDialogService.cs" />
-    <Compile Include="Services\IMessageBoxService.cs" />
-    <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
-    <Compile Include="Services\Layout\ILayoutPartContainer.cs" />
-    <Compile Include="Services\Layout\ILayoutPartContent.cs" />
-    <Compile Include="Services\Layout\ILayoutPartControl.cs" />
-    <Compile Include="Services\Layout\LayoutPartContainerCollection.cs" />
-    <Compile Include="Services\Layout\LayoutPartDescriptionGroup.cs" />
-    <Compile Include="Services\Layout\LayoutPartProperty.cs" />
-    <Compile Include="Services\Layout\LayoutPartPropertyAccess.cs" />
-    <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
-    <Compile Include="Services\Layout\LayoutPartPropertyType.cs" />
-    <Compile Include="Services\RealDialogService.cs" />
-    <Compile Include="Services\RealMessageBoxService.cs" />
-    <Compile Include="SKDReports\FilterContainerViewModel.cs" />
-    <Compile Include="SKDReports\FilteredSKDReportProvider.cs" />
-    <Compile Include="SKDReports\FilterModel.cs" />
-    <Compile Include="SKDReports\IFilteredSKDReportProvider.cs" />
-    <Compile Include="SKDReports\ISKDReportProvider.cs" />
-    <Compile Include="SKDReports\ISKDReportProviderModule.cs" />
-    <Compile Include="SKDReports\SKDReportGroup.cs" />
-    <Compile Include="SKDReports\SKDReportProvider.cs" />
-    <Compile Include="Validation\PlanObjectValidationError.cs" />
-    <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
-    <Compile Include="Windows\ViewModels\IEditingBaseViewModel.cs" />
-    <Compile Include="Configuration\ModuleCollection.cs" />
-    <Compile Include="Configuration\ModuleElement.cs" />
-    <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="GlobalSettingsHelper.cs" />
-    <Compile Include="LoadingErrorManager.cs" />
-    <Compile Include="Mail\MailHelper.cs" />
-    <Compile Include="ManualPdfHelper.cs" />
-    <Compile Include="ObservableRangeCollection.cs" />
-    <Compile Include="ProcessHelper.cs" />
-    <Compile Include="RegistryHelper\RegistryHelper.cs" />
-    <Compile Include="RegistrySettingsHelper.cs" />
-    <Compile Include="LoadHelper\RevisorLoadHelper.cs" />
-    <Compile Include="FSCP\ZipSerializeHelper.cs" />
-    <Compile Include="LoadHelper\ServerLoadHelper.cs" />
-    <Compile Include="RelayCommand\DisabledRelayCommand.cs" />
-    <Compile Include="RelayCommand\RelayCommandProvider.cs" />
-    <Compile Include="Reports\IReportPdfProvider.cs" />
-    <Compile Include="Ribbon\RibbonButton.cs" />
-    <Compile Include="Ribbon\RibbonMenuItemViewModel.cs" />
-    <Compile Include="Ribbon\RibbonMenuViewModel.cs" />
-    <Compile Include="Services\Content\IContentService.cs" />
-    <Compile Include="Services\Content\ContentService.cs" />
-    <Compile Include="Services\DragDrop\DragServiceEventArgs.cs" />
-    <Compile Include="Services\DragDrop\TreeListDragDropDecorator.cs" />
-    <Compile Include="Services\DragDrop\DragAdorner.cs" />
-    <Compile Include="Services\DragDrop\DragDropDecorator.cs" />
-    <Compile Include="Services\DragDrop\DragDropService.cs" />
-    <Compile Include="Services\DragDrop\IDragDropService.cs" />
-    <Compile Include="Services\DragDrop\TreeNodeDropObject.cs" />
-    <Compile Include="Services\ISecurityService.cs" />
-    <Compile Include="Services\Layout\LayoutPartSize.cs" />
-    <Compile Include="Services\Layout\UnknownLayoutPartPresenter.cs" />
-    <Compile Include="Services\Layout\ILayoutPartPresenter.cs" />
-    <Compile Include="Services\Layout\LayoutPartPresenter.cs" />
-    <Compile Include="Services\Layout\UnknownLayoutPartDescription.cs" />
-    <Compile Include="Services\Layout\ILayoutPartDescription.cs" />
-    <Compile Include="Services\Layout\ILayoutDeclarationModule.cs" />
-    <Compile Include="Services\Layout\ILayoutProviderModule.cs" />
-    <Compile Include="Services\Layout\LayoutPartDescription.cs" />
-    <Compile Include="Services\Resources\IResourceService.cs" />
-    <Compile Include="Services\Resources\ResourceService.cs" />
-    <Compile Include="Services\Ribbon\IRibbonService.cs" />
-    <Compile Include="Services\Ribbon\RibbonService.cs" />
-    <Compile Include="SeviceRightsHelper.cs" />
-    <Compile Include="ShellIntegrationHelper.cs" />
-    <Compile Include="TreeList\IItemComparer.cs" />
-    <Compile Include="TreeList\ITreeList.cs" />
-    <Compile Include="TreeList\ITreeNodeModel.cs" />
-    <Compile Include="TreeList\RootTreeNodeViewModel.cs" />
-    <Compile Include="TreeList\TreeItemViewModel.cs" />
-    <Compile Include="Reports\IFilterableReport.cs" />
-    <Compile Include="Reports\IReportPrintExtension.cs" />
-    <Compile Include="Reports\IMultiReportProvider.cs" />
-    <Compile Include="Reports\ISingleReportProvider.cs" />
-    <Compile Include="Reports\IReportProvider.cs" />
-    <Compile Include="Reports\IReportProviderModule.cs" />
-    <Compile Include="Services\ServiceFactoryBase.cs" />
-    <Compile Include="Theme\ThemeHelper.cs" />
-    <Compile Include="Theme\ThemeType.cs" />
-    <Compile Include="TreeList\TreeNodeComparer.cs" />
-    <Compile Include="TreeList\TreeNodeViewModel.cs" />
-    <Compile Include="UACHelper.cs" />
-    <Compile Include="Validation\CommonValidationError.cs" />
-    <Compile Include="Validation\ObjectValidationError.cs" />
-    <Compile Include="Validation\ValidationErrorLevel.cs" />
-    <Compile Include="Validation\IValidationError.cs" />
-    <Compile Include="Validation\IValidationModule.cs" />
-    <Compile Include="VisualizationState.cs" />
-    <Compile Include="Windows\Converters\PanelTooltipConverter.cs" />
-    <Compile Include="Windows\DataTemplates\MulticlientDataTemplateSelector.cs" />
-    <Compile Include="Windows\ILayoutService.cs" />
-    <Compile Include="Windows\LayoutService.cs" />
-    <Compile Include="Windows\LoadingService.cs" />
-    <Compile Include="Windows\ShortcutService.cs" />
-    <Compile Include="Windows\ViewModels\BaseViewModel.cs" />
-    <Compile Include="Windows\ViewModels\IInitializable.cs" />
-    <Compile Include="Windows\ViewModels\MinimizeTarget.cs" />
-    <Compile Include="Windows\ViewModels\RightContentViewModel.cs" />
-    <Compile Include="Windows\ViewModels\ISelectable.cs" />
-    <Compile Include="Windows\ViewModels\LoadingViewModel.cs" />
-    <Compile Include="IModule.cs" />
-    <Compile Include="Windows\ViewModels\IViewPartViewModel.cs" />
-    <Compile Include="ModuleBase.cs" />
-    <Compile Include="Navigation\NavigationItem.cs" />
-    <Compile Include="Navigation\NavigationView.xaml.cs">
-      <DependentUpon>NavigationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="RelayCommand\RelayCommand.cs" />
-    <Compile Include="SingleLaunchHelper.cs" />
-    <Compile Include="TreeList\TreeBaseViewModel.cs" />
-    <Compile Include="Wait\WaitHelper.cs" />
-    <Compile Include="Wait\WaitWrapper.cs" />
-    <Compile Include="Windows\SaveSizeAttribute.cs" />
-    <Compile Include="Windows\ViewModels\IWindowIdentity.cs" />
-    <Compile Include="Windows\ApplicationService.cs" />
-    <Compile Include="Windows\DataTemplates\HierarhicalDataTemplateSelector.cs" />
-    <Compile Include="Windows\DialogService.cs" />
-    <Compile Include="Windows\MessageBoxService.cs" />
-    <Compile Include="Windows\ViewModels\ApplicationViewModel.cs" />
-    <Compile Include="Windows\ViewModels\ConnectionViewModel.cs" />
-    <Compile Include="Windows\ViewModels\ApplicationHeaderViewModel.cs" />
-    <Compile Include="Windows\ViewModels\MessageBoxViewModel.cs" />
-    <Compile Include="Windows\ViewModels\HeaderedWindowViewModel.cs" />
-    <Compile Include="Windows\ViewModels\DialogHeaderViewModel.cs" />
-    <Compile Include="Windows\ViewModels\DialogViewModel.cs" />
-    <Compile Include="Windows\ViewModels\IHeaderViewModel.cs" />
-    <Compile Include="Windows\ViewModels\ProgressViewModel.cs" />
-    <Compile Include="Windows\ViewModels\SaveCancelDialogViewModel.cs" />
-    <Compile Include="Windows\ViewModels\ShellViewModel.cs" />
-    <Compile Include="Windows\ViewModels\ViewPartViewModel.cs" />
-    <Compile Include="Windows\ViewModels\WindowBaseViewModel.cs" />
-    <Compile Include="Windows\Views\ApplicationHeaderView.xaml.cs">
-      <DependentUpon>ApplicationHeaderView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\ApplicationView.xaml.cs">
-      <DependentUpon>ApplicationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\RightContentView.xaml.cs">
-      <DependentUpon>RightContentView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\LoadingView.xaml.cs">
-      <DependentUpon>LoadingView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\DialogView.xaml.cs">
-      <DependentUpon>DialogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\HeaderedWindowView.xaml.cs">
-      <DependentUpon>HeaderedWindowView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\ConnectionView.xaml.cs">
-      <DependentUpon>ConnectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\DialogHeaderView.xaml.cs">
-      <DependentUpon>DialogHeaderView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\MessageBoxView.xaml.cs">
-      <DependentUpon>MessageBoxView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\ProgressView.xaml.cs">
-      <DependentUpon>ProgressView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\SaveCancelDialogView.xaml.cs">
-      <DependentUpon>SaveCancelDialogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\ShellView.xaml.cs">
-      <DependentUpon>ShellView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\WindowBaseView.xaml.cs">
-      <DependentUpon>WindowBaseView.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="About\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="About\Views\AboutView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BalloonToolTip\Views\BalloonResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="BalloonToolTip\Views\BalloonToolTipView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Navigation\NavigationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\Views\ApplicationHeaderView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\ApplicationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\RightContentView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\Views\LoadingView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\Views\DialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\HeaderedWindowView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\ConnectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\DialogHeaderView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\MessageBoxView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\ProgressView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\SaveCancelDialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\ShellView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\WindowBaseView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\RubezhAPI\RubezhAPI.csproj">
-      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
       <Name>RubezhAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

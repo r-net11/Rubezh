@@ -7,7 +7,7 @@ using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel

@@ -29,7 +29,15 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Name="_treeList" ListViewLayoutManager.Enabled="False" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" tree:SortBehavior.CanUserSortColumns="True" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" Loaded="treeList_Loaded">
+		<tree:TreeList Name="_treeList"
+					   Grid.Row="0"
+					   Source="{Binding Organisations}"
+					   ListViewLayoutManager.Enabled="True"
+					   SelectedTreeNode="{Binding SelectedItem}"
+					   Focusable="True"
+					   tree:SortBehavior.CanUserSortColumns="True"
+					   ItemActivatedCommand="{Binding EditCommand}"
+					   Loaded="treeList_Loaded">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="ФИО" Width="150" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data.Linq;
-using System.Linq.Expressions;
-using RubezhAPI.SKD;
-using LinqKit;
+﻿using RubezhAPI.SKD;
 using System.Data.Entity;
 using System.Linq;
 
@@ -14,9 +10,9 @@ namespace RubezhDAL.DataClasses
 
 		public override ExportPosition Translate(Position item)
 		{
-			return new ExportPosition 
-			{ 
-				Name = item.Name, 
+			return new ExportPosition
+			{
+				Name = item.Name,
 				Description = item.Description,
 
 				OrganisationUID = GetUID(item.OrganisationUID),
@@ -41,7 +37,7 @@ namespace RubezhDAL.DataClasses
 
 		public override void TranslateBack(ExportPosition exportItem, Position tableItem)
 		{
-			tableItem.Name  = exportItem.Name;
+			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description;
 			tableItem.IsDeleted = exportItem.IsDeleted;
 			tableItem.RemovalDate = exportItem.RemovalDate;

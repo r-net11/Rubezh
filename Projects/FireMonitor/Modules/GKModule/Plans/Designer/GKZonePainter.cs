@@ -1,18 +1,18 @@
-﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using GKModule.ViewModels;
+﻿using GKModule.ViewModels;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.Presenter;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GKModule.Plans.Designer
 {
@@ -30,13 +30,13 @@ namespace GKModule.Plans.Designer
 				_zoneViewModel = new ZoneViewModel(Item);
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();
-			
+
 			if (presenterItem.Element is ElementRectangleGKZone)
 			{
 				var element = presenterItem.Element as ElementRectangleGKZone;
 				_showState = element.ShowState;
 			}
-			else if(presenterItem.Element is ElementPolygonGKZone)
+			else if (presenterItem.Element is ElementPolygonGKZone)
 			{
 				var element = presenterItem.Element as ElementPolygonGKZone;
 				this._showState = element.ShowState;

@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.InstrumentAdorners;
+using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.InstrumentAdorners;
 using SKDModule.PassCardDesigner.ViewModels;
+using System;
 
 namespace SKDModule.PassCardDesigner.InstrumentAdorners
 {
 	public class PassCardTextPropertyAdorner : BaseRectangleAdorner
 	{
 		Guid _organisationUID;
-		
+
 		public PassCardTextPropertyAdorner(CommonDesignerCanvas designerCanvas, Guid organisationUID)
 			: base(designerCanvas)
 		{

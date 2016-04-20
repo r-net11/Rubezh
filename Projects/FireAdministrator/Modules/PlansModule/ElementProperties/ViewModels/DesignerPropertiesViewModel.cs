@@ -29,7 +29,19 @@ namespace PlansModule.ViewModels
 			}
 			Plan = plan;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(Plan);
+			IsEnable = ImagePropertiesViewModel.ImageBrush != null;
+			ImagePropertiesViewModel.UpdateProperty+=ImagePropertiesViewModel_UpdateProperty;
 			CopyProperties();
+		}
+
+		public bool IsEnable { get; private set; }
+
+		void ImagePropertiesViewModel_UpdateProperty(bool e)
+		{
+			IsEnable = ImagePropertiesViewModel.ImageBrush != null;
+			OnPropertyChanged(() => IsEnable);
+			if (e)
+				IsAsynchronousLoadChecked = false;
 		}
 
 		void CopyProperties()

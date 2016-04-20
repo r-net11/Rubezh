@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Presenter;
 
 namespace PlansModule.ViewModels
 {
@@ -23,7 +24,7 @@ namespace PlansModule.ViewModels
 		}
 		private void SetPresenterItem()
 		{
-			var position = PresenterItem.Element.Position;
+			var position = PresenterItem.Element.GetPosition();
 			CenterX = position.X;
 			CenterY = position.Y;
 			var rect = PresenterItem.Element.GetRectangle();

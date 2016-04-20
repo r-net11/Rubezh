@@ -1,10 +1,7 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans.Painters;
+using RubezhAPI.Plans.Elements;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SKDModule.PassCard.Designer
 {

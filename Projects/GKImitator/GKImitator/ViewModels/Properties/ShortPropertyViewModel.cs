@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using RubezhAPI.GK;
 
 namespace GKImitator.ViewModels
@@ -11,31 +10,28 @@ namespace GKImitator.ViewModels
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
-				Text = property.Value.ToString();
+			{
+				Text = DriverProperty.Multiplier != 0 ? (property.Value / DriverProperty.Multiplier).ToString() : property.Value.ToString();
+			}
 			else
 				Text = driverProperty.Default.ToString();
 		}
 
-		ushort _text;
+		double _text;
 		public string Text
 		{
 			get
 			{
 				double result = _text;
-				if (DriverProperty.Multiplier != 0)
-					result /= DriverProperty.Multiplier;
 				return result.ToString();
 			}
 			set
 			{
-				double doubleValue = -1;
+				double doubleValue;
 				if (double.TryParse(value, out doubleValue))
 				{
-					if (DriverProperty.Multiplier != 0)
-						doubleValue *= DriverProperty.Multiplier;
-					doubleValue = Math.Min(ushort.MaxValue, doubleValue);
-					_text = (ushort)doubleValue;
-					Save(_text);
+					_text = doubleValue;
+					Save(DriverProperty.Multiplier != 0 ? (ushort)(doubleValue * DriverProperty.Multiplier) : (ushort)doubleValue);
 				}
 				OnPropertyChanged(() => Text);
 			}

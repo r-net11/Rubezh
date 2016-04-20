@@ -5,14 +5,14 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Events;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
+using RubezhAPI.Plans.Elements;
 using RubezhClient;
 using System;
 using System.Collections.Generic;
@@ -250,10 +250,10 @@ namespace PlansModule.ViewModels
 					element.BorderThickness = Convert.ToDouble(data.Value);
 					break;
 				case ElementPropertyType.Left:
-					element.Position = new System.Windows.Point(Convert.ToDouble(data.Value), element.Position.Y);
+					element.SetPosition(new System.Windows.Point(Convert.ToDouble(data.Value), element.GetPosition().Y));
 					break;
 				case ElementPropertyType.Top:
-					element.Position = new System.Windows.Point(element.Position.X, Convert.ToDouble(data.Value));
+					element.SetPosition(new System.Windows.Point(element.GetPosition().X, Convert.ToDouble(data.Value)));
 					break;
 			}
 			var elementRectangle = element as ElementBaseRectangle;
@@ -364,10 +364,10 @@ namespace PlansModule.ViewModels
 						value = Convert.ToInt32(element.BorderThickness);
 						break;
 					case ElementPropertyType.Left:
-						value = Convert.ToInt32(element.Position.X);
+						value = Convert.ToInt32(element.GetPosition().X);
 						break;
 					case ElementPropertyType.Top:
-						value = Convert.ToInt32(element.Position.Y);
+						value = Convert.ToInt32(element.GetPosition().Y);
 						break;
 				}
 			}

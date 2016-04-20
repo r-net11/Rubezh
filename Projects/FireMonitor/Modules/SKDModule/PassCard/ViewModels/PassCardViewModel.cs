@@ -12,13 +12,13 @@ using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Designer;
+using RubezhAPI.Plans.Elements;
+using Infrastructure.Plans.Events;
 using SKDModule.PassCard.Designer;
 using System.Reflection;
 using System.ComponentModel;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans.Painters;
 
 namespace SKDModule.PassCard.ViewModels
 {

@@ -1,8 +1,7 @@
-﻿using RubezhAPI.Models;
+﻿using Infrastructure.Plans.Designer;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
-using Infrastructure;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.PassCardDesigner.Designer

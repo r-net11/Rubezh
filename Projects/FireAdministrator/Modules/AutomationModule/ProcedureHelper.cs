@@ -1,10 +1,10 @@
 ﻿using AutomationModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

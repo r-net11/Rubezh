@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
+﻿using Common;
 using DeviceControls;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
 using GKModule.Plans.Designer;
 using Infrastructure;
-using Infrastructure.Events;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Presenter;
 using RubezhAPI;
-using Infrustructure.Plans.Interfaces;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKModule.Plans
 {

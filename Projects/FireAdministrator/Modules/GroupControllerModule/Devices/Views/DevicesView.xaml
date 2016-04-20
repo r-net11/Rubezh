@@ -4,7 +4,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls"
 			 xmlns:Converters="clr-namespace:GKModule.Converters"
-			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
+			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common.Windows"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:GKModule.ViewModels"
 			 xmlns:Views="clr-namespace:GKModule.Views">

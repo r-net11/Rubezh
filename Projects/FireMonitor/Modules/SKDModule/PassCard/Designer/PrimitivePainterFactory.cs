@@ -1,11 +1,9 @@
-﻿using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
+﻿using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
+using RubezhAPI.Plans.Elements;
 using SKDModule.PassCard.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SKDModule.PassCard.Designer
 {

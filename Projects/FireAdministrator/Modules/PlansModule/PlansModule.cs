@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
@@ -11,13 +7,16 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer;
-using Infrastructure.Events;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
-using PlansModule.ViewModels;
-using RubezhClient;
 using Infrastructure.Designer.Events;
+using Infrastructure.Events;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Painters;
+using PlansModule.ViewModels;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System.Collections.Generic;
 
 namespace PlansModule
 {
@@ -73,18 +72,6 @@ namespace PlansModule
 		private void OnConfigurationSavingEvent(object obj)
 		{
 			_plansViewModel.PlanDesignerViewModel.Save();
-
-			foreach (var plan in ClientManager.PlansConfiguration.AllPlans)
-			{
-				foreach (var element in plan.AllElements)
-				{
-					var elementBaseShape = element as Infrustructure.Plans.Elements.ElementBaseShape;
-					if (elementBaseShape != null)
-					{
-						elementBaseShape.SaveRGPoints();
-					}
-				}
-			}
 		}
 
 		void OnEditPlanElementBindingEvent(EditPlanElementBindingEventArgs editPlanElementBindingEventArgs)

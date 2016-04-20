@@ -2,10 +2,10 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Interfaces;
+using Infrastructure.Plans.Events;
 using PlansModule.Designer;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Interfaces;
 using RubezhClient;
 using System;
 using System.Linq;

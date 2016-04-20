@@ -2,12 +2,12 @@
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Events;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Interfaces;
-using Infrustructure.Plans.Services;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Services;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using RubezhAPI.Plans.Interfaces;
 using RubezhClient;
 using System;
 using System.Collections.Generic;

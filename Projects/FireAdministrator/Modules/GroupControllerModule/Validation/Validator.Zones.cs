@@ -37,7 +37,7 @@ namespace GKModule.Validation
 			}
 			if (fire2Count == 0 && fire1Count < zone.Fire2Count)
 			{
-				AddError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite);
+				AddError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.Warning);
 			}
 		}
 

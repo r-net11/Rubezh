@@ -2,8 +2,8 @@
 using Infrastructure.Client.Plans;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Events;
 
 namespace Infrastructure.Designer.ViewModels
 {

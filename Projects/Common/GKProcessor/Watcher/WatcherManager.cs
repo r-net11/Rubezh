@@ -1,5 +1,4 @@
 ﻿using Common;
-using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
@@ -27,7 +26,6 @@ namespace GKProcessor
 					watcher.StartThread();
 				}
 			}
-			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			TimeSynchronisationHelper.Start();
 			LifeTimeWatcher.Start();
 		}
@@ -50,12 +48,6 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "JournalWatcherManager.Stop");
 			}
-		}
-
-		static void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			if (!e.Cancel)
-				Stop();
 		}
 
 		public static void Send(Action<SendResult> onCompleted, GKDevice gkParentDevice, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)

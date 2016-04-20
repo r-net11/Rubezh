@@ -1,11 +1,11 @@
-﻿using RubezhAPI.GK;
-using RubezhAPI.Models;
-using GKModule.Plans.ViewModels;
+﻿using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.InstrumentAdorners;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.InstrumentAdorners;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
@@ -18,7 +18,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			_directionsViewModel = directionsViewModel;
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleGKDirection();
 			var propertiesViewModel = new DirectionPropertiesViewModel(element, _directionsViewModel);

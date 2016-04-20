@@ -1,11 +1,9 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.PlanLink.ViewModels;
-using Infrustructure.Plans.Events;
 using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using RubezhClient;
@@ -14,6 +12,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Windows.Input;
 
 namespace VideoModule.ViewModels
 {
@@ -24,10 +23,6 @@ namespace VideoModule.ViewModels
 		public int Height { get; private set; }
 		public int MarginLeft { get; private set; }
 		public int MarginTop { get; private set; }
-		public bool IsRecordOnline { get; private set; }
-		public bool IsOnGuard { get; private set; }
-		public RviStatus Status { get; private set; }
-		public bool IsConnected { get { return Status == RviStatus.Connected; } }
 		public PlanLinksViewModel PlanLinks { get; private set; }
 
 		public CameraDetailsViewModel(Camera camera)
@@ -57,7 +52,47 @@ namespace VideoModule.ViewModels
 				IsOnGuard = Camera.IsOnGuard;
 				Status = Camera.Status;
 				PlanLinks = new PlanLinksViewModel(Camera);
-
+			}
+		}
+		RviStatus _status;
+		public RviStatus Status
+		{
+			get { return _status; }
+			set
+			{
+				_status = value;
+				IsConnected = value == RviStatus.Connected;
+				OnPropertyChanged(() => Status);
+			}
+		}
+		bool _isOnGuard;
+		public bool IsOnGuard
+		{
+			get { return _isOnGuard; }
+			set
+			{
+				_isOnGuard = value;
+				OnPropertyChanged(() => IsOnGuard);
+			}
+		}
+		bool _isRecordOnline;
+		public bool IsRecordOnline
+		{
+			get { return _isRecordOnline; }
+			set
+			{
+				_isRecordOnline = value;
+				OnPropertyChanged(() => IsRecordOnline);
+			}
+		}
+		bool _isConnected;
+		public bool IsConnected
+		{
+			get { return _isConnected; }
+			set
+			{
+				_isConnected = value;
+				OnPropertyChanged(() => IsConnected);
 			}
 		}
 		void OnCameraStatusChanged()
@@ -70,10 +105,7 @@ namespace VideoModule.ViewModels
 				OnPlay();
 			else if (oldStatus == RviStatus.Connected && Camera.Status != RviStatus.Connected)
 				OnStop();
-			OnPropertyChanged(() => IsRecordOnline);
-			OnPropertyChanged(() => IsOnGuard);
-			OnPropertyChanged(() => Status);
-			OnPropertyChanged(() => IsConnected);
+			CommandManager.InvalidateRequerySuggested();
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -142,7 +174,7 @@ namespace VideoModule.ViewModels
 		}
 		bool CanAlarmSetChannel()
 		{
-			return IsConnected && !Camera.IsOnGuard;
+			return IsConnected && !IsOnGuard;
 		}
 		public RelayCommand AlarmDisableChannelCommand { get; private set; }
 		void OnAlarmDisableChannel()
@@ -151,7 +183,7 @@ namespace VideoModule.ViewModels
 		}
 		bool CanAlarmDisableChannel()
 		{
-			return IsConnected && Camera.IsOnGuard;
+			return IsConnected && IsOnGuard;
 		}
 		public bool PrepareToTranslation(out IPEndPoint ipEndPoint, out int vendorId)
 		{

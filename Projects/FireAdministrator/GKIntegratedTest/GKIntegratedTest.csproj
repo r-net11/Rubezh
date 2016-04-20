@@ -44,9 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\bin\Debug\GKProcessor.dll</HintPath>
     </Reference>
-    <Reference Include="Infrustructure.Plans, Version=2.1.8.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Infrastructure.Plans, Version=2.1.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Debug\Infrustructure.Plans.dll</HintPath>
+      <HintPath>..\bin\Debug\Infrastructure.Plans.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -77,6 +77,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="IntegratedTest.MPT.cs" />
+    <Compile Include="IntegratedTest.PumpStation.cs" />
     <Compile Include="IntegratedTest.GuardZone.cs" />
     <Compile Include="IntegratedTest.Initialize.cs" />
     <Compile Include="ItegratedTest.Device.cs" />
@@ -88,8 +90,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+    <ProjectReference Include="..\..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
+      <Name>Infrastructure.Common.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">

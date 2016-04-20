@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using Common;
-using RubezhAPI.SKD;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Events;
+using RubezhAPI.Plans.Elements;
+using RubezhAPI.SKD;
 using SKDModule.PassCardDesigner.Designer;
 using SKDModule.PassCardDesigner.Painter;
+using System.Collections.Generic;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {

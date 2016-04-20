@@ -4,8 +4,8 @@ using DevicesModule.Plans.Designer;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Elements;
+using Infrastructure.Plans.Presenter;
 
 namespace DevicesModule.Plans
 {

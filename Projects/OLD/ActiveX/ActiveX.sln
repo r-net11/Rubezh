@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commons", "Commons", "{8C7D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceControls", "..\Common\DeviceControls\DeviceControls.csproj", "{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..\Common\Infrastructure.Common\Infrastructure.Common.csproj", "{D57CB190-A30E-4A3D-A674-F1766CE1CC72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common.Windows", "..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj", "{D57CB190-A30E-4A3D-A674-F1766CE1CC72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevicesModule", "..\FireMonitor\Modules\DevicesModule\DevicesModule.csproj", "{408CBBFB-3989-443C-A5A2-3D78310210CD}"
 EndProject

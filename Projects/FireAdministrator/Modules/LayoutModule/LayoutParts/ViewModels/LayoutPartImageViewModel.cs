@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Client.Images;
 using Infrastructure.Common.Services.Layout;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 using System.Windows.Media;

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.InstrumentAdorners;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.InstrumentAdorners;
 
 namespace Infrastructure.Client.Plans
 {
