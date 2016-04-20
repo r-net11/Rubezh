@@ -2,7 +2,7 @@
 using RubezhAPI.Plans.Elements;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {

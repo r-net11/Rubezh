@@ -2,7 +2,7 @@
 using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Presenter;
 
 namespace Infrastructure.Client.Plans.Presenter
 {

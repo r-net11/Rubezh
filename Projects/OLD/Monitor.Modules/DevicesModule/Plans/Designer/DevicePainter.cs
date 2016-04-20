@@ -10,8 +10,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrastructure.Models;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.Presenter;
 
 namespace DevicesModule.Plans.Designer
 {

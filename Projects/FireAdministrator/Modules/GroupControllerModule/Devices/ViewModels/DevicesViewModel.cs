@@ -6,7 +6,7 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using Microsoft.Win32;
 using RubezhAPI;
 using RubezhAPI.GK;

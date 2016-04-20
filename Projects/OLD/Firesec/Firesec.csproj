@@ -203,9 +203,9 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

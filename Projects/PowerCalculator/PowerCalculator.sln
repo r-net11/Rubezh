@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhAPI", "..\Common\Rube
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common.Windows", "..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj", "{D57CB190-A30E-4A3D-A674-F1766CE1CC72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Plans", "..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerCalculator", "PowerCalculator\PowerCalculator.csproj", "{A19B7522-4D0C-4982-A7F9-0F598EE0EA2D}"
 EndProject

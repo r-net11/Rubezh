@@ -69,9 +69,9 @@
       <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>
       <Name>GKProcessor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>

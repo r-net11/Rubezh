@@ -9,10 +9,10 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Elements;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Presenter;
 
 namespace DevicesModule.Plans
 {

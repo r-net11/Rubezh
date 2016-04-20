@@ -1,7 +1,7 @@
 ﻿using Infrastructure;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.Presenter;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
 using System.Collections.Generic;

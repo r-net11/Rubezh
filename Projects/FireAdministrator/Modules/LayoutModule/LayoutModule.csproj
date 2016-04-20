@@ -225,9 +225,9 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\RubezhLicense\RubezhLicense.csproj">
       <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>

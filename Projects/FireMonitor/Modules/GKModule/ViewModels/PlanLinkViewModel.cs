@@ -1,7 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using System;

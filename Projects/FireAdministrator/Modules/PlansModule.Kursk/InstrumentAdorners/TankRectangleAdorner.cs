@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.InstrumentAdorners;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.InstrumentAdorners;
 using PlansModule.Kursk.Designer;
 using PlansModule.Kursk.ViewModels;
 using RubezhAPI.Models;

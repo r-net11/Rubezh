@@ -3,8 +3,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.InstrumentAdorners;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.InstrumentAdorners;
 
 namespace Infrastructure.Designer.ViewModels
 {

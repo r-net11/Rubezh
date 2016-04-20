@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Presenter;
 
 namespace Infrastructure.Client.Plans.Presenter
 {

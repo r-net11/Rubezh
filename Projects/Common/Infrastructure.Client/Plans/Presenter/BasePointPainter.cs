@@ -3,8 +3,8 @@ using System.Windows.Controls;
 using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Client.Plans.Presenter

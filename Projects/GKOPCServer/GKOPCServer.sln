@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhAPI", "..\Common\Rube
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKProcessor", "..\Common\GKProcessor\GKProcessor.csproj", "{62564D14-0234-4947-8218-2C7D74721023}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Plans", "..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhLicense", "..\Common\RubezhLicense\RubezhLicense.csproj", "{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}"
 EndProject

@@ -3,7 +3,7 @@ using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 
 namespace PlansModule.Kursk
 {

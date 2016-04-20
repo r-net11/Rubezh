@@ -5,7 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using RubezhClient;

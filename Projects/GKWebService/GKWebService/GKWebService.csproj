@@ -993,9 +993,9 @@
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
       <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

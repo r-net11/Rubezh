@@ -4,8 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.InstrumentAdorners;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.InstrumentAdorners;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {

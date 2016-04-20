@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Automation;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.Models;
