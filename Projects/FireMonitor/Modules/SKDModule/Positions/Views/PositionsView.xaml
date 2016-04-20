@@ -14,8 +14,13 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Name="_treeList" Grid.Row="0" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" 
-					   Source="{Binding Organisations, Mode=OneWay}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}">
+		<tree:TreeList Name="_treeList"
+					   Grid.Row="0"
+					   Focusable="True"
+					   tree:SortBehavior.CanUserSortColumns="True"
+					   Source="{Binding Organisations, Mode=OneWay}"
+					   SelectedTreeNode="{Binding SelectedItem}"
+					   ItemActivatedCommand="{Binding EditCommand}">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelNameComparer}">
@@ -43,6 +48,6 @@
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 		<Views:EmployeeListView Grid.Row="2" DataContext="{Binding SelectedItem.EmployeeListViewModel}" 
-				  Visibility="{Binding DataContext.IsShowEmployeeList, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+								Visibility="{Binding DataContext.IsShowEmployeeList, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}"/>
 	</Grid>
 </UserControl>
