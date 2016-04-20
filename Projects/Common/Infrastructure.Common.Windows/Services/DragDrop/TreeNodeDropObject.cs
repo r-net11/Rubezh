@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 
-namespace Infrastructure.Common.Windows.Services.DragDrop
+namespace Infrastructure.Common.Services.DragDrop
 {
 	public class TreeNodeDropObject
 	{

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Infrastructure.Common.Windows.Theme
+namespace Infrastructure.Common.Theme
 {
 	public enum Theme
 	{

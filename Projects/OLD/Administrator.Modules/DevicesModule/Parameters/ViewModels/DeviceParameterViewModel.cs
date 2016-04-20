@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DevicesModule.DeviceProperties;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 
 namespace DevicesModule.ViewModels
 {

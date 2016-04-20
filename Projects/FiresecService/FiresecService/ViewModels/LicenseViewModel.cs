@@ -1,8 +1,8 @@
 ﻿using RubezhLicense;
 using FiresecService.Processor;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using RubezhAPI.License;
 using System;

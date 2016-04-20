@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Infrastructure;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using VideoModule.Views;
 
 namespace VideoModule.ViewModels

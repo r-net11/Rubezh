@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using FiresecOPCServer.ViewModels;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 
 namespace FiresecOPCServer.Views
 {

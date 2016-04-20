@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace Infrastructure.Common.Windows.Services.DragDrop
+namespace Infrastructure.Common.Services.DragDrop
 {
 	public delegate void DragCorrectionEventHandler(object sender, DragCorrectionEventArgs e);
 	public class DragCorrectionEventArgs : EventArgs

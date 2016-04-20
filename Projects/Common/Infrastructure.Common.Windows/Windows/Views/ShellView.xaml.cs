@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Infrastructure.Common.Windows.Windows.Views
+namespace Infrastructure.Common.Windows.Views
 {
 	public partial class ShellView : UserControl
 	{

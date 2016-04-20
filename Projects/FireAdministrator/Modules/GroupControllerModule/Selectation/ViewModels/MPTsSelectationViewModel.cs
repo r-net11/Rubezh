@@ -5,9 +5,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using Common;
 

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2.ConfigurationWriter;
 
 namespace ConfigurationViewer.ViewModels

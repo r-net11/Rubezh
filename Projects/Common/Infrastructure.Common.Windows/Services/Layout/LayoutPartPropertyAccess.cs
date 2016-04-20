@@ -1,5 +1,5 @@
 ﻿
-namespace Infrastructure.Common.Windows.Services.Layout
+namespace Infrastructure.Common.Services.Layout
 {
 	public enum LayoutPartPropertyAccess
 	{

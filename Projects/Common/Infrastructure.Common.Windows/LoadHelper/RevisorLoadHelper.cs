@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Common;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class RevisorLoadHelper
 	{

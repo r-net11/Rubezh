@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows.Ribbon;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
 
-namespace Infrastructure.Common.Windows.Services.Ribbon
+namespace Infrastructure.Common.Services.Ribbon
 {
 	public class RibbonService : IRibbonService
 	{

@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Windows.Windows.ViewModels;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrastructure;
 using RubezhAPI.Journal;

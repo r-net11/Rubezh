@@ -1,6 +1,6 @@
 ﻿using RubezhAPI.Models;
 using RubezhAPI.SKD.ReportFilters;
-using Infrastructure.Common.Windows.SKDReports;
+using Infrastructure.Common.SKDReports;
 
 namespace GKModule.Reports.Providers
 {

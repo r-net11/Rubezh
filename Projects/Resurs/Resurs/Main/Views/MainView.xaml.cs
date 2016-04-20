@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using Resurs.Service;
 using ResursDAL;
 using Resurs.ViewModels;

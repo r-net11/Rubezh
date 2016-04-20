@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Common;
 using ProcessPrivileges;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class SeviceRightsHelper
 	{

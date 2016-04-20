@@ -1,6 +1,6 @@
 ﻿using GKProcessor;
-using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using RubezhAPI;
 using RubezhAPI.GK;

@@ -1,5 +1,5 @@
 ﻿using FiresecService.Processor;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using RubezhAPI.License;
 using System;
 using System.IO;

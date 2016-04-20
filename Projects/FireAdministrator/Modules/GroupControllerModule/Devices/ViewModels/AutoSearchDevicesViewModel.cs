@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Infrastructure;
 using RubezhClient;
 using Infrastructure.Events;
-using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Services;
 using RubezhAPI;
 
 namespace GKModule.ViewModels

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public class ObservableRangeCollection<T> : ObservableCollection<T>
 	{

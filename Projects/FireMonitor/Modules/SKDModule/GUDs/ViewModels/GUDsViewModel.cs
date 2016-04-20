@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using System.Linq;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
 using FiresecClient;
 using System;
 using System.Collections.Generic;

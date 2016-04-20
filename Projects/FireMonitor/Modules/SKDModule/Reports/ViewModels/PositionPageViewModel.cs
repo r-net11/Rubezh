@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 using Infrastructure;
-using Infrastructure.Common.Windows.SKDReports;
+using Infrastructure.Common.SKDReports;
 using Infrastructure.Events;
 using SKDModule.ViewModels;
 

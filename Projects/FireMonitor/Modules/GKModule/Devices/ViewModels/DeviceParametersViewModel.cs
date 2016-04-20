@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using RubezhClient;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using RubezhAPI;
 

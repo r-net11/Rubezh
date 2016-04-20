@@ -1,9 +1,9 @@
-﻿using Infrastructure.Common.Windows.Services.Content;
-using Infrastructure.Common.Windows.Services.DragDrop;
+﻿using Infrastructure.Common.Services.Content;
+using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Services;
 using Microsoft.Practices.Prism.Events;
 
-namespace Infrastructure.Common.Windows.Services
+namespace Infrastructure.Common.Services
 {
 	public abstract class ServiceFactoryBase
 	{

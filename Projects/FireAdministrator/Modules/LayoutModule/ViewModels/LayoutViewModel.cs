@@ -1,5 +1,5 @@
 ﻿using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {

@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Common.Windows.Services
+﻿namespace Infrastructure.Common.Services
 {
 	public interface ISecurityService
 	{

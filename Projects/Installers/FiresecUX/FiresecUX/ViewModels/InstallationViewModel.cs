@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
 using WinForms = System.Windows.Forms;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecUX.ViewModels
 {

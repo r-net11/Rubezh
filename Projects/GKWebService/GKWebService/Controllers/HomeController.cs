@@ -9,7 +9,7 @@ using System.Web.Security;
 using GKWebService.Models;
 using GKWebService.Models.GK;
 using GKWebService.Utils;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using RubezhAPI.Models;
 using RubezhClient;
 

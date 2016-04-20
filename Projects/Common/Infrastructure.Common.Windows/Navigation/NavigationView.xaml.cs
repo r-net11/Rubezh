@@ -4,9 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 
-namespace Infrastructure.Common.Windows.Navigation
+namespace Infrastructure.Common.Navigation
 {
 	public partial class NavigationView : UserControl, INotifyPropertyChanged
 	{

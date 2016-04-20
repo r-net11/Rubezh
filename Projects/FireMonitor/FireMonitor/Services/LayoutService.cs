@@ -1,14 +1,14 @@
 ﻿using FireMonitor.ViewModels;
 using Infrastructure;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor
 {
 	public class LayoutService : ILayoutService
 	{
-		private Infrastructure.Common.Windows.Windows.ILayoutService ApplicationLayoutService
+		private Infrastructure.Common.Windows.ILayoutService ApplicationLayoutService
 		{
-			get { return Infrastructure.Common.Windows.Windows.ApplicationService.Layout; }
+			get { return Infrastructure.Common.Windows.ApplicationService.Layout; }
 		}
 		private ToolbarViewModel _toolbarViewModel;
 		internal void SetToolbarViewModel(ToolbarViewModel toolbarViewModel)
@@ -45,7 +45,7 @@ namespace FireMonitor
 			ApplicationLayoutService.ShowFooter(model);
 		}
 
-		public Infrastructure.Common.Windows.Windows.ShortcutService ShortcutService
+		public Infrastructure.Common.Windows.ShortcutService ShortcutService
 		{
 			get { return ApplicationLayoutService.ShortcutService; }
 		}

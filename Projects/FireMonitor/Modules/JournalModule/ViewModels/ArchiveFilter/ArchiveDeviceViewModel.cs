@@ -1,6 +1,6 @@
 ﻿using RubezhAPI.GK;
-using Infrastructure.Common.Windows.CheckBoxList;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.CheckBoxList;
+using Infrastructure.Common.TreeList;
 
 namespace JournalModule.ViewModels
 {

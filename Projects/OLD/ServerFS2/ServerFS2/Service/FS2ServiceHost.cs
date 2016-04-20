@@ -3,8 +3,8 @@ using System.Linq;
 using System.Net;
 using System.ServiceModel;
 using Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.BalloonTrayTip;
+using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 using ServerFS2.ViewModels;
 
 namespace ServerFS2.Service

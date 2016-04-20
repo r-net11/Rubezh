@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using Infrastructure.Common.Windows.About.ViewModels;
+using Infrastructure.Common.About.ViewModels;
 
-namespace Infrastructure.Common.Windows.Windows.ViewModels
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ApplicationViewModel : HeaderedWindowViewModel
 	{

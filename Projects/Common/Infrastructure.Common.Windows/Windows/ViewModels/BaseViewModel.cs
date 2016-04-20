@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Infrastructure.Common.Windows.Windows.ViewModels
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class BaseViewModel : INotifyPropertyChanged
 	{

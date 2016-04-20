@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Input;
 using Common;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Services;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public delegate bool PredicateDelegate();
 

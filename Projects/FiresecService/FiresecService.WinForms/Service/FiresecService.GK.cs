@@ -1,5 +1,5 @@
 ﻿using GKProcessor;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Ionic.Zip;
 using RubezhAPI;
 using RubezhAPI.GK;

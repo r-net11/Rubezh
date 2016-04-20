@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Common;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using System.Diagnostics;
 
 namespace ServerFS2

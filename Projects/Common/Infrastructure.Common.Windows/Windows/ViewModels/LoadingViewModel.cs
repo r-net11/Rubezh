@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Infrastructure.Common.Windows.Windows.ViewModels
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class LoadingViewModel : ProgressViewModel
 	{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.DeviceProperties;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 using RubezhAPI;
 
 namespace GKModule.ViewModels

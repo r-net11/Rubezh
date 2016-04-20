@@ -2,7 +2,7 @@
 using GKWebService.DataProviders;
 using GKWebService.DataProviders.MPTHubs;
 using GKWebService.Models;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;

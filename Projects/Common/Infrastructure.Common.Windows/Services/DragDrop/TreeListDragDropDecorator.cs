@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 
-namespace Infrastructure.Common.Windows.Services.DragDrop
+namespace Infrastructure.Common.Services.DragDrop
 {
 	public class TreeListDragDropDecorator : DragDropDecorator
 	{

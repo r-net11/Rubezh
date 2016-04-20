@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows.Windows;
+﻿using Infrastructure.Common.Windows;
 using RubezhAPI.GK;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Infrastructure.ViewModels;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using OpcClientSdk;
 using OpcClientSdk.Da;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using RubezhAPI.Automation;
 
 namespace AutomationModule.ViewModels

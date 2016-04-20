@@ -1,11 +1,11 @@
-﻿using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace Infrastructure.Common.Windows.Services
+namespace Infrastructure.Common.Services
 {
 	public interface IMessageBoxService
 	{

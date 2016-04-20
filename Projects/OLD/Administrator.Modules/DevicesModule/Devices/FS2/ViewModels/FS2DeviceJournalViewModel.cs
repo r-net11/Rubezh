@@ -3,8 +3,8 @@
 //using System.IO;
 //using System.Runtime.Serialization;
 //using FS2Api;
-//using Infrastructure.Common.Windows;
-//using Infrastructure.Common.Windows.Windows.ViewModels;
+//using Infrastructure.Common;
+//using Infrastructure.Common.Windows.ViewModels;
 //using Microsoft.Win32;
 
 //namespace DevicesModule.ViewModels

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 
 namespace Infrastructure.Designer.ViewModels
 {

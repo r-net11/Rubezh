@@ -3,7 +3,7 @@ using System.Reflection;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 using Controls.Converters;
 using System;
 

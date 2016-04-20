@@ -1,5 +1,5 @@
 ﻿
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public enum VisualizationState
 	{

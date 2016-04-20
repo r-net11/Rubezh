@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common;
 using Infrustructure.Plans.Events;
 using RubezhAPI.Models;
 using System;

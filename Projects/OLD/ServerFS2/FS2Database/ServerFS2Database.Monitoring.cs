@@ -5,7 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace ServerFS2.Journal
 {

@@ -2,9 +2,9 @@
 using Infrastructure;
 using Infrastructure.Automation;
 using Infrastructure.Client.Startup;
+using Infrastructure.Common;
+using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Theme;
-using Infrastructure.Common.Windows.Windows;
 using RubezhClient;
 using System;
 using System.ComponentModel;

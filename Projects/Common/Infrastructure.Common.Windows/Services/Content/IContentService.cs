@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Infrastructure.Common.Windows.Services.Content
+namespace Infrastructure.Common.Services.Content
 {
 	public interface IContentService
 	{

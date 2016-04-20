@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Common.Windows.TreeList
+﻿namespace Infrastructure.Common.TreeList
 {
 	public interface IItemComparer
 	{

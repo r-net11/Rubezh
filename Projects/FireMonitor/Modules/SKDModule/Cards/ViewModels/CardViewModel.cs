@@ -1,6 +1,6 @@
 ﻿using RubezhAPI;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {

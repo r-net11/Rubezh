@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.TreeList
+namespace Infrastructure.Common.TreeList
 {
 	public class TreeItemViewModel : BaseViewModel
 	{

@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Collections.Generic;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Windows;
 using Infrustructure.Plans.Events;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.GK;
 using RubezhClient;
 using System.Collections.ObjectModel;

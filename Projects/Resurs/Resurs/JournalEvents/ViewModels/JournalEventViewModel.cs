@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common;
 using ResursAPI;
 using System;
 using System.Collections.Generic;

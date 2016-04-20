@@ -1,5 +1,5 @@
 ﻿using FiresecAPI.Automation;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {

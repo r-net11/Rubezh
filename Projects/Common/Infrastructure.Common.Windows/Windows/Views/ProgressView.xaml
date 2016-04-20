@@ -1,5 +1,5 @@
 ﻿<UserControl 
-	x:Class="Infrastructure.Common.Windows.Windows.Views.ProgressView" 
+	x:Class="Infrastructure.Common.Windows.Views.ProgressView" 
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
 	MinWidth="500" Foreground="{DynamicResource ForegroundColorLight}">

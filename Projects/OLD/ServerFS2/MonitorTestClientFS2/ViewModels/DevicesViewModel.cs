@@ -1,6 +1,6 @@
 ﻿using FiresecAPI.Models;
-using Infrastructure.Common.Windows.TreeList;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 
 namespace MonitorClientFS2.ViewModels

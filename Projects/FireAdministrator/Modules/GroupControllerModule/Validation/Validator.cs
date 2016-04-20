@@ -2,7 +2,7 @@
 using System.Linq;
 using RubezhAPI.GK;
 using RubezhClient;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using System.Diagnostics;
 using GKProcessor;
 using System;

@@ -1,6 +1,6 @@
 ﻿using System;
 using RubezhAPI;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.ViewModels

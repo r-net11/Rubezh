@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace Infrastructure.Common.Windows.Windows.ViewModels
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public interface IViewPartViewModel : INotifyPropertyChanged
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.Common.Windows.Navigation
+namespace Infrastructure.Common.Navigation
 {
 	public class ShowOnPlanArgs<T>
 	{

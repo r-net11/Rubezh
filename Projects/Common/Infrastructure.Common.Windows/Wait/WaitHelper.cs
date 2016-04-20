@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
 using Common;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class WaitHelper
 	{

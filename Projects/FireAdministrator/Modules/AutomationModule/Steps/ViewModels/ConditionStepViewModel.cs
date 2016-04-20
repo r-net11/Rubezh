@@ -1,7 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Automation;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Automation;
 using System;
 using System.Collections.ObjectModel;

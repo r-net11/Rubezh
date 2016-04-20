@@ -4,7 +4,7 @@ using System.Linq;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhClient;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Softing.Opc.Ua.Toolkit.Client;
 using Softing.Opc.Ua.Toolkit;

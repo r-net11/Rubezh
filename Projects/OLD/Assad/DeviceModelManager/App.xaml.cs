@@ -3,7 +3,7 @@ using FiresecClient;
 using System.Configuration;
 using FiresecAPI.Models;
 using System;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace DeviveModelManager
 {

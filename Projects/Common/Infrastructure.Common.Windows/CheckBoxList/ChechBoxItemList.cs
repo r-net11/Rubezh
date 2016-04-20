@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.CheckBoxList
+namespace Infrastructure.Common.CheckBoxList
 {
 	public class CheckBoxItemList<T> : BaseViewModel, ICheckBoxItemList
 		where T : ICheckBoxItem

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Services.Layout;
 using System.Collections.ObjectModel;
 using RubezhAPI.Automation;
 using RubezhClient;

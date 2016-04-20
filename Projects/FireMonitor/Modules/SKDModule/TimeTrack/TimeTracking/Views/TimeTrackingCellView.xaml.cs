@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Views

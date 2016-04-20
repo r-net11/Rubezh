@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows.Ribbon;
+using Infrastructure.Common.Ribbon;
 
-namespace Infrastructure.Common.Windows.Services.Ribbon
+namespace Infrastructure.Common.Services.Ribbon
 {
 	public interface IRibbonService
 	{

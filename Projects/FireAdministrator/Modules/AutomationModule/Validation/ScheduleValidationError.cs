@@ -1,8 +1,8 @@
 ﻿using System;
 using AutomationModule.Events;
 using RubezhAPI.Automation;
-using Infrastructure.Common.Windows.Validation;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Validation;
+using Infrastructure.Common;
 
 namespace AutomationModule.Validation
 {

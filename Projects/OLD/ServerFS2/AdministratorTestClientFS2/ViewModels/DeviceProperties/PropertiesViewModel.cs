@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AdministratorTestClientFS2.ViewModels
 {

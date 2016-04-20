@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.Windows.DataTemplates
+namespace Infrastructure.Common.Windows.DataTemplates
 {
 	class MulticlientDataTemplateSelector : HierarhicalDataTemplateSelector
 	{

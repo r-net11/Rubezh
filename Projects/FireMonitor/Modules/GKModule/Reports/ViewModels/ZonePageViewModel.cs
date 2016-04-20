@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.Windows.SKDReports;
+using Infrastructure.Common.SKDReports;
 using RubezhAPI.SKD.ReportFilters;
 using System.Collections.ObjectModel;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Common;
 using RubezhAPI.GK;
 using RubezhClient;

@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using Common;
 using RubezhAPI.Models.Layouts;
 
-namespace Infrastructure.Common.Windows.Services.Layout
+namespace Infrastructure.Common.Services.Layout
 {
 	public class LayoutPartContainerCollection : ObservableCollection<ILayoutPartContainer>, ILayoutPartContainer
 	{

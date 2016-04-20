@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace CurrentDeviceModule
 {

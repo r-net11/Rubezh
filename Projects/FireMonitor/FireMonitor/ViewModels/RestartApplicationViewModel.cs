@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Threading;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.ViewModels
 {

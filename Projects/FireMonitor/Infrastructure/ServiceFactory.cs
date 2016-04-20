@@ -3,10 +3,10 @@ using System.Windows;
 using RubezhAPI.Models;
 using Infrastructure.Client.Login;
 using Infrastructure.Client.Startup;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Services.Content;
-using Infrastructure.Common.Windows.Services.DragDrop;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Services.Content;
+using Infrastructure.Common.Services.DragDrop;
 using Microsoft.Practices.Prism.Events;
 using Infrastructure.Services;
 

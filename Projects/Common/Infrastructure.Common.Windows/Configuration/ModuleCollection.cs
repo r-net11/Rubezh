@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace Infrastructure.Common.Windows.Configuration
+namespace Infrastructure.Common.Configuration
 {
 	[ConfigurationCollection(typeof(ModuleElement), CollectionType = ConfigurationElementCollectionType.BasicMapAlternate)]
 	public class ModuleCollection : ConfigurationElementCollection

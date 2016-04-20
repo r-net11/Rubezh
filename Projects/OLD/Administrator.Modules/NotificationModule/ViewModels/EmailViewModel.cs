@@ -3,8 +3,8 @@ using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common.Windows.Mail;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Mail;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace NotificationModule.ViewModels
 {

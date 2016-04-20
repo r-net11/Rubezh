@@ -1,9 +1,9 @@
 ﻿using FireMonitor.Layout.ViewModels;
 using FireMonitor.ViewModels;
 using Infrastructure.Client.Layout;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Navigation;
-using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
 using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 

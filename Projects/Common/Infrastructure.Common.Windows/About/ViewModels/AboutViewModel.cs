@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using Common;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.About.ViewModels
+namespace Infrastructure.Common.About.ViewModels
 {
 	public class AboutViewModel : SaveCancelDialogViewModel
 	{

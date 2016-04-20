@@ -3,23 +3,23 @@ using System.Linq;
 using GKModule.ViewModels;
 using Infrastructure;
 using GKModule.Plans;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using Infrastructure.Services;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using System.Collections.Generic;
 using GKProcessor;
-using Infrastructure.Common.Windows.Services.Ribbon;
+using Infrastructure.Common.Services.Ribbon;
 using NUnit.Framework;
 using System.Windows;
 using GKModule;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using System.Reflection;
-using Infrastructure.Common.Windows.Ribbon;
+using Infrastructure.Common.Ribbon;
 using RubezhAPI;
-using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Services;
 
 namespace GKModuleTest
 {

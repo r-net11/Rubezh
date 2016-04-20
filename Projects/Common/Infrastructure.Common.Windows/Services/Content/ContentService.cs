@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xaml;
 
-namespace Infrastructure.Common.Windows.Services.Content
+namespace Infrastructure.Common.Services.Content
 {
 	public class ContentService : IContentService
 	{

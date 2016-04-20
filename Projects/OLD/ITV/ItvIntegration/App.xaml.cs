@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Infrastructure.Common.Windows.Theme;
+using Infrastructure.Common.Theme;
 
 namespace ItvIntegration
 {

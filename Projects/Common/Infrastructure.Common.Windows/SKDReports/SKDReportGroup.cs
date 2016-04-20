@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Infrastructure.Common.Windows.SKDReports
+namespace Infrastructure.Common.SKDReports
 {
 	public enum SKDReportGroup
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 

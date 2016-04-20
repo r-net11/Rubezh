@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using RubezhAPI.Models;
 using RubezhClient;
-using Infrastructure.Common.Windows.Navigation;
-using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using Microsoft.Practices.Prism.Events;
 

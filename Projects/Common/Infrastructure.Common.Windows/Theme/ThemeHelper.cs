@@ -2,7 +2,7 @@
 using System.Windows;
 using Common;
 
-namespace Infrastructure.Common.Windows.Theme
+namespace Infrastructure.Common.Theme
 {
 	public class ThemeHelper
 	{

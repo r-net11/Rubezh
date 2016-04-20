@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using Common;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class ConnectionSettingsManager
 	{

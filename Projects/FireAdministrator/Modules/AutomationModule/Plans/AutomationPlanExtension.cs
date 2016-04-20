@@ -5,7 +5,7 @@ using AutomationModule.ViewModels;
 using Common;
 using Infrastructure;
 using Infrastructure.Client.Plans;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;

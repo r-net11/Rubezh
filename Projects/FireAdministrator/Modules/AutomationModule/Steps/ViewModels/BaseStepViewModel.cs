@@ -1,5 +1,5 @@
 ﻿using System;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using System.Linq.Expressions;
 using Infrastructure;
 using RubezhAPI.Automation;

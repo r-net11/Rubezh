@@ -1,5 +1,5 @@
 ﻿using RubezhClient;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using Infrastructure.Client.Layout;
 using RubezhAPI.Models.Layouts;
 using System.Linq;

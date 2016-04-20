@@ -1,7 +1,7 @@
 ﻿using Common;
 using GKProcessor;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI;
 using RubezhAPI.Automation;

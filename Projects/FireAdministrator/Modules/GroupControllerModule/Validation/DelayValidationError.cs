@@ -1,8 +1,8 @@
 ﻿using System;
 using RubezhAPI.GK;
 using GKModule.Events;
-using Infrastructure.Common.Windows.Validation;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Validation;
+using Infrastructure.Common;
 
 namespace GKModule.Validation
 {

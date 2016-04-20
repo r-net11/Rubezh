@@ -3,7 +3,7 @@ using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient.Itv;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ItvIntegration
 {

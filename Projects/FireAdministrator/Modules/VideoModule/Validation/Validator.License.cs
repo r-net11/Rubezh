@@ -1,5 +1,5 @@
 ﻿using RubezhClient;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using RubezhAPI.License;
 
 namespace VideoModule.Validation

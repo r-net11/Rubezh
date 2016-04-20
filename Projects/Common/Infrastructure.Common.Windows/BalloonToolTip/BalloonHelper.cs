@@ -2,9 +2,9 @@
 using System.Windows.Media;
 using System.Windows.Threading;
 using Common;
-using Infrastructure.Common.Windows.BalloonTrayTip.ViewModels;
+using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
-namespace Infrastructure.Common.Windows.BalloonTrayTip
+namespace Infrastructure.Common.BalloonTrayTip
 {
 	public class BalloonHelper
 	{

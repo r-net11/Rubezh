@@ -1,7 +1,7 @@
-﻿using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Services.Content;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Services.Content;
 
 namespace FireMonitor.Multiclient
 {

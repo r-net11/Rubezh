@@ -7,7 +7,7 @@ using RubezhAPI;
 using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Infrastructure.Events;
 using RubezhAPI.Journal;
 

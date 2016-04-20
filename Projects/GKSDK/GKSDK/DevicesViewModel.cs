@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhClient;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using RubezhAPI.Models;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 
 namespace GKSDK

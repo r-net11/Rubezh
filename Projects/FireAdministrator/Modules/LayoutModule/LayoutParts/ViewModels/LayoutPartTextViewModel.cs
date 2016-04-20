@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Client.Layout.ViewModels;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Services.Layout;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {

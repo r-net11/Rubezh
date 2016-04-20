@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {

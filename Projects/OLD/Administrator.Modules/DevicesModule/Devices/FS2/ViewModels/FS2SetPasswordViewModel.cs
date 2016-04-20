@@ -1,7 +1,7 @@
 ﻿//using Controls;
 //using FiresecAPI.Models;
-//using Infrastructure.Common.Windows.Windows;
-//using Infrastructure.Common.Windows.Windows.ViewModels;
+//using Infrastructure.Common.Windows;
+//using Infrastructure.Common.Windows.ViewModels;
 
 //namespace DevicesModule.ViewModels
 //{

@@ -6,8 +6,8 @@ using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.SKDReports;
+using Infrastructure.Common;
+using Infrastructure.Common.SKDReports;
 
 namespace SKDModule.Reports.ViewModels
 {

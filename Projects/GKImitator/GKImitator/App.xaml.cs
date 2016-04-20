@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Theme;
+using Infrastructure.Common;
+using Infrastructure.Common.Theme;
 using GKImitator.Processor;
 
 namespace GKImitator

@@ -1,7 +1,7 @@
 ﻿
 namespace Infrastructure
 {
-	public interface ILayoutService : Infrastructure.Common.Windows.Windows.ILayoutService
+	public interface ILayoutService : Infrastructure.Common.Windows.ILayoutService
 	{
 	}
 }

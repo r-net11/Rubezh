@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using GKImitator.Processor;
 using XFiresecAPI;
 

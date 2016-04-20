@@ -6,9 +6,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Common;
 using Infrastructure.Client.Plans;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.InstrumentAdorners;
 using Infrustructure.Plans.Designer;
 

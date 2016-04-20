@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 
-namespace Infrastructure.Common.Windows.TreeList
+namespace Infrastructure.Common.TreeList
 {
 	public interface ITreeNodeModel : INotifyPropertyChanged
 	{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using Common;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Infrastructure.Models;
 using System.Xml.Serialization;
 using RubezhAPI.SKD.ReportFilters;

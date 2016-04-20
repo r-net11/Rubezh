@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using RubezhAPI.Models;
 using RubezhAPI.SKD.ReportFilters;
-using Infrastructure.Common.Windows.SKDReports;
+using Infrastructure.Common.SKDReports;
 using SKDModule.Reports.ViewModels;
 
 namespace SKDModule.Reports.Providers

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class LoadingErrorManager
 	{

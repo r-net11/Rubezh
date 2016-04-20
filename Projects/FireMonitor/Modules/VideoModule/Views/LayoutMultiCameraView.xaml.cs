@@ -7,7 +7,7 @@ using System.Windows.Threading;
 using Common;
 using RubezhClient;
 using Infrastructure;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using Infrastructure.Models;
 using VideoModule.ViewModels;
 

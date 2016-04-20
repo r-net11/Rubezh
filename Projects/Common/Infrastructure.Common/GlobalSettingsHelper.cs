@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common;
+using RubezhAPI;
+using System;
 using System.IO;
 using System.Xml.Serialization;
-using Common;
-using RubezhAPI;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class GlobalSettingsHelper
 	{

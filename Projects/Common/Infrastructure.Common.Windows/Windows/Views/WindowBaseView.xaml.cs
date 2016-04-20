@@ -6,9 +6,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Common;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.Windows.Views
+namespace Infrastructure.Common.Windows.Views
 {
 	internal partial class WindowBaseView : Window
 	{

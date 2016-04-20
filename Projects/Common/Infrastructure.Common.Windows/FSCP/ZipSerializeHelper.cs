@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
 using RubezhAPI;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public class ZipSerializeHelper
 	{

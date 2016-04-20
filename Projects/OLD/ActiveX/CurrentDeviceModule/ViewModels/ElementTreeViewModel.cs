@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using System.Collections.ObjectModel;
 
 namespace CurrentDeviceModule.ViewModels

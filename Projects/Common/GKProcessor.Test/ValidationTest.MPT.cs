@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows.Validation;
+﻿using Infrastructure.Common.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhAPI;
 using RubezhAPI.GK;

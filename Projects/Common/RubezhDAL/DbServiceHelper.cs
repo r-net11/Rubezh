@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common;
+using Npgsql;
 using RubezhAPI;
+using System;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
-using Infrastructure.Common.Windows;
-using Common;
-using Npgsql;
 using System.Data.SqlClient;
 
 namespace RubezhDAL.DataClasses

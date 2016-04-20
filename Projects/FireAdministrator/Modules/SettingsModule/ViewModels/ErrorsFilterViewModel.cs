@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using Common;
 using System.Collections.Generic;
 

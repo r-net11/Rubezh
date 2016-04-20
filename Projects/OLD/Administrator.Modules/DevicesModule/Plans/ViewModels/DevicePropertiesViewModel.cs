@@ -6,7 +6,7 @@ using DevicesModule.Plans.Designer;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Devices = DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.ViewModels

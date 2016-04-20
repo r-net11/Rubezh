@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Windows;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	/// <summary>
 	/// Представляет сервис по работе с ресурсами WPF приложения 

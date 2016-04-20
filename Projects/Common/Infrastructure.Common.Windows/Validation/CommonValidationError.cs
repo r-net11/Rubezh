@@ -1,5 +1,5 @@
 ﻿
-namespace Infrastructure.Common.Windows.Validation
+namespace Infrastructure.Common.Validation
 {
 	public class CommonValidationError : IValidationError
 	{

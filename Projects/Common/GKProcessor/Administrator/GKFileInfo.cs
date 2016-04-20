@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using RubezhAPI;
+using RubezhAPI.GK;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using RubezhAPI.GK;
-using Infrastructure.Common.Windows;
-using RubezhAPI;
 
 namespace GKProcessor
 {

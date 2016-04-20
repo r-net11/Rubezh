@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using Common;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class SingleLaunchHelper
 	{

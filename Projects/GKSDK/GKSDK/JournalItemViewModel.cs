@@ -6,10 +6,10 @@ using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using RubezhClient;
 using Infrastructure;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using RubezhAPI;
 
 namespace GKSDK

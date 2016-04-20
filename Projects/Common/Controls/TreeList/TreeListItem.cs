@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Infrastructure.Common.Windows.TreeList;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Controls.TreeList
 {

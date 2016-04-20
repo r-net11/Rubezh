@@ -4,8 +4,8 @@ using System.ServiceModel.Description;
 using System.Threading;
 using Common;
 using FS2Api;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.BalloonTrayTip;
+using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FS2Client
 {

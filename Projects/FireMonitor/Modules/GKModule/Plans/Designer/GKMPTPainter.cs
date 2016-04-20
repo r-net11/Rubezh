@@ -2,8 +2,8 @@
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;

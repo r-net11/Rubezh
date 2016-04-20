@@ -3,7 +3,7 @@ using System.Linq;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhClient;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 
 namespace GKModule.ViewModels

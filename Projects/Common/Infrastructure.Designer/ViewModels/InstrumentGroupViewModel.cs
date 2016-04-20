@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
 

@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Resurs.Receipts;
 using Resurs.Reports.Templates;
 using Resurs.Views;

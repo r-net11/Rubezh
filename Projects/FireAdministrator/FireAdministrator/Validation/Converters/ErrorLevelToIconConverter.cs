@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 
 namespace FireAdministrator.Converters
 {

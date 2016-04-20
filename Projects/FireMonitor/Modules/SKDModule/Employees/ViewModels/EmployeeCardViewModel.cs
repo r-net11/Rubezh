@@ -5,9 +5,9 @@ using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using SKDModule.PassCard.ViewModels;
 

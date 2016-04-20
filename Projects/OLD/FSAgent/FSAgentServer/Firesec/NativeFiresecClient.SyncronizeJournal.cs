@@ -7,7 +7,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using System.Diagnostics;
 using FSAgentAPI;
-using Infrastructure.Common.Windows.BalloonTrayTip;
+using Infrastructure.Common.BalloonTrayTip;
 using FiresecDB;
 
 namespace FSAgentServer

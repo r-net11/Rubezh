@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 
 namespace Controls.TreeList
 {

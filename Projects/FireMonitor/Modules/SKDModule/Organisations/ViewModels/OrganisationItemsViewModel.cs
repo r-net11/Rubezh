@@ -2,8 +2,8 @@
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using RubezhClient;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using System.Linq;
 
 namespace SKDModule.ViewModels

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Web;
 using Common;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using RubezhAPI.Models;
 using RubezhClient;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public class BindingErrorListener : TraceListener
 	{

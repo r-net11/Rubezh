@@ -7,7 +7,7 @@ using FiresecService.Views;
 using FiresecService.Presenters;
 using Common;
 using Infrastructure.Automation;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace FiresecService
 {

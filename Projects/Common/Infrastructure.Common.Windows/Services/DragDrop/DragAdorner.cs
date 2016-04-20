@@ -3,7 +3,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Infrastructure.Common.Windows.Services.DragDrop
+namespace Infrastructure.Common.Services.DragDrop
 {
 	public class DragAdorner : Adorner
 	{

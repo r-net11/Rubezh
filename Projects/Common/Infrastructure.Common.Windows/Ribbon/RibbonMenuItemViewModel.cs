@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.Ribbon
+namespace Infrastructure.Common.Ribbon
 {
 	public class RibbonMenuItemViewModel : BaseViewModel
 	{

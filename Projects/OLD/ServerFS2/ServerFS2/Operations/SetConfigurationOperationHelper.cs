@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2

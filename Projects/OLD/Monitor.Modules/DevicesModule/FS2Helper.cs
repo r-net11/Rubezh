@@ -9,7 +9,7 @@
 //using Infrastructure.Events;
 //using System.Windows.Threading;
 //using System.Windows;
-//using Infrastructure.Common.Windows.Windows;
+//using Infrastructure.Common.Windows;
 
 //namespace DevicesModule
 //{

@@ -253,6 +253,10 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>

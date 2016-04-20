@@ -1,7 +1,7 @@
 ﻿using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using ServerFS2;
 using ServerFS2.Processor;
 

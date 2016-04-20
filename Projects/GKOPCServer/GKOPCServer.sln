@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhLicense", "..\Common\RubezhLicense\RubezhLicense.csproj", "{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..\Common\Infrastructure.Common\Infrastructure.Common.csproj", "{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,18 @@ Global
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x64.ActiveCfg = Release|Any CPU
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|x64.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -170,5 +184,6 @@ Global
 		{62564D14-0234-4947-8218-2C7D74721023} = {81AFF086-BD8B-4216-B732-BC3D4EE6BE3A}
 		{DA2A8431-7328-4AE8-926F-E191700577A1} = {81AFF086-BD8B-4216-B732-BC3D4EE6BE3A}
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF} = {81AFF086-BD8B-4216-B732-BC3D4EE6BE3A}
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6} = {81AFF086-BD8B-4216-B732-BC3D4EE6BE3A}
 	EndGlobalSection
 EndGlobal

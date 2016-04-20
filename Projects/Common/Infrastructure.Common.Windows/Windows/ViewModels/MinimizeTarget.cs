@@ -1,5 +1,5 @@
 ﻿
-namespace Infrastructure.Common.Windows.Windows.ViewModels
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public enum MinimizeTarget
 	{

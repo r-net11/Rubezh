@@ -2,11 +2,11 @@
 using System.Linq;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using GKModule.Plans.Designer;
 using GKModule.ViewModels;
 using Infrastructure;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using GKModule.Events;
 using RubezhAPI.GK;

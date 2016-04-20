@@ -6,9 +6,9 @@ using Common;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 
-namespace Infrastructure.Common.Windows.Mail
+namespace Infrastructure.Common.Mail
 {
 	public class MailHelper
 	{

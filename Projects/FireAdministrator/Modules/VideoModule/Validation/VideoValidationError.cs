@@ -1,7 +1,7 @@
 ﻿using System;
 using RubezhAPI.Models;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common;
+using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 
 namespace VideoModule.Validation

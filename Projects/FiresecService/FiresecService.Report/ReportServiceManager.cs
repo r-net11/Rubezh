@@ -5,7 +5,7 @@ using Common;
 using DevExpress.Xpf.Printing;
 using DevExpress.XtraReports.Service;
 using RubezhAPI;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace FiresecService.Report
 {

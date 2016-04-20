@@ -1,5 +1,5 @@
 ﻿using RubezhAPI.Models;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
 using Infrastructure.Designer.InstrumentAdorners;
 using PlansModule.ViewModels;

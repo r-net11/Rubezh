@@ -1,7 +1,7 @@
 ﻿using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.SKDReports;
-using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Events;
 using RubezhAPI.SKD.ReportFilters;
 using RubezhClient.SKDHelpers;

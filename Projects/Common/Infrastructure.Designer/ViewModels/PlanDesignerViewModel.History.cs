@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Services;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrustructure.Plans.Designer;
 using RubezhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;

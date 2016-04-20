@@ -5,7 +5,7 @@ using Common;
 using Firesec.Models.CoreConfiguration;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace Firesec
 {

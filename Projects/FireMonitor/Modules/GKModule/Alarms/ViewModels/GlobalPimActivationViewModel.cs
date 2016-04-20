@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Windows.Documents;
 using GKProcessor;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;

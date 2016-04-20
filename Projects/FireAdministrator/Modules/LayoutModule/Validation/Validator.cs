@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using RubezhClient;
 using RubezhAPI.Models.Layouts;
 using Infrastructure.Client.Layout;

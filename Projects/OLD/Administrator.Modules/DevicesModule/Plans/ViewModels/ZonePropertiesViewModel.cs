@@ -5,8 +5,8 @@ using DevicesModule.Plans.Designer;
 using DevicesModule.ViewModels;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 

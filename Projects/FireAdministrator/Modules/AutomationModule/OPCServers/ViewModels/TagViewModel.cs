@@ -2,7 +2,7 @@
 using System.IO;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 using Softing.Opc.Ua.Toolkit;
 
 namespace AutomationModule.ViewModels

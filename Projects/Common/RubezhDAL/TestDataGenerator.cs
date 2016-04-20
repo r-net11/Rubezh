@@ -1,5 +1,5 @@
 ﻿using EntityFramework.BulkInsert.Extensions;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using RubezhAPI;
 using System;
 using System.Collections.Generic;

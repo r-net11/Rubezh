@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using Microsoft.Win32;
 using SKDModule.Views;
 using SKDModule.ViewModels;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GKModule.Validation;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RubezhAPI.GK;
 using RubezhClient;

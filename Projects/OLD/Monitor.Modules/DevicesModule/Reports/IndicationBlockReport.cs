@@ -5,7 +5,7 @@ using CodeReason.Reports;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common.Windows.Reports;
+using Infrastructure.Common.Reports;
 
 namespace DevicesModule.Reports
 {

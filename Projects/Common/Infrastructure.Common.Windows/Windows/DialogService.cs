@@ -1,13 +1,13 @@
 ﻿using Common;
-using Infrastructure.Common.Windows.Windows.ViewModels;
-using Infrastructure.Common.Windows.Windows.Views;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 
-namespace Infrastructure.Common.Windows.Windows
+namespace Infrastructure.Common.Windows
 {
 	public static class DialogService
 	{

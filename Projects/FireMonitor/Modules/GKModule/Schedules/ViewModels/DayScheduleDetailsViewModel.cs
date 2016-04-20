@@ -1,7 +1,7 @@
 ﻿using RubezhAPI.GK;
 using System.Linq;
-using Infrastructure.Common.Windows.Windows.ViewModels;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {

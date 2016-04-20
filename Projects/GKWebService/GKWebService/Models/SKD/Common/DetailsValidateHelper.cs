@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using RubezhAPI.SKD;
 
 namespace GKWebService.Models.SKD.Common

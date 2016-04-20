@@ -1,6 +1,6 @@
 ﻿
 using System.Reflection;
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public interface IResourceService
 	{

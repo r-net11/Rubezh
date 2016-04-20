@@ -23,7 +23,7 @@
 				<File Id="Resurs.EntityFramework.SqlServer.dll"											Name="EntityFramework.SqlServer.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.RubezhAPI.dll"																		  Name="RubezhAPI.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.FiresecLicense.dll"																Name="FiresecLicense.dll" Source="$(var.Resurs.TargetDir)" />
-				<File Id="Resurs.Infrastructure.Common.Windows.dll"													Name="Infrastructure.Common.Windows.dll" Source="$(var.Resurs.TargetDir)" />
+				<File Id="Resurs.Infrastructure.Common.dll"													Name="Infrastructure.Common.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.Infrustructure.Plans.dll"													Name="Infrustructure.Plans.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.Interop.mscoree.dll"																Name="Interop.mscoree.dll" Source="$(var.Resurs.TargetDir)" />
 				<File Id="Resurs.itextsharp.dll"																		Name="itextsharp.dll" Source="$(var.Resurs.TargetDir)" />

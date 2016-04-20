@@ -4,10 +4,10 @@ using System.Windows.Input;
 using RubezhAPI.Models;
 using RubezhClient;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Ribbon;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireAdministrator.ViewModels
 {

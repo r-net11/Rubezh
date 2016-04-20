@@ -5,8 +5,8 @@ using RubezhAPI.GK;
 using RubezhAPI.Models;
 using Infrastructure;
 using Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Ribbon;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
 using RubezhClient;
 

@@ -4,9 +4,9 @@ using System.Windows;
 using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client.Startup;
+using Infrastructure.Common;
+using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Theme;
-using Infrastructure.Common.Windows.Windows;
 
 namespace FireAdministrator
 {

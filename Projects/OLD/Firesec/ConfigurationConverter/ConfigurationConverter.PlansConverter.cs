@@ -7,8 +7,8 @@ using System.Windows.Media;
 using Common;
 using Firesec.Models.Plans;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
 
 namespace Firesec
 {

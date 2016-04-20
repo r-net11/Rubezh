@@ -1,8 +1,8 @@
 ﻿using System;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.Services.Layout
+namespace Infrastructure.Common.Services.Layout
 {
 	public interface ILayoutPartPresenter
 	{

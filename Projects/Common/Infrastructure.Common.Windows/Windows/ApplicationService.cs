@@ -9,11 +9,11 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using RubezhAPI.Models;
-using Infrastructure.Common.Windows.Windows.DataTemplates;
-using Infrastructure.Common.Windows.Windows.ViewModels;
-using Infrastructure.Common.Windows.Windows.Views;
+using Infrastructure.Common.Windows.DataTemplates;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
 
-namespace Infrastructure.Common.Windows.Windows
+namespace Infrastructure.Common.Windows
 {
 	public static class ApplicationService
 	{

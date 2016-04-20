@@ -1,7 +1,7 @@
 ﻿using Common;
 using FiresecService.Processor;
 using Infrastructure.Automation;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using Ionic.Zip;
 using RubezhAPI;
 using RubezhAPI.Journal;

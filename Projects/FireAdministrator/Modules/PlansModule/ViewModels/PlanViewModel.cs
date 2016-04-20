@@ -1,5 +1,5 @@
 ﻿using RubezhAPI.Models;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 
 namespace PlansModule.ViewModels
 {

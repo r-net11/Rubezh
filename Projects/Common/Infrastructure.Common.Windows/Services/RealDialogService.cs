@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Common;
-using Infrastructure.Common.Windows.Windows.ViewModels;
-using Infrastructure.Common.Windows.Windows.Views;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Services;
 
 namespace Infrastructure.Services
 {

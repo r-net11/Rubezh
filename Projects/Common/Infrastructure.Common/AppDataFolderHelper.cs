@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public class AppDataFolderHelper
 	{
 		static string AppDataFolderName;
-		
+
 		static AppDataFolderHelper()
 		{
 			var appDataFolderName = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);

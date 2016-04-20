@@ -1,5 +1,5 @@
 ﻿using Common;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 using RubezhAPI.SKD;
 

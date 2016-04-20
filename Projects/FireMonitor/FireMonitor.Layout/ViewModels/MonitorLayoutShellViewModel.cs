@@ -1,9 +1,9 @@
 ﻿using FireMonitor.ViewModels;
 using Infrastructure;
 using Infrastructure.Automation;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Ribbon;
-using Infrastructure.Common.Windows.Windows;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.Models;
 using RubezhClient;

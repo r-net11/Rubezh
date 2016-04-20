@@ -1,7 +1,7 @@
 ﻿using System.Printing;
 using System.Windows;
 
-namespace Infrastructure.Common.Windows.Reports
+namespace Infrastructure.Common.Reports
 {
 	public interface IReportPrintExtension
 	{

@@ -1,5 +1,5 @@
 ﻿using RubezhAPI.SKD;
-using Infrastructure.Common.Windows.CheckBoxList;
+using Infrastructure.Common.CheckBoxList;
 
 namespace SKDModule.ViewModels
 {

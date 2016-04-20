@@ -1,7 +1,7 @@
 ﻿using CodeReason.Reports;
 using iTextSharp.text;
 
-namespace Infrastructure.Common.Windows.Reports
+namespace Infrastructure.Common.Reports
 {
 	public interface IReportPdfProvider
 	{

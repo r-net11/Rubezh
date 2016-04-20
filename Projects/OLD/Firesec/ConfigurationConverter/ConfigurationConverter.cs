@@ -4,7 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace Firesec
 {

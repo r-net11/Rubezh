@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.CheckBoxList
+namespace Infrastructure.Common.CheckBoxList
 {
 	public abstract class CheckBoxItemViewModel : BaseViewModel, ICheckBoxItem
 	{

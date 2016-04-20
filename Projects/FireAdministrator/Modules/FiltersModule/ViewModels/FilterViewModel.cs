@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows.Ink;
 using RubezhAPI;
 using RubezhAPI.Journal;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism;
 
 namespace FiltersModule.ViewModels

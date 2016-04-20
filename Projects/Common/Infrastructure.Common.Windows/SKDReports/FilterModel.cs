@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Infrastructure.Common.Windows.SKDReports
+namespace Infrastructure.Common.SKDReports
 {
 	public class FilterModel
 	{

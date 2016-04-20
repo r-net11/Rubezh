@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using RubezhAPI.GK;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels

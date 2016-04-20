@@ -1,5 +1,5 @@
 ﻿using Infrastructure;
-using Infrastructure.Common.Windows.BalloonTrayTip;
+using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;
 using RubezhAPI;
 using RubezhAPI.GK;

@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using Common;
 using RubezhAPI.SKD.ReportFilters;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.SKDReports;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows.ViewModels;
 using System.Diagnostics;
 
 namespace ReportsModule.ViewModels

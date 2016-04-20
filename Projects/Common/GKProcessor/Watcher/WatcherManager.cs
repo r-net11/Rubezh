@@ -1,5 +1,5 @@
 ﻿using Common;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;

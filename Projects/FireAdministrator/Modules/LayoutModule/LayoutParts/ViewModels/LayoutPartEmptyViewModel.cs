@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Client.Layout.ViewModels;
-using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Services.Layout;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {

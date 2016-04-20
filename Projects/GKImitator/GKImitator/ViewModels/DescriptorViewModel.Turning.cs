@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using RubezhAPI.GK;
 using GKImitator.Processor;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using RubezhDAL.DataClasses;
 
 namespace GKImitator.ViewModels

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Infrastructure.Common.Windows.Services.DragDrop
+namespace Infrastructure.Common.Services.DragDrop
 {
 	public delegate void DragServiceEventHandler(object sender, DragServiceEventArgs e);
 	public class DragServiceEventArgs : EventArgs

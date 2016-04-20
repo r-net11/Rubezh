@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using RubezhClient;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 
 namespace VideoModule.Validation
 {

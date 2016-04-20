@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Common.Windows.Validation
+﻿namespace Infrastructure.Common.Validation
 {
 	public interface IValidationError
 	{

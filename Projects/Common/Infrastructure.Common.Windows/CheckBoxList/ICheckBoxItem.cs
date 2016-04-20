@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Common.Windows.CheckBoxList
+﻿namespace Infrastructure.Common.CheckBoxList
 {
 	public interface ICheckBoxItem
 	{

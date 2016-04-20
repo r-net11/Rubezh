@@ -4,9 +4,9 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using Common;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.TreeList
+namespace Infrastructure.Common.TreeList
 {
 	public class TreeNodeViewModel : BaseViewModel, IDisposable
 	{

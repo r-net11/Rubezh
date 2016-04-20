@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using RubezhAPI.SKD;
 
 namespace SKDModule.Validation

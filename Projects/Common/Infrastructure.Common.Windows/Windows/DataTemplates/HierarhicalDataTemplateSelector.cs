@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows.Windows.ViewModels;
-using Infrastructure.Common.Windows.Windows.Views;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
 
-namespace Infrastructure.Common.Windows.Windows.DataTemplates
+namespace Infrastructure.Common.Windows.DataTemplates
 {
 	public class HierarhicalDataTemplateSelector : DataTemplateSelector
 	{

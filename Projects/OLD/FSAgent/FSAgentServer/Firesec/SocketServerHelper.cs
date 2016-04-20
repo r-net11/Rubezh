@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using Common;
 using Microsoft.Win32;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using System.Collections.Generic;
 
 namespace FSAgentServer

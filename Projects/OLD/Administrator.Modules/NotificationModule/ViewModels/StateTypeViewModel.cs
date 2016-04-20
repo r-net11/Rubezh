@@ -1,5 +1,5 @@
 ﻿using FiresecAPI;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace NotificationModule.ViewModels
 {

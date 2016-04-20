@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Infrastructure.Common.Windows.Windows.Views.DialogView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.DialogView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<DockPanel Margin="10,10,10,10" LastChildFill="True">
 		<ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}" />
 	</DockPanel>

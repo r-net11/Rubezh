@@ -7,12 +7,12 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
-using Infrastructure.Common.Windows.Services.Layout;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows;
 using RubezhClient;
 using Common;
 

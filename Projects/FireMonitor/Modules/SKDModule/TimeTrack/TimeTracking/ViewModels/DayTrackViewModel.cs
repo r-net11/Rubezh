@@ -2,7 +2,7 @@
 using System.Linq;
 using RubezhAPI;
 using RubezhAPI.SKD;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Model;
 using System.Collections.Generic;
 

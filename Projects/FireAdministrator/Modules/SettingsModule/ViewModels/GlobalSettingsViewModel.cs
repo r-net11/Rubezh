@@ -4,9 +4,9 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using RubezhClient;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;
 using Microsoft.Win32;
 

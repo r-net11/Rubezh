@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using Common;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class ServerLoadHelper
 	{

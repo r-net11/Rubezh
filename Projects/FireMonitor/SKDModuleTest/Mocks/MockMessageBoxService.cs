@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows.Services;
+﻿using Infrastructure.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,7 +70,7 @@ namespace SKDModuleTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public void SetMessageBoxHandler(Action<Infrastructure.Common.Windows.Windows.ViewModels.MessageBoxViewModel, bool> handler)
+		public void SetMessageBoxHandler(Action<Infrastructure.Common.Windows.ViewModels.MessageBoxViewModel, bool> handler)
 		{
 			throw new NotImplementedException();
 		}

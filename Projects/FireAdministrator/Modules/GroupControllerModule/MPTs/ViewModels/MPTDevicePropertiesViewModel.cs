@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using RubezhAPI.GK;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:view="clr-namespace:Controls.Ribbon.Views"
-					xmlns:ribbon="clr-namespace:Infrastructure.Common.Windows.Ribbon;assembly=Infrastructure.Common.Windows">
+					xmlns:ribbon="clr-namespace:Infrastructure.Common.Ribbon;assembly=Infrastructure.Common.Windows">
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="../Themes/RibbonButton.xaml" />
 		<ResourceDictionary Source="../Themes/RibbonMenuItemView.xaml" />

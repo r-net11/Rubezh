@@ -2,7 +2,7 @@
 using Common;
 using Microsoft.Win32;
 
-namespace Infrastructure.Common.Windows.RegistryHelper
+namespace Infrastructure.Common.RegistryHelper
 {
 	public class RegistryHelper
 	{

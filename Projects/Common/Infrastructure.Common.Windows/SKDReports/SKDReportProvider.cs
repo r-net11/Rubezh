@@ -1,6 +1,6 @@
 ﻿using RubezhAPI.Models;
 
-namespace Infrastructure.Common.Windows.SKDReports
+namespace Infrastructure.Common.SKDReports
 {
 	public class SKDReportProvider : ISKDReportProvider
 	{

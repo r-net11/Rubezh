@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
 using SKDModule.Model;
 
 namespace SKDModule.ViewModels

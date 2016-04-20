@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public class NotifyPropertyChangedHelper
 	{

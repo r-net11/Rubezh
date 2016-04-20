@@ -1,11 +1,11 @@
 using Infrastructure;
 using Infrastructure.Client.Layout;
+using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Navigation;
-using Infrastructure.Common.Windows.Services.Layout;
-using Infrastructure.Common.Windows.Validation;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer;
 using Infrastructure.Designer.Events;
 using Infrastructure.Events;

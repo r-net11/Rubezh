@@ -1,6 +1,6 @@
 ﻿using Infrastructure;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using GKModule.Validation;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
-using Infrastructure.Common.Windows.Services.Layout;
-namespace Infrastructure.Common.Windows.Windows.ViewModels
+using Infrastructure.Common.Services.Layout;
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class ViewPartViewModel : BaseViewModel, IViewPartViewModel
 	{

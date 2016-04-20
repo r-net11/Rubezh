@@ -5,7 +5,7 @@ using System.Windows.Media;
 using RubezhAPI.Automation;
 using RubezhAPI.Models.Layouts;
 
-namespace Infrastructure.Common.Windows.Services.Layout
+namespace Infrastructure.Common.Services.Layout
 {
 	public class LayoutPartDescription : ILayoutPartDescription
 	{

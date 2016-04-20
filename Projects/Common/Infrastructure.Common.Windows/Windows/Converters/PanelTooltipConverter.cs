@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace Infrastructure.Common.Windows.Windows.Converters
+namespace Infrastructure.Common.Windows.Converters
 {
 	public class PanelTooltipConverter : IValueConverter
 	{

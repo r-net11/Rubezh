@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using Controls.Menu.ViewModels;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using RubezhAPI.Automation;
 using RubezhClient;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using System.Linq;
 
 namespace AutomationModule.Validation

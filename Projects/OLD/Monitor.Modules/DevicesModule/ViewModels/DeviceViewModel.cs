@@ -7,9 +7,9 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.TreeList;
-using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Events;
 using Infrastructure.Models;
 

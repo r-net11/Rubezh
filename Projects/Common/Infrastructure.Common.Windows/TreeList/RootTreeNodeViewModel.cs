@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using Common;
 
-namespace Infrastructure.Common.Windows.TreeList
+namespace Infrastructure.Common.TreeList
 {
 	public class RootTreeNodeViewModel : TreeNodeViewModel, ITreeList
 	{

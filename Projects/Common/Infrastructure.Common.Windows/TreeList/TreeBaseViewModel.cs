@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public class TreeBaseViewModel<T> : BaseViewModel
 		where T : TreeBaseViewModel<T>

@@ -1,7 +1,7 @@
 ﻿using Infrastructure;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.CheckBoxList;
-using Infrastructure.Common.Windows.SKDReports;
+using Infrastructure.Common;
+using Infrastructure.Common.CheckBoxList;
+using Infrastructure.Common.SKDReports;
 using Infrastructure.Events;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;

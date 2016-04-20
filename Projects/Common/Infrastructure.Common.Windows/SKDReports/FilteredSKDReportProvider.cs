@@ -1,9 +1,9 @@
 ﻿using System;
 using RubezhAPI.Models;
 using RubezhAPI.SKD.ReportFilters;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 
-namespace Infrastructure.Common.Windows.SKDReports
+namespace Infrastructure.Common.SKDReports
 {
 	public abstract class FilteredSKDReportProvider<T> : SKDReportProvider, IFilteredSKDReportProvider
 		where T : SKDReportFilter

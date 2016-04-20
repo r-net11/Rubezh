@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.Windows
+namespace Infrastructure.Common.Windows
 {
 	public interface ILayoutService
 	{

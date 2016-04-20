@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GKModule.Validation;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;

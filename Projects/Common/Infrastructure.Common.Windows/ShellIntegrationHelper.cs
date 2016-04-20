@@ -4,7 +4,7 @@ using System.Reflection;
 using Common;
 using Microsoft.Win32;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class ShellIntegrationHelper
 	{

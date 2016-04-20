@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Infrastructure.Common.Windows.Services.Content;
+using Infrastructure.Common.Services.Content;
 using RubezhAPI.GK;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;

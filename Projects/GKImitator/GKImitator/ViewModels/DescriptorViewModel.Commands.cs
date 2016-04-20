@@ -1,6 +1,6 @@
 ﻿using RubezhAPI.GK;
 using GKImitator.Processor;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Input;
 
 namespace GKImitator.ViewModels

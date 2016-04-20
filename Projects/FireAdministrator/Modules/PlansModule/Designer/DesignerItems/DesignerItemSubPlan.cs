@@ -16,7 +16,7 @@ namespace PlansModule.Designer.DesignerItems
 				Group = Helper.SubPlanAlias;
 			}
 		}
-		protected override Infrastructure.Common.Windows.Windows.ViewModels.SaveCancelDialogViewModel CreatePropertiesViewModel()
+		protected override Infrastructure.Common.Windows.ViewModels.SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
 			if (Element is IElementSubPlan)
 				return new SubPlanPropertiesViewModel(Element as IElementSubPlan);

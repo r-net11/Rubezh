@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.SKD;
 using System;
 using System.Collections.Generic;

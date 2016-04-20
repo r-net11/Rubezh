@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace Infrastructure.Common.Windows.Windows
+namespace Infrastructure.Common.Windows
 {
 	public class ShortcutService
 	{

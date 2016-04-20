@@ -5,7 +5,7 @@ using System.Threading;
 using RubezhAPI.Models;
 using Common;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class AlarmPlayerHelper
 	{

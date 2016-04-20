@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using System.Collections.ObjectModel;

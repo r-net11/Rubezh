@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

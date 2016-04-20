@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKWebService", "GKWebService\GKWebService.csproj", "{EFAD2894-B3F5-4923-824D-318E7C9DF1E1}"
 EndProject
@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C7A92F
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..\Common\Infrastructure.Common\Infrastructure.Common.csproj", "{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,6 +142,14 @@ Global
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x64.Build.0 = Release|Any CPU
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}.Release|x86.Build.0 = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|x64.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,5 +164,6 @@ Global
 		{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE} = {97F3E9DE-7590-4B16-9806-78E52F88FAF5}
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {97F3E9DE-7590-4B16-9806-78E52F88FAF5}
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF} = {97F3E9DE-7590-4B16-9806-78E52F88FAF5}
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6} = {97F3E9DE-7590-4B16-9806-78E52F88FAF5}
 	EndGlobalSection
 EndGlobal

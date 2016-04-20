@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using RubezhAPI;
 using Infrastructure.Client;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SoundsModule.ViewModels;
 

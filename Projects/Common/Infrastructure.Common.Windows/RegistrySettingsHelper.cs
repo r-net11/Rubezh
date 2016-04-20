@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public class RegistrySettingsHelper
 	{

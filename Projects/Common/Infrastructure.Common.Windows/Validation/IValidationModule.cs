@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Infrastructure.Common.Windows.Validation
+namespace Infrastructure.Common.Validation
 {
 	public interface IValidationModule
 	{

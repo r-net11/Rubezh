@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Infrastructure.Common.Windows.Reports
+namespace Infrastructure.Common.Reports
 {
 	public interface IReportProviderModule
 	{

@@ -1,6 +1,6 @@
 ﻿using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
 using RubezhAPI.GK;

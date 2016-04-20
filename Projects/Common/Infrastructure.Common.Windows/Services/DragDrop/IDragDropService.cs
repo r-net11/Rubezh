@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Infrastructure.Common.Windows.Services.DragDrop
+namespace Infrastructure.Common.Services.DragDrop
 {
 	public interface IDragDropService
 	{

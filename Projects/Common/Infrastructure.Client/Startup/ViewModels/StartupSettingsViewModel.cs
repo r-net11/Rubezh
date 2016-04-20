@@ -1,7 +1,7 @@
-﻿using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using System.Windows;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
 using RubezhAPI.Models;
 
 namespace Infrastructure.Client.Startup.ViewModels

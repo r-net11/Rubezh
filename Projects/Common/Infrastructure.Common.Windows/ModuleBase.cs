@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using RubezhAPI;
-using Infrastructure.Common.Windows.Navigation;
-using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public abstract class ModuleBase : IModule
 	{

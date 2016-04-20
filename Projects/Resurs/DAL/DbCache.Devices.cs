@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity;
 using System.Runtime.Serialization;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using System.Diagnostics;
 
 

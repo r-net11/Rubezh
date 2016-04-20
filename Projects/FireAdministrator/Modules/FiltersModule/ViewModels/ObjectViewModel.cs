@@ -1,5 +1,5 @@
 ﻿using Controls.Converters;
-using Infrastructure.Common.Windows.TreeList;
+using Infrastructure.Common.TreeList;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;

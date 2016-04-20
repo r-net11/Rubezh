@@ -1,7 +1,7 @@
 ﻿using RubezhAPI.SKD.ReportFilters;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.SKDReports
+namespace Infrastructure.Common.SKDReports
 {
 	public abstract class FilterContainerViewModel : BaseViewModel
 	{

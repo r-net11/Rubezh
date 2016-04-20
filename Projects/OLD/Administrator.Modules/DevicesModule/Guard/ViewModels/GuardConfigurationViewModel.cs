@@ -6,7 +6,7 @@ using DevicesModule.Guard;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {

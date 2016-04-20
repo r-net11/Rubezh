@@ -1,8 +1,8 @@
 ﻿using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using RubezhAPI.Automation;
 using RubezhClient;

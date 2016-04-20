@@ -1,7 +1,7 @@
-﻿using Infrastructure.Common.Windows.Services;
+﻿using Infrastructure.Common.Services;
 using Microsoft.Practices.Prism.Events;
 
-namespace Infrastructure.Common.Windows.Validation
+namespace Infrastructure.Common.Validation
 {
 	public abstract class ObjectValidationError<TObject, TEvent, TKey> : IValidationError
 		where TEvent : CompositePresentationEvent<TKey>, new()

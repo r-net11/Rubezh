@@ -4,8 +4,8 @@ using System.Net;
 using System.ServiceModel;
 using Common;
 using FSAgentServer.ViewModels;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.BalloonTrayTip;
+using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentServer
 {

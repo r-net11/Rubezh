@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using RubezhAPI.Models.Layouts;
 
-namespace Infrastructure.Common.Windows.Services.Layout
+namespace Infrastructure.Common.Services.Layout
 {
 	public interface ILayoutPartDescription
 	{

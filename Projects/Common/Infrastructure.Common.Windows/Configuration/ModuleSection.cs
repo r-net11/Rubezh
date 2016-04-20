@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace Infrastructure.Common.Windows.Configuration
+namespace Infrastructure.Common.Configuration
 {
 	public class ModuleSection : ConfigurationSection
 	{

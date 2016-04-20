@@ -6,8 +6,8 @@ using System.Windows;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhClient;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK
 {

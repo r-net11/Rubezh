@@ -2,7 +2,7 @@
 using DevExpress.DocumentServices.ServiceModel.DataContracts;
 using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
 using DevExpress.Xpf.Printing;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.ServiceModel;

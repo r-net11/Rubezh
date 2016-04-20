@@ -4,10 +4,10 @@ using System.Windows;
 using Common;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Windows.Navigation;
-using Infrastructure.Common.Windows.Ribbon;
+using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Ribbon;
 
-namespace Infrastructure.Common.Windows.Windows.ViewModels
+namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ShellViewModel : ApplicationViewModel
 	{

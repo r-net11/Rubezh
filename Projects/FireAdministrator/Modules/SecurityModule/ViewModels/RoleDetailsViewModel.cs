@@ -2,8 +2,8 @@
 using System.Linq;
 using RubezhAPI.Models;
 using RubezhClient;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels
 {

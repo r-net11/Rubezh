@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using HANDLE = System.IntPtr;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public static class ProcessHelper
 	{

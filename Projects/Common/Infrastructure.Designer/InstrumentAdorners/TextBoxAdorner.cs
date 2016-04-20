@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common.Windows.Windows;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;

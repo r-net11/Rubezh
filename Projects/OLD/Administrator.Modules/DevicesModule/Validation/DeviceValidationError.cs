@@ -1,8 +1,8 @@
 ﻿using System;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows.Validation;
+using Infrastructure.Common.Validation;
 using Infrastructure.Events;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace DevicesModule.Validation
 {

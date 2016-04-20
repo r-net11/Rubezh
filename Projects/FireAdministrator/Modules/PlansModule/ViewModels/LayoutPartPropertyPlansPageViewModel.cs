@@ -6,7 +6,7 @@ using Common;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Services.Layout;
 
 namespace PlansModule.ViewModels
 {

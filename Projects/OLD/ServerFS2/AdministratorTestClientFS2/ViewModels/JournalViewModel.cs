@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FS2Api;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using System.Linq;
 
 namespace AdministratorTestClientFS2.ViewModels

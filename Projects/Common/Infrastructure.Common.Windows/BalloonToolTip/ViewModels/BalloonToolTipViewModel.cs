@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using Common;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.BalloonTrayTip.ViewModels
+namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
 	public class BalloonToolTipViewModel : WindowBaseViewModel
 	{

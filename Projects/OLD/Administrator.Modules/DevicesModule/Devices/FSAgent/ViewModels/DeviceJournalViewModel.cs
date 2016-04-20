@@ -3,8 +3,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 
 namespace DevicesModule.ViewModels

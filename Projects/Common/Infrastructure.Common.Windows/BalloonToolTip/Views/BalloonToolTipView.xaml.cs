@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using Infrastructure.Common.Windows.BalloonTrayTip.ViewModels;
+using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
-namespace Infrastructure.Common.Windows.BalloonTrayTip.Views
+namespace Infrastructure.Common.BalloonTrayTip.Views
 {
 	public partial class BalloonToolTipView : Window
 	{

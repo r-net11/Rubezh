@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using MultiClientAdministrator.ViewModels;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using System.IO;
 using MuliclientAPI;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace MultiClientAdministrator
 {

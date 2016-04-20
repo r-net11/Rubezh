@@ -7,7 +7,7 @@ using System.Windows.Threading;
 using RubezhAPI.GK;
 using RubezhClient;
 using GKModule.ViewModels;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 using Microsoft.Research.DynamicDataDisplay.PointMarkers;

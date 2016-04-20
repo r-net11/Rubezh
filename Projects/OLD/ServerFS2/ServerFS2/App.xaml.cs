@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Windows;
 using Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.BalloonTrayTip;
-using Infrastructure.Common.Windows.Theme;
+using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Theme;
 
 namespace ServerFS2
 {

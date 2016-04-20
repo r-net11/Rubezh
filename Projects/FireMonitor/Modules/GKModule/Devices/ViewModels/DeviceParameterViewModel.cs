@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using RubezhAPI.GK;
-using Infrastructure.Common.Windows.Windows.ViewModels;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {

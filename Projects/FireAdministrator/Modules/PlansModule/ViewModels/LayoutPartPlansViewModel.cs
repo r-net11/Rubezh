@@ -4,7 +4,7 @@ using System.Linq;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
 using Infrastructure.Client.Layout.ViewModels;
-using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common.Services.Layout;
 
 namespace PlansModule.ViewModels
 {

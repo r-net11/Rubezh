@@ -1,9 +1,9 @@
 ﻿using Common;
 using Infrastructure.Client.Converters;
 using Infrastructure.Client.Images;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Services.Layout;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Services.Layout;
 using Microsoft.Win32;
 using RubezhAPI.Models.Layouts;
 using System;

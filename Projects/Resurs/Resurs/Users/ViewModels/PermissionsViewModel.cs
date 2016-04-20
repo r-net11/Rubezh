@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using ResursAPI;
 using System;
 using System.Collections.Generic;

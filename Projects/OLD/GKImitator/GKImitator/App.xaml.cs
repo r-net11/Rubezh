@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Common.Windows.Theme;
+using Infrastructure.Common.Theme;
 
 namespace GKImitator
 {

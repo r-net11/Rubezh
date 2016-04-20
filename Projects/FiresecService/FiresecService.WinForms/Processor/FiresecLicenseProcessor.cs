@@ -1,5 +1,5 @@
 ﻿using GKProcessor;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 using RubezhAPI.Journal;
 using RubezhAPI.License;
 using System;

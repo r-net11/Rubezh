@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Validation;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Validation;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.License;

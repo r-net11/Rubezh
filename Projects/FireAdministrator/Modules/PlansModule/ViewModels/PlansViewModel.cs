@@ -2,10 +2,10 @@
 using Controls.Menu.ViewModels;
 using Infrastructure;
 using Infrastructure.Client.Plans;
+using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Navigation;
-using Infrastructure.Common.Windows.Windows;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;

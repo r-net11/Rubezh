@@ -1,8 +1,8 @@
 ﻿using Common;
-using Infrastructure.Common.Windows.BalloonTrayTip;
-using Infrastructure.Common.Windows.Services;
-using Infrastructure.Common.Windows.Theme;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Theme;
+using Infrastructure.Common.Windows;
 using Microsoft.Win32;
 using Resurs.ViewModels;
 using Resurs.Views;

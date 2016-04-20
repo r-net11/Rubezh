@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Common.Windows.Windows.ViewModels;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 using DevExpress.XtraReports.UI;
 using Resurs.Reports;
 using System;
@@ -86,7 +86,7 @@ namespace Resurs.ViewModels
 		public RelayCommand ChangeFilterCommand { get; private set; }
 		void OnChangeFilter()
 		{
-			if (Infrastructure.Common.Windows.Windows.DialogService.ShowModalWindow(ReportFilterViewModel))
+			if (Infrastructure.Common.Windows.DialogService.ShowModalWindow(ReportFilterViewModel))
 			{
 				Filter = ReportFilterViewModel.Filter;
 				BuildReport();

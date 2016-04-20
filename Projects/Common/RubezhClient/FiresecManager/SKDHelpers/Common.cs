@@ -1,5 +1,5 @@
 ﻿using RubezhAPI;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 
 namespace RubezhClient.SKDHelpers
 {

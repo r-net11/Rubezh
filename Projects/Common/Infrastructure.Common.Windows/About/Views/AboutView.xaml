@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Infrastructure.Common.Windows.About.Views.AboutView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinWidth="310" MinHeight="150">
+﻿<UserControl x:Class="Infrastructure.Common.About.Views.AboutView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinWidth="310" MinHeight="150">
 
 	<Border Grid.Column="1" Padding="5">
 		<StackPanel>

@@ -9,10 +9,10 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Navigation;
-using Infrastructure.Common.Windows.Validation;
-using Infrastructure.Common.Windows.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 

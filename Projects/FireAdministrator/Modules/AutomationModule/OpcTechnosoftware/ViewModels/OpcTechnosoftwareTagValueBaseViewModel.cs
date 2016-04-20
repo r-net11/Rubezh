@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using OpcClientSdk.Da;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {

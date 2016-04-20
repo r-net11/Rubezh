@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Infrastructure.Common.Windows.Navigation;
+using Infrastructure.Common.Navigation;
 
-namespace Infrastructure.Common.Windows
+namespace Infrastructure.Common
 {
 	public interface IModule : IDisposable
 	{

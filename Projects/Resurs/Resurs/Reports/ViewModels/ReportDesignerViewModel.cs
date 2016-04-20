@@ -1,5 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
-using Infrastructure.Common.Windows.Windows.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Resurs.ViewModels
 {

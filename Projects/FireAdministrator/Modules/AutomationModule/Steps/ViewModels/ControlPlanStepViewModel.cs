@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Automation;
-using Infrastructure.Common.Windows.Services;
+using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
 using RubezhAPI;
 using RubezhAPI.Automation;

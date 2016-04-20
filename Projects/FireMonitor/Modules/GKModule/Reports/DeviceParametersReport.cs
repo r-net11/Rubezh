@@ -3,7 +3,7 @@ using System.Linq;
 using CodeReason.Reports;
 using RubezhAPI;
 using RubezhClient;
-using Infrastructure.Common.Windows.Reports;
+using Infrastructure.Common.Reports;
 
 namespace GKModule.Reports
 {

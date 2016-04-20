@@ -5,7 +5,7 @@ using RubezhAPI.SKD;
 using RubezhClient;
 using RubezhClient.SKDHelpers;
 using Infrastructure;
-using Infrastructure.Common.Windows.Windows;
+using Infrastructure.Common.Windows;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels

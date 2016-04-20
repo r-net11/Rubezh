@@ -1,4 +1,4 @@
-<UserControl x:Class="AutomationModule.Layout.Views.LayoutPartPropertyProcedurePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Windows.Views;assembly=Infrastructure.Common.Windows">
+<UserControl x:Class="AutomationModule.Layout.Views.LayoutPartPropertyProcedurePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Views;assembly=Infrastructure.Common.Windows">
 	<ListView ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
 		<ListView.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.Windows;
 using ServerFS2;
 
 namespace MonitorClientFS2
