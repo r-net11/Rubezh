@@ -159,6 +159,8 @@
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
+    <Compile Include="Hierarchy\HierarchicalCollection.cs" />
+    <Compile Include="Hierarchy\HierarchicalItem.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="IImitatorService.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaElement.cs" />

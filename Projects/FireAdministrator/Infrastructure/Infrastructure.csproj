@@ -110,6 +110,7 @@
     <Compile Include="Events\SelectCamerasEvent.cs" />
     <Compile Include="Events\SelectGKZonesEvent.cs" />
     <Compile Include="Events\SelectGKZoneEvent.cs" />
+    <Compile Include="Events\ShowDiagnosticsZonesEvent.cs" />
     <Compile Include="Events\ShowMonitorLayoutEvent.cs" />
     <Compile Include="Events\SetNewConfigurationEvent.cs" />
     <Compile Include="Events\ShowPlanElementEvent.cs" />
