@@ -15,7 +15,8 @@ namespace GKProcessor
 				ShortName = "МВК8",
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_MVK8,
-				GroupDeviceChildrenCount = 8
+				GroupDeviceChildrenCount = 8,
+				TypeOfBranche = GKDriver.TypesOfBranches.ActuatingDevice
 			};
 			return driver;
 		}

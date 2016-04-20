@@ -424,7 +424,6 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 			return true;
-
 		}
 	}
 }

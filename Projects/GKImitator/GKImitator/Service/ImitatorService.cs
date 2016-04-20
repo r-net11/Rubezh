@@ -17,9 +17,13 @@ namespace GKImitator
 			return new OperationResult<string>("Hello from Imitator");
 		}
 
-		public OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command)
+		public OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command, bool isPim)
 		{
-			var descriptor = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.UID == uid);
+			DescriptorViewModel descriptor;
+			if (isPim)
+				descriptor = MainViewModel.Current.Descriptors.FirstOrDefault(x => (x.GKBase is GKPim) && (x.GKBase as GKPim).DeviceUid == uid);
+			else
+				descriptor = MainViewModel.Current.Descriptors.FirstOrDefault(x => x.GKBase.UID == uid);
 			if (descriptor == null)
 				return OperationResult<bool>.FromError("Не найден элемент " + uid + " в конфигурации");
 			if (!ValidateCommand(descriptor, command))
@@ -46,7 +50,22 @@ namespace GKImitator
 					break;
 				case GKStateBit.TurnOffNow_InAutomatic:
 					descriptor.TurnOffNowCommand.Execute();
-					break;  
+					break;
+				case GKStateBit.SetRegime_Manual:
+					descriptor.TurnOffCommand.Execute();
+					break;
+				case GKStateBit.TurnOn_InManual:
+					descriptor.TurnOffCommand.Execute();
+					break;
+				case GKStateBit.TurnOnNow_InManual:
+					descriptor.TurnOffCommand.Execute();
+					break;
+				case GKStateBit.TurnOff_InManual:
+					descriptor.TurnOffCommand.Execute();
+					break;
+				case GKStateBit.TurnOffNow_InManual:
+					descriptor.TurnOffCommand.Execute();
+					break;
 				default:
 					return OperationResult<bool>.FromError("Команда " + command.ToDescription() + " ещё не реализована");
 			}

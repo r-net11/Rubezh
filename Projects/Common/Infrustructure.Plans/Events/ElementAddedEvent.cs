@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Infrustructure.Plans.Elements;
-using Microsoft.Practices.Prism.Events;
+﻿using Microsoft.Practices.Prism.Events;
+using RubezhAPI.Plans.Elements;
+using System.Collections.Generic;
 
 namespace Infrustructure.Plans.Events
 {

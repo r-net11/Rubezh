@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Controls.Converters;
-using Infrastructure.Common.Windows;
+﻿using Controls.Converters;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using RubezhClient;
-using Infrustructure.Plans.Interfaces;
+using RubezhAPI.Plans.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKWebService.Models.GK.Alarms
 {
@@ -44,7 +41,7 @@ namespace GKWebService.Models.GK.Alarms
 		{
 			Alarm = alarm;
 			AlarmType = alarm.AlarmType;
-            AlarmImageSource = ((string)new AlarmTypeToBIconConverter().Convert(alarm.AlarmType, null, null, null)).Substring(36).Replace(".png", "");
+			AlarmImageSource = ((string)new AlarmTypeToBIconConverter().Convert(alarm.AlarmType, null, null, null)).Substring(36).Replace(".png", "");
 			AlarmName = alarm.AlarmType.ToDescription();
 			GkEntity = GetGkEntity();
 			CanReset = GetCanReset();
@@ -106,7 +103,7 @@ namespace GKWebService.Models.GK.Alarms
 		{
 			if (GkEntity.ObjectType == GKBaseObjectType.Zone)
 			{
-				var zone = new GKZone {UID = GkEntity.UID};
+				var zone = new GKZone { UID = GkEntity.UID };
 				switch (AlarmType)
 				{
 					case GKAlarmType.Fire1:

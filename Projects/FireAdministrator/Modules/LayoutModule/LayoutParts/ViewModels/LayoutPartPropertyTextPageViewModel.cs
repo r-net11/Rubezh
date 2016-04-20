@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Infrastructure.Common.Services.Layout;
+using Infrustructure.Plans;
+using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Services.Layout;
 using System.Windows.Media;
-using RubezhAPI.Models.Layouts;
-using System.Windows.Controls;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {
@@ -227,12 +225,12 @@ namespace LayoutModule.LayoutParts.ViewModels
 			{
 				AcceptReturn = properties.AcceptReturn;
 				AcceptTab = properties.AcceptTab;
-				BackgroundColor = properties.BackgroundColor;
+				BackgroundColor = properties.BackgroundColor.ToWindowsColor();
 				FontBold = properties.FontBold;
-				FontFamily =  new FontFamily(properties.FontFamilyName);
+				FontFamily = new FontFamily(properties.FontFamilyName);
 				FontItalic = properties.FontItalic;
 				FontSize = properties.FontSize;
-				ForegroundColor = properties.ForegroundColor;
+				ForegroundColor = properties.ForegroundColor.ToWindowsColor();
 				Text = properties.Text;
 				TextAlignment = properties.TextAlignment;
 				TextTrimming = properties.TextTrimming;
@@ -253,12 +251,12 @@ namespace LayoutModule.LayoutParts.ViewModels
 			{
 				properties.AcceptReturn = AcceptReturn;
 				properties.AcceptTab = AcceptTab;
-				properties.BackgroundColor = BackgroundColor;
+				properties.BackgroundColor = BackgroundColor.ToRubezhColor();
 				properties.FontBold = FontBold;
 				properties.FontFamilyName = FontFamily.Source;
 				properties.FontItalic = FontItalic;
 				properties.FontSize = FontSize;
-				properties.ForegroundColor = ForegroundColor;
+				properties.ForegroundColor = ForegroundColor.ToRubezhColor();
 				properties.HorizontalAlignment = HorizontalAlignment;
 				properties.Text = Text;
 				properties.TextAlignment = TextAlignment;
@@ -268,5 +266,6 @@ namespace LayoutModule.LayoutParts.ViewModels
 				return true;
 			}
 			return false;
-		}	}
+		}
+	}
 }

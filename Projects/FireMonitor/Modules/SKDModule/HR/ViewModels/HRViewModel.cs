@@ -37,7 +37,6 @@ namespace SKDModule.ViewModels
 
 		public HRViewModel(SKDTabItems skdTabItems)
 		{
-			IsConnected = true;
 			SKDTabItems = skdTabItems;
 			EditFilterCommand = new RelayCommand(OnEditFilter, CanEditFilter);
 			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted, CanChangeIsDeleted);
@@ -79,43 +78,9 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter.UserUID = userUID;
 		}
 
-		bool _isConnected;
 		bool IsConnected
 		{
-			get { return _isConnected; }
-			set
-			{
-				_isConnected = value;
-				OnPropertyChanged(() => CanSelectPersonType);
-			}
-		}
-
-		public void OnConnectionLost()
-		{
-			IsConnected = false;
-			EmployeesViewModel.OnConnectionLost();
-			DepartmentsViewModel.OnConnectionLost();
-			PositionsViewModel.OnConnectionLost();
-			AdditionalColumnTypesViewModel.OnConnectionLost();
-			CardsViewModel.OnConnectionLost();
-			AccessTemplatesViewModel.OnConnectionLost();
-			AccessTemplatesViewModel.OnConnectionLost();
-			PassCardTemplatesViewModel.OnConnectionLost();
-			OrganisationsViewModel.OnConnectionLost();
-		}
-
-		public void OnConnectionAppeared()
-		{
-			IsConnected = true;
-			EmployeesViewModel.OnConnectionAppeared();
-			DepartmentsViewModel.OnConnectionAppeared();
-			PositionsViewModel.OnConnectionAppeared();
-			AdditionalColumnTypesViewModel.OnConnectionAppeared();
-			CardsViewModel.OnConnectionAppeared();
-			AccessTemplatesViewModel.OnConnectionAppeared();
-			AccessTemplatesViewModel.OnConnectionAppeared();
-			PassCardTemplatesViewModel.OnConnectionAppeared();
-			OrganisationsViewModel.OnConnectionAppeared();
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
 
 		bool _isEmployeesSelected;

@@ -1,7 +1,8 @@
-﻿using System.Windows.Media;
+﻿using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
+using System.Windows.Media;
 using System.Windows.Shapes;
-using RubezhAPI.Models;
-using Infrustructure.Plans.Elements;
+using Infrustructure.Plans;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {

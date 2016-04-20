@@ -5,10 +5,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
 using Microsoft.Win32;
+using RubezhAPI.Plans.Elements;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,6 +26,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		WMFImage _wmf;
 		byte[] _svg;
 		public TileBrush ImageBrush { get; private set; }
+		public event Action<bool> UpdateProperty;
 
 		public ImagePropertiesViewModel(IElementBackground element)
 		{
@@ -41,6 +41,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
 			UpdateImage();
+
 		}
 
 		public RelayCommand SelectPictureCommand { get; private set; }
@@ -96,6 +97,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 					}
 					OnPropertyChanged(() => ImageBrush);
+					if (UpdateProperty != null)
+					UpdateProperty(false);
 				}
 		}
 
@@ -110,6 +113,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			isWasDelete = true;
 			ImageBrush = null;
 			OnPropertyChanged(() => ImageBrush);
+			if (UpdateProperty != null)
+			UpdateProperty(true);
 		}
 		bool CanRemovePicture()
 		{
@@ -118,7 +123,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		bool ValidateImage()
 		{
-			return new FileInfo(_sourceName).Length >0;
+			return new FileInfo(_sourceName).Length > 0;
 		}
 
 		public void Save()

@@ -2,7 +2,6 @@
 using Infrastructure.Client.Plans;
 using Infrastructure.Events;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using PlansModule.Kursk.Designer;
@@ -10,6 +9,7 @@ using PlansModule.Kursk.InstrumentAdorners;
 using PlansModule.Kursk.ViewModels;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using RubezhClient;
 using System;
 using System.Collections.Generic;

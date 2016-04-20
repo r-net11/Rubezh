@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Извещатель пожарный ручной электроконтактный адресный",
 				ShortName = "ИПР 513-12",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.FireDetector
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire2);

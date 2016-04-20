@@ -32,6 +32,7 @@ namespace FiresecService.Report.Templates
 			var devices = GKManager.Devices.Where(device => device.Parent != null && 
 			(device.DriverType == GKDriverType.GK
 			|| device.DriverType == GKDriverType.RSR2_KAU
+			|| device.DriverType == GKDriverType.GKMirror
 			|| (!device.Parent.Driver.IsGroupDevice && device.AllParents.Exists(parent=>parent.DriverType == GKDriverType.RSR2_KAU_Shleif)))
 			&& device.DriverType != GKDriverType.KAUIndicator
 			&& device.DriverType != GKDriverType.RSR2_MVP_Part);

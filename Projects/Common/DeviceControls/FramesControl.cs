@@ -1,13 +1,11 @@
-﻿using System;
+﻿using RubezhAPI.GK;
+using RubezhAPI.Plans.Devices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.SKD;
-using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {

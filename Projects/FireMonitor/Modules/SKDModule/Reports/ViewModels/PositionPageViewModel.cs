@@ -9,7 +9,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
-	public class PositionPageViewModel : FilterContainerViewModel, IOrganisationItemsFilterPage, IUnsubscribe
+	public class PositionPageViewModel : FilterContainerViewModel, IOrganisationItemsFilterPage
 	{
 		public PositionPageViewModel()
 		{
@@ -47,7 +47,7 @@ namespace SKDModule.Reports.ViewModels
 			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Positions, OrganisationUIDs, IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
 		}
 
-		public void Unsubscribe()
+		public override void Unsubscribe()
 		{
 			_OrganisationChangedSubscriber.Unsubscribe();
 			Filter.Unsubscribe();

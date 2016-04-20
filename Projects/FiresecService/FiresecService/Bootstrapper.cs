@@ -148,7 +148,7 @@ namespace FiresecService
 				case ObjectType.MPT: return GKManager.DeviceConfiguration.MPTs.FirstOrDefault(x => x.UID == objectUID);
 				case ObjectType.VideoDevice: return ProcedureExecutionContext.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == objectUID);
 				case ObjectType.GKDoor: return GKManager.Doors.FirstOrDefault(x => x.UID == objectUID);
-				case ObjectType.Organisation: return RubezhClient.SKDHelpers.OrganisationHelper.GetSingle(objectUID);
+				case ObjectType.Organisation: return GetOrganisation(objectUID);
 			}
 			return null;
 		}
@@ -205,12 +205,18 @@ namespace FiresecService
 						return gKDoor.PresentationName;
 					break;
 				case ObjectType.Organisation:
-					var organisation = RubezhClient.SKDHelpers.OrganisationHelper.GetSingle(objectUID);
+					var organisation = GetOrganisation(objectUID);
 					if (organisation != null)
 						return organisation.Name;
 					break;
 			}
 			return "Null";
+		}
+
+		static RubezhAPI.SKD.Organisation GetOrganisation(Guid uid)
+		{
+			var organisations = FiresecServiceManager.SafeFiresecService.FiresecService.GetOrganisations(Guid.Empty, new RubezhAPI.SKD.OrganisationFilter());
+			return organisations.HasError ? null : organisations.Result.FirstOrDefault(x => x.UID == uid);
 		}
 
 		static void ReadTagValue(Guid tagUID, object value)

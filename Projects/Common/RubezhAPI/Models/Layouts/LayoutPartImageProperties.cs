@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using System.Windows.Media;
 using Common;
 
 namespace RubezhAPI.Models.Layouts

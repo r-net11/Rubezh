@@ -142,6 +142,7 @@
     <Compile Include="HashHelper.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="IIdentity.cs" />
+    <Compile Include="PointCollection.cs" />
     <Compile Include="ResourceType.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="State\XStateClass.cs" />
     <Compile Include="State\IDeviceState.cs" />
     <Compile Include="State\NamedStateClass.cs" />
+    <Compile Include="Stretch.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TimeCounter.cs" />
     <Compile Include="Utils.cs" />

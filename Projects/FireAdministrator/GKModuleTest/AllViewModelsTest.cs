@@ -416,7 +416,7 @@ namespace GKModuleTest
 			MockDialogService.OnShowModal += x =>
 			{
 				var newDeviceViewModel = x as NewDeviceViewModel;
-				newDeviceViewModel.SelectedDriver = GKManager.Drivers.FirstOrDefault(y => y.DriverType == drivertype);
+				newDeviceViewModel.SelectedDriver.Driver = GKManager.Drivers.FirstOrDefault(y => y.DriverType == drivertype);
 				newDeviceViewModel.Count = count;
 				newDeviceViewModel.AddInStartlList = addInStartList;
 				newDeviceViewModel.SaveCommand.Execute();

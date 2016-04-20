@@ -4,42 +4,80 @@
 			xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			xmlns:Views="clr-namespace:GKModule.Views"
-			MinWidth="600" MinHeight="500">
-
+			MinWidth="600" MinHeight="500"
+			xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ListView Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" IsTabStop="True">
-			<ListView.Resources>
-				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-					<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-				</InputBindingCollection>
-			</ListView.Resources>
-			<ListView.ItemContainerStyle>
-				<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
-					<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-				</Style>
-			</ListView.ItemContainerStyle>
-			<ListView.View>
-				<GridView>
-					<GridView.Columns>
-						<GridViewColumn Header="Обозначение" Width="150">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-										<Image Width="16" Height="16" Margin="1" Source="{Binding ImageSource}" />
-										<TextBlock Margin="1" Text="{Binding ShortName}" />
-									</StackPanel>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-						<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
-					</GridView.Columns>
-				</GridView>
-			</ListView.View>
-		</ListView>
+		<TabControl Grid.Row="0">
+			<TabItem Header="Все устройства">
+				<ListView  ItemsSource="{Binding TypedDrivers}" SelectedItem="{Binding SelectedDriver}" IsTabStop="True">
+					<ListView.Resources>
+						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+							<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+						</InputBindingCollection>
+					</ListView.Resources>
+					<ListView.ItemContainerStyle>
+						<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+						</Style>
+					</ListView.ItemContainerStyle>
+					<ListView.View>
+						<GridView>
+							<GridView.Columns>
+								<GridViewColumn Header="Обозначение" Width="220">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+												<Image Width="16" Height="16" Margin="1" Source="{Binding ImageSource}" />
+												<TextBlock Margin="1" Text="{Binding ShortName}" />
+											</StackPanel>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+								<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
+							</GridView.Columns>
+						</GridView>
+					</ListView.View>
+				</ListView>
+			</TabItem>
+			<TabItem Header="Устройства по типам" Visibility="{Binding IsNotGKOrMirror, Converter={StaticResource BoolToVisibilityConverter}}">
+				<tree:TreeList Source="{Binding RootDrivers}" tree:SortBehavior.CanUserSortColumns="False"
+							   SelectedTreeNode="{Binding SelectedDriver}">
+					<tree:TreeList.View>
+						<GridView>
+							<GridView.Columns>
+								<GridViewColumn Header="Обозначение" Width="220">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Grid>
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="Auto" />
+													<ColumnDefinition Width="*" />
+												</Grid.ColumnDefinitions>
+												<Image Grid.Column="0" Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+												<TextBlock Grid.Column="1" Text="{Binding ShortName}"/>
+											</Grid>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+								<GridViewColumn Header="Наименование">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Grid>
+												<TextBlock Text="{Binding Name}"></TextBlock>
+											</Grid>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+							</GridView.Columns>
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
+			</TabItem>
+		</TabControl>
 		<Grid Grid.Row="1">
 			<Grid>
 				<Grid.ColumnDefinitions>

@@ -179,6 +179,7 @@ namespace GKIntegratedTest
 
 		void CheckJournal(int delta, params Tuple<GKBase, JournalEventNameType>[] journalEventNameTypes)
 		{
+			Thread.Sleep(100);
 			Trace.WriteLine("Проверка сообщений журнала: " + string.Join(",", journalEventNameTypes.Select(x => x.Item2)));
 			var lastJournalNo = journalItems.Count;
 			delta = lastJournalNo - delta > 0 ? delta : lastJournalNo;
@@ -428,9 +429,19 @@ namespace GKIntegratedTest
 			return GKManager.AddDevice(device.Children[1], GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType), 0);
 		}
 
-		void ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage)
+		GKGuardZoneDevice AddGuardZoneDevice(GKDevice device)
 		{
-			var result = CheckTime (() =>ImitatorManager.ImitatorService.ConrtolGKBase(gkBase.UID, command), traceMessage);
+			return new GKGuardZoneDevice {Device = device, DeviceUID = device.UID};
+		}
+
+		void ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage = "Нет сообщения", bool isPim = false)
+		{
+			Guid uid;
+			if (gkBase is GKPim)
+				uid = (gkBase as GKPim).DeviceUid;
+			else
+				uid = gkBase.UID;
+			var result = CheckTime (() =>ImitatorManager.ImitatorService.ConrtolGKBase(uid, command, isPim), traceMessage);
 			Assert.IsTrue(result.Result, result.Error);
 		}
 

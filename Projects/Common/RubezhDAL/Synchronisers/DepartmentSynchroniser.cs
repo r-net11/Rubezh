@@ -1,12 +1,7 @@
-﻿using System;
+﻿using RubezhDAL.DataClasses;
 using System.Collections.Generic;
-using System.Data.Linq;
-using System.Linq;
-using System.Linq.Expressions;
-
-using LinqKit;
-using RubezhDAL.DataClasses;
 using System.Data.Entity;
+using System.Linq;
 
 namespace RubezhDAL
 {
@@ -16,10 +11,10 @@ namespace RubezhDAL
 
 		public override RubezhAPI.SKD.ExportDepartment Translate(Department item)
 		{
-			return new RubezhAPI.SKD.ExportDepartment 
-			{ 
-				Name = item.Name, 
-				Description = item.Description,	
+			return new RubezhAPI.SKD.ExportDepartment
+			{
+				Name = item.Name,
+				Description = item.Description,
 				Phone = item.Phone,
 
 				OrganisationUID = GetUID(item.OrganisationUID),
@@ -44,7 +39,7 @@ namespace RubezhDAL
 		public override void TranslateBack(RubezhAPI.SKD.ExportDepartment exportItem, Department tableItem)
 		{
 			tableItem.Name = exportItem.Name;
-			tableItem.Description = exportItem.Description; 
+			tableItem.Description = exportItem.Description;
 			tableItem.Phone = exportItem.Phone;
 			tableItem.IsDeleted = exportItem.IsDeleted;
 			tableItem.RemovalDate = exportItem.RemovalDate;

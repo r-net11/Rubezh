@@ -14,12 +14,12 @@ namespace SKDModule.ViewModels
 		public Organisation Organisation { get; protected set; }
 		protected abstract PermissionType Permission { get; }
 
-		public OrganisationItemsViewModel(Organisation organisation, bool isConnected)
+		public OrganisationItemsViewModel(Organisation organisation)
 		{
 			Organisation = organisation;
-			CanSelect = !organisation.IsDeleted && ClientManager.CheckPermission(Permission) && isConnected;
-			SelectAllCommand = new RelayCommand(OnSelectAll, () => CanSelect);
-			SelectNoneCommand = new RelayCommand(OnSelectNone, () => CanSelect);
+			CanSelect = !organisation.IsDeleted && ClientManager.CheckPermission(Permission);
+			SelectAllCommand = new RelayCommand(OnSelectAll, () => CanSelect && IsConnected);
+			SelectNoneCommand = new RelayCommand(OnSelectNone, () => CanSelect && IsConnected);
 		}
 
 		ObservableCollection<T> items;
@@ -60,6 +60,11 @@ namespace SKDModule.ViewModels
 				_canSelect = value;
 				OnPropertyChanged(() => CanSelect);
 			}
+		}
+
+		public bool IsConnected
+		{
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
 	}
 }

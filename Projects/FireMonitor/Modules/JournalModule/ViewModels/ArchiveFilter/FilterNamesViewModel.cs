@@ -67,6 +67,8 @@ namespace JournalModule.ViewModels
 					filter.JournalEventDescriptionTypes.AddRange(descriptions);
 				}
 			}
+			if (!RootFilters.SelectMany(x => x.GetAllChildren()).Any(x => !x.IsChecked))
+				filter.JournalEventNameTypes.Add(JournalEventNameType.NULL);
 			return filter;
 		}
 

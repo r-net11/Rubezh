@@ -1,7 +1,7 @@
-﻿using System.Windows;
+﻿using Infrustructure.Plans.Designer;
+using RubezhAPI.Plans.Elements;
+using System.Windows;
 using System.Windows.Media;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {

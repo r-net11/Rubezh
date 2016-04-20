@@ -22,7 +22,6 @@ namespace SKDModule.ViewModels
 		
 		public CardsViewModel()
 		{
-			_isConnected = true;
 			_filter = new CardFilter();
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Unsubscribe(OnNewCard);
@@ -42,16 +41,9 @@ namespace SKDModule.ViewModels
             DbCallbackResultUID = Guid.NewGuid();
 		}
 
-		bool _isConnected;
-
-		public void OnConnectionLost()
+		public bool IsConnected
 		{
-			_isConnected = false;
-		}
-
-		public void OnConnectionAppeared()
-		{
-			_isConnected = true;
+			get { return ((SafeFiresecService)ClientManager.FiresecService).IsConnected; }
 		}
 
         void OnNewCard(SKDCard newCard)
@@ -265,7 +257,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && _isConnected;
+			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && ClientManager.CheckPermission(RubezhAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && IsConnected;
 		}
 
 		void OnDeleteCard(Guid uid)

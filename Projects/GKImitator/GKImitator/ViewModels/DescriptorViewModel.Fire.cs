@@ -60,8 +60,7 @@ namespace GKImitator.ViewModels
 			SetStateBit(GKStateBit.Attention, false);
 			SetStateBit(GKStateBit.Fire1, false);
 			SetStateBit(GKStateBit.Fire2, false);
-			var journalItem = new ImitatorJournalItem(2, 14, 0, 0);
-			AddJournalItem(journalItem);
+			SetStateBit(GKStateBit.Norm, true);
 			RecalculateOutputLogic();
 		}
 
@@ -72,6 +71,7 @@ namespace GKImitator.ViewModels
 		{
 			if(CanDo(GKStateBit.Fire1))
 			{
+				SetStateBit(GKStateBit.Attention, false);
 				SetStateBit(GKStateBit.Fire2, false);
 				SetStateBit(GKStateBit.Fire1, true);
 			}
@@ -82,6 +82,7 @@ namespace GKImitator.ViewModels
 		{
 			if (CanDo(GKStateBit.Fire2))
 			{
+				SetStateBit(GKStateBit.Attention, false);
 				SetStateBit(GKStateBit.Fire1, false);
 				SetStateBit(GKStateBit.Fire2, true);
 			}

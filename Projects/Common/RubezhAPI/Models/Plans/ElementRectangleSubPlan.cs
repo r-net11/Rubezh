@@ -1,5 +1,5 @@
-﻿using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Interfaces;
+﻿using RubezhAPI.Plans.Elements;
+using RubezhAPI.Plans.Interfaces;
 using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -25,7 +25,7 @@ namespace RubezhAPI.Models
 		[XmlIgnore]
 		public Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.RectangleZone; }
+			get { return RubezhAPI.Plans.Elements.Primitive.RectangleZone; }
 		}
 
 		#endregion

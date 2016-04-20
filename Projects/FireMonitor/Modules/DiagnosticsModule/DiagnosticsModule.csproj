@@ -137,9 +137,9 @@
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
       <Name>Infrastructure.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
-      <Name>Infrastructure.Common</Name>
+      <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>

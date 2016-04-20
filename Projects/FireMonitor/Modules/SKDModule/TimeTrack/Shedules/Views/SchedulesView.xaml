@@ -23,19 +23,11 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<tree:TreeList
-			Name="_treeList"
-			Source="{Binding Organisations}" 
-			SelectedTreeNode="{Binding SelectedItem}" 
-			ItemActivatedCommand="{Binding EditCommand}"
-			Focusable="True" 
-			tree:SortBehavior.CanUserSortColumns="True">
+		<tree:TreeList Name="_treeList" Focusable="True" tree:SortBehavior.CanUserSortColumns="True"
+					   Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}"	>
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn 
-						Header="Название"
-						ListViewLayoutManager.StarWidth="1"
-						tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelNameComparer}">
+					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -46,10 +38,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn
-						Header="График"
-						ListViewLayoutManager.StarWidth="1"
-						tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelSchemeComparer}">
+					<GridViewColumn Header="График" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelSchemeComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -61,7 +50,7 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.IsConnected}">
+		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
@@ -69,42 +58,23 @@
 			<StackPanel Orientation="Horizontal">
 				<ToolBarButton Command="{Binding EditCommand}" ImageSource="EditCheckBoxList" ToolTip="Редактировать зоны" />
 			</StackPanel>
-			<DataGrid
-				Grid.Row="1"
-				Margin="2"
-				IsReadOnly="False"
-				ItemsSource="{Binding ScheduleZones}"
-				SelectedItem="{Binding SelectedScheduleZone}">
+			<DataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding ScheduleZones}" SelectedItem="{Binding SelectedScheduleZone}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn 
-						Header="№">
+					<DataGridTemplateColumn Header="№">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<TextBlock
-										Margin="2" 
-										VerticalAlignment="Center"
-										Text="{Binding No}"
-										Style="{StaticResource IsDeletedTimeTrackStyle}" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn 
-						Width="*"
-						Header="Название">
+					<DataGridTemplateColumn Width="*" Header="Название">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image 
-										Margin="1 0 0 0" 
-										VerticalAlignment="Center" 
-										Source="/Controls;component/Images/Zone.png" />
-									<TextBlock
-										Margin="2" 
-										VerticalAlignment="Center"
-										Text="{Binding Name}"
-										Style="{StaticResource IsDeletedTimeTrackStyle}" />
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>

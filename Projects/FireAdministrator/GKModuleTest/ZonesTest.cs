@@ -189,7 +189,7 @@ namespace GKModuleTest
 			MockDialogService.OnShowModal += x =>
 			{
 				var newDeviceViewModel = x as NewDeviceViewModel;
-				newDeviceViewModel.SelectedDriver = GKManager.Drivers.FirstOrDefault(y => y.DriverType == GKDriverType.RSR2_AM_1);
+				newDeviceViewModel.SelectedDriver.Driver = GKManager.Drivers.FirstOrDefault(y => y.DriverType == GKDriverType.RSR2_AM_1);
 				newDeviceViewModel.SaveCommand.Execute();
 			};
 

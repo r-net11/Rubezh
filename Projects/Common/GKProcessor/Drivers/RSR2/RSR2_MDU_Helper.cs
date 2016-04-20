@@ -16,7 +16,8 @@ namespace GKProcessor
 				ShortName = "МДУ220",
 				IsControlDevice = true,
 				HasLogic = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				TypeOfBranche = GKDriver.TypesOfBranches.ActuatingDevice
 			};
 
 			driver.AvailableStateBits.Add(GKStateBit.Norm);

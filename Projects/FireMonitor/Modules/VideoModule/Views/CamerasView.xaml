@@ -36,7 +36,7 @@
 											   Visibility="{Binding IsOnGuard,Converter={StaticResource BoolToVisibilityConverter}}" />
 										<Image Width="16" Height="16" Margin="5 0 5 0" Source="{Binding ImageSource}" />
 										<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
-											<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<Hyperlink Command="{Binding ShowPropertiesOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
 												<TextBlock Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged}" >
 													<TextBlock.ContextMenu>
 														<ContextMenu>

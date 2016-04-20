@@ -225,6 +225,10 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\RubezhLicense\RubezhLicense.csproj">
       <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
       <Name>RubezhLicense</Name>
@@ -241,9 +245,9 @@
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
       <Name>Infrastructure.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
-      <Name>Infrastructure.Common</Name>
+      <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>

@@ -64,11 +64,13 @@ namespace GKImitator.ViewModels
 			}
 			else if (isActive)
 			{
-				CurrentOnDelay = 0;
-				CurrentOffDelay = 0;
-				CurrentHoldDelay = 0;
-				TurningState = TurningState.None;
-
+				if (stateBit != GKStateBit.Norm)
+				{
+					CurrentOnDelay = 0;
+					CurrentOffDelay = 0;
+					CurrentHoldDelay = 0;
+					TurningState = TurningState.None;
+				}
 				if (stateBit == GKStateBit.On)
 				{
 					journalItem = new ImitatorJournalItem(2, 9, 2, 0);
@@ -119,11 +121,13 @@ namespace GKImitator.ViewModels
 
 				if (stateBit == GKStateBit.Fire1)
 				{
+					SetStateBit(GKStateBit.Norm, false);
 					journalItem = new ImitatorJournalItem(2, 2, 0, 0);
 				}
 
 				if (stateBit == GKStateBit.Fire2)
 				{
+					SetStateBit(GKStateBit.Norm, false);
 					journalItem = new ImitatorJournalItem(2, 3, 0, 0);
 				}
 

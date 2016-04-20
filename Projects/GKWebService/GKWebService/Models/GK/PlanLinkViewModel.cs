@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Infrustructure.Plans.Elements;
+﻿using RubezhAPI.Plans.Elements;
+using System;
 
 namespace GKWebService.Models.GK
 {
@@ -18,14 +15,14 @@ namespace GKWebService.Models.GK
 
 		public PlanLinkViewModel()
 		{
-			
+
 		}
 
-        public PlanLinkViewModel(RubezhAPI.Models.Plan plan, ElementBase elementBase)
+		public PlanLinkViewModel(RubezhAPI.Models.Plan plan, ElementBase elementBase)
 		{
 			PlanUID = plan.UID;
 			ElementUID = elementBase.UID;
-	        Name = plan.Caption;
+			Name = plan.Caption;
 		}
 
 	}
