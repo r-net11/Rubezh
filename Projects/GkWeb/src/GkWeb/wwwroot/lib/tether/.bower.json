@@ -1,6 +1,6 @@
 {
   "name": "tether",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "homepage": "http://github.hubspot.com/tether",
   "authors": [
     "Zack Bloom <zackbloom@gmail.com>",
@@ -22,11 +22,11 @@
     "test",
     "tests"
   ],
-  "_release": "1.2.2",
+  "_release": "1.2.4",
   "_resolution": {
     "type": "version",
-    "tag": "v1.2.2",
-    "commit": "08531a6ddc52e5cbfb70b4a73b70d08fcbd88add"
+    "tag": "v1.2.4",
+    "commit": "a7ee918947c4ab3d8f91727c08e632aaefcfa3d4"
   },
   "_source": "https://github.com/HubSpot/tether.git",
   "_target": "~1.2.2",

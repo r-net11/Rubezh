@@ -48,15 +48,12 @@ namespace GkWeb
                 app.UseExceptionHandler("/Home/Error");
             }
 	        app.UseWebSockets();
+			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
 			app.UseSignalR();
 
-			app.UseMvc(routes => {
-				routes.MapRoute(
-					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
-			});
+	        app.UseMvc();
         }
 
         // Entry point for the application.
