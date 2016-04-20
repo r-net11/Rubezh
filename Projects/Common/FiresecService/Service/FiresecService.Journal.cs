@@ -14,7 +14,7 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		public static void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, Guid? objectUID, Guid? clientUID, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
+		public static void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, Guid? objectUID, Guid? clientUID, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL, JournalObjectType journalObjectType = JournalObjectType.None)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -22,7 +22,7 @@ namespace FiresecService.Service
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
-				JournalObjectType = JournalObjectType.None,
+				JournalObjectType = journalObjectType,
 				ObjectUID = objectUID != null ? objectUID.Value : Guid.Empty,
 				ObjectName = objectName,
 				UserName = GetUserName(clientUID)
