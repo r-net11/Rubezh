@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data.Linq;
-using System.Linq.Expressions;
-using LinqKit;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 
 namespace RubezhDAL.DataClasses
@@ -13,9 +9,9 @@ namespace RubezhDAL.DataClasses
 
 		public override RubezhAPI.SKD.ExportEmployee Translate(Employee item)
 		{
-			return new RubezhAPI.SKD.ExportEmployee 
-			{ 
-				FirstName = item.FirstName, 
+			return new RubezhAPI.SKD.ExportEmployee
+			{
+				FirstName = item.FirstName,
 				SecondName = item.SecondName,
 				LastName = item.LastName,
 				CredentialsStartDate = item.CredentialsStartDate,
@@ -32,7 +28,7 @@ namespace RubezhDAL.DataClasses
 				Type = item.Type,
 				LastEmployeeDayUpdate = item.LastEmployeeDayUpdate,
 				ScheduleStartDate = item.ScheduleStartDate,
-				
+
 				OrganisationUID = GetUID(item.OrganisationUID),
 				OrganisationExternalKey = GetExternalKey(item.OrganisationUID, item.Organisation),
 				PositionUID = GetUID(item.PositionUID),
@@ -56,7 +52,7 @@ namespace RubezhDAL.DataClasses
 		{
 			return base.GetFilteredItems(filter).Where(x => x.OrganisationUID == filter.OrganisationUID);
 		}
-		
+
 		public override void TranslateBack(RubezhAPI.SKD.ExportEmployee exportItem, Employee tableItem)
 		{
 			tableItem.FirstName = exportItem.FirstName;
@@ -84,7 +80,7 @@ namespace RubezhDAL.DataClasses
 		{
 			get { return "ArrayOfExportEmployee"; }
 		}
-		
+
 		protected override string Name
 		{
 			get { return "Employees"; }

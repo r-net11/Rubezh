@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 
 namespace RubezhDAL
 {
@@ -86,7 +85,7 @@ namespace RubezhDAL
 		{
 			if (IsPostgres || keyName == null)
 				return;
-			string query = string.Format("ALTER TABLE {0} DROP CONSTRAINT \"{1}\"" + 
+			string query = string.Format("ALTER TABLE {0} DROP CONSTRAINT \"{1}\"" +
 				"ALTER TABLE {0} ADD CONSTRAINT \"{1}\"" +
 				"PRIMARY KEY NONCLUSTERED (\"UID\")", tableName, keyName);
 			Database.ExecuteSqlCommand(query);

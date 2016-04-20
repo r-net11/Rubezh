@@ -41,8 +41,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BootstrapperCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ce35f76fcda82bad, processorArchitecture=MSIL" />
-    <Reference Include="Infrastructure.Common">
-      <HintPath>..\..\..\FireAdministrator\bin\Release\Infrastructure.Common.dll</HintPath>
+    <Reference Include="Infrastructure.Common.Windows">
+      <HintPath>..\..\..\FireAdministrator\bin\Release\Infrastructure.Common.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

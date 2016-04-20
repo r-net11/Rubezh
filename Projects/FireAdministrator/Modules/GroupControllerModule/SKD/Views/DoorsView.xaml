@@ -5,7 +5,7 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Views="clr-namespace:GKModule.Views"
 			 xmlns:gk="clr-namespace:RubezhAPI.GK;assembly=RubezhAPI"
-			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
+			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common.Windows">
 	<UserControl.Resources>
 		<SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<SwitchCase Then="Точка доступа может быть размещена на плане" When="Multiple" />

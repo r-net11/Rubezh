@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RubezhAPI.GK;
 using System.Linq;
-using System.Windows.Documents;
-using RubezhAPI.GK;
 
 namespace GKProcessor
 {

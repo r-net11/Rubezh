@@ -77,6 +77,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="IntegratedTest.MPT.cs" />
+    <Compile Include="IntegratedTest.PumpStation.cs" />
     <Compile Include="IntegratedTest.GuardZone.cs" />
     <Compile Include="IntegratedTest.Initialize.cs" />
     <Compile Include="ItegratedTest.Device.cs" />
@@ -88,8 +90,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+    <ProjectReference Include="..\..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
+      <Name>Infrastructure.Common.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">

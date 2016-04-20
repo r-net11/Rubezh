@@ -6,7 +6,7 @@ namespace Infrastructure.Common
 	public class AppDataFolderHelper
 	{
 		static string AppDataFolderName;
-		
+
 		static AppDataFolderHelper()
 		{
 			var appDataFolderName = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);

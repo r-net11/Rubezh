@@ -31,7 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -72,17 +71,9 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>RubezhAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
+    <ProjectReference Include="..\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
-      <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RubezhClient\RubezhClient.csproj">
-      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
-      <Name>RubezhClient</Name>
+      <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

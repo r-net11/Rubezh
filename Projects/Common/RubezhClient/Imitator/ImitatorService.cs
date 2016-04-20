@@ -19,10 +19,10 @@ namespace RubezhClient
 			return imitatorService.TestImitator();
 		}
 
-		public OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command)
+		public OperationResult<bool> ConrtolGKBase(Guid uid, GKStateBit command, bool isPim = false)
 		{
 			var imitatorService = ImitatorServiceFactory.Create();
-			return imitatorService.ConrtolGKBase(uid, command);
+			return imitatorService.ConrtolGKBase(uid, command, isPim);
 		}
 
 		public OperationResult<bool> EnterCard(Guid uid, uint cardNo, GKCodeReaderEnterType enterType)
