@@ -44,7 +44,7 @@
 						<Button Margin="2" Command="{Binding ImagePropertiesViewModel.SelectPictureCommand}" Content="Выбрать картинку" />
 						<Button Margin="2" Command="{Binding ImagePropertiesViewModel.RemovePictureCommand}" Content="Очистить картинку" />
 					</StackPanel>
-					<StackPanel Grid.Row="1" HorizontalAlignment="Right"   Orientation ="Horizontal" Margin="2" IsEnabled="{Binding IsChecked}">
+					<StackPanel Grid.Row="1" HorizontalAlignment="Right"   Orientation ="Horizontal" Margin="2" IsEnabled="{Binding IsEnable}">
 						<CheckBox Margin="2" IsChecked="{Binding IsAsynchronousLoadChecked, Mode=TwoWay}" />
 						<TextBlock Text="Асинхронная загрузка изображения" Foreground="White" VerticalAlignment="Center" />
 					</StackPanel>
