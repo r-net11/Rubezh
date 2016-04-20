@@ -28,8 +28,8 @@
                     <label class="control-label col-sm-4" for="departmentDetailsChief">Руководитель</label>
                     <div class="col-sm-8">
                         <a id="departmentDetailsChief" href="" ng-click="selectChief()">
-                            <span ng-show="model.selectedChief">{{selectedChief.Name}}</span>
-                            <span ng-show="!model.selectedChief">Нажмите для выбора</span>
+                            <span ng-show="model.SelectedChief">{{model.SelectedChief.Name}}</span>
+                            <span ng-show="!model.SelectedChief">Нажмите для выбора</span>
                         </a>
                     </div>
                 </div>
@@ -37,8 +37,8 @@
                     <label class="control-label col-sm-4" for="departmentDetailsDepartment">Родительское подразделение</label>
                     <div class="col-sm-8">
                         <a id="departmentDetailsDepartment" href="" ng-click="selectDepartment()">
-                            <span ng-show="model.selectedDepartment">{{selectedDepartment.Name}}</span>
-                            <span ng-show="!model.selectedDepartment">Нажмите для выбора</span>
+                            <span ng-show="model.SelectedDepartment">{{model.SelectedDepartment.Name}}</span>
+                            <span ng-show="!model.SelectedDepartment">Нажмите для выбора</span>
                         </a>
                     </div>
                 </div>
