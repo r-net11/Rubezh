@@ -57,8 +57,8 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateGKDeviceInGKZones);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
@@ -68,7 +68,7 @@ namespace GKModule.Plans
 			_mptsViewModel = mptsViewModel;
 			_doorsViewModel = doorsViewModel;
 			_delaysViewModel = delaysViewModel;
-			this._pumpStationsViewModel = pumpStationsViewModel;
+			_pumpStationsViewModel = pumpStationsViewModel;
 
 			_instruments = null;
 			_processChanges = true;
@@ -688,10 +688,6 @@ namespace GKModule.Plans
 				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
 		}
 
-		void OnElementRemoved(List<ElementBase> elements)
-		{
-			UpdateGKDeviceInGKZones(elements);
-		}
 		public void UpdateGKDeviceInGKZones(List<ElementBase> items)
 		{
 			if (IsDeviceInZonesChanged(items))
