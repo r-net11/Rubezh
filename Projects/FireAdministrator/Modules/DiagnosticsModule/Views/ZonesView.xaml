@@ -4,7 +4,7 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <Grid>
-		<tree:TreeList SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Items}">
+		<tree:TreeList SelectedTreeNode="{Binding SelectedItem}" Source="{Binding RootItems}">
 			<tree:TreeList.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}" MouseAction="LeftDoubleClick" />

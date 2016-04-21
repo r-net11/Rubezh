@@ -20,6 +20,7 @@ namespace DiagnosticsModule.ViewModels
 	{
 		HierarchicalCollection<T> ItemsCollection;
 		HierarchicalItem<T> clipboard;
+		bool isClipboardCut;
 
 		public ItemsBaseViewModel()
 		{
@@ -38,7 +39,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			ItemsCollection = itemsCollection;
 			SelectedItem = null;
-			Items = new ObservableCollection<ViewModelT>();
+			RootItems = new ObservableCollection<ViewModelT>();
 			foreach (var rootItem in ItemsCollection.RootItems)
 				AddBaseItemViewModel(rootItem, null);
 			if (SelectedItem != null)
@@ -50,7 +51,7 @@ namespace DiagnosticsModule.ViewModels
 			var itemBaseViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), item.Item);
 			if (parentItem == null)
 			{
-				Items.Add(itemBaseViewModel);
+				RootItems.Add(itemBaseViewModel);
 			}
 			else
 			{
@@ -62,14 +63,14 @@ namespace DiagnosticsModule.ViewModels
 			return itemBaseViewModel;
 		}
 
-		ObservableCollection<ViewModelT> _items;
-		public ObservableCollection<ViewModelT> Items
+		ObservableCollection<ViewModelT> _rootItems;
+		public ObservableCollection<ViewModelT> RootItems
 		{
-			get { return _items; }
+			get { return _rootItems; }
 			set
 			{
-				_items = value;
-				OnPropertyChanged(() => Items);
+				_rootItems = value;
+				OnPropertyChanged(() => RootItems);
 			}
 		}
 
@@ -114,7 +115,17 @@ namespace DiagnosticsModule.ViewModels
 		{
 			ItemsCollection.Add(null, t);
 			var itemViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), t);
-			Items.Add(itemViewModel);
+
+			if (SelectedItem == null || SelectedItem.Parent == null)
+			{
+				RootItems.Add(itemViewModel);
+			}
+			else
+			{
+				SelectedItem.InsertChild(itemViewModel);
+			}
+
+			itemViewModel.ExpandToThis();
 			SelectedItem = itemViewModel;
 		}
 
@@ -123,6 +134,8 @@ namespace DiagnosticsModule.ViewModels
 			ItemsCollection.Add(SelectedItem.Item, t);
 			var itemViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), t);
 			SelectedItem.AddChild(itemViewModel);
+
+			itemViewModel.ExpandToThis();
 			SelectedItem = itemViewModel;
 		}
 
@@ -151,15 +164,37 @@ namespace DiagnosticsModule.ViewModels
 		void Remove()
 		{
 			ItemsCollection.Remove(SelectedItem.Item);
-			if (SelectedItem.Parent != null)
+
+			var selectedItem = SelectedItem;
+			ViewModelT parent = (ViewModelT)selectedItem.Parent;
+			var item = SelectedItem.Item;
+			var index = RootItems.IndexOf(selectedItem);
+			var oldIndex = selectedItem.Index;
+
+			if (parent == null)
 			{
-				SelectedItem.Parent.RemoveChild(SelectedItem);
+				RootItems.Remove(selectedItem);
+				index = Math.Min(index, RootItems.Count - 1);
+				if (index > -1)
+					SelectedItem = RootItems[index];
 			}
 			else
 			{
-				Items.Remove(SelectedItem);
+				parent.RemoveChild(selectedItem);
+				if (parent.ChildrenCount == 0)
+				{
+					SelectedItem = parent;
+				}
+				else
+				{
+					if (oldIndex == 0)
+					{
+						SelectedItem = (ViewModelT)parent.Children.ToArray()[oldIndex];
+					}
+					else SelectedItem = (ViewModelT)parent.Children.ToArray()[oldIndex - 1];
+				}
+				parent.IsExpanded = true;
 			}
-			SelectedItem = Items.FirstOrDefault();
 		}
 
 		protected virtual void OnRemoving(ItemBaseCancelArgs itemBaseCancelArgs) { ;}
@@ -177,6 +212,7 @@ namespace DiagnosticsModule.ViewModels
 		void OnCut()
 		{
 			clipboard = ItemsCollection.Clone(SelectedItem.Item);
+			isClipboardCut = true;
 			Remove();
 			OnChanging();
 		}
@@ -189,6 +225,7 @@ namespace DiagnosticsModule.ViewModels
 		void OnCopy()
 		{
 			clipboard = ItemsCollection.Clone(SelectedItem.Item);
+			isClipboardCut = false;
 		}
 		bool CanCopy()
 		{
@@ -199,13 +236,16 @@ namespace DiagnosticsModule.ViewModels
 		void OnPaste()
 		{
 			var copy = Utils.Clone<HierarchicalItem<T>>(clipboard);
+			if (!isClipboardCut)
+				copy.Item.UID = Guid.NewGuid();
+			isClipboardCut = false;
 			ItemsCollection.AddWithChild(copy, SelectedItem.Item);
 			AddBaseItemViewModel(copy, SelectedItem);
 			OnChanging();
 		}
 		bool CanPaste()
 		{
-			return clipboard != null;
+			return SelectedItem != null && clipboard != null;
 		}
 
 		public RelayCommand MoveDownCommand { get; private set; }
@@ -219,8 +259,8 @@ namespace DiagnosticsModule.ViewModels
 				return false;
 			if (SelectedItem.Parent == null)
 			{
-				var index = Items.IndexOf(SelectedItem);
-				if (index > Items.Count - 2)
+				var index = RootItems.IndexOf(SelectedItem);
+				if (index > RootItems.Count - 2)
 					return false;
 			}
 			else
@@ -241,7 +281,7 @@ namespace DiagnosticsModule.ViewModels
 				return false;
 			if (SelectedItem.Parent == null)
 			{
-				var index = Items.IndexOf(SelectedItem);
+				var index = RootItems.IndexOf(SelectedItem);
 				if (index < 1)
 					return false;
 			}
@@ -257,9 +297,9 @@ namespace DiagnosticsModule.ViewModels
 			if (SelectedItem.Parent == null)
 			{
 				var itemViewModel = SelectedItem;
-				var index = Items.IndexOf(SelectedItem);
-				Items.Remove(SelectedItem);
-				Items.Insert(index + delta, itemViewModel);
+				var index = RootItems.IndexOf(SelectedItem);
+				RootItems.Remove(SelectedItem);
+				RootItems.Insert(index + delta, itemViewModel);
 				SelectedItem = itemViewModel;
 
 				var item = itemViewModel.Item;
@@ -277,7 +317,7 @@ namespace DiagnosticsModule.ViewModels
 					{
 						if (parentViewModel.Parent == null)
 						{
-							Items.Insert(parentIndex + delta, itemViewModel);
+							RootItems.Insert(parentIndex + delta, itemViewModel);
 						}
 						else
 						{
@@ -295,7 +335,7 @@ namespace DiagnosticsModule.ViewModels
 					{
 						if (parentViewModel.Parent == null)
 						{
-							Items.Insert(parentIndex + delta + 1, itemViewModel);
+							RootItems.Insert(parentIndex + delta + 1, itemViewModel);
 						}
 						else
 						{
@@ -317,7 +357,7 @@ namespace DiagnosticsModule.ViewModels
 		public override void OnShow()
 		{
 			if (SelectedItem == null)
-				SelectedItem = Items.FirstOrDefault();
+				SelectedItem = RootItems.FirstOrDefault();
 			else
 				SelectedItem = SelectedItem;
 			base.OnShow();
