@@ -14,10 +14,6 @@ namespace AutomationModule.ViewModels
 {
 	public class FindObjectStepViewModel : BaseStepViewModel
 	{
-		FindObjectStep FindObjectStep { get; set; }
-		public ObservableCollection<FindObjectConditionViewModel> FindObjectConditions { get; private set; }
-		public ArgumentViewModel ResultArgument { get; private set; }
-
 		public FindObjectStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
@@ -36,6 +32,11 @@ namespace AutomationModule.ViewModels
 			RemoveCommand = new RelayCommand<FindObjectConditionViewModel>(OnRemove);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 		}
+
+		FindObjectStep FindObjectStep { get; set; }
+		public ObservableCollection<FindObjectConditionViewModel> FindObjectConditions { get; private set; }
+		public ArgumentViewModel ResultArgument { get; private set; }
+		//public string ImageAdd { get { return "\Common\"; } }
 
 		public RelayCommand AddCommand { get; private set; }
 		public void OnAdd()
