@@ -21,7 +21,7 @@ namespace LayoutModule
 {
 	public class LayoutModule : ModuleBase, ILayoutDeclarationModule, IValidationModule
 	{
-		private MonitorLayoutsViewModel _monitorLayoutsViewModel;
+		MonitorLayoutsViewModel _monitorLayoutsViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -57,7 +57,7 @@ namespace LayoutModule
 			return true;
 		}
 
-		private void OnBeforeConfigurationSerialize(object obj)
+		void OnBeforeConfigurationSerialize(object obj)
 		{
 			_monitorLayoutsViewModel.SaveConfiguration();
 		}

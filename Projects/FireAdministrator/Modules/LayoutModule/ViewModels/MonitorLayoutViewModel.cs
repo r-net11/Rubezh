@@ -1,5 +1,5 @@
-﻿using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models.Layouts;
 
 namespace LayoutModule.ViewModels
 {
@@ -14,7 +14,7 @@ namespace LayoutModule.ViewModels
 			LayoutDesignerViewModel = new LayoutDesignerViewModel(LayoutElementsViewModel);
 		}
 
-		private LayoutViewModel _layoutViewModel;
+		LayoutViewModel _layoutViewModel;
 		public LayoutViewModel LayoutViewModel
 		{
 			get { return _layoutViewModel; }

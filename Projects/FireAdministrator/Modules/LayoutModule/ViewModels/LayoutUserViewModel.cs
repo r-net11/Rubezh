@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
@@ -20,7 +19,8 @@ namespace LayoutModule.ViewModels
 		{
 			get { return User.Login; }
 		}
-		private bool _isActive;
+
+		bool _isActive;
 		public bool IsActive
 		{
 			get { return _isActive; }

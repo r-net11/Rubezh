@@ -20,7 +20,7 @@ namespace LayoutModule.Views
 			Loaded += new RoutedEventHandler(LayoutDesignerView_Loaded);
 		}
 
-		private void LayoutDesignerView_Loaded(object sender, RoutedEventArgs e)
+		void LayoutDesignerView_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (Manager == null)
 			{
