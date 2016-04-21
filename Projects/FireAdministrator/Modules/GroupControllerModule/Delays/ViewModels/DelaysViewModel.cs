@@ -5,9 +5,12 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Events;
 using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -38,16 +41,8 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
 			RegisterShortcuts();
+			SubscribeEvents();
 		}
-		private void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-		}
-
 		public void Initialize()
 		{
 			Delays = GKManager.Delays == null ? new ObservableCollection<DelayViewModel>() : new ObservableCollection<DelayViewModel>(GKManager.Delays.OrderBy(x => x.No).Select(x => new DelayViewModel(x)));
@@ -281,18 +276,79 @@ namespace GKModule.ViewModels
 			};
 		}
 
-		private bool _lockSelection = false;
-		public void LockedSelect(Guid zoneUID)
+		private bool _lockSelection;
+		public void LockedSelect(Guid delayUID)
 		{
 			try
 			{
-				this._lockSelection = true;
-				Select(zoneUID);
+				_lockSelection = true;
+				Select(delayUID);
 			}
 			finally
 			{
-				this._lockSelection = false;
+				_lockSelection = false;
 			}
+		}
+		void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+		}
+		void SubscribeEvents()
+		{
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
+		void OnElementChanged(List<ElementBase> elements)
+		{
+			Guid guid = Guid.Empty;
+			_lockSelection = true;
+			elements.ForEach(element =>
+			{
+				var elementDelay = GetElementGKDelay(element);
+				if (elementDelay != null)
+				{
+					OnDelayChanged(elementDelay.DelayUID);
+				}
+			});
+			_lockSelection = false;
+		}
+		void OnDelayChanged(Guid delayUID)
+		{
+			var delay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
+			if (delay != null)
+			{
+				delay.Update();
+				if (!_lockSelection)
+					SelectedDelay = delay;
+			}
+		}
+		void OnElementSelected(ElementBase element)
+		{
+			var elementDelay = GetElementGKDelay(element);
+			if (elementDelay != null)
+			{
+				_lockSelection = true;
+				Select(elementDelay.DelayUID);
+				_lockSelection = false;
+			}
+		}
+		IElementDelay GetElementGKDelay(ElementBase element)
+		{
+			IElementDelay elementDelay = element as ElementRectangleGKDelay;
+			if (elementDelay == null)
+				elementDelay = element as ElementPolygonGKDelay;
+			return elementDelay;
 		}
 	}
 }
