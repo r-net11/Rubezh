@@ -1,26 +1,27 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<base href="/">
+	<meta charset="utf-8"/>
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
-		  name="viewport">
+	      name="viewport">
 	<meta content="ie=edge"
-		  http-equiv="x-ua-compatible">
+	      http-equiv="x-ua-compatible">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta content=""
-		  name="description">
+	      name="description">
 	<meta content=""
-		  name="author">
+	      name="author">
 	<link href="/favicon.ico"
-		  rel="icon">
+	      rel="icon">
 	<title></title>
 
 	<link href="/lib/bootstrap/dist/css/bootstrap.css"
-		  rel="stylesheet" />
+	      rel="stylesheet"/>
 </head>
 <body>
 	<my-app>Loading...</my-app>
-<div id="testMessage"></div>
+<!--<div id="testMessage"></div>-->
 	<script src="/lib/jquery/dist/jquery.js"></script>
 	<script src="/lib/tether/dist/js/tether.min.js"></script>
 	<script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -34,6 +35,7 @@
 	<script src="/lib/angular2/system.src.js"></script>
 	<script src="/lib/angular2/rx.js"></script>
 	<script src="/lib/angular2/angular2.dev.js"></script>
+	<script src="lib/angular2/router.dev.js"></script>
 	<script>
 		System.config({
 			packages: {
@@ -46,7 +48,7 @@
 		System.import('app/main')
 			.then(null, console.error.bind(console));
 	</script>
-	<script type="text/javascript">
+	<!--<script type="text/javascript">
 		$(function () {
 			// This optional function html-encodes messages for display in the page.
 			var htmlEncode = function (value) {
@@ -67,6 +69,6 @@
 					test.server.startTestBroadcast();
 				});
 		});
-	</script>
+	</script>-->
 </body>
 </html>
