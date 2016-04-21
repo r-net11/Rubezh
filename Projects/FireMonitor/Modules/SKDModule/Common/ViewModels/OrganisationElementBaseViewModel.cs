@@ -7,54 +7,16 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationElementViewModel<T, ModelT> : TreeNodeViewModel<T>
 		where T : TreeNodeViewModel<T>
-		where ModelT : class, IOrganisationElement, new()
+		where ModelT : class, IOrganisationElement, IHRListItem, new()
 	{
 		public Organisation Organisation { get; protected set; }
 		public ModelT Model { get; protected set; }
 		public bool IsOrganisation { get; protected set; }
-
-		public string Name
-		{
-			get
-			{
-				if (IsOrganisation)
-					return Organisation.Name;
-				else
-					return Model.Name;
-			}
-		}
-		public string Description
-		{
-			get
-			{
-				if (IsOrganisation)
-					return Organisation.Description;
-				else
-					return Model.Description;
-			}
-		}
-
-		public Guid UID
-		{
-			get
-			{
-				if (IsOrganisation)
-					return Organisation.UID;
-				else
-					return Model.UID;
-			}
-		}
-
-		public Guid OrganisationUID
-		{
-			get
-			{
-				if (IsOrganisation)
-					return Organisation.UID;
-				else
-					return Model.OrganisationUID;
-			}
-		}
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public Guid UID { get; private set; }
+		public Guid OrganisationUID { get; private set; }
+		public string ImageSource { get { return IsOrganisation ? Organisation.ImageSource : Model.ImageSource; } }
 
 		bool _isDeleted;
 		public bool IsDeleted
@@ -99,8 +61,7 @@ namespace SKDModule.ViewModels
 			IsOrganisation = true;
 			IsExpanded = true;
 			ParentViewModel = parentViewModel;
-			IsDeleted = organisation.IsDeleted;
-			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString("d MMM yyyy") : ""; 
+			CopyProperties(organisation);
 		}
 
 		public virtual void InitializeModel(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel)
@@ -109,8 +70,27 @@ namespace SKDModule.ViewModels
 			Model = model;
 			IsOrganisation = false;
 			ParentViewModel = parentViewModel;
+			CopyProperties(model);
+		}
+
+		void CopyProperties(IOrganisationElement model)
+		{
+			UID = model.UID;
+			Name = model.Name;
+			Description = model.Description;
+			OrganisationUID = model.OrganisationUID;
 			IsDeleted = model.IsDeleted;
 			RemovalDate = IsDeleted ? model.RemovalDate.ToString("d MMM yyyy") : "";
+		}
+
+		void CopyProperties(Organisation organisation)
+		{
+			UID = organisation.UID;
+			Name = organisation.Name;
+			Description = organisation.Description;
+			OrganisationUID = organisation.UID;
+			IsDeleted = organisation.IsDeleted;
+			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString("d MMM yyyy") : "";
 		}
 
 		public virtual void Update(ModelT model)

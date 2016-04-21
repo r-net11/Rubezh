@@ -44,10 +44,7 @@
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" 
-											   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" 
-											   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0" />
 									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}"/>
 								</StackPanel>
 							</DataTemplate>
@@ -75,7 +72,7 @@
 					<TextBlock>
 						<Hyperlink Command="{Binding EmployeeCardsViewModel.SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
 							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Employee.png" />
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding ImageSource}" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="Сотрудник">
 									<TextBlock.Style>
 										<Style>
@@ -104,7 +101,7 @@
 								<TextBlock>
 									<Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
-											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Card.png" />
+											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding Card.ImageSource}" />
 											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}">
 												<TextBlock.Style>
 													<Style>

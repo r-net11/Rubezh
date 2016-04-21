@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class ScheduleScheme : OrganisationElementBase, IOrganisationElement
+	public class ScheduleScheme : OrganisationElementBase, IOrganisationElement, IHRListItem
 	{
 		public ScheduleScheme()
 		{
@@ -25,5 +25,7 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public int DaysCount { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/Month.png"; } }
 	}
 }

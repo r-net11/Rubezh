@@ -52,10 +52,10 @@ namespace RubezhClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static IEnumerable<ShortPosition> Get(PositionFilter filter)
+		public static IEnumerable<ShortPosition> Get(PositionFilter filter, bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetPositionList(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 
 		public static IEnumerable<ShortPosition> GetByCurrentUser()

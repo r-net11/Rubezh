@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class DayInterval : OrganisationElementBase, IOrganisationElement
+	public class DayInterval : OrganisationElementBase, IOrganisationElement, IHRListItem
 	{
 		public DayInterval()
 		{
@@ -23,5 +23,7 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public List<DayIntervalPart> DayIntervalParts { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/Interval.png"; } }
 	}
 }

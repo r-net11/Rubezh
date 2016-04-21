@@ -45,10 +45,10 @@ namespace RubezhClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
-		public static IEnumerable<Holiday> Get(HolidayFilter filter)
+		public static IEnumerable<Holiday> Get(HolidayFilter filter, bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetHolidays(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 
 		public static IEnumerable<Holiday> GetByOrganisation(Guid organisationUID)

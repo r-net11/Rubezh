@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class ShortPassCardTemplate : IOrganisationElement
+	public class ShortPassCardTemplate : IOrganisationElement, IHRListItem
 	{
 		[DataMember]
 		public Guid UID { get; set; }
@@ -23,5 +23,7 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public DateTime RemovalDate { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/BPassCardDesigner.png"; } }
 	}
 }

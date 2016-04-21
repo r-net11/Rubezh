@@ -30,7 +30,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" />
+								<Image Width="16" Source="{Binding Employee.ImageSource}" VerticalAlignment="Center" Margin="1 0" />
 								<TextBlock Text="{Binding Employee.Name}" Style="{StaticResource IsDeletedStyle}" />
 							</StackPanel>
 						</DataTemplate>

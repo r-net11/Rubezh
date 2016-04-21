@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class ShortEmployee : IOrganisationElement
+	public class ShortEmployee : IOrganisationElement, IHRListItem
 	{
 		public ShortEmployee()
 		{
@@ -101,6 +101,8 @@ namespace RubezhAPI.SKD
 				return FIO;
 			}
 		}
+
+		public string ImageSource { get { return "/Controls;component/Images/Employee.png"; } }
 	}
 
 	public class TextColumn

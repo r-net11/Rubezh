@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class ShortDepartment : IOrganisationElement
+	public class ShortDepartment : IOrganisationElement, IHRListItem
 	{
 		public ShortDepartment()
 		{
@@ -45,6 +45,8 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public DateTime RemovalDate { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/Department.png"; } }
 	}
 
 	[DataContract]

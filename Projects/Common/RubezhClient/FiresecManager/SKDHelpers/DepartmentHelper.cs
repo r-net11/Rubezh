@@ -25,10 +25,10 @@ namespace RubezhClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static IEnumerable<ShortDepartment> Get(DepartmentFilter filter)
+		public static IEnumerable<ShortDepartment> Get(DepartmentFilter filter, bool isShowError = true)
 		{
 			var result = ClientManager.FiresecService.GetDepartmentList(filter);
-			return Common.ShowErrorIfExists(result);
+			return Common.ShowErrorIfExists(result, isShowError);
 		}
 
 		public static IEnumerable<ShortDepartment> GetByOrganisation(Guid organisationUID)

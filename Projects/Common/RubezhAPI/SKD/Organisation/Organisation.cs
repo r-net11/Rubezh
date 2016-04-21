@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class Organisation : SKDIsDeletedModel
+	public class Organisation : SKDIsDeletedModel, IHRListItem
 	{
 		public Organisation()
 		{
@@ -40,6 +40,8 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public int MaxGKLevel { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/Organisation.png"; } }
 	}
 
 	[DataContract]
