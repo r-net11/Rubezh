@@ -23,6 +23,7 @@ namespace GKImitator.ViewModels
 		public int KauDescriptorNo { get; private set; }
 		public ushort TypeNo { get; private set; }
 		readonly List<ushort> AdditionalShortParameters;
+		public Action<GKStateBit, bool, Guid> OnStateChanged;
 
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
