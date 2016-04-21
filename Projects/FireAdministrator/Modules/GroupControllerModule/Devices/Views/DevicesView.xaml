@@ -4,7 +4,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls"
 			 xmlns:Converters="clr-namespace:GKModule.Converters"
-			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
+			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common.Windows"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:GKModule.ViewModels"
 			 xmlns:Views="clr-namespace:GKModule.Views">
@@ -27,7 +27,6 @@
 			<Controls:IconedMenuItem ImageSource="BPaste" Text="Генерация отражения" Visibility = "{Binding IsEdit,  Converter={StaticResource BoolToVisibilityConverter}}">
 				<Controls:IconedMenuItem Text="Пожарные зоны" Command="{Binding GenerateZonesCommand}" />
 				<Controls:IconedMenuItem Text="Охранные зоны" Command="{Binding GenerateGuardZonesCommand}" />
-				<Controls:IconedMenuItem Text="Зона пожаратушения в МПТ" Command="{Binding GenerateMPTCommand}" />
 				<Controls:IconedMenuItem Text="Исполнительные устройства" Command="{Binding GenerateForPerformersDevicesCommand}" />
 				<Controls:IconedMenuItem Text="Извещательные устройства" Command="{Binding GenerateForDetectorDevicesCommand}" />
 				<Controls:IconedMenuItem Text="Направления" Command="{Binding GenerateDirectionsCommand}" />

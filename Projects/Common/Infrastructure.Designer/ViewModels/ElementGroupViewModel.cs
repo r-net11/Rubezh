@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Services;
+﻿using Infrastructure.Plans.Services;
 
 namespace Infrastructure.Designer.ViewModels
 {

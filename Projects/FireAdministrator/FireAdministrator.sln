@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlansModule", "Modules\Plan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityModule", "Modules\SecurityModule\SecurityModule.csproj", "{773BFF09-076C-4FE5-A602-71FA8F87B1D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..\Common\Infrastructure.Common\Infrastructure.Common.csproj", "{D57CB190-A30E-4A3D-A674-F1766CE1CC72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common.Windows", "..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj", "{D57CB190-A30E-4A3D-A674-F1766CE1CC72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundsModule", "Modules\SoundModule\SoundsModule.csproj", "{1D308F1E-F990-4CB8-8613-609C3637130D}"
 EndProject
@@ -56,7 +56,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoModule", "Modules\Vide
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Client", "..\Common\Infrastructure.Client\Infrastructure.Client.csproj", "{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Plans", "..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticsModule", "Modules\DiagnosticsModule\DiagnosticsModule.csproj", "{4CF1CD7F-310C-4593-9250-F962CEB63DE8}"
 EndProject
@@ -92,6 +92,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKModuleTest", "GKModuleTest\GKModuleTest.csproj", "{C2B43000-8C47-4F84-8D58-9C8E442BB0F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKIntegratedTest", "GKIntegratedTest\GKIntegratedTest.csproj", "{D4CEE844-D879-4579-B06E-484062F40A91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..\Common\Infrastructure.Common\Infrastructure.Common.csproj", "{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -521,6 +523,18 @@ Global
 		{D4CEE844-D879-4579-B06E-484062F40A91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D4CEE844-D879-4579-B06E-484062F40A91}.Release|X64.ActiveCfg = Release|Any CPU
 		{D4CEE844-D879-4579-B06E-484062F40A91}.Release|x86.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|X64.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|X64.ActiveCfg = Release|Any CPU
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -552,5 +566,6 @@ Global
 		{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 		{E6D24912-812B-42B4-B6B0-97CA33C0F4AF} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
+		{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,5 @@
 ﻿using Common;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using System;
 using System.Windows.Data;
 

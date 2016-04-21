@@ -60,11 +60,11 @@
     <Reference Include="FSAgentClient">
       <HintPath>..\Assemblies\FSAgentClient.dll</HintPath>
     </Reference>
-    <Reference Include="Infrastructure.Common">
-      <HintPath>..\Assemblies\Infrastructure.Common.dll</HintPath>
+    <Reference Include="Infrastructure.Common.Windows">
+      <HintPath>..\Assemblies\Infrastructure.Common.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="Infrustructure.Plans">
-      <HintPath>..\Assemblies\Infrustructure.Plans.dll</HintPath>
+    <Reference Include="Infrastructure.Plans">
+      <HintPath>..\Assemblies\Infrastructure.Plans.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

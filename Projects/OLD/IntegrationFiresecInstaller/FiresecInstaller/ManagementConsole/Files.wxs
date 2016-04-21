@@ -9,7 +9,7 @@
         <File Id="ManagementConsole.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
         <File Id="ManagementConsole.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
         <File Id="ManagementConsole.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="ManagementConsole.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="ManagementConsole.Infrastructure.Plans.dll" Name="Infrastructure.Plans.dll" Source="$(var.Common.TargetDir)" />
         <File Id="ManagementConsole.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
         <File Id="ManagementConsole.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
         <File Id="ManagementConsole.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Common.TargetDir)" />

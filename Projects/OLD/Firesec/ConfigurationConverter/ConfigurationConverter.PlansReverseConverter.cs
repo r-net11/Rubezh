@@ -2,7 +2,7 @@
 using System.Linq;
 using Firesec.Models.Plans;
 using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Plans.Elements;
 
 namespace Firesec
 {

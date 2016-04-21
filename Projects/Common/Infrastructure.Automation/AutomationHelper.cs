@@ -3,7 +3,6 @@ using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
-using RubezhClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -188,12 +187,6 @@ namespace Infrastructure.Automation
 			var result = new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 			result.Sort();
 			return result;
-		}
-
-		public static string GetProcedureName(Guid procedureUid)
-		{
-			var procedure = ClientManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUid);
-			return procedure == null ? "" : procedure.Name;
 		}
 
 		public static ObjectReference GetObjectReference(object obj)

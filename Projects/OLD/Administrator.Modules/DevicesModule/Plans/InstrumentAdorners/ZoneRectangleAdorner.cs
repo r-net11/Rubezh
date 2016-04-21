@@ -3,9 +3,9 @@ using DevicesModule.Plans.ViewModels;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.InstrumentAdorners;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Elements;
+using Infrastructure.Plans.InstrumentAdorners;
 
 namespace DevicesModule.Plans.InstrumentAdorners
 {

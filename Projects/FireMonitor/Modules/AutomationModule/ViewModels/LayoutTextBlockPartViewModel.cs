@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using RubezhAPI.Automation;
 using RubezhAPI.Models.Layouts;
 using System.Windows;

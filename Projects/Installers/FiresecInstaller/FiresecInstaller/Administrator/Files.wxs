@@ -10,8 +10,9 @@
 				<File Id="Administrator.FireAdministrator.exe.config"					Name="FireAdministrator.exe.config"						Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.FireAdministrator.exe.manifest"					Name="FireAdministrator.exe.manifest"					Source="$(var.Administrator.TargetDir)"/>
 				<File Id="Administrator.Infrastructure.Common.dll"						Name="Infrastructure.Common.dll"						Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.Infrastructure.Common.Windows.dll"						Name="Infrastructure.Common.Windows.dll"						Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Infrastructure.Client.dll"						Name="Infrastructure.Client.dll"						Source="$(var.Administrator.TargetDir)" />
-				<File Id="Administrator.Infrustructure.Plans.dll"						Name="Infrustructure.Plans.dll"							Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.Infrastructure.Plans.dll"						Name="Infrastructure.Plans.dll"							Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Infrastructure.Designer.dll"					Name="Infrastructure.Designer.dll"						Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Infrastructure.Automation.dll"					Name="Infrastructure.Automation.dll"					Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Infrastructure.dll"								Name="Infrastructure.dll"								Source="$(var.Administrator.TargetDir)" />

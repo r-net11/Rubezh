@@ -1,4 +1,4 @@
-<UserControl x:Class="PlansModule.Views.PlansTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+<UserControl x:Class="PlansModule.Views.PlansTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common.Windows" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 	<drag:TreeListDragDropDecorator IsSource="True" IsTarget="True" TreeNodeDropCommand="{Binding TreeNodeDropCommand}">
 		<tree:TreeList SelectedTreeNode="{Binding PlansViewModel.SelectedPlan}" Source="{Binding PlansViewModel.Plans}">
 			<tree:TreeList.Resources>

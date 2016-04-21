@@ -228,6 +228,9 @@
     <Content Include="App\controllers\SKD\common\employeesFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\positionsFilterCtrl.js" />
     <Content Include="App\controllers\SKD\common\organisationsFilterCtrl.js" />
+    <Content Include="App\controllers\SKD\employees\scheduleSelectionCtrl.js" />
+    <Content Include="App\controllers\SKD\employees\positionSelectionCtrl.js" />
+    <Content Include="App\controllers\SKD\employees\departmentSelectionCtrl.js" />
     <Content Include="App\controllers\SKD\organisations\organisationDetailsCtrl.js" />
     <Content Include="App\controllers\SKD\organisations\organisationsCtrl.js" />
     <Content Include="App\controllers\SKD\organisations\organisationsToolbarCtrl.js" />
@@ -426,10 +429,14 @@
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InAutomatic.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\TurnOn_InManual.png" />
     <Content Include="Content\Image\Icon\GKStateIcons\Unknown.png" />
+    <Content Include="Content\Image\Images\AccessTemplate.png" />
+    <Content Include="Content\Image\Images\AdditionalColumn.png" />
     <Content Include="Content\Image\Images\BDirection.png" />
     <Content Include="Content\Image\Icon\GK\BJournal.png" />
     <Content Include="Content\Image\Icon\GK\Blue_Direction.png" />
     <Content Include="Content\Image\Icon\GK\BMPT.png" />
+    <Content Include="Content\Image\Images\BPassCardDesigner.png" />
+    <Content Include="Content\Image\Images\Card.png" />
     <Content Include="Content\Image\Images\Code.png" />
     <Content Include="Content\Image\Images\Delay.png" />
     <Content Include="Content\Image\Icon\Header\close_pop.png" />
@@ -484,11 +491,19 @@
     <Content Include="Content\Image\Icon\SubsystemTypes\Controller.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\no.png" />
     <Content Include="Content\Image\Icon\SubsystemTypes\PC.png" />
+    <Content Include="Content\Image\Images\Department.png" />
     <Content Include="Content\Image\Images\Door.png" />
+    <Content Include="Content\Image\Images\Employee.png" />
     <Content Include="Content\Image\Images\GuardZone.png" />
     <Content Include="Content\Image\Images\BMPT.png" />
+    <Content Include="Content\Image\Images\Holiday.png" />
+    <Content Include="Content\Image\Images\Interval.png" />
+    <Content Include="Content\Image\Images\Month.png" />
+    <Content Include="Content\Image\Images\Organisation.png" />
     <Content Include="Content\Image\Images\Pim.png" />
     <Content Include="Content\Image\Images\BPumpStation.png" />
+    <Content Include="Content\Image\Images\Position.png" />
+    <Content Include="Content\Image\Images\Shedule.png" />
     <Content Include="Content\Image\Images\SKDZone.png" />
     <Content Include="Content\Image\Images\BVideo.png" />
     <Content Include="Content\Image\Images\blank.png" />
@@ -973,6 +988,10 @@
       <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
       <Name>Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhClient\RubezhClient.csproj">
       <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
       <Name>RubezhClient</Name>
@@ -985,14 +1004,17 @@
       <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>
       <Name>GKProcessor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+    <ProjectReference Include="..\..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
-      <Name>Infrastructure.Common</Name>
+      <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{da2a8431-7328-4ae8-926f-e191700577a1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

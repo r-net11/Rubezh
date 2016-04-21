@@ -1,7 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:Converters="clr-namespace:Controls.Converters"
-					xmlns:local="clr-namespace:Controls">
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<SolidColorBrush x:Key="SolidBorderBrush" Color="#888888" />
 	<SolidColorBrush x:Key="GlyphBrush" Color="#444444" />
@@ -17,7 +15,7 @@
 
 	<Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
 		<Setter Property="Height" Value="1" />
-		<Setter Property="Margin" Value="0,4,0,4" />
+		<Setter Property="Margin" Value="0 4" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Separator">
@@ -29,12 +27,15 @@
 
 	<!-- TopLevelHeader -->
 	<ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="MenuItem">
-		<Border Name="Border">
+		<Border Name="Border" CornerRadius="2">
 			<Grid>
-				<ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
+				<ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
 				<Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-					<Border Name="SubmenuBorder" SnapsToDevicePixels="True"
-							Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
+					<Border Name="SubmenuBorder"
+							SnapsToDevicePixels="True"
+							Background="{DynamicResource WindowBackgroundBrush}"
+							BorderBrush="{StaticResource SolidBorderBrush}"
+							BorderThickness="1">
 						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
 					</Border>
 				</Popup>
@@ -49,8 +50,8 @@
 				<Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
 			</Trigger>
 			<Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
-				<Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/>
-				<Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3"/>
+				<Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0 0 4 4"/>
+				<Setter TargetName="SubmenuBorder" Property="Padding" Value="0 0 0 3"/>
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
@@ -62,7 +63,7 @@
 	<ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="MenuItem">
 		<Border Name="Border" >
 			<Grid>
-				<ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
+				<ContentPresenter Margin="6 3" ContentSource="Header" RecognizesAccessKey="True" />
 			</Grid>
 		</Border>
 		<ControlTemplate.Triggers>
@@ -86,14 +87,14 @@
 					<ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
 					<ColumnDefinition Width="13"/>
 				</Grid.ColumnDefinitions>
-				<ContentPresenter Name="Icon" Margin="2,0,2,0" VerticalAlignment="Center" ContentSource="Icon"/>
-				<Border Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6,0,6,0" Background="{DynamicResource PressedBackgroundBrush}" BorderThickness="1" 
+				<ContentPresenter Name="Icon" Margin="2 0" VerticalAlignment="Center" ContentSource="Icon"/>
+				<Border Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6 0" Background="{DynamicResource PressedBackgroundBrush}" BorderThickness="1" 
 						BorderBrush="{StaticResource NormalBorderBrush}">
 					<Path Name="CheckMark" Width="7" Height="7" Visibility="Hidden" SnapsToDevicePixels="False" Stroke="{StaticResource GlyphBrush}" StrokeThickness="2"
 						  Data="M 0 0 L 7 7 M 0 7 L 7 0" />
 				</Border>
 				<ContentPresenter Name="HeaderHost" Grid.Column="1" ContentSource="Header" Margin="2 0 0 0" RecognizesAccessKey="True" VerticalAlignment="Center"/>
-				<TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,0,2" DockPanel.Dock="Right" />
+				<TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5 2 0 2" DockPanel.Dock="Right" />
 			</Grid>
 		</Border>
 		<ControlTemplate.Triggers>
@@ -126,9 +127,9 @@
 					<ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
 					<ColumnDefinition Width="13"/>
 				</Grid.ColumnDefinitions>
-				<ContentPresenter Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
+				<ContentPresenter Name="Icon" Margin="6 0" VerticalAlignment="Center" ContentSource="Icon"/>
 				<ContentPresenter Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center" />
-				<TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,2,2" DockPanel.Dock="Right"/>
+				<TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5 2 2 2" DockPanel.Dock="Right"/>
 				<Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" />
 				<Popup Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
 					<Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}"
@@ -147,7 +148,7 @@
 			</Trigger>
 			<Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
 				<Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4"/>
-				<Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
+				<Setter TargetName="SubmenuBorder" Property="Padding" Value="0 3"/>
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="false">
 				<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>

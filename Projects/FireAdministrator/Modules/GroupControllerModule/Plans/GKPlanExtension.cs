@@ -11,10 +11,10 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Services;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.Services;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -58,8 +58,8 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateGKDeviceInGKZones);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateGKDeviceInGKZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
@@ -694,6 +694,11 @@ namespace GKModule.Plans
 				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
 		}
 
+		void OnElementRemoved(List<ElementBase> elements)
+		{
+			_designerItems.RemoveAll(x => elements.Contains(x.Element));
+			UpdateGKDeviceInGKZones(elements);
+		}
 		public void UpdateGKDeviceInGKZones(List<ElementBase> items)
 		{
 			if (IsDeviceInZonesChanged(items))

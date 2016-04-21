@@ -8,7 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using GKModule.Events;
 using RubezhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;

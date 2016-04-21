@@ -8,8 +8,8 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Painters;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -51,7 +51,6 @@ namespace GKModule.ViewModels
 			GenerateDirectionsCommand = new RelayCommand(GenerateDirections);
 			GenerateForDetectorDevicesCommand = new RelayCommand(GenerateForDetectorDevices);
 			GenerateForPerformersDevicesCommand = new RelayCommand(GenerateForPerformersDevices);
-			GenerateMPTCommand = new RelayCommand(GenerateMPTs);
 			CopyLogicCommand = new RelayCommand(OnCopyLogic, CanCopyLogic);
 			PasteLogicCommand = new RelayCommand(OnPasteLogic, CanPasteLogic);
 			PmfUsersCommand = new RelayCommand(OnPmfUsers, CanPmfUsers);
@@ -462,29 +461,6 @@ namespace GKModule.ViewModels
 					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
 					performerdevice.AddDependentElement(device);
 					device.AddDependentElement(performerdevice);
-				}
-				GKManager.RebuildRSR2Addresses(Device);
-				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public RelayCommand GenerateMPTCommand { get; private set; }
-		void GenerateMPTs()
-		{
-			var mPTsSelectationViewModel = new MPTsSelectationViewModel(new List<GKMPT>());
-			if (DialogService.ShowModalWindow(mPTsSelectationViewModel))
-			{
-				foreach (var mpt in mPTsSelectationViewModel.TargetMPTs)
-				{
-					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.FirefightingZonesMirror);
-					GKDevice device = GKManager.AddDevice(Device, driver, 0);
-					device.GKReflectionItem.MPTUIDs.Add(mpt.UID);
-					device.GKReflectionItem.MPTs.Add(mpt);
-					var addedDeviceViewModel = NewDeviceHelper.AddDevice(device, this);
-					DevicesViewModel.Current.AllDevices.Add(addedDeviceViewModel);
-					mpt.AddDependentElement(device);
-					device.AddDependentElement(mpt);
 				}
 				GKManager.RebuildRSR2Addresses(Device);
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();

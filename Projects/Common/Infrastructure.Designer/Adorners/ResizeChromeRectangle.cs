@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using Infrustructure.Plans.Designer;
+using Infrastructure.Plans.Designer;
 using RubezhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.Adorners

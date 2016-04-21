@@ -16,7 +16,7 @@ using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Models;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 
 namespace DevicesModule
 {

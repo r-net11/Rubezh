@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Linq;
 using System.Net;
-using Common;
 
 namespace Infrastructure.Common
 {
 	public static class ConnectionSettingsManager
 	{
-		
+
 		public static string RemoteAddress
 		{
 			get
@@ -18,7 +18,7 @@ namespace Infrastructure.Common
 			}
 
 		}
-		
+
 		public static string ServerAddress
 		{
 			get
@@ -60,7 +60,7 @@ namespace Infrastructure.Common
 				var addresses = ipEntry.AddressList.Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
 				var remoteIpAddress = IPAddress.None;
 				var isValid = IPAddress.TryParse(GlobalSettingsHelper.GlobalSettings.Server_RemoteIpAddress, out remoteIpAddress);
-				
+
 				return isValid && addresses.Any(x => x.Equals(remoteIpAddress)) ?
 					remoteIpAddress.ToString() :
 					Convert.ToString(addresses.FirstOrDefault());

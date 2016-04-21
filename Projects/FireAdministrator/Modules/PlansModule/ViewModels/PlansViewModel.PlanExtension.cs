@@ -2,8 +2,8 @@
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Designer;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
 using PlansModule.Designer;
 using PlansModule.Validation;
 using RubezhAPI;
