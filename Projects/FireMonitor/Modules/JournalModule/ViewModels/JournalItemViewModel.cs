@@ -18,7 +18,6 @@ namespace JournalModule.ViewModels
 	{
 		public JournalItem JournalItem { get; private set; }
 		public bool IsExistsInConfig { get; private set; }
-
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public string ObjectImageSource { get; private set; }
@@ -247,6 +246,7 @@ namespace JournalModule.ViewModels
 
 			if (JournalItem.JournalSubsystemType == JournalSubsystemType.SKD)
 			{
+				IsExistsInConfig = true;
 				ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowJournalHREvent>();
 			}
 

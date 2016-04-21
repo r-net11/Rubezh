@@ -150,6 +150,8 @@ public class SKDTabItems
 		Filter.EmployeeFilter.UserUID = userUID;
 		HRViewModel = new HRViewModel(this);
 		TimeTrackingTabsViewModel = new TimeTrackingTabsViewModel(this);
+		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Unsubscribe(OnShowJournalHR);
+		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Subscribe(OnShowJournalHR);
 	}
 
 	public void Initialize()
