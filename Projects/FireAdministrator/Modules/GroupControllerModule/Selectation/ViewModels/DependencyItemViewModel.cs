@@ -1,8 +1,8 @@
-﻿using RubezhAPI.GK;
-using GKModule.Events;
+﻿using GKModule.Events;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Events;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -15,7 +15,7 @@ namespace GKModule.ViewModels
 
 		public DependencyItemViewModel(GKBase gkBase)
 		{
-			ShowCommand =  new RelayCommand(OnShow);
+			ShowCommand = new RelayCommand(OnShow);
 
 			this.gkBase = gkBase;
 			Name = gkBase.PresentationName;
@@ -30,14 +30,11 @@ namespace GKModule.ViewModels
 			if (gkBase is GKDirection)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDirectionEvent>().Publish(gkBase.UID);
 			if (gkBase is GKDelay)
-				ServiceFactoryBase.Events.GetEvent<ShowXDelayEvent>().Publish(gkBase.UID);
+				ServiceFactoryBase.Events.GetEvent<ShowGKDelayEvent>().Publish(gkBase.UID);
 			if (gkBase is GKMPT)
 				ServiceFactoryBase.Events.GetEvent<ShowGKMPTEvent>().Publish(gkBase.UID);
 			if (gkBase is GKPumpStation)
-			{
 				ServiceFactoryBase.Events.GetEvent<ShowGKPumpStationEvent>().Publish(gkBase.UID);
-				ServiceFactoryBase.Events.GetEvent<ShowGKPumpStationOnPlanEvent>().Publish(gkBase.UID);
-			}
 			if (gkBase is GKDevice)
 				ServiceFactoryBase.Events.GetEvent<ShowGKDeviceEvent>().Publish(gkBase.UID);
 			if (gkBase is GKGuardZone)

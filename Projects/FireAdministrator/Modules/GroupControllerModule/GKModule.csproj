@@ -159,10 +159,8 @@
     <Compile Include="Events\ShowGKOPCDirectionsEvent.cs" />
     <Compile Include="Events\ShowGKOPCZonesEvent.cs" />
     <Compile Include="Events\ShowGKParameterTemplatesEvent.cs" />
-    <Compile Include="Events\ShowGKPumpStationOnPlanEvent.cs" />
     <Compile Include="Events\ShowGKPumpStationEvent.cs" />
     <Compile Include="Events\ShowGKZoneEvent.cs" />
-    <Compile Include="Events\ShowGKDelayStationEvent.cs" />
     <Compile Include="Events\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="Events\CreateGKScheduleEvent.cs" />

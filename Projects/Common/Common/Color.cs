@@ -55,5 +55,20 @@ namespace Common
 		{
 			return !(color1 == color2);
 		}
+
+		public override int GetHashCode()
+		{
+			return A * 256 ^ 3 + R * 256 ^ 2 + G * 256 + B;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null)
+				return false;
+			if (obj.GetType() != typeof(Color))
+				return false;
+			Color tmp = (Color)obj;
+			return tmp.A == A && tmp.R == R && tmp.G == G && tmp.B == B;
+		}
 	}
 }
