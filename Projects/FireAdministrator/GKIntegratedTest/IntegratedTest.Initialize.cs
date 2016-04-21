@@ -434,6 +434,20 @@ namespace GKIntegratedTest
 			return new GKGuardZoneDevice {Device = device, DeviceUID = device.UID};
 		}
 
+
+		GKPim AddPim(GKDevice device)
+		{
+			if (device.DriverType == GKDriverType.GK)
+				return DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == device.UID).GlobalPim;
+			return DescriptorsManager.KauDatabases.FirstOrDefault(x => x.RootDevice.UID == device.UID).GlobalPim;
+		}
+
+		void TurnOnPim(GKPim pim)
+		{
+			ConrtolGKBase(pim, GKStateBit.TurnOnNow_InAutomatic, isPim: true);
+			WaitWhileState(pim, XStateClass.On, 1000, "Ожидаем включение пима");
+		}
+
 		void ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage = "Нет сообщения", bool isPim = false)
 		{
 			Guid uid;
