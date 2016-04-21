@@ -614,43 +614,43 @@ namespace GKModule.Plans
 			if (typeof(TItem) == typeof(GKZone))
 			{
 				var elementZone = (IElementZone)element;
-				elementZone.BackgroundColor = GetGKZoneColor(item as GKZone);
+				elementZone.BackgroundColor = GetGkEntityColor(item as GKZone, Colors.Green);
 				elementZone.SetZLayer(item == null ? 50 : 60);
 			}
 			else if (typeof(TItem) == typeof(GKGuardZone))
 			{
 				var elementGuardZone = (IElementZone)element;
-				elementGuardZone.BackgroundColor = GetGKGuardZoneColor(item as GKGuardZone);
+				elementGuardZone.BackgroundColor = GetGkEntityColor(item as GKGuardZone, Colors.Brown);
 				elementGuardZone.SetZLayer(item == null ? 50 : 60);
 			}
 			else if (typeof(TItem) == typeof(GKSKDZone))
 			{
 				var elementSKDZone = (IElementZone)element;
-				elementSKDZone.BackgroundColor = GetGKSKDZoneColor(item as GKSKDZone);
+				elementSKDZone.BackgroundColor = GetGkEntityColor(item as GKSKDZone, Colors.Green);
 				elementSKDZone.SetZLayer(item == null ? 50 : 60);
 			}
 			else if (typeof(TItem) == typeof(GKDirection))
 			{
 				var elementDirection = (IElementDirection)element;
-				elementDirection.BackgroundColor = GetGKDirectionColor(item as GKDirection);
+				elementDirection.BackgroundColor = GetGkEntityColor(item as GKDirection, Colors.LightBlue);
 				elementDirection.SetZLayer(item == null ? 10 : 11);
 			}
 			else if (typeof(TItem) == typeof(GKMPT))
 			{
 				var elementMPT = (IElementMPT)element;
-				elementMPT.BackgroundColor = GetGKMPTColor(item as GKMPT);
+				elementMPT.BackgroundColor = GetGkEntityColor(item as GKMPT, Colors.LightBlue);
 				elementMPT.SetZLayer(item == null ? 10 : 11);
 			}
 			else if (typeof(TItem) == typeof(GKDelay))
 			{
 				var elementDelay = (IElementDelay)element;
-				elementDelay.BackgroundColor = GetGKDelayColor(item as GKDelay);
+				elementDelay.BackgroundColor = GetGkEntityColor(item as GKDelay, Colors.LightBlue);
 				elementDelay.SetZLayer(item == null ? 10 : 11);
 			}
 			else if (typeof(TItem) == typeof(GKPumpStation))
 			{
 				var elementPumpStation = (IElementPumpStation)element;
-				elementPumpStation.BackgroundColor = GetGKPumpStationColor(item as GKPumpStation);
+				elementPumpStation.BackgroundColor = GetGkEntityColor(item as GKPumpStation, Colors.LightBlue);
 				elementPumpStation.SetZLayer(item == null ? 10 : 11);
 			}
 			else
@@ -789,54 +789,11 @@ namespace GKModule.Plans
 				}
 			}
 		}
-
-		private Color GetGKDirectionColor(GKDirection direction)
+		Color GetGkEntityColor<T>(T entity, Color entityColor)
 		{
 			Color color = Colors.Black;
-			if (direction != null)
-				color = Colors.LightBlue;
-			return color;
-		}
-		private Color GetGKMPTColor(GKMPT mpt)
-		{
-			Color color = Colors.Black;
-			if (mpt != null)
-				color = Colors.LightBlue;
-			return color;
-		}
-		private Color GetGKGuardZoneColor(GKGuardZone zone)
-		{
-			Color color = Colors.Black;
-			if (zone != null)
-				color = Colors.Brown;
-			return color;
-		}
-		private Color GetGKZoneColor(GKZone zone)
-		{
-			Color color = Colors.Black;
-			if (zone != null)
-				color = Colors.Green;
-			return color;
-		}
-		private Color GetGKSKDZoneColor(GKSKDZone zone)
-		{
-			Color color = Colors.Black;
-			if (zone != null)
-				color = Colors.Green;
-			return color;
-		}
-		private Color GetGKDelayColor(GKDelay delay)
-		{
-			Color color = Colors.Black;
-			if (delay != null)
-				color = Colors.LightBlue;
-			return color;
-		}
-		private Color GetGKPumpStationColor(GKPumpStation pumpStation)
-		{
-			Color color = Colors.Black;
-			if (pumpStation != null)
-				color = Colors.Cyan;
+			if (entity != null)
+				color = entityColor;
 			return color;
 		}
 	}
