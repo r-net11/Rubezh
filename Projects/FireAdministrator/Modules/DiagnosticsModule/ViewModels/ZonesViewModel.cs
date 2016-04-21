@@ -1,23 +1,6 @@
-﻿using Common;
-using Controls.Menu.ViewModels;
-using Infrastructure;
-using Infrastructure.Client.Plans;
-using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
+﻿using Infrastructure;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Services;
 using RubezhAPI.GK;
-using RubezhAPI.Hierarchy;
-using RubezhAPI.Models;
-using RubezhClient;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
 
 namespace DiagnosticsModule.ViewModels
 {
