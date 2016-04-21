@@ -221,13 +221,14 @@ namespace GKImitator.ViewModels
 								}
 							}
 						}
+						TurningState = TurningState.None;
 					}
 					else
 					{
+						CurrentHoldDelay--;
 						if (IsMduOrBuz)
 							AdditionalShortParameters[1] = 2;
 						AdditionalShortParameters[IsMduOrBuz ? 0 : 1] = CurrentHoldDelay;
-						CurrentHoldDelay--;
 					}
 				}
 				if (TurningState == TurningState.TurningOff)
