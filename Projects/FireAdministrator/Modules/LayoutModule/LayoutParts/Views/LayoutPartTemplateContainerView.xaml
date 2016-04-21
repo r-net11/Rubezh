@@ -1,4 +1,9 @@
-﻿<UserControl x:Class="LayoutModule.LayoutParts.Views.LayoutPartTemplateContainerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theme="clr-namespace:Controls.Layout;assembly=Controls" xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock" Background="Transparent">
+﻿<UserControl x:Class="LayoutModule.LayoutParts.Views.LayoutPartTemplateContainerView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:theme="clr-namespace:Controls.Layout;assembly=Controls"
+			 xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+			 Background="Transparent">
 	<xcad:DockingManager x:Name="manager2" ActiveContent="{Binding ActiveLayoutPart, Mode=TwoWay}" AllowChangeLayout="False" DocumentsSource="{Binding LayoutParts}">
 		<xcad:DockingManager.Theme>
 			<theme:RubezhTheme />

@@ -6,10 +6,10 @@ namespace RubezhClient.SKDHelpers
 {
 	public static class CardHelper
 	{
-		public static IEnumerable<SKDCard> Get(CardFilter filter)
+		public static IEnumerable<SKDCard> Get(CardFilter filter, bool isShowError = true)
 		{
 			var result = ClientManager.FiresecService.GetCards(filter);
-			return Common.ShowErrorIfExists(result);
+			return Common.ShowErrorIfExists(result, isShowError);
 		}
 
 		public static IEnumerable<SKDCard> GetByEmployee(Guid uid)

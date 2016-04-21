@@ -2,6 +2,7 @@
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace LayoutModule.ViewModels
 {
@@ -24,7 +25,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private void CopyProperties()
+		void CopyProperties()
 		{
 			foreach (var page in PropertyPages)
 				page.CopyProperties();
@@ -34,11 +35,9 @@ namespace LayoutModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			foreach (var page in PropertyPages)
-				if (!page.CanSave())
-					return false;
-			return true;
+			return PropertyPages.All(page => page.CanSave());
 		}
+
 		protected override bool Save()
 		{
 			var haveChanges = false;

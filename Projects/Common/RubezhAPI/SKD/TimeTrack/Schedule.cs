@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class Schedule : OrganisationElementBase, IOrganisationElement
+	public class Schedule : OrganisationElementBase, IOrganisationElement, IHRListItem
 	{
 		public Schedule()
 		{
@@ -34,6 +34,8 @@ namespace RubezhAPI.SKD
 		public List<ScheduleZone> Zones { get; set; }
 
 		[DataMember]
-		public string Description  {get; set;}
+		public string Description  { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/Shedule.png"; } }
 	}
 }

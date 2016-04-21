@@ -68,7 +68,7 @@ namespace JournalModule.ViewModels
 
 			IsExistsInConfig = true;
 			_isVideoExist = journalItem.VideoUID != Guid.Empty;
-			ObjectImageSource = "/Controls;component/Images/Blank.png";
+			ObjectImageSource = JournalItem.GetImageSource(journalItem.JournalObjectType);
 			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 
 			switch (JournalItem.JournalObjectType)
@@ -92,7 +92,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKZoneEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
 					break;
 
 				case JournalObjectType.GKDirection:
@@ -103,7 +102,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Blue_Direction.png";
 					break;
 
 				case JournalObjectType.GKPumpStation:
@@ -114,7 +112,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
 					break;
 
 				case JournalObjectType.GKMPT:
@@ -125,7 +122,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKMPTEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/BMPT.png";
 					break;
 
 				case JournalObjectType.GKDelay:
@@ -135,7 +131,6 @@ namespace JournalModule.ViewModels
 						ObjectName = Delay.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDelayEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
-						ObjectImageSource = "/Controls;component/Images/Delay.png";
 					}
 					else
 					{
@@ -168,7 +163,6 @@ namespace JournalModule.ViewModels
 						ObjectName = Pim.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPimEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>();
-						ObjectImageSource = "/Controls;component/Images/Pim.png";
 						if (Pim.PumpStationUID != Guid.Empty)
 						{
 							PumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == Pim.PumpStationUID);
@@ -204,7 +198,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/GuardZone.png";
 					break;
 
 				case JournalObjectType.GKSKDZone:
@@ -215,7 +208,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKSKDZoneEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/SKDZone.png";
 					break;
 
 				case JournalObjectType.GKDoor:
@@ -226,7 +218,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDoorEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Door.png";
 					break;
 
 				case JournalObjectType.Camera:
@@ -237,77 +228,6 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowCameraEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Camera.png";
-					break;
-
-				case JournalObjectType.AccessTemplate:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/AccessTemplate.png";
-					break;
-
-				case JournalObjectType.AdditionalColumn:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/AdditionalColumn.png";
-					break;
-
-				case JournalObjectType.Card:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Card.png";
-					break;
-
-				case JournalObjectType.DayInterval:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Interval.png";
-					break;
-
-				case JournalObjectType.Department:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Department.png";
-					break;
-
-				case JournalObjectType.Employee:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Employee.png";
-					break;
-
-				case JournalObjectType.GKDayShedule:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Shedule.png";
-					break;
-
-				case JournalObjectType.GKShedule:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Shedule.png";
-					break;
-
-				case JournalObjectType.Holiday:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Holiday.png";
-					break;
-
-				case JournalObjectType.Organisation:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Organisation.png";
-					break;
-
-				case JournalObjectType.PassCardTemplate:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/BPassCardDesigner.png";
-					break;
-
-				case JournalObjectType.Position:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Position.png";
-					break;
-
-				case JournalObjectType.Schedule:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Shedule.png";
-					break;
-
-				case JournalObjectType.ScheduleScheme:
-					ObjectName = JournalItem.ObjectName;
-					ObjectImageSource = "/Controls;component/Images/Month.png";
 					break;
 
 				case JournalObjectType.None:

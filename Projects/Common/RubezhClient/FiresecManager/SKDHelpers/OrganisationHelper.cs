@@ -7,10 +7,10 @@ namespace RubezhClient.SKDHelpers
 {
 	public static class OrganisationHelper
 	{
-		public static IEnumerable<Organisation> Get(OrganisationFilter filter)
+		public static IEnumerable<Organisation> Get(OrganisationFilter filter, bool isShowError = true)
 		{
 			var result = ClientManager.FiresecService.GetOrganisations(filter);
-			return Common.ShowErrorIfExists(result);
+			return Common.ShowErrorIfExists(result, isShowError);
 		}
 
 		public static IEnumerable<Organisation> GetByCurrentUser(LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)

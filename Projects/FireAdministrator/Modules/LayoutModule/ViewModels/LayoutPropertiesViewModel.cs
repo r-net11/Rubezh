@@ -28,7 +28,7 @@ namespace LayoutModule.ViewModels
 			CopyProperties();
 		}
 
-		private void CopyProperties()
+		void CopyProperties()
 		{
 			Caption = Layout.Caption;
 			Description = Layout.Description;
@@ -41,7 +41,7 @@ namespace LayoutModule.ViewModels
 			IsRibbonEnabled = Layout.IsRibbonEnabled;
 		}
 
-		private string _caption;
+		string _caption;
 		public string Caption
 		{
 			get { return _caption; }
@@ -52,7 +52,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private string _description;
+		string _description;
 		public string Description
 		{
 			get { return _description; }
@@ -63,7 +63,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private Color _splitterColor;
+		Color _splitterColor;
 		public Color SplitterColor
 		{
 			get { return _splitterColor; }
@@ -73,7 +73,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => SplitterColor);
 			}
 		}
-		private int _splitterSize;
+
+		int _splitterSize;
 		public int SplitterSize
 		{
 			get { return _splitterSize; }
@@ -84,7 +85,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private int _borderThickness;
+		int _borderThickness;
 		public int BorderThickness
 		{
 			get { return _borderThickness; }
@@ -94,7 +95,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => BorderThickness);
 			}
 		}
-		private Color _borderColor;
+
+		Color _borderColor;
 		public Color BorderColor
 		{
 			get { return _borderColor; }
@@ -105,7 +107,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private Color _backgroundColor;
+		Color _backgroundColor;
 		public Color BackgroundColor
 		{
 			get { return _backgroundColor; }
@@ -116,7 +118,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private int _padding;
+		int _padding;
 		public int Padding
 		{
 			get { return _padding; }
@@ -127,7 +129,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private bool _isRibbonEnabled;
+		bool _isRibbonEnabled;
 		public bool IsRibbonEnabled
 		{
 			get { return _isRibbonEnabled; }

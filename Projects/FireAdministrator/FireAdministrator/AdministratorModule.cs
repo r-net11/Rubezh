@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using FireAdministrator.ViewModels;
-using RubezhAPI.Models.Layouts;
+﻿using FireAdministrator.ViewModels;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
+using RubezhAPI.Models.Layouts;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace FireAdministrator
 {

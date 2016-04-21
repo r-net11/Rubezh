@@ -6,7 +6,7 @@ using RubezhAPI.GK;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class SKDCard : SKDIsDeletedModel
+	public class SKDCard : SKDIsDeletedModel, IHRListItem
 	{
 		public SKDCard()
 		{
@@ -56,6 +56,9 @@ namespace RubezhAPI.SKD
 
 		public int NumberInt { set { Number = (uint)value; } }
 
+		public string Name { get { return Number.ToString(); } }
+
+		public string ImageSource { get { return "/Controls;component/Images/Card.png"; } }
 	}
 
 	public class CardAccessTemplateDoors

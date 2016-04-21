@@ -6,10 +6,10 @@ namespace RubezhClient.SKDHelpers
 {
 	public static class AccessTemplateHelper
 	{
-		public static IEnumerable<AccessTemplate> Get(AccessTemplateFilter filter)
+		public static IEnumerable<AccessTemplate> Get(AccessTemplateFilter filter, bool isShowError = true)
 		{
 			var result = ClientManager.FiresecService.GetAccessTemplates(filter);
-			return Common.ShowErrorIfExists(result);
+			return Common.ShowErrorIfExists(result, isShowError);
 		}
 
 		public static IEnumerable<AccessTemplate> GetByCurrentUser()

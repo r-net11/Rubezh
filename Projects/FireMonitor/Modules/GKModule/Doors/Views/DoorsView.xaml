@@ -20,7 +20,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="Auto" Header="Точка доступа" SortMemberPath="Door.Name" MinWidth="210">
+				<DataGridTemplateColumn Width="Auto" Header="Точка доступа" SortMemberPath="Door.Name" MinWidth="250">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -48,7 +48,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Width="Auto" Binding="{Binding Door.DoorType, Converter={StaticResource EnumToDescriptionConverter}}" Header="Тип" />
-				<DataGridTextColumn Width="Auto" Binding="{Binding Door.Description}" Header="Примечание" />
+				<DataGridTextColumn Width="*" Binding="{Binding Door.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
 		<Grid Grid.Row="1"  Visibility="{Binding IsVisibleBottomPanel, Converter={StaticResource BoolToVisibilityConverter}}">

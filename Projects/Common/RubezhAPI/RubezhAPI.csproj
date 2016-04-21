@@ -390,7 +390,6 @@
     <Compile Include="SKD\TimeTrack\ReportT13.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackResult.cs" />
     <Compile Include="SKD\TimeTrack\PlannedTimeTrackCollection.cs" />
-    <Compile Include="SKD\TimeTrack\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
     <Compile Include="SKD\TimeTrack\DayTimeTrack.cs" />
     <Compile Include="Journal\JournalObjectType.cs" />
@@ -438,7 +437,6 @@
     <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnDataType.cs" />
-    <Compile Include="SKD\AdditionalColumn\ShortAdditionalColumnType.cs" />
     <Compile Include="SKD\Card\IntervalType.cs" />
     <Compile Include="SKD\Common\IsDeletedFilter.cs" />
     <Compile Include="SKD\Common\SKDHelper.cs" />

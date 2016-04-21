@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 		public bool IsCard { get; private set; }
 		public bool IsOrganisation { get; private set; }
 		public bool IsDeactivatedRootItem { get; private set; }
-		public string Number 
+		public string Number
 		{
 			get
 			{
@@ -19,14 +19,14 @@ namespace SKDModule.ViewModels
 					return "Деактивированные";
 				if (IsOrganisation)
 					return Organisation.Name;
-                if (Card != null)
-                    return Card.Number.ToString();
-                return "";
+				if (Card != null)
+					return Card.Number.ToString();
+				return "";
 			}
 		}
 		public string CardType
 		{
-			get{ return IsCard ? Card.GKCardType.ToDescription() : ""; }
+			get { return IsCard ? Card.GKCardType.ToDescription() : ""; }
 		}
 
 		public bool IsInStopList
@@ -43,9 +43,23 @@ namespace SKDModule.ViewModels
 		{
 			get { return IsCard ? Card.StopReason : ""; }
 		}
-		
+
+		public string ImageSource
+		{
+			get
+			{
+				if (IsCard)
+					return Card.ImageSource;
+				if (IsOrganisation)
+					return Organisation.ImageSource;
+				if (IsDeactivatedRootItem)
+					return "/Controls;component/Images/Lock.png";
+				return ""; 
+			}
+		}
+
 		public CardViewModel() { }
-		
+
 		public CardViewModel(SKDCard card)
 		{
 			Card = card;
@@ -82,7 +96,7 @@ namespace SKDModule.ViewModels
 
 		public static CardViewModel DeactivatedRootItem
 		{
-			get { return new CardViewModel { IsDeactivatedRootItem = true }; } 
+			get { return new CardViewModel { IsDeactivatedRootItem = true }; }
 		}
 	}
 }

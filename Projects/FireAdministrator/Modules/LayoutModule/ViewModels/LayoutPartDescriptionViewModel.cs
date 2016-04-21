@@ -27,7 +27,7 @@ namespace LayoutModule.ViewModels
 			get { return LayoutPartDescription.IconSource; }
 		}
 		public VisualizationState VisualizationState { get; private set; }
-		private int _count;
+		int _count;
 		public int Count
 		{
 			get { return _count; }
@@ -58,16 +58,19 @@ namespace LayoutModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		private void OnAddCommand()
+
+		void OnAddCommand()
 		{
 			LayoutDesignerViewModel.Instance.AddLayoutPart(this, false);
 		}
 		public RelayCommand DragCommand { get; private set; }
-		private void OnDragCommand()
+
+		void OnDragCommand()
 		{
 			LayoutDesignerViewModel.Instance.AddLayoutPart(this, true);
 		}
-		private bool CanAddCommand()
+
+		bool CanAddCommand()
 		{
 			return VisualizationState != VisualizationState.Prohibit && (VisualizationState == VisualizationState.NotPresent || LayoutPartDescription.AllowMultiple);
 		}

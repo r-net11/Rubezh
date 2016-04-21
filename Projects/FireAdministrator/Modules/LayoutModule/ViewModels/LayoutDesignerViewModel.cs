@@ -21,10 +21,10 @@ namespace LayoutModule.ViewModels
 	{
 		public static LayoutDesignerViewModel Instance { get; private set; }
 
-		private Layout _layout;
-		private XmlLayoutSerializer _serializer;
-		private bool _loading;
-		private bool _currentLayoutChanged;
+		Layout _layout;
+		XmlLayoutSerializer _serializer;
+		bool _loading;
+		bool _currentLayoutChanged;
 		public LayoutDesignerViewModel(LayoutElementsViewModel layoutElementsViewModel)
 		{
 			_currentLayoutChanged = false;
@@ -37,7 +37,7 @@ namespace LayoutModule.ViewModels
 
 		public LayoutElementsViewModel LayoutElementsViewModel { get; private set; }
 
-		private ObservableCollection<LayoutPartViewModel> _layoutParts;
+		ObservableCollection<LayoutPartViewModel> _layoutParts;
 		public ObservableCollection<LayoutPartViewModel> LayoutParts
 		{
 			get { return _layoutParts; }
@@ -51,7 +51,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private LayoutPartViewModel _activeLayoutPart;
+		LayoutPartViewModel _activeLayoutPart;
 		public LayoutPartViewModel ActiveLayoutPart
 		{
 			get { return _activeLayoutPart; }
@@ -62,7 +62,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private DockingManager _manager;
+		DockingManager _manager;
 		public DockingManager Manager
 		{
 			get { return _manager; }
@@ -147,16 +147,18 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
+		void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
 		{
 			if (!string.IsNullOrWhiteSpace(e.Model.ContentId))
 				e.Content = LayoutParts.FirstOrDefault(item => item.UID == Guid.Parse(e.Model.ContentId));
 		}
-		private void LayoutConfigurationChanged(object sender, EventArgs e)
+
+		void LayoutConfigurationChanged(object sender, EventArgs e)
 		{
 			LayoutConfigurationChanged();
 		}
-		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
+
+		void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
 		{
 			var layoutPartViewModel = e.Document.Content as LayoutPartViewModel;
 			if (layoutPartViewModel != null)
@@ -165,7 +167,8 @@ namespace LayoutModule.ViewModels
 				e.Cancel = true;
 			}
 		}
-		private void LayoutPartsChanged(object sender, NotifyCollectionChangedEventArgs e)
+
+		void LayoutPartsChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)
 			{

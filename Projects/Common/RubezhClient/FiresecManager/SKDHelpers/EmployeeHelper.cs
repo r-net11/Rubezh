@@ -37,10 +37,10 @@ namespace RubezhClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<ShortEmployee> Get(EmployeeFilter filter)
+		public static IEnumerable<ShortEmployee> Get(EmployeeFilter filter, bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetEmployeeList(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 
 		public static ShortEmployee GetSingleShort(Guid? uid)
