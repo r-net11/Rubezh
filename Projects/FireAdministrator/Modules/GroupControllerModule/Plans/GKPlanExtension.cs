@@ -44,7 +44,6 @@ namespace GKModule.Plans
 		private DelaysViewModel _delaysViewModel;
 		private PumpStationsViewModel _pumpStationsViewModel;
 		private IEnumerable<IInstrument> _instruments;
-		private List<DesignerItem> _designerItems;
 
 		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, GuardZonesViewModel guardZonesViewModel, SKDZonesViewModel skdZonesViewModel, DelaysViewModel delaysViewModel, PumpStationsViewModel pumpStationsViewModel, DirectionsViewModel directionsViewModel, MPTsViewModel mptsViewModel, DoorsViewModel doorsViewModel)
 		{
@@ -81,7 +80,6 @@ namespace GKModule.Plans
 			Cache.Add<GKDirection>(() => GKManager.Directions);
 			Cache.Add<GKMPT>(() => GKManager.MPTs);
 			Cache.Add<GKDoor>(() => GKManager.Doors);
-			_designerItems = new List<DesignerItem>();
 		}
 
 		public override void Initialize()
@@ -443,10 +441,7 @@ namespace GKModule.Plans
 			else if (designerItem.Element is ElementGKDoor)
 				RegisterDesignerItem<GKDoor>(designerItem, "GKDoors", "/Controls;component/Images/Door.png");
 			else if (designerItem.Element is ElementGKDevice)
-			{
 				RegisterDesignerItem<GKDevice>(designerItem, "GK");
-				_designerItems.Add(designerItem);
-			}
 			else if (designerItem.Element is IElementDirection)
 				RegisterDesignerItem<GKDirection>(designerItem, "GKDirection", "/Controls;component/Images/Blue_Direction.png");
 			else if (designerItem.Element is IElementMPT)
@@ -455,7 +450,6 @@ namespace GKModule.Plans
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			_designerItems = new List<DesignerItem>();
 			if (plan.ElementPolygonGKZones == null)
 				plan.ElementPolygonGKZones = new List<ElementPolygonGKZone>();
 			if (plan.ElementRectangleGKZones == null)
@@ -696,7 +690,6 @@ namespace GKModule.Plans
 
 		void OnElementRemoved(List<ElementBase> elements)
 		{
-			_designerItems.RemoveAll(x => elements.Contains(x.Element));
 			UpdateGKDeviceInGKZones(elements);
 		}
 		public void UpdateGKDeviceInGKZones(List<ElementBase> items)
@@ -795,18 +788,6 @@ namespace GKModule.Plans
 					_processChanges = true;
 				}
 			}
-		}
-
-		public void InvalidateCanvas()
-		{
-			_designerItems.ForEach(item =>
-			{
-				OnDesignerItemPropertyChanged<GKDevice>(item);
-				UpdateProperties<GKDevice>(item);
-				item.Painter.Invalidate();
-			});
-			if (DesignerCanvas != null)
-				DesignerCanvas.Refresh();
 		}
 
 		private Color GetGKDirectionColor(GKDirection direction)
