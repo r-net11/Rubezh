@@ -1,15 +1,15 @@
-﻿using System;
-using RubezhAPI.GK;
-using GKModule.Events;
-using Infrastructure.Common.Validation;
+﻿using GKModule.Events;
 using Infrastructure.Common;
+using Infrastructure.Common.Validation;
+using RubezhAPI.GK;
+using System;
 
 namespace GKModule.Validation
 {
-	public class PumpStationValidationError : ObjectValidationError<GKPumpStation, ShowGKPumpStationEvent, Guid>
+	public class PumpStationValidationError : PlanObjectValidationError<GKPumpStation, ShowGKPumpStationEvent, Guid>
 	{
-		public PumpStationValidationError(GKPumpStation pumpStation, string error, ValidationErrorLevel level)
-			: base(pumpStation, error, level)
+		public PumpStationValidationError(GKPumpStation pumpStation, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+			: base(pumpStation, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
@@ -18,7 +18,7 @@ namespace GKModule.Validation
 			get { return ModuleType.GK; }
 		}
 
-		protected override Guid Key
+		protected override Guid KeyValue
 		{
 			get { return Object.UID; }
 		}
