@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Client.Layout.ViewModels;
-using RubezhAPI.Models.Layouts;
+﻿using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
+using RubezhAPI.Models.Layouts;
+using System.Collections.Generic;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartTextViewModel : LayoutPartTitleViewModel
 	{
-		private LayoutPartTextProperties _properties;
-		private bool _isEditable;
+		LayoutPartTextProperties _properties;
+		bool _isEditable;
 
 		public LayoutPartTextViewModel(LayoutPartTextProperties properties, bool isEditable)
 		{

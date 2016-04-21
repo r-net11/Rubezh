@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-using GKModule.Views;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
@@ -14,7 +12,7 @@ namespace GKIntegratedTest
 		[TestCase(GKStateBit.TurnOnNow_InAutomatic, 5)]
 		[TestCase(GKStateBit.TurnOn_InAutomatic, 0)]
 		/* RG-890 (Включение табличек "Не входи", "Уходи", и "Сирена", если МПТ включается без задержки на включение)*/
-		public void TestMPTBoardsOnWhenMPTTurnOnWithoutDelay(GKStateBit mode, int delay)
+		public void TestMptBoardsOnWhenMptTurnOnWithoutDelay(GKStateBit mode, int delay)
 		{
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_RM_1);
 			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_RM_1);

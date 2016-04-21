@@ -170,36 +170,12 @@
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ProcedureHelper.cs" />
-    <Compile Include="Processor\ConfigurationCashHelper.cs" />
-    <Compile Include="Processor\FiresecLicenseProcessor.cs" />
-    <Compile Include="Processor\GKProcessor.cs" />
-    <Compile Include="Processor\OpcDaServersProcessor.cs" />
-    <Compile Include="Processor\RviProcessor.cs" />
-    <Compile Include="Processor\ServerTaskRunner.cs" />
-    <Compile Include="Service\CallbackManager.cs" />
-    <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\FiresecService.OpcDa.cs" />
-    <Compile Include="Service\FiresecService.Rvi.cs" />
-    <Compile Include="Service\SafeFiresecService.SKD.TimeTrack.cs" />
-    <Compile Include="Service\FiresecService.SKD.TimeInterval.cs" />
-    <Compile Include="Service\FiresecService.GK.cs" />
-    <Compile Include="Service\FiresecService.Authentication.cs" />
-    <Compile Include="Service\FiresecService.Files.cs" />
-    <Compile Include="Service\FiresecService.Poll.cs" />
-    <Compile Include="Service\FiresecService.SKD.cs" />
-    <Compile Include="Service\FiresecService.cs" />
-    <Compile Include="Service\FiresecService.Journal.cs" />
-    <Compile Include="Service\PollAsyncResult.cs" />
-    <Compile Include="Service\SafeFiresecService.SKD.cs" />
-    <Compile Include="Service\FiresecService.Automation.cs" />
+    <Compile Include="FiresecNotifier.cs" />
     <Compile Include="ViewModels\ClientPollViewModel.cs" />
     <Compile Include="ViewModels\GKLifecycleViewModel.cs" />
     <Compile Include="ViewModels\LicenseViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
-    <Compile Include="Service\SafeFiresecService.cs" />
-    <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
@@ -257,6 +233,10 @@
     <ProjectReference Include="..\..\Common\Controls\Controls.csproj">
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecService\FiresecService.csproj">
+      <Project>{863cfff3-5380-453e-b512-84e228ab1e5b}</Project>
+      <Name>FiresecService</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>

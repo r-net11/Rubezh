@@ -1,19 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using Common;
-using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
-using System.Collections.Generic;
-using System;
+﻿using Common;
 using Infrastructure.Client.Layout;
+using Infrastructure.Common.Services.Layout;
 using LayoutModule.ViewModels;
+using RubezhAPI.Models.Layouts;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartPropertyTemplateContainerPageViewModel : LayoutPartPropertyPageViewModel
 	{
-		private LayoutPartTemplateContainerViewModel _layoutPartViewModel;
-		private bool _layoutChanged;
+		LayoutPartTemplateContainerViewModel _layoutPartViewModel;
+		bool _layoutChanged;
 
 		public LayoutPartPropertyTemplateContainerPageViewModel(LayoutPartTemplateContainerViewModel layoutPartViewModel)
 		{
@@ -22,7 +22,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			MonitorLayoutsViewModel.Instance.Layouts.Where(item => CheckLayoutCycling(item.Layout)).ForEach(item => Layouts.Add(item));
 		}
 
-		private ObservableCollection<LayoutViewModel> _layouts;
+		ObservableCollection<LayoutViewModel> _layouts;
 		public ObservableCollection<LayoutViewModel> Layouts
 		{
 			get { return _layouts; }
@@ -33,7 +33,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private LayoutViewModel _selectedLayout;
+		LayoutViewModel _selectedLayout;
 		public LayoutViewModel SelectedLayout
 		{
 			get { return _selectedLayout; }
@@ -71,7 +71,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			return false;
 		}
 
-		private bool CheckLayoutCycling(Layout  layout, List<Guid> parents = null)
+		bool CheckLayoutCycling(Layout layout, List<Guid> parents = null)
 		{
 			if (parents == null)
 				parents = new List<Guid>() { MonitorLayoutsViewModel.Instance.SelectedLayout.Layout.UID };

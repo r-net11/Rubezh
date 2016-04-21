@@ -16,6 +16,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,10 +30,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -170,35 +170,10 @@
     <Compile Include="Models\ServerTaskModel.cs" />
     <Compile Include="Models\ServerTasksModel.cs" />
     <Compile Include="Models\Log.cs" />
+    <Compile Include="FiresecNotifier.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Presenters\UILoger.cs" />
-    <Compile Include="ProcedureHelper.cs" />
-    <Compile Include="Processor\ConfigurationCashHelper.cs" />
-    <Compile Include="Processor\FiresecLicenseProcessor.cs" />
-    <Compile Include="Processor\GKProcessor.cs" />
-    <Compile Include="Processor\OpcDaServersProcessor.cs" />
-    <Compile Include="Processor\ServerTaskRunner.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Service\CallbackManager.cs" />
-    <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\FiresecService.OpcDa.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Service\FiresecService.Rvi.cs" />
-    <Compile Include="Service\SafeFiresecService.SKD.TimeTrack.cs" />
-    <Compile Include="Service\FiresecService.SKD.TimeInterval.cs" />
-    <Compile Include="Service\FiresecService.GK.cs" />
-    <Compile Include="Service\FiresecService.Authentication.cs" />
-    <Compile Include="Service\FiresecService.Files.cs" />
-    <Compile Include="Service\FiresecService.Poll.cs" />
-    <Compile Include="Service\FiresecService.SKD.cs" />
-    <Compile Include="Service\FiresecService.cs" />
-    <Compile Include="Service\FiresecService.Journal.cs" />
-    <Compile Include="Service\PollAsyncResult.cs" />
-    <Compile Include="Service\SafeFiresecService.SKD.cs" />
-    <Compile Include="Service\FiresecService.Automation.cs" />
-    <Compile Include="Service\SafeFiresecService.cs" />
-    <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="Views\IMainView.cs" />
     <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
@@ -253,6 +228,10 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecService\FiresecService.csproj">
+      <Project>{863cfff3-5380-453e-b512-84e228ab1e5b}</Project>
+      <Name>FiresecService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
       <Name>Infrastructure.Common</Name>
@@ -300,12 +279,12 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

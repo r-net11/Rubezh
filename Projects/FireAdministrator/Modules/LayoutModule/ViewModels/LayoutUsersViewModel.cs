@@ -1,24 +1,21 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
-using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
-using Infrastructure.Events;
 
 namespace LayoutModule.ViewModels
 {
 	public class LayoutUsersViewModel : BaseViewModel
 	{
-		private Layout _layout;
+		Layout _layout;
 		public LayoutUsersViewModel()
 		{
 			Update();
 		}
-		private ObservableCollection<LayoutUserViewModel> _users;
+
+		ObservableCollection<LayoutUserViewModel> _users;
 		public ObservableCollection<LayoutUserViewModel> Users
 		{
 			get { return _users; }
@@ -28,7 +25,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => Users);
 			}
 		}
-		private LayoutUserViewModel _selectedUser;
+
+		LayoutUserViewModel _selectedUser;
 		public LayoutUserViewModel SelectedUser
 		{
 			get { return _selectedUser; }
@@ -56,7 +54,8 @@ namespace LayoutModule.ViewModels
 				layoutUserViewModel.IsActive = _layout != null && _layout.Users.Contains(layoutUserViewModel.User.UID);
 			SelectedUser = Users.FirstOrDefault();
 		}
-		private int Comparison(LayoutUserViewModel x, LayoutUserViewModel y)
+
+		int Comparison(LayoutUserViewModel x, LayoutUserViewModel y)
 		{
 			return string.Compare(x.Name, y.Name);
 		}

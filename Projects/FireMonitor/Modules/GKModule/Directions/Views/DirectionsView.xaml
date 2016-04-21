@@ -27,7 +27,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="Auto" SortMemberPath="Direction.Name" MinWidth="210" Header="Направление">
+			<DataGridTemplateColumn Width="Auto" SortMemberPath="Direction.Name" MinWidth="250" Header="Направление">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -80,7 +80,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Удержание" Width="Auto" MinWidth="100">
+			<DataGridTemplateColumn Header="Удержание" Width="*" MinWidth="100">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">

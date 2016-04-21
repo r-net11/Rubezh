@@ -41,7 +41,7 @@ namespace Infrastructure.Designer.ViewModels
 			InitializeHistory();
 			InitializeZIndexCommands();
 			InitializeAlignCommands();
-			InitializeCopyPasteCommands();
+			InitializeCopyPaste();
 
 			ServiceFactoryBase.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 		}

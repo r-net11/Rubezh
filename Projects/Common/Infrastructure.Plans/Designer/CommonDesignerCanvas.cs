@@ -45,6 +45,7 @@ namespace Infrastructure.Plans.Designer
 
 		protected void Initialize()
 		{
+			_map.Where(x => x.Value is DesignerItem).ForEach(x => ((DesignerItem)x.Value).OnRemoved());
 			_map.Clear();
 			DesignerSurface.ClearDesignerItems();
 			using (new TimeCounter("\t\t\tDesignerCanvas.Background: {0}"))
