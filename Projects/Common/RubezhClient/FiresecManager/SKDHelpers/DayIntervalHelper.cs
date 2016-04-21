@@ -44,10 +44,10 @@ namespace RubezhClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static IEnumerable<DayInterval> Get(DayIntervalFilter filter)
+		public static IEnumerable<DayInterval> Get(DayIntervalFilter filter, bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetDayIntervals(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 
 		public static DayInterval GetSingle(Guid? uid)

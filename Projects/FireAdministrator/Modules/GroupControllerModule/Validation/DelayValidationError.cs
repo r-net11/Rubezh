@@ -1,15 +1,15 @@
-﻿using System;
-using RubezhAPI.GK;
-using GKModule.Events;
-using Infrastructure.Common.Validation;
+﻿using GKModule.Events;
 using Infrastructure.Common;
+using Infrastructure.Common.Validation;
+using RubezhAPI.GK;
+using System;
 
 namespace GKModule.Validation
 {
-	public class DelayValidationError : ObjectValidationError<GKDelay, ShowXDelayEvent, Guid>
+	public class DelayValidationError : PlanObjectValidationError<GKDelay, ShowGKDelayEvent, Guid>
 	{
-		public DelayValidationError(GKDelay delay, string error, ValidationErrorLevel level)
-			: base(delay, error, level)
+		public DelayValidationError(GKDelay delay, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+			: base(delay, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
@@ -18,7 +18,7 @@ namespace GKModule.Validation
 			get { return ModuleType.GK; }
 		}
 
-		protected override Guid Key
+		protected override Guid KeyValue
 		{
 			get { return Object.UID; }
 		}

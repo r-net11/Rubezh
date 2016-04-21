@@ -44,7 +44,6 @@ namespace GKModule.Plans
 		private DelaysViewModel _delaysViewModel;
 		private PumpStationsViewModel _pumpStationsViewModel;
 		private IEnumerable<IInstrument> _instruments;
-		private List<DesignerItem> _designerItems;
 
 		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, GuardZonesViewModel guardZonesViewModel, SKDZonesViewModel skdZonesViewModel, DelaysViewModel delaysViewModel, PumpStationsViewModel pumpStationsViewModel, DirectionsViewModel directionsViewModel, MPTsViewModel mptsViewModel, DoorsViewModel doorsViewModel)
 		{
@@ -58,8 +57,8 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateGKDeviceInGKZones);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
@@ -69,7 +68,7 @@ namespace GKModule.Plans
 			_mptsViewModel = mptsViewModel;
 			_doorsViewModel = doorsViewModel;
 			_delaysViewModel = delaysViewModel;
-			this._pumpStationsViewModel = pumpStationsViewModel;
+			_pumpStationsViewModel = pumpStationsViewModel;
 
 			_instruments = null;
 			_processChanges = true;
@@ -81,7 +80,6 @@ namespace GKModule.Plans
 			Cache.Add<GKDirection>(() => GKManager.Directions);
 			Cache.Add<GKMPT>(() => GKManager.MPTs);
 			Cache.Add<GKDoor>(() => GKManager.Doors);
-			_designerItems = new List<DesignerItem>();
 		}
 
 		public override void Initialize()
@@ -443,10 +441,7 @@ namespace GKModule.Plans
 			else if (designerItem.Element is ElementGKDoor)
 				RegisterDesignerItem<GKDoor>(designerItem, "GKDoors", "/Controls;component/Images/Door.png");
 			else if (designerItem.Element is ElementGKDevice)
-			{
 				RegisterDesignerItem<GKDevice>(designerItem, "GK");
-				_designerItems.Add(designerItem);
-			}
 			else if (designerItem.Element is IElementDirection)
 				RegisterDesignerItem<GKDirection>(designerItem, "GKDirection", "/Controls;component/Images/Blue_Direction.png");
 			else if (designerItem.Element is IElementMPT)
@@ -455,7 +450,6 @@ namespace GKModule.Plans
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			_designerItems = new List<DesignerItem>();
 			if (plan.ElementPolygonGKZones == null)
 				plan.ElementPolygonGKZones = new List<ElementPolygonGKZone>();
 			if (plan.ElementRectangleGKZones == null)
@@ -534,8 +528,8 @@ namespace GKModule.Plans
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKDelay, ShowGKDelayEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKDelays, plan.UID, "Несвязанная задержка", "/Controls;component/Images/Delay.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKDelay, ShowGKDelayEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKDelays, plan.UID, "Несвязанная задержка", "/Controls;component/Images/Delay.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementRectangleGKPumpStation, ShowGKPumpStationOnPlanEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKPumpStations, plan.UID, "Несвязанная насосная станция", "/Controls;component/Images/PumpStation.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementPolygonGKPumpStation, ShowGKPumpStationOnPlanEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKPumpStations, plan.UID, "Несвязанная насосная станция", "/Controls;component/Images/PumpStation.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementRectangleGKPumpStation, ShowGKPumpStationEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKPumpStations, plan.UID, "Несвязанная насосная станция", "/Controls;component/Images/PumpStation.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementPolygonGKPumpStation, ShowGKPumpStationEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKPumpStations, plan.UID, "Несвязанная насосная станция", "/Controls;component/Images/PumpStation.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKSKDZone, ShowGKSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKSKDZones, plan.UID, "Несвязанная зона СКД", "/Controls;component/Images/SKDZone.png", Guid.Empty));
@@ -620,43 +614,43 @@ namespace GKModule.Plans
 			if (typeof(TItem) == typeof(GKZone))
 			{
 				var elementZone = (IElementZone)element;
-				elementZone.BackgroundColor = GetGKZoneColor(item as GKZone);
+				elementZone.BackgroundColor = GetGkEntityColor(item as GKZone, Colors.Green);
 				elementZone.SetZLayer(item == null ? 50 : 60);
 			}
 			else if (typeof(TItem) == typeof(GKGuardZone))
 			{
 				var elementGuardZone = (IElementZone)element;
-				elementGuardZone.BackgroundColor = GetGKGuardZoneColor(item as GKGuardZone);
+				elementGuardZone.BackgroundColor = GetGkEntityColor(item as GKGuardZone, Colors.Brown);
 				elementGuardZone.SetZLayer(item == null ? 50 : 60);
 			}
 			else if (typeof(TItem) == typeof(GKSKDZone))
 			{
 				var elementSKDZone = (IElementZone)element;
-				elementSKDZone.BackgroundColor = GetGKSKDZoneColor(item as GKSKDZone);
+				elementSKDZone.BackgroundColor = GetGkEntityColor(item as GKSKDZone, Colors.Green);
 				elementSKDZone.SetZLayer(item == null ? 50 : 60);
 			}
 			else if (typeof(TItem) == typeof(GKDirection))
 			{
 				var elementDirection = (IElementDirection)element;
-				elementDirection.BackgroundColor = GetGKDirectionColor(item as GKDirection);
+				elementDirection.BackgroundColor = GetGkEntityColor(item as GKDirection, Colors.LightBlue);
 				elementDirection.SetZLayer(item == null ? 10 : 11);
 			}
 			else if (typeof(TItem) == typeof(GKMPT))
 			{
 				var elementMPT = (IElementMPT)element;
-				elementMPT.BackgroundColor = GetGKMPTColor(item as GKMPT);
+				elementMPT.BackgroundColor = GetGkEntityColor(item as GKMPT, Colors.LightBlue);
 				elementMPT.SetZLayer(item == null ? 10 : 11);
 			}
 			else if (typeof(TItem) == typeof(GKDelay))
 			{
 				var elementDelay = (IElementDelay)element;
-				elementDelay.BackgroundColor = GetGKDelayColor(item as GKDelay);
+				elementDelay.BackgroundColor = GetGkEntityColor(item as GKDelay, Colors.LightBlue);
 				elementDelay.SetZLayer(item == null ? 10 : 11);
 			}
 			else if (typeof(TItem) == typeof(GKPumpStation))
 			{
 				var elementPumpStation = (IElementPumpStation)element;
-				elementPumpStation.BackgroundColor = GetGKPumpStationColor(item as GKPumpStation);
+				elementPumpStation.BackgroundColor = GetGkEntityColor(item as GKPumpStation, Colors.LightBlue);
 				elementPumpStation.SetZLayer(item == null ? 10 : 11);
 			}
 			else
@@ -694,11 +688,6 @@ namespace GKModule.Plans
 				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
 		}
 
-		void OnElementRemoved(List<ElementBase> elements)
-		{
-			_designerItems.RemoveAll(x => elements.Contains(x.Element));
-			UpdateGKDeviceInGKZones(elements);
-		}
 		public void UpdateGKDeviceInGKZones(List<ElementBase> items)
 		{
 			if (IsDeviceInZonesChanged(items))
@@ -796,66 +785,11 @@ namespace GKModule.Plans
 				}
 			}
 		}
-
-		public void InvalidateCanvas()
-		{
-			_designerItems.ForEach(item =>
-			{
-				OnDesignerItemPropertyChanged<GKDevice>(item);
-				UpdateProperties<GKDevice>(item);
-				item.Painter.Invalidate();
-			});
-			if (DesignerCanvas != null)
-				DesignerCanvas.Refresh();
-		}
-
-		private Color GetGKDirectionColor(GKDirection direction)
+		Color GetGkEntityColor<T>(T entity, Color entityColor)
 		{
 			Color color = Colors.Black;
-			if (direction != null)
-				color = Colors.LightBlue;
-			return color;
-		}
-		private Color GetGKMPTColor(GKMPT mpt)
-		{
-			Color color = Colors.Black;
-			if (mpt != null)
-				color = Colors.LightBlue;
-			return color;
-		}
-		private Color GetGKGuardZoneColor(GKGuardZone zone)
-		{
-			Color color = Colors.Black;
-			if (zone != null)
-				color = Colors.Brown;
-			return color;
-		}
-		private Color GetGKZoneColor(GKZone zone)
-		{
-			Color color = Colors.Black;
-			if (zone != null)
-				color = Colors.Green;
-			return color;
-		}
-		private Color GetGKSKDZoneColor(GKSKDZone zone)
-		{
-			Color color = Colors.Black;
-			if (zone != null)
-				color = Colors.Green;
-			return color;
-		}
-		private Color GetGKDelayColor(GKDelay delay)
-		{
-			Color color = Colors.Black;
-			if (delay != null)
-				color = Colors.LightBlue;
-			return color;
-		}
-		private Color GetGKPumpStationColor(GKPumpStation pumpStation)
-		{
-			Color color = Colors.Black;
-			if (pumpStation != null)
-				color = Colors.Cyan;
+			if (entity != null)
+				color = entityColor;
 			return color;
 		}
 	}

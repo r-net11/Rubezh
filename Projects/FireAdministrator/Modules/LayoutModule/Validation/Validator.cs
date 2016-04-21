@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Infrastructure.Client.Layout;
 using Infrastructure.Common.Validation;
-using RubezhClient;
 using RubezhAPI.Models.Layouts;
-using Infrastructure.Client.Layout;
+using RubezhClient;
+using System.Collections.Generic;
 
 namespace LayoutModule.Validation
 {
@@ -22,8 +19,8 @@ namespace LayoutModule.Validation
 			ValidateLicense();
 			return Errors;
 		}
-				
-		private IEnumerable<IValidationError> ValidateLayout(Layout layout)
+
+		IEnumerable<IValidationError> ValidateLayout(Layout layout)
 		{
 			var isContentExist = layout.GetLayoutPartByType(LayoutPartIdentities.Content) != null;
 			var isNavigationExist = layout.GetLayoutPartByType(LayoutPartIdentities.Navigation) != null;

@@ -7,12 +7,12 @@ namespace RubezhClient.SKDHelpers
 {
 	public static class GKScheduleHelper
 	{
-		public static List<GKSchedule> GetSchedules()
+		public static List<GKSchedule> GetSchedules(bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetGKSchedules();
 			if (operationResult.Result != null)
 				operationResult.Result.ForEach(x => x.ScheduleParts = x.ScheduleParts.OrderBy(y => y.DayNo).ToList());
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 
 		public static bool SaveSchedule(GKSchedule item, bool isNew)
@@ -31,10 +31,10 @@ namespace RubezhClient.SKDHelpers
 			return operationResult.Result;
 		}
 
-		public static List<GKDaySchedule> GetDaySchedules()
+		public static List<GKDaySchedule> GetDaySchedules(bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetGKDaySchedules();
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 
 		public static bool SaveDaySchedule(GKDaySchedule item, bool isNew)

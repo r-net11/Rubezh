@@ -50,10 +50,10 @@ namespace RubezhClient.SKDHelpers
 			return null;
 		}
 
-		public static IEnumerable<AdditionalColumnType> Get(AdditionalColumnTypeFilter filter)
+		public static IEnumerable<AdditionalColumnType> Get(AdditionalColumnTypeFilter filter, bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetAdditionalColumnTypes(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 
 		public static IEnumerable<AdditionalColumnType> GetByOrganisation(Guid organisationUID)

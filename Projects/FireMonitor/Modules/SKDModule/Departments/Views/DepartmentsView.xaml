@@ -29,10 +29,7 @@
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Source="/Controls;component/Images/Organisation.png"  VerticalAlignment="Center" Margin="1 0" 
-										   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-									<Image Width="16" Source="/Controls;component/Images/Department.png" VerticalAlignment="Center" Margin="1 0" 
-										   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0" />
 									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</DataTemplate>

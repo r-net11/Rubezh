@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class Holiday : OrganisationElementBase, IOrganisationElement
+	public class Holiday : OrganisationElementBase, IOrganisationElement, IHRListItem
 	{
 		public Holiday()
 		{
@@ -28,5 +28,7 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public string Description { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/Holiday.png"; } }
 	}
 }

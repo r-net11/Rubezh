@@ -9,14 +9,14 @@ namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartPropertyTextPageViewModel : LayoutPartPropertyPageViewModel
 	{
-		private const int MaxFontSize = 1000;
-		private bool _haveChanges;
+		const int MaxFontSize = 1000;
+		bool _haveChanges;
 		public List<FontFamily> Fonts { get; private set; }
 		public List<string> HorizontalAlignments { get; private set; }
 		public List<string> VerticalAlignments { get; private set; }
 		public List<string> TextAlignments { get; private set; }
 		public bool IsEditable { get; private set; }
-		private LayoutPartTextViewModel _layoutPartViewModel;
+		LayoutPartTextViewModel _layoutPartViewModel;
 
 		public LayoutPartPropertyTextPageViewModel(LayoutPartTextViewModel layoutPartViewModel, bool isEditable)
 		{
@@ -44,7 +44,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			Fonts = System.Windows.Media.Fonts.SystemFontFamilies.OrderBy(item => item.Source).ToList();
 		}
 
-		private string _text;
+		string _text;
 		public string Text
 		{
 			get { return _text; }
@@ -56,7 +56,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private Color _backgroundColor;
+		Color _backgroundColor;
 		public Color BackgroundColor
 		{
 			get { return _backgroundColor; }
@@ -68,7 +68,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private Color _foregroundColor;
+		Color _foregroundColor;
 		public Color ForegroundColor
 		{
 			get { return _foregroundColor; }
@@ -80,7 +80,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private double _fontSize;
+		double _fontSize;
 		public double FontSize
 		{
 			get { return _fontSize; }
@@ -94,7 +94,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private bool _fontBold;
+		bool _fontBold;
 		public bool FontBold
 		{
 			get { return _fontBold; }
@@ -106,7 +106,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private bool _fontItalic;
+		bool _fontItalic;
 		public bool FontItalic
 		{
 			get { return _fontItalic; }
@@ -118,7 +118,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private int _textAlignment;
+		int _textAlignment;
 		public int TextAlignment
 		{
 			get { return _textAlignment; }
@@ -130,7 +130,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private FontFamily _fontFamily;
+		FontFamily _fontFamily;
 		public FontFamily FontFamily
 		{
 			get { return _fontFamily; }
@@ -142,7 +142,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private int _horizontalAlignment;
+		int _horizontalAlignment;
 		public int HorizontalAlignment
 		{
 			get { return _horizontalAlignment; }
@@ -154,7 +154,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private int _verticalAlignment;
+		int _verticalAlignment;
 		public int VerticalAlignment
 		{
 			get { return _verticalAlignment; }
@@ -166,7 +166,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private bool _acceptReturn;
+		bool _acceptReturn;
 		public bool AcceptReturn
 		{
 			get { return _acceptReturn; }
@@ -178,7 +178,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private bool _acceptTab;
+		bool _acceptTab;
 		public bool AcceptTab
 		{
 			get { return _acceptTab; }
@@ -190,7 +190,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private bool _textTrimming;
+		bool _textTrimming;
 		public bool TextTrimming
 		{
 			get { return _textTrimming; }
@@ -202,7 +202,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private bool _wordWrap;
+		bool _wordWrap;
 		public bool WordWrap
 		{
 			get { return _wordWrap; }

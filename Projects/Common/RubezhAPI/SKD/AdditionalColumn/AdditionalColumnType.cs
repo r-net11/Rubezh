@@ -3,7 +3,7 @@
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class AdditionalColumnType : OrganisationElementBase, IOrganisationElement
+	public class AdditionalColumnType : OrganisationElementBase, IOrganisationElement, IHRListItem
 	{
 		[DataMember]
 		public string Name { get; set; }
@@ -19,5 +19,7 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public bool IsInGrid { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/AdditionalColumn.png"; } }
 	}
 }

@@ -18,8 +18,8 @@ namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartTemplateContainerViewModel : BaseLayoutPartViewModel
 	{
-		private LayoutPartReferenceProperties _properties;
-		private LayoutPartPropertyTemplateContainerPageViewModel _containerPage;
+		LayoutPartReferenceProperties _properties;
+		LayoutPartPropertyTemplateContainerPageViewModel _containerPage;
 		public LayoutPartTemplateContainerViewModel(LayoutPartReferenceProperties properties)
 		{
 			_properties = properties ?? new LayoutPartReferenceProperties();
@@ -41,7 +41,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 		}
 
 		public LayoutModel Layout { get; private set; }
-		private XmlLayoutSerializer _serializer;
+		XmlLayoutSerializer _serializer;
 
 		public void UpdateLayout(LayoutModel layout)
 		{
@@ -59,11 +59,13 @@ namespace LayoutModule.LayoutParts.ViewModels
 						_serializer.Deserialize(tr);
 			}
 		}
-		private void LoadLayout()
+
+		void LoadLayout()
 		{
 			UpdateLayout(Layout);
 		}
-		private void Initialize()
+
+		void Initialize()
 		{
 			var list = new List<LayoutPartViewModel>();
 			if (Layout != null)
@@ -72,7 +74,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			LayoutParts = new ObservableCollection<LayoutPartViewModel>(list);
 		}
 
-		private ObservableCollection<LayoutPartViewModel> _layoutParts;
+		ObservableCollection<LayoutPartViewModel> _layoutParts;
 		public ObservableCollection<LayoutPartViewModel> LayoutParts
 		{
 			get { return _layoutParts; }
@@ -86,7 +88,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private LayoutPartViewModel _activeLayoutPart;
+		LayoutPartViewModel _activeLayoutPart;
 		public LayoutPartViewModel ActiveLayoutPart
 		{
 			get { return _activeLayoutPart; }
@@ -97,7 +99,7 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private DockingManager _manager;
+		DockingManager _manager;
 		public DockingManager Manager
 		{
 			get { return _manager; }
@@ -126,15 +128,17 @@ namespace LayoutModule.LayoutParts.ViewModels
 			}
 		}
 
-		private void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
+		void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
 		{
 			if (!string.IsNullOrWhiteSpace(e.Model.ContentId))
 				e.Content = LayoutParts.FirstOrDefault(item => item.UID == Guid.Parse(e.Model.ContentId));
 		}
-		private void LayoutChanged(object sender, EventArgs e)
+
+		void LayoutChanged(object sender, EventArgs e)
 		{
 		}
-		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
+
+		void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
 		{
 			var layoutPartViewModel = e.Document.Content as LayoutPartViewModel;
 			if (layoutPartViewModel != null)
@@ -143,7 +147,8 @@ namespace LayoutModule.LayoutParts.ViewModels
 				e.Cancel = true;
 			}
 		}
-		private void LayoutPartsChanged(object sender, NotifyCollectionChangedEventArgs e)
+
+		void LayoutPartsChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 		}
 	}

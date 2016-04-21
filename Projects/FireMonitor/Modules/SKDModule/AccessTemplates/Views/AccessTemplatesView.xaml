@@ -15,24 +15,14 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Name="_treeList"
-					   Grid.Row="0"
-					   Source="{Binding Organisations}"
-					   SelectedTreeNode="{Binding SelectedItem}"
-					   ItemActivatedCommand="{Binding EditCommand}"
-					   Focusable="True"
-					   tree:SortBehavior.CanUserSortColumns="True">
+		<tree:TreeList Name="_treeList" Grid.Row="0" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название"
-									ListViewLayoutManager.StarWidth="1"
-									tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
+					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Source="/Controls;component/Images/Organisation.png"
-										   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-									<Image Width="16" Source="/Controls;component/Images/AccessTemplate.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+									<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0" />
 									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</DataTemplate>
