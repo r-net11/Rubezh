@@ -2,9 +2,11 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
 using RubezhAPI.GK;
 using RubezhAPI.Hierarchy;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -12,7 +14,7 @@ using System.Xml.Serialization;
 
 namespace DiagnosticsModule.ViewModels
 {
-	public partial class ItemsBaseViewModel<T, ViewModelT> : ViewPartViewModel
+	public partial class ItemsBaseViewModel<T, ViewModelT> : MenuViewPartViewModel
 		where T : ModelBase
 		where ViewModelT : ItemBaseViewModel<T>, new()
 	{
@@ -28,10 +30,8 @@ namespace DiagnosticsModule.ViewModels
 			CutCommand = new RelayCommand(OnCut, CanCut);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-
 			MoveDownCommand = new RelayCommand(OnMoveDown, CanMoveDown);
 			MoveUpCommand = new RelayCommand(OnMoveUp, CanMoveUp);
-			MoveIntoCommand = new RelayCommand(OnMoveInto, CanMoveInto);
 		}
 
 		public void Initialize(HierarchicalCollection<T> itemsCollection)
@@ -211,28 +211,104 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand MoveDownCommand { get; private set; }
 		void OnMoveDown()
 		{
+			Move(+1);
 		}
 		bool CanMoveDown()
 		{
-			return SelectedItem != null;
+			if (SelectedItem == null)
+				return false;
+			if (SelectedItem.Parent == null)
+			{
+				var index = Items.IndexOf(SelectedItem);
+				if (index > Items.Count - 2)
+					return false;
+			}
+			else
+			{
+				return true;
+			}
+			return true;
 		}
 
 		public RelayCommand MoveUpCommand { get; private set; }
 		void OnMoveUp()
 		{
+			Move(-1);
 		}
 		bool CanMoveUp()
 		{
-			return SelectedItem != null;
+			if (SelectedItem == null)
+				return false;
+			if (SelectedItem.Parent == null)
+			{
+				var index = Items.IndexOf(SelectedItem);
+				if (index < 1)
+					return false;
+			}
+			else
+			{
+				return true;
+			}
+			return true;
 		}
 
-		public RelayCommand MoveIntoCommand { get; private set; }
-		void OnMoveInto()
+		void Move(int delta)
 		{
-		}
-		bool CanMoveInto()
-		{
-			return SelectedItem != null;
+			if (SelectedItem.Parent == null)
+			{
+				var itemViewModel = SelectedItem;
+				var index = Items.IndexOf(SelectedItem);
+				Items.Remove(SelectedItem);
+				Items.Insert(index + delta, itemViewModel);
+				SelectedItem = itemViewModel;
+
+				var item = itemViewModel.Item;
+			}
+			else
+			{
+				var itemViewModel = SelectedItem;
+				var parentViewModel = SelectedItem.Parent;
+				var index = SelectedItem.Index;
+				var parentIndex = parentViewModel.Index;
+				parentViewModel.RemoveChild(SelectedItem);
+				if (delta == 1)
+				{
+					if (parentViewModel.ChildrenCount <= (index + delta - 1))
+					{
+						if (parentViewModel.Parent == null)
+						{
+							Items.Insert(parentIndex + delta, itemViewModel);
+						}
+						else
+						{
+							parentViewModel.Parent[parentIndex + delta - 1].InsertChild(itemViewModel);
+						}
+					}
+					else
+					{
+						parentViewModel[index + delta - 1].InsertChild(itemViewModel);
+					}
+				}
+				else
+				{
+					if (index == 0)
+					{
+						if (parentViewModel.Parent == null)
+						{
+							Items.Insert(parentIndex + delta + 1, itemViewModel);
+						}
+						else
+						{
+							parentViewModel.Parent[parentIndex + delta + 1].InsertTo(itemViewModel);
+						}
+					}
+					else
+					{
+						parentViewModel[index + delta].InsertTo(itemViewModel);
+					}
+				}
+				SelectedItem = itemViewModel;
+			}
 		}
 
 		public virtual void OnChanging() { ;}
@@ -244,6 +320,7 @@ namespace DiagnosticsModule.ViewModels
 				SelectedItem = Items.FirstOrDefault();
 			else
 				SelectedItem = SelectedItem;
+			base.OnShow();
 		}
 		public override void OnHide()
 		{

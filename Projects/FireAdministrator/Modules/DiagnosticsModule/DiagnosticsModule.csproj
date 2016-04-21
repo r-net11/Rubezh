@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="ViewModels\ItemsBaseViewModel.cs" />
+    <Compile Include="ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ItemBaseViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
@@ -128,6 +129,9 @@
     </Compile>
     <Compile Include="Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZonesMenuView.xaml.cs">
+      <DependentUpon>ZonesMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
@@ -153,6 +157,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ZoneDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZonesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

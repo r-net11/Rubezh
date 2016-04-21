@@ -15,4 +15,8 @@
 		<Views:ZoneDetailsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ZonesMenuViewModel}">
+		<Views:ZonesMenuView />
+	</DataTemplate>
+
 </ResourceDictionary>

@@ -15,10 +15,5 @@ namespace DiagnosticsModule.ViewModels
 		{
 			Item = t;
 		}
-
-		public static ItemBaseViewModel<T> Create(T t)
-		{
-			return new ItemBaseViewModel<T>(t) { Item = t };
-		}
 	}
 }

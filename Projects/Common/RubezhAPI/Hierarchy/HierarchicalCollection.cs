@@ -117,5 +117,90 @@ namespace RubezhAPI.Hierarchy
 				GetAllChildren(child, allItems);
 			}
 		}
+
+		void Move2(T t, int delta)
+		{
+			HierarchicalItem<T> item = null;
+			item = AllItems.FirstOrDefault(x => x.Item.UID == t.UID);
+			if (item == null)
+			{
+				return;
+			}
+
+			if (item.Parent == null)
+			{
+				var index = RootItems.IndexOf(item);
+			}
+		}
+		void Move(T t, int delta)
+		{
+			//HierarchicalItem<T> item = null;
+			var item = AllItems.FirstOrDefault(x => x.Item.UID == t.UID);
+			if (item == null)
+			{
+				return;
+			}
+
+			if (item.Parent == null)
+			{
+				var index = RootItems.IndexOf(item);
+				RootItems.Remove(item);
+				RootItems.Insert(index + delta, item);
+			}
+			else
+			{
+				var itemViewModel = item;
+				var parentItem = item.Parent;
+				var index = parentItem.Children.IndexOf(item);
+				var parentIndex = 0;
+				if (parentItem.Parent == null)
+				{
+					parentIndex = RootItems.IndexOf(parentItem);
+				}
+				else
+				{
+					parentIndex = parentItem.Parent.Children.IndexOf(parentItem);
+				}
+
+				parentItem.Children.Remove(item);
+
+				if (delta == 1)
+				{
+					if (parentItem.Children.Count <= (index + delta - 1))
+					{
+						if (parentItem.Parent == null)
+						{
+							RootItems.Insert(parentIndex + delta, item);
+						}
+						else
+						{
+							parentItem.Parent.Children.Insert(parentIndex + delta - 1, item);
+						}
+					}
+					else
+					{
+						parentItem.Children.Insert(index + delta - 1, item);
+					}
+				}
+				else
+				{
+					if (index == 0)
+					{
+						if (parentItem.Parent == null)
+						{
+							RootItems.Insert(parentIndex + delta + 1, itemViewModel);
+						}
+						else
+						{
+							parentItem.Children.Insert(parentIndex + delta + 1, itemViewModel);
+						}
+					}
+					else
+					{
+						parentItem.Children.Insert(index + delta, itemViewModel);
+					}
+				}
+			}
+		}
 	}
 }

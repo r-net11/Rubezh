@@ -19,6 +19,9 @@
 					<Controls:IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать" />
 					<Controls:IconedMenuItem Command="{Binding CutCommand}" ImageSource="BCut" Text="Вырезать" />
 					<Controls:IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить" />
+					<Separator />
+					<Controls:IconedMenuItem Command="{Binding MoveUpCommand}" ImageSource="BCopy" Text="Выше" />
+					<Controls:IconedMenuItem Command="{Binding MoveDownCommand}" ImageSource="BCut" Text="Ниже" />
 				</ContextMenu>
 				<Style BasedOn="{StaticResource {x:Type tree:TreeList}}" TargetType="{x:Type tree:TreeList}">
 					<Setter Property="ContextMenu" Value="{StaticResource contextMenu}" />

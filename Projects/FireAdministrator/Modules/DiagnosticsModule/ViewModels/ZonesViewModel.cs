@@ -7,7 +7,6 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using RubezhAPI.GK;
@@ -24,11 +23,9 @@ namespace DiagnosticsModule.ViewModels
 {
 	public partial class ZonesViewModel : ItemsBaseViewModel<GKZone, ZoneViewModel>
 	{
-		public BaseViewModel Menu { get; protected set; }
-		public ObservableCollection<MenuButtonViewModel> ZonesMenu { get; private set; }
-
 		public ZonesViewModel()
 		{
+			Menu = new ZonesMenuViewModel(this);
 		}
 
 		public override GKZone OnAdding()
