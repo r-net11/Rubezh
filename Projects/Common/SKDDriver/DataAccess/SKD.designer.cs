@@ -4350,7 +4350,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Data", DbType = "VarBinary(MAX)", CanBeNull = true, UpdateCheck = UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Data", DbType = "VarBinary(MAX)", UpdateCheck = UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -4821,7 +4821,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Data", DbType = "VarBinary(MAX)", CanBeNull = true, UpdateCheck = UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Data", DbType = "VarBinary(MAX)", UpdateCheck = UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -9576,9 +9576,11 @@ namespace SKDDriver.DataAccess
 
 		private string _XMLContent;
 
-		private System.Guid _Id;
-
 		private bool _IsSaveWhenRestart;
+
+		private bool _IsReference;
+
+		private string _InitialValueXML;
 
 		#region Extensibility Method Definitions
 		partial void OnLoaded();
@@ -9588,12 +9590,14 @@ namespace SKDDriver.DataAccess
 		partial void OnUIDChanged();
 		partial void OnNameChanging(string value);
 		partial void OnNameChanged();
-		partial void OnXMLContentChanging(string value);
-		partial void OnXMLContentChanged();
-		partial void OnIdChanging(System.Guid value);
-		partial void OnIdChanged();
+		partial void OnCurrentValueXMLChanging(string value);
+		partial void OnCurrentValueXMLChanged();
 		partial void OnIsSaveWhenRestartChanging(bool value);
 		partial void OnIsSaveWhenRestartChanged();
+		partial void OnIsReferenceChanging(bool value);
+		partial void OnIsReferenceChanged();
+		partial void OnInitialValueXMLChanging(string value);
+		partial void OnInitialValueXMLChanged();
 		#endregion
 
 		public GlobalVariables()
@@ -9642,7 +9646,7 @@ namespace SKDDriver.DataAccess
 		}
 
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_XMLContent", DbType = "nvarchar(MAX)", CanBeNull = false)]
-		public string XMLContent
+		public string CurrentValueXML
 		{
 			get
 			{
@@ -9652,31 +9656,11 @@ namespace SKDDriver.DataAccess
 			{
 				if ((this._XMLContent != value))
 				{
-					this.OnXMLContentChanging(value);
+					this.OnCurrentValueXMLChanging(value);
 					this.SendPropertyChanging();
 					this._XMLContent = value;
-					this.SendPropertyChanged("XMLContent");
-					this.OnXMLContentChanged();
-				}
-			}
-		}
-
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", DbType = "UniqueIdentifier NOT NULL")]
-		public System.Guid Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					this.SendPropertyChanged("CurrentValueXML");
+					this.OnCurrentValueXMLChanged();
 				}
 			}
 		}
@@ -9697,6 +9681,46 @@ namespace SKDDriver.DataAccess
 					this._IsSaveWhenRestart = value;
 					this.SendPropertyChanged("IsSaveWhenRestart");
 					this.OnIsSaveWhenRestartChanged();
+				}
+			}
+		}
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsReference", DbType = "Bit NOT NULL")]
+		public bool IsReference
+		{
+			get
+			{
+				return this._IsReference;
+			}
+			set
+			{
+				if ((this._IsReference != value))
+				{
+					this.OnIsReferenceChanging(value);
+					this.SendPropertyChanging();
+					this._IsReference = value;
+					this.SendPropertyChanged("IsReference");
+					this.OnIsReferenceChanged();
+				}
+			}
+		}
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_InitialValueXML", DbType = "nvarchar(MAX)", CanBeNull = false)]
+		public string InitialValueXML
+		{
+			get
+			{
+				return this._InitialValueXML;
+			}
+			set
+			{
+				if ((this._InitialValueXML != value))
+				{
+					this.OnInitialValueXMLChanging(value);
+					this.SendPropertyChanging();
+					this._InitialValueXML = value;
+					this.SendPropertyChanged("InitialValueXML");
+					this.OnInitialValueXMLChanged();
 				}
 			}
 		}

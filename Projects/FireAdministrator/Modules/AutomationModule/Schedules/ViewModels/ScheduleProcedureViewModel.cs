@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -55,33 +56,33 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => Arguments);
 		}
 
-		private static bool CheckSignature(Argument argument, Variable variable)
+		private static bool CheckSignature(Argument argument, IVariable variable)
 		{
-			if (argument.ExplicitType != variable.ExplicitType)
+			if (argument.ExplicitType != variable.VariableValue.ExplicitType)
 				return false;
 			if (argument.ExplicitType != ExplicitType.Object && argument.ExplicitType != ExplicitType.Enum)
 				return true;
 			if (argument.ExplicitType != ExplicitType.Object)
-				return (argument.ObjectType == variable.ObjectType);
+				return (argument.ObjectType == variable.VariableValue.ObjectType);
 			if (argument.ExplicitType != ExplicitType.Enum)
-				return (argument.EnumType == variable.EnumType);
+				return (argument.EnumType == variable.VariableValue.EnumType);
 			return false;
 		}
 
-		private static Argument InitializeArgumemt(Variable variable)
+		private static Argument InitializeArgumemt(IVariable variable)
 		{
 			var argument = new Argument
 			{
 				VariableScope = VariableScope.GlobalVariable,
-				ExplicitType = variable.ExplicitType,
-				EnumType = variable.EnumType,
-				ObjectType = variable.ObjectType
+				ExplicitType = variable.VariableValue.ExplicitType,
+				EnumType = variable.VariableValue.EnumType,
+				ObjectType = variable.VariableValue.ObjectType
 			};
 
-			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
+			PropertyCopy.Copy(variable.VariableValue.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
 
-			foreach (var explicitValue in variable.ExplicitValues)
+			foreach (var explicitValue in variable.VariableValue.ExplicitValues)
 			{
 				var newExplicitValue = new ExplicitValue();
 				PropertyCopy.Copy(explicitValue, newExplicitValue);
@@ -91,19 +92,20 @@ namespace AutomationModule.ViewModels
 			return argument;
 		}
 
-		List<Variable> GetVariables(ArgumentViewModel argument)
+		List<IVariable> GetVariables(ArgumentViewModel argument)
 		{
 			var allVariables = CallingProcedure != null
 				? ProcedureHelper.GetAllVariables(CallingProcedure)
-				: new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+				: FiresecManager.FiresecService.GetInitialGlobalVariables().Result.ToList<IVariable>();
+			//	: new List<IVariable>();//(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables); TODO: Get global variables from the server
 
-			allVariables = allVariables.FindAll(x => x.ExplicitType == argument.ExplicitType);
+			allVariables = allVariables.FindAll(x => x.VariableValue.ExplicitType == argument.ExplicitType);
 
 			if (argument.ExplicitType == ExplicitType.Object)
-				allVariables = allVariables.FindAll(x => x.ObjectType == argument.ObjectType);
+				allVariables = allVariables.FindAll(x => x.VariableValue.ObjectType == argument.ObjectType);
 
 			if (argument.ExplicitType == ExplicitType.Enum)
-				allVariables = allVariables.FindAll(x => x.EnumType == argument.EnumType);
+				allVariables = allVariables.FindAll(x => x.VariableValue.EnumType == argument.EnumType);
 
 			return allVariables;
 		}

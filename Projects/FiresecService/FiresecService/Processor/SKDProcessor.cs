@@ -192,7 +192,6 @@ namespace FiresecService
 			}
 
 			Service.FiresecService.NotifySKDObjectStateChanged(skdStates);
-			ProcedureRunner.RunOnStateChanged();
 		}
 
 		private static List<XStateClass> GetZoneStateClasses(SKDZone zone)

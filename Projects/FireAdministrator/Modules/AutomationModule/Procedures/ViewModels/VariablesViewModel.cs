@@ -1,5 +1,6 @@
 ﻿using AutomationModule.Properties;
 using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -18,8 +19,8 @@ namespace AutomationModule.ViewModels
 		public VariablesViewModel(Procedure procedure)
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			DeleteCommand = new RelayCommand(OnDelete, () => SelectedVariable != null);
+			EditCommand = new RelayCommand(OnEdit, () => SelectedVariable != null);
 			Menu = new VariablesMenuViewModel(this);
 			Procedure = procedure;
 
@@ -57,7 +58,6 @@ namespace AutomationModule.ViewModels
 		void OnAdd()
 		{
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, "локальная переменная", "Добавить локальную переменную");
-
 			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
 
 			if (IsExist(variableDetailsViewModel.Variable))
@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
-		private bool IsExist(Variable variable)
+		private bool IsExist(IVariable variable)
 		{
 			return Variables.Any(x => string.Equals(x.Variable.Name, variable.Name));
 		}
@@ -86,10 +86,6 @@ namespace AutomationModule.ViewModels
 			Variables.Remove(SelectedVariable);
 			SelectedVariable = Variables.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
-		}
-		bool CanDelete()
-		{
-			return SelectedVariable != null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -103,16 +99,12 @@ namespace AutomationModule.ViewModels
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
-		bool CanEdit()
-		{
-			return SelectedVariable != null;
-		}
 
 		public void Select(Guid variableUid)
 		{
 			if (variableUid != Guid.Empty)
 			{
-				SelectedVariable = Variables.FirstOrDefault(item => item.Variable.Uid == variableUid);
+				SelectedVariable = Variables.FirstOrDefault(item => item.Variable.UID == variableUid);
 			}
 		}
 	}

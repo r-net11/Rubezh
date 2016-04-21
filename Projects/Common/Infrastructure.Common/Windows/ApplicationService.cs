@@ -69,8 +69,8 @@ namespace Infrastructure.Common.Windows
 			if (isMaximized.HasValue)
 				windowBaseView.SetValue(Window.WindowStateProperty, isMaximized.Value ? WindowState.Maximized : WindowState.Minimized);
 			windowBaseView.ContentRendered += (s, e) => ApplicationActivated = true;
-			windowBaseView.Closing += new CancelEventHandler(win_Closing);
-			windowBaseView.Closed += new EventHandler(win_Closed);
+			windowBaseView.Closing += win_Closing;
+			windowBaseView.Closed += win_Closed;
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
 			model.Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -152,7 +152,7 @@ namespace Infrastructure.Common.Windows
 
 		public static bool IsApplicationThread()
 		{
-			return Application.Current == null ? false : Application.Current.Dispatcher.Thread == Thread.CurrentThread;
+			return Application.Current != null && Application.Current.Dispatcher.Thread == Thread.CurrentThread;
 		}
 
 		public static void DoEvents()
@@ -197,7 +197,7 @@ namespace Infrastructure.Common.Windows
 			if (!Application.Current.Dispatcher.CheckAccess())
 				return (int)Application.Current.Dispatcher.Invoke((Func<bool, int>)GetActiveMonitor, shellWindow);
 			var window = shellWindow ? ApplicationWindow : DialogService.GetActiveWindow();
-			
+
 			return window != null ? MonitorHelper.FindMonitor(window.RestoreBounds) : default(int);
 		}
 

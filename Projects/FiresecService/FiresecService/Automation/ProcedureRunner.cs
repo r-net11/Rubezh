@@ -6,26 +6,26 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using FiresecAPI.Models.Automation;
+using FiresecService.Service;
 
 namespace FiresecService
 {
 	public static class ProcedureRunner
 	{
-		private static ConcurrentDictionary<Guid, ProcedureThread> _proceduresThreads;
-		private static AutoResetEvent _resetEvent;
-		private static Thread _checkThread;
-		private static object _lock;
+		private static readonly ConcurrentDictionary<Guid, ProcedureThread> ProceduresThreads;
+		private static readonly AutoResetEvent ResetEvent;
+		private static readonly Thread CheckThread;
 
 		static ProcedureRunner()
 		{
-			_lock = new object();
-			_proceduresThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
-			_resetEvent = new AutoResetEvent(false);
-			_checkThread = new Thread(CheckProcedureThread)
+			ProceduresThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
+			ResetEvent = new AutoResetEvent(false);
+			CheckThread = new Thread(CheckProcedureThread)
 			{
 				Name = "CheckProcedureThread",
 			};
-			_checkThread.Start();
+			CheckThread.Start();
 		}
 
 		public static void RunOnJournal(JournalItem journalItem)
@@ -41,15 +41,15 @@ namespace FiresecService
 					var filter = ConfigurationCashHelper.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == filtersUID);
 					if (filter != null)
 					{
-						if (filter.JournalSubsystemTypes.Count > 0 && !filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
+						if (filter.JournalSubsystemTypes.Any() && !filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
 							continue;
-						if (filter.JournalEventNameTypes.Count > 0 && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
+						if (filter.JournalEventNameTypes.Any() && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
 							continue;
-						if (filter.JournalEventDescriptionTypes.Count > 0 && !filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
+						if (filter.JournalEventDescriptionTypes.Any() && !filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
 							continue;
-						if (filter.JournalObjectTypes.Count > 0 && !filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
+						if (filter.JournalObjectTypes.Any() && !filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
 							continue;
-						if (filter.ObjectUIDs.Count > 0 && !filter.ObjectUIDs.Contains(journalItem.ObjectUID))
+						if (filter.ObjectUIDs.Any() && !filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 							continue;
 						Run(procedure, new List<Argument>(), null, null, journalItem);
 					}
@@ -59,38 +59,30 @@ namespace FiresecService
 
 		public static void RunOnServerRun()
 		{
-			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) Run(x, new List<Argument>(), null, null); });
+			FiresecServiceManager.SafeFiresecService.ResetGlobalVariables();
+			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => { if (x.StartWithServer) Run(x, new List<Argument>(), null); });
 		}
 
-		public static void RunOnStateChanged()
-		{
-			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures)
-			{
-			}
-		}
-
-		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
+		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<IVariable> callingProcedureVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
 		{
 			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem, user, clientUID);
-			_proceduresThreads.TryAdd(procedureThread.UID, procedureThread);
+			ProceduresThreads.TryAdd(procedureThread.UID, procedureThread);
 			procedureThread.Start();
 			return procedureThread;
 		}
 
 		public static void Stop()
 		{
-			foreach (var procedureThread in _proceduresThreads.Values)
-			{
+			foreach (var procedureThread in ProceduresThreads.Values)
 				procedureThread.IsTimeOut = true;
-			}
 		}
 
 		public static void Terminate()
 		{
-			if (_resetEvent == null) return;
+			if (ResetEvent == null) return;
 
-			_resetEvent.Set();
-			_checkThread.Join(TimeSpan.FromMinutes(1));
+			ResetEvent.Set();
+			CheckThread.Join(TimeSpan.FromMinutes(1));
 		}
 
 		public static void SetNewConfig()
@@ -102,14 +94,14 @@ namespace FiresecService
 		{
 			while (true)
 			{
-				if (_resetEvent.WaitOne(TimeSpan.FromSeconds(1)))
+				if (ResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
 					return;
-				var oldProcedures = _proceduresThreads.Where(item => !item.Value.IsAlive).Select(item => item.Key).ToArray();
+				var oldProcedures = ProceduresThreads.Where(item => !item.Value.IsAlive).Select(item => item.Key).ToArray();
 				ProcedureThread procedure;
 				foreach (var procedureUID in oldProcedures)
-					_proceduresThreads.TryRemove(procedureUID, out procedure);
+					ProceduresThreads.TryRemove(procedureUID, out procedure);
 				var timeOut = new TimeSpan();
-				foreach (var procedureThread in _proceduresThreads.Values)
+				foreach (var procedureThread in ProceduresThreads.Values)
 				{
 					switch (procedureThread.TimeType)
 					{

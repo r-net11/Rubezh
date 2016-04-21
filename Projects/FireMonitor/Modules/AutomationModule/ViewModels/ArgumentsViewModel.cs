@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 
@@ -41,17 +42,17 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => Arguments);
 		}
 
-		private static Argument InitializeArgumemt(Variable variable)
+		private static Argument InitializeArgumemt(IVariable variable)
 		{
 			var argument = new Argument
 			{
-				ExplicitType = variable.ExplicitType,
-				EnumType = variable.EnumType,
-				ObjectType = variable.ObjectType
+				ExplicitType = variable.VariableValue.ExplicitType,
+				EnumType = variable.VariableValue.EnumType,
+				ObjectType = variable.VariableValue.ObjectType
 			};
-			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
+			PropertyCopy.Copy(variable.VariableValue.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
-			foreach (var explicitValues in variable.ExplicitValues)
+			foreach (var explicitValues in variable.VariableValue.ExplicitValues)
 			{
 				var newExplicitValue = new ExplicitValue();
 				PropertyCopy.Copy(explicitValues, newExplicitValue);

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Windows.Media;
+using FiresecAPI.Models.Automation;
 
 namespace FiresecAPI
 {
@@ -18,5 +19,26 @@ namespace FiresecAPI
 
 		[OperationContract]
 		ProcedureProperties GetProperties(Guid layoutUID);
+
+		[OperationContract]
+		OperationResult<bool> SaveGlobalVariable(GlobalVariable variable);
+
+		[OperationContract]
+		OperationResult<bool> ResetGlobalVariables();
+
+		[OperationContract]
+		OperationResult<bool> RemoveGlobalVariable(GlobalVariable variable);
+
+		[OperationContract]
+		OperationResult<List<GlobalVariable>> GetInitialGlobalVariables();
+
+		[OperationContract]
+		OperationResult<bool> SaveGlobalVariables(List<IVariable> variables);
+
+		[OperationContract]
+		OperationResult<List<GlobalVariable>> GetCurrentGlobalVariables();
+
+		[OperationContract]
+		OperationResult<bool> SaveEditedGlobalVariables(IEnumerable<GlobalVariable> variables);
 	}
 }

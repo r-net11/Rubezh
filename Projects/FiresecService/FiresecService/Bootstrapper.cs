@@ -1,29 +1,26 @@
 ﻿using Common;
-using FiresecAPI.Models;
 using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.Service.Validators;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Common.Services.Configuration;
 using Infrastructure.Common.Windows;
+using KeyGenerator;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
-using KeyGenerator;
-using KeyGenerator.Entities;
 
 namespace FiresecService
 {
 	public static class Bootstrapper
 	{
-		private static Thread WindowThread = null;
-		private static MainViewModel MainViewModel;
-		private static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
+		private static Thread _windowThread;
+		private static MainViewModel _mainViewModel;
+		private static readonly AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
 		public static void Run(ILicenseManager licenseManager)
 		{
@@ -37,10 +34,10 @@ namespace FiresecService
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-				WindowThread = new Thread(OnWorkThread) {Name = "Main window", Priority = ThreadPriority.Highest};
-				WindowThread.SetApartmentState(ApartmentState.STA);
-				WindowThread.IsBackground = true;
-				WindowThread.Start(licenseManager);
+				_windowThread = new Thread(OnWorkThread) {Name = "Main window", Priority = ThreadPriority.Highest};
+				_windowThread.SetApartmentState(ApartmentState.STA);
+				_windowThread.IsBackground = true;
+				_windowThread.Start(licenseManager);
 				MainViewStartedEvent.WaitOne();
 
 				// Инициализируем валидатор конфигурации
@@ -53,7 +50,7 @@ namespace FiresecService
 					ConfigurationElementsAgainstLicenseDataValidator.Instance.Validate();
 					FiresecServiceManager.SafeFiresecService.NotifyLicenseChanged();
 				};
-				
+
 				UILogger.Log("Загрузка конфигурации");
 
 				ConfigurationCashHelper.Update();
@@ -107,8 +104,8 @@ namespace FiresecService
 
 			try
 			{
-				MainViewModel = new MainViewModel(license);
-				ApplicationService.Run(MainViewModel, false, false);
+				_mainViewModel = new MainViewModel(license);
+				ApplicationService.Run(_mainViewModel, false, false);
 			}
 			catch (Exception e)
 			{
@@ -122,10 +119,10 @@ namespace FiresecService
 
 		public static void Close()
 		{
-			if (WindowThread != null)
+			if (_windowThread != null)
 			{
-				WindowThread.Interrupt();
-				WindowThread = null;
+				_windowThread.Interrupt();
+				_windowThread = null;
 			}
 			System.Environment.Exit(1);
 
