@@ -3,22 +3,23 @@
     Layout = null;
 }
 
-<div id="position-selection-box" class="save-cancel-popup" data-bind="with: HR.Employees.PositionSelection">
-    <div class="title-bar">
-        <span data-bind="text: Title"></span>
-        <a href="#"><img src="Content/Image/Icon/Header/close_pop.png" title="Close Window" alt="Close" data-bind="click: Close" /></a>
-    </div>
+<div class="modal-header">
+    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+    <h3 class="modal-title">Выбор должности</h3>
+</div>
+
+<div class="modal-body">
     <div>
-        <form id="PositiontSelection" data-bind="submit: OkClick">
-            <div>
-                <table id="jqGridPositionSelection"></table>
-            </div>
-            <button class="submit ok-cancel-button" style="width: 300px" type="button" data-bind="click: Clear">Открепить от должности</button>
-            <button class="submit ok-cancel-button" style="width: 300px" type="button" data-bind="click: Add, enable: false">Добавить новую должность</button>
-            <br />
-            <button class="submit ok-cancel-button" type="submit" data-bind="enable: UID">OK</button>
-        </form>
+        <div ui-grid="gridOptions" style="{{gridStyle}}" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-auto-size-column></div>
     </div>
 </div>
 
-
+<div mobile-hover-fix class="modal-footer">
+    <div class="form-group">
+        <button class="btn btn-primary" ng-click="clear()">Открепить от должности</button>
+        <button class="btn btn-primary" ng-click="add()">Добавить новую должность</button>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" ng-click="save()">OK</button>
+    </div>
+</div>

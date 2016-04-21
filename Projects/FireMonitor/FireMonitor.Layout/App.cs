@@ -1,14 +1,11 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Shapes;
-using Controls;
+﻿using Controls;
 using Infrastructure;
-using Infrastructure.Common;
+using System;
 using Shell = FireMonitor;
 
 namespace FireMonitor.Layout
 {
-	public partial class App : Shell.App
+	public class App : Shell.App
 	{
 		protected override Shell.Bootstrapper CreateBootstrapper()
 		{
@@ -16,7 +13,7 @@ namespace FireMonitor.Layout
 		}
 
 		[STAThread]
-		private static void Main()
+		static void Main()
 		{
 			ServiceFactory.StartupService.Run();
 			var app = new App();

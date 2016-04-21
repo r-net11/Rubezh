@@ -4,8 +4,8 @@ using RubezhAPI.GK;
 using RubezhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.TreeList;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Events;
 using Common;
 
 namespace PlansModule.ViewModels

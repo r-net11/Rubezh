@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Events;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;

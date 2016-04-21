@@ -5,7 +5,7 @@ using RubezhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Client.Plans.Presenter

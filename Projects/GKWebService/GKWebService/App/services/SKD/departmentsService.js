@@ -147,6 +147,20 @@
             return deferred.promise;
         };
 
+        var _getDepartmentEmployees = function (UID) {
+            var deferred = $q.defer();
+
+            $http.get('Hr/GetDepartmentEmployees/' + UID).then(function (response) {
+                deferred.resolve(response.data.Employees);
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка получения сотрудников");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
         return {
             selectedDepartment: null,
             reload: null,
@@ -157,7 +171,8 @@
             saveDepartment: _saveDepartment,
             getDepartmentDetails: _getDepartmentDetails,
             markDeleted: _markDeleted,
-            getChildEmployeeUIDs: _getChildEmployeeUIDs
+            getChildEmployeeUIDs: _getChildEmployeeUIDs,
+            getDepartmentEmployees: _getDepartmentEmployees
         }
     }]);
 }());

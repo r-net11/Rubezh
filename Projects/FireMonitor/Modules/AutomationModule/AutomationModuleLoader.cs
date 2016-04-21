@@ -5,7 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;

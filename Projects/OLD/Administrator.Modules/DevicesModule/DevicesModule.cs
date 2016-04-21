@@ -14,7 +14,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 
 namespace DevicesModule
 {

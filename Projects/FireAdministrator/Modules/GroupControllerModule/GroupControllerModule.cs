@@ -13,7 +13,7 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using Ionic.Zip;
 using LayoutModule.LayoutParts.ViewModels;
 using RubezhAPI;

@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans.Painters;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Windows;

@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 using System.Windows.Media;

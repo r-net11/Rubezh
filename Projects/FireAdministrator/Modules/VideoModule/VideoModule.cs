@@ -6,7 +6,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;

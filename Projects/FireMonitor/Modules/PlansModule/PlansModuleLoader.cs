@@ -14,9 +14,9 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Painters;
 using PlansModule.ViewModels;
 
 namespace PlansModule

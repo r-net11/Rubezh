@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using RubezhAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Navigation
 {

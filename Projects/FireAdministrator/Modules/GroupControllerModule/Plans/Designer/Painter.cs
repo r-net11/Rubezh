@@ -3,8 +3,8 @@ using DeviceControls;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
 
 namespace GKModule.Plans.Designer
 {

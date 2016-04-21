@@ -10,7 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
 using RubezhAPI.SKD;

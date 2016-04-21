@@ -11,7 +11,7 @@ using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Presenter;
+using Infrastructure.Plans.Presenter;
 using System;
 using System.Collections.Generic;
 

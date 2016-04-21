@@ -10,7 +10,7 @@
       <Payload SourceFile="UI\bin\Release\UI.dll"/>
       <Payload SourceFile="UI\bin\Release\Infrastructure.Common.dll"/>
       <Payload SourceFile="UI\bin\Release\Common.dll"/>
-      <Payload SourceFile="UI\bin\Release\Infrustructure.Plans.dll"/>
+      <Payload SourceFile="UI\bin\Release\Infrastructure.Plans.dll"/>
       <Payload SourceFile="UI\bin\Release\NLog.dll"/>
       <Payload SourceFile="C:\Program Files\WiX Toolset v3.8\bin\Microsoft.Deployment.WindowsInstaller.dll"/>
     </BootstrapperApplicationRef>

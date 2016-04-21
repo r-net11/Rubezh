@@ -1,8 +1,8 @@
 ﻿using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.InstrumentAdorners;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.InstrumentAdorners;
 using AutomationModule.ViewModels;
 using RubezhAPI.Automation;
 using RubezhAPI.Plans.Elements;

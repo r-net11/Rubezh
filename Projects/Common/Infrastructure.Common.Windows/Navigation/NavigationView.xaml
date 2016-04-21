@@ -1,8 +1,7 @@
 ﻿<UserControl x:Class="Infrastructure.Common.Navigation.NavigationView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:loc="clr-namespace:Infrastructure.Common.Windows.ViewModels"
-			 xmlns:sys="clr-namespace:System;assembly=mscorlib">
+			 xmlns:loc="clr-namespace:Infrastructure.Common.Windows.ViewModels">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition />
@@ -11,10 +10,13 @@
 		<Grid Grid.Row="0">
 			<TreeView x:Name="tv" VerticalAlignment="Top" DockPanel.Dock="Top"
 					  ItemsSource="{Binding NavigationItems, NotifyOnTargetUpdated=True}"
-					  MouseLeftButtonUp="TreeView_MouseLeftButtonUp" PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown"
 					  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 					  Style="{StaticResource OutlookTreeView}"
-					  TargetUpdated="TreeView_TargetUpdated" TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick" TreeViewItem.Selected="TreeViewItem_Selected">
+					  TargetUpdated="TreeView_TargetUpdated"
+					  MouseLeftButtonUp="TreeView_MouseLeftButtonUp"
+					  PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown"
+					  TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick"
+					  TreeViewItem.Selected="TreeViewItem_Selected">
 				<TreeView.ItemTemplate>
 					<HierarchicalDataTemplate ItemsSource="{Binding Childs}">
 						<HierarchicalDataTemplate.Resources>

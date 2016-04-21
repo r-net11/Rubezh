@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using RubezhAPI;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;

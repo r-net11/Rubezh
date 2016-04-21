@@ -56,7 +56,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoModule", "Modules\Vide
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Client", "..\Common\Infrastructure.Client\Infrastructure.Client.csproj", "{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Plans", "..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticsModule", "Modules\DiagnosticsModule\DiagnosticsModule.csproj", "{4CF1CD7F-310C-4593-9250-F962CEB63DE8}"
 EndProject

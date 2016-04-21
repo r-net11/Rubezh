@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('employeeDetailsCtrl',
-        ['$scope', '$uibModalInstance', 'personType', 'employee', 'organisation', 'isNew', 'employeesService',
-        function ($scope, $uibModalInstance, personType, employee, organisation, isNew, employeesService) {
+        ['$scope', '$uibModal', '$uibModalInstance', 'personType', 'employee', 'organisation', 'isNew', 'employeesService',
+        function ($scope, $uibModal, $uibModalInstance, personType, employee, organisation, isNew, employeesService) {
             var emptyGuid = '00000000-0000-0000-0000-000000000000';
 
             $scope.model = {
@@ -72,6 +72,106 @@
 
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
+            };
+
+            $scope.selectPosition = function() {
+                var modalInstance = $uibModal.open({
+                    animation: false,
+                    templateUrl: 'Employees/PositionSelection',
+                    controller: 'positionSelectionCtrl',
+                    backdrop: 'static',
+                    resolve: {
+                        organisationUID: function () {
+                            return organisation.UID;
+                        },
+                        positionUID: function () {
+                            return $scope.employee.PositionUID;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (position) {
+                    if (position) {
+                        $scope.employee.PositionUID = position.UID;
+                        $scope.employee.PositionName = position.Name;
+                    } else {
+                        $scope.employee.PositionUID = emptyGuid;
+                        $scope.employee.PositionName = null;
+                    }
+                });
+            };
+
+            $scope.selectDepartment = function () {
+                var modalInstance = $uibModal.open({
+                    animation: false,
+                    templateUrl: 'Employees/DepartmentSelection',
+                    controller: 'departmentSelectionCtrl',
+                    backdrop: 'static',
+                    resolve: {
+                        organisationUID: function () {
+                            return organisation.UID;
+                        },
+                        departmentUID: function () {
+                            return null;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (department) {
+                    if (department) {
+                        $scope.employee.DepartmentUID = department.UID;
+                        $scope.employee.DepartmentName = department.Name;
+                    } else {
+                        $scope.employee.DepartmentUID = emptyGuid;
+                        $scope.employee.DepartmentName = null;
+                    }
+                });
+            };
+
+            $scope.selectSchedule = function () {
+                var modalInstance = $uibModal.open({
+                    animation: false,
+                    templateUrl: 'Employees/ScheduleSelection',
+                    controller: 'scheduleSelectionCtrl',
+                    backdrop: 'static',
+                    resolve: {
+                        schedules: employeesService.getSchedules(organisation.UID),
+                        scheduleStartDate: function() { return $scope.employee.ScheduleStartDate; }
+                    }
+                });
+
+                modalInstance.result.then(function (result) {
+                    if (result.selectedSchedule) {
+                        $scope.employee.ScheduleUID = result.selectedSchedule.UID;
+                        $scope.employee.ScheduleName = result.selectedSchedule.Name;
+                    } else {
+                        $scope.employee.ScheduleUID = emptyGuid;
+                        $scope.employee.ScheduleName = null;
+                    }
+                    $scope.employee.ScheduleStartDate = result.scheduleStartDate;
+                });
+            };
+
+            $scope.selectEscort = function () {
+                var modalInstance = $uibModal.open({
+                    animation: false,
+                    templateUrl: 'Hr/EmployeeSelectionDialog',
+                    controller: 'employeeSelectionDialogCtrl',
+                    backdrop: 'static',
+                    resolve: {
+                        employees: employeesService.getOrganisationDepartmentEmployees(organisation.UID, $scope.employee.DepartmentUID)
+                    }
+                });
+
+                modalInstance.result.then(function (employee) {
+                    if (employee) {
+                        $scope.employee.EscortUID = employee.UID;
+                        $scope.employee.EscortName = employee.Name;
+                    } else {
+                        $scope.employee.EscortUID = emptyGuid;
+                        $scope.employee.EscortName = null;
+                    }
+                });
             };
         }]
     );

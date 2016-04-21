@@ -11,9 +11,7 @@ using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhDAL.DataClasses;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace FiresecService
@@ -24,6 +22,8 @@ namespace FiresecService
 		{
 			try
 			{
+				Notifier.SetNotifier(new FiresecNotifier());
+				ServiceBootstrapper.Run();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				Logger.Trace(SystemInfo.GetString());
 
@@ -46,35 +46,6 @@ namespace FiresecService
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
-
-				ProcedureExecutionContext.Initialize(
-					ContextType.Server,
-					() => { return ConfigurationCashHelper.SystemConfiguration; },
-					Service.FiresecService.NotifyAutomation,
-					null,
-					null,
-					ProcedureHelper.AddJournalItem,
-					ProcedureHelper.ControlGKDevice,
-					ProcedureHelper.StartRecord,
-					ProcedureHelper.StopRecord,
-					ProcedureHelper.Ptz,
-					ProcedureHelper.RviAlarm,
-					ProcedureHelper.RviOpenWindow,
-					ProcedureHelper.ControlFireZone,
-					ProcedureHelper.ControlGuardZone,
-					ProcedureHelper.ControlDirection,
-					ProcedureHelper.ControlGKDoor,
-					ProcedureHelper.ControlDelay,
-					ProcedureHelper.ControlPumpStation,
-					ProcedureHelper.ControlMPT,
-					ProcedureHelper.ExportJournal,
-					ProcedureHelper.ExportOrganisation,
-					ProcedureHelper.ExportOrganisationList,
-					ProcedureHelper.ExportConfiguration,
-					ProcedureHelper.ImportOrganisation,
-					ProcedureHelper.ImportOrganisationList,
-					GetOrganisations
-					);
 
 				OpcDaHelper.Initialize(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers, ReadTagValue, WriteTagValue);
 
@@ -99,11 +70,11 @@ namespace FiresecService
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnApplicationRun();
 				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
-				UILogger.Log("Готово");
-				//OpcDaServersProcessor.Start();
 				UILogger.Log("Запуск OPC DA");
+				OpcDaServersProcessor.Start();
+				UILogger.Log("Готово");
+
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
-				FiresecService.Service.FiresecService.AfterConnect += FiresecService_AfterConnect;
 			}
 			catch (Exception e)
 			{
@@ -133,41 +104,6 @@ namespace FiresecService
 		{
 			string error;
 			OpcDaServersProcessor.WriteTag(tagUID, value, out error);
-		}
-
-		static void FiresecService_AfterConnect(Guid clientUID)
-		{
-			foreach (var tag in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers.SelectMany(x => x.Tags))
-				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
-				{
-					CallbackUID = Guid.NewGuid(),
-					ContextType = ContextType.Server,
-					AutomationCallbackType = AutomationCallbackType.OpcDaTag,
-					Data = new OpcDaTagCallBackData
-					{
-						TagUID = tag.Uid,
-						Value = OpcDaHelper.GetTagValue(tag.Uid)
-					}
-				}, clientUID);
-
-			foreach (var variable in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables)
-				FiresecService.Service.FiresecService.NotifyAutomation(new AutomationCallbackResult
-				{
-					CallbackUID = Guid.NewGuid(),
-					ContextType = ContextType.Server,
-					AutomationCallbackType = AutomationCallbackType.GlobalVariable,
-					Data = new GlobalVariableCallBackData
-					{
-						VariableUID = variable.Uid,
-						ExplicitValue = (ExplicitValue)variable
-					}
-				}, clientUID);
-		}
-
-		static List<RubezhAPI.SKD.Organisation> GetOrganisations(Guid clientUID)
-		{
-			var result = FiresecServiceManager.SafeFiresecService.GetOrganisations(clientUID, new RubezhAPI.SKD.OrganisationFilter());
-			return result.HasError ? new List<RubezhAPI.SKD.Organisation>() : result.Result;
 		}
 
 		public static void Close()

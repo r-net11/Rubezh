@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{55FE10
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common.Windows", "..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj", "{D57CB190-A30E-4A3D-A674-F1766CE1CC72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Plans", "..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResursAPI", "ResursAPI\ResursAPI.csproj", "{94C0399F-3EAB-4E23-98F9-61EB8DAA4974}"
 EndProject

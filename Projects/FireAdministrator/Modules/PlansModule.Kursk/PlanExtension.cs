@@ -1,9 +1,9 @@
 ﻿using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Events;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Services;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Services;
 using PlansModule.Kursk.Designer;
 using PlansModule.Kursk.InstrumentAdorners;
 using PlansModule.Kursk.ViewModels;

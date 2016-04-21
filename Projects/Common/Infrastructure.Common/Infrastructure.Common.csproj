@@ -40,8 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDataFolderHelper.cs" />
+    <Compile Include="ConnectionSettingsManager.cs" />
     <Compile Include="GlobalSettingsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UACHelper.cs" />
+    <Compile Include="ZipSerializeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

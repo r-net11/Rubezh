@@ -43,6 +43,21 @@
             return deferred.promise;
         };
 
+        var _getSchedules = function (organisationUID) {
+            var deferred = $q.defer();
+
+            $http.get('Employees/GetSchedules', { params: { organisationUID: organisationUID } })
+                .then(function (response) {
+                    deferred.resolve(response.data.Schedules);
+                }, function (response) {
+                    // TODO: реализовать обработку ошибок
+                    alert("Ошибка получения графиков работы");
+                    deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
         var _getEmployeeCardDetails = function (UID, organisationUID) {
             var deferred = $q.defer();
 
@@ -52,6 +67,21 @@
                 }, function (response) {
                     // TODO: реализовать обработку ошибок
                     alert("Ошибка получения пропуска");
+                    deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
+        var _getOrganisationDepartmentEmployees = function (organisationUID, departmentUID) {
+            var deferred = $q.defer();
+
+            $http.get('Hr/GetOrganisationDepartmentEmployees', { params: { organisationId: organisationUID, departmentId: departmentUID } })
+                .then(function (response) {
+                    deferred.resolve(response.data.Employees);
+                }, function (response) {
+                    // TODO: реализовать обработку ошибок
+                    alert("Ошибка получения сотрудников");
                     deferred.reject();
             });
 
@@ -198,7 +228,9 @@
             getEmployeeCardDetails: _getEmployeeCardDetails,
             saveEmployeeCardDetails: _saveEmployeeCardDetails,
             deleteCard: _deleteCard,
-            deleteCardFromEmployee: _deleteCardFromEmployee
+            getSchedules: _getSchedules,
+            deleteCardFromEmployee: _deleteCardFromEmployee,
+            getOrganisationDepartmentEmployees: _getOrganisationDepartmentEmployees
         }
     }]);
 }());
