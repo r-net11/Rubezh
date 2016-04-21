@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='clean:libs, bower' AfterBuild='copyLibs, copyLibs:d3' Clean='clean:libs' />
+/// <binding AfterBuild='copyLibs, copyLibs:d3' Clean='clean:libs' />
 "use strict";
 
 var gulp = require("gulp"),

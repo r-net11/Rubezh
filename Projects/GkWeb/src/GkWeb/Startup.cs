@@ -11,52 +11,51 @@ using Microsoft.Extensions.Logging;
 
 namespace GkWeb
 {
-    public class Startup
-    {
-        public Startup(IHostingEnvironment env)
-        {
-            // Set up configuration sources.
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
-        }
+	public class Startup
+	{
+		public Startup(IHostingEnvironment env) {
+			// Set up configuration sources.
+			var builder = new ConfigurationBuilder()
+				.AddJsonFile("appsettings.json")
+				.AddEnvironmentVariables();
+			Configuration = builder.Build();
+		}
 
-        public IConfigurationRoot Configuration { get; set; }
+		public IConfigurationRoot Configuration { get; set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Add framework services.
-            services.AddMvc();
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services) {
+			// Add framework services.
+			services.AddMvc();
 			services.AddSignalR();
-        }
+		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
+			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+			loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
-            {
-                app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-	        app.UseWebSockets();
+			if (env.IsDevelopment()) {
+				app.UseBrowserLink();
+				app.UseDeveloperExceptionPage();
+			}
+			else {
+				app.UseExceptionHandler("/Home/Error");
+			}
+			app.UseWebSockets();
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
 			app.UseSignalR();
 
-	        app.UseMvc();
-        }
+			app.UseMvc(routes => {
+				routes.MapRoute(
+					name: "api",
+					template: "api/{controller}/{id?}");;
+			});
+		}
 
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
-    }
+		// Entry point for the application.
+		public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+	}
 }

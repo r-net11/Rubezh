@@ -29,13 +29,13 @@ System.register(['angular2/core', 'angular2/router', './hello/hello-world.compon
                 }
                 AppComponent = __decorate([
                     core_1.Component({
-                        selector: 'my-app',
+                        selector: 'gk-app',
                         template: "\n    <h1 class=\"title\">Component Router</h1>\n    <nav>\n      <a [routerLink]=\"['HelloWorld']\">Hello World!</a>\n    </nav>\n    <router-outlet></router-outlet>",
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([
                         //{
-                        //	path: '/signalr-test',
+                        //	path: 'signalr-test',
                         //	name: 'SignalrTest',
                         //	component: SignalrTestComponent,
                         //	useAsDefault: true
