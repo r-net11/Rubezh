@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using FiresecAPI.Models.Automation;
 
 namespace FiresecAPI.Automation
 {
@@ -14,7 +15,7 @@ namespace FiresecAPI.Automation
 			Procedures = new List<Procedure>();
 			AutomationSchedules = new List<AutomationSchedule>();
 			AutomationSounds = new List<AutomationSound>();
-			GlobalVariables = new List<Variable>();
+		//	GlobalVariables = new List<Variable>();
 		}
 
 		[DataMember]
@@ -26,8 +27,8 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public List<AutomationSound> AutomationSounds { get; set; }
 
-		[DataMember]
-		public List<Variable> GlobalVariables { get; set; }
+		//[DataMember]
+	//	public List<Variable> GlobalVariables { get; set; }
 
 		public void UpdateConfiguration()
 		{
@@ -42,25 +43,23 @@ namespace FiresecAPI.Automation
 			foreach (var schedule in AutomationSchedules)
 			{
 				var tempScheduleProcedures = new List<ScheduleProcedure>();
+
 				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 				{
 					var procedure = Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
 					if (procedure != null)
 					{
 						var tempArguments = new List<Argument>();
-						int i = 0;
+						var i = 0;
 						foreach (var variable in procedure.Arguments)
 						{
 							Argument argument;
 							if (scheduleProcedure.Arguments.Count <= i)
 								argument = InitializeArgumemt(variable);
 							else
-							{
-								if (!CheckSignature(scheduleProcedure.Arguments[i], variable))
-									argument = InitializeArgumemt(variable);
-								else
-									argument = scheduleProcedure.Arguments[i];
-							}
+								argument = CheckSignature(scheduleProcedure.Arguments[i], variable)
+											? scheduleProcedure.Arguments[i]
+											: InitializeArgumemt(variable);
 							tempArguments.Add(argument);
 							i++;
 						}
@@ -68,6 +67,7 @@ namespace FiresecAPI.Automation
 						tempScheduleProcedures.Add(scheduleProcedure);
 					}
 				}
+
 				schedule.ScheduleProcedures = new List<ScheduleProcedure>(tempScheduleProcedures);
 				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 				{
@@ -77,16 +77,18 @@ namespace FiresecAPI.Automation
 			}
 		}
 
-		private Argument InitializeArgumemt(Variable variable)
+		private static Argument InitializeArgumemt(IVariable variable)
 		{
-			var argument = new Argument();
-			argument.VariableScope = VariableScope.GlobalVariable;
-			argument.ExplicitType = variable.ExplicitType;
-			argument.EnumType = variable.EnumType;
-			argument.ObjectType = variable.ObjectType;
-			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
+			var argument = new Argument
+			{
+				VariableScope = VariableScope.GlobalVariable,
+				ExplicitType = variable.VariableValue.ExplicitType,
+				EnumType = variable.VariableValue.EnumType,
+				ObjectType = variable.VariableValue.ObjectType
+			};
+			PropertyCopy.Copy(variable.VariableValue.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
-			foreach (var explicitValues in variable.ExplicitValues)
+			foreach (var explicitValues in variable.VariableValue.ExplicitValues)
 			{
 				var explicitValue = new ExplicitValue();
 				PropertyCopy.Copy(explicitValues, explicitValue);
@@ -95,16 +97,16 @@ namespace FiresecAPI.Automation
 			return argument;
 		}
 
-		private bool CheckSignature(Argument argument, Variable variable)
+		private bool CheckSignature(Argument argument, IVariable variable)
 		{
-			if (argument.ExplicitType != variable.ExplicitType)
+			if (argument.ExplicitType != variable.VariableValue.ExplicitType)
 				return false;
 			if (argument.ExplicitType != ExplicitType.Object && argument.ExplicitType != ExplicitType.Enum)
 				return true;
 			if (argument.ExplicitType != ExplicitType.Object)
-				return (argument.ObjectType == variable.ObjectType);
+				return (argument.ObjectType == variable.VariableValue.ObjectType);
 			if (argument.ExplicitType != ExplicitType.Enum)
-				return (argument.EnumType == variable.EnumType);
+				return (argument.EnumType == variable.VariableValue.EnumType);
 			return false;
 		}
 
@@ -276,9 +278,9 @@ namespace FiresecAPI.Automation
 
 				case ProcedureStepType.RunProgram:
 					{
-						var RunProgramArguments = step.RunProgramArguments;
-						InvalidateArgument(procedure, RunProgramArguments.ParametersArgument);
-						InvalidateArgument(procedure, RunProgramArguments.PathArgument);
+						var runProgramArguments = step.RunProgramArguments;
+						InvalidateArgument(procedure, runProgramArguments.ParametersArgument);
+						InvalidateArgument(procedure, runProgramArguments.PathArgument);
 					}
 					break;
 
@@ -401,21 +403,21 @@ namespace FiresecAPI.Automation
 
 		private void InvalidateArgument(Procedure procedure, Argument argument)
 		{
-			var localVariables = new List<Variable>(procedure.Variables);
-			localVariables.AddRange(new List<Variable>(procedure.Arguments));
-			if (argument.VariableScope == VariableScope.GlobalVariable)
-				if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
-					argument.VariableUid = Guid.Empty;
+			var localVariables = new List<IVariable>(procedure.Variables);
+			localVariables.AddRange(new List<IVariable>(procedure.Arguments));
+		//	if (argument.VariableScope == VariableScope.GlobalVariable)
+		//		if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
+		//			argument.VariableUid = Guid.Empty;
 			if (argument.VariableScope == VariableScope.LocalVariable)
-				if (localVariables.All(x => x.Uid != argument.VariableUid))
+				if (localVariables.All(x => x.UID != argument.VariableUid))
 					argument.VariableUid = Guid.Empty;
 		}
 
 		private void InvalidateArgument(Argument argument)
 		{
-			if (argument.VariableScope != VariableScope.ExplicitValue)
-				if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
-					argument.VariableUid = Guid.Empty;
+		//	if (argument.VariableScope != VariableScope.ExplicitValue)
+		//		if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
+			//		argument.VariableUid = Guid.Empty;
 		}
 	}
 }

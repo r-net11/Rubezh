@@ -1,5 +1,6 @@
 ﻿using AutomationModule.Properties;
 using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -74,7 +75,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
-		private bool IsExist(Variable variable)
+		private bool IsExist(IVariable variable)
 		{
 			return Variables.Any(x => string.Equals(x.Variable.Name, variable.Name));
 		}
@@ -112,7 +113,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (variableUid != Guid.Empty)
 			{
-				SelectedVariable = Variables.FirstOrDefault(item => item.Variable.Uid == variableUid);
+				SelectedVariable = Variables.FirstOrDefault(item => item.Variable.UID == variableUid);
 			}
 		}
 	}

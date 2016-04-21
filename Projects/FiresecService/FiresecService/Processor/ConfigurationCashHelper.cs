@@ -69,14 +69,10 @@ namespace FiresecService
 		private static void CreateConfigDirectory()
 		{
 			if (!Directory.Exists(ConfigDirectory))
-			{
 				Directory.CreateDirectory(ConfigDirectory);
-			}
 
 			if (!Directory.Exists(ContentDirectory))
-			{
 				Directory.CreateDirectory(ContentDirectory);
-			}
 		}
 
 		public static SecurityConfiguration GetSecurityConfiguration()
@@ -95,7 +91,7 @@ namespace FiresecService
 			// Данный метод десериализации конфигурации макетов валится с ошибкой:
 			// Cannot serialize member FiresecAPI.Models.Layouts.LayoutPart.Properties of type FiresecAPI.Models.Layouts.ILayoutProperties because it is an interface.
 			//var configuration = GetConfigurationFromZip("LayoutsConfiguration.xml", typeof(LayoutsConfiguration)) as LayoutsConfiguration;
-			
+
 			// Поэтому используем другой метод десериализации макетов
 			var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
 			var filePath = Path.Combine(configDirectoryName, "LayoutsConfiguration.xml");
@@ -110,7 +106,9 @@ namespace FiresecService
 
 		private static SystemConfiguration GetSystemConfiguration()
 		{
-			var systemConfiguration = (SystemConfiguration)GetConfigurationFromZip("SystemConfiguration.xml", typeof(SystemConfiguration));
+			var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
+			var filePath = Path.Combine(configDirectoryName, "SystemConfiguration.xml");
+			var systemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(filePath, false); //GetConfigurationFromZip("SystemConfiguration.xml", typeof(SystemConfiguration)) as SystemConfiguration;
 
 			if (systemConfiguration == null) return null;
 

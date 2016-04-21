@@ -3,6 +3,7 @@ using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -17,21 +18,22 @@ namespace AutomationModule
 {
 	public static class ProcedureHelper
 	{
-		public static List<Variable> GetAllVariables(Procedure procedure)
+		public static List<IVariable> GetAllVariables(Procedure procedure)
 		{
-			var allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			var globalVariables = FiresecManager.FiresecService.GetInitialGlobalVariables().Result;
+			List<IVariable> allVariables = globalVariables.ToList<IVariable>(); //new List<IVariable>();//(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables); TODO: Get global variables from the server
 			allVariables.AddRange(procedure.Variables);
 			allVariables.AddRange(procedure.Arguments);
 			return allVariables;
 		}
 
-		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.SKDDevice, EnumType enumType = EnumType.DriverType)
+		public static List<IVariable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.SKDDevice, EnumType enumType = EnumType.DriverType)
 		{
-			var allVariables = GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType);
+			var allVariables = GetAllVariables(procedure).FindAll(x => x.VariableValue.ExplicitType == explicitType);
 			if (explicitType == ExplicitType.Enum)
-				allVariables = allVariables.FindAll(x => x.EnumType == enumType);
+				allVariables = allVariables.FindAll(x => x.VariableValue.EnumType == enumType);
 			if (explicitType == ExplicitType.Object)
-				allVariables = allVariables.FindAll(x => x.ObjectType == objectType);
+				allVariables = allVariables.FindAll(x => x.VariableValue.ObjectType == objectType);
 			return allVariables;
 		}
 
@@ -50,26 +52,26 @@ namespace AutomationModule
 			return elements;
 		}
 
-		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType)
+		public static List<IVariable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType)
 		{
-			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType && x.ObjectType == objectType);
+			return GetAllVariables(procedure).FindAll(x => x.VariableValue.ExplicitType == explicitType && x.VariableValue.ObjectType == objectType);
 		}
 
-		public static List<Variable> GetAllVariables(List<Variable> allVariables, List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes)
+		public static List<IVariable> GetAllVariables(List<IVariable> allVariables, List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes)
 		{
-			var variables = new List<Variable>(allVariables);
+			var variables = new List<IVariable>(allVariables);
 			if (explicitTypes == null) return variables;
 
-			variables = variables.FindAll(x => explicitTypes.Contains(x.ExplicitType));
+			variables = variables.FindAll(x => explicitTypes.Contains(x.VariableValue.ExplicitType));
 
 			if (explicitTypes.Contains(ExplicitType.Enum))
 			{
-				variables = variables.FindAll(x => enumTypes.Contains(x.EnumType));
+				variables = variables.FindAll(x => enumTypes.Contains(x.VariableValue.EnumType));
 			}
 
 			if (explicitTypes.Contains(ExplicitType.Object))
 			{
-				variables = variables.FindAll(x => objectTypes.Contains(x.ObjectType));
+				variables = variables.FindAll(x => objectTypes.Contains(x.VariableValue.ObjectType));
 			}
 
 			return variables;

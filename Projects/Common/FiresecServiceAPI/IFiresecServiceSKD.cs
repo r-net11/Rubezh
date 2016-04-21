@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FiresecAPI.Enums;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Automation;
 using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Threading.Tasks;
+using Common;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
@@ -6,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using FiresecAPI.Models.Automation;
+using FiresecService.Service;
 
 namespace FiresecService
 {
@@ -29,7 +32,7 @@ namespace FiresecService
 
 		private Thread Thread { get; set; }
 
-		private List<Variable> AllVariables { get; set; }
+		private List<IVariable> AllVariables { get; set; }
 
 		private List<ProcedureStep> Steps { get; set; }
 
@@ -37,7 +40,7 @@ namespace FiresecService
 
 		private JournalItem JournalItem { get; set; }
 
-		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, JournalItem journalItem = null, User user = null, Guid? clientUID = null)
+		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<IVariable> callingProcedureVariables, JournalItem journalItem = null, User user = null, Guid? clientUID = null)
 		{
 			UID = Guid.NewGuid();
 			ClientUID = clientUID;
@@ -48,21 +51,30 @@ namespace FiresecService
 			TimeType = procedure.TimeType;
 			AutoResetEvent = new AutoResetEvent(false);
 			Steps = procedure.Steps;
-			AllVariables = new List<Variable>(Utils.Clone(procedure.Variables));
+			AllVariables = new List<IVariable>(Utils.Clone(procedure.Variables));
 			var procedureArguments = Utils.Clone(procedure.Arguments);
 			InitializeArguments(procedureArguments, arguments, callingProcedureVariables);
 			AllVariables.AddRange(procedureArguments);
-			AllVariables.AddRange(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			Thread = new Thread(() => RunInThread(arguments))
-			{
-				Name = string.Format("ProcedureThread [{0}]", UID),
-			};
+			AllVariables.AddRange(FiresecServiceManager.SafeFiresecService.GetCurrentGlobalVariables().Result);
+			//AllVariables.AddRange(FiresecServiceManager.SafeFiresecService.GetGlobalVariables().Result);
+		//	AllVariables.AddRange(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables); TODO: Add Global Variables
+			//TaskFactory.StartNew(() => RunInThread(arguments));
+			Task.Factory.StartNew(() => RunInThread(arguments))
+				.ContinueWith(t =>
+				{
+					FiresecServiceManager.SafeFiresecService.SaveGlobalVariables(AllVariables);
+				}
+				);
+			//Thread = new Thread(() => RunInThread(arguments))
+			//{
+			//	Name = string.Format("ProcedureThread [{0}]", UID),
+			//};
 		}
 
 		public void Start()
 		{
 			StartTime = DateTime.Now;
-			Thread.Start();
+			//Thread.Start();
 		}
 
 		private bool _isTimeOut;
@@ -79,24 +91,24 @@ namespace FiresecService
 			}
 		}
 
-		public bool RunInThread(List<Argument> arguments)
+		public void RunInThread(List<Argument> arguments)
 		{
 			try
 			{
 				if (Steps.Any(step => RunStep(step) == Result.Exit))
 				{
-					return true;
+				//	return true;
 				}
 			}
 			catch
 			{
-				return false;
+				//return false;
 			}
 			finally
 			{
 				IsAlive = false;
 			}
-			return true;
+		//	return true;
 		}
 
 		private Result RunStep(ProcedureStep procedureStep)
@@ -159,13 +171,13 @@ namespace FiresecService
 
 				case ProcedureStepType.Foreach:
 					var foreachArguments = procedureStep.ForeachArguments;
-					var listVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListArgument.VariableUid);
-					var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemArgument.VariableUid);
+					var listVariable = AllVariables.FirstOrDefault(x => x.UID == foreachArguments.ListArgument.VariableUid);
+					var itemVariable = AllVariables.FirstOrDefault(x => x.UID == foreachArguments.ItemArgument.VariableUid);
 					if (listVariable != null)
-						foreach (var explicitValue in listVariable.ExplicitValues)
+						foreach (var explicitValue in listVariable.VariableValue.ExplicitValues)
 						{
 							if (itemVariable != null)
-								SetValue(itemVariable, GetValue<object>(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
+								SetValue(itemVariable, GetValue<object>(explicitValue, itemVariable.VariableValue.ExplicitType, itemVariable.VariableValue.EnumType));
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
 								var result = RunStep(childStep);
@@ -181,15 +193,15 @@ namespace FiresecService
 
 				case ProcedureStepType.For:
 					var forArguments = procedureStep.ForArguments;
-					var indexerVariable = AllVariables.FirstOrDefault(x => x.Uid == forArguments.IndexerArgument.VariableUid);
+					var indexerVariable = AllVariables.FirstOrDefault(x => x.UID == forArguments.IndexerArgument.VariableUid);
 					var initialValue = GetValue<int>(forArguments.InitialValueArgument);
 					var value = GetValue<int>(forArguments.ValueArgument);
 					var iterator = GetValue<int>(forArguments.IteratorArgument);
 					if (indexerVariable != null)
 					{
 						var condition = Compare(initialValue, value, forArguments.ConditionType);
-						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
-						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value; )
+						var currentIntValue = indexerVariable.VariableValue.ExplicitValue.IntValue;
+						for (indexerVariable.VariableValue.ExplicitValue.IntValue = initialValue; condition != null && condition.Value; )
 						{
 							if (IsTimeOut)
 								return Result.Normal;
@@ -198,7 +210,7 @@ namespace FiresecService
 								var result = RunStep(childStep);
 								if (result == Result.Break)
 								{
-									indexerVariable.ExplicitValue.IntValue = currentIntValue;
+									indexerVariable.VariableValue.ExplicitValue.IntValue = currentIntValue;
 									return Result.Normal;
 								}
 								if (result == Result.Continue)
@@ -206,10 +218,10 @@ namespace FiresecService
 								if (result == Result.Exit)
 									return Result.Exit;
 							}
-							indexerVariable.ExplicitValue.IntValue = indexerVariable.ExplicitValue.IntValue + iterator;
-							condition = Compare(indexerVariable.ExplicitValue.IntValue, value, forArguments.ConditionType);
+							indexerVariable.VariableValue.ExplicitValue.IntValue = indexerVariable.VariableValue.ExplicitValue.IntValue + iterator;
+							condition = Compare(indexerVariable.VariableValue.ExplicitValue.IntValue, value, forArguments.ConditionType);
 						}
-						indexerVariable.ExplicitValue.IntValue = currentIntValue;
+						indexerVariable.VariableValue.ExplicitValue.IntValue = currentIntValue;
 					}
 					break;
 
@@ -403,12 +415,12 @@ namespace FiresecService
 			Exit
 		}
 
-		public void InitializeArguments(List<Variable> variables, List<Argument> arguments, List<Variable> callingProcedureVariables)
+		public void InitializeArguments(List<IVariable> variables, List<Argument> arguments, List<IVariable> callingProcedureVariables)
 		{
-			int i = 0;
+			var i = 0;
 			foreach (var variable in variables)
 			{
-				variable.ExplicitValues = new List<ExplicitValue>();
+				variable.VariableValue.ExplicitValues = new List<ExplicitValue>();
 				if (arguments.Count <= i)
 					break;
 				var argument = arguments[i];
@@ -416,32 +428,32 @@ namespace FiresecService
 					break;
 				if (argument.VariableScope == VariableScope.ExplicitValue)
 				{
-					PropertyCopy.Copy(argument.ExplicitValue, variable.ExplicitValue);
+					PropertyCopy.Copy(argument.ExplicitValue, variable.VariableValue.ExplicitValue);
 					foreach (var explicitVal in argument.ExplicitValues)
 					{
 						var newExplicitValue = new ExplicitValue();
 						PropertyCopy.Copy(explicitVal, newExplicitValue);
-						variable.ExplicitValues.Add(newExplicitValue);
+						variable.VariableValue.ExplicitValues.Add(newExplicitValue);
 					}
 				}
 				else
 				{
-					var argumentVariable = callingProcedureVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+					var argumentVariable = callingProcedureVariables.FirstOrDefault(x => x.UID == argument.VariableUid);
 					if (argumentVariable == null)
 						continue;
 					if (argumentVariable.IsReference)
 					{
-						variable.ExplicitValue = argumentVariable.ExplicitValue;
-						variable.ExplicitValues = argumentVariable.ExplicitValues;
+						variable.VariableValue.ExplicitValue = argumentVariable.VariableValue.ExplicitValue;
+						variable.VariableValue.ExplicitValues = argumentVariable.VariableValue.ExplicitValues;
 					}
 					else
 					{
-						PropertyCopy.Copy(argumentVariable.ExplicitValue, variable.ExplicitValue);
-						foreach (var explicitVal in argumentVariable.ExplicitValues)
+						PropertyCopy.Copy(argumentVariable.VariableValue.ExplicitValue, variable.VariableValue.ExplicitValue);
+						foreach (var explicitVal in argumentVariable.VariableValue.ExplicitValues)
 						{
 							var newExplicitValue = new ExplicitValue();
 							PropertyCopy.Copy(explicitVal, newExplicitValue);
-							variable.ExplicitValues.Add(newExplicitValue);
+							variable.VariableValue.ExplicitValues.Add(newExplicitValue);
 						}
 					}
 				}

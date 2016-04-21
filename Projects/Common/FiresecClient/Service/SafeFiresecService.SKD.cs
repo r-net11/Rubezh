@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using FiresecAPI.Models.Automation;
 using FiresecAPI.SKD;
 
 namespace FiresecClient

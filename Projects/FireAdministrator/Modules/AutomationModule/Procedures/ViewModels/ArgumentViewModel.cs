@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
-using AutomationModule.Properties;
-using FiresecAPI.Automation;
-using FiresecClient;
+﻿using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace AutomationModule.ViewModels
 {
+	/// <summary>
+	/// Добавляет значение параметров в функцию автоматизацию
+	/// </summary>
 	public class ArgumentViewModel : BaseViewModel
 	{
 		public const string EmptyText = "<пусто>";
@@ -134,8 +136,9 @@ namespace AutomationModule.ViewModels
 			}
 			else
 			{
-				variableDetailsViewModel.Variable.IsGlobal = true;
-				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(variableDetailsViewModel.Variable);
+				//TODO: Add global variable and save
+			//	variableDetailsViewModel.Variable.IsGlobal = true;
+			//	FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(variableDetailsViewModel.Variable);
 				GlobalVariablesViewModel.Current.GlobalVariables.Add(new VariableViewModel(variableDetailsViewModel.Variable));
 			}
 
@@ -210,7 +213,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		List<ExplicitTypeViewModel> ExplicitTypes { get; set; }
-		public void Update(List<Variable> allVariables, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null)
+		public void Update(List<IVariable> allVariables, List<ExplicitType> explicitTypes = null, List<EnumType> enumTypes = null, List<ObjectType> objectTypes = null)
 		{
 			if (explicitTypes == null)
 				explicitTypes = ProcedureHelper.GetEnumList<ExplicitType>();
@@ -227,7 +230,7 @@ namespace AutomationModule.ViewModels
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
 			}
-			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
+			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.UID == Argument.VariableUid);
 			SelectedVariableScope = Argument.VariableScope;
 			ExplicitValue.Initialize(ExplicitValue.UidValue);
 			foreach (var explicitValue in ExplicitValues)
@@ -247,7 +250,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => AddVariableVisibility);
 		}
 
-		public void Update(List<Variable> variables, ExplicitType explicitType = ExplicitType.Integer, EnumType enumType = EnumType.DriverType, ObjectType objectType = ObjectType.SKDDevice)
+		public void Update(List<IVariable> variables, ExplicitType explicitType = ExplicitType.Integer, EnumType enumType = EnumType.DriverType, ObjectType objectType = ObjectType.SKDDevice)
 		{
 			Update(variables, new List<ExplicitType> { explicitType }, new List<EnumType> { enumType }, new List<ObjectType> { objectType });
 		}
@@ -279,9 +282,9 @@ namespace AutomationModule.ViewModels
 				if (value == VariableScope.ExplicitValue)
 					SelectedVariable = null;
 				if (value == VariableScope.LocalVariable)
-					SelectedVariable = LocalVariables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
+					SelectedVariable = LocalVariables.FirstOrDefault(x => x.Variable.UID == Argument.VariableUid);
 				if (value == VariableScope.GlobalVariable)
-					SelectedVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
+					SelectedVariable = GlobalVariables.FirstOrDefault(x => x.Variable.UID == Argument.VariableUid);
 				if (UpdateVariableScopeHandler != null)
 					UpdateVariableScopeHandler();
 				OnPropertyChanged(() => SelectedVariableScope);
@@ -292,12 +295,12 @@ namespace AutomationModule.ViewModels
 		List<VariableViewModel> Variables { get; set; }
 		public ObservableCollection<VariableViewModel> LocalVariables
 		{
-			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => !x.Variable.IsGlobal)); }
+			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => x.Variable is LocalVariable)); }
 		}
 
 		public ObservableCollection<VariableViewModel> GlobalVariables
 		{
-			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => x.Variable.IsGlobal)); }
+			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => x.Variable is GlobalVariable)); }
 		}
 
 		VariableViewModel _selectedVariable;
@@ -309,10 +312,10 @@ namespace AutomationModule.ViewModels
 				_selectedVariable = value;
 				if (_selectedVariable != null)
 				{
-					Argument.VariableUid = value.Variable.Uid;
-					ExplicitType = _selectedVariable.Variable.ExplicitType;
-					EnumType = _selectedVariable.Variable.EnumType;
-					ObjectType = _selectedVariable.Variable.ObjectType;
+					Argument.VariableUid = value.Variable.UID;
+					ExplicitType = _selectedVariable.Variable.VariableValue.ExplicitType;
+					EnumType = _selectedVariable.Variable.VariableValue.EnumType;
+					ObjectType = _selectedVariable.Variable.VariableValue.ObjectType;
 					if (UpdateVariableHandler != null)
 						UpdateVariableHandler();
 				}
@@ -341,8 +344,8 @@ namespace AutomationModule.ViewModels
 				if (SelectedVariableScope == VariableScope.ExplicitValue)
 					return ProcedureHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType);
 
-				if ((SelectedVariable == null) || (SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.LocalVariable)
-				    || (!SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.GlobalVariable))
+				if ((SelectedVariable == null) || (SelectedVariable.Variable is GlobalVariable && SelectedVariableScope == VariableScope.LocalVariable)
+				    || (SelectedVariable.Variable is LocalVariable && SelectedVariableScope == VariableScope.GlobalVariable))
 					return EmptyText;
 
 				return "<" + SelectedVariable.Variable.Name + ">";

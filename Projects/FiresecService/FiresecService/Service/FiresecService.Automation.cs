@@ -1,10 +1,13 @@
-﻿using FiresecAPI;
+﻿using System.Windows.Forms.VisualStyles;
+using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
+using FiresecAPI.Models.Automation;
 using FiresecService.Automation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SKDDriver;
 
 namespace FiresecService.Service
 {
@@ -30,6 +33,54 @@ namespace FiresecService.Service
 		public ProcedureProperties GetProperties(Guid layoutUID)
 		{
 			return ProcedurePropertyCache.GetProcedureProperties(layoutUID);
+		}
+
+		public OperationResult<bool> SaveGlobalVariable(GlobalVariable variable)
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.GlobalVariablesTranslator.Save(variable);
+			}
+		}
+
+		public OperationResult<bool> ResetGlobalVariables()
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.GlobalVariablesTranslator.ResetGlobalVariables();
+			}
+		}
+
+		public OperationResult<bool> SaveGlobalVariables(List<IVariable> variables)
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.GlobalVariablesTranslator.Save(variables);
+			}
+		}
+
+		public OperationResult<bool> RemoveGlobalVariable(GlobalVariable variable)
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.GlobalVariablesTranslator.Remove(variable);
+			}
+		}
+
+		public OperationResult<List<GlobalVariable>> GetInitialGlobalVariables()
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.GlobalVariablesTranslator.GetInitialGlobalVariables();
+			}
+		}
+
+		public OperationResult<List<GlobalVariable>> GetCurrentGlobalVariables()
+		{
+			using (var db = new SKDDatabaseService())
+			{
+				return db.GlobalVariablesTranslator.GetCurrentGlobalVariables();
+			}
 		}
 	}
 }
