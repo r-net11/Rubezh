@@ -22,6 +22,6 @@
 		"gulp-uglify": "1.5.3",
 		"rimraf": "2.5.2",
 		"gulp-bower": "0.0.13",
-		"typings": "0.7.12"
+		"typings": "0.8.1"
 	}
 }

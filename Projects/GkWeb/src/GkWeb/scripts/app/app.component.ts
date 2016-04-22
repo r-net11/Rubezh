@@ -1,5 +1,5 @@
 ﻿/// <reference path="../../node_modules/angular2/core.d.ts" />
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, HashLocationStrategy} from 'angular2/router';
 
 //import {SignalrTestComponent} from './signalr/signalr-test.component';
@@ -7,12 +7,7 @@ import {HelloWorldComponent} from './hello/hello-world.component';
 
 @Component({
 	selector: 'gk-app',
-	template: `
-    <h1 class="title">Component Router</h1>
-    <nav>
-      <a [routerLink]="['HelloWorld']">Hello World!</a>
-    </nav>
-    <router-outlet></router-outlet>`,
+	templateUrl: 'views/layout/layout.html',
 	directives: [ROUTER_DIRECTIVES]
 })
 @RouteConfig([
@@ -26,4 +21,12 @@ import {HelloWorldComponent} from './hello/hello-world.component';
 
 	{ path: '/hello-world', name: 'HelloWorld', component: HelloWorldComponent }
 ])
-export class AppComponent { }
+export class AppComponent implements OnInit {
+	ngOnInit()
+	{
+		// init winjs menu
+		WinJS.UI.processAll().done(() => {
+			var splitView = document.querySelector(".splitView").winControl;
+		});
+	}
+}

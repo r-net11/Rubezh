@@ -27,10 +27,16 @@ System.register(['angular2/core', 'angular2/router', './hello/hello-world.compon
             AppComponent = (function () {
                 function AppComponent() {
                 }
+                AppComponent.prototype.ngOnInit = function () {
+                    // init winjs menu
+                    WinJS.UI.processAll().done(function () {
+                        var splitView = document.querySelector(".splitView").winControl;
+                    });
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'gk-app',
-                        template: "\n    <h1 class=\"title\">Component Router</h1>\n    <nav>\n      <a [routerLink]=\"['HelloWorld']\">Hello World!</a>\n    </nav>\n    <router-outlet></router-outlet>",
+                        templateUrl: 'views/layout/layout.html',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([
