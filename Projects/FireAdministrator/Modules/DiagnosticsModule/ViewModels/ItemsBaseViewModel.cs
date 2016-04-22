@@ -48,7 +48,7 @@ namespace DiagnosticsModule.ViewModels
 
 		ViewModelT AddBaseItemViewModel(HierarchicalItem<T> item, ViewModelT parentItem)
 		{
-			var itemBaseViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), item.Item);
+			var itemBaseViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), item);
 			if (parentItem == null)
 			{
 				RootItems.Add(itemBaseViewModel);
@@ -90,7 +90,31 @@ namespace DiagnosticsModule.ViewModels
 		void OnAdd()
 		{
 			var t = OnAdding();
-			Add(t);
+
+			var hierarchicalItem = new HierarchicalItem<T>() { Item = t };
+			ItemsCollection.Add(SelectedItem == null ? null : SelectedItem.HierarchicalItem, hierarchicalItem);
+			var itemViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), hierarchicalItem);
+
+
+			if (SelectedItem != null)
+			{
+				if (SelectedItem.Parent != null)
+				{
+					SelectedItem.InsertChild(itemViewModel);
+				}
+				else
+				{
+					var index = RootItems.IndexOf(SelectedItem);
+					RootItems.Insert(index + 1, itemViewModel);
+				}
+			}
+			else
+			{
+				RootItems.Add(itemViewModel);
+			}
+
+			itemViewModel.ExpandToThis();
+			SelectedItem = itemViewModel;
 			OnChanging();
 		}
 
@@ -103,40 +127,19 @@ namespace DiagnosticsModule.ViewModels
 		void OnAddChild()
 		{
 			var t = OnAddingChild();
-			AddChild(t);
+
+			var hierarchicalItem = new HierarchicalItem<T>() { Item = t };
+			ItemsCollection.AddChild(SelectedItem.HierarchicalItem, hierarchicalItem);
+			var itemViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), hierarchicalItem);
+			SelectedItem.AddChild(itemViewModel);
+
+			itemViewModel.ExpandToThis();
+			SelectedItem = itemViewModel;
 			OnChanging();
 		}
 		bool CanAddChild()
 		{
 			return SelectedItem != null;
-		}
-
-		void Add(T t)
-		{
-			ItemsCollection.Add(null, t);
-			var itemViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), t);
-
-			if (SelectedItem == null || SelectedItem.Parent == null)
-			{
-				RootItems.Add(itemViewModel);
-			}
-			else
-			{
-				SelectedItem.InsertChild(itemViewModel);
-			}
-
-			itemViewModel.ExpandToThis();
-			SelectedItem = itemViewModel;
-		}
-
-		void AddChild(T t)
-		{
-			ItemsCollection.Add(SelectedItem.Item, t);
-			var itemViewModel = (ViewModelT)Activator.CreateInstance(typeof(ViewModelT), t);
-			SelectedItem.AddChild(itemViewModel);
-
-			itemViewModel.ExpandToThis();
-			SelectedItem = itemViewModel;
 		}
 
 		public virtual T OnAddingChild()
@@ -239,8 +242,10 @@ namespace DiagnosticsModule.ViewModels
 			if (!isClipboardCut)
 				copy.Item.UID = Guid.NewGuid();
 			isClipboardCut = false;
-			ItemsCollection.AddWithChild(copy, SelectedItem.Item);
-			AddBaseItemViewModel(copy, SelectedItem);
+
+			ItemsCollection.AddChild(SelectedItem.HierarchicalItem, copy);
+			var itemViewModel = AddBaseItemViewModel(copy, SelectedItem);
+			itemViewModel.ExpandToThis();
 			OnChanging();
 		}
 		bool CanPaste()
@@ -294,6 +299,8 @@ namespace DiagnosticsModule.ViewModels
 
 		void Move(int delta)
 		{
+			ItemsCollection.Move(SelectedItem.Item, delta);
+
 			if (SelectedItem.Parent == null)
 			{
 				var itemViewModel = SelectedItem;

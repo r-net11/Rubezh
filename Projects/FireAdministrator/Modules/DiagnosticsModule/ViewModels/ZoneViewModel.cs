@@ -12,8 +12,8 @@ namespace DiagnosticsModule.ViewModels
 		{
 		}
 
-		public ZoneViewModel(GKZone zone)
-			: base(zone)
+		public ZoneViewModel(HierarchicalItem<GKZone> zoneItem)
+			: base(zoneItem)
 		{
 		}
 

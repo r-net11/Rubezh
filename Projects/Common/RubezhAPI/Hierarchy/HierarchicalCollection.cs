@@ -22,77 +22,71 @@ namespace RubezhAPI.Hierarchy
 
 		public void BuildTree()
 		{
-			var allItems = new List<HierarchicalItem<T>>();
-			Build(RootItems, ref allItems);
-			AllItems = allItems.ToList();
+			AllItems = new List<HierarchicalItem<T>>();
+			RootItems.ForEach(x => AddToCache(x));
 		}
 
-		void Build(List<HierarchicalItem<T>> items, ref List<HierarchicalItem<T>> allItems)
+		void AddToCache(HierarchicalItem<T> item)
 		{
-			allItems.AddRange(items);
-			foreach (var item in items)
+			AllItems.Add(item);
+			foreach (var child in item.Children)
 			{
-				foreach (var child in item.Children)
+				child.Parent = item;
+				AllItems.Add(child);
+			}
+		}
+
+		public bool AddChild(HierarchicalItem<T> parent, HierarchicalItem<T> item)
+		{
+			if (parent != null)
+			{
+				parent.Children.Add(item);
+				item.Parent = parent;
+			}
+			else
+			{
+				RootItems.Add(item);
+				item.Parent = null;
+			}
+			AddToCache(item);
+			return true;
+		}
+
+		public bool Add(HierarchicalItem<T> parent, HierarchicalItem<T> item)
+		{
+			if (parent != null)
+			{
+				if (parent.Parent != null)
 				{
-					child.Parent = item;
+					var index = parent.Parent.Children.IndexOf(parent);
+					parent.Parent.Children.Insert(index + 1, parent);
 				}
-				Build(item.Children, ref allItems);
-			}
-		}
-
-		public bool Add(T parent, T item)
-		{
-			var hierarchicalItem = new HierarchicalItem<T>() { Item = item };
-			if (parent != null)
-			{
-				var parentItem = AllItems.FirstOrDefault(x => x.Item.UID == parent.UID);
-				if (parentItem == null)
-					return false;
-				parentItem.Children.Add(hierarchicalItem);
-				hierarchicalItem.Parent = parentItem;
-				AllItems.Add(hierarchicalItem);
+				else
+				{
+					var index = RootItems.IndexOf(parent);
+					RootItems.Insert(index + 1, item);
+				}
 			}
 			else
 			{
-				RootItems.Add(hierarchicalItem);
-				hierarchicalItem.Parent = null;
-				AllItems.Add(hierarchicalItem);
+				RootItems.Add(item);
+				item.Parent = null;
 			}
-			return false;
-		}
-
-		public bool AddWithChild(HierarchicalItem<T> hierarchicalItem, T parent)
-		{
-			if (parent != null)
-			{
-				var parentItem = AllItems.FirstOrDefault(x => x.Item.UID == parent.UID);
-				if (parentItem == null)
-					return false;
-				parentItem.Children.Add(hierarchicalItem);
-				hierarchicalItem.Parent = parentItem;
-				AllItems.Add(hierarchicalItem);
-			}
-			else
-			{
-				RootItems.Add(hierarchicalItem);
-				hierarchicalItem.Parent = null;
-				AllItems.Add(hierarchicalItem);
-			}
-			BuildTree();
+			AddToCache(item);
 			return true;
 		}
 
 		public void Remove(T item)
 		{
 			var hierarchicalItem = AllItems.FirstOrDefault(x => x.Item.UID == item.UID);
-			if(hierarchicalItem != null)
+			if (hierarchicalItem != null)
 			{
 				var allItems = new List<HierarchicalItem<T>>();
 				GetAllChildren(hierarchicalItem, allItems);
 				AllItems.Remove(hierarchicalItem);
 				allItems.ForEach(x => AllItems.Remove(x));
 
-				if(hierarchicalItem.Parent != null)
+				if (hierarchicalItem.Parent != null)
 				{
 					hierarchicalItem.Parent.Children.Remove(hierarchicalItem);
 				}
@@ -111,30 +105,15 @@ namespace RubezhAPI.Hierarchy
 
 		void GetAllChildren(HierarchicalItem<T> item, List<HierarchicalItem<T>> allItems)
 		{
-			foreach(var child in item.Children)
+			foreach (var child in item.Children)
 			{
 				allItems.Add(child);
 				GetAllChildren(child, allItems);
 			}
 		}
 
-		void Move2(T t, int delta)
+		public void Move(T t, int delta)
 		{
-			HierarchicalItem<T> item = null;
-			item = AllItems.FirstOrDefault(x => x.Item.UID == t.UID);
-			if (item == null)
-			{
-				return;
-			}
-
-			if (item.Parent == null)
-			{
-				var index = RootItems.IndexOf(item);
-			}
-		}
-		void Move(T t, int delta)
-		{
-			//HierarchicalItem<T> item = null;
 			var item = AllItems.FirstOrDefault(x => x.Item.UID == t.UID);
 			if (item == null)
 			{
