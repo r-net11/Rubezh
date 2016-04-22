@@ -6,22 +6,17 @@
 				<button class="win-splitviewpanetoggle"
 						data-win-control="WinJS.UI.SplitViewPaneToggle"
 						data-win-options="{ splitView: select('.splitView') }"></button>
-				<div class="title">SplitView Pane area</div>
+				<div class="title">Глобал</div>
 			</div>
 
 			<div class="nav-commands">
 				<div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{ label: 'Home', icon: 'home'}"></div>
-				<div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{ label: 'Favorite', icon: 'favorite'}"></div>
+				<div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{ label: 'Hello world', icon: 'comment'}" [routerLink]="['HelloWorld']"></div>
 				<div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{ label: 'Settings', icon: 'settings'}"></div>
 			</div>
 		</div>
-
 		<!-- Content area -->
-		<div class="contenttext"><h1 class="title">Component Router</h1>
-<nav>
-	<a [routerLink]="['HelloWorld']">Hello World!</a>
-</nav>
-<router-outlet></router-outlet> </div>
+		<router-outlet></router-outlet>
 	</div>
 </div>
 
