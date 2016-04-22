@@ -11,7 +11,7 @@ namespace FiresecService.Service
 		static ServiceHost ServiceHost;
 		public static SafeFiresecService SafeFiresecService;
 
-		public static void Open()
+		public static void Open(bool isLocalEndpointEnabled = true)
 		{
 			try
 			{
@@ -32,7 +32,10 @@ namespace FiresecService.Service
 				{
 					CreateTcpEndpoint();
 				}
-				CreateNetPipesEndpoint();
+				if (isLocalEndpointEnabled)
+					CreateNetPipesEndpoint();
+				else
+					Notifier.SetLocalAddress("<Не разрешено>");
 				ServiceHost.Open();
 			}
 			catch (Exception e)

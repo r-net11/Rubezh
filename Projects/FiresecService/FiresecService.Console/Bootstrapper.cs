@@ -38,7 +38,7 @@ namespace FiresecService
 				ConfigurationCashHelper.Update();
 
 				LogPresenter.AddLog("Открытие хоста");
-				FiresecServiceManager.Open();
+				FiresecServiceManager.Open(false);
 
 				GKProcessor.Create();
 				LogPresenter.AddLog("Запуск ГК");
