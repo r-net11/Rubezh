@@ -45,7 +45,8 @@ namespace AutomationModule.ViewModels
 			IntValueList = new ObservableCollection<ExplicitValueInstanceViewModel<int>>(explicitValue.IntValueList.Select(x => new ExplicitValueInstanceViewModel<int>(x)));
 			FloatValueList = new ObservableCollection<ExplicitValueInstanceViewModel<double>>(explicitValue.FloatValueList.Select(x => new ExplicitValueInstanceViewModel<double>(x)));
 			BoolValueList = new ObservableCollection<ExplicitValueInstanceViewModel<bool>>(explicitValue.BoolValueList.Select(x => new ExplicitValueInstanceViewModel<bool>(x)));
-			DateTimeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<DateTime>>(explicitValue.DateTimeValueList.Select(x => new ExplicitValueInstanceViewModel<DateTime>(x)));
+			DateTimeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<DateTimeViewModel>>(explicitValue.DateTimeValueList
+				.Select(x => new ExplicitValueInstanceViewModel<DateTimeViewModel>(new DateTimeViewModel(x))));
 			ObjectReferenceValueList = new ObservableCollection<ObjectReferenceViewModel>(explicitValue.UidValueList.Select(x => new ObjectReferenceViewModel(new ObjectReference { UID = x, ObjectType = explicitValue.ObjectType })));
 			StringValueList = new ObservableCollection<ExplicitValueInstanceViewModel<string>>(explicitValue.StringValueList.Select(x => new ExplicitValueInstanceViewModel<string>(x)));
 			StateTypeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<XStateClass>>(explicitValue.StateTypeValueList.Select(x => new ExplicitValueInstanceViewModel<XStateClass>(x)));
@@ -480,7 +481,7 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ExplicitValueInstanceViewModel<int>> IntValueList { get; set; }
 		public ObservableCollection<ExplicitValueInstanceViewModel<double>> FloatValueList { get; set; }
 		public ObservableCollection<ExplicitValueInstanceViewModel<bool>> BoolValueList { get; set; }
-		public ObservableCollection<ExplicitValueInstanceViewModel<DateTime>> DateTimeValueList { get; set; }
+		public ObservableCollection<ExplicitValueInstanceViewModel<DateTimeViewModel>> DateTimeValueList { get; set; }
 		public ObservableCollection<ObjectReferenceViewModel> ObjectReferenceValueList { get; set; }
 		public ObservableCollection<ExplicitValueInstanceViewModel<string>> StringValueList { get; set; }
 		public ObservableCollection<ExplicitValueInstanceViewModel<XStateClass>> StateTypeValueList { get; set; }
@@ -501,7 +502,7 @@ namespace AutomationModule.ViewModels
 				case ExplicitType.Integer: return IntValueList.Select(x => x.Value).ToList();
 				case ExplicitType.Float: return FloatValueList.Select(x => x.Value).ToList();
 				case ExplicitType.Boolean: return BoolValueList.Select(x => x.Value).ToList();
-				case ExplicitType.DateTime: return DateTimeValueList.Select(x => x.Value).ToList();
+				case ExplicitType.DateTime: return DateTimeValueList.Select(x => x.Value.Value).ToList();
 				case ExplicitType.String: return StringValueList.Select(x => x.Value).ToList();
 				case ExplicitType.Object: return ObjectReferenceValueList.Select(x => x.Value).ToList();
 				case ExplicitType.Enum:
@@ -576,7 +577,7 @@ namespace AutomationModule.ViewModels
 				case ExplicitType.Integer: IntValueList.Add(new ExplicitValueInstanceViewModel<int>(default(int))); break;
 				case ExplicitType.Float: FloatValueList.Add(new ExplicitValueInstanceViewModel<double>(default(double))); break;
 				case ExplicitType.Boolean: BoolValueList.Add(new ExplicitValueInstanceViewModel<bool>(default(bool))); break;
-				case ExplicitType.DateTime: DateTimeValueList.Add(new ExplicitValueInstanceViewModel<DateTime>(DateTime.Now)); break;
+				case ExplicitType.DateTime: DateTimeValueList.Add(new ExplicitValueInstanceViewModel<DateTimeViewModel>(new DateTimeViewModel(DateTime.Now))); break;
 				case ExplicitType.String: StringValueList.Add(new ExplicitValueInstanceViewModel<string>(default(string))); break;
 				case ExplicitType.Object: ObjectReferenceValueList.Add(new ObjectReferenceViewModel(new ObjectReference { ObjectType = this.ObjectType })); break;
 				case ExplicitType.Enum:
@@ -604,7 +605,7 @@ namespace AutomationModule.ViewModels
 			if (explicitValueInstanceViewModel is ExplicitValueInstanceViewModel<bool>)
 				BoolValueList.Remove((ExplicitValueInstanceViewModel<bool>)explicitValueInstanceViewModel);
 			if (explicitValueInstanceViewModel is ExplicitValueInstanceViewModel<DateTime>)
-				DateTimeValueList.Remove((ExplicitValueInstanceViewModel<DateTime>)explicitValueInstanceViewModel);
+				DateTimeValueList.Remove((ExplicitValueInstanceViewModel<DateTimeViewModel>)explicitValueInstanceViewModel);
 			if (explicitValueInstanceViewModel is ExplicitValueInstanceViewModel<string>)
 				StringValueList.Remove((ExplicitValueInstanceViewModel<string>)explicitValueInstanceViewModel);
 			if (explicitValueInstanceViewModel is ObjectReferenceViewModel)
@@ -645,7 +646,6 @@ namespace AutomationModule.ViewModels
 				ObjectReferenceValueList.Clear();
 				objectReferences.ForEach(x => ObjectReferenceValueList.Add(new ObjectReferenceViewModel(x)));
 			}
-
 		}
 	}
 }
