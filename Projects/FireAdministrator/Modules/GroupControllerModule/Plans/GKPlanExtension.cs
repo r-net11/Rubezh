@@ -259,7 +259,7 @@ namespace GKModule.Plans
 				{
 					var elementRectangleGKZone = (ElementRectangleGKZone)element;
 					plan.ElementRectangleGKZones.Add(elementRectangleGKZone);
-					SetItem<GKZone>(elementRectangleGKZone);
+					SetItem(elementRectangleGKZone, GKManager.Zones.FirstOrDefault(x => x.UID == elementRectangleGKZone.ZoneUID));
 				}
 				else if (element is ElementPolygonGKZone)
 				{
@@ -671,7 +671,7 @@ namespace GKModule.Plans
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleGKZone || e.Element is ElementPolygonGKZone)
-				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
 				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element, _guardZonesViewModel);
 			else if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
