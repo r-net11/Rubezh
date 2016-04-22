@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using RubezhAPI;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Common
+namespace Infrastructure.Common
 {
 	public static class ColorUtilities
 	{

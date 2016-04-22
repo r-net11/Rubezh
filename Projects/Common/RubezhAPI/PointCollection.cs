@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Windows;
-namespace Common
+namespace RubezhAPI
 {
 	public class PointCollection : IEnumerable<Point>
 	{

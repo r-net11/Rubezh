@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Plans.Painters;
 using Infrastructure.Plans.Presenter;
+using RubezhAPI;
 using RubezhAPI.Models;
 using System.Windows.Controls;
 using VideoModule.ViewModels;

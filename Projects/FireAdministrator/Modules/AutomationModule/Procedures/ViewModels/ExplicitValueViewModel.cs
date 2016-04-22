@@ -1,9 +1,9 @@
-﻿using Common;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;

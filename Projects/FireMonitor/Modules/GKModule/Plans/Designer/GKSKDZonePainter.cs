@@ -5,6 +5,7 @@ using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Plans.Presenter;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System.Windows.Controls;

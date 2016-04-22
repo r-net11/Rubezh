@@ -1,5 +1,6 @@
 ﻿using Common;
 using Infrastructure.Plans.Painters;
+using RubezhAPI;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using RubezhClient;

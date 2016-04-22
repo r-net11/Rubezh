@@ -156,6 +156,8 @@
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="Colors.cs" />
     <Compile Include="License\FiresecLicenseInfo.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="IImitatorService.cs" />
@@ -212,6 +214,7 @@
     <Compile Include="Models\Plans\IElementReference.cs" />
     <Compile Include="Models\Plans\IMultipleVizualization.cs" />
     <Compile Include="Models\Plans\IPlanPresentable.cs" />
+    <Compile Include="PointCollection.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\ControlOpcDaTagStep.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
@@ -499,6 +502,7 @@
     <Compile Include="State\IDeviceState.cs" />
     <Compile Include="State\NamedStateClass.cs" />
     <Compile Include="State\XStateClass.cs" />
+    <Compile Include="Stretch.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKZone.cs" />

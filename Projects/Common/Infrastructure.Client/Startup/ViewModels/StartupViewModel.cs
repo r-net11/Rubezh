@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Infrastructure.Client.Properties;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using RubezhAPI;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure.Client.Properties;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Client.Startup.ViewModels
 {
@@ -47,7 +47,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 		{
 			Surface.WindowStyle = WindowStyle.None;
 			Surface.AllowsTransparency = true;
-			Surface.Background = new SolidColorBrush(Colors.Transparent);
+			Surface.Background = new SolidColorBrush(System.Windows.Media.Colors.Transparent);
 			Surface.SizeToContent = SizeToContent.WidthAndHeight;
 			Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		}
@@ -161,7 +161,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 					isAutoconnect = false;
 					break;
 			}
-			
+
 			if (login != null && password != null)
 			{
 				_startupLoginViewModel.UserName = login;
@@ -184,8 +184,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 							break;
 						default:
 							break;
-					}	
-				
+					}
+
 				}
 				else
 				{

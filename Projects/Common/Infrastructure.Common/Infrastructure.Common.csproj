@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDataFolderHelper.cs" />
+    <Compile Include="ColorUtilities.cs" />
     <Compile Include="ConnectionSettingsManager.cs" />
     <Compile Include="GlobalSettingsHelper.cs" />
     <Compile Include="LicenseManager.cs" />

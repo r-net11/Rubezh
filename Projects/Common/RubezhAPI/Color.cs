@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Common
+namespace RubezhAPI
 {
 	/// <summary>Describes a color in terms of alpha, red, green, and blue channels. </summary>
 	public struct Color

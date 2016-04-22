@@ -1,5 +1,5 @@
 ﻿
-namespace Common
+namespace RubezhAPI
 {
 	/// <summary>Implements a set of predefined colors. </summary>
 	public sealed class Colors

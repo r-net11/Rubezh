@@ -10,6 +10,8 @@ using RubezhAPI.SKD;
 using SKDModule.ViewModels;
 using SKDModule.Converters;
 using RubezhClient;
+using Color = System.Windows.Media.Color;
+using Colors = System.Windows.Media.Colors;
 
 namespace SKDModule.Views
 {
