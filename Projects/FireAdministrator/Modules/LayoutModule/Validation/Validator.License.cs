@@ -6,6 +6,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using RubezhAPI.License;
+using Infrastructure.Common.License;
+
 
 namespace LayoutModule.Validation
 {

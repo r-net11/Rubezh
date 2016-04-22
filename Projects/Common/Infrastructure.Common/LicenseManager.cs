@@ -1,7 +1,8 @@
-﻿using RubezhLicense;
+﻿using RubezhAPI.License;
+using RubezhLicense;
 using System;
 
-namespace RubezhAPI.License
+namespace Infrastructure.Common.License
 {
 	public static class LicenseManager
 	{

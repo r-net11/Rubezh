@@ -156,8 +156,10 @@
     <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="Bindable.cs" />
     <Compile Include="CallbackOperationResult.cs" />
+    <Compile Include="License\FiresecLicenseInfo.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="IImitatorService.cs" />
+    <Compile Include="License\LicenseMode.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaElement.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaGroup.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaTagValue.cs" />
@@ -236,9 +238,6 @@
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
-    <Compile Include="License\FiresecLicenseInfo.cs" />
-    <Compile Include="License\LicenseManager.cs" />
-    <Compile Include="License\LicenseMode.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\ContextType.cs" />
