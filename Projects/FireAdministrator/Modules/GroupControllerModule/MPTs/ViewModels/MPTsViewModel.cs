@@ -1,11 +1,12 @@
 using GKModule.Events;
+using GKModule.Plans;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
 using Infrastructure.Plans.Events;
+using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -105,6 +106,7 @@ namespace GKModule.ViewModels
 				SelectedMPT = mptViewModel;
 				OnPropertyChanged(() => HasSelectedMPT);
 				ServiceFactory.SaveService.GKChanged = true;
+				GKPlanExtension.Instance.Cache.BuildSafe<GKMPT>();
 			}
 			return mptDetailsViewModel;
 		}
@@ -328,6 +330,13 @@ namespace GKModule.ViewModels
 			if (elementMPT == null)
 				elementMPT = element as ElementPolygonGKMPT;
 			return elementMPT;
+		}
+		public void UpdateMPTs(Guid mptUID)
+		{
+			var mpt = MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
+			if (mpt != null)
+				mpt.Update();
+			LockedSelect(mptUID);
 		}
 	}
 }

@@ -687,7 +687,7 @@ namespace GKModule.Plans
 			else if (e.Element is ElementRectangleGKDirection || e.Element is ElementPolygonGKDirection)
 				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element);
 			else if (e.Element is ElementRectangleGKMPT || e.Element is ElementPolygonGKMPT)
-				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element, _mptsViewModel);
+				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element);
 			else if (e.Element is ElementRectangleGKDelay || e.Element is ElementPolygonGKDelay)
 				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element, _delaysViewModel);
 			else if (e.Element is ElementRectangleGKPumpStation || e.Element is ElementPolygonGKPumpStation)

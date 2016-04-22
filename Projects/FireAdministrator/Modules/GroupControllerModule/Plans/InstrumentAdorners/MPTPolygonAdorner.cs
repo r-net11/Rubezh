@@ -3,7 +3,6 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
-using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System.Windows.Media;
@@ -31,11 +30,13 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement()
 		{
 			var element = new ElementPolygonGKMPT();
-			var propertiesViewModel = new MPTPropertiesViewModel(element, _mptsViewModel);
-			if (!DialogService.ShowModalWindow(propertiesViewModel))
-				return null;
-			GKPlanExtension.Instance.SetItem<GKMPT>(element);
-			return element;
+			var propertiesViewModel = new MPTPropertiesViewModel(element);
+			if (DialogService.ShowModalWindow(propertiesViewModel))
+			{
+				_mptsViewModel.UpdateMPTs(element.MPTUID);
+				return element;
+			}
+			return null;
 		}
 	}
 }
