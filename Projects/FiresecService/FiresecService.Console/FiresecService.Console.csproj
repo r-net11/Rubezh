@@ -75,9 +75,9 @@
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecService\FiresecService.csproj">
+    <ProjectReference Include="..\FiresecService.Core\FiresecService.Core.csproj">
       <Project>{863cfff3-5380-453e-b512-84e228ab1e5b}</Project>
-      <Name>FiresecService</Name>
+      <Name>FiresecService.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
       <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>

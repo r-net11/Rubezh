@@ -234,9 +234,9 @@
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecService\FiresecService.csproj">
+    <ProjectReference Include="..\FiresecService.Core\FiresecService.Core.csproj">
       <Project>{863cfff3-5380-453e-b512-84e228ab1e5b}</Project>
-      <Name>FiresecService</Name>
+      <Name>FiresecService.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
