@@ -5,8 +5,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
 using Infrastructure.Plans.Events;
+using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -362,6 +362,13 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить все пустые направления", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
+		}
+		public void UpdateDirections(Guid directionUID)
+		{
+			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
+			if (direction != null)
+				direction.Update();
+			LockedSelect(directionUID);
 		}
 	}
 }
