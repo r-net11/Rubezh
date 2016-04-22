@@ -134,15 +134,11 @@
     <Compile Include="AssemblyInfoCommon.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="ClipboardSourceAction.cs" />
-    <Compile Include="Color.cs" />
-    <Compile Include="Colors.cs" />
-    <Compile Include="ColorUtilities.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="IIdentity.cs" />
-    <Compile Include="PointCollection.cs" />
     <Compile Include="ResourceType.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
@@ -153,37 +149,14 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="QSort.cs" />
     <Compile Include="SafeContext.cs" />
     <Compile Include="SafeEnum.cs" />
     <Compile Include="SortableObservableCollection.cs" />
-    <Compile Include="State\XStateClass.cs" />
-    <Compile Include="State\IDeviceState.cs" />
-    <Compile Include="State\NamedStateClass.cs" />
-    <Compile Include="Stretch.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TimeCounter.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="WCF\BindingHelper.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup />

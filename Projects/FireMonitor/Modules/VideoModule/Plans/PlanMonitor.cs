@@ -4,6 +4,7 @@ using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using Infrastructure.Client.Plans.Presenter;
+using RubezhAPI;
 
 namespace VideoModule.Plans
 {

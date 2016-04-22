@@ -260,16 +260,29 @@ namespace Infrastructure.Client
 					_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
 		}
 
-		public void RestartApplication()
+		public void RestartApplication(bool isNotRestar = false)
 		{
-			var processStartInfo = new ProcessStartInfo()
+			var processStartInfo = new ProcessStartInfo();
+			if (!isNotRestar)
 			{
-				FileName = Application.ResourceAssembly.Location,
-				Arguments = GetRestartCommandLineArguments()
-			};
+					processStartInfo.FileName = Application.ResourceAssembly.Location;
+					processStartInfo.Arguments = GetRestartCommandLineArguments(isNotRestar);
+			}
+			else 
+			{
+				var arg = GetRestartCommandLineArguments();
+					if (arg != null)
+					{
+						processStartInfo.FileName = Application.ResourceAssembly.Location;
+						processStartInfo.Arguments = arg;
+					}
+					else return;
+
+			}
+
 			Process.Start(processStartInfo);
 		}
-		protected virtual string GetRestartCommandLineArguments()
+		protected virtual string GetRestartCommandLineArguments(bool isNotRestart= false)
 		{
 			string commandLineArguments = null;
 			if (Login != null && Password != null)

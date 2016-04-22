@@ -158,8 +158,12 @@
     <Compile Include="CallbackOperationResult.cs" />
     <Compile Include="Hierarchy\HierarchicalCollection.cs" />
     <Compile Include="Hierarchy\HierarchicalItem.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="Colors.cs" />
+    <Compile Include="License\FiresecLicenseInfo.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="IImitatorService.cs" />
+    <Compile Include="License\LicenseMode.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaElement.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaGroup.cs" />
     <Compile Include="Models\Automation\OPC DA\OpcDaTagValue.cs" />
@@ -183,35 +187,36 @@
     <Compile Include="Models\Video\RviServer.cs" />
     <Compile Include="Models\Video\RviStream.cs" />
     <Compile Include="Models\Automation\ObjectReference.cs" />
-    <Compile Include="Plans\Devices\ILibraryDevice.cs" />
-    <Compile Include="Plans\Devices\ILibraryFrame.cs" />
-    <Compile Include="Plans\Devices\ILibraryState.cs" />
-    <Compile Include="Plans\Elements\ElementBase.cs" />
-    <Compile Include="Plans\Elements\ElementBasePoint.cs" />
-    <Compile Include="Plans\Elements\ElementBasePolygon.cs" />
-    <Compile Include="Plans\Elements\ElementBasePolyline.cs" />
-    <Compile Include="Plans\Elements\ElementBaseRectangle.cs" />
-    <Compile Include="Plans\Elements\ElementBaseShape.cs" />
-    <Compile Include="Plans\Elements\ElementError.cs" />
-    <Compile Include="Plans\Elements\ElementType.cs" />
-    <Compile Include="Plans\Elements\IElementBackground.cs" />
-    <Compile Include="Plans\Elements\IElementBase.cs" />
-    <Compile Include="Plans\Elements\IElementBorder.cs" />
-    <Compile Include="Plans\Elements\IElementDelay.cs" />
-    <Compile Include="Plans\Elements\IElementDirection.cs" />
-    <Compile Include="Plans\Elements\IElementMPT.cs" />
-    <Compile Include="Plans\Elements\IElementPumpStation.cs" />
-    <Compile Include="Plans\Elements\IElementRectangle.cs" />
-    <Compile Include="Plans\Elements\IElementSubPlan.cs" />
-    <Compile Include="Plans\Elements\IElementTextBlock.cs" />
-    <Compile Include="Plans\Elements\IElementZone.cs" />
-    <Compile Include="Plans\Elements\IPrimitive.cs" />
-    <Compile Include="Plans\Elements\PlanElementBindingItem.cs" />
-    <Compile Include="Plans\Elements\Primitive.cs" />
-    <Compile Include="Plans\Interfaces\IChangedNotification.cs" />
-    <Compile Include="Plans\Interfaces\IElementReference.cs" />
-    <Compile Include="Plans\Interfaces\IMultipleVizualization.cs" />
-    <Compile Include="Plans\Interfaces\IPlanPresentable.cs" />
+    <Compile Include="Models\Plans\Devices\ILibraryDevice.cs" />
+    <Compile Include="Models\Plans\Devices\ILibraryFrame.cs" />
+    <Compile Include="Models\Plans\Devices\ILibraryState.cs" />
+    <Compile Include="Models\Plans\ElementBase.cs" />
+    <Compile Include="Models\Plans\ElementBasePoint.cs" />
+    <Compile Include="Models\Plans\ElementBasePolygon.cs" />
+    <Compile Include="Models\Plans\ElementBasePolyline.cs" />
+    <Compile Include="Models\Plans\ElementBaseRectangle.cs" />
+    <Compile Include="Models\Plans\ElementBaseShape.cs" />
+    <Compile Include="Models\Plans\ElementError.cs" />
+    <Compile Include="Models\Plans\ElementType.cs" />
+    <Compile Include="Models\Plans\IElementBackground.cs" />
+    <Compile Include="Models\Plans\IElementBase.cs" />
+    <Compile Include="Models\Plans\IElementBorder.cs" />
+    <Compile Include="Models\Plans\IElementDelay.cs" />
+    <Compile Include="Models\Plans\IElementDirection.cs" />
+    <Compile Include="Models\Plans\IElementMPT.cs" />
+    <Compile Include="Models\Plans\IElementPumpStation.cs" />
+    <Compile Include="Models\Plans\IElementRectangle.cs" />
+    <Compile Include="Models\Plans\IElementSubPlan.cs" />
+    <Compile Include="Models\Plans\IElementTextBlock.cs" />
+    <Compile Include="Models\Plans\IElementZone.cs" />
+    <Compile Include="Models\Plans\IPrimitive.cs" />
+    <Compile Include="Models\Plans\PlanElementBindingItem.cs" />
+    <Compile Include="Models\Plans\Primitive.cs" />
+    <Compile Include="Models\Plans\IChangedNotification.cs" />
+    <Compile Include="Models\Plans\IElementReference.cs" />
+    <Compile Include="Models\Plans\IMultipleVizualization.cs" />
+    <Compile Include="Models\Plans\IPlanPresentable.cs" />
+    <Compile Include="PointCollection.cs" />
     <Compile Include="PollResult.cs" />
     <Compile Include="Models\Automation\ProcedureSteps\ControlOpcDaTagStep.cs" />
     <Compile Include="GKManager\GKManager.Delays.cs" />
@@ -238,9 +243,6 @@
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
-    <Compile Include="License\FiresecLicenseInfo.cs" />
-    <Compile Include="License\LicenseManager.cs" />
-    <Compile Include="License\LicenseMode.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\ContextType.cs" />
@@ -499,6 +501,10 @@
     <Compile Include="Models\Plans\ElementRectangleGKDirection.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
     <Compile Include="SKD\Card\AccessTemplate.cs" />
+    <Compile Include="State\IDeviceState.cs" />
+    <Compile Include="State\NamedStateClass.cs" />
+    <Compile Include="State\XStateClass.cs" />
+    <Compile Include="Stretch.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKZone.cs" />
@@ -600,24 +606,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

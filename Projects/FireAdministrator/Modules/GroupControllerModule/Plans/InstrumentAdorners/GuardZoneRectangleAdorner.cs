@@ -3,7 +3,6 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
-using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 
@@ -22,11 +21,13 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleGKGuardZone();
-			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel);
-			if (!DialogService.ShowModalWindow(propertiesViewModel))
-				return null;
-			GKPlanExtension.Instance.SetItem<GKGuardZone>(element);
-			return element;
+			var propertiesViewModel = new GuardZonePropertiesViewModel(element);
+			if (DialogService.ShowModalWindow(propertiesViewModel))
+			{
+				_guardZonesViewModel.UpdateZones(element.ZoneUID);
+				return element;
+			}
+			return null;
 		}
 	}
 }

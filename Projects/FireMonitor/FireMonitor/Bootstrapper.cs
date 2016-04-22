@@ -470,9 +470,9 @@ namespace FireMonitor
 		}
 		void Restart()
 		{
-			Restart(Login, Password);
+			Restart(Login, Password, true);
 		}
-		public void Restart(string login = null, string password = null)
+		public void Restart(string login = null, string password = null, bool isNotRestart = false)
 		{
 			using (new WaitWrapper())
 			{
@@ -489,7 +489,7 @@ namespace FireMonitor
 				Login = login;
 				Password = password;
 			}
-			RestartApplication();
+			RestartApplication(isNotRestart);
 		}
 
 		public virtual void InitializeCommandLineArguments(string[] args)

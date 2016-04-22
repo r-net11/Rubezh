@@ -1,9 +1,9 @@
-﻿using Common;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Plans.Painters;
 using Infrastructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
+using RubezhAPI;
 using RubezhAPI.GK;
 using System;
 using System.Windows.Controls;

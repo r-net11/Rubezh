@@ -183,11 +183,6 @@
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\JournalStringsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="Sending\SendClient.cs" />
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
@@ -222,12 +217,6 @@
       <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
       <Name>RubezhDAL</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

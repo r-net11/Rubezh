@@ -80,6 +80,7 @@ namespace GKModule.Plans
 			Cache.Add<GKDirection>(() => GKManager.Directions);
 			Cache.Add<GKMPT>(() => GKManager.MPTs);
 			Cache.Add<GKDoor>(() => GKManager.Doors);
+			Cache.Add<GKPumpStation>(() => GKManager.PumpStations);
 		}
 
 		public override void Initialize()
@@ -259,13 +260,13 @@ namespace GKModule.Plans
 				{
 					var elementRectangleGKZone = (ElementRectangleGKZone)element;
 					plan.ElementRectangleGKZones.Add(elementRectangleGKZone);
-					SetItem<GKZone>(elementRectangleGKZone);
+					SetItem(elementRectangleGKZone, GKManager.Zones.FirstOrDefault(x => x.UID == elementRectangleGKZone.ZoneUID));
 				}
 				else if (element is ElementPolygonGKZone)
 				{
 					var elementPolygonGKZone = (ElementPolygonGKZone)element;
 					plan.ElementPolygonGKZones.Add(elementPolygonGKZone);
-					SetItem<GKZone>(elementPolygonGKZone);
+					SetItem(elementPolygonGKZone, GKManager.Zones.FirstOrDefault(x => x.UID == elementPolygonGKZone.ZoneUID));
 				}
 				else if (element is ElementRectangleGKGuardZone)
 				{
@@ -309,12 +310,19 @@ namespace GKModule.Plans
 			else if (element is IElementPumpStation)
 			{
 				if (element is ElementRectangleGKPumpStation)
-					plan.ElementRectangleGKPumpStations.Add((ElementRectangleGKPumpStation)element);
+				{
+					var elementRectangleGKPumpStation = element as ElementRectangleGKPumpStation;
+					plan.ElementRectangleGKPumpStations.Add(element as ElementRectangleGKPumpStation);
+					SetItem<GKPumpStation>(elementRectangleGKPumpStation, elementRectangleGKPumpStation.PumpStationUID);
+				}
 				else if (element is ElementPolygonGKPumpStation)
-					plan.ElementPolygonGKPumpStations.Add((ElementPolygonGKPumpStation)element);
+				{
+					var elementPolygonGKPumpStation = element as ElementPolygonGKPumpStation;
+					plan.ElementPolygonGKPumpStations.Add(element as ElementPolygonGKPumpStation);
+					SetItem<GKPumpStation>(elementPolygonGKPumpStation, elementPolygonGKPumpStation.PumpStationUID);
+				}
 				else
 					return false;
-				SetItem<GKPumpStation>((IElementPumpStation)element);
 				return true;
 			}
 			else if (element is IElementDirection)
@@ -650,7 +658,7 @@ namespace GKModule.Plans
 			else if (typeof(TItem) == typeof(GKPumpStation))
 			{
 				var elementPumpStation = (IElementPumpStation)element;
-				elementPumpStation.BackgroundColor = GetGkEntityColor(item as GKPumpStation, Colors.LightBlue);
+				elementPumpStation.BackgroundColor = GetGkEntityColor(item as GKPumpStation, Colors.Cyan);
 				elementPumpStation.SetZLayer(item == null ? 10 : 11);
 			}
 			else
@@ -671,9 +679,9 @@ namespace GKModule.Plans
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleGKZone || e.Element is ElementPolygonGKZone)
-				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
-				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element, _guardZonesViewModel);
+				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
 				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element, _skdZonesViewModel);
 			else if (e.Element is ElementRectangleGKDirection || e.Element is ElementPolygonGKDirection)
@@ -683,7 +691,7 @@ namespace GKModule.Plans
 			else if (e.Element is ElementRectangleGKDelay || e.Element is ElementPolygonGKDelay)
 				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element, _delaysViewModel);
 			else if (e.Element is ElementRectangleGKPumpStation || e.Element is ElementPolygonGKPumpStation)
-				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element, _pumpStationsViewModel);
+				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element);
 			else if (e.Element is ElementGKDoor)
 				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
 		}
