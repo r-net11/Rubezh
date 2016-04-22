@@ -91,13 +91,16 @@ namespace GKModule.Plans.ViewModels
 		{
 			return SelectedDirection != null;
 		}
-
 		protected override bool Save()
 		{
 			IElementDirection.ShowState = ShowState;
 			IElementDirection.ShowDelay = ShowDelay;
 			IElementDirection.DirectionUID = SelectedDirection.Direction.UID;
 			return base.Save();
+		}
+		protected override bool CanSave()
+		{
+			return SelectedDirection != null;
 		}
 	}
 }

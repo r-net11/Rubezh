@@ -260,13 +260,13 @@ namespace GKModule.Plans
 				{
 					var elementRectangleGKZone = (ElementRectangleGKZone)element;
 					plan.ElementRectangleGKZones.Add(elementRectangleGKZone);
-					SetItem(elementRectangleGKZone, GKManager.Zones.FirstOrDefault(x => x.UID == elementRectangleGKZone.ZoneUID));
+					SetItem<GKZone>(elementRectangleGKZone);
 				}
 				else if (element is ElementPolygonGKZone)
 				{
 					var elementPolygonGKZone = (ElementPolygonGKZone)element;
 					plan.ElementPolygonGKZones.Add(elementPolygonGKZone);
-					SetItem(elementPolygonGKZone, GKManager.Zones.FirstOrDefault(x => x.UID == elementPolygonGKZone.ZoneUID));
+					SetItem<GKZone>(elementPolygonGKZone);
 				}
 				else if (element is ElementRectangleGKGuardZone)
 				{
@@ -310,19 +310,12 @@ namespace GKModule.Plans
 			else if (element is IElementPumpStation)
 			{
 				if (element is ElementRectangleGKPumpStation)
-				{
-					var elementRectangleGKPumpStation = element as ElementRectangleGKPumpStation;
-					plan.ElementRectangleGKPumpStations.Add(element as ElementRectangleGKPumpStation);
-					SetItem<GKPumpStation>(elementRectangleGKPumpStation, elementRectangleGKPumpStation.PumpStationUID);
-				}
+					plan.ElementRectangleGKPumpStations.Add((ElementRectangleGKPumpStation)element);
 				else if (element is ElementPolygonGKPumpStation)
-				{
-					var elementPolygonGKPumpStation = element as ElementPolygonGKPumpStation;
-					plan.ElementPolygonGKPumpStations.Add(element as ElementPolygonGKPumpStation);
-					SetItem<GKPumpStation>(elementPolygonGKPumpStation, elementPolygonGKPumpStation.PumpStationUID);
-				}
+					plan.ElementPolygonGKPumpStations.Add((ElementPolygonGKPumpStation)element);
 				else
 					return false;
+				SetItem<GKPumpStation>((IElementPumpStation)element);
 				return true;
 			}
 			else if (element is IElementDirection)

@@ -66,12 +66,15 @@ namespace GKModule.Plans.ViewModels
 		{
 			return SelectedMPT != null;
 		}
-
 		protected override bool Save()
 		{
 			Guid mptUID = IElementMPT.MPTUID;
 			IElementMPT.MPTUID = SelectedMPT.MPT.UID;
 			return base.Save();
+		}
+		protected override bool CanSave()
+		{
+			return SelectedMPT != null;
 		}
 	}
 }

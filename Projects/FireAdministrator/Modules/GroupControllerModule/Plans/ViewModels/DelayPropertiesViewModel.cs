@@ -96,5 +96,9 @@ namespace GKModule.Plans.ViewModels
 			IElementDelay.DelayUID = SelectedDelay.Delay.UID;
 			return base.Save();
 		}
+		protected override bool CanSave()
+		{
+			return SelectedDelay != null;
+		}
 	}
 }
