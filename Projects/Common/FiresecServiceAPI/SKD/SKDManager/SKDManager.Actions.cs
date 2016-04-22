@@ -65,6 +65,24 @@ namespace FiresecAPI.SKD
 			device.Zone = zone;
 		}
 
+		/// <summary>
+		/// Удаляет устройство из зоны
+		/// </summary>
+		/// <param name="device">Устройство</param>
+		public static void RemoveDeviceFromZone(SKDDevice device)
+		{
+			if (device == null)
+				throw new ArgumentNullException("RemoveDeviceFromZone вызван с null аргументом", "device");
+
+			if (device.Zone == null)
+				return;
+			
+			device.Zone.Devices.Remove(device);
+			device.Zone.OnChanged();
+			device.ZoneUID = Guid.Empty;
+			device.Zone = null;
+		}
+
 		public static void EditZone(SKDZone zone)
 		{
 			foreach (var device in zone.Devices)

@@ -569,6 +569,7 @@ namespace StrazhModule.ViewModels
 				DeviceViewModel.Device.DoorType = SelectedDoorType;
 				DeviceViewModel.Device.AntiPassBackConfiguration = new SKDAntiPassBackConfiguration { IsActivated = IsAntiPassBackActivated, CurrentAntiPassBackMode = SelectedAntiPassBackMode };
 				UpdateLocksConfiguration();
+				UpdateReaders();
 				DeviceViewModel.Device.InterlockConfiguration = new SKDInterlockConfiguration { IsActivated = IsInterlockActivated, CurrentInterlockMode = SelectedInterlockMode };
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
@@ -588,6 +589,19 @@ namespace StrazhModule.ViewModels
 			foreach (var lockDevice in locks)
 			{
 				lockDevice.SKDDoorConfiguration.IsRepeatEnterAlarmEnable = IsAntiPassBackActivated;
+			}
+		}
+
+		private void UpdateReaders()
+		{
+			if (DeviceViewModel.Device.DriverType == SKDDriverType.ChinaController_1 &&
+			    DeviceViewModel.Device.DoorType == DoorType.OneWay)
+			{
+				var readers = DeviceViewModel.Children.Where(x => x.Device.DriverType == SKDDriverType.Reader && x.Device.IntAddress > 0);
+				foreach (var reader in readers)
+				{
+					SKDManager.RemoveDeviceFromZone(reader.Device);
+				}
 			}
 		}
 	}
