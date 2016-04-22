@@ -4,7 +4,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
-using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -14,34 +13,30 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DelayPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		public DelayPropertiesViewModel(IElementDelay element, DelaysViewModel delaysViewModel)
+		private IElementDelay IElementDelay;
+		public DelayPropertiesViewModel(IElementDelay element)
 		{
-			_delaysViewModel = delaysViewModel;
-			_element = element;
+			IElementDelay = element;
 			Title = "Свойства фигуры: Задержка";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
 			ShowState = element.ShowState;
-			this.ShowDelay = element.ShowDelay;
+			ShowDelay = element.ShowDelay;
 
-			this.Delays = new ObservableCollection<DelayViewModel>(GKManager.Delays.Select(delay => new DelayViewModel(delay)));
+			Delays = new ObservableCollection<DelayViewModel>(GKManager.Delays.Select(delay => new DelayViewModel(delay)));
 			if (element.DelayUID != Guid.Empty)
-				this.SelectedDelay = this.Delays
+				SelectedDelay = Delays
 					.Where(delay => delay.Delay.UID == element.DelayUID)
 					.FirstOrDefault();
 		}
 
 		private void OnCreate()
 		{
-			Guid delayUID = _element.DelayUID;
 			var createDelayEventArg = new CreateGKDelayEventArgs();
 			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Publish(createDelayEventArg);
 			if (createDelayEventArg.Delay != null)
-				_element.DelayUID = createDelayEventArg.Delay.UID;
-			GKPlanExtension.Instance.Cache.BuildSafe<GKDelay>();
-			GKPlanExtension.Instance.SetItem<GKDelay>(_element);
-			UpdateDelays(delayUID);
+				IElementDelay.DelayUID = createDelayEventArg.Delay.UID;
 			if (!createDelayEventArg.Cancel)
 				Close(true);
 		}
@@ -56,53 +51,24 @@ namespace GKModule.Plans.ViewModels
 		{
 			return this.SelectedDelay != null;
 		}
-
-		private void Update(Guid delayUID)
-		{
-			DelayViewModel delay = this._delaysViewModel.Delays
-				.Where(x => x.Delay.UID == delayUID)
-				.FirstOrDefault();
-			if (delay != null)
-				delay.Update();
-		}
-
-		private void UpdateDelays(Guid delayUID)
-		{
-			if (this._delaysViewModel == null)
-				return;
-			if (delayUID != _element.DelayUID)
-				this.Update(delayUID);
-			this._delaysViewModel.LockedSelect(_element.DelayUID);
-		}
-
-		protected override bool Save()
-		{
-			_element.ShowState = this.ShowState;
-			_element.ShowDelay = this.ShowDelay;
-			Guid delayUID = _element.DelayUID;
-			GKPlanExtension.Instance.SetItem<GKDelay>(_element, this.SelectedDelay == null ? null : this.SelectedDelay.Delay);
-			UpdateDelays(delayUID);
-			return base.Save();
-		}
-
-		#region Properties
-
 		public RelayCommand CreateCommand { get; private set; }
 
 		public RelayCommand EditCommand { get; private set; }
 
 		public ObservableCollection<DelayViewModel> Delays { get; private set; }
 
+		private DelayViewModel _selectedDelay = null;
 		public DelayViewModel SelectedDelay
 		{
-			get { return this.selectedDelay; }
+			get { return _selectedDelay; }
 			set
 			{
-				this.selectedDelay = value;
-				base.OnPropertyChanged(() => SelectedDelay);
+				_selectedDelay = value;
+				OnPropertyChanged(() => SelectedDelay);
 			}
 		}
 
+		private bool _showState;
 		public bool ShowState
 		{
 			get { return _showState; }
@@ -113,6 +79,7 @@ namespace GKModule.Plans.ViewModels
 			}
 		}
 
+		private bool _showDelay;
 		public bool ShowDelay
 		{
 			get { return _showDelay; }
@@ -122,16 +89,16 @@ namespace GKModule.Plans.ViewModels
 				OnPropertyChanged(() => ShowDelay);
 			}
 		}
-
-		#endregion
-
-		#region Fields
-		private IElementDelay _element;
-		private DelaysViewModel _delaysViewModel;
-		private DelayViewModel selectedDelay = null;
-		private bool _showState;
-		private bool _showDelay;
-
-		#endregion
+		protected override bool Save()
+		{
+			IElementDelay.ShowState = ShowState;
+			IElementDelay.ShowDelay = ShowDelay;
+			IElementDelay.DelayUID = SelectedDelay.Delay.UID;
+			return base.Save();
+		}
+		protected override bool CanSave()
+		{
+			return SelectedDelay != null;
+		}
 	}
 }

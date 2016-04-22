@@ -327,7 +327,6 @@ namespace GKImitator.ViewModels
 			return false;
 		}
 
-
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{

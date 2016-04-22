@@ -4,7 +4,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
-using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -14,13 +13,11 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DirectionPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		IElementDirection _element;
-		DirectionsViewModel _directionsViewModel;
+		IElementDirection IElementDirection;
 
-		public DirectionPropertiesViewModel(IElementDirection element, DirectionsViewModel directionsViewModel)
+		public DirectionPropertiesViewModel(IElementDirection element)
 		{
-			_directionsViewModel = directionsViewModel;
-			_element = element;
+			IElementDirection = element;
 			Title = "Свойства фигуры: Направление";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -31,8 +28,8 @@ namespace GKModule.Plans.ViewModels
 				var directionViewModel = new DirectionViewModel(direction);
 				Directions.Add(directionViewModel);
 			}
-			if (_element.DirectionUID != Guid.Empty)
-				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
+			if (IElementDirection.DirectionUID != Guid.Empty)
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == IElementDirection.DirectionUID);
 
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
@@ -76,14 +73,10 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		private void OnCreate()
 		{
-			Guid directionUID = _element.DirectionUID;
 			var createDirectionEventArg = new CreateGKDirectionEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Publish(createDirectionEventArg);
 			if (createDirectionEventArg.Direction != null)
-				_element.DirectionUID = createDirectionEventArg.Direction.UID;
-			GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
-			GKPlanExtension.Instance.SetItem<GKDirection>(_element);
-			UpdateDirections(directionUID);
+				IElementDirection.DirectionUID = createDirectionEventArg.Direction.UID;
 			if (!createDirectionEventArg.Cancel)
 				Close(true);
 		}
@@ -98,31 +91,16 @@ namespace GKModule.Plans.ViewModels
 		{
 			return SelectedDirection != null;
 		}
-
 		protected override bool Save()
 		{
-			_element.ShowState = ShowState;
-			_element.ShowDelay = ShowDelay;
-			Guid directionUID = _element.DirectionUID;
-			GKPlanExtension.Instance.SetItem<GKDirection>(_element, SelectedDirection == null ? null : SelectedDirection.Direction);
-			UpdateDirections(directionUID);
+			IElementDirection.ShowState = ShowState;
+			IElementDirection.ShowDelay = ShowDelay;
+			IElementDirection.DirectionUID = SelectedDirection.Direction.UID;
 			return base.Save();
 		}
-		void UpdateDirections(Guid directionUID)
+		protected override bool CanSave()
 		{
-			if (_directionsViewModel != null)
-			{
-				if (directionUID != _element.DirectionUID)
-					Update(directionUID);
-				Update(_element.DirectionUID);
-				_directionsViewModel.LockedSelect(_element.DirectionUID);
-			}
-		}
-		void Update(Guid directionUID)
-		{
-			var direction = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
-			if (direction != null)
-				direction.Update();
+			return SelectedDirection != null;
 		}
 	}
 }
