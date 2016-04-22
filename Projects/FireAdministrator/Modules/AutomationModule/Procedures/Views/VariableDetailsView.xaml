@@ -16,14 +16,16 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
-				<TreeList Grid.Column="0" Grid.RowSpan="2" Focusable="True" SelectedTreeNode="{Binding SelectedExplicitType}" Source="{Binding ExplicitTypes}" SelectionMode="Single" >
+				<TreeList Grid.Column="0" Grid.RowSpan="2" Focusable="True" SelectedTreeNode="{Binding SelectedExplicitType}" 
+						  Source="{Binding ExplicitTypes}" SelectionMode="Single" >
 					<TreeList.View>
 						<GridView>
 							<GridViewColumn Header="Тип" Width="Auto">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
-											<Image VerticalAlignment="Center" Source="/Controls;component/Images/GlobalVariable.png" Margin="2" Width="24" />
+											<Image VerticalAlignment="Center" Source="/Controls;component/Images/GlobalVariable.png" 
+												   Margin="2" Width="24" />
 											<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 										</StackPanel>
 									</DataTemplate>
@@ -33,7 +35,8 @@
 					</TreeList.View>
 				</TreeList>
 
-				<StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" Visibility="{Binding IsRealType, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" 
+							Visibility="{Binding IsRealType, Converter={StaticResource BoolToVisibilityConverter}}">
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
 						<TextBlock Text="Имя" Style="{DynamicResource TextBlockDetailsStyle}" />
 						<TextBox Text= "{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="200"/>
@@ -41,7 +44,9 @@
 
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
 						<TextBlock Text="Список" HorizontalAlignment="Left" Style="{DynamicResource TextBlockDetailsStyle}" />
-						<CheckBox Width="202" IsChecked="{Binding IsList}" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
+						<CheckBox Width="202" IsChecked="{Binding IsList}" 
+								  IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}" 
+								  HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
@@ -49,7 +54,8 @@
 						<CheckBox Width="202" IsChecked="{Binding IsReference}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28" Visibility="{Binding IsGlobal, Converter={StaticResource BoolToVisibilityConverter}}">
+					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28" 
+								Visibility="{Binding IsGlobal, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock Text="Хранить" HorizontalAlignment="Left" Style="{DynamicResource TextBlockDetailsStyle}" />
 						<ComboBox Width="202" ItemsSource="{Binding ContextTypes}" SelectedValue="{Binding SelectedContextType}">
 							<ComboBox.ItemTemplate>
@@ -62,7 +68,8 @@
 				</StackPanel>
 
 				<Views:ExplicitValueView Grid.Column="2" Grid.Row="1" DataContext="{Binding ExplicitValueViewModel}"
-					Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.IsRealType, Converter={StaticResource BoolToVisibilityConverter}}" />
+					Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
+					Path=DataContext.IsRealType, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

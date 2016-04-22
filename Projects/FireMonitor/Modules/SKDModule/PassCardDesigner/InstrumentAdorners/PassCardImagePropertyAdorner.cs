@@ -1,7 +1,7 @@
-﻿using Common;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
+using RubezhAPI;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
 using SKDModule.PassCardDesigner.ViewModels;

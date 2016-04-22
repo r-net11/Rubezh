@@ -6,8 +6,6 @@ namespace Infrastructure.Client.Layout
 	{
 		public static readonly Guid TemplateContainer = new Guid("{48E5EB58-0FDC-4748-9C94-2D65A7697626}");
 		public static readonly Guid EmptySpace = new Guid("{21557D9C-779D-4720-ACE5-645E8F7EB211}");
-		public static readonly Guid Navigation = new Guid("{8EC166C3-5D1C-4BBD-AE33-A91EC58FB74B}");
-		public static readonly Guid Content = new Guid("{7FA6996D-0E0F-4409-BFF9-064EFEAF5C35}");
 		public static readonly Guid Image = new Guid("{230B5A83-15B9-4F32-B3A4-6E00B430227E}");
 		public static readonly Guid TimePresenter = new Guid("{6A6D2CE8-C4B0-480B-BA15-CE34A5676874}");
 

@@ -36,7 +36,7 @@ using System.Windows.Threading;
 using System.Xaml;
 using Colors = System.Windows.Media.Colors;
 using Point = System.Windows.Point;
-using PointCollection = Common.PointCollection;
+using PointCollection = RubezhAPI.PointCollection;
 using Size = System.Drawing.Size;
 
 #endregion
@@ -110,7 +110,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				FontItalic = true,
 				Text = "Неизвестно",
 				FontSize = 18,
-				ForegroundColor = Common.Colors.Black,
+				ForegroundColor = RubezhAPI.Colors.Black,
 				WordWrap = false,
 				BorderThickness = 1,
 				Stretch = true,
@@ -210,7 +210,7 @@ namespace GKWebService.Models.Plan.PlanElement
 				FontItalic = true,
 				Text = "Неизвестно",
 				FontSize = 18,
-				ForegroundColor = Common.Colors.Black,
+				ForegroundColor = RubezhAPI.Colors.Black,
 				WordWrap = false,
 				BorderThickness = 1,
 				Stretch = true,

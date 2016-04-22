@@ -160,8 +160,12 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition />
 			</Grid.RowDefinitions>
-			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding EditListCommand}" ImageSource="Edit" ToolTip="Редактировать список" Height="32" Width="32" Visibility="{Binding IsSimpleType, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add" ToolTip="Добавить элемент" Height="32" Width="32" Visibility="{Binding IsSimpleType, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding EditListCommand}" ImageSource="Edit" 
+						   ToolTip="Редактировать список" Height="32" Width="32" 
+						   Visibility="{Binding IsSimpleType, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add" 
+						   ToolTip="Добавить элемент" Height="32" Width="32" 
+						   Visibility="{Binding IsSimpleType, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
 						Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}" >
@@ -227,10 +231,17 @@
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
-								<ToolBarButton Grid.Column="0" ToolTip="Удалить объект" ImageSource="DeleteCross" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" Height="28" Width="28" Background="DarkGray" />
-								<StackPanel Grid.Column="1" Width="200" Margin="2" HorizontalAlignment="Right">
-									<DatePicker SelectedDate="{Binding Value}" DisplayDate="{Binding DateTimeValue}" />
-									<TimePicker TimeSpan="{Binding Value}" IsFullDay="False" />
+								<ToolBarButton Grid.Column="0" ToolTip="Удалить объект" ImageSource="DeleteCross" 
+											   Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveCommand}" 
+											   CommandParameter="{Binding}" Height="28" Width="28" Background="DarkGray" />
+
+								<StackPanel Grid.Column="1" Margin="2" HorizontalAlignment="Right" Orientation="Horizontal">
+									<DatePicker SelectedDate="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged}"
+										DisplayDate="{Binding Value.Value}"
+										Height="26"
+										Padding="0"
+										Margin="0 0 5 0" />
+									<TimePicker TimeSpan="{Binding Value.TimeOfDay, UpdateSourceTrigger=PropertyChanged}" Height="30" />
 								</StackPanel>
 							</Grid>
 						</DataTemplate>

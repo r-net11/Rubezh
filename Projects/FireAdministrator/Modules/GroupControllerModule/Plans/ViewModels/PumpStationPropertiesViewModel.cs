@@ -4,7 +4,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
-using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -14,13 +13,11 @@ namespace GKModule.Plans.ViewModels
 {
 	public class PumpStationPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		IElementPumpStation _element;
-		PumpStationsViewModel _pumpStationsViewModel;
+		IElementPumpStation IElementPumpStation;
 
-		public PumpStationPropertiesViewModel(IElementPumpStation element, PumpStationsViewModel pumpStationsViewModel)
+		public PumpStationPropertiesViewModel(IElementPumpStation element)
 		{
-			_pumpStationsViewModel = pumpStationsViewModel;
-			_element = element;
+			IElementPumpStation = element;
 			Title = "Свойства фигуры: Насосная станция";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -31,8 +28,8 @@ namespace GKModule.Plans.ViewModels
 				var pumpStationViewModel = new PumpStationViewModel(pumpStation);
 				PumpStations.Add(pumpStationViewModel);
 			}
-			if (_element.PumpStationUID != Guid.Empty)
-				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == _element.PumpStationUID);
+			if (IElementPumpStation.PumpStationUID != Guid.Empty)
+				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == IElementPumpStation.PumpStationUID);
 
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
@@ -76,14 +73,11 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		private void OnCreate()
 		{
-			Guid pumpStationUID = _element.PumpStationUID;
+			Guid pumpStationUID = IElementPumpStation.PumpStationUID;
 			var createPumpStationEventArg = new CreateGKPumpStationEventArgs();
 			ServiceFactory.Events.GetEvent<CreateGKPumpStationEvent>().Publish(createPumpStationEventArg);
 			if (createPumpStationEventArg.PumpStation != null)
-				_element.PumpStationUID = createPumpStationEventArg.PumpStation.UID;
-			GKPlanExtension.Instance.Cache.BuildSafe<GKPumpStation>();
-			GKPlanExtension.Instance.SetItem<GKPumpStation>(_element);
-			UpdatePumpStations(pumpStationUID);
+				IElementPumpStation.PumpStationUID = createPumpStationEventArg.PumpStation.UID;
 			if (!createPumpStationEventArg.Cancel)
 				Close(true);
 		}
@@ -101,28 +95,10 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			_element.ShowState = ShowState;
-			_element.ShowDelay = ShowDelay;
-			Guid pumpStationUID = _element.PumpStationUID;
-			GKPlanExtension.Instance.SetItem<GKPumpStation>(_element, SelectedPumpStation == null ? null : SelectedPumpStation.PumpStation);
-			UpdatePumpStations(pumpStationUID);
+			IElementPumpStation.ShowState = ShowState;
+			IElementPumpStation.ShowDelay = ShowDelay;
+			IElementPumpStation.PumpStationUID = SelectedPumpStation.PumpStation.UID;
 			return base.Save();
-		}
-		void UpdatePumpStations(Guid pumpStationUID)
-		{
-			if (_pumpStationsViewModel != null)
-			{
-				if (pumpStationUID != _element.PumpStationUID)
-					Update(pumpStationUID);
-				Update(_element.PumpStationUID);
-				_pumpStationsViewModel.LockedSelect(_element.PumpStationUID);
-			}
-		}
-		void Update(Guid pumpStationUID)
-		{
-			var pumpStation = _pumpStationsViewModel.PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
-			if (pumpStation != null)
-				pumpStation.Update();
 		}
 	}
 }

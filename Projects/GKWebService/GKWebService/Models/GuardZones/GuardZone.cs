@@ -37,6 +37,7 @@ namespace GKWebService.Models.GuardZones
 			HasOffDelay = guardZone.State.StateClasses.Contains(XStateClass.TurningOff) && guardZone.State.OnDelay > 0;
 			OffDelay = HasOffDelay? guardZone.State.OffDelay.ToString(): String.Empty;
 			HasHoldDelay = guardZone.State.StateClasses.Contains(XStateClass.Attention) && guardZone.State.OffDelay > 0;
+			HoldDelay = HasHoldDelay ? guardZone.State.OffDelay.ToString() : String.Empty;
 
 			var controlRegime = guardZone.State.StateClasses.Contains(XStateClass.Ignore)
 				? DeviceControlRegime.Ignore
@@ -81,5 +82,7 @@ namespace GKWebService.Models.GuardZones
 
 		public bool HasHoldDelay { get; set; }
 
+
+		public string HoldDelay { get; set; }
 	}
 }

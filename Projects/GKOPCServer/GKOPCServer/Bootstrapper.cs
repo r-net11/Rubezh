@@ -14,6 +14,7 @@ using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.BalloonTrayTip;
 using RubezhAPI.License;
 using RubezhAPI;
+using Infrastructure.Common.License;
 
 namespace GKOPCServer
 {

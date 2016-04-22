@@ -6,6 +6,7 @@ using RubezhAPI.Models;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Colors = System.Windows.Media.Colors;
 
 namespace PlansModule.Kursk.Painters
 {
@@ -66,7 +67,7 @@ namespace PlansModule.Kursk.Painters
 					break;
 				case TankState.Error:
 				default:
-					_brush = PainterCache.GetTransparentBrush(Common.Colors.Black);
+					_brush = PainterCache.GetTransparentBrush(RubezhAPI.Colors.Black);
 					break;
 			}
 		}

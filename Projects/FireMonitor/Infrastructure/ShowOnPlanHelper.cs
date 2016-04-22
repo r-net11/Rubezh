@@ -20,11 +20,8 @@ namespace Infrastructure
 			set
 			{
 				_layoutUID = value;
-				//CashPlans = GetPlans();
 			}
 		}
-
-		//public static List<Plan> CashPlans { get; private set; }
 
 		public static List<Plan> GetPlans()
 		{
@@ -79,7 +76,6 @@ namespace Infrastructure
 		public static Dictionary<Plan, Guid> GetAllPlans(IPlanPresentable planElement)
 		{
 			Dictionary<Plan, Guid> planDictinary = new Dictionary<Plan, Guid>();
-			//var plans = CashPlans == null ? GetPlans() : CashPlans;
 			GetPlans().ForEach(x =>
 			{
 				var element = x.AllElements.FirstOrDefault(y => planElement.PlanElementUIDs.Contains(y.UID) && !y.IsHidden );

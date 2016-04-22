@@ -24,6 +24,10 @@ namespace RubezhAPI
 		{
 			get { return DeviceConfiguration.Devices; }
 		}
+		public static List<GKCode> Codes
+		{
+			get { return DeviceConfiguration.Codes; }
+		}
 		public static List<GKZone> Zones
 		{
 			get { return DeviceConfiguration.Zones; }

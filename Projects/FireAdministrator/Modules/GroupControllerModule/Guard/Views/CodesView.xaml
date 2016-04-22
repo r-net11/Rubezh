@@ -11,6 +11,8 @@
 				<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить (Ctrl+N)" />
 				<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
 				<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BSettings" Text="Редактировать (Ctrl+E)" />
+				<Separator/>
+				<IconedMenuItem Command="{Binding ShowDependencyItemsCommand}" Text="Список зависящих объектов" />
 			</ContextMenu>
 		</DataGrid.ContextMenu>
 		<DataGrid.Columns>

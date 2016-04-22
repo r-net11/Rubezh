@@ -6,8 +6,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Color = Common.Color;
-using Colors = Common.Colors;
+using Color = RubezhAPI.Color;
+using Colors = RubezhAPI.Colors;
 using WindowsColor = System.Windows.Media.Color;
 using WindowsColors = System.Windows.Media.Colors;
 

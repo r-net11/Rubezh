@@ -39,12 +39,13 @@ namespace Common
 
 		public static NetTcpBinding CreateNetTcpBinding()
 		{
-			var binding = new NetTcpBinding(SecurityMode.Message);
+			var binding = new NetTcpBinding();
 			binding.OpenTimeout = TimeSpan.FromMinutes(10);
 			binding.SendTimeout = TimeSpan.FromMinutes(10);
 			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
-			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			if (binding.ReaderQuotas == null)
+				binding.ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas();
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;

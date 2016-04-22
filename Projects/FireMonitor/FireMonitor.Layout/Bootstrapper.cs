@@ -12,13 +12,16 @@ using Shell = FireMonitor;
 
 namespace FireMonitor.Layout
 {
-	internal class Bootstrapper : Shell.Bootstrapper
+	internal sealed class Bootstrapper : Shell.Bootstrapper
 	{
 		private Guid? _layoutID;
 		private RubezhAPI.Models.Layouts.Layout _layout;
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
+		public static Bootstrapper BootstrapperCurrent { get; private set; }
+		
 		public Bootstrapper()
 		{
+			BootstrapperCurrent = this;
 			_layout = null;
 		}
 
@@ -51,13 +54,20 @@ namespace FireMonitor.Layout
 			return isSelected ? viewModel.SelectedLayout : null;
 		}
 
-		protected override string GetRestartCommandLineArguments()
+		protected override string GetRestartCommandLineArguments(bool isNotRestart = false)
 		{
-			var args = base.GetRestartCommandLineArguments();
-			if (args.Length > 0)
-				args += " ";
-			return args + "layout='" + _layout.UID.ToString() + "'";
+			if (!isNotRestart)
+				return base.GetRestartCommandLineArguments();
+			if (isNotRestart && GetLayout(_layout))
+			{
+				var args = base.GetRestartCommandLineArguments();
+				if (args.Length > 0)
+					args += " ";
+				return args + "layout='" + _layout.UID.ToString() + "'";
+			}
+			return null;
 		}
+
 		public override void InitializeCommandLineArguments(string[] args)
 		{
 			_layoutID = null;
@@ -74,15 +84,24 @@ namespace FireMonitor.Layout
 					}
 		}
 
-		private bool GetLayout()
+		private bool GetLayout(RubezhAPI.Models.Layouts.Layout layoutr = null)
 		{
-			_layout = null;
+			_layout = layoutr;
 			var ip = ConnectionSettingsManager.IsRemote ? ClientManager.GetIP() : null;
 			var localHostName = System.Net.Dns.GetHostName();
 			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout =>
 				layout.Users.Contains(ClientManager.CurrentUser.UID) &&
 				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) ||
 					layout.HostNameOrAddressList.Any(allowedHostName => string.Compare(allowedHostName, localHostName, true) == 0)).ToList();
+
+			if (_layout != null && layouts.Any())
+			{
+				if (layouts.Any(x => x.UID == _layout.UID))
+					return true;
+				_layout = layouts.FirstOrDefault();
+				return _layout != null;
+			}
+
 			if (layouts.Count > 0)
 			{
 				if (_layoutID.HasValue)
