@@ -683,7 +683,7 @@ namespace GKModule.Plans
 			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
 				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
-				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element, _skdZonesViewModel);
+				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKDirection || e.Element is ElementPolygonGKDirection)
 				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
 			else if (e.Element is ElementRectangleGKMPT || e.Element is ElementPolygonGKMPT)
