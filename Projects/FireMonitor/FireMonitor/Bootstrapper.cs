@@ -1,5 +1,6 @@
 ﻿using Common;
 using FireMonitor.ViewModels;
+using FiresecAPI.Enums;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -33,13 +34,26 @@ namespace FireMonitor
 			ServiceFactory.StartupService.Show();
 			if (ServiceFactory.StartupService.PerformLogin(_login, _password))
 			{
-				var userChangedEventArgs = new UserChangedEventArgs
-				{
-					IsReconnect = false
-				};
-				ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
 				_login = ServiceFactory.StartupService.Login;
 				_password = ServiceFactory.StartupService.Password;
+
+				Logger.Info(string.Format("Bootstrapper. Получаем с Сервера тип окружения рабочего стола для пользователя '{0}'", _login));
+				var getUserShelTypeResult = FiresecManager.FiresecService.GetUserShellType(ServiceFactory.StartupService.Login);
+				if (!getUserShelTypeResult.HasError)
+				{
+					try
+					{
+						SetUserShellType(getUserShelTypeResult.Result);
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, string.Format("Возникла исключительная ситуация в процессе установки типа оболочки рабочего стола для пользователя '{0}'", _login));
+					}
+				}
+
+				var userChangedEventArgs = new UserChangedEventArgs { IsReconnect = false };
+				ServiceFactoryBase.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
+
 				try
 				{
 					// При получении от сервера команды на разрыв соединения выводим соответствующее предупреждение и завершаем работу
@@ -126,6 +140,24 @@ namespace FireMonitor
 			}
 			return result;
 		}
+
+		private void SetUserShellType(ShellType shellType)
+		{
+			if (UserShellHelper.GetShell() != shellType)
+			{
+				Logger.Info(string.Format("Bootstrapper. Для пользователя '{0}' устанавливаем тип окружения рабочего стола на '{1}'", _login, shellType));
+				UserShellHelper.SetShell(shellType);
+
+				Logger.Info(string.Format("Bootstrapper. Для пользователя '{0}' {1}ограничиваем доступ к диспетчеру задач", _login, shellType == ShellType.Default ? "не " : string.Empty));
+				UserShellHelper.DisableTaskManager(shellType != ShellType.Default);
+
+				MessageBoxService.ShowWarning("Для продолжения работы требуется перезапустить программу.");
+				ApplicationService.ShutDown();
+				
+				UserShellHelper.Shutdown();
+			}
+		}
+
 		protected virtual bool Run()
 		{
 			var result = true;

@@ -193,6 +193,7 @@
     <Compile Include="SKDReports\ISKDReportProviderModule.cs" />
     <Compile Include="SKDReports\SKDReportGroup.cs" />
     <Compile Include="SKDReports\SKDReportProvider.cs" />
+    <Compile Include="UserShellHelper.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
     <Compile Include="Windows\MonitorHelper.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />

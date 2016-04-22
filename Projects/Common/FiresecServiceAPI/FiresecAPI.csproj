@@ -164,6 +164,7 @@
     <Compile Include="Enums\ReportFormatEnum.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\RoundingType.cs" />
+    <Compile Include="Enums\ShellType.cs" />
     <Compile Include="Extensions\GuidExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
