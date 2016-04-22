@@ -24,8 +24,8 @@ namespace Infrastructure.Client
 {
 	public class BaseBootstrapper
 	{
-		public string Login { get; set; }
-		public string Password { get; set; }
+		public static string Login { get; set; }
+		public static string Password { get; set; }
 		private List<IModule> _modules;
 		public BaseBootstrapper()
 		{
@@ -208,7 +208,6 @@ namespace Infrastructure.Client
 						{
 							var message = string.Format("Не найден файл модуля {0}", moduleElement.AssemblyFile);
 							Logger.Error(message);
-							//MessageBoxService.ShowError(message);
 						}
 					}
 					catch (StartupCancellationException)
