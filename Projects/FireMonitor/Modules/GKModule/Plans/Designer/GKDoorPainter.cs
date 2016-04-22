@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Plans.Painters;
 using Infrastructure.Plans.Presenter;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using System;

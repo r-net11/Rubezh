@@ -4,7 +4,7 @@ using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
-using PointCollection = Common.PointCollection;
+using PointCollection = RubezhAPI.PointCollection;
 
 namespace Infrastructure.Designer.Adorners
 {

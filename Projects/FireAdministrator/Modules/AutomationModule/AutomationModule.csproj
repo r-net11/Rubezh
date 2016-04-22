@@ -191,6 +191,7 @@
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\DateTimeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ObjectReferenceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitValueInstanceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\OpcDaTagFileterSectionViewModel.cs" />

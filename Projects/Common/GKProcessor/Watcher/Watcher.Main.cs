@@ -1,4 +1,5 @@
 ﻿using Common;
+using Infrastructure.Common.License;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
 using RubezhAPI.License;

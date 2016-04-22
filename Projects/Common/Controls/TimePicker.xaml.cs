@@ -20,19 +20,23 @@ namespace Controls
 
 		static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
+			
 			TimePicker timePicker = dp as TimePicker;
-			if (timePicker != null)
+
+			if (e.Property == TimeSpanProperty)
 			{
-				timePicker.TimeSpan = timePicker.TimeSpan;
-				if (timePicker.TimeSpan.Days > 0)
+				if (timePicker != null)
 				{
-					if (timePicker.IsFullDay)
+					if (timePicker.TimeSpan.Days > 0)
+					{
+						if (timePicker.IsFullDay)
 							timePicker.TextBox.Text = "24:00";
-					else timePicker.TextBox.Text = "23:59";
+						else timePicker.TextBox.Text = "23:59";
+					}
+					else timePicker.TextBox.Text = timePicker.TimeSpan.Hours.ToString("D2") + ":" + timePicker.TimeSpan.Minutes.ToString("D2");
 				}
-				 else timePicker.TextBox.Text = timePicker.TimeSpan.Hours.ToString("D2") + ":" + timePicker.TimeSpan.Minutes.ToString("D2");
+				dp.CoerceValue(TimeSpanProperty);
 			}
-			dp.CoerceValue(TimeSpanProperty);
 		}
 
 		public TimePicker()
@@ -45,7 +49,11 @@ namespace Controls
 		public TimeSpan TimeSpan
 		{
 			get { return (TimeSpan)GetValue(TimeSpanProperty); }
-			set { SetValue(TimeSpanProperty, value); }
+			set 
+			{
+				if (value != TimeSpan)
+					SetValue(TimeSpanProperty, value); 
+			}
 		}
 
 		public bool IsFullDay

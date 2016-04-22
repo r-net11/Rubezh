@@ -1,7 +1,7 @@
-﻿using Common;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using RubezhAPI;
 using RubezhAPI.Models;
 
 namespace PlansModule.ViewModels
@@ -30,7 +30,7 @@ namespace PlansModule.ViewModels
 			Plan = plan;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(Plan);
 			IsEnable = ImagePropertiesViewModel.ImageBrush != null;
-			ImagePropertiesViewModel.UpdateProperty+=ImagePropertiesViewModel_UpdateProperty;
+			ImagePropertiesViewModel.UpdateProperty += ImagePropertiesViewModel_UpdateProperty;
 			CopyProperties();
 		}
 

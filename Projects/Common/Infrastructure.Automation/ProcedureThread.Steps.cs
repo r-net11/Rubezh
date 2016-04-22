@@ -1,10 +1,10 @@
 ﻿using Common;
+using Infrastructure.Common.License;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhAPI.License;
 using RubezhAPI.Models;
 using RubezhAPI.SKD;
 using System;

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.License;
 using Infrastructure.Common.Validation;
 using RubezhAPI;
 using RubezhAPI.Automation;

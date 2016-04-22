@@ -17,8 +17,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Color = Common.Color;
-using Colors = Common.Colors;
+using Color = RubezhAPI.Color;
+using Colors = RubezhAPI.Colors;
 
 namespace GKModule.Plans.Designer
 {

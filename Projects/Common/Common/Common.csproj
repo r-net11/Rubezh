@@ -134,15 +134,11 @@
     <Compile Include="AssemblyInfoCommon.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="ClipboardSourceAction.cs" />
-    <Compile Include="Color.cs" />
-    <Compile Include="Colors.cs" />
-    <Compile Include="ColorUtilities.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="IIdentity.cs" />
-    <Compile Include="PointCollection.cs" />
     <Compile Include="ResourceType.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
@@ -167,10 +163,6 @@
     <Compile Include="SafeContext.cs" />
     <Compile Include="SafeEnum.cs" />
     <Compile Include="SortableObservableCollection.cs" />
-    <Compile Include="State\XStateClass.cs" />
-    <Compile Include="State\IDeviceState.cs" />
-    <Compile Include="State\NamedStateClass.cs" />
-    <Compile Include="Stretch.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TimeCounter.cs" />
     <Compile Include="Utils.cs" />

@@ -1,14 +1,15 @@
-﻿using System;
+﻿using FiresecService.Models;
+using FiresecService.Service;
+using FiresecService.Views;
+using GKProcessor;
+using Infrastructure.Common.License;
+using RubezhAPI;
+using RubezhAPI.License;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecService.Views;
-using FiresecService.Models;
 using System.Windows.Forms;
-using RubezhAPI;
-using RubezhAPI.Models;
-using FiresecService.Service;
-using GKProcessor;
-using RubezhAPI.License;
 using System.Windows.Threading;
 
 namespace FiresecService.Presenters
@@ -174,7 +175,7 @@ namespace FiresecService.Presenters
 		Client _selectedClient;
 		public Client SelectedClient
 		{
-			get 
+			get
 			{
 				return (Client)_bindingSourceClients.Current;
 			}
@@ -281,8 +282,8 @@ namespace FiresecService.Presenters
 			{
 				var now = DateTime.Now;
 				var clientInfo = FiresecService.Service.ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
-				var client = clientInfo == null ? "" : 
-					string.Format("{0} / {1} / {2}", clientInfo.ClientCredentials.ClientType.ToDescription(), 
+				var client = clientInfo == null ? "" :
+					string.Format("{0} / {1} / {2}", clientInfo.ClientCredentials.ClientType.ToDescription(),
 					clientInfo.ClientCredentials.ClientIpAddress, clientInfo.ClientCredentials.FriendlyUserName);
 				var clientPoll = ClientPolls.FirstOrDefault(x => x.Client == client && x.UID == uid);
 				if (clientPoll == null)
@@ -302,7 +303,7 @@ namespace FiresecService.Presenters
 		#endregion
 
 		#region Operations
-		
+
 		List<ServerTaskModel> ServerTasks { get; set; }
 
 		BindingSource _bindingSourceOperations;
@@ -338,7 +339,7 @@ namespace FiresecService.Presenters
 		#endregion
 
 		#region License
-		
+
 		public License License { get; private set; }
 
 		void EventHandler_View_ClickLoadLicense(object sender, EventArgs e)

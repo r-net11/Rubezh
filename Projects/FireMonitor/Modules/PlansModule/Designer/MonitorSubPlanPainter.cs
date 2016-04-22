@@ -9,8 +9,8 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
-using Color = Common.Color;
-using Colors = Common.Colors;
+using Color = RubezhAPI.Color;
+using Colors = RubezhAPI.Colors;
 
 namespace PlansModule.Designer
 {
