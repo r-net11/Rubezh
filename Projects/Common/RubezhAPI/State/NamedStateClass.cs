@@ -1,6 +1,6 @@
 ﻿using RubezhAPI.GK;
 
-namespace Common
+namespace RubezhAPI
 {
 	public class NamedStateClass
 	{

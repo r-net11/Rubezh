@@ -167,9 +167,6 @@
     <Compile Include="SafeContext.cs" />
     <Compile Include="SafeEnum.cs" />
     <Compile Include="SortableObservableCollection.cs" />
-    <Compile Include="State\XStateClass.cs" />
-    <Compile Include="State\IDeviceState.cs" />
-    <Compile Include="State\NamedStateClass.cs" />
     <Compile Include="Stretch.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TimeCounter.cs" />

@@ -496,6 +496,9 @@
     <Compile Include="Models\Plans\ElementRectangleGKDirection.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
     <Compile Include="SKD\Card\AccessTemplate.cs" />
+    <Compile Include="State\IDeviceState.cs" />
+    <Compile Include="State\NamedStateClass.cs" />
+    <Compile Include="State\XStateClass.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKZone.cs" />

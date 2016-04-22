@@ -7,6 +7,7 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Plans;
 using Infrastructure.Plans.Events;
 using Common;
+using RubezhAPI;
 
 namespace PlansModule.ViewModels
 {

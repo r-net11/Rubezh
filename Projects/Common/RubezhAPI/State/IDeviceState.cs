@@ -1,7 +1,7 @@
-﻿using System;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
+using System;
 
-namespace Common
+namespace RubezhAPI
 {
 	public interface IDeviceState
 	{

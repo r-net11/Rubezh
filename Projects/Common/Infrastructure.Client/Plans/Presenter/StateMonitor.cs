@@ -4,6 +4,7 @@ using Common;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using Infrastructure.Plans.Presenter;
+using RubezhAPI;
 
 namespace Infrastructure.Client.Plans.Presenter
 {
