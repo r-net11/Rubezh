@@ -12,13 +12,16 @@ using Shell = FireMonitor;
 
 namespace FireMonitor.Layout
 {
-	internal class Bootstrapper : Shell.Bootstrapper
+	internal sealed class Bootstrapper : Shell.Bootstrapper
 	{
 		private Guid? _layoutID;
 		private RubezhAPI.Models.Layouts.Layout _layout;
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
+		public static Bootstrapper BootstrapperCurrent { get; private set; }
+		
 		public Bootstrapper()
 		{
+			BootstrapperCurrent = this;
 			_layout = null;
 		}
 
@@ -53,10 +56,7 @@ namespace FireMonitor.Layout
 
 		protected override string GetRestartCommandLineArguments()
 		{
-			var args = base.GetRestartCommandLineArguments();
-			if (args.Length > 0)
-				args += " ";
-			return args + "layout='" + _layout.UID.ToString() + "'";
+			return base.GetRestartCommandLineArguments();
 		}
 		public override void InitializeCommandLineArguments(string[] args)
 		{

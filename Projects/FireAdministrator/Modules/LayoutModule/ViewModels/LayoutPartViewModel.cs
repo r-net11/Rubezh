@@ -105,7 +105,7 @@ namespace LayoutModule.ViewModels
 			var layoutItem = LayoutDesignerViewModel.Instance.Manager.GetLayoutItemFromModel(document);
 			var size = new LayoutPartSize();
 			size.PreferedSize = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.PreferedSize;
-			size.Margin = (int)document.Margin;
+			size.Margin = document.Margin;
 			size.BackgroundColor = document.BackgroundColor;
 			size.BorderColor = document.BorderColor;
 			size.BorderThickness = document.BorderThickness;

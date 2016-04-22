@@ -17,5 +17,14 @@ namespace LayoutModule.Views
 			element.Focusable = true;
 			Keyboard.Focus(element);
 		}
+
+		private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+		{
+			DataGrid dataGrid = sender as DataGrid;
+			if (dataGrid != null && dataGrid.SelectedItem != null && !dataGrid.IsMouseOver)
+			{
+				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+			}
+		}
 	}
 }
