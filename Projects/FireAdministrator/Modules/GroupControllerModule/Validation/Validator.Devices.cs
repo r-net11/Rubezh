@@ -288,11 +288,11 @@ namespace GKModule.Validation
 			if (device.DriverType != GKDriverType.FirefightingZonesMirror)
 				return;
 			if (device.GKReflectionItem.Zones.Count == 0 && device.GKReflectionItem.Diretions.Count != 0)
-				AddError(device, string.Format("В образе ЗПЗ отсутсвуют пожарные зоны"), ValidationErrorLevel.CannotWrite);
+				AddError(device, string.Format("В образе ЗПЗ отсутствуют пожарные зоны"), ValidationErrorLevel.CannotWrite);
 			if (device.GKReflectionItem.Zones.Count != 0 && device.GKReflectionItem.Diretions.Count == 0)
-				AddError(device, string.Format("В образе ЗПЗ отсутсвуют направления"), ValidationErrorLevel.CannotWrite);
+				AddError(device, string.Format("В образе ЗПЗ отсутствуют направления"), ValidationErrorLevel.CannotWrite);
 			if (device.GKReflectionItem.Zones.Count == 0 && device.GKReflectionItem.Diretions.Count == 0)
-				AddError(device, string.Format("В образе ЗПЗ отсутсвуют пожарные зоны и направления"), ValidationErrorLevel.CannotWrite);
+				AddError(device, string.Format("В образе ЗПЗ отсутствуют пожарные зоны и направления"), ValidationErrorLevel.CannotWrite);
 		}
 
 		void ValidateFireZonesMirror(GKDevice device)
@@ -300,14 +300,14 @@ namespace GKModule.Validation
 			if (device.DriverType != GKDriverType.FireZonesMirror)
 				return;
 			if (device.GKReflectionItem.Zones.Count == 0)
-				AddError(device, string.Format("В образе ЗП отсутсвуют пожарные зоны"), ValidationErrorLevel.CannotWrite);
+				AddError(device, string.Format("В образе ЗП отсутствуют пожарные зоны"), ValidationErrorLevel.CannotWrite);
 		}
 		void ValidateGuardZonesMirror(GKDevice device)
 		{
 			if (device.DriverType != GKDriverType.GuardZonesMirror)
 				return;
 			if (device.GKReflectionItem.GuardZones.Count == 0)
-				AddError(device, string.Format("В образе ЗО отсутсвуют охранные зоны"), ValidationErrorLevel.CannotWrite);
+				AddError(device, string.Format("В образе ЗО отсутствуют охранные зоны"), ValidationErrorLevel.CannotWrite);
 		}
 		void ValidateControlDevicesMirror(GKDevice device)
 		{
@@ -315,14 +315,14 @@ namespace GKModule.Validation
 				return;
 			if (device.GKReflectionItem.Delays.Count == 0 && device.GKReflectionItem.NSs.Count == 0 && device.GKReflectionItem.MPTs.Count == 0
 				&& device.GKReflectionItem.Devices.Count == 0 && device.GKReflectionItem.Diretions.Count == 0)
-				AddError(device, string.Format("В образе УИС отсутсвуют исполнительные устройства"), ValidationErrorLevel.CannotWrite);
+				AddError(device, string.Format("В образе УИС отсутствуют исполнительные устройства"), ValidationErrorLevel.CannotWrite);
 		}
 		void ValidateDetectorDevicesMirror(GKDevice device)
 		{
 			if (device.DriverType != GKDriverType.DetectorDevicesMirror)
 				return;
 			if (device.GKReflectionItem.Devices.Count == 0)
-				AddError(device, string.Format("В образе УИЗВ отсутсвуют извещательные устройства"), ValidationErrorLevel.CannotWrite);
+				AddError(device, string.Format("В образе УИЗВ отсутствуют извещательные устройства"), ValidationErrorLevel.CannotWrite);
 		}
 
 		void ValidateDirectionsMirror(GKDevice device)
@@ -330,7 +330,7 @@ namespace GKModule.Validation
 			if (device.DriverType != GKDriverType.DirectionsMirror)
 				return;
 			if (device.GKReflectionItem.Diretions.Count == 0)
-				AddError(device, string.Format("В образе НПЗ отсутсвуют направления"), ValidationErrorLevel.CannotWrite);
+				AddError(device, string.Format("В образе НПЗ отсутствуют направления"), ValidationErrorLevel.CannotWrite);
 		}
 
 		List<Tuple<int, int>> secondAndWindowProperties { get; set; }
