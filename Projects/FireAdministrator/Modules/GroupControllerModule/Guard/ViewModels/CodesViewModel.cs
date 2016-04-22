@@ -26,6 +26,7 @@ namespace GKModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
+			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -37,6 +38,9 @@ namespace GKModule.ViewModels
 			{
 				var codeViewModel = new CodeViewModel(code);
 				Codes.Add(codeViewModel);
+				AddDependentElementsZones(code);
+				AddDependentElementsMPTs(code);
+
 			}
 			SelectedCode = Codes.FirstOrDefault();
 		}
@@ -98,6 +102,17 @@ namespace GKModule.ViewModels
 		bool CanEditDelete()
 		{
 			return (SelectedCode != null);
+		}
+
+		public RelayCommand ShowDependencyItemsCommand { get; set; }
+
+		void ShowDependencyItems()
+		{
+			if (SelectedCode != null)
+			{
+				var dependencyItemsViewModel = new DependencyItemsViewModel(SelectedCode.Code.OutputDependentElements);
+				DialogService.ShowModalWindow(dependencyItemsViewModel);
+			}
 		}
 
 		public void CreateCode(CreateGKCodeEventArg createGKCodeEventArg)
@@ -196,6 +211,40 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить все пустые коды", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
+		}
+		void AddDependentElementsZones(GKCode Code)
+		{
+			List<GKGuardZone> zones = new List<GKGuardZone>();
+			zones= GKManager.GuardZones;
+			foreach (var zone in zones)
+			{
+				List<GKGuardZoneDevice> guardZoneDevices = zone.GuardZoneDevices;
+				foreach (var guardZoneDevice in guardZoneDevices)
+				{
+					if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					{ Code.OutputDependentElements.Add(zone); break; }
+					if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					{ Code.OutputDependentElements.Add(zone); break; }
+					if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					{ Code.OutputDependentElements.Add(zone); break; }
+					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					{ Code.OutputDependentElements.Add(zone); break; }
+				}
+			}
+		}
+		void AddDependentElementsMPTs(GKCode Code)
+		{
+			List<GKMPT> MPTs = new List<GKMPT>();
+			MPTs = GKManager.MPTs;
+			foreach (var MPT in MPTs)
+			{
+				List<GKMPTDevice> MPTDevices = MPT.MPTDevices;
+				foreach (var MPTDevice in MPTDevices)
+				{
+					if (MPTDevice.CodeReaderSettings.MPTSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					{ Code.OutputDependentElements.Add(MPT); break; }
+				}
+			}
 		}
 		#region ISelectable<Guid> Members
 		public void Select(Guid codeUID)
