@@ -2,8 +2,10 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using Common;
+using FiresecAPI.Enums;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -12,11 +14,18 @@ using Infrastructure.Common.Windows;
 using System.Threading;
 using Infrastructure.Client.Startup;
 using System.Globalization;
+using WinForms = System.Windows.Forms;
+using System.Windows.Forms;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace FireMonitor
 {
 	public partial class App : Application
 	{
+		private static readonly InterceptKeys.LowLevelKeyboardProc _proc = HookCallback;
+		private static IntPtr _hookID = IntPtr.Zero;
+
 		private const string SignalId = "{56E74882-C633-45CD-BE94-DCDEE52846BE}";
 		private const string WaitId = "{38A602C9-D6F2-424B-B0FA-97E1B133C473}";
 		private Bootstrapper _bootstrapper;
@@ -25,6 +34,19 @@ namespace FireMonitor
 		public App()
 		{
 			IsClosingOnException = false;
+
+			if (UserShellHelper.GetShell() != ShellType.Default)
+			{
+				try
+				{
+					_hookID = InterceptKeys.SetHook(_proc);
+				}
+				catch
+				{
+					if (_hookID != IntPtr.Zero)
+						InterceptKeys.UnhookWindowsHookEx(_hookID);
+				}
+			}
 		}
 
 		protected virtual Bootstrapper CreateBootstrapper()
@@ -148,6 +170,45 @@ namespace FireMonitor
 					return true;
 			}
 			return false;
+		}
+
+		public static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+		{
+			if (nCode >= 0)
+			{
+				bool Alt = (WinForms.Control.ModifierKeys & Keys.Alt) != 0;
+				bool Control = (WinForms.Control.ModifierKeys & Keys.Control) != 0;
+
+				//Prevent ALT-TAB and CTRL-ESC by eating TAB and ESC. Also kill Windows Keys.
+				int vkCode = Marshal.ReadInt32(lParam);
+				Keys key = (Keys)vkCode;
+
+				//if (Alt && key == Keys.F4)
+				//{
+				//	Application.Current.Shutdown();
+				//	return (IntPtr)1; //handled
+				//}
+				if (key == Keys.LWin || key == Keys.RWin) return (IntPtr)1; //handled
+				if (Alt && key == Keys.Tab) return (IntPtr)1; //handled
+				if (Alt && key == Keys.Space) return (IntPtr)1; //handled
+				if (Control && key == Keys.Escape) return (IntPtr)1;
+				//if (key == Keys.None) return (IntPtr)1; //handled
+				//if (key <= Keys.Back) return (IntPtr)1; //handled
+				//if (key == Keys.Menu) return (IntPtr)1; //handled
+				//if (key == Keys.Pause) return (IntPtr)1; //handled
+				//if (key == Keys.Help) return (IntPtr)1; //handled
+				//if (key == Keys.Sleep) return (IntPtr)1; //handled
+				//if (key == Keys.Apps) return (IntPtr)1; //handled
+				//if (key >= Keys.KanaMode && key <= Keys.HanjaMode) return (IntPtr)1; //handled
+				//if (key >= Keys.IMEConvert && key <= Keys.IMEModeChange) return (IntPtr)1; //handled
+				//if (key >= Keys.BrowserBack && key <= Keys.BrowserHome) return (IntPtr)1; //handled
+				//if (key >= Keys.MediaNextTrack && key <= Keys.OemClear) return (IntPtr)1; //handled
+
+				Debug.WriteLine(vkCode.ToString() + " " + key);
+
+
+			}
+			return InterceptKeys.CallNextHookEx(_hookID, nCode, wParam, lParam);
 		}
 
 		[STAThread]

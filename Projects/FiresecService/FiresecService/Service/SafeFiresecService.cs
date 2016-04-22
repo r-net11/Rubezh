@@ -267,5 +267,15 @@ namespace FiresecService.Service
 		{
 			SafeOperationCall(() => FiresecService.NotifyLicenseChanged(), "NotifyLicenseChanged");
 		}
+
+		/// <summary>
+		/// Получает тип оболочки рабочего стола пользователя A.C.Tech
+		/// </summary>
+		/// <param name="userName">Пользователь A.C.Tech</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<ShellType> GetUserShellType(string userName)
+		{
+			return SafeOperationCall(() => FiresecService.GetUserShellType(userName), "GetUserShellType");
+		}
 	}
 }

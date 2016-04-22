@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Enums;
 
 namespace FiresecAPI.Models
 {
@@ -35,5 +36,11 @@ namespace FiresecAPI.Models
 		{
 			return PermissionStrings.Contains(permissionType.ToString());
 		}
+
+		/// <summary>
+		/// Используемая оболочка рабочего стола
+		/// </summary>
+		[DataMember]
+		public ShellType ShellType { get; set; }
 	}
 }
