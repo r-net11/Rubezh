@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GKModule.ViewModels
@@ -65,10 +66,40 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
+			GKMPT mpt = new GKMPT();
+			mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Contains(MPTDevice));
+
+			List<GKCode> codesMPT = new List<GKCode>();
+			codesMPT = GKManager.Codes.Where(x => MPTDevice.CodeReaderSettings.MPTSettings.CodeUIDs.Contains(x.UID)).ToList();
+			DeleteDependentElements(mpt, codesMPT);
+
 			var mptCodeReaderDetailsViewModel = new MPTCodeReaderDetailsViewModel(MPTDevice.CodeReaderSettings, MPTDeviceType);
 			if (DialogService.ShowModalWindow(mptCodeReaderDetailsViewModel))
 			{
+				codesMPT = GKManager.Codes.Where(x => MPTDevice.CodeReaderSettings.MPTSettings.CodeUIDs.Contains(x.UID)).ToList();
+				AddDependentElements(mpt, codesMPT);
 				ServiceFactory.SaveService.GKChanged = true;
+			}
+			else 
+			{
+				AddDependentElements(mpt, codesMPT);
+			}
+		}
+		void AddDependentElements(GKMPT MPT, List<GKCode> Codes)
+		{
+
+			foreach (var code in Codes)
+			{
+				if(!code.OutputDependentElements.Contains(MPT))
+				code.OutputDependentElements.Add(MPT);
+			}
+		}
+		void DeleteDependentElements(GKMPT MPT, List<GKCode> Codes)
+		{
+
+			foreach (var code in Codes)
+			{
+				code.OutputDependentElements.Remove(MPT);
 			}
 		}
 
