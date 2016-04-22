@@ -24,7 +24,7 @@ namespace FiresecService.Service
 				{
 					Notifier.SetRemoteAddress("<Не разрешено>");
 				}
-				else if (!UACHelper.IsAdministrator)
+				else if (isLocalEndpointEnabled && !UACHelper.IsAdministrator)
 				{
 					Notifier.SetRemoteAddress("<Нет прав администратора>");
 				}

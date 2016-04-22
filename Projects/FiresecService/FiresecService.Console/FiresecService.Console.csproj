@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Npgsql.2.2.7\lib\net40\Mono.Security.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -44,6 +41,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Npgsql.2.2.7\lib\net40\Mono.Security.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolExtentions.cs" />
@@ -72,35 +72,35 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
-      <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecService.Core\FiresecService.Core.csproj">
-      <Project>{863cfff3-5380-453e-b512-84e228ab1e5b}</Project>
+      <Project>{863CFFF3-5380-453E-B512-84E228AB1E5B}</Project>
       <Name>FiresecService.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
-      <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>
+      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
       <Name>GKProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj">
-      <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
+      <Project>{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7}</Project>
       <Name>Infrastructure.Automation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
+      <Project>{43EFDAD9-051E-462B-8F6D-4E99ACAC1DF6}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
-      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>RubezhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhDAL\RubezhDAL.csproj">
-      <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
+      <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>RubezhDAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhLicense\RubezhLicense.csproj">
-      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
+      <Project>{E6D24912-812B-42B4-B6B0-97CA33C0F4AF}</Project>
       <Name>RubezhLicense</Name>
     </ProjectReference>
   </ItemGroup>
