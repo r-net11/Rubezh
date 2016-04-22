@@ -265,7 +265,7 @@ namespace GKModule.Plans
 				{
 					var elementPolygonGKZone = (ElementPolygonGKZone)element;
 					plan.ElementPolygonGKZones.Add(elementPolygonGKZone);
-					SetItem<GKZone>(elementPolygonGKZone);
+					SetItem(elementPolygonGKZone, GKManager.Zones.FirstOrDefault(x => x.UID == elementPolygonGKZone.ZoneUID));
 				}
 				else if (element is ElementRectangleGKGuardZone)
 				{

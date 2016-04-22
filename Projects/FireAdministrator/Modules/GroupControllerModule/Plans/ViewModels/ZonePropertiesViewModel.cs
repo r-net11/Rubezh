@@ -60,7 +60,6 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		void OnCreate()
 		{
-			Guid zoneUID = IElementZone.ZoneUID;
 			var createZoneEventArg = new CreateGKZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
