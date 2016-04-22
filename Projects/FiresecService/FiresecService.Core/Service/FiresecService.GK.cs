@@ -29,7 +29,7 @@ namespace FiresecService.Service
 				{
 					if (GKManager.DeviceConfiguration.OnlyGKDeviceConfiguration)
 					{
-						var deviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("Config\\GKDeviceConfiguration.xml");
+						var deviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("Config" + Path.DirectorySeparatorChar + "GKDeviceConfiguration.xml");
 						var zipDeviceConfigFileName = AppDataFolderHelper.GetServerAppDataPath("GKDeviceConfiguration.fscp");
 						if (File.Exists(zipDeviceConfigFileName))
 							File.Delete(zipDeviceConfigFileName);

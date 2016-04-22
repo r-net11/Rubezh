@@ -63,11 +63,11 @@ namespace FiresecService
 			try
 			{
 				var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
-				if (File.Exists(configDirectory + "\\SecurityConfiguration.xml"))
+				if (File.Exists(Path.Combine(configDirectory, "SecurityConfiguration.xml")))
 				{
-					if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
-						File.Copy(configDirectory + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
-					File.Delete(configDirectory + "\\SecurityConfiguration.xml");
+					if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config" + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "SecurityConfiguration.xml")))
+						File.Copy(Path.Combine(configDirectory, "SecurityConfiguration.xml"), AppDataFolderHelper.GetServerAppDataPath("Config" + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "SecurityConfiguration.xml"));
+					File.Delete(Path.Combine(configDirectory, "SecurityConfiguration.xml"));
 				}
 				securityConfiguration = (SecurityConfiguration)GetConfiguration("SecurityConfiguration.xml", typeof(SecurityConfiguration));
 				securityConfiguration.AfterLoad();
@@ -81,7 +81,7 @@ namespace FiresecService
 
 		static SystemConfiguration GetSystemConfiguration()
 		{
-			var systemConfiguration = (SystemConfiguration)GetConfiguration("Config\\SystemConfiguration.xml", typeof(SystemConfiguration));
+			var systemConfiguration = (SystemConfiguration)GetConfiguration("Config" + Path.DirectorySeparatorChar + "SystemConfiguration.xml", typeof(SystemConfiguration));
 			if (systemConfiguration != null)
 			{
 				systemConfiguration.AfterLoad();
@@ -95,7 +95,7 @@ namespace FiresecService
 
 		static GKDeviceConfiguration GetDeviceConfiguration()
 		{
-			var deviceConfiguration = (GKDeviceConfiguration)GetConfiguration("Config\\GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
+			var deviceConfiguration = (GKDeviceConfiguration)GetConfiguration("Config" + Path.DirectorySeparatorChar + "GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
 			if (deviceConfiguration == null)
 				deviceConfiguration = new GKDeviceConfiguration();
 			deviceConfiguration.AfterLoad();

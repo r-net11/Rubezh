@@ -169,11 +169,11 @@ namespace FiresecService.Service
 		static void ReplaceSecurityConfiguration()
 		{
 			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
-			if (File.Exists(configDirectory + "\\SecurityConfiguration.xml"))
+			if (File.Exists(Path.Combine(configDirectory, "SecurityConfiguration.xml")))
 			{
-				if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml")))
-					File.Copy(configDirectory + "\\SecurityConfiguration.xml", AppDataFolderHelper.GetServerAppDataPath("Config\\..\\SecurityConfiguration.xml"));
-				File.Delete(configDirectory + "\\SecurityConfiguration.xml");
+				if (!File.Exists(AppDataFolderHelper.GetServerAppDataPath("Config" + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "SecurityConfiguration.xml")))
+					File.Copy(Path.Combine(configDirectory, "SecurityConfiguration.xml"), AppDataFolderHelper.GetServerAppDataPath("Config" + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "SecurityConfiguration.xml"));
+				File.Delete(Path.Combine(configDirectory, "SecurityConfiguration.xml"));
 			}
 		}
 	}
