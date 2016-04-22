@@ -5,8 +5,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
 using Infrastructure.Plans.Events;
+using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -314,6 +314,13 @@ namespace GKModule.ViewModels
 			if (elementZone == null)
 				elementZone = element as ElementPolygonGKGuardZone;
 			return elementZone;
+		}
+		public void UpdateZones(Guid guardZoneUID)
+		{
+			var zone = Zones.FirstOrDefault(x => x.Zone.UID == guardZoneUID);
+			if (zone != null)
+				zone.Update();
+			LockedSelect(guardZoneUID);
 		}
 	}
 }
