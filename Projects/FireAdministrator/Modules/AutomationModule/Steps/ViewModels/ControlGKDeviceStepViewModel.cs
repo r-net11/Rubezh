@@ -11,7 +11,23 @@ namespace AutomationModule.ViewModels
 	public class ControlGKDeviceStepViewModel : BaseStepViewModel
 	{
 		ControlGKDeviceStep ControlGkDeviceStep { get; set; }
-		public ArgumentViewModel GKDeviceArgument { get; private set; }
+
+		ArgumentViewModel _GKDeviceArgument;
+		public ArgumentViewModel GKDeviceArgument 
+		{
+			get { return _GKDeviceArgument; } 
+			private set 
+			{ 
+				_GKDeviceArgument = value;
+				_GKDeviceArgument.ExplicitValue.PropertyChanged += ExplicitValue_PropertyChanged;
+			}
+		}
+
+		void ExplicitValue_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "ExplicitValue")
+				Update();
+		}
 
 		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
@@ -61,11 +77,17 @@ namespace AutomationModule.ViewModels
 			}
 			if (IsTriStateControl(device))
 			{
-				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Automatic, CommandType.SetRegime_Manual, CommandType.SetRegime_Off };
+				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Automatic, CommandType.SetRegime_Manual, 
+					CommandType.SetRegime_Off};
 				foreach (var availableCommand in device.Driver.AvailableCommandBits)
 				{
 					Commands.Add(XStateBitToCommandType(availableCommand));
 				}
+
+				Commands.Add(CommandType.TurnOn_InAutomatic);
+				Commands.Add(CommandType.TurnOff_InAutomatic);
+				Commands.Add(CommandType.TurnOnNow_InAutomatic);
+				Commands.Add(CommandType.TurnOffNow_InAutomatic);
 			}
 			OnPropertyChanged(() => Commands);
 		}

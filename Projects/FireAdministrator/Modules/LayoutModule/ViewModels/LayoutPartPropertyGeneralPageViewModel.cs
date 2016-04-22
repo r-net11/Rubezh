@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Infrastructure.Common.Services.Layout;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using Infrastructure.Common.Services.Layout;
 
 namespace LayoutModule.ViewModels
 {
 	public class LayoutPartPropertyGeneralPageViewModel : LayoutPartPropertyPageViewModel
 	{
-		private LayoutPartSize _layoutPartSize;
-		private LayoutPartViewModel _layoutPartViewModel;
-		private bool _initialized;
+		LayoutPartSize _layoutPartSize;
+		LayoutPartViewModel _layoutPartViewModel;
+		bool _initialized;
 		public LayoutPartPropertyGeneralPageViewModel(LayoutPartViewModel layoutPartViewModel, LayoutPartSize layoutPartSize)
 		{
 			_initialized = false;
@@ -23,7 +23,7 @@ namespace LayoutModule.ViewModels
 
 		public ObservableCollection<GridUnitType> UnitTypes { get; private set; }
 
-		private GridUnitType _widthType;
+		GridUnitType _widthType;
 		public GridUnitType WidthType
 		{
 			get { return _widthType; }
@@ -38,7 +38,8 @@ namespace LayoutModule.ViewModels
 				}
 			}
 		}
-		private GridUnitType _heightType;
+
+		GridUnitType _heightType;
 		public GridUnitType HeightType
 		{
 			get { return _heightType; }
@@ -53,7 +54,8 @@ namespace LayoutModule.ViewModels
 				}
 			}
 		}
-		private double _width;
+
+		double _width;
 		public double Width
 		{
 			get { return _width; }
@@ -63,7 +65,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => Width);
 			}
 		}
-		private double _height;
+
+		double _height;
 		public double Height
 		{
 			get { return _height; }
@@ -73,7 +76,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => Height);
 			}
 		}
-		private double _minWidth;
+
+		double _minWidth;
 		public double MinWidth
 		{
 			get { return _minWidth; }
@@ -83,7 +87,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => MinWidth);
 			}
 		}
-		private double _minHeight;
+
+		double _minHeight;
 		public double MinHeight
 		{
 			get { return _minHeight; }
@@ -93,7 +98,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => MinHeight);
 			}
 		}
-		private bool _isWidthFixed;
+
+		bool _isWidthFixed;
 		public bool IsWidthFixed
 		{
 			get { return _isWidthFixed; }
@@ -103,7 +109,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => IsWidthFixed);
 			}
 		}
-		private bool _isHeightFixed;
+
+		bool _isHeightFixed;
 		public bool IsHeightFixed
 		{
 			get { return _isHeightFixed; }
@@ -113,7 +120,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => IsHeightFixed);
 			}
 		}
-		private int _margin;
+
+		int _margin;
 		public int Margin
 		{
 			get { return _margin; }
@@ -123,7 +131,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => Margin);
 			}
 		}
-		private Color _backgroundColor;
+
+		Color _backgroundColor;
 		public Color BackgroundColor
 		{
 			get { return _backgroundColor; }
@@ -133,7 +142,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => BackgroundColor);
 			}
 		}
-		private Color _borderColor;
+
+		Color _borderColor;
 		public Color BorderColor
 		{
 			get { return _borderColor; }
@@ -143,7 +153,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => BorderColor);
 			}
 		}
-		private int _borderThickness;
+
+		int _borderThickness;
 		public int BorderThickness
 		{
 			get { return _borderThickness; }
@@ -153,7 +164,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => BorderThickness);
 			}
 		}
-		private string _title;
+
+		string _title;
 		public string Title
 		{
 			get { return _title; }
@@ -190,7 +202,19 @@ namespace LayoutModule.ViewModels
 		}
 		public override bool Save()
 		{
-			if (_layoutPartSize.Height != Height || _layoutPartSize.HeightType != HeightType || _layoutPartSize.IsHeightFixed != IsHeightFixed || _layoutPartSize.IsWidthFixed != IsWidthFixed || _layoutPartSize.MinHeight != MinHeight || _layoutPartSize.MinWidth != MinWidth || _layoutPartSize.Width != Width || _layoutPartSize.WidthType != WidthType || _layoutPartSize.Margin != Margin || _layoutPartSize.BackgroundColor != BackgroundColor || _layoutPartSize.BorderColor != BorderColor || _layoutPartSize.BorderThickness != BorderThickness || (_layoutPartViewModel.Title != Title))
+			if (_layoutPartSize.Height != Height ||
+				_layoutPartSize.HeightType != HeightType ||
+				_layoutPartSize.IsHeightFixed != IsHeightFixed ||
+				_layoutPartSize.IsWidthFixed != IsWidthFixed ||
+				_layoutPartSize.MinHeight != MinHeight ||
+				_layoutPartSize.MinWidth != MinWidth ||
+				_layoutPartSize.Width != Width ||
+				_layoutPartSize.WidthType != WidthType ||
+				_layoutPartSize.Margin != Margin ||
+				_layoutPartSize.BackgroundColor != BackgroundColor ||
+				_layoutPartSize.BorderColor != BorderColor ||
+				_layoutPartSize.BorderThickness != BorderThickness ||
+				(_layoutPartViewModel.Title != Title))
 			{
 				_layoutPartSize.Height = Height;
 				_layoutPartSize.HeightType = HeightType;

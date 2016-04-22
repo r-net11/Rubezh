@@ -2,7 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using PlansModule.Designer;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Interfaces;

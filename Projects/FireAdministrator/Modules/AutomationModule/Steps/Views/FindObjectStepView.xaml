@@ -22,17 +22,20 @@
 
 		<TextBlock Grid.Column="0" Grid.Row="1" Text="Условия поиска " HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding ResultArgument.SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}" />
 		<StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="{Binding ResultArgument.SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}">
-			<ToolBarButton HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить условие" Height="32" Width="32" />
-			<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="{DynamicResource ForegroundColorLight}" Command="{Binding ChangeJoinOperatorCommand}"
-							   Visibility="{Binding Path=IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-				<ToolBarButton.ToolTip>
+			<Button HorizontalAlignment="Left" Command="{Binding AddCommand}" ToolTip="Добавить условие" Height="32" Width="32">
+				<Rectangle Fill="{DynamicResource Add}" Width="16" Height="16" />
+			</Button>
+			<Button Height="32" Width="70" Command="{Binding ChangeJoinOperatorCommand}" Foreground="{DynamicResource ForegroundColorLight}"
+					Visibility="{Binding IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+					Opacity="1">
+				<Button.ToolTip>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Условия объединены по " VerticalAlignment="Center" />
 						<TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontWeight="Bold" VerticalAlignment="Center" />
 					</StackPanel>
-				</ToolBarButton.ToolTip>
+				</Button.ToolTip>
 				<TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
-			</ToolBarButton>
+			</Button>
 		</StackPanel>
 		<ScrollViewer Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 			<ItemsControl ItemsSource="{Binding FindObjectConditions}">

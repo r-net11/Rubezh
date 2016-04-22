@@ -2,8 +2,8 @@
 using DeviceControls;
 using RubezhAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
 using System;
 
 namespace GKModule.Plans.Designer

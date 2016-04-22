@@ -30,6 +30,7 @@ namespace GKImitator.ViewModels
 			ImitatorServiceManager.Open();
 			DelayThread = new Thread(OnCheckDelays);
 			DelayThread.Start();
+			activeStateBits = new List<Tuple<Guid, GKStateBit>>();
 		}
 
 		bool IsApplicationClosing = false;
@@ -65,6 +66,7 @@ namespace GKImitator.ViewModels
 				foreach (var descriptor in gkDatabase.Descriptors)
 				{
 					var binObjectViewModel = new DescriptorViewModel(descriptor);
+					binObjectViewModel.OnStateChanged = InitIndicatorsStates;
 					Descriptors.Add(binObjectViewModel);
 				}
 
@@ -81,6 +83,58 @@ namespace GKImitator.ViewModels
 				}
 			}
 			SelectedDescriptor = Descriptors.FirstOrDefault();
+			failureIndicator = Descriptors[1];
+			fire1Indicator = Descriptors[2];
+			fire2Indicator = Descriptors[3];
+			attentionIndicator = Descriptors[4];
+			startIndicator = Descriptors[5];
+			ignoreIndicator = Descriptors[7];
+			manualIndicator = Descriptors[8];
+			suspendIndicator = Descriptors[10];
+		}
+
+		static DescriptorViewModel failureIndicator { get; set; }
+		static DescriptorViewModel fire1Indicator { get; set; }
+		static DescriptorViewModel fire2Indicator { get; set; }
+		static DescriptorViewModel attentionIndicator { get; set; }
+		static DescriptorViewModel startIndicator { get; set; }
+		static DescriptorViewModel ignoreIndicator { get; set; }
+		static DescriptorViewModel manualIndicator { get; set; }
+		static DescriptorViewModel suspendIndicator { get; set; }
+		List<Tuple<Guid, GKStateBit>> activeStateBits { get; set; }
+		void InitIndicatorsStates(GKStateBit stateBit, bool value, Guid objectUid)
+		{
+			if (stateBit == GKStateBit.Norm)
+				value = !value;
+			var activeStateBit = activeStateBits.FirstOrDefault(x => x.Item1 == objectUid && x.Item2 == stateBit);
+			
+			if (activeStateBit == null && value)
+				activeStateBits.Add(new Tuple<Guid, GKStateBit>(objectUid, stateBit));
+			else if (!value)
+				activeStateBits.RemoveAll(x => x.Item1 == objectUid && x.Item2 == stateBit);
+
+			ChangeIndicatorStates(failureIndicator, GKStateBit.Failure);
+			ChangeIndicatorStates(fire1Indicator, GKStateBit.Fire1);
+			ChangeIndicatorStates(fire2Indicator, GKStateBit.Fire2);
+			ChangeIndicatorStates(attentionIndicator, GKStateBit.Attention);
+			ChangeIndicatorStates(startIndicator, GKStateBit.Reserve1);
+			ChangeIndicatorStates(ignoreIndicator, GKStateBit.Ignore);
+			ChangeIndicatorStates(manualIndicator, GKStateBit.Norm);
+			ChangeIndicatorStates(suspendIndicator, GKStateBit.Reserve2);
+		}
+
+		void ChangeIndicatorStates(DescriptorViewModel indicator, GKStateBit stateBit)
+		{
+			if (activeStateBits.Any(x => x.Item2 == stateBit))
+			{
+				if (indicator.GetStateBit(GKStateBit.Off))
+					indicator.TurnOnNowCommand.Execute();
+			}
+			else
+			{
+				if (indicator.GetStateBit(GKStateBit.On))
+					indicator.TurnOffNowCommand.Execute();
+			}
 		}
 
 		List<DescriptorViewModel> _descriptors;
@@ -130,7 +184,7 @@ namespace GKImitator.ViewModels
 				var descriptorViewModel = Descriptors.FirstOrDefault(x => x.GKBaseDescriptor.GKBase is GKDevice && (x.GKBaseDescriptor.GKBase as GKDevice).ShortName == "Индикатор Пожар 2");
 				if (descriptorViewModel != null)
 				{
-					 descriptorViewModel.SetStateBit(GKStateBit.On, hasFire2);
+					descriptorViewModel.SetStateBit(GKStateBit.On, hasFire2);
 				}
 			}
 

@@ -24,60 +24,7 @@ namespace JournalModule.ViewModels
 			JournalObjectType = journalObjectType;
 			Name = journalObjectType.ToDescription();
 			FilterObjectType = FilterObjectType.ObjectType;
-			switch (journalObjectType)
-			{
-				case JournalObjectType.GKDevice:
-					ImageSource = "/Controls;component/GKIcons/RSR2_RM_1.png";
-					break;
-
-				case JournalObjectType.GKZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
-					break;
-
-				case JournalObjectType.GKDirection:
-					ImageSource = "/Controls;component/Images/BDirection.png";
-					break;
-
-				case JournalObjectType.GKMPT:
-					ImageSource = "/Controls;component/Images/BMPT.png";
-					break;
-
-				case JournalObjectType.GKPumpStation:
-					ImageSource = "/Controls;component/Images/BPumpStation.png";
-					break;
-
-				case JournalObjectType.GKDelay:
-					ImageSource = "/Controls;component/Images/Delay.png";
-					break;
-
-				case JournalObjectType.GKGuardZone:
-					ImageSource = "/Controls;component/Images/GuardZone.png";
-					break;
-
-				case JournalObjectType.GKSKDZone:
-					ImageSource = "/Controls;component/Images/SKDZone.png";
-					break;
-
-				case JournalObjectType.GKDoor:
-					ImageSource = "/Controls;component/Images/Door.png";
-					break;
-
-				case JournalObjectType.Camera:
-					ImageSource = "/Controls;component/Images/Camera.png";
-					break;
-
-				case RubezhAPI.Journal.JournalObjectType.GKUser:
-					ImageSource = "/Controls;component/Images/PCUser.png";
-					break;
-
-				case RubezhAPI.Journal.JournalObjectType.GKPim:
-					ImageSource = "/Controls;component/Images/Pim.png";
-					break;
-
-				case JournalObjectType.None:
-					ImageSource = "/Controls;component/StateClassIcons/No.png";
-					break;
-			}
+			ImageSource = JournalItem.GetImageSource(journalObjectType);
 		}
 
 		public FilterObjectViewModel(GKBase gkBase)
@@ -94,6 +41,14 @@ namespace JournalModule.ViewModels
 			UID = camera.UID;
 			ImageSource = "/Controls;component/Images/Camera.png";
 			FilterObjectType = FilterObjectType.Camera;
+		}
+
+		public FilterObjectViewModel(RubezhAPI.SKD.IHRListItem item)
+		{
+			Name = item.Name;
+			UID = item.UID;
+			ImageSource = item.ImageSource;
+			FilterObjectType = FilterObjectType.HR;
 		}
 
 		public string Name { get; private set; }
@@ -141,6 +96,7 @@ namespace JournalModule.ViewModels
 		Subsystem,
 		ObjectType,
 		Object,
-		Camera
+		Camera,
+		HR
 	}
 }

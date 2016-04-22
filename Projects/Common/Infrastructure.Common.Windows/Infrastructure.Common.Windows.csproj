@@ -79,9 +79,6 @@
     <Reference Include="Entities">
       <HintPath>..\..\..\3rdParty\RVIVSS\Entities.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
@@ -138,7 +135,6 @@
     <Compile Include="CheckBoxList\ChechBoxItemList.cs" />
     <Compile Include="CheckBoxList\CheckBoxItemViewModel.cs" />
     <Compile Include="CheckBoxList\ICheckBoxItem.cs" />
-    <Compile Include="ConnectionSettingsManager.cs" />
     <Compile Include="BalloonToolTip\BalloonHelper.cs" />
     <Compile Include="BalloonToolTip\ViewModels\BalloonToolTipViewModel.cs" />
     <Compile Include="BalloonToolTip\Views\BalloonToolTipView.xaml.cs">
@@ -185,7 +181,6 @@
     <Compile Include="RegistryHelper\RegistryHelper.cs" />
     <Compile Include="RegistrySettingsHelper.cs" />
     <Compile Include="LoadHelper\RevisorLoadHelper.cs" />
-    <Compile Include="FSCP\ZipSerializeHelper.cs" />
     <Compile Include="LoadHelper\ServerLoadHelper.cs" />
     <Compile Include="RelayCommand\DisabledRelayCommand.cs" />
     <Compile Include="RelayCommand\RelayCommandProvider.cs" />
@@ -234,7 +229,6 @@
     <Compile Include="Theme\ThemeType.cs" />
     <Compile Include="TreeList\TreeNodeComparer.cs" />
     <Compile Include="TreeList\TreeNodeViewModel.cs" />
-    <Compile Include="UACHelper.cs" />
     <Compile Include="Validation\CommonValidationError.cs" />
     <Compile Include="Validation\ObjectValidationError.cs" />
     <Compile Include="Validation\ValidationErrorLevel.cs" />
@@ -440,9 +434,9 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>RubezhAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

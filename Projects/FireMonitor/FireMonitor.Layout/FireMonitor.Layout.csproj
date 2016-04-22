@@ -135,6 +135,10 @@
       <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
       <Name>Infrastructure.Automation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhLicense\RubezhLicense.csproj">
       <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
       <Name>RubezhLicense</Name>

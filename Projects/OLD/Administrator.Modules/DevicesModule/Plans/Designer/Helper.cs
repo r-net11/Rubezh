@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Plans.Elements;
 
 namespace DevicesModule.Plans.Designer
 {

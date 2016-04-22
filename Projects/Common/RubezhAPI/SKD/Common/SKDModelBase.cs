@@ -35,6 +35,14 @@ namespace RubezhAPI.SKD
 		bool IsDeleted { get; set; }
 		DateTime RemovalDate { get; set; }
 	}
+
+	public interface IHRListItem
+	{
+		Guid UID { get; set; }
+		string Name { get; }
+		string ImageSource { get; }
+	}
+
 	public class SKDModelComparer<T> : IEqualityComparer<T>
 		where T : SKDModelBase
 	{

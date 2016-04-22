@@ -1,5 +1,5 @@
-﻿using Infrustructure.Plans;
-using Infrustructure.Plans.Designer;
+﻿using Infrastructure.Plans;
+using Infrastructure.Plans.Designer;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
 using System.Windows;

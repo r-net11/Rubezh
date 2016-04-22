@@ -5,7 +5,7 @@
     var app = angular.module('gkApp.controllers').controller('employeeSelectionDialogCtrl',
         ['$scope', '$uibModalInstance', 'employees',
         function ($scope, $uibModalInstance, employees) {
-            $scope.employees = employees.data.Employees;
+            $scope.employees = employees;
 
             $scope.model = {
                 selectedEmployee: null

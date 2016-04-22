@@ -10,20 +10,21 @@ namespace Infrastructure.Common.Navigation
 {
 	public partial class NavigationView : UserControl, INotifyPropertyChanged
 	{
-		private TreeViewItem _selectedItem;
+		TreeViewItem _selectedItem;
 		public NavigationView()
 		{
 			InitializeComponent();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-		private void OnPropertyChanged(string name)
+
+		void OnPropertyChanged(string name)
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
 
-		private void TreeView_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
+		void TreeView_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
 		{
 			TreeView tv = e.TargetObject as TreeView;
 			if (e.Property == TreeView.ItemsSourceProperty && tv != null)
@@ -38,7 +39,7 @@ namespace Infrastructure.Common.Navigation
 			}
 		}
 
-		private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
+		void TreeViewItem_Selected(object sender, RoutedEventArgs e)
 		{
 			TreeViewItem tvi = e.OriginalSource as TreeViewItem;
 			if (tvi != null)
@@ -53,11 +54,13 @@ namespace Infrastructure.Common.Navigation
 				e.Handled = true;
 			}
 		}
-		private void TreeViewItem_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+
+		void TreeViewItem_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			e.Handled = true;
 		}
-		private void TreeView_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+
+		void TreeView_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			var item = GetTreeViewItemClicked(e);
 			if (item != null)
@@ -69,7 +72,8 @@ namespace Infrastructure.Common.Navigation
 					_selectedItem.RequestBringIntoView += TreeViewItem_RequestBringIntoView;
 			}
 		}
-		private void TreeView_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+
+		void TreeView_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			TreeViewItem item = GetTreeViewItemClicked(e);
 			ResetSelectedItem();
@@ -83,17 +87,19 @@ namespace Infrastructure.Common.Navigation
 				e.Handled = true;
 			}
 		}
-		private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+
+		void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
 		{
 			e.Handled = true;
 		}
-		private void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
+
+		void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
 		{
 			((TreeViewItem)sender).MouseLeave -= TreeViewItem_MouseLeave;
 			ResetSelectedItem();
 		}
 
-		private TreeViewItem GetTreeViewItemClicked(RoutedEventArgs e)
+		TreeViewItem GetTreeViewItemClicked(RoutedEventArgs e)
 		{
 			TreeView tv = e.Source as TreeView;
 			FrameworkElement item = (FrameworkElement)e.OriginalSource;
@@ -110,7 +116,7 @@ namespace Infrastructure.Common.Navigation
 			return result;
 		}
 
-		private void CheckPermissions(IList<NavigationItem> items)
+		void CheckPermissions(IList<NavigationItem> items)
 		{
 			for (int i = items.Count - 1; i >= 0; i--)
 				if (!items[0].CheckPermission() || !HavePermission(items[i]))
@@ -118,7 +124,8 @@ namespace Infrastructure.Common.Navigation
 				else
 					CheckPermissions(items[i].Childs);
 		}
-		private void UpdateParent(NavigationItem parent, IList<NavigationItem> items)
+
+		void UpdateParent(NavigationItem parent, IList<NavigationItem> items)
 		{
 			foreach (NavigationItem item in items)
 			{
@@ -126,11 +133,13 @@ namespace Infrastructure.Common.Navigation
 				UpdateParent(item, item.Childs);
 			}
 		}
-		private bool HavePermission(NavigationItem item)
+
+		bool HavePermission(NavigationItem item)
 		{
 			return item.Permission == null || ApplicationService.User == null || ApplicationService.User.HasPermission(item.Permission.Value);
 		}
-		private bool SelectFirst(IList<NavigationItem> items)
+
+		bool SelectFirst(IList<NavigationItem> items)
 		{
 			for (int index = 0; index < items.Count; index++)
 				if (items[index].IsVisible)
@@ -140,12 +149,13 @@ namespace Infrastructure.Common.Navigation
 						items[index].Execute();
 						return true;
 					}
-					else if (SelectFirst(items[index].Childs))
+					if (SelectFirst(items[index].Childs))
 						return true;
 				}
 			return false;
 		}
-		private void ResetSelectedItem()
+
+		void ResetSelectedItem()
 		{
 			if (_selectedItem != null)
 			{

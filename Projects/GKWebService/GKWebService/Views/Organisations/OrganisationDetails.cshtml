@@ -26,7 +26,7 @@
                 <div class="form-group" ng-show="!isNew">
                     <label class="control-label col-sm-4" for="organisationDetailsChief">Руководитель</label>
                     <div class="col-sm-8">
-                        <a id="organisationDetailsChief" href="" ng-click="selectChief">
+                        <a id="organisationDetailsChief" href="" ng-click="selectChief()">
                             <span ng-show="model.SelectedChief !== null">{{model.SelectedChief.Name}}</span>
                             <span ng-show="model.SelectedChief === null">Нажмите для выбора</span>
                         </a>
@@ -35,7 +35,7 @@
                 <div class="form-group" ng-show="!isNew">
                     <label class="control-label col-sm-4" for="organisationDetailsHRChief">Руководитель отдела кадров</label>
                     <div class="col-sm-8">
-                        <a id="organisationDetailsHRChief" href="" ng-click="selectHRChief">
+                        <a id="organisationDetailsHRChief" href="" ng-click="selectHRChief()">
                             <span ng-show="model.SelectedHRChief !== null">{{model.SelectedHRChief.Name}}</span>
                             <span ng-show="model.SelectedHRChief === null">Нажмите для выбора</span>
                         </a>

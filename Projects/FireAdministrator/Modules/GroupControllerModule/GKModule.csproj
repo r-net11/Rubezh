@@ -159,10 +159,8 @@
     <Compile Include="Events\ShowGKOPCDirectionsEvent.cs" />
     <Compile Include="Events\ShowGKOPCZonesEvent.cs" />
     <Compile Include="Events\ShowGKParameterTemplatesEvent.cs" />
-    <Compile Include="Events\ShowGKPumpStationOnPlanEvent.cs" />
     <Compile Include="Events\ShowGKPumpStationEvent.cs" />
     <Compile Include="Events\ShowGKZoneEvent.cs" />
-    <Compile Include="Events\ShowGKDelayStationEvent.cs" />
     <Compile Include="Events\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="Events\CreateGKScheduleEvent.cs" />
@@ -1127,9 +1125,9 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
+      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>

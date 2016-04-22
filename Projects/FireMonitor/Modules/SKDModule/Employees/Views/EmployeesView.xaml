@@ -29,17 +29,22 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Name="_treeList" ListViewLayoutManager.Enabled="False" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" tree:SortBehavior.CanUserSortColumns="True" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" Loaded="treeList_Loaded">
+		<tree:TreeList Name="_treeList"
+					   Grid.Row="0"
+					   Source="{Binding Organisations}"
+					   ListViewLayoutManager.Enabled="True"
+					   SelectedTreeNode="{Binding SelectedItem}"
+					   Focusable="True"
+					   tree:SortBehavior.CanUserSortColumns="True"
+					   ItemActivatedCommand="{Binding EditCommand}"
+					   Loaded="treeList_Loaded">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="ФИО" Width="150" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" 
-											   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" 
-											   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+									<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0" />
 									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}"/>
 								</StackPanel>
 							</DataTemplate>
@@ -67,7 +72,7 @@
 					<TextBlock>
 						<Hyperlink Command="{Binding EmployeeCardsViewModel.SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
 							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Employee.png" />
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding ImageSource}" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="Сотрудник">
 									<TextBlock.Style>
 										<Style>
@@ -96,7 +101,7 @@
 								<TextBlock>
 									<Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
-											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Card.png" />
+											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding Card.ImageSource}" />
 											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}">
 												<TextBlock.Style>
 													<Style>

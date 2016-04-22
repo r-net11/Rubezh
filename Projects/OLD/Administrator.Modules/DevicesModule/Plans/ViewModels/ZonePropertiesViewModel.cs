@@ -8,7 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Plans.Elements;
 
 namespace DevicesModule.Plans.ViewModels
 {

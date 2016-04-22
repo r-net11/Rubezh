@@ -193,6 +193,76 @@ namespace GKWebService.Models
 					ObjectImageSource = "/Content/Image/Images/BVideo.png";
 					break;
 
+				case JournalObjectType.AccessTemplate:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/AccessTemplate.png";
+					break;
+
+				case JournalObjectType.AdditionalColumn:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/AdditionalColumn.png";
+					break;
+
+				case JournalObjectType.Card:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Card.png";
+					break;
+
+				case JournalObjectType.DayInterval:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Interval.png";
+					break;
+
+				case JournalObjectType.Department:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Department.png";
+					break;
+
+				case JournalObjectType.Employee:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Employee.png";
+					break;
+
+				case JournalObjectType.GKDayShedule:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Shedule.png";
+					break;
+
+				case JournalObjectType.GKShedule:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Shedule.png";
+					break;
+
+				case JournalObjectType.Holiday:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Holiday.png";
+					break;
+
+				case JournalObjectType.Organisation:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Organisation.png";
+					break;
+
+				case JournalObjectType.PassCardTemplate:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/BPassCardDesigner.png";
+					break;
+
+				case JournalObjectType.Position:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Position.png";
+					break;
+
+				case JournalObjectType.Schedule:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Shedule.png";
+					break;
+
+				case JournalObjectType.ScheduleScheme:
+					ObjectName = journalItem.ObjectName;
+					ObjectImageSource = "/Content/Image/Images/Month.png";
+					break;
+
 				case JournalObjectType.None:
 				case JournalObjectType.GKUser:
 					ObjectName = journalItem.ObjectName != null ? journalItem.ObjectName : "";

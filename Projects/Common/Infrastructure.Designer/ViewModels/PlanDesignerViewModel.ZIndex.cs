@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
+using Infrastructure.Plans.Designer;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
 using System.Linq;

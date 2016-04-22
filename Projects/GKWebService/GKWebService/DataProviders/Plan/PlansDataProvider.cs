@@ -4,7 +4,7 @@ using Common;
 using GKWebService.Models.Plan;
 using GKWebService.Models.Plan.PlanElement;
 using GKWebService.Utils;
-using Infrustructure.Plans;
+using Infrastructure.Plans;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;

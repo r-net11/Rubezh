@@ -32,12 +32,7 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
-											<Image Source="/Controls;component/Images/Shedule.png"
-												   Width="16"
-												   Margin="1 0"
-												   VerticalAlignment="Center"
-												   RenderOptions.BitmapScalingMode="NearestNeighbor"
-												   RenderOptions.EdgeMode="Aliased" />
+											<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" Margin="1 0" />
 											<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
 										</StackPanel>
 									</DataTemplate>

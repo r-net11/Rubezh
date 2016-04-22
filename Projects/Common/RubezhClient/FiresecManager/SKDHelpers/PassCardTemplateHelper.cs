@@ -50,10 +50,10 @@ namespace RubezhClient.SKDHelpers
 			});
 			return Common.ShowErrorIfExists(result);
 		}
-		public static IEnumerable<ShortPassCardTemplate> Get(PassCardTemplateFilter filter)
+		public static IEnumerable<ShortPassCardTemplate> Get(PassCardTemplateFilter filter, bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetPassCardTemplateList(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 	}
 }

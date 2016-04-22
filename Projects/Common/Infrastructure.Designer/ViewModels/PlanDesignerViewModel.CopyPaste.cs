@@ -3,8 +3,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans;
+using Infrastructure.Plans.Events;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI.Plans.Interfaces;
 using System;
@@ -19,36 +19,39 @@ namespace Infrastructure.Designer.ViewModels
 	{
 		private DesignerClipboard clipboard = new DesignerClipboard();
 
-		private void InitializeCopyPasteCommands()
+		private void InitializeCopyPaste()
 		{
 			CopyCommand = new RelayCommand(OnCopy, CanCopyCut);
 			CutCommand = new RelayCommand(OnCut, CanCopyCut);
 			PasteCommand = new RelayCommand<IInputElement>(OnPaste, CanPaste);
+
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnRemoveElements);
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
 		private void OnCopy()
 		{
 			using (new WaitWrapper())
-			{
-				NormalizeZIndex();
-				this.clipboard.Clear();
-				this.clipboard.SourceAction = ClipboardSourceAction.Copy;
-				foreach (var designerItem in DesignerCanvas.SelectedItems)
-				{
-					designerItem.UpdateElementProperties();
-					this.clipboard.Buffer.Add(designerItem.Element);
-				}
-			}
+				CreateClipboard(ClipboardSourceAction.Copy);
 		}
 		public RelayCommand CutCommand { get; private set; }
 		private void OnCut()
 		{
 			using (new WaitWrapper())
 			{
-				OnCopy();
-				this.clipboard.SourceAction = ClipboardSourceAction.Cut;
+				CreateClipboard(ClipboardSourceAction.Cut);
 				DesignerCanvas.RemoveAllSelected();
+			}
+		}
+		void CreateClipboard(ClipboardSourceAction sourceAction)
+		{
+			NormalizeZIndex();
+			this.clipboard.Clear();
+			this.clipboard.SourceAction = sourceAction;
+			foreach (var designerItem in DesignerCanvas.SelectedItems)
+			{
+				designerItem.UpdateElementProperties();
+				this.clipboard.Buffer.Add(designerItem.Element);
 			}
 		}
 		private bool CanCopyCut(object obj)
@@ -67,7 +70,6 @@ namespace Infrastructure.Designer.ViewModels
 					DesignerCanvas.DeselectAll();
 
 					var newElements = this.clipboard.Buffer
-						.Where(element => AllowPaste(element))
 						.Select(element =>
 						{
 							var newElement = element.Clone();
@@ -95,8 +97,7 @@ namespace Infrastructure.Designer.ViewModels
 			var vizualizationElement = element as IMultipleVizualization;
 			if (vizualizationElement != null
 				&& !vizualizationElement.AllowMultipleVizualization
-				&& this.clipboard.SourceAction == ClipboardSourceAction.Copy
-				&& DesignerCanvas.Items.Select(x => x.Element).Any(existElement => existElement is IMultipleVizualization && ((IMultipleVizualization)existElement).ItemUID == vizualizationElement.ItemUID))
+				&& this.clipboard.SourceAction == ClipboardSourceAction.Copy)
 				return false;
 			return true;
 		}
@@ -108,7 +109,12 @@ namespace Infrastructure.Designer.ViewModels
 				if (!this.DesignerCanvas.Toolbox.IsEnabled)
 					return false;
 			}
-			return this.clipboard.Buffer.Count > 0;
+			return this.clipboard.Buffer.Where(x => AllowPaste(x)).Count() > 0;
+		}
+
+		void OnRemoveElements(List<ElementBase> elements)
+		{
+			elements.ForEach(x => this.clipboard.Buffer.Remove(x));
 		}
 
 		private Rect GetBoundingRectangle(IEnumerable<ElementBase> elements)

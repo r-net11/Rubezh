@@ -1,5 +1,5 @@
-﻿using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Painters;
+﻿using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.Painters;
 using PlansModule.ViewModels;
 using RubezhAPI.Plans.Elements;
 using System;

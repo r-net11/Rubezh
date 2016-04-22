@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Input;
-using Common;
-using Infrastructure.Common.Windows;
+﻿using Common;
 using Infrastructure.Common.Services;
+using System;
+using System.Diagnostics;
+using System.Windows.Input;
 
 namespace Infrastructure.Common
 {
@@ -16,11 +16,14 @@ namespace Infrastructure.Common
 		#endregion
 
 		#region Ctors
+
+		[DebuggerStepThrough]
 		public RelayCommand(Action execute)
 			: this(execute, (Predicate<object>)null)
 		{
 		}
 
+		[DebuggerStepThrough]
 		public RelayCommand(Action execute, Predicate<object> canExecute)
 		{
 			if (execute == null)
@@ -30,6 +33,7 @@ namespace Infrastructure.Common
 			_canExecute = canExecute;
 		}
 
+		[DebuggerStepThrough]
 		public RelayCommand(Action execute, PredicateDelegate canExecute)
 		{
 			if (execute == null)
@@ -40,11 +44,14 @@ namespace Infrastructure.Common
 		}
 		#endregion
 
+		[DebuggerStepThrough]
 		public void Execute()
 		{
 			if (CanExecute(null))
 				ForceExecute();
 		}
+
+		[DebuggerStepThrough]
 		public void ForceExecute()
 		{
 			try
@@ -59,11 +66,14 @@ namespace Infrastructure.Common
 		}
 
 		#region ICommand Members
+
+		[DebuggerStepThrough]
 		void ICommand.Execute(object parameter)
 		{
 			ForceExecute();
 		}
 
+		[DebuggerStepThrough]
 		public bool CanExecute(object parameter)
 		{
 			if (_canExecute != null)
@@ -100,11 +110,13 @@ namespace Infrastructure.Common
 
 		#region Ctors
 
+		[DebuggerStepThrough]
 		public RelayCommand(Action<T> execute)
 			: this(execute, null)
 		{
 		}
 
+		[DebuggerStepThrough]
 		public RelayCommand(Action<T> execute, Predicate<T> canExecute)
 		{
 			if (execute == null)
@@ -116,11 +128,14 @@ namespace Infrastructure.Common
 
 		#endregion
 
+		[DebuggerStepThrough]
 		public void Execute(T parameter)
 		{
 			if (CanExecute(parameter))
 				ForceExecute(parameter);
 		}
+
+		[DebuggerStepThrough]
 		public void ForceExecute(T parameter)
 		{
 			try
@@ -135,11 +150,14 @@ namespace Infrastructure.Common
 		}
 
 		#region ICommand Members
+
+		[DebuggerStepThrough]
 		void ICommand.Execute(object parameter)
 		{
 			ForceExecute((T)parameter);
 		}
 
+		[DebuggerStepThrough]
 		public bool CanExecute(object parameter)
 		{
 			if (_canExecute != null)

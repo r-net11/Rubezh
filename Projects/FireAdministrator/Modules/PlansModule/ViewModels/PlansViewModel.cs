@@ -8,8 +8,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Services;
+using Infrastructure.Plans.Events;
+using Infrastructure.Plans.Services;
 using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
 using RubezhAPI.Models;
@@ -67,7 +67,7 @@ namespace PlansModule.ViewModels
 			InitializeCopyPaste();
 			PlansTreeViewModel = new PlansTreeViewModel(this);
 			CreatePages();
-			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
+			_planExtensions = new List<Infrastructure.Plans.IPlanExtension<Plan>>();
 			this.InitializeMenus();
 
 			_splitterDistance = RegistrySettingsHelper.GetDouble("Administrator.Plans.SplitterDistance");

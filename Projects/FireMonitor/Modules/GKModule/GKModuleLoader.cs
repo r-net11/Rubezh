@@ -13,7 +13,7 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.License;

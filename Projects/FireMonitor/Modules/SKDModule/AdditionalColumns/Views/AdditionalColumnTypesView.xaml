@@ -9,29 +9,32 @@
 		<viewModel:AdditionalColumnTypeViewModelDataTypeComparer x:Key="AdditionalColumnTypeViewModelDataTypeComparer" />
 	</UserControl.Resources>
 
-	<tree:TreeList Name="_treeList" Focusable="True" tree:SortBehavior.CanUserSortColumns="True"
-				   Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" >
+	<tree:TreeList Name="_treeList"
+				   Focusable="True"
+				   tree:SortBehavior.CanUserSortColumns="True"
+				   Source="{Binding Organisations}"
+				   SelectedTreeNode="{Binding SelectedItem}"
+				   ListViewLayoutManager.Enabled="True"
+				   ItemActivatedCommand="{Binding EditCommand}" >
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
+				<GridViewColumn Header="Название" Width="150" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/AdditionalColumn.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-								<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+								<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0" /><TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 							</StackPanel>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
+				<GridViewColumn Header="Примечание" Width="150" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Формат данных" Width="100" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDataTypeComparer}">
+				<GridViewColumn Header="Формат данных" Width="150" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDataTypeComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding DataType}" Style="{StaticResource IsDeletedStyle}" />

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace RubezhAPI.SKD
 {
 	[DataContract]
-	public class AccessTemplate : OrganisationElementBase, IOrganisationElement
+	public class AccessTemplate : OrganisationElementBase, IOrganisationElement, IHRListItem
 	{
 		public AccessTemplate()
 			: base()
@@ -20,5 +20,7 @@ namespace RubezhAPI.SKD
 
 		[DataMember]
 		public List<CardDoor> CardDoors { get; set; }
+
+		public string ImageSource { get { return "/Controls;component/Images/AccessTemplate.png"; } }
 	}
 }

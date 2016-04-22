@@ -33,7 +33,7 @@
                 <div class="form-group" ng-show="isEmployee">
                     <label class="control-label col-sm-4" for="position">Должность</label>
                     <div class="col-sm-8">
-                        <a id="position" href="" ng-click="selectPosition">
+                        <a id="position" href="" ng-click="selectPosition()">
                             <span ng-show="isPositionSelected()">{{employee.PositionName}}</span>
                             <span ng-show="!isPositionSelected()">Нажмите для выбора должности</span>
                         </a>
@@ -42,7 +42,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="department">Подразделение</label>
                     <div class="col-sm-8">
-                        <a id="department" href="" ng-click="selectDepartment">
+                        <a id="department" href="" ng-click="selectDepartment()">
                             <span ng-show="isDepartmentSelected()">{{employee.DepartmentName}}</span>
                             <span ng-show="!isDepartmentSelected()">Нажмите для выбора подразделения</span>
                         </a>
@@ -51,7 +51,7 @@
                 <div class="form-group" ng-show="!isEmployee">
                     <label class="control-label col-sm-4" for="escort">Сопровождающий</label>
                     <div class="col-sm-8">
-                        <a id="escort" href="" ng-click="selectEscort">
+                        <a id="escort" href="" ng-click="selectEscort()">
                             <span ng-show="isEscortSelected()">{{employee.EscortName}}</span>
                             <span ng-show="!isEscortSelected()">Нажмите для выбора сопровождающего</span>
                         </a>
@@ -66,7 +66,7 @@
                 <div class="form-group" ng-show="isEmployee">
                     <label class="control-label col-sm-4" for="schedule">График работы</label>
                     <div class="col-sm-8">
-                        <a id="schedule" href="" ng-click="selectSchedule">
+                        <a id="schedule" href="" ng-click="selectSchedule()">
                             <span ng-show="isScheduleSelected()">{{employee.ScheduleName}}</span>
                             <span ng-show="!isScheduleSelected()">Нажмите для выбора графика работы</span>
                         </a>

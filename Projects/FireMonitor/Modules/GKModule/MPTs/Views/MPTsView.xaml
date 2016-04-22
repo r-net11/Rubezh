@@ -30,7 +30,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="Auto" SortMemberPath="MPT.Name" MinWidth="210" Header="МПТ">
+					<DataGridTemplateColumn Width="Auto" SortMemberPath="MPT.Name" MinWidth="250" Header="МПТ">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -52,7 +52,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
+					<DataGridTemplateColumn Header="Задержка" Width="*" MinWidth="100">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}"

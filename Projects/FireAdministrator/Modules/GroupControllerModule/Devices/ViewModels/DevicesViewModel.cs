@@ -5,8 +5,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Events;
 using Infrastructure.ViewModels;
-using Infrustructure.Plans.Events;
 using Microsoft.Win32;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -231,7 +231,6 @@ namespace GKModule.ViewModels
 				}
 				GKManager.DeviceConfiguration.Update();
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
-				GKPlanExtension.Instance.InvalidateCanvas();
 				SelectedDevice.Device.AllChildrenAndSelf.ForEach(x => x.OnChanged());
 				ServiceFactory.SaveService.GKChanged = true;
 				isCut = false;

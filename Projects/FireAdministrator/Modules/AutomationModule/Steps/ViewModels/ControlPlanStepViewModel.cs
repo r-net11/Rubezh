@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Automation;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Events;
+using Infrastructure.Plans.Events;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.Models;
@@ -64,11 +64,26 @@ namespace AutomationModule.ViewModels
 					SelectedElement = Elements.FirstOrDefault(x => x.Uid == ControlPlanStep.ElementUid);
 					OnPropertyChanged(() => Elements);
 				}
+				else
+				{
+					Elements = null;
+					SelectedElement = null;
+				}
+				OnPropertyChanged(() => SelectedElement);
 				OnPropertyChanged(() => SelectedPlan);
 			}
 		}
 
-		public ObservableCollection<ElementViewModel> Elements { get; private set; }
+		ObservableCollection<ElementViewModel> _elements;
+		public ObservableCollection<ElementViewModel> Elements 
+		{
+			get { return _elements; }
+			private set 
+			{
+				_elements = value;
+				OnPropertyChanged(() => Elements);
+			} 
+		}
 		ElementViewModel _selectedElement;
 		public ElementViewModel SelectedElement
 		{
@@ -83,11 +98,31 @@ namespace AutomationModule.ViewModels
 					SelectedElementPropertyType = ElementPropertyTypes.FirstOrDefault(x => x == ControlPlanStep.ElementPropertyType);
 					OnPropertyChanged(() => ElementPropertyTypes);
 				}
+				else
+				{
+					ElementPropertyTypes.Clear();
+				}
+				OnPropertyChanged(() => ElementPropertyTypes);
+				OnPropertyChanged(() => IsElementPropertyTypesEnabled);
 				OnPropertyChanged(() => SelectedElement);
 			}
 		}
 
-		public ObservableCollection<ElementPropertyType> ElementPropertyTypes { get; private set; }
+		public bool IsElementPropertyTypesEnabled
+		{
+			get { return (ElementPropertyTypes != null) && (ElementPropertyTypes.Count > 0); }
+		}
+
+		ObservableCollection<ElementPropertyType> _elementPropertyTypes;
+		public ObservableCollection<ElementPropertyType> ElementPropertyTypes 
+		{
+			get { return _elementPropertyTypes; }
+			private set
+			{
+				_elementPropertyTypes = value;
+				OnPropertyChanged(() => ElementPropertyTypes);
+			}
+		}
 		ElementPropertyType _selectedElementPropertyType;
 		public ElementPropertyType SelectedElementPropertyType
 		{

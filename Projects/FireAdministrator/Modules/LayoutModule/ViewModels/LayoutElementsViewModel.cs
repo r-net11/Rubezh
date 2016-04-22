@@ -1,24 +1,24 @@
-﻿using System;
+﻿using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models.Layouts;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RubezhAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
 	public class LayoutElementsViewModel : BaseViewModel
 	{
-		private Layout _layout;
-		private Dictionary<Guid, LayoutPartDescriptionViewModel> _map;
+		Layout _layout;
+		Dictionary<Guid, LayoutPartDescriptionViewModel> _map;
 		public LayoutElementsViewModel()
 		{
 			Update();
 		}
 
-		private ObservableCollection<LayoutPartDescriptionGroupViewModel> _layoutParts;
+		ObservableCollection<LayoutPartDescriptionGroupViewModel> _layoutParts;
 		public ObservableCollection<LayoutPartDescriptionGroupViewModel> LayoutParts
 		{
 			get { return _layoutParts; }
@@ -29,7 +29,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private LayoutPartDescriptionGroupViewModel _selectedLayoutPart;
+		LayoutPartDescriptionGroupViewModel _selectedLayoutPart;
 		public LayoutPartDescriptionGroupViewModel SelectedLayoutPart
 		{
 			get { return _selectedLayoutPart; }
@@ -87,7 +87,7 @@ namespace LayoutModule.ViewModels
 			return _map.ContainsKey(guid) ? _map[guid] : null;
 		}
 
-		private int Comparer(LayoutPartDescriptionGroupViewModel x, LayoutPartDescriptionGroupViewModel y)
+		int Comparer(LayoutPartDescriptionGroupViewModel x, LayoutPartDescriptionGroupViewModel y)
 		{
 			var dx = x as LayoutPartDescriptionViewModel;
 			var dy = y as LayoutPartDescriptionViewModel;

@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using RubezhClient;
 using RubezhAPI;
+using RubezhClient.SKDHelpers;
 
 namespace JournalModule.ViewModels
 {
@@ -58,6 +59,7 @@ namespace JournalModule.ViewModels
 						break;
 					case FilterObjectType.Object:
 					case FilterObjectType.Camera:
+					case FilterObjectType.HR:
 						filter.ObjectUIDs.Add(filterObject.UID);
 						break;
 					case FilterObjectType.Subsystem:	
@@ -171,6 +173,10 @@ namespace JournalModule.ViewModels
 				AddChild(gkPIMsViewModel, filterObjectViewModel);
 			}
 
+			var gkUsersViewModel = new FilterObjectViewModel(JournalObjectType.GKUser);
+			AddChild(gkViewModel, gkUsersViewModel);
+			AllFilters.Add(gkUsersViewModel);
+
 			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video);
 			videoViewModel.IsExpanded = true;
 			RootFilters.Add(videoViewModel);
@@ -183,9 +189,93 @@ namespace JournalModule.ViewModels
 				AddChild(videoDevicesViewModel, filterObjectViewModel);
 			}
 
-			var gkUsersViewModel = new FilterObjectViewModel(JournalObjectType.GKUser);
-			RootFilters.Add(gkUsersViewModel);
-			AllFilters.Add(gkUsersViewModel);
+			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);
+			skdViewModel.IsExpanded = true;
+			RootFilters.Add(skdViewModel);
+
+			var organisationsViewModel = new FilterObjectViewModel(JournalObjectType.Organisation);
+			AddChild(skdViewModel, organisationsViewModel);
+			var organisations = OrganisationHelper.Get(new OrganisationFilter(), false);
+			if (organisations != null)
+				foreach (var organisation in organisations)
+					AddChild(organisationsViewModel, new FilterObjectViewModel(organisation));
+
+			var employeesViewModel = new FilterObjectViewModel(JournalObjectType.Employee);
+			AddChild(skdViewModel, employeesViewModel);
+			var employees = EmployeeHelper.Get(new EmployeeFilter(), false);
+			if (employees != null)
+				foreach (var employee in employees)
+					AddChild(employeesViewModel, new FilterObjectViewModel(employee));
+
+			var positionsViewModel = new FilterObjectViewModel(JournalObjectType.Position);
+			AddChild(skdViewModel, positionsViewModel);
+			var positions = PositionHelper.Get(new PositionFilter(), false);
+			if (positions != null)
+				foreach (var position in positions)
+					AddChild(positionsViewModel, new FilterObjectViewModel(position));
+
+			var departmentsViewModel = new FilterObjectViewModel(JournalObjectType.Department);
+			AddChild(skdViewModel, departmentsViewModel);
+			var departments = DepartmentHelper.Get(new DepartmentFilter(), false);
+			if (departments != null)
+				foreach (var department in departments)
+					AddChild(departmentsViewModel, new FilterObjectViewModel(department));
+
+			var cardsViewModel = new FilterObjectViewModel(JournalObjectType.Card);
+			AddChild(skdViewModel, cardsViewModel);
+			var cards = CardHelper.Get(new CardFilter(), false);
+			if (cards != null)
+				foreach (var card in cards)
+					AddChild(cardsViewModel, new FilterObjectViewModel(card));
+
+			var passCardTemplatesViewModel = new FilterObjectViewModel(JournalObjectType.PassCardTemplate);
+			AddChild(skdViewModel, passCardTemplatesViewModel);
+			var passCardTemplates = PassCardTemplateHelper.Get(new PassCardTemplateFilter(), false);
+			if (passCardTemplates != null)
+				foreach (var passCardTemplate in passCardTemplates)
+					AddChild(passCardTemplatesViewModel, new FilterObjectViewModel(passCardTemplate));
+
+			var accessTemplatesViewModel = new FilterObjectViewModel(JournalObjectType.AccessTemplate);
+			AddChild(skdViewModel, accessTemplatesViewModel);
+			var accessTemplates = AccessTemplateHelper.Get(new AccessTemplateFilter(), false);
+			if (accessTemplates != null)
+				foreach (var accessTemplate in accessTemplates)
+					AddChild(accessTemplatesViewModel, new FilterObjectViewModel(accessTemplate));
+
+			var additionalColumnsViewModel = new FilterObjectViewModel(JournalObjectType.AdditionalColumn);
+			AddChild(skdViewModel, additionalColumnsViewModel);
+			var additionalColumns = AdditionalColumnTypeHelper.Get(new AdditionalColumnTypeFilter(), false);
+			if (additionalColumns != null)
+				foreach (var additionalColumn in additionalColumns)
+					AddChild(additionalColumnsViewModel, new FilterObjectViewModel(additionalColumn));
+
+			var dayIntervalsViewModel = new FilterObjectViewModel(JournalObjectType.DayInterval);
+			AddChild(skdViewModel, dayIntervalsViewModel);
+			var dayIntervals = DayIntervalHelper.Get(new DayIntervalFilter(), false);
+			if (dayIntervals != null)
+				foreach (var dayInterval in dayIntervals)
+					AddChild(dayIntervalsViewModel, new FilterObjectViewModel(dayInterval));
+
+			var scheduleSchemesViewModel = new FilterObjectViewModel(JournalObjectType.ScheduleScheme);
+			AddChild(skdViewModel, scheduleSchemesViewModel);
+			var scheduleSchemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter(), false);
+			if (scheduleSchemes != null)
+				foreach (var scheduleScheme in scheduleSchemes)
+					AddChild(scheduleSchemesViewModel, new FilterObjectViewModel(scheduleScheme));
+
+			var schedulesViewModel = new FilterObjectViewModel(JournalObjectType.Schedule);
+			AddChild(skdViewModel, schedulesViewModel);
+			var schedules = ScheduleHelper.Get(new ScheduleFilter(), false);
+			if (schedules != null)
+				foreach (var schedule in schedules)
+					AddChild(schedulesViewModel, new FilterObjectViewModel(schedule));
+
+			var holidaysViewModel = new FilterObjectViewModel(JournalObjectType.Holiday);
+			AddChild(skdViewModel, holidaysViewModel);
+			var holidays = HolidayHelper.Get(new HolidayFilter(), false);
+			if (holidays != null)
+				foreach (var holiday in holidays)
+					AddChild(holidaysViewModel, new FilterObjectViewModel(holiday));
 
 			var noneViewModel = new FilterObjectViewModel(JournalObjectType.None);
 			RootFilters.Add(noneViewModel);

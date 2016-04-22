@@ -23,6 +23,7 @@ namespace GKImitator.ViewModels
 		public int KauDescriptorNo { get; private set; }
 		public ushort TypeNo { get; private set; }
 		readonly List<ushort> AdditionalShortParameters;
+		public Action<GKStateBit, bool, Guid> OnStateChanged;
 
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
@@ -58,6 +59,11 @@ namespace GKImitator.ViewModels
 		{
 			ImitatorJournalItem journalItem = null;
 			if (stateBit == GKStateBit.Failure)
+			{
+				journalItem = new ImitatorJournalItem(2, 6, (byte)(isActive ? 1 : 0), (byte)(isActive ? 1 : 0));
+				AddJournalItem(additionalJournalItem ?? journalItem);
+			}
+			else if (stateBit == GKStateBit.Test)
 			{
 				journalItem = new ImitatorJournalItem(2, 5, 255, (byte)(isActive ? 1 : 0));
 				AddJournalItem(additionalJournalItem ?? journalItem);

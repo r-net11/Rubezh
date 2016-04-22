@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 {
 	public abstract class OrganisationBaseViewModel<TModel, TFilter, TViewModel, TDetailsViewModel> : ViewPartViewModel, IEditingBaseViewModel, IOrganisationBaseViewModel
 		where TViewModel : OrganisationElementViewModel<TViewModel, TModel>, new()
-		where TModel : class, IOrganisationElement, new()
+		where TModel : class, IOrganisationElement, IHRListItem, new()
 		where TDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<TModel>, new()
 		where TFilter : OrganisationFilterBase, new()
 	{
@@ -441,7 +441,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				_clipboard = CopyModel(SelectedItem.Model);
-				_clipboardUID = SelectedItem.Model.UID;
+				_clipboardUID = SelectedItem.UID;
 			}
 		}
 		protected virtual bool CanCopy()
@@ -453,7 +453,7 @@ namespace SKDModule.ViewModels
 		protected virtual void OnPaste()
 		{
 			var newItem = CopyModel(_clipboard);
-			newItem.Name = CopyHelper.CopyName(newItem.Name, ParentOrganisation.Children.Select(x => x.Name));
+			((IOrganisationElement)newItem).Name = CopyHelper.CopyName(((IOrganisationElement)newItem).Name, ParentOrganisation.Children.Select(x => x.Name));
 			newItem.OrganisationUID = ParentOrganisation.Organisation.UID;
 			if (Add(newItem))
 			{
@@ -471,11 +471,16 @@ namespace SKDModule.ViewModels
 		protected virtual TModel CopyModel(TModel source)
 		{
 			var copy = new TModel();
+			CopyItem(source, copy);
+			return copy;
+		}
+
+		void CopyItem(IOrganisationElement source, IOrganisationElement copy)
+		{
 			copy.UID = Guid.NewGuid();
 			copy.Name = source.Name;
 			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
-			return copy;
 		}
 
 		public bool ShowFromJournal(Guid uid)

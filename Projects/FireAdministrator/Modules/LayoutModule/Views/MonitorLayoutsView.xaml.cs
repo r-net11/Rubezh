@@ -11,7 +11,7 @@ namespace LayoutModule.Views
 			InitializeComponent();
 		}
 
-		private void Grid_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+		void Grid_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
 		{
 			var element = (UIElement)sender;
 			element.Focusable = true;

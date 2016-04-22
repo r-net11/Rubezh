@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Plans.Elements;
 
 namespace FiresecAPI.Models.SKDDatabase
 {

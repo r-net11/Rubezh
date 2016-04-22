@@ -2,7 +2,7 @@
 using RubezhAPI.Models;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
-using Infrustructure.Plans.Designer;
+using Infrastructure.Plans.Designer;
 using PlansModule.Designer;
 using PlansModule.InstrumentAdorners;
 using Infrastructure;

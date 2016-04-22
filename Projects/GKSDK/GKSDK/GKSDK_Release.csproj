@@ -53,9 +53,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\Infrastructure.Common.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="Infrustructure.Plans, Version=2.1.6.45, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Infrastructure.Plans, Version=2.1.6.45, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Assemblies\Infrustructure.Plans.dll</HintPath>
+      <HintPath>..\Assemblies\Infrastructure.Plans.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Data;
 using Common;
-using RubezhAPI.Models.Layouts;
-using RubezhClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Data;
 
 namespace LayoutModule.ViewModels
 {
@@ -61,7 +61,7 @@ namespace LayoutModule.ViewModels
 
 		#endregion
 
-		private ObservableCollection<LayoutViewModel> _layouts;
+		ObservableCollection<LayoutViewModel> _layouts;
 		public ObservableCollection<LayoutViewModel> Layouts
 		{
 			get { return _layouts; }
@@ -72,7 +72,7 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private LayoutViewModel _selectedLayout;
+		LayoutViewModel _selectedLayout;
 		public LayoutViewModel SelectedLayout
 		{
 			get { return _selectedLayout; }
@@ -88,8 +88,9 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private Layout _layoutBuffer;
-		private void CreateCommands()
+		Layout _layoutBuffer;
+
+		void CreateCommands()
 		{
 			CloseLayoutPartCommand = new RelayCommand(OnCloseLayoutPart);
 			AddCommand = new RelayCommand(OnAdd);
@@ -98,7 +99,7 @@ namespace LayoutModule.ViewModels
 
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			
+
 			_layoutBuffer = null;
 		}
 
@@ -125,7 +126,8 @@ namespace LayoutModule.ViewModels
 				OnPaste(layoutDetailsViewModel.Layout);
 		}
 		public RelayCommand DeleteCommand { get; private set; }
-		private void OnDelete()
+
+		void OnDelete()
 		{
 			if (MessageBoxService.ShowConfirmation(string.Format("Вы уверены, что хотите удалить макет '{0}'?", SelectedLayout.Caption)))
 			{
@@ -144,7 +146,8 @@ namespace LayoutModule.ViewModels
 			}
 		}
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+
+		void OnEdit()
 		{
 			LayoutUsersViewModel.Update();
 			var otherCaptions = Layouts.Select(x => x.Caption).Where(x => x != SelectedLayout.Layout.Caption).ToList();
@@ -155,31 +158,37 @@ namespace LayoutModule.ViewModels
 				ServiceFactory.SaveService.LayoutsChanged = true;
 			}
 		}
-		private bool CanEditDelete()
+
+		bool CanEditDelete()
 		{
 			return SelectedLayout != null;
 		}
 		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
+
+		void OnCopy()
 		{
 			using (new WaitWrapper())
 				_layoutBuffer = Utils.Clone(SelectedLayout.Layout);
 			_copyCounter = 0;
 		}
-		private bool CanCopy()
+
+		bool CanCopy()
 		{
 			return SelectedLayout != null;
 		}
 		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
+
+		void OnPaste()
 		{
 			OnPaste(_layoutBuffer, true);
 		}
-		private bool CanPaste()
+
+		bool CanPaste()
 		{
 			return _layoutBuffer != null;
 		}
-		private void OnPaste(Layout layout, bool clone = false)
+
+		void OnPaste(Layout layout, bool clone = false)
 		{
 			using (new WaitWrapper())
 			{
@@ -197,7 +206,8 @@ namespace LayoutModule.ViewModels
 				ServiceFactory.SaveService.LayoutsChanged = true;
 			}
 		}
-		private void RenewLayout(Layout layout)
+
+		void RenewLayout(Layout layout)
 		{
 			layout.UID = Guid.NewGuid();
 			if (_copyCounter == 0)
@@ -218,7 +228,8 @@ namespace LayoutModule.ViewModels
 		{
 			base.UpdateRibbonItems();
 		}
-		private void SetRibbonItems()
+
+		void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
@@ -235,12 +246,12 @@ namespace LayoutModule.ViewModels
 
 		public override void OnShow()
 		{
-			if(SelectedLayout != null)
+			if (SelectedLayout != null)
 				SelectedLayout.Update();
 			MonitorLayoutViewModel.Update();
 			base.OnShow();
 		}
-		
+
 		public override void OnHide()
 		{
 			LayoutDesignerViewModel.Instance.SaveLayout();

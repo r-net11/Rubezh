@@ -31,7 +31,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="Auto" SortMemberPath="PumpStation.Name" MinWidth="210" Header="НС">
+					<DataGridTemplateColumn Width="Auto" SortMemberPath="PumpStation.Name" MinWidth="250" Header="НС">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -66,7 +66,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Время тушения" Width="Auto" MinWidth="100">
+					<DataGridTemplateColumn Header="Время тушения" Width="*" MinWidth="100">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">

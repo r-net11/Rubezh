@@ -54,10 +54,10 @@ namespace RubezhClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static IEnumerable<Schedule> Get(ScheduleFilter filter)
+		public static IEnumerable<Schedule> Get(ScheduleFilter filter, bool isShowError = true)
 		{
 			var operationResult = ClientManager.FiresecService.GetSchedules(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			return Common.ShowErrorIfExists(operationResult, isShowError);
 		}
 	}
 }

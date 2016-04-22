@@ -1,14 +1,14 @@
-using System;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using RubezhAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Unity.Utility;
+using RubezhAPI.Models.Layouts;
+using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
 
@@ -36,7 +36,8 @@ namespace LayoutModule.ViewModels
 			Initialize();
 			LayoutPart.Properties = Content.Properties;
 		}
-		private void Initialize()
+
+		void Initialize()
 		{
 			Content = LayoutPartDescriptionViewModel.LayoutPartDescription.CreateContent((ILayoutProperties)LayoutPart.Properties) ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource };
 			ConfigureCommand = new RelayCommand(OnConfigureCommand, CanConfigureCommand);
@@ -60,7 +61,7 @@ namespace LayoutModule.ViewModels
 			get { return LayoutPartDescriptionViewModel.Description; }
 		}
 		public BaseLayoutPartViewModel Content { get; private set; }
-		private bool _isSelected;
+		bool _isSelected;
 		public bool IsSelected
 		{
 			get { return _isSelected; }
@@ -70,7 +71,8 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => IsSelected);
 			}
 		}
-		private bool _isActive;
+
+		bool _isActive;
 		public bool IsActive
 		{
 			get { return _isActive; }
@@ -83,13 +85,15 @@ namespace LayoutModule.ViewModels
 
 
 		public RelayCommand ConfigureCommand { get; private set; }
-		private void OnConfigureCommand()
+
+		void OnConfigureCommand()
 		{
 			var layoutPartPropertiesViewModel = new LayoutPartPropertiesViewModel(this);
 			if (DialogService.ShowModalWindow(layoutPartPropertiesViewModel))
 				UpdateSize(layoutPartPropertiesViewModel.LayoutSize);
 		}
-		private bool CanConfigureCommand()
+
+		bool CanConfigureCommand()
 		{
 			return true;
 		}
@@ -101,7 +105,7 @@ namespace LayoutModule.ViewModels
 			var layoutItem = LayoutDesignerViewModel.Instance.Manager.GetLayoutItemFromModel(document);
 			var size = new LayoutPartSize();
 			size.PreferedSize = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.PreferedSize;
-			size.Margin = (int)document.Margin;
+			size.Margin = document.Margin;
 			size.BackgroundColor = document.BackgroundColor;
 			size.BorderColor = document.BorderColor;
 			size.BorderThickness = document.BorderThickness;
@@ -124,7 +128,8 @@ namespace LayoutModule.ViewModels
 			document.BorderThickness = layoutPartSize.BorderThickness;
 			UpdateTitle();
 		}
-		private void UpdateTitle()
+
+		void UpdateTitle()
 		{
 			var layoutPartTitleViewModel = Content as LayoutPartTitleViewModel;
 			if (layoutPartTitleViewModel != null)
@@ -135,12 +140,14 @@ namespace LayoutModule.ViewModels
 			}
 			OnPropertyChanged(() => Title);
 		}
-		private LayoutDocument GetLayoutDocument()
+
+		LayoutDocument GetLayoutDocument()
 		{
 			var manager = LayoutDesignerViewModel.Instance.Manager;
 			return manager.Layout.Descendents().OfType<LayoutDocument>().FirstOrDefault(item => item.Content == this);
 		}
-		private Pair<ILayoutPositionableElement, ILayoutPositionableElement> GetLayoutPositionableElements(LayoutDocument layoutDocument)
+
+		Pair<ILayoutPositionableElement, ILayoutPositionableElement> GetLayoutPositionableElements(LayoutDocument layoutDocument)
 		{
 			var layoutDocumentPane = (ILayoutPositionableElement)layoutDocument.Parent;
 			ILayoutOrientableGroup container = (ILayoutOrientableGroup)layoutDocumentPane.Parent;
@@ -159,7 +166,8 @@ namespace LayoutModule.ViewModels
 				}
 			return new Pair<ILayoutPositionableElement, ILayoutPositionableElement>(layoutDocumentPane, (ILayoutPositionableElement)container);
 		}
-		private void ReadSize(LayoutPartSize size, ILayoutPositionableElement element, LayoutItem layoutItem)
+
+		void ReadSize(LayoutPartSize size, ILayoutPositionableElement element, LayoutItem layoutItem)
 		{
 			if (element != null)
 			{
@@ -181,7 +189,8 @@ namespace LayoutModule.ViewModels
 				}
 			}
 		}
-		private void WriteSize(LayoutPartSize size, ILayoutPositionableElement element, LayoutItem layoutItem)
+
+		void WriteSize(LayoutPartSize size, ILayoutPositionableElement element, LayoutItem layoutItem)
 		{
 			if (element != null)
 			{
@@ -201,7 +210,8 @@ namespace LayoutModule.ViewModels
 				}
 			}
 		}
-		private void ValidateSize(LayoutPartSize size)
+
+		void ValidateSize(LayoutPartSize size)
 		{
 			if (double.IsNaN(size.Width))
 				size.Width = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.Width;
