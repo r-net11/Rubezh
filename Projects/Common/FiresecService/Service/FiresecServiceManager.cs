@@ -39,7 +39,7 @@ namespace FiresecService.Service
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
 				Notifier.BalloonShowFromServer("Ошибка при запуске хоста сервиса \n" + e.Message);
-				Notifier.UILog("Ошибка при запуске хоста сервиса: " + e.Message);
+				Notifier.UILog("Ошибка при запуске хоста сервиса: " + e.Message, true);
 				Notifier.SetLocalAddress("<Ошибка>");
 				Notifier.SetRemoteAddress("<Ошибка>");
 			}

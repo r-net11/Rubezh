@@ -1,15 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Xml.Serialization;
-using Common;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.SKD;
-using RubezhAPI;
+﻿using Common;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace FiresecService
 {

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B226739A-E6BF-4DC1-B36B-6A07EFEE0EDA}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FiresecService</RootNamespace>
+    <AssemblyName>FiresecService</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Npgsql.2.2.7\lib\net40\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BoolExtentions.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ColorTheme.cs" />
+    <Compile Include="FiresecNotifier.cs" />
+    <Compile Include="Pages\ConsolePageBase.cs" />
+    <Compile Include="ConsoleHelper.cs" />
+    <Compile Include="Pages\GKPage.cs" />
+    <Compile Include="Pages\LicensePage.cs" />
+    <Compile Include="Pages\OperationsPage.cs" />
+    <Compile Include="PageController.cs" />
+    <Compile Include="Pages\StatusPage.cs" />
+    <Compile Include="Pages\PollingPage.cs" />
+    <Compile Include="Pages\LogPage.cs" />
+    <Compile Include="Pages\ConnectionsPage.cs" />
+    <Compile Include="Presenters\LicensePresenter.cs" />
+    <Compile Include="Presenters\GKPresenter.cs" />
+    <Compile Include="Presenters\OperationsPresenter.cs" />
+    <Compile Include="Presenters\PollingPresenter.cs" />
+    <Compile Include="Presenters\ConnectionsPresenter.cs" />
+    <Compile Include="Presenters\LogPresenter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Presenters\StatusPresenter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common\Common.csproj">
+      <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecService\FiresecService.csproj">
+      <Project>{863cfff3-5380-453e-b512-84e228ab1e5b}</Project>
+      <Name>FiresecService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
+      <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>
+      <Name>GKProcessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj">
+      <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
+      <Name>Infrastructure.Automation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
+      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Name>RubezhAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhDAL\RubezhDAL.csproj">
+      <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
+      <Name>RubezhDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhLicense\RubezhLicense.csproj">
+      <Project>{e6d24912-812b-42b4-b6b0-97ca33c0f4af}</Project>
+      <Name>RubezhLicense</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
