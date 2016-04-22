@@ -37,8 +37,6 @@ namespace FireMonitor
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.EmptySpace, "Пространство", "Exit.png", (p) => new EmptyPartViewModel());
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Indicator, "Индикаторы", "Alarm.png", (p) => ((ToolbarViewModel)Bootstrapper.ShellViewModel.Toolbar).AlarmGroups);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Navigation, "Навигатор", "Tree.png", (p) => new NavigationPartViewModel(Bootstrapper.ShellViewModel));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Content, "Контейнер", "Layouts.png", (p) => new ContentPartViewModel(Bootstrapper.ShellViewModel));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Image, "Картинка", "View.png", (p) => new ImagePartViewModel(p as LayoutPartImageProperties));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.TemplateContainer, "Макет", "TemplateContainer.png", (p) => new TemplateContainerPartViewModel(p as LayoutPartReferenceProperties));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.TimePresenter, "Часы", "Time.png", (p) => new TimePresenterViewModel(p as LayoutPartTimeProperties));
