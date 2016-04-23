@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService", "FiresecService\FiresecService.csproj", "{903CA80D-886E-43AF-A631-BEB260F8F93D}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -37,6 +37,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubezhClient", "..\Common\RubezhClient\RubezhClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.WinForms", "FiresecService.WinForms\FiresecService.WinForms.csproj", "{BB5B1AA5-038F-4AD7-B2D6-224C20A747C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.ReportPresenter", "FiresecService.ReportPresenter\FiresecService.ReportPresenter.csproj", "{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -279,6 +281,26 @@ Global
 		{BB5B1AA5-038F-4AD7-B2D6-224C20A747C1}.Release|Win32.ActiveCfg = Release|Any CPU
 		{BB5B1AA5-038F-4AD7-B2D6-224C20A747C1}.Release|x64.ActiveCfg = Release|Any CPU
 		{BB5B1AA5-038F-4AD7-B2D6-224C20A747C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|Win32.Build.0 = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|x64.Build.0 = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Debug|x86.Build.0 = Debug|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|Win32.ActiveCfg = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|Win32.Build.0 = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|x64.ActiveCfg = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|x64.Build.0 = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -295,5 +317,6 @@ Global
 		{AE2102F4-C2B3-4CA3-850F-69C93E23DFB7} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{F46953E0-CA12-4659-AE8C-88241B541F6C} = {55FE10AF-A462-4908-B710-8824101701E1}
+		{5F96C6B0-4083-400F-A0DE-4333C6DBC87D} = {55FE10AF-A462-4908-B710-8824101701E1}
 	EndGlobalSection
 EndGlobal

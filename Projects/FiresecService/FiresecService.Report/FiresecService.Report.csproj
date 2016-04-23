@@ -223,6 +223,15 @@
     <Compile Include="Model\ObjectInfo.cs" />
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="Model\TreeItemObject.cs" />
+    <Compile Include="Reports\BaseReport.cs" />
+    <Compile Include="Reports\CardsReport.cs" />
+    <Compile Include="Reports\DepartmentsReport.cs" />
+    <Compile Include="Reports\DevicesReport.cs" />
+    <Compile Include="Reports\DisciplineReport.cs" />
+    <Compile Include="Reports\DocumentsReport.cs" />
+    <Compile Include="Reports\DoorsReport.cs" />
+    <Compile Include="Reports\EmployeeAccessReport.cs" />
+    <Compile Include="Reports\EmployeeDoorsReport.cs" />
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="Templates\DevicesReport.cs">
       <SubType>Component</SubType>
