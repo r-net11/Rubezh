@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.WebSockets.Server;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,13 @@ namespace GkWeb
 			// Add framework services.
 			services.AddMvc();
 			services.AddSignalR();
+			//Other middleware
+			services.AddAuthentication(options =>
+			{
+				options.SignInScheme = "MyAuthenticationScheme";
+			});
+
+			services.AddAuthorization();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,15 +51,25 @@ namespace GkWeb
 				app.UseExceptionHandler("/Home/Error");
 			}
 			app.UseWebSockets();
+
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
+
+			//Other configurations.
+			app.UseCookieAuthentication(options =>
+			{
+				options.AuthenticationScheme = "Automatic";
+				options.LoginPath = new PathString("/api/Auth/Login");
+				options.AccessDeniedPath = new PathString("/signin/");
+				options.AutomaticAuthenticate = true;
+			});
 
 			app.UseSignalR();
 
 			app.UseMvc(routes => {
 				routes.MapRoute(
 					name: "api",
-					template: "api/{controller}/{id?}");;
+					template: "api/{controller}/");
 			});
 		}
 
