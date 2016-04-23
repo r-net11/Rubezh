@@ -61,7 +61,7 @@ namespace ChinaSKDDriver
 			{
 				try
 				{
-					if (_stopTimeSynchronizationResetEvent.WaitOne(TimeSpan.FromMinutes(1)))
+					if (_stopTimeSynchronizationResetEvent.WaitOne(TimeSpan.FromHours(1)))
 					{
 						break;
 					}
