@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using Common;
 using FiresecAPI.SKD;
-using System;
-using System.Threading;
 
-namespace FiresecService
+namespace ChinaSKDDriver
 {
 	public static class ControllersTimeSynchronizer
 	{
@@ -23,7 +22,7 @@ namespace FiresecService
 
 		public static void Synchronize(SKDDevice device)
 		{
-			var operationResult = ChinaSKDDriver.Processor.SynchronizeTime(device.UID);
+			var operationResult = Processor.SynchronizeTime(device.UID);
 			Logger.Info(string.Format("Контроллер '{0}'. Синхронизация времени завершилась {1}",
 				device.UID,
 				operationResult.HasError ? string.Format("с ошибкой : {0}", operationResult.Error) : "успешно"));
@@ -62,7 +61,7 @@ namespace FiresecService
 			{
 				try
 				{
-					if (_stopTimeSynchronizationResetEvent.WaitOne(TimeSpan.FromHours(1)))
+					if (_stopTimeSynchronizationResetEvent.WaitOne(TimeSpan.FromMinutes(1)))
 					{
 						break;
 					}

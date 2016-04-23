@@ -17,13 +17,6 @@ namespace FiresecService
 	{
 		static SKDProcessor()
 		{
-#if DEBUG
-			try
-			{
-				System.IO.File.Copy(@"..\..\..\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
-			}
-			catch { }
-#endif
 			Logger.Info("Запускаем службу синхронизации времени на контроллерах");
 			ControllersTimeSynchronizer.Start();
 		}

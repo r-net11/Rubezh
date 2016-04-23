@@ -329,12 +329,13 @@ namespace ChinaSKDDriver
 
 			if (IsConnected)
 			{
+				Logger.Info(String.Format("Контроллер '{0}'. Доступен по сети. Синхронизируем время.", Device.UID));
+				ControllersTimeSynchronizer.Synchronize(Device);
+
 				if (_isOfflineLogEnabled)
 				{
 					var getLastJournalItemTimeProducedByControllerEvent = new AutoResetEvent(false);
-#if DEBUG
-					Logger.Info(String.Format("Контроллер \"{0}\" стал доступным по сети. Запускаем задачу чтения оффлайн логов.", Device.Name));
-#endif
+					Logger.Info(String.Format("Контроллер '{0}'. Запускаем задачу чтения оффлайн логов.", Device.UID));
 					Task.Factory.StartNew(() =>
 					{
 						using (var journalTranslator = new JournalTranslator())
@@ -347,9 +348,7 @@ namespace ChinaSKDDriver
 								offlineLogItems.ForEach(Wrapper_NewJournalItem);
 							}
 						}
-#if DEBUG
-						Logger.Info(String.Format("Задача чтения оффлайн логов для контроллера \"{0}\" завершилась.", Device.Name));
-#endif
+						Logger.Info(String.Format("Контроллер '{0}'. Задача чтения оффлайн логов завершилась.", Device.UID));
 					});
 
 					getLastJournalItemTimeProducedByControllerEvent.WaitOne();
