@@ -69,19 +69,18 @@ namespace ChinaSKDDriver
 		/// </summary>
 		/// <param name="deviceUID">Идентификатор контроллера</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public static OperationResult<bool> SyncronyseTime(Guid deviceUID)
+		public static OperationResult<bool> SynchronizeTime(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return OperationResult<bool>.FromError("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return OperationResult<bool>.FromError(string.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
 
-				var result = deviceProcessor.Wrapper.SetDateTime(DateTime.Now);
-				if (result)
+				if (deviceProcessor.Wrapper.SetDateTime(DateTime.Now))
 					return new OperationResult<bool>(true);
-				else
-					return OperationResult<bool>.FromError("Ошибка при выполнении операции синхронизации времени на контроллере");
+				
+				return OperationResult<bool>.FromError("Ошибка при выполнении операции синхронизации времени на контроллере");
 			}
 			return OperationResult<bool>.FromError("Не найден контроллер в конфигурации");
 		}

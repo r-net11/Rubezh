@@ -132,7 +132,7 @@ namespace StrazhModule.ViewModels
 		public RelayCommand SynchronizeDeviceTimeCommand { get; private set; }
 		private void OnSynchronizeDeviceTime()
 		{
-			var result = FiresecManager.FiresecService.SKDSyncronyseTime(DeviceViewModel.Device);
+			var result = FiresecManager.FiresecService.SKDSynchronizeTime(DeviceViewModel.Device);
 			if (result.Result)
 			{
 				GetDeviceTime();

@@ -332,9 +332,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(deviceUID); }, "SKDGetDeviceInfo");
 		}
 
-		public OperationResult<bool> SKDSyncronyseTime(Guid deviceUID)
+		public OperationResult<bool> SKDSynchronizeTime(Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDSyncronyseTime(deviceUID); }, "SKDSyncronyseTime");
+			return SafeOperationCall(() => { return FiresecService.SKDSynchronizeTime(deviceUID); }, "SKDSynchronizeTime");
 		}
 
 		public OperationResult<bool> SKDResetController(Guid deviceUID)

@@ -811,13 +811,13 @@ namespace FiresecService.Service
 		/// </summary>
 		/// <param name="deviceUID">Идентификатор контроллера</param>
 		/// <returns>Объект OperationResult с результатов выполнения операции</returns>
-		public OperationResult<bool> SKDSyncronyseTime(Guid deviceUID)
+		public OperationResult<bool> SKDSynchronizeTime(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Синхронизация_времени_контроллера, device);
-				return Processor.SyncronyseTime(deviceUID);
+				return Processor.SynchronizeTime(deviceUID);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}

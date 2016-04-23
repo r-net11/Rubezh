@@ -24,7 +24,8 @@ namespace FiresecService
 			}
 			catch { }
 #endif
-			SKDDaylyUpdateProcessor.Start();
+			Logger.Info("Запускаем службу синхронизации времени на контроллерах");
+			ControllersTimeSynchronizer.Start();
 		}
 
 		public static void Start()

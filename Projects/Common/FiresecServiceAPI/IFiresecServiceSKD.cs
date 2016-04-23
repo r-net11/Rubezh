@@ -201,7 +201,7 @@ namespace FiresecAPI
 		OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> SKDSyncronyseTime(Guid deviceUID);
+		OperationResult<bool> SKDSynchronizeTime(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDResetController(Guid deviceUID);
