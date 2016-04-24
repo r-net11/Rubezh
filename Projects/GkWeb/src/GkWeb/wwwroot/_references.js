@@ -8,3 +8,4 @@
 /// <reference path="lib/signalr/jquery.signalR.js" />
 /// <reference path="lib/tether/dist/js/tether.js" />
 /// <reference path="staticlibs/ie10-viewport-bug-workaround.js" />
+/// <reference path="staticlibs/systemconfig.js" />

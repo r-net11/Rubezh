@@ -1,0 +1,41 @@
+﻿@section systemjsconfig{
+	<script src="~/staticlibs/systemconfig.js"></script>
+}
+<gk-app>Loading...</gk-app>
+<!--<div id="testMessage"></div>-->
+
+@section scripts {
+	<script src="~/lib/angular2/es6-shim.js"></script>
+	<script src="~/lib/angular2/system-polyfills.js"></script>
+	<script src="~/lib/angular2/shims_for_ie.js"></script>
+	<script src="~/lib/angular2/angular2-polyfills.js"></script>
+	<script src="~/lib/angular2/system.src.js"></script>
+	<script src="~/lib/angular2/rx.js"></script>
+	<script src="~/lib/angular2/angular2.dev.js"></script>
+	<script src="~/lib/angular2/router.dev.js"></script>
+	<script src="~/lib/winjs/base.min.js"></script>
+	<script src="~/lib/winjs/ui.min.js"></script>
+}
+
+<!--<script type="text/javascript">
+		$(function () {
+			// This optional function html-encodes messages for display in the page.
+			var htmlEncode = function (value) {
+				var encodedValue = $('<div />').text(value).html();
+				return encodedValue;
+			};
+			// Declare a proxy to reference the hub.
+			var test = $.connection.testHub;
+			// Create a function that the hub can call to broadcast messages.
+			test.client.broadcastMessage =
+				function (message) {
+					$('#testMessage').empty();
+					$('#testMessage').append('<strong>' + htmlEncode(message) + '</strong>');
+				};
+			// Start the connection.
+			$.connection.hub.start()
+				.done(function () {
+					test.server.startTestBroadcast();
+				});
+		});
+	</script>-->

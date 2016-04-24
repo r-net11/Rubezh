@@ -1,0 +1,77 @@
+﻿@model GkWeb.ViewModels.SignInViewModel
+
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base href="/">
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		  name="viewport">
+	<meta content="ie=edge"
+		  http-equiv="x-ua-compatible">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta content=""
+		  name="description">
+	<meta content=""
+		  name="author">
+	<link href="~/favicon.ico"
+		  rel="icon">
+	<title>Оперативная задача Глобал - Вход</title>
+
+	<link href="~/lib/bootstrap/dist/css/bootstrap.css"
+		  rel="stylesheet" />
+	<link href="~/lib/winjs/ui-light.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="row">
+	<div class="col-md-8">
+		<section>
+			<form asp-controller="Logon" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
+				<h4>Введите данные для входа.</h4>
+				<hr/>
+				<div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+				<div class="form-group">
+					<label asp-for="User" class="col-md-2 control-label"></label>
+					<div class="col-md-10">
+						<input asp-for="User" class="form-control"/>
+						<span asp-validation-for="User" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label asp-for="Password" class="col-md-2 control-label"></label>
+					<div class="col-md-10">
+						<input asp-for="Password" class="form-control"/>
+						<span asp-validation-for="Password" class="text-danger"></span>
+					</div>
+				</div>
+				@*<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<div class="checkbox">
+									<input asp-for="RememberMe" />
+									<label asp-for="RememberMe"></label>
+								</div>
+							</div>
+						</div>*@
+				<div class="form-group">
+					<div class="col-md-offset-2 col-md-10">
+						<button type="submit" class="btn btn-default">Вход</button>
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+</div>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+	<script src="~/lib/tether/dist/js/tether.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="~/staticlibs/ie10-viewport-bug-workaround.js"></script>
+	<script src="~/lib/winjs/base.min.js"></script>
+	<script src="~/lib/winjs/ui.min.js"></script>
+</body>
+</html>
