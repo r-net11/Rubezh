@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('HRCtrl', 
-        ['$scope', '$uibModal', 'authData', 'employeesService',
-        function ($scope, $uibModal, authData, employeesService) {
+        ['$scope', '$uibModal', '$timeout', 'authData', 'employeesService', 'dateFilter',
+        function ($scope, $uibModal, $timeout, authData, employeesService, dateFilter) {
             $scope.authData = authData;
 
             $scope.canEmployeesView = function () {
@@ -89,6 +89,67 @@
                     $scope.filter = filter;
                 });
             };
+
+            $scope.updateOrganisation = function(organisations, organisation) {
+                for (var i = 0; i < organisations.length; i++) {
+                    if (organisations[i].UID === organisation.UID) {
+                        organisations[i].Name = organisation.Name;
+                        organisations[i].Description = organisation.Description;
+                        break;
+                    }
+                }
+            }
+
+            $scope.removeOrganisation = function(organisations, organisation) {
+                var orgIndex = -1;
+                var orgFound = false;
+                // поиск организации
+                for (var i = 0; i < organisations.length; i++) {
+                    if (organisations[i].UID === organisation.UID) {
+                        orgIndex = i;
+                        orgFound = true;
+                        break;
+                    }
+                }
+                if (orgFound)
+                {
+                    // поиск дочерних элментов организации
+                    var childCount = 0;
+                    for (var j = orgIndex + 1; j < organisations.length; j++) {
+                        if (organisations[j].OrganisationUID === organisation.UID) {
+                            childCount++;
+                        } else {
+                            break;
+                        }
+                    }
+                    if ($scope.isWithDeleted) {
+                        for (var k = orgIndex; k < orgIndex + childCount + 1; k++) {
+                            organisations[k].IsDeleted = true;
+                            organisations[k].IsOrganisationDeleted = true;
+                            if (!organisations[k].RemovalDate) {
+                                organisations[k].RemovalDate = dateFilter(new Date(), 'dd.MM.yyyy');
+                            }
+                        }
+                    } else {
+                        organisations.splice(orgIndex, childCount + 1);
+                    }
+                }
+            }
+
+            $scope.addOrganisation = function (gridApi, organisations, organisation) {
+                var newOrganisation = {
+                    UID: organisation.UID,
+                    OrganisationUID: organisation.UID,
+                    Name: organisation.Name,
+                    $$treeLevel: 0,
+                    IsOrganisation: true,
+                    Description: organisation.Description
+                };
+                organisations.push(newOrganisation);
+                $timeout(function () {
+                    gridApi.treeBase.toggleRowTreeState(gridApi.grid.getRow(newOrganisation));
+                });
+            }
         }]
     );
 

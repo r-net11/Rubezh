@@ -54,6 +54,18 @@
             $scope.toggleRow = function (row, evt) {
                 $scope.gridApi.treeBase.toggleRowTreeState(row);
             };
+
+            $scope.$on('EditOrganisationEvent', function (event, organisation) {
+                $scope.updateOrganisation($scope.positions, organisation);
+            });
+
+            $scope.$on('AddOrganisationEvent', function (event, organisation) {
+                $scope.addOrganisation($scope.gridApi, $scope.positions, organisation);
+            });
+
+            $scope.$on('RemoveOrganisationEvent', function (event, organisation) {
+                $scope.removeOrganisation($scope.positions, organisation);
+            });
          }]
     );
 

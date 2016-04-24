@@ -15,7 +15,7 @@ namespace GKWebService.Models.SKD.Cards
         public bool IsCard { get; set; }
         public bool IsOrganisation { get; set; }
         public bool IsDeactivatedRootItem { get; set; }
-        public string Number { get; set; }
+        public string Name { get; set; }
         public string CardType { get; set; }
         public bool IsInStopList { get; set; }
         public string EmployeeName { get; set; }
@@ -62,19 +62,19 @@ namespace GKWebService.Models.SKD.Cards
         {
             if (IsDeactivatedRootItem)
             {
-                Number = "Деактивированные";
+                Name = "Деактивированные";
             }
             else if (IsOrganisation)
             {
-                Number = Organisation.Name;
+                Name = Organisation.Name;
             }
             else if (Card != null)
             {
-                Number = Card.Number.ToString();
+                Name = Card.Number.ToString();
             }
             else
             {
-                Number = "";
+                Name = "";
             }
 
             CardType = IsCard ? Card.GKCardType.ToDescription() : "";
