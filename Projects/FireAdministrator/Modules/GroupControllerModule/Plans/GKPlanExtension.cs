@@ -80,6 +80,7 @@ namespace GKModule.Plans
 			Cache.Add<GKDirection>(() => GKManager.Directions);
 			Cache.Add<GKMPT>(() => GKManager.MPTs);
 			Cache.Add<GKDoor>(() => GKManager.Doors);
+			Cache.Add<GKPumpStation>(() => GKManager.PumpStations);
 		}
 
 		public override void Initialize()
@@ -650,7 +651,7 @@ namespace GKModule.Plans
 			else if (typeof(TItem) == typeof(GKPumpStation))
 			{
 				var elementPumpStation = (IElementPumpStation)element;
-				elementPumpStation.BackgroundColor = GetGkEntityColor(item as GKPumpStation, Colors.LightBlue);
+				elementPumpStation.BackgroundColor = GetGkEntityColor(item as GKPumpStation, Colors.Cyan);
 				elementPumpStation.SetZLayer(item == null ? 10 : 11);
 			}
 			else
@@ -671,19 +672,19 @@ namespace GKModule.Plans
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleGKZone || e.Element is ElementPolygonGKZone)
-				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
-				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element, _guardZonesViewModel);
+				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
-				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element, _skdZonesViewModel);
+				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKDirection || e.Element is ElementPolygonGKDirection)
-				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
+				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element);
 			else if (e.Element is ElementRectangleGKMPT || e.Element is ElementPolygonGKMPT)
-				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element, _mptsViewModel);
+				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element);
 			else if (e.Element is ElementRectangleGKDelay || e.Element is ElementPolygonGKDelay)
-				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element, _delaysViewModel);
+				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element);
 			else if (e.Element is ElementRectangleGKPumpStation || e.Element is ElementPolygonGKPumpStation)
-				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element, _pumpStationsViewModel);
+				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element);
 			else if (e.Element is ElementGKDoor)
 				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
 		}

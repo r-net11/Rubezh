@@ -1,7 +1,7 @@
-﻿using System.Windows.Input;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
+using System.Windows.Input;
 
 namespace Infrastructure.Client.Plans
 {
@@ -14,7 +14,7 @@ namespace Infrastructure.Client.Plans
 			GroupIndex = 0;
 		}
 
-		private string _imageSource;
+		string _imageSource;
 		public string ImageSource
 		{
 			get { return _imageSource; }
@@ -25,7 +25,7 @@ namespace Infrastructure.Client.Plans
 			}
 		}
 
-		private string _toolTip;
+		string _toolTip;
 		public string ToolTip
 		{
 			get { return _toolTip; }
@@ -36,7 +36,7 @@ namespace Infrastructure.Client.Plans
 			}
 		}
 
-		private bool _isActive;
+		bool _isActive;
 		public bool IsActive
 		{
 			get { return _isActive; }
@@ -47,7 +47,7 @@ namespace Infrastructure.Client.Plans
 			}
 		}
 
-		private int _group;
+		int _group;
 		public int GroupIndex
 		{
 			get { return _group; }

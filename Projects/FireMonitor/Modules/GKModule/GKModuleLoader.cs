@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
+using Infrastructure.Common.License;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Services.Layout;

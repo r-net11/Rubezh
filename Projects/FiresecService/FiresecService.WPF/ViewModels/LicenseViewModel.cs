@@ -1,6 +1,6 @@
-﻿using RubezhLicense;
-using FiresecService.Processor;
+﻿using FiresecService.Processor;
 using Infrastructure.Common;
+using Infrastructure.Common.License;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
@@ -10,8 +10,8 @@ using System.IO;
 
 namespace FiresecService.Models
 {
-    public class LicenseViewModel : BaseViewModel
-    {
+	public class LicenseViewModel : BaseViewModel
+	{
 		string _initialKey;
 		public string InitialKey
 		{
@@ -27,8 +27,8 @@ namespace FiresecService.Models
 		public FiresecLicenseInfo LicenseInfo
 		{
 			get { return _licenseInfo; }
-			set 
-			{ 
+			set
+			{
 				_licenseInfo = value;
 				OnPropertyChanged(() => LicenseInfo);
 			}
@@ -41,41 +41,41 @@ namespace FiresecService.Models
 			LicenseManager.LicenseChanged += FiresecLicenseManager_LicenseChanged;
 			LoadLicenseCommand = new RelayCommand(OnLoadLicenseCommand);
 		}
-		
-        string GetLicensePath()
-        {
-            return AppDataFolderHelper.GetFile("FiresecService.license");
-        }
 
-        public RelayCommand LoadLicenseCommand { get; private set; }
-        void OnLoadLicenseCommand()
-        {
-            var openFileDialog = new OpenFileDialog()
-            {
-                Filter = "Файл лицензии (*.license)|*.license"
-            };
-            if (openFileDialog.ShowDialog().Value)
-            {
+		string GetLicensePath()
+		{
+			return AppDataFolderHelper.GetFile("FiresecService.license");
+		}
+
+		public RelayCommand LoadLicenseCommand { get; private set; }
+		void OnLoadLicenseCommand()
+		{
+			var openFileDialog = new OpenFileDialog()
+			{
+				Filter = "Файл лицензии (*.license)|*.license"
+			};
+			if (openFileDialog.ShowDialog().Value)
+			{
 				if (!LicenseManager.CheckLicense(openFileDialog.FileName))
-                {
-                    MessageBoxService.ShowError("Некорректный файл лицензии");
-                    return;
-                }
-                try
-                {
-                    File.Copy(openFileDialog.FileName, GetLicensePath(), true);
-                }
-                catch (Exception e)
-                {
-                    MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + e.Message);
-                }
+				{
+					MessageBoxService.ShowError("Некорректный файл лицензии");
+					return;
+				}
+				try
+				{
+					File.Copy(openFileDialog.FileName, GetLicensePath(), true);
+				}
+				catch (Exception e)
+				{
+					MessageBoxService.ShowError("Ошибка копирования файла лицензии.\n" + e.Message);
+				}
 				FiresecLicenseProcessor.SetLicense(LicenseManager.TryLoad(GetLicensePath()));
-            }
-        }
-       
+			}
+		}
+
 		void FiresecLicenseManager_LicenseChanged()
 		{
 			LicenseInfo = LicenseManager.CurrentLicenseInfo;
 		}
-    }
+	}
 }

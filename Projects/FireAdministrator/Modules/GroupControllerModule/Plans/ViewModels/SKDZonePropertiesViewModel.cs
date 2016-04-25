@@ -4,7 +4,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
-using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -15,11 +14,9 @@ namespace GKModule.Plans.ViewModels
 	public class SKDZonePropertiesViewModel : SaveCancelDialogViewModel
 	{
 		IElementZone IElementZone;
-		SKDZonesViewModel _skdZonesViewModel;
 
-		public SKDZonePropertiesViewModel(IElementZone iElementZone, SKDZonesViewModel skdZonesViewModel)
+		public SKDZonePropertiesViewModel(IElementZone iElementZone)
 		{
-			_skdZonesViewModel = skdZonesViewModel;
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -51,15 +48,10 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		private void OnCreate()
 		{
-			Guid zoneUID = IElementZone.ZoneUID;
 			var createSKDZoneEventArg = new CreateGKSKDZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKSKDZoneEvent>().Publish(createSKDZoneEventArg);
 			if (createSKDZoneEventArg.Zone != null)
-			{
-				GKPlanExtension.Instance.Cache.BuildSafe<GKSKDZone>();
-				GKPlanExtension.Instance.SetItem<GKSKDZone>(IElementZone, createSKDZoneEventArg.Zone.UID);
-			}
-			UpdateZones(zoneUID);
+				IElementZone.ZoneUID = createSKDZoneEventArg.Zone.UID;
 			if (!createSKDZoneEventArg.Cancel)
 				Close(true);
 		}
@@ -77,26 +69,12 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid zoneUID = IElementZone.ZoneUID;
-			GKPlanExtension.Instance.SetItem<GKSKDZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
-			UpdateZones(zoneUID);
+			IElementZone.ZoneUID = SelectedZone.Zone.UID;
 			return base.Save();
 		}
-		private void UpdateZones(Guid zoneUID)
+		protected override bool CanSave()
 		{
-			if (_skdZonesViewModel != null)
-			{
-				if (zoneUID != IElementZone.ZoneUID)
-					Update(zoneUID);
-				Update(IElementZone.ZoneUID);
-				_skdZonesViewModel.LockedSelect(IElementZone.ZoneUID);
-			}
-		}
-		private void Update(Guid zoneUID)
-		{
-			var zone = _skdZonesViewModel.Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-			if (zone != null)
-				zone.Update();
+			return SelectedZone != null;
 		}
 	}
 }

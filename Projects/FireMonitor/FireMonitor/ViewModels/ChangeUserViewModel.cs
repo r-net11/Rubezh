@@ -13,12 +13,14 @@ using System.Windows;
 
 namespace FireMonitor.ViewModels
 {
-	public class ChangeUserViewModel : SaveCancelDialogViewModel
+	public sealed class ChangeUserViewModel : SaveCancelDialogViewModel
 	{
-		Bootstrapper botstrapper;
-		public ChangeUserViewModel(Bootstrapper botstrapper)
+		readonly Bootstrapper _botstrapper;
+		readonly Guid _userUID;
+		public ChangeUserViewModel(Bootstrapper botstrapper, Guid userUID)
 		{
-			this.botstrapper = botstrapper;
+			_botstrapper = botstrapper;
+			_userUID = userUID;
 			Title = "Смена пользователя";
 			Password = "";
 		}
@@ -42,18 +44,18 @@ namespace FireMonitor.ViewModels
 				OnPropertyChanged(() => Password);
 			}
 		}
-		private string GetRestartCommandLineArguments()
-		{
-			string commandLineArguments = null;
-			if (Login != null && _password != null)
-				commandLineArguments = "login='" + _login + "' password='" + _password + "'";
-			return commandLineArguments;
-		}
+
 		protected override bool Save()
 		{
 			var user = ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == Login);
 			if (user != null)
 			{
+				if (_userUID == user.UID)
+				{
+					MessageBoxService.Show("Невозможно перелогиниться на текущего пользователя");
+					return false;
+				}
+
 				if (!HashHelper.CheckPass(Password, user.PasswordHash))
 				{
 					MessageBoxService.Show("Неверно задан логин/пароль");
@@ -65,15 +67,16 @@ namespace FireMonitor.ViewModels
 					MessageBoxService.Show("У данного пользователя нет права на вход");
 					return false;
 				}
-				
-					ClientManager.Disconnect();
-					botstrapper.Restart(Login, Password);
 
-					return base.Save();
-			}
-			else 
-				MessageBoxService.Show("Неверно задан логин/пароль");
+
+				ClientManager.Disconnect();
+				_botstrapper.Restart(Login, Password);
+				return base.Save();
 			
+			}
+			else
+				MessageBoxService.Show("Неверно задан логин/пароль");
+
 			return false;
 		}
 	}

@@ -49,7 +49,7 @@ namespace Infrastructure.Client.Library
 			}
 		}
 
-		private Canvas _xamlOfImage;
+		Canvas _xamlOfImage;
 		public Canvas XamlOfImage
 		{
 			get
@@ -60,8 +60,9 @@ namespace Infrastructure.Client.Library
 			}
 		}
 
-		private CancellationTokenSource tockenSource;
-		private void Refresh()
+		CancellationTokenSource tockenSource;
+
+		void Refresh()
 		{
 			if (tockenSource != null)
 				tockenSource.Cancel();

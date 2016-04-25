@@ -1,4 +1,5 @@
 ﻿using Common;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Devices;
 using System;

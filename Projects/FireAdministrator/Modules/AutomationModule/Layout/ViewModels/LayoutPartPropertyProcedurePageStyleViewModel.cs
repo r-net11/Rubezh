@@ -35,6 +35,7 @@ namespace AutomationModule.Layout.ViewModels
 			{
 				_useCustomStyle = value;
 				OnPropertyChanged(() => UseCustomStyle);
+				_haveChanges = true;
 			}
 		}
 

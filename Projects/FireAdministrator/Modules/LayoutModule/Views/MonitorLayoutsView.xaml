@@ -27,7 +27,7 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition MinWidth="400" />
 		</Grid.ColumnDefinitions>
-		<DataGrid ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" CanUserSortColumns="True" Grid.Column="0" RowStyle="{StaticResource DefaultRowStyle}">
+		<DataGrid ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" CanUserSortColumns="True" Grid.Column="0" RowStyle="{StaticResource DefaultRowStyle}" SelectedCellsChanged="DataGrid_SelectedCellsChanged">
 			<DataGrid.InputBindings>
 				<MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>

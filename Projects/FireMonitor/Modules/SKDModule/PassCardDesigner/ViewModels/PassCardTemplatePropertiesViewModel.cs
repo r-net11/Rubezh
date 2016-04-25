@@ -1,6 +1,6 @@
-﻿using Common;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using RubezhAPI;
 using RubezhAPI.SKD;
 
 namespace SKDModule.PassCardDesigner.ViewModels

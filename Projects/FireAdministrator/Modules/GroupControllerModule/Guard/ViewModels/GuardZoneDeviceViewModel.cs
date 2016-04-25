@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using RubezhAPI;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -76,10 +77,61 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
+			GKGuardZone zone = new GKGuardZone();
+			zone = GKManager.GuardZones.FirstOrDefault(x => x.GuardZoneDevices.Contains(GuardZoneDevice));
+
+			List<GKCode> codesResetGuard = new List<GKCode>();
+			List<GKCode> codesAlarm = new List<GKCode>();
+			List<GKCode> codesChangeGuard = new List<GKCode>();
+			List<GKCode> codesSetGuard = new List<GKCode>();
+			codesResetGuard = GKManager.Codes.Where(x => GuardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Contains(x.UID)).ToList();
+			DeleteDependentElements(zone, codesResetGuard);
+			codesAlarm = GKManager.Codes.Where(x => GuardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Contains(x.UID)).ToList();
+			DeleteDependentElements(zone, codesAlarm);
+			codesChangeGuard = GKManager.Codes.Where(x => GuardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Contains(x.UID)).ToList();
+			DeleteDependentElements(zone, codesChangeGuard);
+			codesSetGuard = GKManager.Codes.Where(x => GuardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Contains(x.UID)).ToList();
+			DeleteDependentElements(zone, codesSetGuard);
+
 			var codeReaderDetailsViewModel = new CodeReaderDetailsViewModel(GuardZoneDevice.CodeReaderSettings);
 			if (DialogService.ShowModalWindow(codeReaderDetailsViewModel))
 			{
+				codesResetGuard = GKManager.Codes.Where(x => GuardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Contains(x.UID)).ToList();
+				AddDependentElements(zone, codesResetGuard);
+				codesAlarm = GKManager.Codes.Where(x => GuardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Contains(x.UID)).ToList();
+				AddDependentElements(zone, codesAlarm);
+				codesChangeGuard = GKManager.Codes.Where(x => GuardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Contains(x.UID)).ToList();
+				AddDependentElements(zone, codesChangeGuard);
+				codesSetGuard = GKManager.Codes.Where(x => GuardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Contains(x.UID)).ToList();
+				AddDependentElements(zone, codesSetGuard);
+
 				ServiceFactory.SaveService.GKChanged = true;
+			}
+			else 
+			{
+				AddDependentElements(zone, codesResetGuard);
+				AddDependentElements(zone, codesAlarm);
+				AddDependentElements(zone, codesChangeGuard);
+				AddDependentElements(zone, codesSetGuard);
+			}
+
+		}
+
+		void AddDependentElements(GKGuardZone Zone, List<GKCode> Codes)
+		{
+		
+			foreach (var code in Codes)
+			{
+				if (!code.OutputDependentElements.Contains(Zone))
+					code.OutputDependentElements.Add(Zone);
+			}
+		}
+		void DeleteDependentElements(GKGuardZone Zone, List<GKCode> Codes)
+		{
+
+			foreach (var code in Codes)
+			{
+				code.OutputDependentElements.Remove(Zone);
 			}
 		}
 	}

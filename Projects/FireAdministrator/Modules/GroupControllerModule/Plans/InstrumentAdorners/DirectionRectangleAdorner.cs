@@ -3,7 +3,6 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
-using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 
@@ -21,11 +20,13 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleGKDirection();
-			var propertiesViewModel = new DirectionPropertiesViewModel(element, _directionsViewModel);
-			if (!DialogService.ShowModalWindow(propertiesViewModel))
-				return null;
-			GKPlanExtension.Instance.SetItem<GKDirection>(element);
-			return element;
+			var propertiesViewModel = new DirectionPropertiesViewModel(element);
+			if (DialogService.ShowModalWindow(propertiesViewModel))
+			{
+				_directionsViewModel.UpdateDirections(element.DirectionUID);
+				return element;
+			}
+			return null;
 		}
 	}
 }

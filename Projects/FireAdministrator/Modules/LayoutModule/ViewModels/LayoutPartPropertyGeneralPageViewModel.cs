@@ -202,7 +202,19 @@ namespace LayoutModule.ViewModels
 		}
 		public override bool Save()
 		{
-			if (_layoutPartSize.Height != Height || _layoutPartSize.HeightType != HeightType || _layoutPartSize.IsHeightFixed != IsHeightFixed || _layoutPartSize.IsWidthFixed != IsWidthFixed || _layoutPartSize.MinHeight != MinHeight || _layoutPartSize.MinWidth != MinWidth || _layoutPartSize.Width != Width || _layoutPartSize.WidthType != WidthType || _layoutPartSize.Margin != Margin || _layoutPartSize.BackgroundColor != BackgroundColor || _layoutPartSize.BorderColor != BorderColor || _layoutPartSize.BorderThickness != BorderThickness || (_layoutPartViewModel.Title != Title))
+			if (_layoutPartSize.Height != Height ||
+				_layoutPartSize.HeightType != HeightType ||
+				_layoutPartSize.IsHeightFixed != IsHeightFixed ||
+				_layoutPartSize.IsWidthFixed != IsWidthFixed ||
+				_layoutPartSize.MinHeight != MinHeight ||
+				_layoutPartSize.MinWidth != MinWidth ||
+				_layoutPartSize.Width != Width ||
+				_layoutPartSize.WidthType != WidthType ||
+				_layoutPartSize.Margin != Margin ||
+				_layoutPartSize.BackgroundColor != BackgroundColor ||
+				_layoutPartSize.BorderColor != BorderColor ||
+				_layoutPartSize.BorderThickness != BorderThickness ||
+				(_layoutPartViewModel.Title != Title))
 			{
 				_layoutPartSize.Height = Height;
 				_layoutPartSize.HeightType = HeightType;

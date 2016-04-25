@@ -89,6 +89,18 @@
                 $scope.selectedAccessTemplate = accessTemplate;
                 reloadDoors();
             });
+
+            $scope.$on('EditOrganisationEvent', function (event, organisation) {
+                $scope.updateOrganisation($scope.accessTemplates, organisation);
+            });
+
+            $scope.$on('AddOrganisationEvent', function (event, organisation) {
+                $scope.addOrganisation($scope.gridApi, $scope.accessTemplates, organisation);
+            });
+
+            $scope.$on('RemoveOrganisationEvent', function (event, organisation) {
+                $scope.removeOrganisation($scope.accessTemplates, organisation);
+            });
          }]
     );
 

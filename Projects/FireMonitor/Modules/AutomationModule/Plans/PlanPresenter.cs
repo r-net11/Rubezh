@@ -5,6 +5,7 @@ using Infrastructure.Events;
 using Infrastructure.Plans;
 using Infrastructure.Plans.Events;
 using Infrastructure.Plans.Presenter;
+using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;

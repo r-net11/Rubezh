@@ -1,22 +1,22 @@
-﻿using System;
+﻿using Common;
+using SharpVectors.Converters;
+using SharpVectors.Renderers.Wpf;
+using System;
 using System.IO;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Xml;
 using System.Xml.Xsl;
-using Common;
-using System.Windows.Media;
-using SharpVectors.Renderers.Wpf;
-using SharpVectors.Converters;
 
 namespace Infrastructure.Client.Converters
 {
 	public static class SVGConverters
 	{
-		private static readonly string XslFilesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration\\XslFiles");
-		private static readonly string Svg2XamlXslFile = Path.Combine(XslFilesDirectory, "svg2xaml.xsl");
-		private static readonly string Xaml2SvgXslFile = Path.Combine(XslFilesDirectory, "xaml2svg.xsl");
+		static readonly string XslFilesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration\\XslFiles");
+		static readonly string Svg2XamlXslFile = Path.Combine(XslFilesDirectory, "svg2xaml.xsl");
+		static readonly string Xaml2SvgXslFile = Path.Combine(XslFilesDirectory, "xaml2svg.xsl");
 
 		public static string Svg2Xaml(string svgFileName)
 		{
@@ -99,7 +99,7 @@ namespace Infrastructure.Client.Converters
 			}
 		}
 
-		private static bool CheckXaml2SvgFiles()
+		static bool CheckXaml2SvgFiles()
 		{
 			var xaml2svgDirectory = Path.Combine(XslFilesDirectory, "xaml2svg");
 

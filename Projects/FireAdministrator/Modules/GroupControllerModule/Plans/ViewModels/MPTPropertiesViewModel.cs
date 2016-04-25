@@ -4,7 +4,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
-using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -14,13 +13,11 @@ namespace GKModule.Plans.ViewModels
 {
 	public class MPTPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private IElementMPT _element;
-		private MPTsViewModel _mptsViewModel;
+		private IElementMPT IElementMPT;
 
-		public MPTPropertiesViewModel(IElementMPT element, MPTsViewModel mptsViewModel)
+		public MPTPropertiesViewModel(IElementMPT element)
 		{
-			_mptsViewModel = mptsViewModel;
-			_element = element;
+			IElementMPT = element;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: МПТ";
@@ -30,8 +27,8 @@ namespace GKModule.Plans.ViewModels
 				var mptViewModel = new MPTViewModel(mpt);
 				MPTs.Add(mptViewModel);
 			}
-			if (_element.MPTUID != Guid.Empty)
-				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.UID == _element.MPTUID);
+			if (IElementMPT.MPTUID != Guid.Empty)
+				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.UID == IElementMPT.MPTUID);
 		}
 
 		public ObservableCollection<MPTViewModel> MPTs { get; private set; }
@@ -50,14 +47,11 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		private void OnCreate()
 		{
-			Guid mptUID = _element.MPTUID;
+			Guid mptUID = IElementMPT.MPTUID;
 			var createMPTEventArg = new CreateGKMPTEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKMPTEvent>().Publish(createMPTEventArg);
 			if (createMPTEventArg.MPT != null)
-				_element.MPTUID = createMPTEventArg.MPT.UID;
-			GKPlanExtension.Instance.Cache.BuildSafe<GKMPT>();
-			GKPlanExtension.Instance.SetItem<GKMPT>(_element);
-			UpdateMPTs(mptUID);
+				IElementMPT.MPTUID = createMPTEventArg.MPT.UID;
 			if (!createMPTEventArg.Cancel)
 				Close(true);
 		}
@@ -72,29 +66,15 @@ namespace GKModule.Plans.ViewModels
 		{
 			return SelectedMPT != null;
 		}
-
 		protected override bool Save()
 		{
-			Guid mptUID = _element.MPTUID;
-			GKPlanExtension.Instance.SetItem<GKMPT>(_element, SelectedMPT == null ? null : SelectedMPT.MPT);
-			UpdateMPTs(mptUID);
+			Guid mptUID = IElementMPT.MPTUID;
+			IElementMPT.MPTUID = SelectedMPT.MPT.UID;
 			return base.Save();
 		}
-		private void UpdateMPTs(Guid mptUID)
+		protected override bool CanSave()
 		{
-			if (_mptsViewModel != null)
-			{
-				if (mptUID != _element.MPTUID)
-					Update(mptUID);
-				Update(_element.MPTUID);
-				_mptsViewModel.LockedSelect(_element.MPTUID);
-			}
-		}
-		private void Update(Guid mptUID)
-		{
-			var mpt = _mptsViewModel.MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
-			if (mpt != null)
-				mpt.Update();
+			return SelectedMPT != null;
 		}
 	}
 }

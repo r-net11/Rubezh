@@ -1,24 +1,19 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using RubezhAPI.Models;
-using Infrastructure.Client.Startup.ViewModels;
+﻿using Infrastructure.Client.Startup.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.Models;
+using System;
+using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace Infrastructure.Client.Startup
 {
 	public class StartupService
 	{
-		private const string LogoResource = "Logo.jpg";
-		private SplashScreen _splash;
-		private AutoResetEvent _syncEvent;
-		private StartupViewModel _viewModel;
-		private ClientType _clientType;
+		AutoResetEvent _syncEvent;
+		StartupViewModel _viewModel;
+		ClientType _clientType;
 
 		public static StartupService Instance { get; private set; }
 		public bool IsActive { get; private set; }
@@ -34,8 +29,6 @@ namespace Infrastructure.Client.Startup
 		public void Run()
 		{
 			IsActive = true;
-			//_splash = new SplashScreen(LogoResource);
-			//_splash.Show(false);
 		}
 		public void Show()
 		{
@@ -46,7 +39,6 @@ namespace Infrastructure.Client.Startup
 			splashThread.Name = "Startup Service Thread";
 			splashThread.Start();
 			_syncEvent.WaitOne();
-			CloseSplashImage();
 		}
 		public void Close()
 		{
@@ -100,7 +92,7 @@ namespace Infrastructure.Client.Startup
 			_viewModel.Dispatcher.Invoke(action);
 		}
 
-		private void InternalThreadEntryPoint(object parameter)
+		void InternalThreadEntryPoint(object parameter)
 		{
 			_viewModel = new StartupViewModel(_clientType);
 			_viewModel.Closed += new EventHandler(StartupClosed);
@@ -110,7 +102,7 @@ namespace Infrastructure.Client.Startup
 			ReleaseResources();
 		}
 
-		private void StartupClosed(object sender, EventArgs e)
+		void StartupClosed(object sender, EventArgs e)
 		{
 			if (_viewModel != null && _viewModel.StartupSettingsWaitHandler != null)
 			{
@@ -123,36 +115,15 @@ namespace Infrastructure.Client.Startup
 				ApplicationService.Invoke((Action)(() => { throw new StartupCancellationException(); }));
 			}
 		}
-		private void CloseSplashImage()
+
+		void ReleaseResources()
 		{
-			if (_splash != null)
-			{
-				_splash.Close(TimeSpan.Zero);
-				_splash = null;
-			}
-		}
-		private void ReleaseResources()
-		{
-			CloseSplashImage();
 			_syncEvent.Dispose();
 			_syncEvent = null;
 			Dispatcher.CurrentDispatcher.InvokeShutdown();
 		}
 
-		public void Capture()
-		{
-			Capture(LogoResource, new PngBitmapEncoder());
-		}
-		public void Capture(string filePath, BitmapEncoder encoder)
-		{
-			RenderTargetBitmap bmp = new RenderTargetBitmap((int)_viewModel.Surface.ActualWidth, (int)_viewModel.Surface.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-			bmp.Render(_viewModel.Surface);
-			encoder.Frames.Add(BitmapFrame.Create(bmp));
-			using (var stream = File.Create(filePath))
-				encoder.Save(stream);
-		}
-
-		private void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
+		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
 		{
 			Invoke(() =>
 			{
