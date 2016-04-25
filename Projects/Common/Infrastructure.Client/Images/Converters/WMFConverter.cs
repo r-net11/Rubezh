@@ -122,7 +122,7 @@ namespace Infrastructure.Client.Converters
 			return drawingVisual.Drawing;
 		}
 
-		private static void ReadResources(IXpsFixedPageReader reader, WMFImage wmf)
+		static void ReadResources(IXpsFixedPageReader reader, WMFImage wmf)
 		{
 			if (wmf.Canvas == null)
 				return;
@@ -136,7 +136,8 @@ namespace Infrastructure.Client.Converters
 				}
 			}
 		}
-		private static byte[] DeobfuscateFont(XpsFont font)
+
+		static byte[] DeobfuscateFont(XpsFont font)
 		{
 			using (var stm = font.GetStream())
 			{

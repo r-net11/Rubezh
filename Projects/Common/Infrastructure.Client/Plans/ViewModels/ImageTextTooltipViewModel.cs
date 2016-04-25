@@ -4,7 +4,7 @@ namespace Infrastructure.Client.Plans.ViewModels
 {
 	public class ImageTextTooltipViewModel : BaseViewModel
 	{
-		private string _title;
+		string _title;
 		public string Title
 		{
 			get { return _title; }
@@ -14,7 +14,8 @@ namespace Infrastructure.Client.Plans.ViewModels
 				OnPropertyChanged(() => Title);
 			}
 		}
-		private string _imageSource;
+
+		string _imageSource;
 		public string ImageSource
 		{
 			get { return _imageSource; }

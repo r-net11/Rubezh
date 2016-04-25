@@ -4,7 +4,7 @@ namespace Infrastructure.Client.Layout.ViewModels
 {
 	public class LayoutPartPictureViewModel : BaseViewModel
 	{
-		private string _imageSource;
+		string _imageSource;
 		public string ImageSource
 		{
 			get { return _imageSource; }
