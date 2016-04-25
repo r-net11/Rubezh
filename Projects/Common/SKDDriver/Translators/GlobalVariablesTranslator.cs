@@ -85,6 +85,10 @@ namespace SKDDriver.Translators
 			return new OperationResult<bool>(true);
 		}
 
+		/// <summary>
+		/// Получает список глобальных переменных с их начальными значениями.
+		/// </summary>
+		/// <returns>Список глобальных переменных</returns>
 		public OperationResult<List<GlobalVariable>> GetInitialGlobalVariables()
 		{
 			var result = _context.GlobalVariables.Select(variable => new GlobalVariable
@@ -100,6 +104,10 @@ namespace SKDDriver.Translators
 			return new OperationResult<List<GlobalVariable>>(result);
 		}
 
+		/// <summary>
+		/// Сбрасывает текущие значения глобальных переменных, если флаг IsSaveWhenRestart - false
+		/// </summary>
+		/// <returns>true - успешно, false - не успешно</returns>
 		public OperationResult<bool> ResetGlobalVariables()
 		{
 			try
@@ -118,7 +126,11 @@ namespace SKDDriver.Translators
 			return new OperationResult<bool>(true);
 		}
 
-
+		/// <summary>
+		/// Редактирует глобальную переменную так и переинициализирует текущее значение глобальной переменной.
+		/// </summary>
+		/// <param name="variable">Глобальная переменная, полученная от клиента</param>
+		/// <param name="serverVariable">Глобальная переменная, хранящаяся в БД</param>
 		private void EditGlobalVariable(GlobalVariable variable, GlobalVariables serverVariable)
 		{
 			var xmlValue = SerializeObject(variable.VariableValue);
@@ -132,6 +144,10 @@ namespace SKDDriver.Translators
 			_context.SubmitChanges();
 		}
 
+		/// <summary>
+		/// Добавляет глобальную переменную в БД. Текущее значение равно начальному значению.
+		/// </summary>
+		/// <param name="variable">Глобальная переменная, значения которой необходимо сохранить</param>
 		private void AddNewGlobalVariable(GlobalVariable variable)
 		{
 			var xmlValue = SerializeObject(variable.VariableValue);
@@ -150,6 +166,10 @@ namespace SKDDriver.Translators
 			_context.SubmitChanges();
 		}
 
+		/// <summary>
+		/// Формирует список глобальных переменных с их текущими значениями
+		/// </summary>
+		/// <returns>Список глобальных переменных</returns>
 		public OperationResult<List<GlobalVariable>> GetCurrentGlobalVariables()
 		{
 			var result = _context.GlobalVariables.Select(variable => new GlobalVariable
@@ -165,6 +185,11 @@ namespace SKDDriver.Translators
 			return new OperationResult<List<GlobalVariable>>(result);
 		}
 
+		/// <summary>
+		/// Сохраняет только измененные текущие значения глобальных переменных
+		/// </summary>
+		/// <param name="variables">Список глобальных переменных</param>
+		/// <returns>true - удачно, false - не удачно</returns>
 		public OperationResult<bool> SaveEditedGlobalVariables(IEnumerable<GlobalVariable> variables)
 		{
 			foreach (var globalVariable in variables)

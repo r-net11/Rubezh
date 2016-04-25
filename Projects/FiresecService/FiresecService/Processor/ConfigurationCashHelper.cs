@@ -108,7 +108,7 @@ namespace FiresecService
 		{
 			var configDirectoryName = AppDataFolderHelper.GetServerAppDataPath("Config");
 			var filePath = Path.Combine(configDirectoryName, "SystemConfiguration.xml");
-			var systemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(filePath, false); //GetConfigurationFromZip("SystemConfiguration.xml", typeof(SystemConfiguration)) as SystemConfiguration;
+			var systemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(filePath, false);
 
 			if (systemConfiguration == null) return null;
 

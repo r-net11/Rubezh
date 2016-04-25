@@ -30,8 +30,6 @@ namespace FiresecService
 
 		private AutoResetEvent AutoResetEvent { get; set; }
 
-		private Thread Thread { get; set; }
-
 		private List<IVariable> AllVariables { get; set; }
 
 		private List<ProcedureStep> Steps { get; set; }
@@ -54,11 +52,10 @@ namespace FiresecService
 			AllVariables = new List<IVariable>(Utils.Clone(procedure.Variables));
 			var procedureArguments = Utils.Clone(procedure.Arguments);
 			InitializeArguments(procedureArguments, arguments, callingProcedureVariables);
+
 			AllVariables.AddRange(procedureArguments);
 			AllVariables.AddRange(FiresecServiceManager.SafeFiresecService.GetCurrentGlobalVariables().Result);
-			//AllVariables.AddRange(FiresecServiceManager.SafeFiresecService.GetGlobalVariables().Result);
-		//	AllVariables.AddRange(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables); TODO: Add Global Variables
-			//TaskFactory.StartNew(() => RunInThread(arguments));
+
 			Task.Factory.StartNew(() => RunInThread(arguments))
 				.ContinueWith(t =>
 				{
@@ -66,10 +63,6 @@ namespace FiresecService
 					FiresecServiceManager.SafeFiresecService.SaveEditedGlobalVariables(AllVariables.OfType<GlobalVariable>());
 				}
 				);
-			//Thread = new Thread(() => RunInThread(arguments))
-			//{
-			//	Name = string.Format("ProcedureThread [{0}]", UID),
-			//};
 		}
 
 		public void Start()
@@ -98,18 +91,16 @@ namespace FiresecService
 			{
 				if (Steps.Any(step => RunStep(step) == Result.Exit))
 				{
-				//	return true;
 				}
 			}
-			catch
+			catch (Exception e)
 			{
-				//return false;
+				Logger.Error(e);
 			}
 			finally
 			{
 				IsAlive = false;
 			}
-		//	return true;
 		}
 
 		private Result RunStep(ProcedureStep procedureStep)
