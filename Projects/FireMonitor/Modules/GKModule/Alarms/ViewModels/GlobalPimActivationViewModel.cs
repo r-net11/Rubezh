@@ -12,112 +12,112 @@ using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
-    public class GlobalPimActivationViewModel : BaseViewModel
-    {
-        public XStateClass State
-        {
-            get
-            {
-                if (GlobalPims.All(x => x.State.StateClass == XStateClass.On))
-                    return XStateClass.On;
-                if (GlobalPims.All(x => x.State.StateClass == XStateClass.Off))
-                    return XStateClass.Off;
-                return XStateClass.Unknown;
-            }
-        }
+	public class GlobalPimActivationViewModel : BaseViewModel
+	{
+		public XStateClass State
+		{
+			get
+			{
+				if (GlobalPims.All(x => x.State.StateClass == XStateClass.On))
+					return XStateClass.On;
+				if (GlobalPims.All(x => x.State.StateClass == XStateClass.Off))
+					return XStateClass.Off;
+				return XStateClass.Unknown;
+			}
+		}
 
-        public GlobalPimActivationViewModel()
-        {
-            GlobalPims.ForEach(x => x.State.StateChanged += OnStateChanged);
-            ChangeGlobalPimActivationCommand = new RelayCommand(OnChangeGlobalPimActivation, CanChangeGlobalPim);
-            OnStateChanged();
-        }
+		public GlobalPimActivationViewModel()
+		{
+			GlobalPims.ForEach(x => x.State.StateChanged += OnStateChanged);
+			ChangeGlobalPimActivationCommand = new RelayCommand(OnChangeGlobalPimActivation, CanChangeGlobalPim);
+			OnStateChanged();
+		}
 
-        GlobalPimStatusType _globalPimStatusType;
-        public GlobalPimStatusType GlobalPimStatusType
-        {
-            get { return _globalPimStatusType; }
-            set
-            {
-                _globalPimStatusType = value;
-                OnPropertyChanged(() => GlobalPimStatusType);
-            }
-        }
+		GlobalPimStatusType _globalPimStatusType;
+		public GlobalPimStatusType GlobalPimStatusType
+		{
+			get { return _globalPimStatusType; }
+			set
+			{
+				_globalPimStatusType = value;
+				OnPropertyChanged(() => GlobalPimStatusType);
+			}
+		}
 
-        List<GKPim> GlobalPims
-        {
-            get
-            {
-                return GKManager.GlobalPims;
-            }
-        }
+		List<GKPim> GlobalPims
+		{
+			get
+			{
+				return GKManager.GlobalPims;
+			}
+		}
 
-        void OnStateChanged()
-        {
-            switch (State)
-            {
-                case XStateClass.On:
-                    GlobalPimStatusType = GlobalPimStatusType.On;
-                    break;
-                case XStateClass.Off:
-                    GlobalPimStatusType = GlobalPimStatusType.Off;
-                    break;
-                default:
-                    GlobalPimStatusType = GlobalPimStatusType.Unknown;
-                    break;
-            }
-            //OnPropertyChanged(() => IsGlowing);
-            //OnPropertyChanged(() => ToolTipText);
-        }
+		void OnStateChanged()
+		{
+			switch (State)
+			{
+				case XStateClass.On:
+					GlobalPimStatusType = GlobalPimStatusType.On;
+					break;
+				case XStateClass.Off:
+					GlobalPimStatusType = GlobalPimStatusType.Off;
+					break;
+				default:
+					GlobalPimStatusType = GlobalPimStatusType.Unknown;
+					break;
+			}
+		}
 
-        //public bool IsGlowing
-        //{
-        //    get { return (GlobalPimStatusType == GlobalPimStatusType.Off)||(GlobalPimStatusType == GlobalPimStatusType.Unknown); }
-        //}
 
-        public string ToolTipText
-        {
-            get
-            {
-                switch (State)
-                {
-                    case XStateClass.On:
-                        GlobalPimStatusType = GlobalPimStatusType.On;
-                        return "Включено";
-                    case XStateClass.Off:
-                        GlobalPimStatusType = GlobalPimStatusType.Off;
-                        return "Выключено";
-                    default:
-                        GlobalPimStatusType = GlobalPimStatusType.Unknown;
-                        return "Состояние неизвестно";
-                }
-            }
-        }
 
-        public RelayCommand ChangeGlobalPimActivationCommand { get; private set; }
+		//public string ToolTipText
+		//{
+		//	get
+		//	{
+		//		switch (State)
+		//		{
+		//			case XStateClass.On:
+		//				GlobalPimStatusType = GlobalPimStatusType.On;
+		//				return "Включено";
+		//			case XStateClass.Off:
+		//				GlobalPimStatusType = GlobalPimStatusType.Off;
+		//				return "Выключено";
+		//			default:
+		//				GlobalPimStatusType = GlobalPimStatusType.Unknown;
+		//				return "Состояние неизвестно";
+		//		}
+		//	}
+		//}
 
-        void OnChangeGlobalPimActivation()
-        {
-            if (GlobalPimStatusType == GlobalPimStatusType.On)
-            {
-                ClientManager.FiresecService.GKTurnOffNowGlobalPimsInAutomatic();
-            }
-            else
-            {
-                ClientManager.FiresecService.GKTurnOnNowGlobalPimsInAutomatic();
-            }
-        }
+		public RelayCommand ChangeGlobalPimActivationCommand { get; private set; }
 
-        bool CanChangeGlobalPim()
-        {
-            return ClientManager.CheckPermission(PermissionType.Oper_GlobalPIM_Control);
-        }
-    }
+		void OnChangeGlobalPimActivation()
+		{
+			if (GlobalPimStatusType == GlobalPimStatusType.On)
+			{
+				ClientManager.FiresecService.GKTurnOffNowGlobalPimsInAutomatic();
+			}
+			else
+			{
+				ClientManager.FiresecService.GKTurnOnNowGlobalPimsInAutomatic();
+			}
+		}
 
-    public enum GlobalPimStatusType
-    {
-        Unknown = 0,
-        On = 1,
-        Off = 2
-    }
+		bool CanChangeGlobalPim()
+		{
+			return ClientManager.CheckPermission(PermissionType.Oper_GlobalPIM_Control);
+		}
+
+		public bool CanShowGlobalPim
+		{
+			get {return GKManager.MPTs.Count != 0 || GKManager.PumpStations.Count != 0; }
+		}
+	}
+
+	public enum GlobalPimStatusType
+	{
+		Unknown = 0,
+		On = 1,
+		Off = 2
+	}
 }
