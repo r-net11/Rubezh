@@ -582,12 +582,21 @@ namespace GKModule.ViewModels
 		public RelayCommand<bool> IgnoreLogicValidationCommand { get; private set; }
 		void OnIgnoreLogicValidationCommand(bool isIgnore)
 		{
-			Device.IgnoreLogicValidation = isIgnore;
+			IgnoreLogicValidation = isIgnore;
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanIgnoreLogicValidationCommand(bool isIgnore)
 		{
 			return Device.IgnoreLogicValidation != isIgnore;
+		}
+		public bool IgnoreLogicValidation
+		{
+			get { return !Device.IgnoreLogicValidation; }
+			set
+			{
+				Device.IgnoreLogicValidation = value;
+				OnPropertyChanged(() => IgnoreLogicValidation);
+			}
 		}
 
 		#region Zone and Logic
