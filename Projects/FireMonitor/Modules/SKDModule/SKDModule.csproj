@@ -608,9 +608,6 @@
       <DependentUpon>EmployeeDetailsView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AccessTemplates\Views\AccessTemplateFilterView.xaml.cs">
-      <DependentUpon>AccessTemplateFilterView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Employees\Views\EmployeesView.xaml.cs">
       <DependentUpon>EmployeesView.xaml</DependentUpon>
     </Compile>
@@ -620,7 +617,6 @@
     <Compile Include="Cards\Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ViewModels\FilterBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\FilterOrganizationViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganizationFilterBaseViewModel.cs" />
     <Compile Include="Common\Views\FilterMarkDeletedTabItem.xaml.cs">
@@ -646,7 +642,6 @@
     <Compile Include="Events\ShowVerificationEvent.cs" />
     <Compile Include="Events\ShowWeeklyIntervalsEvent.cs" />
     <Compile Include="Events\ShowShedulesEvent.cs" />
-    <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
     <Compile Include="Events\UpdateAdditionalColumns.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\NightSettingsViewModel.cs" />
     <Compile Include="TimeTrack\Holidays\Views\HolidayDetailsView.xaml.cs">
@@ -864,10 +859,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\EmployeeDetails\EscortSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AccessTemplates\Views\AccessTemplateFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

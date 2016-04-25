@@ -6,9 +6,4 @@
 	<DataTemplate DataType="{x:Type ViewModels:AccessTemplateDetailsViewModel}">
 		<Views:AccessTemplateDetailsView />
 	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:AccessTemplateFilterViewModel}">
-		<Views:AccessTemplateFilterView />
-	</DataTemplate>
-
 </ResourceDictionary>
