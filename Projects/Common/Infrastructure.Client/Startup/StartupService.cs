@@ -40,7 +40,7 @@ namespace Infrastructure.Client.Startup
 		public void Show()
 		{
 			_syncEvent = new AutoResetEvent(false);
-			var splashThread = new Thread(new ParameterizedThreadStart(InternalThreadEntryPoint));
+			var splashThread = new Thread(InternalThreadEntryPoint);
 			splashThread.SetApartmentState(ApartmentState.STA);
 			splashThread.IsBackground = true;
 			splashThread.Name = "Startup Service Thread";
@@ -103,7 +103,7 @@ namespace Infrastructure.Client.Startup
 		private void InternalThreadEntryPoint(object parameter)
 		{
 			_viewModel = new StartupViewModel(_clientType);
-			_viewModel.Closed += new EventHandler(StartupClosed);
+			_viewModel.Closed += StartupClosed;
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 			_syncEvent.Set();
 			DialogService.ShowModalWindow(_viewModel);
@@ -120,7 +120,7 @@ namespace Infrastructure.Client.Startup
 			if (IsActive)
 			{
 				MessageBoxService.ResetMessageBoxHandler();
-				ApplicationService.Invoke((Action)(() => { throw new StartupCancellationException(); }));
+				ApplicationService.Invoke(() => { throw new StartupCancellationException(); });
 			}
 		}
 		private void CloseSplashImage()
@@ -145,7 +145,7 @@ namespace Infrastructure.Client.Startup
 		}
 		public void Capture(string filePath, BitmapEncoder encoder)
 		{
-			RenderTargetBitmap bmp = new RenderTargetBitmap((int)_viewModel.Surface.ActualWidth, (int)_viewModel.Surface.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+			var bmp = new RenderTargetBitmap((int)_viewModel.Surface.ActualWidth, (int)_viewModel.Surface.ActualHeight, 96, 96, PixelFormats.Pbgra32);
 			bmp.Render(_viewModel.Surface);
 			encoder.Frames.Add(BitmapFrame.Create(bmp));
 			using (var stream = File.Create(filePath))

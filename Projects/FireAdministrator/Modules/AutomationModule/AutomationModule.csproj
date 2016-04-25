@@ -73,11 +73,15 @@
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
+    <Compile Include="GlobalVariables\ViewModels\ModalDialogs\AddGlobalVariableDialogViewModel.cs" />
     <Compile Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml.cs">
       <DependentUpon>GlobalVariablesMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
       <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalVariables\Views\ModalDialogs\AddGlobalVariableDialogView.xaml.cs">
+      <DependentUpon>AddGlobalVariableDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layout\ViewModels\LayoutPartPropertyProcedurePageStyleViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartProcedureViewModel.cs" />
@@ -511,6 +515,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GlobalVariables\Views\GlobalVariablesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalVariables\Views\ModalDialogs\AddGlobalVariableDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

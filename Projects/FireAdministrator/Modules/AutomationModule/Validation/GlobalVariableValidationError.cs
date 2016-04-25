@@ -1,14 +1,14 @@
-﻿using System;
-using AutomationModule.Events;
-using FiresecAPI.Automation;
+﻿using AutomationModule.Events;
 using FiresecAPI.Enums;
+using FiresecAPI.Models.Automation;
 using Infrastructure.Common.Validation;
+using System;
 
 namespace AutomationModule.Validation
 {
-	class GlobalVariableValidationError : ObjectValidationError<Variable, ShowGlobalVariablesEvent, Guid>
+	class GlobalVariableValidationError : ObjectValidationError<IVariable, ShowGlobalVariablesEvent, Guid>
 	{
-		public GlobalVariableValidationError(Variable globalVariable, string error, ValidationErrorLevel level)
+		public GlobalVariableValidationError(IVariable globalVariable, string error, ValidationErrorLevel level)
 			: base(globalVariable, error, level)
 		{
 		}
@@ -19,7 +19,7 @@ namespace AutomationModule.Validation
 		}
 		protected override Guid Key
 		{
-			get { return Object.Uid; }
+			get { return Object.UID; }
 		}
 		public override string Address
 		{

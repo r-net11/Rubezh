@@ -1,22 +1,34 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using FiresecAPI.Automation;
 using FiresecAPI.Models.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
-	public class VariableDetailsViewModel : SaveCancelDialogViewModel
+	public class AddGlobalVariableDialogViewModel : SaveCancelDialogViewModel
 	{
-		private readonly bool _automationChanged;
-
+		private const string DefaulVariableName = "глобальная переменная";
 		#region Properties
+
+		private bool _isSaveWhenRestart;
+
+		public bool IsSaveWhenRestart
+		{
+			get { return _isSaveWhenRestart; }
+			set
+			{
+				if (_isSaveWhenRestart == value) return;
+				_isSaveWhenRestart = value;
+				OnPropertyChanged(() => IsSaveWhenRestart);
+			}
+		}
 		public ExplicitValuesViewModel ExplicitValuesViewModel { get; protected set; }
 
-		public IVariable Variable { get; private set; }
+		public GlobalVariable Variable { get; set; }
 
 		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; set; }
 
@@ -28,10 +40,12 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedExplicitType = value;
 				ExplicitValuesViewModel.ExplicitType = _selectedExplicitType.ExplicitType;
+
 				if (_selectedExplicitType.ExplicitType == ExplicitType.Enum)
 					ExplicitValuesViewModel.EnumType = _selectedExplicitType.EnumType;
 				if (_selectedExplicitType.ExplicitType == ExplicitType.Object)
 					ExplicitValuesViewModel.ObjectType = _selectedExplicitType.ObjectType;
+
 				OnPropertyChanged(() => SelectedExplicitType);
 				OnPropertyChanged(() => IsRealType);
 			}
@@ -65,8 +79,7 @@ namespace AutomationModule.ViewModels
 				if (SelectedExplicitType == null)
 					return false;
 
-				if (SelectedExplicitType.ExplicitType != ExplicitType.Enum
-					&& SelectedExplicitType.ExplicitType != ExplicitType.Object)
+				if (SelectedExplicitType.ExplicitType != ExplicitType.Enum && SelectedExplicitType.ExplicitType != ExplicitType.Object)
 					return true;
 
 				return SelectedExplicitType.Parent != null;
@@ -74,11 +87,12 @@ namespace AutomationModule.ViewModels
 		}
 		#endregion
 
-		public VariableDetailsViewModel(IVariable variable, string defaultName = null, string title = null)
+		public AddGlobalVariableDialogViewModel(GlobalVariable variable)
 		{
-			_automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			Title = title;
-			Name = defaultName;
+			Title = variable != null ? "Редактировать глобальную переменную" : "Добавить глобальную переменную";
+			Name = variable != null ? variable.Name : DefaulVariableName;
+			IsSaveWhenRestart = variable != null ? variable.IsSaveWhenRestart : default(bool);
+
 			ExplicitValuesViewModel = new ExplicitValuesViewModel();
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(ProcedureHelper.GetEnumList<ExplicitType>(),
 				ProcedureHelper.GetEnumList<EnumType>(), ProcedureHelper.GetEnumList<ObjectType>()));
@@ -86,27 +100,29 @@ namespace AutomationModule.ViewModels
 
 			if (variable != null)
 				Copy(variable);
+			else
+			{
+				Variable = new GlobalVariable
+				{
+					VariableValue = new VariableValue()
+				};
+			}
 		}
 
-		void Copy(IVariable variable)
+		void Copy(GlobalVariable variable)
 		{
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType> { variable.VariableValue.ExplicitType },
 				new List<EnumType> { variable.VariableValue.EnumType }, new List<ObjectType> { variable.VariableValue.ObjectType }));
 			var explicitTypeViewModel = ExplicitTypes.FirstOrDefault();
+
 			if (explicitTypeViewModel != null)
 			{
 				SelectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
 				if (SelectedExplicitType != null) SelectedExplicitType.ExpandToThis();
 			}
-			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.VariableValue.ExplicitValue, variable.VariableValue.ExplicitValues, variable.VariableValue.ExplicitType, variable.VariableValue.EnumType, variable.VariableValue.ObjectType);
-			Name = variable.Name;
-			IsReference = variable.IsReference;
-		}
 
-		public override bool OnClosing(bool isCanceled)
-		{
-			ServiceFactory.SaveService.AutomationChanged = _automationChanged;
-			return base.OnClosing(isCanceled);
+			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.VariableValue.ExplicitValue, variable.VariableValue.ExplicitValues, variable.VariableValue.ExplicitType, variable.VariableValue.EnumType, variable.VariableValue.ObjectType);
+			Variable = variable;
 		}
 
 		protected override bool Save()
@@ -117,18 +133,13 @@ namespace AutomationModule.ViewModels
 				return false;
 			}
 
-			Variable = new LocalVariable
-			{
-				Name = Name,
-				IsReference = IsReference,
-				VariableValue = new VariableValue
-				{
-					ExplicitType = SelectedExplicitType.ExplicitType,
-					EnumType = SelectedExplicitType.EnumType,
-					ObjectType = SelectedExplicitType.ObjectType,
-					ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue
-				}
-			};
+			Variable.IsReference = IsReference;
+			Variable.Name = Name;
+			Variable.IsSaveWhenRestart = IsSaveWhenRestart;
+			Variable.VariableValue.EnumType = SelectedExplicitType.EnumType;
+			Variable.VariableValue.ObjectType = SelectedExplicitType.ObjectType;
+			Variable.VariableValue.ExplicitType = SelectedExplicitType.ExplicitType;
+			Variable.VariableValue.ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
 
 			foreach(var explicitValue in ExplicitValuesViewModel.ExplicitValues)
 				Variable.VariableValue.ExplicitValues.Add(explicitValue.ExplicitValue);

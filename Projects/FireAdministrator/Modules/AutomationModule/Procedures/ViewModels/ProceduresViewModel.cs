@@ -6,6 +6,7 @@ using System.Windows.Input;
 using AutomationModule.Plans;
 using Common;
 using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -164,8 +165,8 @@ namespace AutomationModule.ViewModels
 		{
 			if (inputUid == Guid.Empty)
 				return;
-			var variables = new List<Variable>();
-			var arguments = new List<Variable>();
+			var variables = new List<IVariable>();
+			var arguments = new List<IVariable>();
 			var procedureSteps = new List<ProcedureStep>();
 
 			foreach (var procedure in Procedures)
@@ -179,25 +180,25 @@ namespace AutomationModule.ViewModels
 			{
 				SelectedProcedure = Procedures.FirstOrDefault(item => item.Procedure.Uid == inputUid);
 			}
-			else if (variables.Any(item => item.Uid == inputUid))
+			else if (variables.Any(item => item.UID == inputUid))
 			{
-				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Variables.Any(z => z.Uid == inputUid));
+				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Variables.Any(z => z.UID == inputUid));
 				if (selectedProcedure != null)
 				{
 					SelectedProcedure = selectedProcedure;
 					SelectedProcedure.ShowVariablesCommand.Execute();
 				}
-				SelectedProcedure.VariablesViewModel.SelectedVariable = SelectedProcedure.VariablesViewModel.Variables.FirstOrDefault(item => item.Variable.Uid == inputUid);
+				SelectedProcedure.VariablesViewModel.SelectedVariable = SelectedProcedure.VariablesViewModel.Variables.FirstOrDefault(item => item.Variable.UID == inputUid);
 			}
-			else if (arguments.Any(item => item.Uid == inputUid))
+			else if (arguments.Any(item => item.UID == inputUid))
 			{
-				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Arguments.Any(z => z.Uid == inputUid));
+				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Arguments.Any(z => z.UID == inputUid));
 				if (selectedProcedure != null)
 				{
 					SelectedProcedure = selectedProcedure;
 					SelectedProcedure.ShowArgumentsCommand.Execute();
 				}
-				SelectedProcedure.ArgumentsViewModel.SelectedVariable = SelectedProcedure.ArgumentsViewModel.Variables.FirstOrDefault(item => item.Variable.Uid == inputUid);
+				SelectedProcedure.ArgumentsViewModel.SelectedVariable = SelectedProcedure.ArgumentsViewModel.Variables.FirstOrDefault(item => item.Variable.UID == inputUid);
 			}
 
 			else if (procedureSteps.Any(item => item.UID == inputUid))
@@ -250,9 +251,9 @@ namespace AutomationModule.ViewModels
 
 		private void SetRibbonItems()
 		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
+			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
 				{
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
@@ -262,11 +263,6 @@ namespace AutomationModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
 		}
 	}
 }

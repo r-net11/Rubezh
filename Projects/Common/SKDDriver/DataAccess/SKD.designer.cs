@@ -117,6 +117,9 @@ namespace SKDDriver.DataAccess
 		partial void InsertFilters(Filters instance);
 		partial void UpdateFilters(Filters instance);
 		partial void DeleteFilters(Filters instance);
+		partial void InsertGlobalVariables(GlobalVariables instance);
+		partial void UpdateGlobalVariables(GlobalVariables instance);
+		partial void DeleteGlobalVariables(GlobalVariables instance);
 		#endregion
 
 		public SKDDataContext() :
@@ -386,6 +389,14 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Filters>();
+			}
+		}
+
+		public System.Data.Linq.Table<GlobalVariables> GlobalVariables
+		{
+			get
+			{
+				return this.GetTable<GlobalVariables>();
 			}
 		}
 	}
@@ -9528,6 +9539,188 @@ namespace SKDDriver.DataAccess
 					this._Type = value;
 					this.SendPropertyChanged("Type");
 					this.OnTypeChanged();
+				}
+			}
+		}
+
+		public event PropertyChangingEventHandler PropertyChanging;
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+
+	[global::System.Data.Linq.Mapping.TableAttribute(Name = "")]
+	public partial class GlobalVariables : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+		private System.Guid _UID;
+
+		private string _Name;
+
+		private string _XMLContent;
+
+		private bool _IsSaveWhenRestart;
+
+		private bool _IsReference;
+
+		private string _InitialValueXML;
+
+		#region Extensibility Method Definitions
+		partial void OnLoaded();
+		partial void OnValidate(System.Data.Linq.ChangeAction action);
+		partial void OnCreated();
+		partial void OnUIDChanging(System.Guid value);
+		partial void OnUIDChanged();
+		partial void OnNameChanging(string value);
+		partial void OnNameChanged();
+		partial void OnCurrentValueXMLChanging(string value);
+		partial void OnCurrentValueXMLChanged();
+		partial void OnIsSaveWhenRestartChanging(bool value);
+		partial void OnIsSaveWhenRestartChanged();
+		partial void OnIsReferenceChanging(bool value);
+		partial void OnIsReferenceChanged();
+		partial void OnInitialValueXMLChanging(string value);
+		partial void OnInitialValueXMLChanged();
+		#endregion
+
+		public GlobalVariables()
+		{
+			OnCreated();
+		}
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UID", DbType = "UniqueIdentifier NOT NULL", IsPrimaryKey = true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50)", CanBeNull = false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_XMLContent", DbType = "nvarchar(MAX)", CanBeNull = false)]
+		public string CurrentValueXML
+		{
+			get
+			{
+				return this._XMLContent;
+			}
+			set
+			{
+				if ((this._XMLContent != value))
+				{
+					this.OnCurrentValueXMLChanging(value);
+					this.SendPropertyChanging();
+					this._XMLContent = value;
+					this.SendPropertyChanged("CurrentValueXML");
+					this.OnCurrentValueXMLChanged();
+				}
+			}
+		}
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsSaveWhenRestart", DbType = "Bit NOT NULL")]
+		public bool IsSaveWhenRestart
+		{
+			get
+			{
+				return this._IsSaveWhenRestart;
+			}
+			set
+			{
+				if ((this._IsSaveWhenRestart != value))
+				{
+					this.OnIsSaveWhenRestartChanging(value);
+					this.SendPropertyChanging();
+					this._IsSaveWhenRestart = value;
+					this.SendPropertyChanged("IsSaveWhenRestart");
+					this.OnIsSaveWhenRestartChanged();
+				}
+			}
+		}
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsReference", DbType = "Bit NOT NULL")]
+		public bool IsReference
+		{
+			get
+			{
+				return this._IsReference;
+			}
+			set
+			{
+				if ((this._IsReference != value))
+				{
+					this.OnIsReferenceChanging(value);
+					this.SendPropertyChanging();
+					this._IsReference = value;
+					this.SendPropertyChanged("IsReference");
+					this.OnIsReferenceChanged();
+				}
+			}
+		}
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_InitialValueXML", DbType = "nvarchar(MAX)", CanBeNull = false)]
+		public string InitialValueXML
+		{
+			get
+			{
+				return this._InitialValueXML;
+			}
+			set
+			{
+				if ((this._InitialValueXML != value))
+				{
+					this.OnInitialValueXMLChanging(value);
+					this.SendPropertyChanging();
+					this._InitialValueXML = value;
+					this.SendPropertyChanged("InitialValueXML");
+					this.OnInitialValueXMLChanged();
 				}
 			}
 		}

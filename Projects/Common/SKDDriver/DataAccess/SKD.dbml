@@ -419,4 +419,14 @@
       <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="" Member="GlobalVariables">
+    <Type Name="GlobalVariables">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="false" />
+      <Column Name="CurrentValueXML" Storage="_XMLContent" Type="System.String" DbType="nvarchar(MAX)" CanBeNull="false" />
+      <Column Name="IsSaveWhenRestart" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsReference" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="InitialValueXML" Type="System.String" DbType="nvarchar(MAX)" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

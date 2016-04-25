@@ -532,6 +532,20 @@ CONSTRAINT [PK_Filters] PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+CREATE TABLE [dbo].[GlobalVariables]
+(
+[UID] UNIQUEIDENTIFIER NOT NULL,
+[Name] NVARCHAR(50) NOT NULL,
+[CurrentValueXML] NVARCHAR(MAX) NOT NULL,
+[InitialValueXML] NVARCHAR(MAX) NOT NULL,
+[IsSaveWhenRestart] bit NOT NULL,
+[IsReference] bit NOT NULL
+CONSTRAINT [PK_GlobalVariables] PRIMARY KEY CLUSTERED
+(
+	[UID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
 CREATE TABLE Patches (Id nvarchar(100) not null)
 CREATE INDEX DayIntervalPartUIDIndex ON [dbo].[DayIntervalPart]([UID])
 CREATE INDEX DayIntervalUIDIndex ON DayInterval([UID])
@@ -1006,6 +1020,8 @@ INSERT INTO Patches (Id) VALUES
 ('FiltersTableAdded')
 INSERT INTO Patches (Id) VALUES
 ('RemoveCredentialsStartDateField')
+INSERT INTO Patches (Id) VALUES
+('AddingGlobalVariablesTable')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();

@@ -94,6 +94,7 @@
     <Compile Include="Translators\Base\WithShortTranslator.cs" />
     <Compile Include="Translators\CardTranslator.cs" />
     <Compile Include="Translators\CardDoorTranslator.cs" />
+    <Compile Include="Translators\GlobalVariablesTranslator.cs" />
     <Compile Include="Translators\JournalTranslator.cs" />
     <Compile Include="Translators\LicenseInfoTranslator.cs" />
     <Compile Include="Translators\MetadataTranslator.cs" />
