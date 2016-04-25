@@ -35,7 +35,7 @@ namespace LayoutModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return PropertyPages.All(page => page.CanSave());
+			return !PropertyPages.Any(page => page.CanSave());
 		}
 
 		protected override bool Save()
