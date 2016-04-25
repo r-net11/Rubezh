@@ -181,7 +181,7 @@ namespace Infrastructure.Client.Plans
 
 			((IPlanDesignerViewModel)DataContext).ChangeZoom(slider.Value * initialScale);
 
-			var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
+			var centerOfViewport = new Point(_scrollViewer.ActualWidth / 2, _scrollViewer.ActualHeight / 2);
 			lastCenterPositionOnTarget = _scrollViewer.TranslatePoint(centerOfViewport, _grid);
 		}
 		void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -196,7 +196,7 @@ namespace Infrastructure.Client.Plans
 			{
 				if (lastCenterPositionOnTarget.HasValue)
 				{
-					var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
+					var centerOfViewport = new Point(_scrollViewer.ActualWidth / 2, _scrollViewer.ActualHeight / 2);
 					Point centerOfTargetNow = _scrollViewer.TranslatePoint(centerOfViewport, _grid);
 
 					targetBefore = lastCenterPositionOnTarget;
@@ -238,8 +238,8 @@ namespace Infrastructure.Client.Plans
 			if (viewModel.FullScreenSize)
 			{
 				var margin = viewModel.AlwaysShowScroll ? 51 : 5;
-				double scaleX = (_scrollViewer.ViewportWidth - margin) / viewModel.Canvas.CanvasWidth;
-				double scaleY = (_scrollViewer.ViewportHeight - margin) / viewModel.Canvas.CanvasHeight;
+				double scaleX = (_scrollViewer.ActualWidth - margin) / viewModel.Canvas.CanvasWidth;
+				double scaleY = (_scrollViewer.ActualHeight - margin) / viewModel.Canvas.CanvasHeight;
 				double scale = Math.Min(scaleX, scaleY);
 				if (scale < 0)
 					return;
@@ -258,7 +258,7 @@ namespace Infrastructure.Client.Plans
 			if (e.MiddleButton == MouseButtonState.Pressed)
 			{
 				var mousePos = e.GetPosition(_scrollViewer);
-				if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
+				if (mousePos.X <= _scrollViewer.ActualWidth && mousePos.Y < _scrollViewer.ActualHeight)
 				{
 					lastDragPoint = mousePos;
 					_scrollViewer.Cursor = Cursors.SizeAll;
