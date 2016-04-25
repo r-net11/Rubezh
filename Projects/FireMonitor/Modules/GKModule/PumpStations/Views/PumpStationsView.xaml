@@ -66,7 +66,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Время тушения" Width="*" MinWidth="100">
+					<DataGridTemplateColumn Header="Время тушения" Width="Auto" MinWidth="100">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
@@ -75,6 +75,15 @@
 											   VerticalAlignment="Center"
 											   Margin="2" />
 									<TextBlock Text="сек" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Width="*" Header="Примечание" MinWidth="100">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PumpStation.Description}" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>

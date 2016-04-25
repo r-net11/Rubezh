@@ -38,15 +38,22 @@
 						</Style>
 					</XAutoCompleteBox.TextBoxStyle>
 				</XAutoCompleteBox>
-				
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Задержка, с" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" Minimum="0" Maximum="65535" HorizontalAlignment="Stretch" Margin="2" />
-				
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Время тушения, с" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Hold}" Minimum="1" Maximum="65535" HorizontalAlignment="Stretch" Margin="2" />
 
-				<TextBlock Grid.Row="4" Grid.Column="0" Text="Режим после удержания" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding AvailableDelayRegimeTypes}" SelectedItem="{Binding DelayRegime}" Margin="2">
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<XAutoCompleteBox Grid.Row="2" Grid.Column="1" 
+								  Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+								  ItemsSource="{Binding AvailableDescription}"
+								  IsTextCompletionEnabled="False"
+								  Margin="2" />
+				
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Задержка, с" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Delay}" Minimum="0" Maximum="65535" HorizontalAlignment="Stretch" Margin="2" />
+				
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="Время тушения, с" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Hold}" Minimum="1" Maximum="65535" HorizontalAlignment="Stretch" Margin="2" />
+
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="Режим после удержания" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding AvailableDelayRegimeTypes}" SelectedItem="{Binding DelayRegime}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -54,13 +61,13 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 				
-				<TextBlock Grid.Row="5" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" HorizontalAlignment="Stretch" Margin="2" />
+				<TextBlock Grid.Row="6" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" HorizontalAlignment="Stretch" Margin="2" />
 				
-				<TextBlock Grid.Row="6" Grid.Column="0" Text="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
-				<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="5" Maximum="30" HorizontalAlignment="Stretch" Margin="2" />
+				<TextBlock Grid.Row="7" Grid.Column="0" Text="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" Style="{DynamicResource TextBlockDetailsStyle}" />
+				<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="5" Maximum="30" HorizontalAlignment="Stretch" Margin="2" />
 				
-				<StackPanel Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+				<StackPanel Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
 					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding ReadPropertiesCommand}" ImageSource="Read" ToolTip="Считать параметры НС" IsEnabled="{Binding IsEdit}" />
 					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding WritePropertiesCommand}" ImageSource="Write" ToolTip="Записать параметры НС" IsEnabled="{Binding IsEdit}" />
 					<ToolBarButton Width="36" Height="36" Command="{Binding ResetPropertiesCommand}" ImageSource="Defconfig" ToolTip="Параметры по умолчанию" IsEnabled="{Binding IsEdit}" />
