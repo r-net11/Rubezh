@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using GKProcessor;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
@@ -56,7 +54,54 @@ namespace GKIntegratedTest
 			WaitWhileState(zone, XStateClass.On, 4000, "Ждем пока НС не Включится");
 			Assert.IsTrue(pumpStaition.State.StateClass == XStateClass.On, "Проверка того, что НС Включен");
 			Assert.IsTrue(pump.State.StateClass == XStateClass.On, "Проверка того, что насос Включен");
-			CheckJournal(6, JournalItem(device2, JournalEventNameType.Сработка_1), JournalItem(zone, JournalEventNameType.Пожар_1), JournalItem(pumpStaition, JournalEventNameType.Включается), JournalItem(pumpStaition, JournalEventNameType.Включено), JournalItem(pump, JournalEventNameType.Включено));
+			CheckJournal(5, JournalItem(device2, JournalEventNameType.Сработка_1), JournalItem(zone, JournalEventNameType.Пожар_1), JournalItem(pumpStaition, JournalEventNameType.Включается), JournalItem(pumpStaition, JournalEventNameType.Включено), JournalItem(pump, JournalEventNameType.Включено));
+		}
+
+		[TestCase(DelayRegime.On, XStateClass.On, JournalEventNameType.Включено)]
+		[TestCase(DelayRegime.Off, XStateClass.Off, JournalEventNameType.Выключено)]
+		/* RG-1015 (Если у НС задан Режим после удержания "Включено", то после окончания отсчета удержания он не должен переходить в режим "Включается")*/
+		public void TestPumpStationDelayRegime(DelayRegime regime, XStateClass state, JournalEventNameType eventname)
+		{
+			var pumpStaition = new GKPumpStation { Name = "Насосная станция", No = 1 };
+			var zone = new GKZone { Name = "Пожарная зона", No = 1 };
+			var clause = new GKClause
+			{
+				ClauseOperationType = ClauseOperationType.AllZones,
+				StateType = GKStateBit.Fire1,
+				ZoneUIDs = { zone.UID }
+			};
+			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_HeatDetector);
+			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_HeatDetector);
+			var device3 = AddDevice(kauDevice11, GKDriverType.RSR2_HeatDetector);
+			var pump = AddDevice(kauDevice11, GKDriverType.RSR2_Bush_Fire);
+			var gkpim = AddPim(gkDevice1);
+			var kaupim = AddPim(kauDevice11);
+			pumpStaition.StartLogic.OnClausesGroup.Clauses.Add(clause);
+			pumpStaition.NSDeviceUIDs.Add(pump.UID);
+			pumpStaition.NSDevices.Add(pump);
+			pumpStaition.Delay = 3;
+			pumpStaition.Hold = 3;
+			pumpStaition.DelayRegime = regime;
+			GKManager.AddZone(zone);
+			GKManager.AddPumpStation(pumpStaition);
+			GKManager.AddDeviceToZone(device1, zone);
+			GKManager.AddDeviceToZone(device2, zone);
+			GKManager.AddDeviceToZone(device3, zone);
+			SetConfigAndRestartImitator();
+
+			WaitWhileState(zone, XStateClass.Norm, 10000, "Ждем Норму в зоне");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.Norm, "Проверка того, что зона в Норме");
+			TurnOnPim(gkpim);
+			TurnOnPim(kaupim);
+			ConrtolGKBase(device1, GKStateBit.Fire1, "Сработка1 у датчика1");
+			ConrtolGKBase(device2, GKStateBit.Fire1, "Сработка1 у датчика2");
+			WaitWhileState(pumpStaition, XStateClass.On, 5000, "Ждем пока НС не Включится");
+			Assert.IsTrue(pumpStaition.State.StateClass == XStateClass.On, "Проверка того, что НС Включен");
+			WaitWhileState(pumpStaition, XStateClass.TurningOn, 6000, "Ждем 6 секунд, НС не должен перейти в режим Включается");
+			Assert.IsFalse(pumpStaition.State.StateClass == XStateClass.TurningOn, "Проверка того, что НС не перешёл в режим Включается");
+			Assert.IsTrue(pumpStaition.State.StateClass == state, "Проверка того, что НС Включен/Выключен");
+			Assert.IsTrue(pump.State.StateClass == state, "Проверка того, что насос Включен/Выключен");
+			CheckJournal(2, JournalItem(pumpStaition, eventname), JournalItem(pump, eventname));
 		}
 	}
 }
