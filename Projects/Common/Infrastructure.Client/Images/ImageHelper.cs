@@ -54,7 +54,8 @@ namespace Infrastructure.Client.Images
 			}
 			return ServiceFactoryBase.ContentService.AddContent(wmf.Canvas);
 		}
-		private static void UpdateReferences(Visual visual)
+
+		static void UpdateReferences(Visual visual)
 		{
 			foreach (var glyph in visual.FindVisualChildren<Glyphs>())
 				if (!glyph.FontUri.IsAbsoluteUri)

@@ -46,7 +46,8 @@ namespace Infrastructure.Client.Plans
 			designerItem.UpdateProperties += UpdateProperties<TItem>;
 			UpdateProperties<TItem>(designerItem);
 		}
-		private void DesignerItemPropertyChanged<TItem>(object sender, EventArgs e)
+
+		void DesignerItemPropertyChanged<TItem>(object sender, EventArgs e)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			DesignerItem designerItem = (DesignerItem)sender;

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Common;
+﻿using Infrastructure.Plans.Presenter;
+using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
-using Infrastructure.Plans.Presenter;
-using RubezhAPI;
+using System;
+using System.Collections.Generic;
 
 namespace Infrastructure.Client.Plans.Presenter
 {
 	public class StateMonitor : BaseMonitor<Plan>
 	{
-		private List<IDeviceState> _states;
+		List<IDeviceState> _states;
 
 		public StateMonitor(Plan plan, Action callBack)
 			: base(plan, callBack)

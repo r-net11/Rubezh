@@ -51,7 +51,7 @@
 
             $scope.save = function () {
                 organisationsService.saveOrganisation($scope.model, $scope.isNew).then(function () {
-                        $uibModalInstance.close();
+                        $uibModalInstance.close($scope.organisation);
                     });
             };
 

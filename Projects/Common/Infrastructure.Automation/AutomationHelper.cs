@@ -144,7 +144,7 @@ namespace Infrastructure.Automation
 			if (objectType == ObjectType.VideoDevice)
 				return new List<Property> { Property.Uid, Property.Name };
 			if (objectType == ObjectType.PumpStation)
-				return new List<Property> { Property.Uid, Property.No, Property.Delay, Property.Name, Property.State };
+				return new List<Property> { Property.Description, Property.Uid, Property.No, Property.Delay, Property.Name, Property.State };
 			if (objectType == ObjectType.MPT)
 				return new List<Property> { Property.Uid, Property.Description, Property.Name, Property.State };
 			return new List<Property>();

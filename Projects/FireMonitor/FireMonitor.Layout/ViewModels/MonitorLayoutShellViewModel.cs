@@ -28,7 +28,7 @@ namespace FireMonitor.Layout.ViewModels
 			Layout = layout;
 			LayoutContainer = new LayoutContainer(this, layout);
 			LayoutContainer.LayoutChanging += LayoutChanging;
-			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
+			ChangeUserCommand = new RelayCommand(OnChangeUser);
 			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
 			Icon = @"..\Monitor.Layout.ico";
 			ListenAutomationEvents();
@@ -106,10 +106,6 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			ChangeUserViewModel changeUserViewModel = new ChangeUserViewModel(Bootstrapper.BootstrapperCurrent, ClientManager.CurrentUser.UID);
 			DialogService.ShowModalWindow(changeUserViewModel);
-		}
-		bool CanChangeUser()
-		{
-			return ClientManager.CheckPermission(PermissionType.Oper_Logout);
 		}
 
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
