@@ -15,10 +15,10 @@ namespace Infrastructure.Client.Startup.ViewModels
 {
 	public class StartupViewModel : DialogViewModel
 	{
-		private ClientType _clientType;
-		private AutoResetEvent _sync;
-		private StartupLoginViewModel _startupLoginViewModel;
-		private StartupLoadingViewModel _startupLoadingViewModel;
+		ClientType _clientType;
+		AutoResetEvent _sync;
+		StartupLoginViewModel _startupLoginViewModel;
+		StartupLoadingViewModel _startupLoadingViewModel;
 
 		public StartupViewModel(ClientType clientType)
 		{
@@ -60,7 +60,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 		}
 
 		public Dispatcher Dispatcher { get; private set; }
-		private bool _isUIEnabled;
+		bool _isUIEnabled;
 		public bool IsUIEnabled
 		{
 			get { return _isUIEnabled; }
@@ -70,7 +70,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => IsUIEnabled);
 			}
 		}
-		private bool _showButtons;
+
+		bool _showButtons;
 		public bool ShowButtons
 		{
 			get { return _showButtons; }
@@ -83,7 +84,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 
 		public BaseViewModel Content { get; private set; }
 		public bool IsConnected { get; private set; }
-		private string _message;
+		string _message;
 		public string Message
 		{
 			get { return _message; }
@@ -93,7 +94,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => Message);
 			}
 		}
-		private int _messageFontSize;
+
+		int _messageFontSize;
 		public int MessageFontSize
 		{
 			get { return _messageFontSize; }
@@ -103,7 +105,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => MessageFontSize);
 			}
 		}
-		private FontWeight _messageFontWeight;
+
+		FontWeight _messageFontWeight;
 		public FontWeight MessageFontWeight
 		{
 			get { return _messageFontWeight; }
@@ -146,7 +149,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			Dispatcher.Invoke((Action)(() => _startupLoadingViewModel.StepCount += count), DispatcherPriority.Send);
 		}
 
-		private void Login(string login, string password)
+		void Login(string login, string password)
 		{
 			bool isAutoconnect;
 			switch (_clientType)
@@ -198,7 +201,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 		}
 
 		public RelayCommand ConnectCommand { get; private set; }
-		private void OnConnect()
+
+		void OnConnect()
 		{
 			IsUIEnabled = false;
 			Message = GetConnectingMessage();
@@ -249,12 +253,14 @@ namespace Infrastructure.Client.Startup.ViewModels
 			IsUIEnabled = true;
 		}
 		public RelayCommand CancelCommand { get; private set; }
-		private void OnCancel()
+
+		void OnCancel()
 		{
 			SetConnected(false);
 		}
 		public RelayCommand SettingsCommand { get; private set; }
-		private void OnSettings()
+
+		void OnSettings()
 		{
 			StartupSettingsWaitHandler = new AutoResetEvent(false);
 			ApplicationService.BeginInvoke(() =>
@@ -272,13 +278,14 @@ namespace Infrastructure.Client.Startup.ViewModels
 
 		public AutoResetEvent StartupSettingsWaitHandler { get; private set; }
 
-		private void SetConnected(bool isConnected)
+		void SetConnected(bool isConnected)
 		{
 			IsConnected = isConnected;
 			SaveSettings();
 			_sync.Set();
 		}
-		private void SaveSettings()
+
+		void SaveSettings()
 		{
 			bool isCurrentClientAutoconnect;
 			switch (_clientType)
@@ -302,7 +309,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 				Settings.Default.Save();
 			}
 		}
-		private string GetConnectingMessage()
+
+		string GetConnectingMessage()
 		{
 			var message = "Соединение с сервером";
 			if (ConnectionSettingsManager.IsRemote && !string.IsNullOrEmpty(ConnectionSettingsManager.RemoteAddress))

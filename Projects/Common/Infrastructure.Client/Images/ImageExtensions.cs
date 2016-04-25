@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.IO;
 
 namespace Infrastructure.Client.Converters
 {
@@ -37,7 +34,8 @@ namespace Infrastructure.Client.Converters
 		{
 			return CheckFileExtension(fileName, WMFGraphicExtensions);
 		}
-		private static bool CheckFileExtension(string fileName, string extensionList)
+
+		static bool CheckFileExtension(string fileName, string extensionList)
 		{
 			return extensionList.Split(';').Contains(Path.GetExtension(fileName).ToLower());
 		}

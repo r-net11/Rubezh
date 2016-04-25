@@ -7,7 +7,7 @@ using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class DepartmentsFilterViewModel : OrganisationBaseViewModel<ShortDepartment, DepartmentFilter, DepartmentFilterItemViewModel, DepartmentDetailsViewModel>
+	public class DepartmentsFilterViewModel : OrganisationBaseViewModel<ShortDepartment, DepartmentFilter, DepartmentFilterItemViewModel, DepartmentDetailsViewModel>, IHRFilterTab
 	{
 		public DepartmentsFilterViewModel()
 			: base()
@@ -133,6 +133,14 @@ namespace SKDModule.ViewModels
 		protected override RubezhAPI.Models.PermissionType Permission
 		{
 			get { return RubezhAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
+		}
+
+		void IHRFilterTab.Update(List<Guid> organisationUids, bool isWithDeleted)
+		{
+			_filter.OrganisationUIDs = organisationUids;
+			_filter.UIDs = UIDs;
+			_filter.LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
+			Initialize(_filter);
 		}
 	}
 }

@@ -16,6 +16,10 @@ namespace GKModule.ViewModels
 	public class PumpStationDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GKPumpStation PumpStation { get; private set; }
+		public ObservableCollection<string> AvailableNames { get; private set; }
+		public ObservableCollection<string> AvailableDescription { get; private set; }
+
+
 		public bool IsEdit { get; private set; }
 
 		public PumpStationDetailsViewModel(GKPumpStation pumpStation = null)
@@ -50,8 +54,10 @@ namespace GKModule.ViewModels
 			foreach (var existingPumpStation in GKManager.PumpStations)
 			{
 				availableNames.Add(existingPumpStation.Name);
+				availableDescription.Add(existingPumpStation.Description);
 			}
 			AvailableNames = new ObservableCollection<string>(availableNames);
+			AvailableDescription = new ObservableCollection<string>(availableDescription);
 		}
 
 		public RelayCommand ReadPropertiesCommand { get; private set; }
@@ -218,8 +224,6 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => Description);
 			}
 		}
-
-		public ObservableCollection<string> AvailableNames { get; private set; }
 
 		int _mainPumpsCount;
 		public int NSPumpsCount

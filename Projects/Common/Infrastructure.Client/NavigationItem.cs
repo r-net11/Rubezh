@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure.Common.Navigation;
+﻿using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Plans.Events;
 using Microsoft.Practices.Prism.Events;
+using RubezhAPI.Models;
+using RubezhClient;
+using System.Collections.Generic;
 
 namespace Infrastructure.Client
 {
@@ -32,7 +32,7 @@ namespace Infrastructure.Client
 			if (subscribe)
 				Subscribe();
 
-			if(permission.HasValue)
+			if (permission.HasValue)
 				IsVisible = ClientManager.CheckPermission(permission.Value);
 			IsSelectionAllowed = true;
 		}
@@ -45,7 +45,7 @@ namespace Infrastructure.Client
 			ServiceFactoryBase.Events.GetEvent<T>().Publish(arg);
 		}
 
-		private void Subscribe()
+		void Subscribe()
 		{
 			ServiceFactoryBase.Events.GetEvent<T>().Subscribe(ShowViewPart);
 		}
