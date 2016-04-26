@@ -99,7 +99,8 @@ namespace RubezhAPI
 				Parent = parentDevice,
 			};
 			device.InitializeDefaultProperties();
-
+			if (device.DriverType == GKDriverType.RSR2_MVP_Part)
+				device.PredefinedName = "Линия " + (intAddress + 2);
 			if (!index.HasValue)
 				parentDevice.Children.Add(device);
 			else
