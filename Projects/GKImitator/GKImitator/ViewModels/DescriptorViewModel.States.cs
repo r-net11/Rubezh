@@ -48,7 +48,7 @@ namespace GKImitator.ViewModels
 			var ignoreCondition = HasIgnoreRegime && stateBit == GKStateBit.Ignore;
 			if (GKBase is GKMPT || GKBase is GKPumpStation || GKBase is GKDirection)
 			{
-				if (stateBit == GKStateBit.On || stateBit == GKStateBit.TurningOn)
+				if (stateBit == GKStateBit.On || stateBit == GKStateBit.TurningOn && (value || TurningState == TurningState.Paused))
 					OnStateChanged(GKStateBit.Reserve1, value, GKBase.UID);
 				OnStateChanged(GKStateBit.Reserve2, TurningState == TurningState.Paused, GKBase.UID);
 			}
