@@ -15,7 +15,7 @@
              $scope.isOrganisationsAddRemoveAllowed = authService.checkPermission('Oper_SKD_Organisations_AddRemove');
 
              $scope.canAdd = function () {
-                 return $scope.selectedOrganisation && !$scope.selectedOrganisation.IsDeleted && $scope.isOrganisationsAddRemoveAllowed;
+                 return $scope.isOrganisationsAddRemoveAllowed;
              };
              $scope.canRemove = function () {
                  return $scope.selectedOrganisation && !$scope.selectedOrganisation.IsDeleted && $scope.isOrganisationsAddRemoveAllowed;
@@ -43,8 +43,14 @@
                      }
                  });
 
-                 modalInstance.result.then(function () {
-                     organisationsService.reload();
+                 modalInstance.result.then(function (organisation) {
+                     if (isNew) {
+                         organisationsService.reload(organisation.UID);
+                         $scope.$parent.$broadcast('AddOrganisationEvent', organisation);
+                     } else {
+                         $scope.selectedOrganisation.Name = organisation.Name;
+                         $scope.$parent.$broadcast('EditOrganisationEvent', organisation);
+                     }
                  });
              };
 
@@ -59,18 +65,14 @@
              $scope.remove = function () {
                  if (dialogService.showConfirm("Вы уверены, что хотите удалить огранизацию?")) {
                      organisationsService.isAnyOrganisationItems($scope.selectedOrganisation.UID).then(function (isAnyOrganisationItems) {
-                         if (isAnyOrganisationItems) {
-                             if (dialogService.showConfirm("Привязанные к организации объекты будут также архивированы. Продолжить?")) {
+                         if (!isAnyOrganisationItems || 
+                             dialogService.showConfirm("Привязанные к организации объекты будут также архивированы. Продолжить?")) {
                                  organisationsService.markDeleted($scope.selectedOrganisation.UID, $scope.selectedOrganisation.Name).then(function () {
-                                     organisationsService.reload();
+                                     $scope.$parent.$broadcast('RemoveOrganisationEvent', $scope.selectedOrganisation);
                                 });
                             }
-                        } else {
-                             organisationsService.markDeleted($scope.selectedOrganisation.UID, $scope.selectedOrganisation.Name).then(function () {
-                                 organisationsService.reload();
-                            });
                         }
-                    });
+                    );
                  }
              };
 

@@ -171,23 +171,26 @@ namespace FireAdministrator.ViewModels
 			}
 			foreach (var delay in GKDeviceConfiguration.Delays)
 			{
-				GKManager.DeviceConfiguration.Delays.Add(delay);
+				GKManager.Delays.Add(delay);
 			}
 			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
 			{
-				GKManager.DeviceConfiguration.PumpStations.Add(pumpStation);
+				GKManager.PumpStations.Add(pumpStation);
 			}
-			foreach (var mpt in GKDeviceConfiguration.MPTs)
-			{
-				GKManager.DeviceConfiguration.MPTs.Add(mpt);
-			}
+			
 			foreach (var door in GKDeviceConfiguration.Doors)
 			{
 				GKManager.Doors.Add(door);
 			}
+
+			foreach (var zone in GKDeviceConfiguration.SKDZones)
+			{
+				GKManager.SKDZones.Add(zone);
+			}
+
 			foreach (var code in GKDeviceConfiguration.Codes)
 			{
-				GKManager.DeviceConfiguration.Codes.Add(code);
+				GKManager.Codes.Add(code);
 			}
 			//foreach (var schedules in GKDeviceConfiguration.Schedules)
 			//{
@@ -196,11 +199,13 @@ namespace FireAdministrator.ViewModels
 
 			ReorderNos(GKManager.Zones);
 			ReorderNos(GKManager.GuardZones);
-			ReorderNos(GKManager.GuardZones);
 			ReorderNos(GKManager.PumpStations);
 			ReorderNos(GKManager.MPTs);
 			ReorderNos(GKManager.Doors);
-			ReorderNos(GKManager.DeviceConfiguration.Codes);
+			ReorderNos(GKManager.Delays);
+			ReorderNos(GKManager.Codes);
+			ReorderNos(GKManager.SKDZones);
+			ReorderNos(GKManager.Directions);
 			//ReorderNos(GKManager.DeviceConfiguration.Schedules);
 
 			foreach (var plan in PlansConfiguration.Plans)
@@ -238,6 +243,14 @@ namespace FireAdministrator.ViewModels
 				GKGuardZoneUIDs.Add(guardZone.UID, uid);
 				guardZone.UID = uid;
 			}
+
+			foreach (var zone in GKDeviceConfiguration.SKDZones)
+			{
+				var uid = Guid.NewGuid();
+				GKSKDZonesUIDs.Add(zone.UID, uid);
+				zone.UID = uid;
+			}
+
 			foreach (var delay in GKDeviceConfiguration.Delays)
 			{
 				var uid = Guid.NewGuid();
@@ -262,12 +275,7 @@ namespace FireAdministrator.ViewModels
 				GKPumpStationUIDs.Add(pumpStation.UID, uid);
 				pumpStation.UID = uid;
 			}
-			foreach (var mpt in GKDeviceConfiguration.MPTs)
-			{
-				var uid = Guid.NewGuid();
-				GKMPTUIDs.Add(mpt.UID, uid);
-				mpt.UID = uid;
-			}
+			
 			foreach (var door in GKDeviceConfiguration.Doors)
 			{
 				var uid = Guid.NewGuid();
@@ -306,13 +314,6 @@ namespace FireAdministrator.ViewModels
 			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
 				ReplaceLogic(direction.Logic);
-			}
-
-			foreach (var mpt in GKDeviceConfiguration.MPTs)
-			{
-				ReplaceLogic(mpt.MptLogic.OnClausesGroup);
-				ReplaceLogic(mpt.MptLogic.OffClausesGroup);
-				ReplaceLogic(mpt.MptLogic.StopClausesGroup);
 			}
 
 			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
@@ -367,6 +368,10 @@ namespace FireAdministrator.ViewModels
 				door.LockDeviceExitUID = ReplaceUID(door.LockDeviceExitUID, GKDeviceUIDs);
 				door.LockControlDeviceUID = ReplaceUID(door.LockControlDeviceUID, GKDeviceUIDs);
 				door.LockControlDeviceExitUID = ReplaceUID(door.LockControlDeviceExitUID, GKDeviceUIDs);
+				door.EnterZoneUID = ReplaceUID(door.EnterZoneUID, GKSKDZonesUIDs);
+				door.ExitZoneUID = ReplaceUID(door.ExitZoneUID, GKSKDZonesUIDs);
+				ReplaceLogic(door.OpenRegimeLogic);
+				ReplaceLogic(door.NormRegimeLogic);
 				ReplaceLogic(door.OpenRegimeLogic);
 			}
 
@@ -531,6 +536,16 @@ namespace FireAdministrator.ViewModels
 					var doorUID = clause.DoorUIDs[i];
 					clause.DoorUIDs[i] = GKDoorUIDs[doorUID];
 				}
+				for (int i = 0; i < clause.DelayUIDs.Count; i++)
+				{
+					var delayUID = clause.DelayUIDs[i];
+					clause.DelayUIDs[i] = GKDelayUIDs[delayUID];
+				}
+				for (int i = 0; i < clause.PumpStationsUIDs.Count; i++)
+				{
+					var pumpUID = clause.PumpStationsUIDs[i];
+					clause.PumpStationsUIDs[i] = GKPumpStationUIDs[pumpUID];
+				}
 			}
 		}
 
@@ -568,11 +583,22 @@ namespace FireAdministrator.ViewModels
 					var doorUID = clause.DoorUIDs[i];
 					clause.DoorUIDs[i] = GKDoorUIDs[doorUID];
 				}
+				for (int i = 0; i < clause.DelayUIDs.Count; i++)
+				{
+					var delayUID = clause.DelayUIDs[i];
+					clause.DelayUIDs[i] = GKDelayUIDs[delayUID];
+				}
+				for (int i = 0; i < clause.PumpStationsUIDs.Count; i++)
+				{
+					var pumpUID = clause.PumpStationsUIDs[i];
+					clause.PumpStationsUIDs[i] = GKPumpStationUIDs[pumpUID];
+				}
 			}
 		}
 
 		Dictionary<Guid, Guid> GKDeviceUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKZoneUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKSKDZonesUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKGuardZoneUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDirectionUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDelayUIDs = new Dictionary<Guid, Guid>();
@@ -586,9 +612,11 @@ namespace FireAdministrator.ViewModels
 
 		Guid ReplaceUID(Guid uid, Dictionary<Guid, Guid> dictionary)
 		{
-			if (uid != Guid.Empty)
+			var newGuid = Guid.Empty;
+
+			if (uid != Guid.Empty && dictionary.TryGetValue(uid, out newGuid))
 			{
-				return dictionary[uid];
+				return newGuid;
 			}
 			return Guid.Empty;
 		}

@@ -1,5 +1,6 @@
 ﻿using RubezhAPI.SKD;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -14,21 +15,19 @@ namespace SKDModule.ViewModels
 		public HRFilterViewModel(HRFilter filter, bool showEmployeeFilter, bool isShowPositions)
 			: base(filter)
 		{
-			ResetCommand = new RelayCommand(OnReset);
 			ShowEmployeeFilter = showEmployeeFilter;
 			IsShowPositions = isShowPositions;
-			InitializeFilter(filter);
 		}
 
-		void InitializeFilter(HRFilter filter)
+		public override void Initialize(HRFilter filter)
 		{
+			base.Initialize(filter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel();
 			DepartmentsFilterViewModel.Initialize(filter.EmployeeFilter.DepartmentUIDs, filter.LogicalDeletationType);
 			PositionsFilterViewModel = new PositionsFilterViewModel();
 			PositionsFilterViewModel.Initialize(filter.EmployeeFilter.PositionUIDs, filter.LogicalDeletationType);
 			EmployeesFilterViewModel = new EmployeesFilterViewModel();
 			EmployeesFilterViewModel.Initialize(filter.EmployeeFilter);
-			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 		}
 
 		protected override bool Save()
@@ -45,28 +44,9 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		bool _isWithDeleted;
-		public bool IsWithDeleted
+		protected override List<IHRFilterTab> HRFilterTabs
 		{
-			get { return _isWithDeleted; }
-			set
-			{
-				_isWithDeleted = value;
-				OnPropertyChanged(() => IsWithDeleted);
-				Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
-				EmployeesFilterViewModel.Initialize(EmployeesFilterViewModel.Filter, Filter.LogicalDeletationType, Filter.EmployeeFilter.PersonType);
-				PositionsFilterViewModel.Initialize(PositionsFilterViewModel.UIDs, Filter.LogicalDeletationType);
-				DepartmentsFilterViewModel.Initialize(DepartmentsFilterViewModel.UIDs, Filter.LogicalDeletationType);
-				Filter.OrganisationUIDs = OrganisationUIDs;
-				InitializeOrganisations(Filter);
-			}
-		}
-
-		public RelayCommand ResetCommand { get; private set; }
-		void OnReset()
-		{
-			Filter = new HRFilter();
-			InitializeFilter(Filter);
+			get { return new List<IHRFilterTab> { DepartmentsFilterViewModel, EmployeesFilterViewModel, PositionsFilterViewModel }; }
 		}
 	}
 }

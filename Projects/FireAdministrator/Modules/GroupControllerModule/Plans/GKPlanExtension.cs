@@ -260,13 +260,13 @@ namespace GKModule.Plans
 				{
 					var elementRectangleGKZone = (ElementRectangleGKZone)element;
 					plan.ElementRectangleGKZones.Add(elementRectangleGKZone);
-					SetItem(elementRectangleGKZone, GKManager.Zones.FirstOrDefault(x => x.UID == elementRectangleGKZone.ZoneUID));
+					SetItem<GKZone>(elementRectangleGKZone);
 				}
 				else if (element is ElementPolygonGKZone)
 				{
 					var elementPolygonGKZone = (ElementPolygonGKZone)element;
 					plan.ElementPolygonGKZones.Add(elementPolygonGKZone);
-					SetItem(elementPolygonGKZone, GKManager.Zones.FirstOrDefault(x => x.UID == elementPolygonGKZone.ZoneUID));
+					SetItem<GKZone>(elementPolygonGKZone);
 				}
 				else if (element is ElementRectangleGKGuardZone)
 				{
@@ -310,19 +310,12 @@ namespace GKModule.Plans
 			else if (element is IElementPumpStation)
 			{
 				if (element is ElementRectangleGKPumpStation)
-				{
-					var elementRectangleGKPumpStation = element as ElementRectangleGKPumpStation;
-					plan.ElementRectangleGKPumpStations.Add(element as ElementRectangleGKPumpStation);
-					SetItem<GKPumpStation>(elementRectangleGKPumpStation, elementRectangleGKPumpStation.PumpStationUID);
-				}
+					plan.ElementRectangleGKPumpStations.Add((ElementRectangleGKPumpStation)element);
 				else if (element is ElementPolygonGKPumpStation)
-				{
-					var elementPolygonGKPumpStation = element as ElementPolygonGKPumpStation;
-					plan.ElementPolygonGKPumpStations.Add(element as ElementPolygonGKPumpStation);
-					SetItem<GKPumpStation>(elementPolygonGKPumpStation, elementPolygonGKPumpStation.PumpStationUID);
-				}
+					plan.ElementPolygonGKPumpStations.Add((ElementPolygonGKPumpStation)element);
 				else
 					return false;
+				SetItem<GKPumpStation>((IElementPumpStation)element);
 				return true;
 			}
 			else if (element is IElementDirection)
@@ -443,7 +436,7 @@ namespace GKModule.Plans
 			else if (designerItem.Element is ElementRectangleGKDelay || designerItem.Element is ElementPolygonGKDelay)
 				RegisterDesignerItem<GKDelay>(designerItem, "GKDelay", "/Controls;component/Images/Delay.png");
 			else if (designerItem.Element is ElementRectangleGKPumpStation || designerItem.Element is ElementPolygonGKPumpStation)
-				RegisterDesignerItem<GKPumpStation>(designerItem, "GKPumpStation", "/Controls;component/Images/PumpStation.png");
+				RegisterDesignerItem<GKPumpStation>(designerItem, "GKPumpStation", "/Controls;component/Images/BPumpStation.png");
 			else if (designerItem.Element is ElementRectangleGKSKDZone || designerItem.Element is ElementPolygonGKSKDZone)
 				RegisterDesignerItem<GKSKDZone>(designerItem, "GKSKDZone", "/Controls;component/Images/SKDZone.png");
 			else if (designerItem.Element is ElementGKDoor)
@@ -518,6 +511,7 @@ namespace GKModule.Plans
 			LayerGroupService.Instance.RegisterGroup("GKMPT", "МПТ", 17);
 			LayerGroupService.Instance.RegisterGroup("GKDoors", "Точки доступа", 18);
 			LayerGroupService.Instance.RegisterGroup("GKDelay", "Задержки", 19);
+			LayerGroupService.Instance.RegisterGroup("GKPumpStation", "Насосные станции", 20);
 		}
 		public override void ExtensionAttached()
 		{
@@ -614,6 +608,12 @@ namespace GKModule.Plans
 				designerItem.Title = delay == null ? "Неизвестная задержка" : delay.Name;
 				designerItem.Index = delay == null ? default(int) : delay.No;
 			}
+			else if (typeof(TItem) == typeof(GKPumpStation))
+			{
+				var pumpStation = item as GKPumpStation;
+				designerItem.Title = pumpStation == null ? "Неизвестная насосная станция" : pumpStation.Name;
+				designerItem.Index = pumpStation == null ? default(int) : pumpStation.No;
+			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);
 		}
@@ -683,13 +683,13 @@ namespace GKModule.Plans
 			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
 				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKSKDZone || e.Element is ElementPolygonGKSKDZone)
-				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element, _skdZonesViewModel);
+				e.PropertyViewModel = new SKDZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKDirection || e.Element is ElementPolygonGKDirection)
-				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
+				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element);
 			else if (e.Element is ElementRectangleGKMPT || e.Element is ElementPolygonGKMPT)
-				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element, _mptsViewModel);
+				e.PropertyViewModel = new MPTPropertiesViewModel((IElementMPT)e.Element);
 			else if (e.Element is ElementRectangleGKDelay || e.Element is ElementPolygonGKDelay)
-				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element, _delaysViewModel);
+				e.PropertyViewModel = new DelayPropertiesViewModel((IElementDelay)e.Element);
 			else if (e.Element is ElementRectangleGKPumpStation || e.Element is ElementPolygonGKPumpStation)
 				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element);
 			else if (e.Element is ElementGKDoor)

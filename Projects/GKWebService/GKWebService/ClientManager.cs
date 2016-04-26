@@ -34,6 +34,10 @@ namespace GKWebService
 		public static bool CheckPass(string userName, string password)
 		{
 			var user = RubezhClient.ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == userName);
+			if (user == null)
+			{
+				return false;
+			}
 			return HashHelper.CheckPass(password, user.PasswordHash);
 		}
 

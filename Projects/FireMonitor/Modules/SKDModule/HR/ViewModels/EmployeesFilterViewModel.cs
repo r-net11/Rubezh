@@ -7,7 +7,7 @@ using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeesFilterViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeesFilterItemViewModel, EmployeeDetailsViewModel>
+	public class EmployeesFilterViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeesFilterItemViewModel, EmployeeDetailsViewModel>, IHRFilterTab
 	{
 		public EmployeesFilterViewModel()
 			: base()
@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 		public void Initialize(EmployeeFilter filter, LogicalDeletationType logicalDeletationType, PersonType personType)
 		{
 			_Filter = filter;
-			var emptyFilter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, PersonType = personType };
+			var emptyFilter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, PersonType = personType, OrganisationUIDs = _filter.OrganisationUIDs };
 			base.Initialize(emptyFilter);
 			FirstName = filter.FirstName;
 			LastName = filter.LastName;
@@ -165,5 +165,14 @@ namespace SKDModule.ViewModels
 		}
 
 		public List<Guid> UIDs { get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); } }
+
+		void IHRFilterTab.Update(List<Guid> organisationUids, bool isWithDeleted)
+		{
+			_filter.OrganisationUIDs = organisationUids;
+			_filter.UIDs = UIDs;
+			_filter.LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
+			_filter.PersonType = _Filter.PersonType;
+			Initialize(_filter);
+		}
 	}
 }

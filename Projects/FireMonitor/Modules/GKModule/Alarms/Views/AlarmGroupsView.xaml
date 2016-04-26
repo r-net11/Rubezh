@@ -12,7 +12,7 @@
 	</UserControl.Resources>
 
 	<StackPanel Orientation="Horizontal">
-		<Button Name="Button" Command="{Binding ChangeGlobalPimActivationCommand}" ToolTip="Вкл/Выкл автоматику" Width="70" Height="70" DataContext="{Binding GlobalPimActivationViewModel}" Margin="5">
+		<Button Name="Button" Command="{Binding ChangeGlobalPimActivationCommand}" Width="70" Height="70" ToolTip="Вкл/Выкл автоматику" DataContext="{Binding GlobalPimActivationViewModel}" Margin="5" Visibility="{Binding CanShowGlobalPim, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Button.Style>
 				<Style TargetType="{x:Type Button}">
 					<Setter Property="Template">
@@ -25,17 +25,17 @@
 									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static firemonitor:GlobalPimStatusType.On}">
 										<DataTrigger.Setters>
 											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource Alarm_main_5_Info}" />
-											<Setter TargetName="Image" Property="Opacity" Value="1" />
-											<Setter TargetName="border" Property="Opacity" Value="1" />
-											<Setter TargetName="border" Property="ToolTip" Value="Включено" />
+											<Setter TargetName="Image" Property="Opacity" Value="0.6" />
+											<Setter TargetName="border" Property="Opacity" Value="0.3" />
+											<Setter TargetName="border" Property="ToolTip" Value="Глобальная автоматика НС и МПТ. Включено" />
 										</DataTrigger.Setters>
 									</DataTrigger>
 									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static firemonitor:GlobalPimStatusType.Off}">
 										<DataTrigger.Setters>
 											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource Alarm_main_5_Info}" />
-											<Setter TargetName="Image" Property="Opacity" Value="0.6" />
-											<Setter TargetName="border" Property="Opacity" Value="0.3" />
-											<Setter TargetName="border" Property="ToolTip" Value="Выключено" />
+											<Setter TargetName="Image" Property="Opacity" Value="1" />
+											<Setter TargetName="border" Property="Opacity" Value="1" />
+											<Setter TargetName="border" Property="ToolTip" Value="Глобальная автоматика НС и МПТ. Выключено" />
 										</DataTrigger.Setters>
 									</DataTrigger>
 									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static firemonitor:GlobalPimStatusType.Unknown}">
@@ -43,7 +43,7 @@
 											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource RAlarm_main_5_Info}" />
 											<Setter TargetName="Image" Property="Opacity" Value="1" />
 											<Setter TargetName="border" Property="Opacity" Value="0.8" />
-											<Setter TargetName="border" Property="ToolTip" Value="Состояние неизвестно" />
+											<Setter TargetName="border" Property="ToolTip" Value="Глобальная автоматика НС и МПТ. Состояние неизвестно" />
 										</DataTrigger.Setters>
 									</DataTrigger>
 								</ControlTemplate.Triggers>
@@ -54,18 +54,6 @@
 			</Button.Style>
 		</Button>
 
-
-		<!--<AlarmButton Command="{Binding ChangeGlobalPimActivationCommand}"
-					 GlowColor="Transparent"
-					 IsGlowing="{Binding IsGlowing}"
-					 Background="{DynamicResource Alarm_main_5_Info}"
-                     DataContext="{Binding GlobalPimActivationViewModel}">
-            <AlarmButton.ToolTip>
-				<StackPanel Orientation="Horizontal">                    
-                    <TextBlock Text="{Binding ToolTipText}" FontWeight="Black" VerticalAlignment="Center" />
-				</StackPanel>
-			</AlarmButton.ToolTip>
-		</AlarmButton>-->
 
         <AlarmButton Command="{Binding ResetCommand}"
 					 GlowColor="Transparent"

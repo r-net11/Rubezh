@@ -65,11 +65,14 @@ namespace GKModule.Plans.ViewModels
 		{
 			return SelectedZone != null;
 		}
-
 		protected override bool Save()
 		{
 			IElementZone.ZoneUID = SelectedZone.Zone.UID;
 			return base.Save();
+		}
+		protected override bool CanSave()
+		{
+			return SelectedZone != null;
 		}
 	}
 }

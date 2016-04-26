@@ -1,12 +1,7 @@
-﻿using System.Linq;
-using System.Threading;
-using GKModule.Validation;
-using Infrastructure.Common.Validation;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
-using RubezhClient;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace GKIntegratedTest

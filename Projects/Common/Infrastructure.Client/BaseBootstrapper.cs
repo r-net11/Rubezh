@@ -26,7 +26,7 @@ namespace Infrastructure.Client
 	{
 		public string Login { get; set; }
 		public string Password { get; set; }
-		private List<IModule> _modules;
+		List<IModule> _modules;
 		public BaseBootstrapper()
 		{
 			Logger.Trace(SystemInfo.GetString());
@@ -70,7 +70,7 @@ namespace Infrastructure.Client
 				Logger.Error(e, "BaseBootstrapper.PreInitialize");
 				MessageBoxService.ShowException(e);
 				ApplicationService.ShutDown();
-			}	
+			}
 		}
 		protected void AterInitialize()
 		{
@@ -223,7 +223,8 @@ namespace Infrastructure.Client
 			}
 			ApplicationService.RegisterModules(_modules);
 		}
-		private Assembly GetAssemblyByFileName(string path)
+
+		Assembly GetAssemblyByFileName(string path)
 		{
 			try
 			{
@@ -240,7 +241,8 @@ namespace Infrastructure.Client
 				return null;
 			}
 		}
-		private Assembly GetLoadedAssemblyByFileName(string path)
+
+		Assembly GetLoadedAssemblyByFileName(string path)
 		{
 			var assemblies = from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
 							 where !(assembly is System.Reflection.Emit.AssemblyBuilder) &&
@@ -253,7 +255,8 @@ namespace Infrastructure.Client
 					return assembly;
 			return null;
 		}
-		private void InvestigateAssembly(Assembly assembly)
+
+		void InvestigateAssembly(Assembly assembly)
 		{
 			foreach (Type t in assembly.GetExportedTypes())
 				if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
@@ -265,24 +268,24 @@ namespace Infrastructure.Client
 			var processStartInfo = new ProcessStartInfo();
 			if (!isNotRestar)
 			{
-					processStartInfo.FileName = Application.ResourceAssembly.Location;
-					processStartInfo.Arguments = GetRestartCommandLineArguments(isNotRestar);
+				processStartInfo.FileName = Application.ResourceAssembly.Location;
+				processStartInfo.Arguments = GetRestartCommandLineArguments(isNotRestar);
 			}
-			else 
+			else
 			{
 				var arg = GetRestartCommandLineArguments();
-					if (arg != null)
-					{
-						processStartInfo.FileName = Application.ResourceAssembly.Location;
-						processStartInfo.Arguments = arg;
-					}
-					else return;
+				if (arg != null)
+				{
+					processStartInfo.FileName = Application.ResourceAssembly.Location;
+					processStartInfo.Arguments = arg;
+				}
+				else return;
 
 			}
 
 			Process.Start(processStartInfo);
 		}
-		protected virtual string GetRestartCommandLineArguments(bool isNotRestart= false)
+		protected virtual string GetRestartCommandLineArguments(bool isNotRestart = false)
 		{
 			string commandLineArguments = null;
 			if (Login != null && Password != null)

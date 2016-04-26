@@ -64,6 +64,7 @@ namespace RubezhAPI.Automation
 	[XmlInclude(typeof(SoundStep))]
 	[XmlInclude(typeof(StartRecordStep))]
 	[XmlInclude(typeof(StopRecordStep))]
+	[XmlInclude(typeof(ExitStep))]
 	public class ProcedureStep
 	{
 		public ProcedureStep()

@@ -285,7 +285,7 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Door; } }
 
-		[DataMember]
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		/// <summary>

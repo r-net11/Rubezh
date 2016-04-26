@@ -35,10 +35,10 @@
 						Minimum="15" Orientation="Horizontal" TickFrequency="1" TickPlacement="None" ToolTip="Изменить размер устройства"
 						Value="{Binding DeviceZoom}" />
 			</DockPanel>
-            <DockPanel Grid.Column="1" Visibility="{Binding ShowZoomSliders, Converter={StaticResource BoolToVisibilityConverter}}">
+			<DockPanel Grid.Column="1" Visibility="{Binding ShowZoomSliders, Converter={StaticResource BoolToVisibilityConverter}}">
 				<ToolBarButton Command="{Binding ZoomOutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DockPanel.Dock="Left" ImageSource="ZoomOut"  ToolTip="Уменьшить масштаб плана" />
 				<ToolBarButton Command="{Binding ZoomInCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DockPanel.Dock="Right" ImageSource="ZoomIn"  ToolTip="Увеличить масштаб плана" />
-				<Slider x:Name="slider" VerticalAlignment="Center" IsMoveToPointEnabled="True" Maximum="10" Minimum="1" Orientation="Horizontal" ToolTip="Изменить масштаб плана" Value="1" />
+				<Slider x:Name="slider" VerticalAlignment="Center" IsMoveToPointEnabled="True" Maximum="10" Minimum="1" Orientation="Horizontal" ToolTip="Изменить масштаб плана" />
 			</DockPanel>
 
 

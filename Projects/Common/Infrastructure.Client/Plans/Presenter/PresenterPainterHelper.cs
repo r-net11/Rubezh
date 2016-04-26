@@ -1,12 +1,12 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Input;
-using RubezhAPI.GK;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
+using RubezhAPI.GK;
+using System;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Infrastructure.Client.Plans.Presenter
 {
@@ -14,8 +14,8 @@ namespace Infrastructure.Client.Plans.Presenter
 		where T : IStateProvider
 		where TShowEvent : CompositePresentationEvent<Guid>, new()
 	{
-		private IBasePainter<T, TShowEvent> _painter;
-		private ContextMenu _contextMenu;
+		IBasePainter<T, TShowEvent> _painter;
+		ContextMenu _contextMenu;
 		public StateTooltipViewModel<T> Tooltip { get; private set; }
 		public PresenterItem PresenterItem { get; private set; }
 		public T Item { get; private set; }
@@ -33,7 +33,7 @@ namespace Infrastructure.Client.Plans.Presenter
 			{
 				Item.StateClass.StateChanged += OnPropertyChanged;
 			}
-			
+
 			PresenterItem.IsPoint = _painter.IsPoint;
 			PresenterItem.ShowBorderOnMouseOver = true;
 			PresenterItem.Cursor = Cursors.Hand;
@@ -45,29 +45,30 @@ namespace Infrastructure.Client.Plans.Presenter
 			UpdateTooltip();
 		}
 
-		private void UpdateTooltip()
+		void UpdateTooltip()
 		{
 			if (Item != null && Tooltip != null)
 				Tooltip.OnStateChanged();
 		}
 
-		private void OnShowInTree()
+		void OnShowInTree()
 		{
 			ServiceFactoryBase.Events.GetEvent<TShowEvent>().Publish(Item.UID);
 		}
-		private bool CanShowInTree()
+
+		bool CanShowInTree()
 		{
 			return Item != null;
 		}
 
-		private void OnShowProperties()
+		void OnShowProperties()
 		{
 			var viewModel = _painter.CreatePropertiesViewModel();
 			if (viewModel != null)
 				DialogService.ShowWindow(viewModel);
 		}
 
-		private void OnPropertyChanged()
+		void OnPropertyChanged()
 		{
 			if (PresenterItem != null)
 			{
@@ -76,7 +77,8 @@ namespace Infrastructure.Client.Plans.Presenter
 				PresenterItem.DesignerCanvas.Refresh();
 			}
 		}
-		private ContextMenu ContextMenu
+
+		ContextMenu ContextMenu
 		{
 			get
 			{

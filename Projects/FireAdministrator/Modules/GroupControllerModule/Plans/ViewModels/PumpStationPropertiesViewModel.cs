@@ -100,5 +100,9 @@ namespace GKModule.Plans.ViewModels
 			IElementPumpStation.PumpStationUID = SelectedPumpStation.PumpStation.UID;
 			return base.Save();
 		}
+		protected override bool CanSave()
+		{
+			return SelectedPumpStation != null;
+		}
 	}
 }

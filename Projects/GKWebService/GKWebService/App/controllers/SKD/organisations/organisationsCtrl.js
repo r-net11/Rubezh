@@ -5,11 +5,24 @@
     var app = angular.module('gkApp.controllers').controller('organisationsCtrl',
         ['$scope', '$timeout', 'authService', 'organisationsService',
          function ($scope, $timeout, authService, organisationsService) {
-            var reload = function() {
+             var selectOrganisation = function(UID) {
+                 if (UID) {
+                     for (var i = 0; i < $scope.organisations.length; i++) {
+                         if ($scope.organisations[i].UID === UID) {
+                             $scope.model.selectedOrganisation = $scope.organisations[i];
+                             break;
+                         }
+                     }
+                 } else {
+                     $scope.model.selectedOrganisation = null;
+                 }
+             }
+
+            var reload = function(UID) {
                  organisationsService.getOrganisations($scope.filter)
                      .then(function(organisations) {
                          $scope.organisations = organisations;
-                         $scope.model.selectedOrganisation = null;
+                         selectOrganisation(UID);
                      });
             };
 
@@ -54,6 +67,10 @@
                      $scope.model.selectedOrganisation.DoorUIDs = organisation.DoorUIDs;
                  });
              };
+
+             $scope.$on('RemoveOrganisationEvent', function (event, organisation) {
+                 $scope.removeOrganisation($scope.organisations, organisation);
+             });
          }]
     );
 

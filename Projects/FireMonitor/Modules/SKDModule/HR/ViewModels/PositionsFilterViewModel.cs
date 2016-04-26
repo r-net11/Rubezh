@@ -7,7 +7,7 @@ using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionsFilterViewModel : OrganisationBaseViewModel<ShortPosition, PositionFilter, PositionFilterItemViewModel, PositionDetailsViewModel>
+	public class PositionsFilterViewModel : OrganisationBaseViewModel<ShortPosition, PositionFilter, PositionFilterItemViewModel, PositionDetailsViewModel>, IHRFilterTab
 
 	{
 		public PositionsFilterViewModel()
@@ -93,6 +93,14 @@ namespace SKDModule.ViewModels
 
 		public void InitializeFilter()
 		{
+			Initialize(_filter);
+		}
+
+		void IHRFilterTab.Update(List<Guid> organisationUids, bool isWithDeleted)
+		{
+			_filter.OrganisationUIDs = organisationUids;
+			_filter.UIDs = UIDs;
+			_filter.LogicalDeletationType = isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
 			Initialize(_filter);
 		}
 	}

@@ -3,7 +3,6 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
-using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 
@@ -11,26 +10,23 @@ namespace GKModule.Plans.InstrumentAdorners
 {
 	public class DelayRectangleAdorner : BaseRectangleAdorner
 	{
+		private DelaysViewModel _delaysViewModel;
 		public DelayRectangleAdorner(CommonDesignerCanvas designerCanvas, DelaysViewModel delayViewModel)
 			: base(designerCanvas)
 		{
-			this._delaysViewModel = delayViewModel;
+			_delaysViewModel = delayViewModel;
 		}
 
 		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleGKDelay();
-			var propertiesViewModel = new DelayPropertiesViewModel(element, _delaysViewModel);
-			if (!DialogService.ShowModalWindow(propertiesViewModel))
-				return null;
-			GKPlanExtension.Instance.SetItem<GKDelay>(element);
-			return element;
+			var propertiesViewModel = new DelayPropertiesViewModel(element);
+			if (DialogService.ShowModalWindow(propertiesViewModel))
+			{
+				_delaysViewModel.UpdateDelays(element.DelayUID);
+				return element;
+			}
+			return null;
 		}
-
-		#region Fields
-
-		private DelaysViewModel _delaysViewModel;
-
-		#endregion
 	}
 }
