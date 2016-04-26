@@ -436,7 +436,7 @@ namespace GKModule.Plans
 			else if (designerItem.Element is ElementRectangleGKDelay || designerItem.Element is ElementPolygonGKDelay)
 				RegisterDesignerItem<GKDelay>(designerItem, "GKDelay", "/Controls;component/Images/Delay.png");
 			else if (designerItem.Element is ElementRectangleGKPumpStation || designerItem.Element is ElementPolygonGKPumpStation)
-				RegisterDesignerItem<GKPumpStation>(designerItem, "GKPumpStation", "/Controls;component/Images/PumpStation.png");
+				RegisterDesignerItem<GKPumpStation>(designerItem, "GKPumpStation", "/Controls;component/Images/BPumpStation.png");
 			else if (designerItem.Element is ElementRectangleGKSKDZone || designerItem.Element is ElementPolygonGKSKDZone)
 				RegisterDesignerItem<GKSKDZone>(designerItem, "GKSKDZone", "/Controls;component/Images/SKDZone.png");
 			else if (designerItem.Element is ElementGKDoor)
@@ -511,6 +511,7 @@ namespace GKModule.Plans
 			LayerGroupService.Instance.RegisterGroup("GKMPT", "МПТ", 17);
 			LayerGroupService.Instance.RegisterGroup("GKDoors", "Точки доступа", 18);
 			LayerGroupService.Instance.RegisterGroup("GKDelay", "Задержки", 19);
+			LayerGroupService.Instance.RegisterGroup("GKPumpStation", "Насосные станции", 20);
 		}
 		public override void ExtensionAttached()
 		{
@@ -606,6 +607,12 @@ namespace GKModule.Plans
 				var delay = item as GKDelay;
 				designerItem.Title = delay == null ? "Неизвестная задержка" : delay.Name;
 				designerItem.Index = delay == null ? default(int) : delay.No;
+			}
+			else if (typeof(TItem) == typeof(GKPumpStation))
+			{
+				var pumpStation = item as GKPumpStation;
+				designerItem.Title = pumpStation == null ? "Неизвестная насосная станция" : pumpStation.Name;
+				designerItem.Index = pumpStation == null ? default(int) : pumpStation.No;
 			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);

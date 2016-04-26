@@ -106,7 +106,7 @@ namespace RubezhAPI.GK
 			get { return "/Controls;component/Images/BMPT.png"; }
 		}
 
-		[DataMember]
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		public bool HasAccessLevel

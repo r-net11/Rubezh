@@ -58,7 +58,7 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public GKLogic Logic { get; set; }
 
-		[DataMember]
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		[XmlIgnore]
