@@ -14,7 +14,7 @@ namespace SKDModule.Converters
 				case CardType.Temporary:
 					return "Пропуск с ограниченным сроком действия";
 				case CardType.Guest:
-					return "Пропуск, имеющий ограничение по количеству проходов";
+					return "Пропуск, позволяющий выполнить не более заданного количества проходов";
 				case CardType.Blocked:
 					return "Пропуск, доступ по которому запрещен";
 				case CardType.Duress:

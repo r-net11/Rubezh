@@ -164,6 +164,7 @@ namespace SKDModule.ViewModels
 				_selectedCardType = value;
 				OnPropertyChanged(() => SelectedCardType);
 				OnPropertyChanged(() => CanSelectEndDate);
+				OnPropertyChanged(() => CanEnterAllowedPassCount);
 				OnPropertyChanged(() => CanSetUserTime);
 
 				if (!CanSelectEndDate)
@@ -175,7 +176,26 @@ namespace SKDModule.ViewModels
 
 		public bool CanSelectEndDate
 		{
-			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress; }
+			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || SelectedCardType == CardType.Guest; }
+		}
+
+		private uint _allowedPassCount;
+
+		public uint AllowedPassCount
+		{
+			get { return _allowedPassCount; }
+			set
+			{
+				if (_allowedPassCount == value)
+					return;
+				_allowedPassCount = value;
+				OnPropertyChanged(() => AllowedPassCount);
+			}
+		}
+
+		public bool CanEnterAllowedPassCount
+		{
+			get { return SelectedCardType == CardType.Guest; }
 		}
 
 		DateTime _startDate;

@@ -6,6 +6,7 @@
 	xmlns:Views="clr-namespace:SKDModule.Views"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	Width="475"
 	MinHeight="500">
 	<UserControl.Resources>
@@ -205,6 +206,7 @@
 						<RowDefinition />
 						<RowDefinition />
 						<RowDefinition />
+						<RowDefinition />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn" />
@@ -291,8 +293,24 @@
 						IsTodayHighlighted="False"
 						DisplayDateStart="{x:Static sys:DateTime.Now}"
 						SelectedDate="{Binding EndDate}" />
-					<CheckBox
+					<TextBlock
 						Grid.Row="4"
+						Grid.Column="0"
+						Text="Разрешенное число проходов"
+						Foreground="{DynamicResource ForegroundColorLight}"
+						Margin="5"/>
+					<extToolkit:IntegerUpDown
+						Grid.Row="4"
+						Grid.Column="1"
+						Value="{Binding AllowedPassCount}"
+						Width="225"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Minimum="1"
+						Margin="2 4"
+						IsEnabled="{Binding CanEnterAllowedPassCount}" />
+					<CheckBox
+						Grid.Row="5"
 						Grid.Column="1"
 						Margin="2 4"
 						IsChecked="{Binding IsAlternativeLockParams, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
