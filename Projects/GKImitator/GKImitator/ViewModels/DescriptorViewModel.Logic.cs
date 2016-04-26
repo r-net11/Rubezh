@@ -566,18 +566,17 @@ namespace GKImitator.ViewModels
 
 			if (GKBase is GKZone && hasZoneBitsChanged)
 			{
+				var wasInFire = StateBits.Any(x => (x.StateBit == GKStateBit.Attention
+					|| x.StateBit == GKStateBit.Fire1 || x.StateBit == GKStateBit.Fire2) && x.IsActive);
+
 				foreach (var stateBitVale in stateBitVales)
 				{
 					SetStateBit(stateBitVale.Key, stateBitVale.Value);
 				}
 
-				if (stateBitVales.All(x => !x.Value))
+				if (stateBitVales.All(x => !x.Value) && wasInFire)
 				{
-					SetStateBit(GKStateBit.Norm, true);
-				}
-				else
-				{
-					SetStateBit(GKStateBit.Norm, false);
+					AddJournalItem(new ImitatorJournalItem(2, 14, 0, 0));
 				}
 			}
 
