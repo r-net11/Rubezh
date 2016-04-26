@@ -11,87 +11,87 @@ namespace FiresecAPI.GK
 	public enum XStateClass
 	{
 		//[DescriptionAttribute("Лицензия отсутствует")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass),"HasNoLicense")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "HasNoLicense")]
 		HasNoLicense = 0,
 
         //[DescriptionAttribute("База данных устройства не соответствует базе данных ПК")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "DBMissmatch")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "DBMissmatch")]
         DBMissmatch = 1,
 
         //[DescriptionAttribute("Контроллер в технологическом режиме")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "TechnologicalRegime")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "TechnologicalRegime")]
 		TechnologicalRegime = 2,
 
         //[DescriptionAttribute("Потеря связи")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "ConnectionLost")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "ConnectionLost")]
 		ConnectionLost = 3,
 
         //[DescriptionAttribute("Пожар 2")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Fire2")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Fire2")]
 		Fire2 = 4,
 
         //[DescriptionAttribute("Пожар 1")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Fire1")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Fire1")]
 		Fire1 = 5,
 
         //[DescriptionAttribute("Тревога")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Attention")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Attention")]
 		Attention = 6,
 
         //[DescriptionAttribute("Отключено")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Ignore")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Ignore")]
 		Ignore = 7,
 
         //[DescriptionAttribute("Неисправность")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Failure")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Failure")]
 		Failure = 8,
 
         //[DescriptionAttribute("Включено")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "On")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "On")]
 		On = 9,
 
         //[DescriptionAttribute("Включается")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "TurningOn")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "TurningOn")]
 		TurningOn = 10,
 
         //[DescriptionAttribute("Выключается")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "TurningOff")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "TurningOff")]
 		TurningOff = 11,
 
         //[DescriptionAttribute("Автоматика отключена")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "AutoOff")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "AutoOff")]
 		AutoOff = 12,
 
         //[DescriptionAttribute("Требуется обслуживание")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Service")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Service")]
 		Service = 13,
 
         //[DescriptionAttribute("Тест")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Test")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Test")]
 		Test = 14,
 
         //[DescriptionAttribute("Информация")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Info")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Info")]
 		Info = 15,
 
         //[DescriptionAttribute("Выключено")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Off")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Off")]
 		Off = 16,
 
         //[DescriptionAttribute("Неизвестно")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Unknown")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Unknown")]
 		Unknown = 17,
 
         //[DescriptionAttribute("Норма")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "Norm")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "Norm")]
 		Norm = 18,
 
         //[DescriptionAttribute("Нет")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "No")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "No")]
 		No = 19,
 
 		//[DescriptionAttribute("Лицензия обнаружена")]
-        [LocalizedDescription(typeof(Resources.Language.XStateClass), "HasLicense")]
+        [LocalizedDescription(typeof(Common.Resources.Language.XStateClass), "HasLicense")]
 		HasLicense = 20,
 	}
 }

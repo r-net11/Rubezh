@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using Localization;
 
 namespace ChinaSKDDriverNativeApi
 {
@@ -398,28 +399,36 @@ namespace ChinaSKDDriverNativeApi
 
 		public enum NET_ACCESSCTLCARD_TYPE
 		{
-			[DescriptionAttribute("Неизвестно")]
+			//[DescriptionAttribute("Неизвестно")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESSCTLCARD_TYPE_UNKNOWN")]
 			NET_ACCESSCTLCARD_TYPE_UNKNOWN = -1,
 
-			[DescriptionAttribute("Обычный")]
+            //[DescriptionAttribute("Обычный")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESSCTLCARD_TYPE_GENERAL")]
 			NET_ACCESSCTLCARD_TYPE_GENERAL,
 
-			[DescriptionAttribute("VIP")]
+            //[DescriptionAttribute("VIP")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESSCTLCARD_TYPE_VIP")]
 			NET_ACCESSCTLCARD_TYPE_VIP,
 
-			[DescriptionAttribute("Гостевой")]
+            //[DescriptionAttribute("Гостевой")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESSCTLCARD_TYPE_GUEST")]
 			NET_ACCESSCTLCARD_TYPE_GUEST,
 
-			[DescriptionAttribute("Охрана")]
+            //[DescriptionAttribute("Охрана")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESSCTLCARD_TYPE_PATROL")]
 			NET_ACCESSCTLCARD_TYPE_PATROL,
 
-			[DescriptionAttribute("Черный список")]
+            //[DescriptionAttribute("Черный список")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESSCTLCARD_TYPE_BLACKLIST")]
 			NET_ACCESSCTLCARD_TYPE_BLACKLIST,
 
-			[DescriptionAttribute("Принуждение")]
+            //[DescriptionAttribute("Принуждение")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESSCTLCARD_TYPE_CORCE")]
 			NET_ACCESSCTLCARD_TYPE_CORCE,
 
-			[DescriptionAttribute("Материнский")]
+            //[DescriptionAttribute("Материнский")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESSCTLCARD_TYPE_MOTHERCARD")]
 			NET_ACCESSCTLCARD_TYPE_MOTHERCARD = 0xff,
 		}
 
@@ -767,13 +776,16 @@ namespace ChinaSKDDriverNativeApi
 
 		public enum NET_ACCESS_CTL_EVENT_TYPE
 		{
-			[DescriptionAttribute("Неизвестно")]
+            //[DescriptionAttribute("Неизвестно")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_CTL_EVENT_UNKNOWN")]
 			NET_ACCESS_CTL_EVENT_UNKNOWN = 0,
 
-			[DescriptionAttribute("Вход")]
+            //[DescriptionAttribute("Вход")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_CTL_EVENT_ENTRY")]
 			NET_ACCESS_CTL_EVENT_ENTRY,
 
-			[DescriptionAttribute("Выход")]
+            //[DescriptionAttribute("Выход")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_CTL_EVENT_EXIT")]
 			NET_ACCESS_CTL_EVENT_EXIT
 		}
 
@@ -786,25 +798,32 @@ namespace ChinaSKDDriverNativeApi
 
 		public enum NET_ACCESS_DOOROPEN_METHOD
 		{
-			[DescriptionAttribute("Неизвестно")]
+            //[DescriptionAttribute("Неизвестно")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_DOOROPEN_METHOD_UNKNOWN")]
 			NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
 
-			[DescriptionAttribute("Пароль")]
+            //[DescriptionAttribute("Пароль")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
 
-			[DescriptionAttribute("Карта")]
+            //[DescriptionAttribute("Карта")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_DOOROPEN_METHOD_CARD")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD,
 
-			[DescriptionAttribute("Сначала карта")]
+            //[DescriptionAttribute("Сначала карта")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
 
-			[DescriptionAttribute("Сначала пароль")]
+            //[DescriptionAttribute("Сначала пароль")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
 
-			[DescriptionAttribute("Удаленно")]
+            //[DescriptionAttribute("Удаленно")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_DOOROPEN_METHOD_REMOTE")]
 			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
 
-			[DescriptionAttribute("Кнопка")]
+            //[DescriptionAttribute("Кнопка")]
+            [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.SDK.NativeWrapper), "NET_ACCESS_DOOROPEN_METHOD_BUTTON")]
 			NET_ACCESS_DOOROPEN_METHOD_BUTTON
 		}
 

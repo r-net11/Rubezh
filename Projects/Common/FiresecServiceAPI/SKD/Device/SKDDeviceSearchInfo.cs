@@ -31,14 +31,18 @@ namespace FiresecAPI.SKD.Device
 	public enum SKDDeviceType
 	{
 		[SKDDeviceTypeLabel("Не известно")]
-		Unknown = 0,
+        //[Localization.LocalizedDeviceTypeLabel(typeof(Resources.Language.SKD.Device.SKDDeviceSearchInfo), "Unknown")]
+        Unknown = 0,
 		#region <Контроллер Dahua>
 		[SKDDeviceTypeLabel("Однодверный контроллер", "SR-NC101")]
+        //[Localization.LocalizedDeviceTypeLabel(typeof(Resources.Language.SKD.Device.SKDDeviceSearchInfo), "NC101")]
 		DahuaBsc1221A,
 		[SKDDeviceTypeLabel("Двухдверный контроллер", "SR-NC002")]
-		DahuaBsc1201B,
+        //[Localization.LocalizedDeviceTypeLabel(typeof(Resources.Language.SKD.Device.SKDDeviceSearchInfo), "NC102")]
+        DahuaBsc1201B,
 		[SKDDeviceTypeLabel("Четырехдверный контроллер", "SR-NC004")]
-		DahuaBsc1202B
+        //[Localization.LocalizedDeviceTypeLabel(typeof(Resources.Language.SKD.Device.SKDDeviceSearchInfo), "NC104")]
+        DahuaBsc1202B
 		#endregion </Контроллер Dahua>
 	}
 

@@ -230,6 +230,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BreakInStatus.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Language\SKD\Device\SKDDeviceSearchInfo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDDeviceSearchInfo.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Language\SKD\SKDManager\ChinaController_4_Helper.Designer.cs">
       <DependentUpon>ChinaController_4_Helper.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -850,6 +855,10 @@
     <EmbeddedResource Include="Resources\Language\Automation\Enums\BreakInStatus.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BreakInStatus.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Device\SKDDeviceSearchInfo.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDDeviceSearchInfo.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\SKD\SKDManager\ChinaController_4_Helper.resx">
       <Generator>ResXFileCodeGenerator</Generator>

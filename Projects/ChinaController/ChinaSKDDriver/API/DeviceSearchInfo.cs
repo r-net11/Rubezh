@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Localization;
 
 namespace ChinaSKDDriverAPI
 {
@@ -67,10 +68,13 @@ namespace ChinaSKDDriverAPI
 		Unknown = 0,
 		#region <Контроллер Dahua>
 		[DeviceTypeLabel("Однодверный контроллер", "SR-NC101")]
+        //[LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC001", "SR-NC101")]
 		DahuaBsc1221A,
-		[DeviceTypeLabel("Двухдверный контроллер", "SR-NC002")]
+        [DeviceTypeLabel("Двухдверный контроллер", "SR-NC002")]
+        //[LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC002", "SR-NC102")]
 		DahuaBsc1201B,
-		[DeviceTypeLabel("Четырехдверный контроллер", "SR-NC004")]
+        [DeviceTypeLabel("Четырехдверный контроллер", "SR-NC004")]
+        //[LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC004", "SR-NC104")]
 		DahuaBsc1202B
 		#endregion </Контроллер Dahua>
 	}

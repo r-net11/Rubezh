@@ -343,11 +343,11 @@ namespace ChinaSKDDriver
 					{
 						var operationName = "";
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Add)
-							operationName = "добавления";
+							operationName = Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_Add;
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Edit)
-							operationName = "редактирования";
+                            operationName = Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_Edit;
 						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Delete)
-							operationName = "удаления";
+                            operationName = Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_Delete;
 						//if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.ResetRepeatEnter)
 						//	operationName = "сброса ограничения на повторный проход";
 

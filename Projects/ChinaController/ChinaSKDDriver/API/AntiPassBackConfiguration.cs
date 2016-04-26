@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Versioning;
+using Localization;
 
 namespace ChinaSKDDriverAPI
 {
@@ -41,13 +43,16 @@ namespace ChinaSKDDriverAPI
 	/// </summary>
 	public enum AntiPassBackMode
 	{
-		[Description("Считыватель 1 - Вход, Считыватель 2 - Выход")]
+		//[Description("Считыватель 1 - Вход, Считыватель 2 - Выход")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AntiPassBackConfiguration), "R1In_R2Out")]
 		R1In_R2Out = 0,
 
-		[Description("Считыватель 1 или 3- Вход, Считыватель 2 или 4 - Выход")]
+        //[Description("Считыватель 1 или 3- Вход, Считыватель 2 или 4 - Выход")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AntiPassBackConfiguration), "R1R3In_R2R4Out")]
 		R1R3In_R2R4Out = 1,
 
-		[Description("Считыватель 3 - Вход, Считыватель 4 - Выход")]
+        //[Description("Считыватель 3 - Вход, Считыватель 4 - Выход")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.AntiPassBackConfiguration), "R3In_R4Out")]
 		R3In_R4Out = 2
 	}
 

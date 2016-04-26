@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Localization;
 
 namespace ChinaSKDDriverAPI
 {
@@ -41,52 +42,67 @@ namespace ChinaSKDDriverAPI
 
 	public enum CardType
 	{
-		[Description("Не известно")]
+		//[Description("Не известно")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_TYPE_UNKNOWN")]
 		NET_ACCESSCTLCARD_TYPE_UNKNOWN = -1,
 
-		[Description("Обычная")]
+        //[Description("Обычная")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_TYPE_GENERAL")]
 		NET_ACCESSCTLCARD_TYPE_GENERAL,
 
-		[Description("Вип")]
+        //[Description("Вип")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_TYPE_VIP")]
 		NET_ACCESSCTLCARD_TYPE_VIP,
 
-		[Description("Гостевая")]
+        //[Description("Гостевая")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_TYPE_GUEST")]
 		NET_ACCESSCTLCARD_TYPE_GUEST,
 
-		[Description("Патруль")]
+        //[Description("Патруль")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_TYPE_PATROL")]
 		NET_ACCESSCTLCARD_TYPE_PATROL,
 
-		[Description("Заблокирована")]
+        //[Description("Заблокирована")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_TYPE_BLACKLIST")]
 		NET_ACCESSCTLCARD_TYPE_BLACKLIST,
 
-		[Description("Принуждение")]
+        //[Description("Принуждение")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_TYPE_CORCE")]
 		NET_ACCESSCTLCARD_TYPE_CORCE,
 
-		[Description("Сервисная")]
+        //[Description("Сервисная")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_TYPE_MOTHERCARD")]
 		NET_ACCESSCTLCARD_TYPE_MOTHERCARD = 0xff
 	}
 
 	public enum CardStatus
 	{
-		[Description("Не известно")]
+        //[Description("Не известно")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_STATE_UNKNOWN")]
 		NET_ACCESSCTLCARD_STATE_UNKNOWN = -1,
 
-		[Description("Нормальное")]
+        //[Description("Нормальное")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_STATE_NORMAL")]
 		NET_ACCESSCTLCARD_STATE_NORMAL = 0,
 
-		[Description("Потеряна")]
+        //[Description("Потеряна")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_STATE_LOSE")]
 		NET_ACCESSCTLCARD_STATE_LOSE = 0x01,
 
-		[Description("Log off")]
+        //[Description("Log off")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_STATE_LOGOFF")]
 		NET_ACCESSCTLCARD_STATE_LOGOFF = 0x02,
 
-		[Description("Заморожена")]
+        //[Description("Заморожена")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_STATE_FREEZE")]
 		NET_ACCESSCTLCARD_STATE_FREEZE = 0x04,
 
-		[Description("Задолженность")]
+        //[Description("Задолженность")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_STATE_ARREARAGE")]
 		NET_ACCESSCTLCARD_STATE_ARREARAGE = 0x08,
 
-		[Description("Просрочка")]
+        //[Description("Просрочка")]
+        [LocalizedDescription(typeof(ChinaSKDDriver.Resources.Language.API.Card), "NET_ACCESSCTLCARD_STATE_OVERDUE")]
 		NET_ACCESSCTLCARD_STATE_OVERDUE = 0x10,
 	}
 }
