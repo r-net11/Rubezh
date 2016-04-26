@@ -6,9 +6,7 @@
 	<DockPanel>
 		<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" 
 				CornerRadius="11 11 0 0" 
-				DockPanel.Dock="Top" 
-				MouseDown="Header_MouseDown" 
-				MouseMove="Header_MouseMove">
+				DockPanel.Dock="Top">
 			<ContentPresenter Content="{Binding Header}" />
 		</Border>
 		<ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}" />

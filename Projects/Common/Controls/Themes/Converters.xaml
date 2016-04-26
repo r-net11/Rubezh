@@ -13,6 +13,7 @@
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
+	<Converters:BoolToResizeModeConverter x:Key="BoolToResizeModeConverter" />
 	<Converters:NullToBoolConverter x:Key="NullToBoolConverter" />
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 	<Converters:TimeToStringConverter x:Key="TimeToStringConverter" />

@@ -60,6 +60,8 @@
 
 				<File Id="Server.OpcClientSdk40.dll"										Name="OpcClientSdk40.dll"							Source="..\..\..\..\..\..\3rdParty\OPC\" />
 				<File Id="Server.Technosoftware.Logging40.dll"								Name="Technosoftware.Logging40.dll"					Source="..\..\..\..\..\..\3rdParty\OPC\" />
+
+				<File Id="Server.Microsoft.Windows.Shell.dll"								Name="Microsoft.Windows.Shell.dll"					Source="..\..\..\..\..\..\3rdParty\Microsoft.Windows.Shell.dll" />
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">

@@ -76,6 +76,9 @@
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Windows.Shell">
+      <HintPath>..\..\..\3rdParty\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="OpcClientSdk40, Version=7.1.0.1, Culture=neutral, PublicKeyToken=aaf49bf92e1a676f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\OPC\OpcClientSdk40.dll</HintPath>

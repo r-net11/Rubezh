@@ -93,6 +93,8 @@
 				<File Id="Monitor.DevExpress.XtraRichEdit.v15.1.dll"						Name="DevExpress.XtraRichEdit.v15.1.dll"						Source="$(var.Monitor.DevExpress.TargetDir)" />
 				
 				<File Id="Monitor.OpcClientSdk40.dll"										Name="OpcClientSdk40.dll"										Source="..\..\..\..\..\..\3rdParty\OPC\" />
+
+				<File Id="Monitor.Microsoft.Windows.Shell.dll"								Name="Microsoft.Windows.Shell.dll"								Source="..\..\..\..\..\..\3rdParty\Microsoft.Windows.Shell.dll" />
 			</Component>
 
 			<Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">

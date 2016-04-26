@@ -133,6 +133,7 @@
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToRotationConverter.cs" />
+    <Compile Include="Converters\BoolToResizeModeConverter.cs" />
     <Compile Include="Converters\BoolToYesNoConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
     <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
@@ -450,10 +451,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\RadioButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\ResizeThumbStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
