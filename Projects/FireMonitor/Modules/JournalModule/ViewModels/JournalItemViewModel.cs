@@ -81,6 +81,8 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
 					}
+					else
+						ObjectImageSource = "/Controls;component/Images/Blank.png";
 					break;
 
 				case JournalObjectType.GKZone:
