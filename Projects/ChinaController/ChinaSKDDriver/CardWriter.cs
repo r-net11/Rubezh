@@ -257,7 +257,7 @@ namespace ChinaSKDDriver
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
 							break;
 
-						case FiresecAPI.SKD.CardType.OneTime:
+						case FiresecAPI.SKD.CardType.Guest:
 							if (controllerCardItem.Card.DeactivationControllerUID == controllerCardItem.ControllerDevice.UID)
 							{
 								card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GUEST;

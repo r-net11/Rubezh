@@ -108,7 +108,7 @@ namespace SKDModule.ViewModels
 
 			if (_employee.Type == PersonType.Guest)
 			{
-				CardTypes = new ObservableCollection<CardType> { CardType.Temporary, CardType.OneTime, CardType.Blocked };
+				CardTypes = new ObservableCollection<CardType> { CardType.Temporary, CardType.Guest, CardType.Blocked };
 			}
 			else
 			{
@@ -510,9 +510,9 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
+			if (SelectedCardType == CardType.Guest && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
 			{
-				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue);
+				MessageBoxService.ShowWarning("Количество проходов для гостевого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue);
 				return false;
 			}
 

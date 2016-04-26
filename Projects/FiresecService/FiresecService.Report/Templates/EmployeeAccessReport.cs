@@ -57,7 +57,7 @@ namespace FiresecService.Report.Templates
 			if (filter.PassCardLocked)
 				cardFilter.CardTypes.Add(CardType.Blocked);
 			if (filter.PassCardOnceOnly)
-				cardFilter.CardTypes.Add(CardType.OneTime);
+				cardFilter.CardTypes.Add(CardType.Guest);
 			if (filter.PassCardPermanent)
 				cardFilter.CardTypes.Add(CardType.Constant);
 			if (filter.PassCardTemprorary)

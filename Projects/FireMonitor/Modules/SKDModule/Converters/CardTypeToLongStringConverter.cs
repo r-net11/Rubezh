@@ -13,8 +13,8 @@ namespace SKDModule.Converters
 					return "Пропуск с неограниченным сроком действия";
 				case CardType.Temporary:
 					return "Пропуск с ограниченным сроком действия";
-				case CardType.OneTime:
-					return "Пропуск, действующий в течение одного дня";
+				case CardType.Guest:
+					return "Пропуск, имеющий ограничение по количеству проходов";
 				case CardType.Blocked:
 					return "Пропуск, доступ по которому запрещен";
 				case CardType.Duress:
