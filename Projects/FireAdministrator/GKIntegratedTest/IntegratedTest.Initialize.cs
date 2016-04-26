@@ -448,6 +448,11 @@ namespace GKIntegratedTest
 			WaitWhileState(pim, XStateClass.On, 1000, "Ожидаем включение пима");
 		}
 
+		GKDevice Led(string device)
+		{
+			return gkDevice1.AllChildren.FirstOrDefault(x => x.DescriptorPresentationName == device);
+		}
+
 		void ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage = "Нет сообщения", bool isPim = false)
 		{
 			Guid uid;
