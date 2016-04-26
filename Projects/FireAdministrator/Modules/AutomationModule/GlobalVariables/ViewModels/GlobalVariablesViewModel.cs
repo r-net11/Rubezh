@@ -62,7 +62,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables, "Добавить глобальную переменную", true);
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, 
+				ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables, 
+				"Добавить глобальную переменную", true);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
 				ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);

@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="DiagnosticsModule.Views.ZonesMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<StackPanel DataContext="{Binding Context}" Orientation="Horizontal">
+		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add" />
+		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit" />
+		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete" />
+		<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="Copy" />
+		<ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать" ImageSource="Cut" />
+		<ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить" ImageSource="Paste" />
+		<ToolBarButton Command="{Binding MoveUpCommand}" ToolTip="Выше" ImageSource="ArrowUp" />
+		<ToolBarButton Command="{Binding MoveDownCommand}" ToolTip="Ниже" ImageSource="ArrowDown" />
+	</StackPanel>
+</UserControl>
