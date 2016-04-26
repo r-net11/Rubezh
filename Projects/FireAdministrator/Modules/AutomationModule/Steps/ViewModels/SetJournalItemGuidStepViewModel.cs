@@ -15,7 +15,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			ValueArgument.Update(Procedure, ExplicitType.String, isList: false);
+			ValueArgument.Update(Procedure, ExplicitType.String);
 		}
 
 		public override string Description

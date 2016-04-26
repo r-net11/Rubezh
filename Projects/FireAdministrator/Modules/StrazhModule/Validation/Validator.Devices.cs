@@ -22,13 +22,29 @@ namespace StrazhModule.Validation
 				}
 				if (device.DriverType == SKDDriverType.Reader)
 				{
-					if (device.Zone == null)
+					if (device.IsEnabled)
 					{
-						Errors.Add(new DeviceValidationError(device, "Считыватель не ведет в зону", ValidationErrorLevel.Warning));
+						if (device.Zone == null)
+						{
+							Errors.Add(new DeviceValidationError(device, "Считыватель не ведет в зону", ValidationErrorLevel.Warning));
+						}
+						if (device.Door == null)
+						{
+							Errors.Add(new DeviceValidationError(device, "Считыватель не участвует в точке доступа",
+								ValidationErrorLevel.Warning));
+						}
 					}
-					if (device.Door == null)
+					else
 					{
-						Errors.Add(new DeviceValidationError(device, "Считыватель не участвует в точке доступа", ValidationErrorLevel.Warning));
+						if (device.Zone != null)
+						{
+							Errors.Add(new DeviceValidationError(device, "Неактивный считыватель ведет в зону", ValidationErrorLevel.Warning));
+						}
+						if (device.Door != null)
+						{
+							Errors.Add(new DeviceValidationError(device, "Неактивный считыватель участвует в точке доступа",
+								ValidationErrorLevel.Warning));
+						}
 					}
 				}
 			}

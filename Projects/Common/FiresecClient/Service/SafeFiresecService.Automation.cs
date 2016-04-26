@@ -4,6 +4,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
+using FiresecAPI.Models.Automation;
 
 namespace FiresecClient
 {
@@ -20,6 +21,21 @@ namespace FiresecClient
 		public ProcedureProperties GetProperties(Guid layoutUID)
 		{
 			return SafeContext.Execute(() => FiresecService.GetProperties(layoutUID));
+		}
+
+		public OperationResult<bool> SaveGlobalVariable(GlobalVariable variable)
+		{
+			return SafeContext.Execute(() => FiresecService.SaveGlobalVariable(variable));
+		}
+
+		public OperationResult<bool> RemoveGlobalVariable(GlobalVariable variable)
+		{
+			return SafeContext.Execute(() => FiresecService.RemoveGlobalVariable(variable));
+		}
+
+		public OperationResult<List<GlobalVariable>> GetInitialGlobalVariables()
+		{
+			return SafeContext.Execute(() => FiresecService.GetInitialGlobalVariables());
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Models.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
@@ -15,9 +16,7 @@ namespace AutomationModule.ViewModels
 		#region Properties
 		public ExplicitValuesViewModel ExplicitValuesViewModel { get; protected set; }
 
-		public Variable Variable { get; private set; }
-
-		public bool IsEditMode { get; set; }
+		public IVariable Variable { get; private set; }
 
 		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; set; }
 
@@ -49,16 +48,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public bool IsList
-		{
-			get { return ExplicitValuesViewModel.IsList; }
-			set
-			{
-				ExplicitValuesViewModel.IsList = value;
-				OnPropertyChanged(() => IsList);
-			}
-		}
-
 		private bool _isReference;
 		public bool IsReference
 		{
@@ -85,7 +74,7 @@ namespace AutomationModule.ViewModels
 		}
 		#endregion
 
-		public VariableDetailsViewModel(Variable variable, string defaultName = null, string title = null)
+		public VariableDetailsViewModel(IVariable variable, string defaultName = null, string title = null)
 		{
 			_automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Title = title;
@@ -94,23 +83,23 @@ namespace AutomationModule.ViewModels
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(ProcedureHelper.GetEnumList<ExplicitType>(),
 				ProcedureHelper.GetEnumList<EnumType>(), ProcedureHelper.GetEnumList<ObjectType>()));
 			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
+
 			if (variable != null)
 				Copy(variable);
 		}
 
-		void Copy(Variable variable)
+		void Copy(IVariable variable)
 		{
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType>{variable.ExplicitType},
-				new List<EnumType> { variable.EnumType }, new List<ObjectType> { variable.ObjectType }));
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType> { variable.VariableValue.ExplicitType },
+				new List<EnumType> { variable.VariableValue.EnumType }, new List<ObjectType> { variable.VariableValue.ObjectType }));
 			var explicitTypeViewModel = ExplicitTypes.FirstOrDefault();
 			if (explicitTypeViewModel != null)
 			{
 				SelectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
 				if (SelectedExplicitType != null) SelectedExplicitType.ExpandToThis();
 			}
-			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.ExplicitValue, variable.ExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
+			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.VariableValue.ExplicitValue, variable.VariableValue.ExplicitValues, variable.VariableValue.ExplicitType, variable.VariableValue.EnumType, variable.VariableValue.ObjectType);
 			Name = variable.Name;
-			IsEditMode = true;
 			IsReference = variable.IsReference;
 		}
 
@@ -127,18 +116,23 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
-			Variable = new Variable
+
+			Variable = new LocalVariable
 			{
 				Name = Name,
-				IsList = IsList,
 				IsReference = IsReference,
-				ExplicitType = SelectedExplicitType.ExplicitType,
-				EnumType = SelectedExplicitType.EnumType,
-				ObjectType = SelectedExplicitType.ObjectType,
-				ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue
+				VariableValue = new VariableValue
+				{
+					ExplicitType = SelectedExplicitType.ExplicitType,
+					EnumType = SelectedExplicitType.EnumType,
+					ObjectType = SelectedExplicitType.ObjectType,
+					ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue
+				}
 			};
+
 			foreach(var explicitValue in ExplicitValuesViewModel.ExplicitValues)
-				Variable.ExplicitValues.Add(explicitValue.ExplicitValue);
+				Variable.VariableValue.ExplicitValues.Add(explicitValue.ExplicitValue);
+
 			return base.Save();
 		}
 

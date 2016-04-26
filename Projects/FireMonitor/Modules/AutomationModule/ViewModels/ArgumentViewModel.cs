@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using FiresecAPI.Automation;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Linq.Expressions;
-using FiresecAPI;
-using FiresecAPI.GK;
+﻿using FiresecAPI.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
@@ -17,7 +11,6 @@ namespace AutomationModule.ViewModels
 	{
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
-		Action UpdateDescriptionHandler { get; set; }
 		public ExplicitValueViewModel ExplicitValue { get; protected set; }
 		public ObservableCollection<ExplicitValueViewModel> ExplicitValues { get; set; }
 		public Argument Argument { get; private set; }
@@ -76,17 +69,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool _isList;
-		public bool IsList
-		{
-			get { return _isList; }
-			set
-			{
-				_isList = value;
-				OnPropertyChanged(() => IsList);
-			}
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -109,10 +91,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument, IsList);
+			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument);
 			if (DialogService.ShowModalWindow(argumentDetailsViewModel))
 			{
-				PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
+				PropertyCopy.Copy(argumentDetailsViewModel.Argument, Argument);
 				OnPropertyChanged(() => ValueDescription);
 			}
 		}
@@ -120,10 +102,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand<ExplicitValueViewModel> ChangeCommand { get; private set; }
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
-			if (IsList)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
-			else
-				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
+			ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => ExplicitValue);
 		}
@@ -132,18 +111,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var description = "";
-				if (!IsList)
-					description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
-				else
-				{
-				    if (Argument.ExplicitValues.Count == 0)
-				        return Resources.Language.ArgumentViewModel.EmptyList;
-					foreach (var explicitValue in Argument.ExplicitValues)
-					{
-						description += ProcedureHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
-					}
-				}
+				var description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
 				description = description.TrimEnd(',', ' ');
 				return description;
 			}

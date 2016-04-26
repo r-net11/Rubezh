@@ -13,13 +13,15 @@ namespace AutomationModule.ViewModels
 		{
 			PauseArguments = stepViewModel.Step.PauseArguments;
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
-			PauseArgument = new ArgumentViewModel(PauseArguments.PauseArgument, stepViewModel.Update, null);
-			PauseArgument.ExplicitValue.MinIntValue = 0;
+			PauseArgument = new ArgumentViewModel(PauseArguments.PauseArgument, stepViewModel.Update, null)
+			{
+				ExplicitValue = {MinIntValue = 0}
+			};
 		}
 
 		public override void UpdateContent()
 		{
-			PauseArgument.Update(Procedure, ExplicitType.Integer, isList:false);
+			PauseArgument.Update(Procedure, ExplicitType.Integer);
 		}
 
 		public override string Description

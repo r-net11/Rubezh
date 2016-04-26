@@ -17,14 +17,8 @@ namespace FiresecService
 	{
 		static SKDProcessor()
 		{
-#if DEBUG
-			try
-			{
-				System.IO.File.Copy(@"..\..\..\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
-			}
-			catch { }
-#endif
-			SKDDaylyUpdateProcessor.Start();
+			Logger.Info("Запускаем службу синхронизации времени на контроллерах");
+			ControllersTimeSynchronizer.Start();
 		}
 
 		public static void Start()
@@ -192,7 +186,6 @@ namespace FiresecService
 			}
 
 			Service.FiresecService.NotifySKDObjectStateChanged(skdStates);
-			ProcedureRunner.RunOnStateChanged();
 		}
 
 		private static List<XStateClass> GetZoneStateClasses(SKDZone zone)

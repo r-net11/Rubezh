@@ -10,6 +10,7 @@ using FiresecAPI.Extensions;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Automation;
 using FiresecAPI.SKD;
 using FiresecService.Automation;
 using FiresecService.Service;
@@ -30,9 +31,11 @@ namespace FiresecService
 	{
 		private void AddJournalItem(ProcedureStep procedureStep)
 		{
-			var journalItem = new JournalItem();
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
+			var journalItem = new JournalItem
+			{
+				SystemDateTime = DateTime.Now,
+				JournalEventNameType = JournalEventNameType.Сообщение_автоматизации
+			};
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
 			journalItem.DescriptionText = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
 			Service.FiresecService.AddCommonJournalItem(journalItem);
@@ -42,15 +45,17 @@ namespace FiresecService
 		{
 			var conditionArguments = procedureStep.ConditionArguments;
 			var result = conditionArguments.JoinOperator == JoinOperator.And;
+			var result1 = result;
+
 			foreach (var condition in conditionArguments.Conditions)
 			{
 				var variable1 = GetValue<object>(condition.Argument1);
 				var variable2 = GetValue<object>(condition.Argument2);
 				var comparer = Compare(variable1, variable2, condition.ConditionType);
-				if ((comparer != null))
-					result = conditionArguments.JoinOperator == JoinOperator.And ? result & comparer.Value : result | comparer.Value;
+				if ((comparer != null)) result1 = conditionArguments.JoinOperator == JoinOperator.And ? result1 & comparer.Value : result1 | comparer.Value;
 			}
-			return result;
+
+			return result1;
 		}
 
 		private void ShowMessage(ProcedureStep procedureStep)
@@ -128,10 +133,10 @@ namespace FiresecService
 			var login = GetValue<string>(sendEmailArguments.LoginArgument);
 			var password = GetValue<string>(sendEmailArguments.PasswordArgument);
 			var eMailAddressFrom = GetValue<string>(sendEmailArguments.EMailAddressFromArgument);
-			var eMailAddressTos = sendEmailArguments.EMailAddressToArguments.Select(x => GetValue<string>(x)).ToList();
+			var eMailAddressTos = sendEmailArguments.EMailAddressToArguments.Select(GetValue<string>).ToList();
 			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
 			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
-			var eMailAttachedFiles = sendEmailArguments.EMailAttachedFileArguments.Select(x => GetValue<string>(x)).ToList();
+			var eMailAttachedFiles = sendEmailArguments.EMailAttachedFileArguments.Select(GetValue<string>).ToList();
 
 			using (var smtpClient = new SmtpClient(smtp, port, login, password))
 			{
@@ -288,7 +293,7 @@ namespace FiresecService
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
 			object variable1;
 			object variable2;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == arithmeticArguments.ResultArgument.VariableUid);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.UID == arithmeticArguments.ResultArgument.VariableUid);
 			switch (arithmeticArguments.ExplicitType)
 			{
 				case ExplicitType.Boolean:
@@ -301,7 +306,7 @@ namespace FiresecService
 					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
 						result = (bool) variable1 || (bool) variable2;
 					if (resultVariable != null)
-						resultVariable.ExplicitValue.BoolValue = result;
+						resultVariable.VariableValue.ExplicitValue.BoolValue = result;
 					break;
 				}
 
@@ -319,7 +324,7 @@ namespace FiresecService
 					if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int) variable2 != 0))
 						result = (int) variable1/(int) variable2;
 					if (resultVariable != null)
-						resultVariable.ExplicitValue.IntValue = result;
+						resultVariable.VariableValue.ExplicitValue.IntValue = result;
 					break;
 				}
 
@@ -352,7 +357,7 @@ namespace FiresecService
 						result = (DateTime) variable1 - (TimeSpan) variable2;
 
 					if (resultVariable != null)
-						resultVariable.ExplicitValue.DateTimeValue = result;
+						resultVariable.VariableValue.ExplicitValue.DateTimeValue = result;
 					break;
 				}
 				case ExplicitType.Time:
@@ -367,7 +372,7 @@ namespace FiresecService
 						result = (TimeSpan) variable1 - (TimeSpan) variable2;
 
 					if (resultVariable != null)
-						resultVariable.ExplicitValue.TimeSpanValue = result.WithoutDays();
+						resultVariable.VariableValue.ExplicitValue.TimeSpanValue = result.WithoutDays();
 					break;
 				}
 				case ExplicitType.String:
@@ -376,7 +381,7 @@ namespace FiresecService
 					variable2 = GetValue<string>(arithmeticArguments.Argument2);
 					if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
 						if (resultVariable != null)
-							resultVariable.ExplicitValue.StringValue = String.Concat((string) variable1, (string) variable2);
+							resultVariable.VariableValue.ExplicitValue.StringValue = String.Concat((string)variable1, (string)variable2);
 					break;
 				}
 			}
@@ -385,7 +390,7 @@ namespace FiresecService
 		private void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
-			var variable = AllVariables.FirstOrDefault(x => x.Uid == findObjectArguments.ResultArgument.VariableUid);
+			var variable = AllVariables.FirstOrDefault(x => x.UID == findObjectArguments.ResultArgument.VariableUid);
 			if (findObjectArguments.JoinOperator == JoinOperator.Or)
 				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
 			else
@@ -395,7 +400,7 @@ namespace FiresecService
 		private void GetObjectProperty(ProcedureStep procedureStep)
 		{
 			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
-			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
+			var target = AllVariables.FirstOrDefault(x => x.UID == getObjectPropertyArguments.ResultArgument.VariableUid);
 			var objectUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
 			var item = InitializeItem(objectUid);
 			if (item == null)
@@ -430,19 +435,19 @@ namespace FiresecService
 			return propertyValue;
 		}
 
-		private void InitializeItems(ref IEnumerable<object> items, ref Variable result)
+		private void InitializeItems(ref IEnumerable<object> items, ref IVariable result)
 		{
 			var explicitValues = new List<ExplicitValue>();
-			if (result.ObjectType == ObjectType.SKDDevice)
+			if (result.VariableValue.ObjectType == ObjectType.SKDDevice)
 			{
 				//	items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
 				//	foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
 				//		explicitValues.Add(new ExplicitValue { UidValue = objectUid });
 			}
-			result.ExplicitValues = explicitValues;
+			result.VariableValue.ExplicitValues = explicitValues;
 		}
 
-		private object InitializeItem(Guid itemUid)
+		private static object InitializeItem(Guid itemUid)
 		{
 			var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
@@ -459,7 +464,7 @@ namespace FiresecService
 			return null;
 		}
 
-		private void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
+		private void FindObjectsOr(IVariable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			IEnumerable<object> items = new List<object>();
 			InitializeItems(ref items, ref result);
@@ -478,13 +483,13 @@ namespace FiresecService
 					if ((comparer != null) && (comparer.Value))
 					{
 						resultObjects.Add(item);
-						result.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
+						result.VariableValue.ExplicitValues.Add(new ExplicitValue { UidValue = itemUid });
 					}
 				}
 			}
 		}
 
-		private void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
+		private void FindObjectsAnd(IVariable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			IEnumerable<object> items = new List<object>();
 			InitializeItems(ref items, ref result);
@@ -502,7 +507,7 @@ namespace FiresecService
 					if ((comparer != null) && (!comparer.Value))
 					{
 						tempObjects.Remove(item);
-						result.ExplicitValues.RemoveAll(x => x.UidValue == itemUid);
+						result.VariableValue.ExplicitValues.RemoveAll(x => x.UidValue == itemUid);
 					}
 				}
 				resultObjects = new List<object>(tempObjects);
@@ -740,25 +745,29 @@ namespace FiresecService
 		private void IncrementValue(ProcedureStep procedureStep)
 		{
 			var incrementValueArguments = procedureStep.IncrementValueArguments;
-			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
+			var variable = AllVariables.FirstOrDefault(x => x.UID == incrementValueArguments.ResultArgument.VariableUid);
+
 			if (variable != null)
-				variable.ExplicitValue.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? variable.ExplicitValue.IntValue + 1 : variable.ExplicitValue.IntValue - 1;
+				variable.VariableValue.ExplicitValue.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc
+																? variable.VariableValue.ExplicitValue.IntValue + 1
+																: variable.VariableValue.ExplicitValue.IntValue - 1;
 		}
 
 		private void GetRandomValue(ProcedureStep procedureStep)
 		{
 			var randomArguments = procedureStep.RandomArguments;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == randomArguments.ResultArgument.VariableUid);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.UID == randomArguments.ResultArgument.VariableUid);
 			var maxValue = GetValue<int>(randomArguments.MaxValueArgument);
+
 			if (resultVariable != null)
-				resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
+				resultVariable.VariableValue.ExplicitValue.IntValue = new Random().Next(0, maxValue);
 		}
 
 		private void ChangeList(ProcedureStep procedureStep)
 		{
 			var changeListArguments = procedureStep.ChangeListArguments;
-			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == changeListArguments.ListArgument.VariableUid);
-			var variable = new Variable
+			var listVariable = AllVariables.FirstOrDefault(x => x.UID == changeListArguments.ListArgument.VariableUid);
+			var variable = new VariableValue
 			{
 				ExplicitType = changeListArguments.ItemArgument.ExplicitType,
 				EnumType = changeListArguments.ItemArgument.EnumType,
@@ -773,17 +782,17 @@ namespace FiresecService
 			switch (changeListArguments.ChangeType)
 			{
 				case ChangeType.AddLast:
-					listVariable.ExplicitValues.Add(explicitValue);
+					listVariable.VariableValue.ExplicitValues.Add(explicitValue);
 					break;
 
 				case ChangeType.RemoveFirst:
-					listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
+					listVariable.VariableValue.ExplicitValues.Remove(listVariable.VariableValue.ExplicitValues.FirstOrDefault
 						(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
 							changeListArguments.ListArgument.EnumType)));
 					break;
 
 				case ChangeType.RemoveAll:
-					listVariable.ExplicitValues.RemoveAll(
+					listVariable.VariableValue.ExplicitValues.RemoveAll(
 						(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
 							changeListArguments.ListArgument.EnumType)));
 					break;
@@ -793,116 +802,118 @@ namespace FiresecService
 		private void CheckPermission(ProcedureStep procedureStep)
 		{
 			var checkPermissionArguments = procedureStep.CheckPermissionArguments;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == checkPermissionArguments.ResultArgument.VariableUid);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.UID == checkPermissionArguments.ResultArgument.VariableUid);
 			var permissionValue = GetValue<PermissionType>(checkPermissionArguments.PermissionArgument);
+
 			if (resultVariable != null && User != null)
-				resultVariable.ExplicitValue.BoolValue = User.HasPermission(permissionValue);
+				resultVariable.VariableValue.ExplicitValue.BoolValue = User.HasPermission(permissionValue);
 		}
 
 		private void GetListCount(ProcedureStep procedureStep)
 		{
 			var getListCountArgument = procedureStep.GetListCountArguments;
-			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.ListArgument.VariableUid);
-			var countVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.CountArgument.VariableUid);
+			var listVariable = AllVariables.FirstOrDefault(x => x.UID == getListCountArgument.ListArgument.VariableUid);
+			var countVariable = AllVariables.FirstOrDefault(x => x.UID == getListCountArgument.CountArgument.VariableUid);
+
 			if ((countVariable != null) && (listVariable != null))
-				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
+				countVariable.VariableValue.ExplicitValue.IntValue = listVariable.VariableValue.ExplicitValues.Count;
 		}
 
 		private void GetListItem(ProcedureStep procedureStep)
 		{
 			var getListItemArgument = procedureStep.GetListItemArguments;
-			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
-			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
+			var listVariable = AllVariables.FirstOrDefault(x => x.UID == getListItemArgument.ListArgument.VariableUid);
+			var itemVariable = AllVariables.FirstOrDefault(x => x.UID == getListItemArgument.ItemArgument.VariableUid);
 
 			if (itemVariable == null || listVariable == null) return;
 
 			if (getListItemArgument.PositionType == PositionType.First)
-				SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+				SetValue(itemVariable, GetValue<object>(listVariable.VariableValue.ExplicitValues.FirstOrDefault(), itemVariable.VariableValue.ExplicitType, itemVariable.VariableValue.EnumType));
 			if (getListItemArgument.PositionType == PositionType.Last)
-				SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+				SetValue(itemVariable, GetValue<object>(listVariable.VariableValue.ExplicitValues.LastOrDefault(), itemVariable.VariableValue.ExplicitType, itemVariable.VariableValue.EnumType));
 			if (getListItemArgument.PositionType == PositionType.ByIndex)
 			{
 				var indexValue = GetValue<int>(getListItemArgument.IndexArgument);
-				if (listVariable.ExplicitValues.Count > indexValue)
-					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType));
+				if (listVariable.VariableValue.ExplicitValues.Count > indexValue)
+					SetValue(itemVariable, GetValue<object>(listVariable.VariableValue.ExplicitValues[indexValue], itemVariable.VariableValue.ExplicitType, itemVariable.VariableValue.EnumType));
 			}
 		}
 
 		private void GetJournalItem(ProcedureStep procedureStep)
 		{
 			var getJournalItemArguments = procedureStep.GetJournalItemArguments;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == getJournalItemArguments.ResultArgument.VariableUid);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.UID == getJournalItemArguments.ResultArgument.VariableUid);
 			var value = new object();
-			if (JournalItem != null)
-			{
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.DeviceDateTime)
-					value = JournalItem.DeviceDateTime;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.SystemDateTime)
-					value = JournalItem.SystemDateTime;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalEventNameType)
-					value = JournalItem.JournalEventNameType;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalEventDescriptionType)
-					value = JournalItem.JournalEventDescriptionType;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectType)
-					value = JournalItem.JournalObjectType;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
-					value = JournalItem.ObjectUID.ToString();
-				// Пользователь
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.UserUid)
-				{
-					if (!string.IsNullOrEmpty(JournalItem.UserName) && JournalItem.EmployeeUID == Guid.Empty)
-					{
-						var user =	FiresecServiceManager.SafeFiresecService.GetSecurityConfiguration()
-								.Users.FirstOrDefault(u => u.Name == JournalItem.UserName);
-						if (user != null)
-							value = user.UID;
-					}
-				}
-				// Сотрудник
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.EmployeeUid)
-				{
-					using (var databaseService = new SKDDatabaseService())
-					{
-						var employeeTranslatorGetSingle = databaseService.EmployeeTranslator.GetSingle(JournalItem.EmployeeUID);
-						if (!employeeTranslatorGetSingle.HasError && employeeTranslatorGetSingle.Result.Type == PersonType.Employee)
-						{
-							value = JournalItem.EmployeeUID;
-						}
-					}
-				}
-				// Посетитель
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.VisitorUid)
-				{
-					using (var databaseService = new SKDDatabaseService())
-					{
-						var employeeTranslatorGetSingle = databaseService.EmployeeTranslator.GetSingle(JournalItem.EmployeeUID);
-						if (!employeeTranslatorGetSingle.HasError && employeeTranslatorGetSingle.Result.Type == PersonType.Guest)
-						{
-							value = JournalItem.EmployeeUID;
-						}
-					}
-				}
-				// Номер пропуска
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardNo)
-					value = JournalItem.CardNo;
-				// Тип пропуска
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardType)
-				{
-					using (var databaseService = new SKDDatabaseService())
-					{
-						var cardTranslatorGet = databaseService.CardTranslator.Get(JournalItem.CardNo);
-						if (!cardTranslatorGet.HasError)
-						{
-							value = cardTranslatorGet.Result.CardType;
-						}
-					}
-				}
 
-				SetValue(resultVariable, value);
+			if (JournalItem == null) return;
+
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.DeviceDateTime)
+				value = JournalItem.DeviceDateTime;
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.SystemDateTime)
+				value = JournalItem.SystemDateTime;
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalEventNameType)
+				value = JournalItem.JournalEventNameType;
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalEventDescriptionType)
+				value = JournalItem.JournalEventDescriptionType;
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectType)
+				value = JournalItem.JournalObjectType;
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
+				value = JournalItem.ObjectUID.ToString();
+			// Пользователь
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.UserUid)
+			{
+				if (!string.IsNullOrEmpty(JournalItem.UserName) && JournalItem.EmployeeUID == Guid.Empty)
+				{
+					var user =	FiresecServiceManager.SafeFiresecService.GetSecurityConfiguration()
+						.Users.FirstOrDefault(u => u.Name == JournalItem.UserName);
+					if (user != null)
+						value = user.UID;
+				}
 			}
+			// Сотрудник
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.EmployeeUid)
+			{
+				using (var databaseService = new SKDDatabaseService())
+				{
+					var employeeTranslatorGetSingle = databaseService.EmployeeTranslator.GetSingle(JournalItem.EmployeeUID);
+					if (!employeeTranslatorGetSingle.HasError && employeeTranslatorGetSingle.Result.Type == PersonType.Employee)
+					{
+						value = JournalItem.EmployeeUID;
+					}
+				}
+			}
+			// Посетитель
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.VisitorUid)
+			{
+				using (var databaseService = new SKDDatabaseService())
+				{
+					var employeeTranslatorGetSingle = databaseService.EmployeeTranslator.GetSingle(JournalItem.EmployeeUID);
+					if (!employeeTranslatorGetSingle.HasError && employeeTranslatorGetSingle.Result.Type == PersonType.Guest)
+					{
+						value = JournalItem.EmployeeUID;
+					}
+				}
+			}
+			// Номер пропуска
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardNo)
+				value = JournalItem.CardNo;
+			// Тип пропуска
+			if (getJournalItemArguments.JournalColumnType == JournalColumnType.CardType)
+			{
+				using (var databaseService = new SKDDatabaseService())
+				{
+					var cardTranslatorGet = databaseService.CardTranslator.Get(JournalItem.CardNo);
+					if (!cardTranslatorGet.HasError)
+					{
+						value = cardTranslatorGet.Result.CardType;
+					}
+				}
+			}
+
+			SetValue(resultVariable, value);
 		}
 
-		private bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType) //TODO: add Time
+		private static bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
 		{
 			if (explicitType == ExplicitType.Integer)
 				return explicitValue1.IntValue == explicitValue2.IntValue;
@@ -939,39 +950,41 @@ namespace FiresecService
 		private void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
-			var sourceVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.SourceArgument.VariableUid);
-			var targetVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.TargetArgument.VariableUid);
+			var sourceVariable = AllVariables.FirstOrDefault(x => x.UID == setValueArguments.SourceArgument.VariableUid);
+			var targetVariable = AllVariables.FirstOrDefault(x => x.UID == setValueArguments.TargetArgument.VariableUid);
+
 			if (targetVariable == null)
 				return;
+
 			if (setValueArguments.ExplicitType == ExplicitType.String)
 			{
 				var value = GetValue<object>(setValueArguments.SourceArgument);
-				targetVariable.ExplicitValue.StringValue = value.GetType().IsEnum ? ((Enum)value).ToDescription() : value.ToString();
+				targetVariable.VariableValue.ExplicitValue.StringValue = value.GetType().IsEnum ? ((Enum)value).ToDescription() : value.ToString();
 			}
 			else
 				PropertyCopy.Copy(sourceVariable != null
-								? sourceVariable.ExplicitValue
+								? sourceVariable.VariableValue.ExplicitValue
 								: setValueArguments.SourceArgument.ExplicitValue,
-								targetVariable.ExplicitValue);
+								targetVariable.VariableValue.ExplicitValue);
 		}
 
 		private void GetDateTimeNowStep(ProcedureStep procedureStep)
 		{
 			var getDateTimeNowArguments = procedureStep.GetDateTimeNowArguments;
-			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == getDateTimeNowArguments.Result.VariableUid);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.UID == getDateTimeNowArguments.Result.VariableUid);
 
 			if (resultVariable == null) return;
 
 			switch (getDateTimeNowArguments.RoundingType)
 			{
 				case RoundingType.None:
-					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds();
+					resultVariable.VariableValue.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds();
 					break;
 				case RoundingType.RoundToHour:
-					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds().WithoutSeconds().WithoutMinutes();
+					resultVariable.VariableValue.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds().WithoutSeconds().WithoutMinutes();
 					break;
 				case RoundingType.RoundToMin:
-					resultVariable.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds().WithoutSeconds();
+					resultVariable.VariableValue.ExplicitValue.TimeSpanValue = DateTime.Now.TimeOfDay.WithoutMilliseconds().WithoutSeconds();
 					break;
 			}
 		}
@@ -1088,54 +1101,61 @@ namespace FiresecService
 				});
 		}
 
+		private static void SetValue(VariableValue variableValue, object propertyValue)
+		{
+			if (variableValue.ExplicitType == ExplicitType.Integer)
+				variableValue.ExplicitValue.IntValue = Convert.ToInt32(propertyValue);
+			if (variableValue.ExplicitType == ExplicitType.String)
+				variableValue.ExplicitValue.StringValue = Convert.ToString(propertyValue);
+			if (variableValue.ExplicitType == ExplicitType.Boolean)
+				variableValue.ExplicitValue.BoolValue = Convert.ToBoolean(propertyValue);
+			if (variableValue.ExplicitType == ExplicitType.DateTime)
+				variableValue.ExplicitValue.DateTimeValue = Convert.ToDateTime(propertyValue);
+			if (variableValue.ExplicitType == ExplicitType.Time)
+				variableValue.ExplicitValue.TimeSpanValue = Convert.ToDateTime(propertyValue).TimeOfDay;
+			if (variableValue.ExplicitType == ExplicitType.Enum)
+			{
+				if (variableValue.EnumType == EnumType.StateType)
+					variableValue.ExplicitValue.StateTypeValue = (XStateClass)propertyValue;
+				if (variableValue.EnumType == EnumType.PermissionType)
+					variableValue.ExplicitValue.PermissionTypeValue = (PermissionType)propertyValue;
+				if (variableValue.EnumType == EnumType.JournalEventNameType)
+					variableValue.ExplicitValue.JournalEventNameTypeValue = (JournalEventNameType)propertyValue;
+				if (variableValue.EnumType == EnumType.JournalEventDescriptionType)
+					variableValue.ExplicitValue.JournalEventDescriptionTypeValue = (JournalEventDescriptionType)propertyValue;
+				if (variableValue.EnumType == EnumType.JournalObjectType)
+					variableValue.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)propertyValue;
+				if (variableValue.EnumType == EnumType.ColorType)
+					variableValue.ExplicitValue.ColorValue = (Color)propertyValue;
+				if (variableValue.EnumType == EnumType.CardType)
+					variableValue.ExplicitValue.CardTypeValue = (CardType)propertyValue;
+				// Режим доступа
+				if (variableValue.EnumType == EnumType.AccessState)
+					variableValue.ExplicitValue.AccessStateValue = (FiresecAPI.Automation.Enums.AccessState?)propertyValue;
+				// Статус двери
+				if (variableValue.EnumType == EnumType.DoorStatus)
+					variableValue.ExplicitValue.DoorStatusValue = (DoorStatus?)propertyValue;
+				// Статус по взлому
+				if (variableValue.EnumType == EnumType.BreakInStatus)
+					variableValue.ExplicitValue.BreakInStatusValue = (BreakInStatus?)propertyValue;
+				// Статус соединения
+				if (variableValue.EnumType == EnumType.ConnectionStatus)
+					variableValue.ExplicitValue.ConnectionStatusValue = (ConnectionStatus?)propertyValue;
+			}
+		}
+
 		private void SetValue(Argument argument, object propertyValue)
 		{
-			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+			var variable = AllVariables.FirstOrDefault(x => x.UID == argument.VariableUid);
 			if (variable != null)
 				SetValue(variable, propertyValue);
 		}
 
-		private void SetValue(Variable target, object propertyValue)
+		private static void SetValue(IVariable target, object propertyValue)
 		{
-			if (target.ExplicitType == ExplicitType.Integer)
-				target.ExplicitValue.IntValue = Convert.ToInt32(propertyValue);
-			if (target.ExplicitType == ExplicitType.String)
-				target.ExplicitValue.StringValue = Convert.ToString(propertyValue);
-			if (target.ExplicitType == ExplicitType.Boolean)
-				target.ExplicitValue.BoolValue = Convert.ToBoolean(propertyValue);
-			if (target.ExplicitType == ExplicitType.DateTime)
-				target.ExplicitValue.DateTimeValue = Convert.ToDateTime(propertyValue);
-			if (target.ExplicitType == ExplicitType.Time)
-				target.ExplicitValue.TimeSpanValue = Convert.ToDateTime(propertyValue).TimeOfDay;
-			if (target.ExplicitType == ExplicitType.Enum)
-			{
-				if (target.EnumType == EnumType.StateType)
-					target.ExplicitValue.StateTypeValue = (XStateClass)propertyValue;
-				if (target.EnumType == EnumType.PermissionType)
-					target.ExplicitValue.PermissionTypeValue = (PermissionType)propertyValue;
-				if (target.EnumType == EnumType.JournalEventNameType)
-					target.ExplicitValue.JournalEventNameTypeValue = (JournalEventNameType)propertyValue;
-				if (target.EnumType == EnumType.JournalEventDescriptionType)
-					target.ExplicitValue.JournalEventDescriptionTypeValue = (JournalEventDescriptionType)propertyValue;
-				if (target.EnumType == EnumType.JournalObjectType)
-					target.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)propertyValue;
-				if (target.EnumType == EnumType.ColorType)
-					target.ExplicitValue.ColorValue = (Color)propertyValue;
-				if (target.EnumType == EnumType.CardType)
-					target.ExplicitValue.CardTypeValue = (CardType)propertyValue;
-				// Режим доступа
-				if (target.EnumType == EnumType.AccessState)
-					target.ExplicitValue.AccessStateValue = (FiresecAPI.Automation.Enums.AccessState?)propertyValue;
-				// Статус двери
-				if (target.EnumType == EnumType.DoorStatus)
-					target.ExplicitValue.DoorStatusValue = (FiresecAPI.Automation.Enums.DoorStatus?)propertyValue;
-				// Статус по взлому
-				if (target.EnumType == EnumType.BreakInStatus)
-					target.ExplicitValue.BreakInStatusValue = (FiresecAPI.Automation.Enums.BreakInStatus?)propertyValue;
-				// Статус соединения
-				if (target.EnumType == EnumType.ConnectionStatus)
-					target.ExplicitValue.ConnectionStatusValue = (FiresecAPI.Automation.Enums.ConnectionStatus?)propertyValue;
-			}
+			if (target == null) return;
+
+			SetValue(target.VariableValue, propertyValue);
 		}
 
 		private T GetValue<T>(Argument variable)
@@ -1146,25 +1166,25 @@ namespace FiresecService
 			var explicitValue = variable.ExplicitValue;
 			if (variableScope != VariableScope.ExplicitValue)
 			{
-				var argument = AllVariables.FirstOrDefault(x => x.Uid == variable.VariableUid);
+				var argument = AllVariables.FirstOrDefault(x => x.UID == variable.VariableUid);
 				if (argument != null)
 				{
-					explicitValue = argument.ExplicitValue;
-					explicitType = argument.ExplicitType;
-					enumType = argument.EnumType;
+					explicitValue = argument.VariableValue.ExplicitValue;
+					explicitType = argument.VariableValue.ExplicitType;
+					enumType = argument.VariableValue.EnumType;
 				}
 			}
 			return (T)GetValue<object>(explicitValue, explicitType, enumType);
 		}
 
-		private bool CheckGuid(string guidString)
+		private static bool CheckGuid(string guidString)
 		{
 			var guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
 				"^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);
 			return !String.IsNullOrEmpty(guidString) && guidRegEx.IsMatch(guidString);
 		}
 
-		private T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		private static T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
 			var result = new object();
 			if (explicitType == ExplicitType.Boolean)
@@ -1213,11 +1233,13 @@ namespace FiresecService
 		private void GetSkdDeviceProperty(ProcedureStep procedureStep)
 		{
 			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
-			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
+			var target = AllVariables.FirstOrDefault(x => x.UID == getObjectPropertyArguments.ResultArgument.VariableUid);
 			var deviceUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
+
 			if (device == null)
 				return;
+
 			var propertyValue = GetSkdDevicePropertyValue(device, getObjectPropertyArguments.Property);
 			SetValue(target, propertyValue);
 		}
@@ -1235,11 +1257,11 @@ namespace FiresecService
 				return XStateClassToBreakInStatus(device.State.StateClass);
 			// Статус соединения
 			if (property == Property.ConnectionStatus)
-				return device.State.StateClass == XStateClass.ConnectionLost ? FiresecAPI.Automation.Enums.ConnectionStatus.Disconnected : FiresecAPI.Automation.Enums.ConnectionStatus.Connected;
+				return device.State.StateClass == XStateClass.ConnectionLost ? ConnectionStatus.Disconnected : ConnectionStatus.Connected;
 			return null;
 		}
 
-		private DoorStatus? XStateClassToDoorStatus(XStateClass xStateClass)
+		private static DoorStatus? XStateClassToDoorStatus(XStateClass xStateClass)
 		{
 			switch (xStateClass)
 			{
@@ -1252,7 +1274,7 @@ namespace FiresecService
 			}
 		}
 
-		private BreakInStatus? XStateClassToBreakInStatus(XStateClass xStateClass)
+		private static BreakInStatus? XStateClassToBreakInStatus(XStateClass xStateClass)
 		{
 			switch (xStateClass)
 			{
@@ -1272,16 +1294,18 @@ namespace FiresecService
 		private void GetDoorProperty(ProcedureStep procedureStep)
 		{
 			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
-			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
+			var target = AllVariables.FirstOrDefault(x => x.UID == getObjectPropertyArguments.ResultArgument.VariableUid);
 			var doorUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUid);
+
 			if (door == null)
 				return;
+
 			var propertyValue = GetDoorPropertyValue(door, getObjectPropertyArguments.Property);
 			SetValue(target, propertyValue);
 		}
 
-		private object GetDoorPropertyValue(SKDDoor door, Property property)
+		private static object GetDoorPropertyValue(SKDDoor door, Property property)
 		{
 			// Режим доступа
 			if (property == Property.AccessState)
@@ -1294,7 +1318,8 @@ namespace FiresecService
 				return XStateClassToBreakInStatus(door.State.StateClass);
 			// Статус соединения
 			if (property == Property.ConnectionStatus)
-				return door.State.StateClass == XStateClass.ConnectionLost ? FiresecAPI.Automation.Enums.ConnectionStatus.Disconnected : FiresecAPI.Automation.Enums.ConnectionStatus.Connected;
+				return door.State.StateClass == XStateClass.ConnectionLost ? ConnectionStatus.Disconnected : ConnectionStatus.Connected;
+
 			return null;
 		}
 
@@ -1304,16 +1329,18 @@ namespace FiresecService
 		private void GetSkdZoneProperty(ProcedureStep procedureStep)
 		{
 			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
-			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
+			var target = AllVariables.FirstOrDefault(x => x.UID == getObjectPropertyArguments.ResultArgument.VariableUid);
 			var zoneUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUid);
+
 			if (zone == null)
 				return;
+
 			var propertyValue = GetSkdZonePropertyValue(zone, getObjectPropertyArguments.Property);
 			SetValue(target, propertyValue);
 		}
 
-		private object GetSkdZonePropertyValue(SKDZone zone, Property property)
+		private static object GetSkdZonePropertyValue(SKDZone zone, Property property)
 		{
 			// Статус двери
 			if (property == Property.DoorStatus)
@@ -1323,7 +1350,8 @@ namespace FiresecService
 				return XStateClassToBreakInStatus(zone.State.StateClass);
 			// Статус соединения
 			if (property == Property.ConnectionStatus)
-				return zone.State.StateClass == XStateClass.ConnectionLost ? FiresecAPI.Automation.Enums.ConnectionStatus.Disconnected : FiresecAPI.Automation.Enums.ConnectionStatus.Connected;
+				return zone.State.StateClass == XStateClass.ConnectionLost ? ConnectionStatus.Disconnected : ConnectionStatus.Connected;
+
 			return null;
 		}
 	}

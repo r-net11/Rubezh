@@ -48,7 +48,7 @@ namespace FiresecClient
 						return SafeOperationCall(func, methodName, false);
 				}
 			}
-			return OperationResult<T>.FromError("Ошибка при при вызове операции");
+			return OperationResult<T>.FromError("Ошибка при вызове операции");
 		}
 
 		T SafeOperationCall<T>(Func<T> func, string methodName, bool reconnectOnException = true)
@@ -248,5 +248,14 @@ namespace FiresecClient
 
 		#endregion
 
+		/// <summary>
+		/// Получает тип оболочки рабочего стола пользователя A.C.Tech
+		/// </summary>
+		/// <param name="userName">Пользователь A.C.Tech</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<ShellType> GetUserShellType(string userName)
+		{
+			return SafeOperationCall(() => FiresecService.GetUserShellType(userName), "GetUserShellType");
+		}
 	}
 }

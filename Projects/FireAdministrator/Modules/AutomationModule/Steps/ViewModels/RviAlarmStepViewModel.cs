@@ -1,6 +1,4 @@
 ﻿using FiresecAPI.Automation;
-using System.Collections.ObjectModel;
-using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
@@ -19,12 +17,12 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			NameArgument.Update(Procedure, ExplicitType.String, isList: false);
+			NameArgument.Update(Procedure, ExplicitType.String);
 		}
 
 		public override string Description
 		{
-			get 
+			get
 			{
 				return "Значение: " + NameArgument.Description;
 			}

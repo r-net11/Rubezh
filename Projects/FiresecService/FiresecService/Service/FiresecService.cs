@@ -364,5 +364,19 @@ namespace FiresecService.Service
 		}
 
 		#endregion </Лицензирование>
+
+		/// <summary>
+		/// Получает тип оболочки рабочего стола пользователя A.C.Tech
+		/// </summary>
+		/// <param name="userName">Пользователь A.C.Tech</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		public OperationResult<ShellType> GetUserShellType(string userName)
+		{
+			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == userName);
+			{
+				return new OperationResult<ShellType>(user == null ? ShellType.Default : user.ShellType);
+			}
+		}
+
 	}
 }

@@ -24,11 +24,11 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			IsExportJournalArgument.Update(Procedure, ExplicitType.Boolean, isList: false);
-			IsExportPassJournalArgument.Update(Procedure, ExplicitType.Boolean, isList: false);
-			MinDateArgument.Update(Procedure, ExplicitType.DateTime, isList: false);
-			MaxDateArgument.Update(Procedure, ExplicitType.DateTime, isList: false);
-			PathArgument.Update(Procedure, ExplicitType.String, isList: false);
+			IsExportJournalArgument.Update(Procedure, ExplicitType.Boolean);
+			IsExportPassJournalArgument.Update(Procedure, ExplicitType.Boolean);
+			MinDateArgument.Update(Procedure, ExplicitType.DateTime);
+			MaxDateArgument.Update(Procedure, ExplicitType.DateTime);
+			PathArgument.Update(Procedure, ExplicitType.String);
 		}
 
 		public override string Description

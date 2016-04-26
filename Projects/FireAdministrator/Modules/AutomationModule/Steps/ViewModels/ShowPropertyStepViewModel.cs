@@ -18,7 +18,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			ObjectArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType, isList: false);
+			ObjectArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowPropertyArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}

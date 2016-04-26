@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using FiresecAPI.Automation;
 using Infrastructure.Common;
-using FiresecAPI.Automation;
+using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
@@ -23,35 +20,23 @@ namespace AutomationModule.ViewModels
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 		}
 
-		public ExplicitValuesViewModel(ExplicitValue explicitValue, List<ExplicitValue> explicitValues, bool isList, ExplicitType explicitType, EnumType enumType, ObjectType objectType)
+		public ExplicitValuesViewModel(ExplicitValue explicitValue, List<ExplicitValue> explicitValues, ExplicitType explicitType, EnumType enumType, ObjectType objectType)
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
-			IsList = isList;
 			ExplicitType = explicitType;
 			EnumType = enumType;
 			ObjectType = objectType;
 			var newExplicitValue = new ExplicitValue();
-			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitValue, newExplicitValue);
+			PropertyCopy.Copy(explicitValue, newExplicitValue);
 			ExplicitValue = new ExplicitValueViewModel(newExplicitValue);
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 			foreach (var explicitVal in explicitValues)
 			{
 				var newExplicitVal = new ExplicitValue();
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitVal, newExplicitVal);
+				PropertyCopy.Copy(explicitVal, newExplicitVal);
 				ExplicitValues.Add(new ExplicitValueViewModel(newExplicitVal));
-			}
-		}
-
-		bool _isList;
-		public bool IsList
-		{
-			get { return _isList; }
-			set
-			{
-				_isList = value;
-				OnPropertyChanged(() => IsList);
 			}
 		}
 
@@ -115,10 +100,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand<ExplicitValueViewModel> ChangeCommand { get; private set; }
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
-			if (IsList)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
-			else
-				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
+			ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}

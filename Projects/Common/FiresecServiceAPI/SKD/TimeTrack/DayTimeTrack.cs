@@ -889,7 +889,7 @@ namespace FiresecAPI.SKD
 					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsence : TimeTrackType.None;
 				case DocumentType.AbsenceReasonable:
 					if (documentTimeTrack.IsOutside)
-						return TimeTrackType.DocumentAbsence;
+						return TimeTrackType.DocumentAbsenceReasonable;
 					return (hasRealTimeTrack || hasPlannedTimeTrack) ? TimeTrackType.DocumentAbsenceReasonable : TimeTrackType.None;
 				default:
 					return TimeTrackType.None;

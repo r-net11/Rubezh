@@ -180,7 +180,17 @@
 								<Controls:EditorPresenter>
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
-											<TextBlock Text="{Binding Address}" />
+											<TextBlock Text="{Binding Address}" >
+												<TextBlock.Style>
+													<Style TargetType="TextBlock">
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding IsEnabled}" Value="False">
+																<Setter Property="TextBlock.Foreground" Value="Gray" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</TextBlock.Style>
+											</TextBlock>
 										</ControlTemplate>
 									</Controls:EditorPresenter.ViewTemplate>
 								</Controls:EditorPresenter>
@@ -199,6 +209,7 @@
 												Cursor="Hand"
 												Text="{Binding EditingPresentationZone}"
 												TextWrapping="NoWrap"
+												IsEnabled="{Binding IsEnabled}"
 												Visibility="{Binding Driver.HasZone,
 											                                Converter={StaticResource BoolToVisibilityConverter}}">
 												<TextBlock.Style>

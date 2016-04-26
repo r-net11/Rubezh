@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Common;
+using FiresecAPI.Enums;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -17,6 +20,8 @@ namespace SecurityModule.ViewModels
 
 		public UserDetailsViewModel(User user = null)
 		{
+			AvailableShellTypes = new ObservableCollection<ShellType>(Enum.GetValues(typeof(ShellType)).Cast<ShellType>().ToList());
+
 			SetRolePermissionsCommand = new RelayCommand(OnSetRolePermissions);
 
 			if (user != null)
@@ -48,6 +53,7 @@ namespace SecurityModule.ViewModels
 		{
 			Login = User.Login;
 			Name = User.Name;
+			SelectedShellType = User.ShellType;
 
 			RemoteAccess = (IsNew || User.RemoreAccess == null) ?
 				new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
@@ -168,6 +174,21 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<ShellType> AvailableShellTypes { get; private set; }
+
+		private ShellType _selectedShellType;
+		public ShellType SelectedShellType
+		{
+			get { return _selectedShellType; }
+			set
+			{
+				if (_selectedShellType == value)
+					return;
+				_selectedShellType = value;
+				OnPropertyChanged(() => SelectedShellType);
+			}
+		}
+
 		public RelayCommand SetRolePermissionsCommand { get; private set; }
 		void OnSetRolePermissions()
 		{
@@ -182,6 +203,7 @@ namespace SecurityModule.ViewModels
 		{
 			User.Login = Login;
 			User.Name = Name;
+			User.ShellType = SelectedShellType;
 
 			if (IsChangePassword)
 				User.PasswordHash = HashHelper.GetHashFromString(Password);

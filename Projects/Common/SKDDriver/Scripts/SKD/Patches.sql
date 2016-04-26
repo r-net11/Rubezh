@@ -1716,3 +1716,24 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('RemoveCredentialsStartDateField')
 END
 GO
+
+--****************************************************************************************Release 1.0.3*********************************************************************
+IF NOT EXISTS (SELECT * FROM  Patches WHERE Id = 'AddingGlobalVariablesTable')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'GlobalVariables')
+	CREATE TABLE [dbo].[GlobalVariables]
+	(
+	[UID] UNIQUEIDENTIFIER NOT NULL,
+	[Name] NVARCHAR(50) NOT NULL,
+	[CurrentValueXML] NVARCHAR(MAX) NOT NULL,
+	[InitialValueXML] NVARCHAR(MAX) NOT NULL,
+	[IsSaveWhenRestart] bit NOT NULL,
+	[IsReference] bit NOT NULL
+	CONSTRAINT [PK_GlobalVariables] PRIMARY KEY CLUSTERED
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	INSERT INTO Patches (Id) VALUES ('AddingGlobalVariablesTable')
+END
+GO

@@ -121,5 +121,13 @@ namespace FiresecAPI
 		OperationResult<LicenseData> GetLicenseData();
 
 		#endregion
+
+		/// <summary>
+		/// Получает тип оболочки рабочего стола пользователя A.C.Tech
+		/// </summary>
+		/// <param name="userName">Пользователь A.C.Tech</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
+		[OperationContract]
+		OperationResult<ShellType> GetUserShellType(string userName);
 	}
 }

@@ -1,32 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Automation;
-using FiresecClient;
-using FiresecAPI.GK;
-using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows;
-using AutomationModule.ViewModels;
+﻿using AutomationModule.ViewModels;
 using FiresecAPI;
-using Infrastructure.Common;
+using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
+using FiresecClient;
+using Infrastructure.Common.Windows;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 
 namespace AutomationModule
 {
 	public static class ProcedureHelper
 	{
-		public static List<Variable> GetAllVariables(Procedure procedure)
+		public static List<IVariable> GetAllVariables(Procedure procedure)
 		{
-			var allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			var globalVariables = FiresecManager.FiresecService.GetInitialGlobalVariables().Result;
+			var allVariables = globalVariables.ToList<IVariable>();//new List<IVariable>();//(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables); TODO: Get Global Variables
 			allVariables.AddRange(procedure.Variables);
 			allVariables.AddRange(procedure.Arguments);
 			return allVariables;
 		}
 
-		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType ExplicitType, ObjectType objectType, bool isList)
+		public static List<IVariable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType)
 		{
-			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == ExplicitType && x.ObjectType == objectType && x.IsList == isList);
+			return GetAllVariables(procedure).FindAll(x => x.VariableValue.ExplicitType == explicitType && x.VariableValue.ObjectType == objectType);
 		}
 
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
@@ -36,14 +35,15 @@ namespace AutomationModule
 			return new List<Property>();
 		}
 
-		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType ExplicitType)
+		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType explicitType)
 		{
-			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object))
+			if ((explicitType == ExplicitType.Integer) || (explicitType == ExplicitType.DateTime) || (explicitType == ExplicitType.Object))
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
-			if (ExplicitType == ExplicitType.Boolean || ExplicitType == ExplicitType.Enum)
+			if (explicitType == ExplicitType.Boolean || explicitType == ExplicitType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
-			if (ExplicitType == ExplicitType.String)
+			if (explicitType == ExplicitType.String)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };
+
 			return new List<ConditionType>();
 		}
 
@@ -61,7 +61,7 @@ namespace AutomationModule
 		{
 			if (objectType == ObjectType.SKDDevice)
 			{
-				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice != null ? currentExplicitValue.SKDDevice : null);
+				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice);
 				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = skdDeviceSelectationViewModel.SelectedDevice != null ? skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID : Guid.Empty;
@@ -71,7 +71,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.SKDZone)
 			{
-				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone != null ? currentExplicitValue.SKDZone : null);
+				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone);
 				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = skdZoneSelectationViewModel.SelectedZone != null ? skdZoneSelectationViewModel.SelectedZone.SKDZone.UID : Guid.Empty;
@@ -81,7 +81,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.Door)
 			{
-				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor != null ? currentExplicitValue.SKDDoor : null);
+				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.Door.UID : Guid.Empty;
@@ -91,7 +91,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.VideoDevice)
 			{
-				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera != null ? currentExplicitValue.Camera : null);
+				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
 				{
 					currentExplicitValue.UidValue = cameraSelectionViewModel.SelectedCamera != null ? cameraSelectionViewModel.SelectedCamera.Camera.UID : Guid.Empty;
@@ -103,7 +103,8 @@ namespace AutomationModule
 
 		public static string GetStringValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
-			var result = "";
+			var result = string.Empty;
+
 			switch (explicitType)
 			{
 				case ExplicitType.Boolean:
@@ -116,7 +117,7 @@ namespace AutomationModule
 					result = explicitValue.IntValue.ToString();
 					break;
 				case ExplicitType.String:
-					result = explicitValue.StringValue.ToString();
+					result = explicitValue.StringValue;
 					break;
 				case ExplicitType.Enum:
 					{
@@ -130,6 +131,7 @@ namespace AutomationModule
 					}
 					break;
 			}
+
 			return result;
 		}
 

@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using AutomationModule.Properties;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using AutomationModule.Properties;
 using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
-using Infrastructure;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -44,7 +44,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
-		private bool IsExist(Variable variable)
+		private bool IsExist(IVariable variable)
 		{
 			return Variables.Any(x => string.Equals(x.Variable.Name, variable.Name));
 		}
@@ -68,7 +68,7 @@ namespace AutomationModule.ViewModels
 			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);
+				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);
 				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

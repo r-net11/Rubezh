@@ -153,24 +153,34 @@ namespace FiresecAPI.SKD
 				var isEnabled = true;
 				if (Parent != null)
 				{
-					if (Parent.DoorType == DoorType.TwoWay)
+					switch (Parent.DoorType)
 					{
-						if (DriverType == SKDDriverType.Button)
-						{
-							isEnabled = false;
-						}
-						if (Parent.DriverType == SKDDriverType.ChinaController_2)
-						{
-							if (DriverType == SKDDriverType.Lock || DriverType == SKDDriverType.LockControl)
-								if (IntAddress > 0)
-									isEnabled = false;
-						}
-						if (Parent.DriverType == SKDDriverType.ChinaController_4)
-						{
-							if (DriverType == SKDDriverType.Lock || DriverType == SKDDriverType.LockControl)
-								if (IntAddress > 1)
-									isEnabled = false;
-						}
+						case DoorType.OneWay:
+							if (Parent.DriverType == SKDDriverType.ChinaController_1)
+							{
+								if (DriverType == SKDDriverType.Reader)
+									if (IntAddress > 0)
+										isEnabled = false;
+							}
+							break;
+						case DoorType.TwoWay:
+							if (DriverType == SKDDriverType.Button)
+							{
+								isEnabled = false;
+							}
+							if (Parent.DriverType == SKDDriverType.ChinaController_2)
+							{
+								if (DriverType == SKDDriverType.Lock || DriverType == SKDDriverType.LockControl)
+									if (IntAddress > 0)
+										isEnabled = false;
+							}
+							if (Parent.DriverType == SKDDriverType.ChinaController_4)
+							{
+								if (DriverType == SKDDriverType.Lock || DriverType == SKDDriverType.LockControl)
+									if (IntAddress > 1)
+										isEnabled = false;
+							}
+							break;
 					}
 				}
 				return isEnabled;

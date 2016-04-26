@@ -17,7 +17,7 @@ namespace AutomationModule.ViewModels
 			ObjectArgument = new ArgumentViewModel(GetObjectPropertyArguments.ObjectArgument, stepViewModel.Update, UpdateContent);
 			ResultArgument = new ArgumentViewModel(GetObjectPropertyArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
 			SelectedObjectType = ObjectType.Door;
-		}		
+		}
 
 		EnumType? SelectedEnumType
 		{
@@ -42,24 +42,24 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				GetObjectPropertyArguments.Property = value;
-				ResultArgument.Update(Procedure, ExplicitType, SelectedEnumType, isList: false);
+				ResultArgument.Update(Procedure, ExplicitType, SelectedEnumType);
 				OnPropertyChanged(() => SelectedProperty);
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			ObjectArgument.Update(Procedure, ExplicitType.Object, objectType: SelectedObjectType, isList: false);
-			ResultArgument.Update(Procedure, ExplicitType, SelectedEnumType, isList: false);
+			ObjectArgument.Update(Procedure, ExplicitType.Object, objectType: SelectedObjectType);
+			ResultArgument.Update(Procedure, ExplicitType, SelectedEnumType);
 			Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(SelectedObjectType));
 			OnPropertyChanged(() => Properties);
 		}
 
 		public override string Description
 		{
-			get 
-			{ 
-				return string.Format("Точка доступа: {0} Свойство: {1} Значение: {2}",ObjectArgument.Description, SelectedProperty.ToDescription(), ResultArgument.Description); 
+			get
+			{
+				return string.Format("Точка доступа: {0} Свойство: {1} Значение: {2}",ObjectArgument.Description, SelectedProperty.ToDescription(), ResultArgument.Description);
 			}
 		}
 

@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using FiresecClient;
-using System.Linq;
-using FiresecAPI.SKD;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using Infrastructure;
-using System.Linq.Expressions;
+using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule.ViewModels
 {
 	public class VariableViewModel : BaseViewModel
 	{
-		public Variable Variable { get; set; }
+		public IVariable Variable { get; set; }
 		public ExplicitValueViewModel ExplicitValue { get; protected set; }
 		public ObservableCollection<ExplicitValueViewModel> ExplicitValues { get; set; }
 		public bool IsEditMode { get; set; }
 
-		public VariableViewModel(Variable variable)
+		public VariableViewModel(IVariable variable)
 		{
 			Variable = variable;
-			ExplicitValue = new ExplicitValueViewModel(variable.ExplicitValue);
+			ExplicitValue = new ExplicitValueViewModel(variable.VariableValue.ExplicitValue);
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-			foreach (var explicitValue in variable.ExplicitValues)
+			foreach (var explicitValue in variable.VariableValue.ExplicitValues)
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 			OnPropertyChanged(() => ExplicitValues);
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
@@ -37,33 +28,26 @@ namespace AutomationModule.ViewModels
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 		}
 
-		public VariableViewModel(Argument argument, bool isList)
+		public VariableViewModel(Argument argument)
 		{
-			Variable = new Variable();
-			Variable.IsList = isList;
-			Variable.ExplicitType = argument.ExplicitType;
-			Variable.EnumType = argument.EnumType;
-			Variable.ObjectType = argument.ObjectType;
+			Variable.VariableValue = new VariableValue
+			{
+				ExplicitType = argument.ExplicitType,
+				EnumType = argument.EnumType,
+				ObjectType = argument.ObjectType
+			};
 			ExplicitValue = new ExplicitValueViewModel(argument.ExplicitValue);
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
+
 			foreach (var explicitValue in argument.ExplicitValues)
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
+
 			OnPropertyChanged(() => ExplicitValues);
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
-		}
-
-		public bool IsList
-		{
-			get { return Variable.IsList; }
-			set
-			{
-				Variable.IsList = value;
-				OnPropertyChanged(() => IsList);
-			}
 		}
 
 		public string Name
@@ -78,10 +62,10 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitType ExplicitType
 		{
-			get { return Variable.ExplicitType; }
+			get { return Variable.VariableValue.ExplicitType; }
 			set
 			{
-				Variable.ExplicitType = value;
+				Variable.VariableValue.ExplicitType = value;
 				OnPropertyChanged(() => ExplicitValues);
 				OnPropertyChanged(() => ExplicitType);
 			}
@@ -90,10 +74,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<EnumType> EnumTypes { get; private set; }
 		public EnumType SelectedEnumType
 		{
-			get { return Variable.EnumType; }
+			get { return Variable.VariableValue.EnumType; }
 			set
 			{
-				Variable.EnumType = value;
+				Variable.VariableValue.EnumType = value;
 				OnPropertyChanged(() => SelectedEnumType);
 			}
 		}
@@ -101,10 +85,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
 		public ObjectType SelectedObjectType
 		{
-			get { return Variable.ObjectType; }
+			get { return Variable.VariableValue.ObjectType; }
 			set
 			{
-				Variable.ObjectType = value;
+				Variable.VariableValue.ObjectType = value;
 				OnPropertyChanged(() => SelectedObjectType);
 			}
 		}
@@ -112,7 +96,6 @@ namespace AutomationModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => IsList);
 			OnPropertyChanged(() => ExplicitValue);
 		}
 
@@ -123,7 +106,7 @@ namespace AutomationModule.ViewModels
 			if (ExplicitType == ExplicitType.Object)
 				ProcedureHelper.SelectObject(SelectedObjectType, explicitValueViewModel);
 			ExplicitValues.Add(explicitValueViewModel);
-			Variable.ExplicitValues.Add(explicitValueViewModel.ExplicitValue);
+			Variable.VariableValue.ExplicitValues.Add(explicitValueViewModel.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
@@ -131,17 +114,14 @@ namespace AutomationModule.ViewModels
 		void OnRemove(ExplicitValueViewModel explicitValueViewModel)
 		{
 			ExplicitValues.Remove(explicitValueViewModel);
-			Variable.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
+			Variable.VariableValue.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
 		public RelayCommand<ExplicitValueViewModel> ChangeCommand { get; private set; }
 		void OnChange(ExplicitValueViewModel explicitValueViewModel)
 		{
-			if (IsList)
-				ProcedureHelper.SelectObject(SelectedObjectType, explicitValueViewModel);
-			else
-				ProcedureHelper.SelectObject(SelectedObjectType, ExplicitValue);
+			ProcedureHelper.SelectObject(SelectedObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => ExplicitValue);
 		}

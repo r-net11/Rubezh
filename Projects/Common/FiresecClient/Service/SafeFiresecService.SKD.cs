@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Common;
+﻿using Common;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace FiresecClient
 {
@@ -290,9 +289,9 @@ namespace FiresecClient
 		/// </summary>
 		/// <param name="device">Доменная модель контроллера</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public OperationResult<bool> SKDSyncronyseTime(SKDDevice device)
+		public OperationResult<bool> SKDSynchronizeTime(SKDDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDSyncronyseTime(device.UID); }, "SKDSyncronyseTime");
+			return SafeOperationCall(() => { return FiresecService.SKDSynchronizeTime(device.UID); }, "SKDSynchronizeTime");
 		}
 
 		public OperationResult<bool> SKDResetController(SKDDevice device)

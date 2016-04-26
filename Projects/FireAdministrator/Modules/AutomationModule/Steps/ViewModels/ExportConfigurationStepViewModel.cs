@@ -22,10 +22,10 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			IsExportDevices.Update(Procedure, ExplicitType.Boolean, isList: false);
-			IsExportZones.Update(Procedure, ExplicitType.Boolean, isList: false);
-			IsExportDoors.Update(Procedure, ExplicitType.Boolean, isList: false);
-			PathArgument.Update(Procedure, ExplicitType.String, isList: false);
+			IsExportDevices.Update(Procedure, ExplicitType.Boolean);
+			IsExportZones.Update(Procedure, ExplicitType.Boolean);
+			IsExportDoors.Update(Procedure, ExplicitType.Boolean);
+			PathArgument.Update(Procedure, ExplicitType.String);
 		}
 
 		public override string Description

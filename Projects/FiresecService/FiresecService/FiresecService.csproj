@@ -170,7 +170,6 @@
     <Compile Include="PatchManager\PatchManager.SKD.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Automation\ProcedureThread.Steps.cs" />
-    <Compile Include="Processor\SKDDaylyUpdateProcessor.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Resources\Language\Bootstrapper.Designer.cs">
       <DependentUpon>Bootstrapper.resx</DependentUpon>

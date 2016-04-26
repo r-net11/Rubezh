@@ -77,6 +77,8 @@ namespace StrazhModule.ViewModels
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 			IsEnabled = Device.IsEnabled;
+			OnPropertyChanged(() => PresentationZone);
+			OnPropertyChanged(() => EditingPresentationZone);
 		}
 
 		public string Address

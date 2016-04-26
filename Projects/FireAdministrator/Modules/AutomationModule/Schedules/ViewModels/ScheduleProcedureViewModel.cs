@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
+using FiresecAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -25,92 +26,93 @@ namespace AutomationModule.ViewModels
 		public void UpdateArguments()
 		{
 			Arguments = new List<ArgumentViewModel>();
-			int i = 0;
+			var i = 0;
+
 			if (ScheduleProcedure.Arguments == null)
 				ScheduleProcedure.Arguments = new List<Argument>();
+
 			foreach (var variable in Procedure.Arguments)
 			{
-				var argument = new Argument();
+				Argument argument;
+
 				if (ScheduleProcedure.Arguments.Count <= i)
-				{
 					argument = InitializeArgumemt(variable);
-				}
 				else
-				{
-					if (!CheckSignature(ScheduleProcedure.Arguments[i], variable))
-					{
-						argument = InitializeArgumemt(variable);
-					}
-					else
-						argument = ScheduleProcedure.Arguments[i];
-				}
-				var argumentViewModel = new ArgumentViewModel(argument, null, null, true, CallingProcedure != null);
-				argumentViewModel.Name = variable.Name;
-				argumentViewModel.IsList = variable.IsList;
-				argumentViewModel.Update(GetVariables(argumentViewModel), argumentViewModel.ExplicitType, argumentViewModel.EnumType, argumentViewModel.ObjectType, argumentViewModel.IsList);
+					argument = !CheckSignature(ScheduleProcedure.Arguments[i], variable)
+								? InitializeArgumemt(variable)
+								: ScheduleProcedure.Arguments[i];
+
+				var argumentViewModel = new ArgumentViewModel(argument, null, null, true, CallingProcedure != null) { Name = variable.Name };
+				argumentViewModel.Update(GetVariables(argumentViewModel), argumentViewModel.ExplicitType, argumentViewModel.EnumType, argumentViewModel.ObjectType);
 				Arguments.Add(argumentViewModel);
 				i++;
 			}
+
 			ScheduleProcedure.Arguments = new List<Argument>();
+
 			foreach (var argument in Arguments)
 				ScheduleProcedure.Arguments.Add(argument.Argument);
+
 			OnPropertyChanged(() => Arguments);
 		}
 
-		bool CheckSignature(Argument argument, Variable variable)
+		private static bool CheckSignature(Argument argument, IVariable variable)
 		{
-			if (argument.ExplicitType != variable.ExplicitType)
+			if (argument.ExplicitType != variable.VariableValue.ExplicitType)
 				return false;
 			if (argument.ExplicitType != ExplicitType.Object && argument.ExplicitType != ExplicitType.Enum)
 				return true;
 			if (argument.ExplicitType != ExplicitType.Object)
-				return (argument.ObjectType == variable.ObjectType);
+				return (argument.ObjectType == variable.VariableValue.ObjectType);
 			if (argument.ExplicitType != ExplicitType.Enum)
-				return (argument.EnumType == variable.EnumType);
+				return (argument.EnumType == variable.VariableValue.EnumType);
 			return false;
 		}
 
-		Argument InitializeArgumemt(Variable variable)
+		private static Argument InitializeArgumemt(IVariable variable)
 		{
-			var argument = new Argument();
-			argument.VariableScope = VariableScope.GlobalVariable;
-			argument.ExplicitType = variable.ExplicitType;
-			argument.EnumType = variable.EnumType;
-			argument.ObjectType = variable.ObjectType;
-			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
+			var argument = new Argument
+			{
+				VariableScope = VariableScope.GlobalVariable,
+				ExplicitType = variable.VariableValue.ExplicitType,
+				EnumType = variable.VariableValue.EnumType,
+				ObjectType = variable.VariableValue.ObjectType
+			};
+
+			PropertyCopy.Copy(variable.VariableValue.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
-			foreach (var explicitValue in variable.ExplicitValues)
+
+			foreach (var explicitValue in variable.VariableValue.ExplicitValues)
 			{
 				var newExplicitValue = new ExplicitValue();
 				PropertyCopy.Copy(explicitValue, newExplicitValue);
 				argument.ExplicitValues.Add(newExplicitValue);
 			}
+
 			return argument;
 		}
 
-		List<Variable> GetVariables(ArgumentViewModel argument)
+		List<IVariable> GetVariables(ArgumentViewModel argument)
 		{
-			List<Variable> allVariables;
-			if (CallingProcedure != null)
-				allVariables = ProcedureHelper.GetAllVariables(CallingProcedure);
-			else
-				allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			allVariables = allVariables.FindAll(x => x.ExplicitType == argument.ExplicitType && x.IsList == argument.IsList);
+			var allVariables = CallingProcedure != null
+				? ProcedureHelper.GetAllVariables(CallingProcedure)
+				: FiresecManager.FiresecService.GetInitialGlobalVariables().Result.ToList<IVariable>();
+			//	: new List<IVariable>();//(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables); TODO: Get global variables from the server
+
+			allVariables = allVariables.FindAll(x => x.VariableValue.ExplicitType == argument.ExplicitType);
+
 			if (argument.ExplicitType == ExplicitType.Object)
-				allVariables = allVariables.FindAll(x => x.ObjectType == argument.ObjectType);
+				allVariables = allVariables.FindAll(x => x.VariableValue.ObjectType == argument.ObjectType);
+
 			if (argument.ExplicitType == ExplicitType.Enum)
-				allVariables = allVariables.FindAll(x => x.EnumType == argument.EnumType);
+				allVariables = allVariables.FindAll(x => x.VariableValue.EnumType == argument.EnumType);
+
 			return allVariables;
 		}
 
 		public string Name
 		{
-			get
-			{
-				if (Procedure != null)
-					return Procedure.Name;
-				return "процедура не найдена";
-			}
+			get { return Procedure != null ? Procedure.Name : "процедура не найдена"; }
 		}
 	}
 }

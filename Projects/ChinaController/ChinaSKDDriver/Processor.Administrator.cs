@@ -69,7 +69,7 @@ namespace ChinaSKDDriver
 		/// </summary>
 		/// <param name="deviceUID">Идентификатор контроллера</param>
 		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
-		public static OperationResult<bool> SyncronyseTime(Guid deviceUID)
+		public static OperationResult<bool> SynchronizeTime(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
@@ -77,8 +77,7 @@ namespace ChinaSKDDriver
 				if (!deviceProcessor.IsConnected)
                     return OperationResult<bool>.FromError(string.Format(Resources.Language.ProcessorAdministrator.LoginFailure, deviceProcessor.Device.Name, deviceProcessor.LoginFailureReason));
 
-				var result = deviceProcessor.Wrapper.SetDateTime(DateTime.Now);
-				if (result)
+				if (deviceProcessor.Wrapper.SetDateTime(DateTime.Now))
 					return new OperationResult<bool>(true);
 				else
 					return OperationResult<bool>.FromError(Resources.Language.ProcessorAdministrator.SynchronyseTime_Error);

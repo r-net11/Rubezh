@@ -18,8 +18,8 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			IsWithDeleted.Update(Procedure, ExplicitType.Boolean, isList: false);
-			PathArgument.Update(Procedure, ExplicitType.String, isList: false);
+			IsWithDeleted.Update(Procedure, ExplicitType.Boolean);
+			PathArgument.Update(Procedure, ExplicitType.String);
 		}
 
 		public override string Description

@@ -164,6 +164,8 @@
     <Compile Include="Enums\ReportFormatEnum.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\RoundingType.cs" />
+    <Compile Include="Enums\ShellType.cs" />
+    <Compile Include="Extensions\GuidExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
@@ -173,6 +175,9 @@
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\ElementProperty.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
+    <Compile Include="Models\Automation\GlobalVariable.cs" />
+    <Compile Include="Models\Automation\IVariable.cs" />
+    <Compile Include="Models\Automation\LocalVariable.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ChangeListArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CheckPermissionArguments.cs" />
@@ -207,6 +212,7 @@
     <Compile Include="Journal\JournalSubsystemType.cs" />
     <Compile Include="IFiresecService.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
+    <Compile Include="Models\Automation\VariableValue.cs" />
     <Compile Include="Models\License\ILicenseData.cs" />
     <Compile Include="Models\License\LicenseData.cs" />
     <Compile Include="Resources\Language\Automation\Enums\AccessState.Designer.cs">
@@ -581,7 +587,6 @@
     <Compile Include="Models\Automation\StepArguments\UIArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RviAlarmArguments.cs" />
     <Compile Include="Models\Automation\VariableScope.cs" />
-    <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
     <Compile Include="Models\Layouts\LayoutPartTextProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartTimeProperties.cs" />

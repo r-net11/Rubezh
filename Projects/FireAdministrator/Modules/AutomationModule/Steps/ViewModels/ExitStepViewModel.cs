@@ -16,7 +16,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			ExitCodeArgument.Update(Procedure, ExplicitType.Integer, isList:false);
+			ExitCodeArgument.Update(Procedure, ExplicitType.Integer);
 		}
 
 		public override string Description

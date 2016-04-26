@@ -17,8 +17,8 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			PermissionArgument.Update(Procedure, ExplicitType.Enum, EnumType.PermissionType, isList: false);
-			ResultArgument.Update(Procedure, ExplicitType.Boolean, isList: false);
+			PermissionArgument.Update(Procedure, ExplicitType.Enum, EnumType.PermissionType);
+			ResultArgument.Update(Procedure, ExplicitType.Boolean);
 		}
 
 		public override string Description
