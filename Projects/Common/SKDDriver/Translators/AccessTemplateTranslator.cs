@@ -60,10 +60,18 @@ namespace SKDDriver
 			tableItem.Description = apiItem.Description;
 		}
 
+		/// <summary>
+		/// Сохраняет шаблон доступа
+		/// </summary>
+		/// <param name="item">Шаблон доступа</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public override OperationResult Save(AccessTemplate item)
 		{
+			// В базе "SKD" из таблицы "CardDoor" удаляем все записи ссылающиеся на данный шаблон доступа
 			var updateCardDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromAccessTemplate(item.UID);
+			// Сохраняем шаблон доступа
 			var result = base.Save(item);
+			// В базе "SKD" в таблицу "CardDoor" сохраняем все записи содержащиеся в данном шаблоне доступа
 			DatabaseService.CardDoorTranslator.Save(item.CardDoors);
 			return result;
 		}

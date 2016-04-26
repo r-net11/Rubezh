@@ -540,10 +540,12 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
+				// В журнал событий дабавляем запись о факте добавления/редактирования шаблона доступа
 				if (isNew)
 					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_доступа, item.Name, uid: item.UID);
 				else
 					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+
 				var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.UID);
 				var saveResult = databaseService.AccessTemplateTranslator.Save(item);
 

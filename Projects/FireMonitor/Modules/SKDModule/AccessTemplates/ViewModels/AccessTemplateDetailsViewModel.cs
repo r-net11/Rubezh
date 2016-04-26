@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Windows.Navigation;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Services;
@@ -13,6 +14,7 @@ namespace SKDModule.ViewModels
 		Organisation Organisation { get; set; }
 		public AccessTemplate Model { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
+		public DeactivatingReadersSelectationViewModel DeactivatingReadersSelectationViewModel { get; private set; }
 		bool _isNew;
 		public AccessTemplateDetailsViewModel() {  }
 		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
@@ -30,6 +32,7 @@ namespace SKDModule.ViewModels
 			Model = accessTemplate;
 			CopyProperties();
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors);
+			DeactivatingReadersSelectationViewModel = new DeactivatingReadersSelectationViewModel(AccessDoorsSelectationViewModel.GetSelectedDoorsUids());
 			return true;
 		}
 

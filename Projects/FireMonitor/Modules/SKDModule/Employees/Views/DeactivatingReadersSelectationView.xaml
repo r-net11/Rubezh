@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="SKDModule.Views.DeactivatingReadersSelectationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:listViewManager="clr-namespace:Controls.ListViewLayoutManager;assembly=Controls">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<TextBlock
+			Grid.Row="0"
+			Text="Отметьте считыватели, уменьшающие разрешенное число проходов для гостевых пропусков"
+			Foreground="{DynamicResource ForegroundColorLight}"
+			TextWrapping="Wrap"
+			Margin="5"/>
+		<tree:TreeList
+			Grid.Row="1"
+			Source="{Binding Readers}"
+			Focusable="False"
+			listViewManager:ListViewLayoutManager.Enabled="True"
+			ScrollViewer.IsDeferredScrollingEnabled="True"
+			VirtualizingStackPanel.IsVirtualizing="True"
+			VirtualizingStackPanel.VirtualizationMode="Recycling"
+			tree:SortBehavior.CanUserSortColumns="False">
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn
+						Header="Считыватель"
+						Width="250">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<CheckBox
+										IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										Visibility="{Binding IsReader, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<Image
+										Width="16" Margin="2"
+										Source="/Controls;component/Images/Door.png"
+										Visibility="{Binding IsReader, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+									<Image
+										Width="16" Margin="2"
+										Source="/Controls;component/SKDIcons/Reader.png"
+										Visibility="{Binding IsReader, Converter={StaticResource BoolToVisibilityConverter}}"/>
+									<TextBlock Text="{Binding Name}"/>
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn
+						Header="Ведет в зону"
+						listViewManager:ProportionalColumn.Width="1">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock
+									Text="{Binding ZoneName}"
+									Visibility="{Binding IsReader, Converter={StaticResource BoolToVisibilityConverter}}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
+    </Grid>
+</UserControl>

@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
 using Microsoft.Practices.Prism;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -22,13 +25,24 @@ namespace SKDModule.ViewModels
 			var skdDoors = GetDoors(SKDManager.SKDConfiguration.Doors, organisation);
 			var accessDoorViewModels =
 				skdDoors
-				.Select(skdDoor => new AccessDoorViewModel(skdDoor, CardDoors, x => { SelectedDoor = x; }))
+				.Select(skdDoor => new AccessDoorViewModel(skdDoor, CardDoors, x =>
+				{
+					SelectedDoor = x;
+					ServiceFactory.Events.GetEvent<AccessTemplateDoorsSelectedEvent>().Publish(GetSelectedDoorsUids());
+				}))
 				.ToList();
 
 			Doors.AddRange(accessDoorViewModels);
 
 			SelectedDoor = Doors.FirstOrDefault(x => x.IsChecked);
 		}
+
+		public List<Guid> GetSelectedDoorsUids()
+		{
+			var result = Doors.Where(x => x.IsChecked).Select(y => y.DoorUID).ToList();
+			return result;
+		}
+
 		public AccessDoorsSelectationViewModel()
 		{
 		}
