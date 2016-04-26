@@ -29,7 +29,7 @@ namespace EntitiesValidation
 				: existingDayIntervalPart.EndTime.Add(TimeSpan.FromDays(1))).ToList();
 
 			return existingEndTimes.Any(x => x >= endTime)
-				? OperationResult<bool>.FromError("Интервалы должны идти последовательно")
+				? OperationResult<bool>.FromError(Resources.Language.DayIntervalPartValidator.ValidateNewDayIntervalPartOrder_Error)
 				: new OperationResult<bool>(true);
 		}
 
@@ -42,7 +42,7 @@ namespace EntitiesValidation
 		public static OperationResult<bool> ValidateNewDayIntervalPartIntersection(DayIntervalPart dayIntervalPart, IEnumerable<DayIntervalPart> otherDayIntervalParts)
 		{
 			return otherDayIntervalParts.Any(x => x.HasIntersectionWith(dayIntervalPart))
-				? OperationResult<bool>.FromError("Интервалы не должны пересекаться")
+				? OperationResult<bool>.FromError(Resources.Language.DayIntervalPartValidator.ValidateNewDayIntervalPartIntersection_Error)
 				: new OperationResult<bool>(true);
 		}
 
@@ -54,7 +54,7 @@ namespace EntitiesValidation
 		public static OperationResult<bool> ValidateNewDayIntervalPartLength(DayIntervalPart dayIntervalPart)
 		{
 			return dayIntervalPart.IsZeroLength()
-				? OperationResult<bool>.FromError("Интервал не может иметь нулевую продолжительность")
+				? OperationResult<bool>.FromError(Resources.Language.DayIntervalPartValidator.ValidateNewDayIntervalPartLength_Error)
 				: new OperationResult<bool>(true);
 		}
 
@@ -76,9 +76,9 @@ namespace EntitiesValidation
 				generalLength = generalLength.Add(GetDayIntervalPartLength(dayIntervalPart));
 			return generalLength < slideTime
 				? OperationResult<bool>.FromError(String.Format(
-					"Суммарная продолжительность интервалов дневного графика ({0}) должна быть больше или равна обязательной продолжительности скользящего графика ({1})",
-					String.Format("{0} ч {1} мин", generalLength.Hours, generalLength.Minutes),
-					String.Format("{0} ч {1} мин", slideTime.Hours, slideTime.Minutes)))
+					Resources.Language.DayIntervalPartValidator.ValidateGeneralDayIntervalPartsLengthOnEditingOrDeleting_Error,
+					string.Format(Resources.Language.DayIntervalPartValidator.GeneralLength, generalLength.Hours, generalLength.Minutes),
+					string.Format(Resources.Language.DayIntervalPartValidator.SlideTime, slideTime.Hours, slideTime.Minutes)))
 				: new OperationResult<bool>(true);
 		}
 
@@ -110,7 +110,7 @@ namespace EntitiesValidation
 
 			return dayIntervalPart.TransitionType == DayIntervalPartTransitionType.Night
 				? OperationResult<bool>.FromError(
-					"Для добавления интервала с переходом необходимо установить в поле \"Суммарная продолжительность интервалов дневного графика\" значение 0")
+					Resources.Language.DayIntervalPartValidator.ValidateDayIntervalPartWithTransitionOnAddingOrEditing_Error)
 				: new OperationResult<bool>(true);
 		}
 	}

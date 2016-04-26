@@ -10,8 +10,8 @@ namespace FiresecAPI.SKD
 			var driver = new SKDDriver()
 			{
 				UID = new Guid("55275074-0665-4951-8A0D-85BF51533B59"),
-				Name = "Двухдверный контроллер",
-				ShortName = "Контроллер",
+                Name = Resources.Language.SKD.SKDManager.ChinaController_2_Helper.Name,
+                ShortName = Resources.Language.SKD.SKDManager.ChinaController_2_Helper.ShortName,
 				DriverType = SKDDriverType.ChinaController_2,
 				IsPlaceable = true
 			};

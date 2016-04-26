@@ -128,7 +128,7 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="Cursor",
-					ToolTip="Указатель",
+					ToolTip=Resources.Language.ToolboxViewModel.Cursor,
 					Adorner = new RubberbandAdorner(DesignerCanvas),
 					Index = 0,
 					Autostart = false
@@ -136,14 +136,14 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="Pen",
-					ToolTip="Редактирование фигур",
+					ToolTip=Resources.Language.ToolboxViewModel.Pen,
 					Index = 1,
 					Adorner = new PointsAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="Line",
-					ToolTip="Линия",
+					ToolTip=Resources.Language.ToolboxViewModel.Line,
 					Index = 1011,
 					Adorner = new PolylineAdorner(DesignerCanvas),
 					GroupIndex = 1010,
@@ -151,7 +151,7 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="Rectangle",
-					ToolTip="Прямоугольник",
+					ToolTip=Resources.Language.ToolboxViewModel.Rectangle,
 					Index = 1012,
 					Adorner = new RectangleAdorner(DesignerCanvas),
 					GroupIndex = 1010,
@@ -159,7 +159,7 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="Ellipse",
-					ToolTip="Эллипс",
+					ToolTip=Resources.Language.ToolboxViewModel.Ellipse,
 					Index = 1013,
 					Adorner = new ElipseAdorner(DesignerCanvas),
 					GroupIndex = 1010,
@@ -167,7 +167,7 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="Polygon",
-					ToolTip="Многоугольник",
+					ToolTip=Resources.Language.ToolboxViewModel.Polygon,
 					Index = 1014,
 					Adorner = new PolygonAdorner(DesignerCanvas),
 					GroupIndex = 1010,
@@ -175,14 +175,14 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="Font",
-					ToolTip="Текст",
+					ToolTip=Resources.Language.ToolboxViewModel.Font,
 					Index = 1005,
 					Adorner = new TextBoxAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="GridLineHorizontal",
-					ToolTip="Добавить горизонтальную линию привязки",
+					ToolTip=Resources.Language.ToolboxViewModel.GridLineHorizontal,
 					Index = 1501,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Horizontal),
 					GroupIndex = 1501,
@@ -190,7 +190,7 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="GridLineVertical",
-					ToolTip="Добавить вертикальную линию привязки",
+					ToolTip=Resources.Language.ToolboxViewModel.GridLineVertical,
 					Index = 1502,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Vertical),
 					GroupIndex = 1501,
@@ -198,7 +198,7 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="GridLineEdit",
-					ToolTip="Удалить линии привязки",
+					ToolTip=Resources.Language.ToolboxViewModel.GridLineEdit,
 					Index = 1503,
 					Command = DesignerCanvas.RemoveGridLinesCommand,
 				},

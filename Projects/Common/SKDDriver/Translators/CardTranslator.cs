@@ -25,7 +25,7 @@ namespace SKDDriver
 				x.Number == item.Number &&
 				x.UID != item.UID);
 			if (isSameNumber)
-				return new OperationResult("Попытка добавить карту с повторяющимся номером");
+                return new OperationResult(Resources.Language.CardTranslator.CanSave_Error);
 			else
 				return new OperationResult();
 		}
@@ -129,7 +129,7 @@ namespace SKDDriver
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == card.UID);
 				if (tableItem == null)
-					return new OperationResult("Карта не найдена в базе данных");
+                    return new OperationResult(Resources.Language.CardTranslator.SavePassTemplate_Error);
 				tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -237,7 +237,7 @@ namespace SKDDriver
 			{
 				var card = Table.FirstOrDefault(x => x.Number == cardNo);
 				if (card == null)
-					return OperationResult<SKDCard>.FromError("Карта не найдена");
+                    return OperationResult<SKDCard>.FromError(Resources.Language.CardTranslator.Get_Error);
 
 				return new OperationResult<SKDCard>(Translate(card));
 			}
@@ -259,7 +259,7 @@ namespace SKDDriver
 						return new OperationResult<Guid>(card.EmployeeUID.Value);
 				}
 				{
-					return OperationResult<Guid>.FromError("Карта не найдена");
+					return OperationResult<Guid>.FromError(Resources.Language.CardTranslator.Get_Error);
 				}
 			}
 			catch (Exception e)

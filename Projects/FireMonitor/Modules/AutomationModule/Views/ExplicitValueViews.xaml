@@ -2,7 +2,8 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+             xmlns:res="clr-namespace:AutomationModule.Resources.Language">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -12,22 +13,22 @@
 		<StackPanel Orientation="Vertical" Grid.Row="0" HorizontalAlignment="Stretch">
 			<StackPanel Visibility="{Binding IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}" HorizontalAlignment="Right" Height="28">
-					<Label Content="Значение" />
+					<Label Content="{x:Static res:ExplicitValueViews.Value}" />
 					<extToolkit:IntegerUpDown Width="200" Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" HorizontalAlignment="Right" Height="28">
-					<Label Content="Значение" HorizontalAlignment="Left" />
+					<Label Content="{x:Static res:ExplicitValueViews.Value}" HorizontalAlignment="Left" />
 					<CheckBox IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Width="202" Margin="2,7,0,0" />
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}" HorizontalAlignment="Right" Height="28">
-					<Label Content="Значение" />
+					<Label Content="{x:Static res:ExplicitValueViews.Value}" />
 					<TextBox Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Width="200" Margin="2" />
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" HorizontalAlignment="Right" Height="28"  >
-					<Label Content="Значение" />
+					<Label Content="{x:Static res:ExplicitValueViews.Value}" />
 					<extToolkit:DateTimePicker Value = "{Binding ExplicitValue.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
 				</StackPanel>
 

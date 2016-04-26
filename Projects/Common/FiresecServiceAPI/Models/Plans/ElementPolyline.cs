@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementPolyline()
 		{
-			PresentationName = "Линия";
+            PresentationName = Resources.Language.Models.Plans.ElementPolyline.PresentationName;
 		}
 
 		public override ElementBase Clone()

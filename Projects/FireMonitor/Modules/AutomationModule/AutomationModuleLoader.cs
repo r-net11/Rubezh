@@ -104,11 +104,11 @@ namespace AutomationModule
 					{
 						if (messageArguments.WithConfirmation)
 						{
-							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, "Сообщение");
+							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, Resources.Language.AutomationModuleLoader.Message);
 							FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.CallbackUID, confirm);
 						}
 						else
-							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
+							MessageBoxService.ShowExtended(messageArguments.Message, Resources.Language.AutomationModuleLoader.Message, messageArguments.IsModalWindow);
 					});
 					break;
 				case AutomationCallbackType.Property:
@@ -153,11 +153,11 @@ namespace AutomationModule
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 #if DEBUG
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Automation, "Процедураы", "Procedure.png", p => ProceduresViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Automation, Resources.Language.AutomationModuleLoader.Procedures, "Procedure.png", p => ProceduresViewModel);
 #endif
-			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedure.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBlock, "Метка", "Text.png", p => new LayoutTextBlockPartViewModel((LayoutPartTextProperties)p));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBox, "Текстовое поле", "Text.png", p => new LayoutTextBoxPartViewModel((LayoutPartTextProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, Resources.Language.AutomationModuleLoader.Procedure, "Procedure.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBlock, Resources.Language.AutomationModuleLoader.TextBlock, "Text.png", p => new LayoutTextBlockPartViewModel((LayoutPartTextProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBox, Resources.Language.AutomationModuleLoader.TextBox, "Text.png", p => new LayoutTextBoxPartViewModel((LayoutPartTextProperties)p));
 		}
 		#endregion
 	}

@@ -1,31 +1,40 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
 	public enum ObjectType
 	{
-		[DescriptionAttribute("СКД-устройство")]
+		//[DescriptionAttribute("СКД-устройство")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "SKDDevice")]
 		SKDDevice,
 
-		[DescriptionAttribute("СКД-зона")]
-		SKDZone,
+		//[DescriptionAttribute("СКД-зона")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "SKDZone")]
+        SKDZone,
 
-		[DescriptionAttribute("Видеоустройство")]
+		//[DescriptionAttribute("Видеоустройство")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "VideoDevice")]
 		VideoDevice,
 
-		[DescriptionAttribute("Точка доступа")]
-		Door,
+		//[DescriptionAttribute("Точка доступа")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "Door")]
+        Door,
 
-		[DescriptionAttribute("Организация")]
-		Organisation,
+		//[DescriptionAttribute("Организация")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "Organisation")]
+        Organisation,
 
-		[DescriptionAttribute("Пользователь")]
-		User,
+		//[DescriptionAttribute("Пользователь")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "User")]
+        User,
 
-		[DescriptionAttribute("Сотрудник")]
-		Employee,
+		//[DescriptionAttribute("Сотрудник")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "Employee")]
+        Employee,
 
-		[DescriptionAttribute("Посетитель")]
-		Visitor
+		//[DescriptionAttribute("Посетитель")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.ObjectType), "Visitor")]
+        Visitor
 	}
 }

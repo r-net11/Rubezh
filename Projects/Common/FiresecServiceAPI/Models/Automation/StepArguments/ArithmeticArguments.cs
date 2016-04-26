@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -34,37 +35,47 @@ namespace FiresecAPI.Automation
 
 	public enum ArithmeticOperationType
 	{
-		[Description("Сложение")]
+		//[Description("Сложение")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Add")]
 		Add,
 
-		[Description("Вычитание")]
-		Sub,
+		//[Description("Вычитание")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Sub")]
+        Sub,
 
-		[Description("Умножение")]
-		Multi,
+		//[Description("Умножение")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Multi")]
+        Multi,
 
-		[Description("Деление")]
-		Div,
+		//[Description("Деление")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Div")]
+        Div,
 
-		[Description("И")]
-		And,
+		//[Description("И")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "And")]
+        And,
 
-		[Description("Или")]
-		Or
+		//[Description("Или")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Or")]
+        Or
 	}
 
 	public enum TimeType
 	{
-		[Description("секунд")]
-		Sec,
+		//[Description("секунд")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Sec")]
+        Sec,
 
-		[Description("минут")]
-		Min,
+		//[Description("минут")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Min")]
+        Min,
 
-		[Description("часов")]
-		Hour,
+		//[Description("часов")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Hour")]
+        Hour,
 
-		[Description("дней")]
-		Day
+		//[Description("дней")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ArithmeticArguments), "Day")]
+        Day
 	}
 }

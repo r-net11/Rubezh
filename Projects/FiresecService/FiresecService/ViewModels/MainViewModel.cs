@@ -2,23 +2,32 @@
 using System.ComponentModel;
 using FiresecAPI.Models;
 using FiresecService.Service;
+using FiresecServiceRunner;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Threading;
 using KeyGenerator;
 using KeyGenerator.Entities;
+using Microsoft.Practices.EnterpriseLibrary.Common.Properties;
+using Microsoft.SqlServer.Management.Smo;
+using Resources = FiresecService.Properties.Resources;
 
 namespace FiresecService.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
-	{
-		private const string LicLoadAccept = "Лицензия загружена";
-		private const string LicLoadFailed = "Лицензия отстутствует";
+    {
+        //private const string LicLoadAccept = "Лицензия загружена";
+        //private const string LicLoadFailed = "Лицензия отстутствует";
 
+	    //private string LicLoadAccept = (string) Application.Current.FindResource("lang_LicLoadAccept");
+        //private string LicLoadFailed = (string) Application.Current.FindResource("lang_LicLoadFailed");
+        private string LicLoadAccept = Resources.Language.MainViewModel.LicLoadAccept;
+        private string LicLoadFailed = Resources.Language.MainViewModel.LicLoadFailed;
 		public static MainViewModel Current { get; private set; }
 
 		private Dictionary<string, string> _licenseItems;
@@ -58,7 +67,9 @@ namespace FiresecService.ViewModels
 			_currentLicenseManager = currentLicenseManager;
 			LoadLicenseCommand = new RelayCommand(OnLoadLicense);
 			Current = this;
-			Title = "Сервер приложений";
+			//Title = "Сервер приложений";
+		    //Title = (string) Application.Current.FindResource("lang_MainWindow_Title");
+            Title = Resources.Language.MainViewModel.MainWindow_Title;
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
 			LicenseItems = GetLicenseDictionary(currentLicenseManager.CurrentLicense);
@@ -102,10 +113,13 @@ namespace FiresecService.ViewModels
 		private static string PropertyConverter(object propertyValue)
 		{
 			if (propertyValue is bool)
-				return (bool) propertyValue ? "Включено" : "Отсутствует";
-			if (propertyValue is int)
-				return (int) propertyValue != default (int) ? ((int) propertyValue).ToString() : "Отсутствует";
-
+				//return (bool) propertyValue ? "Включено" : "Отсутствует";
+                //return (bool)propertyValue ? (string)Application.Current.FindResource("lang_PropertyValue_IsOn") : (string)Application.Current.FindResource("lang_PropertyValue_IsOff");
+                return (bool)propertyValue ? Resources.Language.MainViewModel.PropertyValue_IsOn : Resources.Language.MainViewModel.PropertyValue_IsOff;
+            if (propertyValue is int)
+                //return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : "Отсутствует";
+                //return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : (string)Application.Current.FindResource("lang_PropertyValue_IsOff");
+                return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : Resources.Language.MainViewModel.PropertyValue_IsOff;
 			return string.Empty;
 		}
 
@@ -223,9 +237,13 @@ namespace FiresecService.ViewModels
 				UpdateLicenseStatus();
 			}
 			else
-				MessageBoxService.ShowError(
-					"Выбранный файл не является файлом лицензии и не может быть использован для активации сервера. Выберите другой файл",
-					"Ошибка чтения файла лицензии");
+                //MessageBoxService.ShowError(
+                //    "Выбранный файл не является файлом лицензии и не может быть использован для активации сервера. Выберите другой файл",
+                //    "Ошибка чтения файла лицензии");
+                //MessageBoxService.ShowError(
+                //    (string)Application.Current.FindResource("lang_OnLoadLicense_ErrorText"),
+                //    (string)Application.Current.FindResource("lang_OnLoadLicense_ErrorHeader"));
+                MessageBoxService.ShowError(Resources.Language.MainViewModel.OnLoadLicense_ErrorText, Resources.Language.MainViewModel.OnLoadLicense_ErrorHeader);
 		}
 
 		public RelayCommand ReleaseClientsCommand { get; private set; }

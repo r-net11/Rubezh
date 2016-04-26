@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementEllipse()
 		{
-			PresentationName = "Эллипс";
+            PresentationName = Resources.Language.Models.Plans.ElementEllipse.PresentationName;
 		}
 
 		public override ElementBase Clone()

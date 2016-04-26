@@ -8,7 +8,7 @@ namespace Controls.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var val = parameter != null && System.Convert.ToBoolean(parameter) ? !(bool)value : (bool)value;
-			return val ? "Свернуть" : "Развернуть";
+			return val ? Resources.Language.BoolToMinimizeTooltipConverter.Minimize : Resources.Language.BoolToMinimizeTooltipConverter.Maximize;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

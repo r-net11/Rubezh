@@ -16,7 +16,7 @@ namespace FiresecAPI.SKD
 			return new DayInterval
 			{
 				UID = Guid.Empty,
-				Name = "Никогда",
+				Name = Resources.Language.SKD.TimeTrack.DayIntervalCreator.Name,
 			};
 		}
 	}

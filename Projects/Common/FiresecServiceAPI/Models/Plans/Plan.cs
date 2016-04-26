@@ -22,7 +22,7 @@ namespace FiresecAPI.Models
 			UID = Guid.NewGuid();
 			Children = new List<Plan>();
 			ElementSubPlans = new List<ElementSubPlan>();
-			Caption = "Новый план";
+            Caption = Resources.Language.Models.Plans.Plan.Caption;
 			Width = 297;
 			Height = 210;
 			BackgroundColor = Colors.White;

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Automation.Enums
 {
@@ -10,13 +11,15 @@ namespace FiresecAPI.Automation.Enums
 		/// <summary>
 		/// Дверь открыта
 		/// </summary>
-		[Description("Открыто")]
+		//[Description("Открыто")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.DoorStatus), "Opened")]
 		Opened,
 		
 		/// <summary>
 		/// Дверь закрыта
 		/// </summary>
-		[Description("Закрыто")]
+        //[Description("Закрыто")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.DoorStatus), "Closed")]
 		Closed
 	}
 }

@@ -18,15 +18,15 @@ namespace FiresecService.Service
 			_notifyIcon.Visible = true;
 
 			_notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
-			var menuItem1 = new System.Windows.Forms.MenuItem {Text = "Показать"};
+			var menuItem1 = new System.Windows.Forms.MenuItem {Text = Resources.Language.NotifyIconService.Start_menuItem1_Text};
 			menuItem1.Click += onShow;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem1);
 
-			var menuItem2 = new System.Windows.Forms.MenuItem {Text = "Выход"};
+			var menuItem2 = new System.Windows.Forms.MenuItem {Text = Resources.Language.NotifyIconService.Start_menuItem2_Text};
 			menuItem2.Click += onClose;
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 
-			_notifyIcon.Text = "Сервер приложений";
+			_notifyIcon.Text = Resources.Language.NotifyIconService.Start_NotifyIcon_Text;
 		}
 
 		public static void Stop()

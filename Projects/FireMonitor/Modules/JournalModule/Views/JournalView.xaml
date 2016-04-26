@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="clr-namespace:JournalModule.Resources.Language"
 	Loaded="UserControl_Loaded"
 	d:DesignHeight="350"
 	d:DesignWidth="650"
@@ -27,7 +28,7 @@
 			ItemsSource="{Binding JournalItems, IsAsync=True}"
 			SelectedItem="{Binding SelectedJournal}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="150" Header="Дата на устройстве">
+				<DataGridTemplateColumn Width="150" Header="{x:Static res:JournalView.DeviceDate}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock
@@ -38,7 +39,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="150" Header="Дата в системе">
+				<DataGridTemplateColumn MinWidth="150" Header="{x:Static res:JournalView.SystemDate}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock
@@ -49,7 +50,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Название">
+				<DataGridTemplateColumn Width="*" Header="{x:Static res:JournalView.Name}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -69,7 +70,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Уточнение">
+				<DataGridTemplateColumn Width="*" Header="{x:Static res:JournalView.Description}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -92,7 +93,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="150" Header="Объект">
+				<DataGridTemplateColumn Width="150" Header="{x:Static res:JournalView.Object}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -114,14 +115,14 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Пользователь">
+				<DataGridTemplateColumn Width="*" Header="{x:Static res:JournalView.User}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Margin="5 0 0 0" Text="{Binding JournalItem.UserName}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Подсистема">
+				<DataGridTemplateColumn Width="*" Header="{x:Static res:JournalView.SubSystem}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -146,15 +147,15 @@
 									<IconedMenuItem
 										Command="{Binding ShowOnPlanCommand}"
 										ImageSource="BMap"
-										Text="Показать на плане" />
+										Text="{x:Static res:JournalView.ShowOnPlan}" />
 									<IconedMenuItem
 										Command="{Binding ShowObjectCommand}"
 										ImageSource="BTree"
-										Text="Показать" />
+										Text="{x:Static res:JournalView.Show}" />
 									<IconedMenuItem
 										Command="{Binding ShowPropertiesCommand}"
 										ImageSource="BSettings"
-										Text="Свойства" />
+										Text="{x:Static res:JournalView.Settings}" />
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>
@@ -216,7 +217,7 @@
 						Grid.Row="0"
 						Grid.Column="0"
 						Margin="2"
-						Text="Дата в системе" />
+						Text="{x:Static res:JournalView.SystemDate}" />
 					<TextBlock
 						Grid.Row="0"
 						Grid.Column="1"
@@ -228,7 +229,7 @@
 						Grid.Row="1"
 						Grid.Column="0"
 						Margin="2"
-						Text="Дата на устройстве" />
+						Text="{x:Static res:JournalView.DeviceDate}" />
 					<TextBlock
 						Grid.Row="1"
 						Grid.Column="1"
@@ -240,7 +241,7 @@
 						Grid.Row="2"
 						Grid.Column="0"
 						Margin="2"
-						Text="Событие" />
+						Text="{x:Static res:JournalView.Event}" />
 					<StackPanel
 						Grid.Row="2"
 						Grid.Column="1"
@@ -263,7 +264,7 @@
 						Grid.Row="3"
 						Grid.Column="0"
 						Margin="2"
-						Text="Уточнение" />
+						Text="{x:Static res:JournalView.Description}" />
 					<TextBlock
 						Grid.Row="3"
 						Grid.Column="1"
@@ -284,7 +285,7 @@
 						Grid.Row="5"
 						Grid.Column="0"
 						Margin="2"
-						Text="Пользователь" />
+						Text="{x:Static res:JournalView.User}" />
 					<TextBlock
 						Grid.Row="5"
 						Grid.Column="1"
@@ -295,7 +296,7 @@
 						Grid.Row="6"
 						Grid.Column="0"
 						Margin="2"
-						Text="Подсистема" />
+						Text="{x:Static res:JournalView.SubSystem}" />
 					<StackPanel
 						Grid.Row="6"
 						Grid.Column="1"
@@ -315,7 +316,7 @@
 						Width="100"
 						Margin="2"
 						Command="{Binding ShowVideoCommand}"
-						Content="Показать видео" />
+						Content="{x:Static res:JournalView.ShowVideo}" />
 				</Grid>
 				<!--  Правая панель  -->
 				<StackPanel Grid.Column="1">

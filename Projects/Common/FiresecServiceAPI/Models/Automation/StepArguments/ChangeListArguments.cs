@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Security.RightsManagement;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -24,13 +26,16 @@ namespace FiresecAPI.Automation
 
 	public enum ChangeType
 	{
-		[Description("Добавить в конец")]
+		//[Description("Добавить в конец")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ChangeListArguments), "AddLast")]
 		AddLast,
 
-		[Description("Удалить первый")]
-		RemoveFirst,
+		//[Description("Удалить первый")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ChangeListArguments), "RemoveFirst")]
+        RemoveFirst,
 
-		[Description("Удалить все")]
-		RemoveAll
+		//[Description("Удалить все")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ChangeListArguments), "RemoveAll")]
+        RemoveAll
 	}
 }

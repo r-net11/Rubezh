@@ -2,7 +2,8 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+             xmlns:res="clr-namespace:AutomationModule.Resources.Language">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
@@ -37,7 +38,7 @@
 			<TextBlock Margin="7 7 0 0" VerticalAlignment="Top" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}">
 					<Hyperlink  Command="{Binding ChangeCommand}" Style="{StaticResource HyperlinkStyle}">
 						<TextBlock Text="{Binding ExplicitValue.PresentationName}" Visibility="{Binding ExplicitValue.IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-						<TextBlock Text="Нажмите для выбора объекта">
+						<TextBlock Text="{x:Static res:ArgumentView.ChooseObject}">
 							<TextBlock.Style>
 								<Style>
 									<Setter Property="TextBlock.Visibility" Value="Collapsed" />

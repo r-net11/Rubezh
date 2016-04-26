@@ -333,7 +333,7 @@ namespace ChinaSKDDriver
 				{
 					var getLastJournalItemTimeProducedByControllerEvent = new AutoResetEvent(false);
 #if DEBUG
-					Logger.Info(String.Format("Контроллер \"{0}\" стал доступным по сети. Запускаем задачу чтения оффлайн логов.", Device.Name));
+					Logger.Info(String.Format(Resources.Language.DeviceProcessor.OnConnectionChanged_IsConnected_OfflineLogStart_Logger, Device.Name));
 #endif
 					Task.Factory.StartNew(() =>
 					{
@@ -348,7 +348,7 @@ namespace ChinaSKDDriver
 							}
 						}
 #if DEBUG
-						Logger.Info(String.Format("Задача чтения оффлайн логов для контроллера \"{0}\" завершилась.", Device.Name));
+						Logger.Info(String.Format(Resources.Language.DeviceProcessor.OnConnectionChanged_IsConnected_OfflineLogEnd_Logger, Device.Name));
 #endif
 					});
 

@@ -10,8 +10,8 @@ namespace FiresecAPI.SKD
 			var driver = new SKDDriver()
 			{
 				UID = new Guid("E54EC896-178E-46F0-844F-0B8BE1770F44"),
-				Name = "Считыватель",
-				ShortName = "Считыватель",
+				Name = Resources.Language.SKD.SKDManager.ReaderHelper.Name,
+                ShortName = Resources.Language.SKD.SKDManager.ReaderHelper.ShortName,
 				DriverType = SKDDriverType.Reader,
 				HasZone = true,
 				IsPlaceable = true

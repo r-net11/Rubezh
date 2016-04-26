@@ -133,7 +133,7 @@ namespace SKDDriver
 			try
 			{
 				if (typeUID == Guid.Empty)
-					return new OperationResult("Не задан идентификатор");
+					return new OperationResult(Resources.Language.AdditionalColumnTranslator.DeleteAllByType_Error);
 				var databaseItems = Table.Where(x => x.AdditionalColumnTypeUID.Equals(typeUID));
 				if (databaseItems != null && databaseItems.Count() > 0)
 				{

@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementPolygonSKDZone()
 		{
-			PresentationName = "Зона Страж";
+            PresentationName = Resources.Language.Models.Plans.ElementPolygonSKDZones.PresentationName;
 		}
 
 		[DataMember]

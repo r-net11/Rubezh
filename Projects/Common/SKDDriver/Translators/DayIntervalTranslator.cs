@@ -28,7 +28,7 @@ namespace SKDDriver.Translators
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult("Дневной график с таким же названием уже существует");
+				return new OperationResult(Resources.Language.DayIntervalTranslator.CanSave_Error);
 			else
 				return new OperationResult();
 		}

@@ -18,7 +18,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public DateSelectionViewModel(DateTime dateTime)
 		{
-			Title = "Выберите дату";
+			Title = Resources.Language.DateSelectionViewModel.DateSelectionViewModel_Title;
 			DateTime = dateTime;
 		}
 	}

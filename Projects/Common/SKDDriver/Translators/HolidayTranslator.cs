@@ -65,7 +65,7 @@ namespace SKDDriver.Translators
 			
 			var holidayToRestore = Table.FirstOrDefault(x => x.UID == uid);
 			if (holidayToRestore == null)
-				return new OperationResult(String.Format("Отсутствует праздничный день с UID='{0}'", uid));
+				return new OperationResult(string.Format(Resources.Language.HolidayTranslator.CanRestore_Error, uid));
 
 			return Validate(Translate(holidayToRestore));
 		}
@@ -85,7 +85,7 @@ namespace SKDDriver.Translators
 				&& x.Name == holiday.Name
 				&& x.Date.Year == holiday.Date.Year
 				&& !x.IsDeleted))
-				return new OperationResult("Праздничный день с таким названием уже существует");
+				return new OperationResult(Resources.Language.HolidayTranslator.Validate_HolidayDateYear_Error);
 
 			// Для одной организации нельзя ввести два праздничных дня на одну и ту же дату
 			if (Table.Any(x =>
@@ -93,7 +93,7 @@ namespace SKDDriver.Translators
 				&& x.OrganisationUID == holiday.OrganisationUID
 				&& x.Date.Date == holiday.Date.Date
 				&& !x.IsDeleted))
-				return new OperationResult(String.Format("Праздничный день введенный на дату {0} уже существует", holiday.Date.ToString("d")));
+				return new OperationResult(string.Format(Resources.Language.HolidayTranslator.Validate_HolidayDateDay_Error, holiday.Date.ToString("d")));
 
 			// Для одной организации нельзя ввести два праздничных дня типа "Рабочий выходной" с одной и той же датой переноса
 			if (Table.Any(x =>
@@ -103,7 +103,7 @@ namespace SKDDriver.Translators
 				&& (HolidayType)x.Type == holiday.Type
 				&& x.TransferDate == holiday.TransferDate
 				&& !x.IsDeleted))
-				return new OperationResult(String.Format("Рабочий выходной, имеющий дату переноса {0} уже существует", holiday.Date.ToString("d")));
+				return new OperationResult(string.Format(Resources.Language.HolidayTranslator.Validate_HolidayTransferDate, holiday.Date.ToString("d")));
 
 			return new OperationResult();
 		}

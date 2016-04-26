@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -32,31 +33,40 @@ namespace FiresecAPI.Automation
 
 	public enum ConditionType
 	{
-		[Description("равно")]
+		//[Description("равно")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsEqual")]
 		IsEqual,
 
-		[Description("не равно")]
-		IsNotEqual,
+		//[Description("не равно")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsNotEqual")]
+        IsNotEqual,
 
-		[Description("больше")]
-		IsMore,
+		//[Description("больше")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsMore")]
+        IsMore,
 
-		[Description("не больше")]
-		IsNotMore,
+		//[Description("не больше")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsNotMore")]
+        IsNotMore,
 
-		[Description("меньше")]
-		IsLess,
+		//[Description("меньше")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsLess")]
+        IsLess,
 
-		[Description("не меньше")]
-		IsNotLess,
+		//[Description("не меньше")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "IsNotLess")]
+        IsNotLess,
 
-		[Description("Начинается с")]
-		StartsWith,
+		//[Description("Начинается с")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "StartsWith")]
+        StartsWith,
 
-		[Description("Заканчивается на")]
-		EndsWith,
+		//[Description("Заканчивается на")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "EndsWith")]
+        EndsWith,
 
-		[Description("Содержит")]
-		Contains
+		//[Description("Содержит")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.Condition), "Contains")]
+        Contains
 	}
 }

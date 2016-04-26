@@ -12,7 +12,7 @@ namespace JournalModule.ViewModels
 
 		public ConfirmationViewModel(JournalItem journalItem)
 		{
-			Title = "Подтверждение критических событий";
+			Title = Resources.Language.ConfirmationViewModel.Title;
 			ConfirmCommand = new RelayCommand(OnConfirm);
 			JournalItemViewModel = new JournalItemViewModel(journalItem);
 		}
@@ -31,7 +31,9 @@ namespace JournalModule.ViewModels
 			var journalItem = new JournalItem();
 			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Подтверждение_тревоги;
-			journalItem.DescriptionText = JournalItemViewModel.Name + " " + JournalItemViewModel.Description + " (время реакции " + deltaSeconds.ToString() + " сек)";
+			//journalItem.DescriptionText = JournalItemViewModel.Name + " " + JournalItemViewModel.Description + " (время реакции " + deltaSeconds.ToString() + " сек)";
+		    journalItem.DescriptionText = string.Format(Resources.Language.ConfirmationViewModel.DescriptionText,
+		        JournalItemViewModel.Name, JournalItemViewModel.Description, deltaSeconds);
 			FiresecManager.FiresecService.AddJournalItem(journalItem);
 		}
 	}

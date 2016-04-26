@@ -155,18 +155,18 @@ namespace SKDDriver.Translators
 		{
 			var employee = _Employees.FirstOrDefault(x => x.UID == shortEmployee.UID);
 			if (employee == null)
-				return new TimeTrackEmployeeResult("Не найден сотрудник");
+				return new TimeTrackEmployeeResult(Resources.Language.TimeTrackTranslator.GetEmployeeTimeTrack_Employee_Error);
 
 			var schedule = _Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
 			if (schedule == null)
-				return new TimeTrackEmployeeResult("Не найден график");
+                return new TimeTrackEmployeeResult(Resources.Language.TimeTrackTranslator.GetEmployeeTimeTrack_Schedule_Error);
 
 			if (schedule.ScheduleSchemeUID == null)
-				return new TimeTrackEmployeeResult("Не найдена схема работы");
+                return new TimeTrackEmployeeResult(Resources.Language.TimeTrackTranslator.GetEmployeeTimeTrack_ScheduleScheme_Error);
 
 			var scheduleScheme = _ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
 			if (scheduleScheme == null)
-				return new TimeTrackEmployeeResult("Не найдена схема работы");
+                return new TimeTrackEmployeeResult(Resources.Language.TimeTrackTranslator.GetEmployeeTimeTrack_ScheduleScheme_Error);
 
 			var days = _ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID).ToList();
 			var nightSettings = DatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value, _NightSettings).Result;
@@ -177,7 +177,7 @@ namespace SKDDriver.Translators
 			{
 				if (employee.ScheduleStartDate.Date > date.Date)
 				{
-					timeTrackEmployeeResult.DayTimeTracks.Add(new DayTimeTrack("До начала действия графика") { Date = date });
+					timeTrackEmployeeResult.DayTimeTracks.Add(new DayTimeTrack(Resources.Language.TimeTrackTranslator.GetEmployeeTimeTrack_Schedule_Start_Error) { Date = date });
 					continue;
 				}
 
@@ -241,7 +241,7 @@ namespace SKDDriver.Translators
 
 			var day = days.FirstOrDefault(x => x.Number == dayNo);
 			if (day == null)
-				return new PlannedTimeTrackPart("Не найден день");
+				return new PlannedTimeTrackPart(Resources.Language.TimeTrackTranslator.GetPlannedTimeTrackPart_Schedule_Day_Error);
 
 			var intervals = new List<DataAccess.DayIntervalPart>();
 			DataAccess.DayInterval dayInterval = null;
@@ -249,7 +249,7 @@ namespace SKDDriver.Translators
 			{
 				dayInterval = _DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID && !x.IsDeleted);
 				if (dayInterval == null)
-					return new PlannedTimeTrackPart("Не найден дневной интервал");
+					return new PlannedTimeTrackPart(Resources.Language.TimeTrackTranslator.GetPlannedTimeTrackPart_Schedule_DayInterval_Error);
 				intervals = _DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
 			}
 

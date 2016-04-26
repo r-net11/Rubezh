@@ -10,7 +10,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public PolylinePropertiesViewModel(ElementPolyline elementPolyline)
 		{
-			Title = "Свойства фигуры: Линия";
+			Title = Resources.Language.PolylinePropertiesViewModel.Title;
 			_elementPolyline = elementPolyline;
 			CopyProperties();
 		}

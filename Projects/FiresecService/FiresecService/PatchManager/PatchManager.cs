@@ -169,7 +169,7 @@ namespace FiresecService
 			}
 			catch (ConnectionFailureException)
 			{
-				return new OperationResult("Не удалось подключиться к базе данных " + ConnectionString);
+				return new OperationResult(String.Format(Resources.Language.PatchManager.ResetDB_OperationResult, ConnectionString));
 			}
 			catch (Exception e)
 			{
@@ -181,18 +181,16 @@ namespace FiresecService
 
 		private static void HandleConnectionFailureException(Exception e, string codePlace)
 		{
-			const string msg = "Не удалось подключиться к базе данных";
-			UILogger.Log(String.Format("[*] {0} '{1}' ", msg, ConnectionString));
+            UILogger.Log(String.Format(Resources.Language.PatchManager.HandleConnectionFailureException_Log, ConnectionString));
 			Logger.Error(e, codePlace);
-			BalloonHelper.ShowFromServer(msg);
+            BalloonHelper.ShowFromServer(Resources.Language.PatchManager.HandleConnectionFailureException_Log);
 		}
 
 		private static void HandleExecutionFailureException(Exception e, string codePlace)
 		{
-			const string msg = "Возникла ошибка при работе с базой данных";
-			UILogger.Log(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
+			UILogger.Log(String.Format(Resources.Language.PatchManager.HandleExecutionFailureException_Log, (e.InnerException == null) ? e.Message : e.InnerException.Message));
 			Logger.Error(e, codePlace);
-			BalloonHelper.ShowFromServer(msg);
+			BalloonHelper.ShowFromServer(Resources.Language.PatchManager.HandleExecutionFailureException_Balloon);
 		}
 	}
 }

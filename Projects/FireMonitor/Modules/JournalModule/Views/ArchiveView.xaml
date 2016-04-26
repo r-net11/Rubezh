@@ -6,6 +6,7 @@
 	xmlns:Views="clr-namespace:JournalModule.Views"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="clr-namespace:JournalModule.Resources.Language"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
@@ -30,12 +31,12 @@
 				<Controls:ToolBarButton
 					Command="{Binding ShowFilterCommand}"
 					ImageSource="Filter"
-					ToolTip="Задать фильтр" />
+					ToolTip="{x:Static res:ArchiveView.Filter}" />
 				<Controls:ToolBarButton
 					Grid.Column="1"
 					Command="{Binding RefreshCommand}"
 					ImageSource="Refresh"
-					ToolTip="Обновить" />
+					ToolTip="{x:Static res:ArchiveView.Refresh}" />
 				<StackPanel
 					Grid.Column="2"
 					HorizontalAlignment="Center"
@@ -46,11 +47,11 @@
 					<Controls:ToolBarButton
 						Command="{Binding FirstPageCommand}"
 						ImageSource="LeftLeft"
-						ToolTip="Начальная страница" />
+						ToolTip="{x:Static res:ArchiveView.FirstPage}" />
 					<Controls:ToolBarButton
 						Command="{Binding PreviousPageCommand}"
 						ImageSource="Left"
-						ToolTip="Предыдущая страница" />
+						ToolTip="{x:Static res:ArchiveView.PreviousPage}" />
 					<TextBox
 						Height="30"
 						MinWidth="25"
@@ -73,11 +74,11 @@
 					<Controls:ToolBarButton
 						Command="{Binding NextPageCommand}"
 						ImageSource="Right"
-						ToolTip="Следующая страница" />
+						ToolTip="{x:Static res:ArchiveView.NextPage}" />
 					<Controls:ToolBarButton
 						Command="{Binding LastPageCommand}"
 						ImageSource="RightRight"
-						ToolTip="Последняя страница" />
+						ToolTip="{x:Static res:ArchiveView.LastPage}" />
 				</StackPanel>
 				<StackPanel
 					Grid.Column="3"
@@ -95,7 +96,7 @@
 					Grid.Column="4"
 					Command="{Binding ShowSettingsCommand}"
 					ImageSource="Settings2"
-					ToolTip="Настройки" />
+					ToolTip="{x:Static res:ArchiveView.Settings}" />
 			</Grid>
 		</Border>
 		<Views:JournalView Grid.Row="1" Margin="0 5 0 0" />

@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementSubPlan()
 		{
-			PresentationName = "Ссылка на план";
+            PresentationName = Resources.Language.Models.Plans.ElementSubPlan.PresentationName;
 		}
 
 		[DataMember]

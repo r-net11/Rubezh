@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -20,37 +21,48 @@ namespace FiresecAPI.Automation
 
 	public enum JournalColumnType
 	{
-		[Description("Дата на устройстве")]
+		//[Description("Дата на устройстве")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "DeviceDateTime")]
 		DeviceDateTime = 0,
 
-		[Description("Дата в системе")]
-		SystemDateTime = 1,
+		//[Description("Дата в системе")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "SystemDateTime")]
+        SystemDateTime = 1,
 
-		[Description("Название события")]
-		JournalEventNameType = 2,
+		//[Description("Название события")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "JournalEventNameType")]
+        JournalEventNameType = 2,
 
-		[Description("Уточнение")]
-		JournalEventDescriptionType = 3,
+		//[Description("Уточнение")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "JournalEventDescriptionType")]
+        JournalEventDescriptionType = 3,
 
-		[Description("Тип объекта")]
-		JournalObjectType = 4,
+		//[Description("Тип объекта")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "JournalObjectType")]
+        JournalObjectType = 4,
 
-		[Description("Идентификатор объекта")]
-		JournalObjectUid = 5,
+		//[Description("Идентификатор объекта")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "JournalObjectUid")]
+        JournalObjectUid = 5,
 
-		[Description("Пользователь")]
-		UserUid = 6,
+		//[Description("Пользователь")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "UserUid")]
+        UserUid = 6,
 
-		[Description("Сотрудник")]
-		EmployeeUid = 7,
+		//[Description("Сотрудник")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "EmployeeUid")]
+        EmployeeUid = 7,
 
-		[Description("Посетитель")]
-		VisitorUid = 8,
+		//[Description("Посетитель")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "VisitorUid")]
+        VisitorUid = 8,
 
-		[Description("Номер пропуска")]
-		CardNo = 9,
+		//[Description("Номер пропуска")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "CardNo")]
+        CardNo = 9,
 
-		[Description("Тип пропуска")]
-		CardType = 10,
+		//[Description("Тип пропуска")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetJournalItemArguments), "CardType")]
+        CardType = 10,
 	}
 }

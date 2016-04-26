@@ -26,7 +26,7 @@ namespace JournalModule.ViewModels
 		public VideoViewModel(string videoPath)
 		{
 			VideoPath = videoPath;
-			Title = "Видеофрагмент, связанный с событием";
+			Title = Resources.Language.VideoViewModel.Title;
 		}
 
 		public override bool OnClosing(bool isCanceled)

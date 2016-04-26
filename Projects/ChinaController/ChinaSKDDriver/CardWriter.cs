@@ -180,7 +180,7 @@ namespace ChinaSKDDriver
 
 			// Показываем индикатор выполнения операции
 			if (doProgress)
-				progressCallback = Processor.StartProgress(String.Format("Запись пропусков на контроллер \"{0}\"", device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
+                progressCallback = Processor.StartProgress(String.Format(Resources.Language.CardWriter.RewriteAllCards_progressCallback, device.Name), "", cards.Count(), true, SKDProgressClientType.Administrator);
 
 			var errors = new List<string>();
 			foreach (var card in cards)
@@ -203,7 +203,7 @@ namespace ChinaSKDDriver
 
 				// Пользователь отменил операцию
 				if (progressCallback != null && progressCallback.IsCanceled)
-					return new List<string> { "Операция отменена" };
+					return new List<string> { Resources.Language.CardWriter.RewriteAllCards_progressCallback_Cancel };
 
 				// Обновляем индикатор выполнения операции
 				if (progressCallback != null)
@@ -215,7 +215,7 @@ namespace ChinaSKDDriver
 				{
 					if (controllerCardItem.HasError)
 					{
-						errors.Add("Ошибка при записи карты " + controllerCardItem.Card.Number + " в контроллер " + device.Name);
+						errors.Add(string.Format(Resources.Language.CardWriter.RewriteAllCards_progressCallback_Error,controllerCardItem.Card.Number,device.Name));
 					}
 				}
 			}
@@ -334,7 +334,7 @@ namespace ChinaSKDDriver
 							result = deviceProcessor.Wrapper.ResetRepeatEnter(controllerCardItem.Card.Number.GetValueOrDefault().ToString("X"));
 							if (cardInfo == null)
 							{
-								controllerCardItem.Error = string.Format("Отсутствует связь с контроллером {0}", deviceProcessor.Device.Name);
+								controllerCardItem.Error = string.Format(Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_ResetRepeatEnter_Error, deviceProcessor.Device.Name);
 							}
 							break;
 					}
@@ -351,12 +351,13 @@ namespace ChinaSKDDriver
 						//if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.ResetRepeatEnter)
 						//	operationName = "сброса ограничения на повторный проход";
 
-						controllerCardItem.Error = "При операции " + operationName + " пропуска " + controllerCardItem.Card.Number + " на контроллере " + deviceProcessor.Device.Name + " возникла ошибка";
+						controllerCardItem.Error = string.Format(Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItemActionType_Error,
+                                                                    operationName, controllerCardItem.Card.Number, deviceProcessor.Device.Name);
 					}
 				}
 				else
 				{
-					controllerCardItem.Error = "Не найден контроллер в конфигурации";
+					controllerCardItem.Error = Resources.Language.CardWriter.ProcessControllerCardItems_controllerCardItem_Error;
 				}
 			}
 		}

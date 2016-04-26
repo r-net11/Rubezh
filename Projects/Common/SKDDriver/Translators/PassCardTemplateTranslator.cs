@@ -27,7 +27,7 @@ namespace SKDDriver
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult("Попытка добавления шаблон пропуска с совпадающим наименованием");
+				return new OperationResult(Resources.Language.PassCardTemplateTranslator.CanSave_Error);
 			return new OperationResult();
 		}
 

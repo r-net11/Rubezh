@@ -111,13 +111,13 @@ namespace Infrastructure.Client
 
 		protected bool RunShell(ShellViewModel shellViewModel)
 		{
-			StartupService.Instance.DoStep("Загрузка модулей приложения");
+			StartupService.Instance.DoStep(Resources.Language.BaseBootstrapper.RunModules);
 			CreateViewModels();
 			shellViewModel.NavigationItems = new ReadOnlyCollection<NavigationItem>(GetNavigationItems());
 			if (InitializeModules())
 			{
 				ApplicationService.User = FiresecManager.CurrentUser;
-				StartupService.Instance.DoStep("Запуск приложения");
+				StartupService.Instance.DoStep(Resources.Language.BaseBootstrapper.RunShell);
 				ApplicationService.Run(shellViewModel);
 				return true;
 			}
@@ -129,7 +129,7 @@ namespace Infrastructure.Client
 			foreach (IModule module in _modules.OrderBy(module => module.Order))
 				try
 				{
-					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
+					StartupService.Instance.DoStep(string.Format(Resources.Language.BaseBootstrapper.InitializeModules, module.Name));
 					module.Initialize();
 				}
 				catch (StartupCancellationException)
@@ -141,7 +141,7 @@ namespace Infrastructure.Client
 					Logger.Error(e, "BaseBootstrapper.InitializeModules");
 					if (Application.Current != null)
 						Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
+                    MessageBoxService.ShowError(string.Format(Resources.Language.BaseBootstrapper.InitializeModules_Error, module.Name, e.Message));
 					StartupService.Instance.Close();
 					ApplicationService.ShutDown();
 					return false;
@@ -207,7 +207,7 @@ namespace Infrastructure.Client
 					catch (Exception e)
 					{
 						Logger.Error(e, "BaseBootstrapper.ReadConfiguration");
-						MessageBoxService.ShowError("Не удалось загрузить модуль " + moduleElement.AssemblyFile);
+						MessageBoxService.ShowError(string.Format(Resources.Language.BaseBootstrapper.ReadConfiguration_Module_Error,moduleElement.AssemblyFile));
 					}
 				}
 			}
@@ -226,7 +226,7 @@ namespace Infrastructure.Client
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове BaseBootstrapper.GetAssemblyByFileName");
-				MessageBoxService.ShowError(string.Format(Resources.UnableLoadModule, Path.GetFileName(path)));
+				MessageBoxService.ShowError(string.Format(Resources.Language.BaseBootstrapper.GetAssemblyByFileName_Exception, Path.GetFileName(path)));
 				return null;
 			}
 		}

@@ -54,7 +54,7 @@ namespace FiresecAPI.SKD
 				SKDConfiguration.RootDevice = new SKDDevice()
 				{
 					DriverUID = driver.UID,
-					Name = "Система"
+                    Name = Resources.Language.SKD.SKDManager.SKDManager.Name
 				};
 			}
 

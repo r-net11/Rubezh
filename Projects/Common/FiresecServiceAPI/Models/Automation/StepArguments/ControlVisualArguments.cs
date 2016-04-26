@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -49,31 +50,39 @@ namespace FiresecAPI.Automation
 
 	public enum ControlElementType
 	{
-		[Description("Чтение свойства")]
+		//[Description("Чтение свойства")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Get")]
 		Get,
 
-		[Description("Установка свойства")]
-		Set
+		//[Description("Установка свойства")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Set")]
+        Set
 	}
 
 	public enum LayoutPartPropertyName
 	{
-		[Description("Заголовок")]
-		Title,
+		//[Description("Заголовок")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Title")]
+        Title,
 
-		[Description("Отступ")]
-		Margin,
+		//[Description("Отступ")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Margin")]
+        Margin,
 
-		[Description("Цвет фона")]
-		BackgroundColor,
+		//[Description("Цвет фона")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "BackgroundColor")]
+        BackgroundColor,
 
-		[Description("Цвет границы")]
-		BorderColor,
+		//[Description("Цвет границы")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "BorderColor")]
+        BorderColor,
 
-		[Description("Ширина границы")]
-		BorderThickness,
+		//[Description("Ширина границы")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "BorderThickness")]
+        BorderThickness,
 
-		[Description("Текст")]
-		Text,
+		//[Description("Текст")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlVisualArguments), "Text")]
+        Text,
 	}
 }

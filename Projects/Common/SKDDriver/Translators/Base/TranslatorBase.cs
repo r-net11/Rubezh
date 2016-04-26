@@ -32,7 +32,7 @@ namespace SKDDriver
 		protected virtual OperationResult CanSave(ApiT item)
 		{
 			if (item == null)
-				return new OperationResult("Попытка сохранить пустую запись");
+				return new OperationResult(Resources.Language.TranslatorBase.SaveEmptyRecord);
 			return new OperationResult();
 		}
 

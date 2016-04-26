@@ -14,7 +14,7 @@ namespace FiresecAPI.SKD
 		public PassCardTemplate()
 		{
 			UID = Guid.NewGuid();
-			Caption = "Шаблон пропуска";
+			Caption = Resources.Language.SKD.PassCardLibrary.PassCardTemplate.PassCardTemplate_Caption;
 			Width = 210;
 			Height = 297;
 			BackgroundColor = Colors.Transparent;

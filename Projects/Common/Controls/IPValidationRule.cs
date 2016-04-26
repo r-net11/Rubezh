@@ -17,7 +17,7 @@ namespace Controls
 		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
 		{
 			if (value != null && !_regex.IsMatch((string)value))
-				return new ValidationResult(false, "Неверный формат IP адреса");
+				return new ValidationResult(false, Resources.Language.IpValidationRule.Validate_Error);
 			return new ValidationResult(true, null);
 		}
 	}

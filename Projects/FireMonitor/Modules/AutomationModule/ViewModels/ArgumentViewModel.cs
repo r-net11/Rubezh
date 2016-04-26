@@ -137,8 +137,8 @@ namespace AutomationModule.ViewModels
 					description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
 				else
 				{
-					if (Argument.ExplicitValues.Count == 0)
-						return "Пустой список";
+				    if (Argument.ExplicitValues.Count == 0)
+				        return Resources.Language.ArgumentViewModel.EmptyList;
 					foreach (var explicitValue in Argument.ExplicitValues)
 					{
 						description += ProcedureHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";

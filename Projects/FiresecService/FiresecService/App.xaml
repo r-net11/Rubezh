@@ -4,6 +4,8 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Styles.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/ScrollBarStyle.xaml" />
+                <!--<ResourceDictionary Source="Resources/lang.ru-Ru.xaml" />-->
+                <ResourceDictionary Source="Resources/lang.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

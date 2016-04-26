@@ -47,6 +47,16 @@
     <Compile Include="DayIntervalPartValidator.cs" />
     <Compile Include="DayIntervalValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Language\DayIntervalPartValidator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DayIntervalPartValidator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\DayIntervalValidator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DayIntervalValidator.resx</DependentUpon>
+    </Compile>
     <Compile Include="ScheduleSchemeValidator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +64,16 @@
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Language\DayIntervalPartValidator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayIntervalPartValidator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\DayIntervalValidator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayIntervalValidator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

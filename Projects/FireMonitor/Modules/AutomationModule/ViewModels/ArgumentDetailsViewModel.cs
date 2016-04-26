@@ -14,7 +14,7 @@ namespace AutomationModule.ViewModels
 
 		public ArgumentDetailsViewModel(Argument argument, bool isList)
 		{
-			Title = "Редактировать аргумент";
+			Title = Resources.Language.ArgumentDetailsViewModel.Title;
 			ExplicitValuesViewModel = new ExplicitValuesViewModel(argument.ExplicitValue, argument.ExplicitValues, isList, argument.ExplicitType, argument.EnumType, argument.ObjectType);
 		}
 

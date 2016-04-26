@@ -9,7 +9,7 @@ namespace FiresecAPI.Automation
 	{
 		public AutomationSchedule()
 		{
-			Name = "Новое расписание";
+			Name = Resources.Language.Models.Automation.AutomationSchedule.Name;
 			Uid = Guid.NewGuid();
 			Year = -1;
 			Month = -1;

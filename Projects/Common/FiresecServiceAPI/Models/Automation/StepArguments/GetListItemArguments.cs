@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -28,13 +29,16 @@ namespace FiresecAPI.Automation
 
 	public enum PositionType
 	{
-		[Description("Первый")]
-		First,
+		//[Description("Первый")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetListItemArguments), "First")]
+        First,
 
-		[Description("Последний")]
-		Last,
+		//[Description("Последний")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetListItemArguments), "Last")]
+        Last,
 
-		[Description("По индексу")]
+		//[Description("По индексу")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.GetListItemArguments), "ByIndex")]
 		ByIndex
 	}
 }

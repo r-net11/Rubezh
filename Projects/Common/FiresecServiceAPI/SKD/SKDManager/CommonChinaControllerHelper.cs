@@ -10,17 +10,17 @@ namespace FiresecAPI.SKD
 
 			var addressProperty = new SKDDriverProperty()
 			{
-				Name = "Address",
-				Caption = "Адрес",
+                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.AddressProperty_Name,
+                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.AddressProperty_Caption,
 				DriverPropertyType = SKDDriverType.StringType,
-				StringDefault = "192.168.0.2"
+                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.AddressProperty_StringDefault
 			};
 			properties.Add(addressProperty);
 
 			var portProperty = new SKDDriverProperty()
 			{
-				Name = "Port",
-				Caption = "Порт",
+                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PortProperty_Name,
+                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PortProperty_Caption,
 				DriverPropertyType = SKDDriverType.IntType,
 				Default = 37777
 			};
@@ -28,37 +28,37 @@ namespace FiresecAPI.SKD
 
 			var loginProperty = new SKDDriverProperty()
 			{
-				Name = "Login",
-				Caption = "Логин",
+                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.LoginProperty_Name,
+                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.LoginProperty_Caption,
 				DriverPropertyType = SKDDriverType.StringType,
-				StringDefault = "admin"
+                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.LoginProperty_StringDefault
 			};
 			properties.Add(loginProperty);
 
 			var passwordProperty = new SKDDriverProperty()
 			{
-				Name = "Password",
-				Caption = "Пароль",
+                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PasswordProperty_Name,
+                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PasswordProperty_Caption,
 				DriverPropertyType = SKDDriverType.StringType,
-				StringDefault = "123456"
+                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.PasswordProperty_StringDefault
 			};
 			properties.Add(passwordProperty);
 
 			var maskProperty = new SKDDriverProperty()
 			{
-				Name = "Mask",
-				Caption = "Маска подсети",
+                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.MaskProperty_Name,
+                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.MaskProperty_Caption,
 				DriverPropertyType = SKDDriverType.StringType,
-				StringDefault = "255.255.255.0"
+                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.MaskProperty_StringDefault
 			};
 			properties.Add(maskProperty);
 
 			var gatewayProperty = new SKDDriverProperty()
 			{
-				Name = "Gateway",
-				Caption = "Шлюз по умолчанию",
+                Name = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.GatewayProperty_Name,
+                Caption = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.GatewayProperty_Caption,
 				DriverPropertyType = SKDDriverType.StringType,
-				StringDefault = "192.168.0.1"
+                StringDefault = Resources.Language.SKD.SKDManager.CommonChinaControllerHelper.GatewayProperty_StringDefault
 			};
 			properties.Add(gatewayProperty);
 

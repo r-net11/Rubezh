@@ -1,4 +1,5 @@
-﻿using Infrustructure.Plans.Elements;
+﻿
+using Infrustructure.Plans.Elements;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -9,7 +10,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementPolygon()
 		{
-			PresentationName = "Многоугольник";
+            PresentationName = Resources.Language.Models.Plans.ElementPolygon.PresentationName;
 		}
 
 		public override ElementBase Clone()

@@ -24,7 +24,7 @@ namespace SKDDriver
 				x.UID != accessTemplate.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult("Шаблон доступа с таким же названием уже содержится в базе данных");
+				return new OperationResult(Resources.Language.AccessTemplateTranslator.CanSave_Error);
 			else
 				return new OperationResult();
 		}
@@ -32,7 +32,7 @@ namespace SKDDriver
 		protected override OperationResult CanDelete(Guid uid)
 		{
 			if (Context.Cards.Any(x => x.AccessTemplateUID == uid))
-				return new OperationResult("Невозможно удалить шаблон доступа, пока он указан у действующих карт");
+				return new OperationResult(Resources.Language.AccessTemplateTranslator.CanDelete_Error);
 			return base.CanDelete(uid);
 		}
 

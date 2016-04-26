@@ -29,9 +29,9 @@ namespace Common
 				{
 					return (T)(obj is string ? converter.ConvertFromString((string)obj) : converter.ConvertFrom(obj));
 				}
-				catch (Exception ex)
+				catch (Exception e)
 				{
-					Logger.Error(ex, "Исключение при вызове Cast<{0}>(obj={1})", typeof(T), obj);
+					Logger.Error(e, Resources.Language.Utils.CastT_Exception, typeof(T), obj);
 				}
 			return default(T);
 		}

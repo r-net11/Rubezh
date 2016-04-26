@@ -209,6 +209,351 @@
     <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
     <Compile Include="Models\License\ILicenseData.cs" />
     <Compile Include="Models\License\LicenseData.cs" />
+    <Compile Include="Resources\Language\Automation\Enums\AccessState.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccessState.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\AutomationSchedule.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AutomationSchedule.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Automation\Enums\BreakInStatus.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BreakInStatus.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\ChinaController_4_Helper.Designer.cs">
+      <DependentUpon>ChinaController_4_Helper.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\ChinaController_2_Helper.Designer.cs">
+      <DependentUpon>ChinaController_2_Helper.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\Automation\Enums\ConnectionStatus.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConnectionStatus.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Automation\Enums\DoorStatus.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoorStatus.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementCamera.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementCamera.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementDoor.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementDoor.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementEllipse.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementEllipse.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementPolygon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementPolygon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementPolygonSKDZones.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementPolygonSKDZones.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementPolyline.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementPolyline.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementProcedure.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementProcedure.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementRectangle.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementRectangle.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementRectangleSKDZones.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementRectangleSKDZones.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementRectangleTank.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementRectangleTank.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementSKDDevice.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementSKDDevice.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementSubPlan.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementSubPlan.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\ElementTextBlock.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementTextBlock.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Automation\Enums\EmailSecureProtocol.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailSecureProtocol.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Journal\JournalErrorCode.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JournalErrorCode.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Journal\JournalObjectType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JournalObjectType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Journal\JournalSubSystemType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JournalSubSystemType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\Condition.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Condition.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\DayOfWeekType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DayOfWeekType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\EnumType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnumType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\ExplicitType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExplicitType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\FindObjectCondition.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FindObjectCondition.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\JoinOperator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JoinOperator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\ObjectType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObjectType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\ProcedureStepType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProcedureStepType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\ArithmeticArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArithmeticArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\ChangeListArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChangeListArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\ControlDoorArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlDoorArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\ControlPlanArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlPlanArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\ControlSKDDeviceArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlSKDDeviceArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\ControlSKDZoneArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlSKDZoneArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\ControlVisualArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlVisualArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\GetJournalItemArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GetJournalItemArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\GetListItemArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GetListItemArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\StepArguments\IncrementValueArguments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IncrementValueArguments.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\VariableScope.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VariableScope.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Layouts\Layout.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Layout.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Enums\ModuleType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuleType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\Plan.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Plan.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Plans\PlanFolder.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlanFolder.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Security\PermissionType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PermissionType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Security\RemoteAccessType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RemoteAccessType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\System\BeeperType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BeeperType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Video\RviSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RviSettings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\ReaderHelper.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReaderHelper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Models\Automation\Procedure.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Procedure.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Enums\ReportType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Enums\RoundingType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoundingType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\DeviceTimeIntervals\TimeIntervalsConfiguration.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TimeIntervalsConfiguration.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\SKDManagerDrivers.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDManagerDrivers.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\LockHelper.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LockHelper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\LockControlHelper1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LockControlHelper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\ChinaController_1_Helper.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChinaController_1_Helper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\ButtonHelper.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ButtonHelper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\ControllerHelper.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControllerHelper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\ReportFilters\SKDReportFilter.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDReportFilter.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\PassCardLibrary\PassCardTemplate.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PassCardTemplate.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\DayTimeTrack.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DayTimeTrack.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\SKDManager.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDManager.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\SKDManager\CommonChinaControllerHelper.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonChinaControllerHelper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\TimeTrackDocument.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TimeTrackDocument.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\DayIntervalCreator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DayIntervalCreator.resx</DependentUpon>
+    </Compile>
     <Compile Include="SKDCallbackResult.cs" />
     <Compile Include="SKDObjectsStateChangedEvent.cs" />
     <Compile Include="SKDProgressCallback.cs" />
@@ -484,19 +829,286 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Resources\Language\Automation\Enums\AccessState.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>AccessState.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\AutomationSchedule.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AutomationSchedule.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Automation\Enums\BreakInStatus.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BreakInStatus.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\ChinaController_4_Helper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChinaController_4_Helper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\ChinaController_2_Helper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChinaController_2_Helper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Automation\Enums\ConnectionStatus.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConnectionStatus.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Automation\Enums\DoorStatus.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoorStatus.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementCamera.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementCamera.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementDoor.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementDoor.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementEllipse.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementEllipse.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementPolygon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementPolygon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementPolygonSKDZones.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementPolygonSKDZones.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementPolyline.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementPolyline.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementProcedure.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementProcedure.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementRectangle.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementRectangle.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementRectangleSKDZones.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementRectangleSKDZones.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementRectangleTank.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementRectangleTank.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementSKDDevice.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementSKDDevice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementSubPlan.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementSubPlan.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\ElementTextBlock.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElementTextBlock.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Automation\Enums\EmailSecureProtocol.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailSecureProtocol.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Journal\JournalErrorCode.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>JournalErrorCode.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Journal\JournalObjectType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>JournalObjectType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Journal\JournalSubSystemType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>JournalSubSystemType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\Condition.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Condition.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\DayOfWeekType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayOfWeekType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\EnumType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EnumType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\ExplicitType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExplicitType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\FindObjectCondition.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FindObjectCondition.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\JoinOperator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>JoinOperator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\ObjectType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ObjectType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\ProcedureStepType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProcedureStepType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\ArithmeticArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ArithmeticArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\ChangeListArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChangeListArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\ControlDoorArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ControlDoorArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\ControlPlanArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ControlPlanArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\ControlSKDDeviceArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ControlSKDDeviceArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\ControlSKDZoneArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ControlSKDZoneArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\ControlVisualArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ControlVisualArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\GetJournalItemArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GetJournalItemArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\GetListItemArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GetListItemArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\StepArguments\IncrementValueArguments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IncrementValueArguments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\VariableScope.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>VariableScope.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Layouts\Layout.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Layout.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Enums\ModuleType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModuleType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\Plan.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Plan.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Plans\PlanFolder.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PlanFolder.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Security\PermissionType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PermissionType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Security\RemoteAccessType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RemoteAccessType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\System\BeeperType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BeeperType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Video\RviSettings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RviSettings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\ReaderHelper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ReaderHelper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Models\Automation\Procedure.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Procedure.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Enums\ReportType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ReportType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Enums\RoundingType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RoundingType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\DeviceTimeIntervals\TimeIntervalsConfiguration.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimeIntervalsConfiguration.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\SKDManagerDrivers.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDManagerDrivers.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\LockHelper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LockHelper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\LockControlHelper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LockControlHelper1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\ChinaController_1_Helper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChinaController_1_Helper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\ButtonHelper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ButtonHelper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\ControllerHelper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ControllerHelper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\ReportFilters\SKDReportFilter.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDReportFilter.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\PassCardLibrary\PassCardTemplate.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PassCardTemplate.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\DayTimeTrack.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayTimeTrack.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\SKDManager.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDManager.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\SKDManager\CommonChinaControllerHelper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonChinaControllerHelper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\TimeTrackDocument.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimeTrackDocument.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\DayIntervalCreator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayIntervalCreator.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -505,6 +1117,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FiresecService\Localization\Localization.csproj">
+      <Project>{0fabff9f-2922-4c8e-9c1c-7a014fedccf1}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>

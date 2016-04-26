@@ -74,7 +74,7 @@ namespace SKDDriver
 			if (result.HasError)
 				return result;
 			if (item.OrganisationUID == Guid.Empty)
-				return new OperationResult("Не указана организация");
+				return new OperationResult(Resources.Language.OrganisationElementTranslator.EmptyOrganisation);
 			else
 				return new OperationResult();
 		}

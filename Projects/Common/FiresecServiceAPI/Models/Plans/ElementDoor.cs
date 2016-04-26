@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
 		public ElementDoor()
 		{
 			DoorUID = Guid.Empty;
-			PresentationName = "Точка доступа";
+            PresentationName = Resources.Language.Models.Plans.ElementDoor.PresentationName;
 		}
 
 		[DataMember]

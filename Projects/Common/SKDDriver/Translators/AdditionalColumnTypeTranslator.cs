@@ -25,7 +25,7 @@ namespace SKDDriver
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult("Тип колонки с таким же названием уже содержится в базе данных");
+				return new OperationResult(Resources.Language.AdditionalColumnTypeTranslator.CanSave_Error);
 			else
 				return new OperationResult();
 		}

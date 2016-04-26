@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -20,22 +21,28 @@ namespace FiresecAPI.Automation
 
 	public enum SKDDeviceCommandType
 	{
-		[Description("Открыть")]
+		//[Description("Открыть")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "Open")]
 		Open,
 
-		[Description("Закрыть")]
-		Close,
+		//[Description("Закрыть")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "Close")]
+        Close,
 
-		[Description("Установить режим \"Открыто\"")]
-		AccessStateOpenAlways,
+		//[Description("Установить режим \"Открыто\"")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "AccessStateOpenAlways")]
+        AccessStateOpenAlways,
 
-		[Description("Установить режим \"Норма\"")]
-		AccessStateNormal,
+		//[Description("Установить режим \"Норма\"")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "AccessStateNormal")]
+        AccessStateNormal,
 
-		[Description("Установить режим \"Закрыто\"")]
-		AccessStateCloseAlways,
+		//[Description("Установить режим \"Закрыто\"")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "AccessStateCloseAlways")]
+        AccessStateCloseAlways,
 
-		[Description("Сброс состояния \"Взлом\"")]
-		ClearPromptWarning
+		//[Description("Сброс состояния \"Взлом\"")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.ControlSKDDeviceArguments), "ClearPromptWarning")]
+        ClearPromptWarning
 	}
 }

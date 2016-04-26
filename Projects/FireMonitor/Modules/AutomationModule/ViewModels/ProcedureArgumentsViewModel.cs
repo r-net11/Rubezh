@@ -13,7 +13,7 @@ namespace AutomationModule.ViewModels
 		public ProcedureArgumentsViewModel(Procedure procedure)
 		{
 			Title = procedure.Name;
-			SaveCaption = "Выполнить";
+			SaveCaption = Resources.Language.ProcedureArgumentsViewModel.SaveCaption;
 			ArgumentViewModels = new ArgumentsViewModel(procedure);
 		}
 

@@ -76,6 +76,136 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SKDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Language\OrganisationTranslator.Designer.cs">
+      <DependentUpon>OrganisationTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\NightSettingsTranslator.Designer.cs">
+      <DependentUpon>NightSettingsTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\DepartmentTranslator.Designer.cs">
+      <DependentUpon>DepartmentTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\DayIntervalTranslator.Designer.cs">
+      <DependentUpon>DayIntervalTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\CardTranslator.Designer.cs">
+      <DependentUpon>CardTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\AdditionalColumnTypeTranslator.Designer.cs">
+      <DependentUpon>AdditionalColumnTypeTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\PassCardTemplateTranslator.Designer.cs">
+      <DependentUpon>PassCardTemplateTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\PassJournalTranslator.Designer.cs">
+      <DependentUpon>PassJournalTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\PositionTranslator.Designer.cs">
+      <DependentUpon>PositionTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\EmployeeTranslator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeTranslator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\JournalTranslator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JournalTranslator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Synchroniser.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Synchroniser.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\PassJournalSynchroniser.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PassJournalSynchroniser.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\JournalSynchroniser.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JournalSynchroniser.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ConfigurationSynchroniser.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConfigurationSynchroniser.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\TimeTrackDocumentTypeTranslator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TimeTrackDocumentTypeTranslator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\HolidayTranslator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HolidayTranslator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ScheduleSchemeTranslator.Designer.cs">
+      <DependentUpon>ScheduleSchemeTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\ScheduleTranslator.Designer.cs">
+      <DependentUpon>ScheduleTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\ScheduleZoneTranslator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleZoneTranslator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\TimeTrackTranslator.Designer.cs">
+      <DependentUpon>TimeTrackTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\AdditionalColumnTranslator.Designer.cs">
+      <DependentUpon>AdditionalColumnTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\AccessTemplateTranslator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccessTemplateTranslator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\IsDeletedTranslator.Designer.cs">
+      <DependentUpon>IsDeletedTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\OrganisationElementTranslator.Designer.cs">
+      <DependentUpon>OrganisationElementTranslator.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\TranslatorBase.Designer.cs">
+      <DependentUpon>TranslatorBase.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Synchronisers\CardSynchroniser.cs" />
     <Compile Include="Synchronisers\ConfigurationSynchroniser.cs" />
     <Compile Include="Synchronisers\DepartmentSynchroniser.cs" />
@@ -221,6 +351,114 @@
       <DependentUpon>Journal.dbml</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Language\OrganisationTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OrganisationTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\NightSettingsTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NightSettingsTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\DepartmentTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DepartmentTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\DayIntervalTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayIntervalTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\CardTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CardTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\AdditionalColumnTypeTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AdditionalColumnTypeTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\PassCardTemplateTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PassCardTemplateTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\PassJournalTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PassJournalTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\PositionTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PositionTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\EmployeeTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmployeeTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\JournalTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>JournalTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Synchroniser.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Synchroniser.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\PassJournalSynchroniser.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PassJournalSynchroniser.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\JournalSynchroniser.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>JournalSynchroniser.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ConfigurationSynchroniser.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConfigurationSynchroniser.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\TimeTrackDocumentTypeTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimeTrackDocumentTypeTranslator.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\HolidayTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>HolidayTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ScheduleSchemeTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleSchemeTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ScheduleTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ScheduleZoneTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleZoneTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\TimeTrackTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimeTrackTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\AdditionalColumnTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AdditionalColumnTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\AccessTemplateTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccessTemplateTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\IsDeletedTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IsDeletedTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\OrganisationElementTranslator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OrganisationElementTranslator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\TranslatorBase.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TranslatorBase.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

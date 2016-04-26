@@ -1,13 +1,16 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
 	public enum JoinOperator
 	{
-		[Description("И")]
+		//[Description("И")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.JoinOperator),"And")]
 		And,
 
-		[DescriptionAttribute("Или")]
-		Or
+		//[DescriptionAttribute("Или")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.JoinOperator), "Or")]
+        Or
 	}
 }

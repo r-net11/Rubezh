@@ -15,7 +15,7 @@ namespace FiresecAPI.Models.Layouts
 			Users = new List<Guid>();
 			Parts = new List<LayoutPart>();
 			HostNameOrAddressList = new List<string>();
-			Caption = "Макет";
+			Caption = Resources.Language.Models.Layouts.Layout.Caption;
 			SplitterSize = 4;
 			SplitterColor = Colors.Transparent;
 			IsRibbonEnabled = true;

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -23,49 +24,64 @@ namespace FiresecAPI.Automation
 
 	public enum Property
 	{
-		[Description("Примечание")]
+		//[Description("Примечание")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "Description")]
 		Description,
 
-		[Description("Имя")]
-		Name,
+		//[Description("Имя")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "Name")]
+        Name,
 
-		[Description("Адрес")]
-		IntAddress,
+		//[Description("Адрес")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "IntAddress")]
+        IntAddress,
 
-		[Description("Шлейф")]
-		ShleifNo,
+		//[Description("Шлейф")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "ShleifNo")]
+        ShleifNo,
 
-		[Description("Состояние")]
-		State,
+		//[Description("Состояние")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "State")]
+        State,
 
-		[Description("Номер")]
-		No,
+		//[Description("Номер")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "No")]
+        No,
 
-		[Description("Тип")]
-		Type,
+		//[Description("Тип")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "Type")]
+        Type,
 
-		[Description("Идентификатор")]
-		Uid,
+		//[Description("Идентификатор")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "Uid")]
+        Uid,
 
-		[Description("Удержание")]
-		Hold,
+		//[Description("Удержание")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "Hold")]
+        Hold,
 
-		[Description("Текущее удержание")]
-		CurrentHold,
+		//[Description("Текущее удержание")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "CurrentHold")]
+        CurrentHold,
 
-		[Description("Режим")]
-		DelayRegime,
+		//[Description("Режим")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "DelayRegime")]
+        DelayRegime,
 
-		[DescriptionAttribute("Режим доступа")]
-		AccessState,
+		//[DescriptionAttribute("Режим доступа")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "AccessState")]
+        AccessState,
 
-		[DescriptionAttribute("Статус двери")]
-		DoorStatus,
+		//[DescriptionAttribute("Статус двери")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "DoorStatus")]
+        DoorStatus,
 
-		[DescriptionAttribute("Статус по взлому")]
-		BreakInStatus,
+		//[DescriptionAttribute("Статус по взлому")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "BreakInStatus")]
+        BreakInStatus,
 
-		[DescriptionAttribute("Статус соединения")]
-		ConnectionStatus
+		//[DescriptionAttribute("Статус соединения")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.FindObjectCondition), "ConnectionStatus")]
+        ConnectionStatus
 	}
 }

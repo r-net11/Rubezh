@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Automation.Enums
 {
@@ -10,19 +11,22 @@ namespace FiresecAPI.Automation.Enums
 		/// <summary>
 		/// Режим ОТКРЫТО
 		/// </summary>
-		[Description("Режим ОТКРЫТО")]
+		//[Description("Режим ОТКРЫТО")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.AccessState), "Opened")]
 		Opened = FiresecAPI.SKD.AccessState.OpenAlways,
 		
 		/// <summary>
 		/// Режим НОРМА
 		/// </summary>
-		[Description("Режим НОРМА")]
-		Normal = FiresecAPI.SKD.AccessState.Normal,
+		//[Description("Режим НОРМА")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.AccessState), "Normal")]
+        Normal = FiresecAPI.SKD.AccessState.Normal,
 		
 		/// <summary>
 		/// Режим ЗАКРЫТО
 		/// </summary>
-		[Description("Режим ЗАКРЫТО")]
-		Closed
+		//[Description("Режим ЗАКРЫТО")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.AccessState), "Closed")]
+        Closed
 	}
 }

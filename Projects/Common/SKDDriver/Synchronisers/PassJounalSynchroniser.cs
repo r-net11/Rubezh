@@ -27,7 +27,7 @@ namespace SKDDriver
 			try
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult("Папка не существует");
+					return new OperationResult(Resources.Language.PassJournalSynchroniser.Export_Error);
 				var tableItems = _Table.Where(x => x.EnterTime >= TranslatiorHelper.CheckDate(filter.MinDate) & x.EnterTime <= TranslatiorHelper.CheckDate(filter.MaxDate));
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));

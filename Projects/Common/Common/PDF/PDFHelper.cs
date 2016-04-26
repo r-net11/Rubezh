@@ -40,8 +40,8 @@ namespace Common.PDF
 		{
 			var saveDialog = new SaveFileDialog()
 			{
-				Filter = "Файлы PDF|*.pdf",
-				DefaultExt = "Файлы PDF|*.pdf"
+				Filter = Resources.Language.PDFHelper.Filter,
+				DefaultExt = Resources.Language.PDFHelper.DefaultExt
 			};
 			return saveDialog.ShowDialog().Value ? saveDialog.FileName : null;
 		}

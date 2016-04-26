@@ -3,6 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports"
 	xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
+    xmlns:res="clr-namespace:JournalModule.Resources.Language"
 	ColumnWidth="29.7cm"
 	PageHeight="21cm"
 	PageWidth="29.7cm">

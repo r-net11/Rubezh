@@ -78,7 +78,7 @@ namespace JournalModule.Reports
 
 		public string Title
 		{
-			get { return "Журнал событий"; }
+            get { return "Журнал событий"; }
 		}
 
 		public bool IsEnabled

@@ -1,31 +1,40 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
 	public enum DayOfWeekType
 	{
-		[DescriptionAttribute("Любой")]
+		//[DescriptionAttribute("Любой")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Any")]
 		Any,
 
-		[DescriptionAttribute("Понедельник")]
-		Monday,
+		//[DescriptionAttribute("Понедельник")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Monday")]
+        Monday,
 
-		[DescriptionAttribute("Вторник")]
-		Tuesday,
+		//[DescriptionAttribute("Вторник")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Tuesday")]
+        Tuesday,
 
-		[DescriptionAttribute("Среда")]
-		Wednesday,
+		//[DescriptionAttribute("Среда")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Wednesday")]
+        Wednesday,
 
-		[DescriptionAttribute("Четверг")]
-		Thursday,
+		//[DescriptionAttribute("Четверг")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Thursday")]
+        Thursday,
 
-		[DescriptionAttribute("Пятница")]
-		Friday,
+		//[DescriptionAttribute("Пятница")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Friday")]
+        Friday,
 
-		[DescriptionAttribute("Суббота")]
-		Saturday,
+		//[DescriptionAttribute("Суббота")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Saturday")]
+        Saturday,
 
-		[DescriptionAttribute("Воскресенье")]
-		Sunday
+		//[DescriptionAttribute("Воскресенье")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.DayOfWeekType), "Sunday")]
+        Sunday
 	}
 }

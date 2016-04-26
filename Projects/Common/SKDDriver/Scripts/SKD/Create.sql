@@ -1009,7 +1009,7 @@ INSERT INTO Patches (Id) VALUES
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();
-INSERT INTO Organisation ([Uid],[Name],[IsDeleted],[RemovalDate]) VALUES (@OrgUid,'Организация',0,'01/01/1900')
+INSERT INTO Organisation ([Uid],[Name],[IsDeleted],[RemovalDate]) VALUES (@OrgUid, 'Организация',0,'01/01/1900')
 
 EXEC [dbo].[CreateOrganisationsTimeTrackDocumentTypes]
 

@@ -70,13 +70,13 @@ namespace SKDDriver
 						return new OperationResult();
 					}
 					else
-					{
-						return new OperationResult("Не найдена запись в базе данных");
+                    {
+                        return new OperationResult(Resources.Language.IsDeletedTranslator.EmptyRecordInDB); 
 					}
 				}
 				else
 				{
-					return new OperationResult("Не задан идентификатор");
+                    return new OperationResult(Resources.Language.IsDeletedTranslator.EmtyID);
 				}
 			}
 			catch (Exception e)
@@ -103,16 +103,16 @@ namespace SKDDriver
 				if (verifyResult.HasError)
 					return verifyResult;
 				if (uid == null || uid == Guid.Empty)
-					return new OperationResult("Не задан идентификатор");
+                    return new OperationResult(Resources.Language.IsDeletedTranslator.EmtyID);
 				var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
 				if (databaseItem == null)
-					return new OperationResult("Не найдена запись в базе данных");
+                    return new OperationResult(Resources.Language.IsDeletedTranslator.EmptyRecordInDB);
 				if (!databaseItem.IsDeleted)
-					return new OperationResult("Данная запись не удалена");
+					return new OperationResult(Resources.Language.IsDeletedTranslator.RecordIsNotDeleted);
 				foreach (var item in Table)
 				{
 					if (!item.IsDeleted && IsSimilarNames(item, databaseItem))
-						return new OperationResult("Существует неудаленная запись с тем же названием");
+						return new OperationResult(Resources.Language.IsDeletedTranslator.RecordIsNotDeletedSameName);
 				}
 				var beforeRestoreResult = BeforeRestore(uid, databaseItem.RemovalDate);
 				if (beforeRestoreResult.HasError)

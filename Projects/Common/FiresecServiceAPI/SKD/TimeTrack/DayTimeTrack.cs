@@ -1266,7 +1266,7 @@ namespace FiresecAPI.SKD
 				}
 			}
 			else
-				LetterCode = DocumentTrackParts.Any() ? GetMaxDocumentCode() : "В";
+                LetterCode = DocumentTrackParts.Any() ? GetMaxDocumentCode() : Resources.Language.SKD.TimeTrack.DayTimeTrack.LetterCode_Weekend;
 
 			if (RealTimeTrackParts.Any(x => x.IsManuallyAdded))
 				LetterCode += "*";
@@ -1278,11 +1278,11 @@ namespace FiresecAPI.SKD
 			switch (type)
 			{
 				case TimeTrackType.Late:
-					return "ОП";
+                    return Resources.Language.SKD.TimeTrack.DayTimeTrack.LetterCode_Late;
 				case TimeTrackType.EarlyLeave:
-					return "УР";
+                    return Resources.Language.SKD.TimeTrack.DayTimeTrack.LetterCode_EarlyLeave;
 				case TimeTrackType.Absence:
-					return "НН";
+                    return Resources.Language.SKD.TimeTrack.DayTimeTrack.LetterCode_Absence;
 				default:
 					return string.Empty;
 			}

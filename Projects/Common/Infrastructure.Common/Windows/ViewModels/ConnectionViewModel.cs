@@ -4,7 +4,7 @@
 	{
 		public ConnectionViewModel(bool restrictClose = true)
 		{
-			Title = "Соединение с сервером";
+			Title = Resources.Language.ConnectionViewModel.ConnectionViewModel_Title;
 			if (ConnectionSettingsManager.IsRemote && !string.IsNullOrEmpty(ConnectionSettingsManager.RemoteAddress))
 				Title += "\n" + ConnectionSettingsManager.RemoteAddress;
 

@@ -18,7 +18,7 @@ namespace Infrastructure.Designer.DesignerItems
 			{
 				Title = element.PresentationName;
 				Group = LayerGroupService.ElementAlias;
-				ClassName = Element.IsExactly<ElementRectangle>() ? "Прямоугольник" : (Element.IsExactly<ElementEllipse>() ? "Эллипс" : "Надпись");
+				ClassName = Element.IsExactly<ElementRectangle>() ? Resources.Language.DesignerItemRectangle.Rectangle : (Element.IsExactly<ElementEllipse>() ? Resources.Language.DesignerItemRectangle.Ellipse : Resources.Language.DesignerItemRectangle.Textblock);
 			}
 		}
 

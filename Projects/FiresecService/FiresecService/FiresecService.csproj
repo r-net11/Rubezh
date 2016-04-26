@@ -172,6 +172,51 @@
     <Compile Include="Automation\ProcedureThread.Steps.cs" />
     <Compile Include="Processor\SKDDaylyUpdateProcessor.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
+    <Compile Include="Resources\Language\Bootstrapper.Designer.cs">
+      <DependentUpon>Bootstrapper.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\ConfigurationCashHelper.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConfigurationCashHelper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\FiresecServiceManager.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecServiceManager.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\MainView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\MainViewModel.Designer.cs">
+      <DependentUpon>MainViewModel.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\Bootstrapper.en.Designer.cs">
+      <DependentUpon>Bootstrapper.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\MainViewModel.en.Designer.cs">
+      <DependentUpon>MainViewModel.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Language\NotifyIconService.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotifyIconService.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\PatchManager.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PatchManager.resx</DependentUpon>
+    </Compile>
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\DBHelper\EntLibHelper.cs" />
@@ -211,6 +256,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\lang.ru-Ru.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\lang.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -230,6 +283,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\Language\ConfigurationCashHelper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConfigurationCashHelper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\NotifyIconService.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NotifyIconService.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\PatchManager.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PatchManager.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -237,6 +302,35 @@
     <None Include="StrazhService.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Resources\Language\Bootstrapper.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Bootstrapper.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\FiresecServiceManager.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FiresecServiceManager.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\MainView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainView.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\MainViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainViewModel.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Bootstrapper.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Bootstrapper.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\MainViewModel.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainViewModel.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

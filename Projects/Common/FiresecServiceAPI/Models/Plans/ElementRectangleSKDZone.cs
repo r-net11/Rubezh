@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementRectangleSKDZone()
 		{
-			PresentationName = "Зона Страж";
+            PresentationName = Resources.Language.Models.Plans.ElementRectangleSKDZones.PresentationName;
 		}
 
 		[DataMember]

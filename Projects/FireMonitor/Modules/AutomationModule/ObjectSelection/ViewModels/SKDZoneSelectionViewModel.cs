@@ -10,7 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public SKDZoneSelectionViewModel(SKDZone zone)
 		{
-			Title = "Выбор зоны";
+		    Title = Resources.Language.SKDZoneSelectionViewModel.Title;
 			Zones = new ObservableCollection<ZoneViewModel>();
 			SKDManager.Zones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
 			if (zone != null)

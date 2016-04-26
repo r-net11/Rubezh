@@ -1,16 +1,20 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Automation.Enums
 {
 	public enum EmailSecureProtocol
 	{
-		[Description("Не используется")]
+		//[Description("Не используется")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.EmailSecureProtocol), "None")]
 		None,
 
-		[Description("SSL")]
+		//[Description("SSL")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.EmailSecureProtocol), "Ssl")]
 		Ssl,
 
-		[Description("TLS")]
+		//[Description("TLS")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.EmailSecureProtocol), "Tls")]
 		Tls
 	}
 }

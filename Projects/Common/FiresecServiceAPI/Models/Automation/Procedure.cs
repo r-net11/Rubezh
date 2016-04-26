@@ -11,7 +11,7 @@ namespace FiresecAPI.Automation
 	{
 		public Procedure()
 		{
-			Name = "Новая процедура";
+			Name = Resources.Language.Models.Automation.Procedure.Name;
 			Variables = new List<Variable>();
 			Arguments = new List<Variable>();
 			Steps = new List<ProcedureStep>();

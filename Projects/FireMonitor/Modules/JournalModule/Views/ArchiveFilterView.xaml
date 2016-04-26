@@ -8,6 +8,7 @@
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+    xmlns:res="clr-namespace:JournalModule.Resources.Language"
 	MinWidth="720"
 	MinHeight="400">
 	<UserControl.Resources>
@@ -22,7 +23,7 @@
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<Button
-				Content="Сбросить все настройки"
+				Content="{x:Static res:ArchiveFilterView.ClearSettings}"
 				Command="{Binding ClearCommand}"
 				HorizontalAlignment="Left"
 				Width="200" />
@@ -34,23 +35,23 @@
 					Width="100"
 					Command="{Binding SaveCommand}"
 					Margin="2"
-					Content="ОК"
+					Content="{x:Static res:ArchiveFilterView.Ok}"
 					IsDefault="True" />
 				<Button
 					Width="100"
 					Margin="2"
 					Command="{Binding CancelCommand}"
-					Content="Отмена" />
+					Content="{x:Static res:ArchiveFilterView.Cancel}" />
 			</StackPanel>
 		</Grid>
 		<TabControl>
 			<TabItem
-				Header="Временной диапазон"
+				Header="{x:Static res:ArchiveFilterView.TimeInterval}"
 				DataContext="{Binding ArchiveDateTimeViewModel}">
 				<StackPanel Margin="25">
 					<StackPanel Orientation="Horizontal" Margin="2">
 						<TextBlock
-							Text="Интервал"
+							Text="{x:Static res:ArchiveFilterView.Interval}"
 							Width="100"
 							VerticalAlignment="Center"
 							Foreground="White" />
@@ -79,13 +80,13 @@
 						Visibility="{Binding IsStartDateVisible, Converter={StaticResource BoolToVisibilityConverter}}"
 						Margin="5">
 						<TextBlock
-							Text="Дата начала"
+							Text="{x:Static res:ArchiveFilterView.StartDate}"
 							Width="100"
 							VerticalAlignment="Center"
 							Foreground="White" />
 						<DatePicker
 							behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-							behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+							behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static res:ArchiveFilterView.DateWatermark}"
 							Validation.ErrorTemplate="{x:Null}"
 							VerticalAlignment="Center"
 							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
@@ -101,13 +102,13 @@
 						Visibility="{Binding IsEndDateVisible, Converter={StaticResource BoolToVisibilityConverter}}"
 						Margin="5">
 						<TextBlock
-							Text="Дата окончания"
+							Text="{x:Static res:ArchiveFilterView.EndDate}"
 							Width="100"
 							VerticalAlignment="Center"
 							Foreground="White" />
 						<DatePicker
 							behaviours:DatePickerCustomWatermark.Watermark="{StaticResource WatermarkColor}"
-							behaviours:DatePickerCustomWatermark.WatermarkText="дд.мм.ггг"
+							behaviours:DatePickerCustomWatermark.WatermarkText="{x:Static res:ArchiveFilterView.DateWatermark}"
 							Validation.ErrorTemplate="{x:Null}"
 							VerticalAlignment="Center"
 							DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneWay}"
@@ -120,12 +121,12 @@
 					</StackPanel>
 					<CheckBox
 						IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}"
-						Content="Использовать дату устройства"
+						Content="{x:Static res:ArchiveFilterView.UseDeviceDate}"
 						Foreground="White"
 						Margin="106 2 0 0" />
 				</StackPanel>
 			</TabItem>
-			<TabItem Header="Событие" DataContext="{Binding FilterNamesViewModel}">
+            <TabItem Header="{x:Static res:ArchiveFilterView.Event}" DataContext="{Binding FilterNamesViewModel}">
 				<tree:TreeList
 					layout:ListViewLayoutManager.Enabled="True"
 					Focusable="False"
@@ -138,7 +139,7 @@
 					Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
-							<GridViewColumn Header="Наименование" layout:ProportionalColumn.Width="1">
+                            <GridViewColumn Header="{x:Static res:ArchiveFilterView.Name}" layout:ProportionalColumn.Width="1">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
@@ -162,7 +163,7 @@
 					</tree:TreeList.View>
 				</tree:TreeList>
 			</TabItem>
-			<TabItem Header="Объект" DataContext="{Binding FilterObjectsViewModel}">
+            <TabItem Header="{x:Static res:ArchiveFilterView.Object}" DataContext="{Binding FilterObjectsViewModel}">
 				<tree:TreeList
 					layout:ListViewLayoutManager.Enabled="True"
 					Focusable="False"
@@ -175,7 +176,7 @@
 					Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
-							<GridViewColumn Header="Наименование" layout:ProportionalColumn.Width="1">
+                            <GridViewColumn Header="{x:Static res:ArchiveFilterView.Name}" layout:ProportionalColumn.Width="1">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">

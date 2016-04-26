@@ -13,7 +13,7 @@ namespace JournalModule.ViewModels
 	{
 		public ArchiveSettingsViewModel()
 		{
-			Title = "Настройки";
+			Title = Resources.Language.ArchiveSettingsViewModel.Title;
 
 			AdditionalColumns = new List<JournalColumnTypeViewModel>();
 			foreach (JournalColumnType journalColumnType in Enum.GetValues(typeof(JournalColumnType)))

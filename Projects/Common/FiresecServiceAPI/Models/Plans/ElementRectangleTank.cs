@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementRectangleTank()
 		{
-			PresentationName = "Бак";
+            PresentationName = Resources.Language.Models.Plans.ElementRectangleTank.PresentationName;
 		}
 
 		[DataMember]

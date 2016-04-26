@@ -2,7 +2,8 @@
 	x:Class="Infrastructure.Client.Plans.PlanDesignerView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+    xmlns:res="clr-namespace:Infrastructure.Client.Resources.Language">
 	<Grid Visibility="{Binding IsNotEmpty, Converter={StaticResource BoolToVisibilityConverter}}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -44,14 +45,14 @@
 				                                                                AncestorType={x:Type UserControl}}}"
 					DockPanel.Dock="Left"
 					ImageSource="ZoomOut"
-					ToolTip="Уменьшить размер устройства" />
+					ToolTip="{x:Static res:PlanDesignerView.DeviceZoomOut}" />
 				<ToolBarButton
 					Command="{Binding DeviceZoomInCommand,
 				                                 RelativeSource={RelativeSource FindAncestor,
 				                                                                AncestorType={x:Type UserControl}}}"
 					DockPanel.Dock="Right"
 					ImageSource="ZoomIn"
-					ToolTip="Увеличить размер устройства" />
+					ToolTip="{x:Static res:PlanDesignerView.DeviceZoomIn}" />
 				<Slider
 					x:Name="deviceSlider"
 					VerticalAlignment="Center"
@@ -62,7 +63,7 @@
 					Orientation="Horizontal"
 					TickFrequency="1"
 					TickPlacement="None"
-					ToolTip="Изменить размер устройства"
+					ToolTip="{x:Static res:PlanDesignerView.ChangeDeviceSize}"
 					Value="30" />
 			</DockPanel>
 			<DockPanel Grid.Column="1">
@@ -72,14 +73,14 @@
 				                                                                AncestorType={x:Type UserControl}}}"
 					DockPanel.Dock="Left"
 					ImageSource="ZoomOut"
-					ToolTip="Уменьшить масштаб плана" />
+					ToolTip="{x:Static res:PlanDesignerView.PlanZoomOut}" />
 				<ToolBarButton
 					Command="{Binding ZoomInCommand,
 				                                 RelativeSource={RelativeSource FindAncestor,
 				                                                                AncestorType={x:Type UserControl}}}"
 					DockPanel.Dock="Right"
 					ImageSource="ZoomIn"
-					ToolTip="Увеличить масштаб плана" />
+					ToolTip="{x:Static res:PlanDesignerView.PlanZoonIn}" />
 				<Slider
 					x:Name="slider"
 					VerticalAlignment="Center"
@@ -87,7 +88,7 @@
 					Maximum="10"
 					Minimum="1"
 					Orientation="Horizontal"
-					ToolTip="Изменить масштаб плана"
+					ToolTip="{x:Static res:PlanDesignerView.ChangePlanSize}"
 					Value="1" />
 			</DockPanel>
 			<Controls:ToggleButton

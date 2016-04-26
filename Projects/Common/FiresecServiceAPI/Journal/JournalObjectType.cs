@@ -1,22 +1,29 @@
 ﻿using System.ComponentModel;
+using System.Windows.Data;
+using Localization;
 
 namespace FiresecAPI.Journal
 {
 	public enum JournalObjectType
 	{
-		[DescriptionAttribute("Нет")]
+		//[DescriptionAttribute("Нет")]
+        [LocalizedDescription(typeof(Resources.Language.Journal.JournalObjectType), "None")]
 		None = 0,
 
-		[DescriptionAttribute("Устройства Страж")]
-		SKDDevice = 10,
+		//[DescriptionAttribute("Устройства Страж")]
+        [LocalizedDescription(typeof(Resources.Language.Journal.JournalObjectType), "SKDDevice")]
+        SKDDevice = 10,
 
-		[DescriptionAttribute("Зоны Страж")]
-		SKDZone = 11,
+		//[DescriptionAttribute("Зоны Страж")]
+        [LocalizedDescription(typeof(Resources.Language.Journal.JournalObjectType), "SKDZone")]
+        SKDZone = 11,
 
-		[DescriptionAttribute("Точки доступа Страж")]
-		SKDDoor = 12,
+		//[DescriptionAttribute("Точки доступа Страж")]
+        [LocalizedDescription(typeof(Resources.Language.Journal.JournalObjectType), "SKDDoor")]
+        SKDDoor = 12,
 
-		[DescriptionAttribute("Видеоустройства")]
-		VideoDevice = 13
+		//[DescriptionAttribute("Видеоустройства")]
+        [LocalizedDescription(typeof(Resources.Language.Journal.JournalObjectType), "VideoDevice")]
+        VideoDevice = 13
 	}
 }

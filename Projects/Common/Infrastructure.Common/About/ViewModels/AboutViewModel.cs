@@ -9,10 +9,10 @@ namespace Infrastructure.Common.About.ViewModels
 	{
 		public AboutViewModel()
 		{
-			Title = "О программе";
+			Title = Resources.Language.AboutViewModel.Title;
 			Sizable = false;
 			AllowSave = false;
-			CancelCaption = "Закрыть";
+            CancelCaption = Resources.Language.AboutViewModel.CancelCaption;
 		}
 
 		public string Product

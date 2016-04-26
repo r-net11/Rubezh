@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public PlanFolder()
 		{
-			Caption = "Папка";
+            Caption = Resources.Language.Models.Plans.PlanFolder.Caption;
 		}
 	}
 }

@@ -1,16 +1,20 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Journal
 {
 	public enum JournalSubsystemType
 	{
-		[Description("Система")]
-		System = 0,
+		//[Description("Система")]
+        [LocalizedDescription(typeof(Resources.Language.Journal.JournalSubSystemType), "System")]
+        System = 0,
 
-		[Description("Страж")]
-		SKD = 2,
+		//[Description("Страж")]
+        [LocalizedDescription(typeof(Resources.Language.Journal.JournalSubSystemType), "SKD")]
+        SKD = 2,
 
-		[Description("Видео")]
+		//[Description("Видео")]
+        [LocalizedDescription(typeof(Resources.Language.Journal.JournalSubSystemType), "Video")]
 		Video = 3
 	}
 }

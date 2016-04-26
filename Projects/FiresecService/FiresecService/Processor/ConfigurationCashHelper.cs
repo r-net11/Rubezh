@@ -50,7 +50,7 @@ namespace FiresecService
 			}
 			else
 			{
-				MessageBox.Show(Resources.ConfigFileNotExist, Resources.ErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Resources.Language.ConfigurationCashHelper.ExtractAllConfigFiles_ConfigFileNotExist, Resources.Language.ConfigurationCashHelper.ExtractAllConfigFiles_ErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
 				Application.Current.MainWindow.Close();
 			}
 		}
@@ -151,7 +151,7 @@ namespace FiresecService
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
+				Logger.Error(e, Resources.Language.ConfigurationCashHelper.GetConfigurationFromZip_Logger_Error + fileName);
 			}
 			return null;
 		}

@@ -243,7 +243,7 @@ namespace SKDDriver
 				x.UID != employee.UID &&
 				x.IsDeleted == false);
 			if (hasSameName)
-				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
+				return new OperationResult(Resources.Language.EmployeeTranslator.CanSave_Error);
 			else
 				return new OperationResult();
 		}

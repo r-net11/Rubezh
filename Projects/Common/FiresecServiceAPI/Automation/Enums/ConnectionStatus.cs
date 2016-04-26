@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Automation.Enums
 {
@@ -10,13 +11,15 @@ namespace FiresecAPI.Automation.Enums
 		/// <summary>
 		/// Норма
 		/// </summary>
-		[Description("Норма")]
+		//[Description("Норма")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.ConnectionStatus), "Connected")]
 		Connected,
 		
 		/// <summary>
 		/// Потеря связи
 		/// </summary>
-		[Description("Потеря связи")]
+        //[Description("Потеря связи")]
+        [LocalizedDescription(typeof(Resources.Language.Automation.Enums.ConnectionStatus), "Disconnected")]
 		Disconnected
 	}
 }

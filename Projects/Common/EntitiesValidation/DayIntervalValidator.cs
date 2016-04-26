@@ -33,10 +33,10 @@ namespace EntitiesValidation
 			if (dayIntervalPartsWithIntersection.Count > 0)
 			{
 				var sb = new StringBuilder();
-				sb.AppendLine(String.Format("Дневной график '{0}' пересекает временные интервалы дневного графика '{1}':", dayInterval1.Name, dayInterval2.Name));
+				sb.AppendLine(string.Format(Resources.Language.DayIntervalValidator.DayIntervalPartsWithIntersection, dayInterval1.Name, dayInterval2.Name));
 				foreach (var dayIntervalPart in dayIntervalPartsWithIntersection)
 				{
-					sb.AppendLine(String.Format("- [{0}-{1}]", dayIntervalPart.BeginTime.ToString(@"hh\:mm\:ss"), dayIntervalPart.EndTime.ToString(@"hh\:mm\:ss")));
+                    sb.AppendLine(string.Format(Resources.Language.DayIntervalValidator.dayIntervalPartsWithIntersection_BeginEndInterval, dayIntervalPart.BeginTime.ToString(@"hh\:mm\:ss"), dayIntervalPart.EndTime.ToString(@"hh\:mm\:ss")));
 				}
 				return OperationResult<List<DayIntervalPart>>.FromError(sb.ToString(), dayIntervalPartsWithIntersection);
 			}

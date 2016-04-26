@@ -14,7 +14,7 @@ namespace JournalModule.ViewModels
 
 		public ArchiveFilterViewModel(ArchiveFilter filter)
 		{
-			Title = "Настройки фильтра";
+			Title = Resources.Language.ArchiveFilterViewModel.Title;
 			ClearCommand = new RelayCommand(OnClear);
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
@@ -60,7 +60,7 @@ namespace JournalModule.ViewModels
 			{
 				if (ArchiveDateTimeViewModel.StartDateTime.DateTime > ArchiveDateTimeViewModel.EndDateTime.DateTime)
 				{
-					MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
+					MessageBoxService.ShowWarning(Resources.Language.ArchiveFilterViewModel.SaveCommand_Error);
 					return;
 				}
 			}

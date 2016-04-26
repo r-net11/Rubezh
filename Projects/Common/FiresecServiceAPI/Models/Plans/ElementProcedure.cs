@@ -20,7 +20,7 @@ namespace FiresecAPI.Models
 			BorderThickness = 0;
 			BackgroundColor = Colors.Transparent;
 
-			Text = "Процедура";
+            Text = Resources.Language.Models.Plans.ElementProcedure.Text;
 			ForegroundColor = Colors.Black;
 			FontSize = 10;
 			TextAlignment = 0;

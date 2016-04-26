@@ -11,7 +11,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public RectanglePropertiesViewModel(ElementRectangle elementRectangle)
 		{
-			Title = "Свойства фигуры: Прямоугольник";
+			Title = Resources.Language.RectanglePropertiesViewModel.Title;
 			ElementRectangle = elementRectangle;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(ElementRectangle);
 			CopyProperties();

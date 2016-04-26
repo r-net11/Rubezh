@@ -43,7 +43,7 @@ namespace JournalModule
 			{
 				_unreadJournalCount = value;
 				if (_journalNavigationItem != null)
-					_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
+					_journalNavigationItem.Title = UnreadJournalCount == 0 ? Resources.Language.JournalModuleLoader.Journal : string.Format(Resources.Language.JournalModuleLoader.JournalWithVariable, UnreadJournalCount);
 			}
 		}
 
@@ -73,12 +73,12 @@ namespace JournalModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, "Журнал событий", "Book");
+			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, Resources.Language.JournalModuleLoader.Journal, "Book");
 			UnreadJournalCount = 0;
 			return new List<NavigationItem>()
 			{
 				_journalNavigationItem,
-				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, "Архив", "Archive")
+				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, Resources.Language.JournalModuleLoader.Archive, "Archive")
 			};
 		}
 		public override ModuleType ModuleType
@@ -142,7 +142,7 @@ namespace JournalModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) =>
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, Resources.Language.JournalModuleLoader.Journal, "Book.png", (p) =>
 			{
 				var layoutPartJournalProperties = p as LayoutPartReferenceProperties;
 				var filter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.ReferenceUID);
@@ -159,7 +159,7 @@ namespace JournalModule
 
 				return journalViewModel;
 			});
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => ArchiveViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, Resources.Language.JournalModuleLoader.Archive, "Archive.png", (p) => ArchiveViewModel);
 		}
 
 		#endregion

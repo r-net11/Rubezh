@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="JournalModule.Views.ConfirmationView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:res="clr-namespace:JournalModule.Resources.Language"
 			 MinWidth="300" MinHeight="300">
 	<Grid Background="White">
 		<Grid.RowDefinitions>
@@ -20,11 +21,11 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Grid.Column="0" Text="Дата" />
-			<TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" />
-			<TextBlock Grid.Row="2" Grid.Column="0" Text="Уточнение" />
-			<TextBlock Grid.Row="3" Grid.Column="0" Text="Состояние" />
-			<TextBlock Grid.Row="5" Grid.Column="0" Text="Объект" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static res:ConfirmationView.Date}" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static res:ConfirmationView.Event}" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static res:ConfirmationView.Description}" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static res:ConfirmationView.State}" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="{x:Static res:ConfirmationView.Object}" />
 
 			<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource NullableTimeToStringConverter}}" Margin="2" />
 			<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
@@ -32,6 +33,6 @@
 			<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
 			<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ObjectName}" Margin="2" />
 		</Grid>
-		<Button Grid.Row="1" Content="Подтвердить" Command="{Binding ConfirmCommand}" HorizontalAlignment="Right" Width="150" Height="50" FontWeight="Bold" Margin="2" />
+        <Button Grid.Row="1" Content="{x:Static res:ConfirmationView.Confirm}" Command="{Binding ConfirmCommand}" HorizontalAlignment="Right" Width="150" Height="50" FontWeight="Bold" Margin="2" />
 	</Grid>
 </UserControl>

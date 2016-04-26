@@ -1,33 +1,50 @@
-﻿using License.Model.Entities;
+﻿using System.Collections;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Localization;
+using Infrastructure.Common;
+using License.Model.Entities;
 using System;
 using System.ComponentModel;
 
 namespace KeyGenerator.Entities
 {
-	public class LicenseEntity
-	{
+
+    public class LicenseEntity
+    {
 		public string UID { get; private set; }
 		public DateTime CreateDateTime { get; private set; }
-
-		[Description("Оперативная задача (подключение)")]
+        //[Description("Оперативная задача (подключение)")]
+        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "OperatorConnectionsNumber")]
 		public int OperatorConnectionsNumber { get; private set; }
 
-		[Description("Всего пользователей")]
+		//[Description("Всего пользователей")]
+        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "TotalUsers")]
 		public int TotalUsers { get; private set; }
 
-		[Description("Лицензия неограниченное количество пользователей")]
+		//[Description("Лицензия неограниченное количество пользователей")]
+        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsUnlimitedUsers")]
 		public bool IsUnlimitedUsers { get; private set; }
 
-		[Description("Модуль \"Учет рабочего времени\"")]
+		//[Description("Модуль \"Учет рабочего времени\"")]
+        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledURV")]
 		public bool IsEnabledURV { get; private set; }
-		[Description("Модуль \"Фотоверификация\"")]
+		//[Description("Модуль \"Фотоверификация\"")]
+        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledPhotoVerification")]
 		public bool IsEnabledPhotoVerification { get; private set; }
-		[Description("Модуль \"Интеграция видео RVi\"")]
+		//[Description("Модуль \"Интеграция видео RVi\"")]
+        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledRVI")]
 		public bool IsEnabledRVI { get; private set; }
-		[Description("Модуль \"Автоматизация\"")]
+		//[Description("Модуль \"Автоматизация\"")]
+        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledAutomation")]
 		public bool IsEnabledAutomation { get; private set; }
 
-		[Description("Сервер A.C. Tech")]
+		//[Description("Сервер A.C. Tech")]
+        [LocalizedDescription(typeof(Resources.Language.LicenseEntity), "IsEnabledServer")]
 		public bool IsEnabledServer { get; private set; }
 
 		public LicenseEntity(ILicenseEntity entity)

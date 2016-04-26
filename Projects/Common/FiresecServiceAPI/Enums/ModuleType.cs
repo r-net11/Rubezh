@@ -1,61 +1,80 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.Enums
 {
 	public enum ModuleType
 	{
-		[Description("Администратор")]
+		//[Description("Администратор")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Administrator")]
 		Administrator,
 
-		[Description("Автоматизация")]
-		Automation,
+		//[Description("Автоматизация")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Automation")]
+        Automation,
 
-		[Description("Устройства, Зоны")]
-		Devices,
+		//[Description("Устройства, Зоны")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Devices")]
+        Devices,
 
-		[Description("Фильтры журнала событий")]
-		Filters,
+		//[Description("Фильтры журнала событий")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Filters")]
+        Filters,
 
-		[Description("Конфигуратор макетов ОЗ")]
-		Layout,
+		//[Description("Конфигуратор макетов ОЗ")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Layout")]
+        Layout,
 
-		[Description("Библиотека устройств")]
-		Library,
+		//[Description("Библиотека устройств")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Library")]
+        Library,
 
-		[Description("Уведомления")]
-		Notification,
+		//[Description("Уведомления")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Notification")]
+        Notification,
 
-		[Description("Графические планы")]
-		Plans,
+		//[Description("Графические планы")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Plans")]
+        Plans,
 
-		[Description("Права доступа")]
-		Security,
+		//[Description("Права доступа")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Security")]
+        Security,
+        
+		//[Description("Настройки")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Settings")]
+        Settings,
 
-		[Description("Настройки")]
-		Settings,
+		//[Description("СКД")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "SKD")]
+        SKD,
 
-		[Description("СКД")]
-		SKD,
+		//[Description("Страж")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Strazh")]
+        Strazh,
 
-		[Description("Страж")]
-		Strazh,
+		//[Description("Звуки")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Sounds")]
+        Sounds,
 
-		[Description("Звуки")]
-		Sounds,
+		//[Description("Видео")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Video")]
+        Video,
 
-		[Description("Видео")]
-		Video,
+		//[Description("Состояния")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Alarm")]
+        Alarm,
 
-		[Description("Cостояния")]
-		Alarm,
+		//[Description("Журнал событий и Архив")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Journal")]
+        Journal,
 
-		[Description("Журнал событий и Архив")]
-		Journal,
+		//[Description("Отчёты")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Reports")]
+        Reports,
 
-		[Description("Отчёты")]
-		Reports,
-
-		[Description("Монитор")]
-		Monitor,
+		//[Description("Монитор")]
+        [LocalizedDescription(typeof(Resources.Language.Enums.ModuleType), "Monitor")]
+        Monitor,
 	}
 }

@@ -80,7 +80,7 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		public bool IsDefault { get { return Name == DefaultFilterName; } }
 
-		private string DefaultFilterName { get { return "По умолчанию"; } }
+        private string DefaultFilterName { get { return Resources.Language.SKD.ReportFilters.SKDReportFilter.DefaultFilterName; } }
 
 		public override string ToString()
 		{

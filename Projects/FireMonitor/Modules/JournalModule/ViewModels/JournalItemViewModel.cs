@@ -125,7 +125,7 @@ namespace JournalModule.ViewModels
 			}
 
 			if (ObjectName == null)
-				ObjectName = "<Нет в конфигурации>";
+				ObjectName = Resources.Language.JournalItemViewModel.ObjectName_Null;
 
 			//if (JournalItem.EmployeeUID != Guid.Empty)
 			//{
@@ -238,7 +238,7 @@ namespace JournalModule.ViewModels
 			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(c => c.UID == JournalItem.CameraUID);
 			if (camera == null)
 			{
-				MessageBoxService.ShowWarning("Отсутствует видеоустройство, связанное с событием");
+				MessageBoxService.ShowWarning(Resources.Language.JournalItemViewModel.VideoDevice_Null);
 				return;
 			}
 
@@ -251,11 +251,11 @@ namespace JournalModule.ViewModels
 			catch (CommunicationObjectFaultedException e)
 			{
 				Logger.Error(e, "Исключение при вызове VideoViewModel(Guid eventUID, Guid cameraUID)");
-				MessageBoxService.ShowError("Проверьте запущено ли приложение RVi Оператор и настройки соединения с ним");
+				MessageBoxService.ShowError(Resources.Language.JournalItemViewModel.RVi_NotConnected);
 			}
 			catch (FileNotFoundException)
 			{
-				MessageBoxService.ShowError("Не найден файл видеозаписи в архиве");
+				MessageBoxService.ShowError(Resources.Language.JournalItemViewModel.FileNotFound);
 			}
 			catch (Exception e)
 			{

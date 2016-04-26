@@ -249,12 +249,12 @@ namespace JournalModule.ViewModels
 
 		public bool IsLoading
 		{
-			get { return Status == "Загрузка данных"; }
+			get { return Status == Resources.Language.ArchiveViewModel.Update_Status; }
 		}
 
 		public void Update()
 		{
-			Status = "Загрузка данных";
+			Status = Resources.Language.ArchiveViewModel.Update_Status;
 			JournalItems = new ObservableRangeCollection<JournalItemViewModel>();
 
 			Pages = new ObservableCollection<ArchivePageViewModel>();
@@ -312,7 +312,9 @@ namespace JournalModule.ViewModels
 				TotalPageNumber = Pages.Count;
 				if (CurrentPageNumber == 0)
 					CurrentPageNumber = 1;
-				Status = "Количество записей: " + ((TotalPageNumber - 1) * ClientSettings.ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
+				//Status = "Количество записей: " + ((TotalPageNumber - 1) * ClientSettings.ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
+			    Status = string.Format(Resources.Language.ArchiveViewModel.OnGetFilteredArchiveCompleted_Status,
+			        ((TotalPageNumber - 1)*ClientSettings.ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()));
 			}
 		}
 

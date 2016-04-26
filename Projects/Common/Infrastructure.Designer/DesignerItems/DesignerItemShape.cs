@@ -18,7 +18,7 @@ namespace Infrastructure.Designer.DesignerItems
 			{
 				Title = Element.PresentationName;
 				Group = LayerGroupService.ElementAlias;
-				ClassName = Element.IsExactly<ElementPolygon>() ? "Многоугольник" : "Линия";
+				ClassName = Element.IsExactly<ElementPolygon>() ? Resources.Language.DesignerShapes.Polygon : Resources.Language.DesignerShapes.Line;
 			}
 		}
 

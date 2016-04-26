@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.Automation
 {
@@ -20,10 +21,12 @@ namespace FiresecAPI.Automation
 
 	public enum IncrementType
 	{
-		[Description("Инкремент")]
-		Inc,
+		//[Description("Инкремент")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.IncrementValueArguments), "Inc")]
+        Inc,
 
-		[Description("Декремент")]
+		//[Description("Декремент")]
+        [LocalizedDescription(typeof(Resources.Language.Models.Automation.StepArguments.IncrementValueArguments), "Dec")]
 		Dec,
 	}
 }
