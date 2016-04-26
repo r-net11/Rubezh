@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddJournalItem" xml:space="preserve">
+    <value>Добавить запись в журнал</value>
+  </data>
+  <data name="Arithmetics" xml:space="preserve">
+    <value>Арифметическая операция</value>
+  </data>
+  <data name="Break" xml:space="preserve">
+    <value>Выйти из цикла</value>
+  </data>
+  <data name="ChangeList" xml:space="preserve">
+    <value>Изменение списка</value>
+  </data>
+  <data name="CheckPermission" xml:space="preserve">
+    <value>Проверка прав</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Продолжить цикл</value>
+  </data>
+  <data name="ControlDoor" xml:space="preserve">
+    <value>Управление точкой доступа</value>
+  </data>
+  <data name="ControlPlanGet" xml:space="preserve">
+    <value>Чтение свойства элементами плана</value>
+  </data>
+  <data name="ControlPlanSet" xml:space="preserve">
+    <value>Установка свойства элементами плана</value>
+  </data>
+  <data name="ControlSKDDevice" xml:space="preserve">
+    <value>Управление устройством СКД</value>
+  </data>
+  <data name="ControlSKDZone" xml:space="preserve">
+    <value>Управление зоной СКД</value>
+  </data>
+  <data name="ControlVisualGet" xml:space="preserve">
+    <value>Чтение свойства визуального элемента</value>
+  </data>
+  <data name="ControlVisualSet" xml:space="preserve">
+    <value>Установка свойства визуального элемента</value>
+  </data>
+  <data name="DoAction" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Выход из процедуры</value>
+  </data>
+  <data name="ExportConfiguration" xml:space="preserve">
+    <value>Экспорт конфигурации</value>
+  </data>
+  <data name="ExportJournal" xml:space="preserve">
+    <value>Экспорт журнала</value>
+  </data>
+  <data name="ExportOrganisation" xml:space="preserve">
+    <value>Экспорт организации</value>
+  </data>
+  <data name="ExportOrganisationList" xml:space="preserve">
+    <value>Экспорт списка организаций</value>
+  </data>
+  <data name="ExportReport" xml:space="preserve">
+    <value>Экспорт отчета</value>
+  </data>
+  <data name="FindObjects" xml:space="preserve">
+    <value>Найти объекты</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>Цикл со счетчиком (For)</value>
+  </data>
+  <data name="Foreach" xml:space="preserve">
+    <value>Цикл по списку</value>
+  </data>
+  <data name="ForeachBody" xml:space="preserve">
+    <value>Тело цикла</value>
+  </data>
+  <data name="GenerateGuid" xml:space="preserve">
+    <value>Генерировать идентификатор</value>
+  </data>
+  <data name="GetDateTimeNow" xml:space="preserve">
+    <value>Получить текущее время</value>
+  </data>
+  <data name="GetDoorProperty" xml:space="preserve">
+    <value>Получение свойства точки доступа</value>
+  </data>
+  <data name="GetJournalItem" xml:space="preserve">
+    <value>Получить значение журнала</value>
+  </data>
+  <data name="GetListCount" xml:space="preserve">
+    <value>Получить размер списка</value>
+  </data>
+  <data name="GetListItem" xml:space="preserve">
+    <value>Получить элемент списка</value>
+  </data>
+  <data name="GetObjectProperty" xml:space="preserve">
+    <value>Получить значение свойства объекта</value>
+  </data>
+  <data name="GetSkdDeviceProperty" xml:space="preserve">
+    <value>Получение свойства устройства СКД</value>
+  </data>
+  <data name="GetSkdZoneProperty" xml:space="preserve">
+    <value>Получение свойства зоны СКД</value>
+  </data>
+  <data name="If" xml:space="preserve">
+    <value>Условие</value>
+  </data>
+  <data name="IfNo" xml:space="preserve">
+    <value>Не выполняется</value>
+  </data>
+  <data name="IfYes" xml:space="preserve">
+    <value>Выполняется</value>
+  </data>
+  <data name="ImportOrganisation" xml:space="preserve">
+    <value>Импорт организации</value>
+  </data>
+  <data name="ImportOrganisationList" xml:space="preserve">
+    <value>Импорт списка организаций</value>
+  </data>
+  <data name="IncrementValue" xml:space="preserve">
+    <value>Инкремент значения переменной</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Пауза</value>
+  </data>
+  <data name="PlaySound" xml:space="preserve">
+    <value>Проигрывание звука</value>
+  </data>
+  <data name="ProcedureSelection" xml:space="preserve">
+    <value>Функция выбора процедуры</value>
+  </data>
+  <data name="Ptz" xml:space="preserve">
+    <value>Управление PTZ камерой</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>Случайное значение</value>
+  </data>
+  <data name="RunProgram" xml:space="preserve">
+    <value>Запуск программы</value>
+  </data>
+  <data name="RviAlarm" xml:space="preserve">
+    <value>Вызвать тревогу в RVI Оператор</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Отправить сообщение по электронной почте</value>
+  </data>
+  <data name="SetJournalItemGuid" xml:space="preserve">
+    <value>Назначить идентификатор события</value>
+  </data>
+  <data name="SetValue" xml:space="preserve">
+    <value>Задание значения переменной</value>
+  </data>
+  <data name="ShowDialog" xml:space="preserve">
+    <value>Показать диалоговую форму</value>
+  </data>
+  <data name="ShowMessage" xml:space="preserve">
+    <value>Показать сообщение</value>
+  </data>
+  <data name="ShowProperty" xml:space="preserve">
+    <value>Показать свойство объекта</value>
+  </data>
+  <data name="StartRecord" xml:space="preserve">
+    <value>Начать запись</value>
+  </data>
+  <data name="StopRecord" xml:space="preserve">
+    <value>Остановить запись</value>
+  </data>
+  <data name="While" xml:space="preserve">
+    <value>Цикл с условием (While)</value>
+  </data>
+</root>
