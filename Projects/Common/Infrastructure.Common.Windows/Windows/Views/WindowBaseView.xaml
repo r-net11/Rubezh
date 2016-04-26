@@ -20,6 +20,7 @@
 			<Setter Property="Foreground" Value="{DynamicResource WindowText}" />
 			<Setter Property="BorderBrush" Value="{DynamicResource WindowBorder}" />
 			<Setter Property="UseLayoutRounding" Value="True" />
+			<Setter Property="TextOptions.TextFormattingMode" Value="Display" />
 			<Setter Property="FontFamily" Value="Arial" />
 			<Setter Property="FontSize" Value="12" />
 			<Setter Property="Template">
