@@ -112,6 +112,7 @@ namespace FireAdministrator.ViewModels
 			PlansConfiguration.Update();
 			CreateNewGKUIDs();
 			GKDeviceConfiguration.Update();
+
 			PlansConfiguration.Update();
 			var errors = new StringBuilder();
 
@@ -128,7 +129,8 @@ namespace FireAdministrator.ViewModels
 				{
 					ipAddress = ipProperty.StringValue;
 				}
-				var existingGKDevice = GKManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
+
+				var existingGKDevice = GKManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Properties.FirstOrDefault(y => y.StringValue == ipAddress) != null);
 				if (existingGKDevice != null)
 				{
 					foreach (var device in gkControllerDevice.Children)
@@ -213,7 +215,6 @@ namespace FireAdministrator.ViewModels
 				ClientManager.PlansConfiguration.Plans.Add(plan);
 			}
 
-			GKManager.UpdateConfiguration();
 			ClientManager.UpdateConfiguration();
 
 			var errorsString = errors.ToString();
