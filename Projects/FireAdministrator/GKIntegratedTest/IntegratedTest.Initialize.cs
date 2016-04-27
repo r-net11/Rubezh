@@ -153,6 +153,20 @@ namespace GKIntegratedTest
 			, traceMessage);
 		}
 
+		void WaitWhileOneOfStates(GKBase gkBase, XStateClass gkState, int milliseconds, string traceMessage)
+		{
+			CheckTime(() =>
+			{
+				int timeOut = 0;
+				while (!gkBase.State.StateClasses.Contains(gkState) && timeOut < milliseconds)
+				{
+					Thread.Sleep(50);
+					timeOut += 50;
+				}
+			}
+			, traceMessage);
+		}
+
 		void WaitWhileInitializeComplete(int milliseconds)
 		{
 			CheckTime(() =>
@@ -296,13 +310,16 @@ namespace GKIntegratedTest
 
 		public void OnNewJournalItems(List<JournalItem> newJournalItems, bool isNew)
 		{
-			if (isNew)
+			Dispatcher.CurrentDispatcher.Invoke(() =>
 			{
-				journalItems.AddRange(newJournalItems.Where(x => x.JournalObjectType != JournalObjectType.GKPim));
-				if (!InitializeComplete)
-					if (newJournalItems.Any(x => x.JournalEventNameType == JournalEventNameType.Начало_мониторинга))
-						InitializeComplete = true;
-			}
+				if (isNew)
+				{
+					journalItems.AddRange(newJournalItems.Where(x => x.JournalObjectType != JournalObjectType.GKPim));
+					if (!InitializeComplete)
+						if (newJournalItems.Any(x => x.JournalEventNameType == JournalEventNameType.Начало_мониторинга))
+							InitializeComplete = true;
+				}
+			});
 		}
 
 		bool InitializeComplete { get; set; }

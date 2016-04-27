@@ -39,7 +39,9 @@ namespace GKIntegratedTest
 			Assert.IsTrue(device1.State.StateClass == XStateClass.On, "Проверка того, что Табличка Не Входи Включена");
 			Assert.IsTrue(device2.State.StateClass == XStateClass.On, "Проверка того, что Табличка Уходи Включена");
 			Assert.IsTrue(device3.State.StateClass == XStateClass.On, "Проверка того, что Сирена Включена");
-			CheckJournal(4, JournalItem(mpt, JournalEventNameType.Включено), JournalItem(device1, JournalEventNameType.Включено), JournalItem(device2, JournalEventNameType.Включено), JournalItem(device3, JournalEventNameType.Включено));
+			CheckJournal(5, JournalItem(mpt, JournalEventNameType.Включено), JournalItem(device1, JournalEventNameType.Включено),
+				JournalItem(device2, JournalEventNameType.Включено), JournalItem(device3, JournalEventNameType.Включено),
+				JournalItem(Led("Устройство Включение ПУСК "), JournalEventNameType.Включено));
 		}
 	}
 }
