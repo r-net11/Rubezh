@@ -181,7 +181,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="DirectionRectangle",
+							ImageSource="MPTRectangle",
 							ToolTip="МПТ",
 							Adorner = new MPTRectangleAdorner(DesignerCanvas),
 							Index = 211,
@@ -190,7 +190,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="DirectionPolygon",
+							ImageSource="MPTPolygon",
 							ToolTip="МПТ",
 							Adorner = new MPTPolygonAdorner(DesignerCanvas),
 							Index = 212,
@@ -199,7 +199,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="DirectionRectangle",
+							ImageSource="DelayRectangle",
 							ToolTip="Задержки",
 							Adorner = new DelayRectangleAdorner(DesignerCanvas),
 							Index = 213,
@@ -208,7 +208,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="DirectionPolygon",
+							ImageSource="DelayPolygon",
 							ToolTip="Задержки",
 							Adorner = new DelayPolygonAdorner(DesignerCanvas),
 							Index = 214,
@@ -217,7 +217,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource = "DirectionRectangle",
+							ImageSource = "PumpStationRectangle",
 							ToolTip = "Насосные станции",
 							Adorner = new PumpStationRectangleAdorner(DesignerCanvas),
 							Index = 215,
@@ -226,7 +226,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource = "DirectionPolygon",
+							ImageSource = "PumpStationPolygon",
 							ToolTip = "Насосные станции",
 							Adorner = new PumpStationPolygonAdorner(DesignerCanvas),
 							Index = 216,
