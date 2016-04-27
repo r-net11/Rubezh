@@ -111,7 +111,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="ZoneRectangle",
 							ToolTip="Пожарная зона",
-							Adorner = new ZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
+							Adorner = new ZoneRectangleAdorner(DesignerCanvas),
 							Index = 200,
 							Autostart = true,
 							GroupIndex = 200,
@@ -120,7 +120,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="ZonePolygon",
 							ToolTip="Пожарная зона",
-							Adorner = new ZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
+							Adorner = new ZonePolygonAdorner(DesignerCanvas),
 							Index = 201,
 							Autostart = true,
 							GroupIndex = 200,
@@ -129,7 +129,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="ZoneRectangle",
 							ToolTip="Охранная зона",
-							Adorner = new GuardZoneRectangleAdorner(DesignerCanvas, _guardZonesViewModel),
+							Adorner = new GuardZoneRectangleAdorner(DesignerCanvas),
 							Index = 204,
 							Autostart = true,
 							GroupIndex = 204,
@@ -138,7 +138,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="ZonePolygon",
 							ToolTip="Охранная зона",
-							Adorner = new GuardZonePolygonAdorner(DesignerCanvas,  _guardZonesViewModel),
+							Adorner = new GuardZonePolygonAdorner(DesignerCanvas),
 							Index = 205,
 							Autostart = true,
 							GroupIndex = 204,
@@ -147,7 +147,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="ZoneRectangle",
 							ToolTip="СКД Зона",
-							Adorner = new SKDZoneRectangleAdorner(DesignerCanvas, _skdZonesViewModel),
+							Adorner = new SKDZoneRectangleAdorner(DesignerCanvas),
 							Index = 206,
 							Autostart = true,
 							GroupIndex = 206,
@@ -156,7 +156,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="ZonePolygon",
 							ToolTip="СКД Зона",
-							Adorner = new SKDZonePolygonAdorner(DesignerCanvas, _skdZonesViewModel),
+							Adorner = new SKDZonePolygonAdorner(DesignerCanvas),
 							Index = 207,
 							Autostart = true,
 							GroupIndex = 206,
@@ -165,7 +165,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="DirectionRectangle",
 							ToolTip="Направление",
-							Adorner = new DirectionRectangleAdorner(DesignerCanvas, _directionsViewModel),
+							Adorner = new DirectionRectangleAdorner(DesignerCanvas),
 							Index = 209,
 							Autostart = true,
 							GroupIndex = 208,
@@ -174,7 +174,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="DirectionPolygon",
 							ToolTip="Направление",
-							Adorner = new DirectionPolygonAdorner(DesignerCanvas, _directionsViewModel),
+							Adorner = new DirectionPolygonAdorner(DesignerCanvas),
 							Index = 210,
 							Autostart = true,
 							GroupIndex = 208,
@@ -183,7 +183,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="DirectionRectangle",
 							ToolTip="МПТ",
-							Adorner = new MPTRectangleAdorner(DesignerCanvas, _mptsViewModel),
+							Adorner = new MPTRectangleAdorner(DesignerCanvas),
 							Index = 211,
 							Autostart = true,
 							GroupIndex = 210,
@@ -192,7 +192,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="DirectionPolygon",
 							ToolTip="МПТ",
-							Adorner = new MPTPolygonAdorner(DesignerCanvas, _mptsViewModel),
+							Adorner = new MPTPolygonAdorner(DesignerCanvas),
 							Index = 212,
 							Autostart = true,
 							GroupIndex = 210,
@@ -201,7 +201,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="DirectionRectangle",
 							ToolTip="Задержки",
-							Adorner = new DelayRectangleAdorner(DesignerCanvas, _delaysViewModel),
+							Adorner = new DelayRectangleAdorner(DesignerCanvas),
 							Index = 213,
 							Autostart = true,
 							GroupIndex = 212,
@@ -210,7 +210,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="DirectionPolygon",
 							ToolTip="Задержки",
-							Adorner = new DelayPolygonAdorner(DesignerCanvas, _delaysViewModel),
+							Adorner = new DelayPolygonAdorner(DesignerCanvas),
 							Index = 214,
 							Autostart = true,
 							GroupIndex = 212,
@@ -219,7 +219,7 @@ namespace GKModule.Plans
 						{
 							ImageSource = "DirectionRectangle",
 							ToolTip = "Насосные станции",
-							Adorner = new PumpStationRectangleAdorner(DesignerCanvas, this._pumpStationsViewModel),
+							Adorner = new PumpStationRectangleAdorner(DesignerCanvas),
 							Index = 215,
 							Autostart = true,
 							GroupIndex = 214,
@@ -228,7 +228,7 @@ namespace GKModule.Plans
 						{
 							ImageSource = "DirectionPolygon",
 							ToolTip = "Насосные станции",
-							Adorner = new PumpStationPolygonAdorner(DesignerCanvas, this._pumpStationsViewModel),
+							Adorner = new PumpStationPolygonAdorner(DesignerCanvas),
 							Index = 216,
 							Autostart = true,
 							GroupIndex = 214,
@@ -258,39 +258,27 @@ namespace GKModule.Plans
 			{
 				if (element is ElementRectangleGKZone)
 				{
-					var elementRectangleGKZone = (ElementRectangleGKZone)element;
-					plan.ElementRectangleGKZones.Add(elementRectangleGKZone);
-					SetItem<GKZone>(elementRectangleGKZone);
+					plan.ElementRectangleGKZones.Add((ElementRectangleGKZone)element);
 				}
 				else if (element is ElementPolygonGKZone)
 				{
-					var elementPolygonGKZone = (ElementPolygonGKZone)element;
-					plan.ElementPolygonGKZones.Add(elementPolygonGKZone);
-					SetItem<GKZone>(elementPolygonGKZone);
+					plan.ElementPolygonGKZones.Add((ElementPolygonGKZone)element);
 				}
 				else if (element is ElementRectangleGKGuardZone)
 				{
-					var elementRectangleGKGuardZone = (ElementRectangleGKGuardZone)element;
-					plan.ElementRectangleGKGuardZones.Add(elementRectangleGKGuardZone);
-					SetItem<GKGuardZone>(elementRectangleGKGuardZone);
+					plan.ElementRectangleGKGuardZones.Add((ElementRectangleGKGuardZone)element);
 				}
 				else if (element is ElementPolygonGKGuardZone)
 				{
-					var elementPolygonGKGuardZone = (ElementPolygonGKGuardZone)element;
-					plan.ElementPolygonGKGuardZones.Add(elementPolygonGKGuardZone);
-					SetItem<GKGuardZone>(elementPolygonGKGuardZone);
+					plan.ElementPolygonGKGuardZones.Add((ElementPolygonGKGuardZone)element);
 				}
 				else if (element is ElementRectangleGKSKDZone)
 				{
-					var elementRectangleGKSKDZone = (ElementRectangleGKSKDZone)element;
-					plan.ElementRectangleGKSKDZones.Add(elementRectangleGKSKDZone);
-					SetItem<GKSKDZone>(elementRectangleGKSKDZone);
+					plan.ElementRectangleGKSKDZones.Add((ElementRectangleGKSKDZone)element);
 				}
 				else if (element is ElementPolygonGKSKDZone)
 				{
-					var elementPolygonGKSKDZone = (ElementPolygonGKSKDZone)element;
-					plan.ElementPolygonGKSKDZones.Add(elementPolygonGKSKDZone);
-					SetItem<GKSKDZone>(elementPolygonGKSKDZone);
+					plan.ElementPolygonGKSKDZones.Add((ElementPolygonGKSKDZone)element);
 				}
 				else
 					return false;
@@ -304,7 +292,6 @@ namespace GKModule.Plans
 					plan.ElementPolygonGKDelays.Add((ElementPolygonGKDelay)element);
 				else
 					return false;
-				SetItem<GKDelay>((IElementDelay)element);
 				return true;
 			}
 			else if (element is IElementPumpStation)
@@ -315,7 +302,6 @@ namespace GKModule.Plans
 					plan.ElementPolygonGKPumpStations.Add((ElementPolygonGKPumpStation)element);
 				else
 					return false;
-				SetItem<GKPumpStation>((IElementPumpStation)element);
 				return true;
 			}
 			else if (element is IElementDirection)
@@ -326,7 +312,6 @@ namespace GKModule.Plans
 					plan.ElementPolygonGKDirections.Add((ElementPolygonGKDirection)element);
 				else
 					return false;
-				SetItem<GKDirection>((IElementDirection)element);
 				return true;
 			}
 			else if (element is IElementMPT)
@@ -337,7 +322,6 @@ namespace GKModule.Plans
 					plan.ElementPolygonGKMPTs.Add((ElementPolygonGKMPT)element);
 				else
 					return false;
-				SetItem<GKMPT>((IElementMPT)element);
 				return true;
 			}
 			return false;
@@ -677,7 +661,7 @@ namespace GKModule.Plans
 		{
 			ElementGKDevice element = e.Element as ElementGKDevice;
 			if (element != null)
-				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
+				e.PropertyViewModel = new DevicePropertiesViewModel(element);
 			else if (e.Element is ElementRectangleGKZone || e.Element is ElementPolygonGKZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
@@ -693,7 +677,7 @@ namespace GKModule.Plans
 			else if (e.Element is ElementRectangleGKPumpStation || e.Element is ElementPolygonGKPumpStation)
 				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element);
 			else if (e.Element is ElementGKDoor)
-				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
+				e.PropertyViewModel = new GKDoorPropertiesViewModel((ElementGKDoor)e.Element);
 		}
 
 		public void UpdateGKDeviceInGKZones(List<ElementBase> items)

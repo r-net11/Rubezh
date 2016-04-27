@@ -85,6 +85,12 @@ namespace RubezhAPI.GK
 
 		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 
 		/// <summary>
 		/// Задержка на постановку

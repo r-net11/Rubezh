@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using AutomationModule.Procedures;
-using RubezhAPI.Automation;
+﻿using AutomationModule.Procedures;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
-using System;
+using RubezhAPI.Automation;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,6 +23,7 @@ namespace AutomationModule.ViewModels
 			ShowConditionsCommand = new RelayCommand(OnShowConditions);
 
 			Procedure = procedure;
+			procedure.PlanElementUIDsChanged += Update;
 			StepsViewModel = new StepsViewModel(procedure);
 			VariablesViewModel = new VariablesViewModel(procedure);
 			ArgumentsViewModel = new ArgumentsViewModel(procedure);

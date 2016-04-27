@@ -1,13 +1,8 @@
-﻿using RubezhAPI.GK;
-using RubezhClient;
-using GKModule.ViewModels;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using RubezhAPI;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -20,6 +15,7 @@ namespace GKModule.ViewModels
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Direction = direction;
 			Direction.Changed += Update;
+			Direction.PlanElementUIDsChanged += Update;
 			Update();
 		}
 

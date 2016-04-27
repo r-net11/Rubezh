@@ -24,6 +24,7 @@ namespace VideoModule.ViewModels
 		{
 			_camerasViewModel = camerasViewModel;
 			Camera = camera;
+			camera.PlanElementUIDsChanged += Update;
 			PresentationName = presentationName;
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;

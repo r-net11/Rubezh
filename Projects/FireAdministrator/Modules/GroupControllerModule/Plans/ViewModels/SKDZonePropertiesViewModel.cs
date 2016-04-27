@@ -51,7 +51,7 @@ namespace GKModule.Plans.ViewModels
 			var createSKDZoneEventArg = new CreateGKSKDZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKSKDZoneEvent>().Publish(createSKDZoneEventArg);
 			if (createSKDZoneEventArg.Zone != null)
-				IElementZone.ZoneUID = createSKDZoneEventArg.Zone.UID;
+				GKPlanExtension.Instance.RewriteItem(IElementZone, createSKDZoneEventArg.Zone);
 			if (!createSKDZoneEventArg.Cancel)
 				Close(true);
 		}
@@ -69,7 +69,7 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			IElementZone.ZoneUID = SelectedZone.Zone.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone.Zone);
 			return base.Save();
 		}
 		protected override bool CanSave()

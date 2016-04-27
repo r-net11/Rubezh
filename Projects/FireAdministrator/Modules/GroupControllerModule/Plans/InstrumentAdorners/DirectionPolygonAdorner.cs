@@ -13,10 +13,9 @@ namespace GKModule.Plans.InstrumentAdorners
 	public class DirectionPolygonAdorner : BasePolygonAdorner
 	{
 		private DirectionsViewModel _directionsViewModel;
-		public DirectionPolygonAdorner(CommonDesignerCanvas designerCanvas, DirectionsViewModel directionsViewModel)
+		public DirectionPolygonAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			_directionsViewModel = directionsViewModel;
 		}
 
 		protected override Shape CreateRubberband()
@@ -32,10 +31,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var element = new ElementPolygonGKDirection();
 			var propertiesViewModel = new DirectionPropertiesViewModel(element);
 			if (DialogService.ShowModalWindow(propertiesViewModel))
-			{
-				_directionsViewModel.UpdateDirections(element.DirectionUID);
 				return element;
-			}
 			return null;
 		}
 	}

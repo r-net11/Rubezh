@@ -393,12 +393,5 @@ namespace GKModule.ViewModels
 				}, "BEdit") { Order = 2 }
 			};
 		}
-		public void UpdatePumpStations(Guid pumpStationUID)
-		{
-			var pumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
-			if (pumpStation != null)
-				pumpStation.Update();
-			LockedSelect(pumpStationUID);
-		}
 	}
 }

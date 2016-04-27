@@ -51,7 +51,7 @@ namespace GKModule.Plans.ViewModels
 			var createMPTEventArg = new CreateGKMPTEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKMPTEvent>().Publish(createMPTEventArg);
 			if (createMPTEventArg.MPT != null)
-				IElementMPT.MPTUID = createMPTEventArg.MPT.UID;
+				GKPlanExtension.Instance.RewriteItem(IElementMPT, createMPTEventArg.MPT);
 			if (!createMPTEventArg.Cancel)
 				Close(true);
 		}
@@ -68,8 +68,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			Guid mptUID = IElementMPT.MPTUID;
-			IElementMPT.MPTUID = SelectedMPT.MPT.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementMPT, SelectedMPT.MPT);
 			return base.Save();
 		}
 		protected override bool CanSave()
