@@ -7,7 +7,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
-	public class EmployeePageViewModel : FilterContainerViewModel
+	public class EmployeePageViewModel : FilterContainerViewModel, IOrganisationItemsFilterPage
 	{
 		public EmployeePageViewModel()
 		{
@@ -16,7 +16,10 @@ namespace SKDModule.Reports.ViewModels
 		}
 
 		public EmployeesFilterViewModel Filter { get; private set; }
-		private bool _allowVisitor;
+		OrganisationChangedSubscriber _OrganisationChangedSubscriber;
+		public List<Guid> OrganisationUIDs { get; set; }
+		public bool IsWithDeleted { get; set; }
+		bool _allowVisitor;
 		public bool AllowVisitor
 		{
 			get { return _allowVisitor; }
@@ -26,7 +29,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => AllowVisitor);
 			}
 		}
-		private bool _isEmployee;
+		bool _isEmployee;
 		public bool IsEmployee
 		{
 			get { return _isEmployee; }
@@ -40,28 +43,22 @@ namespace SKDModule.Reports.ViewModels
 			}
 		}
 
+		IReportFilterEmployee _employeeFilter;
+
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			var employeeFilter = filter as IReportFilterEmployee;
-			if (employeeFilter == null)
+			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
+			_employeeFilter = filter as IReportFilterEmployee;
+			if (_employeeFilter == null)
 				return;
-			AllowVisitor = employeeFilter is IReportFilterEmployeeAndVisitor;
-			_isEmployee = AllowVisitor ? ((IReportFilterEmployeeAndVisitor)employeeFilter).IsEmployee : true;
+			AllowVisitor = _employeeFilter is IReportFilterEmployeeAndVisitor;
+			_isEmployee = AllowVisitor ? ((IReportFilterEmployeeAndVisitor)_employeeFilter).IsEmployee : true;
+			var organisations = (filter as IReportFilterOrganisation).Organisations;
+			OrganisationUIDs = organisations != null ? organisations : new List<Guid>();
+			var filterArchive = filter as IReportFilterArchive;
+			IsWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			OnPropertyChanged(() => IsEmployee);
-			var ef = new EmployeeFilter()
-			{
-				PersonType = IsEmployee ? PersonType.Employee : PersonType.Guest,
-				LogicalDeletationType = LogicalDeletationType.Active,
-			};
-			if (employeeFilter.IsSearch)
-			{
-				ef.LastName = employeeFilter.LastName;
-				ef.FirstName = employeeFilter.FirstName;
-				ef.SecondName = employeeFilter.SecondName;
-			}
-			else
-				ef.UIDs = employeeFilter.Employees;
-			Filter.Initialize(ef);
+			InitializeFilter();
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
@@ -80,9 +77,29 @@ namespace SKDModule.Reports.ViewModels
 				((IReportFilterEmployeeAndVisitor)employeeFilter).IsEmployee = IsEmployee;
 		}
 
+		public void InitializeFilter()
+		{
+			var filter = new EmployeeFilter()
+			{
+				PersonType = IsEmployee ? PersonType.Employee : PersonType.Guest,
+				LogicalDeletationType = LogicalDeletationType.Active,
+				OrganisationUIDs = OrganisationUIDs
+			};
+			if (_employeeFilter.IsSearch)
+			{
+				filter.LastName = _employeeFilter.LastName;
+				filter.FirstName = _employeeFilter.FirstName;
+				filter.SecondName = _employeeFilter.SecondName;
+			}
+			else
+				filter.UIDs = Filter.UIDs;
+			Filter.Initialize(filter);
+		}
+
 		public override void Unsubscribe()
 		{
 			Filter.Unsubscribe();
+			_OrganisationChangedSubscriber.Unsubscribe();
 		}
 	}
 }

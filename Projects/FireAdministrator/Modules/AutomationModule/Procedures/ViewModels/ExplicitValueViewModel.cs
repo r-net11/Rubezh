@@ -553,7 +553,6 @@ namespace AutomationModule.ViewModels
 
 		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
 		{
-			ServiceFactory.SaveService.AutomationChanged = true;
 			base.OnPropertyChanged(propertyExpression);
 			if (UpdateDescriptionHandler != null)
 				UpdateDescriptionHandler();

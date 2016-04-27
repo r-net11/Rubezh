@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 		public void Initialize(EmployeeFilter filter, LogicalDeletationType logicalDeletationType, PersonType personType)
 		{
 			_Filter = filter;
-			var emptyFilter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, PersonType = personType, OrganisationUIDs = _filter.OrganisationUIDs };
+			var emptyFilter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, PersonType = personType, OrganisationUIDs = filter.OrganisationUIDs };
 			base.Initialize(emptyFilter);
 			FirstName = filter.FirstName;
 			LastName = filter.LastName;

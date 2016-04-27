@@ -46,7 +46,8 @@ namespace GKIntegratedTest
 			WaitWhileState(zone, XStateClass.Attention, 4000, "Ждем пока зона не перейдёт во Внимание");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Attention, "Проверка того, что зона во Внимание");
 			Assert.IsTrue(pumpStaition.State.StateClass == XStateClass.Off, "Проверка того, что НС Выключен");
-			CheckJournal(2, JournalItem(device1, JournalEventNameType.Сработка_1), JournalItem(zone, JournalEventNameType.Внимание));
+			CheckJournal(3, JournalItem(device1, JournalEventNameType.Сработка_1),
+				JournalItem(zone, JournalEventNameType.Внимание), JournalItem(Led("Устройство Внимание "), JournalEventNameType.Включено));
 			ConrtolGKBase(device2, GKStateBit.Fire1, "Сработка1 у датчика2");
 			WaitWhileState(zone, XStateClass.Fire1, 3000, "Ждем пока зона не перейдёт в Пожар");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, что зона перешла в Пожар");
@@ -54,7 +55,10 @@ namespace GKIntegratedTest
 			WaitWhileState(zone, XStateClass.On, 4000, "Ждем пока НС не Включится");
 			Assert.IsTrue(pumpStaition.State.StateClass == XStateClass.On, "Проверка того, что НС Включен");
 			Assert.IsTrue(pump.State.StateClass == XStateClass.On, "Проверка того, что насос Включен");
-			CheckJournal(5, JournalItem(device2, JournalEventNameType.Сработка_1), JournalItem(zone, JournalEventNameType.Пожар_1), JournalItem(pumpStaition, JournalEventNameType.Включается), JournalItem(pumpStaition, JournalEventNameType.Включено), JournalItem(pump, JournalEventNameType.Включено));
+			CheckJournal(8, JournalItem(device2, JournalEventNameType.Сработка_1), JournalItem(Led("Устройство Внимание "), JournalEventNameType.Выключено),
+				JournalItem(zone, JournalEventNameType.Пожар_1), JournalItem(pumpStaition, JournalEventNameType.Включается),
+				JournalItem(Led("Устройство Включение ПУСК "), JournalEventNameType.Включено), JournalItem(Led("Устройство Пожар 1 "), JournalEventNameType.Включено),
+				JournalItem(pumpStaition, JournalEventNameType.Включено), JournalItem(pump, JournalEventNameType.Включено));
 		}
 
 		[TestCase(DelayRegime.On, XStateClass.On, JournalEventNameType.Включено)]
@@ -101,7 +105,8 @@ namespace GKIntegratedTest
 			Assert.IsFalse(pumpStaition.State.StateClass == XStateClass.TurningOn, "Проверка того, что НС не перешёл в режим Включается");
 			Assert.IsTrue(pumpStaition.State.StateClass == state, "Проверка того, что НС Включен/Выключен");
 			Assert.IsTrue(pump.State.StateClass == state, "Проверка того, что насос Включен/Выключен");
-			CheckJournal(2, JournalItem(pumpStaition, eventname), JournalItem(pump, eventname));
+			WaitWhileState(Led("Устройство Включение ПУСК "), state, 2000,"Ждём пока индикатор не будет Включен/Выключен");
+			CheckJournal(3, JournalItem(pumpStaition, eventname), JournalItem(pump, eventname), JournalItem(Led("Устройство Включение ПУСК "), eventname));
 		}
 	}
 }

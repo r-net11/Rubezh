@@ -12,7 +12,6 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			Layouts = layouts;
 			TopMost = true;
-			Sizable = false;
 			Title = "Выберите макет";
 			SaveCaption = "Выбрать";
 			CancelCaption = "Выйти";
