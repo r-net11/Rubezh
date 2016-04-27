@@ -65,6 +65,7 @@
 	<Converters:DoorStateClassToStringConverter x:Key="DoorStateClassToStringConverter" />
 	<Converters:MultiParameterConverter x:Key="MultiParameterConverter" />
 	<Converters:MultiBooleanConverter x:Key="MultiBooleanConverter" />
+	<Converters:ColorToSystemColorConverter x:Key="ColorToSystemColorConverter" />
 
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />
