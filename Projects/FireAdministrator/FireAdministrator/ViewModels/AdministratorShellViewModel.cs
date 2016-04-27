@@ -25,6 +25,7 @@ namespace FireAdministrator.ViewModels
 			Width = 1000;
 			MinWidth = 1000;
 			MinHeight = 300;
+			Sizable = true;
 			ShowToolbarCommand = new RelayCommand(OnShowToolbar, CanShowMenu);
 			ShowMenuCommand = new RelayCommand(OnShowMenu, CanShowMenu);
 			_menu = new MenuViewModel();
