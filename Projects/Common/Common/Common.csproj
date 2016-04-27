@@ -186,16 +186,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorUtilities.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ColorUtilities1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ColorUtilities.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\Utils.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Utils.resx</DependentUpon>
-    </Compile>
     <Compile Include="Resources\Language\PDF\PDFHelper.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -210,11 +200,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NamedStateClass.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language\SafeContext.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SafeContext.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\Language\State\XStateClass.Designer.cs">
       <DependentUpon>XStateClass.resx</DependentUpon>
@@ -254,11 +239,7 @@
     <Compile Include="XamlHelper.cs" />
     <EmbeddedResource Include="Resources\Language\ColorUtilities.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ColorUtilities1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Utils.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Utils.Designer.cs</LastGenOutput>
+      <LastGenOutput>ColorUtilities.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\PDF\PDFHelper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -271,10 +252,6 @@
     <EmbeddedResource Include="Resources\Language\State\NamedStateClass.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>NamedStateClass.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\SafeContext.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SafeContext.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\State\XStateClass.resx">
       <Generator>ResXFileCodeGenerator</Generator>

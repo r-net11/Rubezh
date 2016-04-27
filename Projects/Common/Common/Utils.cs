@@ -31,7 +31,7 @@ namespace Common
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, Resources.Language.Utils.CastT_Exception, typeof(T), obj);
+					Logger.Error(e, string.Format("Исключение при вызове Cast<{0}>(obj={1}", typeof(T), obj));
 				}
 			return default(T);
 		}

@@ -12,7 +12,7 @@ namespace Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, Resources.Language.SafeContext.Execute_Exception);
+                Logger.Error(e, "Исключение при вызове SafeContext.Execute(Action action)");
 			}
 		}
 
@@ -24,7 +24,7 @@ namespace Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, Resources.Language.SafeContext.ExecuteT_Exception);
+                Logger.Error(e, "Исключение при вызове SafeContext.Execute<T>(Func<T> action)");
 				return default(T);
 			}
 		}
