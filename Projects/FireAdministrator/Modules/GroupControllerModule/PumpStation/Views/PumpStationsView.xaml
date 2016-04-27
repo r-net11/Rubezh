@@ -50,7 +50,15 @@
 				</DataGrid>
 			</Grid>
 			<Grid Grid.Column="1" Margin="4 0 0 0">
-				<DataGrid ItemsSource="{Binding PumpDevices}" SelectedItem="{Binding SelectedPumpDevice}" DataContext="{Binding SelectedPumpStation}">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<StackPanel Grid.Row="0" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding ChangePumpDevicesCommand}" ToolTip="Изменить" ImageSource="Edit" />
+					<ToolBarButton Command="{Binding DeletePumpDeviceCommand}" ToolTip="Удалить" ImageSource="Delete" />
+				</StackPanel>
+				<DataGrid  Grid.Row="1" ItemsSource="{Binding PumpDevices}" SelectedItem="{Binding SelectedPumpDevice}" DataContext="{Binding SelectedPumpStation}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Header="Насосы" MinWidth="200" Width="Auto">
 							<DataGridTemplateColumn.CellTemplate>
