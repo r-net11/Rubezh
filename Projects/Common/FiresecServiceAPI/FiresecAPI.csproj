@@ -220,6 +220,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AccessState.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Language\Enums\ShellType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShellType.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Language\Models\Automation\AutomationSchedule.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -230,10 +235,105 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BreakInStatus.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Language\Security\PermissionType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PermissionType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Security\RemoteAccessType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RemoteAccessType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\AdditionalColumn\AdditionalColumnDataType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdditionalColumnDataType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Card\CardType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CardType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Card\IntervalType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IntervalType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Card\PendingCardAction.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PendingCardAction.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Common\IsDeletedFilter.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IsDeletedFilter.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\DeviceTimeIntervals\SKDDayOfWeek.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDDayOfWeek.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Device\SKDAntiPassBackConfiguration.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDAntiPassBackConfiguration.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Language\SKD\Device\SKDDeviceSearchInfo.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SKDDeviceSearchInfo.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Device\SKDDoorConfiguration.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDDoorConfiguration.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Device\SKDInterlockConfiguration.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDInterlockConfiguration.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Door\DoorType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoorType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Employee\Employee.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Employee.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Employee\PersonType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PersonType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\PassCardLibrary\PassCardImagePropertyType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PassCardImagePropertyType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\PassCardLibrary\PassCardTextPropertyType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PassCardTextPropertyType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\ReportFilters\EndDateType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EndDateType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\ReportFilters\ReportPeriodType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportPeriodType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\Settings\ValidationErrorType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidationErrorType.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\Language\SKD\SKDManager\ChinaController_4_Helper.Designer.cs">
       <DependentUpon>ChinaController_4_Helper.resx</DependentUpon>
@@ -555,6 +655,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonChinaControllerHelper.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\Enums\DayIntervalPartTransitionType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DayIntervalPartTransitionType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\Enums\DocumentType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DocumentType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\Enums\ScheduleSchemeType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleSchemeType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\Enums\TimeTrackActions.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TimeTrackActions.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Language\SKD\TimeTrack\TimeTrackDocument.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -848,6 +968,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AccessState.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Enums\ShellType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ShellType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\Models\Automation\AutomationSchedule.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AutomationSchedule.Designer.cs</LastGenOutput>
@@ -856,9 +980,85 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BreakInStatus.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Security\PermissionType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PermissionType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Security\RemoteAccessType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RemoteAccessType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\AdditionalColumn\AdditionalColumnDataType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AdditionalColumnDataType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Card\CardType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CardType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Card\IntervalType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IntervalType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Card\PendingCardAction.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PendingCardAction.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Common\IsDeletedFilter.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IsDeletedFilter.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\DeviceTimeIntervals\SKDDayOfWeek.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDDayOfWeek.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Device\SKDAntiPassBackConfiguration.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDAntiPassBackConfiguration.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\SKD\Device\SKDDeviceSearchInfo.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SKDDeviceSearchInfo.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Device\SKDDoorConfiguration.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDDoorConfiguration.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Device\SKDInterlockConfiguration.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDInterlockConfiguration.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Door\DoorType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoorType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Employee\Employee.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Employee.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Employee\PersonType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PersonType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\PassCardLibrary\PassCardImagePropertyType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PassCardImagePropertyType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\PassCardLibrary\PassCardTextPropertyType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PassCardTextPropertyType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\ReportFilters\EndDateType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EndDateType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\ReportFilters\ReportPeriodType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ReportPeriodType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\Settings\ValidationErrorType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationErrorType.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\SKD\SKDManager\ChinaController_4_Helper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1115,6 +1315,22 @@
     <EmbeddedResource Include="Resources\Language\SKD\SKDManager\CommonChinaControllerHelper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonChinaControllerHelper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\Enums\DayIntervalPartTransitionType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayIntervalPartTransitionType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\Enums\DocumentType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DocumentType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\Enums\ScheduleSchemeType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleSchemeType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\Enums\TimeTrackActions.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimeTrackActions.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\TimeTrackDocument.resx">
       <Generator>ResXFileCodeGenerator</Generator>

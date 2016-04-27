@@ -12,11 +12,11 @@ namespace Controls.Converters
 			var stateClass = (XStateClass)value;
 			if (stateClass == XStateClass.Fire1)
 			{
-				return Resources.Language.XStateClassToStringConverter2.Fire1;
+                return Resources.Language.Converters.XStateClassToStringConverter2.Fire1;
 			}
 			if (stateClass == XStateClass.Fire2)
 			{
-				return Resources.Language.XStateClassToStringConverter2.Fire2;
+                return Resources.Language.Converters.XStateClassToStringConverter2.Fire2;
 			}
 			var result = stateClass.ToDescription();
 			return result;

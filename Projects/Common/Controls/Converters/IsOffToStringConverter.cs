@@ -7,7 +7,7 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return (bool)value ? Resources.Language.IsOffToStringConverter.PullOff : Resources.Language.IsOffToStringConverter.SwitchOff;
+            return (bool)value ? Resources.Language.Converters.IsOffToStringConverter.PullOff : Resources.Language.Converters.IsOffToStringConverter.SwitchOff;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

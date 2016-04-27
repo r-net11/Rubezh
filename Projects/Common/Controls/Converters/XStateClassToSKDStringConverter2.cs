@@ -13,13 +13,13 @@ namespace Controls.Converters
 			switch (stateClass)
 			{
 				case XStateClass.On:
-					return Resources.Language.XStateClassToSKDStringConverter2.On;
+                    return Resources.Language.Converters.XStateClassToSKDStringConverter2.On;
 				case XStateClass.Off:
-					return Resources.Language.XStateClassToSKDStringConverter2.Off;
+                    return Resources.Language.Converters.XStateClassToSKDStringConverter2.Off;
 				case XStateClass.TurningOff:
-					return Resources.Language.XStateClassToSKDStringConverter2.TurningOff;
+                    return Resources.Language.Converters.XStateClassToSKDStringConverter2.TurningOff;
 				case XStateClass.Fire1:
-					return Resources.Language.XStateClassToSKDStringConverter2.Fire1;
+                    return Resources.Language.Converters.XStateClassToSKDStringConverter2.Fire1;
 			}
 			return stateClass.ToDescription();
 		}

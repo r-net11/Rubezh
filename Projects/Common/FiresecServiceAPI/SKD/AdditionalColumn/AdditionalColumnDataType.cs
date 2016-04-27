@@ -1,15 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.SKD
 {
 	[Flags]
 	public enum AdditionalColumnDataType
 	{
-		[Description("Текстовый")]
+		//[Description("Текстовый")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.AdditionalColumn.AdditionalColumnDataType), "Text")]
 		Text,
 
-		[Description("Графический")]
+        //[Description("Графический")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.AdditionalColumn.AdditionalColumnDataType), "Graphics")]
 		Graphics
 	}
 }

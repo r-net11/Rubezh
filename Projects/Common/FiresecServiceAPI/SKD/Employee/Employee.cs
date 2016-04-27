@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.SKD
 {
@@ -103,19 +104,23 @@ namespace FiresecAPI.SKD
 
 	public enum Gender
 	{
-		[Description("Мужской")]
+		//[Description("Мужской")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.Employee),"Male")]
 		Male,
 
-		[Description("Женский")]
-		Female
+		//[Description("Женский")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.Employee), "Female")]
+        Female
 	}
 
 	public enum EmployeeDocumentType
 	{
-		[Description("Паспорт РФ")]
-		Passport,
+		//[Description("Паспорт РФ")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.Employee), "Passport")]
+        Passport,
 
-		[Description("Паспорт иного государства")]
-		ForeignPassport,
+		//[Description("Паспорт иного государства")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.Employee.Employee), "ForeignPassport")]
+        ForeignPassport,
 	}
 }

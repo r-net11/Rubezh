@@ -1,19 +1,24 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
 	public enum EndDateType
 	{
-		[Description("Сутки")]
+		//[Description("Сутки")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.ReportFilters.EndDateType), "Day")]
 		Day,
 
-		[Description("Неделя")]
+        //[Description("Неделя")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.ReportFilters.EndDateType), "Week")]
 		Week,
 
-		[Description("Месяц")]
+        //[Description("Месяц")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.ReportFilters.EndDateType), "Month")]
 		Month,
 
-		[Description("Произвольный период")]
+        //[Description("Произвольный период")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.ReportFilters.EndDateType), "Arbitrary")]
 		Arbitrary
 	}
 }

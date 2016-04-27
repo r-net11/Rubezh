@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.SKD
 {
@@ -24,15 +25,18 @@ namespace FiresecAPI.SKD
 	public enum LogicalDeletationType
 	{
 		[EnumMember]
-		[Description("Только активные")]
+		//[Description("Только активные")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.Common.IsDeletedFilter), "Active")]
 		Active,
 
 		[EnumMember]
-		[Description("Только удаленные")]
+        //[Description("Только удаленные")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.Common.IsDeletedFilter), "Deleted")]
 		Deleted,
 
 		[EnumMember]
-		[Description("Все")]
+        //[Description("Все")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.Common.IsDeletedFilter), "All")]
 		All
 	}
 }

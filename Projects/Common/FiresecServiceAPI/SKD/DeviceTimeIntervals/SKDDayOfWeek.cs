@@ -1,28 +1,36 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.SKD
 {
 	public enum SKDDayOfWeek
 	{
-		[Description("Воскресенье")]
+		//[Description("Воскресенье")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Sunday")]
 		Sunday = 1,
 
-		[Description("Понедельник")]
+        //[Description("Понедельник")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Monday")]
 		Monday = 2,
 
-		[Description("Вторник")]
+        //[Description("Вторник")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Tuesday")]
 		Tuesday = 3,
 
-		[Description("Среда")]
+        //[Description("Среда")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Wednesday")]
 		Wednesday = 4,
 
-		[Description("Четверг")]
+        //[Description("Четверг")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Thursday")]
 		Thursday = 5,
 
-		[Description("Пятница")]
+        //[Description("Пятница")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Friday")]
 		Friday = 6,
 
-		[Description("Суббота")]
+        //[Description("Суббота")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.DeviceTimeIntervals.SKDDayOfWeek), "Saturday")]
 		Saturday = 7,
 	}
 }

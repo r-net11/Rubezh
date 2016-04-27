@@ -12,19 +12,19 @@ namespace Controls.Converters
 			switch ((XStateClass)value)
 			{
 				case XStateClass.On:
-					return Resources.Language.DoorStateClassToStringConverter.On;
+                    return Resources.Language.Converters.DoorStateClassToStringConverter.On;
 
 				case XStateClass.Off:
-					return Resources.Language.DoorStateClassToStringConverter.Off;
+                    return Resources.Language.Converters.DoorStateClassToStringConverter.Off;
 
 				case XStateClass.TurningOn:
-					return Resources.Language.DoorStateClassToStringConverter.TurningOn;
+                    return Resources.Language.Converters.DoorStateClassToStringConverter.TurningOn;
 
 				case XStateClass.TurningOff:
-					return Resources.Language.DoorStateClassToStringConverter.TurningOff;
+                    return Resources.Language.Converters.DoorStateClassToStringConverter.TurningOff;
 
 				case XStateClass.Fire1:
-					return Resources.Language.DoorStateClassToStringConverter.Fire1;
+                    return Resources.Language.Converters.DoorStateClassToStringConverter.Fire1;
 			}
 			return ((XStateClass)value).ToDescription();
 		}

@@ -10,7 +10,7 @@ namespace Controls.Converters
 			if (!(value is int))
 				return "";
 			if ((int)value == -1)
-				return Resources.Language.DoorToStringConverter.Any;
+				return Resources.Language.Converters.DoorToStringConverter.Any;
 			return value;
 		}
 

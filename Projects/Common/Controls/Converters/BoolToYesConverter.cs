@@ -9,7 +9,7 @@ namespace Controls.Converters
 		{
 			bool boolValue = (bool)value;
 			if (boolValue)
-				return Resources.Language.BoolToYesConverter.Yes;
+                return Resources.Language.Converters.BoolToYesConverter.Yes;
 			return "";
 		}
 

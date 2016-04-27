@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.SKD
 {
@@ -8,15 +9,18 @@ namespace FiresecAPI.SKD
 	[Flags]
 	public enum ScheduleSchemeType
 	{
-		[DescriptionAttribute("Недельный")]
+		//[DescriptionAttribute("Недельный")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.ScheduleSchemeType), "Week")]
 		[EnumMember]
 		Week = 1,
 
-		[DescriptionAttribute("Месячный")]
+        //[DescriptionAttribute("Месячный")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.ScheduleSchemeType), "Month")]
 		[EnumMember]
 		Month = 2,
 
-		[DescriptionAttribute("Сменный")]
+        //[DescriptionAttribute("Сменный")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.ScheduleSchemeType), "SlideDay")]
 		[EnumMember]
 		SlideDay = 4,
 	}

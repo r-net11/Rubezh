@@ -1,22 +1,28 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace FiresecAPI.SKD
 {
 	public enum PassCardImagePropertyType
 	{
-		[Description("Фото сотрудника")]
+		//[Description("Фото сотрудника")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "Photo")]
 		Photo,
 
-		[Description("Логотип организации")]
+        //[Description("Логотип организации")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "OrganisationLogo")]
 		OrganisationLogo,
 
-		[Description("Логотип подразделения")]
+        //[Description("Логотип подразделения")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "DepartmentLogo")]
 		DepartmentLogo,
 
-		[Description("Логотип должности")]
+        //[Description("Логотип должности")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "PositionLogo")]
 		PositionLogo,
 
-		[Description("Дополнительно")]
+        //[Description("Дополнительно")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.PassCardLibrary.PassCardImagePropertyType), "Additional")]
 		Additional,
 	}
 }
