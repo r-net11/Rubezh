@@ -661,7 +661,7 @@ namespace GKModule.Plans
 		{
 			ElementGKDevice element = e.Element as ElementGKDevice;
 			if (element != null)
-				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
+				e.PropertyViewModel = new DevicePropertiesViewModel(element);
 			else if (e.Element is ElementRectangleGKZone || e.Element is ElementPolygonGKZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
 			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
@@ -677,7 +677,7 @@ namespace GKModule.Plans
 			else if (e.Element is ElementRectangleGKPumpStation || e.Element is ElementPolygonGKPumpStation)
 				e.PropertyViewModel = new PumpStationPropertiesViewModel((IElementPumpStation)e.Element);
 			else if (e.Element is ElementGKDoor)
-				e.PropertyViewModel = new GKDoorPropertiesViewModel(_doorsViewModel, (ElementGKDoor)e.Element);
+				e.PropertyViewModel = new GKDoorPropertiesViewModel((ElementGKDoor)e.Element);
 		}
 
 		public void UpdateGKDeviceInGKZones(List<ElementBase> items)
