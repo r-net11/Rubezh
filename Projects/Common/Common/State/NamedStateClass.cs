@@ -7,7 +7,7 @@ namespace Common
 		public NamedStateClass()
 		{
 			StateClass = XStateClass.No;
-			Name = Resources.Language.NamedStateClass.Name;
+            Name = Resources.Language.State.NamedStateClass.Name;
 		}
 
 		public XStateClass StateClass { get; set; }

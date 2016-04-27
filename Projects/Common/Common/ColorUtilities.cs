@@ -16,7 +16,7 @@ namespace Common
 			KnownColors = typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static).ToDictionary<PropertyInfo, string, Color>(p => p.Name, p => (Color)p.GetValue(null, null));
 			ColorNames = new Dictionary<Color, string>()
 			{
-				{ Colors.AliceBlue, "Бледно-голубой" },
+				{ Colors.AliceBlue, Resources.Language.ColorUtilities.AliceBlue },
 				{ Colors.AntiqueWhite, "Белый антик" },
 				//{ Colors.Aqua, "Морская волна" },				//Colors.Cyan
 				{ Colors.Aquamarine, "Аквамарин" },
