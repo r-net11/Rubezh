@@ -13,25 +13,49 @@ namespace SKDModule.ViewModels
 	{
 		public ObservableCollection<DeactivatingReaderSelectationViewModel> Readers { get; private set; }
 
-		public DeactivatingReadersSelectationViewModel(IEnumerable<Guid> doorUIDs)
+		public DeactivatingReadersSelectationViewModel(IEnumerable<Guid> doorUIDs, List<AccessTemplateDeactivatingReader> deactivatingReaders)
 		{
 			Readers = new ObservableCollection<DeactivatingReaderSelectationViewModel>();
-			BuildTree(doorUIDs);
-			ServiceFactory.Events.GetEvent<AccessTemplateDoorsSelectedEvent>().Subscribe(BuildTree);
+			BuildTree(doorUIDs, deactivatingReaders);
+			ServiceFactory.Events.GetEvent<AccessTemplateDoorsSelectedEvent>().Subscribe(doors => BuildTree(doors));
 		}
 
-		private void BuildTree(IEnumerable<Guid> doorUIDs)
+		private void BuildTree(IEnumerable<Guid> doorUIDs, List<AccessTemplateDeactivatingReader> deactivatingReaders = null)
 		{
-			Readers.Clear();
-			
 			var doors = SKDManager.Doors.Where(door => doorUIDs.Any(doorUID => doorUID == door.UID)).ToList();
+			var checkedReaderGuids = GetDeactivatingReaderUIDs(deactivatingReaders);
+			
+			Readers.Clear();
 			foreach (var door in doors)
 			{
-				Readers.Add(BuildDoor(door));
+				Readers.Add(BuildDoor(door, checkedReaderGuids));
 			}
 		}
 
-		private DeactivatingReaderSelectationViewModel BuildDoor(SKDDoor door)
+		private List<Guid> GetDeactivatingReaderUIDs(List<AccessTemplateDeactivatingReader> deactivatingReaders)
+		{
+			var result = new List<Guid>();
+
+			if (deactivatingReaders == null)
+			{
+				foreach (var door in Readers)
+				{
+					foreach (var reader in door.Children)
+					{
+						if (reader.IsChecked)
+							result.Add(reader.UID);
+					}
+				}
+			}
+			else
+			{
+				result.AddRange(deactivatingReaders.Select(x => x.DeactivatingReaderUID));
+			}
+
+			return result;
+		}
+
+		private DeactivatingReaderSelectationViewModel BuildDoor(SKDDoor door, List<Guid> checkedReaderGuids)
 		{
 			// Точка доступа
 			var readerViewModel = new DeactivatingReaderSelectationViewModel(false)
@@ -50,13 +74,33 @@ namespace SKDModule.ViewModels
 					{
 						UID = linkedDevice.UID,
 						Name = linkedDevice.Name,
-						ZoneName = linkedDevice.Zone.Name
+						ZoneName = linkedDevice.Zone.Name,
+						IsChecked = checkedReaderGuids.Any(x => x == linkedDevice.UID)
 					};
 					readerViewModel.AddChild(inReaderViewModel);
 				}
 			}
 
 			return readerViewModel;
+		}
+
+		public List<AccessTemplateDeactivatingReader> GetReaders()
+		{
+			var result = new List<AccessTemplateDeactivatingReader>();
+
+			foreach (var door in Readers)
+			{
+				foreach (var reader in door.Children)
+				{
+					if (reader.IsChecked)
+						result.Add(new AccessTemplateDeactivatingReader()
+						{
+							DeactivatingReaderUID = reader.UID
+						});
+				}
+			}
+			
+			return result;
 		}
 	}
 }

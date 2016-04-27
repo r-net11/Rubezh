@@ -92,6 +92,7 @@ namespace SKDDriver
 			AttachmentTranslator = new AttachmentTranslator(this);
 			ReportFiltersTranslator = new ReportFiltersTranslator(this);
 			LicenseInfoTranslator = new LicenseInfoTranslator(this);
+			AccessTemplateDeactivatingReaderTranslator = new AccessTemplateDeactivatingReaderTranslator(this);
 		}
 
 		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
@@ -147,6 +148,8 @@ namespace SKDDriver
 		public ReportFiltersTranslator ReportFiltersTranslator { get; private set; }
 
 		public LicenseInfoTranslator LicenseInfoTranslator { get; private set; }
+
+		public AccessTemplateDeactivatingReaderTranslator AccessTemplateDeactivatingReaderTranslator { get; private set; }
 
 		public void Dispose()
 		{
