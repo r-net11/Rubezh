@@ -331,12 +331,5 @@ namespace GKModule.ViewModels
 				elementMPT = element as ElementPolygonGKMPT;
 			return elementMPT;
 		}
-		public void UpdateMPTs(Guid mptUID)
-		{
-			var mpt = MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
-			if (mpt != null)
-				mpt.Update();
-			LockedSelect(mptUID);
-		}
 	}
 }

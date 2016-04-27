@@ -350,12 +350,5 @@ namespace GKModule.ViewModels
 				elementDelay = element as ElementPolygonGKDelay;
 			return elementDelay;
 		}
-		public void UpdateDelays(Guid delayUID)
-		{
-			var delay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
-			if (delay != null)
-				delay.Update();
-			LockedSelect(delayUID);
-		}
 	}
 }

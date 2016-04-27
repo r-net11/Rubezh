@@ -26,6 +26,7 @@ namespace GKModule.ViewModels
 			EditPropertiesCommand = new RelayCommand(OnEditProperties, CanEditProperties);
 
 			MPT.Changed += Update;
+			MPT.PlanElementUIDsChanged += Update;
 			Devices = new ObservableCollection<MPTDeviceViewModel>();
 			foreach (var mptDevice in MPT.MPTDevices)
 			{

@@ -77,7 +77,7 @@ namespace GKModule.Plans.ViewModels
 			var createPumpStationEventArg = new CreateGKPumpStationEventArgs();
 			ServiceFactory.Events.GetEvent<CreateGKPumpStationEvent>().Publish(createPumpStationEventArg);
 			if (createPumpStationEventArg.PumpStation != null)
-				IElementPumpStation.PumpStationUID = createPumpStationEventArg.PumpStation.UID;
+				GKPlanExtension.Instance.RewriteItem(IElementPumpStation, createPumpStationEventArg.PumpStation);
 			if (!createPumpStationEventArg.Cancel)
 				Close(true);
 		}
@@ -97,7 +97,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementPumpStation.ShowState = ShowState;
 			IElementPumpStation.ShowDelay = ShowDelay;
-			IElementPumpStation.PumpStationUID = SelectedPumpStation.PumpStation.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementPumpStation, SelectedPumpStation.PumpStation);
 			return base.Save();
 		}
 		protected override bool CanSave()

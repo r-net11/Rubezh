@@ -1,5 +1,4 @@
 ﻿using GKModule.Plans.ViewModels;
-using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
@@ -12,11 +11,9 @@ namespace GKModule.Plans.InstrumentAdorners
 {
 	public class MPTPolygonAdorner : BasePolygonAdorner
 	{
-		private MPTsViewModel _mptsViewModel;
-		public MPTPolygonAdorner(CommonDesignerCanvas designerCanvas, MPTsViewModel mptsViewModel)
+		public MPTPolygonAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			_mptsViewModel = mptsViewModel;
 		}
 
 		protected override Shape CreateRubberband()
@@ -32,10 +29,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var element = new ElementPolygonGKMPT();
 			var propertiesViewModel = new MPTPropertiesViewModel(element);
 			if (DialogService.ShowModalWindow(propertiesViewModel))
-			{
-				_mptsViewModel.UpdateMPTs(element.MPTUID);
 				return element;
-			}
 			return null;
 		}
 	}

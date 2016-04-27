@@ -14,7 +14,6 @@ namespace GKModule.Plans.ViewModels
 	public class GuardZonePropertiesViewModel : SaveCancelDialogViewModel
 	{
 		IElementZone IElementZone;
-
 		public GuardZonePropertiesViewModel(IElementZone iElementZone)
 		{
 			IElementZone = iElementZone;
@@ -50,7 +49,7 @@ namespace GKModule.Plans.ViewModels
 			var createGuardZoneEventArg = new CreateGKGuardZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Publish(createGuardZoneEventArg);
 			if (createGuardZoneEventArg.Zone != null)
-				IElementZone.ZoneUID = createGuardZoneEventArg.Zone.UID;
+				GKPlanExtension.Instance.RewriteItem(IElementZone, createGuardZoneEventArg.Zone);
 			if (!createGuardZoneEventArg.Cancel)
 				Close(true);
 		}
@@ -67,7 +66,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			IElementZone.ZoneUID = SelectedZone.Zone.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone.Zone);
 			return base.Save();
 		}
 		protected override bool CanSave()

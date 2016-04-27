@@ -1,5 +1,4 @@
 ﻿using GKModule.Plans.ViewModels;
-using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
@@ -10,12 +9,9 @@ namespace GKModule.Plans.InstrumentAdorners
 {
 	public class SKDZoneRectangleAdorner : BaseRectangleAdorner
 	{
-		SKDZonesViewModel _skdZonesViewModel;
-
-		public SKDZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, SKDZonesViewModel skdZonesViewModel)
+		public SKDZoneRectangleAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			_skdZonesViewModel = skdZonesViewModel;
 		}
 
 		protected override ElementBaseRectangle CreateElement()
@@ -23,10 +19,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var element = new ElementRectangleGKSKDZone();
 			var propertiesViewModel = new SKDZonePropertiesViewModel(element);
 			if (DialogService.ShowModalWindow(propertiesViewModel))
-			{
-				_skdZonesViewModel.UpdateZones(element.ZoneUID);
 				return element;
-			}
 			return null;
 		}
 	}
