@@ -221,25 +221,25 @@ namespace GKModule.ViewModels
 				List<GKGuardZoneDevice> guardZoneDevices = zone.GuardZoneDevices;
 				foreach (var guardZoneDevice in guardZoneDevices)
 				{
-					if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
 					{
 						Code.OutputDependentElements.Add(zone);
 						zone.InputDependentElements.Add(Code);
 						break;
 					}
-					if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
 					{
 						Code.OutputDependentElements.Add(zone); 
 						zone.InputDependentElements.Add(Code);
 						 break;
 					}
-					if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
 					{
 						Code.OutputDependentElements.Add(zone);
 						zone.InputDependentElements.Add(Code);
 						break;
 					}
-					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
 					{
 						Code.OutputDependentElements.Add(zone);
 						zone.InputDependentElements.Add(Code);
@@ -257,7 +257,7 @@ namespace GKModule.ViewModels
 				List<GKMPTDevice> mptDevices = mpt.MPTDevices;
 				foreach (var mptDevice in mptDevices)
 				{
-					if (mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs.Where(x => x == Code.UID) != null)
+					if (mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
 					{
 						Code.OutputDependentElements.Add(mpt);
 						mpt.InputDependentElements.Add(Code);
