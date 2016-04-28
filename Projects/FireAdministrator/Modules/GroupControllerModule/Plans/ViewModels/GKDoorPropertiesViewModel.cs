@@ -23,7 +23,7 @@ namespace GKModule.Plans.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			GKDoors = new ObservableCollection<DoorViewModel>(GKManager.Doors.Select(door => new DoorViewModel(door)));
 			if (elementGKDoor.DoorUID != Guid.Empty)
-				SelectedGKDoor = GKDoors.Where(door => door.Door.UID == elementGKDoor.DoorUID).FirstOrDefault();
+				SelectedGKDoor = GKDoors.FirstOrDefault(door => door.Door.UID == elementGKDoor.DoorUID);
 
 		}
 

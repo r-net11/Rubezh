@@ -56,7 +56,7 @@ namespace Infrastructure.Client.Plans
 		protected void OnDesignerItemPropertyChanged<TItem>(DesignerItem designerItem)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			var item = GetItem<TItem>((IElementReference)designerItem.Element);
+			var item = GetItem<TItem>(((IElementReference)designerItem.Element).ItemUID);
 			if (item != null)
 			{
 				Action onChanged = () =>
@@ -85,29 +85,23 @@ namespace Infrastructure.Client.Plans
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			var elementReference = designerItem.Element as IElementReference;
-			var item = GetItem<TItem>(elementReference);
-			SetItem<TItem>(elementReference, item);
+			var item = GetItem<TItem>(elementReference.ItemUID);
+			LinkElementToItem<TItem>(elementReference, item);
 			UpdateDesignerItemProperties<TItem>(designerItem, item);
 		}
-
-		public TItem GetItem<TItem>(IElementReference element)
+		public TItem GetItem<TItem>(Guid itemUid)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			return GetItem<TItem>(element.ItemUID);
-		}
-		public TItem GetItem<TItem>(Guid uid)
-			where TItem : IChangedNotification, IPlanPresentable
-		{
-			return Cache.Get<TItem>(uid);
+			return Cache.Get<TItem>(itemUid);
 		}
 
 		public void SetItem<TItem>(IElementReference element)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			var item = GetItem<TItem>(element);
-			SetItem(element, item);
+			var item = GetItem<TItem>(element.ItemUID);
+			LinkElementToItem(element, item);
 		}
-		public void SetItem<TItem>(IElementReference element, TItem item)
+		void LinkElementToItem<TItem>(IElementReference element, TItem item)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			if (item != null && !item.PlanElementUIDs.Contains(element.UID))
@@ -121,7 +115,7 @@ namespace Infrastructure.Client.Plans
 		public void ResetItem<TItem>(IElementReference element)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			var item = GetItem<TItem>(element);
+			var item = GetItem<TItem>(element.ItemUID);
 			if (item != null)
 			{
 				item.PlanElementUIDs.Remove(element.UID);
@@ -132,7 +126,7 @@ namespace Infrastructure.Client.Plans
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			ResetItem<TItem>(element);
-			SetItem(element, item);
+			LinkElementToItem(element, item);
 		}
 		protected virtual void UpdateElementProperties<TItem>(IElementReference element, TItem item)
 			where TItem : IChangedNotification, IPlanPresentable
