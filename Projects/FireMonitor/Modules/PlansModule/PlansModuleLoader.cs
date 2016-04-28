@@ -18,6 +18,7 @@ using Infrastructure.Plans;
 using Infrastructure.Plans.Events;
 using Infrastructure.Plans.Painters;
 using PlansModule.ViewModels;
+using System.Linq;
 
 namespace PlansModule
 {
@@ -64,7 +65,7 @@ namespace PlansModule
 					}
 				ClientManager.InvalidatePlans();
 			}
-			_planNavigationItem.IsVisible = ClientManager.PlansConfiguration.Plans.Count > 0;
+			_planNavigationItem.IsVisible = ClientManager.PlansConfiguration.Plans.Any(x=> !x.IsNotShowPlan);
 			_plansViewModel.Initialize();
 			_plansViewModels.ForEach(item => item.Initialize());
 		}

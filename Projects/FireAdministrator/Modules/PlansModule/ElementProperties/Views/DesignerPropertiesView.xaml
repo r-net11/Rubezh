@@ -50,7 +50,7 @@
 					</StackPanel>
 					<StackPanel Grid.Row="2"  HorizontalAlignment="Right"   Orientation ="Horizontal" Margin="2">
 						<CheckBox Margin="2" IsChecked="{Binding IsNotShowPlanChecked, Mode=TwoWay}" />
-						<TextBlock Text="Не использовать план в ОЗ" Foreground="White" VerticalAlignment="Center" />
+						<TextBlock Text="Не показывать план в ОЗ" Foreground="White" VerticalAlignment="Center" />
 					</StackPanel>
 				</Grid>
 			</Grid>
