@@ -285,8 +285,14 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Door; } }
 
-		[DataMember]
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 
 		/// <summary>
 		/// Разрещить множественную визуализация на плане

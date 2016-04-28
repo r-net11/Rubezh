@@ -1,24 +1,19 @@
-﻿using System;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using GKModule.ViewModels;
+﻿using GKModule.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 
 namespace GKModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
 		ElementGKDevice _elementGKDevice;
-		DevicesViewModel _devicesViewModel;
 
-		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementGKDevice elementDevice)
+		public DevicePropertiesViewModel(ElementGKDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство ГК";
 			_elementGKDevice = elementDevice;
-			_devicesViewModel = devicesViewModel;
 
 			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			if (SelectedDevice != null)
@@ -66,26 +61,13 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid deviceUID = _elementGKDevice.DeviceUID;
-			GKPlanExtension.Instance.SetItem<GKDevice>(_elementGKDevice, SelectedDevice.Device);
-
-			if (deviceUID != _elementGKDevice.DeviceUID)
-				Update(deviceUID);
-			_devicesViewModel.SelectedDevice = Update(_elementGKDevice.DeviceUID);
+			GKPlanExtension.Instance.RewriteItem(_elementGKDevice, SelectedDevice.Device);
 			return base.Save();
 		}
 
 		protected override bool CanSave()
 		{
 			return SelectedDevice != null && SelectedDevice.Driver.IsPlaceable;
-		}
-
-		DeviceViewModel Update(Guid deviceUID)
-		{
-			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (device != null)
-				device.Update();
-			return device;
 		}
 	}
 }

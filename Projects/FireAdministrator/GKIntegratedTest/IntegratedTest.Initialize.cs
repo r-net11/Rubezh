@@ -153,6 +153,20 @@ namespace GKIntegratedTest
 			, traceMessage);
 		}
 
+		void WaitWhileOneOfStates(GKBase gkBase, XStateClass gkState, int milliseconds, string traceMessage)
+		{
+			CheckTime(() =>
+			{
+				int timeOut = 0;
+				while (!gkBase.State.StateClasses.Contains(gkState) && timeOut < milliseconds)
+				{
+					Thread.Sleep(50);
+					timeOut += 50;
+				}
+			}
+			, traceMessage);
+		}
+
 		void WaitWhileInitializeComplete(int milliseconds)
 		{
 			CheckTime(() =>
@@ -296,13 +310,16 @@ namespace GKIntegratedTest
 
 		public void OnNewJournalItems(List<JournalItem> newJournalItems, bool isNew)
 		{
-			if (isNew)
+			Dispatcher.CurrentDispatcher.Invoke(() =>
 			{
-				journalItems.AddRange(newJournalItems.Where(x => x.JournalObjectType != JournalObjectType.GKPim));
-				if (!InitializeComplete)
-					if (newJournalItems.Any(x => x.JournalEventNameType == JournalEventNameType.Начало_мониторинга))
-						InitializeComplete = true;
-			}
+				if (isNew)
+				{
+					journalItems.AddRange(newJournalItems.Where(x => x.JournalObjectType != JournalObjectType.GKPim));
+					if (!InitializeComplete)
+						if (newJournalItems.Any(x => x.JournalEventNameType == JournalEventNameType.Начало_мониторинга))
+							InitializeComplete = true;
+				}
+			});
 		}
 
 		bool InitializeComplete { get; set; }
@@ -446,6 +463,11 @@ namespace GKIntegratedTest
 		{
 			ConrtolGKBase(pim, GKStateBit.TurnOnNow_InAutomatic, isPim: true);
 			WaitWhileState(pim, XStateClass.On, 1000, "Ожидаем включение пима");
+		}
+
+		GKDevice Led(string device)
+		{
+			return gkDevice1.AllChildren.FirstOrDefault(x => x.DescriptorPresentationName == device);
 		}
 
 		void ConrtolGKBase(GKBase gkBase, GKStateBit command, string traceMessage = "Нет сообщения", bool isPim = false)

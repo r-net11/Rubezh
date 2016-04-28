@@ -130,7 +130,7 @@
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
-					<xc:ColorPicker SelectedColor="{Binding ColorValue, UpdateSourceTrigger=PropertyChanged}" Width="200"
+					<xc:ColorPicker SelectedColor="{Binding ColorValue, Converter={StaticResource ColorToSystemColorConverter}}" Width="200"
 						Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}"/>
 				</StackPanel>
 

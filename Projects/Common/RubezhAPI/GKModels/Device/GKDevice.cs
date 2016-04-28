@@ -292,8 +292,6 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public GKLogic NSLogic { get; set; }
 
-		[DataMember]
-		public List<Guid> PlanElementUIDs { get; set; }
 
 		/// <summary>
 		/// Разрешить множественное размещение на плане
@@ -371,6 +369,14 @@ namespace RubezhAPI.GK
 			}
 		}
 
+		[XmlIgnore]
+		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 		[XmlIgnore]
 		public string PresentationAddress
 		{

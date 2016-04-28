@@ -14,16 +14,14 @@ using System.Collections.Generic;
 using System.Linq;
 using VideoModule.Plans.Designer;
 using VideoModule.Plans.ViewModels;
-using VideoModule.ViewModels;
 
 namespace VideoModule.Plans
 {
 	class PlanExtension : BasePlanExtension
 	{
 		public static PlanExtension Instance { get; private set; }
-		private CamerasViewModel _camerasViewModel;
 
-		public PlanExtension(CamerasViewModel camerasViewModel)
+		public PlanExtension()
 		{
 			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -31,7 +29,6 @@ namespace VideoModule.Plans
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
-			_camerasViewModel = camerasViewModel;
 			Cache.Add<Camera>(() => ClientManager.SystemConfiguration.Cameras);
 		}
 
@@ -139,7 +136,7 @@ namespace VideoModule.Plans
 		{
 			ElementCamera element = e.Element as ElementCamera;
 			if (element != null)
-				e.PropertyViewModel = new CameraPropertiesViewModel(_camerasViewModel, element);
+				e.PropertyViewModel = new CameraPropertiesViewModel(element);
 		}
 	}
 }

@@ -90,8 +90,11 @@ namespace GKModule.ViewModels
 
 			foreach (var code in Codes)
 			{
-				if(!code.OutputDependentElements.Contains(MPT))
-				code.OutputDependentElements.Add(MPT);
+				if (!code.OutputDependentElements.Contains(MPT))
+				{
+					code.OutputDependentElements.Add(MPT);
+					MPT.InputDependentElements.Add(code);
+				}
 			}
 		}
 		void DeleteDependentElements(GKMPT MPT, List<GKCode> Codes)
@@ -100,6 +103,7 @@ namespace GKModule.ViewModels
 			foreach (var code in Codes)
 			{
 				code.OutputDependentElements.Remove(MPT);
+				MPT.InputDependentElements.Remove(code);
 			}
 		}
 

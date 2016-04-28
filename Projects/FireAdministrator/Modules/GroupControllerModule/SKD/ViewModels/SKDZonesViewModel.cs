@@ -289,12 +289,5 @@ namespace GKModule.ViewModels
 			if (zoneViewModel != null)
 				OnEdit(zoneViewModel);
 		}
-		public void UpdateZones(Guid zoneUID)
-		{
-			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-			if (zone != null)
-				zone.Update();
-			LockedSelect(zoneUID);
-		}
 	}
 }

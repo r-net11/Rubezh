@@ -66,7 +66,9 @@ namespace GKModule.ViewModels
 			UpdateDriver();
 			InitializeParamsCommands();
 			Device.Changed += OnChanged;
+			Device.PlanElementUIDsChanged += UpdateVisualizationState;
 			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
+			Update();
 		}
 
 		public void CheckShleif()
@@ -117,9 +119,12 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => HasChildren);
-			OnPropertyChanged(() => IsOnPlan);
-			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => Description);
+			UpdateVisualizationState();
+		}
+		void UpdateVisualizationState()
+		{
+			VisualizationState = Driver != null && Driver.IsPlaceable ? (IsOnPlan ? (Device.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent) : VisualizationState.Prohibit;
 		}
 
 		public bool IsInMPT
@@ -529,9 +534,15 @@ namespace GKModule.ViewModels
 		{
 			get { return Device.Driver.IsDeviceOnShleif || Device.Children.Any(); }
 		}
+		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
-			get { return Driver != null && Driver.IsPlaceable ? (IsOnPlan ? (Device.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent) : VisualizationState.Prohibit; }
+			get { return _visualizationState; }
+			private set
+			{
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }

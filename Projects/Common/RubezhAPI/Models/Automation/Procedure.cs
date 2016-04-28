@@ -3,6 +3,7 @@ using RubezhAPI.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.Automation
 {
@@ -75,8 +76,14 @@ namespace RubezhAPI.Automation
 
 		#region IPlanPresentable Members
 
-		[DataMember]
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 
 		#endregion
 

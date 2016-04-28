@@ -54,11 +54,11 @@ namespace FireMonitor.Layout
 			return isSelected ? viewModel.SelectedLayout : null;
 		}
 
-		protected override string GetRestartCommandLineArguments(bool isNotRestart = false)
+		protected override string GetRestartCommandLineArguments(bool IsRestart = false)
 		{
-			if (!isNotRestart)
+			if (!IsRestart)
 				return base.GetRestartCommandLineArguments();
-			if (isNotRestart && GetLayout(_layout))
+			if (IsRestart)
 			{
 				var args = base.GetRestartCommandLineArguments();
 				if (args.Length > 0)
@@ -94,18 +94,14 @@ namespace FireMonitor.Layout
 				(ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip)) ||
 					layout.HostNameOrAddressList.Any(allowedHostName => string.Compare(allowedHostName, localHostName, true) == 0)).ToList();
 
-			if (_layout != null && layouts.Any())
-			{
-				if (layouts.Any(x => x.UID == _layout.UID))
-					return true;
-				_layout = layouts.FirstOrDefault();
-				return _layout != null;
-			}
-
 			if (layouts.Count > 0)
 			{
 				if (_layoutID.HasValue)
+				{
 					_layout = layouts.FirstOrDefault(item => item.UID == _layoutID.Value);
+					if (_layout == null)
+						_layout = layouts.FirstOrDefault();
+				}
 
 				if (_layout == null && layouts.Count == 1)
 					_layout = layouts[0];

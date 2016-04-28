@@ -1,5 +1,4 @@
-﻿using Common;
-using RubezhAPI.GK;
+﻿using RubezhAPI.GK;
 using RubezhAPI.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -33,8 +32,6 @@ namespace RubezhAPI.Models
 		public Guid UID { get; set; }
 		[DataMember]
 		public string Ip { get; set; }
-		[DataMember]
-		public List<Guid> PlanElementUIDs { get; set; }
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
 		[DataMember]
@@ -89,6 +86,14 @@ namespace RubezhAPI.Models
 				CameraState.OnStateChanged();
 		}
 		public event Action StatusChanged;
+		[XmlIgnore]
+		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 		[XmlIgnore]
 		public RviStatus Status { get; set; }
 		[XmlIgnore]

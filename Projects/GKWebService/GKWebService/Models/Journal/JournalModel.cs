@@ -46,9 +46,10 @@ namespace GKWebService.Models
 			ObjectUid = journalItem.ObjectUID;
 			Color = GetStateColor(journalItem);
 			ObjectType = journalItem.JournalObjectType;
-			ObjectImageSource = "/Content/Image/Images/Blank.png";
+			ObjectImageSource = JournalItem.GetImageSource(ObjectType).Replace("/Controls;component/", "/Content/Image/");
 			Subsystem = journalItem.JournalSubsystemType.ToDescription();
 			EventImage = GetEventImage(journalItem.JournalEventNameType);
+			ObjectName = journalItem.ObjectName;
 			GetObject(journalItem);
 		}
 
@@ -63,6 +64,8 @@ namespace GKWebService.Models
 						ObjectName = device.GetGKDescriptorName(GKManager.DeviceConfiguration.GKNameGenerationType);
 						ObjectImageSource = device.Driver.ImageSource.Replace("/Controls;component/", "/Content/Image/");
 					}
+					else
+						ObjectImageSource = "/Content/Image/Images/Blank.png";
 					break;
 
 				case JournalObjectType.GKZone:
@@ -71,7 +74,6 @@ namespace GKWebService.Models
 					{
 						ObjectName = zone.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/Zone.png";
 					break;
 
 				case JournalObjectType.GKDirection:
@@ -80,7 +82,6 @@ namespace GKWebService.Models
 					{
 						ObjectName = direction.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/BDirection.png";
 					break;
 
 				case JournalObjectType.GKPumpStation:
@@ -89,7 +90,6 @@ namespace GKWebService.Models
 					{
 						ObjectName = pumpStation.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/BPumpStation.png";
 					break;
 
 				case JournalObjectType.GKMPT:
@@ -98,7 +98,6 @@ namespace GKWebService.Models
 					{
 						ObjectName = mpt.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/BMPT.png";
 					break;
 
 				case JournalObjectType.GKDelay:
@@ -106,7 +105,6 @@ namespace GKWebService.Models
 					if (delay != null)
 					{
 						ObjectName = delay.PresentationName;
-						ObjectImageSource = "/Content/Image/Images/Delay.png";
 					}
 					else
 					{
@@ -133,7 +131,6 @@ namespace GKWebService.Models
 					if (pim != null)
 					{
 						ObjectName = pim.PresentationName;
-						ObjectImageSource = "/Content/Image/Images/Pim.png";
 						if (pim.PumpStationUID != Guid.Empty)
 						{
 							var pimPumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == pim.PumpStationUID);
@@ -163,7 +160,6 @@ namespace GKWebService.Models
 					{
 						ObjectName = guardZone.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/GuardZone.png";
 					break;
 
 				case JournalObjectType.GKSKDZone:
@@ -172,7 +168,6 @@ namespace GKWebService.Models
 					{
 						ObjectName = gkSKDZone.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/Zone.png";
 					break;
 
 				case JournalObjectType.GKDoor:
@@ -181,7 +176,6 @@ namespace GKWebService.Models
 					{
 						ObjectName = gkDoor.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/Door.png";
 					break;
 
 				case JournalObjectType.Camera:
@@ -190,77 +184,6 @@ namespace GKWebService.Models
 					{
 						ObjectName = camera.PresentationName;
 					}
-					ObjectImageSource = "/Content/Image/Images/BVideo.png";
-					break;
-
-				case JournalObjectType.AccessTemplate:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/AccessTemplate.png";
-					break;
-
-				case JournalObjectType.AdditionalColumn:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/AdditionalColumn.png";
-					break;
-
-				case JournalObjectType.Card:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Card.png";
-					break;
-
-				case JournalObjectType.DayInterval:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Interval.png";
-					break;
-
-				case JournalObjectType.Department:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Department.png";
-					break;
-
-				case JournalObjectType.Employee:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Employee.png";
-					break;
-
-				case JournalObjectType.GKDayShedule:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Shedule.png";
-					break;
-
-				case JournalObjectType.GKShedule:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Shedule.png";
-					break;
-
-				case JournalObjectType.Holiday:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Holiday.png";
-					break;
-
-				case JournalObjectType.Organisation:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Organisation.png";
-					break;
-
-				case JournalObjectType.PassCardTemplate:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/BPassCardDesigner.png";
-					break;
-
-				case JournalObjectType.Position:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Position.png";
-					break;
-
-				case JournalObjectType.Schedule:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Shedule.png";
-					break;
-
-				case JournalObjectType.ScheduleScheme:
-					ObjectName = journalItem.ObjectName;
-					ObjectImageSource = "/Content/Image/Images/Month.png";
 					break;
 
 				case JournalObjectType.None:

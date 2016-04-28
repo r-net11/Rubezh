@@ -1,4 +1,6 @@
 ﻿using RubezhAPI.Automation;
+using RubezhAPI.GK;
+using RubezhAPI.Hierarchy;
 using RubezhAPI.Journal;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -19,7 +21,10 @@ namespace RubezhAPI.Models
 			RviServers = new List<RviServer>();
 			RviDevices = new List<RviDevice>();
 			Cameras = new List<Camera>();
+			Zones = new HierarchicalCollection<GKZone>();
 		}
+
+		public HierarchicalCollection<GKZone> Zones { get; set; }
 
 		[DataMember]
 		public List<Sound> Sounds { get; set; }
@@ -43,6 +48,7 @@ namespace RubezhAPI.Models
 		{
 			AutomationConfiguration.UpdateConfiguration();
 			UpdateRviConfiguration();
+			Zones.BuildTree();
 		}
 
 		[XmlIgnore]

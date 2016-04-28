@@ -56,7 +56,7 @@ namespace Infrastructure.Client.Plans
 		protected void OnDesignerItemPropertyChanged<TItem>(DesignerItem designerItem)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			var item = GetItem<TItem>((IElementReference)designerItem.Element);
+			var item = GetItem<TItem>(((IElementReference)designerItem.Element).ItemUID);
 			if (item != null)
 			{
 				Action onChanged = () =>
@@ -85,63 +85,49 @@ namespace Infrastructure.Client.Plans
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			var elementReference = designerItem.Element as IElementReference;
-			var item = GetItem<TItem>(elementReference);
-			SetItem<TItem>(elementReference, item);
+			var item = GetItem<TItem>(elementReference.ItemUID);
+			LinkElementToItem<TItem>(elementReference, item);
 			UpdateDesignerItemProperties<TItem>(designerItem, item);
 		}
-
-		public TItem GetItem<TItem>(IElementReference element)
+		public TItem GetItem<TItem>(Guid itemUid)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			return GetItem<TItem>(element.ItemUID);
-		}
-		public TItem GetItem<TItem>(Guid uid)
-			where TItem : IChangedNotification, IPlanPresentable
-		{
-			return Cache.Get<TItem>(uid);
+			return Cache.Get<TItem>(itemUid);
 		}
 
 		public void SetItem<TItem>(IElementReference element)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			var item = GetItem<TItem>(element);
-			SetItem<TItem>(element, item);
+			var item = GetItem<TItem>(element.ItemUID);
+			LinkElementToItem(element, item);
 		}
-		public void SetItem<TItem>(IElementReference element, Guid itemUID)
+		void LinkElementToItem<TItem>(IElementReference element, TItem item)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			var item = GetItem<TItem>(itemUID);
-			SetItem(element, item);
-		}
-		public void SetItem<TItem>(IElementReference element, TItem item)
-			where TItem : IChangedNotification, IPlanPresentable
-		{
-			if (item != null && item.UID == element.ItemUID)
-				ResetItem<TItem>(element, item);
-			else
-				ResetItem<TItem>(element);
-			element.ItemUID = item == null ? Guid.Empty : item.UID;
-			if (item != null)
+			if (item != null && !item.PlanElementUIDs.Contains(element.UID))
 			{
 				item.PlanElementUIDs.Add(element.UID);
+				item.OnPlanElementUIDsChanged();
 			}
+			element.ItemUID = item == null ? Guid.Empty : item.UID;
 			UpdateElementProperties<TItem>(element, item);
 		}
 		public void ResetItem<TItem>(IElementReference element)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			var item = GetItem<TItem>(element);
-			ResetItem<TItem>(element, item);
-		}
-		public void ResetItem<TItem>(IElementReference element, TItem item)
-			where TItem : IChangedNotification, IPlanPresentable
-		{
+			var item = GetItem<TItem>(element.ItemUID);
 			if (item != null)
 			{
 				item.PlanElementUIDs.Remove(element.UID);
+				item.OnPlanElementUIDsChanged();
 			}
 		}
-
+		public void RewriteItem<TItem>(IElementReference element, TItem item)
+			where TItem : IChangedNotification, IPlanPresentable
+		{
+			ResetItem<TItem>(element);
+			LinkElementToItem(element, item);
+		}
 		protected virtual void UpdateElementProperties<TItem>(IElementReference element, TItem item)
 			where TItem : IChangedNotification, IPlanPresentable
 		{

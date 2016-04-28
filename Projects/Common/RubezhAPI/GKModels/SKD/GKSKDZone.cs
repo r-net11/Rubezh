@@ -24,8 +24,14 @@ namespace RubezhAPI.GK
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.SKDZone; } }
 
-		[DataMember]
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }

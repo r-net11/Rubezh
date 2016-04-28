@@ -53,6 +53,9 @@
 				<File Id="Administrator.Npgsql.EntityFramework.dll"						Name="Npgsql.EntityFramework.dll"						Source="$(var.Administrator.TargetDir)" />
 
 				<File Id="Administrator.OpcClientSdk40.dll"								Name="OpcClientSdk40.dll"								Source="..\..\..\..\..\..\3rdParty\OPC\" />
+
+				<File Id="Administrator.Microsoft.Windows.Shell.dll"					Name="Microsoft.Windows.Shell.dll"						Source="..\..\..\..\..\..\3rdParty\Microsoft.Windows.Shell.dll" />
+
 			</Component>
 
 			<Component Id="Administrator.PLANS_MODULE" Guid="BD07AEDD-C503-4B25-980D-3409EBE75D1A">

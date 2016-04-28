@@ -58,8 +58,14 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public GKLogic Logic { get; set; }
 
-		[DataMember]
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 
 		[XmlIgnore]
 		public override string ImageSource

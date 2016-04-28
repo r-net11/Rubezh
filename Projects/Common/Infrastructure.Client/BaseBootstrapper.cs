@@ -263,24 +263,23 @@ namespace Infrastructure.Client
 					_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
 		}
 
-		public void RestartApplication(bool isNotRestar = false)
+		public void RestartApplication(bool IsRestart = false)
 		{
 			var processStartInfo = new ProcessStartInfo();
-			if (!isNotRestar)
+			processStartInfo.FileName = Application.ResourceAssembly.Location;
+
+			if (IsRestart)
 			{
-				processStartInfo.FileName = Application.ResourceAssembly.Location;
-				processStartInfo.Arguments = GetRestartCommandLineArguments(isNotRestar);
+				processStartInfo.Arguments = GetRestartCommandLineArguments(IsRestart);
 			}
 			else
 			{
 				var arg = GetRestartCommandLineArguments();
 				if (arg != null)
 				{
-					processStartInfo.FileName = Application.ResourceAssembly.Location;
 					processStartInfo.Arguments = arg;
 				}
 				else return;
-
 			}
 
 			Process.Start(processStartInfo);

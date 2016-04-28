@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="PumpStationRectangle" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 0,0L 794,0L 794,794L 0,794L 0,0 Z M 256.682,524.302L 256.682,273.065L 112.891,273.065L 112.891,524.302L 256.682,524.302 Z M 689.291,524.329L 689.291,273.093L 546.22,273.093L 546.22,524.329L 689.291,524.329 Z M 347.865,273.011L 347.865,524.247L 454.875,524.247L 454.875,273.011L 347.865,273.011 Z M 455.195,542.786L 347.504,542.786L 347.504,578.737L 329.203,578.737L 329.203,613.669L 472.899,613.669L 472.899,578.438L 455.195,578.438L 455.195,542.786 Z M 473.052,182.937L 329.139,182.937L 329.139,217.34L 347.848,217.34L 347.848,253.78L 455.281,253.78L 455.281,217.204L 473.052,217.204L 473.052,182.937 Z M 528.517,470.334L 528.517,327.141L 474.196,327.141L 474.196,470.334L 528.517,470.334 Z M 274.305,327.087L 274.305,470.144L 327.946,470.144L 327.946,327.087L 274.305,327.087 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

@@ -18,7 +18,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			TopMost = false;
 			HideInTaskbar = false;
 			AllowClose = true;
-			ResizeMode = System.Windows.ResizeMode.CanResize;
 		}
 
 		public Window Surface { get; private set; }

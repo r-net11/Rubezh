@@ -51,7 +51,9 @@ namespace RubezhAPI.GK
 					}
 				}
 				gkBases.Add(guardZone);
+				if (guardZone.Pim!= null)
 				gkBases.Add(guardZone.Pim);
+				if (guardZone.ChangePim!= null)
 				gkBases.Add(guardZone.ChangePim);
 			}
 
