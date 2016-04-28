@@ -8,6 +8,7 @@
 			RestrictClose = true;
 			HideInTaskbar = true;
 			CanCancel = false;
+			Draggable = false;
 		}
 
 		public bool RestrictClose { get; private set; }
