@@ -532,6 +532,16 @@ CONSTRAINT [PK_Filters] PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+CREATE TABLE [dbo].[AccessTemplateDeactivatingReader](
+	[UID] [uniqueidentifier] NOT NULL,
+	[AccessTemplateUID] [uniqueidentifier] NOT NULL,
+	[DeactivatingReaderUID] [uniqueidentifier] NOT NULL,
+ CONSTRAINT [PK_AccessTemplateDeactivatingReader] PRIMARY KEY CLUSTERED 
+(
+	[UID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
 CREATE TABLE Patches (Id nvarchar(100) not null)
 CREATE INDEX DayIntervalPartUIDIndex ON [dbo].[DayIntervalPart]([UID])
 CREATE INDEX DayIntervalUIDIndex ON DayInterval([UID])
@@ -778,6 +788,11 @@ REFERENCES [dbo].[Employee] ([Uid])
 NOT FOR REPLICATION
 ALTER TABLE [dbo].Organisation NOCHECK CONSTRAINT [FK_Organisation_Employee]
 
+ALTER TABLE [dbo].[AccessTemplateDeactivatingReader]  WITH NOCHECK ADD  CONSTRAINT [FK_AccessTemplateDeactivatingReader_AccessTemplate] FOREIGN KEY([AccessTemplateUID])
+REFERENCES [dbo].[AccessTemplate] ([UID])
+NOT FOR REPLICATION 
+ALTER TABLE [dbo].[AccessTemplateDeactivatingReader] NOCHECK CONSTRAINT [FK_AccessTemplateDeactivatingReader_AccessTemplate]
+
 INSERT INTO Patches (Id) VALUES
 ('OrganisationUser')
 INSERT INTO Patches (Id) VALUES
@@ -1006,6 +1021,8 @@ INSERT INTO Patches (Id) VALUES
 ('FiltersTableAdded')
 INSERT INTO Patches (Id) VALUES
 ('RemoveCredentialsStartDateField')
+INSERT INTO Patches (Id) VALUES
+('Table_AccessTemplateDeactivatingReader_Added')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();
