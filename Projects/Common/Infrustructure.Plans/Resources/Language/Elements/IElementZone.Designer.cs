@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrustructure.Plans.Resources.Language {
+namespace Infrustructure.Plans.Resources.Language.Elements {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrustructure.Plans.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class LayerGroupService {
+    internal class IElementZone {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LayerGroupService() {
+        internal IElementZone() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrustructure.Plans.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrustructure.Plans.Resources.Language.LayerGroupService", typeof(LayerGroupService).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrustructure.Plans.Resources.Language.Elements.IElementZone", typeof(IElementZone).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace Infrustructure.Plans.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Элементы.
+        ///   Looks up a localized string similar to СКД зона.
         /// </summary>
-        internal static string LayerGroupService_Name {
+        internal static string SKD {
             get {
-                return ResourceManager.GetString("LayerGroupService_Name", resourceCulture);
+                return ResourceManager.GetString("SKD", resourceCulture);
             }
         }
     }

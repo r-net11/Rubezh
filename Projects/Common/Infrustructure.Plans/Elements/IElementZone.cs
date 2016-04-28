@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Media;
+using Localization;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -24,7 +25,8 @@ namespace Infrustructure.Plans.Elements
 
 	public enum ElementZoneType
 	{
-		[Description("СКД зона")]
+		//[Description("СКД зона")]
+        [LocalizedDescription(typeof(Resources.Language.Elements.IElementZone),"SKD")]
 		SKD,
 	}
 }

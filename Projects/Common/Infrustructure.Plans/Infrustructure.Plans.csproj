@@ -127,7 +127,12 @@
     <Compile Include="Presenter\BorderPainter.cs" />
     <Compile Include="Presenter\PresenterItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Language\LayerGroupService.Designer.cs">
+    <Compile Include="Resources\Language\Elements\IElementZone.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IElementZone.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Services\LayerGroupService.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LayerGroupService.resx</DependentUpon>
@@ -139,13 +144,21 @@
     <Resource Include="Resources\Transparent.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FiresecService\Localization\Localization.csproj">
+      <Project>{0fabff9f-2922-4c8e-9c1c-7a014fedccf1}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Language\LayerGroupService.resx">
+    <EmbeddedResource Include="Resources\Language\Elements\IElementZone.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IElementZone.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Services\LayerGroupService.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LayerGroupService.Designer.cs</LastGenOutput>
     </EmbeddedResource>

@@ -36,7 +36,7 @@ namespace Infrustructure.Plans.Services
 			var elementsGroup = new GroupItem()
 			{
 				Alias = ElementAlias,
-				Name = Resources.Language.LayerGroupService.LayerGroupService_Name,
+				Name = Resources.Language.Services.LayerGroupService.LayerGroupService_Name,
 				Order = 1000,
 			};
 			_groups.Add(ElementAlias, elementsGroup);
