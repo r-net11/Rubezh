@@ -68,6 +68,7 @@ namespace GKModule.ViewModels
 			Device.Changed += OnChanged;
 			Device.PlanElementUIDsChanged += UpdateVisualizationState;
 			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
+			Update();
 		}
 
 		public void CheckShleif()
