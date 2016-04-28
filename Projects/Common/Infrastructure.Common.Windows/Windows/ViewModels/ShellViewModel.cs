@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using Common;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
+﻿using Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -26,8 +26,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			AllowMaximize = true;
 			AllowMinimize = true;
 			ContentFotter = null;
-			MinWidth = 800;
-			MinHeight = 600;
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
 			MinimizeCommand = new RelayCommand<MinimizeTarget>(OnMinimize);
 			TextVisibility = !RegistrySettingsHelper.GetBool(ClientType + ".Shell.TextVisibility");

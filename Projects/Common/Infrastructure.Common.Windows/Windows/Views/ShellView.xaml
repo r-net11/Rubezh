@@ -4,7 +4,8 @@
 			 xmlns:converters="clr-namespace:Infrastructure.Common.Windows.Converters"
 			 xmlns:loc="clr-namespace:Infrastructure.Common.Windows.ViewModels"
 			 xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation"
-			 xmlns:ribbon="clr-namespace:Infrastructure.Common.Ribbon">
+			 xmlns:ribbon="clr-namespace:Infrastructure.Common.Ribbon"
+			 MinWidth="800" MinHeight="600">
 	<UserControl.Resources>
 		<converters:PanelTooltipConverter x:Key="tooltipConverter" />
 	</UserControl.Resources>
