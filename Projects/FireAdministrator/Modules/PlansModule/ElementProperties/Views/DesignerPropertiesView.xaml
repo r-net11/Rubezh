@@ -12,19 +12,24 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				
 				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Название" />
 				<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Описание" />
 				<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Ширина" />
 				<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Высота" />
 				<TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Text="Цвет фона" />
 				
+				
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
 				<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+				<StackPanel Grid.Row="5" Grid.Column="1"  HorizontalAlignment="Left"   Orientation ="Horizontal" >
+					<CheckBox Margin="2" IsChecked="{Binding IsNotShowPlanChecked, Mode=TwoWay}" />
+					<TextBlock Text="Не показывать план в ОЗ" Foreground="White" VerticalAlignment="Center" />
+				</StackPanel>
 			</Grid>
 		</TabItem>
 		<TabItem Header="Изображение">
@@ -38,7 +43,6 @@
 					<Grid.RowDefinitions>
 						<RowDefinition />
 						<RowDefinition  />
-						<RowDefinition  />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row ="0" HorizontalAlignment="Right"  Orientation ="Horizontal" Margin="2">
 						<Button Margin="2" Command="{Binding ImagePropertiesViewModel.SelectPictureCommand}" Content="Выбрать картинку" />
@@ -47,10 +51,6 @@
 					<StackPanel Grid.Row="1" HorizontalAlignment="Right"   Orientation ="Horizontal" Margin="2" IsEnabled="{Binding IsEnable}">
 						<CheckBox Margin="2" IsChecked="{Binding IsAsynchronousLoadChecked, Mode=TwoWay}" />
 						<TextBlock Text="Асинхронная загрузка изображения" Foreground="White" VerticalAlignment="Center" />
-					</StackPanel>
-					<StackPanel Grid.Row="2"  HorizontalAlignment="Right"   Orientation ="Horizontal" Margin="2">
-						<CheckBox Margin="2" IsChecked="{Binding IsNotShowPlanChecked, Mode=TwoWay}" />
-						<TextBlock Text="Не показывать план в ОЗ" Foreground="White" VerticalAlignment="Center" />
 					</StackPanel>
 				</Grid>
 			</Grid>
