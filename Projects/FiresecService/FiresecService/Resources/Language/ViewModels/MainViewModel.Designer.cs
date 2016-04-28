@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecService.Resources.Language {
+namespace FiresecService.Resources.Language.ViewModels {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace FiresecService.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class NotifyIconService {
+    public class MainViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal NotifyIconService() {
+        internal MainViewModel() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.NotifyIconService", typeof(NotifyIconService).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.ViewModels.MainViewModel", typeof(MainViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace FiresecService.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,29 +61,65 @@ namespace FiresecService.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Показать.
+        ///   Looks up a localized string similar to Лицензия загружена.
         /// </summary>
-        internal static string Start_menuItem1_Text {
+        public static string LicLoadAccept {
             get {
-                return ResourceManager.GetString("Start_menuItem1_Text", resourceCulture);
+                return ResourceManager.GetString("LicLoadAccept", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выход.
+        ///   Looks up a localized string similar to Лицензия отсутствует.
         /// </summary>
-        internal static string Start_menuItem2_Text {
+        public static string LicLoadFailed {
             get {
-                return ResourceManager.GetString("Start_menuItem2_Text", resourceCulture);
+                return ResourceManager.GetString("LicLoadFailed", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Сервер приложений.
         /// </summary>
-        internal static string Start_NotifyIcon_Text {
+        public static string MainWindow_Title {
             get {
-                return ResourceManager.GetString("Start_NotifyIcon_Text", resourceCulture);
+                return ResourceManager.GetString("MainWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка чтения файла лицензии.
+        /// </summary>
+        public static string OnLoadLicense_ErrorHeader {
+            get {
+                return ResourceManager.GetString("OnLoadLicense_ErrorHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выбранный файл не является файлом лицензии и не может быть использован для активации сервера. Выберите другой файл..
+        /// </summary>
+        public static string OnLoadLicense_ErrorText {
+            get {
+                return ResourceManager.GetString("OnLoadLicense_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отсутствует.
+        /// </summary>
+        public static string PropertyValue_IsOff {
+            get {
+                return ResourceManager.GetString("PropertyValue_IsOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Включено.
+        /// </summary>
+        public static string PropertyValue_IsOn {
+            get {
+                return ResourceManager.GetString("PropertyValue_IsOn", resourceCulture);
             }
         }
     }

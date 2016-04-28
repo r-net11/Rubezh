@@ -36,9 +36,9 @@ namespace FiresecService.Service
                 //Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
                 //UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
                 //BalloonHelper.ShowFromServer("Ошибка при запуске хоста сервиса \n" + e.Message); 
-                Logger.Error(e, Resources.Language.FiresecServiceManager.OpenLicenseManager_Exception);
-                UILogger.Log(Resources.Language.FiresecServiceManager.OpenLicenseManagerLog_Error + e.Message);
-                BalloonHelper.ShowFromServer(Resources.Language.FiresecServiceManager.OpenLicenseManagerBalloon_Error + e.Message);
+                Logger.Error(e, Resources.Language.Service.FiresecServiceManager.OpenLicenseManager_Exception);
+                UILogger.Log(Resources.Language.Service.FiresecServiceManager.OpenLicenseManagerLog_Error + e.Message);
+                BalloonHelper.ShowFromServer(Resources.Language.Service.FiresecServiceManager.OpenLicenseManagerBalloon_Error + e.Message);
 				return false;
 			}
 		}
@@ -50,12 +50,12 @@ namespace FiresecService.Service
 				var netpipeAddress = AppServerConnectionManager.ServerNamedPipesUri;
 				ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
 				//UILogger.Log("Локальный адрес: " + netpipeAddress);
-                UILogger.Log(String.Format(Resources.Language.FiresecServiceManager.CreateNetPipesEndpoint_Address, netpipeAddress));
+                UILogger.Log(String.Format(Resources.Language.Service.FiresecServiceManager.CreateNetPipesEndpoint_Address, netpipeAddress));
 			}
 			catch (Exception e)
 			{
 				//Logger.Error(e, "FiresecServiceManager.CreateNetPipesEndpoint");
-                Logger.Error(e, Resources.Language.FiresecServiceManager.CreateNetPipesEndpoint_Exception);
+                Logger.Error(e, Resources.Language.Service.FiresecServiceManager.CreateNetPipesEndpoint_Exception);
 			}
 		}
 
@@ -66,13 +66,13 @@ namespace FiresecService.Service
 				var remoteAddress = AppServerConnectionManager.ServerHttpUri;
 				ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
                 //UILogger.Log("Удаленный адрес: " + remoteAddress);
-                UILogger.Log(String.Format(Resources.Language.FiresecServiceManager.CreateHttpEndpoint_Address, remoteAddress));
+                UILogger.Log(String.Format(Resources.Language.Service.FiresecServiceManager.CreateHttpEndpoint_Address, remoteAddress));
 
 			}
 			catch (Exception e)
 			{
                 //Logger.Error(e, "FiresecServiceManager.CreateHttpEndpoint");
-                Logger.Error(e, Resources.Language.FiresecServiceManager.CreateHttpEndpoint_Exception);
+                Logger.Error(e, Resources.Language.Service.FiresecServiceManager.CreateHttpEndpoint_Exception);
 			}
 		}
 
@@ -83,12 +83,12 @@ namespace FiresecService.Service
 				var remoteAddress = AppServerConnectionManager.ServerTcpUri;
 				ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
                 //UILogger.Log("Удаленный адрес: " + remoteAddress);
-                UILogger.Log(String.Format(Resources.Language.FiresecServiceManager.CreateTcpEndpoint_Address, remoteAddress));
+                UILogger.Log(String.Format(Resources.Language.Service.FiresecServiceManager.CreateTcpEndpoint_Address, remoteAddress));
 			}
 			catch (Exception e)
 			{
 				//Logger.Error(e, "FiresecServiceManager.CreateTcpEndpoint");
-                Logger.Error(e, Resources.Language.FiresecServiceManager.CreateTcpEndpoint_Exception);
+                Logger.Error(e, Resources.Language.Service.FiresecServiceManager.CreateTcpEndpoint_Exception);
             }
 		}
 

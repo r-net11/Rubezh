@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecService.Resources.Language {
+namespace FiresecService.Resources.Language.Service {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace FiresecService.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PatchManager {
+    internal class FiresecServiceAutomation {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PatchManager() {
+        internal FiresecServiceAutomation() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace FiresecService.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.PatchManager", typeof(PatchManager).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.Service.FiresecServiceAutomation", typeof(FiresecServiceAutomation).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,11 @@ namespace FiresecService.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось подключиться к базе данных.
+        ///   Looks up a localized string similar to Процедура не найдена.
         /// </summary>
-        internal static string HandleConnectionFailureException_Balloon {
+        internal static string RunProcedure {
             get {
-                return ResourceManager.GetString("HandleConnectionFailureException_Balloon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [*]Не удалось подключиться к базе данных &apos;{0}&apos;.
-        /// </summary>
-        internal static string HandleConnectionFailureException_Log {
-            get {
-                return ResourceManager.GetString("HandleConnectionFailureException_Log", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Возникла ошибка при работе с базой данных.
-        /// </summary>
-        internal static string HandleExecutionFailureException_Balloon {
-            get {
-                return ResourceManager.GetString("HandleExecutionFailureException_Balloon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [*]Возникла ошибка при работе с базой данных &apos;{0}&apos;.
-        /// </summary>
-        internal static string HandleExecutionFailureException_Log {
-            get {
-                return ResourceManager.GetString("HandleExecutionFailureException_Log", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не удалось подключиться к базе данных {0}.
-        /// </summary>
-        internal static string ResetDB_OperationResult {
-            get {
-                return ResourceManager.GetString("ResetDB_OperationResult", resourceCulture);
+                return ResourceManager.GetString("RunProcedure", resourceCulture);
             }
         }
     }

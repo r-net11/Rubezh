@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecService.Properties {
+namespace FiresecService.Resources.Language.Service {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace FiresecService.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class FiresecServiceAuthentication {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal FiresecServiceAuthentication() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace FiresecService.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.Service.FiresecServiceAuthentication", typeof(FiresecServiceAuthentication).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,20 @@ namespace FiresecService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует файл конфигурации. Пожалуйста, переустановите программу..
+        ///   Looks up a localized string similar to У пользователя {0} нет прав на подкючение к удаленному серверу c хоста: {1}.
         /// </summary>
-        internal static string ConfigFileNotExist {
+        internal static string FailedConnectRights {
             get {
-                return ResourceManager.GetString("ConfigFileNotExist", resourceCulture);
+                return ResourceManager.GetString("FailedConnectRights", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Неверный логин или пароль.
         /// </summary>
-        internal static string ErrorCaption {
+        internal static string FailedLoginPassword {
             get {
-                return ResourceManager.GetString("ErrorCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Один из конфигурационных файлов поврежден. Пожалуйста, переустановите программу..
-        /// </summary>
-        internal static string FileNotExistError {
-            get {
-                return ResourceManager.GetString("FileNotExistError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Количество активных пропусков в соответствии с лицензией не может превышать {0}. Для создания нового пропуска приобретите дополнительные лицензии..
-        /// </summary>
-        internal static string LicenseAddCardMessage {
-            get {
-                return ResourceManager.GetString("LicenseAddCardMessage", resourceCulture);
+                return ResourceManager.GetString("FailedLoginPassword", resourceCulture);
             }
         }
     }

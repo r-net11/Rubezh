@@ -117,16 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfigFileNotExist" xml:space="preserve">
-    <value>Отсутствует файл конфигурации. Пожалуйста, переустановите программу.</value>
-  </data>
-  <data name="ErrorCaption" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FileNotExistError" xml:space="preserve">
-    <value>Один из конфигурационных файлов поврежден. Пожалуйста, переустановите программу.</value>
-  </data>
-  <data name="LicenseAddCardMessage" xml:space="preserve">
-    <value>Количество активных пропусков в соответствии с лицензией не может превышать {0}. Для создания нового пропуска приобретите дополнительные лицензии.</value>
+  <data name="RunProcedure" xml:space="preserve">
+    <value>Процедура не найдена</value>
   </data>
 </root>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecService.Resources.Language {
+namespace FiresecService.Resources.Language.Service {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace FiresecService.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.FiresecServiceManager", typeof(FiresecServiceManager).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.Service.FiresecServiceManager", typeof(FiresecServiceManager).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

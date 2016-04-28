@@ -67,7 +67,8 @@ namespace FiresecService.Service.Validators
 						case ScheduleSchemeType.Month:
 						case ScheduleSchemeType.SlideDay:
 							if (dayInterval.SlideTime != TimeSpan.Zero)
-								errorLinksWithScheduleSchemes.AppendLine(String.Format("{0} ({1}{2})", scheduleScheme.Name, scheduleScheme.Type.ToDescription().ToLower(), scheduleScheme.IsDeleted ? ", архивный" : null));
+								errorLinksWithScheduleSchemes.AppendLine(String.Format("{0} ({1}{2})", scheduleScheme.Name, scheduleScheme.Type.ToDescription().ToLower(), 
+                                    scheduleScheme.IsDeleted ? Resources.Language.Service.Validators.DayIntervalValidator.ValidateScheduleSchemes_Archive : null));
 							break;
 					}
 				}
@@ -75,7 +76,7 @@ namespace FiresecService.Service.Validators
 				{
 					var error =
 						String.Format(
-							"Чтобы задать в поле \"Обязательная продолжительность скользящего графика\" ненулевое значение, необходимо удалить связи дневного графика со следующими сменными или месячными графиками:\n\n{0}",
+                            Resources.Language.Service.Validators.DayIntervalValidator.ValidateScheduleSchemes,
 							errorLinksWithScheduleSchemes);
 					return new OperationResult(error);
 				}
@@ -91,7 +92,7 @@ namespace FiresecService.Service.Validators
 			foreach (var dayIntervalPart in dayInterval.DayIntervalParts)
 			{
 				if (dayIntervalPart.TransitionType == DayIntervalPartTransitionType.Night)
-					return new OperationResult("График содержит интервалы с переходом. Для сохранения сведений о дневном графике задайте значение 0 в поле \"Обязательная продолжительность скользящего графика\".\n\nЕсли вы хотите задать в поле \"Обязательная продолжительность скользящего графика\" ненулевое значение, сначала удалите интервалы с переходом, а затем введите необходимое значение");
+                    return new OperationResult(Resources.Language.Service.Validators.DayIntervalValidator.ValidateDayIntervalParts);
 				generalTimeSpan = generalTimeSpan.Add(dayIntervalPart.EndTime.Subtract(dayIntervalPart.BeginTime));
 			}
 
@@ -99,9 +100,9 @@ namespace FiresecService.Service.Validators
 			{
 				var error =
 					String.Format(
-						"Суммарная продолжительность интервалов дневного графика ({0}) должна быть больше или равна обязательной продолжительности скользящего графика ({1})",
-						String.Format("{0} ч {1} мин", generalTimeSpan.Hours, generalTimeSpan.Minutes),
-						String.Format("{0} ч {1} мин", dayInterval.SlideTime.Hours, dayInterval.SlideTime.Minutes));
+                        Resources.Language.Service.Validators.DayIntervalValidator.ValidateDayIntervalParts_Error,
+                        String.Format(Resources.Language.Service.Validators.DayIntervalValidator.ValidateDayIntervalParts_Error_TimeFormat, generalTimeSpan.Hours, generalTimeSpan.Minutes),
+                        String.Format(Resources.Language.Service.Validators.DayIntervalValidator.ValidateDayIntervalParts_Error_TimeFormat, dayInterval.SlideTime.Hours, dayInterval.SlideTime.Minutes));
 				return new OperationResult(error);
 			}
 

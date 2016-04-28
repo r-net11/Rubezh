@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecService.Report.Properties {
+namespace FiresecService.Resources.Language.Processor {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace FiresecService.Report.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class ConfigurationCashHelper {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal ConfigurationCashHelper() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace FiresecService.Report.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Report.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.Processor.ConfigurationCashHelper", typeof(ConfigurationCashHelper).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,24 @@ namespace FiresecService.Report.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отсутствует файл конфигурации. Пожалуйста, переустановите программу..
+        /// </summary>
+        internal static string ExtractAllConfigFiles_ConfigFileNotExist {
+            get {
+                return ResourceManager.GetString("ExtractAllConfigFiles_ConfigFileNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ExtractAllConfigFiles_ErrorCaption {
+            get {
+                return ResourceManager.GetString("ExtractAllConfigFiles_ErrorCaption", resourceCulture);
             }
         }
     }

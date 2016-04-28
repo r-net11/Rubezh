@@ -117,7 +117,99 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RemoteAddress" xml:space="preserve">
-    <value>Remote address</value>
+  <data name="AccessPointNotFoundInConfiguration" xml:space="preserve">
+    <value>Точка доступа не найдена в конфигурации</value>
+  </data>
+  <data name="AccessPointWithoutEntrance" xml:space="preserve">
+    <value>У точки доступа не указано устройство входа</value>
+  </data>
+  <data name="AccessPointWithoutLock" xml:space="preserve">
+    <value>Для точки доступа не найден замок</value>
+  </data>
+  <data name="ChangeLockModeNotConfirmed" xml:space="preserve">
+    <value>Перевод в режим замка "{0}" не подтвержден контроллером</value>
+  </data>
+  <data name="ControllerIsBusy" xml:space="preserve">
+    <value>В данный момент контроллер выполняет другую операцию. Текущая операция не может быть выполнена. Повторите попытку позднее.</value>
+  </data>
+  <data name="CouldNotChangeLockMode" xml:space="preserve">
+    <value>Нельзя перевести замок "{0}" в данный режим</value>
+  </data>
+  <data name="DBError" xml:space="preserve">
+    <value>Ошибка БД: </value>
+  </data>
+  <data name="DeleteEmployee" xml:space="preserve">
+    <value>Сотрудник удален</value>
+  </data>
+  <data name="DeleteFile" xml:space="preserve">
+    <value>Ошибка удаления файла</value>
+  </data>
+  <data name="DeleteFileError" xml:space="preserve">
+    <value>Ошибка удаления файла '{0}'</value>
+  </data>
+  <data name="DeleteFileException" xml:space="preserve">
+    <value>В процессе удаления файла возника ошибка:
+{0}</value>
+  </data>
+  <data name="DeviceNotFoundInConfiguration" xml:space="preserve">
+    <value>Устройство не найдено в конфигурации</value>
+  </data>
+  <data name="GetCardsError" xml:space="preserve">
+    <value>Ошибка при получении карт или шаблонов карт</value>
+  </data>
+  <data name="LicenseAddCardMessage" xml:space="preserve">
+    <value>Количество активных пропусков в соответствии с лицензией не может превышать {0}. Для создания нового пропуска приобретите дополнительные лицензии.</value>
+  </data>
+  <data name="LostLastCard" xml:space="preserve">
+    <value>Не найдена предыдущая карта</value>
+  </data>
+  <data name="NoUserName" xml:space="preserve">
+    <value>&lt;Нет&gt;</value>
+  </data>
+  <data name="RecieveFile" xml:space="preserve">
+    <value>Ошибка получения файла</value>
+  </data>
+  <data name="SendFileError" xml:space="preserve">
+    <value>Ошибка передачи файла '{0}'</value>
+  </data>
+  <data name="SendFileException" xml:space="preserve">
+    <value>В процессе передачи файла '{0}' произошла ошибка:
+{1}</value>
+  </data>
+  <data name="UpdateSoftwareNotAvailable" xml:space="preserve">
+    <value>Функция обновления ПО не доступна</value>
+  </data>
+  <data name="WriteCardsOnAllController" xml:space="preserve">
+    <value>Запись пропусков на все контроллеры</value>
+  </data>
+  <data name="WriteCardsOnAllController_Cancel" xml:space="preserve">
+    <value>Запись пропусков на все контроллеры отменена</value>
+  </data>
+  <data name="WriteCardsOnController" xml:space="preserve">
+    <value>Запись пропусков на контроллер "{0}"</value>
+  </data>
+  <data name="WriteLockPasswordOnAllController" xml:space="preserve">
+    <value>Запись паролей замков на все контроллеры</value>
+  </data>
+  <data name="WriteLockPasswordOnAllController_Cancel" xml:space="preserve">
+    <value>Запись паролей замков на все контроллеры отменена</value>
+  </data>
+  <data name="WriteLockPasswordOnController" xml:space="preserve">
+    <value>Запись паролей замков на контроллер "{0}"</value>
+  </data>
+  <data name="WriteScheduleOnAllController" xml:space="preserve">
+    <value>Запись графиков доступа на все контроллеры</value>
+  </data>
+  <data name="WriteScheduleOnAllController_Cancel" xml:space="preserve">
+    <value>Запись графиков доступа на все контроллеры отменена</value>
+  </data>
+  <data name="WriteScheduleOnController" xml:space="preserve">
+    <value>Запись графиков доступа на контроллер "{0}"</value>
+  </data>
+  <data name="ZoneNotFoundInConfiguration" xml:space="preserve">
+    <value>Зона не найдена в конфигурации</value>
+  </data>
+  <data name="ZoneWithoutLock" xml:space="preserve">
+    <value>Для зоны не найден замок</value>
   </data>
 </root>

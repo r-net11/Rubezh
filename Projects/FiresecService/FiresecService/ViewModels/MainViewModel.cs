@@ -15,7 +15,6 @@ using KeyGenerator;
 using KeyGenerator.Entities;
 using Microsoft.Practices.EnterpriseLibrary.Common.Properties;
 using Microsoft.SqlServer.Management.Smo;
-using Resources = FiresecService.Properties.Resources;
 
 namespace FiresecService.ViewModels
 {
@@ -26,8 +25,8 @@ namespace FiresecService.ViewModels
 
 	    //private string LicLoadAccept = (string) Application.Current.FindResource("lang_LicLoadAccept");
         //private string LicLoadFailed = (string) Application.Current.FindResource("lang_LicLoadFailed");
-        private string LicLoadAccept = Resources.Language.MainViewModel.LicLoadAccept;
-        private string LicLoadFailed = Resources.Language.MainViewModel.LicLoadFailed;
+        private string LicLoadAccept = Resources.Language.ViewModels.MainViewModel.LicLoadAccept;
+        private string LicLoadFailed = Resources.Language.ViewModels.MainViewModel.LicLoadFailed;
 		public static MainViewModel Current { get; private set; }
 
 		private Dictionary<string, string> _licenseItems;
@@ -69,7 +68,7 @@ namespace FiresecService.ViewModels
 			Current = this;
 			//Title = "Сервер приложений";
 		    //Title = (string) Application.Current.FindResource("lang_MainWindow_Title");
-            Title = Resources.Language.MainViewModel.MainWindow_Title;
+            Title = Resources.Language.ViewModels.MainViewModel.MainWindow_Title;
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
 			LicenseItems = GetLicenseDictionary(currentLicenseManager.CurrentLicense);
@@ -115,11 +114,11 @@ namespace FiresecService.ViewModels
 			if (propertyValue is bool)
 				//return (bool) propertyValue ? "Включено" : "Отсутствует";
                 //return (bool)propertyValue ? (string)Application.Current.FindResource("lang_PropertyValue_IsOn") : (string)Application.Current.FindResource("lang_PropertyValue_IsOff");
-                return (bool)propertyValue ? Resources.Language.MainViewModel.PropertyValue_IsOn : Resources.Language.MainViewModel.PropertyValue_IsOff;
+                return (bool)propertyValue ? Resources.Language.ViewModels.MainViewModel.PropertyValue_IsOn : Resources.Language.ViewModels.MainViewModel.PropertyValue_IsOff;
             if (propertyValue is int)
                 //return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : "Отсутствует";
                 //return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : (string)Application.Current.FindResource("lang_PropertyValue_IsOff");
-                return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : Resources.Language.MainViewModel.PropertyValue_IsOff;
+                return (int)propertyValue != default(int) ? ((int)propertyValue).ToString() : Resources.Language.ViewModels.MainViewModel.PropertyValue_IsOff;
 			return string.Empty;
 		}
 
@@ -243,7 +242,7 @@ namespace FiresecService.ViewModels
                 //MessageBoxService.ShowError(
                 //    (string)Application.Current.FindResource("lang_OnLoadLicense_ErrorText"),
                 //    (string)Application.Current.FindResource("lang_OnLoadLicense_ErrorHeader"));
-                MessageBoxService.ShowError(Resources.Language.MainViewModel.OnLoadLicense_ErrorText, Resources.Language.MainViewModel.OnLoadLicense_ErrorHeader);
+                MessageBoxService.ShowError(Resources.Language.ViewModels.MainViewModel.OnLoadLicense_ErrorText, Resources.Language.ViewModels.MainViewModel.OnLoadLicense_ErrorHeader);
 		}
 
 		public RelayCommand ReleaseClientsCommand { get; private set; }

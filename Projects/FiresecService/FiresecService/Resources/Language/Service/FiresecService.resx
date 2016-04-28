@@ -117,13 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExtractAllConfigFiles_ConfigFileNotExist" xml:space="preserve">
-    <value>Отсутствует файл конфигурации. Пожалуйста, переустановите программу.</value>
+  <data name="CanConnect" xml:space="preserve">
+    <value>Сервер не активирован. Подключение к серверу возможно только после его активации</value>
   </data>
-  <data name="ExtractAllConfigFiles_ErrorCaption" xml:space="preserve">
-    <value />
+  <data name="CheckActiveCardsCountAgainstLicenseData" xml:space="preserve">
+    <value>Количество активных пропусков в базе данных системы превышает лицензированное значение. Загрузка приложения невозможна</value>
   </data>
-  <data name="GetConfigurationFromZip_Logger_Error" xml:space="preserve">
-    <value>ConfigActualizeHelper.GetFile </value>
+  <data name="CheckAdministratorConnectionRightsUsingLicenseData" xml:space="preserve">
+    <value>Другой администратор осуществил вход с компьютера '{0}'. Одновременная работа двух администраторов в системе не допускается. Для входа в систему завершите работу на другом компьютере</value>
+  </data>
+  <data name="CheckConfigurationValidation" xml:space="preserve">
+    <value>Конфигурация не соответствует ограничениям лицензии. Для продолжения работы загрузите другую лицензию или измените конфигурацию</value>
+  </data>
+  <data name="CheckConnectionRightsUsingLicenseData" xml:space="preserve">
+    <value>Удаленные подключения к серверу не разрешены лицензией</value>
+  </data>
+  <data name="CheckMonitorConnectionRightsUsingLicenseData" xml:space="preserve">
+    <value>Достигнуто максимальное количество подключений к серверу, допускаемое лицензией</value>
+  </data>
+  <data name="CheckMonitorConnectionRightsUsingLicenseData_OneClient" xml:space="preserve">
+    <value>Другой экземпляр ОЗ осуществил вход с компьютера '{0}'. Одновременная работа на одном ПК двух и более экземпляров ОЗ не допускается.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Не найден пользователь</value>
   </data>
 </root>

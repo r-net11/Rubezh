@@ -22,7 +22,7 @@ namespace FiresecService.Service
 				var result = ProcedureRunner.Run(procedure, args, null, user, null, clientUID);
 				return new OperationResult<bool>(true);
 			}
-			return OperationResult<bool>.FromError("Процедура не найдена");
+			return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceAutomation.RunProcedure);
 		}
 
 		public void ProcedureCallbackResponse(Guid callbackUID, object value)

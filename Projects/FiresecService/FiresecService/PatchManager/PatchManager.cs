@@ -169,7 +169,7 @@ namespace FiresecService
 			}
 			catch (ConnectionFailureException)
 			{
-				return new OperationResult(String.Format(Resources.Language.PatchManager.ResetDB_OperationResult, ConnectionString));
+                return new OperationResult(String.Format(Resources.Language.PatchManager.PatchManager.ResetDB_OperationResult, ConnectionString));
 			}
 			catch (Exception e)
 			{
@@ -181,16 +181,16 @@ namespace FiresecService
 
 		private static void HandleConnectionFailureException(Exception e, string codePlace)
 		{
-            UILogger.Log(String.Format(Resources.Language.PatchManager.HandleConnectionFailureException_Log, ConnectionString));
+            UILogger.Log(String.Format(Resources.Language.PatchManager.PatchManager.HandleConnectionFailureException_Log, ConnectionString));
 			Logger.Error(e, codePlace);
-            BalloonHelper.ShowFromServer(Resources.Language.PatchManager.HandleConnectionFailureException_Log);
+            BalloonHelper.ShowFromServer(Resources.Language.PatchManager.PatchManager.HandleConnectionFailureException_Log);
 		}
 
 		private static void HandleExecutionFailureException(Exception e, string codePlace)
 		{
-			UILogger.Log(String.Format(Resources.Language.PatchManager.HandleExecutionFailureException_Log, (e.InnerException == null) ? e.Message : e.InnerException.Message));
+            UILogger.Log(String.Format(Resources.Language.PatchManager.PatchManager.HandleExecutionFailureException_Log, (e.InnerException == null) ? e.Message : e.InnerException.Message));
 			Logger.Error(e, codePlace);
-			BalloonHelper.ShowFromServer(Resources.Language.PatchManager.HandleExecutionFailureException_Balloon);
+            BalloonHelper.ShowFromServer(Resources.Language.PatchManager.PatchManager.HandleExecutionFailureException_Balloon);
 		}
 	}
 }

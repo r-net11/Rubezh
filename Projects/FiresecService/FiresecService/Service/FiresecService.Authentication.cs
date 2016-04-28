@@ -15,11 +15,11 @@ namespace FiresecService.Service
 		{
 			if (!CheckLogin(clientCredentials))
 			{
-				return OperationResult<bool>.FromError("Неверный логин или пароль", true);
+				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecServiceAuthentication.FailedLoginPassword, true);
 			}
 			if (!CheckRemoteAccessPermissions(clientCredentials))
 			{
-				return OperationResult<bool>.FromError("У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort, true);
+				return OperationResult<bool>.FromError(string.Format(Resources.Language.Service.FiresecServiceAuthentication.FailedConnectRights,clientCredentials.UserName,clientCredentials.ClientIpAddressAndPort), true);
 			}
 			return new OperationResult<bool>(true);
 		}

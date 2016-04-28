@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecService.Resources.Language {
+namespace FiresecService.Resources.Language.Service {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace FiresecService.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ConfigurationCashHelper {
+    internal class FiresecServiceSKDTimeIntervals {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ConfigurationCashHelper() {
+        internal FiresecServiceSKDTimeIntervals() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace FiresecService.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.ConfigurationCashHelper", typeof(ConfigurationCashHelper).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.Service.FiresecServiceSKDTimeIntervals", typeof(FiresecServiceSKDTimeIntervals).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,65 @@ namespace FiresecService.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отсутствует файл конфигурации. Пожалуйста, переустановите программу..
+        ///   Looks up a localized string similar to Интервал добавлен ({0}-{1}, зона {2}).
         /// </summary>
-        internal static string ExtractAllConfigFiles_ConfigFileNotExist {
+        internal static string IntervalAdded {
             get {
-                return ResourceManager.GetString("ExtractAllConfigFiles_ConfigFileNotExist", resourceCulture);
+                return ResourceManager.GetString("IntervalAdded", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Интервал добавлен в расчеты ({0}-{1}, зона {2}).
         /// </summary>
-        internal static string ExtractAllConfigFiles_ErrorCaption {
+        internal static string IntervalAddedToCalculations {
             get {
-                return ResourceManager.GetString("ExtractAllConfigFiles_ErrorCaption", resourceCulture);
+                return ResourceManager.GetString("IntervalAddedToCalculations", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ConfigActualizeHelper.GetFile .
+        ///   Looks up a localized string similar to Границы интервала изменены ({0}-{1}, зона {2}).
         /// </summary>
-        internal static string GetConfigurationFromZip_Logger_Error {
+        internal static string IntervalChanged {
             get {
-                return ResourceManager.GetString("GetConfigurationFromZip_Logger_Error", resourceCulture);
+                return ResourceManager.GetString("IntervalChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Интервал удален ({0}-{1}, зона {2}).
+        /// </summary>
+        internal static string IntervalRemoved {
+            get {
+                return ResourceManager.GetString("IntervalRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Интервал исключен из расчетов ({0}-{1}, зона {2}).
+        /// </summary>
+        internal static string IntervalRemovedFromCalculations {
+            get {
+                return ResourceManager.GetString("IntervalRemovedFromCalculations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сброс корректировок {0}.
+        /// </summary>
+        internal static string ResetCorrections {
+            get {
+                return ResourceManager.GetString("ResetCorrections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Интервал рабочего времени ({0}).
+        /// </summary>
+        internal static string WorkInterval {
+            get {
+                return ResourceManager.GetString("WorkInterval", resourceCulture);
             }
         }
     }

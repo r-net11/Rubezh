@@ -176,22 +176,52 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\Language\ConfigurationCashHelper.Designer.cs">
+    <Compile Include="Resources\Language\Processor\ConfigurationCashHelper.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ConfigurationCashHelper.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\FiresecServiceManager.Designer.cs">
+    <Compile Include="Resources\Language\Service\FiresecService.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecService.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Service\FiresecServiceAuthentication.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecServiceAuthentication.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Service\FiresecServiceAutomation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecServiceAutomation.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Service\FiresecServiceManager.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecServiceManager.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\MainView.Designer.cs">
+    <Compile Include="Resources\Language\Service\FiresecServiceSKD.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecServiceSKD.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Service\FiresecServiceSKDTimeIntervals.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecServiceSKDTimeIntervals.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Service\SafeFiresecService.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SafeFiresecService.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Views\MainView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MainView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\MainViewModel.Designer.cs">
+    <Compile Include="Resources\Language\ViewModels\MainViewModel.Designer.cs">
       <DependentUpon>MainViewModel.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -201,20 +231,30 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\Language\MainViewModel.en.Designer.cs">
+    <Compile Include="Resources\Language\ViewModels\MainViewModel.en.Designer.cs">
       <DependentUpon>MainViewModel.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\Language\NotifyIconService.Designer.cs">
+    <Compile Include="Resources\Language\ViewModels\NotifyIconService.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NotifyIconService.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\PatchManager.Designer.cs">
+    <Compile Include="Resources\Language\PatchManager\PatchManager.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PatchManager.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Service\Validators\DayIntervalPartValidator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DayIntervalPartValidator.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Service\Validators\DayIntervalValidator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DayIntervalValidator.resx</DependentUpon>
     </Compile>
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
@@ -272,27 +312,54 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\Language\ConfigurationCashHelper.resx">
+    <EmbeddedResource Include="Resources\Language\Processor\ConfigurationCashHelper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ConfigurationCashHelper.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\NotifyIconService.resx">
+    <EmbeddedResource Include="Resources\Language\Service\FiresecService.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FiresecService.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Service\FiresecServiceAuthentication.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FiresecServiceAuthentication.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Service\FiresecServiceAutomation.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FiresecServiceAutomation.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Service\FiresecServiceSKD.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FiresecServiceSKD.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Service\FiresecServiceSKDTimeIntervals.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FiresecServiceSKDTimeIntervals.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Service\SafeFiresecService.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SafeFiresecService.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ViewModels\NotifyIconService.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>NotifyIconService.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PatchManager.resx">
+    <EmbeddedResource Include="Resources\Language\PatchManager\PatchManager.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PatchManager.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Service\Validators\DayIntervalPartValidator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayIntervalPartValidator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Service\Validators\DayIntervalValidator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DayIntervalValidator.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
@@ -306,16 +373,16 @@
       <LastGenOutput>Bootstrapper.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\FiresecServiceManager.resx">
+    <EmbeddedResource Include="Resources\Language\Service\FiresecServiceManager.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FiresecServiceManager.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\MainView.resx">
+    <EmbeddedResource Include="Resources\Language\Views\MainView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainView.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\MainViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\ViewModels\MainViewModel.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainViewModel.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -325,14 +392,9 @@
       <LastGenOutput>Bootstrapper.en.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\MainViewModel.en.resx">
+    <EmbeddedResource Include="Resources\Language\ViewModels\MainViewModel.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainViewModel.en.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />

@@ -214,11 +214,6 @@
     <Compile Include="Model\ObjectInfo.cs" />
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="Model\TreeItemObject.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="ReportFactory.cs" />
     <Compile Include="Resources\Language\ReportServiceManager.Designer.cs">
       <DependentUpon>ReportServiceManager.resx</DependentUpon>
@@ -357,10 +352,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\ReportServiceManager.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ReportServiceManager.Designer.cs</LastGenOutput>

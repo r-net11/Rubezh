@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiresecService.Resources.Language {
+namespace FiresecService.Resources.Language.Views {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace FiresecService.Resources.Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.MainView", typeof(MainView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecService.Resources.Language.Views.MainView", typeof(MainView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

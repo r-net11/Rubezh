@@ -101,7 +101,7 @@ namespace FiresecService.Service
 			var clientCredentials = ClientsManager.GetClientCredentials(uid);
 			if (clientCredentials == null)
 			{
-				return OperationResult<bool>.FromError("Не найден пользователь");
+				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecService.UserNotFound);
 			}
 			InitializeClientCredentials(clientCredentials);
 			var oldUserName = clientCredentials.FriendlyUserName;
@@ -260,7 +260,7 @@ namespace FiresecService.Service
 		{
 			return _licenseManager.CanConnect()
 				? new OperationResult<bool>(true)
-				: OperationResult<bool>.FromError("Сервер не активирован. Подключение к серверу возможно только после его активации");
+				: OperationResult<bool>.FromError(Resources.Language.Service.FiresecService.CanConnect);
 		}
 
 		public OperationResult<bool> CanLoadModule(ModuleType type)
@@ -274,7 +274,7 @@ namespace FiresecService.Service
 			{
 				if (!_licenseManager.CurrentLicense.IsUnlimitedUsers &&
 				    databaseService.CardTranslator.GetCardsCount() > _licenseManager.CurrentLicense.TotalUsers)
-					return OperationResult<bool>.FromError("Количество активных пропусков в базе данных системы превышает лицензированное значение. Загрузка приложения невозможна");
+					return OperationResult<bool>.FromError(Resources.Language.Service.FiresecService.CheckActiveCardsCountAgainstLicenseData);
 			}
 			return new OperationResult<bool>(true);
 		}
@@ -283,7 +283,7 @@ namespace FiresecService.Service
 		{
 			return ConfigurationElementsAgainstLicenseDataValidator.Instance.IsValidated
 				? new OperationResult<bool>(true)
-				: OperationResult<bool>.FromError("Конфигурация не соответствует ограничениям лицензии. Для продолжения работы загрузите другую лицензию или измените конфигурацию");
+				: OperationResult<bool>.FromError(Resources.Language.Service.FiresecService.CheckConfigurationValidation);
 		}
 
 		private OperationResult<bool> CheckConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
@@ -291,7 +291,7 @@ namespace FiresecService.Service
 			// Удаленное соединение Клиента (Администратор/ОЗ) при запрещении удаленных соединений в параметрах лицензии
 			if (!NetworkHelper.IsLocalAddress(clientCredentials.ClientIpAddress) &&
 				_licenseManager.CurrentLicense.OperatorConnectionsNumber == 0)
-				return OperationResult<bool>.FromError("Удаленные подключения к серверу не разрешены лицензией");
+				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecService.CheckConnectionRightsUsingLicenseData);
 
 			// Клиент - Администратор
 			if (clientCredentials.ClientType == ClientType.Administrator)
@@ -310,13 +310,13 @@ namespace FiresecService.Service
 			var existingClients = ClientsManager.ClientInfos.Where(x => x.ClientCredentials.ClientType == clientCredentials.ClientType).ToList();
 			if (existingClients.Any())
 				return OperationResult<bool>.FromError(string.Format(
-					"Другой администратор осуществил вход с компьютера '{0}'. Одновременная работа двух администраторов в системе не допускается. Для входа в систему завершите работу на другом компьютере",
+					Resources.Language.Service.FiresecService.CheckAdministratorConnectionRightsUsingLicenseData,
 					existingClients[0].ClientCredentials.ClientIpAddress));
 
 			return new OperationResult<bool>(true);
 		}
 
-		private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
+        private OperationResult<bool> CheckMonitorConnectionRightsUsingLicenseData(ClientCredentials clientCredentials)
 		{
 			var allowedConnectionsCount = _licenseManager.CurrentLicense.OperatorConnectionsNumber;
 
@@ -332,7 +332,7 @@ namespace FiresecService.Service
 			if ((isLocalClient && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
 				(!isLocalClient && hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount + 1) ||
 				(!isLocalClient && !hasLocalMonitorConnections && totalMonitorConnectionsCount >= allowedConnectionsCount))
-				return OperationResult<bool>.FromError("Достигнуто максимальное количество подключений к серверу, допускаемое лицензией");
+				return OperationResult<bool>.FromError(Resources.Language.Service.FiresecService.CheckMonitorConnectionRightsUsingLicenseData);
 
 			// TODO: Временная мера. В рамках одного хоста может быть запущен только один экземпляр ОЗ
 			var instancesRunnedFromTheSameHost = ClientsManager.ClientInfos.Where(x =>
@@ -340,7 +340,7 @@ namespace FiresecService.Service
 				x.ClientCredentials.ClientIpAddress == clientCredentials.ClientIpAddress).ToList();
 			if (instancesRunnedFromTheSameHost.Any())
 				return OperationResult<bool>.FromError(string.Format(
-					"Другой экземпляр ОЗ осуществил вход с компьютера '{0}'. Одновременная работа на одном ПК двух и более экземпляров ОЗ не допускается.",
+					Resources.Language.Service.FiresecService.CheckMonitorConnectionRightsUsingLicenseData_OneClient,
 					instancesRunnedFromTheSameHost[0].ClientCredentials.ClientIpAddress));
 
 			return new OperationResult<bool>(true);
