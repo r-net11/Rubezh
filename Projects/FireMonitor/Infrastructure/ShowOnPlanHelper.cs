@@ -13,16 +13,9 @@ namespace Infrastructure
 {
 	public static class ShowOnPlanHelper
 	{
-		static Guid _layoutUID;
-		public static Guid LayoutUID
-		{
-			get { return _layoutUID; }
-			set
-			{
-				_layoutUID = value;
-			}
-		}
 
+		public static Guid LayoutUID { get; set; }
+		
 		public static List<Plan> GetPlans()
 		{
 			if (LayoutUID == Guid.Empty)

@@ -84,9 +84,9 @@ namespace FireMonitor.Layout
 					}
 		}
 
-		private bool GetLayout(RubezhAPI.Models.Layouts.Layout layoutr = null)
+		private bool GetLayout()
 		{
-			_layout = layoutr;
+			_layout = null;
 			var ip = ConnectionSettingsManager.IsRemote ? ClientManager.GetIP() : null;
 			var localHostName = System.Net.Dns.GetHostName();
 			var layouts = ClientManager.LayoutsConfiguration.Layouts.Where(layout =>
