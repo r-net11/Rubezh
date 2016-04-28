@@ -4,7 +4,6 @@ using GKModule.Events;
 using GKModule.Plans.Designer;
 using GKModule.Plans.InstrumentAdorners;
 using GKModule.Plans.ViewModels;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -34,18 +33,9 @@ namespace GKModule.Plans
 		public static GKPlanExtension Instance { get; private set; }
 
 		private bool _processChanges;
-		private DevicesViewModel _devicesViewModel;
-		private ZonesViewModel _zonesViewModel;
-		private GuardZonesViewModel _guardZonesViewModel;
-		private SKDZonesViewModel _skdZonesViewModel;
-		private DirectionsViewModel _directionsViewModel;
-		private MPTsViewModel _mptsViewModel;
-		private DoorsViewModel _doorsViewModel;
-		private DelaysViewModel _delaysViewModel;
-		private PumpStationsViewModel _pumpStationsViewModel;
 		private IEnumerable<IInstrument> _instruments;
 
-		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, GuardZonesViewModel guardZonesViewModel, SKDZonesViewModel skdZonesViewModel, DelaysViewModel delaysViewModel, PumpStationsViewModel pumpStationsViewModel, DirectionsViewModel directionsViewModel, MPTsViewModel mptsViewModel, DoorsViewModel doorsViewModel)
+		public GKPlanExtension()
 		{
 			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -59,16 +49,6 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateGKDeviceInGKZones);
-
-			_devicesViewModel = devicesViewModel;
-			_zonesViewModel = zonesViewModel;
-			_guardZonesViewModel = guardZonesViewModel;
-			_skdZonesViewModel = skdZonesViewModel;
-			_directionsViewModel = directionsViewModel;
-			_mptsViewModel = mptsViewModel;
-			_doorsViewModel = doorsViewModel;
-			_delaysViewModel = delaysViewModel;
-			_pumpStationsViewModel = pumpStationsViewModel;
 
 			_instruments = null;
 			_processChanges = true;
