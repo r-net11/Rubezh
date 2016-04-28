@@ -112,6 +112,10 @@ namespace SKDModule.ViewModels
 
 		public virtual void Update()
 		{
+			if (IsOrganisation)
+				CopyProperties(Organisation);
+			else
+				CopyProperties(Model);
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => Description);
 			OnPropertyChanged(() => IsDeleted);

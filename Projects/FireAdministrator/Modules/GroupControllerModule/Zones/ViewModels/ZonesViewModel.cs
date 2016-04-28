@@ -317,12 +317,5 @@ namespace GKModule.ViewModels
 				elementZone = element as ElementPolygonGKZone;
 			return elementZone;
 		}
-		public void UpdateZones(Guid zoneUID)
-		{
-			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-			if (zone != null)
-				zone.Update();
-			LockedSelect(zoneUID);
-		}
 	}
 }

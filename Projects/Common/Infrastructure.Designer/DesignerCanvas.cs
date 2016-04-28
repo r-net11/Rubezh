@@ -201,7 +201,6 @@ namespace Infrastructure.Designer
 				DeselectAll();
 				designerItem.IsSelected = true;
 				PlanDesignerViewModel.MoveToFrontCommand.Execute();
-				ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
 				//Toolbox.SetDefault();
 				DesignerChanged();
 			}

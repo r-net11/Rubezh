@@ -31,7 +31,6 @@
 		<ResourceDictionary Source="SliderStyle.xaml" />
 		<ResourceDictionary Source="ProgressBarStyle.xaml" />
 		<ResourceDictionary Source="ContextMenuStyle.xaml" />
-		<ResourceDictionary Source="ResizeThumbStyle.xaml" />
 		<ResourceDictionary Source="SeparatorStyle.xaml" />
 		<ResourceDictionary Source="HeaderedScrollViewerStyle.xaml" />
 		<ResourceDictionary Source="GridViewColumnHeaderStyle.xaml" />
@@ -45,6 +44,7 @@
 		<ResourceDictionary Source="IntegerUpDown.xaml" />
 		<ResourceDictionary Source="ImageStyle.xaml" />
 		<ResourceDictionary Source="AlarmButton.xaml" />
+		
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 		<ResourceDictionary Source="../Ribbon/DataTemplates/Dictionary.xaml" />
 
@@ -86,6 +86,8 @@
 		<ResourceDictionary Source="../XamlImages/Cursor.xaml" />
 		<ResourceDictionary Source="../XamlImages/Cut.xaml" />
 		<ResourceDictionary Source="../XamlImages/defconfig.xaml" />
+		<ResourceDictionary Source="../XamlImages/DelayPolygon.xaml" />
+		<ResourceDictionary Source="../XamlImages/DelayRectangle.xaml" />
 		<ResourceDictionary Source="../XamlImages/Delete.xaml" />
 		<ResourceDictionary Source="../XamlImages/DeleteAll.xaml" />
 		<ResourceDictionary Source="../XamlImages/deleteCross.xaml" />
@@ -143,6 +145,8 @@
 		<ResourceDictionary Source="../XamlImages/MoveForward.xaml" />
 		<ResourceDictionary Source="../XamlImages/MoveFront.xaml" />
 		<ResourceDictionary Source="../XamlImages/MPT.xaml" />
+		<ResourceDictionary Source="../XamlImages/MPTRectangle.xaml" />
+		<ResourceDictionary Source="../XamlImages/MPTPolygon.xaml" />
 		<ResourceDictionary Source="../XamlImages/music.xaml" />
 		<ResourceDictionary Source="../XamlImages/mute.xaml" />
 		<ResourceDictionary Source="../XamlImages/New.xaml" />
@@ -168,6 +172,8 @@
 		<ResourceDictionary Source="../XamlImages/Print.xaml" />
 		<ResourceDictionary Source="../XamlImages/Procedure.xaml" />
 		<ResourceDictionary Source="../XamlImages/PumpStation.xaml" />
+		<ResourceDictionary Source="../XamlImages/PumpStationRectangle.xaml" />
+		<ResourceDictionary Source="../XamlImages/PumpStationPolygon.xaml" />
 		<ResourceDictionary Source="../XamlImages/read.xaml" />
 		<ResourceDictionary Source="../XamlImages/RAlarm_main_5_Info.xaml" />
 		<ResourceDictionary Source="../XamlImages/Rectangle.xaml" />

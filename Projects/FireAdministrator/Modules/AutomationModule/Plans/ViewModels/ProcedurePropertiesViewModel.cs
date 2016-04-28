@@ -1,10 +1,9 @@
-﻿using System;
+﻿using AutomationModule.ViewModels;
+using Infrastructure.Designer.ElementProperties.ViewModels;
+using RubezhAPI.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AutomationModule.ViewModels;
-using RubezhAPI.Automation;
-using RubezhAPI.Models;
-using Infrastructure.Designer.ElementProperties.ViewModels;
 
 namespace AutomationModule.Plans.ViewModels
 {
@@ -37,25 +36,12 @@ namespace AutomationModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid procedureUID = _element.ProcedureUID;
-			AutomationPlanExtension.Instance.SetItem<Procedure>(_element, SelectedProcedure == null ? null : SelectedProcedure.Procedure);
-			UpdateProcedures(procedureUID);
+			AutomationPlanExtension.Instance.RewriteItem(_element, SelectedProcedure.Procedure);
 			return base.Save();
 		}
-		private void UpdateProcedures(Guid procedureUID)
+		protected override bool CanSave()
 		{
-			if (Procedures != null)
-			{
-				if (procedureUID != _element.ProcedureUID)
-					Update(procedureUID);
-				Update(_element.ProcedureUID);
-			}
-		}
-		private void Update(Guid procedureUID)
-		{
-			var procedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == procedureUID);
-			if (procedure != null)
-				procedure.Update();
+			return SelectedProcedure != null;
 		}
 	}
 }

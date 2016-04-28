@@ -105,43 +105,35 @@ namespace Infrastructure.Client.Plans
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			var item = GetItem<TItem>(element);
-			SetItem<TItem>(element, item);
-		}
-		public void SetItem<TItem>(IElementReference element, Guid itemUID)
-			where TItem : IChangedNotification, IPlanPresentable
-		{
-			var item = GetItem<TItem>(itemUID);
 			SetItem(element, item);
 		}
 		public void SetItem<TItem>(IElementReference element, TItem item)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
-			if (item != null && item.UID == element.ItemUID)
-				ResetItem<TItem>(element, item);
-			else
-				ResetItem<TItem>(element);
-			element.ItemUID = item == null ? Guid.Empty : item.UID;
-			if (item != null)
+			if (item != null && !item.PlanElementUIDs.Contains(element.UID))
 			{
 				item.PlanElementUIDs.Add(element.UID);
+				item.OnPlanElementUIDsChanged();
 			}
+			element.ItemUID = item == null ? Guid.Empty : item.UID;
 			UpdateElementProperties<TItem>(element, item);
 		}
 		public void ResetItem<TItem>(IElementReference element)
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			var item = GetItem<TItem>(element);
-			ResetItem<TItem>(element, item);
-		}
-		public void ResetItem<TItem>(IElementReference element, TItem item)
-			where TItem : IChangedNotification, IPlanPresentable
-		{
 			if (item != null)
 			{
 				item.PlanElementUIDs.Remove(element.UID);
+				item.OnPlanElementUIDsChanged();
 			}
 		}
-
+		public void RewriteItem<TItem>(IElementReference element, TItem item)
+			where TItem : IChangedNotification, IPlanPresentable
+		{
+			ResetItem<TItem>(element);
+			SetItem(element, item);
+		}
 		protected virtual void UpdateElementProperties<TItem>(IElementReference element, TItem item)
 			where TItem : IChangedNotification, IPlanPresentable
 		{

@@ -95,7 +95,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDirection.ShowState = ShowState;
 			IElementDirection.ShowDelay = ShowDelay;
-			IElementDirection.DirectionUID = SelectedDirection.Direction.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementDirection, SelectedDirection.Direction);
 			return base.Save();
 		}
 		protected override bool CanSave()

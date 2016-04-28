@@ -1,12 +1,8 @@
-﻿using RubezhAPI.GK;
-using RubezhClient;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using RubezhAPI;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -18,6 +14,7 @@ namespace GKModule.ViewModels
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Delay = delay;
 			Delay.Changed += Update;
+			Delay.PlanElementUIDsChanged += Update;
 			Update();
 		}
 

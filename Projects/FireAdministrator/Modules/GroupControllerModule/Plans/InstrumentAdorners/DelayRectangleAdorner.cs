@@ -1,5 +1,4 @@
 ﻿using GKModule.Plans.ViewModels;
-using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
@@ -10,11 +9,9 @@ namespace GKModule.Plans.InstrumentAdorners
 {
 	public class DelayRectangleAdorner : BaseRectangleAdorner
 	{
-		private DelaysViewModel _delaysViewModel;
-		public DelayRectangleAdorner(CommonDesignerCanvas designerCanvas, DelaysViewModel delayViewModel)
+		public DelayRectangleAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			_delaysViewModel = delayViewModel;
 		}
 
 		protected override ElementBaseRectangle CreateElement()
@@ -22,10 +19,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var element = new ElementRectangleGKDelay();
 			var propertiesViewModel = new DelayPropertiesViewModel(element);
 			if (DialogService.ShowModalWindow(propertiesViewModel))
-			{
-				_delaysViewModel.UpdateDelays(element.DelayUID);
 				return element;
-			}
 			return null;
 		}
 	}

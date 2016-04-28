@@ -66,6 +66,7 @@ namespace GKModule.ViewModels
 			UpdateDriver();
 			InitializeParamsCommands();
 			Device.Changed += OnChanged;
+			Device.PlanElementUIDsChanged += Update;
 			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
 		}
 

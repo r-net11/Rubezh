@@ -36,7 +36,7 @@ namespace GKModule.Plans.ViewModels
 			var createDelayEventArg = new CreateGKDelayEventArgs();
 			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Publish(createDelayEventArg);
 			if (createDelayEventArg.Delay != null)
-				IElementDelay.DelayUID = createDelayEventArg.Delay.UID;
+				GKPlanExtension.Instance.RewriteItem(IElementDelay, createDelayEventArg.Delay);
 			if (!createDelayEventArg.Cancel)
 				Close(true);
 		}
@@ -93,7 +93,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDelay.ShowState = ShowState;
 			IElementDelay.ShowDelay = ShowDelay;
-			IElementDelay.DelayUID = SelectedDelay.Delay.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementDelay, SelectedDelay.Delay);
 			return base.Save();
 		}
 		protected override bool CanSave()

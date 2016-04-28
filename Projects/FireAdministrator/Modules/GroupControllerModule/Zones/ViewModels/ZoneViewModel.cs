@@ -1,7 +1,6 @@
-﻿using RubezhAPI.GK;
-using Infrastructure;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -12,6 +11,7 @@ namespace GKModule.ViewModels
 		public ZoneViewModel(GKZone zone)
 		{
 			Zone = zone;
+			zone.PlanElementUIDsChanged += Update;
 			Update();
 		}
 

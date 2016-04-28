@@ -221,28 +221,48 @@ namespace GKModule.ViewModels
 				List<GKGuardZoneDevice> guardZoneDevices = zone.GuardZoneDevices;
 				foreach (var guardZoneDevice in guardZoneDevices)
 				{
-					if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
-					{ Code.OutputDependentElements.Add(zone); break; }
-					if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
-					{ Code.OutputDependentElements.Add(zone); break; }
-					if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Where(x => x == Code.UID) != null)
-					{ Code.OutputDependentElements.Add(zone); break; }
-					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Where(x => x == Code.UID) != null)
-					{ Code.OutputDependentElements.Add(zone); break; }
+					if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
+					{
+						Code.OutputDependentElements.Add(zone);
+						zone.InputDependentElements.Add(Code);
+						break;
+					}
+					if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
+					{
+						Code.OutputDependentElements.Add(zone); 
+						zone.InputDependentElements.Add(Code);
+						 break;
+					}
+					if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
+					{
+						Code.OutputDependentElements.Add(zone);
+						zone.InputDependentElements.Add(Code);
+						break;
+					}
+					if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
+					{
+						Code.OutputDependentElements.Add(zone);
+						zone.InputDependentElements.Add(Code);
+						break;
+					}
 				}
 			}
 		}
 		void AddDependentElementsMPTs(GKCode Code)
 		{
-			List<GKMPT> MPTs = new List<GKMPT>();
-			MPTs = GKManager.MPTs;
-			foreach (var MPT in MPTs)
+			List<GKMPT> mpts = new List<GKMPT>();
+			mpts = GKManager.MPTs;
+			foreach (var mpt in mpts)
 			{
-				List<GKMPTDevice> MPTDevices = MPT.MPTDevices;
-				foreach (var MPTDevice in MPTDevices)
+				List<GKMPTDevice> mptDevices = mpt.MPTDevices;
+				foreach (var mptDevice in mptDevices)
 				{
-					if (MPTDevice.CodeReaderSettings.MPTSettings.CodeUIDs.Where(x => x == Code.UID) != null)
-					{ Code.OutputDependentElements.Add(MPT); break; }
+					if (mptDevice.CodeReaderSettings.MPTSettings.CodeUIDs.Where(x => x == Code.UID).Count() != 0)
+					{
+						Code.OutputDependentElements.Add(mpt);
+						mpt.InputDependentElements.Add(Code);
+						break;
+					}
 				}
 			}
 		}

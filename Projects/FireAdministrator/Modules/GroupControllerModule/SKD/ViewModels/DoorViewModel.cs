@@ -1,20 +1,19 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using RubezhAPI.GK;
+﻿using DeviceControls;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
-using RubezhClient;
-using System.Windows;
-using DeviceControls;
-using Infrastructure.Plans.Events;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans.Events;
 using Infrastructure.Plans.Painters;
-using System.Windows.Shapes;
-using RubezhAPI.Models;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Shapes;
 
 namespace GKModule.ViewModels
 {
@@ -41,7 +40,8 @@ namespace GKModule.ViewModels
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			Update();
-			door.Changed += () => Update();
+			door.Changed += Update;
+			door.PlanElementUIDsChanged += Update;
 		}
 
 		public void Update()

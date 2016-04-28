@@ -4,7 +4,7 @@
 	{
 		public HeaderedWindowViewModel()
 		{
-			Sizable = true;
+			Sizable = false;
 		}
 
 		private IHeaderViewModel _header;

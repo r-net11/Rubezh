@@ -123,7 +123,10 @@ namespace GKModule.ViewModels
 			foreach (var code in Codes)
 			{
 				if (!code.OutputDependentElements.Contains(Zone))
+				{
 					code.OutputDependentElements.Add(Zone);
+					Zone.InputDependentElements.Add(code);
+				}
 			}
 		}
 		void DeleteDependentElements(GKGuardZone Zone, List<GKCode> Codes)
@@ -132,6 +135,7 @@ namespace GKModule.ViewModels
 			foreach (var code in Codes)
 			{
 				code.OutputDependentElements.Remove(Zone);
+				Zone.InputDependentElements.Remove(code);
 			}
 		}
 	}

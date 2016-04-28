@@ -1,16 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Infrastructure.Plans.Events;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.GK;
-using RubezhClient;
-using System.Collections.ObjectModel;
+using Infrastructure.Plans.Events;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -27,6 +26,7 @@ namespace GKModule.ViewModels
 			OutputDoors = new ObservableCollection<DoorSkdZoneViewModel>();
 			InputDoors = new ObservableCollection<DoorSkdZoneViewModel>();
 			Zone = zone;
+			zone.PlanElementUIDsChanged += Update;
 			Update();
 		}
 		ObservableCollection<DoorSkdZoneViewModel> _outputDoors;

@@ -363,12 +363,5 @@ namespace GKModule.ViewModels
 				}, "BEdit") { Order = 2 }
 			};
 		}
-		public void UpdateDirections(Guid directionUID)
-		{
-			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
-			if (direction != null)
-				direction.Update();
-			LockedSelect(directionUID);
-		}
 	}
 }
