@@ -64,11 +64,6 @@ namespace Infrastructure.Designer
 		{
 			get { return PlanDesignerViewModel.DeviceZoom / Zoom; }
 		}
-
-		public void RemoveAll()
-		{
-			RemoveDesignerItems(Items);
-		}
 		public void RemoveAllSelected()
 		{
 			RemoveDesignerItems(SelectedItems);

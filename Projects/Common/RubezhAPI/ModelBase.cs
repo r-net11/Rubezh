@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Common;
 
 namespace RubezhAPI.GK
 {
@@ -57,12 +57,5 @@ namespace RubezhAPI.GK
 				Changed();
 		}
 		public event Action Changed;
-
-		public void OnUIDChanged(Guid oldUID, Guid newUID)
-		{
-			if (UIDChanged != null)
-				UIDChanged(oldUID, newUID);
-		}
-		public event Action<Guid, Guid> UIDChanged;
 	}
 }
