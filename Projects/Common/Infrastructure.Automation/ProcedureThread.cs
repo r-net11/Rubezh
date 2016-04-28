@@ -4,6 +4,7 @@ using RubezhAPI.Journal;
 using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Threading;
 
@@ -150,7 +151,10 @@ namespace Infrastructure.Automation
 					var listVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachStep.ListArgument.VariableUid);
 					var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachStep.ItemArgument.VariableUid);
 					if (listVariable != null && listVariable.IsList)
-						foreach (var listVariableItem in listVariable.Value as object[])
+					{
+						var list = listVariable.Value as IList;
+
+						foreach (var listVariableItem in listVariable.Value as IList)
 						{
 							if (itemVariable != null)
 								ProcedureExecutionContext.SetVariableValue(itemVariable, listVariableItem, ClientUID);
@@ -165,6 +169,7 @@ namespace Infrastructure.Automation
 									return Result.Exit;
 							}
 						}
+					}
 					break;
 
 				case ProcedureStepType.For:
