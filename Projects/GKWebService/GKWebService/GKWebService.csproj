@@ -250,6 +250,7 @@
     <Content Include="App\controllers\SKD\employees\employeeDetailsCtrl.js" />
     <Content Include="App\controllers\SKD\HR\HRFilterCtrl.js" />
     <Content Include="App\controllers\SKD\HR\HRCtrl.js" />
+    <Content Include="App\directives\validateContains.js" />
     <Content Include="App\directives\alarmBtn.js" />
     <Content Include="App\directives\convertToNumber.js" />
     <Content Include="App\directives\d3Plan.js" />

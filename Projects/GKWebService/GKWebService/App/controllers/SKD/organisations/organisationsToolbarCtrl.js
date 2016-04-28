@@ -37,6 +37,9 @@
                          organisation: function () {
                              return organisationsService.getOrganisationDetails(UID);
                          },
+                         organisations: function() {
+                             return organisationsService.organisations;
+                         },
                          isNew: function () {
                              return isNew;
                          }

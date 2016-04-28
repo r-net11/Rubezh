@@ -159,7 +159,10 @@
                     controller: 'employeeSelectionDialogCtrl',
                     backdrop: 'static',
                     resolve: {
-                        employees: employeesService.getOrganisationDepartmentEmployees(organisation.UID, $scope.employee.DepartmentUID)
+                        employees: employeesService.getOrganisationDepartmentEmployees(organisation.UID, $scope.employee.DepartmentUID),
+                        selectedEmployeeUID: function () {
+                            return $scope.employee.EscortUID === emptyGuid ? null : $scope.employee.EscortUID;
+                        }
                     }
                 });
 

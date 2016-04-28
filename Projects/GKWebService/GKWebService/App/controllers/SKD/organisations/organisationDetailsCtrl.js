@@ -3,9 +3,11 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('organisationDetailsCtrl',
-        ['$scope', '$uibModal', '$uibModalInstance', 'organisation', 'isNew', 'organisationsService',
-        function ($scope, $uibModal, $uibModalInstance, organisation, isNew, organisationsService) {
+        ['$scope', '$uibModal', '$uibModalInstance', 'organisations', 'organisation', 'isNew', 'organisationsService',
+        function ($scope, $uibModal, $uibModalInstance, organisations, organisation, isNew, organisationsService) {
             $scope.isNew = isNew;
+
+            $scope.organisations = organisations;
 
             $scope.organisation = organisation.Organisation;
 
@@ -24,7 +26,10 @@
                     controller: 'employeeSelectionDialogCtrl',
                     backdrop: 'static',
                     resolve: {
-                        employees: organisationsService.getOrganisationEmployees($scope.organisation.UID)
+                        employees: organisationsService.getOrganisationEmployees($scope.organisation.UID),
+                        selectedEmployeeUID: function () {
+                            return ($scope.model.SelectedChief) ? $scope.model.SelectedChief.UID : null;
+                        }
                     }
                 });
 
@@ -40,7 +45,10 @@
                     controller: 'employeeSelectionDialogCtrl',
                     backdrop: 'static',
                     resolve: {
-                        employees: organisationsService.getOrganisationEmployees($scope.organisation.UID)
+                        employees: organisationsService.getOrganisationEmployees($scope.organisation.UID),
+                        selectedEmployeeUID: function () {
+                            return ($scope.model.SelectedHRChief) ? $scope.model.SelectedHRChief.UID : null;
+                        }
                     }
                 });
 

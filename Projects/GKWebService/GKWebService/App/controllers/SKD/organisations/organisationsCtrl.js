@@ -14,7 +14,11 @@
                          }
                      }
                  } else {
-                     $scope.model.selectedOrganisation = null;
+                     if ($scope.organisations.length > 0) {
+                         $scope.model.selectedOrganisation = $scope.organisations[0];
+                     } else {
+                         $scope.model.selectedOrganisation = null;
+                     }
                  }
              }
 
@@ -22,12 +26,16 @@
                  organisationsService.getOrganisations($scope.filter)
                      .then(function(organisations) {
                          $scope.organisations = organisations;
+                         organisationsService.organisations = organisations;
                          selectOrganisation(UID);
                      });
             };
 
              $scope.model = {
-                seelctedOrganisation: null
+                 selectedOrganisation: null,
+                 hasOrganisationDoors: function() {
+                     return $scope.model.doors && $scope.model.doors.length > 0;
+                 }
              };
 
             organisationsService.reload = reload;
