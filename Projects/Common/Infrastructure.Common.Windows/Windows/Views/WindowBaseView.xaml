@@ -30,7 +30,9 @@
 							Background="{DynamicResource BaseWindowBackgroundBrush}"
 							BorderBrush="{DynamicResource WindowBorderBrush}"
 							BorderThickness="1">
-							<ContentPresenter />
+							<AdornerDecorator>
+								<ContentPresenter />
+							</AdornerDecorator>
 						</Border>
 						<ControlTemplate.Triggers>
 							<Trigger Property="WindowState" Value="Maximized">
