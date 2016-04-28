@@ -15,27 +15,23 @@
 			<ColumnDefinition Width="{Binding Width3, Mode=TwoWay}" MinWidth="{Binding Width3, Converter={StaticResource GridLengthToMinWidthConverter}}" />
 		</Grid.ColumnDefinitions>
 		<DockPanel x:Name="LeftContent" Grid.Row="0" FocusManager.IsFocusScope="True" Keyboard.GotKeyboardFocus="LeftContent_GotKeyboardFocus" PreviewMouseDown="LeftContent_PreviewMouseDown">
-			<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" DockPanel.Dock="Top">
-				<DockPanel>
-					<Button Command="{Binding MinimizeCommand}" 
-							CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" 
-							DockPanel.Dock="Right" 
-							ToolTip="{Binding RightPanelVisible, Converter={StaticResource tooltipConverter}, ConverterParameter=True}" 
-							Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}"
-							Style="{DynamicResource ToolBarButtonStyle}"
-							Background="{DynamicResource Minify}">
-					</Button>
-					<StackPanel Orientation="Horizontal">
-						<ribbon:RibbonButton Margin="10,0,0,0" 
-											 ImageSource="{Binding LogoSource}"
-											 Content="{Binding RibbonContent}"
-											 Visibility="{Binding RibbonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<Border BorderThickness="0" Visibility="{Binding ToolbarVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-							<ContentPresenter Content="{Binding Toolbar}" />
-						</Border>
-					</StackPanel>
-				</DockPanel>
-			</Border>
+			<DockPanel DockPanel.Dock="Top">
+				<Button Command="{Binding MinimizeCommand}" 
+						CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" 
+						DockPanel.Dock="Right" 
+						ToolTip="{Binding RightPanelVisible, Converter={StaticResource tooltipConverter}, ConverterParameter=True}" 
+						Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}"
+						Style="{DynamicResource ToolBarButtonStyle}"
+						Background="{DynamicResource Minify}">
+				</Button>
+				<StackPanel Orientation="Horizontal">
+					<ribbon:RibbonButton Margin="10,0,0,0" 
+										 ImageSource="{Binding LogoSource}"
+										 Content="{Binding RibbonContent}"
+										 Visibility="{Binding RibbonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<ContentPresenter Content="{Binding Toolbar}" Visibility="{Binding ToolbarVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+				</StackPanel>
+			</DockPanel>
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
