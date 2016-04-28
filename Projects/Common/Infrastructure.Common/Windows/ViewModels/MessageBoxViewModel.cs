@@ -14,10 +14,10 @@ namespace Infrastructure.Common.Windows.ViewModels
 			NoCommand = new RelayCommand(OnNo);
 			CopyCommand = new RelayCommand(OnCopy);
 
-			Title = title ?? Resources.Language.MessageBoxViewModel.MessageBoxViewModel_Title;
+			Title = title ?? Resources.Language.Windows.ViewModels.MessageBoxViewModel.MessageBoxViewModel_Title;
 
 			if (title == null && isException)
-				Title = Resources.Language.MessageBoxViewModel.MessageBoxViewModel_Title_NullError;
+				Title = Resources.Language.Windows.ViewModels.MessageBoxViewModel.MessageBoxViewModel_Title_NullError;
 
 			IsException = isException;
 			Message = message;
@@ -143,7 +143,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, Resources.Language.MessageBoxViewModel.OnCopy_Exception);
+				Logger.Error(e, Resources.Language.Windows.ViewModels.MessageBoxViewModel.OnCopy_Exception);
 				return;
 			}
 		}

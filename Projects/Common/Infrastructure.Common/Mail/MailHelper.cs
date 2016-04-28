@@ -26,7 +26,7 @@ namespace Infrastructure.Common.Mail
 				}
 				else
 				{
-					MessageBoxService.ShowError(Resources.Language.MailHelper.Smtp_Error);
+					MessageBoxService.ShowError(Resources.Language.MailHelper.MailHelper.Smtp_Error);
 				}
 			}
 			catch (Exception e)

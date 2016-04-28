@@ -1,20 +1,24 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using Localization;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public enum HolidayType
 	{
-		[DescriptionAttribute("Праздник")]
+		//[DescriptionAttribute("Праздник")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.HolidayType), "Holiday")]
 		[EnumMember]
 		Holiday = 0,
 
-		[DescriptionAttribute("Предпраздничный день")]
+        //[DescriptionAttribute("Предпраздничный день")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.HolidayType), "BeforeHoliday")]
 		[EnumMember]
 		BeforeHoliday = 1,
 
-		[DescriptionAttribute("Рабочий выходной")]
+        //[DescriptionAttribute("Рабочий выходной")]
+        [LocalizedDescription(typeof(Resources.Language.SKD.TimeTrack.Enums.HolidayType), "WorkingHoliday")]
 		[EnumMember]
 		WorkingHoliday = 2,
 	}

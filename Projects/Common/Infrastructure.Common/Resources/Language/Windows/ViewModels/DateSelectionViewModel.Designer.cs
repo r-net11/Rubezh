@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Common.Resources.Language {
+namespace Infrastructure.Common.Resources.Language.Windows.ViewModels {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Common.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class UnknownLayoutPartPresenter {
+    internal class DateSelectionViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UnknownLayoutPartPresenter() {
+        internal DateSelectionViewModel() {
         }
         
         /// <summary>
@@ -39,7 +39,8 @@ namespace Infrastructure.Common.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.UnknownLayoutPartPresenter", typeof(UnknownLayoutPartPresenter).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.Windows.ViewModels.DateSelectionViewMode" +
+                            "l", typeof(DateSelectionViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +62,11 @@ namespace Infrastructure.Common.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close.png.
+        ///   Looks up a localized string similar to Выберите дату.
         /// </summary>
-        internal static string IconName {
+        internal static string DateSelectionViewModel_Title {
             get {
-                return ResourceManager.GetString("IconName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Неизвестный элемент.
-        /// </summary>
-        internal static string Name {
-            get {
-                return ResourceManager.GetString("Name", resourceCulture);
+                return ResourceManager.GetString("DateSelectionViewModel_Title", resourceCulture);
             }
         }
     }

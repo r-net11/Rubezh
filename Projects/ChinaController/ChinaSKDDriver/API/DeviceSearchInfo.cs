@@ -64,17 +64,18 @@ namespace ChinaSKDDriverAPI
 
 	public enum DeviceType
 	{
-		[DeviceTypeLabel("Не известно")]
+        //[DeviceTypeLabel("Не известно")]
+        [LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "Unknown")]
 		Unknown = 0,
 		#region <Контроллер Dahua>
-		[DeviceTypeLabel("Однодверный контроллер", "SR-NC101")]
-        //[LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC001", "SR-NC101")]
+		//[DeviceTypeLabel("Однодверный контроллер", "SR-NC101")]
+        [LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC101")]
 		DahuaBsc1221A,
-        [DeviceTypeLabel("Двухдверный контроллер", "SR-NC002")]
-        //[LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC002", "SR-NC102")]
+        //[DeviceTypeLabel("Двухдверный контроллер", "SR-NC002")]
+        [LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC002")]
 		DahuaBsc1201B,
-        [DeviceTypeLabel("Четырехдверный контроллер", "SR-NC004")]
-        //[LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC004", "SR-NC104")]
+        //[DeviceTypeLabel("Четырехдверный контроллер", "SR-NC004")]
+        [LocalizedDeviceTypeLabel(typeof(ChinaSKDDriver.Resources.Language.API.DeviceSearchInfo), "NC004")]
 		DahuaBsc1202B
 		#endregion </Контроллер Dahua>
 	}

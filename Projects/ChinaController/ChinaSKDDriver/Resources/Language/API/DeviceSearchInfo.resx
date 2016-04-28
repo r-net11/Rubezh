@@ -117,13 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NC001" xml:space="preserve">
-    <value>Однодверный контроллер</value>
-  </data>
   <data name="NC002" xml:space="preserve">
     <value>Двухдверный контроллер</value>
   </data>
   <data name="NC004" xml:space="preserve">
     <value>Четырехдверный контроллер</value>
+  </data>
+  <data name="NC101" xml:space="preserve">
+    <value>Однодверный контроллер</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Не известно</value>
   </data>
 </root>

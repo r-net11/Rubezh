@@ -58,7 +58,7 @@ namespace Infrastructure.Common
 			catch (Exception e)
 			{
 				Logger.Error(e, "RelayCommand.ForceExecute");
-                MessageBoxService.ShowException(e, Resources.Language.RelayCommand.ForceExecute_ShowException);
+                MessageBoxService.ShowException(e, Resources.Language.RelayCommand.RelayCommand.ForceExecute_ShowException);
 			}
 		}
 
@@ -137,7 +137,7 @@ namespace Infrastructure.Common
 			catch (Exception e)
 			{
 				Logger.Error(e, "RelayCommand.ForceExecute");
-				MessageBoxService.ShowException(e, Resources.Language.RelayCommand.ForceExecute_ShowException);
+				MessageBoxService.ShowException(e, Resources.Language.RelayCommand.RelayCommand.ForceExecute_ShowException);
 			}
 		}
 

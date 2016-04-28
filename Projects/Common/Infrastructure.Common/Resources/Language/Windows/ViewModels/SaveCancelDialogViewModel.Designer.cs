@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Common.Resources.Language {
+namespace Infrastructure.Common.Resources.Language.Windows.ViewModels {
     using System;
     
     
@@ -22,24 +22,25 @@ namespace Infrastructure.Common.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class AboutView {
+    internal class SaveCancelDialogViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AboutView() {
+        internal SaveCancelDialogViewModel() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.AboutView", typeof(AboutView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.Windows.ViewModels.SaveCancelDialogViewM" +
+                            "odel", typeof(SaveCancelDialogViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +52,7 @@ namespace Infrastructure.Common.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,29 +62,20 @@ namespace Infrastructure.Common.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Собрана .
+        ///   Looks up a localized string similar to Отмена.
         /// </summary>
-        public static string BuildDate {
+        internal static string SaveCancelDialogViewModel_CancelCaption {
             get {
-                return ResourceManager.GetString("BuildDate", resourceCulture);
+                return ResourceManager.GetString("SaveCancelDialogViewModel_CancelCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все права защищены..
+        ///   Looks up a localized string similar to ОК.
         /// </summary>
-        public static string Copyright {
+        internal static string SaveCancelDialogViewModel_SaveCaption {
             get {
-                return ResourceManager.GetString("Copyright", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Версия.
-        /// </summary>
-        public static string Version {
-            get {
-                return ResourceManager.GetString("Version", resourceCulture);
+                return ResourceManager.GetString("SaveCancelDialogViewModel_SaveCaption", resourceCulture);
             }
         }
     }

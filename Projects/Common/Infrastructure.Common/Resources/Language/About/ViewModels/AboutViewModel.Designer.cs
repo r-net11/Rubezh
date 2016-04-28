@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Common.Resources.Language {
+namespace Infrastructure.Common.Resources.Language.About.ViewModels {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Common.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SaveCancelDialogViewModel {
+    internal class AboutViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SaveCancelDialogViewModel() {
+        internal AboutViewModel() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Common.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.SaveCancelDialogViewModel", typeof(SaveCancelDialogViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.About.ViewModels.AboutViewModel", typeof(AboutViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,20 @@ namespace Infrastructure.Common.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отмена.
+        ///   Looks up a localized string similar to Закрыть.
         /// </summary>
-        internal static string SaveCancelDialogViewModel_CancelCaption {
+        internal static string CancelCaption {
             get {
-                return ResourceManager.GetString("SaveCancelDialogViewModel_CancelCaption", resourceCulture);
+                return ResourceManager.GetString("CancelCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ОК.
+        ///   Looks up a localized string similar to О программе.
         /// </summary>
-        internal static string SaveCancelDialogViewModel_SaveCaption {
+        internal static string Title {
             get {
-                return ResourceManager.GetString("SaveCancelDialogViewModel_SaveCaption", resourceCulture);
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
     }

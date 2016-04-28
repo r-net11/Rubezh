@@ -61,15 +61,6 @@ namespace ChinaSKDDriver.Resources.Language.API {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Однодверный контроллер.
-        /// </summary>
-        internal static string NC001 {
-            get {
-                return ResourceManager.GetString("NC001", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Двухдверный контроллер.
         /// </summary>
         internal static string NC002 {
@@ -84,6 +75,24 @@ namespace ChinaSKDDriver.Resources.Language.API {
         internal static string NC004 {
             get {
                 return ResourceManager.GetString("NC004", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Однодверный контроллер.
+        /// </summary>
+        internal static string NC101 {
+            get {
+                return ResourceManager.GetString("NC101", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не известно.
+        /// </summary>
+        internal static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
             }
         }
     }

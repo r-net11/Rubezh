@@ -22,14 +22,14 @@ namespace Infrastructure.Common.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class MessageBoxViewModel {
+    internal class CloseWindowHelper {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal MessageBoxViewModel() {
+        internal CloseWindowHelper() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Common.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.MessageBoxViewModel", typeof(MessageBoxViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.CloseWindowHelper", typeof(CloseWindowHelper).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,11 @@ namespace Infrastructure.Common.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to СТРАЖ.
+        ///   Looks up a localized string similar to Предупреждение COM Сервера.
         /// </summary>
-        internal static string MessageBoxViewModel_Title {
+        internal static string COMServerWarning {
             get {
-                return ResourceManager.GetString("MessageBoxViewModel_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Во время работы программы произошла ошибка.
-        /// </summary>
-        internal static string MessageBoxViewModel_Title_NullError {
-            get {
-                return ResourceManager.GetString("MessageBoxViewModel_Title_NullError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Исключение при вызове MessageBoxViewModel.CopyCommand.
-        /// </summary>
-        internal static string OnCopy_Exception {
-            get {
-                return ResourceManager.GetString("OnCopy_Exception", resourceCulture);
+                return ResourceManager.GetString("COMServerWarning", resourceCulture);
             }
         }
     }

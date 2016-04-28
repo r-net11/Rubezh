@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Common.Resources.Language {
+namespace Infrastructure.Common.Resources.Language.BalloonToolTip {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Infrastructure.Common.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.BalloonHelper", typeof(BalloonHelper).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.BalloonToolTip.BalloonHelper", typeof(BalloonHelper).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

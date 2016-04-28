@@ -9,10 +9,10 @@ namespace Infrastructure.Common.About.ViewModels
 	{
 		public AboutViewModel()
 		{
-			Title = Resources.Language.AboutViewModel.Title;
+			Title = Resources.Language.About.ViewModels.AboutViewModel.Title;
 			Sizable = false;
 			AllowSave = false;
-            CancelCaption = Resources.Language.AboutViewModel.CancelCaption;
+            CancelCaption = Resources.Language.About.ViewModels.AboutViewModel.CancelCaption;
 		}
 
 		public string Product

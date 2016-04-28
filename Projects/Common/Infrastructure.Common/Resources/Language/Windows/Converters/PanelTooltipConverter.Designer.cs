@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Common.Resources.Language {
+namespace Infrastructure.Common.Resources.Language.Windows.Converters {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Common.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class UnknownLayoutPartDescription {
+    internal class PanelTooltipConverter {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UnknownLayoutPartDescription() {
+        internal PanelTooltipConverter() {
         }
         
         /// <summary>
@@ -39,7 +39,8 @@ namespace Infrastructure.Common.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.UnknownLayoutPartDescription", typeof(UnknownLayoutPartDescription).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.Windows.Converters.PanelTooltipConverter" +
+                            "", typeof(PanelTooltipConverter).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +62,38 @@ namespace Infrastructure.Common.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BClose.png.
+        ///   Looks up a localized string similar to Развернуть левую часть.
         /// </summary>
-        internal static string IconName {
+        internal static string MaximizeLeftPart {
             get {
-                return ResourceManager.GetString("IconName", resourceCulture);
+                return ResourceManager.GetString("MaximizeLeftPart", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неизвестный элемент.
+        ///   Looks up a localized string similar to Развернуть планы.
         /// </summary>
-        internal static string Name {
+        internal static string MaximizePlans {
             get {
-                return ResourceManager.GetString("Name", resourceCulture);
+                return ResourceManager.GetString("MaximizePlans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Свернуть левую часть.
+        /// </summary>
+        internal static string MinimizeLeftPart {
+            get {
+                return ResourceManager.GetString("MinimizeLeftPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Свернуть планы.
+        /// </summary>
+        internal static string MinimizePlans {
+            get {
+                return ResourceManager.GetString("MinimizePlans", resourceCulture);
             }
         }
     }

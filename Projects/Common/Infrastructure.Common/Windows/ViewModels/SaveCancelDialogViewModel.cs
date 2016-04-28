@@ -22,8 +22,8 @@
 		public SaveCancelDialogViewModel()
 		{
 			AllowSave = true;
-		    SaveCaption = Resources.Language.SaveCancelDialogViewModel.SaveCancelDialogViewModel_SaveCaption;
-			CancelCaption = Resources.Language.SaveCancelDialogViewModel.SaveCancelDialogViewModel_CancelCaption;
+		    SaveCaption = Resources.Language.Windows.ViewModels.SaveCancelDialogViewModel.SaveCancelDialogViewModel_SaveCaption;
+            CancelCaption = Resources.Language.Windows.ViewModels.SaveCancelDialogViewModel.SaveCancelDialogViewModel_CancelCaption;
 			SaveCommand = new RelayCommand(OnSave, CanSave);
 			CancelCommand = new RelayCommand(OnCancel);
 			CommandPanel = null;

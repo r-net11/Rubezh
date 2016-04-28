@@ -61,9 +61,9 @@
 			set
 			{
 				if (value)
-					CancelText = Resources.Language.ProgressViewModel.CancelText_True;
+					CancelText = Resources.Language.Windows.ViewModels.ProgressViewModel.CancelText_True;
 				else
-                    CancelText = Resources.Language.ProgressViewModel.CancelText_False;
+                    CancelText = Resources.Language.Windows.ViewModels.ProgressViewModel.CancelText_False;
 
 				_canCancel = value;
 				OnPropertyChanged(() => CanCancel);

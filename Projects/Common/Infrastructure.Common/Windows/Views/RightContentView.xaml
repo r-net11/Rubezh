@@ -1,4 +1,9 @@
-﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.RightContentView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="clr-namespace:Infrastructure.Common.Windows.ViewModels" xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation" xmlns:converters="clr-namespace:Infrastructure.Common.Windows.Converters">
+﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.RightContentView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:loc="clr-namespace:Infrastructure.Common.Windows.ViewModels" 
+             xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation" 
+             xmlns:converters="clr-namespace:Infrastructure.Common.Windows.Converters">
 	<UserControl.Resources>
 		<converters:PanelTooltipConverter x:Key="tooltipConverter" />
 	</UserControl.Resources>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Common.Resources.Language {
+namespace Infrastructure.Common.Resources.Language.Windows.ViewModels {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Common.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class MailHelper {
+    internal class OverridedSaveCancelDialogViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal MailHelper() {
+        internal OverridedSaveCancelDialogViewModel() {
         }
         
         /// <summary>
@@ -39,7 +39,8 @@ namespace Infrastructure.Common.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.MailHelper", typeof(MailHelper).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.Windows.ViewModels.OverridedSaveCancelDi" +
+                            "alogViewModel", typeof(OverridedSaveCancelDialogViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +62,20 @@ namespace Infrastructure.Common.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Неверно заданы параметры smtp-сервера.
+        ///   Looks up a localized string similar to Отмена.
         /// </summary>
-        internal static string Smtp_Error {
+        internal static string CancelCaption {
             get {
-                return ResourceManager.GetString("Smtp_Error", resourceCulture);
+                return ResourceManager.GetString("CancelCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ОК.
+        /// </summary>
+        internal static string SaveCaption {
+            get {
+                return ResourceManager.GetString("SaveCaption", resourceCulture);
             }
         }
     }

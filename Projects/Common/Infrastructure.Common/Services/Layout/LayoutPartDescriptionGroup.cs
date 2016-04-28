@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Localization;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -6,16 +7,20 @@ namespace Infrastructure.Common.Services.Layout
 	{
 		Root,
 
-		[Description("Общие")]
+		//[Description("Общие")]
+        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartDescriptionGroup), "Common")]
 		Common,
 
-		[Description("СКД")]
+        //[Description("СКД")]
+        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartDescriptionGroup), "SKD")]
 		SKD,
 
-		[Description("Видео")]
+        //[Description("Видео")]
+        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartDescriptionGroup), "Video")]
 		Video,
 
-		[Description("Элементы управления")]
+        //[Description("Элементы управления")]
+        [LocalizedDescription(typeof(Resources.Language.Services.Layout.LayoutPartDescriptionGroup), "Control")]
 		Control,
 	}
 }

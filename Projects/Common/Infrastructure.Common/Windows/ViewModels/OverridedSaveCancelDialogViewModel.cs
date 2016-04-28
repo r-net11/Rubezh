@@ -27,8 +27,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public OverridedSaveCancelDialogViewModel()
 		{
 			AllowSave = true;
-			SaveCaption = Resources.Language.OverridedSaveCancelDialogViewModel.SaveCaption;
-			CancelCaption = Resources.Language.OverridedSaveCancelDialogViewModel.CancelCaption;
+			SaveCaption = Resources.Language.Windows.ViewModels.OverridedSaveCancelDialogViewModel.SaveCaption;
+			CancelCaption = Resources.Language.Windows.ViewModels.OverridedSaveCancelDialogViewModel.CancelCaption;
 			SaveCommand = new RelayCommand(OnSave, CanSave);
 			CancelCommand = new RelayCommand(OnCancel);
 			CommandPanel = null;

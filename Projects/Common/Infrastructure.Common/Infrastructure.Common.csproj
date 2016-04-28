@@ -171,67 +171,97 @@
     <Compile Include="Layouts\LayoutPartIdentities.cs" />
     <Compile Include="Navigation\ShowOnPlanArgs.cs" />
     <Compile Include="NetworkHelper.cs" />
-    <Compile Include="Resources\Language\AboutView.Designer.cs">
+    <Compile Include="Resources\Language\About\Views\AboutView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AboutView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\AboutViewModel.Designer.cs">
+    <Compile Include="Resources\Language\About\ViewModels\AboutViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AboutViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\BalloonHelper.Designer.cs">
+    <Compile Include="Resources\Language\BalloonToolTip\BalloonHelper.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BalloonHelper.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ConnectionViewModel.Designer.cs">
+    <Compile Include="Resources\Language\CloseWindowHelper.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CloseWindowHelper.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Services\Layout\LayoutPartDescriptionGroup.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutPartDescriptionGroup.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Services\Layout\LayoutPartPropertyType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutPartPropertyType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKDReports\SKDReportGroup.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDReportGroup.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Windows\ApplicationService.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApplicationService.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Windows\ViewModels\ConnectionViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ConnectionViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\MailHelper.Designer.cs">
+    <Compile Include="Resources\Language\MailHelper\MailHelper.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MailHelper.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\MessageBoxView.Designer.cs">
+    <Compile Include="Resources\Language\Windows\Views\ApplicationHeaderView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApplicationHeaderView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Windows\Views\MessageBoxView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageBoxView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\MessageBoxViewModel.Designer.cs">
+    <Compile Include="Resources\Language\Windows\ViewModels\MessageBoxViewModel.Designer.cs">
       <DependentUpon>MessageBoxViewModel.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\Language\PanelTooltipConverter.Designer.cs">
+    <Compile Include="Resources\Language\Windows\Converters\PanelTooltipConverter.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PanelTooltipConverter.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\RelayCommand.Designer.cs">
+    <Compile Include="Resources\Language\RelayCommand\RelayCommand.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RelayCommand.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\SaveCancelDialogViewModel.Designer.cs">
+    <Compile Include="Resources\Language\Windows\ViewModels\SaveCancelDialogViewModel.Designer.cs">
       <DependentUpon>SaveCancelDialogViewModel.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\Language\ProgressViewModel.Designer.cs">
+    <Compile Include="Resources\Language\Windows\ViewModels\ProgressViewModel.Designer.cs">
       <DependentUpon>ProgressViewModel.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\Language\OverridedSaveCancelDialogViewModel.Designer.cs">
+    <Compile Include="Resources\Language\Windows\ViewModels\OverridedSaveCancelDialogViewModel.Designer.cs">
       <DependentUpon>OverridedSaveCancelDialogViewModel.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\Language\DateSelectionViewModel.Designer.cs">
+    <Compile Include="Resources\Language\Windows\ViewModels\DateSelectionViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DateSelectionViewModel.resx</DependentUpon>
@@ -241,12 +271,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SingleLaunchHelper.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\UnknownLayoutPartDescription.Designer.cs">
+    <Compile Include="Resources\Language\Services\Layout\UnknownLayoutPartDescription.Designer.cs">
       <DependentUpon>UnknownLayoutPartDescription.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\Language\UnknownLayoutPartPresenter.Designer.cs">
+    <Compile Include="Resources\Language\Services\Layout\UnknownLayoutPartPresenter.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UnknownLayoutPartPresenter.resx</DependentUpon>
@@ -542,55 +572,79 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\AboutView.resx">
+    <EmbeddedResource Include="Resources\Language\About\Views\AboutView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AboutView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\AboutViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\About\ViewModels\AboutViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AboutViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\BalloonHelper.resx">
+    <EmbeddedResource Include="Resources\Language\BalloonToolTip\BalloonHelper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BalloonHelper.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ConnectionViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\CloseWindowHelper.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CloseWindowHelper.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Services\Layout\LayoutPartDescriptionGroup.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LayoutPartDescriptionGroup.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Services\Layout\LayoutPartPropertyType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LayoutPartPropertyType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKDReports\SKDReportGroup.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDReportGroup.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Windows\ApplicationService.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicationService.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Windows\ViewModels\ConnectionViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ConnectionViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\MailHelper.resx">
+    <EmbeddedResource Include="Resources\Language\MailHelper\MailHelper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MailHelper.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\MessageBoxView.resx">
+    <EmbeddedResource Include="Resources\Language\Windows\Views\ApplicationHeaderView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicationHeaderView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Windows\Views\MessageBoxView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageBoxView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\MessageBoxViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\Windows\ViewModels\MessageBoxViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageBoxViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PanelTooltipConverter.resx">
+    <EmbeddedResource Include="Resources\Language\Windows\Converters\PanelTooltipConverter.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PanelTooltipConverter.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\RelayCommand.resx">
+    <EmbeddedResource Include="Resources\Language\RelayCommand\RelayCommand.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>RelayCommand.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\SaveCancelDialogViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\Windows\ViewModels\SaveCancelDialogViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SaveCancelDialogViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ProgressViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\Windows\ViewModels\ProgressViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ProgressViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\OverridedSaveCancelDialogViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\Windows\ViewModels\OverridedSaveCancelDialogViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>OverridedSaveCancelDialogViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\DateSelectionViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\Windows\ViewModels\DateSelectionViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DateSelectionViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -598,11 +652,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SingleLaunchHelper.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\UnknownLayoutPartDescription.resx">
+    <EmbeddedResource Include="Resources\Language\Services\Layout\UnknownLayoutPartDescription.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UnknownLayoutPartDescription.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\UnknownLayoutPartPresenter.resx">
+    <EmbeddedResource Include="Resources\Language\Services\Layout\UnknownLayoutPartPresenter.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UnknownLayoutPartPresenter.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -614,6 +668,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FiresecService\Localization\Localization.csproj">
+      <Project>{0fabff9f-2922-4c8e-9c1c-7a014fedccf1}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>

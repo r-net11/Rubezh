@@ -665,6 +665,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DocumentType.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\Enums\HolidayType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HolidayType.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Language\SKD\TimeTrack\Enums\ScheduleSchemeType.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -674,6 +679,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TimeTrackActions.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\SKD\TimeTrack\Enums\TimeTrackType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TimeTrackType.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\Language\SKD\TimeTrack\TimeTrackDocument.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1227,6 +1237,7 @@
     <EmbeddedResource Include="Resources\Language\Enums\ModuleType.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ModuleType.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\Models\Plans\Plan.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1324,6 +1335,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DocumentType.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\Enums\HolidayType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>HolidayType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\Enums\ScheduleSchemeType.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ScheduleSchemeType.Designer.cs</LastGenOutput>
@@ -1331,6 +1346,10 @@
     <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\Enums\TimeTrackActions.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TimeTrackActions.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\Enums\TimeTrackType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimeTrackType.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\SKD\TimeTrack\TimeTrackDocument.resx">
       <Generator>ResXFileCodeGenerator</Generator>

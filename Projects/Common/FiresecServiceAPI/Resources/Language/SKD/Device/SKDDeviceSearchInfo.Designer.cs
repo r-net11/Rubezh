@@ -61,7 +61,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TwoDoor.
+        ///   Looks up a localized string similar to Двухдверный контроллер.
         /// </summary>
         public static string NC002 {
             get {
@@ -70,7 +70,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FourDoor.
+        ///   Looks up a localized string similar to Четырехдверный контроллер.
         /// </summary>
         public static string NC004 {
             get {
@@ -79,7 +79,7 @@ namespace FiresecAPI.Resources.Language.SKD.Device {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OneDoor.
+        ///   Looks up a localized string similar to Однодверный контроллер.
         /// </summary>
         public static string NC101 {
             get {

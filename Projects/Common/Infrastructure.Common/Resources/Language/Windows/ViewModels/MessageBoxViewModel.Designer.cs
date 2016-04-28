@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Common.Resources.Language {
+namespace Infrastructure.Common.Resources.Language.Windows.ViewModels {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Common.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ProgressViewModel {
+    internal class MessageBoxViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ProgressViewModel() {
+        internal MessageBoxViewModel() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Common.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.ProgressViewModel", typeof(ProgressViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Resources.Language.Windows.ViewModels.MessageBoxViewModel", typeof(MessageBoxViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,29 @@ namespace Infrastructure.Common.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Закрыть.
+        ///   Looks up a localized string similar to СТРАЖ.
         /// </summary>
-        internal static string CancelText_False {
+        internal static string MessageBoxViewModel_Title {
             get {
-                return ResourceManager.GetString("CancelText_False", resourceCulture);
+                return ResourceManager.GetString("MessageBoxViewModel_Title", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отмена.
+        ///   Looks up a localized string similar to Во время работы программы произошла ошибка.
         /// </summary>
-        internal static string CancelText_True {
+        internal static string MessageBoxViewModel_Title_NullError {
             get {
-                return ResourceManager.GetString("CancelText_True", resourceCulture);
+                return ResourceManager.GetString("MessageBoxViewModel_Title_NullError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Исключение при вызове MessageBoxViewModel.CopyCommand.
+        /// </summary>
+        internal static string OnCopy_Exception {
+            get {
+                return ResourceManager.GetString("OnCopy_Exception", resourceCulture);
             }
         }
     }

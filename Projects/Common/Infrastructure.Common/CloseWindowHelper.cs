@@ -23,7 +23,7 @@ namespace Infrastructure.Common
 			var process = processes.FirstOrDefault();
 			if (process != null)
 			{
-				if (process.MainWindowTitle == "Предупреждение COM Сервера")
+				if (process.MainWindowTitle == Resources.Language.CloseWindowHelper.COMServerWarning)
 				{
 					process.Kill();
 				}
@@ -32,8 +32,8 @@ namespace Infrastructure.Common
 
 		private static void Close2()
 		{
-			int iHandle = FindWindow("fs_server.exe", "Предупреждение COM Сервера");
-			int iHandle2 = FindWindow("fs_server", "Предупреждение COM Сервера");
+            int iHandle = FindWindow("fs_server.exe", Resources.Language.CloseWindowHelper.COMServerWarning);
+            int iHandle2 = FindWindow("fs_server", Resources.Language.CloseWindowHelper.COMServerWarning);
 			if (iHandle > 0)
 			{
 				SendMessage(iHandle, WM_SYSCOMMAND, SC_CLOSE, 0);
