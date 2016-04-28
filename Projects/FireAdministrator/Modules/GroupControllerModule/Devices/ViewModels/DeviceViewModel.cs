@@ -526,13 +526,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool IsOnPlan
+		bool IsOnPlan
 		{
 			get { return Device.PlanElementUIDs.Count > 0; }
-		}
-		public bool ShowOnPlan
-		{
-			get { return Device.Driver.IsDeviceOnShleif || Device.Children.Any(); }
 		}
 		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
