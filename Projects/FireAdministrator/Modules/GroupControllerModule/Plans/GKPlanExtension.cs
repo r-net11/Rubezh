@@ -695,7 +695,7 @@ namespace GKModule.Plans
 						var elementGKDevice = designerItem.Element as ElementGKDevice;
 						if (elementGKDevice != null)
 						{
-							var device = GetItem<GKDevice>(elementGKDevice);
+							var device = GetItem<GKDevice>(elementGKDevice.ItemUID);
 							if (device == null || device.Driver == null || handledDevices.Contains(device) || !device.Driver.HasZone)
 								continue;
 							var point = new Point(elementGKDevice.Left, elementGKDevice.Top);
