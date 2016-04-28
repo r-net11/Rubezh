@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language {
+namespace SKDDriver.Resources.Language.Translators {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SKDDriver.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AccessTemplateTranslator {
+    internal class TimeTrackTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AccessTemplateTranslator() {
+        internal TimeTrackTranslator() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SKDDriver.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.AccessTemplateTranslator", typeof(AccessTemplateTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.TimeTrackTranslator", typeof(TimeTrackTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,56 @@ namespace SKDDriver.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Невозможно удалить шаблон доступа, пока он указан у действующих карт.
+        ///   Looks up a localized string similar to Не найден сотрудник.
         /// </summary>
-        internal static string CanDelete_Error {
+        internal static string GetEmployeeTimeTrack_Employee_Error {
             get {
-                return ResourceManager.GetString("CanDelete_Error", resourceCulture);
+                return ResourceManager.GetString("GetEmployeeTimeTrack_Employee_Error", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шаблон доступа с таким же названием уже содержится в базе данных.
+        ///   Looks up a localized string similar to Не найден график.
         /// </summary>
-        internal static string CanSave_Error {
+        internal static string GetEmployeeTimeTrack_Schedule_Error {
             get {
-                return ResourceManager.GetString("CanSave_Error", resourceCulture);
+                return ResourceManager.GetString("GetEmployeeTimeTrack_Schedule_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to До начала действия графика.
+        /// </summary>
+        internal static string GetEmployeeTimeTrack_Schedule_Start_Error {
+            get {
+                return ResourceManager.GetString("GetEmployeeTimeTrack_Schedule_Start_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не найдена схема работы.
+        /// </summary>
+        internal static string GetEmployeeTimeTrack_ScheduleScheme_Error {
+            get {
+                return ResourceManager.GetString("GetEmployeeTimeTrack_ScheduleScheme_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не найден день.
+        /// </summary>
+        internal static string GetPlannedTimeTrackPart_Schedule_Day_Error {
+            get {
+                return ResourceManager.GetString("GetPlannedTimeTrackPart_Schedule_Day_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не найден дневной интервал.
+        /// </summary>
+        internal static string GetPlannedTimeTrackPart_Schedule_DayInterval_Error {
+            get {
+                return ResourceManager.GetString("GetPlannedTimeTrackPart_Schedule_DayInterval_Error", resourceCulture);
             }
         }
     }

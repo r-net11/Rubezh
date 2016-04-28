@@ -25,7 +25,7 @@ namespace SKDDriver
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult(Resources.Language.AdditionalColumnTypeTranslator.CanSave_Error);
+				return new OperationResult(Resources.Language.Translators.AdditionalColumnTypeTranslator.CanSave_Error);
 			else
 				return new OperationResult();
 		}

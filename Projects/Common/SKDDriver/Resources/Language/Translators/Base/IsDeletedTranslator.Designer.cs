@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language {
+namespace SKDDriver.Resources.Language.Translators.Base {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SKDDriver.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PositionTranslator {
+    internal class IsDeletedTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PositionTranslator() {
+        internal IsDeletedTranslator() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SKDDriver.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.PositionTranslator", typeof(PositionTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.Base.IsDeletedTranslator", typeof(IsDeletedTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,38 @@ namespace SKDDriver.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Попытка добавления должности с совпадающим именем.
+        ///   Looks up a localized string similar to Не найдена запись в базе данных.
         /// </summary>
-        internal static string CanSave {
+        internal static string EmptyRecordInDB {
             get {
-                return ResourceManager.GetString("CanSave", resourceCulture);
+                return ResourceManager.GetString("EmptyRecordInDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не задан идентификатор.
+        /// </summary>
+        internal static string EmtyID {
+            get {
+                return ResourceManager.GetString("EmtyID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Данная запись не удалена.
+        /// </summary>
+        internal static string RecordIsNotDeleted {
+            get {
+                return ResourceManager.GetString("RecordIsNotDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Существует неудаленная запись с тем же названием.
+        /// </summary>
+        internal static string RecordIsNotDeletedSameName {
+            get {
+                return ResourceManager.GetString("RecordIsNotDeletedSameName", resourceCulture);
             }
         }
     }

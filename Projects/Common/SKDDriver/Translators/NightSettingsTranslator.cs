@@ -42,7 +42,7 @@ namespace SKDDriver
 			{
 				var tableItem = tableItems.FirstOrDefault(x => x.OrganisationUID.Equals(uid));
 				if (tableItem == null)
-					return OperationResult<NightSettings>.FromError(Resources.Language.NightSettingsTranslator.GetByOrganisation_Error);
+                    return OperationResult<NightSettings>.FromError(Resources.Language.Translators.NightSettingsTranslator.GetByOrganisation_Error);
 				return new OperationResult<NightSettings>(Translate(tableItem));
 			}
 			catch (Exception e)

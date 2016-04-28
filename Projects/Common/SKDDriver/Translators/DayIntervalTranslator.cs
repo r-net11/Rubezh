@@ -28,7 +28,7 @@ namespace SKDDriver.Translators
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult(Resources.Language.DayIntervalTranslator.CanSave_Error);
+                return new OperationResult(Resources.Language.Translators.DayIntervalTranslator.CanSave_Error);
 			else
 				return new OperationResult();
 		}

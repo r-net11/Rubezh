@@ -8,7 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language {
+namespace SKDDriver.Resources.Language.Translators {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -19,14 +22,14 @@ namespace SKDDriver.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TranslatorBase {
+    internal class ScheduleTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TranslatorBase() {
+        internal ScheduleTranslator() {
         }
         
         /// <summary>
@@ -36,7 +39,7 @@ namespace SKDDriver.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.TranslatorBase", typeof(TranslatorBase).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.ScheduleTranslator", typeof(ScheduleTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -58,11 +61,11 @@ namespace SKDDriver.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Попытка сохранить пустую запись.
+        ///   Looks up a localized string similar to График с таким же названием уже содержится в базе данных.
         /// </summary>
-        internal static string SaveEmptyRecord {
+        internal static string CanSave_Error {
             get {
-                return ResourceManager.GetString("SaveEmptyRecord", resourceCulture);
+                return ResourceManager.GetString("CanSave_Error", resourceCulture);
             }
         }
     }

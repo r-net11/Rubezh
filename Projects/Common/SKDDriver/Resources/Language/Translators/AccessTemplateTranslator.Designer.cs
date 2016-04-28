@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language {
+namespace SKDDriver.Resources.Language.Translators {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SKDDriver.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PassJournalSynchroniser {
+    internal class AccessTemplateTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PassJournalSynchroniser() {
+        internal AccessTemplateTranslator() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SKDDriver.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.PassJournalSynchroniser", typeof(PassJournalSynchroniser).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.AccessTemplateTranslator", typeof(AccessTemplateTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,20 @@ namespace SKDDriver.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Папка не существует.
+        ///   Looks up a localized string similar to Невозможно удалить шаблон доступа, пока он указан у действующих карт.
         /// </summary>
-        internal static string Export_Error {
+        internal static string CanDelete_Error {
             get {
-                return ResourceManager.GetString("Export_Error", resourceCulture);
+                return ResourceManager.GetString("CanDelete_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Шаблон доступа с таким же названием уже содержится в базе данных.
+        /// </summary>
+        internal static string CanSave_Error {
+            get {
+                return ResourceManager.GetString("CanSave_Error", resourceCulture);
             }
         }
     }

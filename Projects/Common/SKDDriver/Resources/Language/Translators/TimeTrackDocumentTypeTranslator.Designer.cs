@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language {
+namespace SKDDriver.Resources.Language.Translators {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SKDDriver.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.TimeTrackDocumentTypeTranslator", typeof(TimeTrackDocumentTypeTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.TimeTrackDocumentTypeTranslator", typeof(TimeTrackDocumentTypeTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

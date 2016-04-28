@@ -243,7 +243,7 @@ namespace SKDDriver
 				x.UID != employee.UID &&
 				x.IsDeleted == false);
 			if (hasSameName)
-				return new OperationResult(Resources.Language.EmployeeTranslator.CanSave_Error);
+                return new OperationResult(Resources.Language.Translators.EmployeeTranslator.CanSave_Error);
 			else
 				return new OperationResult();
 		}

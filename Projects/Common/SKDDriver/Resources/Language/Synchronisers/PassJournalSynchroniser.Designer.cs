@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language {
+namespace SKDDriver.Resources.Language.Synchronisers {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SKDDriver.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CardTranslator {
+    internal class PassJournalSynchroniser {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CardTranslator() {
+        internal PassJournalSynchroniser() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SKDDriver.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.CardTranslator", typeof(CardTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Synchronisers.PassJournalSynchroniser", typeof(PassJournalSynchroniser).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,11 @@ namespace SKDDriver.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Попытка добавить карту с повторяющимся номером.
+        ///   Looks up a localized string similar to Папка не существует.
         /// </summary>
-        internal static string CanSave_Error {
+        internal static string Export_Error {
             get {
-                return ResourceManager.GetString("CanSave_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Карта не найдена.
-        /// </summary>
-        internal static string Get_Error {
-            get {
-                return ResourceManager.GetString("Get_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Карта не найдена в базе данных.
-        /// </summary>
-        internal static string SavePassTemplate_Error {
-            get {
-                return ResourceManager.GetString("SavePassTemplate_Error", resourceCulture);
+                return ResourceManager.GetString("Export_Error", resourceCulture);
             }
         }
     }

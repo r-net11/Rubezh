@@ -12,7 +12,7 @@ namespace SKDDriver
 		public static OperationResult Export(ConfigurationExportFilter filter)
 		{
 			if (!Directory.Exists(filter.Path))
-				return new OperationResult(Resources.Language.ConfigurationSynchroniser.Export_Error);
+				return new OperationResult(Resources.Language.Synchronisers.ConfigurationSynchroniser.Export_Error);
 			var devicesResult = new OperationResult();
 			var doorsResult = new OperationResult();
 			var zonesResult = new OperationResult();

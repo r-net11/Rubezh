@@ -22,7 +22,7 @@ namespace SKDDriver
 		{
 			bool hasSameName = Table.Any(x => x.Name == item.Name && !x.IsDeleted && x.UID != item.UID);
 			if (hasSameName)
-				return new OperationResult(Resources.Language.OrganisationTranslator.CanSave_Error);
+                return new OperationResult(Resources.Language.Translators.OrganisationTranslator.CanSave_Error);
 			return new OperationResult();
 		}
 

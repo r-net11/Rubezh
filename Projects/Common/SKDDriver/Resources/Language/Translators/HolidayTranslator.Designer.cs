@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language {
+namespace SKDDriver.Resources.Language.Translators {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SKDDriver.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Synchroniser {
+    internal class HolidayTranslator {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Synchroniser() {
+        internal HolidayTranslator() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SKDDriver.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Synchroniser", typeof(Synchroniser).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.HolidayTranslator", typeof(HolidayTranslator).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,38 @@ namespace SKDDriver.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Папка не существует.
+        ///   Looks up a localized string similar to Отсутствует праздничный день с UID=&apos;{0}&apos;.
         /// </summary>
-        internal static string Export_Error {
+        internal static string CanRestore_Error {
             get {
-                return ResourceManager.GetString("Export_Error", resourceCulture);
+                return ResourceManager.GetString("CanRestore_Error", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Папка не существует.
+        ///   Looks up a localized string similar to Праздничный день введенный на дату {0} уже существует.
         /// </summary>
-        internal static string Import_Error {
+        internal static string Validate_HolidayDateDay_Error {
             get {
-                return ResourceManager.GetString("Import_Error", resourceCulture);
+                return ResourceManager.GetString("Validate_HolidayDateDay_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Праздничный день с таким названием уже существует.
+        /// </summary>
+        internal static string Validate_HolidayDateYear_Error {
+            get {
+                return ResourceManager.GetString("Validate_HolidayDateYear_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Рабочий выходной, имеющий дату переноса {0} уже существует.
+        /// </summary>
+        internal static string Validate_HolidayTransferDate {
+            get {
+                return ResourceManager.GetString("Validate_HolidayTransferDate", resourceCulture);
             }
         }
     }

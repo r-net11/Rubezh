@@ -292,7 +292,7 @@ namespace SKDDriver.Translators
 						dayTimeTrackPart.ExitDateTime > x.EnterTime
 						&& dayTimeTrackPart.EnterDateTime < x.ExitTime).ToList();
 
-			if(linkedIntervals.Any()) return new OperationResult(Resources.Language.PassJournalTranslator.AddCustomPassJournal_Error);
+            if (linkedIntervals.Any()) return new OperationResult(Resources.Language.Translators.PassJournalTranslator.AddCustomPassJournal_Error);
 
 			try
 			{

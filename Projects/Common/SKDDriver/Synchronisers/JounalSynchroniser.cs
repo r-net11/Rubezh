@@ -33,7 +33,7 @@ namespace SKDDriver
 			try
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult(Resources.Language.JournalSynchroniser.Export_Error);
+                    return new OperationResult(Resources.Language.Synchronisers.JournalSynchroniser.Export_Error);
 				var tableItems = _Table.Where(x => x.SystemDate >= TranslatiorHelper.CheckDate(filter.MinDate) & x.SystemDate <= TranslatiorHelper.CheckDate(filter.MaxDate));
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportJournalItem>));

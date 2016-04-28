@@ -41,7 +41,7 @@ namespace SKDDriver.Translators
 				return result;
 			bool hasSameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name);
 			if (hasSameName)
-				return new OperationResult(Resources.Language.ScheduleSchemeTranslator.CanSave_Error);
+                return new OperationResult(Resources.Language.Translators.ScheduleSchemeTranslator.CanSave_Error);
 			return new OperationResult();
 		}
 

@@ -27,7 +27,7 @@ namespace SKDDriver
 										&& x.OrganisationUID == item.OrganisationUID
 										&& x.ParentDepartmentUID == item.ParentDepartmentUID);
 
-			return hasSameName ? new OperationResult(Resources.Language.DepartmentTranslator.CanSave_Error) : new OperationResult();
+            return hasSameName ? new OperationResult(Resources.Language.Translators.DepartmentTranslator.CanSave_Error) : new OperationResult();
 		}
 
 		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)

@@ -71,12 +71,12 @@ namespace SKDDriver
 					}
 					else
                     {
-                        return new OperationResult(Resources.Language.IsDeletedTranslator.EmptyRecordInDB); 
+                        return new OperationResult(Resources.Language.Translators.Base.IsDeletedTranslator.EmptyRecordInDB); 
 					}
 				}
 				else
 				{
-                    return new OperationResult(Resources.Language.IsDeletedTranslator.EmtyID);
+                    return new OperationResult(Resources.Language.Translators.Base.IsDeletedTranslator.EmtyID);
 				}
 			}
 			catch (Exception e)
@@ -103,16 +103,16 @@ namespace SKDDriver
 				if (verifyResult.HasError)
 					return verifyResult;
 				if (uid == null || uid == Guid.Empty)
-                    return new OperationResult(Resources.Language.IsDeletedTranslator.EmtyID);
+                    return new OperationResult(Resources.Language.Translators.Base.IsDeletedTranslator.EmtyID);
 				var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
 				if (databaseItem == null)
-                    return new OperationResult(Resources.Language.IsDeletedTranslator.EmptyRecordInDB);
+                    return new OperationResult(Resources.Language.Translators.Base.IsDeletedTranslator.EmptyRecordInDB);
 				if (!databaseItem.IsDeleted)
-					return new OperationResult(Resources.Language.IsDeletedTranslator.RecordIsNotDeleted);
+                    return new OperationResult(Resources.Language.Translators.Base.IsDeletedTranslator.RecordIsNotDeleted);
 				foreach (var item in Table)
 				{
 					if (!item.IsDeleted && IsSimilarNames(item, databaseItem))
-						return new OperationResult(Resources.Language.IsDeletedTranslator.RecordIsNotDeletedSameName);
+                        return new OperationResult(Resources.Language.Translators.Base.IsDeletedTranslator.RecordIsNotDeletedSameName);
 				}
 				var beforeRestoreResult = BeforeRestore(uid, databaseItem.RemovalDate);
 				if (beforeRestoreResult.HasError)

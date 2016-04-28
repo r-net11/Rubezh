@@ -29,7 +29,7 @@ namespace SKDDriver.Translators
 				return result;
 			var scheduleZones = Table.Where(x => x.ScheduleUID == item.ScheduleUID && x.UID != item.UID);
 			if (scheduleZones.Any(x => x.ZoneUID == item.ZoneUID))
-				return new OperationResult(Resources.Language.ScheduleZoneTranslator.CanSave_Error);
+                return new OperationResult(Resources.Language.Translators.ScheduleZoneTranslator.CanSave_Error);
 			return new OperationResult();
 		}
 

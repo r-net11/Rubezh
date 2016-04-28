@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.Resources.Language {
+namespace SKDDriver.Resources.Language.Translators.Base {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SKDDriver.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TimeTrackTranslator {
+    internal class TranslatorBase {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TimeTrackTranslator() {
+        internal TranslatorBase() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SKDDriver.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.TimeTrackTranslator", typeof(TimeTrackTranslator).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SKDDriver.Resources.Language.Translators.Base.TranslatorBase", typeof(TranslatorBase).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,56 +61,11 @@ namespace SKDDriver.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не найден сотрудник.
+        ///   Looks up a localized string similar to Попытка сохранить пустую запись.
         /// </summary>
-        internal static string GetEmployeeTimeTrack_Employee_Error {
+        internal static string SaveEmptyRecord {
             get {
-                return ResourceManager.GetString("GetEmployeeTimeTrack_Employee_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не найден график.
-        /// </summary>
-        internal static string GetEmployeeTimeTrack_Schedule_Error {
-            get {
-                return ResourceManager.GetString("GetEmployeeTimeTrack_Schedule_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to До начала действия графика.
-        /// </summary>
-        internal static string GetEmployeeTimeTrack_Schedule_Start_Error {
-            get {
-                return ResourceManager.GetString("GetEmployeeTimeTrack_Schedule_Start_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не найдена схема работы.
-        /// </summary>
-        internal static string GetEmployeeTimeTrack_ScheduleScheme_Error {
-            get {
-                return ResourceManager.GetString("GetEmployeeTimeTrack_ScheduleScheme_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не найден день.
-        /// </summary>
-        internal static string GetPlannedTimeTrackPart_Schedule_Day_Error {
-            get {
-                return ResourceManager.GetString("GetPlannedTimeTrackPart_Schedule_Day_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не найден дневной интервал.
-        /// </summary>
-        internal static string GetPlannedTimeTrackPart_Schedule_DayInterval_Error {
-            get {
-                return ResourceManager.GetString("GetPlannedTimeTrackPart_Schedule_DayInterval_Error", resourceCulture);
+                return ResourceManager.GetString("SaveEmptyRecord", resourceCulture);
             }
         }
     }

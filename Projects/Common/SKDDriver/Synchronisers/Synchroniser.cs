@@ -61,7 +61,7 @@ namespace SKDDriver
 			try
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult(Resources.Language.Synchroniser.Export_Error);
+					return new OperationResult(Resources.Language.Synchronisers.Synchroniser.Export_Error);
 				var getResult = Get(filter);
 				if (getResult.HasError)
 					return new OperationResult(getResult.Error);
@@ -127,7 +127,7 @@ namespace SKDDriver
 			try
 			{
 				if (!Directory.Exists(filter.Path))
-					return new OperationResult(Resources.Language.Synchroniser.Import_Error);
+					return new OperationResult(Resources.Language.Synchronisers.Synchroniser.Import_Error);
 				var fileName = Path.Combine(filter.Path, NameXml);
 				File.Move(fileName, NameXml);
 				using (var stream = new FileStream(NameXml, FileMode.Open))
