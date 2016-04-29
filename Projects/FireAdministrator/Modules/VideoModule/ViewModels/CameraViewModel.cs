@@ -31,6 +31,7 @@ namespace VideoModule.ViewModels
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand,
 				CanAllowMultipleVizualizationCommand);
 			ImageSource = camera.ImageSource;
+			Update();
 		}
 		public CameraViewModel(RviServer server)
 		{

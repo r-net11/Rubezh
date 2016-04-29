@@ -40,8 +40,10 @@ namespace GKModule.ViewModels
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 		private void RegisterShortcuts()
 		{
@@ -271,21 +273,6 @@ namespace GKModule.ViewModels
 				OnEdit(directionViewModel);
 		}
 
-		private void OnDirectionChanged(Guid directionUID)
-		{
-			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
-			if (direction != null)
-				direction.Update();
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				var elementDirection = GetElementDirection(element);
-				if (elementDirection != null)
-					OnDirectionChanged(elementDirection.DirectionUID);
-			});
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementDirection = GetElementDirection(element);
@@ -316,19 +303,6 @@ namespace GKModule.ViewModels
 				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
 		#endregion
-
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
 
 		private void SetRibbonItems()
 		{

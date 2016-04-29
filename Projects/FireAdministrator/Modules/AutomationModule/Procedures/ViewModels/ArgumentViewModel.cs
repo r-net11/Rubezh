@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 		public Action UpdateVariableHandler { get; set; }
 		Action UpdateContentHandler { get; set; }
 		Action UpdateDescriptionHandler { get; set; }
-		public ExplicitValueViewModel ExplicitValue { get; protected set; }
+		public ExplicitValueViewModel ExplicitValue { get; protected set; } 
 		public Argument Argument { get; private set; }
 
 		public ArgumentViewModel(Argument argument, Action updateDescriptionHandler, Action updateContentHandler, bool allowExplicitValue = true, bool allowLocalValue = true, bool allowGlobalValue = true)
@@ -173,6 +173,13 @@ namespace AutomationModule.ViewModels
 			if (enumTypes == null)
 				enumTypes = AutomationHelper.GetEnumList<EnumType>();
 			ExplicitTypes = ProcedureHelper.BuildExplicitTypes(explicitTypes, enumTypes, objectTypes);
+
+			if (ExplicitTypes.Count == 1)
+			{
+				ExplicitValue.ExplicitType = ExplicitTypes[0].ExplicitType;
+				ExplicitValue.UpdateObjectHandler();
+			}
+
 			var variables = AutomationHelper.GetAllVariables(allVariables, explicitTypes, enumTypes, objectTypes, isList);
 			if (isList != null)
 				IsList = isList.Value;
@@ -190,6 +197,7 @@ namespace AutomationModule.ViewModels
 				EnumType = enumTypes.FirstOrDefault();
 			if (objectTypes != null)
 				ObjectType = objectTypes.FirstOrDefault();
+
 			OnPropertyChanged(() => ExplicitValue);
 			OnPropertyChanged(() => LocalVariables);
 			OnPropertyChanged(() => GlobalVariables);

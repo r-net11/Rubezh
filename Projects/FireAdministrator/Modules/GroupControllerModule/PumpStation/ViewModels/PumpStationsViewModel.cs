@@ -44,8 +44,10 @@ namespace GKModule.ViewModels
 			Menu = new PumpStationsMenuViewModel(this);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 		private void RegisterShortcuts()
 		{
@@ -300,21 +302,6 @@ namespace GKModule.ViewModels
 				OnEdit(pumpStationViewModel);
 		}
 
-		private void OnPumpStationChanged(Guid pumpStationUID)
-		{
-			var pumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
-			if (pumpStation != null)
-				pumpStation.Update();
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				var elementPumpStation = GetElementPumpStation(element);
-				if (elementPumpStation != null)
-					OnPumpStationChanged(elementPumpStation.PumpStationUID);
-			});
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementPumpStation = GetElementPumpStation(element);
@@ -346,19 +333,6 @@ namespace GKModule.ViewModels
 				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
 		}
 		#endregion
-
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
 
 		private void SetRibbonItems()
 		{

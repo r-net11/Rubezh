@@ -41,7 +41,9 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
 			RegisterShortcuts();
-			SubscribeEvents();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 		public void Initialize()
 		{
@@ -67,9 +69,9 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDelay = value;
-				if (value != null)
-					value.Update();
 				OnPropertyChanged(() => SelectedDelay);
+				if (!_lockSelection && _selectedDelay != null && _selectedDelay.Delay.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDelay.Delay.PlanElementUIDs);
 			}
 		}
 
@@ -251,7 +253,11 @@ namespace GKModule.ViewModels
 		public void Select(Guid delayUID)
 		{
 			if (delayUID != Guid.Empty)
+			{
+				_lockSelection = true;
 				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
+				_lockSelection = false;
+			}
 		}
 
 		public override void OnShow()
@@ -285,33 +291,7 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-		void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				var elementDelay = GetElementGKDelay(element);
-				if (elementDelay != null)
-					OnDelayChanged(elementDelay.DelayUID);
-			});
-		}
-		void OnDelayChanged(Guid delayUID)
-		{
-			var delay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
-			if (delay != null)
-				delay.Update();
-		}
 		void OnElementSelected(ElementBase element)
 		{
 			var elementDelay = GetElementGKDelay(element);
