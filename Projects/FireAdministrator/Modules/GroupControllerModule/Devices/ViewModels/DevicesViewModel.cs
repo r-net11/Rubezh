@@ -413,26 +413,16 @@ namespace GKModule.ViewModels
 		{
 			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
-			{
 				device.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-				{
-					device.ExpandToThis();
-					SelectedDevice = device;
-				}
-			}
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				ElementGKDevice elementDevice = element as ElementGKDevice;
 				if (elementDevice != null)
 					OnDeviceChanged(elementDevice.DeviceUID);
 			});
-			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{

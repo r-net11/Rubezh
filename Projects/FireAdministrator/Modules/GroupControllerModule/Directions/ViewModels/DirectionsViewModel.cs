@@ -275,26 +275,16 @@ namespace GKModule.ViewModels
 		{
 			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (direction != null)
-			{
 				direction.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedDirection = direction;
-			}
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				var elementDirection = GetElementDirection(element);
 				if (elementDirection != null)
-				{
 					OnDirectionChanged(elementDirection.DirectionUID);
-				}
 			});
-			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{
@@ -313,14 +303,6 @@ namespace GKModule.ViewModels
 				elementDirection = element as ElementPolygonGKDirection;
 			return elementDirection;
 		}
-
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
 		public override void OnShow()
 		{
 			base.OnShow();

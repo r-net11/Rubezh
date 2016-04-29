@@ -2,8 +2,8 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
 using Infrastructure.Plans.Events;
+using Infrastructure.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using RubezhClient;
@@ -21,7 +21,6 @@ namespace VideoModule.ViewModels
 {
 	public class CamerasViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
-		bool _lockSelection = false;
 		public static CamerasViewModel Current { get; private set; }
 		public List<CameraViewModel> AllCameras { get; private set; }
 
@@ -223,33 +222,24 @@ namespace VideoModule.ViewModels
 		{
 			var camera = AllCameras.FirstOrDefault(x => x.IsCamera && x.Camera.UID == cameraUID);
 			if (camera != null)
-			{
 				camera.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedCamera = camera;
-			}
 		}
 
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				var elementCamera = element as ElementCamera;
 				if (elementCamera != null)
 					OnCameraChanged(elementCamera.CameraUID);
 			});
-			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementCamera = element as ElementCamera;
 			if (elementCamera != null)
 			{
-				_lockSelection = true;
 				Select(elementCamera.CameraUID);
-				_lockSelection = false;
 			}
 		}
 

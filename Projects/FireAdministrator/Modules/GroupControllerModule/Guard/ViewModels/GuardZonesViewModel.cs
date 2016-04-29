@@ -265,38 +265,20 @@ namespace GKModule.ViewModels
 				}, "BEdit") { Order = 2 }
 			};
 		}
-
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
 		private void OnZoneChanged(Guid zoneUID)
 		{
 			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zone != null)
-			{
 				zone.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedZone = zone;
-			}
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				var elementZone = GetElementGuardZone(element);
 				if (elementZone != null)
-				{
 					OnZoneChanged(elementZone.ZoneUID);
-				}
 			});
-			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{

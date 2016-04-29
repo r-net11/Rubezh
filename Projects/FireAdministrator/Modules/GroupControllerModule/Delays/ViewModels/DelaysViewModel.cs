@@ -277,18 +277,6 @@ namespace GKModule.ViewModels
 		}
 
 		private bool _lockSelection;
-		public void LockedSelect(Guid delayUID)
-		{
-			try
-			{
-				_lockSelection = true;
-				Select(delayUID);
-			}
-			finally
-			{
-				_lockSelection = false;
-			}
-		}
 		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
@@ -311,27 +299,18 @@ namespace GKModule.ViewModels
 		}
 		void OnElementChanged(List<ElementBase> elements)
 		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				var elementDelay = GetElementGKDelay(element);
 				if (elementDelay != null)
-				{
 					OnDelayChanged(elementDelay.DelayUID);
-				}
 			});
-			_lockSelection = false;
 		}
 		void OnDelayChanged(Guid delayUID)
 		{
 			var delay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
 			if (delay != null)
-			{
 				delay.Update();
-				if (!_lockSelection)
-					SelectedDelay = delay;
-			}
 		}
 		void OnElementSelected(ElementBase element)
 		{

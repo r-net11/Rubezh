@@ -304,26 +304,16 @@ namespace GKModule.ViewModels
 		{
 			var pumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
 			if (pumpStation != null)
-			{
 				pumpStation.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedPumpStation = pumpStation;
-			}
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				var elementPumpStation = GetElementPumpStation(element);
 				if (elementPumpStation != null)
-				{
 					OnPumpStationChanged(elementPumpStation.PumpStationUID);
-				}
 			});
-			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{
@@ -342,14 +332,6 @@ namespace GKModule.ViewModels
 				elementPumpStation = element as ElementPolygonGKPumpStation;
 			return elementPumpStation;
 		}
-
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
 		public override void OnShow()
 		{
 			base.OnShow();
