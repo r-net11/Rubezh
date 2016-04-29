@@ -59,5 +59,10 @@ namespace SKDDriver
 			}
 			return result;
 		}
+
+		public bool HasReader(Guid readerUID)
+		{
+			return Table.Any(x => x.DeactivatingReaderUID == readerUID);
+		}
 	}
 }

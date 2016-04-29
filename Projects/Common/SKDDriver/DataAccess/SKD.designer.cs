@@ -8848,6 +8848,8 @@ namespace SKDDriver.DataAccess
 		
 		private bool _IsHandicappedCard;
 		
+		private System.Nullable<int> _AllowedPassCount;
+		
 		private EntitySet<CardDoor> _CardDoors;
 		
 		private EntitySet<PendingCard> _PendingCards;
@@ -8890,6 +8892,8 @@ namespace SKDDriver.DataAccess
     partial void OnExternalKeyChanged();
     partial void OnIsHandicappedCardChanging(bool value);
     partial void OnIsHandicappedCardChanged();
+    partial void OnAllowedPassCountChanging(System.Nullable<int> value);
+    partial void OnAllowedPassCountChanged();
     #endregion
 		
 		public Card()
@@ -9205,6 +9209,26 @@ namespace SKDDriver.DataAccess
 					this._IsHandicappedCard = value;
 					this.SendPropertyChanged("IsHandicappedCard");
 					this.OnIsHandicappedCardChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AllowedPassCount", DbType="Int")]
+		public System.Nullable<int> AllowedPassCount
+		{
+			get
+			{
+				return this._AllowedPassCount;
+			}
+			set
+			{
+				if ((this._AllowedPassCount != value))
+				{
+					this.OnAllowedPassCountChanging(value);
+					this.SendPropertyChanging();
+					this._AllowedPassCount = value;
+					this.SendPropertyChanged("AllowedPassCount");
+					this.OnAllowedPassCountChanged();
 				}
 			}
 		}

@@ -117,6 +117,7 @@ namespace SKDModule.ViewModels
 
 			IsAlternativeLockParams = card.IsHandicappedCard;
 			SelectedCardType = IsNewCard ? CardTypes.FirstOrDefault() : Card.CardType;
+			AllowedPassCount = card.AllowedPassCount;
 		}
 
 		private uint? _numberFromUSB;
@@ -171,6 +172,11 @@ namespace SKDModule.ViewModels
 				{
 					EndDate = StartDate;
 				}
+
+				if (CanEnterAllowedPassCount && AllowedPassCount == null)
+					AllowedPassCount = 1;
+				else if (!CanEnterAllowedPassCount && AllowedPassCount != null)
+					AllowedPassCount = null;
 			}
 		}
 
@@ -179,9 +185,9 @@ namespace SKDModule.ViewModels
 			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || SelectedCardType == CardType.Guest; }
 		}
 
-		private uint _allowedPassCount;
+		private int? _allowedPassCount;
 
-		public uint AllowedPassCount
+		public int? AllowedPassCount
 		{
 			get { return _allowedPassCount; }
 			set
@@ -498,6 +504,7 @@ namespace SKDModule.ViewModels
 			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
 				resultCard.AccessTemplateUID = null;
 
+			resultCard.AllowedPassCount = AllowedPassCount;
 			return resultCard;
 		}
 

@@ -258,16 +258,8 @@ namespace ChinaSKDDriver
 							break;
 
 						case FiresecAPI.SKD.CardType.Guest:
-							if (controllerCardItem.Card.DeactivationControllerUID == controllerCardItem.ControllerDevice.UID)
-							{
-								card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GUEST;
-							}
-							else
-							{
-								card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
-							}
+							card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
-							card.ValidEndDateTime = controllerCardItem.Card.StartDate.Date.AddDays(1).AddTicks(-1);
 							break;
 
 						case FiresecAPI.SKD.CardType.Duress:
