@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Настройки ночных интервалов";
 			Organisations = new List<FilterOrganisationViewModel>();
-			var filter = new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID };
+			var filter = new OrganisationFilter() { User = ClientManager.CurrentUser };
 			var organisations = OrganisationHelper.Get(filter);
 			if (organisations != null)
 			{

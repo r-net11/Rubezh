@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 		public OrganisationsFilterViewModel(bool isWithDeleted = false)
 		{
 			Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
-			var filter = new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID };
+			var filter = new OrganisationFilter() { User = ClientManager.CurrentUser };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);

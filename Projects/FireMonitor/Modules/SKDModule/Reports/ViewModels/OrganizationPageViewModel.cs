@@ -54,7 +54,7 @@ namespace SKDModule.Reports.ViewModels
 
 		void CreateItemList(bool isWithDeleted = false)
 		{
-			var filter = new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID };
+			var filter = new OrganisationFilter() { User = ClientManager.CurrentUser };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);
