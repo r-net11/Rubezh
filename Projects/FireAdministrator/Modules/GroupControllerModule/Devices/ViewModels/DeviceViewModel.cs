@@ -504,6 +504,8 @@ namespace GKModule.ViewModels
 						presentationZone = "Нажмите для настройки логики";
 					if (Driver.HasMirror)
 						presentationZone = "Нажмите для настройки отражения";
+					if(Device.IgnoreLogicValidation)
+						presentationZone = "Запрещено";
 				}
 				return presentationZone;
 			}
@@ -588,20 +590,21 @@ namespace GKModule.ViewModels
 		public RelayCommand<bool> IgnoreLogicValidationCommand { get; private set; }
 		void OnIgnoreLogicValidationCommand(bool isIgnore)
 		{
-			IgnoreLogicValidation = isIgnore;
+			AllowLogicValidation = isIgnore;
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanIgnoreLogicValidationCommand(bool isIgnore)
 		{
 			return Device.IgnoreLogicValidation != isIgnore;
 		}
-		public bool IgnoreLogicValidation
+		public bool AllowLogicValidation
 		{
 			get { return !Device.IgnoreLogicValidation; }
 			set
 			{
 				Device.IgnoreLogicValidation = value;
-				OnPropertyChanged(() => IgnoreLogicValidation);
+				OnPropertyChanged(() => AllowLogicValidation);
+				OnPropertyChanged(() => EditingPresentationZone);
 			}
 		}
 

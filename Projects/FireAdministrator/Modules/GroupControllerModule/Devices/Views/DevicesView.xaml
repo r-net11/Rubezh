@@ -175,7 +175,7 @@
 										<ControlTemplate>
 											<TextBlock Text="{Binding EditingPresentationZone}"
 													Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}"
-													IsEnabled="{Binding IgnoreLogicValidation}"
+													IsEnabled="{Binding AllowLogicValidation}"
 													TextWrapping="NoWrap"
 													VerticalAlignment="Top"
 													Cursor="Hand"
