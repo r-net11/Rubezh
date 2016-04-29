@@ -69,9 +69,9 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDelay = value;
-				if (value != null)
-					value.Update();
 				OnPropertyChanged(() => SelectedDelay);
+				if (!_lockSelection && _selectedDelay != null && _selectedDelay.Delay.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDelay.Delay.PlanElementUIDs);
 			}
 		}
 
@@ -253,7 +253,11 @@ namespace GKModule.ViewModels
 		public void Select(Guid delayUID)
 		{
 			if (delayUID != Guid.Empty)
+			{
+				_lockSelection = true;
 				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
+				_lockSelection = false;
+			}
 		}
 
 		public override void OnShow()

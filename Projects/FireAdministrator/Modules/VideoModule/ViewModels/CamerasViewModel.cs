@@ -23,6 +23,7 @@ namespace VideoModule.ViewModels
 	{
 		public static CamerasViewModel Current { get; private set; }
 		public List<CameraViewModel> AllCameras { get; private set; }
+		bool _lockSelection;
 
 		public CamerasViewModel()
 		{
@@ -85,6 +86,8 @@ namespace VideoModule.ViewModels
 			{
 				_selectedCamera = value;
 				OnPropertyChanged(() => SelectedCamera);
+				if (!_lockSelection && _selectedCamera != null && _selectedCamera.IsOnPlan)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedCamera.Camera.PlanElementUIDs);
 			}
 		}
 
@@ -212,7 +215,9 @@ namespace VideoModule.ViewModels
 			var elementCamera = element as ElementCamera;
 			if (elementCamera != null)
 			{
+				_lockSelection = true;
 				Select(elementCamera.CameraUID);
+				_lockSelection = false;
 			}
 		}
 
