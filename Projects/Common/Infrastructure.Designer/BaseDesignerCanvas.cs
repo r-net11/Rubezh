@@ -18,15 +18,15 @@ using System.Windows.Input;
 
 namespace Infrastructure.Designer
 {
-	public class DesignerCanvas : CommonDesignerCanvas
+	public class BaseDesignerCanvas : CommonDesignerCanvas
 	{
-		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
+		public BasePlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 		public ToolboxViewModel Toolbox { get; private set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
 		private MoveAdorner _moveAdorner;
 
-		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
+		public BaseDesignerCanvas(BasePlanDesignerViewModel planDesignerViewModel)
 			: base(ServiceFactoryBase.Events)
 		{
 			GridLineController = new GridLineController(this);

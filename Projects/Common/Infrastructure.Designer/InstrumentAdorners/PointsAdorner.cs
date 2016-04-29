@@ -19,7 +19,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 	{
 		private Dictionary<RemoveButton, DesignerItemShape> _pointMap;
 		private Dictionary<Shape, DesignerItemShape> _shapeMap;
-		public PointsAdorner(DesignerCanvas designerCanvas)
+		public PointsAdorner(BaseDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}
@@ -123,7 +123,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 						var shape = FindShape(_shapeMap, designerItem);
 						AdornerCanvas.Children.Remove(shape);
 						_shapeMap.Remove(shape);
-						((DesignerCanvas)DesignerCanvas).RemoveDesignerItem(designerItem);
+						((BaseDesignerCanvas)DesignerCanvas).RemoveDesignerItem(designerItem);
 						ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { designerItem.Element });
 					}
 					DesignerCanvas.EndChange();
@@ -136,7 +136,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
 			if (e.ChangedButton == MouseButton.Right && e.ButtonState == MouseButtonState.Released)
-				((DesignerCanvas)DesignerCanvas).Toolbox.SetDefault();
+				((BaseDesignerCanvas)DesignerCanvas).Toolbox.SetDefault();
 		}
 
 		private T FindShape<T>(Dictionary<T, DesignerItemShape> map, DesignerItemShape designerItem)

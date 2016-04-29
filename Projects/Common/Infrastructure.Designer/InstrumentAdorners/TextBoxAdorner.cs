@@ -7,7 +7,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 {
 	public class TextBoxAdorner : RectangleAdorner
 	{
-		public TextBoxAdorner(DesignerCanvas designerCanvas)
+		public TextBoxAdorner(BaseDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}

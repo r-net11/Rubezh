@@ -79,7 +79,7 @@
     <Compile Include="DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="DesignerItems\DesignerItemRectangle.cs" />
     <Compile Include="DesignerItems\DesignerItemShape.cs" />
-    <Compile Include="DesignerCanvas.cs" />
+    <Compile Include="BaseDesignerCanvas.cs" />
     <Compile Include="DesignerItemFactory.cs" />
     <Compile Include="ElementProperties\ViewModels\TextBoxPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\Views\TextBoxPropertiesView.xaml.cs">
@@ -126,16 +126,16 @@
     <Compile Include="InstrumentAdorners\TextBoxAdorner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\InstrumentGroupViewModel.cs" />
-    <Compile Include="ViewModels\PlanDesignerViewModel.CopyPaste.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.CopyPaste.cs" />
     <Compile Include="ViewModels\ElementBaseViewModel.cs" />
     <Compile Include="ViewModels\ElementGroupViewModel.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModel.cs" />
-    <Compile Include="ViewModels\PlanDesignerViewModel.Align.cs" />
-    <Compile Include="ViewModels\PlanDesignerViewModel.cs" />
-    <Compile Include="ViewModels\PlanDesignerViewModel.ZIndex.cs" />
-    <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />
-    <Compile Include="ViewModels\PlanDesignerViewModel.History.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.Align.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.ZIndex.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.Zoom.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.History.cs" />
     <Compile Include="ViewModels\ToolboxViewModel.cs" />
     <Compile Include="Views\ElementsView.xaml.cs">
       <DependentUpon>ElementsView.xaml</DependentUpon>

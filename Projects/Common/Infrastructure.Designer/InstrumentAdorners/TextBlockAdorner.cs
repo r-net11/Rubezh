@@ -11,7 +11,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 {
 	public class TextBlockAdorner : RectangleAdorner
 	{
-		public TextBlockAdorner(DesignerCanvas designerCanvas)
+		public TextBlockAdorner(BaseDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}

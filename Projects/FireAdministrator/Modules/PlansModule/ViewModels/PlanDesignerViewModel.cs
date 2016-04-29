@@ -1,19 +1,15 @@
 ﻿using Common;
-using RubezhAPI.Models;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
+using Infrastructure.Designer.ViewModels;
 using Infrastructure.Plans.Designer;
 using PlansModule.Designer;
 using PlansModule.InstrumentAdorners;
-using Infrastructure;
-using System.Linq;
-using Infrastructure.Designer.Events;
-using System;
-using RubezhClient;
+using RubezhAPI.Models;
 
 namespace PlansModule.ViewModels
 {
-	public class PlanDesignerViewModel : Infrastructure.Designer.ViewModels.PlanDesignerViewModel
+	public class PlanDesignerViewModel : BasePlanDesignerViewModel
 	{
 		public Plan Plan { get; private set; }
 		public PlansViewModel PlansViewModel { get; private set; }

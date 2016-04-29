@@ -6,7 +6,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 {
 	public class ElipseAdorner : RectangleAdorner
 	{
-		public ElipseAdorner(DesignerCanvas designerCanvas)
+		public ElipseAdorner(BaseDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}

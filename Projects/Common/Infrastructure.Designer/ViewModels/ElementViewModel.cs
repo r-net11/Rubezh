@@ -42,7 +42,7 @@ namespace Infrastructure.Designer.ViewModels
 			{
 				DesignerItem.IsVisibleLayout = value;
 				OnPropertyChanged("IsVisible");
-				((DesignerCanvas)DesignerItem.DesignerCanvas).Toolbox.SetDefault();
+				((BaseDesignerCanvas)DesignerItem.DesignerCanvas).Toolbox.SetDefault();
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace Infrastructure.Designer.ViewModels
 			{
 				DesignerItem.IsSelectable = value;
 				OnPropertyChanged("IsSelectable");
-				((DesignerCanvas)DesignerItem.DesignerCanvas).Toolbox.SetDefault();
+				((BaseDesignerCanvas)DesignerItem.DesignerCanvas).Toolbox.SetDefault();
 			}
 		}
 

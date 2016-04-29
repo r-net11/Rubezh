@@ -8,7 +8,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 {
 	public class PolygonAdorner : BasePolygonAdorner
 	{
-		public PolygonAdorner(DesignerCanvas designerCanvas)
+		public PolygonAdorner(BaseDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}
