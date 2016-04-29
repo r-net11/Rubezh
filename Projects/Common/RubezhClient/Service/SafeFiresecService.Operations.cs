@@ -113,13 +113,11 @@ namespace RubezhClient
 				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
 				using (firesecService as IDisposable)
 				{
-					firesecService.AddJournalItem(FiresecServiceFactory.UID, new RubezhAPI.Journal.JournalItem
-					{
-						SystemDateTime = DateTime.Now,
-						JournalEventNameType = JournalEventNameType.Применение_конфигурации,
-						JournalObjectType = JournalObjectType.None,
-					});
-					return firesecService.SetRemoteConfig(stream);
+					var messageContract = new SetRemoteConfigMessageContract { ClientUid = FiresecServiceFactory.UID, Stream = stream };
+					var result = firesecService.SetRemoteConfig(messageContract);
+					if (result.HasError)
+						return OperationResult<bool>.FromError(result.Error);
+					return new OperationResult<bool>();
 				}
 			}, "SetRemoteConfig");
 		}

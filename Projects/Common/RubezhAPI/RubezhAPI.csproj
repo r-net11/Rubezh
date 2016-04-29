@@ -344,6 +344,7 @@
     <Compile Include="RviCallbackResult.cs" />
     <Compile Include="RviState.cs" />
     <Compile Include="ServerState.cs" />
+    <Compile Include="SetRemoteConfigMessageContract.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterReflection.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />
