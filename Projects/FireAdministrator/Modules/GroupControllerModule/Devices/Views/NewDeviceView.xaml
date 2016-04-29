@@ -66,9 +66,7 @@
 								<GridViewColumn Header="Наименование">
 									<GridViewColumn.CellTemplate>
 										<DataTemplate>
-											<Grid>
-												<TextBlock Text="{Binding Name}"></TextBlock>
-											</Grid>
+											<TextBlock Text="{Binding Name}" />
 										</DataTemplate>
 									</GridViewColumn.CellTemplate>
 								</GridViewColumn>

@@ -102,9 +102,9 @@ namespace RubezhAPI.GK
 			return ((GKDriver)obj).UID == this.UID;
 		}
 
-		public TypesOfBranches TypeOfBranche { get; set; }
+		public DriverClassifications DriverClassification { get; set; }
 
-		public enum TypesOfBranches
+		public enum DriverClassifications
 		{
 			[Description("Извещатели пожарные")]
 			FireDetector = 1,

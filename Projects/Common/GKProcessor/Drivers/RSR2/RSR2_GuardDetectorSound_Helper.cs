@@ -17,7 +17,7 @@ namespace GKProcessor
 				HasGuardZone = true,
 				HasZone = false,
 				IsPlaceable = true,
-				TypeOfBranche = GKDriver.TypesOfBranches.IntruderDetector
+				DriverClassification = GKDriver.DriverClassifications.IntruderDetector
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

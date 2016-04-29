@@ -18,7 +18,7 @@ namespace GKProcessor
 				HasGuardZone = true,
 				HasZone = false,
 				IsPlaceable = true,
-				TypeOfBranche = GKDriver.TypesOfBranches.AccessControl
+				DriverClassification = GKDriver.DriverClassifications.AccessControl
 			};
 
 			driver.AvailableStateBits.Add(GKStateBit.Norm);

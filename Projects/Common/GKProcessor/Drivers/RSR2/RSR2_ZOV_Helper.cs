@@ -17,7 +17,7 @@ namespace GKProcessor
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true,
-				TypeOfBranche = GKDriver.TypesOfBranches.Announcers
+				DriverClassification = GKDriver.DriverClassifications.Announcers
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

@@ -16,7 +16,7 @@ namespace GKProcessor
 				ShortName = "ИП 212-149",
 				HasZone = true,
 				IsPlaceable = true,
-				TypeOfBranche = GKDriver.TypesOfBranches.FireDetector
+				DriverClassification = GKDriver.DriverClassifications.FireDetector
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
