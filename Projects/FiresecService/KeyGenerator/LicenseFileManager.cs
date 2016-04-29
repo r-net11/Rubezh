@@ -18,7 +18,7 @@ namespace KeyGenerator
 		{
 			using (var rdProvider = new RijndaelManaged())
 			{
-				var secretFile = new SecretFile(rdProvider, path, key, iv);
+				var secretFile = new SecretFile(rdProvider, key, iv, path);
 
 				secretFile.SaveSensitiveData(productKey);
 			}
@@ -32,14 +32,22 @@ namespace KeyGenerator
 				return string.Empty;
 			}
 
+			string license;
+			try
+			{
+				license = File.ReadAllText(path);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				throw;
+			}
+
 			using (var rdProvider = new RijndaelManaged())
 			{
-				var secretFile = new SecretFile(rdProvider, path);
+				var secretFile = new SecretFile(rdProvider, key, iv, path);
 
-				secretFile.Key = Convert.FromBase64String(key);
-				secretFile.IV = Convert.FromBase64String(iv);
-
-				return secretFile.ReadSensitiveData();
+				return secretFile.ReadSensitiveData(license);
 			}
 
 		}
