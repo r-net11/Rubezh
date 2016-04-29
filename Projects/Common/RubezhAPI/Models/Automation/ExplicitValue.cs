@@ -646,6 +646,7 @@ namespace RubezhAPI.Automation
 					case ExplicitType.Boolean: return GetBoolString(BoolValue);
 					case ExplicitType.DateTime: return DateTimeValue.ToString();
 					case ExplicitType.String: return StringValue;
+					case Automation.ExplicitType.Guid:
 					case ExplicitType.Object: return GetObjectString(UidValue);
 					case ExplicitType.Enum:
 						switch (EnumType)
