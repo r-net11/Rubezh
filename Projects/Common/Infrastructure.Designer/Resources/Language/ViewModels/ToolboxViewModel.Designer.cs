@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.ViewModels {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Infrastructure.Designer.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ToolboxViewModel", typeof(ToolboxViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ViewModels.ToolboxViewModel", typeof(ToolboxViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

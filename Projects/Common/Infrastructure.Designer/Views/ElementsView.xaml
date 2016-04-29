@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-    xmlns:res="clr-namespace:Infrastructure.Designer.Resources.Language">
+    xmlns:res="clr-namespace:Infrastructure.Designer.Resources.Language.Views">
     <UserControl.Resources>
         <Style x:Key="IsSelectableCheckBoxStyle" TargetType="CheckBox">
             <Setter Property="Focusable" Value="False" />

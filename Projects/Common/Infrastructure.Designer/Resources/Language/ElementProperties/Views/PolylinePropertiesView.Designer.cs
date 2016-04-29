@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.ElementProperties.Views {
     using System;
     
     
@@ -22,24 +22,25 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TextBlockPropertiesViewModel {
+    public class PolylinePropertiesView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TextBlockPropertiesViewModel() {
+        internal PolylinePropertiesView() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.TextBlockPropertiesViewModel", typeof(TextBlockPropertiesViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ElementProperties.Views.PolylineProper" +
+                            "tiesView", typeof(PolylinePropertiesView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +52,7 @@ namespace Infrastructure.Designer.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,65 +62,29 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По центру.
+        ///   Looks up a localized string similar to Название.
         /// </summary>
-        internal static string TextAlignments_Center {
+        public static string PresentationName {
             get {
-                return ResourceManager.GetString("TextAlignments_Center", resourceCulture);
+                return ResourceManager.GetString("PresentationName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По левому краю.
+        ///   Looks up a localized string similar to Цвет границы.
         /// </summary>
-        internal static string TextAlignments_Left {
+        public static string StrokeColor {
             get {
-                return ResourceManager.GetString("TextAlignments_Left", resourceCulture);
+                return ResourceManager.GetString("StrokeColor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to По правому краю.
+        ///   Looks up a localized string similar to Ширина границы.
         /// </summary>
-        internal static string TextAlignments_Right {
+        public static string StrokeThickness {
             get {
-                return ResourceManager.GetString("TextAlignments_Right", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Свойства фигуры: Надпись.
-        /// </summary>
-        internal static string Title {
-            get {
-                return ResourceManager.GetString("Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to По нижнему краю.
-        /// </summary>
-        internal static string VerticalAlignments_Bottom {
-            get {
-                return ResourceManager.GetString("VerticalAlignments_Bottom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to По середине.
-        /// </summary>
-        internal static string VerticalAlignments_Center {
-            get {
-                return ResourceManager.GetString("VerticalAlignments_Center", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to По верхнему краю.
-        /// </summary>
-        internal static string VerticalAlignments_Top {
-            get {
-                return ResourceManager.GetString("VerticalAlignments_Top", resourceCulture);
+                return ResourceManager.GetString("StrokeThickness", resourceCulture);
             }
         }
     }

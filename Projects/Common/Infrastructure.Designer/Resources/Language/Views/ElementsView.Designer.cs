@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class PolylinePropertiesView {
+    public class ElementsView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PolylinePropertiesView() {
+        internal ElementsView() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Designer.Resources.Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.PolylinePropertiesView", typeof(PolylinePropertiesView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.Views.ElementsView", typeof(ElementsView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,47 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Название.
+        ///   Looks up a localized string similar to Скрытый.
         /// </summary>
-        public static string PresentationName {
+        public static string Hidden {
             get {
-                return ResourceManager.GetString("PresentationName", resourceCulture);
+                return ResourceManager.GetString("Hidden", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет границы.
+        ///   Looks up a localized string similar to Слои.
         /// </summary>
-        public static string StrokeColor {
+        public static string Layers {
             get {
-                return ResourceManager.GetString("StrokeColor", resourceCulture);
+                return ResourceManager.GetString("Layers", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ширина границы.
+        ///   Looks up a localized string similar to Заблокировано.
         /// </summary>
-        public static string StrokeThickness {
+        public static string Lock {
             get {
-                return ResourceManager.GetString("StrokeThickness", resourceCulture);
+                return ResourceManager.GetString("Lock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Разблокировано.
+        /// </summary>
+        public static string Unlock {
+            get {
+                return ResourceManager.GetString("Unlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Видимый.
+        /// </summary>
+        public static string Visible {
+            get {
+                return ResourceManager.GetString("Visible", resourceCulture);
             }
         }
     }

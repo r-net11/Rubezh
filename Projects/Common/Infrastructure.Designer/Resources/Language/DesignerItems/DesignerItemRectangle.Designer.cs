@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.DesignerItems {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PlanDesignerViewModelCopyPaste {
+    internal class DesignerItemRectangle {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PlanDesignerViewModelCopyPaste() {
+        internal DesignerItemRectangle() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Designer.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.PlanDesignerViewModelCopyPaste", typeof(PlanDesignerViewModelCopyPaste).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.DesignerItems.DesignerItemRectangle", typeof(DesignerItemRectangle).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,29 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Размер вставляемого содержимого больше размеров плана.
+        ///   Looks up a localized string similar to Эллипс.
         /// </summary>
-        internal static string NormalizeBuffer_Error {
+        internal static string Ellipse {
             get {
-                return ResourceManager.GetString("NormalizeBuffer_Error", resourceCulture);
+                return ResourceManager.GetString("Ellipse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Прямоугольник.
+        /// </summary>
+        internal static string Rectangle {
+            get {
+                return ResourceManager.GetString("Rectangle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Надпись.
+        /// </summary>
+        internal static string Textblock {
+            get {
+                return ResourceManager.GetString("Textblock", resourceCulture);
             }
         }
     }

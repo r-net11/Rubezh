@@ -16,7 +16,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public TextBlockPropertiesViewModel(IElementTextBlock elementTextBlock)
 		{
-			Title = Resources.Language.TextBlockPropertiesViewModel.Title;
+            Title = Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.Title;
 			ElementTextBlock = elementTextBlock;
 			CopyProperties();
 
@@ -25,15 +25,15 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 				Fonts.Add(fontfamily.Name);
 			TextAlignments = new List<string>()
 			{
-				Resources.Language.TextBlockPropertiesViewModel.TextAlignments_Left,
-				Resources.Language.TextBlockPropertiesViewModel.TextAlignments_Center,
-				Resources.Language.TextBlockPropertiesViewModel.TextAlignments_Right,
+				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.TextAlignments_Left,
+				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.TextAlignments_Center,
+				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.TextAlignments_Right,
 			};
 			VerticalAlignments = new List<string>()
 			{
-				Resources.Language.TextBlockPropertiesViewModel.VerticalAlignments_Top,
-				Resources.Language.TextBlockPropertiesViewModel.VerticalAlignments_Center,
-				Resources.Language.TextBlockPropertiesViewModel.VerticalAlignments_Bottom,
+				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.VerticalAlignments_Top,
+				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.VerticalAlignments_Center,
+				Resources.Language.ElementProperties.ViewModels.TextBlockPropertiesViewModel.VerticalAlignments_Bottom,
 			};
 		}
 

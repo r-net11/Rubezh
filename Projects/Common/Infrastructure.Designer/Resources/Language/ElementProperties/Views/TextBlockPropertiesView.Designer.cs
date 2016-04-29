@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.ElementProperties.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class RectanglePropertiesView {
+    public class TextBlockPropertiesView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal RectanglePropertiesView() {
+        internal TextBlockPropertiesView() {
         }
         
         /// <summary>
@@ -39,7 +39,8 @@ namespace Infrastructure.Designer.Resources.Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.RectanglePropertiesView", typeof(RectanglePropertiesView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ElementProperties.Views.TextBlockPrope" +
+                            "rtiesView", typeof(TextBlockPropertiesView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -70,11 +71,83 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Жирный.
+        /// </summary>
+        public static string Bold {
+            get {
+                return ResourceManager.GetString("Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Шрифт.
+        /// </summary>
+        public static string Font {
+            get {
+                return ResourceManager.GetString("Font", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Цвет текста.
+        /// </summary>
+        public static string FontColor {
+            get {
+                return ResourceManager.GetString("FontColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Размер шрифта.
+        /// </summary>
+        public static string FontSize {
+            get {
+                return ResourceManager.GetString("FontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выравнивать.
+        /// </summary>
+        public static string HorizontalAlign {
+            get {
+                return ResourceManager.GetString("HorizontalAlign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перенос слов.
+        /// </summary>
+        public static string Hyphenation {
+            get {
+                return ResourceManager.GetString("Hyphenation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Курсив.
+        /// </summary>
+        public static string Italic {
+            get {
+                return ResourceManager.GetString("Italic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Название.
         /// </summary>
-        public static string PresentationName {
+        public static string Name {
             get {
-                return ResourceManager.GetString("PresentationName", resourceCulture);
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Растянуть.
+        /// </summary>
+        public static string Strech {
+            get {
+                return ResourceManager.GetString("Strech", resourceCulture);
             }
         }
         
@@ -97,20 +170,20 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Изображение.
+        ///   Looks up a localized string similar to Текст.
         /// </summary>
-        public static string TabItemHeader_Image {
+        public static string Text {
             get {
-                return ResourceManager.GetString("TabItemHeader_Image", resourceCulture);
+                return ResourceManager.GetString("Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Основные.
+        ///   Looks up a localized string similar to Выравнивать по высоте.
         /// </summary>
-        public static string TabItemHeader_Main {
+        public static string VerticalAlign {
             get {
-                return ResourceManager.GetString("TabItemHeader_Main", resourceCulture);
+                return ResourceManager.GetString("VerticalAlign", resourceCulture);
             }
         }
     }

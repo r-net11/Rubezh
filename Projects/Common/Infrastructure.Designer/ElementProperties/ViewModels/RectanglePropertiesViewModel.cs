@@ -11,7 +11,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public RectanglePropertiesViewModel(ElementRectangle elementRectangle)
 		{
-			Title = Resources.Language.RectanglePropertiesViewModel.Title;
+            Title = Resources.Language.ElementProperties.ViewModels.RectanglePropertiesViewModel.Title;
 			ElementRectangle = elementRectangle;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(ElementRectangle);
 			CopyProperties();

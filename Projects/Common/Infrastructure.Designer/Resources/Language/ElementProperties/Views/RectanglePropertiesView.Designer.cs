@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.ElementProperties.Views {
     using System;
     
     
@@ -22,24 +22,25 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PolygonPropertiesViewModel {
+    public class RectanglePropertiesView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PolygonPropertiesViewModel() {
+        internal RectanglePropertiesView() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.PolygonPropertiesViewModel", typeof(PolygonPropertiesViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ElementProperties.Views.RectanglePrope" +
+                            "rtiesView", typeof(RectanglePropertiesView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +52,7 @@ namespace Infrastructure.Designer.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,11 +62,56 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Свойства фигуры: Полигон.
+        ///   Looks up a localized string similar to Цвет фона.
         /// </summary>
-        internal static string Title {
+        public static string BackgroundColor {
             get {
-                return ResourceManager.GetString("Title", resourceCulture);
+                return ResourceManager.GetString("BackgroundColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Название.
+        /// </summary>
+        public static string PresentationName {
+            get {
+                return ResourceManager.GetString("PresentationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Цвет границы.
+        /// </summary>
+        public static string StrokeColor {
+            get {
+                return ResourceManager.GetString("StrokeColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ширина границы.
+        /// </summary>
+        public static string StrokeThickness {
+            get {
+                return ResourceManager.GetString("StrokeThickness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Изображение.
+        /// </summary>
+        public static string TabItemHeader_Image {
+            get {
+                return ResourceManager.GetString("TabItemHeader_Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Основные.
+        /// </summary>
+        public static string TabItemHeader_Main {
+            get {
+                return ResourceManager.GetString("TabItemHeader_Main", resourceCulture);
             }
         }
     }

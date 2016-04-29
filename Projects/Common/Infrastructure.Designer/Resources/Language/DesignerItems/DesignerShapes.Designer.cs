@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.DesignerItems {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ImportPropertiesViewModel {
+    internal class DesignerShapes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ImportPropertiesViewModel() {
+        internal DesignerShapes() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Designer.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ImportPropertiesViewModel", typeof(ImportPropertiesViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.DesignerItems.DesignerShapes", typeof(DesignerShapes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,20 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Возникла ошибка при загрузке изображения.
+        ///   Looks up a localized string similar to Линия.
         /// </summary>
-        internal static string UpdateImage_Error {
+        internal static string Line {
             get {
-                return ResourceManager.GetString("UpdateImage_Error", resourceCulture);
+                return ResourceManager.GetString("Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Многоугольник.
+        /// </summary>
+        internal static string Polygon {
+            get {
+                return ResourceManager.GetString("Polygon", resourceCulture);
             }
         }
     }

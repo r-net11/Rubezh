@@ -103,7 +103,7 @@ namespace Infrastructure.Designer.ViewModels
 				Rect border = new Rect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop);
 				if (border.Width > DesignerCanvas.CanvasWidth || border.Height > DesignerCanvas.CanvasHeight)
 				{
-					MessageBoxService.Show(Resources.Language.PlanDesignerViewModelCopyPaste.NormalizeBuffer_Error);
+					MessageBoxService.Show(Resources.Language.ViewModels.PlanDesignerViewModelCopyPaste.NormalizeBuffer_Error);
 					return false;
 				}
 				if (border.X < 0)

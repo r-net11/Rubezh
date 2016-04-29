@@ -11,7 +11,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public EllipsePropertiesViewModel(ElementEllipse elementEllipse)
 		{
-		    Title = Resources.Language.EllipsePropertiesViewModel.Title;
+		    Title = Resources.Language.ElementProperties.ViewModels.EllipsePropertiesViewModel.Title;
 			_elementEllipse = elementEllipse;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(_elementEllipse);
 			CopyProperties();

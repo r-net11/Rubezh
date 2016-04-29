@@ -11,7 +11,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public PolygonPropertiesViewModel(ElementPolygon elementPolygon)
 		{
-			Title = Resources.Language.PolygonPropertiesViewModel.Title;
+            Title = Resources.Language.ElementProperties.ViewModels.PolygonPropertiesViewModel.Title;
 			_elementPolygon = elementPolygon;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(_elementPolygon);
 			CopyProperties();

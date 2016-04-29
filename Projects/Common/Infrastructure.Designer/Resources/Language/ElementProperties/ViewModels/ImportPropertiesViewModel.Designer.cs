@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.ElementProperties.ViewModels {
     using System;
     
     
@@ -22,24 +22,25 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class EllipsePropertiesView {
+    internal class ImportPropertiesViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal EllipsePropertiesView() {
+        internal ImportPropertiesViewModel() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.EllipsePropertiesView", typeof(EllipsePropertiesView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ElementProperties.ViewModels.ImportPro" +
+                            "pertiesViewModel", typeof(ImportPropertiesViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +52,7 @@ namespace Infrastructure.Designer.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,56 +62,11 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цвет фона.
+        ///   Looks up a localized string similar to Возникла ошибка при загрузке изображения.
         /// </summary>
-        public static string BackgroundColor {
+        internal static string UpdateImage_Error {
             get {
-                return ResourceManager.GetString("BackgroundColor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Название.
-        /// </summary>
-        public static string PresentationName {
-            get {
-                return ResourceManager.GetString("PresentationName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Цвет границы.
-        /// </summary>
-        public static string StrokeColor {
-            get {
-                return ResourceManager.GetString("StrokeColor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ширина границы.
-        /// </summary>
-        public static string StrokeThickness {
-            get {
-                return ResourceManager.GetString("StrokeThickness", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Изображение.
-        /// </summary>
-        public static string TabItemHeader_Image {
-            get {
-                return ResourceManager.GetString("TabItemHeader_Image", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Основные.
-        /// </summary>
-        public static string TabItemHeader_Main {
-            get {
-                return ResourceManager.GetString("TabItemHeader_Main", resourceCulture);
+                return ResourceManager.GetString("UpdateImage_Error", resourceCulture);
             }
         }
     }

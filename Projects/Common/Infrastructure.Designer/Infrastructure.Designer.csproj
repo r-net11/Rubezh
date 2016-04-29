@@ -147,92 +147,92 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DesignerCanvas.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\DesignerShapes.Designer.cs">
+    <Compile Include="Resources\Language\DesignerItems\DesignerShapes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DesignerShapes.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\EllipsePropertiesViewModel.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\ViewModels\EllipsePropertiesViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EllipsePropertiesViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ImportPropertiesViewModel.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\ViewModels\ImportPropertiesViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ImportPropertiesViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\PolygonPropertiesViewModel.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\ViewModels\PolygonPropertiesViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PolygonPropertiesViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\PolylinePropertiesViewModel.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\ViewModels\PolylinePropertiesViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PolylinePropertiesViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\RectanglePropertiesViewModel.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\ViewModels\RectanglePropertiesViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RectanglePropertiesViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\DesignerItemRectangle.Designer.cs">
+    <Compile Include="Resources\Language\DesignerItems\DesignerItemRectangle.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DesignerItemRectangle.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ImagePropertiesView.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\Views\ImagePropertiesView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ImagePropertiesView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\TextBlockPropertiesView.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\Views\TextBlockPropertiesView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TextBlockPropertiesView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ToolboxViewModel.Designer.cs">
+    <Compile Include="Resources\Language\ViewModels\ToolboxViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ToolboxViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\PlanDesignerViewModelCopyPaste.Designer.cs">
+    <Compile Include="Resources\Language\ViewModels\PlanDesignerViewModelCopyPaste.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PlanDesignerViewModelCopyPaste.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\DesignerItemBase.Designer.cs">
+    <Compile Include="Resources\Language\DesignerItems\DesignerItemBase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DesignerItemBase.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\TextBlockPropertiesViewModel.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\ViewModels\TextBlockPropertiesViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TextBlockPropertiesViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\RectanglePropertiesView.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\Views\RectanglePropertiesView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RectanglePropertiesView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\EllipsePropertiesView.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\Views\EllipsePropertiesView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EllipsePropertiesView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\PolygonPropertiesView.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\Views\PolygonPropertiesView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PolygonPropertiesView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ElementsView.Designer.cs">
+    <Compile Include="Resources\Language\Views\ElementsView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ElementsView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\PolylinePropertiesView.Designer.cs">
+    <Compile Include="Resources\Language\ElementProperties\Views\PolylinePropertiesView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PolylinePropertiesView.resx</DependentUpon>
@@ -393,75 +393,75 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DesignerCanvas.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\DesignerShapes.resx">
+    <EmbeddedResource Include="Resources\Language\DesignerItems\DesignerShapes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DesignerShapes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\EllipsePropertiesViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\ViewModels\EllipsePropertiesViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EllipsePropertiesViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ImportPropertiesViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\ViewModels\ImportPropertiesViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImportPropertiesViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PolygonPropertiesViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\ViewModels\PolygonPropertiesViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PolygonPropertiesViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PolylinePropertiesViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\ViewModels\PolylinePropertiesViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PolylinePropertiesViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\RectanglePropertiesViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\ViewModels\RectanglePropertiesViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>RectanglePropertiesViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\DesignerItemRectangle.resx">
+    <EmbeddedResource Include="Resources\Language\DesignerItems\DesignerItemRectangle.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DesignerItemRectangle.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ImagePropertiesView.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\Views\ImagePropertiesView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ImagePropertiesView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\TextBlockPropertiesView.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\Views\TextBlockPropertiesView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TextBlockPropertiesView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ToolboxViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\ViewModels\ToolboxViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ToolboxViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PlanDesignerViewModelCopyPaste.resx">
+    <EmbeddedResource Include="Resources\Language\ViewModels\PlanDesignerViewModelCopyPaste.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PlanDesignerViewModelCopyPaste.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\DesignerItemBase.resx">
+    <EmbeddedResource Include="Resources\Language\DesignerItems\DesignerItemBase.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DesignerItemBase.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\TextBlockPropertiesViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\ViewModels\TextBlockPropertiesViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TextBlockPropertiesViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\RectanglePropertiesView.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\Views\RectanglePropertiesView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>RectanglePropertiesView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\EllipsePropertiesView.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\Views\EllipsePropertiesView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EllipsePropertiesView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PolygonPropertiesView.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\Views\PolygonPropertiesView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PolygonPropertiesView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ElementsView.resx">
+    <EmbeddedResource Include="Resources\Language\Views\ElementsView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ElementsView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PolylinePropertiesView.resx">
+    <EmbeddedResource Include="Resources\Language\ElementProperties\Views\PolylinePropertiesView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PolylinePropertiesView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -488,6 +488,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

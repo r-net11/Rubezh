@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.ElementProperties.Views {
     using System;
     
     
@@ -39,7 +39,8 @@ namespace Infrastructure.Designer.Resources.Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ImagePropertiesView", typeof(ImagePropertiesView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ElementProperties.Views.ImagePropertie" +
+                            "sView", typeof(ImagePropertiesView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

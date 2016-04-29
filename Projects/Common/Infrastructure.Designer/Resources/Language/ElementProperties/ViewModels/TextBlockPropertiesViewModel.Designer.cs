@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.ElementProperties.ViewModels {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DesignerItemRectangle {
+    internal class TextBlockPropertiesViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DesignerItemRectangle() {
+        internal TextBlockPropertiesViewModel() {
         }
         
         /// <summary>
@@ -39,7 +39,8 @@ namespace Infrastructure.Designer.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.DesignerItemRectangle", typeof(DesignerItemRectangle).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ElementProperties.ViewModels.TextBlock" +
+                            "PropertiesViewModel", typeof(TextBlockPropertiesViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +62,65 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Эллипс.
+        ///   Looks up a localized string similar to По центру.
         /// </summary>
-        internal static string Ellipse {
+        internal static string TextAlignments_Center {
             get {
-                return ResourceManager.GetString("Ellipse", resourceCulture);
+                return ResourceManager.GetString("TextAlignments_Center", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Прямоугольник.
+        ///   Looks up a localized string similar to По левому краю.
         /// </summary>
-        internal static string Rectangle {
+        internal static string TextAlignments_Left {
             get {
-                return ResourceManager.GetString("Rectangle", resourceCulture);
+                return ResourceManager.GetString("TextAlignments_Left", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Надпись.
+        ///   Looks up a localized string similar to По правому краю.
         /// </summary>
-        internal static string Textblock {
+        internal static string TextAlignments_Right {
             get {
-                return ResourceManager.GetString("Textblock", resourceCulture);
+                return ResourceManager.GetString("TextAlignments_Right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Свойства фигуры: Надпись.
+        /// </summary>
+        internal static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to По нижнему краю.
+        /// </summary>
+        internal static string VerticalAlignments_Bottom {
+            get {
+                return ResourceManager.GetString("VerticalAlignments_Bottom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to По середине.
+        /// </summary>
+        internal static string VerticalAlignments_Center {
+            get {
+                return ResourceManager.GetString("VerticalAlignments_Center", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to По верхнему краю.
+        /// </summary>
+        internal static string VerticalAlignments_Top {
+            get {
+                return ResourceManager.GetString("VerticalAlignments_Top", resourceCulture);
             }
         }
     }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.ElementProperties.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Designer.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ElementsView {
+    public class EllipsePropertiesView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ElementsView() {
+        internal EllipsePropertiesView() {
         }
         
         /// <summary>
@@ -39,7 +39,8 @@ namespace Infrastructure.Designer.Resources.Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ElementsView", typeof(ElementsView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.ElementProperties.Views.EllipsePropert" +
+                            "iesView", typeof(EllipsePropertiesView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +62,56 @@ namespace Infrastructure.Designer.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Скрытый.
+        ///   Looks up a localized string similar to Цвет фона.
         /// </summary>
-        public static string Hidden {
+        public static string BackgroundColor {
             get {
-                return ResourceManager.GetString("Hidden", resourceCulture);
+                return ResourceManager.GetString("BackgroundColor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Слои.
+        ///   Looks up a localized string similar to Название.
         /// </summary>
-        public static string Layers {
+        public static string PresentationName {
             get {
-                return ResourceManager.GetString("Layers", resourceCulture);
+                return ResourceManager.GetString("PresentationName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Заблокировано.
+        ///   Looks up a localized string similar to Цвет границы.
         /// </summary>
-        public static string Lock {
+        public static string StrokeColor {
             get {
-                return ResourceManager.GetString("Lock", resourceCulture);
+                return ResourceManager.GetString("StrokeColor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Разблокировано.
+        ///   Looks up a localized string similar to Ширина границы.
         /// </summary>
-        public static string Unlock {
+        public static string StrokeThickness {
             get {
-                return ResourceManager.GetString("Unlock", resourceCulture);
+                return ResourceManager.GetString("StrokeThickness", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Видимый.
+        ///   Looks up a localized string similar to Изображение.
         /// </summary>
-        public static string Visible {
+        public static string TabItemHeader_Image {
             get {
-                return ResourceManager.GetString("Visible", resourceCulture);
+                return ResourceManager.GetString("TabItemHeader_Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Основные.
+        /// </summary>
+        public static string TabItemHeader_Main {
+            get {
+                return ResourceManager.GetString("TabItemHeader_Main", resourceCulture);
             }
         }
     }

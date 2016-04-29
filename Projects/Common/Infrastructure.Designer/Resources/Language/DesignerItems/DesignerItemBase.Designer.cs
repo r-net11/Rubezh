@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Designer.Resources.Language {
+namespace Infrastructure.Designer.Resources.Language.DesignerItems {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Infrastructure.Designer.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.DesignerItemBase", typeof(DesignerItemBase).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Designer.Resources.Language.DesignerItems.DesignerItemBase", typeof(DesignerItemBase).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

@@ -10,7 +10,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		public PolylinePropertiesViewModel(ElementPolyline elementPolyline)
 		{
-			Title = Resources.Language.PolylinePropertiesViewModel.Title;
+            Title = Resources.Language.ElementProperties.ViewModels.PolylinePropertiesViewModel.Title;
 			_elementPolyline = elementPolyline;
 			CopyProperties();
 		}
