@@ -2,9 +2,9 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converters="clr-namespace:GKModule.Converters"
-			 xmlns:firemonitor="clr-namespace:GKModule.ViewModels">
-    
-    <UserControl.Resources>
+			 xmlns:viewmodels="clr-namespace:GKModule.ViewModels">
+
+	<UserControl.Resources>
 		<Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
 		<Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
 		<Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
@@ -22,7 +22,7 @@
 									<Rectangle Name="Image" Width="48" Height="48" />
 								</Border>
 								<ControlTemplate.Triggers>
-									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static firemonitor:GlobalPimStatusType.On}">
+									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static viewmodels:GlobalPimStatusType.On}">
 										<DataTrigger.Setters>
 											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource Alarm_main_5_Info}" />
 											<Setter TargetName="Image" Property="Opacity" Value="0.6" />
@@ -30,7 +30,7 @@
 											<Setter TargetName="border" Property="ToolTip" Value="Глобальная автоматика НС и МПТ. Включено" />
 										</DataTrigger.Setters>
 									</DataTrigger>
-									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static firemonitor:GlobalPimStatusType.Off}">
+									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static viewmodels:GlobalPimStatusType.Off}">
 										<DataTrigger.Setters>
 											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource Alarm_main_5_Info}" />
 											<Setter TargetName="Image" Property="Opacity" Value="1" />
@@ -38,7 +38,7 @@
 											<Setter TargetName="border" Property="ToolTip" Value="Глобальная автоматика НС и МПТ. Выключено" />
 										</DataTrigger.Setters>
 									</DataTrigger>
-									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static firemonitor:GlobalPimStatusType.Unknown}">
+									<DataTrigger Binding="{Binding GlobalPimStatusType}" Value="{x:Static viewmodels:GlobalPimStatusType.Unknown}">
 										<DataTrigger.Setters>
 											<Setter TargetName="Image" Property="Fill" Value="{DynamicResource RAlarm_main_5_Info}" />
 											<Setter TargetName="Image" Property="Opacity" Value="1" />
@@ -54,20 +54,19 @@
 			</Button.Style>
 		</Button>
 
-
-        <AlarmButton Command="{Binding ResetCommand}"
+		<AlarmButton Command="{Binding ResetCommand}"
 					 GlowColor="Transparent"
 					 IsGlowing="{Binding IsCanReset}"
 					 Background="{DynamicResource ResetAlarmText}">
-            <AlarmButton.ToolTip>
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="{DynamicResource BReset}" Width="16" Margin="2" />
-                    <TextBlock Text="Сбросить все(F4)" FontWeight="Black" VerticalAlignment="Center" />
-                </StackPanel>
-            </AlarmButton.ToolTip>
-        </AlarmButton>
+			<AlarmButton.ToolTip>
+				<StackPanel Orientation="Horizontal">
+					<Rectangle Fill="{DynamicResource BReset}" Width="16" Margin="2" />
+					<TextBlock Text="Сбросить все(F4)" FontWeight="Black" VerticalAlignment="Center" />
+				</StackPanel>
+			</AlarmButton.ToolTip>
+		</AlarmButton>
 
-        <ItemsControl ItemsSource="{Binding AlarmGroups}">
+		<ItemsControl ItemsSource="{Binding AlarmGroups}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<StackPanel Orientation="Horizontal" />
@@ -75,15 +74,15 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-                    <AlarmButton Command="{Binding ShowCommand}"
+					<AlarmButton Command="{Binding ShowCommand}"
 										  GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
 										  IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}"
-                                          Background="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}">
-                        <AlarmButton.ToolTip>
+										  Background="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}">
+						<AlarmButton.ToolTip>
 							<StackPanel>
 								<StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToBIconConverter}}" Width="16" Margin="2" />
-                                    <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" VerticalAlignment="Center"/>
+									<Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToBIconConverter}}" Width="16" Margin="2" />
+									<TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" VerticalAlignment="Center"/>
 								</StackPanel>
 								<ItemsControl ItemsSource="{Binding Alarms}">
 									<ItemsControl.ItemTemplate>
