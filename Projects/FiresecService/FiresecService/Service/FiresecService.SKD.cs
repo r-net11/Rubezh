@@ -486,6 +486,11 @@ namespace FiresecService.Service
 					return OperationResult<bool>.FromError(saveResult.Error);
 				}
 
+				// Уведомляем подключенных Клиентов о деактивации карты
+				card.IsInStopList = true;
+				card.StopReason = reason;
+				NotifyCardDeactivated(card);
+
 				return OperationResult<bool>.FromError(errors, true);
 			}
 		}

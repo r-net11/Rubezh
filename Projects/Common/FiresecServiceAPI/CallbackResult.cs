@@ -35,6 +35,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<SKDDeviceSearchInfo> SearchDevices { get; set; }
+
+		[DataMember]
+		public SKDCard Card { get; set; }
 	}
 
 	public enum CallbackResultType
@@ -56,6 +59,16 @@ namespace FiresecAPI
 		/// <summary>
 		/// Уведовление о том, что на Сервере сменилась лицензия
 		/// </summary>
-		LicenseChanged
+		LicenseChanged,
+
+		/// <summary>
+		/// Уведомление о том, что был осуществлен проход по "Гостевой" карте
+		/// </summary>
+		GuestCardPassed,
+
+		/// <summary>
+		/// Уведомление о деактивации карты
+		/// </summary>
+		CardDeactivated
 	}
 }

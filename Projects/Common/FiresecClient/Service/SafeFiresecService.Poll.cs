@@ -24,6 +24,14 @@ namespace FiresecClient
 		public static event Action<SKDDeviceSearchInfo> NewSearchDeviceEvent;
 		public static event Action DisconnectClientCommandEvent;
 		public static event Action LicenseChangedEvent;
+		/// <summary>
+		/// Событие прохода по "Гостевой" карте
+		/// </summary>
+		public static event Action<SKDCard> GuestCardPassedEvent;
+		/// <summary>
+		/// Событие деактивации карты
+		/// </summary>
+		public static event Action<SKDCard> CardDeactivatedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -166,6 +174,22 @@ namespace FiresecClient
 						{
 							if (LicenseChangedEvent != null)
 								LicenseChangedEvent();
+						});
+						break;
+					// Поступило уведомление о проходе по "Гостевой" карте
+					case CallbackResultType.GuestCardPassed:
+						SafeOperationCall(() =>
+						{
+							if (GuestCardPassedEvent != null)
+								GuestCardPassedEvent(callbackResult.Card);
+						});
+						break;
+					// Поступило уведомление о деактивации карты
+					case CallbackResultType.CardDeactivated:
+						SafeOperationCall(() =>
+						{
+							if (CardDeactivatedEvent != null)
+								CardDeactivatedEvent(callbackResult.Card);
 						});
 						break;
 				}

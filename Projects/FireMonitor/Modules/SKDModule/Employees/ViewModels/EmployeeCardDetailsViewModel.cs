@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -75,6 +76,14 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = string.Format("Свойства пропуска: {0}", card.Number);
+				
+				// Отслеживаем событие деактивации карты
+				ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Unsubscribe(OnCardRemotlyChanged);
+				ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Subscribe(OnCardRemotlyChanged);
+				
+				// Отслеживаем событие прохода по "Гостевой" карте
+				ServiceFactoryBase.Events.GetEvent<GuestCardPassedEvent>().Unsubscribe(OnCardRemotlyChanged);
+				ServiceFactoryBase.Events.GetEvent<GuestCardPassedEvent>().Subscribe(OnCardRemotlyChanged);
 			}
 
 			Card = card;
@@ -119,6 +128,13 @@ namespace SKDModule.ViewModels
 			SelectedCardType = IsNewCard ? CardTypes.FirstOrDefault() : Card.CardType;
 			AllowedPassCount = card.AllowedPassCount;
 		}
+
+		private void OnCardRemotlyChanged(SKDCard card)
+		{
+			_isCardRemotlyChanged = true;
+		}
+
+		private bool _isCardRemotlyChanged;
 
 		private uint? _numberFromUSB;
 
@@ -453,7 +469,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return !IsGuestCardWithEmptyAccessTemplate;
+			return !IsGuestCardWithEmptyAccessTemplate && !_isCardRemotlyChanged;
 		}
 
 		private SKDCard GetCardLogic(bool useFromDeactivate, bool useControlReader)

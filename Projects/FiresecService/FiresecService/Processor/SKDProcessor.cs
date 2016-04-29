@@ -110,7 +110,7 @@ namespace FiresecService
 						}
 					}
 
-					// Бизнес-логика для приложенной к считывателю гостевой карты, если контроллер разрешает проход
+					// Бизнес-логика для приложенной к считывателю "Гостевой" карты, если контроллер разрешает проход
 					if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен &&
 					    journalItem.ObjectUID != Guid.Empty)
 					{
@@ -124,8 +124,11 @@ namespace FiresecService
 							{
 								card.AllowedPassCount--;
 								databaseService.CardTranslator.Save(card);
+								// Если разрешенное число проходов равно нулю, деактивируем "Гостевую" карту
 								if (card.AllowedPassCount == 0)
 									FiresecServiceManager.SafeFiresecService.DeleteCardFromEmployee(card, journalItem.UserName, "Разрешенное число проходов равно нулю");
+								// Уведомляем подключенных Клиентов о том, что был осуществлен проход по "Гостевой" карте
+								FiresecServiceManager.SafeFiresecService.FiresecService.NotifyGuestCardPassed(card);
 							}
 						}
 					}
