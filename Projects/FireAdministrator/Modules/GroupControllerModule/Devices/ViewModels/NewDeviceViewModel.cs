@@ -172,11 +172,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (ParentDevice.DriverType != GKDriverType.GK && ParentDevice.DriverType != GKDriverType.GKMirror)
-				{
-					return true;
-				}
-				return false;
+				return ParentDevice.DriverType != GKDriverType.GK && ParentDevice.DriverType != GKDriverType.GKMirror;
 			}
 		}
 
