@@ -167,6 +167,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => CanSelectEndDate);
 				OnPropertyChanged(() => CanEnterAllowedPassCount);
 				OnPropertyChanged(() => CanSetUserTime);
+				OnPropertyChanged(() => IsGuestCardWithEmptyAccessTemplate);
 
 				if (!CanSelectEndDate)
 				{
@@ -269,6 +270,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedAccessTemplate = value;
 				OnPropertyChanged(() => SelectedAccessTemplate);
+				OnPropertyChanged(() => IsGuestCardWithEmptyAccessTemplate);
 			}
 		}
 
@@ -439,6 +441,19 @@ namespace SKDModule.ViewModels
 
 			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Publish(Card);
 			return true;
+		}
+
+		public bool IsGuestCardWithEmptyAccessTemplate
+		{
+			get
+			{
+				return SelectedCardType == CardType.Guest && (SelectedAccessTemplate == null || !SelectedAccessTemplate.DeactivatingReaders.Any());
+			}
+		}
+
+		protected override bool CanSave()
+		{
+			return !IsGuestCardWithEmptyAccessTemplate;
 		}
 
 		private SKDCard GetCardLogic(bool useFromDeactivate, bool useControlReader)
