@@ -20,6 +20,7 @@
 			<Controls:IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать (Ctrl+C)" />
 			<Controls:IconedMenuItem Command="{Binding CutCommand}" ImageSource="BCut" Text="Вырезать (Ctrl+Х)" />
 			<Controls:IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить (Ctrl+V)" />
+			<Controls:IconedMenuItem Command="{Binding InsertIntoCommand}" ImageSource="BPaste" Text="Переместить в" />
 			<Separator />
 			<Controls:IconedMenuItem Command="{Binding CopyLogicCommand}" ImageSource="BCopy" Text="Копировать логику" />
 			<Controls:IconedMenuItem Command="{Binding PasteLogicCommand}" ImageSource="BPaste" Text="Вставить логику" />

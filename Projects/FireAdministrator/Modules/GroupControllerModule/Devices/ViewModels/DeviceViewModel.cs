@@ -925,6 +925,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
+		public RelayCommand InsertIntoCommand { get { return DevicesViewModel.Current.InsertIntoCommand; } }
 		public RelayCommand CopyLogicCommand { get; private set; }
 		public RelayCommand PasteLogicCommand { get; private set; }
 		void OnCopyLogic()

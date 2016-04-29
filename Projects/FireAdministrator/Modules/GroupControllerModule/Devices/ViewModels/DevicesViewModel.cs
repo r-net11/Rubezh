@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			InsertIntoCommand = new RelayCommand(OnInsertInto, CanInsertInto);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
@@ -48,6 +49,7 @@ namespace GKModule.ViewModels
 			SetRibbonItems();
 			DevicesToCopy = new List<GKDevice>();
 		}
+
 
 		protected override bool IsRightPanelVisibleByDefault
 		{
@@ -146,6 +148,7 @@ namespace GKModule.ViewModels
 
 		public DeviceViewModel AddDevice(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
+
 			var deviceViewModel = AddDeviceInternal(device, parentDeviceViewModel);
 			FillAllDevices();
 			return deviceViewModel;
@@ -156,6 +159,7 @@ namespace GKModule.ViewModels
 			deviceViewModel.CheckShleif();
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);
+
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
@@ -319,6 +323,23 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ReadJournalFromFileCommand { get; private set; }
+		public RelayCommand InsertIntoCommand { get; private set; }
+		bool CanInsertInto()
+		{
+			return CanCutCopy();
+		}
+
+		void OnInsertInto()
+		{
+			var devicesListViewModel = new DevicesInsertIntoViewModel(SelectedDevice.Device);
+			if (DialogService.ShowModalWindow(devicesListViewModel))
+			{
+				OnCut();
+				SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == devicesListViewModel.SelectedDevice.Device.UID);
+				OnPaste();
+			}
+		}
+
 		void OnReadJournalFromFile()
 		{
 			var openDialog = new OpenFileDialog()
