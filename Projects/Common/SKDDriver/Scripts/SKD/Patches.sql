@@ -1717,6 +1717,7 @@ BEGIN
 END
 GO
 
+-- Добавлена таблица 'AccessTemplateDeactivatingReader'
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Table_AccessTemplateDeactivatingReader_Added')
 BEGIN
 	CREATE TABLE [dbo].[AccessTemplateDeactivatingReader](
@@ -1737,4 +1738,12 @@ BEGIN
 
 	INSERT INTO Patches (Id) VALUES ('Table_AccessTemplateDeactivatingReader_Added')
 END
+GO
+
+-- В таблицу 'Card' добавлено поле 'AllowedPassCount'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_AllowedPassCount_Added_In_Table_Card')
+	BEGIN
+		ALTER TABLE [dbo].[Card] ADD [AllowedPassCount] [int] NULL
+		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_AllowedPassCount_Added_In_Table_Card')
+	END
 GO

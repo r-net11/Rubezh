@@ -322,24 +322,25 @@ CONSTRAINT [PK_ScheduleScheme] PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 CREATE TABLE [dbo].[Card](
-[UID] [uniqueidentifier] NOT NULL,
-[Number] [int] NOT NULL,
-[EmployeeUID] [uniqueidentifier] NULL,
-[AccessTemplateUID] [uniqueidentifier] NULL,
-[CardType] [int] NULL,
-[StartDate] [datetime] NOT NULL,
-[EndDate] [datetime] NOT NULL,
-[IsInStopList] [bit] NOT NULL,
-[StopReason] [text] NULL,
-PassCardTemplateUID [uniqueidentifier] NULL,
-[Password] [nvarchar](50) NULL,
-DeactivationControllerUID [uniqueidentifier] NULL,
-[UserTime] [int] NOT NULL,
-[IsHandicappedCard] [bit] NOT NULL,
-ExternalKey nvarchar(40) NOT NULL DEFAULT '-1',
-CONSTRAINT [PK_Card] PRIMARY KEY CLUSTERED
+	[UID] [uniqueidentifier] NOT NULL,
+	[Number] [int] NOT NULL,
+	[EmployeeUID] [uniqueidentifier] NULL,
+	[AccessTemplateUID] [uniqueidentifier] NULL,
+	[CardType] [int] NULL,
+	[StartDate] [datetime] NOT NULL,
+	[EndDate] [datetime] NOT NULL,
+	[IsInStopList] [bit] NOT NULL,
+	[StopReason] [text] NULL,
+	[PassCardTemplateUID] [uniqueidentifier] NULL,
+	[Password] [nvarchar](50) NULL,
+	[DeactivationControllerUID] [uniqueidentifier] NULL,
+	[UserTime] [int] NOT NULL,
+	[IsHandicappedCard] [bit] NOT NULL,
+	[ExternalKey] [nvarchar](40) NOT NULL DEFAULT ('-1'),
+	[AllowedPassCount] [int] NULL,
+ CONSTRAINT [PK_Card] PRIMARY KEY CLUSTERED 
 (
-[UID] ASC
+	[UID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
