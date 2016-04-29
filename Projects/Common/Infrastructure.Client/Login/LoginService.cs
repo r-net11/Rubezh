@@ -17,7 +17,7 @@ namespace Infrastructure.Client.Login
 		public LoginService(ClientType clientType, string title = null)
 		{
 			_clientType = clientType;
-			_title = title ?? Resources.Language.LoginService.LoginService_Title;
+			_title = title ?? Resources.Language.Login.LoginService.LoginService_Title;
 		}
 
 		public bool ExecuteConnect(string login = null, string password = null)

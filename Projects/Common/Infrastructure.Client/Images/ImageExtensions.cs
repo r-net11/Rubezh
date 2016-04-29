@@ -13,11 +13,11 @@ namespace Infrastructure.Client.Converters
 		public const string RasterGraphicExtensions = ".bmp;.png;.jpeg;.jpg";
 
         //public const string RaterGraphicFilter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg";
-	    public static string RaterGraphicFilter = Resources.Language.ImageExtensions.RaterGraphicFilter;
+	    public static string RaterGraphicFilter = Resources.Language.Images.ImageExtensions.RaterGraphicFilter;
 		//public const string VectorGraphicFilter = "Все файлы изображений|*.svg; *.svgx; *.wmf; *.emf|SVG Файлы|*.svg; *.svgx|WMF Файлы|*.wmf|EMF Файлы|*.emf";
-	    public static string VectorGraphicFilter = Resources.Language.ImageExtensions.VectorGraphicFilter;
+        public static string VectorGraphicFilter = Resources.Language.Images.ImageExtensions.VectorGraphicFilter;
 		//public const string GraphicFilter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg; *.svg; *.svgx; *.wmf; *.emf|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg|SVG Файлы|*.svg;*.svgx|WMF Файлы|*.wmf|EMF Файлы|*.emf";
-	    public static string GraphicFilter = Resources.Language.ImageExtensions.GraphicFilter;
+        public static string GraphicFilter = Resources.Language.Images.ImageExtensions.GraphicFilter;
 
 		public static bool IsGraphics(string fileName)
 		{

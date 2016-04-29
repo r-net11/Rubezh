@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Client.Resources.Language {
+namespace Infrastructure.Client.Resources.Language.Login {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Infrastructure.Client.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class LoginView {
+    internal class LoginService {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LoginView() {
+        internal LoginService() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.LoginView", typeof(LoginView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.Login.LoginService", typeof(LoginService).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Infrastructure.Client.Resources.Language {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,56 +61,11 @@ namespace Infrastructure.Client.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Копировать.
+        ///   Looks up a localized string similar to Авторизация.
         /// </summary>
-        public static string Copy {
+        internal static string LoginService_Title {
             get {
-                return ResourceManager.GetString("Copy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Вырезать.
-        /// </summary>
-        public static string Cut {
-            get {
-                return ResourceManager.GetString("Cut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Логин.
-        /// </summary>
-        public static string LoginText {
-            get {
-                return ResourceManager.GetString("LoginText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Пароль.
-        /// </summary>
-        public static string PasswordText {
-            get {
-                return ResourceManager.GetString("PasswordText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Вставить.
-        /// </summary>
-        public static string Paste {
-            get {
-                return ResourceManager.GetString("Paste", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Сохранить пароль.
-        /// </summary>
-        public static string SavePassword {
-            get {
-                return ResourceManager.GetString("SavePassword", resourceCulture);
+                return ResourceManager.GetString("LoginService_Title", resourceCulture);
             }
         }
     }

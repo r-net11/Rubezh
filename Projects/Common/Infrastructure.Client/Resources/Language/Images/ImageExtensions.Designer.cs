@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Client.Resources.Language {
+namespace Infrastructure.Client.Resources.Language.Images {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Client.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class LoginService {
+    internal class ImageExtensions {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LoginService() {
+        internal ImageExtensions() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.LoginService", typeof(LoginService).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.Images.ImageExtensions", typeof(ImageExtensions).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,29 @@ namespace Infrastructure.Client.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Авторизация.
+        ///   Looks up a localized string similar to Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg; *.svg; *.svgx; *.wmf; *.emf|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg|SVG Файлы|*.svg;*.svgx|WMF Файлы|*.wmf|EMF Файлы|*.emf.
         /// </summary>
-        internal static string LoginService_Title {
+        internal static string GraphicFilter {
             get {
-                return ResourceManager.GetString("LoginService_Title", resourceCulture);
+                return ResourceManager.GetString("GraphicFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg.
+        /// </summary>
+        internal static string RaterGraphicFilter {
+            get {
+                return ResourceManager.GetString("RaterGraphicFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Все файлы изображений|*.svg; *.svgx; *.wmf; *.emf|SVG Файлы|*.svg; *.svgx|WMF Файлы|*.wmf|EMF Файлы|*.emf.
+        /// </summary>
+        internal static string VectorGraphicFilter {
+            get {
+                return ResourceManager.GetString("VectorGraphicFilter", resourceCulture);
             }
         }
     }

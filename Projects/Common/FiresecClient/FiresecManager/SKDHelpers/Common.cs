@@ -13,10 +13,10 @@ namespace FiresecClient.SKDHelpers
 			}
 			if (operationResult.HasError)
 			{
-				if (operationResult.Error.Contains("String or binary data would be truncated"))
-					operationResult.Error = "Превышен максимальный размер строки";
-				if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
-					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
+				if (operationResult.Error.Contains(Resources.Language.FiresecManager.SKDHHelpers.Common.DataTruncatedEN))
+                    operationResult.Error = Resources.Language.FiresecManager.SKDHHelpers.Common.DataTruncatedRU;
+                if (!operationResult.Error.Contains(Resources.Language.FiresecManager.SKDHHelpers.Common.SQLConnectionFaildRU) &&
+                    !operationResult.Error.Contains(Resources.Language.FiresecManager.SKDHHelpers.Common.SQLConnectionFaildEN) &&
 					showError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
@@ -36,8 +36,8 @@ namespace FiresecClient.SKDHelpers
 			{
 				//if (operationResult.Error.Contains("String or binary data would be truncated"))
 				//    operationResult.Error = "Превышен максимальный размер строки";
-				if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
-					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
+                if (!operationResult.Error.Contains(Resources.Language.FiresecManager.SKDHHelpers.Common.SQLConnectionFaildRU) &&
+                    !operationResult.Error.Contains(Resources.Language.FiresecManager.SKDHHelpers.Common.SQLConnectionFaildEN) &&
 					showError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);

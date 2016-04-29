@@ -145,62 +145,62 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\BaseFrameViewModel.Designer.cs">
+    <Compile Include="Resources\Language\Library\BaseFrameViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BaseFrameViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ConnectionIndicatorView.Designer.cs">
+    <Compile Include="Resources\Language\ConnectionIndicator\Views\ConnectionIndicatorView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ConnectionIndicatorView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ImageExtensions.Designer.cs">
+    <Compile Include="Resources\Language\Images\ImageExtensions.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ImageExtensions.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\ImageHelper.Designer.cs">
+    <Compile Include="Resources\Language\Images\ImageHelper.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ImageHelper.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\LoginService.Designer.cs">
+    <Compile Include="Resources\Language\Login\LoginService.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LoginService.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\LoginView.Designer.cs">
+    <Compile Include="Resources\Language\Login\Views\LoginView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LoginView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\PlanDesignerView.Designer.cs">
+    <Compile Include="Resources\Language\Plans\Views\PlanDesignerView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PlanDesignerView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\PresenterPainterHelper.Designer.cs">
+    <Compile Include="Resources\Language\Plans\Presenter\PresenterPainterHelper.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PresenterPainterHelper.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\StartupSettingsView.Designer.cs">
+    <Compile Include="Resources\Language\Startup\Views\StartupSettingsView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StartupSettingsView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\StartupSettingsViewModel.Designer.cs">
+    <Compile Include="Resources\Language\Startup\ViewModels\StartupSettingsViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StartupSettingsViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\StartupView.Designer.cs">
+    <Compile Include="Resources\Language\Startup\Views\StartupView.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StartupView.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Language\StartupViewModel.Designer.cs">
+    <Compile Include="Resources\Language\Startup\ViewModels\StartupViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StartupViewModel.resx</DependentUpon>
@@ -328,52 +328,52 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BaseBootstrapper.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\BaseFrameViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\Library\BaseFrameViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BaseFrameViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ConnectionIndicatorView.resx">
+    <EmbeddedResource Include="Resources\Language\ConnectionIndicator\Views\ConnectionIndicatorView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ConnectionIndicatorView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ImageExtensions.resx">
+    <EmbeddedResource Include="Resources\Language\Images\ImageExtensions.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImageExtensions.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\ImageHelper.resx">
+    <EmbeddedResource Include="Resources\Language\Images\ImageHelper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImageHelper.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\LoginService.resx">
+    <EmbeddedResource Include="Resources\Language\Login\LoginService.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LoginService.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\LoginView.resx">
+    <EmbeddedResource Include="Resources\Language\Login\Views\LoginView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LoginView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PlanDesignerView.resx">
+    <EmbeddedResource Include="Resources\Language\Plans\Views\PlanDesignerView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PlanDesignerView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\PresenterPainterHelper.resx">
+    <EmbeddedResource Include="Resources\Language\Plans\Presenter\PresenterPainterHelper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PresenterPainterHelper.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\StartupSettingsView.resx">
+    <EmbeddedResource Include="Resources\Language\Startup\Views\StartupSettingsView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StartupSettingsView.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\StartupSettingsViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\Startup\ViewModels\StartupSettingsViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StartupSettingsViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\StartupView.resx">
+    <EmbeddedResource Include="Resources\Language\Startup\Views\StartupView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StartupView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\StartupViewModel.resx">
+    <EmbeddedResource Include="Resources\Language\Startup\ViewModels\StartupViewModel.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StartupViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>

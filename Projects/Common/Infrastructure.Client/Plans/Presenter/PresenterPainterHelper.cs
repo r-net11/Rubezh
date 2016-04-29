@@ -86,7 +86,7 @@ namespace Infrastructure.Client.Plans.Presenter
 		public MenuItem CreateShowInTreeItem()
 		{
 			return UIHelper.BuildMenuItem(
-				Resources.Language.PresenterPainterHelper.CreateShowInTreeItem,
+				Resources.Language.Plans.Presenter.PresenterPainterHelper.CreateShowInTreeItem,
 				"pack://application:,,,/Controls;component/Images/BTree.png",
 				_painter.ShowInTreeCommand
 			);
@@ -94,7 +94,7 @@ namespace Infrastructure.Client.Plans.Presenter
 		public MenuItem CreateShowPropertiesItem()
 		{
 			return UIHelper.BuildMenuItem(
-                Resources.Language.PresenterPainterHelper.CreateShowPropertiesItem,
+                Resources.Language.Plans.Presenter.PresenterPainterHelper.CreateShowPropertiesItem,
 				"pack://application:,,,/Controls;component/Images/BSettings.png",
 				_painter.ShowPropertiesCommand
 			);

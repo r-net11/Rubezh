@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Client.Resources.Language {
+namespace Infrastructure.Client.Resources.Language.Login.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Client.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class StartupSettingsView {
+    public class LoginView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal StartupSettingsView() {
+        internal LoginView() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Resources.Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.StartupSettingsView", typeof(StartupSettingsView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.Login.Views.LoginView", typeof(LoginView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,33 +57,6 @@ namespace Infrastructure.Client.Resources.Language {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Автоподключение.
-        /// </summary>
-        public static string Autoconnect {
-            get {
-                return ResourceManager.GetString("Autoconnect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Логин автоподключения.
-        /// </summary>
-        public static string AutoconnectLogin {
-            get {
-                return ResourceManager.GetString("AutoconnectLogin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Пароль автоподключения.
-        /// </summary>
-        public static string AutoconnectPassword {
-            get {
-                return ResourceManager.GetString("AutoconnectPassword", resourceCulture);
             }
         }
         
@@ -106,6 +79,24 @@ namespace Infrastructure.Client.Resources.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Логин.
+        /// </summary>
+        public static string LoginText {
+            get {
+                return ResourceManager.GetString("LoginText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пароль.
+        /// </summary>
+        public static string PasswordText {
+            get {
+                return ResourceManager.GetString("PasswordText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вставить.
         /// </summary>
         public static string Paste {
@@ -115,29 +106,11 @@ namespace Infrastructure.Client.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Порт.
+        ///   Looks up a localized string similar to Сохранить пароль.
         /// </summary>
-        public static string Port {
+        public static string SavePassword {
             get {
-                return ResourceManager.GetString("Port", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Порт сервиса отчетов.
-        /// </summary>
-        public static string ReportServicePort {
-            get {
-                return ResourceManager.GetString("ReportServicePort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Сервер.
-        /// </summary>
-        public static string Server {
-            get {
-                return ResourceManager.GetString("Server", resourceCulture);
+                return ResourceManager.GetString("SavePassword", resourceCulture);
             }
         }
     }

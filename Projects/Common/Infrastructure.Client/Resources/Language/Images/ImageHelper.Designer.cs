@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Client.Resources.Language {
+namespace Infrastructure.Client.Resources.Language.Images {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Client.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PresenterPainterHelper {
+    internal class ImageHelper {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PresenterPainterHelper() {
+        internal ImageHelper() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.PresenterPainterHelper", typeof(PresenterPainterHelper).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.Images.ImageHelper", typeof(ImageHelper).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,11 @@ namespace Infrastructure.Client.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Показать в дереве.
+        ///   Looks up a localized string similar to Возникла ошибка при загрузке изображения.
         /// </summary>
-        internal static string CreateShowInTreeItem {
+        internal static string GetResourceBrush_Exception {
             get {
-                return ResourceManager.GetString("CreateShowInTreeItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Свойства.
-        /// </summary>
-        internal static string CreateShowPropertiesItem {
-            get {
-                return ResourceManager.GetString("CreateShowPropertiesItem", resourceCulture);
+                return ResourceManager.GetString("GetResourceBrush_Exception", resourceCulture);
             }
         }
     }

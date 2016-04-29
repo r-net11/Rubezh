@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Client.Resources.Language {
+namespace RviClient.UI.Resources.Language.VideoCell {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Client.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class PlanDesignerView {
+    public class VideoCellControl {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PlanDesignerView() {
+        internal VideoCellControl() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Resources.Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.PlanDesignerView", typeof(PlanDesignerView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RviClient.UI.Resources.Language.VideoCell.VideoCellControl", typeof(VideoCellControl).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,56 +61,38 @@ namespace Infrastructure.Client.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Изменить размер устройства.
+        ///   Looks up a localized string similar to В процессе воспроизведения видео возники проблемы..
         /// </summary>
-        public static string ChangeDeviceSize {
+        public static string Disconnect {
             get {
-                return ResourceManager.GetString("ChangeDeviceSize", resourceCulture);
+                return ResourceManager.GetString("Disconnect", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Изменить масштаб плана.
+        ///   Looks up a localized string similar to Перезапустить.
         /// </summary>
-        public static string ChangePlanSize {
+        public static string Recconnect {
             get {
-                return ResourceManager.GetString("ChangePlanSize", resourceCulture);
+                return ResourceManager.GetString("Recconnect", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Увеличить размер устройства.
+        ///   Looks up a localized string similar to Вкл/Выкл звук.
         /// </summary>
-        public static string DeviceZoomIn {
+        public static string SoundOnOff {
             get {
-                return ResourceManager.GetString("DeviceZoomIn", resourceCulture);
+                return ResourceManager.GetString("SoundOnOff", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Уменьшить размер устройства.
+        ///   Looks up a localized string similar to Соотношение сторон кадра.
         /// </summary>
-        public static string DeviceZoomOut {
+        public static string VideoAspectRatio {
             get {
-                return ResourceManager.GetString("DeviceZoomOut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Уменьшить масштаб плана.
-        /// </summary>
-        public static string PlanZoomOut {
-            get {
-                return ResourceManager.GetString("PlanZoomOut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Увеличить масштаб плана.
-        /// </summary>
-        public static string PlanZoonIn {
-            get {
-                return ResourceManager.GetString("PlanZoonIn", resourceCulture);
+                return ResourceManager.GetString("VideoAspectRatio", resourceCulture);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 	{
 		public StartupSettingsViewModel()
 		{
-			Title = Resources.Language.StartupSettingsViewModel.Title;
+			Title = Resources.Language.Startup.ViewModels.StartupSettingsViewModel.Title;
 			TopMost = true;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;

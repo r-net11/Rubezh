@@ -1,4 +1,7 @@
-﻿<UserControl x:Class="Infrastructure.Client.Plans.Views.ImageTextTooltipView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+﻿<UserControl x:Class="Infrastructure.Client.Plans.Views.ImageTextTooltipView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<StackPanel Orientation="Horizontal">
 		<Image Width="16" Height="16" Margin="2, 3, 5, 0" VerticalAlignment="Center" Source="{Binding ImageSource, Converter={StaticResource NullToImageConverter}}" Visibility="{Binding ImageSource, Converter={StaticResource NullToVisibilityConverter}}" />
 		<TextBlock VerticalAlignment="Center" Text="{Binding Title}" />

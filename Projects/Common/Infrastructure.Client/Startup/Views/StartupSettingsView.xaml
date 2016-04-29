@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" 
              xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-             xmlns:res="clr-namespace:Infrastructure.Client.Resources.Language"
+             xmlns:res="clr-namespace:Infrastructure.Client.Resources.Language.Startup.Views"
              MinWidth="400" MinHeight="150">
 	<UserControl.Resources>
 		<ContextMenu x:Key="ContextMenu">

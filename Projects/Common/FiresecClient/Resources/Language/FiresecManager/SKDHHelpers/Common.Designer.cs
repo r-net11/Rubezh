@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Client.Resources.Language {
+namespace FiresecClient.Resources.Language.FiresecManager.SKDHHelpers {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Client.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ImageExtensions {
+    internal class Common {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ImageExtensions() {
+        internal Common() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.ImageExtensions", typeof(ImageExtensions).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecClient.Resources.Language.FiresecManager.SKDHHelpers.Common", typeof(Common).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,38 @@ namespace Infrastructure.Client.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg; *.svg; *.svgx; *.wmf; *.emf|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg|SVG Файлы|*.svg;*.svgx|WMF Файлы|*.wmf|EMF Файлы|*.emf.
+        ///   Looks up a localized string similar to String or binary data would be truncated.
         /// </summary>
-        internal static string GraphicFilter {
+        internal static string DataTruncatedEN {
             get {
-                return ResourceManager.GetString("GraphicFilter", resourceCulture);
+                return ResourceManager.GetString("DataTruncatedEN", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg.
+        ///   Looks up a localized string similar to Превышен максимальный размер строки.
         /// </summary>
-        internal static string RaterGraphicFilter {
+        internal static string DataTruncatedRU {
             get {
-                return ResourceManager.GetString("RaterGraphicFilter", resourceCulture);
+                return ResourceManager.GetString("DataTruncatedRU", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все файлы изображений|*.svg; *.svgx; *.wmf; *.emf|SVG Файлы|*.svg; *.svgx|WMF Файлы|*.wmf|EMF Файлы|*.emf.
+        ///   Looks up a localized string similar to Could not open a connection to SQL Server.
         /// </summary>
-        internal static string VectorGraphicFilter {
+        internal static string SQLConnectionFaildEN {
             get {
-                return ResourceManager.GetString("VectorGraphicFilter", resourceCulture);
+                return ResourceManager.GetString("SQLConnectionFaildEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to При установлении соединения с SQL Server произошла ошибка.
+        /// </summary>
+        internal static string SQLConnectionFaildRU {
+            get {
+                return ResourceManager.GetString("SQLConnectionFaildRU", resourceCulture);
             }
         }
     }

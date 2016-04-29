@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Client.Resources.Language {
+namespace FiresecClient.Resources.Language.Service {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Infrastructure.Client.Resources.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class BaseFrameViewModel {
+    internal class SafeFiresecService {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal BaseFrameViewModel() {
+        internal SafeFiresecService() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.BaseFrameViewModel", typeof(BaseFrameViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiresecClient.Resources.Language.Service.SafeFiresecService", typeof(SafeFiresecService).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,20 @@ namespace Infrastructure.Client.Resources.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ошибка при конвертировании файла.
+        ///   Looks up a localized string similar to Не удается соединиться с сервером {0}.
         /// </summary>
-        internal static string ImportSvgCommand_Error {
+        internal static string FailedConnect {
             get {
-                return ResourceManager.GetString("ImportSvgCommand_Error", resourceCulture);
+                return ResourceManager.GetString("FailedConnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка при вызове операции.
+        /// </summary>
+        internal static string SafeOperationCall {
+            get {
+                return ResourceManager.GetString("SafeOperationCall", resourceCulture);
             }
         }
     }

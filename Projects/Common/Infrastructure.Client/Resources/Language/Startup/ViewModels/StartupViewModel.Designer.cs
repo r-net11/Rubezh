@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Client.Resources.Language {
+namespace Infrastructure.Client.Resources.Language.Startup.ViewModels {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Infrastructure.Client.Resources.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.StartupViewModel", typeof(StartupViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Resources.Language.Startup.ViewModels.StartupViewModel", typeof(StartupViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

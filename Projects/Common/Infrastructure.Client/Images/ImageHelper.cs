@@ -38,7 +38,7 @@ namespace Infrastructure.Client.Images
 				{
 					Logger.Error(e, "Исключение при вызове ImageHelper.GetResourceImage({0},{1})", uid, type);
 					if (showError)
-						MessageBoxService.ShowWarningExtended(Resources.Language.ImageHelper.GetResourceBrush_Exception);
+                        MessageBoxService.ShowWarningExtended(Resources.Language.Images.ImageHelper.GetResourceBrush_Exception);
 				}
 			return brush;
 		}

@@ -1,3 +1,6 @@
-﻿<UserControl x:Class="Infrastructure.Client.Layout.Views.LayoutPartPictureView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="Transparent">
+﻿<UserControl x:Class="Infrastructure.Client.Layout.Views.LayoutPartPictureView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             Background="Transparent">
 	<Image Source="{Binding ImageSource, Converter={StaticResource NullToImageConverter}}" Stretch="Fill" />
 </UserControl>
