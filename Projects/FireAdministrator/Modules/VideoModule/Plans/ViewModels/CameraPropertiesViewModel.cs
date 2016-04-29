@@ -52,6 +52,7 @@ namespace VideoModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			PlanExtension.Instance.RewriteItem(_elementCamera, SelectedCamera.Camera);
+			_elementCamera.Rotation = Rotation;
 			return base.Save();
 		}
 

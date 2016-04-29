@@ -229,13 +229,6 @@ namespace GKModule.ViewModels
 
 		#endregion
 
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
 		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
@@ -274,31 +267,16 @@ namespace GKModule.ViewModels
 		{
 			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zone != null)
-			{
 				zone.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedZone = zone;
-			}
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				var elementZone = GetElementGKZone(element);
 				if (elementZone != null)
-				{
 					OnZoneChanged(elementZone.ZoneUID);
-					//if (guid != Guid.Empty)
-					//	OnZoneChanged(guid);
-					//guid = elementZone.ZoneUID;
-				}
 			});
-			_lockSelection = false;
-			//if (guid != Guid.Empty)
-			//	OnZoneChanged(guid);
 		}
 		private void OnElementSelected(ElementBase element)
 		{

@@ -16,9 +16,9 @@ namespace GKModule.ViewModels
 		{
 			Current = this;
 			ResetCommand = new RelayCommand(OnReset, CanReset);
-            GlobalPimActivationViewModel = new GlobalPimActivationViewModel();
-            
-            AlarmGroups = new List<AlarmGroupViewModel>();
+			GlobalPimActivationViewModel = new GlobalPimActivationViewModel();
+
+			AlarmGroups = new List<AlarmGroupViewModel>();
 			if (GKManager.Directions.Count > 0 || GKManager.MPTs.Count > 0)
 				AlarmGroups.Add(new AlarmGroupViewModel(GKAlarmType.NPTOn));
 			if (GKManager.Doors.Count > 0 || GKManager.GuardZones.Count > 0)

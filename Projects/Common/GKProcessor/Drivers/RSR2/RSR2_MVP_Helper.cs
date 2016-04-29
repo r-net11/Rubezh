@@ -17,7 +17,7 @@ namespace GKProcessor
 				ShortName = "МВП",
 				IsPlaceable = true,
 				AutoCreateChildren = new List<GKDriverType>() { GKDriverType.RSR2_MVP_Part },
-				TypeOfBranche = GKDriver.TypesOfBranches.Other
+				DriverClassification = GKDriver.DriverClassifications.Other
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);

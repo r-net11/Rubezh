@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace PlansModule.Designer
 {
-	public class DesignerCanvas : Infrastructure.Designer.DesignerCanvas
+	public class DesignerCanvas : Infrastructure.Designer.BaseDesignerCanvas
 	{
 		public Plan Plan { get; private set; }
 

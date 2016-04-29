@@ -16,7 +16,7 @@ namespace GKProcessor
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_RM_1,
 				GroupDeviceChildrenCount = 2,
-				TypeOfBranche = GKDriver.TypesOfBranches.ActuatingDevice
+				DriverClassification = GKDriver.DriverClassifications.ActuatingDevice
 
 			};
 			return driver;

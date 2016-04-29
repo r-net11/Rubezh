@@ -24,7 +24,8 @@
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, Converter={StaticResource ColorToSystemColorConverter}, 
+					UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Изображение">
@@ -50,7 +51,7 @@
 					</StackPanel>
 					<StackPanel Grid.Row="2"  HorizontalAlignment="Right"   Orientation ="Horizontal" Margin="2">
 						<CheckBox Margin="2" IsChecked="{Binding IsNotShowPlanChecked, Mode=TwoWay}" />
-						<TextBlock Text="Не использовать план в ОЗ" Foreground="White" VerticalAlignment="Center" />
+						<TextBlock Text="Не показывать план в ОЗ" Foreground="White" VerticalAlignment="Center" />
 					</StackPanel>
 				</Grid>
 			</Grid>

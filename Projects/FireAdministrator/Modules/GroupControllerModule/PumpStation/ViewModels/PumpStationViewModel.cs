@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 
 			PumpStation = pumpStation;
 			PumpStation.Changed += Update;
-			PumpStation.PlanElementUIDsChanged += Update;
+			PumpStation.PlanElementUIDsChanged += UpdateVisualizationState;
 			Update();
 		}
 
@@ -46,8 +46,11 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => StartPresentationName);
 			OnPropertyChanged(() => StopPresentationName);
 			OnPropertyChanged(() => AutomaticOffPresentationName);
-			_visualizationState = PumpStation.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (PumpStation.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
-			OnPropertyChanged(() => VisualizationState);
+			UpdateVisualizationState();
+		}
+		void UpdateVisualizationState()
+		{
+			VisualizationState = PumpStation.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (PumpStation.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 		}
 
 		ObservableCollection<DeviceViewModel> _pumpDevices;
@@ -166,6 +169,11 @@ namespace GKModule.ViewModels
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizationState; }
+			private set
+			{
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
 		}
 
 	}

@@ -11,7 +11,6 @@ namespace Infrastructure.Common.Windows.Views
 {
 	internal partial class WindowBaseView : Window
 	{
-		private const int AbsolutMinSize = 100;
 		private WindowBaseViewModel _model;
 
 		public WindowBaseView()
@@ -41,14 +40,6 @@ namespace Infrastructure.Common.Windows.Views
 			}
 			CalculateSize();
 			UpdateWindowSize();
-			var shellViewModel = _model as ShellViewModel;
-			if (shellViewModel != null)
-			{
-				MinHeight = shellViewModel.MinHeight;
-				MinWidth = shellViewModel.MinWidth;
-				Height = shellViewModel.Height;
-				Width = shellViewModel.Width;
-			}
 			if (_model.HideInTaskbar)
 				ShowInTaskbar = false;
 		}

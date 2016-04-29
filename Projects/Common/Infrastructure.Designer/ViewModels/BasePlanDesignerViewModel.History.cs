@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Designer.ViewModels
 {
-	public partial class PlanDesignerViewModel
+	public partial class BasePlanDesignerViewModel
 	{
 		private List<HistoryItem> _historyItems;
 		private int _offset;

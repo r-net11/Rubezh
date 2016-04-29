@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 			EditPropertiesCommand = new RelayCommand(OnEditProperties, CanEditProperties);
 
 			MPT.Changed += Update;
-			MPT.PlanElementUIDsChanged += Update;
+			MPT.PlanElementUIDsChanged += UpdateVisualizationState;
 			Devices = new ObservableCollection<MPTDeviceViewModel>();
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
@@ -122,7 +122,7 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			this.VisualizationState = MPT.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (MPT.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			UpdateVisualizationState();
 			var oldSelectedDeviceUID = SelectedDevice != null ? SelectedDevice.MPTDevice.DeviceUID : Guid.NewGuid();
 			Devices = new ObservableCollection<MPTDeviceViewModel>();
 			foreach (var mptDevice in MPT.MPTDevices)
@@ -136,6 +136,10 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => StartPresentationName);
 			OnPropertyChanged(() => StopPresentationName);
 			OnPropertyChanged(() => SuspendPresentationName);
+		}
+		void UpdateVisualizationState()
+		{
+			VisualizationState = MPT.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (MPT.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 		}
 		void UpdateMptDevice(GKMPTDevice mptDevice)
 		{
@@ -215,8 +219,8 @@ namespace GKModule.ViewModels
 			get { return _visualizationState; }
 			private set
 			{
-				this._visualizationState = value;
-				base.OnPropertyChanged(() => this.VisualizationState);
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
 			}
 		}
 	}

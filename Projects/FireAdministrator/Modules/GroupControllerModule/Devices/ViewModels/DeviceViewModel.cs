@@ -34,7 +34,6 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			SelectCommand = new RelayCommand(OnSelect, CanSelect);
 			ShowAsListCommand = new RelayCommand(OnShowAsList, CanShowAsList);
-			//ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
 			ShowNSLogicCommand = new RelayCommand(OnShowNSLogic, CanShowNSLogic);
 			ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
@@ -66,8 +65,9 @@ namespace GKModule.ViewModels
 			UpdateDriver();
 			InitializeParamsCommands();
 			Device.Changed += OnChanged;
-			Device.PlanElementUIDsChanged += Update;
+			Device.PlanElementUIDsChanged += UpdateVisualizationState;
 			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
+			Update();
 		}
 
 		public void CheckShleif()
@@ -118,9 +118,12 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => HasChildren);
-			OnPropertyChanged(() => IsOnPlan);
-			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => Description);
+			UpdateVisualizationState();
+		}
+		void UpdateVisualizationState()
+		{
+			VisualizationState = Driver != null && Driver.IsPlaceable ? (IsOnPlan ? (Device.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent) : VisualizationState.Prohibit;
 		}
 
 		public bool IsInMPT
@@ -233,7 +236,7 @@ namespace GKModule.ViewModels
 		{
 			NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this);
 
-			if (newDeviceViewModel.Drivers.Count == 1)
+			if (newDeviceViewModel.TypedDrivers.Count == 1)
 			{
 				newDeviceViewModel.SaveCommand.Execute();
 				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
@@ -501,6 +504,8 @@ namespace GKModule.ViewModels
 						presentationZone = "Нажмите для настройки логики";
 					if (Driver.HasMirror)
 						presentationZone = "Нажмите для настройки отражения";
+					if(Device.IgnoreLogicValidation)
+						presentationZone = "Запрещено";
 				}
 				return presentationZone;
 			}
@@ -522,17 +527,19 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool IsOnPlan
+		bool IsOnPlan
 		{
 			get { return Device.PlanElementUIDs.Count > 0; }
 		}
-		public bool ShowOnPlan
-		{
-			get { return Device.Driver.IsDeviceOnShleif || Device.Children.Any(); }
-		}
+		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
-			get { return Driver != null && Driver.IsPlaceable ? (IsOnPlan ? (Device.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent) : VisualizationState.Prohibit; }
+			get { return _visualizationState; }
+			private set
+			{
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
@@ -583,20 +590,21 @@ namespace GKModule.ViewModels
 		public RelayCommand<bool> IgnoreLogicValidationCommand { get; private set; }
 		void OnIgnoreLogicValidationCommand(bool isIgnore)
 		{
-			IgnoreLogicValidation = isIgnore;
+			AllowLogicValidation = isIgnore;
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanIgnoreLogicValidationCommand(bool isIgnore)
 		{
 			return Device.IgnoreLogicValidation != isIgnore;
 		}
-		public bool IgnoreLogicValidation
+		public bool AllowLogicValidation
 		{
 			get { return !Device.IgnoreLogicValidation; }
 			set
 			{
 				Device.IgnoreLogicValidation = value;
-				OnPropertyChanged(() => IgnoreLogicValidation);
+				OnPropertyChanged(() => AllowLogicValidation);
+				OnPropertyChanged(() => EditingPresentationZone);
 			}
 		}
 
@@ -919,6 +927,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
+		public RelayCommand InsertIntoCommand { get { return DevicesViewModel.Current.InsertIntoCommand; } }
 		public RelayCommand CopyLogicCommand { get; private set; }
 		public RelayCommand PasteLogicCommand { get; private set; }
 		void OnCopyLogic()

@@ -180,18 +180,12 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
 
 		void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
@@ -225,24 +219,16 @@ namespace GKModule.ViewModels
 		{
 			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zone != null)
-			{
 				zone.Update();
-				if (!_lockSelection)
-				{
-					SelectedZone = zone;
-				}
-			}
 		}
 		void OnElementChanged(List<ElementBase> elements)
 		{
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				var elementZone = GetElementSKDZone(element);
 				if (elementZone != null)
 					OnZoneChanged(elementZone.ZoneUID);
 			});
-			_lockSelection = false;
 		}
 		void OnElementSelected(ElementBase element)
 		{

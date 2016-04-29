@@ -13,7 +13,7 @@ namespace Infrastructure.Designer
 		private const double DELTA = 20;
 		private double _accumulateX = 0;
 		private double _accumulateY = 0;
-		private DesignerCanvas _canvas;
+		private BaseDesignerCanvas _canvas;
 		private StreamGeometry _geometry;
 		private RectangleGeometry _clipGeometry;
 		private bool _isVisible;
@@ -29,7 +29,7 @@ namespace Infrastructure.Designer
 			}
 		}
 
-		public GridLineController(DesignerCanvas canvas)
+		public GridLineController(BaseDesignerCanvas canvas)
 		{
 			IsVisible = true;
 			_canvas = canvas;

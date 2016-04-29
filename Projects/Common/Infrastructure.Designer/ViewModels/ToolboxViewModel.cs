@@ -18,14 +18,14 @@ namespace Infrastructure.Designer.ViewModels
 	{
 		private IInstrument _defaultInstrument;
 
-		public ToolboxViewModel(DesignerCanvas designerCanvas)
+		public ToolboxViewModel(BaseDesignerCanvas designerCanvas)
 		{
 			DesignerCanvas = designerCanvas;
 			RegisterInstruments();
 			EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyEventHandler), true);
 		}
 
-		public DesignerCanvas DesignerCanvas { get; private set; }
+		public BaseDesignerCanvas DesignerCanvas { get; private set; }
 		public bool AcceptKeyboard { get; set; }
 		public bool IsRightPanel { get; set; }
 		public bool IsDialog { get; set; }

@@ -31,7 +31,7 @@ namespace VideoModule
 			ServiceFactory.Events.GetEvent<SelectCamerasEvent>().Subscribe(OnSelectCameras);
 
 			CamerasViewModel = new CamerasViewModel();
-			_planExtension = new PlanExtension(CamerasViewModel);
+			_planExtension = new PlanExtension();
 		}
 
 		public override void Initialize()

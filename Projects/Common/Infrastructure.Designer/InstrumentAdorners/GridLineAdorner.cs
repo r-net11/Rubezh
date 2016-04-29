@@ -20,7 +20,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 			get { return DesignerCanvas.CanvasHeight; }
 		}
 
-		public GridLineAdorner(DesignerCanvas designerCanvas, Orientation orientation)
+		public GridLineAdorner(BaseDesignerCanvas designerCanvas, Orientation orientation)
 			: base(designerCanvas)
 		{
 			Orientation = orientation;

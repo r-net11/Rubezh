@@ -60,8 +60,11 @@
                     controller: 'employeeSelectionDialogCtrl',
                     backdrop: 'static',
                     resolve: {
-                        employees: departmentsService.getDepartmentEmployees($scope.department.UID)
-                    }
+                        employees: departmentsService.getDepartmentEmployees($scope.department.UID),
+                        selectedEmployeeUID: function () {
+                            return ($scope.model.SelectedChief) ? $scope.model.SelectedChief.UID : null;
+                        }
+            }
                 });
 
                 modalInstance.result.then(function (employee) {

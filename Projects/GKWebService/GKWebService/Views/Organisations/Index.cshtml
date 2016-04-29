@@ -27,7 +27,7 @@
                         </li>
                     </ul>
                 </uib-tab>
-                <uib-tab heading="Точки доступа">
+                <uib-tab heading="Точки доступа" ng-show="model.hasOrganisationDoors()">
                     <ul id="OrganisationDoors" class="SelectableList">
                         <li ng-repeat="door in model.doors" ng-class="{selected: selectedDoor === door}">
                             <div ng-click="canSelectDoors && doorClick(door)">

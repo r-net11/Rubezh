@@ -14,17 +14,20 @@ namespace GKModule.ViewModels
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Delay = delay;
 			Delay.Changed += Update;
-			Delay.PlanElementUIDsChanged += Update;
+			Delay.PlanElementUIDsChanged += UpdateVisualizationState;
 			Update();
 		}
 
 		public void Update()
 		{
-			this.VisualizationState = Delay.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Delay.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			UpdateVisualizationState();
 			OnPropertyChanged(() => Delay);
 			OnPropertyChanged(() => PresentationLogic);
 		}
-
+		void UpdateVisualizationState()
+		{
+			VisualizationState = Delay.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Delay.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+		}
 		public string PresentationLogic
 		{
 			get
@@ -56,8 +59,8 @@ namespace GKModule.ViewModels
 			get { return _visualizationState; }
 			private set
 			{
-				this._visualizationState = value;
-				base.OnPropertyChanged(() => this.VisualizationState);
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
 			}
 		}
 

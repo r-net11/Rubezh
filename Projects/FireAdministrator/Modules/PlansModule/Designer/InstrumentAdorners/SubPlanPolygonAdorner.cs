@@ -11,7 +11,7 @@ namespace PlansModule.InstrumentAdorners
 {
 	public class SubPlanPolygonAdorner : BasePolygonAdorner
 	{
-		public SubPlanPolygonAdorner(DesignerCanvas designerCanvas)
+		public SubPlanPolygonAdorner(BaseDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}

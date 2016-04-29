@@ -48,11 +48,6 @@
 	<SolidColorBrush Color="#FFFFFF" x:Key="WindowBackgroundBrush" />
 	<SolidColorBrush Color="#151515" x:Key="WindowBlackBackgroundBrush" />
 
-	<LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" StartPoint="0, 0" EndPoint="0, 1" Opacity="0">
-		<GradientStop Color="#505050" Offset="0" />
-		<GradientStop Color="#404040" Offset="1" />
-	</LinearGradientBrush>
-
 	<SolidColorBrush Color="#008000" x:Key="ButtonBackgroundColor" />
 	<SolidColorBrush Color="#008000" x:Key="ButtonBackgroundColorDark" />
 	<SolidColorBrush Color="#008000" x:Key="ButtonBackgroundColorBlue" />

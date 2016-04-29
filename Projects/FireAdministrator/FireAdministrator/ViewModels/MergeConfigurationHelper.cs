@@ -112,8 +112,8 @@ namespace FireAdministrator.ViewModels
 			PlansConfiguration.Update();
 			CreateNewGKUIDs();
 			GKDeviceConfiguration.Update();
-
 			PlansConfiguration.Update();
+
 			var errors = new StringBuilder();
 
 			if (GKDeviceConfiguration == null)

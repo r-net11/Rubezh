@@ -5,6 +5,7 @@ using Infrastructure.Events;
 using RubezhAPI.Plans.Elements;
 using RubezhClient;
 using System;
+using System.Linq;
 
 namespace PlansModule.Validation
 {
@@ -38,7 +39,7 @@ namespace PlansModule.Validation
 		{
 			get
 			{
-				var plan = PlanUID.HasValue ? ClientManager.PlansConfiguration[PlanUID.Value] : null;
+				var plan = PlanUID.HasValue ? ClientManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == PlanUID.Value) : null;
 				return plan == null ? null : plan.Caption;
 			}
 		}

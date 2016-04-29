@@ -30,17 +30,29 @@
 							Background="{DynamicResource BaseWindowBackgroundBrush}"
 							BorderBrush="{DynamicResource WindowBorderBrush}"
 							BorderThickness="1">
-							<ContentPresenter />
+							<AdornerDecorator>
+								<ContentPresenter />
+							</AdornerDecorator>
 						</Border>
 						<ControlTemplate.Triggers>
 							<Trigger Property="WindowState" Value="Maximized">
 								<!--This fixes bug with window oversize in maximized mode-->
 								<Setter TargetName="WindowBorder" Property="Padding" Value="7" />
 							</Trigger>
+							
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding Draggable}" Value="False">
+					<Setter Property="shell:WindowChrome.WindowChrome">
+						<Setter.Value>
+							<shell:WindowChrome CornerRadius="0" GlassFrameThickness="1" UseAeroCaptionButtons="False" NonClientFrameEdges="None" CaptionHeight="0" />
+						</Setter.Value>
+					</Setter>
+				</DataTrigger>
+			</Style.Triggers>
 		</Style>
 
 	</Window.Style>

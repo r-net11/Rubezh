@@ -29,7 +29,7 @@ namespace FireMonitor.Layout.ViewModels
 			LayoutContainer = new LayoutContainer(this, layout);
 			LayoutContainer.LayoutChanging += LayoutChanging;
 			ChangeUserCommand = new RelayCommand(OnChangeUser);
-			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
+			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout);
 			Icon = @"..\Monitor.Layout.ico";
 			ListenAutomationEvents();
 		}
@@ -43,6 +43,7 @@ namespace FireMonitor.Layout.ViewModels
 
 		private void UpdateRibbon()
 		{
+
 			if (Layout.IsRibbonEnabled)
 			{
 				RibbonContent = new RibbonMenuViewModel();
@@ -84,7 +85,7 @@ namespace FireMonitor.Layout.ViewModels
 				layout.Users.Contains(ClientManager.CurrentUser.UID) &&
 				(ip == null || layout.HostNameOrAddressList.Contains(ip))).OrderBy(item => item.Caption);
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон",
-				new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description))),
+				new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "BLayouts", item.Description) { IsEnabled = Layout.UID != item.UID })),
 				"BLayouts") { Order = 1 });
 
 			_autoActivationViewModel = new AutoActivationViewModel();
@@ -119,10 +120,6 @@ namespace FireMonitor.Layout.ViewModels
 			}
 			else
 				MessageBoxService.ShowError("Не удалось сменить шаблон. Возможно, отсутствует связь с сервером.");
-		}
-		bool CanChangeLayout(LayoutModel layout)
-		{
-			return layout != Layout;
 		}
 
 		public void ListenAutomationEvents()

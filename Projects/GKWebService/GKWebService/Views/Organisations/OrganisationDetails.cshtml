@@ -3,24 +3,31 @@
     Layout = null;
 }
 
-<div class="modal-header">
-    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
-    <h3 class="modal-title">{{title}}</h3>
-</div>
-<div class="modal-body">
-    <uib-tabset>
-        <uib-tab heading="Основные">
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
+<form name="organisationDetailsForm" class="form-horizontal" role="form" novalidate>
+    <div class="modal-header">
+        <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <uib-tabset>
+            <uib-tab heading="Основные">
+                <div class="form-group" ng-class="{'has-error': (organisationDetailsForm.$submitted || organisationDetailsForm.name.$touched) && organisationDetailsForm.name.$invalid}">
                     <label class="control-label col-sm-4" for="organisationDetailsName">Название</label>
                     <div class="col-sm-8">
-                        <input id="organisationDetailsName" class="form-control" ng-model="organisation.Name">
+                        <input id="organisationDetailsName" name="name" class="form-control" ng-model="organisation.Name" required ng-maxlength="50" validate-contains="organisations" validate-compare-expression="Name === '{{organisation.Name}}' && UID !== '{{organisation.UID}}' && !IsDeleted">
+                        <div ng-show="organisationDetailsForm.$submitted || organisationDetailsForm.name.$touched">
+                            <div class="help-block" ng-show="organisationDetailsForm.name.$error.required">Введите название организации</div>
+                            <div class="help-block" ng-show="organisationDetailsForm.name.$error.maxlength">Значение поля 'Название' не может быть длиннее 50 символов</div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group"  ng-class="{'has-error': (organisationDetailsForm.$submitted || organisationDetailsForm.description.$touched) && organisationDetailsForm.description.$invalid}">
                     <label class="control-label col-sm-4" for="organisationDetailsDescription">Примечание</label>
                     <div class="col-sm-8">
-                        <input id="organisationDetailsDescription" class="form-control" ng-model="organisation.Description">
+                        <input id="organisationDetailsDescription" name="description" class="form-control" ng-model="organisation.Description" ng-maxlength="50">
+                        <div ng-show="organisationDetailsForm.$submitted || organisationDetailsForm.description.$touched">
+                            <div class="help-block" ng-show="organisationDetailsForm.description.$error.maxlength">Значение поля 'Примечание' не может быть длиннее 50 символов</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group" ng-show="!isNew">
@@ -41,25 +48,31 @@
                         </a>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group"  ng-class="{'has-error': (organisationDetailsForm.$submitted || organisationDetailsForm.phone.$touched) && organisationDetailsForm.phone.$invalid}">
                     <label class="control-label col-sm-4" for="organisationDetailsPhone">Телефон</label>
                     <div class="col-sm-8">
-                        <input id="organisationDetailsPhone" class="form-control" ng-model="organisation.Phone">
+                        <input id="organisationDetailsPhone" name="phone" class="form-control" ng-model="organisation.Phone" ng-maxlength="50">
+                        <div ng-show="organisationDetailsForm.$submitted || organisationDetailsForm.phone.$touched">
+                            <div class="help-block" ng-show="organisationDetailsForm.phone.$error.maxlength">Значение поля 'Телефон' не может быть длиннее 50 символов</div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group" ng-show="!isNew">
+                <div class="form-group" ng-show="!isNew"  ng-class="{'has-error': (organisationDetailsForm.$submitted || organisationDetailsForm.organisationDetailsMaxGKLevel.$touched) && organisationDetailsForm.organisationDetailsMaxGKLevel.$invalid}">
                     <label class="control-label col-sm-4" for="organisationDetailsMaxGKLevel">Максимальный уровень доступа</label>
                     <div class="col-sm-8">
-                        <input id="organisationDetailsMaxGKLevel" type="number" class="form-control" ng-model="organisation.MaxGKLevel">
+                        <input id="organisationDetailsMaxGKLevel" name="organisationDetailsMaxGKLevel" type="number" class="form-control" ng-model="organisation.MaxGKLevel" min="0" max="255" ng-pattern="\d+" required>
+                        <div ng-show="organisationDetailsForm.$submitted || organisationDetailsForm.organisationDetailsMaxGKLevel.$touched">
+                            <div class="help-block" ng-show="organisationDetailsForm.organisationDetailsMaxGKLevel.$invalid">Поле 'Максимальный уровень доступа' должно содержать только цифры и иметь значение в диапазоне от 0 до 255</div>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </uib-tab>
-        <uib-tab heading="Логотип">
-            <photo-selection ng-model="model.photoData"></photo-selection>
-        </uib-tab>
-    </uib-tabset>
-</div>
-<div mobile-hover-fix class="modal-footer">
-    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
-</div>
+            </uib-tab>
+            <uib-tab heading="Логотип">
+                <photo-selection ng-model="model.photoData"></photo-selection>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+    <div mobile-hover-fix class="modal-footer">
+        <button type="submit" class="btn btn-primary pull-right" ng-click="organisationDetailsForm.$valid && save()">OK</button>
+    </div>
+</form>

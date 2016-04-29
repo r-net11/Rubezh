@@ -9,14 +9,14 @@ using System.Text;
 
 namespace GKModule.Devices.ViewModels
 {
-	public class NewTypedDeviceViewModel: TreeNodeViewModel<NewTypedDeviceViewModel> 
+	public class NewTypedDeviceViewModel : TreeNodeViewModel<NewTypedDeviceViewModel>
 	{
-		public NewTypedDeviceViewModel(GKDriver.TypesOfBranches typeOfBranche)
+		public NewTypedDeviceViewModel(GKDriver.DriverClassifications driverClassification)
 		{
-			ShortName = typeOfBranche.ToDescription();
+			ShortName = driverClassification.ToDescription();
 			Name = "";
-			IsSelected = false;
-
+			ImageSource = "/Controls;component/Images/Blank.png";
+			DriverClassification = driverClassification;
 		}
 		public NewTypedDeviceViewModel(GKDriver driver)
 		{
@@ -24,16 +24,13 @@ namespace GKModule.Devices.ViewModels
 			ShortName = driver.ShortName;
 			Driver = driver;
 			ImageSource = driver.ImageSource;
-			IsSelected = true;
-
+			DriverClassification = driver.DriverClassification;
 		}
 
 		public string Name { get; private set; }
 		public string ShortName { get; private set; }
 		public GKDriver Driver { get; set; }
 		public string ImageSource { get; private set; }
-
-		public bool IsSelected { get; set; }
-
+		public GKDriver.DriverClassifications DriverClassification {get;private set;}
 	}
 }

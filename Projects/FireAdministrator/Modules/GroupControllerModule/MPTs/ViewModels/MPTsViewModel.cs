@@ -248,13 +248,6 @@ namespace GKModule.ViewModels
 			SelectedMPT = SelectedMPT;
 		}
 
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
 		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
@@ -293,26 +286,16 @@ namespace GKModule.ViewModels
 		{
 			var mpt = MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
 			if (mpt != null)
-			{
 				mpt.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedMPT = mpt;
-			}
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				var elementMPT = GetElementMPT(element);
 				if (elementMPT != null)
-				{
 					OnMPTChanged(elementMPT.MPTUID);
-				}
 			});
-			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{

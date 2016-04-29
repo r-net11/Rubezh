@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 			OutputDoors = new ObservableCollection<DoorSkdZoneViewModel>();
 			InputDoors = new ObservableCollection<DoorSkdZoneViewModel>();
 			Zone = zone;
-			zone.PlanElementUIDsChanged += Update;
+			zone.PlanElementUIDsChanged += UpdateVisualizationState;
 			Update();
 		}
 		ObservableCollection<DoorSkdZoneViewModel> _outputDoors;
@@ -53,12 +53,14 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => Zone);
-			_visualizationState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
-			OnPropertyChanged(() => IsOnPlan);
-			OnPropertyChanged(() => VisualizationState);
+			UpdateVisualizationState();
 
 			OutputDoors = new ObservableCollection<DoorSkdZoneViewModel>(GKManager.Doors.Where(x => x.EnterZoneUID == Zone.UID).Select(x => new DoorSkdZoneViewModel(x, this)));
 			InputDoors = new ObservableCollection<DoorSkdZoneViewModel>(GKManager.Doors.Where(x => x.ExitZoneUID == Zone.UID).Select(x => new DoorSkdZoneViewModel(x, this)));
+		}
+		void UpdateVisualizationState()
+		{
+			VisualizationState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 		}
 		public RelayCommand ManageOutputDoorsCommand { get; private set; }
 		void OnManageOutputDoors()
@@ -97,10 +99,6 @@ namespace GKModule.ViewModels
 			}
 			Update();
 		}
-		public bool IsOnPlan
-		{
-			get { return Zone.PlanElementUIDs.Count > 0; }
-		}
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
@@ -112,6 +110,11 @@ namespace GKModule.ViewModels
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizationState; }
+			private set
+			{
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
 		}
 	}
 }
