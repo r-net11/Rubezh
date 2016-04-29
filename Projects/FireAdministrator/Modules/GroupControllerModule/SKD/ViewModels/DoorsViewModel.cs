@@ -36,8 +36,10 @@ namespace GKModule.ViewModels
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		public void Initialize()
@@ -210,19 +212,6 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-
 		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
@@ -235,21 +224,6 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить все пустые ТД", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
-		}
-		void OnDoorChanged(Guid doorUID)
-		{
-			var door = Doors.FirstOrDefault(x => x.Door.UID == doorUID);
-			if (door != null)
-				door.Update();
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				var elementDoor = GetElementDoor(element);
-				if (elementDoor != null)
-					OnDoorChanged(elementDoor.DoorUID);
-			});
 		}
 		private void OnElementSelected(ElementBase element)
 		{

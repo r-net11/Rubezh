@@ -41,7 +41,9 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
 			RegisterShortcuts();
-			SubscribeEvents();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 		public void Initialize()
 		{
@@ -285,33 +287,7 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-		void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				var elementDelay = GetElementGKDelay(element);
-				if (elementDelay != null)
-					OnDelayChanged(elementDelay.DelayUID);
-			});
-		}
-		void OnDelayChanged(Guid delayUID)
-		{
-			var delay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
-			if (delay != null)
-				delay.Update();
-		}
 		void OnElementSelected(ElementBase element)
 		{
 			var elementDelay = GetElementGKDelay(element);

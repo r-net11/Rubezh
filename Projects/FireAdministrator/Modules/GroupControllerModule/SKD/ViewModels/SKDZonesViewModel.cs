@@ -34,8 +34,10 @@ namespace GKModule.ViewModels
 			Menu = new SKDZonesMenuViewModel(this);
 			IsRightPanelEnabled = true;
 			RegisterShortcuts();
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		public void Initialize()
@@ -181,19 +183,6 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();
@@ -213,22 +202,6 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 1 }
 			};
-		}
-
-		void OnZoneChanged(Guid zoneUID)
-		{
-			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-			if (zone != null)
-				zone.Update();
-		}
-		void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				var elementZone = GetElementSKDZone(element);
-				if (elementZone != null)
-					OnZoneChanged(elementZone.ZoneUID);
-			});
 		}
 		void OnElementSelected(ElementBase element)
 		{

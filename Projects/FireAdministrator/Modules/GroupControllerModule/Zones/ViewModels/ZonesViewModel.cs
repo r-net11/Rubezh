@@ -38,8 +38,10 @@ namespace GKModule.ViewModels
 			ZoneDevices = new ZoneDevicesViewModel();
 			IsRightPanelEnabled = true;
 			RegisterShortcuts();
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		public void Initialize()
@@ -236,19 +238,6 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
-		private void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-
 		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
@@ -263,21 +252,6 @@ namespace GKModule.ViewModels
 			};
 		}
 
-		private void OnZoneChanged(Guid zoneUID)
-		{
-			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-			if (zone != null)
-				zone.Update();
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				var elementZone = GetElementGKZone(element);
-				if (elementZone != null)
-					OnZoneChanged(elementZone.ZoneUID);
-			});
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementZone = GetElementGKZone(element);

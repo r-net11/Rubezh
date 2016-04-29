@@ -32,9 +32,11 @@ namespace VideoModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			SettingsCommand = new RelayCommand(OnSettings);
 			RegisterShortcuts();
-			SubscribeEvents();
 			IsRightPanelEnabled = true;
 			Current = this;
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		public void Initialize()
@@ -198,19 +200,6 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		private void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-
 		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
@@ -218,22 +207,6 @@ namespace VideoModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
-		private void OnCameraChanged(Guid cameraUID)
-		{
-			var camera = AllCameras.FirstOrDefault(x => x.IsCamera && x.Camera.UID == cameraUID);
-			if (camera != null)
-				camera.Update();
-		}
-
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				var elementCamera = element as ElementCamera;
-				if (elementCamera != null)
-					OnCameraChanged(elementCamera.CameraUID);
-			});
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementCamera = element as ElementCamera;

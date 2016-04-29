@@ -45,11 +45,12 @@ namespace GKModule.ViewModels
 			Current = this;
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			SubscribeEvents();
 			SetRibbonItems();
 			DevicesToCopy = new List<GKDevice>();
-		}
 
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
 
 		protected override bool IsRightPanelVisibleByDefault
 		{
@@ -409,21 +410,6 @@ namespace GKModule.ViewModels
 			});
 		}
 
-		private void OnDeviceChanged(Guid deviceUID)
-		{
-			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (device != null)
-				device.Update();
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			elements.ForEach(element =>
-			{
-				ElementGKDevice elementDevice = element as ElementGKDevice;
-				if (elementDevice != null)
-					OnDeviceChanged(elementDevice.DeviceUID);
-			});
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			ElementGKDevice elementDevice = element as ElementGKDevice;
@@ -435,18 +421,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		private void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();
