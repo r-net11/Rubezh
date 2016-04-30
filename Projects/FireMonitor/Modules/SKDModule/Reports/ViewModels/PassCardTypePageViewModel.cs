@@ -23,7 +23,7 @@ namespace SKDModule.Reports.ViewModels
 				{
 					PassCardPermanent = true;
 					PassCardTemprorary = true;
-					PassCardOnceOnly = true;
+					PassCardGuest = true;
 					PassCardForcing = true;
 					PassCardLocked = true;
 				}
@@ -59,14 +59,14 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => PassCardTemprorary);
 			}
 		}
-		bool _passCardOnceOnly;
-		public bool PassCardOnceOnly
+		bool _passCardGuest;
+		public bool PassCardGuest
 		{
-			get { return _passCardOnceOnly; }
+			get { return _passCardGuest; }
 			set
 			{
-				_passCardOnceOnly = value;
-				OnPropertyChanged(() => PassCardOnceOnly);
+				_passCardGuest = value;
+				OnPropertyChanged(() => PassCardGuest);
 			}
 		}
 		bool _passCardForcing;
@@ -109,7 +109,7 @@ namespace SKDModule.Reports.ViewModels
 			PassCardActive = passCardTypeFilter.PassCardActive;
 			PassCardPermanent = passCardTypeFilter.PassCardPermanent;
 			PassCardTemprorary = passCardTypeFilter.PassCardTemprorary;
-			PassCardOnceOnly = passCardTypeFilter.PassCardOnceOnly;
+			PassCardGuest = passCardTypeFilter.PassCardGuest;
 			PassCardForcing = passCardTypeFilter.PassCardForcing;
 			PassCardLocked = passCardTypeFilter.PassCardLocked;
 			var fullPassCardTypeFilter = passCardTypeFilter as IReportFilterPassCardTypeFull;
@@ -125,7 +125,7 @@ namespace SKDModule.Reports.ViewModels
 			passCardTypeFilter.PassCardActive = PassCardActive;
 			passCardTypeFilter.PassCardPermanent = PassCardPermanent;
 			passCardTypeFilter.PassCardTemprorary = PassCardTemprorary;
-			passCardTypeFilter.PassCardOnceOnly = PassCardOnceOnly;
+			passCardTypeFilter.PassCardGuest = PassCardGuest;
 			passCardTypeFilter.PassCardForcing = PassCardForcing;
 			passCardTypeFilter.PassCardLocked = PassCardLocked;
 			var fullPassCardTypeFilter = passCardTypeFilter as IReportFilterPassCardTypeFull;

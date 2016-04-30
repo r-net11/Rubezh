@@ -26,6 +26,7 @@ namespace SKDModule.Reports.Providers
 					{ "Position", "Должность" },
 					{ "Employee", "Сотрудник" },
 					{ "Period", "Срок действия" },
+					{ "AllowedPassCount", "Число проходов" },
 				},
 				MainViewModel = new PassCardMainPageViewModel(),
 				Pages = new List<FilterContainerViewModel>()

@@ -11,7 +11,7 @@
             <StackPanel IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" Margin="30 0 0 0">
                 <CheckBox Content="Постоянный" IsChecked="{Binding PassCardPermanent}" />
                 <CheckBox Content="Временный" IsChecked="{Binding PassCardTemprorary}" />
-                <CheckBox Content="Разовый" IsChecked="{Binding PassCardOnceOnly}" />
+				<CheckBox Content="Гостевой" IsChecked="{Binding PassCardGuest}" />
                 <CheckBox Content="Принуждение" IsChecked="{Binding PassCardForcing}" />
                 <CheckBox Content="Заблокированный" IsChecked="{Binding PassCardLocked}" />
             </StackPanel>
