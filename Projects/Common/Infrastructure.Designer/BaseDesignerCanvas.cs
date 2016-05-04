@@ -211,6 +211,10 @@ namespace Infrastructure.Designer
 			var designerItem = GetDesignerItem(elementBase.UID);
 			if (designerItem != null)
 				RemoveDesignerItem(designerItem);
+			else
+			{
+				RemoveElement(elementBase);
+			}
 		}
 		public void RemoveDesignerItem(DesignerItem designerItem)
 		{
