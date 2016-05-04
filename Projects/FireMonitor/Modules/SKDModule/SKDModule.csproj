@@ -174,11 +174,16 @@
     <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
+    <Compile Include="Employees\ViewModels\DeactivatingReaderSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\DeactivatingReadersSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\ResetRepeatEnterViewModel.cs" />
     <Compile Include="Employees\Views\ControlReaderComponent.xaml.cs">
       <DependentUpon>ControlReaderComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\DeactivatingReadersSelectationView.xaml.cs">
+      <DependentUpon>DeactivatingReadersSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\Views\EmployeeDetails\ResetRepeatEnterView.xaml.cs">
       <DependentUpon>ResetRepeatEnterView.xaml</DependentUpon>
@@ -186,6 +191,7 @@
     <Compile Include="Employees\Views\IsPositionDeletedTextBlock.xaml.cs">
       <DependentUpon>IsPositionDeletedTextBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\AccessTemplateDoorsSelectedEvent.cs" />
     <Compile Include="Events\EditDayIntervalEvent.cs" />
     <Compile Include="Events\EditDocumentEvent.cs" />
     <Compile Include="Events\EditEmployee2Event.cs" />
@@ -722,6 +728,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\ControlReaderComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\DeactivatingReadersSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

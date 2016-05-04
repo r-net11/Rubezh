@@ -40,12 +40,12 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<EmployeeAccessReportFilter>();
-			if (!filter.PassCardActive && !filter.PassCardForcing && !filter.PassCardLocked && !filter.PassCardOnceOnly && !filter.PassCardPermanent && !filter.PassCardTemprorary)
+			if (!filter.PassCardActive && !filter.PassCardForcing && !filter.PassCardLocked && !filter.PassCardGuest && !filter.PassCardPermanent && !filter.PassCardTemprorary)
 			{
 				filter.PassCardActive = true;
 				filter.PassCardForcing = true;
 				filter.PassCardLocked = true;
-				filter.PassCardOnceOnly = true;
+				filter.PassCardGuest = true;
 				filter.PassCardPermanent = true;
 				filter.PassCardTemprorary = true;
 			}
@@ -56,8 +56,8 @@ namespace FiresecService.Report.Templates
 				cardFilter.CardTypes.Add(CardType.Duress);
 			if (filter.PassCardLocked)
 				cardFilter.CardTypes.Add(CardType.Blocked);
-			if (filter.PassCardOnceOnly)
-				cardFilter.CardTypes.Add(CardType.OneTime);
+			if (filter.PassCardGuest)
+				cardFilter.CardTypes.Add(CardType.Guest);
 			if (filter.PassCardPermanent)
 				cardFilter.CardTypes.Add(CardType.Constant);
 			if (filter.PassCardTemprorary)

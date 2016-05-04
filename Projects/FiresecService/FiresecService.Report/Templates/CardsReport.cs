@@ -31,13 +31,13 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<CardsReportFilter>();
-			if (!filter.PassCardActive && !filter.PassCardForcing && !filter.PassCardInactive && !filter.PassCardLocked && !filter.PassCardOnceOnly && !filter.PassCardPermanent && !filter.PassCardTemprorary)
+			if (!filter.PassCardActive && !filter.PassCardForcing && !filter.PassCardInactive && !filter.PassCardLocked && !filter.PassCardGuest && !filter.PassCardPermanent && !filter.PassCardTemprorary)
 			{
 				filter.PassCardActive = true;
 				filter.PassCardForcing = true;
 				filter.PassCardInactive = true;
 				filter.PassCardLocked = true;
-				filter.PassCardOnceOnly = true;
+				filter.PassCardGuest = true;
 				filter.PassCardPermanent = true;
 				filter.PassCardTemprorary = true;
 			}
@@ -47,8 +47,8 @@ namespace FiresecService.Report.Templates
 				cardFilter.CardTypes.Add(CardType.Duress);
 			if (filter.PassCardLocked)
 				cardFilter.CardTypes.Add(CardType.Blocked);
-			if (filter.PassCardOnceOnly)
-				cardFilter.CardTypes.Add(CardType.OneTime);
+			if (filter.PassCardGuest)
+				cardFilter.CardTypes.Add(CardType.Guest);
 			if (filter.PassCardPermanent)
 				cardFilter.CardTypes.Add(CardType.Constant);
 			if (filter.PassCardTemprorary)
@@ -94,8 +94,10 @@ namespace FiresecService.Report.Templates
 						dataRow.Department = employee.Department;
 						dataRow.Position = employee.Position;
 					}
-					if (!card.IsInStopList && (card.CardType == CardType.Duress || card.CardType == CardType.Temporary))
+					if (!card.IsInStopList && (card.CardType == CardType.Duress || card.CardType == CardType.Temporary || card.CardType == CardType.Guest))
 						dataRow.Period = card.EndDate;
+					if (card.AllowedPassCount.HasValue)
+						dataRow.AllowedPassCount = card.AllowedPassCount.Value;
 					dataSet.Data.Rows.Add(dataRow);
 				}
 			}

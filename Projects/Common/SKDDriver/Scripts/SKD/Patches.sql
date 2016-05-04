@@ -1737,3 +1737,34 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('AddingGlobalVariablesTable')
 END
 GO
+
+-- Добавлена таблица 'AccessTemplateDeactivatingReader'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Table_AccessTemplateDeactivatingReader_Added')
+BEGIN
+	CREATE TABLE [dbo].[AccessTemplateDeactivatingReader](
+		[UID] [uniqueidentifier] NOT NULL,
+		[AccessTemplateUID] [uniqueidentifier] NOT NULL,
+		[DeactivatingReaderUID] [uniqueidentifier] NOT NULL,
+	CONSTRAINT [PK_AccessTemplateDeactivatingReader] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	ALTER TABLE [dbo].[AccessTemplateDeactivatingReader]  WITH NOCHECK ADD  CONSTRAINT [FK_AccessTemplateDeactivatingReader_AccessTemplate] FOREIGN KEY([AccessTemplateUID])
+	REFERENCES [dbo].[AccessTemplate] ([UID])
+	NOT FOR REPLICATION 
+	
+	ALTER TABLE [dbo].[AccessTemplateDeactivatingReader] NOCHECK CONSTRAINT [FK_AccessTemplateDeactivatingReader_AccessTemplate]
+
+	INSERT INTO Patches (Id) VALUES ('Table_AccessTemplateDeactivatingReader_Added')
+END
+GO
+
+-- В таблицу 'Card' добавлено поле 'AllowedPassCount'
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Column_AllowedPassCount_Added_In_Table_Card')
+	BEGIN
+		ALTER TABLE [dbo].[Card] ADD [AllowedPassCount] [int] NULL
+		INSERT INTO [dbo].[Patches] (Id) VALUES ('Column_AllowedPassCount_Added_In_Table_Card')
+	END
+GO
