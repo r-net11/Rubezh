@@ -133,7 +133,7 @@ namespace RubezhAPI
 		Stream GetConfig(Guid clientUID);
 
 		[OperationContract]
-		SetRemoteConfigResult SetRemoteConfig(SetRemoteConfigMessageContract stream);
+		OperationResult<bool> SetRemoteConfig(Stream stream);
 
 		[OperationContract]
 		OperationResult<bool> SetLocalConfig(Guid clientUID);

@@ -167,17 +167,17 @@ namespace FiresecService.Service
 			return SafeOperationCall(clientUID, () => { return FiresecService.GetConfig(clientUID); }, "GetConfig");
 		}
 
-		public SetRemoteConfigResult SetRemoteConfig(SetRemoteConfigMessageContract stream)
+		public OperationResult<bool> SetRemoteConfig(Stream stream)
 		{
 			try
 			{
 				FiresecService.SetRemoteConfig(stream);
-				return new SetRemoteConfigResult { HasError = false };
+				return new OperationResult<bool>(true);
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SetRemoteConfig");
-				return new SetRemoteConfigResult { HasError = true, Error = e.Message };
+				return OperationResult<bool>.FromError(e.Message);
 			}
 		}
 
