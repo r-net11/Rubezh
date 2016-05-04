@@ -14,6 +14,9 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using Infrastructure.Plans;
+using Color = System.Windows.Media.Color;
+
 
 namespace AutomationModule.ViewModels
 {
@@ -55,7 +58,7 @@ namespace AutomationModule.ViewModels
 			JournalEventNameTypeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<JournalEventNameType>>(explicitValue.JournalEventNameTypeValueList.Select(x => new ExplicitValueInstanceViewModel<JournalEventNameType>(x)));
 			JournalEventDescriptionTypeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<JournalEventDescriptionType>>(explicitValue.JournalEventDescriptionTypeValueList.Select(x => new ExplicitValueInstanceViewModel<JournalEventDescriptionType>(x)));
 			JournalObjectTypeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<JournalObjectType>>(explicitValue.JournalObjectTypeValueList.Select(x => new ExplicitValueInstanceViewModel<JournalObjectType>(x)));
-			ColorValueList = new ObservableCollection<ExplicitValueInstanceViewModel<Color>>(explicitValue.ColorValueList.Select(x => new ExplicitValueInstanceViewModel<Color>(x)));
+			ColorValueList = new ObservableCollection<ExplicitValueInstanceViewModel<Color>>(explicitValue.ColorValueList.Select(x => new ExplicitValueInstanceViewModel<Color>(x.ToWindowsColor())));
 
 			Initialize();
 
@@ -345,10 +348,10 @@ namespace AutomationModule.ViewModels
 
 		public Color ColorValue
 		{
-			get { return ExplicitValue.ColorValue; }
+			get { return ExplicitValue.ColorValue.ToWindowsColor(); }
 			set
 			{
-				ExplicitValue.ColorValue = value;
+				ExplicitValue.ColorValue = value.ToRubezhColor();
 				OnPropertyChanged(() => ColorValue);
 			}
 		}

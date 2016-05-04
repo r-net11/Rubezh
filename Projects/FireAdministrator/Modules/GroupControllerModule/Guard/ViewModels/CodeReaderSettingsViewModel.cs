@@ -64,7 +64,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(codesSelectationViewModel))
 			{
 				Codes = codesSelectationViewModel.Codes;
-				CodeReaderSettingsPart.CodeUIDs = Codes.Select(x => x.UID).ToList();
 			}
 			OnPropertyChanged(() => PresentationCode);
 		}
