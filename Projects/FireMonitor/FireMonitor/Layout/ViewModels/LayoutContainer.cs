@@ -75,14 +75,14 @@ namespace FireMonitor.Layout.ViewModels
 			var properties = ClientManager.FiresecService.GetProperties(Layout.UID);
 			if (properties != null)
 			{
-				if (properties.VisualProperties != null)
+				if (properties.VisualProperties != null && properties.VisualProperties.Any())
 					foreach (var visualProperty in properties.VisualProperties)
 					{
 						var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == visualProperty.LayoutPart);
 						if (layoutPart != null)
 							layoutPart.SetProperty(visualProperty.Property, visualProperty.Value);
 					}
-				if (properties.PlanProperties != null)
+				if (properties.PlanProperties!= null && properties.PlanProperties.Any())
 					ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Publish(properties.PlanProperties);
 			}
 		}
