@@ -5,13 +5,10 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using RubezhAPI.AutomationCallback;
-using RubezhAPI.Models;
 using RubezhClient;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using LayoutModel = RubezhAPI.Models.Layouts.Layout;
 
 namespace FireMonitor.Layout.ViewModels
