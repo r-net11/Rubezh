@@ -149,6 +149,8 @@
     <Compile Include="Converters\StringToSingleLineString.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\XStateClassToStringConverter2.cs" />
+    <Compile Include="DataGridHelper.cs" />
+    <Compile Include="DataGridSingleRowSelected.cs" />
     <Compile Include="IsDeletedTextBlock.xaml.cs">
       <DependentUpon>IsDeletedTextBlock.xaml</DependentUpon>
     </Compile>

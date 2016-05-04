@@ -16,7 +16,7 @@ namespace GKProcessor
 				IsGroupDevice = true,
 				GroupDeviceChildType = GKDriverType.RSR2_ABTK,
 				GroupDeviceChildrenCount = 2,
-				TypeOfBranche = GKDriver.TypesOfBranches.FireDetector
+				DriverClassification = GKDriver.DriverClassifications.FireDetector
 			};
 			return driver;
 		}

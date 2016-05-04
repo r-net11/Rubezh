@@ -407,7 +407,7 @@ namespace RubezhAPI.GK
 		public void ClearDescriptor()
 		{
 			//InputDependentElements = new List<GKBase>();
-			//OutputDependentElements = new List<GKBase>();
+			OutputDependentElements = new List<GKBase>();
 			InputDescriptors = new List<GKBase>();
 			OutputDescriptors = new List<GKBase>();
 			KauParents = new HashSet<GKDevice>();

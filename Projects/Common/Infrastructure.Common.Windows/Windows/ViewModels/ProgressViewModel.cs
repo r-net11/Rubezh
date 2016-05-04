@@ -1,17 +1,14 @@
-﻿
-using System;
-
-namespace Infrastructure.Common.Windows.ViewModels
+﻿namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ProgressViewModel : WindowBaseViewModel
 	{
 		public ProgressViewModel()
 		{
 			CancelCommand = new RelayCommand(OnCancel);
-			Sizable = false;
 			RestrictClose = true;
 			HideInTaskbar = true;
 			CanCancel = false;
+			Draggable = false;
 		}
 
 		public bool RestrictClose { get; private set; }

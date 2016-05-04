@@ -1,22 +1,21 @@
 using Common;
 using Controls.Menu.ViewModels;
-using RubezhAPI.SKD;
-using RubezhClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Designer;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Services;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 using SKDModule.PassCardDesigner.InstrumentAdorners;
 using SKDModule.ViewModels;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Services.Content;
-using Infrastructure;
 using System.IO;
 
 namespace SKDModule.PassCardDesigner.ViewModels
@@ -29,7 +28,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public PassCardTemplate PassCardTemplate { get; private set; }
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PassCardDesignerViewModel PassCardDesignerViewModel { get; private set; }
-		public Infrastructure.Designer.DesignerCanvas DesignerCanvas
+		public BaseDesignerCanvas DesignerCanvas
 		{
 			get { return PassCardDesignerViewModel.DesignerCanvas; }
 		}
@@ -108,7 +107,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			else
 			{
 				PassCardTemplate = PassCardTemplateHelper.GetDetails(model.UID);
-				foreach(var passCardImage in PassCardTemplate.PassCardImages)
+				foreach (var passCardImage in PassCardTemplate.PassCardImages)
 				{
 					ServiceFactory.ContentService.AddContent(passCardImage.Image, passCardImage.ImageUID);
 				}
@@ -209,7 +208,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				return false;
 
 			PassCardTemplate.PassCardImages = new List<PassCardImage>();
-			foreach(var elementRectangle in PassCardTemplate.ElementRectangles)
+			foreach (var elementRectangle in PassCardTemplate.ElementRectangles)
 			{
 				AddImage(elementRectangle.BackgroundImageSource);
 			}

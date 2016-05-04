@@ -15,7 +15,7 @@ namespace GKProcessor
 				Name = "Модуль радиоканальный",
 				ShortName = "МРК",
 				IsPlaceable = true,
-				TypeOfBranche = GKDriver.TypesOfBranches.RadioChannel
+				DriverClassification = GKDriver.DriverClassifications.RadioChannel
 			};
 
 			driver.Children.Add(GKDriverType.RK_HandDetector);

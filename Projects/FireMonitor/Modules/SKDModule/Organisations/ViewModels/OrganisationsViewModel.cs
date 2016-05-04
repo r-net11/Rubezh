@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 			_logicalDeletationType = logicalDeletationType;
 			OnPropertyChanged(() => IsWithDeleted);
 			Organisations = new ObservableCollection<OrganisationViewModel>();
-			var organisations = OrganisationHelper.Get(new OrganisationFilter { UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = _logicalDeletationType });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter { User = ClientManager.CurrentUser, LogicalDeletationType = _logicalDeletationType });
 			if (organisations != null)
 			{
 				foreach (var organisation in organisations)

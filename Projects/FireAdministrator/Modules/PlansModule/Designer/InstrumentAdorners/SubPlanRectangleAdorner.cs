@@ -9,7 +9,7 @@ namespace PlansModule.InstrumentAdorners
 {
 	public class SubPlanRectangleAdorner : RectangleAdorner
 	{
-		public SubPlanRectangleAdorner(DesignerCanvas designerCanvas)
+		public SubPlanRectangleAdorner(BaseDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}

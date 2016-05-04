@@ -167,7 +167,7 @@ namespace PlansModule.ViewModels
 		}
 
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
-		public Infrastructure.Designer.DesignerCanvas DesignerCanvas
+		public Infrastructure.Designer.BaseDesignerCanvas DesignerCanvas
 		{
 			get { return PlanDesignerViewModel.DesignerCanvas; }
 		}

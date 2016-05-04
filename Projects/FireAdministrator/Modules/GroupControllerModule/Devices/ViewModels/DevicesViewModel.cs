@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			InsertIntoCommand = new RelayCommand(OnInsertInto, CanInsertInto);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
@@ -44,9 +45,11 @@ namespace GKModule.ViewModels
 			Current = this;
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			SubscribeEvents();
 			SetRibbonItems();
 			DevicesToCopy = new List<GKDevice>();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		protected override bool IsRightPanelVisibleByDefault
@@ -146,6 +149,7 @@ namespace GKModule.ViewModels
 
 		public DeviceViewModel AddDevice(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
+
 			var deviceViewModel = AddDeviceInternal(device, parentDeviceViewModel);
 			FillAllDevices();
 			return deviceViewModel;
@@ -156,6 +160,7 @@ namespace GKModule.ViewModels
 			deviceViewModel.CheckShleif();
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);
+
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
@@ -319,6 +324,23 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ReadJournalFromFileCommand { get; private set; }
+		public RelayCommand InsertIntoCommand { get; private set; }
+		bool CanInsertInto()
+		{
+			return CanCutCopy();
+		}
+
+		void OnInsertInto()
+		{
+			var devicesListViewModel = new DevicesInsertIntoViewModel(SelectedDevice.Device);
+			if (DialogService.ShowModalWindow(devicesListViewModel))
+			{
+				OnCut();
+				SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == devicesListViewModel.SelectedDevice.Device.UID);
+				OnPaste();
+			}
+		}
+
 		void OnReadJournalFromFile()
 		{
 			var openDialog = new OpenFileDialog()
@@ -388,31 +410,6 @@ namespace GKModule.ViewModels
 			});
 		}
 
-		private void OnDeviceChanged(Guid deviceUID)
-		{
-			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (device != null)
-			{
-				device.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-				{
-					device.ExpandToThis();
-					SelectedDevice = device;
-				}
-			}
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			_lockSelection = true;
-			elements.ForEach(element =>
-			{
-				ElementGKDevice elementDevice = element as ElementGKDevice;
-				if (elementDevice != null)
-					OnDeviceChanged(elementDevice.DeviceUID);
-			});
-			_lockSelection = false;
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			ElementGKDevice elementDevice = element as ElementGKDevice;
@@ -424,18 +421,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		private void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();

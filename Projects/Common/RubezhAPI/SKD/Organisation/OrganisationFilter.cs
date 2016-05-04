@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RubezhAPI.Models;
+using System;
 using System.Runtime.Serialization;
 
 namespace RubezhAPI.SKD
@@ -7,6 +8,6 @@ namespace RubezhAPI.SKD
 	public class OrganisationFilter : IsDeletedFilter
 	{
 		[DataMember]
-		public Guid UserUID { get; set; }
+		public User User { get; set; }
 	}
 }

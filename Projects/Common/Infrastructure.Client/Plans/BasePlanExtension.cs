@@ -36,7 +36,7 @@ namespace Infrastructure.Client.Plans
 		}
 
 		protected void RegisterDesignerItem<TItem>(DesignerItem designerItem, string group, string iconSource = null)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			designerItem.ItemPropertyChanged += DesignerItemPropertyChanged<TItem>;
 			OnDesignerItemPropertyChanged<TItem>(designerItem);
@@ -48,13 +48,13 @@ namespace Infrastructure.Client.Plans
 		}
 
 		void DesignerItemPropertyChanged<TItem>(object sender, EventArgs e)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			DesignerItem designerItem = (DesignerItem)sender;
 			OnDesignerItemPropertyChanged<TItem>(designerItem);
 		}
 		protected void OnDesignerItemPropertyChanged<TItem>(DesignerItem designerItem)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			var item = GetItem<TItem>(((IElementReference)designerItem.Element).ItemUID);
 			if (item != null)
@@ -69,20 +69,12 @@ namespace Infrastructure.Client.Plans
 						DesignerCanvas.Refresh();
 					}
 				};
-				Action<Guid, Guid> onUidChanged = (oldUID, newUID) =>
-				 {
-					 var elementReference = designerItem.Element as IElementReference;
-					 if (elementReference != null && elementReference.ItemUID == oldUID)
-						 elementReference.ItemUID = newUID;
-				 };
 				item.Changed += onChanged;
-				item.UIDChanged += onUidChanged;
 				designerItem.Removed += () => item.Changed -= onChanged;
-				designerItem.Removed += () => item.UIDChanged -= onUidChanged;
 			}
 		}
 		protected virtual void UpdateProperties<TItem>(CommonDesignerItem designerItem)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			var elementReference = designerItem.Element as IElementReference;
 			var item = GetItem<TItem>(elementReference.ItemUID);
@@ -90,19 +82,19 @@ namespace Infrastructure.Client.Plans
 			UpdateDesignerItemProperties<TItem>(designerItem, item);
 		}
 		public TItem GetItem<TItem>(Guid itemUid)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			return Cache.Get<TItem>(itemUid);
 		}
 
 		public void SetItem<TItem>(IElementReference element)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			var item = GetItem<TItem>(element.ItemUID);
 			LinkElementToItem(element, item);
 		}
 		void LinkElementToItem<TItem>(IElementReference element, TItem item)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			if (item != null && !item.PlanElementUIDs.Contains(element.UID))
 			{
@@ -113,7 +105,7 @@ namespace Infrastructure.Client.Plans
 			UpdateElementProperties<TItem>(element, item);
 		}
 		public void ResetItem<TItem>(IElementReference element)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			var item = GetItem<TItem>(element.ItemUID);
 			if (item != null)
@@ -123,17 +115,17 @@ namespace Infrastructure.Client.Plans
 			}
 		}
 		public void RewriteItem<TItem>(IElementReference element, TItem item)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 			ResetItem<TItem>(element);
 			LinkElementToItem(element, item);
 		}
 		protected virtual void UpdateElementProperties<TItem>(IElementReference element, TItem item)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 		}
 		protected virtual void UpdateDesignerItemProperties<TItem>(CommonDesignerItem designerItem, TItem item)
-			where TItem : IChangedNotification, IPlanPresentable
+			where TItem : IPlanPresentable
 		{
 		}
 

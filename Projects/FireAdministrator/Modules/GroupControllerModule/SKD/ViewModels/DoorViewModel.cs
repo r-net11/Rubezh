@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 			CreateDragVisual = OnCreateDragVisual;
 			Update();
 			door.Changed += Update;
-			door.PlanElementUIDsChanged += Update;
+			door.PlanElementUIDsChanged += UpdateVisualizationState;
 		}
 
 		public void Update()
@@ -84,11 +84,14 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => LockControlDeviceExit);
 			OnPropertyChanged(() => EnterZone);
 			OnPropertyChanged(() => ExitZone);
-			OnPropertyChanged(() => IsOnPlan);
-			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => OpenRegimeLogicPresentationName);
 			OnPropertyChanged(() => NormRegimeLogicPresentationName);
 			OnPropertyChanged(() => CloseRegimeLogicPresentationName);
+			UpdateVisualizationState();
+		}
+		void UpdateVisualizationState()
+		{
+			VisualizationState = Door.PlanElementUIDs.Count > 0 ? (Door.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent;
 		}
 
 		void UpdateDoorDevices()
@@ -283,18 +286,15 @@ namespace GKModule.ViewModels
 		{
 			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic.OnClausesGroup); }
 		}
-
-		public bool IsOnPlan
-		{
-			get { return Door.PlanElementUIDs.Count > 0; }
-		}
-		public bool ShowOnPlan
-		{
-			get { return true; }
-		}
+		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
-			get { return IsOnPlan ? (Door.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent; }
+			get { return _visualizationState; }
+			private set
+			{
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }

@@ -71,13 +71,6 @@ namespace RubezhAPI.Models
 		}
 		public event Action Changed;
 
-		public void OnUIDChanged(Guid oldUID, Guid newUID)
-		{
-			if (UIDChanged != null)
-				UIDChanged(oldUID, newUID);
-		}
-		public event Action<Guid, Guid> UIDChanged;
-
 		public void OnStatusChanged()
 		{
 			if (StatusChanged != null)

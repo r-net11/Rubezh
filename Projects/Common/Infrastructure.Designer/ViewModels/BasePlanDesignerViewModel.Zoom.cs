@@ -3,7 +3,7 @@ using Infrastructure.Plans.Designer;
 
 namespace Infrastructure.Designer.ViewModels
 {
-	public partial class PlanDesignerViewModel : BaseViewModel
+	public partial class BasePlanDesignerViewModel : BaseViewModel
 	{
 		public double Zoom = 1;
 		public double DeviceZoom { get; set;}

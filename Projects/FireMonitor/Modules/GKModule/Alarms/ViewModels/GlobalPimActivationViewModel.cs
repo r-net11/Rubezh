@@ -68,27 +68,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-
-
-		//public string ToolTipText
-		//{
-		//	get
-		//	{
-		//		switch (State)
-		//		{
-		//			case XStateClass.On:
-		//				GlobalPimStatusType = GlobalPimStatusType.On;
-		//				return "Включено";
-		//			case XStateClass.Off:
-		//				GlobalPimStatusType = GlobalPimStatusType.Off;
-		//				return "Выключено";
-		//			default:
-		//				GlobalPimStatusType = GlobalPimStatusType.Unknown;
-		//				return "Состояние неизвестно";
-		//		}
-		//	}
-		//}
-
 		public RelayCommand ChangeGlobalPimActivationCommand { get; private set; }
 
 		void OnChangeGlobalPimActivation()

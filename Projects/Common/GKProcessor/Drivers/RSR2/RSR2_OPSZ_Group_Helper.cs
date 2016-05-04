@@ -15,7 +15,7 @@ namespace GKProcessor
 				ShortName = "ОПСЗ",
 				GroupDeviceChildrenCount = 2,
 				IsGroupDevice = true,
-				TypeOfBranche = GKDriver.TypesOfBranches.Announcers
+				DriverClassification = GKDriver.DriverClassifications.Announcers
 			};
 			driver.AutoCreateChildren.Add(GKDriverType.RSR2_OPKS);
 			driver.AutoCreateChildren.Add(GKDriverType.RSR2_OPKZ);

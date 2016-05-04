@@ -15,7 +15,7 @@ namespace RubezhClient.SKDHelpers
 
 		public static IEnumerable<Organisation> GetByCurrentUser(LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
-			return Get(new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = logicalDeletationType });
+			return Get(new OrganisationFilter() { User = ClientManager.CurrentUser, LogicalDeletationType = logicalDeletationType });
 		}
 
 		public static bool Save(OrganisationDetails organisation, bool isNew)

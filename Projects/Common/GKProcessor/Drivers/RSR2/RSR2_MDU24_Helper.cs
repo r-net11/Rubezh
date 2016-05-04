@@ -17,7 +17,7 @@ namespace GKProcessor
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true,
-				TypeOfBranche = GKDriver.TypesOfBranches.ActuatingDevice
+				DriverClassification = GKDriver.DriverClassifications.ActuatingDevice
 			};
 
 			driver.AvailableStateBits.Add(GKStateBit.Norm);

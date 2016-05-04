@@ -2,8 +2,8 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
 using Infrastructure.Plans.Events;
+using Infrastructure.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using RubezhClient;
@@ -21,9 +21,9 @@ namespace VideoModule.ViewModels
 {
 	public class CamerasViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
-		bool _lockSelection = false;
 		public static CamerasViewModel Current { get; private set; }
 		public List<CameraViewModel> AllCameras { get; private set; }
+		bool _lockSelection;
 
 		public CamerasViewModel()
 		{
@@ -33,9 +33,11 @@ namespace VideoModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			SettingsCommand = new RelayCommand(OnSettings);
 			RegisterShortcuts();
-			SubscribeEvents();
 			IsRightPanelEnabled = true;
 			Current = this;
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		public void Initialize()
@@ -84,6 +86,8 @@ namespace VideoModule.ViewModels
 			{
 				_selectedCamera = value;
 				OnPropertyChanged(() => SelectedCamera);
+				if (!_lockSelection && _selectedCamera != null && _selectedCamera.IsOnPlan)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedCamera.Camera.PlanElementUIDs);
 			}
 		}
 
@@ -199,19 +203,6 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		private void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-
 		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
@@ -219,29 +210,6 @@ namespace VideoModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
-		private void OnCameraChanged(Guid cameraUID)
-		{
-			var camera = AllCameras.FirstOrDefault(x => x.IsCamera && x.Camera.UID == cameraUID);
-			if (camera != null)
-			{
-				camera.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedCamera = camera;
-			}
-		}
-
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			_lockSelection = true;
-			elements.ForEach(element =>
-			{
-				var elementCamera = element as ElementCamera;
-				if (elementCamera != null)
-					OnCameraChanged(elementCamera.CameraUID);
-			});
-			_lockSelection = false;
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementCamera = element as ElementCamera;
