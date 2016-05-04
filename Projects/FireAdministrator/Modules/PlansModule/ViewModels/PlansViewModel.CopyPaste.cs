@@ -2,13 +2,11 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Interfaces;
 using RubezhClient;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PlansModule.ViewModels
@@ -16,7 +14,6 @@ namespace PlansModule.ViewModels
 	public partial class PlansViewModel
 	{
 		private PlansClipboard clipboard = new PlansClipboard();
-		List<DesignerItem> cuttedDesignerItems = new List<DesignerItem>();
 
 		private void InitializeCopyPaste()
 		{
