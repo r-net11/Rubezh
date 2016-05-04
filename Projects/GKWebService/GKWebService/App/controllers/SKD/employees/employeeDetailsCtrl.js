@@ -19,6 +19,8 @@
 
             $scope.employee = employee.Employee;
 
+            $scope.employee.Type = personType;
+
             $scope.model.photoData = employee.PhotoData;
 
             $scope.popupDocumentValidTo = {
@@ -171,7 +173,7 @@
                         $scope.employee.EscortUID = employee.UID;
                         $scope.employee.EscortName = employee.Name;
                     } else {
-                        $scope.employee.EscortUID = emptyGuid;
+                        $scope.employee.EscortUID = null;
                         $scope.employee.EscortName = null;
                     }
                 });

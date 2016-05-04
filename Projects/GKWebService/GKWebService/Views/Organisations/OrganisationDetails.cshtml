@@ -14,10 +14,11 @@
                 <div class="form-group" ng-class="{'has-error': (organisationDetailsForm.$submitted || organisationDetailsForm.name.$touched) && organisationDetailsForm.name.$invalid}">
                     <label class="control-label col-sm-4" for="organisationDetailsName">Название</label>
                     <div class="col-sm-8">
-                        <input id="organisationDetailsName" name="name" class="form-control" ng-model="organisation.Name" required ng-maxlength="50" validate-contains="organisations" validate-compare-expression="Name === '{{organisation.Name}}' && UID !== '{{organisation.UID}}' && !IsDeleted">
+                        <input id="organisationDetailsName" name="name" class="form-control" ng-model="organisation.Name" required ng-maxlength="50" unique-element="organisations">
                         <div ng-show="organisationDetailsForm.$submitted || organisationDetailsForm.name.$touched">
                             <div class="help-block" ng-show="organisationDetailsForm.name.$error.required">Введите название организации</div>
                             <div class="help-block" ng-show="organisationDetailsForm.name.$error.maxlength">Значение поля 'Название' не может быть длиннее 50 символов</div>
+                            <div class="help-block" ng-show="organisationDetailsForm.name.$error.unique">Название организации совпадает с введенным ранее</div>
                         </div>
                     </div>
                 </div>
@@ -60,7 +61,7 @@
                 <div class="form-group" ng-show="!isNew"  ng-class="{'has-error': (organisationDetailsForm.$submitted || organisationDetailsForm.organisationDetailsMaxGKLevel.$touched) && organisationDetailsForm.organisationDetailsMaxGKLevel.$invalid}">
                     <label class="control-label col-sm-4" for="organisationDetailsMaxGKLevel">Максимальный уровень доступа</label>
                     <div class="col-sm-8">
-                        <input id="organisationDetailsMaxGKLevel" name="organisationDetailsMaxGKLevel" type="number" class="form-control" ng-model="organisation.MaxGKLevel" min="0" max="255" ng-pattern="\d+" required>
+                        <input id="organisationDetailsMaxGKLevel" name="organisationDetailsMaxGKLevel" type="number" class="form-control" ng-model="organisation.MaxGKLevel" min="0" max="255" ng-pattern="'\\d+'" required>
                         <div ng-show="organisationDetailsForm.$submitted || organisationDetailsForm.organisationDetailsMaxGKLevel.$touched">
                             <div class="help-block" ng-show="organisationDetailsForm.organisationDetailsMaxGKLevel.$invalid">Поле 'Максимальный уровень доступа' должно содержать только цифры и иметь значение в диапазоне от 0 до 255</div>
                         </div>

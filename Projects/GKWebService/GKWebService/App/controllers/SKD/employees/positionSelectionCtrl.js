@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('positionSelectionCtrl',
-        ['$scope', '$http', '$uibModalInstance', 'organisationUID', 'positionUID', '$timeout',
-         function ($scope, $http, $uibModalInstance, organisationUID, positionUID, $timeout) {
+        ['$scope', '$http', '$uibModal', '$uibModalInstance', 'organisationUID', 'positionUID', '$timeout', 'positionsService',
+         function ($scope, $http, $uibModal, $uibModalInstance, organisationUID, positionUID, $timeout, positionsService) {
              $scope.gridOptions = {
                  onRegisterApi: function (gridApi) {
                      $scope.gridApi = gridApi;
@@ -47,6 +47,37 @@
 
              $scope.clear = function () {
                  $uibModalInstance.close(null);
+             };
+
+             $scope.add = function () {
+                 var modalInstance = $uibModal.open({
+                     animation: false,
+                     templateUrl: 'Positions/PositionDetails',
+                     controller: 'positionDetailsCtrl',
+                     backdrop: 'static',
+                     resolve: {
+                         position: function () {
+                             return positionsService.getPositionDetails(organisationUID, null);
+                         },
+                         isNew: function () {
+                             return true;
+                         }
+                     }
+                 });
+
+                 modalInstance.result.then(function (position) {
+                     var newPosition = {
+                         UID: position.UID,
+                         Name: position.Name,
+                         Description: position.Description
+                     };
+                     $scope.positions.push(newPosition);
+                     $timeout(function() {
+                         $scope.gridApi.selection.selectRow(newPosition);
+                         $scope.gridApi.core.scrollTo(newPosition, $scope.gridOptions.columnDefs[0]);
+                     });
+                     $scope.$parent.$broadcast('AddPositionEvent', position);
+                 });
              };
 
              $scope.cancel = function () {

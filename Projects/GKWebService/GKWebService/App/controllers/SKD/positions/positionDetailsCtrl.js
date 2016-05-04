@@ -19,8 +19,8 @@
 
             $scope.save = function () {
                 positionsService.savePosition($scope.model, $scope.isNew).then(function () {
-                        $uibModalInstance.close();
-                    });
+                    $uibModalInstance.close($scope.position);
+                });
             };
 
             $scope.cancel = function () {
