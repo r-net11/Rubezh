@@ -208,7 +208,7 @@ namespace Infrastructure.Designer
 		}
 		void RemoveDesignerItem(ElementBase elementBase)
 		{
-			var designerItem = GetDesignerItem(elementBase);
+			var designerItem = GetDesignerItem(elementBase.UID);
 			if (designerItem != null)
 				RemoveDesignerItem(designerItem);
 		}
@@ -221,7 +221,7 @@ namespace Infrastructure.Designer
 		}
 		public DesignerItem UpdateElement(ElementBase elementBase)
 		{
-			var designerItem = GetDesignerItem(elementBase);
+			var designerItem = GetDesignerItem(elementBase.UID);
 			if (designerItem != null)
 			{
 				var element = designerItem.Element;
