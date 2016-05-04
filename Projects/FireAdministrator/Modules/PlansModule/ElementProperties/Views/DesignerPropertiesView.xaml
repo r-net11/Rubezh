@@ -26,10 +26,7 @@
 				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
 				<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
-				<StackPanel Grid.Row="5" Grid.Column="1"  HorizontalAlignment="Left"   Orientation ="Horizontal" >
-					<CheckBox Margin="2" IsChecked="{Binding IsNotShowPlanChecked, Mode=TwoWay}" />
-					<TextBlock Text="Не показывать план в ОЗ" Foreground="White" VerticalAlignment="Center" />
-				</StackPanel>
+				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" IsChecked="{Binding IsNotShowPlanChecked, Mode=TwoWay}" Content="Отображать задержку в ОЗ" Foreground="{DynamicResource ForegroundColorLight}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Изображение">
