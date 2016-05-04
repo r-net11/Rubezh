@@ -44,31 +44,36 @@ namespace KeyGenerator
 			if (string.IsNullOrEmpty(_path))
 				throw new ArgumentException("Path to file");
 
-			File.WriteAllText(_path, Convert.ToBase64String(EncryptData(sensitiveData)));
+			File.WriteAllText(_path, EncryptData(sensitiveData));
 		}
 
 		public string GetEncryptString(string sensitiveData)
 		{
-			return Convert.ToBase64String(EncryptData(sensitiveData));
+			return EncryptData(sensitiveData);
 		}
 
-		private byte[] EncryptData(string input)
+		private string EncryptData(string input)
 		{
-			byte[] resultBytes;
+			var originalStrAsBytes = Convert.FromBase64String(input);
+			byte[] originalBytes;
 
-			using (var ms = new MemoryStream())
+			// Create MemoryStream to contain output.
+			using (var memStream = new MemoryStream(originalStrAsBytes.Length))
 			{
-				using (var transform = _symmetricAlgorithm.CreateEncryptor(Key, IV))
-				using (var cs = new CryptoStream(ms, transform, CryptoStreamMode.Write))
+				// Create encryptor and stream objects.
+				using (ICryptoTransform rdTransform = _symmetricAlgorithm.CreateEncryptor((byte[])Key.Clone(), (byte[])IV.Clone()))
 				{
-					var encryptedString = Encoding.Unicode.GetBytes(input);
-					cs.Write(encryptedString, 0, encryptedString.Length);
-					cs.FlushFinalBlock();
+					using (var cryptoStream = new CryptoStream(memStream, rdTransform, CryptoStreamMode.Write))
+					{
+						// Write encrypted data to the MemoryStream.
+						cryptoStream.Write(originalStrAsBytes, 0, originalStrAsBytes.Length);
+						cryptoStream.FlushFinalBlock();
+						originalBytes = memStream.ToArray();
+					}
 				}
-				resultBytes = ms.ToArray();
 			}
-
-			return resultBytes;
+			// Convert encrypted string.
+			return Convert.ToBase64String(originalBytes);
 		}
 	}
 }
