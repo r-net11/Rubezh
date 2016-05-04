@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Windows.Navigation;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Services;
@@ -13,8 +14,11 @@ namespace SKDModule.ViewModels
 		Organisation Organisation { get; set; }
 		public AccessTemplate Model { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
+		public DeactivatingReadersSelectationViewModel DeactivatingReadersSelectationViewModel { get; private set; }
 		bool _isNew;
+		
 		public AccessTemplateDetailsViewModel() {  }
+		
 		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
 			Organisation = OrganisationHelper.GetSingle(orgnaisation.UID);
@@ -30,6 +34,7 @@ namespace SKDModule.ViewModels
 			Model = accessTemplate;
 			CopyProperties();
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors);
+			DeactivatingReadersSelectationViewModel = new DeactivatingReadersSelectationViewModel(AccessDoorsSelectationViewModel.GetSelectedDoorsUids(), Model.DeactivatingReaders);
 			return true;
 		}
 
@@ -80,8 +85,13 @@ namespace SKDModule.ViewModels
 
 			Model.Name = Name;
 			Model.Description = Description;
+			
 			Model.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Model.CardDoors.ForEach(x => x.AccessTemplateUID = Model.UID);
+			
+			Model.DeactivatingReaders = DeactivatingReadersSelectationViewModel.GetReaders();
+			Model.DeactivatingReaders.ForEach(x => x.AccessTemplateUID = Model.UID);
+			
 			Model.OrganisationUID = Organisation.UID;
 
 			if (!AccessTemplateHelper.Save(Model, _isNew)) return false;

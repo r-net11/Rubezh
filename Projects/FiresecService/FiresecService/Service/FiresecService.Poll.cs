@@ -124,5 +124,39 @@ namespace FiresecService.Service
 				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
 			}
 		}
+
+		/// <summary>
+		/// Посылает подключенным Клиентам уведомление о том, что был осуществлен проход по "Гостевой" карте
+		/// </summary>
+		/// <param name="card">Гостевая карта</param>
+		public void NotifyGuestCardPassed(SKDCard card)
+		{
+			foreach (var clientInfo in ClientsManager.ClientInfos)
+			{
+				var callbackResult = new CallbackResult()
+				{
+					CallbackResultType = CallbackResultType.GuestCardPassed,
+					Card = card
+				};
+				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
+			}
+		}
+
+		/// <summary>
+		/// Посылает подключенным Клиентам уведомление о деактивации карты
+		/// </summary>
+		/// <param name="card">Деактивированная карта</param>
+		public void NotifyCardDeactivated(SKDCard card)
+		{
+			foreach (var clientInfo in ClientsManager.ClientInfos)
+			{
+				var callbackResult = new CallbackResult()
+				{
+					CallbackResultType = CallbackResultType.CardDeactivated,
+					Card = card
+				};
+				CallbackManager.Add(callbackResult, clientInfo.ClientCredentials.ClientUID);
+			}
+		}
 	}
 }

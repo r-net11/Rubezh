@@ -10,8 +10,8 @@ namespace FiresecAPI.SKD
 		[Description("Временный")]
 		Temporary,
 
-		[Description("Разовый")]
-		OneTime,
+		[Description("Гостевой")]
+		Guest,
 
 		[Description("Заблокирован")]
 		Blocked,

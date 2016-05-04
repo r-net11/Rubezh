@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -9,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -24,8 +26,19 @@ namespace SKDModule.ViewModels
 			_employeeViewModel = employeeViewModel;
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
+			
+			// Отслеживаем события изменения шаблона доступа
 			ServiceFactoryBase.Events.GetEvent<UpdateAccessTemplateEvent>().Unsubscribe(OnUpdateAccessTemplate);
 			ServiceFactoryBase.Events.GetEvent<UpdateAccessTemplateEvent>().Subscribe(OnUpdateAccessTemplate);
+			
+			// Отслеживаем события прохода по "Гостевой" карте
+			ServiceFactoryBase.Events.GetEvent<GuestCardPassedEvent>().Unsubscribe(OnGuestCardPassed);
+			ServiceFactoryBase.Events.GetEvent<GuestCardPassedEvent>().Subscribe(OnGuestCardPassed);
+
+			// Отслеживаем события деактивации карты
+			ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Unsubscribe(OnCardDeactivated);
+			ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Subscribe(OnCardDeactivated);
+
 			CanShowResetRepeatEnterButton = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_ResetRepeatEnter);
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			if (!_employeeViewModel.IsOrganisation)
@@ -36,6 +49,24 @@ namespace SKDModule.ViewModels
 				SelectedCard = Cards.FirstOrDefault();
 			}
 			_updateOrganisationDoorsEventSubscriber = new UpdateOrganisationDoorsEventSubscriber<EmployeeCardViewModel>(this);
+		}
+
+		private void OnCardDeactivated(SKDCard card)
+		{
+			var cards = Cards.Where(x => x.Card.UID == card.UID).ToList();
+			foreach (var currentCard in cards)
+			{
+				currentCard.Remove();
+			}
+		}
+
+		private void OnGuestCardPassed(SKDCard card)
+		{
+			var cards = Cards.Where(x => x.Card.UID == card.UID).ToList();
+			foreach (var currentCard in cards)
+			{
+				currentCard.Update(card);
+			}
 		}
 
 		UpdateOrganisationDoorsEventSubscriber<EmployeeCardViewModel> _updateOrganisationDoorsEventSubscriber;

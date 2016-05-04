@@ -48,23 +48,6 @@ namespace ChinaSKDDriver
 				temp(skdDeviceSearchInfo);
 		}
 
-		static Processor()
-		{
-#if DEBUG
-			try
-			{
-				//System.IO.File.Copy(@"..\..\..\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
-			}
-			catch { }
-#endif
-
-			try
-			{
-				//Wrapper.WrapInitialize();
-			}
-			catch { }
-		}
-
 		public static void Start()
 		{
 			Wrapper.Initialize();
@@ -77,8 +60,8 @@ namespace ChinaSKDDriver
 				deviceProcessor.Start();
 			}
 
-			Wrapper.NewSearchDevice -= new Action<DeviceSearchInfo>(OnNewSearchDevice);
-			Wrapper.NewSearchDevice += new Action<DeviceSearchInfo>(OnNewSearchDevice);
+			Wrapper.NewSearchDevice -= OnNewSearchDevice;
+			Wrapper.NewSearchDevice += OnNewSearchDevice;
 		}
 
 		public static void Stop()
