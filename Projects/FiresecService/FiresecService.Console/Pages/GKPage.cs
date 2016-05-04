@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace FiresecService
 {
@@ -21,7 +22,7 @@ namespace FiresecService
 			for (int i = 0; i < list.Count; i++)
 			{
 				DrawTableLine(left, top + i + 4, width,
-					list[i].DateTime.ToString(@"hh\:mm\:ss"),
+					list[i].DateTime.ToString(@"HH\:mm\:ss"),
 					list[i].Address,
 					list[i].GKLifecycleInfo.Name,
 					list[i].GKLifecycleInfo.Progress);
