@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using Common;
+using Infrastructure;
+using GKModule.Events;
 
 namespace GKModule.ViewModels
 {
@@ -25,6 +27,7 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 
 			PumpStations = pumpStations;
 			TargetPumpStations = new SortableObservableCollection<GKPumpStation>();
@@ -159,6 +162,16 @@ namespace GKModule.ViewModels
 			SourcePumpStations.Sort(x => x.No);
 			TargetPumpStations.Clear();
 			SelectedSourcePumpStation = SourcePumpStations.FirstOrDefault();
+		}
+		public RelayCommand CreateNewCommand { get; private set; }
+		void OnCreateNew()
+		{
+			var createGKPumpStationventArg = new CreateGKPumpStationEventArgs();
+			ServiceFactory.Events.GetEvent<CreateGKPumpStationEvent>().Publish(createGKPumpStationventArg);
+			if (createGKPumpStationventArg.PumpStation != null)
+			{
+				SourcePumpStations.Add(createGKPumpStationventArg.PumpStation);
+			}
 		}
 		public bool CanAddAll()
 		{

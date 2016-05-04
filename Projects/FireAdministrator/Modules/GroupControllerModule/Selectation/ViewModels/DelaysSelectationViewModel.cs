@@ -8,6 +8,8 @@ using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using GKModule.Events;
+using Infrastructure;
 using RubezhAPI;
 using Common;
 
@@ -25,6 +27,7 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 
 			Delays = delays;
 			TargetDelays = new SortableObservableCollection<GKDelay>();
@@ -148,6 +151,16 @@ namespace GKModule.ViewModels
 			SourceDelays.Sort(x => x.No);
 			TargetDelays.Clear();
 			SelectedSourceDelay = SourceDelays.FirstOrDefault();
+		}
+		public RelayCommand CreateNewCommand { get; private set; }
+		void OnCreateNew()
+		{
+			var createGKDelayEventArg = new CreateGKDelayEventArgs();
+			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Publish(createGKDelayEventArg);
+			if (createGKDelayEventArg.Delay != null)
+			{
+				SourceDelays.Add(createGKDelayEventArg.Delay);
+			}
 		}
 
 		public bool CanAdd(object parameter)

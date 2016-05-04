@@ -94,6 +94,6 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
-		<Button Grid.Row="1" Content="Создать новую зону" Command="{Binding CreateNewCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
+		<Button Grid.Row="1" Content="Создать новую охранную зону" Command="{Binding CreateNewCommand}" HorizontalAlignment="Left" Width="230" Margin="2" />
 	</Grid>
 </UserControl>
