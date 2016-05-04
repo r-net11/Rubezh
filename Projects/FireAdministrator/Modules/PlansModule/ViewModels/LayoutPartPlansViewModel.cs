@@ -51,10 +51,7 @@ namespace PlansModule.ViewModels
 		}
 		private List<string> GetPlanNames()
 		{
-			ClientManager.PlansConfiguration.Update();
-			var map = new Dictionary<Guid, string>();
-			ClientManager.PlansConfiguration.AllPlans.ForEach(item => map.Add(item.UID, item.Caption));
-			return _properties.Plans.Select(item => map[item]).ToList();
+			return ClientManager.PlansConfiguration.AllPlans.FindAll(x => _properties.Plans.Contains(x.UID)).Select(x => x.Caption).ToList();
 		}
 	}
 }
