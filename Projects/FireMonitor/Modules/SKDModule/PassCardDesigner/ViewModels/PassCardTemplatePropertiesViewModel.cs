@@ -1,7 +1,8 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using RubezhAPI;
+using Infrastructure.Plans;
 using RubezhAPI.SKD;
+using Color = System.Windows.Media.Color;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -21,8 +22,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 
 		void CopyProperties()
 		{
-			BackgroundColor = PassCardTemplate.BackgroundColor;
-			BorderColor = PassCardTemplate.BorderColor;
+			BackgroundColor = PassCardTemplate.BackgroundColor.ToWindowsColor();
+			BorderColor = PassCardTemplate.BorderColor.ToWindowsColor();
 			BorderThickness = PassCardTemplate.BorderThickness;
 			Caption = PassCardTemplate.Caption;
 			Description = PassCardTemplate.Description;
@@ -118,9 +119,9 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			PassCardTemplate.Description = Description;
 			PassCardTemplate.Width = Width;
 			PassCardTemplate.Height = Height;
-			PassCardTemplate.BackgroundColor = BackgroundColor;
+			PassCardTemplate.BackgroundColor = BackgroundColor.ToRubezhColor();
 			PassCardTemplate.BorderThickness = BorderThickness;
-			PassCardTemplate.BorderColor = BorderColor;
+			PassCardTemplate.BorderColor = BorderColor.ToRubezhColor();
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

@@ -7,7 +7,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Plans;
 using Infrastructure.Plans.Events;
-using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhAPI.GK;
@@ -19,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Color = System.Windows.Media.Color;
 
 namespace PlansModule.ViewModels
 {
@@ -242,10 +242,10 @@ namespace PlansModule.ViewModels
 					element.IsLocked = !Utils.Cast<bool>(data.Value);
 					break;
 				case ElementPropertyType.Color:
-					element.BorderColor = Utils.Cast<Color>(data.Value);
+					element.BorderColor = Utils.Cast<Color>(data.Value).ToRubezhColor();
 					break;
 				case ElementPropertyType.BackColor:
-					element.BackgroundColor = Utils.Cast<Color>(data.Value);
+					element.BackgroundColor = Utils.Cast<Color>(data.Value).ToRubezhColor();
 					break;
 				case ElementPropertyType.BorderThickness:
 					element.BorderThickness = Convert.ToDouble(data.Value);
@@ -282,7 +282,7 @@ namespace PlansModule.ViewModels
 						elementText.FontSize = Convert.ToDouble(data.Value);
 						break;
 					case ElementPropertyType.ForegroundColor:
-						elementText.ForegroundColor = Utils.Cast<Color>(data.Value);
+						elementText.ForegroundColor = Utils.Cast<Color>(data.Value).ToRubezhColor();
 						break;
 					case ElementPropertyType.Stretch:
 						elementText.Stretch = Convert.ToBoolean(data.Value);
