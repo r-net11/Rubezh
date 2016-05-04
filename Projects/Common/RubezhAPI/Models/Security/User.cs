@@ -31,9 +31,12 @@ namespace RubezhAPI.Models
 		[DataMember]
 		public RemoteAccess RemoteAccess { get; set; }
 
+		[DataMember]
+		public bool IsAdm { get; set; }
+
 		public bool HasPermission(PermissionType permissionType)
 		{
-			return PermissionStrings.Contains(permissionType.ToString());
+			return IsAdm || PermissionStrings.Contains(permissionType.ToString());
 		}
 	}
 }

@@ -162,11 +162,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 			{
-				TargetZones.Add(createZoneEventArg.Zone);
-				if (TargetZones.Count == 1)
-				{
-					SaveCommand.Execute();
-				}
+				SourceZones.Add(createZoneEventArg.Zone);
 			}
 		}
 

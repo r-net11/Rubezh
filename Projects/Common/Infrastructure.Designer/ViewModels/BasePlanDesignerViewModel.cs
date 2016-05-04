@@ -7,11 +7,11 @@ using Infrastructure.Plans.Events;
 
 namespace Infrastructure.Designer.ViewModels
 {
-	public partial class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
+	public partial class BasePlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
 		public event EventHandler Updated;
 		public event EventHandler IsCollapsedChanged;
-		public DesignerCanvas DesignerCanvas { get; set; }
+		public BaseDesignerCanvas DesignerCanvas { get; set; }
 		public bool AllowScalePoint { get; protected set; }
 
 		private bool _isNotEmpty;
@@ -34,7 +34,7 @@ namespace Infrastructure.Designer.ViewModels
 		}
 		public bool FullScreenSize { get; protected set; }
 
-		public PlanDesignerViewModel()
+		public BasePlanDesignerViewModel()
 		{
 			IsNotEmpty = false;
 			CanCollapse = true;

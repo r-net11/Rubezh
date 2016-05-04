@@ -3,7 +3,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Plans.Events;
-using PlansModule.Designer;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Interfaces;
 using RubezhClient;
@@ -37,7 +36,7 @@ namespace PlansModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
-				this.clipboard.Buffer = SelectedPlan.Plan;
+				this.clipboard.Buffer = Utils.Clone(SelectedPlan.Plan);
 				this.clipboard.SourceAction = ClipboardSourceAction.Cut;
 				OnPlanRemove(true);
 			}
@@ -100,7 +99,7 @@ namespace PlansModule.ViewModels
 				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 			}
 		}
-		private void OnPlanRemove(bool withChild)
+		private void OnPlanRemove(bool isCut)
 		{
 			using (new WaitWrapper())
 			{
@@ -110,12 +109,16 @@ namespace PlansModule.ViewModels
 				var index = Plans.IndexOf(selectedPlan);
 				var oldIndex = selectedPlan.Index;
 
+				DesignerCanvas.RemoveDesignerItems(plan.AllElements.ToList());
+				if (isCut)
+					DesignerCanvas.RemoveDesignerItems(plan.Children.SelectMany(x => x.AllElements).ToList());
+
 				DesignerCanvas.IsLocked = true;
 				if (parent == null)
 				{
 					Plans.Remove(selectedPlan);
 					ClientManager.PlansConfiguration.Plans.Remove(plan);
-					if (!withChild)
+					if (!isCut)
 						foreach (var childPlanViewModel in selectedPlan.Children.ToArray())
 						{
 							Plans.Add(childPlanViewModel);
@@ -130,7 +133,7 @@ namespace PlansModule.ViewModels
 				{
 					parent.RemoveChild(selectedPlan);
 					parent.Plan.Children.Remove(plan);
-					if (!withChild)
+					if (!isCut)
 					{
 						foreach (var childPlanViewModel in selectedPlan.Children.ToArray())
 						{

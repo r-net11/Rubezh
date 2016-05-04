@@ -18,15 +18,15 @@ using System.Windows.Input;
 
 namespace Infrastructure.Designer
 {
-	public class DesignerCanvas : CommonDesignerCanvas
+	public class BaseDesignerCanvas : CommonDesignerCanvas
 	{
-		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
+		public BasePlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 		public ToolboxViewModel Toolbox { get; private set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
 		private MoveAdorner _moveAdorner;
 
-		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
+		public BaseDesignerCanvas(BasePlanDesignerViewModel planDesignerViewModel)
 			: base(ServiceFactoryBase.Events)
 		{
 			GridLineController = new GridLineController(this);
@@ -63,11 +63,6 @@ namespace Infrastructure.Designer
 		public override double PointZoom
 		{
 			get { return PlanDesignerViewModel.DeviceZoom / Zoom; }
-		}
-
-		public void RemoveAll()
-		{
-			RemoveDesignerItems(Items);
 		}
 		public void RemoveAllSelected()
 		{
@@ -201,6 +196,7 @@ namespace Infrastructure.Designer
 				DeselectAll();
 				designerItem.IsSelected = true;
 				PlanDesignerViewModel.MoveToFrontCommand.Execute();
+				ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase> { elementBase });
 				//Toolbox.SetDefault();
 				DesignerChanged();
 			}
@@ -212,9 +208,13 @@ namespace Infrastructure.Designer
 		}
 		void RemoveDesignerItem(ElementBase elementBase)
 		{
-			var designerItem = GetDesignerItem(elementBase);
+			var designerItem = GetDesignerItem(elementBase.UID);
 			if (designerItem != null)
 				RemoveDesignerItem(designerItem);
+			else
+			{
+				RemoveElement(elementBase);
+			}
 		}
 		public void RemoveDesignerItem(DesignerItem designerItem)
 		{
@@ -225,7 +225,7 @@ namespace Infrastructure.Designer
 		}
 		public DesignerItem UpdateElement(ElementBase elementBase)
 		{
-			var designerItem = GetDesignerItem(elementBase);
+			var designerItem = GetDesignerItem(elementBase.UID);
 			if (designerItem != null)
 			{
 				var element = designerItem.Element;

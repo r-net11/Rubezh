@@ -415,35 +415,6 @@ namespace GKModule.Plans
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			if (plan.ElementPolygonGKZones == null)
-				plan.ElementPolygonGKZones = new List<ElementPolygonGKZone>();
-			if (plan.ElementRectangleGKZones == null)
-				plan.ElementRectangleGKZones = new List<ElementRectangleGKZone>();
-			if (plan.ElementRectangleGKDelays == null)
-				plan.ElementRectangleGKDelays = new List<ElementRectangleGKDelay>();
-			if (plan.ElementPolygonGKDelays == null)
-				plan.ElementPolygonGKDelays = new List<ElementPolygonGKDelay>();
-			if (plan.ElementRectangleGKPumpStations == null)
-				plan.ElementRectangleGKPumpStations = new List<ElementRectangleGKPumpStation>();
-			if (plan.ElementPolygonGKPumpStations == null)
-				plan.ElementPolygonGKPumpStations = new List<ElementPolygonGKPumpStation>();
-			if (plan.ElementPolygonGKGuardZones == null)
-				plan.ElementPolygonGKGuardZones = new List<ElementPolygonGKGuardZone>();
-			if (plan.ElementRectangleGKGuardZones == null)
-				plan.ElementRectangleGKGuardZones = new List<ElementRectangleGKGuardZone>();
-			if (plan.ElementPolygonGKSKDZones == null)
-				plan.ElementPolygonGKSKDZones = new List<ElementPolygonGKSKDZone>();
-			if (plan.ElementRectangleGKSKDZones == null)
-				plan.ElementRectangleGKSKDZones = new List<ElementRectangleGKSKDZone>();
-			if (plan.ElementRectangleGKDirections == null)
-				plan.ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
-			if (plan.ElementPolygonGKDirections == null)
-				plan.ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
-			if (plan.ElementRectangleGKMPTs == null)
-				plan.ElementRectangleGKMPTs = new List<ElementRectangleGKMPT>();
-			if (plan.ElementPolygonGKMPTs == null)
-				plan.ElementPolygonGKMPTs = new List<ElementPolygonGKMPT>();
-
 			return new ElementBase[0]
 				.Concat(plan.ElementGKDevices)
 				.Concat(plan.ElementRectangleGKZones)

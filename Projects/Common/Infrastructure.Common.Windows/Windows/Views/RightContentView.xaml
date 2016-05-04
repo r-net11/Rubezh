@@ -8,24 +8,22 @@
 		<converters:PanelTooltipConverter x:Key="tooltipConverter" />
 	</UserControl.Resources>
 	<DockPanel>
-		<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" DockPanel.Dock="Top">
-			<DockPanel>
-				<Button Command="{Binding Shell.MinimizeCommand}"
-						ToolTip="{Binding Shell.LeftPanelVisible, Converter={StaticResource tooltipConverter}, ConverterParameter=False}"
-						CommandParameter="{x:Static loc:MinimizeTarget.RightPanel}"
-						Style="{DynamicResource ToolBarButtonStyle}"
-						DockPanel.Dock="Left"
-						Background="{DynamicResource Minify}"
-						RenderTransformOrigin="0.5,0.5">
-					<Button.RenderTransform>
-						<TransformGroup>
-							<RotateTransform Angle="180" />
-						</TransformGroup>
-					</Button.RenderTransform>
-				</Button>
-				<ContentPresenter Content="{Binding Menu}" />
-			</DockPanel>
-		</Border>
+		<DockPanel DockPanel.Dock="Top">
+			<Button Command="{Binding Shell.MinimizeCommand}"
+					ToolTip="{Binding Shell.LeftPanelVisible, Converter={StaticResource tooltipConverter}, ConverterParameter=False}"
+					CommandParameter="{x:Static loc:MinimizeTarget.RightPanel}"
+					Style="{DynamicResource ToolBarButtonStyle}"
+					DockPanel.Dock="Left"
+					Background="{DynamicResource Minify}"
+					RenderTransformOrigin="0.5,0.5">
+				<Button.RenderTransform>
+					<TransformGroup>
+						<RotateTransform Angle="180" />
+					</TransformGroup>
+				</Button.RenderTransform>
+			</Button>
+			<ContentPresenter Content="{Binding Menu}" />
+		</DockPanel>
 		<ContentPresenter Content="{Binding Content}" />
 	</DockPanel>
 </UserControl>

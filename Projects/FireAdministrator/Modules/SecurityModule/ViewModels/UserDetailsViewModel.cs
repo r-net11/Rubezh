@@ -48,7 +48,7 @@ namespace SecurityModule.ViewModels
 		{
 			Login = User.Login;
 			Name = User.Name;
-
+			IsAdm = User.IsAdm;
 			RemoteAccess = (IsNew || User.RemoteAccess == null) ?
 				new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
 				new RemoteAccessViewModel(User.RemoteAccess);
@@ -120,6 +120,17 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
+		bool _isAdm;
+		public bool IsAdm
+		{
+			get { return _isAdm; }
+			set
+			{
+				_isAdm = value;
+				OnPropertyChanged(() => IsAdm);
+			}
+		}
+
 		public bool CanChangeLogin
 		{
 			get { return User != ClientManager.CurrentUser; }
@@ -188,10 +199,9 @@ namespace SecurityModule.ViewModels
 		{
 			User.Login = Login;
 			User.Name = Name;
-
+			User.IsAdm = IsAdm;
 			if (IsChangePassword)
 				User.PasswordHash = HashHelper.GetHashFromString(Password);
-
 			PreventAdminPermissions();
 			User.PermissionStrings = PermissionsViewModel.GetPermissionStrings();
 			User.RemoteAccess = RemoteAccess.GetModel();

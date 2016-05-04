@@ -13,7 +13,7 @@ namespace Infrastructure.Designer.ViewModels
 	public class ElementsViewModel : BaseViewModel
 	{
 		//private bool _isSelectedEvent;
-		public ElementsViewModel(DesignerCanvas designerCanvas)
+		public ElementsViewModel(BaseDesignerCanvas designerCanvas)
 		{
 			//_isSelectedEvent = false;
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementAdded);
@@ -31,7 +31,7 @@ namespace Infrastructure.Designer.ViewModels
 			Update();
 		}
 
-		public DesignerCanvas DesignerCanvas { get; set; }
+		public BaseDesignerCanvas DesignerCanvas { get; set; }
 		public ObservableCollection<ElementBaseViewModel> Elements { get; set; }
 
 		ElementBaseViewModel _selectedElement;
@@ -117,7 +117,7 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			foreach (var elementBase in elements)
 			{
-				var designerItem = DesignerCanvas.GetDesignerItem(elementBase);
+				var designerItem = DesignerCanvas.GetDesignerItem(elementBase.UID);
 				if (designerItem != null)
 					AddElement(new ElementViewModel(designerItem));
 			}

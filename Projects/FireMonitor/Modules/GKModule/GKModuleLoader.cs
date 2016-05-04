@@ -310,7 +310,16 @@ namespace GKModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => AlarmsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => 
+			{
+				foreach (var alarm in AlarmsViewModel.Alarms)
+				{
+					alarm.InitializePlanLink();
+				}
+				return AlarmsViewModel;
+			}
+				
+				);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) =>
 			{ DevicesViewModel.Properties = p as LayoutPartAdditionalProperties; return DevicesViewModel; });
 			if (LicenseManager.CurrentLicenseInfo.HasFirefighting)

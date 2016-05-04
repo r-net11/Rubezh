@@ -17,7 +17,7 @@ namespace GKModule.ViewModels
 	{
 
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
-		{			
+		{
 			Title = "Добавление устройства";
 
 			if (deviceViewModel.Device.Parent != null && deviceViewModel.Device.Parent.DriverType == GKDriverType.GKMirror)
@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 			if (ParentDevice.IsConnectedToKAU)
 				{
 					RealParentDevice = ParentDevice.MVPPartParent ?? ParentDevice.KDPartParent ?? ParentDevice.MRKParent ?? ParentDevice.KAUShleifParent;
-					Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => RealParentDevice.Driver.Children.Contains(x.DriverType)));
+					var Drivers = (SortDrivers().Where(x => RealParentDevice.Driver.Children.Contains(x.DriverType)));
 					TypedDrivers = new ObservableCollection<NewTypedDeviceViewModel>(Drivers.Select(x => new NewTypedDeviceViewModel(x)));
 					SelectedDriver = TypedDrivers.FirstOrDefault();
 					MinAddress = 1;
@@ -39,20 +39,19 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					Drivers = new ObservableCollection<GKDriver>(SortDrivers().Where(x => ParentDevice.Driver.Children.Contains(x.DriverType)));
+					var Drivers = (SortDrivers().Where(x => ParentDevice.Driver.Children.Contains(x.DriverType)));
 					TypedDrivers = new ObservableCollection<NewTypedDeviceViewModel>(Drivers.Select(x => new NewTypedDeviceViewModel(x)));
 					SelectedDriver = TypedDrivers.FirstOrDefault();
 					MinAddress = SelectedDriver.Driver.MinAddress;
 					MaxAddress = SelectedDriver.Driver.MaxAddress;
 				}
-
-		Count = 1;
+			Count = 1;
 		}
+
 		GKDevice RealParentDevice;
 		DeviceViewModel ParentDeviceViewModel;
 		GKDevice ParentDevice;
 		public List<DeviceViewModel> AddedDevices { get; private set; }
-		public ObservableCollection<GKDriver> Drivers { get; private  set; }
 		public ObservableCollection<NewTypedDeviceViewModel> TypedDrivers { get; private set; }
 
 		public int MaxAddress { get; private set; }
@@ -67,6 +66,7 @@ namespace GKModule.ViewModels
 			{
 				_selectedDriver = value;
 				OnPropertyChanged(() => SelectedDriver);
+				value.ExpandToThis();
 			}
 		}
 
@@ -172,11 +172,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (ParentDevice.DriverType != GKDriverType.GK && ParentDevice.DriverType != GKDriverType.GKMirror)
-				{
-					return true;
-				}
-				return false;
+				return ParentDevice.DriverType != GKDriverType.GK && ParentDevice.DriverType != GKDriverType.GKMirror;
 			}
 		}
 
@@ -192,58 +188,17 @@ namespace GKModule.ViewModels
 		{
 			RootDrivers = new ObservableCollection<NewTypedDeviceViewModel>();
 
-			var accessControl = new NewTypedDeviceViewModel(GKDriver.TypesOfBranches.AccessControl);
-			RootDrivers.Add(accessControl);
-
-			var actuatingDevice = new NewTypedDeviceViewModel(GKDriver.TypesOfBranches.ActuatingDevice);
-			RootDrivers.Add(actuatingDevice);
-
-			var announcers = new NewTypedDeviceViewModel(GKDriver.TypesOfBranches.Announcers);
-			RootDrivers.Add(announcers);
-
-			var controlCabinet = new NewTypedDeviceViewModel(GKDriver.TypesOfBranches.ControlCabinet);
-			RootDrivers.Add(controlCabinet);
-
-			var fireDetector = new NewTypedDeviceViewModel(GKDriver.TypesOfBranches.FireDetector);
-			RootDrivers.Add(fireDetector);
-
-			var intruderDetector = new NewTypedDeviceViewModel(GKDriver.TypesOfBranches.IntruderDetector);
-			RootDrivers.Add(intruderDetector);
-
-			var other = new NewTypedDeviceViewModel(GKDriver.TypesOfBranches.Other);
-			RootDrivers.Add(other);
-
-			var radioChannel = new NewTypedDeviceViewModel(GKDriver.TypesOfBranches.RadioChannel);
-			RootDrivers.Add(radioChannel);
+			foreach (GKDriver.DriverClassifications driverClassification in Enum.GetValues(typeof(GKDriver.DriverClassifications)))
+			{
+				RootDrivers.Add(new NewTypedDeviceViewModel(driverClassification));
+			}
 
 			foreach (var typedDriver in typedDrivers)
 			{
-				switch (typedDriver.Driver.TypeOfBranche)
+				foreach (var rootDrivers in RootDrivers)
 				{
-					case GKDriver.TypesOfBranches.AccessControl:
-						accessControl.AddChild(typedDriver);
-						break;
-					case GKDriver.TypesOfBranches.ActuatingDevice:
-						actuatingDevice.AddChild(typedDriver);
-						break;
-					case GKDriver.TypesOfBranches.Announcers:
-						announcers.AddChild(typedDriver);
-						break;
-					case GKDriver.TypesOfBranches.ControlCabinet:
-						controlCabinet.AddChild(typedDriver);
-						break;
-					case GKDriver.TypesOfBranches.FireDetector:
-						fireDetector.AddChild(typedDriver);
-						break;
-					case GKDriver.TypesOfBranches.IntruderDetector:
-						intruderDetector.AddChild(typedDriver);
-						break;
-					case GKDriver.TypesOfBranches.Other:
-						other.AddChild(typedDriver);
-						break;
-					case GKDriver.TypesOfBranches.RadioChannel:
-						radioChannel.AddChild(typedDriver);
-						break;
+					if (typedDriver.Driver.DriverClassification == rootDrivers.DriverClassification)
+						rootDrivers.AddChild(typedDriver);
 				}
 			}
 		}

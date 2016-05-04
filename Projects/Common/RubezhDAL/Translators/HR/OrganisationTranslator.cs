@@ -237,14 +237,18 @@ namespace RubezhDAL.DataClasses
 
 		IQueryable<Organisation> GetFilteredTableItems(API.OrganisationFilter filter)
 		{
-			return GetTableItems().Where(x =>
-				(filter.UIDs.Count() == 0 || filter.UIDs.Contains(x.UID)) &&
-				(filter.ExceptUIDs.Count() == 0 || !filter.ExceptUIDs.Contains(x.UID)) &&
-				(filter.LogicalDeletationType != API.LogicalDeletationType.Active || !x.IsDeleted) &&
-				(filter.LogicalDeletationType != API.LogicalDeletationType.Deleted || x.IsDeleted) &&
-				(filter.UserUID == Guid.Empty ||
-					x.Users.Any(organisationUser => organisationUser.UserUID == filter.UserUID))
-			);
+			var result = GetTableItems();
+			if (filter.UIDs.Count() != 0)
+				result = result.Where(x => filter.UIDs.Contains(x.UID));
+			if (filter.ExceptUIDs.Count() != 0)
+				result = result.Where(x => !filter.ExceptUIDs.Contains(x.UID));
+			if (filter.LogicalDeletationType == API.LogicalDeletationType.Active)
+				result = result.Where(x => !x.IsDeleted);
+			if (filter.LogicalDeletationType == API.LogicalDeletationType.Deleted)
+				result = result.Where(x => x.IsDeleted);
+			if (filter.User != null && !filter.User.IsAdm)
+				result = result.Where(x => x.Users.Any(organisationUser => organisationUser.UserUID == filter.User.UID));
+			return result;
 		}
 
 		public OperationResult<bool> AddDoor(Guid uid, Guid doorUID)

@@ -50,8 +50,8 @@ namespace RubezhAPI.Models
 			ElementPolygonGKSKDZones = new List<ElementPolygonGKSKDZone>();
 			ElementRectangleGKDelays = new List<ElementRectangleGKDelay>();
 			ElementPolygonGKDelays = new List<ElementPolygonGKDelay>();
-			this.ElementRectangleGKPumpStations = new List<ElementRectangleGKPumpStation>();
-			this.ElementPolygonGKPumpStations = new List<ElementPolygonGKPumpStation>();
+			ElementRectangleGKPumpStations = new List<ElementRectangleGKPumpStation>();
+			ElementPolygonGKPumpStations = new List<ElementPolygonGKPumpStation>();
 			ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
 			ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
 			ElementRectangleGKMPTs = new List<ElementRectangleGKMPT>();

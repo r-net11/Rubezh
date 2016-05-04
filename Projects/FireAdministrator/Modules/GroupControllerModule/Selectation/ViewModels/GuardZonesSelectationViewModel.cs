@@ -160,11 +160,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Publish(createGuardZoneEventArg);
 			if (createGuardZoneEventArg.Zone != null)
 			{
-				TargetZones.Add(createGuardZoneEventArg.Zone);
-				if (TargetZones.Count == 1)
-				{
-					SaveCommand.Execute();
-				}
+				SourceZones.Add(createGuardZoneEventArg.Zone);
 			}
 		}
 

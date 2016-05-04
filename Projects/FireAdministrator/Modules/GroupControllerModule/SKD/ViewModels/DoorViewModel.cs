@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 		}
 		void UpdateVisualizationState()
 		{
-			VisualizationState = IsOnPlan ? (Door.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent;
+			VisualizationState = Door.PlanElementUIDs.Count > 0 ? (Door.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent;
 		}
 
 		void UpdateDoorDevices()
@@ -285,15 +285,6 @@ namespace GKModule.ViewModels
 		public string CloseRegimeLogicPresentationName
 		{
 			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic.OnClausesGroup); }
-		}
-
-		public bool IsOnPlan
-		{
-			get { return Door.PlanElementUIDs.Count > 0; }
-		}
-		public bool ShowOnPlan
-		{
-			get { return true; }
 		}
 		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState

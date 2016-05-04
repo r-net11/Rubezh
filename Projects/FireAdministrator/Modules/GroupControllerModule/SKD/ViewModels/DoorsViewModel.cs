@@ -5,8 +5,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
 using Infrastructure.Plans.Events;
+using Infrastructure.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
@@ -36,8 +36,11 @@ namespace GKModule.ViewModels
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(CreateDoor);
+			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(EditDoor);
 		}
 
 		public void Initialize()
@@ -203,31 +206,11 @@ namespace GKModule.ViewModels
 
 		#endregion
 
-		public void LockedSelect(Guid doorUID)
-		{
-			_lockSelection = true;
-			Select(doorUID);
-			_lockSelection = false;
-		}
-
 		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
-
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		private void SetRibbonItems()
@@ -242,28 +225,6 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить все пустые ТД", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
-		}
-		void OnDoorChanged(Guid doorUID)
-		{
-			var door = Doors.FirstOrDefault(x => x.Door.UID == doorUID);
-			if (door != null)
-			{
-				door.Update();
-				if (!_lockSelection)
-					SelectedDoor = door;
-			}
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
-			elements.ForEach(element =>
-			{
-				var elementDoor = GetElementDoor(element);
-				if (elementDoor != null)
-					OnDoorChanged(elementDoor.DoorUID);
-			});
-			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{

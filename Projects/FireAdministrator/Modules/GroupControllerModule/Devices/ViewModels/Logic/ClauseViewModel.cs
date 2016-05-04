@@ -327,7 +327,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SelectZonesCommand { get; private set; }
 		void OnSelectZones()
 		{
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones,true);
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;

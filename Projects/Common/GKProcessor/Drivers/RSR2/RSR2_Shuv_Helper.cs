@@ -18,7 +18,7 @@ namespace GKProcessor
 				HasLogic = true,
 				IgnoreHasLogic = true,
 				IsPlaceable = true,
-				TypeOfBranche = GKDriver.TypesOfBranches.ControlCabinet
+				DriverClassification = GKDriver.DriverClassifications.ControlCabinet
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Off);

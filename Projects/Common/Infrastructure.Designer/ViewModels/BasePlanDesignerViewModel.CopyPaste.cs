@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Infrastructure.Designer.ViewModels
 {
-	public partial class PlanDesignerViewModel : BaseViewModel
+	public partial class BasePlanDesignerViewModel : BaseViewModel
 	{
 		private DesignerClipboard clipboard = new DesignerClipboard();
 

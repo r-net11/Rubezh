@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Infrastructure.Designer.ViewModels
 {
-	public partial class PlanDesignerViewModel : BaseViewModel
+	public partial class BasePlanDesignerViewModel : BaseViewModel
 	{
 		void InitializeAlignCommands()
 		{

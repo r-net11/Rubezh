@@ -1,4 +1,5 @@
-﻿using Infrastructure.Plans.Designer;
+﻿using Infrastructure.Designer;
+using Infrastructure.Plans.Designer;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
@@ -6,7 +7,7 @@ using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.PassCardDesigner.Designer
 {
-	public class DesignerCanvas : Infrastructure.Designer.DesignerCanvas
+	public class DesignerCanvas : BaseDesignerCanvas
 	{
 		public PassCardTemplate PassCardTemplate { get; private set; }
 

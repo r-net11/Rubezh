@@ -36,8 +36,8 @@ namespace Infrastructure.Designer.DesignerItems
 			if (property != null)
 			{
 				DesignerCanvas.BeginChange();
-				if (((DesignerCanvas)DesignerCanvas).Toolbox != null)
-					((DesignerCanvas)DesignerCanvas).Toolbox.AcceptKeyboard = false;
+				if (((BaseDesignerCanvas)DesignerCanvas).Toolbox != null)
+					((BaseDesignerCanvas)DesignerCanvas).Toolbox.AcceptKeyboard = false;
 				if (DialogService.ShowModalWindow(property))
 				{
 					Title = Element.PresentationName;
@@ -49,13 +49,13 @@ namespace Infrastructure.Designer.DesignerItems
 					DesignerCanvas.DesignerChanged();
 					DesignerCanvas.EndChange();
 				}
-				if (((DesignerCanvas)DesignerCanvas).Toolbox != null)
-					((DesignerCanvas)DesignerCanvas).Toolbox.AcceptKeyboard = true;
+				if (((BaseDesignerCanvas)DesignerCanvas).Toolbox != null)
+					((BaseDesignerCanvas)DesignerCanvas).Toolbox.AcceptKeyboard = true;
 			}
 		}
 		protected override void OnDelete()
 		{
-			((DesignerCanvas)DesignerCanvas).RemoveAllSelected();
+			((BaseDesignerCanvas)DesignerCanvas).RemoveAllSelected();
 		}
 		protected virtual SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
@@ -73,18 +73,18 @@ namespace Infrastructure.Designer.DesignerItems
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Копировать (Ctrl+C)",
 					"BCopy",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CopyCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CopyCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Вырезать (Ctrl+X)",
 					"BCut",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CutCommand)
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CutCommand)
 				);
 
 				var menuItem = DesignerCanvasHelper.BuildMenuItem(
 					"Вставить (Ctrl+V)",
 					"BPaste",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.PasteCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.PasteCommand
 				);
 				menuItem.CommandParameter = DesignerCanvas;
 				_contextMenu.Items.Add(menuItem);
@@ -103,53 +103,53 @@ namespace Infrastructure.Designer.DesignerItems
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Вверх",
 					"BMoveForward",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Вниз",
 					"BMoveBackward",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Выше",
 					"BMoveFront",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Ниже",
 					"BMoveBack",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand
 				));
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Выровнять по левому краю",
 					"bshapes-align-hori-left",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalLeftCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalLeftCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Выровнять по вертикали",
 					"bshapes-align-hori-center",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalCenterCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalCenterCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Выровнять по правому краю",
 					"bshapes-align-hori-right",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalRightCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalRightCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Выровнять по верхнему краю",
 					"bshapes-align-verti-top",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalTopCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalTopCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Выровнять по горизонтали",
 					"bshapes-align-verti-middle",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalCenterCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalCenterCommand
 				));
 				_contextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Выровнять по нижнему краю",
 					"bshapes-align-verti-bottom",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalBottomCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalBottomCommand
 				));
 			};
 			this.propertiesMenuItem.Visibility = this.PropertiesVisibility;
@@ -164,12 +164,12 @@ namespace Infrastructure.Designer.DesignerItems
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Копировать (Ctrl+C)",
 					"BCopy",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CopyCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CopyCommand
 				));
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Вырезать (Ctrl+X)",
 					"BCut",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CutCommand)
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CutCommand)
 				);
 
 				_elementContextMenu.Items.Add(new Separator());
@@ -187,22 +187,22 @@ namespace Infrastructure.Designer.DesignerItems
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Вверх",
 					"BMoveForward",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand
 				));
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Вниз",
 					"BMoveBackward",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand
 				));
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Выше",
 					"BMoveFront",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand
 				));
 				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
 					"Ниже",
 					"BMoveBack",
-					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand
+					((BaseDesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand
 				));
 			};
 			return _elementContextMenu;
@@ -211,7 +211,7 @@ namespace Infrastructure.Designer.DesignerItems
 		public ICommand DeleteCurrentCommand { get; private set; }
 		private void OnDeleteCurrent()
 		{
-			((DesignerCanvas)DesignerCanvas).RemoveDesignerItem(this);
+			((BaseDesignerCanvas)DesignerCanvas).RemoveDesignerItem(this);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { Element });
 			DesignerCanvas.DesignerChanged();
 		}
