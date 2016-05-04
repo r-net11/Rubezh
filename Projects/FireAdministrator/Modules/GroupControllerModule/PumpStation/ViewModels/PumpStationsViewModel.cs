@@ -287,12 +287,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createPumpStationEventArg.Cancel = true;
-				createPumpStationEventArg.PumpStationUID = Guid.Empty;
 			}
 			else
 			{
 				createPumpStationEventArg.Cancel = false;
-				createPumpStationEventArg.PumpStationUID = result.PumpStation.UID;
 				createPumpStationEventArg.PumpStation = result.PumpStation;
 			}
 		}

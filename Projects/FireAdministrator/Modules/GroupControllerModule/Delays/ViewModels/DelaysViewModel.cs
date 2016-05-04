@@ -230,12 +230,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createDelayEventArg.Cancel = true;
-				createDelayEventArg.DelayUID = Guid.Empty;
 			}
 			else
 			{
 				createDelayEventArg.Cancel = false;
-				createDelayEventArg.DelayUID = result.Delay.UID;
 				createDelayEventArg.Delay = result.Delay;
 			}
 		}

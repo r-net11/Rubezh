@@ -258,12 +258,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createDirectionEventArg.Cancel = true;
-				createDirectionEventArg.DirectionUID = Guid.Empty;
 			}
 			else
 			{
 				createDirectionEventArg.Cancel = false;
-				createDirectionEventArg.DirectionUID = result.Direction.UID;
 				createDirectionEventArg.Direction = result.Direction;
 			}
 		}

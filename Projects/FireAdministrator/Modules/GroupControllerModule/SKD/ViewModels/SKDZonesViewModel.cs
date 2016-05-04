@@ -234,12 +234,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createZoneEventArg.Cancel = true;
-				createZoneEventArg.ZoneUID = Guid.Empty;
 			}
 			else
 			{
 				createZoneEventArg.Cancel = false;
-				createZoneEventArg.ZoneUID = result.Zone.UID;
 				createZoneEventArg.Zone = result.Zone;
 			}
 		}

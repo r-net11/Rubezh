@@ -223,12 +223,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createMPTEventArg.Cancel = true;
-				createMPTEventArg.MPTUID = Guid.Empty;
 			}
 			else
 			{
 				createMPTEventArg.Cancel = false;
-				createMPTEventArg.MPTUID = result.MPT.UID;
 				createMPTEventArg.MPT = result.MPT;
 			}
 		}
