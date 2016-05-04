@@ -42,8 +42,9 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
 
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Subscribe(CreateDirection);
+			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Subscribe(EditDirection);
 		}
 		private void RegisterShortcuts()
 		{

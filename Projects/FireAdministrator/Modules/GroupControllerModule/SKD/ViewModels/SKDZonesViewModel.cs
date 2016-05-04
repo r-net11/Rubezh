@@ -36,8 +36,9 @@ namespace GKModule.ViewModels
 			RegisterShortcuts();
 			SetRibbonItems();
 
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKSKDZoneEvent>().Subscribe(CreateZone);
+			ServiceFactory.Events.GetEvent<EditGKSKDZoneEvent>().Subscribe(EditZone);
 		}
 
 		public void Initialize()

@@ -42,8 +42,9 @@ namespace GKModule.ViewModels
 			SetRibbonItems();
 			RegisterShortcuts();
 
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Subscribe(CreateDelay);
+			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Subscribe(EditDelay);
 		}
 		public void Initialize()
 		{
