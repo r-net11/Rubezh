@@ -23,7 +23,6 @@
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal"
-							Margin="2"
 							Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Float}}"
 							HorizontalAlignment="Right"
 							Height="28">
@@ -32,7 +31,6 @@
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal"
-							Margin="2"
 							Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}"
 							HorizontalAlignment="Right"
 							Height="28">
@@ -44,9 +42,7 @@
 							  Width="202"
 							  Margin="2,7,0,0" />
 				</StackPanel>
-
 				<StackPanel Orientation="Horizontal"
-							Margin="2"
 							Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}"
 							HorizontalAlignment="Right"
 							Height="28">
@@ -88,14 +84,13 @@
 					</DockPanel>
 				</StackPanel>
 
-				<StackPanel Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}"
+				<StackPanel Margin="2 2 0 0" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}"
 							HorizontalAlignment="Center"
-							Orientation="Horizontal"
-							Margin="2">
+							Orientation="Horizontal">
 
 					<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding IsLabelDisabled, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 
-					<StackPanel Margin="2" HorizontalAlignment="Center" Orientation="Horizontal">
+					<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 						<DatePicker SelectedDate="{Binding DateTimeValue}"
 								DisplayDate="{Binding DateTimeValue}"
 								Height="26"
@@ -106,7 +101,6 @@
 
 				</StackPanel>
 				<StackPanel Orientation="Horizontal"
-							Margin="2"
 							Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 							ConverterParameter={x:Static automation:ExplicitType.Enum}}"
 							HorizontalAlignment="Right"
@@ -171,7 +165,6 @@
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal"
-							Margin="2"
 							Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}"
 							HorizontalAlignment="Right"
 							Height="28">
