@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="AutomationModule.Views.ExportJournalStepView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
+	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+		<Grid>
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Журнал событий" />
+					<Views:ArgumentView DataContext="{Binding IsExportJournalArgument}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Журнал проходов" />
+					<Views:ArgumentView DataContext="{Binding IsExportPassJournalArgument}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="С" />
+					<Views:ArgumentView DataContext="{Binding MinDateArgument}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="До" />
+					<Views:ArgumentView DataContext="{Binding MaxDateArgument}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Путь к файлу" />
+					<Views:ArgumentView DataContext="{Binding PathArgument}" />
+				</StackPanel>
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
+</UserControl>

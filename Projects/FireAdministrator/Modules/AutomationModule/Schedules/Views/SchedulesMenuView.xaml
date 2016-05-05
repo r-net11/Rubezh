@@ -1,0 +1,11 @@
+<UserControl x:Class="AutomationModule.Views.SchedulesMenuView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+
+	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
+		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
+		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
+		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
+	</StackPanel>
+</UserControl>

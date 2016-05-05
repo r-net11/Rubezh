@@ -1,0 +1,196 @@
+<UserControl x:Class="AutomationModule.Views.SchedulesView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:views="clr-namespace:AutomationModule.Views">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="1" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="1" />
+			<RowDefinition Height="150" />
+		</Grid.RowDefinitions>
+		<DataGrid
+			ItemsSource="{Binding Schedules}"
+			SelectedItem="{Binding SelectedSchedule}"
+			IsReadOnly="False"
+			Margin="0, 0, 2, 2">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn
+					Header="Название"
+					Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/Calendar.png" Width="16" Margin="2 0 0 0" />
+								<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Активно" Width="100">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox
+								IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								HorizontalAlignment="Center"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" DataContext="{Binding SelectedSchedule}" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
+			<StackPanel Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Orientation="Horizontal">
+				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
+					<StackPanel Orientation="Vertical">
+						<Label Content="Год"/>
+						<ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Час"/>
+						<ComboBox ItemsSource="{Binding Hours}" SelectedItem="{Binding SelectedHour}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
+					<StackPanel Orientation="Vertical">
+						<Label Content="Месяц"/>
+						<ComboBox ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Минута"/>
+						<ComboBox ItemsSource="{Binding Minutes}" SelectedItem="{Binding SelectedMinute}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
+					<StackPanel Orientation="Vertical">
+						<Label Content="День"/>
+						<ComboBox ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Секунда"/>
+						<ComboBox ItemsSource="{Binding Seconds}" SelectedItem="{Binding SelectedSecond}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
+					<StackPanel Orientation="Vertical">
+						<Label Content="День недели"/>
+						<ComboBox ItemsSource="{Binding DaysOfWeek}" SelectedItem="{Binding SelectedDayOfWeek}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+						<Label Content="Задать период"/>
+						<CheckBox IsChecked="{Binding IsPeriodSelected}" Margin="5" />
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Дней" IsEnabled="{Binding IsPeriodSelected}"/>
+						<ComboBox ItemsSource="{Binding PeriodDays}" SelectedItem="{Binding SelectedPeriodDay}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Часов" IsEnabled="{Binding IsPeriodSelected}"/>
+						<ComboBox ItemsSource="{Binding PeriodHours}" SelectedItem="{Binding SelectedPeriodHour}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Минут" IsEnabled="{Binding IsPeriodSelected}"/>
+						<ComboBox ItemsSource="{Binding PeriodMinutes}" SelectedItem="{Binding SelectedPeriodMinute}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Секунд" IsEnabled="{Binding IsPeriodSelected}"/>
+						<ComboBox ItemsSource="{Binding PeriodSeconds}" SelectedItem="{Binding SelectedPeriodSecond}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+
+		<Grid Grid.Column="2" Grid.Row="0" DataContext="{Binding SelectedSchedule}" Margin="0, -52, 2, 0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="50"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<StackPanel Grid.Row="0" Orientation="Horizontal">
+				<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить процедуру" ImageSource="Add"  />
+				<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить процедуру" ImageSource="Delete"  />
+			</StackPanel>
+			<Grid Grid.Row="1">
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition Height="1" />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<views:ScheduleProceduresView Grid.Row="0" Margin="2" />
+				<Border Grid.Row="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
+					<views:ArgumentsView DataContext="{Binding SelectedScheduleProcedure}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}"/>
+				</Border>
+			</Grid>
+		</Grid>
+	</Grid>
+</UserControl>

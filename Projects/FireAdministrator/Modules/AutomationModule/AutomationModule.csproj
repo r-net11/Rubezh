@@ -1,0 +1,901 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C4BA5C5B-98CD-487B-BC31-ABB9E10E12B9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AutomationModule</RootNamespace>
+    <AssemblyName>AutomationModule</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>DeadCodeRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
+    <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
+    <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
+    <Compile Include="Events\ShowProceduresEvent.cs" />
+    <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
+    <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
+    <Compile Include="GlobalVariables\ViewModels\ModalDialogs\AddGlobalVariableDialogViewModel.cs" />
+    <Compile Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml.cs">
+      <DependentUpon>GlobalVariablesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
+      <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalVariables\Views\ModalDialogs\AddGlobalVariableDialogView.xaml.cs">
+      <DependentUpon>AddGlobalVariableDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\ViewModels\LayoutPartPropertyProcedurePageStyleViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartProcedureViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartPropertyProcedurePageViewModel.cs" />
+    <Compile Include="Layout\Views\LayoutPartProcedureView.xaml.cs">
+      <DependentUpon>LayoutPartProcedureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageStyleView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyProcedurePageStyleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\VisitorSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\EmployeeSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\VisitorViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\UserSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\UserViewModel.cs" />
+    <Compile Include="ObjectSelection\Views\VisitorSelectionView.xaml.cs">
+      <DependentUpon>VisitorSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\EmployeeSelectionView.xaml.cs">
+      <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
+      <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\UserSelectionView.xaml.cs">
+      <DependentUpon>UserSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\AutomationPlanExtension.cs" />
+    <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
+    <Compile Include="Plans\ViewModels\ProcedurePropertiesViewModel.cs" />
+    <Compile Include="Plans\Views\ProcedurePropertiesView.xaml.cs">
+      <DependentUpon>ProcedurePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureHelper.cs" />
+    <Compile Include="Procedures\MenuType.cs" />
+    <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ArgumentDetailsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\AddRemoveArgumentViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ElementViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
+    <Compile Include="Procedures\Views\AddRemoveArgumentView.xaml.cs">
+      <DependentUpon>AddRemoveArgumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ExplicitValuesViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ExplicitValueViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureLayoutCollectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StringDetailsViewModel.cs" />
+    <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
+      <DependentUpon>StringDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\ViewModels\ChangeListStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\CheckPermissionStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExportConfigurationStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExportJournalStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExportOrganisationListStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExportOrganisationStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExportReportStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GenerateGuidStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetDateTimeNowStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetJournalItemStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetDoorPropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetSkdZonePropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetSkdDevicePropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ImportOrganisationListStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DoorSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\FilterViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\SKDDeviceSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\SKDZoneSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ConditionStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlDoorStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ArithmeticStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlSKDDeviceStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlSKDZoneStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExitStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\FindObjectStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ForeachStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetObjectPropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\IncrementValueStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\BaseStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\JournalStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\PauseStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ProcedureSelectionStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\RunProgramStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\SetJournalItemGuidStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ShowDialogStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ShowMessageStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\SetValueStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\LayoutViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariablesMenuViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\ZoneSelectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
+    <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ShowPropertyStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\SoundStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepTypeSelectationViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariableDetailsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariableViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Procedures\Views\ArgumentDetailsView.xaml.cs">
+      <DependentUpon>ArgumentDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ArgumentsView.xaml.cs">
+      <DependentUpon>ArgumentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\CameraSelectionView.xaml.cs">
+      <DependentUpon>CameraSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
+      <DependentUpon>ConditionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\DoorSelectionView.xaml.cs">
+      <DependentUpon>DoorSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\SKDDeviceSelectionView.xaml.cs">
+      <DependentUpon>SKDDeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\SKDZoneSelectionView.xaml.cs">
+      <DependentUpon>SKDZoneSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\ViewModels\StartRecordStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\StopRecordStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\RviAlarmStepViewModel.cs" />
+    <Compile Include="Steps\Views\ChangeListStepView.xaml.cs">
+      <DependentUpon>ChangeListStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\CheckPermissionStepView.xaml.cs">
+      <DependentUpon>CheckPermissionStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlDoorStepView.xaml.cs">
+      <DependentUpon>ControlDoorStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ExplicitValuesView.xaml.cs">
+      <DependentUpon>ExplicitValuesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ProcedureDetailsView.xaml.cs">
+      <DependentUpon>ProcedureDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\FilterSelectionView.xaml.cs">
+      <DependentUpon>FilterSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ArithmeticStepView.xaml.cs">
+      <DependentUpon>ArithmeticStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ConditionStepView.xaml.cs">
+      <DependentUpon>ConditionStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlPlanStepView.xaml.cs">
+      <DependentUpon>ControlPlanStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlSKDDeviceStepView.xaml.cs">
+      <DependentUpon>ControlSKDDeviceStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlSKDZoneStepView.xaml.cs">
+      <DependentUpon>ControlSKDZoneStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlVisualStepView.xaml.cs">
+      <DependentUpon>ControlVisualStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExportConfigurationStepView.xaml.cs">
+      <DependentUpon>ExportConfigurationStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExportJournalStepView.xaml.cs">
+      <DependentUpon>ExportJournalStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExportOrganisationListStepView.xaml.cs">
+      <DependentUpon>ExportOrganisationListStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExportOrganisationStepView.xaml.cs">
+      <DependentUpon>ExportOrganisationStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExportReportStepView.xaml.cs">
+      <DependentUpon>ExportReportStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GenerateGuidStepView.xaml.cs">
+      <DependentUpon>GenerateGuidStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetDateTimeNowStepView.xaml.cs">
+      <DependentUpon>GetDateTimeNowStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetDoorPropertyStepView.xaml.cs">
+      <DependentUpon>GetDoorPropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetSkdZonePropertyStepView.xaml.cs">
+      <DependentUpon>GetSkdZonePropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetSkdDevicePropertyStepView.xaml.cs">
+      <DependentUpon>GetSkdDevicePropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ImportOrganisationListStepView.xaml.cs">
+      <DependentUpon>ImportOrganisationListStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ImportOrganisationStepView.xaml.cs">
+      <DependentUpon>ImportOrganisationStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\PtzStepView.xaml.cs">
+      <DependentUpon>PtzStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\SetJournalItemGuidStepView.xaml.cs">
+      <DependentUpon>SetJournalItemGuidStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ShowDialogStepView.xaml.cs">
+      <DependentUpon>ShowDialogStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExitStepView.xaml.cs">
+      <DependentUpon>ExitStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\FindObjectStepView.xaml.cs">
+      <DependentUpon>FindObjectStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ForeachStepView.xaml.cs">
+      <DependentUpon>ForeachStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ForStepView.xaml.cs">
+      <DependentUpon>ForStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetJournalItemStepView.xaml.cs">
+      <DependentUpon>GetJournalItemStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetListCountStepView.xaml.cs">
+      <DependentUpon>GetListCountStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetListItemStepView.xaml.cs">
+      <DependentUpon>GetListItemStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetObjectPropertyStepView.xaml.cs">
+      <DependentUpon>GetObjectPropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\IncrementValueStepView.xaml.cs">
+      <DependentUpon>IncrementValueStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\JournalStepView.xaml.cs">
+      <DependentUpon>JournalStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\PauseStepView.xaml.cs">
+      <DependentUpon>PauseStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ProcedureSelectionStepView.xaml.cs">
+      <DependentUpon>ProcedureSelectionStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\RandomStepView.xaml.cs">
+      <DependentUpon>RandomStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\RunProgramStepView.xaml.cs">
+      <DependentUpon>RunProgramStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\SendEmailStepView.xaml.cs">
+      <DependentUpon>SendEmailStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ShowMessageStepView.xaml.cs">
+      <DependentUpon>ShowMessageStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\SetValueStepView.xaml.cs">
+      <DependentUpon>SetValueStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ShowPropertyStepView.xaml.cs">
+      <DependentUpon>ShowPropertyStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\SoundStepView.xaml.cs">
+      <DependentUpon>SoundStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\StepTypeSelectationView.xaml.cs">
+      <DependentUpon>StepTypeSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\StepsView.xaml.cs">
+      <DependentUpon>StepsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\VariableDetailsView.xaml.cs">
+      <DependentUpon>VariableDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ArgumentView.xaml.cs">
+      <DependentUpon>ArgumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\VariablesMenuView.xaml.cs">
+      <DependentUpon>VariablesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\VariablesView.xaml.cs">
+      <DependentUpon>VariablesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\ZoneSelectionView.xaml.cs">
+      <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AutomationModule.cs" />
+    <Compile Include="Schedules\ViewModels\ProcedureSelectionViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\ScheduleProcedureViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\SchedulesMenuViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\SchedulesViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="Schedules\Views\ProcedureSelectionView.xaml.cs">
+      <DependentUpon>ProcedureSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\ScheduleProceduresView.xaml.cs">
+      <DependentUpon>ScheduleProceduresView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\SchedulesMenuView.xaml.cs">
+      <DependentUpon>SchedulesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\ScheduleDetailsView.xaml.cs">
+      <DependentUpon>ScheduleDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\SchedulesView.xaml.cs">
+      <DependentUpon>SchedulesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Sounds\ViewModels\SoundDetailsViewModel.cs" />
+    <Compile Include="Sounds\ViewModels\SoundsMenuViewModel.cs" />
+    <Compile Include="Sounds\ViewModels\SoundsViewModel.cs" />
+    <Compile Include="Sounds\ViewModels\SoundViewModel.cs" />
+    <Compile Include="Sounds\Views\SoundsMenuView.xaml.cs">
+      <DependentUpon>SoundsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Sounds\Views\SoundsView.xaml.cs">
+      <DependentUpon>SoundsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\ViewModels\ProceduresMenuViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProceduresViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureViewModel.cs" />
+    <Compile Include="Procedures\Views\ProceduresMenuView.xaml.cs">
+      <DependentUpon>ProceduresMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ProceduresView.xaml.cs">
+      <DependentUpon>ProceduresView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Sounds\Views\SoundDetailsView.xaml.cs">
+      <DependentUpon>SoundDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\StartRecordStepView.xaml.cs">
+      <DependentUpon>StartRecordStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\StopRecordStepView.xaml.cs">
+      <DependentUpon>StopRecordStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\RviAlarmStepView.xaml.cs">
+      <DependentUpon>RviAlarmStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\GlobalVariableValidationError.cs" />
+    <Compile Include="Validation\ProcedureStepValidationError.cs" />
+    <Compile Include="Validation\ProcedureValidationError.cs" />
+    <Compile Include="Validation\ScheduleValidationError.cs" />
+    <Compile Include="Validation\SoundValidationError.cs" />
+    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.GlobalVariable.cs" />
+    <Compile Include="Validation\Validator.Procedure.cs" />
+    <Compile Include="Validation\Validator.Schedule.cs" />
+    <Compile Include="Validation\Validator.Sound.cs" />
+    <Compile Include="Validation\VariableValidationError.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
+      <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
+      <Name>Infrastructure.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Designer\Infrastructure.Designer.csproj">
+      <Project>{9193BC5C-3DEF-49B0-844A-9385B1540381}</Project>
+      <Name>Infrastructure.Designer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
+      <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GlobalVariables\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalVariables\Views\GlobalVariablesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalVariables\Views\ModalDialogs\AddGlobalVariableDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layout\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartProcedureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartPropertyProcedurePageStyleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\VisitorSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\EmployeeSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\OrganisatonSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\UserSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\ProcedurePropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ArgumentDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ArgumentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\AddRemoveArgumentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\StringDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ChangeListStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\CheckPermissionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlPlanStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlVisualStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExportConfigurationStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExportJournalStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExportOrganisationListStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExportOrganisationStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExportReportStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GenerateGuidStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GetDateTimeNowStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetDoorPropertyStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GetSkdZonePropertyStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\GetSkdDevicePropertyStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\ImportOrganisationListStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ImportOrganisationStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\PtzStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\SetJournalItemGuidStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ShowDialogStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Steps\Views\ForStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetJournalItemStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetListCountStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetListItemStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ProcedureResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\CameraSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ConditionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\DoorSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\SKDDeviceSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\SKDZoneSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlDoorStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ExplicitValuesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ProcedureDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\FilterSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ArithmeticStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ConditionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlSKDDeviceStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlSKDZoneStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExitStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\FindObjectStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ForeachStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetObjectPropertyStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\IncrementValueStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\JournalStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\PauseStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ProcedureSelectionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\RandomStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\RunProgramStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\SendEmailStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ShowMessageStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\SetValueStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ShowPropertyStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\SoundStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\StepTypeSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\StepsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\VariableDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ArgumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\VariablesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\VariablesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\ZoneSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\ProcedureSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\ScheduleProceduresView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\SchedulesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\ScheduleDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\SchedulesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Sounds\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\ProceduresMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\ProceduresView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Sounds\Views\SoundDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\StartRecordStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\StopRecordStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\RviAlarmStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Sounds\Views\SoundsMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Sounds\Views\SoundsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Procedures\Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="AutomationModule.Views.ArithmeticStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI" xmlns:Views="clr-namespace:AutomationModule.Views">
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
+	<StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Тип значений" />
+			<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Параметр1" />
+			<Views:ArgumentView DataContext="{Binding Argument1}" />
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Параметр2" />
+			<Views:ArgumentView DataContext="{Binding Argument2}" />
+			<ComboBox ItemsSource="{Binding TimeTypes}" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Тип операции" />
+			<ComboBox ItemsSource="{Binding ArithmeticOperationTypes}" SelectedItem="{Binding SelectedArithmeticOperationType, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Результат" />
+			<Views:ArgumentView DataContext="{Binding ResultArgument}" />
+		</StackPanel>
+	</StackPanel>
+</UserControl>
