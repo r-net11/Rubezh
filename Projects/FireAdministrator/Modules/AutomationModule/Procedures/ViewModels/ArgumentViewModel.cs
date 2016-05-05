@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Automation;
+﻿
+using FiresecAPI.Automation;
 using FiresecAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using Localization;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,7 +20,9 @@ namespace AutomationModule.ViewModels
 	/// </summary>
 	public class ArgumentViewModel : BaseViewModel
 	{
-		public const string EmptyText = "<пусто>";
+
+        public static string EmptyText = Resources.Language.Procedures.ViewModels.ArgumentViewModel.Empty;
+
 		#region Properties
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
@@ -213,8 +217,8 @@ namespace AutomationModule.ViewModels
 
 		private void AddLocalVariable()
 		{
-			const string defaultName = "локальная переменная";
-			const string title = "Добавить локальную переменную";
+			string defaultName = Resources.Language.Procedures.ViewModels.ArgumentViewModel.DefaultName;
+			string title = Resources.Language.Procedures.ViewModels.ArgumentViewModel.Title;
 
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, defaultName, title)
 			{

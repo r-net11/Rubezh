@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using FiresecAPI.Enums;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
+using FiresecAPI.SKD;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
+using Infrastructure.Events;
 using SKDModule.Events;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
@@ -122,8 +127,26 @@ namespace SKDModule
 		{
 			return true;
 		}
+		
 		public override void AfterInitialize()
 		{
+			// Отслеживаем события прохода по "Гостевой" карте
+			SafeFiresecService.GuestCardPassedEvent -= SafeFiresecServiceOnGuestCardPassedEvent;
+			SafeFiresecService.GuestCardPassedEvent += SafeFiresecServiceOnGuestCardPassedEvent;
+
+			// Отслеживаем события деактивации карты
+			SafeFiresecService.CardDeactivatedEvent -= SafeFiresecServiceOnCardDeactivatedEvent;
+			SafeFiresecService.CardDeactivatedEvent += SafeFiresecServiceOnCardDeactivatedEvent;
+		}
+
+		private void SafeFiresecServiceOnCardDeactivatedEvent(SKDCard card)
+		{
+			ApplicationService.Invoke(() => ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Publish(card));
+		}
+
+		private void SafeFiresecServiceOnGuestCardPassedEvent(SKDCard card)
+		{
+			ApplicationService.Invoke(() => ServiceFactoryBase.Events.GetEvent<GuestCardPassedEvent>().Publish(card));
 		}
 
 		#region ILayoutProviderModule Members

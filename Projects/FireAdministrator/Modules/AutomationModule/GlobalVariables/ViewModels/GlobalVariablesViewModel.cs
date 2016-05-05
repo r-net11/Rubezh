@@ -1,5 +1,4 @@
-﻿using AutomationModule.Properties;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
 using FiresecAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common;
@@ -73,7 +72,7 @@ namespace AutomationModule.ViewModels
 
 			if (IsExist(globalVariableDetailsViewModel.Variable))
 			{
-				MessageBoxService.ShowError(Resources.VariableExistError);
+				MessageBoxService.ShowError(Resources.Language.GlobalVariables.ViewModels.GlobalVariablesViewModel.VariableExistError);
 				return;
 			}
 

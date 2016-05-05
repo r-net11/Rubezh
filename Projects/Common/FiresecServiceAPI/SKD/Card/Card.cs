@@ -63,5 +63,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public bool IsHandicappedCard { get; set; }
+
+		[DataMember]
+		public int? AllowedPassCount { get; set; }
 	}
 }

@@ -1,28 +1,22 @@
 ﻿using System.ComponentModel;
-using Localization;
 
 namespace FiresecAPI.SKD
 {
 	public enum CardType
 	{
-		//[Description("Постоянный")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.CardType), "Constant")]
+		[Description("Постоянный")]
 		Constant,
 
-        //[Description("Временный")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.CardType), "Temporary")]
+		[Description("Временный")]
 		Temporary,
 
-        //[Description("Разовый")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.CardType), "OneTime")]
-		OneTime,
+		[Description("Гостевой")]
+		Guest,
 
-        //[Description("Заблокирован")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.CardType), "Blocked")]
+		[Description("Заблокирован")]
 		Blocked,
 
-        //[Description("Принуждение")]
-        [LocalizedDescription(typeof(Resources.Language.SKD.Card.CardType), "Duress")]
+		[Description("Принуждение")]
 		Duress
 	}
 }

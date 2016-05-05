@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 
 		public SoundDetailsViewModel(AutomationSound sound)
 		{
-			Title = "Свойства звукового элемента";
+			Title = Resources.Language.Sounds.ViewModels.SoundDetailsViewModel.Title;
 			Sound = sound;
 			Name = Sound.Name;
 		}
@@ -31,7 +31,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+                MessageBoxService.ShowWarning(Resources.Language.Sounds.ViewModels.SoundDetailsViewModel.EmptyName);
 				return false;
 			}
 			Sound.Name = Name;

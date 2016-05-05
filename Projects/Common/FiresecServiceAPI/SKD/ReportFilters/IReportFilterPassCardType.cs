@@ -8,7 +8,7 @@
 
 		bool PassCardTemprorary { get; set; }
 
-		bool PassCardOnceOnly { get; set; }
+		bool PassCardGuest { get; set; }
 
 		bool PassCardForcing { get; set; }
 

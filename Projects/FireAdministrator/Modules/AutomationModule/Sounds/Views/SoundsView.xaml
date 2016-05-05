@@ -1,6 +1,7 @@
 <UserControl x:Class="AutomationModule.Views.SoundsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:res="clr-namespace:AutomationModule.Resources.Language.Sounds.Views">
 
 	<DataGrid
 		CanUserSortColumns="True"
@@ -9,7 +10,7 @@
 		IsReadOnly="False">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn 
-				Header="Звук"
+				Header="{x:Static res:SoundsView.Header}"
 				SortMemberPath="Name"
 				Width="*">
 				<DataGridTemplateColumn.CellTemplate>

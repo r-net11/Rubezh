@@ -50,6 +50,8 @@
 			this.xrTableCell13 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell14 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
+			this.xrTableCell15 = new DevExpress.XtraReports.UI.XRTableCell();
+			this.xrTableCell16 = new DevExpress.XtraReports.UI.XRTableCell();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -88,7 +90,8 @@
             this.xrTableCell4,
             this.xrTableCell5,
             this.xrTableCell6,
-            this.xrTableCell7});
+            this.xrTableCell7,
+			this.xrTableCell15});
 			this.xrTableRow1.Dpi = 254F;
 			this.xrTableRow1.Name = "xrTableRow1";
 			this.xrTableRow1.Weight = 11.5D;
@@ -155,6 +158,16 @@
 			this.xrTableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
 			this.xrTableCell7.Weight = 0.097302244375990721D;
 			// 
+			// xrTableCell15
+			// 
+			this.xrTableCell15.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.AllowedPassCount")});
+			this.xrTableCell15.Dpi = 254F;
+			this.xrTableCell15.Name = "xrTableCell15";
+			this.xrTableCell15.StylePriority.UseTextAlignment = false;
+			this.xrTableCell15.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+			this.xrTableCell15.Weight = 0.07D;
+			// 
 			// GroupHeader1
 			// 
 			this.GroupHeader1.BackColor = System.Drawing.Color.LightGray;
@@ -162,7 +175,7 @@
             this.xrTable2});
 			this.GroupHeader1.Dpi = 254F;
 			this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
-			this.GroupHeader1.HeightF = 64F;
+			this.GroupHeader1.HeightF = 80F;
 			this.GroupHeader1.KeepTogether = true;
 			this.GroupHeader1.Name = "GroupHeader1";
 			this.GroupHeader1.RepeatEveryPage = true;
@@ -181,7 +194,7 @@
 			this.xrTable2.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
 			this.xrTable2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow2});
-			this.xrTable2.SizeF = new System.Drawing.SizeF(2550F, 63.5F);
+			this.xrTable2.SizeF = new System.Drawing.SizeF(2550F, 80F);
 			this.xrTable2.StylePriority.UseBorders = false;
 			this.xrTable2.StylePriority.UsePadding = false;
 			this.xrTable2.StylePriority.UseTextAlignment = false;
@@ -197,7 +210,8 @@
             this.xrTableCell11,
             this.xrTableCell12,
             this.xrTableCell13,
-            this.xrTableCell14});
+            this.xrTableCell14,
+			this.xrTableCell16});
 			this.xrTableRow2.Dpi = 254F;
 			this.xrTableRow2.Name = "xrTableRow2";
 			this.xrTableRow2.StylePriority.UseBackColor = false;
@@ -259,6 +273,14 @@
 			this.xrTableCell14.Text = "Срок действия";
 			this.xrTableCell14.Weight = 0.097302454354983539D;
 			// 
+			// xrTableCell16
+			// 
+			this.xrTableCell16.CanGrow = false;
+			this.xrTableCell16.Dpi = 254F;
+			this.xrTableCell16.Name = "xrTableCell16";
+			this.xrTableCell16.Text = "Число проходов";
+			this.xrTableCell16.Weight = 0.07D;
+			// 
 			// xrControlStyle1
 			// 
 			this.xrControlStyle1.BackColor = System.Drawing.Color.LightGray;
@@ -311,5 +333,7 @@
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell13;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell14;
 		private DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell15;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell16;
 	}
 }

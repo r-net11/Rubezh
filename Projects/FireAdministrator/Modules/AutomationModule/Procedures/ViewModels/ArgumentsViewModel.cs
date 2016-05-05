@@ -1,5 +1,4 @@
-﻿using AutomationModule.Properties;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
 using FiresecAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -27,13 +26,13 @@ namespace AutomationModule.ViewModels
 		public new RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент");
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, Resources.Language.Procedures.ViewModels.ArgumentsViewModel.Argument, Resources.Language.Procedures.ViewModels.ArgumentsViewModel.AddArgument);
 
 			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
 
 			if (IsExist(variableDetailsViewModel.Variable))
 			{
-				MessageBoxService.ShowError(Resources.ArgumentExistError);
+				MessageBoxService.ShowError(Resources.Language.Procedures.ViewModels.ArgumentsViewModel.ArgumentExistError);
 				return;
 			}
 
@@ -65,7 +64,7 @@ namespace AutomationModule.ViewModels
 		public new RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент");
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, Resources.Language.Procedures.ViewModels.ArgumentsViewModel.Argument, Resources.Language.Procedures.ViewModels.ArgumentsViewModel.EditArgument);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);

@@ -8,7 +8,7 @@ namespace AutomationModule.ViewModels
 	{
 		public SKDDeviceSelectionViewModel(SKDDevice device)
 		{
-			Title = "Выбор устройства";
+			Title = Resources.Language.ObjectSelection.ViewModels.SKDDeviceSelectionViewModel.Title;
 			RootDevice = AddDeviceInternal(SKDManager.SKDConfiguration.RootDevice, null);
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.SKDDevice.UID == device.UID);

@@ -120,6 +120,9 @@ namespace SKDDriver.DataAccess
 		partial void InsertGlobalVariables(GlobalVariables instance);
 		partial void UpdateGlobalVariables(GlobalVariables instance);
 		partial void DeleteGlobalVariables(GlobalVariables instance);
+    partial void InsertAccessTemplateDeactivatingReader(AccessTemplateDeactivatingReader instance);
+    partial void UpdateAccessTemplateDeactivatingReader(AccessTemplateDeactivatingReader instance);
+    partial void DeleteAccessTemplateDeactivatingReader(AccessTemplateDeactivatingReader instance);
 		#endregion
 
 		public SKDDataContext() :
@@ -399,6 +402,14 @@ namespace SKDDriver.DataAccess
 				return this.GetTable<GlobalVariables>();
 			}
 		}
+		
+		public System.Data.Linq.Table<AccessTemplateDeactivatingReader> AccessTemplateDeactivatingReaders
+		{
+			get
+			{
+				return this.GetTable<AccessTemplateDeactivatingReader>();
+			}
+		}
 	}
 
 	[global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.AccessTemplate")]
@@ -423,6 +434,8 @@ namespace SKDDriver.DataAccess
 
 		private EntitySet<Card> _Cards;
 
+		private EntitySet<AccessTemplateDeactivatingReader> _AccessTemplateDeactivatingReaders;
+		
 		private EntityRef<Organisation> _Organisation;
 
 		#region Extensibility Method Definitions
@@ -447,6 +460,7 @@ namespace SKDDriver.DataAccess
 		{
 			this._CardDoors = new EntitySet<CardDoor>(new Action<CardDoor>(this.attach_CardDoors), new Action<CardDoor>(this.detach_CardDoors));
 			this._Cards = new EntitySet<Card>(new Action<Card>(this.attach_Cards), new Action<Card>(this.detach_Cards));
+			this._AccessTemplateDeactivatingReaders = new EntitySet<AccessTemplateDeactivatingReader>(new Action<AccessTemplateDeactivatingReader>(this.attach_AccessTemplateDeactivatingReaders), new Action<AccessTemplateDeactivatingReader>(this.detach_AccessTemplateDeactivatingReaders));
 			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
@@ -601,6 +615,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_AccessTemplateDeactivatingReader", Storage="_AccessTemplateDeactivatingReaders", ThisKey="UID", OtherKey="AccessTemplateUID")]
+		public EntitySet<AccessTemplateDeactivatingReader> AccessTemplateDeactivatingReaders
+		{
+			get
+			{
+				return this._AccessTemplateDeactivatingReaders;
+			}
+			set
+			{
+				this._AccessTemplateDeactivatingReaders.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Organisation_AccessTemplate", Storage = "_Organisation", ThisKey = "OrganisationUID", OtherKey = "UID", IsForeignKey = true)]
 		public Organisation Organisation
 		{
@@ -678,8 +705,20 @@ namespace SKDDriver.DataAccess
 			this.SendPropertyChanging();
 			entity.AccessTemplate = null;
 		}
+		
+		private void attach_AccessTemplateDeactivatingReaders(AccessTemplateDeactivatingReader entity)
+		{
+			this.SendPropertyChanging();
+			entity.AccessTemplate = this;
 	}
 
+		private void detach_AccessTemplateDeactivatingReaders(AccessTemplateDeactivatingReader entity)
+		{
+			this.SendPropertyChanging();
+			entity.AccessTemplate = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.AdditionalColumn")]
 	public partial class AdditionalColumn : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4350,7 +4389,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Data", DbType = "VarBinary(MAX)", UpdateCheck = UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -4821,7 +4860,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Data", DbType = "VarBinary(MAX)", UpdateCheck = UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -8820,6 +8859,8 @@ namespace SKDDriver.DataAccess
 
 		private bool _IsHandicappedCard;
 
+		private System.Nullable<int> _AllowedPassCount;
+		
 		private EntitySet<CardDoor> _CardDoors;
 
 		private EntitySet<PendingCard> _PendingCards;
@@ -8862,6 +8903,8 @@ namespace SKDDriver.DataAccess
 		partial void OnExternalKeyChanged();
 		partial void OnIsHandicappedCardChanging(bool value);
 		partial void OnIsHandicappedCardChanged();
+    partial void OnAllowedPassCountChanging(System.Nullable<int> value);
+    partial void OnAllowedPassCountChanged();
 		#endregion
 
 		public Card()
@@ -9181,6 +9224,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AllowedPassCount", DbType="Int")]
+		public System.Nullable<int> AllowedPassCount
+		{
+			get
+			{
+				return this._AllowedPassCount;
+			}
+			set
+			{
+				if ((this._AllowedPassCount != value))
+				{
+					this.OnAllowedPassCountChanging(value);
+					this.SendPropertyChanging();
+					this._AllowedPassCount = value;
+					this.SendPropertyChanged("AllowedPassCount");
+					this.OnAllowedPassCountChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Card_CardDoor", Storage = "_CardDoors", ThisKey = "UID", OtherKey = "CardUID")]
 		public EntitySet<CardDoor> CardDoors
 		{
@@ -9564,7 +9627,7 @@ namespace SKDDriver.DataAccess
 		}
 	}
 
-	[global::System.Data.Linq.Mapping.TableAttribute(Name = "")]
+	[global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.GlobalVariables")]
 	public partial class GlobalVariables : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 
@@ -9737,6 +9800,157 @@ namespace SKDDriver.DataAccess
 			}
 		}
 
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AccessTemplateDeactivatingReader")]
+	public partial class AccessTemplateDeactivatingReader : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _AccessTemplateUID;
+		
+		private System.Guid _DeactivatingReaderUID;
+		
+		private EntityRef<AccessTemplate> _AccessTemplate;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnAccessTemplateUIDChanging(System.Guid value);
+    partial void OnAccessTemplateUIDChanged();
+    partial void OnDeactivatingReaderUIDChanging(System.Guid value);
+    partial void OnDeactivatingReaderUIDChanged();
+    #endregion
+		
+		public AccessTemplateDeactivatingReader()
+		{
+			this._AccessTemplate = default(EntityRef<AccessTemplate>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccessTemplateUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid AccessTemplateUID
+		{
+			get
+			{
+				return this._AccessTemplateUID;
+			}
+			set
+			{
+				if ((this._AccessTemplateUID != value))
+				{
+					if (this._AccessTemplate.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAccessTemplateUIDChanging(value);
+					this.SendPropertyChanging();
+					this._AccessTemplateUID = value;
+					this.SendPropertyChanged("AccessTemplateUID");
+					this.OnAccessTemplateUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeactivatingReaderUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid DeactivatingReaderUID
+		{
+			get
+			{
+				return this._DeactivatingReaderUID;
+			}
+			set
+			{
+				if ((this._DeactivatingReaderUID != value))
+				{
+					this.OnDeactivatingReaderUIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeactivatingReaderUID = value;
+					this.SendPropertyChanged("DeactivatingReaderUID");
+					this.OnDeactivatingReaderUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_AccessTemplateDeactivatingReader", Storage="_AccessTemplate", ThisKey="AccessTemplateUID", OtherKey="UID", IsForeignKey=true)]
+		public AccessTemplate AccessTemplate
+		{
+			get
+			{
+				return this._AccessTemplate.Entity;
+			}
+			set
+			{
+				AccessTemplate previousValue = this._AccessTemplate.Entity;
+				if (((previousValue != value) 
+							|| (this._AccessTemplate.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AccessTemplate.Entity = null;
+						previousValue.AccessTemplateDeactivatingReaders.Remove(this);
+					}
+					this._AccessTemplate.Entity = value;
+					if ((value != null))
+					{
+						value.AccessTemplateDeactivatingReaders.Add(this);
+						this._AccessTemplateUID = value.UID;
+					}
+					else
+					{
+						this._AccessTemplateUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("AccessTemplate");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
 		protected virtual void SendPropertyChanged(String propertyName)
 		{
 			if ((this.PropertyChanged != null))

@@ -7,7 +7,7 @@ namespace AutomationModule.ViewModels
 {
 	public class SoundViewModel : BaseViewModel
 	{
-		public const string DefaultName = "<нет>";
+		public static string DefaultName = Resources.Language.Sounds.ViewModels.SoundViewModel.DefaultName;
 		public AutomationSound Sound { get; set; }
 
 		public SoundViewModel(AutomationSound sound)

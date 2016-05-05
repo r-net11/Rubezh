@@ -9,14 +9,14 @@ namespace AutomationModule.ViewModels
 		public AutomationSchedule Schedule { get; private set; }
 		public ScheduleDetailsViewModel(AutomationSchedule schedule)
 		{
-			Title = "Свойства элемента расписания";
+            Title = Resources.Language.Schedules.ViewModels.ScheduleDetailsViewModel.Properties_Title;
 			Schedule = schedule;
 			Name = Schedule.Name;
 		}
 
 		public ScheduleDetailsViewModel()
 		{
-			Title = "Добавить элемент расписания";
+            Title = Resources.Language.Schedules.ViewModels.ScheduleDetailsViewModel.Add_Title;
 			Schedule = new AutomationSchedule();
 			Name = Schedule.Name;
 		}
@@ -36,7 +36,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(Resources.Language.Schedules.ViewModels.ScheduleDetailsViewModel.EmptyName);
 				return false;
 			}
 			Schedule.Name = Name;

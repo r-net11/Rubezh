@@ -13,7 +13,7 @@ namespace AutomationModule.ViewModels
 		public ArgumentDetailsViewModel(Argument argument)
 		{
 			_automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			Title = "Редактировать аргумент";
+			Title = Resources.Language.Procedures.ViewModels.ArgumentDetailsViewModel.Title;
 			ExplicitValuesViewModel = new ExplicitValuesViewModel(argument.ExplicitValue, argument.ExplicitValues, argument.ExplicitType, argument.EnumType, argument.ObjectType);
 		}
 

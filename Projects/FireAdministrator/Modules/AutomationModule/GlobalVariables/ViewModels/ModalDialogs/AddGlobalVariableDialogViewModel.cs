@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 {
 	public class AddGlobalVariableDialogViewModel : SaveCancelDialogViewModel
 	{
-		private const string DefaulVariableName = "глобальная переменная";
+		private string DefaulVariableName = Resources.Language.GlobalVariables.ViewModels.ModalDialogs.AddGlobalVariableDialogViewModel.DefaultName;
 		#region Properties
 
 		private bool _isSaveWhenRestart;
@@ -89,7 +89,7 @@ namespace AutomationModule.ViewModels
 
 		public AddGlobalVariableDialogViewModel(GlobalVariable variable)
 		{
-			Title = variable != null ? "Редактировать глобальную переменную" : "Добавить глобальную переменную";
+			Title = variable != null ? Resources.Language.GlobalVariables.ViewModels.ModalDialogs.AddGlobalVariableDialogViewModel.Add : Resources.Language.GlobalVariables.ViewModels.ModalDialogs.AddGlobalVariableDialogViewModel.Edit;
 			Name = variable != null ? variable.Name : DefaulVariableName;
 			IsSaveWhenRestart = variable != null ? variable.IsSaveWhenRestart : default(bool);
 
@@ -129,7 +129,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(Resources.Language.GlobalVariables.ViewModels.ModalDialogs.AddGlobalVariableDialogViewModel.SaveEmpty);
 				return false;
 			}
 

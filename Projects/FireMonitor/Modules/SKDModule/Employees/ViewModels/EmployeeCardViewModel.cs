@@ -6,6 +6,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -40,7 +41,7 @@ namespace SKDModule.ViewModels
 			get { return "Пропуск " + Card.Number; }
 		}
 
-		List<CardDoor> GetCardDoors()
+		private List<CardDoor> GetCardDoors()
 		{
 			var cardDoors = new List<CardDoor>();
 			cardDoors.AddRange(Card.CardDoors);
@@ -77,7 +78,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		private void OnRemove()
 		{
 			var cardRemovalReasonViewModel = new CardRemovalReasonViewModel();
 			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
@@ -86,14 +87,19 @@ namespace SKDModule.ViewModels
 				var toStopListResult = CardHelper.DeleteFromEmployee(Card, EmployeeCardsViewModel.Employee.Name, cardRemovalReason);
 				if (!toStopListResult)
 					return;
-				EmployeeCardsViewModel.Cards.Remove(this);
-				ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(Card.UID);
-				EmployeeCardsViewModel.OnSelectEmployee();
+				Remove();
 			}
 		}
 
+		public void Remove()
+		{
+			EmployeeCardsViewModel.Cards.Remove(this);
+			ServiceFactoryBase.Events.GetEvent<BlockCardEvent>().Publish(Card.UID);
+			EmployeeCardsViewModel.OnSelectEmployee();
+		}
+
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, EmployeeCardsViewModel.Employee, Card);
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
@@ -142,26 +148,26 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool CanEditDelete()
+		private bool CanEditDelete()
 		{
 			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
-		void OnPrint()
+		private void OnPrint()
 		{
 			var passCardViewModel = new PassCardViewModel(EmployeeCardsViewModel.Employee.UID, Card);
 			DialogService.ShowModalWindow(passCardViewModel);
 		}
 
 		public RelayCommand SelectCardCommand { get; private set; }
-		void OnSelectCard()
+		private void OnSelectCard()
 		{
 			EmployeeCardsViewModel.SelectCard(this);
 			IsCardSelected = true;
 		}
 
-		bool _isCardSelected;
+		private bool _isCardSelected;
 		public bool IsCardSelected
 		{
 			get { return _isCardSelected; }
@@ -176,6 +182,13 @@ namespace SKDModule.ViewModels
 		{
 			Card.CardDoors.RemoveAll(x => doorUIDs.All(y => y != x.DoorUID));
 			CardDoorsViewModel.UpdateDoors(doorUIDs);
+		}
+
+		public void Update(SKDCard card)
+		{
+			Card.IsInStopList = card.IsInStopList;
+			Card.StopReason = card.StopReason;
+			Card.AllowedPassCount = card.AllowedPassCount;
 		}
 	}
 }

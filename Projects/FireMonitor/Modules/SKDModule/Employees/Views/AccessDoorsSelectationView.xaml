@@ -47,16 +47,16 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image
-										Margin="4 0 0 0"
-										VerticalAlignment="Center"
-										Source="/Controls;component/Images/Door.png" />
 									<CheckBox
 										Margin="2"
 										VerticalAlignment="Center"
 										IsChecked="{Binding IsChecked,
 									                              Mode=TwoWay,
 									                              UpdateSourceTrigger=PropertyChanged}" />
+									<Image
+										Margin="4 0 0 0"
+										VerticalAlignment="Center"
+										Source="/Controls;component/Images/Door.png" />
 									<TextBlock
 										Margin="4 0 0 0"
 										HorizontalAlignment="Stretch"

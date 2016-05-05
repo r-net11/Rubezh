@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -75,6 +76,14 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = string.Format("Свойства пропуска: {0}", card.Number);
+				
+				// Отслеживаем событие деактивации карты
+				ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Unsubscribe(OnCardRemotlyChanged);
+				ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Subscribe(OnCardRemotlyChanged);
+				
+				// Отслеживаем событие прохода по "Гостевой" карте
+				ServiceFactoryBase.Events.GetEvent<GuestCardPassedEvent>().Unsubscribe(OnCardRemotlyChanged);
+				ServiceFactoryBase.Events.GetEvent<GuestCardPassedEvent>().Subscribe(OnCardRemotlyChanged);
 			}
 
 			Card = card;
@@ -108,7 +117,7 @@ namespace SKDModule.ViewModels
 
 			if (_employee.Type == PersonType.Guest)
 			{
-				CardTypes = new ObservableCollection<CardType> { CardType.Temporary, CardType.OneTime, CardType.Blocked };
+				CardTypes = new ObservableCollection<CardType> { CardType.Temporary, CardType.Guest, CardType.Blocked };
 			}
 			else
 			{
@@ -117,7 +126,15 @@ namespace SKDModule.ViewModels
 
 			IsAlternativeLockParams = card.IsHandicappedCard;
 			SelectedCardType = IsNewCard ? CardTypes.FirstOrDefault() : Card.CardType;
+			AllowedPassCount = card.AllowedPassCount;
 		}
+
+		private void OnCardRemotlyChanged(SKDCard card)
+		{
+			_isCardRemotlyChanged = true;
+		}
+
+		private bool _isCardRemotlyChanged;
 
 		private uint? _numberFromUSB;
 
@@ -164,18 +181,44 @@ namespace SKDModule.ViewModels
 				_selectedCardType = value;
 				OnPropertyChanged(() => SelectedCardType);
 				OnPropertyChanged(() => CanSelectEndDate);
+				OnPropertyChanged(() => CanEnterAllowedPassCount);
 				OnPropertyChanged(() => CanSetUserTime);
+				OnPropertyChanged(() => IsGuestCardWithEmptyAccessTemplate);
 
 				if (!CanSelectEndDate)
 				{
 					EndDate = StartDate;
 				}
+
+				if (CanEnterAllowedPassCount && AllowedPassCount == null)
+					AllowedPassCount = 1;
+				else if (!CanEnterAllowedPassCount && AllowedPassCount != null)
+					AllowedPassCount = null;
 			}
 		}
 
 		public bool CanSelectEndDate
 		{
-			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress; }
+			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || SelectedCardType == CardType.Guest; }
+		}
+
+		private int? _allowedPassCount;
+
+		public int? AllowedPassCount
+		{
+			get { return _allowedPassCount; }
+			set
+			{
+				if (_allowedPassCount == value)
+					return;
+				_allowedPassCount = value;
+				OnPropertyChanged(() => AllowedPassCount);
+			}
+		}
+
+		public bool CanEnterAllowedPassCount
+		{
+			get { return SelectedCardType == CardType.Guest; }
 		}
 
 		DateTime _startDate;
@@ -243,6 +286,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedAccessTemplate = value;
 				OnPropertyChanged(() => SelectedAccessTemplate);
+				OnPropertyChanged(() => IsGuestCardWithEmptyAccessTemplate);
 			}
 		}
 
@@ -415,6 +459,19 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
+		public bool IsGuestCardWithEmptyAccessTemplate
+		{
+			get
+			{
+				return SelectedCardType == CardType.Guest && (SelectedAccessTemplate == null || !SelectedAccessTemplate.DeactivatingReaders.Any());
+			}
+		}
+
+		protected override bool CanSave()
+		{
+			return !IsGuestCardWithEmptyAccessTemplate && !_isCardRemotlyChanged;
+		}
+
 		private SKDCard GetCardLogic(bool useFromDeactivate, bool useControlReader)
 		{
 			var resultCard = new SKDCard();
@@ -478,6 +535,7 @@ namespace SKDModule.ViewModels
 			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
 				resultCard.AccessTemplateUID = null;
 
+			resultCard.AllowedPassCount = AllowedPassCount;
 			return resultCard;
 		}
 
@@ -510,9 +568,9 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
+			if (SelectedCardType == CardType.Guest && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
 			{
-				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue);
+				MessageBoxService.ShowWarning("Количество проходов для гостевого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue);
 				return false;
 			}
 

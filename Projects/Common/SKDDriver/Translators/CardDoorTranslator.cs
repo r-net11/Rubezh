@@ -74,6 +74,11 @@ namespace SKDDriver
 			}
 		}
 
+		/// <summary>
+		/// Из таблицы "CardDoor" БД "SKD" удаляет все записи, у которых поле "AccessTemplateUID" равно заданному аргументу "accessTemplateUID"
+		/// </summary>
+		/// <param name="accessTemplateUID">Идентификатор шаблона доступа</param>
+		/// <returns>Объект OperationResult с результатом выполнения операции</returns>
 		public OperationResult RemoveFromAccessTemplate(Guid accessTemplateUID)
 		{
 			try

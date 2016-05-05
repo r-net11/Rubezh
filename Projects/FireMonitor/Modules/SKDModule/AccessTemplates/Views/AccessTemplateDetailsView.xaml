@@ -27,5 +27,8 @@
 		<TabItem Header="Точки доступа">
 			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
+		<TabItem Header="Контрольные считыватели">
+			<Views:DeactivatingReadersSelectationView DataContext="{Binding DeactivatingReadersSelectationViewModel}" />
+		</TabItem>
 	</TabControl>
 </UserControl>

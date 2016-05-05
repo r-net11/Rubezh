@@ -135,10 +135,355 @@
     <Compile Include="Procedures\Views\AddRemoveArgumentView.xaml.cs">
       <DependentUpon>AddRemoveArgumentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Resources\Language\AutomationModule.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>AutomationModule.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\GlobalVariables\ViewModels\GlobalVariablesViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GlobalVariablesViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\FilterSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FilterSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\ProcedureDetailsView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProcedureDetailsView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\ProceduresMenuView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProceduresMenuView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\ProceduresView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProceduresView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\StepsView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StepsView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\StepTypeSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StepTypeSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\GlobalVariables\ViewModels\ModalDialogs\AddGlobalVariableDialogViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddGlobalVariableDialogViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\GlobalVariables\Views\GlobalVariablesMenuView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GlobalVariablesMenuView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\GlobalVariables\Views\GlobalVariablesView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GlobalVariablesView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\GlobalVariables\Views\ModalDialogs\AddGlobalVariableDialogView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddGlobalVariableDialogView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Layout\ViewModels\LayoutPartPropertyProcedurePageStyleViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutPartPropertyProcedurePageStyleViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Layout\ViewModels\LayoutPartPropertyProcedurePageViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutPartPropertyProcedurePageViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Layout\Views\LayoutPartPropertyProcedurePageStyleView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutPartPropertyProcedurePageStyleView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Layout\Views\LayoutPartPropertyProcedurePageView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutPartPropertyProcedurePageView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\ViewModels\CameraSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CameraSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\ViewModels\DoorSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoorSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\ViewModels\EmployeeSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\ViewModels\OrganisationSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrganisationSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\ViewModels\SKDDeviceSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDDeviceSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\ViewModels\SKDZoneSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDZoneSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\ViewModels\UserSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\ViewModels\VisitorSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VisitorSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\CameraSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CameraSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\DoorSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoorSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\EmployeeSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\OrganisatonSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrganisatonSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\SKDDeviceSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDDeviceSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\SKDZoneSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDZoneSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\UserSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\VisitorSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VisitorSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\ObjectSelection\Views\ZoneSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ZoneSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Plans\AutomationPlanExtension.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AutomationPlanExtension.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Plans\ViewModels\ProcedurePropertiesViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProcedurePropertiesViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Plans\Views\ProcedurePropertiesView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProcedurePropertiesView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\ArgumentDetailsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArgumentDetailsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\ArgumentsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArgumentsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\ArgumentViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArgumentViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\FilterSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FilterSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\ProcedureDetailsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProcedureDetailsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\ProceduresViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProceduresViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\StepTypeSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StepTypeSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\StringDetailsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringDetailsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\VariableDetailsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VariableDetailsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\ViewModels\VariablesViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VariablesViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\ArgumentDetailsView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArgumentDetailsView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\ArgumentView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArgumentView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\ConditionsView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConditionsView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\ExplicitValuesView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExplicitValuesView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\VariableDetailsView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VariableDetailsView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\VariablesMenuView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VariablesMenuView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Procedures\Views\VariablesView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VariablesView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Schedules\ViewModels\ProcedureSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProcedureSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Schedules\ViewModels\ScheduleDetailsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleDetailsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Schedules\ViewModels\ScheduleProcedureViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleProcedureViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Schedules\Views\ProcedureSelectionView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProcedureSelectionView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Schedules\Views\ScheduleDetailsView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleDetailsView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Schedules\Views\ScheduleProceduresView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleProceduresView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Schedules\Views\SchedulesMenuView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SchedulesMenuView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Schedules\Views\SchedulesView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SchedulesView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Sounds\ViewModels\SoundDetailsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoundDetailsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Sounds\ViewModels\SoundsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoundsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Sounds\ViewModels\SoundViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoundViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Sounds\Views\SoundDetailsView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoundDetailsView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Sounds\Views\SoundsMenuView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoundsMenuView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Sounds\Views\SoundsView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoundsView.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Validation\ValidatorProcedure.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidatorProcedure.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Validation\ValidatorSchedule.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidatorSchedule.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language\Validation\ValidatorSound.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidatorSound.resx</DependentUpon>
     </Compile>
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
@@ -495,6 +840,10 @@
     <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\FiresecService\Localization\Localization.csproj">
+      <Project>{0fabff9f-2922-4c8e-9c1c-7a014fedccf1}</Project>
+      <Name>Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
@@ -885,9 +1234,286 @@
     <Folder Include="Procedures\Converters\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Resources\Language\AutomationModule.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>AutomationModule.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\GlobalVariables\ViewModels\GlobalVariablesViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalVariablesViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\FilterSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FilterSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\ProcedureDetailsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProcedureDetailsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\ProceduresMenuView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProceduresMenuView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\ProceduresView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProceduresView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\StepsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StepsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\StepTypeSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StepTypeSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\GlobalVariables\ViewModels\ModalDialogs\AddGlobalVariableDialogViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AddGlobalVariableDialogViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\GlobalVariables\Views\GlobalVariablesMenuView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalVariablesMenuView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\GlobalVariables\Views\GlobalVariablesView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalVariablesView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\GlobalVariables\Views\ModalDialogs\AddGlobalVariableDialogView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AddGlobalVariableDialogView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Layout\ViewModels\LayoutPartPropertyProcedurePageStyleViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LayoutPartPropertyProcedurePageStyleViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Layout\ViewModels\LayoutPartPropertyProcedurePageViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LayoutPartPropertyProcedurePageViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Layout\Views\LayoutPartPropertyProcedurePageStyleView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LayoutPartPropertyProcedurePageStyleView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Layout\Views\LayoutPartPropertyProcedurePageView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LayoutPartPropertyProcedurePageView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\ViewModels\CameraSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CameraSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\ViewModels\DoorSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoorSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\ViewModels\EmployeeSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmployeeSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\ViewModels\OrganisationSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OrganisationSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\ViewModels\SKDDeviceSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDDeviceSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\ViewModels\SKDZoneSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDZoneSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\ViewModels\UserSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\ViewModels\VisitorSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>VisitorSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\CameraSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CameraSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\DoorSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoorSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\EmployeeSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmployeeSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\OrganisatonSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>OrganisatonSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\SKDDeviceSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDDeviceSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\SKDZoneSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SKDZoneSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\UserSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\VisitorSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>VisitorSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\ObjectSelection\Views\ZoneSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ZoneSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Plans\AutomationPlanExtension.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AutomationPlanExtension.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Plans\ViewModels\ProcedurePropertiesViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProcedurePropertiesViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Plans\Views\ProcedurePropertiesView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProcedurePropertiesView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\ArgumentDetailsViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ArgumentDetailsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\ArgumentsViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ArgumentsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\ArgumentViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ArgumentViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\FilterSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FilterSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\ProcedureDetailsViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProcedureDetailsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\ProceduresViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProceduresViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\StepTypeSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StepTypeSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\StringDetailsViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StringDetailsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\VariableDetailsViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>VariableDetailsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\ViewModels\VariablesViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>VariablesViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\ArgumentDetailsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ArgumentDetailsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\ArgumentView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ArgumentView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\ConditionsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConditionsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\ExplicitValuesView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExplicitValuesView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\VariableDetailsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>VariableDetailsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\VariablesMenuView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>VariablesMenuView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Procedures\Views\VariablesView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>VariablesView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Schedules\ViewModels\ProcedureSelectionViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProcedureSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Schedules\ViewModels\ScheduleDetailsViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleDetailsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Schedules\ViewModels\ScheduleProcedureViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleProcedureViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Schedules\Views\ProcedureSelectionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProcedureSelectionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Schedules\Views\ScheduleDetailsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleDetailsView.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Schedules\Views\ScheduleProceduresView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleProceduresView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Schedules\Views\SchedulesMenuView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SchedulesMenuView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Schedules\Views\SchedulesView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SchedulesView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Sounds\ViewModels\SoundDetailsViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoundDetailsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Sounds\ViewModels\SoundsViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoundsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Sounds\ViewModels\SoundViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoundViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Sounds\Views\SoundDetailsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoundDetailsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Sounds\Views\SoundsMenuView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoundsMenuView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Sounds\Views\SoundsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoundsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Validation\ValidatorProcedure.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidatorProcedure.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Validation\ValidatorSchedule.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidatorSchedule.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language\Validation\ValidatorSound.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidatorSound.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

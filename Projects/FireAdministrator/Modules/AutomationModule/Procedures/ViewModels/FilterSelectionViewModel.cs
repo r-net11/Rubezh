@@ -17,7 +17,7 @@ namespace AutomationModule.ViewModels
 
 		public FilterSelectionViewModel(Procedure procedure)
 		{
-			Title = "Выбор фильтра";
+			Title = Resources.Language.Procedures.ViewModels.FilterSelectionViewModel.Title;
 			Procedure = procedure;
 			InitializeFilters();
 			CreateFilterCommand = new RelayCommand(OnCreateFilter);

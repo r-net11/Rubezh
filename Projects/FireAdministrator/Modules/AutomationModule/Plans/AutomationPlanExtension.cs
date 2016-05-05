@@ -51,7 +51,7 @@ namespace AutomationModule.Plans
 		}
 		public override string Title
 		{
-			get { return "Автоматизация"; }
+			get { return Resources.Language.Plans.AutomationPlanExtension.Automation; }
 		}
 
 		public override IEnumerable<IInstrument> Instruments
@@ -68,7 +68,7 @@ namespace AutomationModule.Plans
 						((List<IInstrument>)_instruments).Add(new InstrumentViewModel()
 						{
 							ImageSource = "Procedure",
-							ToolTip = "Процедура",
+							ToolTip = Resources.Language.Plans.AutomationPlanExtension.Procedure,
 							Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
 							Index = 400,
 							Autostart = true
@@ -120,7 +120,7 @@ namespace AutomationModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup("Procedure", "Процедуры", 42);
+			LayerGroupService.Instance.RegisterGroup("Procedure", Resources.Language.Plans.AutomationPlanExtension.Procedures, 42);
 		}
 		public override void ExtensionAttached()
 		{
@@ -152,7 +152,7 @@ namespace AutomationModule.Plans
 			if (typeof(TItem) == typeof(Procedure))
 			{
 				var procedure = item as Procedure;
-				designerItem.Title = procedure == null ? "Несвязанная процедура" : procedure.Name;
+				designerItem.Title = procedure == null ? Resources.Language.Plans.AutomationPlanExtension.UnboundProcedure : procedure.Name;
 			}
 		}
 	}

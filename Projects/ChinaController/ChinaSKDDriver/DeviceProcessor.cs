@@ -42,8 +42,8 @@ namespace ChinaSKDDriver
 		{
 			Device = device;
 			Wrapper = new Wrapper();
-			Wrapper.NewJournalItem -= new Action<SKDJournalItem>(Wrapper_NewJournalItem);
-			Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
+			Wrapper.NewJournalItem -= Wrapper_NewJournalItem;
+			Wrapper.NewJournalItem += Wrapper_NewJournalItem;
 		}
 
 		private void Wrapper_NewJournalItem(SKDJournalItem skdJournalItem)

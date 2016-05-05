@@ -3,7 +3,7 @@ using System.Resources;
 
 namespace Localization
 {
-    class ResourceHelper
+    public class ResourceHelper
     {
         public static string GetResource(Type resourceType, string resourceId)
         {

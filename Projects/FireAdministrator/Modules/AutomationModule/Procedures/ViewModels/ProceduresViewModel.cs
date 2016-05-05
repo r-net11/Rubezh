@@ -253,14 +253,14 @@ namespace AutomationModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
+				new RibbonMenuItemViewModel(Resources.Language.Procedures.ViewModels.ProceduresViewModel.Edition, new ObservableCollection<RibbonMenuItemViewModel>
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
-					new RibbonMenuItemViewModel("Вырезать", CutCommand, "BCut"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(Resources.Language.Procedures.ViewModels.ProceduresViewModel.Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(Resources.Language.Procedures.ViewModels.ProceduresViewModel.Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(Resources.Language.Procedures.ViewModels.ProceduresViewModel.Copy, CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel(Resources.Language.Procedures.ViewModels.ProceduresViewModel.Cut, CutCommand, "BCut"),
+					new RibbonMenuItemViewModel(Resources.Language.Procedures.ViewModels.ProceduresViewModel.Paste, PasteCommand, "BPaste"),
+					new RibbonMenuItemViewModel(Resources.Language.Procedures.ViewModels.ProceduresViewModel.Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

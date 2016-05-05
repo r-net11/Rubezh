@@ -5,10 +5,11 @@
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Views;assembly=Infrastructure.Common"
 	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+    xmlns:res="clr-namespace:AutomationModule.Resources.Language.Plans.Views"
 	MinWidth="400"
 	MinHeight="500">
 	<TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
-		<TabItem Header="Основные">
+		<TabItem Header="{x:Static res:ProcedurePropertiesView.Main}">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" MinWidth="150" />
@@ -32,91 +33,91 @@
 				<TextBlock
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Текст"
+					Text="{x:Static res:ProcedurePropertiesView.Text}"
 					Foreground="White"
 					VerticalAlignment="Top"/>
 				<TextBlock
 					Grid.Row="1"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Выравнивать"
+					Text="{x:Static res:ProcedurePropertiesView.HorizontalAlignment}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="2"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Выравнивать по высоте"
+					Text="{x:Static res:ProcedurePropertiesView.VerticalAlignment}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="3"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Цвет текста"
+					Text="{x:Static res:ProcedurePropertiesView.TextColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="4"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Цвет фона"
+					Text="{x:Static res:ProcedurePropertiesView.BackgroungColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="5"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Цвет границы"
+					Text="{x:Static res:ProcedurePropertiesView.BorderColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="6"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Ширина границы"
+					Text="{x:Static res:ProcedurePropertiesView.BorderThickness}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="7"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Размер шрифта"
+					Text="{x:Static res:ProcedurePropertiesView.FontSize}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="8"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Шрифт"
+					Text="{x:Static res:ProcedurePropertiesView.Font}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="9"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Жирный"
+					Text="{x:Static res:ProcedurePropertiesView.Bold}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="10"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Курсив"
+					Text="{x:Static res:ProcedurePropertiesView.Italic}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="11"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Растянуть"
+					Text="{x:Static res:ProcedurePropertiesView.Stretch}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="12"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Перенос слов"
+					Text="{x:Static res:ProcedurePropertiesView.TextWrap}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBox
@@ -204,7 +205,7 @@
 					IsChecked="{Binding WordWrap, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Процедура">
+        <TabItem Header="{x:Static res:ProcedurePropertiesView.Procedure}">
 			<ListView
 				ItemsSource="{Binding Procedures}"
 				SelectedItem="{Binding SelectedProcedure}">
@@ -222,7 +223,7 @@
 				</ListView.ItemContainerStyle>
 				<ListView.View>
 					<GridView>
-						<GridViewColumn Width="250" Header="Название">
+                        <GridViewColumn Width="250" Header="{x:Static res:ProcedurePropertiesView.Name}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">

@@ -113,7 +113,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(Resources.Language.Procedures.ViewModels.VariableDetailsViewModel.EmptyName);
 				return false;
 			}
 

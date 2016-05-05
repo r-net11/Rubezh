@@ -10,7 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public CameraSelectionViewModel(Camera camera)
 		{
-			Title = "Выбор видеоустройства";
+			Title = Resources.Language.ObjectSelection.ViewModels.CameraSelectionViewModel.Title;
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var cam in FiresecManager.SystemConfiguration.Cameras)
 			{

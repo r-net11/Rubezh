@@ -14,12 +14,12 @@ namespace AutomationModule.ViewModels
 			if (procedure == null)
 			{
 				Procedure = new Procedure();
-				Title = "Создание процедуры";
+				Title = Resources.Language.Procedures.ViewModels.ProcedureDetailsViewModel.CreateTitle;
 			}
 			else
 			{
 				Procedure = procedure;
-				Title = "Редактирование процедуры";
+				Title = Resources.Language.Procedures.ViewModels.ProcedureDetailsViewModel.EditTitle;
 			}
 			Name = Procedure.Name;
 			Description = Procedure.Description;
@@ -101,7 +101,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(Resources.Language.Procedures.ViewModels.ProcedureDetailsViewModel.EmptyName);
 				return false;
 			}
 			Procedure.Name = Name;

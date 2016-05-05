@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 	xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+    xmlns:res="clr-namespace:AutomationModule.Resources.Language.Procedures.Views"
 	MinWidth="500"
 	MinHeight="500">
 	<tree:TreeList
@@ -22,15 +23,14 @@
 		</tree:TreeList.ItemContainerStyle>
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Width="350" Header="Наименование">
+				<GridViewColumn Width="350" Header="{x:Static res:StepTypeSelectionView.Name}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image
 									Margin="1 0 0 0"
 									VerticalAlignment="Center"
-									Source="{Binding ImageSource,
-								                        Converter={StaticResource NullToImageConverter}}" />
+									Source="{Binding ImageSource, Converter={StaticResource NullToImageConverter}}" />
 								<TextBlock
 									Margin="2"
 									VerticalAlignment="Center"

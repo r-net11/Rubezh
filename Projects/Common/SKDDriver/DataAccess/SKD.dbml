@@ -10,6 +10,7 @@
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="AccessTemplate_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="AccessTemplateUID" Type="CardDoor" />
       <Association Name="AccessTemplate_Card" Member="Cards" ThisKey="UID" OtherKey="AccessTemplateUID" Type="Card" />
+      <Association Name="AccessTemplate_AccessTemplateDeactivatingReader" Member="AccessTemplateDeactivatingReaders" ThisKey="UID" OtherKey="AccessTemplateUID" Type="AccessTemplateDeactivatingReader" />
       <Association Name="Organisation_AccessTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
@@ -398,6 +399,7 @@
       <Column Name="UserTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ExternalKey" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
       <Column Name="IsHandicappedCard" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="AllowedPassCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="CardUID" Type="CardDoor" />
       <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
@@ -427,6 +429,14 @@
       <Column Name="IsSaveWhenRestart" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="IsReference" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="InitialValueXML" Type="System.String" DbType="nvarchar(MAX)" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AccessTemplateDeactivatingReader" Member="AccessTemplateDeactivatingReaders">
+    <Type Name="AccessTemplateDeactivatingReader">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="DeactivatingReaderUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="AccessTemplate_AccessTemplateDeactivatingReader" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

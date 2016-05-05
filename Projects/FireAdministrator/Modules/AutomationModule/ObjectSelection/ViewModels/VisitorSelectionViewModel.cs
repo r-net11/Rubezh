@@ -29,7 +29,7 @@ namespace AutomationModule.ViewModels
 
 		public VisitorSelectionViewModel(ShortEmployee visitor)
 		{
-			Title = "Выбор посетителя";
+			Title = Resources.Language.ObjectSelection.ViewModels.VisitorSelectionViewModel.Title;
 
 			BuildTreeAndSelect(visitor);
 		}

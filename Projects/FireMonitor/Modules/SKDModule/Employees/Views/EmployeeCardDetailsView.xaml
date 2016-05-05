@@ -6,6 +6,7 @@
 	xmlns:Views="clr-namespace:SKDModule.Views"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:behaviours="clr-namespace:Controls.Behaviours;assembly=Controls"
+	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	Width="475"
 	MinHeight="500">
 	<UserControl.Resources>
@@ -35,7 +36,7 @@
 					</Grid.ColumnDefinitions>
 					<TextBlock
 						Text="Ввод с клавиатуры"
-						Foreground="White"
+						Foreground="{DynamicResource ForegroundColorLight}"
 						VerticalAlignment="Center"
 						Margin="5" />
 					<RadioButton
@@ -67,7 +68,7 @@
 					<TextBlock
 						Grid.Row="1"
 						Text="Из деактивированных"
-						Foreground="White"
+						Foreground="{DynamicResource ForegroundColorLight}"
 						Margin="5"
 						VerticalAlignment="Center" />
 					<RadioButton
@@ -97,7 +98,7 @@
 					<TextBlock
 						Grid.Row="2"
 						Text="От контрольного считывателя"
-						Foreground="White"
+						Foreground="{DynamicResource ForegroundColorLight}"
 						Margin="5"
 						VerticalAlignment="Center" />
 					<RadioButton
@@ -160,7 +161,7 @@
 					<TextBlock
 						Grid.Row="3"
 						Text="От USB-считывателя"
-						Foreground="White"
+						Foreground="{DynamicResource ForegroundColorLight}"
 						Margin="5"
 						VerticalAlignment="Center" />
 					<RadioButton
@@ -205,6 +206,7 @@
 						<RowDefinition />
 						<RowDefinition />
 						<RowDefinition />
+						<RowDefinition />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" SharedSizeGroup="FirstColumn" />
@@ -212,7 +214,7 @@
 					</Grid.ColumnDefinitions>
 					<TextBlock
 						Text="Тип пропуска"
-						Foreground="White"
+						Foreground="{DynamicResource ForegroundColorLight}"
 						VerticalAlignment="Top"
 						Margin="5" />
 					<StackPanel
@@ -232,13 +234,13 @@
 						</ComboBox>
 						<TextBlock
 							Margin="2"
-							Foreground="White"
+							Foreground="{DynamicResource ForegroundColorLight}"
 							Text="{Binding SelectedCardType, Converter={StaticResource CardTypeToLongStringConverter}}"
 							TextWrapping="Wrap" />
 					</StackPanel>
 					<TextBlock
 						Grid.Row="1"
-						Foreground="White"
+						Foreground="{DynamicResource ForegroundColorLight}"
 						Text="Пароль"
 						VerticalAlignment="Center"
 						Margin="5" />
@@ -254,7 +256,7 @@
 					<TextBlock
 						Grid.Row="2"
 						Text="Начало действия"
-						Foreground="White"
+						Foreground="{DynamicResource ForegroundColorLight}"
 						VerticalAlignment="Center"
 						Margin="5" />
 					<DatePicker
@@ -273,7 +275,7 @@
 					<TextBlock
 						Grid.Row="3"
 						Text="Окончание действия"
-						Foreground="White"
+						Foreground="{DynamicResource ForegroundColorLight}"
 						VerticalAlignment="Center"
 						Margin="5" />
 					<DatePicker
@@ -291,8 +293,32 @@
 						IsTodayHighlighted="False"
 						DisplayDateStart="{x:Static sys:DateTime.Now}"
 						SelectedDate="{Binding EndDate}" />
-					<CheckBox
+					<TextBlock
 						Grid.Row="4"
+						Grid.Column="0"
+						Text="Разрешенное число проходов"
+						Foreground="{DynamicResource ForegroundColorLight}"
+						Margin="5"/>
+					<StackPanel
+						Grid.Row="4"
+						Grid.Column="1">
+						<extToolkit:IntegerUpDown
+							Value="{Binding AllowedPassCount}"
+							Width="225"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							Minimum="1"
+							Margin="2 4"
+							IsEnabled="{Binding CanEnterAllowedPassCount}" />
+						<TextBlock
+							Text="Контрольные считыватели не заданы! Проверьте выбранный шаблон доступа!"
+							TextWrapping="Wrap"
+							Foreground="{DynamicResource ForegroundColorLight}"
+							Margin="2"
+							Visibility="{Binding IsGuestCardWithEmptyAccessTemplate, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					</StackPanel>
+					<CheckBox
+						Grid.Row="5"
 						Grid.Column="1"
 						Margin="2 4"
 						IsChecked="{Binding IsAlternativeLockParams, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

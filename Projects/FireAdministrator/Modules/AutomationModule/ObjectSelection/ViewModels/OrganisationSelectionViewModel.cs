@@ -10,7 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public OrganisationSelectionViewModel(Organisation organisation)
 		{
-			Title = "Выбор организации";
+			Title = Resources.Language.ObjectSelection.ViewModels.OrganisationSelectionViewModel.Title;
 			Organisations = new ObservableCollection<OrganisationViewModel>();
 			var userOrganisations = OrganisationHelper.GetByCurrentUser();
 			foreach (var userOrganisation in userOrganisations)

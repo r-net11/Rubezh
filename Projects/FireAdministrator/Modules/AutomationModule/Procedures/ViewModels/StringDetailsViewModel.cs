@@ -6,7 +6,7 @@ namespace AutomationModule.ViewModels
 	{
 		public StringDetailsViewModel(string stringValue)
 		{
-			Title = "Редактор строки";
+		    Title = Resources.Language.Procedures.ViewModels.StringDetailsViewModel.Title;
 			StringValue = stringValue;
 		}
 

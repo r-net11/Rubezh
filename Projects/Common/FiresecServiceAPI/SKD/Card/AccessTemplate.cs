@@ -10,6 +10,7 @@ namespace FiresecAPI.SKD
 			: base()
 		{
 			CardDoors = new List<CardDoor>();
+			DeactivatingReaders = new List<AccessTemplateDeactivatingReader>();
 		}
 
 		[DataMember]
@@ -20,5 +21,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<CardDoor> CardDoors { get; set; }
+
+		[DataMember]
+		public List<AccessTemplateDeactivatingReader> DeactivatingReaders { get; set; }
 	}
 }

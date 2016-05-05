@@ -112,7 +112,7 @@ namespace AutomationModule.ViewModels
 
 		public string Name
 		{
-			get { return Procedure != null ? Procedure.Name : "процедура не найдена"; }
+			get { return Procedure != null ? Procedure.Name : Resources.Language.Schedules.ViewModels.ScheduleProcedureViewModel.ProcedureNotFound; }
 		}
 	}
 }

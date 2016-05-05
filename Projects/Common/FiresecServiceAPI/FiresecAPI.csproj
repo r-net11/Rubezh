@@ -738,6 +738,7 @@
     <Compile Include="Models\Video\CameraState.cs" />
     <Compile Include="Models\Video\RviSettings.cs" />
     <Compile Include="SKD\AttachedFile\Attachment.cs" />
+    <Compile Include="SKD\Card\AccessTemplateDeactivatingReader.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDDoorDayInterval.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDDoorDayIntervalPart.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDDoorWeeklyIntervalPart.cs" />

@@ -25,9 +25,9 @@ namespace AutomationModule.Layout.ViewModels
 			_layoutPartViewModel = layoutPartViewModel;
 			TextAlignments = new List<string>()
 			{
-				"По левому краю",
-				"По правому краю",
-				"По центру",
+				Resources.Language.Layout.ViewModels.LayoutPartPropertyProcedurePageStyleViewModel.Left,
+				Resources.Language.Layout.ViewModels.LayoutPartPropertyProcedurePageStyleViewModel.Center,
+				Resources.Language.Layout.ViewModels.LayoutPartPropertyProcedurePageStyleViewModel.Right,
 			};
 			Fonts = System.Windows.Media.Fonts.SystemFontFamilies.OrderBy(item => item.Source).ToList();
 		}

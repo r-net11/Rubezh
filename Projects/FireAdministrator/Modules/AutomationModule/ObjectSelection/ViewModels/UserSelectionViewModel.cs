@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 	{
 		public UserSelectionViewModel(User user)
 		{
-			Title = "Выбор пользователя";
+			Title = Resources.Language.ObjectSelection.ViewModels.UserSelectionViewModel.Title;
 
 			Users = new SortableObservableCollection<UserViewModel>();
 			if (FiresecManager.SecurityConfiguration.Users != null)

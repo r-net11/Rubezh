@@ -63,6 +63,8 @@ namespace SKDDriver
 				result.EmployeeName = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
 				result.OrganisationUID = employee.OrganisationUID.HasValue ? employee.OrganisationUID.Value : Guid.Empty;
 			}
+
+			result.AllowedPassCount = tableItem.AllowedPassCount;
 			return result;
 		}
 
@@ -93,6 +95,7 @@ namespace SKDDriver
 				result.EmployeeName = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
 				result.OrganisationUID = employee.OrganisationUID.HasValue ? employee.OrganisationUID.Value : Guid.Empty;
 			}
+			result.AllowedPassCount = card.AllowedPassCount;
 			return result;
 		}
 
@@ -113,6 +116,7 @@ namespace SKDDriver
 			tableItem.UserTime = apiItem.UserTime;
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
+			tableItem.AllowedPassCount = apiItem.AllowedPassCount;
 		}
 
 		public override OperationResult Save(SKDCard card)

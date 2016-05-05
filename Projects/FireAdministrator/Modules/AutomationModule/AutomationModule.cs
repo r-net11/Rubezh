@@ -62,10 +62,10 @@ namespace AutomationModule
 					new NavigationItem(ModuleType.ToDescription(), "tree",
 						new List<NavigationItem>
 						{
-							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
-							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
-							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
-							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music")
+							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, Resources.Language.AutomationModule.Procedures, "Procedure"),
+							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, Resources.Language.AutomationModule.Schedules, "Shedules"),
+							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, Resources.Language.AutomationModule.GlobalVariables, "GlobalVariables"),
+							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, Resources.Language.AutomationModule.Sounds, "Music")
 						}) {IsExpanded = true},
 				};
 		}
@@ -97,12 +97,12 @@ namespace AutomationModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выпонить процедуру", "BProcedures.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, Resources.Language.AutomationModule.Procedure, Resources.Language.AutomationModule.ExecuteProcedure, "BProcedures.png")
 			{
 				Factory = p => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
 #if DEBUG
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, Resources.Language.AutomationModule.Procedures, Resources.Language.AutomationModule.ProcedurePanel, "BProcedures.png");
 #endif
 		}
 

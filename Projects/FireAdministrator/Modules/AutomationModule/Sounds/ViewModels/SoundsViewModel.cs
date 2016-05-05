@@ -95,8 +95,8 @@ namespace AutomationModule.ViewModels
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
-				Filter = "Звуковой файл |*.wav",
-				DefaultExt = "Звуковой файл |*.wav"
+				Filter = Resources.Language.Sounds.ViewModels.SoundsViewModel.Filter,
+                DefaultExt = Resources.Language.Sounds.ViewModels.SoundsViewModel.Filter
 			};
 			if (openFileDialog.ShowDialog().Value)
 			{

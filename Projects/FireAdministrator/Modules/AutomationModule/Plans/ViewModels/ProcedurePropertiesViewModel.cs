@@ -17,7 +17,7 @@ namespace AutomationModule.Plans.ViewModels
 		{
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;
-			Title = "Свойства фигуры: Процедура";
+		    Title = Resources.Language.Plans.ViewModels.ProcedurePropertiesViewModel.Title;
 			if (element.ProcedureUID != Guid.Empty)
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);
 		}

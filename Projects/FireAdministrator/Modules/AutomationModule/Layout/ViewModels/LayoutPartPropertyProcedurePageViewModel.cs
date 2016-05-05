@@ -44,7 +44,7 @@ namespace AutomationModule.Layout.ViewModels
 
 		public override string Header
 		{
-			get { return "Процедура"; }
+			get { return Resources.Language.Layout.ViewModels.LayoutPartPropertyProcedurePageViewModel.Procedure; }
 		}
 		public override void CopyProperties()
 		{

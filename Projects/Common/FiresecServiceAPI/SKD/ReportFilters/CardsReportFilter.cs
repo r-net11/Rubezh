@@ -17,7 +17,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			PassCardForcing = true;
 			PassCardInactive = true;
 			PassCardLocked = true;
-			PassCardOnceOnly = true;
+			PassCardGuest = true;
 			PassCardPermanent = true;
 			PassCardTemprorary = true;
 			IsEmployee = true;
@@ -43,7 +43,7 @@ namespace FiresecAPI.SKD.ReportFilters
 		public bool PassCardTemprorary { get; set; }
 
 		[DataMember]
-		public bool PassCardOnceOnly { get; set; }
+		public bool PassCardGuest { get; set; }
 
 		[DataMember]
 		public bool PassCardForcing { get; set; }

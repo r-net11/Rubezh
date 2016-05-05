@@ -1,9 +1,10 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ScheduleProceduresView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:res="clr-namespace:AutomationModule.Resources.Language.Schedules.Views">
 	<DataGrid ItemsSource="{Binding ScheduleProcedures}" SelectedItem="{Binding SelectedScheduleProcedure}" IsReadOnly="False">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Название" Width="*">
+			<DataGridTemplateColumn Header="{x:Static res:ScheduleProceduresView.Name}" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

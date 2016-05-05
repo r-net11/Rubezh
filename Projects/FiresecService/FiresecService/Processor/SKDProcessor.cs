@@ -5,6 +5,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.Device;
+using FiresecService.Service;
 using SKDDriver;
 using SKDDriver.Translators;
 using System;
@@ -34,25 +35,25 @@ namespace FiresecService
 				Processor.Start();
 				foreach (var deviceProcessor in Processor.DeviceProcessors)
 				{
-					deviceProcessor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
-					deviceProcessor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
+					deviceProcessor.NewJournalItem -= OnNewJournalItem;
+					deviceProcessor.NewJournalItem += OnNewJournalItem;
 
-					deviceProcessor.ConnectionAppeared -= new Action<DeviceProcessor>(OnConnectionAppeared);
-					deviceProcessor.ConnectionAppeared += new Action<DeviceProcessor>(OnConnectionAppeared);
+					deviceProcessor.ConnectionAppeared -= OnConnectionAppeared;
+					deviceProcessor.ConnectionAppeared += OnConnectionAppeared;
 				}
 
-				Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
-				Processor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
+				Processor.NewJournalItem -= OnNewJournalItem;
+				Processor.NewJournalItem += OnNewJournalItem;
 
-				Processor.StatesChangedEvent -= new Action<SKDStates>(OnSKDStates);
-				Processor.StatesChangedEvent += new Action<SKDStates>(OnSKDStates);
+				Processor.StatesChangedEvent -= OnSKDStates;
+				Processor.StatesChangedEvent += OnSKDStates;
 
-				Processor.SKDProgressCallbackEvent -= new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
-				Processor.SKDProgressCallbackEvent += new Action<SKDProgressCallback>(OnSKDProgressCallbackEvent);
+				Processor.SKDProgressCallbackEvent -= OnSKDProgressCallbackEvent;
+				Processor.SKDProgressCallbackEvent += OnSKDProgressCallbackEvent;
 
 				// События функционала автопоиска контроллеров в сети
-				Processor.NewSearchDevice -= new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
-				Processor.NewSearchDevice += new Action<SKDDeviceSearchInfo>(OnNewSearchDevice);
+				Processor.NewSearchDevice -= OnNewSearchDevice;
+				Processor.NewSearchDevice += OnNewSearchDevice;
 			}
 			catch (Exception e)
 			{
@@ -80,10 +81,10 @@ namespace FiresecService
 			{
 				using (var databaseService = new SKDDatabaseService())
 				{
-					var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
-					if (!operationResult.HasError)
+					var getEmployeeByCardNoOperationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
+					if (!getEmployeeByCardNoOperationResult.HasError)
 					{
-						var employeeUID = operationResult.Result;
+						var employeeUID = getEmployeeByCardNoOperationResult.Result;
 						journalItem.EmployeeUID = employeeUID;
 						if (employeeUID != Guid.Empty)
 						{
@@ -97,14 +98,37 @@ namespace FiresecService
 						// Для онлайн событий прохода выполняем фиксацию факта прохода в БД журнала проходов
 						if (journalItem.JournalItemType == JournalItemType.Online && journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
 						{
-							var readerdevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							if (readerdevice != null && readerdevice.Zone != null)
+							var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+							if (readerDevice != null && readerDevice.Zone != null)
 							{
-								var zoneUID = readerdevice.Zone.UID;
+								var zoneUID = readerDevice.Zone.UID;
 								using (var passJournalTranslator = new PassJournalTranslator())
 								{
 									passJournalTranslator.AddPassJournal(employeeUID, zoneUID);
 								}
+							}
+						}
+					}
+
+					// Бизнес-логика для приложенной к считывателю "Гостевой" карты, если контроллер разрешает проход
+					if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен &&
+					    journalItem.ObjectUID != Guid.Empty)
+					{
+						var getCardOperationResult = databaseService.CardTranslator.Get(cardNo);
+						if (!getCardOperationResult.HasError)
+						{
+							var card = getCardOperationResult.Result;
+							if (card != null &&
+								card.CardType == CardType.Guest &&
+								databaseService.AccessTemplateDeactivatingReaderTranslator.HasReader(journalItem.ObjectUID))
+							{
+								card.AllowedPassCount--;
+								databaseService.CardTranslator.Save(card);
+								// Если разрешенное число проходов равно нулю, деактивируем "Гостевую" карту
+								if (card.AllowedPassCount == 0)
+									FiresecServiceManager.SafeFiresecService.DeleteCardFromEmployee(card, journalItem.UserName, "Разрешенное число проходов равно нулю");
+								// Уведомляем подключенных Клиентов о том, что был осуществлен проход по "Гостевой" карте
+								FiresecServiceManager.SafeFiresecService.FiresecService.NotifyGuestCardPassed(card);
 							}
 						}
 					}
