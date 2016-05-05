@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -21,20 +21,15 @@ namespace GKModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: МПТ";
-			MPTs = new ObservableCollection<MPTViewModel>();
-			foreach (var mpt in GKManager.MPTs)
-			{
-				var mptViewModel = new MPTViewModel(mpt);
-				MPTs.Add(mptViewModel);
-			}
+			MPTs = new ObservableCollection<GKMPT>(GKManager.MPTs);
 			if (IElementMPT.MPTUID != Guid.Empty)
-				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.UID == IElementMPT.MPTUID);
+				SelectedMPT = MPTs.FirstOrDefault(x => x.UID == IElementMPT.MPTUID);
 		}
 
-		public ObservableCollection<MPTViewModel> MPTs { get; private set; }
+		public ObservableCollection<GKMPT> MPTs { get; private set; }
 
-		private MPTViewModel _selectedMPT;
-		public MPTViewModel SelectedMPT
+		private GKMPT _selectedMPT;
+		public GKMPT SelectedMPT
 		{
 			get { return _selectedMPT; }
 			set
@@ -59,8 +54,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKMPTEvent>().Publish(SelectedMPT.MPT.UID);
-			SelectedMPT.Update();
+			ServiceFactory.Events.GetEvent<EditGKMPTEvent>().Publish(SelectedMPT.UID);
 		}
 		private bool CanEdit()
 		{
@@ -68,7 +62,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			GKPlanExtension.Instance.RewriteItem(IElementMPT, SelectedMPT.MPT);
+			GKPlanExtension.Instance.RewriteItem(IElementMPT, SelectedMPT);
 			return base.Save();
 		}
 		protected override bool CanSave()

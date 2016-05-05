@@ -66,5 +66,19 @@ namespace VideoModule.Plans.ViewModels
 				return false;
 			return true;
 		}
+
+		public override void OnClosed()
+		{
+			Unsubscribe(Cameras);
+			base.OnClosed();
+		}
+		void Unsubscribe(IEnumerable<CameraViewModel> cameras)
+		{
+			foreach (var camera in cameras)
+			{
+				camera.UnsubscribeEvents();
+				Unsubscribe(camera.Children);
+			}
+		}
 	}
 }

@@ -32,14 +32,15 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
+								<Image Source="{Binding PlanElementUIDs, Converter={StaticResource PlanElementUIDsToImageSourceConverter}}" />
 								<Image Margin="1 0 0 0" Width="16" Height="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" />
-								<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding MPT.No}" VerticalAlignment="Center" />
+								<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding No}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="Auto" Binding="{Binding MPT.Name}" Header="Наименование" />
-				<DataGridTextColumn Width="*" Binding="{Binding MPT.Description}" Header="Примечание" />
+				<DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Наименование" />
+				<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
 			<DataGrid.ContextMenu>
 				<ContextMenu>

@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -21,16 +21,16 @@ namespace GKModule.Plans.ViewModels
 			_elementGKDoor = elementGKDoor;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			GKDoors = new ObservableCollection<DoorViewModel>(GKManager.Doors.Select(door => new DoorViewModel(door)));
+			GKDoors = new ObservableCollection<GKDoor>(GKManager.Doors);
 			if (elementGKDoor.DoorUID != Guid.Empty)
-				SelectedGKDoor = GKDoors.FirstOrDefault(door => door.Door.UID == elementGKDoor.DoorUID);
+				SelectedGKDoor = GKDoors.FirstOrDefault(door => door.UID == elementGKDoor.DoorUID);
 
 		}
 
-		public ObservableCollection<DoorViewModel> GKDoors { get; private set; }
+		public ObservableCollection<GKDoor> GKDoors { get; private set; }
 
-		DoorViewModel _selectedGKDoor;
-		public DoorViewModel SelectedGKDoor
+		GKDoor _selectedGKDoor;
+		public GKDoor SelectedGKDoor
 		{
 			get { return _selectedGKDoor; }
 			set
@@ -56,8 +56,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Publish(SelectedGKDoor.Door.UID);
-			SelectedGKDoor.Update();
+			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Publish(SelectedGKDoor.UID);
 		}
 		bool CanEdit()
 		{
@@ -65,7 +64,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			GKPlanExtension.Instance.RewriteItem(_elementGKDoor, SelectedGKDoor.Door);
+			GKPlanExtension.Instance.RewriteItem(_elementGKDoor, SelectedGKDoor);
 			return base.Save();
 		}
 	}

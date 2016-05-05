@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using System.Collections.Generic;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -68,6 +69,20 @@ namespace GKModule.Plans.ViewModels
 		protected override bool CanSave()
 		{
 			return SelectedDevice != null && SelectedDevice.Driver.IsPlaceable;
+		}
+
+		public override void OnClosed()
+		{
+			Unsubscribe(RootDevices);
+			base.OnClosed();
+		}
+		void Unsubscribe(IEnumerable<DeviceViewModel> devices)
+		{
+			foreach (var device in devices)
+			{
+				device.UnsubscribeEvents();
+				Unsubscribe(device.Children);
+			}
 		}
 	}
 }

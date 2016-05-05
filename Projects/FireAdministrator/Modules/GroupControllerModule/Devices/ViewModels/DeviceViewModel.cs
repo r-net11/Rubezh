@@ -504,7 +504,7 @@ namespace GKModule.ViewModels
 						presentationZone = "Нажмите для настройки логики";
 					if (Driver.HasMirror)
 						presentationZone = "Нажмите для настройки отражения";
-					if(Device.IgnoreLogicValidation)
+					if (Device.IgnoreLogicValidation)
 						presentationZone = "Запрещено";
 				}
 				return presentationZone;
@@ -980,5 +980,11 @@ namespace GKModule.ViewModels
 		}
 		public bool IsPmf { get { return Device.DriverType == GKDriverType.GKMirror; } }
 
+		public void UnsubscribeEvents()
+		{
+			Device.Changed -= OnChanged;
+			Device.PlanElementUIDsChanged -= UpdateVisualizationState;
+			Device.AUParametersChanged -= UpdateDeviceParameterMissmatch;
+		}
 	}
 }

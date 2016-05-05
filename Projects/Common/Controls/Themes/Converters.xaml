@@ -39,6 +39,7 @@
 	<Converters:BoolToMinimizeTooltipConverter x:Key="BoolToMinimizeTooltipConverter" />
 	<Converters:BoolToRotationConverter x:Key="BoolToRotatinConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
+	<Converters:PlanElementUIDsToImageSourceConverter x:Key="PlanElementUIDsToImageSourceConverter" />
 	<Converters:ConnectionStateToImageSourceConverter x:Key="ConnectionStateToImageSourceConverter" />
 	<Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
 	<Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />

@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -21,21 +21,15 @@ namespace GKModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: СКД Зона";
-			var zones = GKManager.SKDZones;
-			Zones = new ObservableCollection<SKDZoneViewModel>();
-			foreach (var zone in zones)
-			{
-				var zoneViewModel = new SKDZoneViewModel(zone);
-				Zones.Add(zoneViewModel);
-			}
+			Zones = new ObservableCollection<GKSKDZone>(GKManager.SKDZones);
 			if (iElementZone.ZoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.UID == iElementZone.ZoneUID);
 		}
 
-		public ObservableCollection<SKDZoneViewModel> Zones { get; private set; }
+		public ObservableCollection<GKSKDZone> Zones { get; private set; }
 
-		SKDZoneViewModel _selectedZone;
-		public SKDZoneViewModel SelectedZone
+		GKSKDZone _selectedZone;
+		public GKSKDZone SelectedZone
 		{
 			get { return _selectedZone; }
 			set
@@ -59,8 +53,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKSKDZoneEvent>().Publish(SelectedZone.Zone.UID);
-			SelectedZone.Update();
+			ServiceFactory.Events.GetEvent<EditGKSKDZoneEvent>().Publish(SelectedZone.UID);
 		}
 		private bool CanEdit()
 		{
@@ -69,7 +62,7 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone.Zone);
+			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone);
 			return base.Save();
 		}
 		protected override bool CanSave()
