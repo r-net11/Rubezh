@@ -62,7 +62,6 @@ namespace GKIntegratedTest
 		{
 			journalItems = new List<JournalItem>();
 			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
-			GKDriversCreator.Create();
 			InitializeRootDevices();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();

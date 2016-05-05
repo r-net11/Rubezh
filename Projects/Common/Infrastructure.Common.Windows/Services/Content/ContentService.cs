@@ -1,5 +1,4 @@
 ﻿using Common;
-using Infrastructure.Plans.Painters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +11,7 @@ namespace Infrastructure.Common.Services.Content
 {
 	public class ContentService : IContentService
 	{
+		public static event Action OnClose;
 		private const string ContentFolderRelativePath = @"Configuration\Content";
 		public string ContentFolder { get; private set; }
 		private Dictionary<string, Stream> _streams;
@@ -244,7 +244,8 @@ namespace Infrastructure.Common.Services.Content
 				_images = null;
 			if (_objects != null)
 				_objects = null;
-			PainterCache.Dispose();
+			if (OnClose != null)
+				OnClose();
 		}
 
 		public void RemoveAllBut(IEnumerable<string> uids)

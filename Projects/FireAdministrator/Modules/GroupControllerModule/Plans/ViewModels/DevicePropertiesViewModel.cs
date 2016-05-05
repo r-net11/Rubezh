@@ -4,6 +4,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -57,6 +58,24 @@ namespace GKModule.Plans.ViewModels
 			{
 				_selectedDevice = value;
 				OnPropertyChanged(() => SelectedDevice);
+			}
+		}
+		public string DeviceDescription
+		{
+			get
+			{
+				return SelectedDevice != null ? SelectedDevice.Description : "";
+			}
+			set
+			{
+				if (SelectedDevice != null)
+				{
+					SelectedDevice.Description = value;
+					var device = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == SelectedDevice.Device);
+					if (device != null)
+						device.Update();
+				}
+				OnPropertyChanged(() => DeviceDescription);
 			}
 		}
 

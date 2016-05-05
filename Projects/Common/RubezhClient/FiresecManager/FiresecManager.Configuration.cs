@@ -120,7 +120,6 @@ namespace RubezhClient
 				LayoutsConfiguration.Update();
 				PlansConfiguration.Update();
 				SystemConfiguration.UpdateConfiguration();
-				GKDriversCreator.Create();
 				GKManager.UpdateConfiguration();
 				GKManager.CreateStates();
 				UpdatePlansConfiguration();

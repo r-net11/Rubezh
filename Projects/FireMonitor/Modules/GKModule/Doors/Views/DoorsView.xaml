@@ -24,7 +24,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+								<Image Width="16" Height="16" Margin="2 0" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 								<TextBlock Width="200" Margin="2 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<TextBlock Text="{Binding Door.Name}" />
