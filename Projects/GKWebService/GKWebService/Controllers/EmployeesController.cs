@@ -122,6 +122,13 @@ namespace GKWebService.Controllers
         }
 
         [ErrorHandler]
+        public JsonNetResult GetSingleShort(Guid? id)
+        {
+			var employee = EmployeeHelper.GetSingleShort(id);
+			return new JsonNetResult { Data = employee };
+        }
+
+        [ErrorHandler]
         public JsonNetResult GetEmployeeCards(Guid? id)
 		{
 			var cards = new List<ShortEmployeeCardModel>();

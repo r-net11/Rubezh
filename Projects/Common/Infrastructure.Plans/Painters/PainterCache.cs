@@ -1,4 +1,5 @@
 ﻿using Common;
+using Infrastructure.Common.Services.Content;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace Infrastructure.Plans.Painters
 
 		static PainterCache()
 		{
+			ContentService.OnClose += () => Dispose();
 			UseTransparentImage = true;
 			try
 			{

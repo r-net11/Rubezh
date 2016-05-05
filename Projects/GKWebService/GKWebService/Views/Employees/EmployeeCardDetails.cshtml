@@ -4,15 +4,15 @@
     Layout = null;
 }
 
-<div class="modal-header">
-    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
-    <h3 class="modal-title">{{title}}</h3>
-</div>
+<form name="employeeCardDetailsForm" class="form-horizontal" role="form" novalidate>
+    <div class="modal-header">
+        <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
 
-<div class="modal-body">
-    <uib-tabset>
-        <uib-tab heading="Основные">
-            <form class="form-horizontal" role="form">
+    <div class="modal-body">
+        <uib-tabset>
+            <uib-tab heading="Основные">
                 <div class="form-group" ng-show="canChangeCardType">
                     <label class="control-label col-sm-5" for="GKCardType">Тип пропуска</label>
                     <div class="col-sm-7">
@@ -36,35 +36,38 @@
                         </p>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-5" for="GKLevel">Уровень доступа</label>
+                <div class="form-group" ng-show="isGKLevelEditable" ng-class="{'has-error': (employeeCardDetailsForm.$submitted || employeeCardDetailsForm.employeeCardDetailsGKLevel.$touched) && employeeCardDetailsForm.employeeCardDetailsGKLevel.$invalid}">
+                    <label class="control-label col-sm-5" for="employeeCardDetailsGKLevel">Уровень доступа</label>
                     <div class="col-sm-7">
-                        <input type="number" id="GKLevel" class="form-control" ng-model="card.Card.GKLevel">
+                        <input id="employeeCardDetailsGKLevel" name="employeeCardDetailsGKLevel" type="number" id="GKLevel" class="form-control" ng-model="card.Card.GKLevel" min="0" ng-max="maxGKLevel" ng-pattern="'\\d+'" required>
+                        <div ng-show="employeeCardDetailsForm.$submitted || employeeCardDetailsForm.employeeCardDetailsGKLevel.$touched">
+                            <div class="help-block" ng-show="employeeCardDetailsForm.employeeCardDetailsGKLevel.$invalid">Поле 'Уровень доступа' должно содержать только цифры и иметь значение в диапазоне от 0 до {{maxGKLevel}}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-show="isGKLevelEditable">
                     <label class="control-label col-sm-5" for="GKSchedule">График доступа</label>
                     <div class="col-sm-7">
-                        <select id="GKSchedule" class="form-control" ng-model="card.SelectedSchedule" ng-options="schedule.No + ' ' + schedule.Name for schedule in card.Schedules track by schedule.No">
-                        </select>
+                        <select id="GKSchedule" class="form-control" ng-model="card.SelectedSchedule" ng-options="schedule.No + ' ' + schedule.Name for schedule in card.Schedules track by schedule.No"></select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="employeeCardDetailsNumber">Номер</label>
-                    <div class="col-sm-7">
-                        <input type="number" id="employeeCardDetailsNumber" class="form-control" ng-model="card.Card.Number" ng-disabled="!isNew || card.UseStopList">
+                    <label class="control-label col-sm-5">Ручной ввод<input type="radio" ng-model="card.UseStopList" ng-value="false" ng-disabled="!isNew"></label>
+                    <div>
+                        <label class="control-label col-sm-2" for="employeeCardDetailsNumber">Номер</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="number" id="employeeCardDetailsNumber" ng-model="card.Card.Number" ng-disabled="!isNew || card.UseStopList">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5"><input type="checkbox" ng-model="card.UseStopList" ng-disabled="!isNew">Из списка деактивированных</label>
+                    <label class="control-label col-sm-5">Из списка деактивированных<input type="radio" ng-model="card.UseStopList" ng-value="true" ng-disabled="!isNew"></label>
                     <div class="col-sm-7">
                         <select class="form-control" ng-model="card.SelectedStopListCard" ng-options="stopListCard.Number for stopListCard in card.StopListCards" ng-disabled="!isNew || !card.UseStopList"></select>
                     </div>
                 </div>
-            </form>
-        </uib-tab>
-        <uib-tab ng-show="canSelectGKControllers()" heading="Контроллеры">
-            <form class="form-horizontal" role="form">
+            </uib-tab>
+            <uib-tab ng-show="canSelectGKControllers()" heading="Контроллеры">
                 <ul class="SelectableList">
                     <li ng-repeat="controller in card.AvailableGKControllers">
                         <div>
@@ -75,10 +78,8 @@
                         </div>
                     </li>
                 </ul>
-            </form>
-        </uib-tab>
-        <uib-tab heading="Точки доступа">
-            <form class="form-horizontal" role="form">
+            </uib-tab>
+            <uib-tab heading="Точки доступа">
                 <ul id="EmployeeCardDetailsDoors" class="SelectableList">
                     <li ng-repeat="door in card.Doors" ng-class="{selected: door === card.SelectedDoor}">
                         <div ng-click="card.SelectedDoor = door">
@@ -90,19 +91,17 @@
                 </ul>
                 <div id="EmployeeCardDetailsDoor" ng-show="card.SelectedDoor">
                     <label for="EnterSchedule">
-                        <span>Временной критерий для входа</span><br/>
+                        <span>Временной критерий для входа</span><br />
                         <select name="EnterSchedule" class="form-control" ng-model="card.SelectedDoor.SelectedEnterSchedule" ng-options="schedule.Name for schedule in card.SelectedDoor.EnterSchedules track by schedule.ScheduleNo" ng-disabled="!card.SelectedDoor.IsChecked"></select>
                     </label>
-                    <br/>
+                    <br />
                     <label for="ExitSchedule" ng-show="card.SelectedDoor.HasExit">
-                        <span>Временной критерий для выхода</span><br/>
+                        <span>Временной критерий для выхода</span><br />
                         <select name="ExitSchedule" class="form-control" ng-model="card.SelectedDoor.SelectedExitSchedule" ng-options="schedule.Name for schedule in card.SelectedDoor.ExitSchedules track by schedule.ScheduleNo" ng-disabled="!card.SelectedDoor.IsChecked"></select>
                     </label>
                 </div>
-            </form>
-        </uib-tab>
-        <uib-tab heading="Шаблон доступа">
-            <form class="form-horizontal" role="form">
+            </uib-tab>
+            <uib-tab heading="Шаблон доступа">
                 <ul id="EmployeeCardDetailsTemplates" class="SelectableList">
                     <li ng-repeat="template in card.AvailableAccessTemplates track by template.UID" ng-class="{selected: template.UID === card.SelectedAccessTemplate.UID}">
                         <div ng-click="card.SelectedAccessTemplate = template">
@@ -113,10 +112,10 @@
                         </div>
                     </li>
                 </ul>
-            </form>
-        </uib-tab>
-    </uib-tabset>
-</div>
-<div mobile-hover-fix class="modal-footer">
-    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
-</div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+    <div mobile-hover-fix class="modal-footer">
+        <button type="submit" class="btn btn-primary pull-right" ng-click="employeeCardDetailsForm.$valid && save()">OK</button>
+    </div>
+</form>

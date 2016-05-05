@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('HRCtrl', 
-        ['$scope', '$uibModal', '$timeout', 'authData', 'employeesService', 'dateFilter',
-        function ($scope, $uibModal, $timeout, authData, employeesService, dateFilter) {
+        ['$scope', '$uibModal', '$timeout', '$filter', 'authData', 'employeesService', 'dateFilter',
+        function ($scope, $uibModal, $timeout, $filter, authData, employeesService, dateFilter) {
             $scope.authData = authData;
 
             $scope.canEmployeesView = function () {
@@ -122,7 +122,7 @@
                             break;
                         }
                     }
-                    if ($scope.isWithDeleted) {
+                    if ($scope.isWithDeleted()) {
                         for (var k = orgIndex; k < orgIndex + childCount + 1; k++) {
                             organisations[k].IsDeleted = true;
                             organisations[k].IsOrganisationDeleted = true;
@@ -149,6 +149,32 @@
                 $timeout(function () {
                     gridApi.treeBase.toggleRowTreeState(gridApi.grid.getRow(newOrganisation));
                 });
+            }
+
+            $scope.restoreOrganisation = function (gridApi, organisations, newOrganisations, organisation) {
+                newOrganisations = $filter('filter')(newOrganisations, { OrganisationUID: organisation.UID });
+                if (newOrganisations.length > 0) {
+                    // удаление старых элементов
+                    var oldOrganisations = $filter('filter')(organisations, { OrganisationUID: organisation.UID });
+                    if (oldOrganisations.length) {
+                        for (var i = 0; i < organisations.length; i++) {
+                            if (organisations[i].OrganisationUID === organisation.UID) {
+                                organisations.splice(i, oldOrganisations.length);
+                                break;
+                            }
+                        }
+                    }
+                    // добавление новых элементов
+                    angular.forEach(newOrganisations, function (value) {
+                        organisations.push(value);
+                        value.$$treeLevel = value.Level;
+                    });
+                    $timeout(function () {
+                        angular.forEach(newOrganisations, function (value) {
+                            gridApi.treeBase.toggleRowTreeState(gridApi.grid.getRow(value));
+                        });
+                    });
+                }
             }
         }]
     );

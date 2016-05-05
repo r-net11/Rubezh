@@ -8,6 +8,8 @@ using RubezhClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using GKModule.Events;
+using Infrastructure;
 using RubezhAPI;
 using Common;
 
@@ -25,6 +27,7 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 
 			Doors = doors;
 			TargetDoors = new SortableObservableCollection<GKDoor>();
@@ -163,6 +166,17 @@ namespace GKModule.ViewModels
 			SourceDoors.Sort(x => x.No);
 			TargetDoors.Clear();
 			SelectedSourceDoor = SourceDoors.FirstOrDefault();
+		}
+
+		public RelayCommand CreateNewCommand { get; private set; }
+		void OnCreateNew()
+		{
+			var createGKDoorEventArg = new CreateGKDoorEventArg();
+			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Publish(createGKDoorEventArg);
+			if (createGKDoorEventArg.GKDoor != null)
+			{
+				SourceDoors.Add(createGKDoorEventArg.GKDoor);
+			}
 		}
 
 		public bool CanAdd(object parameter)

@@ -22,20 +22,14 @@ namespace RubezhAPI.Models
 		public void Update()
 		{
 			AllPlans = new List<Plan>();
-			AddChildren(Plans, null);
+			AddToAllPlans(Plans);
 		}
-		private void AddChildren(List<Plan> plans, Plan parent)
+		private void AddToAllPlans(List<Plan> plans)
 		{
 			foreach (var plan in plans)
 			{
-				plan.Parent = parent;
-				var realPlan = plan as Plan;
-				if (realPlan != null)
-				{
-					AllPlans.Add(realPlan);
-				}
-				plan.Children = new List<Plan>();
-				AddChildren(plan.Children, plan);
+				AllPlans.Add(plan);
+				AddToAllPlans(plan.Children);
 			}
 		}
 	}

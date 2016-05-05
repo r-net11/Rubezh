@@ -23,31 +23,31 @@ namespace RubezhAPI.Automation
 
 	public enum GKDoorCommandType
 	{
-		[Description("Автоматика")]
+		[Description("Перевести в автоматический режим")]
 		Automatic,
 
-		[Description("Ручное")]
+		[Description("Перевести в ручной режим")]
 		Manual,
 
-		[Description("Отключить")]
+		[Description("Перевести в отключенный режим")]
 		Ignore,
 
-		[Description("Открыть дверь")]
+		[Description("Включить")]
 		Open,
 
-		[Description("Закрыть дверь")]
+		[Description("Выключить")]
 		Close,
 
-		[Description("Закрыть дверь сразу")]
+		[Description("Выключить немедленно")]
 		CloseNow,
 
-		[Description("Открыть дверь в автоматическом режиме")]
+		[Description("Включить в автоматическом режиме")]
 		OpenInAutomatic,
 
-		[Description("Закрыть дверь в автоматическом режиме")]
+		[Description("Выключить в автоматическом режиме")]
 		CloseInAutomatic,
 
-		[Description("Закрыть дверь сразу в автоматическом режиме")]
+		[Description("Выключить немедленно в автоматическом режиме")]
 		CloseNowInAutomatic,
 
 		[Description("Установить режим ОТКРЫТО")]

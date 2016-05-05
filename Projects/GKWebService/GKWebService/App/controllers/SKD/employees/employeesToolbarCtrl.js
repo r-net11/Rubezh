@@ -99,8 +99,8 @@
                          isNew: function () {
                              return isNew;
                          },
-                         organisationUID: function () {
-                             return $scope.selectedEmployee.OrganisationUID;
+                         organisation: function () {
+                             return employeesService.getOrganisation($scope.selectedEmployee.OrganisationUID);
                          },
                          employee: function() {
                              return $scope.selectedEmployee;

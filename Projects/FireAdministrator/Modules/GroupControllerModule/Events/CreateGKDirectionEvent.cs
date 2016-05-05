@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Microsoft.Practices.Prism.Events;
 using RubezhAPI.GK;
-using Microsoft.Practices.Prism.Events;
 
 namespace GKModule.Events
 {
@@ -11,7 +10,6 @@ namespace GKModule.Events
 	public class CreateGKDirectionEventArg
 	{
 		public bool Cancel { get; set; }
-		public Guid DirectionUID { get; set; }
 		public GKDirection Direction { get; set; }
 	}
 }

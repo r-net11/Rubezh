@@ -104,7 +104,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 }
 
 
-div.disabled {
+div.disabled,
+div[disabled] {
 	opacity: 0.5;
 }
 

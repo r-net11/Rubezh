@@ -162,6 +162,23 @@
             return deferred.promise;
         };
     
+        var _restore = function (UID, name) {
+            var deferred = $q.defer();
+
+            $http.post('Organisations/Restore', {
+                uid: UID,
+                name: name
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка восстановления организации");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+    
         return {
             selectedOrganisation: null,
             reload: null,
@@ -174,7 +191,8 @@
             setUsersChecked: _setUsersChecked,
             setDoorsChecked: _setDoorsChecked,
             saveOrganisation: _saveOrganisation,
-            markDeleted: _markDeleted
+            markDeleted: _markDeleted,
+            restore: _restore
         }
     }]);
 }());

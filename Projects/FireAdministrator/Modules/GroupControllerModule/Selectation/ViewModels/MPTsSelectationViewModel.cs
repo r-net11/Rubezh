@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using Common;
+using Infrastructure;
+using GKModule.Events;
 
 namespace GKModule.ViewModels
 {
@@ -26,6 +28,7 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 
 			MPTs = mpts;
 			CanCreateNew = canCreateNew;
@@ -150,6 +153,16 @@ namespace GKModule.ViewModels
 			SourceMPTs.Sort(x => x.No);
 			TargetMPTs.Clear();
 			SelectedSourceMPT = SourceMPTs.FirstOrDefault();
+		}
+		public RelayCommand CreateNewCommand { get; private set; }
+		void OnCreateNew()
+		{
+			var createGKMPTEventArg = new CreateGKMPTEventArg();
+			ServiceFactory.Events.GetEvent<CreateGKMPTEvent>().Publish(createGKMPTEventArg);
+			if (createGKMPTEventArg.MPT != null)
+			{
+				SourceMPTs.Add(createGKMPTEventArg.MPT);
+			}
 		}
 
 		public bool CanAdd(object parameter)

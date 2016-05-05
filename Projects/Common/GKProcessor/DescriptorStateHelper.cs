@@ -48,7 +48,7 @@ namespace GKProcessor
 				additionalShortParameters.Add(additionalShortParameter);
 			}
 
-			var driver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
+			var driver = DriversRepository.Drivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
 			if (driver != null)
 			{
 				var driverType = driver.DriverType;

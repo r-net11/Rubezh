@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using RubezhClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
@@ -11,9 +5,14 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
-using RubezhAPI.GK;
 using RubezhAPI;
+using RubezhAPI.GK;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -29,6 +28,7 @@ namespace GKModule.ViewModels
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			SetRibbonItems();
+			ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Subscribe(CreateCode);
 		}
 
 		public void Initialize()
@@ -178,7 +178,7 @@ namespace GKModule.ViewModels
 					}
 					ServiceFactory.SaveService.GKChanged = true;
 					SelectedCode = Codes.FirstOrDefault();
-				}	
+				}
 			}
 		}
 

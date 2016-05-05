@@ -46,8 +46,9 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
 
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKPumpStationEvent>().Subscribe(CreatePumpStation);
+			ServiceFactory.Events.GetEvent<EditGKPumpStationEvent>().Subscribe(EditPumpStation);
 		}
 		private void RegisterShortcuts()
 		{
@@ -286,12 +287,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createPumpStationEventArg.Cancel = true;
-				createPumpStationEventArg.PumpStationUID = Guid.Empty;
 			}
 			else
 			{
 				createPumpStationEventArg.Cancel = false;
-				createPumpStationEventArg.PumpStationUID = result.PumpStation.UID;
 				createPumpStationEventArg.PumpStation = result.PumpStation;
 			}
 		}

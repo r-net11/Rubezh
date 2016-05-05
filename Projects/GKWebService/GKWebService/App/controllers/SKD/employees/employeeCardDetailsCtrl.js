@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('employeeCardDetailsCtrl',
-        ['$scope', '$uibModalInstance', 'personType', 'card', 'organisationUID', 'employee', 'isNew', 'employeesService', 'authService', 'dialogService',
-        function ($scope, $uibModalInstance, personType, card, organisationUID, employee, isNew, employeesService, authService, dialogService) {
+        ['$scope', '$uibModalInstance', 'personType', 'card', 'organisation', 'employee', 'isNew', 'employeesService', 'authService', 'dialogService',
+        function ($scope, $uibModalInstance, personType, card, organisation, employee, isNew, employeesService, authService, dialogService) {
             $scope.isNew = isNew;
 
             $scope.card = card;
@@ -14,6 +14,10 @@
             $scope.canSelectGKControllers = function () {
                 return $scope.card.Card.GKCardType !== 0;
             };
+
+            $scope.maxGKLevel = organisation.MaxGKLevel;
+
+            $scope.isGKLevelEditable = (organisation.MaxGKLevel > 0);
 
             $scope.canChangeCardType = !$scope.isGuest && authService.checkPermission('Oper_SKD_Employees_Edit_CardType');
 
@@ -52,14 +56,14 @@
                     if (dialogService.showConfirm("Карта с таким номером находится в стоп-листе. Использовать её?")) {
                         card.UseStopList = true;
                         card.SelectedStopListCard = stopListCard;
-                        employeesService.saveEmployeeCardDetails(card, employee, organisationUID, isNew).then(function () {
+                        employeesService.saveEmployeeCardDetails(card, employee, organisation.UID, isNew).then(function () {
                             $uibModalInstance.close();
                         });
                     } else {
                         return;
                     }
                 } else {
-                    employeesService.saveEmployeeCardDetails(card, employee, organisationUID, isNew).then(function () {
+                    employeesService.saveEmployeeCardDetails(card, employee, organisation.UID, isNew).then(function () {
                         $uibModalInstance.close();
                     });
                 }

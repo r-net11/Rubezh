@@ -22,10 +22,10 @@ namespace RubezhAPI.Automation
 
 	public enum ZoneCommandType
 	{
-		[Description("Отключить")]
+		[Description("Перевести в отключенный режим")]
 		Ignore,
 
-		[Description("Снять отключение")]
+		[Description("Перевести в автоматический режим")]
 		ResetIgnore,
 
 		[Description("Сбросить")]
