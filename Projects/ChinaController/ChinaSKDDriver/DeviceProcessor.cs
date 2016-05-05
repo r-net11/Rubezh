@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Infrastructure.Common;
-using SKDDriver.Translators;
+using StrazhDAL;
 
 namespace ChinaSKDDriver
 {

@@ -1,11 +1,10 @@
 ﻿using System.Data.SqlClient;
 using System.Text;
 using Infrastructure.Common;
-using SKDDriver.DataAccess;
-using SKDDriver.Translators;
+using StrazhDAL.DataAccess;
 using System;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class SKDDatabaseService : IDisposable
 	{

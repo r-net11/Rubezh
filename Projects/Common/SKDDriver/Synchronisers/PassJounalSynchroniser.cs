@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class PassJounalSynchroniser
 	{

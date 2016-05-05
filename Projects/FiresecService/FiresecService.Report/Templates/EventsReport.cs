@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using SKDDriver;
+using StrazhDAL;
 
 namespace FiresecService.Report.Templates
 {

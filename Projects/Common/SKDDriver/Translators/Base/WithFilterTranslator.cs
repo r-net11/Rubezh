@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public abstract class WithFilterTranslator<TableT, ApiT, FilterT> : TranslatorBase<TableT, ApiT>
 		where TableT : class,DataAccess.IDatabaseElement, new()

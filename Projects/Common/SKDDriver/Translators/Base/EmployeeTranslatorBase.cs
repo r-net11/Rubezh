@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public abstract class EmployeeTranslatorBase<TTableType, TApiType, TFilter, TShort> : WithShortTranslator<TTableType, TApiType, TFilter, TShort>
 		where TTableType : class, DataAccess.IOrganisationDatabaseElement, DataAccess.IDatabaseElement, DataAccess.IIsDeletedDatabaseElement, new()

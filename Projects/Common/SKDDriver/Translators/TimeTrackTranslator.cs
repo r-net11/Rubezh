@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using SKDDriver.DataAccess;
+using StrazhDAL.DataAccess;
 using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
 using System.Threading.Tasks;
-namespace SKDDriver.Translators
+
+namespace StrazhDAL
 {
 	public class TimeTrackTranslator
 	{

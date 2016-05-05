@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OperationResult = FiresecAPI.OperationResult;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class TimeTrackDocumentTranslator
 	{

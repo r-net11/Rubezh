@@ -6,7 +6,7 @@ using System.Data.Linq;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class DepartmentSynchroniser : Synchroniser<ExportDepartment, DataAccess.Department>
 	{

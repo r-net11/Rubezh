@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using OperationResult = FiresecAPI.OperationResult;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class DayIntervalTranslator : OrganisationElementTranslator<DataAccess.DayInterval, DayInterval, DayIntervalFilter>
 	{

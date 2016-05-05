@@ -7,7 +7,7 @@ using OperationResult = FiresecAPI.OperationResult;
 using Organisation = FiresecAPI.SKD.Organisation;
 using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class TimeTrackDocumentTypeTranslator
 	{

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public abstract class WithShortTranslator<TTableType, TApiType, TFilter, TShort> : OrganisationElementTranslator<TTableType, TApiType, TFilter>
 		where TTableType : class, DataAccess.IOrganisationDatabaseElement, DataAccess.IDatabaseElement, DataAccess.IIsDeletedDatabaseElement, new()

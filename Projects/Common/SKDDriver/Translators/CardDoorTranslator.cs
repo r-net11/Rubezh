@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class CardDoorTranslator : WithFilterTranslator<DataAccess.CardDoor, CardDoor, CardDoorFilter>
 	{

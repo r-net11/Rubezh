@@ -5,7 +5,7 @@ using System.Text;
 using FiresecAPI;
 using FiresecAPI.SKD;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class AttachmentTranslator : TranslatorBase<DataAccess.Attachment, Attachment>
 	{

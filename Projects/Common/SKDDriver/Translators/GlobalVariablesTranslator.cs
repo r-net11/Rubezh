@@ -7,9 +7,9 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Models.Automation;
-using SKDDriver.DataAccess;
+using StrazhDAL.DataAccess;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class GlobalVariablesTranslator
 	{

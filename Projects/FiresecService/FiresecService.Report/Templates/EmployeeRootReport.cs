@@ -2,7 +2,7 @@
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
-using SKDDriver.DataAccess;
+using StrazhDAL.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Data;

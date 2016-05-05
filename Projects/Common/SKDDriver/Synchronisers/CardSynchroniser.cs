@@ -1,4 +1,4 @@
-﻿namespace SKDDriver
+﻿namespace StrazhDAL
 {
 	//public class CardSynchroniser : Synchroniser<ExportCard, DataAccess.Card>
 	//{

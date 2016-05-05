@@ -3,7 +3,7 @@ using FiresecAPI.SKD;
 using System;
 using System.Linq;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class PositionTranslator : EmployeeTranslatorBase<DataAccess.Position, Position, PositionFilter, ShortPosition>
 	{

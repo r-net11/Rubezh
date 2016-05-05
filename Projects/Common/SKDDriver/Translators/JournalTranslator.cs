@@ -4,7 +4,7 @@ using System.Data.Linq;
 using System.Linq;
 using FiresecAPI.Journal;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class JournalTranslator : IDisposable
 	{

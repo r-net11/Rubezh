@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public static class ConfigurationSynchroniser
 	{

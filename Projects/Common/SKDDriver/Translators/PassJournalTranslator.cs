@@ -5,12 +5,12 @@ using LinqKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SKDDriver.DataAccess;
-using Employee = SKDDriver.DataAccess.Employee;
+using StrazhDAL.DataAccess;
+using Employee = StrazhDAL.DataAccess.Employee;
 using EmployeeDay = FiresecAPI.SKD.EmployeeDay;
 using OperationResult = FiresecAPI.OperationResult;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class PassJournalTranslator : IDisposable
 	{

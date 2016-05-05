@@ -4,7 +4,7 @@ using System;
 using System.Data.Linq;
 using System.Linq.Expressions;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class EmployeeSynchroniser : Synchroniser<ExportEmployee, DataAccess.Employee>
 	{

@@ -2,7 +2,7 @@
 using FiresecAPI.SKD;
 using System.Linq;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class PhotoTranslator : WithFilterTranslator<DataAccess.Photo, Photo, PhotoFilter>
 	{

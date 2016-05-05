@@ -6,7 +6,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class AccessTemplateDeactivatingReaderTranslator : TranslatorBase<DataAccess.AccessTemplateDeactivatingReader, AccessTemplateDeactivatingReader>
 	{

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using OperationResult = FiresecAPI.OperationResult;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class HolidayTranslator : OrganisationElementTranslator<DataAccess.Holiday, Holiday, HolidayFilter>
 	{

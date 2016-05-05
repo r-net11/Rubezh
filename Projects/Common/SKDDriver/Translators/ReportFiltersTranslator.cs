@@ -7,13 +7,13 @@ using FiresecAPI;
 using FiresecAPI.Enums;
 using FiresecAPI.Models;
 using FiresecAPI.SKD.ReportFilters;
-using SKDDriver.DataAccess;
+using StrazhDAL.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class ReportFiltersTranslator
 	{

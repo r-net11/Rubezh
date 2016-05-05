@@ -85,7 +85,7 @@
 			</Component>
 
 			<Component Id="Server.SKD_MODULE" Guid="47582E19-F112-4827-A8FC-D782C88C7B93">
-				<File Id="Server.SKDDriver.dll" Name="SKDDriver.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+				<File Id="Server.StrazhDAL.dll" Name="StrazhDAL.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
 				<File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 

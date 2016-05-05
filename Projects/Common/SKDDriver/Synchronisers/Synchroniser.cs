@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Xml.Serialization;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public abstract class Synchroniser<TExportItem, TTableItem>
 		where TTableItem : class, DataAccess.IExternalKey, new()

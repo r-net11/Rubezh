@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using SKDDriver.DataAccess;
+using StrazhDAL.DataAccess;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class CardTranslator : WithFilterTranslator<DataAccess.Card, SKDCard, CardFilter>
 	{
@@ -443,7 +443,7 @@ namespace SKDDriver
 			}
 		}
 
-		public IEnumerable<SKDDriver.DataAccess.PendingCard> GetAllPendingCards(Guid controllerUID)
+		public IEnumerable<PendingCard> GetAllPendingCards(Guid controllerUID)
 		{
 			var pendingCards = Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
 			return pendingCards;

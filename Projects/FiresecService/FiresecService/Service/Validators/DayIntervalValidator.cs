@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using SKDDriver;
+using StrazhDAL;
 
 namespace FiresecService.Service.Validators
 {

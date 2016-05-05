@@ -1,12 +1,9 @@
-﻿using System.Threading.Tasks;
-using EntitiesValidation;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecService.Service.Validators;
-using SKDDriver;
-using SKDDriver.Translators;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;

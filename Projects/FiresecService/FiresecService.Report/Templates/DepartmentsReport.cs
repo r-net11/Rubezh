@@ -5,7 +5,7 @@ using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
-using SKDDriver;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Data;

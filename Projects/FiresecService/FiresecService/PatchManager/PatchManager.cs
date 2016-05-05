@@ -4,8 +4,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
-using SKDDriver;
-using SKDDriver.Translators;
+using StrazhDAL;
 using System;
 using System.Data.SqlClient;
 using System.IO;
@@ -45,7 +44,7 @@ namespace FiresecService
 				if (!isExists)
 				{
 					var createStream =
-						Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Create.sql"));
+						Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/Journal/Create.sql"));
 					using (var streamReader = new StreamReader(createStream.Stream))
 					{
 						commandText = streamReader.ReadToEnd();
@@ -55,7 +54,7 @@ namespace FiresecService
 					server.ConnectionContext.Disconnect();
 				}
 				var patchesStream =
-					Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Journal/Patches.sql"));
+					Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/Journal/Patches.sql"));
 				using (var streamReader = new StreamReader(patchesStream.Stream))
 				{
 					commandText = streamReader.ReadToEnd();
@@ -92,7 +91,7 @@ namespace FiresecService
 				if (!isExists)
 				{
 					var createStream =
-						Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Create.sql"));
+						Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/PassJournal/Create.sql"));
 					using (var streamReader = new StreamReader(createStream.Stream))
 					{
 						commandText = streamReader.ReadToEnd();
@@ -102,7 +101,7 @@ namespace FiresecService
 					server.ConnectionContext.Disconnect();
 				}
 				var patchesStream =
-					Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/PassJournal/Patches.sql"));
+					Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/PassJournal/Patches.sql"));
 				using (var streamReader = new StreamReader(patchesStream.Stream))
 				{
 					commandText = streamReader.ReadToEnd();

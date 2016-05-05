@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Common;
-using SKDDriver;
+using StrazhDAL;
 using System.Security.Cryptography;
 
 namespace KeyGenerator

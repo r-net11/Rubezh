@@ -1,15 +1,12 @@
-﻿using System.Threading;
-using ChinaSKDDriver;
+﻿using ChinaSKDDriver;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Properties;
 using FiresecService.Report.Helpers;
 using Infrastructure.Common;
-using SKDDriver;
-using SKDDriver.Translators;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.IO;

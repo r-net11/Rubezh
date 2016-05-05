@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using SKDDriver;
+using StrazhDAL;
 using DayIntervalCommonValidator = EntitiesValidation.DayIntervalValidator;
 using ScheduleSchemeCommonValidator = EntitiesValidation.ScheduleSchemeValidator;
 
