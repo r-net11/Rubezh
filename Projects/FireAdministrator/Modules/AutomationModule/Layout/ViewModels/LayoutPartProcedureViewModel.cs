@@ -5,6 +5,9 @@ using Infrastructure.Client.Layout.ViewModels;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using FiresecClient;
+using Localization.Automation;
+using Localization.Automation.ViewModels;
+
 namespace AutomationModule.Layout.ViewModels
 {
 	public class LayoutPartProcedureViewModel : LayoutPartTitleViewModel
@@ -34,7 +37,7 @@ namespace AutomationModule.Layout.ViewModels
 
 		public void UpdateLayoutPart()
 		{
-			ProcedureTitle = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Where(item => item.Uid == _properties.ReferenceUID).Select(item => item.Name).FirstOrDefault() ?? "Процедура";
+			ProcedureTitle = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Where(item => item.Uid == _properties.ReferenceUID).Select(item => item.Name).FirstOrDefault() ?? CommonResources.Procedure;
 			OnPropertyChanged(() => ProcedureTitle);
 		}
 	}

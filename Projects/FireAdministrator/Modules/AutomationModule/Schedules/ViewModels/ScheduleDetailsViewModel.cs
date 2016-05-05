@@ -1,6 +1,8 @@
 ﻿using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using Localization.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -9,14 +11,14 @@ namespace AutomationModule.ViewModels
 		public AutomationSchedule Schedule { get; private set; }
 		public ScheduleDetailsViewModel(AutomationSchedule schedule)
 		{
-			Title = "Свойства элемента расписания";
+			Title = scheduleDetailsViewModel.Properties_Title;
 			Schedule = schedule;
 			Name = Schedule.Name;
 		}
 
 		public ScheduleDetailsViewModel()
 		{
-			Title = "Добавить элемент расписания";
+            Title = scheduleDetailsViewModel.Add_Title;
 			Schedule = new AutomationSchedule();
 			Name = Schedule.Name;
 		}
@@ -36,7 +38,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(CommonResources.SaveEmpty);
 				return false;
 			}
 			Schedule.Name = Name;

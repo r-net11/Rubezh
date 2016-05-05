@@ -2,12 +2,13 @@
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation;
 
 namespace AutomationModule.ViewModels
 {
 	public class SoundViewModel : BaseViewModel
 	{
-		public const string DefaultName = "<нет>";
+        public static string DefaultName = CommonResources.NO_DefaultName;
 		public AutomationSound Sound { get; set; }
 
 		public SoundViewModel(AutomationSound sound)

@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using FiresecClient;
 using Infrastructure.Common.Windows;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -253,14 +254,14 @@ namespace AutomationModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>
+				new RibbonMenuItemViewModel(proceduresViewModel.Edition, new ObservableCollection<RibbonMenuItemViewModel>
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
-					new RibbonMenuItemViewModel("Вырезать", CutCommand, "BCut"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel(proceduresViewModel.Add, AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel(proceduresViewModel.Edit, EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel(proceduresViewModel.Copy, CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel(proceduresViewModel.Cut, CutCommand, "BCut"),
+					new RibbonMenuItemViewModel(proceduresViewModel.Paste, PasteCommand, "BPaste"),
+					new RibbonMenuItemViewModel(proceduresViewModel.Delete, DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
 		}

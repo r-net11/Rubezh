@@ -9,6 +9,7 @@ using FiresecClient;
 using FiresecAPI.Models.Layouts;
 using System.Windows.Media;
 using System.Windows.Controls;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.Layout.ViewModels
 {
@@ -25,9 +26,9 @@ namespace AutomationModule.Layout.ViewModels
 			_layoutPartViewModel = layoutPartViewModel;
 			TextAlignments = new List<string>()
 			{
-				"По левому краю",
-				"По правому краю",
-				"По центру",
+				layoutPartPropertyProcedurePageStyleViewModel.Left,
+				layoutPartPropertyProcedurePageStyleViewModel.Center,
+				layoutPartPropertyProcedurePageStyleViewModel.Right,
 			};
 			Fonts = System.Windows.Media.Fonts.SystemFontFamilies.OrderBy(item => item.Source).ToList();
 		}

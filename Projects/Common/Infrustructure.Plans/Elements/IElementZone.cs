@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Media;
-using Localization;
+using LocalizationConveters;
 
 namespace Infrustructure.Plans.Elements
 {

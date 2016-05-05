@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AutomationModule.Properties {
+namespace Localization.Automation.ViewModels {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace AutomationModule.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class addGlobalVariableDialogViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal addGlobalVariableDialogViewModel() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AutomationModule.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.Automation.ViewModels.addGlobalVariableDialogViewModel", typeof(addGlobalVariableDialogViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace AutomationModule.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,20 +61,38 @@ namespace AutomationModule.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Аргумент с таким именем уже существует..
+        ///   Looks up a localized string similar to Добавить глобальную переменную.
         /// </summary>
-        internal static string ArgumentExistError {
+        public static string Add {
             get {
-                return ResourceManager.GetString("ArgumentExistError", resourceCulture);
+                return ResourceManager.GetString("Add", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Переменная с таким именем уже существует..
+        ///   Looks up a localized string similar to глобальная переменная.
         /// </summary>
-        internal static string VariableExistError {
+        public static string DefaultName {
             get {
-                return ResourceManager.GetString("VariableExistError", resourceCulture);
+                return ResourceManager.GetString("DefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать глобальную переменную.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Название не может быть пустым.
+        /// </summary>
+        public static string SaveEmpty1 {
+            get {
+                return ResourceManager.GetString("SaveEmpty1", resourceCulture);
             }
         }
     }

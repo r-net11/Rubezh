@@ -11,6 +11,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using Localization.Automation.ViewModels;
 using Microsoft.Win32;
 
 namespace AutomationModule.ViewModels
@@ -95,8 +96,8 @@ namespace AutomationModule.ViewModels
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
-				Filter = "Звуковой файл |*.wav",
-				DefaultExt = "Звуковой файл |*.wav"
+                Filter = CommonViewModel.SoundsViewModel_Extention,
+                DefaultExt = CommonViewModel.SoundsViewModel_Extention
 			};
 			if (openFileDialog.ShowDialog().Value)
 			{

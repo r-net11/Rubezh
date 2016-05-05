@@ -12,6 +12,7 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -19,7 +20,7 @@ namespace AutomationModule.ViewModels
 	{
 		public UserSelectionViewModel(User user)
 		{
-			Title = "Выбор пользователя";
+			Title = CommonViewModel.UserSelectionViewModel_Title;
 
 			Users = new SortableObservableCollection<UserViewModel>();
 			if (FiresecManager.SecurityConfiguration.Users != null)

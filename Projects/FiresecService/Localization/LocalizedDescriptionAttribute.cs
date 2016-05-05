@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Resources;
 
-namespace Localization
+namespace LocalizationConveters
 {
     public class LocalizedDescriptionAttribute : DescriptionAttribute
     {

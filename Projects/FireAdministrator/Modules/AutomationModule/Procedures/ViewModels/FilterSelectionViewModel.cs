@@ -8,6 +8,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -17,7 +18,7 @@ namespace AutomationModule.ViewModels
 
 		public FilterSelectionViewModel(Procedure procedure)
 		{
-			Title = "Выбор фильтра";
+			Title = CommonViewModel.FilterSelectionViewModel_Title;
 			Procedure = procedure;
 			InitializeFilters();
 			CreateFilterCommand = new RelayCommand(OnCreateFilter);

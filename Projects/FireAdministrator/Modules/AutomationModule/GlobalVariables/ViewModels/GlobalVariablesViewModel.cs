@@ -1,4 +1,4 @@
-﻿using AutomationModule.Properties;
+﻿using System.Windows;
 using FiresecAPI.Automation;
 using FiresecAPI.Models.Automation;
 using FiresecClient;
@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
+using Localization.Automation.Errors;
 
 namespace AutomationModule.ViewModels
 {
@@ -73,7 +74,7 @@ namespace AutomationModule.ViewModels
 
 			if (IsExist(globalVariableDetailsViewModel.Variable))
 			{
-				MessageBoxService.ShowError(Resources.VariableExistError);
+                MessageBoxService.ShowError(CommonErrors.VariableExist_Error);
 				return;
 			}
 

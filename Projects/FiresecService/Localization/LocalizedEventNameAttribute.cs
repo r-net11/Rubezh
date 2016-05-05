@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Localization
+namespace LocalizationConveters
 {
     public class LocalizedEventNameAttribute : Attribute
     {

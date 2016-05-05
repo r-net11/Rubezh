@@ -6,6 +6,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -29,7 +30,7 @@ namespace AutomationModule.ViewModels
 
 		public EmployeeSelectionViewModel(ShortEmployee employee)
 		{
-			Title = "Выбор сотрудника";
+			Title = CommonViewModel.EmployeeSelectionViewModel_Title;
 
 			BuildTreeAndSelect(employee);
 		}

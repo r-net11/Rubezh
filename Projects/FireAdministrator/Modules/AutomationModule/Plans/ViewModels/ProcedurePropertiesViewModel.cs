@@ -5,6 +5,7 @@ using AutomationModule.ViewModels;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.Plans.ViewModels
 {
@@ -17,7 +18,7 @@ namespace AutomationModule.Plans.ViewModels
 		{
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;
-			Title = "Свойства фигуры: Процедура";
+			Title = CommonViewModel.ProcedurePropertiesViewModel_Title;
 			if (element.ProcedureUID != Guid.Empty)
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);
 		}

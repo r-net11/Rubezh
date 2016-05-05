@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using Localization;
+using LocalizationConveters;
 
 namespace FiresecAPI.Automation
 {

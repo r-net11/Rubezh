@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -10,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public CameraSelectionViewModel(Camera camera)
 		{
-			Title = "Выбор видеоустройства";
+			Title = CommonViewModel.CameraSelectionViewModel_Title;
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var cam in FiresecManager.SystemConfiguration.Cameras)
 			{

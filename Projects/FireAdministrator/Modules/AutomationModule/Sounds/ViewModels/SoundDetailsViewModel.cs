@@ -2,6 +2,8 @@
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using Localization.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -11,7 +13,7 @@ namespace AutomationModule.ViewModels
 
 		public SoundDetailsViewModel(AutomationSound sound)
 		{
-			Title = "Свойства звукового элемента";
+			Title = CommonViewModel.SoundDetailsViewModel_Title;
 			Sound = sound;
 			Name = Sound.Name;
 		}
@@ -31,7 +33,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarning(CommonResources.SaveEmpty);
 				return false;
 			}
 			Sound.Name = Name;

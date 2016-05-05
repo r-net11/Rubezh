@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Data;
-using Localization;
+using LocalizationConveters;
 
 namespace FiresecAPI.Journal
 {

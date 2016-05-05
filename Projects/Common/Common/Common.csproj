@@ -286,9 +286,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FiresecService\Localization\Localization.csproj">
+    <ProjectReference Include="..\..\FiresecService\Localization\LocalizationConverters.csproj">
       <Project>{0fabff9f-2922-4c8e-9c1c-7a014fedccf1}</Project>
-      <Name>Localization</Name>
+      <Name>LocalizationConverters</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

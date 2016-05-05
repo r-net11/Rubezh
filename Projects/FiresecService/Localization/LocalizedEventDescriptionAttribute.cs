@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Localization
+namespace LocalizationConveters
 {
     public class LocalizedEventDescriptionAttribute : Attribute
     {

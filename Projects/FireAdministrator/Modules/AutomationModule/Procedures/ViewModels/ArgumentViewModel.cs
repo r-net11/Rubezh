@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,7 +19,7 @@ namespace AutomationModule.ViewModels
 	/// </summary>
 	public class ArgumentViewModel : BaseViewModel
 	{
-		public const string EmptyText = "<пусто>";
+		public static string EmptyText = argumentViewModel.Empty;
 		#region Properties
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
@@ -213,8 +214,8 @@ namespace AutomationModule.ViewModels
 
 		private void AddLocalVariable()
 		{
-			const string defaultName = "локальная переменная";
-			const string title = "Добавить локальную переменную";
+			string defaultName = argumentViewModel.DefaultName;
+            string title = argumentViewModel.Title;
 
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, defaultName, title)
 			{

@@ -5,6 +5,7 @@ using FiresecAPI.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ProcedureViewModel> Procedures { get; private set; }
 		public ProcedureSelectionViewModel()
 		{
-			Title = "Выбор процедуры";
+			Title = CommonViewModel.ProcedureSelectionViewModel_Title;
 			Procedures = new ObservableCollection<ProcedureViewModel>();
 			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
@@ -27,7 +28,7 @@ namespace AutomationModule.ViewModels
 
 		public ProcedureSelectionViewModel(Guid procedureUid)
 		{
-			Title = "Выбор процедуры";
+            Title = CommonViewModel.ProcedureSelectionViewModel_Title;
 			Procedures = new ObservableCollection<ProcedureViewModel>();
 			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();

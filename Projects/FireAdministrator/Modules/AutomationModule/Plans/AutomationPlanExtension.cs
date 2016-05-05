@@ -20,6 +20,8 @@ using AutomationModule.Plans.ViewModels;
 using AutomationModule.Events;
 using Infrastructure.Common;
 using FiresecAPI;
+using Localization.Automation;
+using Localization.Automation.Errors;
 
 namespace AutomationModule.Plans
 {
@@ -51,7 +53,7 @@ namespace AutomationModule.Plans
 		}
 		public override string Title
 		{
-			get { return "Автоматизация"; }
+            get { return CommonResources.Automation; }
 		}
 
 		public override IEnumerable<IInstrument> Instruments
@@ -68,7 +70,7 @@ namespace AutomationModule.Plans
 						((List<IInstrument>)_instruments).Add(new InstrumentViewModel()
 						{
 							ImageSource = "Procedure",
-							ToolTip = "Процедура",
+                            ToolTip = CommonResources.Procedure,
 							Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
 							Index = 400,
 							Autostart = true
@@ -120,7 +122,7 @@ namespace AutomationModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup("Procedure", "Процедуры", 42);
+            LayerGroupService.Instance.RegisterGroup("Procedure", CommonResources.Procedures, 42);
 		}
 		public override void ExtensionAttached()
 		{
@@ -132,7 +134,7 @@ namespace AutomationModule.Plans
 		{
 			List<ElementError> errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-				errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
+                errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, CommonErrors.UnboundProcedure_Error, "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
 			return errors;
 		}
 		#endregion
@@ -152,7 +154,7 @@ namespace AutomationModule.Plans
 			if (typeof(TItem) == typeof(Procedure))
 			{
 				var procedure = item as Procedure;
-				designerItem.Title = procedure == null ? "Несвязанная процедура" : procedure.Name;
+                designerItem.Title = procedure == null ? CommonErrors.UnboundProcedure_Error : procedure.Name;
 			}
 		}
 	}

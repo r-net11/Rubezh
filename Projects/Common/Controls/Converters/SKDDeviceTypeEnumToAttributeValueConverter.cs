@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using FiresecAPI.SKD.Device;
-using Localization;
+using LocalizationConveters;
 
 namespace Controls.Converters
 {

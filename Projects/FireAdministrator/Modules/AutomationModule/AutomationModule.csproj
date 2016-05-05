@@ -135,10 +135,8 @@
     <Compile Include="Procedures\Views\AddRemoveArgumentView.xaml.cs">
       <DependentUpon>AddRemoveArgumentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+    <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
+      <DependentUpon>StringDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
@@ -147,9 +145,6 @@
     <Compile Include="Procedures\ViewModels\ExplicitValueViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureLayoutCollectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StringDetailsViewModel.cs" />
-    <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
-      <DependentUpon>StringDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Steps\ViewModels\ChangeListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\CheckPermissionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportConfigurationStepViewModel.cs" />
@@ -500,6 +495,10 @@
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Localization\Localization.csproj">
+      <Project>{e967498f-e456-4ce8-aba1-b27363a05235}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
@@ -575,8 +574,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Procedures\Views\StringDetailsView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ChangeListStepView.xaml">
       <SubType>Designer</SubType>
@@ -881,15 +880,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Procedures\Converters\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

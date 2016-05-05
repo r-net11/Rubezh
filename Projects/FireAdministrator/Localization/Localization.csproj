@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E967498F-E456-4CE8-ABA1-B27363A05235}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Localization</RootNamespace>
+    <AssemblyName>Localization</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Automation\CommonResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\Errors\CommonErrors.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonErrors.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\argumentsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>argumentsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\argumentViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>argumentViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\CommonViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\layoutPartPropertyProcedurePageStyleViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>layoutPartPropertyProcedurePageStyleViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\addGlobalVariableDialogViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>addGlobalVariableDialogViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\procedureDetailsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>procedureDetailsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\proceduresViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>proceduresViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\scheduleDetailsViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>scheduleDetailsViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\stepTypeSelectionViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>stepTypeSelectionViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Automation\ViewModels\variablesViewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>variablesViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Automation\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\Errors\CommonErrors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\ViewModels\CommonViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\Views\GlobalVariablesMenuView.resx" />
+    <EmbeddedResource Include="Automation\Views\GlobalVariablesView.resx" />
+    <EmbeddedResource Include="Automation\Views\AddGlobalVariableDialogView.resx" />
+    <EmbeddedResource Include="Automation\ViewModels\layoutPartPropertyProcedurePageStyleViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>layoutPartPropertyProcedurePageStyleViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\Views\LayoutPartPropertyProcedurePageStyleView.resx" />
+    <EmbeddedResource Include="Automation\Views\LayoutPartPropertyProcedurePageView.resx" />
+    <EmbeddedResource Include="Automation\Views\CameraSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\DoorSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\EmployeeSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\OrganisatonSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\SKDDeviceSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\SKDZoneSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\UserSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\VisitorSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\ZoneSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\ProcedurePropertiesView.resx" />
+    <EmbeddedResource Include="Automation\ViewModels\argumentsViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>argumentsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\ViewModels\argumentViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>argumentViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\ViewModels\procedureDetailsViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>procedureDetailsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\ViewModels\proceduresViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>proceduresViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\ViewModels\stepTypeSelectionViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>stepTypeSelectionViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\ViewModels\variablesViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>variablesViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\Views\ArgumentDetailsView.resx" />
+    <EmbeddedResource Include="Automation\Views\ArgumentView.resx" />
+    <EmbeddedResource Include="Automation\Views\ConditionsView.resx" />
+    <EmbeddedResource Include="Automation\Views\ExplicitValuesView.resx" />
+    <EmbeddedResource Include="Automation\Views\FilterSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\ProcedureDetailsView.resx" />
+    <EmbeddedResource Include="Automation\Views\ProceduresMenuView.resx" />
+    <EmbeddedResource Include="Automation\Views\ProceduresView.resx" />
+    <EmbeddedResource Include="Automation\Views\StepsView.resx" />
+    <EmbeddedResource Include="Automation\Views\StepTypeSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\VariableDetailsView.resx" />
+    <EmbeddedResource Include="Automation\Views\VariablesMenuView.resx" />
+    <EmbeddedResource Include="Automation\Views\VariablesView.resx" />
+    <EmbeddedResource Include="Automation\ViewModels\scheduleDetailsViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>scheduleDetailsViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Automation\Views\ProcedureSelectionView.resx" />
+    <EmbeddedResource Include="Automation\Views\ScheduleDetailsView.resx" />
+    <EmbeddedResource Include="Automation\Views\ScheduleProceduresView.resx" />
+    <EmbeddedResource Include="Automation\Views\SchedulesMenuView.resx" />
+    <EmbeddedResource Include="Automation\Views\SchedulesView.resx" />
+    <EmbeddedResource Include="Automation\Views\SoundDetailsView.resx" />
+    <EmbeddedResource Include="Automation\Views\SoundsMenuView.resx" />
+    <EmbeddedResource Include="Automation\Views\SoundsView.resx" />
+    <EmbeddedResource Include="Automation\ViewModels\addGlobalVariableDialogViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>addGlobalVariableDialogViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

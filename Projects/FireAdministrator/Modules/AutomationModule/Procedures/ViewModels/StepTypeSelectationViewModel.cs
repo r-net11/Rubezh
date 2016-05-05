@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -10,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		public StepTypeSelectationViewModel()
 		{
-			Title = "Выбор типа функции";
+			Title = stepTypeSelectionViewModel.Title;
 
 			BuildStepTypeTree();
 			FillAllStepTypes();
@@ -90,7 +91,7 @@ namespace AutomationModule.ViewModels
 			if (node.ChildrenCount > 0)
 				stepTypeViewModels.Add(node);
 
-			RootStepType = new StepTypeViewModel("Реестр функций", "/Controls;component/Images/CFolder.png", stepTypeViewModels);
+			RootStepType = new StepTypeViewModel(stepTypeSelectionViewModel.FunctionsRegister, "/Controls;component/Images/CFolder.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildDataExchangeNode()
@@ -112,7 +113,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ImportOrganisationList))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ImportOrganisationList));
 
-			return new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png", stepTypeViewModels);
+			return new StepTypeViewModel(stepTypeSelectionViewModel.DataExchange, "/Controls;component/StepIcons/Export.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildOperationsNode()
@@ -132,7 +133,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GenerateGuid))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GenerateGuid));
 
-			return new StepTypeViewModel("Операции", "/Controls;component/StepIcons/Arithmetics.png", stepTypeViewModels);
+			return new StepTypeViewModel(stepTypeSelectionViewModel.Operations, "/Controls;component/StepIcons/Arithmetics.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildInteractiveLogicNode()
@@ -158,7 +159,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ShowDialog))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ShowDialog));
 
-			return new StepTypeViewModel("Интерактивная логика", "/Controls;component/StepIcons/PlaySound.png", stepTypeViewModels);
+			return new StepTypeViewModel(stepTypeSelectionViewModel.Logic, "/Controls;component/StepIcons/PlaySound.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildServiceFunctionsNode()
@@ -184,7 +185,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.GetSkdZoneProperty))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.GetSkdZoneProperty));
 
-			return new StepTypeViewModel("Служебные функции", "/Controls;component/StepIcons/Exit.png", stepTypeViewModels);
+			return new StepTypeViewModel(stepTypeSelectionViewModel.ServiceFunctions, "/Controls;component/StepIcons/Exit.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildSeriesFunctionsNode()
@@ -200,7 +201,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.Continue))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.Continue));
 
-			return new StepTypeViewModel("Функции цикла", "/Controls;component/StepIcons/For.png", stepTypeViewModels);
+			return new StepTypeViewModel(stepTypeSelectionViewModel.CycleFunctions, "/Controls;component/StepIcons/For.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildHardwareControlNode()
@@ -214,7 +215,7 @@ namespace AutomationModule.ViewModels
 			if (node.ChildrenCount > 0)
 				stepTypeViewModels.Add(node);
 
-			return new StepTypeViewModel("Управление аппаратурой", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+			return new StepTypeViewModel(stepTypeSelectionViewModel.HardwareControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildStrazhControlNode()
@@ -228,7 +229,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.ControlDoor))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.ControlDoor));
 
-			return new StepTypeViewModel("Управление Страж", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+			return new StepTypeViewModel(stepTypeSelectionViewModel.StrazhControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		private StepTypeViewModel BuildVideoControlNode()
@@ -242,7 +243,7 @@ namespace AutomationModule.ViewModels
 			if (ServiceFactory.UiElementsVisibilityService.VisibleProcedureSteps.Any(x => x == ProcedureStepType.RviAlarm))
 				stepTypeViewModels.Add(new StepTypeViewModel(ProcedureStepType.RviAlarm));
 
-			return new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
+			return new StepTypeViewModel(stepTypeSelectionViewModel.VideoControl, "/Controls;component/StepIcons/Control.png", stepTypeViewModels);
 		}
 
 		protected override bool CanSave()

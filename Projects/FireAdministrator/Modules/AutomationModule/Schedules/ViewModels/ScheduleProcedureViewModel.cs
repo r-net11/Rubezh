@@ -4,6 +4,7 @@ using FiresecAPI.Automation;
 using FiresecAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -112,7 +113,7 @@ namespace AutomationModule.ViewModels
 
 		public string Name
 		{
-			get { return Procedure != null ? Procedure.Name : "процедура не найдена"; }
+			get { return Procedure != null ? Procedure.Name : CommonResources.ProcedureNotFound; }
 		}
 	}
 }

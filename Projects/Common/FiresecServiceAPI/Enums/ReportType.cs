@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel.PeerResolvers;
 using System.Text;
-using Localization;
+using LocalizationConveters;
 
 namespace FiresecAPI.Enums
 {

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using Localization;
+using LocalizationConveters;
 
 namespace FiresecAPI.Automation.Enums
 {

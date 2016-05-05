@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -8,7 +9,7 @@ namespace AutomationModule.ViewModels
 	{
 		public SKDDeviceSelectionViewModel(SKDDevice device)
 		{
-			Title = "Выбор устройства";
+			Title = CommonViewModel.SKDDeviceSelectionViewModel_Title;
 			RootDevice = AddDeviceInternal(SKDManager.SKDConfiguration.RootDevice, null);
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.SKDDevice.UID == device.UID);

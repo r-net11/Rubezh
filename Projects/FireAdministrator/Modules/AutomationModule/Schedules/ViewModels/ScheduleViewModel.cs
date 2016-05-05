@@ -8,12 +8,13 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.ObjectModel;
+using Localization.Automation;
 
 namespace AutomationModule.ViewModels
 {
 	public class ScheduleViewModel : BaseViewModel
 	{
-		public const string DefaultName = "<нет>";
+        public static string DefaultName = CommonResources.NO_DefaultName;
 		public AutomationSchedule Schedule { get; set; }
 		public ObservableCollection<ScheduleProcedureViewModel> ScheduleProcedures { get; private set; }
 		

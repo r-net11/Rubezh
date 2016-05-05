@@ -1,4 +1,4 @@
-﻿using Localization;
+﻿using LocalizationConveters;
 using System.ComponentModel;
 
 namespace FiresecAPI.SKD

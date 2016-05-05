@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -6,7 +7,7 @@ namespace AutomationModule.ViewModels
 	{
 		public StringDetailsViewModel(string stringValue)
 		{
-			Title = "Редактор строки";
+			Title = CommonViewModel.StringDetailsViewModel_Title;
 			StringValue = stringValue;
 		}
 

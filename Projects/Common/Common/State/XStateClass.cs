@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Common.Properties;
 using Org.BouncyCastle.Asn1.Crmf;
-using Localization;
+using LocalizationConveters;
 
 namespace FiresecAPI.GK
 {

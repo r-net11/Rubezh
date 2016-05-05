@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Localization;
+using LocalizationConveters;
 using System.Resources;
 
 namespace FiresecAPI.SKD.Device

@@ -1,5 +1,4 @@
-﻿using AutomationModule.Properties;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
 using FiresecAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -9,6 +8,8 @@ using Infrastructure.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Localization.Automation.Errors;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -57,12 +58,12 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, "локальная переменная", "Добавить локальную переменную");
+            var variableDetailsViewModel = new VariableDetailsViewModel(null, variablesViewModel.LocalVariable, variablesViewModel.AddLocalVariable);
 			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
 
 			if (IsExist(variableDetailsViewModel.Variable))
 			{
-				MessageBoxService.ShowError(Resources.VariableExistError);
+                MessageBoxService.ShowError(CommonErrors.VariableExist_Error);
 				return;
 			}
 
@@ -91,7 +92,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "локальная переменная", "Редактировать локальную переменную");
+            var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, variablesViewModel.LocalVariable, variablesViewModel.EditLocalVariable);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);
