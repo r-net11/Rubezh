@@ -179,6 +179,8 @@ namespace ReportsModule.ViewModels
 				MessageBoxService.ShowError("Размер отчета, который вы пытаетесь построить слишком велик.\r\n" + "Измените настройки фильтра, что бы в отчете было меньше записей.");
 			else if (e.Fault.Message.Contains("Could not connect to"))
 				MessageBoxService.ShowError("Не удалось подключиться к серверу отчетов.");
+			else if(e.Fault.Message.Contains("The output file is too big"))
+				MessageBoxService.ShowError("Выбран слишком большой отчёт.");
 			else
 				MessageBoxService.ShowError("Возникла ошибка при построении отчета.");
 			Logger.Error(e.Fault, "SKDReportPresenterViewModel.Model_CreateDocumentError");
