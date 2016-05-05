@@ -1,4 +1,4 @@
-﻿using ChinaSKDDriverAPI;
+﻿using StrazhDeviceSDK.API;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public static partial class Processor
 	{
@@ -297,7 +297,7 @@ namespace ChinaSKDDriver
 					return OperationResult<bool>.FromError(String.Format("Нет связи с контроллером. {0}", deviceProcessor.LoginFailureReason));
 
 				var nativeDoorConfiguration = new DoorConfiguration();
-				nativeDoorConfiguration.AccessState = (ChinaSKDDriverAPI.AccessState)doorConfiguration.AccessState;
+				nativeDoorConfiguration.AccessState = (API.AccessState)doorConfiguration.AccessState;
 				nativeDoorConfiguration.DoorOpenMethod = (DoorOpenMethod)doorConfiguration.DoorOpenMethod;
 
 				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;

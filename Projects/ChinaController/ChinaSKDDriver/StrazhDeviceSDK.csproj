@@ -8,8 +8,8 @@
     <ProjectGuid>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChinaSKDDriver</RootNamespace>
-    <AssemblyName>ChinaSKDDriver</AssemblyName>
+    <RootNamespace>StrazhDeviceSDK</RootNamespace>
+    <AssemblyName>StrazhDeviceSDK</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\FiresecService\</SolutionDir>
@@ -47,6 +47,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    </Compile>
     <Compile Include="API\AntiPassBackConfiguration.cs" />
     <Compile Include="API\Card.cs" />
     <Compile Include="API\AccessLogItem.cs" />

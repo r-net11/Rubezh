@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChinaSKDDriverAPI
+namespace StrazhDeviceSDK.API
 {
 	public class DeviceJournalItem
 	{

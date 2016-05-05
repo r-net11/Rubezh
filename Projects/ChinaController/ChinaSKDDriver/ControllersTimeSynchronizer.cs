@@ -4,7 +4,7 @@ using System.Threading;
 using Common;
 using FiresecAPI.SKD;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public static class ControllersTimeSynchronizer
 	{

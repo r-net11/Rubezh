@@ -1,7 +1,7 @@
 ﻿using System;
-using ChinaSKDDriver;
+using StrazhDeviceSDK;
 
-namespace ChinaSKDDriverAPI
+namespace StrazhDeviceSDK.API
 {
 	public class AlarmLogItem
 	{

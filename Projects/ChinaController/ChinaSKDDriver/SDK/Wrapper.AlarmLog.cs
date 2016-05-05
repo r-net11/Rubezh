@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
+using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public partial class Wrapper
 	{

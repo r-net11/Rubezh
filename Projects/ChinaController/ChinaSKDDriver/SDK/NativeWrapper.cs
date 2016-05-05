@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace ChinaSKDDriverNativeApi
+namespace StrazhDeviceSDK.NativeAPI
 {
 	public class NativeWrapper
 	{
@@ -398,28 +398,28 @@ namespace ChinaSKDDriverNativeApi
 
 		public enum NET_ACCESSCTLCARD_TYPE
 		{
-			[DescriptionAttribute("Неизвестно")]
+			[Description("Неизвестно")]
 			NET_ACCESSCTLCARD_TYPE_UNKNOWN = -1,
 
-			[DescriptionAttribute("Обычный")]
+			[Description("Обычный")]
 			NET_ACCESSCTLCARD_TYPE_GENERAL,
 
-			[DescriptionAttribute("VIP")]
+			[Description("VIP")]
 			NET_ACCESSCTLCARD_TYPE_VIP,
 
-			[DescriptionAttribute("Гостевой")]
+			[Description("Гостевой")]
 			NET_ACCESSCTLCARD_TYPE_GUEST,
 
-			[DescriptionAttribute("Охрана")]
+			[Description("Охрана")]
 			NET_ACCESSCTLCARD_TYPE_PATROL,
 
-			[DescriptionAttribute("Черный список")]
+			[Description("Черный список")]
 			NET_ACCESSCTLCARD_TYPE_BLACKLIST,
 
-			[DescriptionAttribute("Принуждение")]
+			[Description("Принуждение")]
 			NET_ACCESSCTLCARD_TYPE_CORCE,
 
-			[DescriptionAttribute("Материнский")]
+			[Description("Материнский")]
 			NET_ACCESSCTLCARD_TYPE_MOTHERCARD = 0xff,
 		}
 
@@ -767,13 +767,13 @@ namespace ChinaSKDDriverNativeApi
 
 		public enum NET_ACCESS_CTL_EVENT_TYPE
 		{
-			[DescriptionAttribute("Неизвестно")]
+			[Description("Неизвестно")]
 			NET_ACCESS_CTL_EVENT_UNKNOWN = 0,
 
-			[DescriptionAttribute("Вход")]
+			[Description("Вход")]
 			NET_ACCESS_CTL_EVENT_ENTRY,
 
-			[DescriptionAttribute("Выход")]
+			[Description("Выход")]
 			NET_ACCESS_CTL_EVENT_EXIT
 		}
 
@@ -786,25 +786,25 @@ namespace ChinaSKDDriverNativeApi
 
 		public enum NET_ACCESS_DOOROPEN_METHOD
 		{
-			[DescriptionAttribute("Неизвестно")]
+			[Description("Неизвестно")]
 			NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
 
-			[DescriptionAttribute("Пароль")]
+			[Description("Пароль")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
 
-			[DescriptionAttribute("Карта")]
+			[Description("Карта")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD,
 
-			[DescriptionAttribute("Сначала карта")]
+			[Description("Сначала карта")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
 
-			[DescriptionAttribute("Сначала пароль")]
+			[Description("Сначала пароль")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
 
-			[DescriptionAttribute("Удаленно")]
+			[Description("Удаленно")]
 			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
 
-			[DescriptionAttribute("Кнопка")]
+			[Description("Кнопка")]
 			NET_ACCESS_DOOROPEN_METHOD_BUTTON
 		}
 

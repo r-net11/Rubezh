@@ -1,6 +1,6 @@
 ﻿using System;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
+using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 using FiresecAPI.Journal;
 using Infrastructure.Common.Windows.ViewModels;
 

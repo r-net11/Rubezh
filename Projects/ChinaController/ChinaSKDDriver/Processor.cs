@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ChinaSKDDriverAPI;
+using StrazhDeviceSDK.API;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -8,7 +8,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.Device;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public static partial class Processor
 	{

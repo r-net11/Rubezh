@@ -249,9 +249,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ChinaController\ChinaSKDDriver\ChinaSKDDriver.csproj">
+    <ProjectReference Include="..\..\ChinaController\ChinaSKDDriver\StrazhDeviceSDK.csproj">
       <Project>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</Project>
-      <Name>ChinaSKDDriver</Name>
+      <Name>StrazhDeviceSDK</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>

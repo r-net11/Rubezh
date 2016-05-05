@@ -1,8 +1,8 @@
-﻿using ChinaSKDDriverNativeApi;
+﻿using StrazhDeviceSDK.NativeAPI;
 using FiresecAPI.Journal;
 using System;
 
-namespace ChinaSKDDriverAPI
+namespace StrazhDeviceSDK.API
 {
 	public class SKDJournalItem
 	{

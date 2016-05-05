@@ -19,9 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhDAL", "..\Common\SKDDriver\StrazhDAL.csproj", "{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChinaSKD", "ChinaSKD", "{D37D6B40-83B0-424E-B406-3D8FF7D9B017}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeviceSDK", "DeviceSDK", "{D37D6B40-83B0-424E-B406-3D8FF7D9B017}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaSKDDriver", "..\ChinaController\ChinaSKDDriver\ChinaSKDDriver.csproj", "{77C8D1E5-51B4-45F9-93DF-D114433771E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhDeviceSDK", "..\ChinaController\ChinaSKDDriver\StrazhDeviceSDK.csproj", "{77C8D1E5-51B4-45F9-93DF-D114433771E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.Report", "FiresecService.Report\FiresecService.Report.csproj", "{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}"
 EndProject
@@ -50,7 +50,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RviOperatorClient", "..\Com
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RviIntegration", "RviIntegration", "{AB7EA8C9-7CF8-430D-8E94-7AD47F9D6B2C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licencing", "Licencing", "{FEB8691D-0B92-4C55-9806-BF549630261A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licensing", "Licensing", "{FEB8691D-0B92-4C55-9806-BF549630261A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Licensing.Model", "..\Licence.Model\Licensing.Model.csproj", "{B5D11993-2A32-40F7-BFB9-333B7348062E}"
 EndProject

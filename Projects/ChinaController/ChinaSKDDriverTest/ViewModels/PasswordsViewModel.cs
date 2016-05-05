@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using ChinaSKDDriverAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using StrazhDeviceSDK.API;
 
 namespace ControllerSDK.ViewModels
 {

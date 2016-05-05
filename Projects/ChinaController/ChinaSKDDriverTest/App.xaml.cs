@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using ControllerSDK.Views;
-using ChinaSKDDriver;
 
 namespace ControllerSDK
 {

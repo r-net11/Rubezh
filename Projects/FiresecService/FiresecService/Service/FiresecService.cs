@@ -1,6 +1,6 @@
 ﻿using System.Data.SqlClient;
 using System.Linq;
-using ChinaSKDDriver;
+using StrazhDeviceSDK;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Enums;

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Threading.Tasks;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
+using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -14,7 +14,7 @@ using System.Threading;
 using Infrastructure.Common;
 using StrazhDAL;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public class DeviceProcessor
 	{

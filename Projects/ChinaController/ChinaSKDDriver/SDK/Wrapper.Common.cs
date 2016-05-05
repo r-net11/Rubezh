@@ -1,10 +1,10 @@
-﻿using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
+﻿using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 using FiresecAPI.SKD;
 using System;
 using System.Runtime.InteropServices;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public partial class Wrapper
 	{
@@ -263,7 +263,7 @@ namespace ChinaSKDDriver
 		/// false - операция завершилась с ошибкой</returns>
 		public bool SetControllerTimeSettings(SKDControllerTimeSettings controllerTimeSettings)
 		{
-			var cfg_NTP_INFO = new ChinaSKDDriverNativeApi.NativeWrapper.CFG_NTP_INFO();
+			var cfg_NTP_INFO = new NativeAPI.NativeWrapper.CFG_NTP_INFO();
 			cfg_NTP_INFO.bEnable = controllerTimeSettings.IsEnabled;
 			cfg_NTP_INFO.szAddress = controllerTimeSettings.Name;
 			cfg_NTP_INFO.szTimeZoneDesc = controllerTimeSettings.Description;
@@ -298,7 +298,7 @@ namespace ChinaSKDDriver
 			// AccessLogItem chanel name
 			doorConfiguration.ChannelName = outResult.szChannelName;
 			// AccessLogItem status
-			doorConfiguration.AccessState = (ChinaSKDDriverAPI.AccessState)outResult.emState;
+			doorConfiguration.AccessState = (API.AccessState)outResult.emState;
 			// AccessLogItem mode
 			doorConfiguration.AccessMode = (AccessMode)outResult.emMode;
 			// AccessLogItem enable mode

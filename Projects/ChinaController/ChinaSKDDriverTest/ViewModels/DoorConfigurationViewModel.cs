@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using ChinaSKDDriverAPI;
+using StrazhDeviceSDK.API;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;

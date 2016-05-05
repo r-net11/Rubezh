@@ -1,4 +1,4 @@
-﻿using ChinaSKDDriver;
+﻿using StrazhDeviceSDK;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
@@ -375,7 +375,7 @@ namespace FiresecService.Service
 
 		private IEnumerable<string> AddStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
-			var cardWriter = ChinaSKDDriver.Processor.AddCard(card, accessTemplate);
+			var cardWriter = StrazhDeviceSDK.Processor.AddCard(card, accessTemplate);
 			var cardWriterError = cardWriter.GetError();
 			if (!String.IsNullOrEmpty(cardWriterError))
 				yield return cardWriterError;
@@ -421,7 +421,7 @@ namespace FiresecService.Service
 
 		private IEnumerable<string> EditStrazhCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
-			var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, card, accessTemplate);
+			var cardWriter = StrazhDeviceSDK.Processor.EditCard(oldCard, oldAccessTemplate, card, accessTemplate);
 			var cardWriterError = cardWriter.GetError();
 			if (!String.IsNullOrEmpty(cardWriterError))
 				yield return cardWriterError;
@@ -494,7 +494,7 @@ namespace FiresecService.Service
 
 		private IEnumerable<string> DeleteStrazhCard(SKDCard card, AccessTemplate accessTemplate, SKDDatabaseService databaseService)
 		{
-			var cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, accessTemplate);
+			var cardWriter = StrazhDeviceSDK.Processor.DeleteCard(card, accessTemplate);
 			var cardWriterError = cardWriter.GetError();
 			if (!String.IsNullOrEmpty(cardWriterError))
 				yield return cardWriterError;
@@ -560,7 +560,7 @@ namespace FiresecService.Service
 				{
 					foreach (var card in operationResult.Result)
 					{
-						var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, item);
+						var cardWriter = StrazhDeviceSDK.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, item);
 						var cardWriterError = cardWriter.GetError();
 						var pendingResult = databaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 
@@ -1093,7 +1093,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_двери, device);
-				return ChinaSKDDriver.Processor.GetDoorConfiguration(deviceUID);
+				return StrazhDeviceSDK.Processor.GetDoorConfiguration(deviceUID);
 			}
 			return OperationResult<SKDDoorConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1104,7 +1104,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_конфигурации_двери, device);
-				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, doorConfiguration);
+				return StrazhDeviceSDK.Processor.SetDoorConfiguration(deviceUID, doorConfiguration);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1115,7 +1115,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_направления_контроллера, device);
-				return ChinaSKDDriver.Processor.GetControllerDoorType(deviceUID);
+				return StrazhDeviceSDK.Processor.GetControllerDoorType(deviceUID);
 			}
 			return OperationResult<DoorType>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1126,7 +1126,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_направления_контроллера, device);
-				return ChinaSKDDriver.Processor.SetControllerDoorType(deviceUID, doorType);
+				return StrazhDeviceSDK.Processor.SetControllerDoorType(deviceUID, doorType);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1137,7 +1137,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_пароля_контроллера, device);
-				return ChinaSKDDriver.Processor.SetControllerPassword(deviceUID, name, oldPassword, password);
+				return StrazhDeviceSDK.Processor.SetControllerPassword(deviceUID, name, oldPassword, password);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1148,7 +1148,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_временных_настроек_контроллера, device);
-				return ChinaSKDDriver.Processor.GetControllerTimeSettings(deviceUID);
+				return StrazhDeviceSDK.Processor.GetControllerTimeSettings(deviceUID);
 			}
 			return OperationResult<SKDControllerTimeSettings>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1159,7 +1159,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_временных_настроек_контроллера, device);
-				return ChinaSKDDriver.Processor.SetControllerTimeSettings(deviceUID, controllerTimeSettings);
+				return StrazhDeviceSDK.Processor.SetControllerTimeSettings(deviceUID, controllerTimeSettings);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1170,7 +1170,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_сетевых_настроек_контроллера, device);
-				return ChinaSKDDriver.Processor.GetControllerNetworkSettings(deviceUID);
+				return StrazhDeviceSDK.Processor.GetControllerNetworkSettings(deviceUID);
 			}
 			return OperationResult<SKDControllerNetworkSettings>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1181,7 +1181,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_сетевых_настроек_контроллера, device);
-				return ChinaSKDDriver.Processor.SetControllerNetworkSettings(deviceUID, controllerNetworkSettings);
+				return StrazhDeviceSDK.Processor.SetControllerNetworkSettings(deviceUID, controllerNetworkSettings);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1304,7 +1304,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_открытие_двери, device);
-				return ChinaSKDDriver.Processor.OpenDoor(device);
+				return StrazhDeviceSDK.Processor.OpenDoor(device);
 			}
 			else
 			{
@@ -1318,7 +1318,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_закрытие_двери, device);
-				return ChinaSKDDriver.Processor.CloseDoor(device);
+				return StrazhDeviceSDK.Processor.CloseDoor(device);
 			}
 			else
 			{
@@ -1729,7 +1729,7 @@ namespace FiresecService.Service
 					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
-						return ChinaSKDDriver.Processor.OpenDoor(lockDevice);
+						return StrazhDeviceSDK.Processor.OpenDoor(lockDevice);
 					}
 					else
 					{
@@ -1763,7 +1763,7 @@ namespace FiresecService.Service
 					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
-						return ChinaSKDDriver.Processor.CloseDoor(lockDevice);
+						return StrazhDeviceSDK.Processor.CloseDoor(lockDevice);
 					}
 					else
 					{
@@ -1921,7 +1921,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_antipassback_настройки_контроллера, device);
-				return ChinaSKDDriver.Processor.GetAntiPassBackConfiguration(deviceUID);
+				return StrazhDeviceSDK.Processor.GetAntiPassBackConfiguration(deviceUID);
 			}
 			return OperationResult<SKDAntiPassBackConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1932,7 +1932,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_antipassback_настройки_контроллера, device);
-				return ChinaSKDDriver.Processor.SetAntiPassBackConfiguration(deviceUID, antiPassBackConfiguration);
+				return StrazhDeviceSDK.Processor.SetAntiPassBackConfiguration(deviceUID, antiPassBackConfiguration);
 			}
 			return OperationResult<bool>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1943,7 +1943,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_interlock_настройки_контроллера, device);
-				return ChinaSKDDriver.Processor.GetInterlockConfiguration(deviceUID);
+				return StrazhDeviceSDK.Processor.GetInterlockConfiguration(deviceUID);
 			}
 			return OperationResult<SKDInterlockConfiguration>.FromError("Устройство не найдено в конфигурации");
 		}
@@ -1961,11 +1961,11 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> SKDStartSearchDevices()
 		{
-			return ChinaSKDDriver.Processor.StartSearchDevices();
+			return StrazhDeviceSDK.Processor.StartSearchDevices();
 		}
 		public OperationResult<bool> SKDStopSearchDevices()
 		{
-			return ChinaSKDDriver.Processor.StopSearchDevices();
+			return StrazhDeviceSDK.Processor.StopSearchDevices();
 		}
 
 

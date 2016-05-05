@@ -1,9 +1,9 @@
-﻿using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
+﻿using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public partial class Wrapper
 	{

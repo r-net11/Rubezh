@@ -4,7 +4,7 @@ using FiresecAPI.SKD;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public static partial class Processor
 	{
