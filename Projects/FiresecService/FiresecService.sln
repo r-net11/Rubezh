@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDDriver", "..\Common\SKDDriver\SKDDriver.csproj", "{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhDAL", "..\Common\SKDDriver\StrazhDAL.csproj", "{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChinaSKD", "ChinaSKD", "{D37D6B40-83B0-424E-B406-3D8FF7D9B017}"
 EndProject

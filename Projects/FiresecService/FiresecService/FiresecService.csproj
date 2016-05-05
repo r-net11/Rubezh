@@ -281,9 +281,9 @@
       <Project>{112658EB-3244-4922-AEF7-6376E688B7A7}</Project>
       <Name>RviClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
+    <ProjectReference Include="..\..\Common\SKDDriver\StrazhDAL.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
-      <Name>SKDDriver</Name>
+      <Name>StrazhDAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecService.Report\FiresecService.Report.csproj">
       <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>
