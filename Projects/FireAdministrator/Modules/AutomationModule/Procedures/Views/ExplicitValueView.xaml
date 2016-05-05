@@ -144,8 +144,10 @@
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
-					<ComboBox ItemsSource="{Binding JournalEventDescriptionTypeValues}" SelectedItem="{Binding JournalEventDescriptionTypeValue, UpdateSourceTrigger=PropertyChanged}"
-					Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventDescriptionType}}" Width="200">
+					<ComboBox ItemsSource="{Binding JournalEventDescriptionTypeValues}"
+							  SelectedItem="{Binding JournalEventDescriptionTypeValue, UpdateSourceTrigger=PropertyChanged}"
+							  Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventDescriptionType}}"
+							  Width="200">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -188,6 +190,7 @@
 				</StackPanel>
 			</StackPanel>
 		</StackPanel>
+
 		<Grid Grid.Row="1" Visibility="{Binding IsList, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
@@ -328,9 +331,11 @@
 				</ItemsControl>
 			</ScrollViewer>
 
-			<StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}" >
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-						 Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}" >
+			<DockPanel Grid.Row="1" 
+					   Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+							  Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}"
+							  Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}}">
 					<ItemsControl ItemsSource="{Binding StateTypeValueList}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
@@ -365,8 +370,9 @@
 					</ItemsControl>
 				</ScrollViewer>
 
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-						 Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}" >
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+							  Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}"
+							  Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}}">
 					<ItemsControl ItemsSource="{Binding DriverTypeValueList}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
@@ -401,8 +407,9 @@
 					</ItemsControl>
 				</ScrollViewer>
 
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-						 Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.PermissionType}}" >
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+							  Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.PermissionType}}"
+							  Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}}">
 					<ItemsControl ItemsSource="{Binding PermissionTypeValueList}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
@@ -437,8 +444,9 @@
 					</ItemsControl>
 				</ScrollViewer>
 
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-						 Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventNameType}}" >
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+							  Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventNameType}}"
+							  Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}}">
 					<ItemsControl ItemsSource="{Binding JournalEventNameTypeValueList}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
@@ -473,8 +481,9 @@
 					</ItemsControl>
 				</ScrollViewer>
 
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-						 Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventDescriptionType}}" >
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+							  Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventDescriptionType}}"
+							  Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}}">
 					<ItemsControl ItemsSource="{Binding JournalEventDescriptionTypeValueList}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
@@ -509,8 +518,9 @@
 					</ItemsControl>
 				</ScrollViewer>
 
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-						 Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalObjectType}}" >
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+							  Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalObjectType}}"
+							  Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}}">
 					<ItemsControl ItemsSource="{Binding JournalObjectTypeValueList}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
@@ -545,8 +555,9 @@
 					</ItemsControl>
 				</ScrollViewer>
 
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-						 Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}" >
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+							  Visibility="{Binding EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}"
+							  Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}}">
 					<ItemsControl ItemsSource="{Binding ColorValueList}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
@@ -573,10 +584,11 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</ScrollViewer>
-			</StackPanel>
+			</DockPanel>
 
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-						 Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}" >
+						  Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}"
+						  Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}}">
 				<ItemsControl ItemsSource="{Binding ObjectReferenceValueList}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
