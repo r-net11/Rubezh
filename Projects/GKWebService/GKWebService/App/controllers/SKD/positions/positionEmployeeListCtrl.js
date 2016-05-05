@@ -75,20 +75,25 @@
                     resolve: {
                         employees: function () {
                             return $http.get('Hr/GetEmptyPositionEmployees/' + $scope.selectedPosition.OrganisationUID);
+                        },
+                        selectedEmployeeUID: function () {
+                            return null;
                         }
                     }
                 });
 
                 modalInstance.result.then(function (employee) {
                     return positionsService.saveEmployeePosition(employee, $scope.selectedPosition.UID);
-                }).then(function() {
+                }).then(function (employee) {
                     reload();
+                    $scope.$parent.$broadcast('EditEmployeeEvent', employee.UID);
                 });
             };
 
             $scope.remove = function () {
-                positionsService.saveEmployeePosition($scope.selectedEmployee, null).then(function () {
+                positionsService.saveEmployeePosition($scope.selectedEmployee, null).then(function (employee) {
                     reload();
+                    $scope.$parent.$broadcast('EditEmployeeEvent', employee.UID);
                 });
             };
 
@@ -116,6 +121,7 @@
 
                 modalInstance.result.then(function () {
                     reload();
+                    $scope.$parent.$broadcast('EditEmployeeEvent', $scope.selectedEmployee.UID);
                 });
             };
         }]

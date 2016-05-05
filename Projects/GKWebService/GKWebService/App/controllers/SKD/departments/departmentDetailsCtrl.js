@@ -19,8 +19,8 @@
 
             $scope.save = function () {
                 departmentsService.saveDepartment($scope.model, $scope.isNew).then(function() {
-                        $uibModalInstance.close();
-                    });
+                    $uibModalInstance.close($scope.department);
+                });
             };
 
             $scope.cancel = function () {

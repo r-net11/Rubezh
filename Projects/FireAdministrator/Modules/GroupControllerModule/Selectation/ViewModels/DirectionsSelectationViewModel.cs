@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using Common;
+using Infrastructure;
+using GKModule.Events;
 
 namespace GKModule.ViewModels
 {
@@ -25,6 +27,7 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 
 			Directions = directions;
 			TargetDirections = new SortableObservableCollection<GKDirection>();
@@ -160,6 +163,17 @@ namespace GKModule.ViewModels
 			TargetDirections.Clear();
 			SelectedSourceDirection = SourceDirections.FirstOrDefault();
 		}
+		public RelayCommand CreateNewCommand { get; private set; }
+		void OnCreateNew()
+		{
+			var createGKDirectionEventArg = new CreateGKDirectionEventArg();
+			ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Publish(createGKDirectionEventArg);
+			if (createGKDirectionEventArg.Direction != null)
+			{
+				SourceDirections.Add(createGKDirectionEventArg.Direction);
+			}
+		}
+
 		public bool CanAddAll()
 		{
 			return (SourceDirections.Count > 0);

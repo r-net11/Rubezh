@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common.Navigation
 {
@@ -39,44 +39,14 @@ namespace Infrastructure.Common.Navigation
 			}
 		}
 
-		void TreeViewItem_Selected(object sender, RoutedEventArgs e)
-		{
-			TreeViewItem tvi = e.OriginalSource as TreeViewItem;
-			if (tvi != null)
-			{
-				tvi.BringIntoView();
-				var scope = FocusManager.GetFocusScope(tvi);
-				FocusManager.SetFocusedElement(scope, tvi);
-				//tvi.IsExpanded = !tvi.IsExpanded;
-				NavigationItem navigation = tvi.Header as NavigationItem;
-				if (navigation != null)
-					navigation.Execute();
-				e.Handled = true;
-			}
-		}
-
 		void TreeViewItem_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			e.Handled = true;
 		}
 
-		void TreeView_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			var item = GetTreeViewItemClicked(e);
-			if (item != null)
-			{
-				item.MouseLeave += TreeViewItem_MouseLeave;
-				var tree = (TreeView)sender;
-				_selectedItem = tree.ItemContainerGenerator.ContainerFromItem(tree.SelectedItem) as TreeViewItem;
-				if (_selectedItem != null)
-					_selectedItem.RequestBringIntoView += TreeViewItem_RequestBringIntoView;
-			}
-		}
-
 		void TreeView_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			TreeViewItem item = GetTreeViewItemClicked(e);
-			ResetSelectedItem();
 			if (item != null)
 			{
 				NavigationItem navigation = item.Header as NavigationItem;
@@ -86,17 +56,6 @@ namespace Infrastructure.Common.Navigation
 				item.BringIntoView();
 				e.Handled = true;
 			}
-		}
-
-		void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
-		{
-			e.Handled = true;
-		}
-
-		void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
-		{
-			((TreeViewItem)sender).MouseLeave -= TreeViewItem_MouseLeave;
-			ResetSelectedItem();
 		}
 
 		TreeViewItem GetTreeViewItemClicked(RoutedEventArgs e)
@@ -153,15 +112,6 @@ namespace Infrastructure.Common.Navigation
 						return true;
 				}
 			return false;
-		}
-
-		void ResetSelectedItem()
-		{
-			if (_selectedItem != null)
-			{
-				_selectedItem.RequestBringIntoView -= TreeViewItem_RequestBringIntoView;
-				_selectedItem = null;
-			}
 		}
 	}
 }

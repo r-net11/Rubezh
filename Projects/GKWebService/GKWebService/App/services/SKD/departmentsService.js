@@ -68,7 +68,7 @@
                 departmentUID: selectedDepartmentUID,
                 name: employee.Name
             }).then(function (response) {
-                deferred.resolve();
+                deferred.resolve(employee);
             }, function (response) {
                 // TODO: реализовать обработку ошибок
                 alert("Ошибка сохранения сотрудника подразделения");

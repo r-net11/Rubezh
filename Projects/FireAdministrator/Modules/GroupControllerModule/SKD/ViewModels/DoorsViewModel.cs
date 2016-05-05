@@ -38,8 +38,9 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
 
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(CreateDoor);
+			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(EditDoor);
 		}
 
 		public void Initialize()

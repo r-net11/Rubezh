@@ -161,10 +161,36 @@
 
                 return deferred.promise;
             },
+            getOrganisations: function(filter) {
+                var deferred = $q.defer();
+
+                $http.get('Employees/GetOrganisations', { params: filter }).then(function (response) {
+                    deferred.resolve(response.data.rows);
+                }, function (response) {
+                    // TODO: реализовать обработку ошибок
+                    alert("Ошибка получения сотрудника");
+                    deferred.reject();
+                });
+
+                return deferred.promise;
+            },
             getOrganisation: function(UID) {
                 var deferred = $q.defer();
 
                 $http.get('Employees/GetOrganisation/' + UID).then(function (response) {
+                    deferred.resolve(response.data);
+                }, function (response) {
+                    // TODO: реализовать обработку ошибок
+                    alert("Ошибка получения сотрудника");
+                    deferred.reject();
+                });
+
+                return deferred.promise;
+            },
+            getSingleShort: function (UID) {
+                var deferred = $q.defer();
+
+                $http.get('Employees/GetSingleShort/' + UID).then(function (response) {
                     deferred.resolve(response.data);
                 }, function (response) {
                     // TODO: реализовать обработку ошибок

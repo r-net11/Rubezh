@@ -39,8 +39,9 @@ namespace GKModule.ViewModels
 			RegisterShortcuts();
 			SetRibbonItems();
 
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKMPTEvent>().Subscribe(CreateMPT);
+			ServiceFactory.Events.GetEvent<EditGKMPTEvent>().Subscribe(EditMPT);
 		}
 
 		public void Initialize()
@@ -222,12 +223,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createMPTEventArg.Cancel = true;
-				createMPTEventArg.MPTUID = Guid.Empty;
 			}
 			else
 			{
 				createMPTEventArg.Cancel = false;
-				createMPTEventArg.MPTUID = result.MPT.UID;
 				createMPTEventArg.MPT = result.MPT;
 			}
 		}

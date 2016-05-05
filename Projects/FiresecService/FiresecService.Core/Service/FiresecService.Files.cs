@@ -73,15 +73,13 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void SetRemoteConfig(SetRemoteConfigMessageContract streamSettings)
+		public void SetRemoteConfig(Stream stream)
 		{
-			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null, null, streamSettings.ClientUid);
 			var newConfigFileName = AppDataFolderHelper.GetServerAppDataPath("NewConfig.fscp");
 			var newConfigDirectory = AppDataFolderHelper.GetServerAppDataPath("NewConfig");
 			var configFileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			var configDirectory = AppDataFolderHelper.GetServerAppDataPath("Config");
 
-			var stream = streamSettings.Stream;
 			using (var configFileStream = File.Create(newConfigFileName))
 			{
 				CopyStream(stream, configFileStream);

@@ -117,7 +117,7 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			foreach (var elementBase in elements)
 			{
-				var designerItem = DesignerCanvas.GetDesignerItem(elementBase);
+				var designerItem = DesignerCanvas.GetDesignerItem(elementBase.UID);
 				if (designerItem != null)
 					AddElement(new ElementViewModel(designerItem));
 			}

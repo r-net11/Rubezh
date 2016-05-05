@@ -82,7 +82,7 @@ namespace FireMonitor.Layout.ViewModels
 						if (layoutPart != null)
 							layoutPart.SetProperty(visualProperty.Property, visualProperty.Value);
 					}
-				if (properties.PlanProperties!= null && properties.PlanProperties.Any())
+				if (properties.PlanProperties != null && properties.PlanProperties.Any())
 					ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Publish(properties.PlanProperties);
 			}
 		}
@@ -149,9 +149,9 @@ namespace FireMonitor.Layout.ViewModels
 				if (layoutPart != null)
 				{
 					layoutPart.Margin = e.Model.Margin;
-					layoutPart.BorderColor = e.Model.BorderColor.ToRubezhColor();
+					layoutPart.BorderColor = e.Model.BorderColor;
 					layoutPart.BorderThickness = e.Model.BorderThickness;
-					layoutPart.BackgroundColor = e.Model.BackgroundColor.ToRubezhColor();
+					layoutPart.BackgroundColor = e.Model.BackgroundColor;
 				}
 				e.Content = layoutPart;
 			}

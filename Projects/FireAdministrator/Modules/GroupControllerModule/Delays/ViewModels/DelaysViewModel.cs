@@ -42,8 +42,9 @@ namespace GKModule.ViewModels
 			SetRibbonItems();
 			RegisterShortcuts();
 
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Subscribe(CreateDelay);
+			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Subscribe(EditDelay);
 		}
 		public void Initialize()
 		{
@@ -229,12 +230,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createDelayEventArg.Cancel = true;
-				createDelayEventArg.DelayUID = Guid.Empty;
 			}
 			else
 			{
 				createDelayEventArg.Cancel = false;
-				createDelayEventArg.DelayUID = result.Delay.UID;
 				createDelayEventArg.Delay = result.Delay;
 			}
 		}

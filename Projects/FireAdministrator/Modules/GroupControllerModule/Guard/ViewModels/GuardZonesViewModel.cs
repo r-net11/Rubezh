@@ -40,8 +40,9 @@ namespace GKModule.ViewModels
 			RegisterShortcuts();
 			SetRibbonItems();
 
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Subscribe(CreateZone);
+			ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Subscribe(EditZone);
 		}
 
 		public void Initialize()
@@ -198,12 +199,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createGuardZoneEventArg.Cancel = true;
-				createGuardZoneEventArg.ZoneUID = Guid.Empty;
 			}
 			else
 			{
 				createGuardZoneEventArg.Cancel = false;
-				createGuardZoneEventArg.ZoneUID = result.Zone.UID;
 				createGuardZoneEventArg.Zone = result.Zone;
 			}
 		}
