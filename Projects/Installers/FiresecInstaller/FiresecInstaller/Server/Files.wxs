@@ -100,7 +100,7 @@
 				<File Id="Server.Stream.dll" Name="Stream.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.CPPWrapper.dll" Name="CPPWrapper.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.ChinaSKDDriver.dll" Name="ChinaSKDDriver.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.StrazhDeviceSDK.dll" Name="StrazhDeviceSDK.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 		</DirectoryRef>
