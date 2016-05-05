@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -106,7 +106,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
+			return !IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -120,7 +120,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
+			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
+			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
 		public void UpdateCardDoors(IEnumerable<Guid> doorUIDs, Guid organisationUID)

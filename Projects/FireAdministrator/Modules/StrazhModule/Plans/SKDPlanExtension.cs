@@ -2,8 +2,8 @@
 using System.Windows.Media;
 using Common;
 using DeviceControls;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrustructure.Plans.Designer;
@@ -20,7 +20,7 @@ using FiresecClient;
 using StrazhModule.Events;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common;
-using FiresecAPI;
+using StrazhAPI;
 
 namespace StrazhModule.Plans
 {

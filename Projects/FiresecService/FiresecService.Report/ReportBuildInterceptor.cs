@@ -1,6 +1,6 @@
 ﻿using DevExpress.XtraReports.Service.Extensions;
 using DevExpress.XtraReports.UI;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
 using System;
 using System.ComponentModel.Composition;
 

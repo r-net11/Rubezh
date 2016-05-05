@@ -1,19 +1,19 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public enum IntervalType
 	{
-		[DescriptionAttribute("Дневные графики")]
+		[Description("Дневные графики")]
 		Time,
 
-		[DescriptionAttribute("Недельные графики")]
+		[Description("Недельные графики")]
 		Weekly,
 
-		[DescriptionAttribute("Суточные графики")]
+		[Description("Суточные графики")]
 		SlideDay,
 
-		[DescriptionAttribute("Скользящие понедельные графики")]
+		[Description("Скользящие понедельные графики")]
 		SlideWeekly
 	}
 }

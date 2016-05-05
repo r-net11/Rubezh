@@ -1,8 +1,8 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using Infrastructure.Common;
 using System;

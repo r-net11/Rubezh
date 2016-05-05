@@ -1,6 +1,6 @@
 ﻿using System;
-using FiresecAPI.Enums;
-using FiresecAPI.SKD;
+using StrazhAPI.Enums;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Validation;
 using StrazhModule.Events;
 using Infrastructure.Common;

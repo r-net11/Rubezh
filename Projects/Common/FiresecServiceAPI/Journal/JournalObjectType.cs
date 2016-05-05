@@ -1,22 +1,22 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public enum JournalObjectType
 	{
-		[DescriptionAttribute("Нет")]
+		[Description("Нет")]
 		None = 0,
 
-		[DescriptionAttribute("Устройства Страж")]
+		[Description("Устройства Страж")]
 		SKDDevice = 10,
 
-		[DescriptionAttribute("Зоны Страж")]
+		[Description("Зоны Страж")]
 		SKDZone = 11,
 
-		[DescriptionAttribute("Точки доступа Страж")]
+		[Description("Точки доступа Страж")]
 		SKDDoor = 12,
 
-		[DescriptionAttribute("Видеоустройства")]
+		[Description("Видеоустройства")]
 		VideoDevice = 13
 	}
 }

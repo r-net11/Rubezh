@@ -1,6 +1,6 @@
 ﻿using Common;
 
-namespace FiresecAPI.GK
+namespace StrazhAPI.GK
 {
 	public interface IStateProvider : IIdentity
 	{

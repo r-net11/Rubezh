@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 

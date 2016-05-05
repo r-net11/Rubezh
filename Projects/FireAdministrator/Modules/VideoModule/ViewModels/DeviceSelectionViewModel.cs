@@ -8,7 +8,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using RviClient;
 using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using RviCommonClient;
 
 namespace VideoModule.ViewModels

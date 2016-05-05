@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using SKDModule.ViewModels;
 
 namespace SKDModule.PassCardDesigner.ViewModels

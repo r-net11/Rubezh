@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[XmlInclude(typeof(EventsReportFilter))]

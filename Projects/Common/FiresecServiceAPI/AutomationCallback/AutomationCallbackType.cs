@@ -1,4 +1,4 @@
-﻿namespace FiresecAPI.AutomationCallback
+﻿namespace StrazhAPI.AutomationCallback
 {
 	public enum AutomationCallbackType
 	{

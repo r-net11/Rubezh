@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;

@@ -1,10 +1,10 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OperationResult = FiresecAPI.OperationResult;
+using OperationResult = StrazhAPI.OperationResult;
 
 namespace StrazhDAL
 {

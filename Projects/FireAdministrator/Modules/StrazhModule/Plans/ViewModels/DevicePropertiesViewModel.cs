@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using StrazhModule.Plans.Designer;
 using StrazhModule.ViewModels;

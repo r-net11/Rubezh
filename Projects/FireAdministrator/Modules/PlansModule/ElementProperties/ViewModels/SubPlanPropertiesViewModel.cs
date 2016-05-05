@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;

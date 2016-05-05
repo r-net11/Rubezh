@@ -1,10 +1,10 @@
 ﻿using System;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using System.Collections.Generic;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;

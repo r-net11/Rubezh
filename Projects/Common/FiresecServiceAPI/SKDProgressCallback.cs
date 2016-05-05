@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	[DataContract]
 	public class SKDProgressCallback

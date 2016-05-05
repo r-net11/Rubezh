@@ -1,5 +1,5 @@
 ﻿using StrazhDeviceSDK.NativeAPI;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using System;
 
 namespace StrazhDeviceSDK.API

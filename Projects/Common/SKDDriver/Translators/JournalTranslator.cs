@@ -1,8 +1,8 @@
-﻿using FiresecAPI;
+﻿using StrazhAPI;
 using System;
 using System.Data.Linq;
 using System.Linq;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 
 namespace StrazhDAL
 {

@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Services;

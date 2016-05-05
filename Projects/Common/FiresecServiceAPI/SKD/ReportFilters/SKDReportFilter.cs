@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(SKDReportFilter))]

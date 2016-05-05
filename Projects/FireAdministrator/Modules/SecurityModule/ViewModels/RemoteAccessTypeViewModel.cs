@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using StrazhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using SecurityModule.Events;

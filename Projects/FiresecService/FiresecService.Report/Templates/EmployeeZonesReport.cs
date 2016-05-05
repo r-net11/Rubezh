@@ -1,5 +1,5 @@
-﻿using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+﻿using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using StrazhDAL.DataAccess;
 using System;

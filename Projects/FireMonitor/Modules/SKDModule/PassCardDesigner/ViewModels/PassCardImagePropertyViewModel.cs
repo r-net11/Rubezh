@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 

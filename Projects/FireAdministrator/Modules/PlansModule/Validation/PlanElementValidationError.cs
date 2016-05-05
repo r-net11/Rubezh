@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;

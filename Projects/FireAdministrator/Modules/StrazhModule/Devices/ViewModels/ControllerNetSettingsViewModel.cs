@@ -7,7 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure;
 using FiresecClient;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace StrazhModule.ViewModels
 {

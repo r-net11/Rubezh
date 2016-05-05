@@ -1,11 +1,11 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OperationResult = FiresecAPI.OperationResult;
-using Organisation = FiresecAPI.SKD.Organisation;
-using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
+using OperationResult = StrazhAPI.OperationResult;
+using Organisation = StrazhAPI.SKD.Organisation;
+using TimeTrackDocumentType = StrazhAPI.SKD.TimeTrackDocumentType;
 
 namespace StrazhDAL
 {

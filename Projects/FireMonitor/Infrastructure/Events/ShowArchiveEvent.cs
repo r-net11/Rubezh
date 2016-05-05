@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Events;
-using FiresecAPI.SKD;
-using FiresecAPI.GK;
+using StrazhAPI.SKD;
+using StrazhAPI.GK;
 
 namespace Infrastructure.Events
 {

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using FiresecAPI.SKD.Device;
+using StrazhAPI.SKD.Device;
 
 namespace Controls.Converters
 {

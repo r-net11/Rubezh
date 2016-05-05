@@ -2,21 +2,21 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	[Flags]
 	public enum ScheduleSchemeType
 	{
-		[DescriptionAttribute("Недельный")]
+		[Description("Недельный")]
 		[EnumMember]
 		Week = 1,
 
-		[DescriptionAttribute("Месячный")]
+		[Description("Месячный")]
 		[EnumMember]
 		Month = 2,
 
-		[DescriptionAttribute("Сменный")]
+		[Description("Сменный")]
 		[EnumMember]
 		SlideDay = 4,
 	}

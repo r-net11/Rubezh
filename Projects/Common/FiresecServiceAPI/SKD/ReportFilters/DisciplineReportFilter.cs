@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(DisciplineReportFilter))]
@@ -16,7 +16,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			ShowAbsence = true;
 			ShowOvertime = true;
 			ShowAllViolation = true;
-			ReportType = ReportType.DisciplineReport;
+			ReportType = Enums.ReportType.DisciplineReport;
 		}
 
 		#region IReportFilterPeriod Members

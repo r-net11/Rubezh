@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using StrazhDeviceSDK.API;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.Device;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.Device;
 
 namespace StrazhDeviceSDK
 {

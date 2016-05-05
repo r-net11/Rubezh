@@ -1,6 +1,6 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using Ionic.Zip;
 using System;
 using System.IO;

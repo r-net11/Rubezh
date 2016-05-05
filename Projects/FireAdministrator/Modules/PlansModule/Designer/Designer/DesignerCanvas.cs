@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure;
 using Infrastructure.Designer;
 using Infrustructure.Plans.Designer;

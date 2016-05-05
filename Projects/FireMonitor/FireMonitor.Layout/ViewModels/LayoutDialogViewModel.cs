@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI.AutomationCallback;
+using StrazhAPI.AutomationCallback;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;

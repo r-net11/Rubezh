@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	public interface IReportFilterUser
 	{

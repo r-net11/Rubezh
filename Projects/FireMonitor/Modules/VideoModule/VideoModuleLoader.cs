@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;

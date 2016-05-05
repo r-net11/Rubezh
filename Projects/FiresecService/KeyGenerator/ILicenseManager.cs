@@ -1,6 +1,6 @@
 ﻿
 using System;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
 namespace KeyGenerator
 {

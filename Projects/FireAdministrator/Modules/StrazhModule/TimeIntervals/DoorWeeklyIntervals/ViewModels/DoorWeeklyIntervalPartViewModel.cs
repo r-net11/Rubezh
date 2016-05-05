@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure;
 using StrazhModule.Intervals.Base.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;

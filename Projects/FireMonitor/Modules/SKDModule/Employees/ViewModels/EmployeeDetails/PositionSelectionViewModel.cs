@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -66,7 +66,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit);
+			return FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Positions_Etit);
 		}
 
 		public RelayCommand ClearCommand { get; private set; }

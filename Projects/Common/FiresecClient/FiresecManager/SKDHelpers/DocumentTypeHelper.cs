@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
 {

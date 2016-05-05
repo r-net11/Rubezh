@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using Controls.TreeList;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Views

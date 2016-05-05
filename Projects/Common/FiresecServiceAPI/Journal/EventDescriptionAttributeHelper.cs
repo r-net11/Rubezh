@@ -1,7 +1,7 @@
-﻿using FiresecAPI.GK;
-using System.Reflection;
+﻿using System.Reflection;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public static class EventDescriptionAttributeHelper
 	{

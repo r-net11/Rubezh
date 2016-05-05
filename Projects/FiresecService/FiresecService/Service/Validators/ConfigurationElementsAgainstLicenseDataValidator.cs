@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Services.Configuration;
 using KeyGenerator;

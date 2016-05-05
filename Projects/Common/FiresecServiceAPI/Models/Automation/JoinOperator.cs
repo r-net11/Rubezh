@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	public enum JoinOperator
 	{
 		[Description("И")]
 		And,
 
-		[DescriptionAttribute("Или")]
+		[Description("Или")]
 		Or
 	}
 }

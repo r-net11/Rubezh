@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using LinqKit;
 
 namespace StrazhDAL

@@ -1,6 +1,6 @@
 ﻿using StrazhDeviceSDK.API;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -246,28 +246,28 @@ namespace StrazhDeviceSDK
 
 					switch (controllerCardItem.Card.CardType)
 					{
-						case FiresecAPI.SKD.CardType.Constant:
+						case StrazhAPI.SKD.CardType.Constant:
 							card.CardType = API.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
 							card.ValidEndDateTime = controllerCardItem.Card.StartDate.AddYears(100);
 							break;
 
-						case FiresecAPI.SKD.CardType.Temporary:
+						case StrazhAPI.SKD.CardType.Temporary:
 							card.CardType = API.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
 							break;
 
-						case FiresecAPI.SKD.CardType.Guest:
+						case StrazhAPI.SKD.CardType.Guest:
 							card.CardType = API.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
 							break;
 
-						case FiresecAPI.SKD.CardType.Duress:
+						case StrazhAPI.SKD.CardType.Duress:
 							card.CardType = API.CardType.NET_ACCESSCTLCARD_TYPE_CORCE;
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
 							break;
 
-						case FiresecAPI.SKD.CardType.Blocked:
+						case StrazhAPI.SKD.CardType.Blocked:
 							card.CardType = API.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_LOGOFF;
 							break;

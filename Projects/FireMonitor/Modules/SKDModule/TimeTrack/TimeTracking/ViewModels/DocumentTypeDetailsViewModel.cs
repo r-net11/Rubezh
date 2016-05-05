@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using Common;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;

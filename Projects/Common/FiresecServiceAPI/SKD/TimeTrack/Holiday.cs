@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public class Holiday : OrganisationElementBase, IOrganisationElement

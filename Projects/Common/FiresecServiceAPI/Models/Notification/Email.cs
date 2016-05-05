@@ -1,10 +1,10 @@
-﻿using FiresecAPI.GK;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class Email

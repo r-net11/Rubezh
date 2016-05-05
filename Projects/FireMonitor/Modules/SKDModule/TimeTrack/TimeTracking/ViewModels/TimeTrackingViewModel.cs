@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -164,7 +164,7 @@ namespace SKDModule.ViewModels
 
 			ShowFilterCommand = new RelayCommand(OnShowFilter, () => !IsBisy);
 			PrintCommand = new RelayCommand(OnPrint, () => ApplicationService.IsReportEnabled);
-			CanShowDocumentTypes = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+			CanShowDocumentTypes = FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 
 			ShowDocumentTypesCommand = new ReactiveCommand();
 			ShowDocumentTypesCommand.Subscribe(_ => OnShowDocumentTypes());

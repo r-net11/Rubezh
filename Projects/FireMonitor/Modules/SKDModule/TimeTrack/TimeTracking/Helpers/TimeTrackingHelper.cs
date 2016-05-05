@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using SKDModule.Model;
 using DayTimeTrackPart = SKDModule.Model.DayTimeTrackPart;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels

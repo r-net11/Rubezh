@@ -3,7 +3,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace FiresecAPI.GK
+namespace StrazhAPI.GK
 {
 	/// <summary>
 	/// Базовый класс всех моделей

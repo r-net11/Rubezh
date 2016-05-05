@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Threading;

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class RviSettings

@@ -1,5 +1,5 @@
 ﻿using Common;
-using FiresecAPI.GK;
+using StrazhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Client.Plans.Presenter

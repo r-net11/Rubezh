@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client.Layout.ViewModels;

@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 
 namespace SKDModule.ViewModels
 {

@@ -1,6 +1,6 @@
-﻿using FiresecAPI.GK;
+﻿using StrazhAPI.GK;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public enum JournalEventNameType
 	{

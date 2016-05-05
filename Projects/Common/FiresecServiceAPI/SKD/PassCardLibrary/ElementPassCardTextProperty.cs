@@ -1,9 +1,9 @@
-﻿using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
+﻿using Infrustructure.Plans.Elements;
 using System;
 using System.Runtime.Serialization;
+using StrazhAPI.Models;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public class ElementPassCardTextProperty : ElementTextBlock

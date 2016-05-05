@@ -1,7 +1,7 @@
 ﻿using StrazhDeviceSDK.API;
 using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -251,7 +251,7 @@ namespace StrazhDeviceSDK
 					return OperationResult<SKDDoorConfiguration>.FromError("Ошибка при выполнении операции в приборе");
 
 				var doorConfiguration = new SKDDoorConfiguration();
-				doorConfiguration.AccessState = (FiresecAPI.SKD.AccessState)nativeDoorConfiguration.AccessState;
+				doorConfiguration.AccessState = (StrazhAPI.SKD.AccessState)nativeDoorConfiguration.AccessState;
 				doorConfiguration.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)nativeDoorConfiguration.DoorOpenMethod;
 				doorConfiguration.UnlockHoldInterval = nativeDoorConfiguration.UnlockHoldInterval;
 				doorConfiguration.HandicapTimeout.nUnlockHoldInterval = nativeDoorConfiguration.HandicapTimeout.nUnlockHoldInterval;

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using RviClient;

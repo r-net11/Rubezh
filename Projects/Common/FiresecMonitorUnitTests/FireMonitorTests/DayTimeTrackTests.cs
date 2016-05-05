@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

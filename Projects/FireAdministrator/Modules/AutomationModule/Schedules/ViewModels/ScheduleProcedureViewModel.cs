@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecAPI.Models.Automation;
+using StrazhAPI.Automation;
+using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 

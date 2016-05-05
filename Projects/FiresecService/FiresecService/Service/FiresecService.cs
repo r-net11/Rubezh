@@ -2,11 +2,11 @@
 using System.Linq;
 using StrazhDeviceSDK;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using FiresecService.Service.Validators;
 using FiresecService.ViewModels;
 using Infrastructure.Common;

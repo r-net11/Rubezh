@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Automation;
-using FiresecAPI.Models.Layouts;
+﻿using StrazhAPI.Automation;
+using StrazhAPI.Models.Layouts;
 using System;
 using System.Collections.Generic;
 using System.Windows;

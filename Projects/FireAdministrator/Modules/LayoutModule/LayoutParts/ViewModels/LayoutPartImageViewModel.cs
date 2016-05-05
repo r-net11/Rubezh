@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Media;
 using Common;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;

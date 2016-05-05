@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace StrazhModule.ViewModels
 {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Controls.TreeList;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using SKDModule.ViewModels;
 
 namespace SKDModule.Views

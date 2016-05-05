@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 

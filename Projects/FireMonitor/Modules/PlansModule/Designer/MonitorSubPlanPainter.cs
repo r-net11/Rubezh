@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;

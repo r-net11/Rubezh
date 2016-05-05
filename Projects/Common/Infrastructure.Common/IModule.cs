@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Enums;
+﻿using StrazhAPI.Enums;
 using Infrastructure.Common.Navigation;
 using System;
 using System.Collections.Generic;

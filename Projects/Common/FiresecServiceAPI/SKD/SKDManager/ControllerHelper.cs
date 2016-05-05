@@ -1,7 +1,7 @@
-﻿using FiresecAPI.GK;
-using System;
+﻿using System;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public static class ControllerHelper
 	{

@@ -1,4 +1,4 @@
-﻿namespace FiresecAPI.SKD
+﻿namespace StrazhAPI.SKD
 {
 	public enum SKDDriverType
 	{

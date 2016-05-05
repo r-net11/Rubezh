@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using FiresecService.Service;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

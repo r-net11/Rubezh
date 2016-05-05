@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Automation;
+﻿using StrazhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {

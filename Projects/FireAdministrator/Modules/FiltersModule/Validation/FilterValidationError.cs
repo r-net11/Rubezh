@@ -1,7 +1,7 @@
 ﻿using System;
 using FiltersModule.Events;
-using FiresecAPI.Enums;
-using FiresecAPI.Journal;
+using StrazhAPI.Enums;
+using StrazhAPI.Journal;
 using Infrastructure.Common.Validation;
 
 namespace FilterModule.Validation

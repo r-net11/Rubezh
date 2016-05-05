@@ -1,8 +1,8 @@
 ﻿using StrazhDeviceSDK;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using FiresecService.Properties;
 using FiresecService.Report.Helpers;
 using Infrastructure.Common;

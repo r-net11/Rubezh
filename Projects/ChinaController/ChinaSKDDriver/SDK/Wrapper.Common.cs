@@ -1,6 +1,6 @@
 ﻿using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using System;
 using System.Runtime.InteropServices;
 

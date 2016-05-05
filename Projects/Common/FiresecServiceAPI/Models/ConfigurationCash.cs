@@ -1,4 +1,4 @@
-﻿namespace FiresecAPI.Models
+﻿namespace StrazhAPI.Models
 {
 	public static class ConfigurationCash
 	{

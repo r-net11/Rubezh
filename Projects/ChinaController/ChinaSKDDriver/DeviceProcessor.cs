@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -309,7 +309,7 @@ namespace StrazhDeviceSDK
 						if (doorConfiguration != null)
 						{
 							// Задаем доменной модели замка текущий режим, соответствующий режиму замка на контроллере
-							device.State.AccessState = (FiresecAPI.SKD.AccessState)doorConfiguration.AccessState;
+							device.State.AccessState = (StrazhAPI.SKD.AccessState)doorConfiguration.AccessState;
 						}
 					}
 					else

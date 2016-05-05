@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Microsoft.Practices.Prism.Events;
 
 namespace StrazhModule.Events

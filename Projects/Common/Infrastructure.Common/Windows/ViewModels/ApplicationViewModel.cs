@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using StrazhAPI.Models;
 using Infrastructure.Common.About.ViewModels;
 using System;
 using System.Windows;

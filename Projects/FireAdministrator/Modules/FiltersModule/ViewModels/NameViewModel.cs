@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Reflection;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
 using Infrastructure.Common.TreeList;
 using Controls.Converters;
 using System;

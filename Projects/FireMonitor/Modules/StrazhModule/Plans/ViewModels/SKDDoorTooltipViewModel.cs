@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using Infrastructure.Client.Plans.Presenter;
 
 namespace StrazhModule.ViewModels

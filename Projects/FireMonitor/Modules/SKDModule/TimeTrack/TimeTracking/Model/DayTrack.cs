@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

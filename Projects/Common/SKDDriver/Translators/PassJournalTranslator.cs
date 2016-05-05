@@ -1,14 +1,14 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using LinqKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using StrazhDAL.DataAccess;
 using Employee = StrazhDAL.DataAccess.Employee;
-using EmployeeDay = FiresecAPI.SKD.EmployeeDay;
-using OperationResult = FiresecAPI.OperationResult;
+using EmployeeDay = StrazhAPI.SKD.EmployeeDay;
+using OperationResult = StrazhAPI.OperationResult;
 
 namespace StrazhDAL
 {

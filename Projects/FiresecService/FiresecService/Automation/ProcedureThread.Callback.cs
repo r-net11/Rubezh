@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
+﻿using StrazhAPI.Automation;
+using StrazhAPI.AutomationCallback;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;

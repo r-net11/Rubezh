@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using System.Linq;

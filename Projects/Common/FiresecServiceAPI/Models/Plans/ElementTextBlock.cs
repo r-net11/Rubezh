@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class ElementTextBlock : ElementBaseRectangle, IElementTextBlock, IPrimitive

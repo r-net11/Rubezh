@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Enums;
-using FiresecAPI.Journal;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Enums;
+using StrazhAPI.Journal;
+using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(SchedulesReportFilter))]

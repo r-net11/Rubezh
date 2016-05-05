@@ -1,7 +1,7 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using FiresecService.Properties;
 using FiresecService.Service.Validators;
 using Infrastructure.Common;
@@ -89,7 +89,7 @@ namespace FiresecService
 		public static LayoutsConfiguration GetLayoutsConfiguration()
 		{
 			// Данный метод десериализации конфигурации макетов валится с ошибкой:
-			// Cannot serialize member FiresecAPI.Models.Layouts.LayoutPart.Properties of type FiresecAPI.Models.Layouts.ILayoutProperties because it is an interface.
+			// Cannot serialize member StrazhAPI.Models.Layouts.LayoutPart.Properties of type StrazhAPI.Models.Layouts.ILayoutProperties because it is an interface.
 			//var configuration = GetConfigurationFromZip("LayoutsConfiguration.xml", typeof(LayoutsConfiguration)) as LayoutsConfiguration;
 
 			// Поэтому используем другой метод десериализации макетов

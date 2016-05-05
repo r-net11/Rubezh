@@ -2,9 +2,9 @@
 using System.ServiceModel;
 using System.Windows.Threading;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
 
 namespace FiresecClient
 {

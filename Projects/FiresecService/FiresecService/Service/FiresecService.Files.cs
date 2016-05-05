@@ -1,5 +1,5 @@
 ﻿using Common;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using Infrastructure.Common;
 using Ionic.Zip;
 using System.Collections.Generic;

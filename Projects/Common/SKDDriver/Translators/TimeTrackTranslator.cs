@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using Infrastructure.Common;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using StrazhDAL.DataAccess;
-using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
+using TimeTrackDocumentType = StrazhAPI.SKD.TimeTrackDocumentType;
 using System.Threading.Tasks;
 
 namespace StrazhDAL

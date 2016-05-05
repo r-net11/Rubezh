@@ -1,4 +1,4 @@
-﻿using FiresecAPI.AutomationCallback;
+﻿using StrazhAPI.AutomationCallback;
 using System;
 using System.Collections.Generic;
 using System.Linq;

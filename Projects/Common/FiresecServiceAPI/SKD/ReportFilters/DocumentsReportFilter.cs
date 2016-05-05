@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(DocumentsReportFilter))]
@@ -15,7 +15,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			Presence = true;
 			Abcense = true;
 			AbcenseReasonable = true;
-			ReportType = ReportType.DocumentsReport;
+			ReportType = Enums.ReportType.DocumentsReport;
 		}
 
 		#region IReportFilterPeriod Members

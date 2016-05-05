@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Client.Properties;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure.Client.Login.ViewModels;
 using System.Threading;
 

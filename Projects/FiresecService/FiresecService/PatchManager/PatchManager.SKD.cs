@@ -1,5 +1,5 @@
 ﻿using Common;
-using FiresecAPI;
+using StrazhAPI;
 using FiresecService.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;

@@ -1,10 +1,10 @@
 ﻿using StrazhDeviceSDK;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.Device;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.Device;
 using FiresecService.Service;
 using StrazhDAL;
 using System;

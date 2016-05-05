@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -171,9 +171,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit; }
 		}
 
 		void OnEditDayInterval(Guid dayInternalUID)

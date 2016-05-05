@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
@@ -16,7 +16,7 @@ using LayoutModule.ViewModels;
 using Infrastructure.Common.Validation;
 using LayoutModule.Validation;
 using LayoutModule.LayoutParts.ViewModels;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 
 namespace LayoutModule
 {

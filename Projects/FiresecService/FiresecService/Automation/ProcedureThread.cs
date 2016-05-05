@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Common;
-using FiresecAPI.Automation;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
+using StrazhAPI.Automation;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.Models.Automation;
+using StrazhAPI.Models.Automation;
 using FiresecService.Service;
 
 namespace FiresecService

@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using LinqKit;
 using System;
 using System.Data.Linq;

@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 			_filter = new CardFilter();
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ResetRepeatEnterForOrg = new RelayCommand(OnResetRepeatEnterForOrg, () => SelectedCard != null && SelectedCard.IsOrganisation);
-			CanShowResetRepeatEnterButton = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_ResetRepeatEnter);
+			CanShowResetRepeatEnterButton = FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Cards_ResetRepeatEnter);
 			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Unsubscribe(OnNewCard);
 			ServiceFactoryBase.Events.GetEvent<NewCardEvent>().Subscribe(OnNewCard);
 			ServiceFactoryBase.Events.GetEvent<BlockCardEvent>().Unsubscribe(OnBlockCard);
@@ -282,7 +282,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
+			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 	}
 }

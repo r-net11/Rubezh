@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	public enum ClientType
 	{

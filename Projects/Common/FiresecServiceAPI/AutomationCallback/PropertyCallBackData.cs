@@ -1,8 +1,8 @@
-﻿using FiresecAPI.Automation;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
+using StrazhAPI.Automation;
 
-namespace FiresecAPI.AutomationCallback
+namespace StrazhAPI.AutomationCallback
 {
 	[DataContract]
 	public class PropertyCallBackData : AutomationCallbackData

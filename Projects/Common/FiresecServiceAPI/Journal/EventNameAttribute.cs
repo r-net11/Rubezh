@@ -1,7 +1,7 @@
-﻿using FiresecAPI.GK;
-using System;
+﻿using System;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public class EventNameAttribute : Attribute
 	{

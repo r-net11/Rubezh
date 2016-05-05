@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -39,7 +39,7 @@ namespace SKDModule.ViewModels
 			ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Unsubscribe(OnCardDeactivated);
 			ServiceFactoryBase.Events.GetEvent<CardDeactivatedEvent>().Subscribe(OnCardDeactivated);
 
-			CanShowResetRepeatEnterButton = FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_ResetRepeatEnter);
+			CanShowResetRepeatEnterButton = FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Cards_ResetRepeatEnter);
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			if (!_employeeViewModel.IsOrganisation)
 			{
@@ -117,7 +117,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAddCard()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsDeleted && !_employeeViewModel.IsOrganisation;
+			return FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !_employeeViewModel.IsDeleted && !_employeeViewModel.IsOrganisation;
 		}
 
 		public RelayCommand SelectEmployeeCommand { get; private set; }

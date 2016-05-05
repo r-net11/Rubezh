@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	[KnownType(typeof(Plan))]

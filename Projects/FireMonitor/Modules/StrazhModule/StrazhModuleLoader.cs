@@ -1,8 +1,8 @@
-using FiresecAPI.Enums;
-using FiresecAPI.Events;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.Enums;
+using StrazhAPI.Events;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;

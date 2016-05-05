@@ -1,6 +1,6 @@
 ﻿using System;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using System.Collections.Generic;
 using System.Linq;
 

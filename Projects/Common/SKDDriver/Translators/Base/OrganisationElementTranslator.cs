@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using LinqKit;
 using System;
 using System.Linq;

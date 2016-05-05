@@ -1,6 +1,6 @@
 ﻿using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -62,7 +62,7 @@ namespace StrazhDeviceSDK
 			{
 				LoginID = lLoginID,
 				SystemDateTime = DateTime.Now,
-				JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Потеря_связи
+				JournalEventNameType = StrazhAPI.Journal.JournalEventNameType.Потеря_связи
 			};
 			AddJournalItem(journalItem);
 		}
@@ -73,7 +73,7 @@ namespace StrazhDeviceSDK
 			{
 				LoginID = lLoginID,
 				SystemDateTime = DateTime.Now,
-				JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Восстановление_связи
+				JournalEventNameType = StrazhAPI.Journal.JournalEventNameType.Восстановление_связи
 			};
 			AddJournalItem(journalItem);
 

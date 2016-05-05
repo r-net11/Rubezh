@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public enum JournalSubsystemType
 	{

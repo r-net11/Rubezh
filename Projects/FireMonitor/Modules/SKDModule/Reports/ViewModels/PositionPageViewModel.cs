@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Events;

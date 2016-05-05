@@ -1,7 +1,7 @@
 ﻿using System;
 using StrazhDeviceSDK.API;
 using StrazhDeviceSDK.NativeAPI;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels

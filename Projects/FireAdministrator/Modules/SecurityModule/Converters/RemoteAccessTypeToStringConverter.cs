@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI;
-using FiresecAPI.Models;
+using StrazhAPI;
+using StrazhAPI.Models;
 
 namespace SecurityModule.Converters
 {

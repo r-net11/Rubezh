@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Common;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

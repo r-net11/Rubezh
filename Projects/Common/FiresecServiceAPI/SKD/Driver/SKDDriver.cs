@@ -1,8 +1,8 @@
-﻿using FiresecAPI.GK;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public class SKDDriver
 	{

@@ -1,20 +1,20 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public enum HolidayType
 	{
-		[DescriptionAttribute("Праздник")]
+		[Description("Праздник")]
 		[EnumMember]
 		Holiday = 0,
 
-		[DescriptionAttribute("Предпраздничный день")]
+		[Description("Предпраздничный день")]
 		[EnumMember]
 		BeforeHoliday = 1,
 
-		[DescriptionAttribute("Рабочий выходной")]
+		[Description("Рабочий выходной")]
 		[EnumMember]
 		WorkingHoliday = 2,
 	}

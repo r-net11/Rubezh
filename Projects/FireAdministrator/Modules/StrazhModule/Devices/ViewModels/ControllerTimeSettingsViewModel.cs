@@ -6,7 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common;
 using FiresecClient;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using System.Collections.ObjectModel;
 
 namespace StrazhModule.ViewModels

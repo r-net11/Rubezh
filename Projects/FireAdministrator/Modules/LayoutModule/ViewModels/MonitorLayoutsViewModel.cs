@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

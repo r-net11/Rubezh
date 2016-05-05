@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using CodeReason.Reports;
-using FiresecAPI;
-using FiresecAPI.GK;
+using StrazhAPI;
+using StrazhAPI.GK;
 using Infrastructure.Common.Reports;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace SKDModule.Reports
 {

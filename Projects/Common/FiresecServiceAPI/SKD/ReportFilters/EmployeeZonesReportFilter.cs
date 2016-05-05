@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(EmployeeZonesReportFilter))]
@@ -14,7 +14,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			UseCurrentDate = true;
 			IsEmployee = true;
 			ReportDateTime = DateTime.Now;
-			ReportType = ReportType.EmployeeZonesReport;
+			ReportType = Enums.ReportType.EmployeeZonesReport;
 		}
 
 		#region IReportFilterOrganisation Members

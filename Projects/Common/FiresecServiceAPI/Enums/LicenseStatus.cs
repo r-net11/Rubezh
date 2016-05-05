@@ -1,5 +1,5 @@
 ﻿
-namespace FiresecAPI.Enums
+namespace StrazhAPI.Enums
 {
 	public enum LicenseStatus
 	{

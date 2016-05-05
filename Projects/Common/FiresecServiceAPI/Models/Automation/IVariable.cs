@@ -1,7 +1,7 @@
 ﻿using System;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 
-namespace FiresecAPI.Models.Automation
+namespace StrazhAPI.Models.Automation
 {
 	public interface IVariable
 	{

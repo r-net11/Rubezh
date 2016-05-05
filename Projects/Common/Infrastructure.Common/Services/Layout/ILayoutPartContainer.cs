@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models.Layouts;
+﻿using StrazhAPI.Models.Layouts;
 using System;
 
 namespace Infrastructure.Common.Services.Layout

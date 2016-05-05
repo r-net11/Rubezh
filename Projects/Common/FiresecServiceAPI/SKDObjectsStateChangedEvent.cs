@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Events;
 
-namespace FiresecAPI.Events
+namespace StrazhAPI.Events
 {
 	public class SKDObjectsStateChangedEvent : CompositePresentationEvent<object>
 	{

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace StrazhDeviceSDK
 {

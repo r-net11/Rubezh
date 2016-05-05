@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EntitiesValidation;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using StrazhDAL;
-using DayInterval = FiresecAPI.SKD.DayInterval;
-using DayIntervalPart = FiresecAPI.SKD.DayIntervalPart;
+using DayInterval = StrazhAPI.SKD.DayInterval;
+using DayIntervalPart = StrazhAPI.SKD.DayIntervalPart;
 using DayIntervalPartCommonValidator = EntitiesValidation.DayIntervalPartValidator;
-using ScheduleScheme = FiresecAPI.SKD.ScheduleScheme;
+using ScheduleScheme = StrazhAPI.SKD.ScheduleScheme;
 
 namespace FiresecService.Service.Validators
 {

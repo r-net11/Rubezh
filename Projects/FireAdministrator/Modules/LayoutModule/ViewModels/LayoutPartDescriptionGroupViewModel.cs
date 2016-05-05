@@ -1,4 +1,4 @@
-using FiresecAPI;
+using StrazhAPI;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.TreeList;
 
