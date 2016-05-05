@@ -26,6 +26,11 @@ namespace RubezhAPI.Automation
 		public PositionType PositionType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.GetListItem; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { ListArgument, ItemArgument, IndexArgument }; }
+		}
 	}
 
 	public enum PositionType

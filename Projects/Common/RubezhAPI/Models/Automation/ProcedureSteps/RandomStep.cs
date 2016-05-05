@@ -18,5 +18,10 @@ namespace RubezhAPI.Automation
 		public Argument ResultArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.Random; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { MaxValueArgument, ResultArgument }; }
+		}
 	}
 }

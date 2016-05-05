@@ -18,5 +18,9 @@ namespace RubezhAPI.Automation
 		public GKStateBit Command { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlGKDevice; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { GKDeviceArgument }; }
+		}
 	}
 }

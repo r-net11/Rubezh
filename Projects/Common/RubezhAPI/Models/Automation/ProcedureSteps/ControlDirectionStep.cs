@@ -18,6 +18,11 @@ namespace RubezhAPI.Automation
 		public DirectionCommandType DirectionCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlDirection; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { DirectionArgument }; }
+		}
 	}
 
 	public enum DirectionCommandType

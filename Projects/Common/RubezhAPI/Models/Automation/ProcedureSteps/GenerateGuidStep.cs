@@ -14,5 +14,9 @@ namespace RubezhAPI.Automation
 		public Argument ResultArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.GenerateGuid; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { ResultArgument }; }
+		}
 	}
 }

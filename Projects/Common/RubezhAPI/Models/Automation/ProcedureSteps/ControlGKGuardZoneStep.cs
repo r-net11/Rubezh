@@ -18,6 +18,11 @@ namespace RubezhAPI.Automation
 		public GuardZoneCommandType GuardZoneCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlGKGuardZone; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { GKGuardZoneArgument }; }
+		}
 	}
 
 	public enum GuardZoneCommandType

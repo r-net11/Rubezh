@@ -18,6 +18,10 @@ namespace RubezhAPI.Automation
 		public JournalColumnType JournalColumnType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.GetJournalItem; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { ResultArgument }; }
+		}
 	}
 
 	public enum JournalColumnType

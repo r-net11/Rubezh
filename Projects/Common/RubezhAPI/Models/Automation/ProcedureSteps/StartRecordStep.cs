@@ -25,5 +25,10 @@ namespace RubezhAPI.Automation
 		public TimeType TimeType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.StartRecord; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { CameraArgument, EventUIDArgument, TimeoutArgument }; }
+		}
 	}
 }
