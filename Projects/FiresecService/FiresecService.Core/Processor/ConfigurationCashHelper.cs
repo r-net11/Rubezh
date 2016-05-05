@@ -31,7 +31,6 @@ namespace FiresecService
 
 			SystemConfiguration.UpdateConfiguration();
 
-			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();

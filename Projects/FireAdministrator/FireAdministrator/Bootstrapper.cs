@@ -55,7 +55,6 @@ namespace FireAdministrator
 					ExplicitValue.ResolveObjectName += ObjectReference_ResolveObjectName;
 					ExplicitValue.ResolveObjectValue += ExplicitValue_ResolveObjectValue;
 
-					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					if (Application.Current != null)
