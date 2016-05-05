@@ -508,33 +508,32 @@ namespace StrazhDAL
 		{
 			try
 			{
-				var filter = PredicateBuilder.True<PassJournal>();
-
 				var isManyEmployees = GetIsManyEmployees(employeeUIDs);
+				IQueryable<PassJournal> quiery = Context.PassJournals;
 
 				if (!employeeUIDs.IsEmpty() && !isManyEmployees)
-					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
-				if (!zoneUIDs.IsEmpty())
-					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
-				if (dateTime.HasValue)
-				{
-					filter = filter.And(
-						e => e.EnterTime <= dateTime.GetValueOrDefault() && e.ExitTime >= dateTime.GetValueOrDefault()
-						     || e.EnterTime <= dateTime.GetValueOrDefault() && !e.ExitTime.HasValue);
-				}
-				else
-					filter = filter.And(e => !e.ExitTime.HasValue);
+					quiery = quiery.Where(x => employeeUIDs.Select(id => id).Contains(x.EmployeeUID));
 
-				var result = Context.PassJournals.Where(filter).ToList();
+				if (!zoneUIDs.IsEmpty())
+					quiery = quiery.Where(c => zoneUIDs.Select(x => x).Contains(c.ZoneUID));
+
+				if (dateTime.HasValue)
+					quiery = quiery.Where(e => e.EnterTime <= dateTime.GetValueOrDefault() && e.ExitTime >= dateTime.GetValueOrDefault()
+						                  || e.EnterTime <= dateTime.GetValueOrDefault() && !e.ExitTime.HasValue);
+				else
+					quiery = quiery.Where(x => !x.ExitTime.HasValue);
+
+				var result = quiery.ToList();
 
 				if (isManyEmployees)
 					result = result.Where(x => employeeUIDs.Contains(x.EmployeeUID)).ToList();
 
 				return result.GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
 			}
-			catch
+			catch(Exception e)
 			{
-				return null;
+				Logger.Error(e);
+				return new List<PassJournal>();
 			}
 		}
 
