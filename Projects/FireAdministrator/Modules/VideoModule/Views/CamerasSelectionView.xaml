@@ -10,11 +10,18 @@
 			<ColumnDefinition Width="50" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetCameras}" SelectedItem="{Binding SelectedTargetCamera}" CanUserSortColumns="True"
-				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+		<DataGrid x:Name="dataGrid1"
+				  Grid.Column="0"
+				  ItemsSource="{Binding TargetCameras}"
+				  SelectedItem="{Binding SelectedTargetCamera}"
+				  CanUserSortColumns="True"
+				  VirtualizingStackPanel.IsVirtualizing="True"
+				  VirtualizingStackPanel.VirtualizationMode="Standard"
+				  SelectionMode="Extended">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-					<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+					<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+								  MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 				</InputBindingCollection>
 			</DataGrid.Resources>
 			<DataGrid.ItemContainerStyle>
@@ -39,11 +46,18 @@
 			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все камеры" ImageSource="leftLeft" />
 			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все камеры" ImageSource="rightRight" />
 		</StackPanel>
-		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceCameras}" SelectedItem="{Binding SelectedSourceCamera}" CanUserSortColumns="True"
-				VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+		<DataGrid x:Name="dataGrid2"
+				  Grid.Column="2"
+				  ItemsSource="{Binding SourceCameras}"
+				  SelectedItem="{Binding SelectedSourceCamera}"
+				  CanUserSortColumns="True"
+				  VirtualizingStackPanel.IsVirtualizing="True"
+				  VirtualizingStackPanel.VirtualizationMode="Standard"
+				  SelectionMode="Extended">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-					<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+					<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+								  MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 				</InputBindingCollection>
 			</DataGrid.Resources>
 			<DataGrid.ItemContainerStyle>

@@ -37,8 +37,6 @@ namespace SKDModule.Reports.ViewModels
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
 			var organisationFilter = filter as IReportFilterOrganisation;
 			var uids = organisationFilter == null ? null : organisationFilter.Organisations;
-			if (!AllowMultiple && uids == null && Organisations.Items.Count > 0)
-				uids = new List<Guid>();
 			CreateItemList();
 			Initialize(uids);
 		}
@@ -56,7 +54,7 @@ namespace SKDModule.Reports.ViewModels
 
 		void CreateItemList(bool isWithDeleted = false)
 		{
-			var filter = new OrganisationFilter() { UserUID = ClientManager.CurrentUser.UID };
+			var filter = new OrganisationFilter() { User = ClientManager.CurrentUser };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);
@@ -85,8 +83,7 @@ namespace SKDModule.Reports.ViewModels
 			{
 				organisation.IsChecked = true;
 			}
-			if (!AllowMultiple && Organisations.Items.Count > 0 && uids.Count != 1)
-				Organisations.SelectedOrganisation = Organisations.Items.FirstOrDefault();
+			Organisations.SelectedOrganisation = checkedOrganisations.FirstOrDefault();
 		}
 
 		public override void Unsubscribe()
@@ -104,7 +101,7 @@ namespace SKDModule.Reports.ViewModels
 			set
 			{
 				_SelectedOrganisation = value;
-				if (IsSingleSelection)
+				if (IsSingleSelection && value != null)
 					_SelectedOrganisation.IsChecked = true;
 			}
 		}

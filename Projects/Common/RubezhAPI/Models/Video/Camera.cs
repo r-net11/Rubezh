@@ -71,13 +71,6 @@ namespace RubezhAPI.Models
 		}
 		public event Action Changed;
 
-		public void OnUIDChanged(Guid oldUID, Guid newUID)
-		{
-			if (UIDChanged != null)
-				UIDChanged(oldUID, newUID);
-		}
-		public event Action<Guid, Guid> UIDChanged;
-
 		public void OnStatusChanged()
 		{
 			if (StatusChanged != null)
@@ -88,6 +81,12 @@ namespace RubezhAPI.Models
 		public event Action StatusChanged;
 		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 		[XmlIgnore]
 		public RviStatus Status { get; set; }
 		[XmlIgnore]

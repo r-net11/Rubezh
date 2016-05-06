@@ -1,10 +1,10 @@
 ﻿using Common;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.Models.Layouts;
 using System;
+using Color = System.Windows.Media.Color;
 
 namespace FireMonitor.Layout.ViewModels
 {

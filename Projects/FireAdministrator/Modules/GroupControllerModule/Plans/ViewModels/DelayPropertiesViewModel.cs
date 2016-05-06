@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -24,10 +24,10 @@ namespace GKModule.Plans.ViewModels
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
 
-			Delays = new ObservableCollection<DelayViewModel>(GKManager.Delays.Select(delay => new DelayViewModel(delay)));
+			Delays = new ObservableCollection<GKDelay>(GKManager.Delays);
 			if (element.DelayUID != Guid.Empty)
 				SelectedDelay = Delays
-					.Where(delay => delay.Delay.UID == element.DelayUID)
+					.Where(delay => delay.UID == element.DelayUID)
 					.FirstOrDefault();
 		}
 
@@ -36,15 +36,14 @@ namespace GKModule.Plans.ViewModels
 			var createDelayEventArg = new CreateGKDelayEventArgs();
 			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Publish(createDelayEventArg);
 			if (createDelayEventArg.Delay != null)
-				IElementDelay.DelayUID = createDelayEventArg.Delay.UID;
+				GKPlanExtension.Instance.RewriteItem(IElementDelay, createDelayEventArg.Delay);
 			if (!createDelayEventArg.Cancel)
 				Close(true);
 		}
 
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Publish(this.SelectedDelay.Delay.UID);
-			SelectedDelay.Update();
+			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Publish(this.SelectedDelay.UID);
 		}
 
 		private bool CanEdit()
@@ -55,10 +54,10 @@ namespace GKModule.Plans.ViewModels
 
 		public RelayCommand EditCommand { get; private set; }
 
-		public ObservableCollection<DelayViewModel> Delays { get; private set; }
+		public ObservableCollection<GKDelay> Delays { get; private set; }
 
-		private DelayViewModel _selectedDelay = null;
-		public DelayViewModel SelectedDelay
+		private GKDelay _selectedDelay = null;
+		public GKDelay SelectedDelay
 		{
 			get { return _selectedDelay; }
 			set
@@ -93,7 +92,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDelay.ShowState = ShowState;
 			IElementDelay.ShowDelay = ShowDelay;
-			IElementDelay.DelayUID = SelectedDelay.Delay.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementDelay, SelectedDelay);
 			return base.Save();
 		}
 		protected override bool CanSave()

@@ -148,6 +148,7 @@ namespace PlansModule.ViewModels
 					break;
 				case LayoutPartPlansType.Single:
 					list = new List<Guid>();
+					if (SelectedPlan!= null)
 					list.Add(SelectedPlan.Plan.UID);
 					break;
 				case LayoutPartPlansType.Selected:

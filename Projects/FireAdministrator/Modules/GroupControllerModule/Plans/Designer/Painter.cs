@@ -1,10 +1,10 @@
-﻿using System.Windows.Media;
-using DeviceControls;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
+﻿using DeviceControls;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Painters;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System.Windows.Media;
 
 namespace GKModule.Plans.Designer
 {
@@ -21,7 +21,7 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			var device = GKPlanExtension.Instance.GetItem<GKDevice>(_elementGKDevice);
+			var device = GKPlanExtension.Instance.GetItem<GKDevice>(_elementGKDevice.ItemUID);
 			_toolTip.ImageSource = device == null ? null : device.Driver.ImageSource;
 			return PictureCacheSource.GKDevicePicture.GetBrush(device);
 		}

@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -14,27 +14,21 @@ namespace GKModule.Plans.ViewModels
 	public class GuardZonePropertiesViewModel : SaveCancelDialogViewModel
 	{
 		IElementZone IElementZone;
-
 		public GuardZonePropertiesViewModel(IElementZone iElementZone)
 		{
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Охранная зона";
-			Zones = new ObservableCollection<GuardZoneViewModel>();
-			foreach (var zone in GKManager.DeviceConfiguration.GuardZones)
-			{
-				var zoneViewModel = new GuardZoneViewModel(zone);
-				Zones.Add(zoneViewModel);
-			}
+			Zones = new ObservableCollection<GKGuardZone>(GKManager.GuardZones);
 			if (iElementZone.ZoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.UID == iElementZone.ZoneUID);
 		}
 
-		public ObservableCollection<GuardZoneViewModel> Zones { get; private set; }
+		public ObservableCollection<GKGuardZone> Zones { get; private set; }
 
-		GuardZoneViewModel _selectedZone;
-		public GuardZoneViewModel SelectedZone
+		GKGuardZone _selectedZone;
+		public GKGuardZone SelectedZone
 		{
 			get { return _selectedZone; }
 			set
@@ -50,7 +44,7 @@ namespace GKModule.Plans.ViewModels
 			var createGuardZoneEventArg = new CreateGKGuardZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Publish(createGuardZoneEventArg);
 			if (createGuardZoneEventArg.Zone != null)
-				IElementZone.ZoneUID = createGuardZoneEventArg.Zone.UID;
+				GKPlanExtension.Instance.RewriteItem(IElementZone, createGuardZoneEventArg.Zone);
 			if (!createGuardZoneEventArg.Cancel)
 				Close(true);
 		}
@@ -58,8 +52,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Publish(SelectedZone.Zone.UID);
-			SelectedZone.Update();
+			ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Publish(SelectedZone.UID);
 		}
 		private bool CanEdit()
 		{
@@ -67,7 +60,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			IElementZone.ZoneUID = SelectedZone.Zone.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone);
 			return base.Save();
 		}
 		protected override bool CanSave()

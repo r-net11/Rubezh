@@ -18,14 +18,18 @@ namespace RubezhAPI.Automation
 		public ZoneCommandType ZoneCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlGKFireZone; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { GKFireZoneArgument }; }
+		}
 	}
 
 	public enum ZoneCommandType
 	{
-		[Description("Отключить")]
+		[Description("Перевести в отключенный режим")]
 		Ignore,
 
-		[Description("Снять отключение")]
+		[Description("Перевести в автоматический режим")]
 		ResetIgnore,
 
 		[Description("Сбросить")]

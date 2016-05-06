@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using AutomationModule.Procedures;
-using RubezhAPI.Automation;
+﻿using AutomationModule.Procedures;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
-using System;
+using RubezhAPI.Automation;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,6 +23,7 @@ namespace AutomationModule.ViewModels
 			ShowConditionsCommand = new RelayCommand(OnShowConditions);
 
 			Procedure = procedure;
+			procedure.PlanElementUIDsChanged += UpdateVisualizationState;
 			StepsViewModel = new StepsViewModel(procedure);
 			VariablesViewModel = new VariablesViewModel(procedure);
 			ArgumentsViewModel = new ArgumentsViewModel(procedure);
@@ -123,18 +122,21 @@ namespace AutomationModule.ViewModels
 		{
 			if (ConditionsViewModel != null)
 				ConditionsViewModel.UpdateContent();
-			_visualizationState = Procedure.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Procedure.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
-			OnPropertyChanged(() => IsOnPlan);
-			OnPropertyChanged(() => VisualizationState);
+			UpdateVisualizationState();
 		}
-		public bool IsOnPlan
+		public void UpdateVisualizationState()
 		{
-			get { return Procedure.PlanElementUIDs.Count > 0; }
+			VisualizationState = Procedure.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Procedure.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 		}
 		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizationState; }
+			private set
+			{
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
 		}
 	}
 }

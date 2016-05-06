@@ -41,7 +41,10 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SetRibbonItems();
 			RegisterShortcuts();
-			SubscribeEvents();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Subscribe(CreateDelay);
+			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Subscribe(EditDelay);
 		}
 		public void Initialize()
 		{
@@ -67,9 +70,9 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDelay = value;
-				if (value != null)
-					value.Update();
 				OnPropertyChanged(() => SelectedDelay);
+				if (!_lockSelection && _selectedDelay != null && _selectedDelay.Delay.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDelay.Delay.PlanElementUIDs);
 			}
 		}
 
@@ -227,12 +230,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createDelayEventArg.Cancel = true;
-				createDelayEventArg.DelayUID = Guid.Empty;
 			}
 			else
 			{
 				createDelayEventArg.Cancel = false;
-				createDelayEventArg.DelayUID = result.Delay.UID;
 				createDelayEventArg.Delay = result.Delay;
 			}
 		}
@@ -251,7 +252,11 @@ namespace GKModule.ViewModels
 		public void Select(Guid delayUID)
 		{
 			if (delayUID != Guid.Empty)
+			{
+				_lockSelection = true;
 				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
+				_lockSelection = false;
+			}
 		}
 
 		public override void OnShow()
@@ -277,18 +282,6 @@ namespace GKModule.ViewModels
 		}
 
 		private bool _lockSelection;
-		public void LockedSelect(Guid delayUID)
-		{
-			try
-			{
-				_lockSelection = true;
-				Select(delayUID);
-			}
-			finally
-			{
-				_lockSelection = false;
-			}
-		}
 		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
@@ -297,42 +290,7 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-		void OnElementChanged(List<ElementBase> elements)
-		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
-			elements.ForEach(element =>
-			{
-				var elementDelay = GetElementGKDelay(element);
-				if (elementDelay != null)
-				{
-					OnDelayChanged(elementDelay.DelayUID);
-				}
-			});
-			_lockSelection = false;
-		}
-		void OnDelayChanged(Guid delayUID)
-		{
-			var delay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
-			if (delay != null)
-			{
-				delay.Update();
-				if (!_lockSelection)
-					SelectedDelay = delay;
-			}
-		}
 		void OnElementSelected(ElementBase element)
 		{
 			var elementDelay = GetElementGKDelay(element);
@@ -349,13 +307,6 @@ namespace GKModule.ViewModels
 			if (elementDelay == null)
 				elementDelay = element as ElementPolygonGKDelay;
 			return elementDelay;
-		}
-		public void UpdateDelays(Guid delayUID)
-		{
-			var delay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
-			if (delay != null)
-				delay.Update();
-			LockedSelect(delayUID);
 		}
 	}
 }

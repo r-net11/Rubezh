@@ -83,20 +83,25 @@
                     resolve: {
                         employees: function () {
                             return $http.get('Hr/GetEmptyDepartmentEmployees/' + $scope.selectedDepartment.OrganisationUID);
+                        },
+                        selectedEmployeeUID: function() {
+                            return null;
                         }
                     }
                 });
 
                 modalInstance.result.then(function (employee) {
                     return departmentsService.saveEmployeeDepartment(employee, $scope.selectedDepartment.UID);
-                }).then(function() {
+                }).then(function(employee) {
                     reload();
+                    $scope.$parent.$broadcast('EditEmployeeEvent', employee.UID);
                 });
             };
 
             $scope.remove = function () {
-                departmentsService.saveEmployeeDepartment($scope.selectedEmployee, null).then(function () {
+                departmentsService.saveEmployeeDepartment($scope.selectedEmployee, null).then(function (employee) {
                     reload();
+                    $scope.$parent.$broadcast('EditEmployeeEvent', employee.UID);
                 });
             };
 
@@ -124,6 +129,7 @@
 
                 modalInstance.result.then(function () {
                     reload();
+                    $scope.$parent.$broadcast('EditEmployeeEvent', $scope.selectedEmployee.UID);
                 });
             };
 

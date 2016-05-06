@@ -44,8 +44,11 @@ namespace GKModule.ViewModels
 			Menu = new PumpStationsMenuViewModel(this);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKPumpStationEvent>().Subscribe(CreatePumpStation);
+			ServiceFactory.Events.GetEvent<EditGKPumpStationEvent>().Subscribe(EditPumpStation);
 		}
 		private void RegisterShortcuts()
 		{
@@ -284,12 +287,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createPumpStationEventArg.Cancel = true;
-				createPumpStationEventArg.PumpStationUID = Guid.Empty;
 			}
 			else
 			{
 				createPumpStationEventArg.Cancel = false;
-				createPumpStationEventArg.PumpStationUID = result.PumpStation.UID;
 				createPumpStationEventArg.PumpStation = result.PumpStation;
 			}
 		}
@@ -300,31 +301,6 @@ namespace GKModule.ViewModels
 				OnEdit(pumpStationViewModel);
 		}
 
-		private void OnPumpStationChanged(Guid pumpStationUID)
-		{
-			var pumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
-			if (pumpStation != null)
-			{
-				pumpStation.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedPumpStation = pumpStation;
-			}
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
-			elements.ForEach(element =>
-			{
-				var elementPumpStation = GetElementPumpStation(element);
-				if (elementPumpStation != null)
-				{
-					OnPumpStationChanged(elementPumpStation.PumpStationUID);
-				}
-			});
-			_lockSelection = false;
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementPumpStation = GetElementPumpStation(element);
@@ -342,14 +318,6 @@ namespace GKModule.ViewModels
 				elementPumpStation = element as ElementPolygonGKPumpStation;
 			return elementPumpStation;
 		}
-
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
 		public override void OnShow()
 		{
 			base.OnShow();
@@ -365,19 +333,6 @@ namespace GKModule.ViewModels
 		}
 		#endregion
 
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
-
 		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
@@ -392,13 +347,6 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить все пустые НС", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
-		}
-		public void UpdatePumpStations(Guid pumpStationUID)
-		{
-			var pumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
-			if (pumpStation != null)
-				pumpStation.Update();
-			LockedSelect(pumpStationUID);
 		}
 	}
 }

@@ -1,32 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Common.Windows;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common.Navigation
 {
 	public partial class NavigationView : UserControl, INotifyPropertyChanged
 	{
-		TreeViewItem _selectedItem;
 		public NavigationView()
 		{
 			InitializeComponent();
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		void OnPropertyChanged(string name)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
-		}
-
 		void TreeView_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
 		{
-			TreeView tv = e.TargetObject as TreeView;
 			if (e.Property == TreeView.ItemsSourceProperty && tv != null)
 			{
 				var items = tv.ItemsSource as IList<NavigationItem>;
@@ -39,44 +29,14 @@ namespace Infrastructure.Common.Navigation
 			}
 		}
 
-		void TreeViewItem_Selected(object sender, RoutedEventArgs e)
-		{
-			TreeViewItem tvi = e.OriginalSource as TreeViewItem;
-			if (tvi != null)
-			{
-				tvi.BringIntoView();
-				var scope = FocusManager.GetFocusScope(tvi);
-				FocusManager.SetFocusedElement(scope, tvi);
-				//tvi.IsExpanded = !tvi.IsExpanded;
-				NavigationItem navigation = tvi.Header as NavigationItem;
-				if (navigation != null)
-					navigation.Execute();
-				e.Handled = true;
-			}
-		}
-
 		void TreeViewItem_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			e.Handled = true;
 		}
 
-		void TreeView_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			var item = GetTreeViewItemClicked(e);
-			if (item != null)
-			{
-				item.MouseLeave += TreeViewItem_MouseLeave;
-				var tree = (TreeView)sender;
-				_selectedItem = tree.ItemContainerGenerator.ContainerFromItem(tree.SelectedItem) as TreeViewItem;
-				if (_selectedItem != null)
-					_selectedItem.RequestBringIntoView += TreeViewItem_RequestBringIntoView;
-			}
-		}
-
 		void TreeView_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			TreeViewItem item = GetTreeViewItemClicked(e);
-			ResetSelectedItem();
 			if (item != null)
 			{
 				NavigationItem navigation = item.Header as NavigationItem;
@@ -88,20 +48,8 @@ namespace Infrastructure.Common.Navigation
 			}
 		}
 
-		void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
-		{
-			e.Handled = true;
-		}
-
-		void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
-		{
-			((TreeViewItem)sender).MouseLeave -= TreeViewItem_MouseLeave;
-			ResetSelectedItem();
-		}
-
 		TreeViewItem GetTreeViewItemClicked(RoutedEventArgs e)
 		{
-			TreeView tv = e.Source as TreeView;
 			FrameworkElement item = (FrameworkElement)e.OriginalSource;
 			FrameworkElement parent = item.Parent as FrameworkElement;
 			TreeViewItem result = parent == null ? null : parent.TemplatedParent as TreeViewItem;
@@ -141,27 +89,20 @@ namespace Infrastructure.Common.Navigation
 
 		bool SelectFirst(IList<NavigationItem> items)
 		{
-			for (int index = 0; index < items.Count; index++)
-				if (items[index].IsVisible)
+			foreach (NavigationItem item in items)
+				if (item.IsVisible)
 				{
-					if (items[index].IsSelectionAllowed)
+					if (item.IsSelectionAllowed)
 					{
-						items[index].Execute();
+						item.Execute();
 						return true;
 					}
-					if (SelectFirst(items[index].Childs))
+					if (SelectFirst(item.Childs))
 						return true;
 				}
 			return false;
 		}
 
-		void ResetSelectedItem()
-		{
-			if (_selectedItem != null)
-			{
-				_selectedItem.RequestBringIntoView -= TreeViewItem_RequestBringIntoView;
-				_selectedItem = null;
-			}
-		}
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 }

@@ -18,6 +18,11 @@ namespace RubezhAPI.Automation
 		public IncrementType IncrementType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.IncrementValue; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { ResultArgument }; }
+		}
 	}
 
 	public enum IncrementType

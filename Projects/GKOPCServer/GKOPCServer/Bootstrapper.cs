@@ -109,7 +109,6 @@ namespace GKOPCServer
 			ClientManager.GetConfiguration("GKOPC/Configuration");
 
 			UILogger.Log("Создание драйверов");
-			GKDriversCreator.Create();
 
 			UILogger.Log("Обновление конфигурации");
 			GKManager.UpdateConfiguration();

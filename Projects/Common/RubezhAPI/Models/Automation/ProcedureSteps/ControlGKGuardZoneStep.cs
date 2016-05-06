@@ -18,6 +18,11 @@ namespace RubezhAPI.Automation
 		public GuardZoneCommandType GuardZoneCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlGKGuardZone; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { GKGuardZoneArgument }; }
+		}
 	}
 
 	public enum GuardZoneCommandType
@@ -31,28 +36,28 @@ namespace RubezhAPI.Automation
 		[Description("Отключение")]
 		Ignore,
 
-		[Description("Поставить на охрану")]
+		[Description("Включить")]
 		TurnOn,
 
-		[Description("Снять с охраны")]
+		[Description("Выключить")]
 		TurnOff,
 
-		[Description("Поставить на охрану немедленно")]
+		[Description("Включить немедленно")]
 		TurnOnNow,
 
-		[Description("Снять с охраны немедленно")]
+		[Description("Выключить немедленно")]
 		TurnOffNow,
 
-		[Description("Поставить на охрану в автоматическом режиме")]
+		[Description("Включить в автоматическом режиме")]
 		TurnOnInAutomatic,
 
-		[Description("Снять с охраны в автоматическом режиме")]
+		[Description("Выключить в автоматическом режиме")]
 		TurnOffInAutomatic,
 
-		[Description("Поставить на охрану немедленно в автоматическом режиме")]
+		[Description("Включить немедленно в автоматическом режиме")]
 		TurnOnNowInAutomatic,
 
-		[Description("Снять с охраны немедленно в автоматическом режиме")]
+		[Description("Выключить немедленно в автоматическом режиме")]
 		TurnOffNowInAutomatic,
 
 		[Description("Сбросить")]

@@ -1,13 +1,8 @@
-﻿using RubezhAPI.GK;
-using RubezhClient;
-using GKModule.ViewModels;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using RubezhAPI;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -20,15 +15,19 @@ namespace GKModule.ViewModels
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Direction = direction;
 			Direction.Changed += Update;
+			Direction.PlanElementUIDsChanged += UpdateVisualizationState;
 			Update();
 		}
 
 		public void Update()
 		{
+			UpdateVisualizationState();
 			OnPropertyChanged(() => Direction);
-			_visualizationState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
-			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => PresentationLogic);
+		}
+		void UpdateVisualizationState()
+		{
+			VisualizationState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 		}
 
 		public string PresentationLogic
@@ -73,6 +72,11 @@ namespace GKModule.ViewModels
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizationState; }
+			private set
+			{
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
 		}
 	}
 }

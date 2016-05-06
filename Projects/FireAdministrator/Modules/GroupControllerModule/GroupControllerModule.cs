@@ -51,37 +51,20 @@ namespace GKModule
 
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Subscribe(OnCreateGKZone);
-			ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Subscribe(OnEditGKZone);
 			ServiceFactory.Events.GetEvent<SelectGKZoneEvent>().Subscribe(OnSelectGKZone);
 			ServiceFactory.Events.GetEvent<SelectGKZonesEvent>().Subscribe(OnSelectGKZones);
-			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Subscribe(OnCreateGKGuardZone);
-			ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Subscribe(OnEditGKGuardZone);
 			ServiceFactory.Events.GetEvent<SelectGKGuardZoneEvent>().Subscribe(OnSelectGKGuardZone);
 			ServiceFactory.Events.GetEvent<SelectGKGuardZonesEvent>().Subscribe(OnSelectGKGuardZones);
-			ServiceFactory.Events.GetEvent<CreateGKSKDZoneEvent>().Subscribe(OnCreateSKDZone);
-			ServiceFactory.Events.GetEvent<EditGKSKDZoneEvent>().Subscribe(OnEditSKDZone);
-			ServiceFactory.Events.GetEvent<CreateGKDelayEvent>().Subscribe(OnCreateGKDelay);
-			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Subscribe(OnEditGKDelay);
 			ServiceFactory.Events.GetEvent<SelectGKDelayEvent>().Subscribe(OnSelectGKDelay);
 			ServiceFactory.Events.GetEvent<SelectGKDelaysEvent>().Subscribe(OnSelectGKDelays);
-			ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Subscribe(OnCreateGKDirection);
-			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Subscribe(OnEditGKDirection);
 			ServiceFactory.Events.GetEvent<SelectGKDirectionEvent>().Subscribe(OnSelectGKDirection);
 			ServiceFactory.Events.GetEvent<SelectGKDirectionsEvent>().Subscribe(OnSelectGKDirections);
-			ServiceFactory.Events.GetEvent<CreateGKMPTEvent>().Subscribe(OnCreateGKMPT);
-			ServiceFactory.Events.GetEvent<EditGKMPTEvent>().Subscribe(OnEditGKMPT);
 			ServiceFactory.Events.GetEvent<SelectGKMPTEvent>().Subscribe(OnSelectGKMPT);
 			ServiceFactory.Events.GetEvent<SelectGKMPTsEvent>().Subscribe(OnSelectGKMPTs);
-			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
-			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
 			ServiceFactory.Events.GetEvent<SelectGKDoorEvent>().Subscribe(OnSelectGKDoor);
 			ServiceFactory.Events.GetEvent<SelectGKDoorsEvent>().Subscribe(OnSelectGKDoors);
-			ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Subscribe(OnCreateGKCode);
 			ServiceFactory.Events.GetEvent<SelectGKDeviceEvent>().Subscribe(OnSelectGKDevice);
 			ServiceFactory.Events.GetEvent<SelectGKDevicesEvent>().Subscribe(OnSelectGKDevices);
-			ServiceFactory.Events.GetEvent<CreateGKPumpStationEvent>().Subscribe(OnCreateGKPumpStation);
-			ServiceFactory.Events.GetEvent<EditGKPumpStationEvent>().Subscribe(OnEditGKPumpStation);
 			ServiceFactory.Events.GetEvent<SelectGKPumpStationEvent>().Subscribe(OnSelectGKPumpStation);
 			ServiceFactory.Events.GetEvent<SelectGKPumpStationsEvent>().Subscribe(OnSelectGKPumpStations);
 
@@ -100,7 +83,7 @@ namespace GKModule
 			OPCViewModel = new OPCsViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, GuardZonesViewModel, SKDZonesViewModel, DelaysViewModel, PumpStationsViewModel, DirectionsViewModel, MPTsViewModel, DoorsViewModel);
+			_planExtension = new GKPlanExtension();
 		}
 
 		public override void Initialize()
@@ -198,14 +181,6 @@ namespace GKModule
 		}
 		#endregion
 
-		private void OnCreateGKZone(CreateGKZoneEventArg createZoneEventArg)
-		{
-			ZonesViewModel.CreateZone(createZoneEventArg);
-		}
-		private void OnEditGKZone(Guid zoneUID)
-		{
-			ZonesViewModel.EditZone(zoneUID);
-		}
 		void OnSelectGKZone(SelectGKZoneEventArg selectZoneEventArg)
 		{
 			var zoneSelectionViewModel = new ZoneSelectionViewModel(selectZoneEventArg.Zone);
@@ -221,14 +196,6 @@ namespace GKModule
 			selectZonesEventArg.Zones = zonesSelectionViewModel.TargetZones.ToList();
 		}
 
-		private void OnCreateGKGuardZone(CreateGKGuardZoneEventArg createZoneEventArg)
-		{
-			GuardZonesViewModel.CreateZone(createZoneEventArg);
-		}
-		private void OnEditGKGuardZone(Guid zoneUID)
-		{
-			GuardZonesViewModel.EditZone(zoneUID);
-		}
 		void OnSelectGKGuardZone(SelectGKGuardZoneEventArg selectGuardZoneEventArg)
 		{
 			var zoneSelectionViewModel = new GuardZoneSelectionViewModel(selectGuardZoneEventArg.GuardZone);
@@ -244,25 +211,6 @@ namespace GKModule
 			selectGuardZonesEventArg.GuardZones = zonesSelectionViewModel.TargetZones.ToList();
 		}
 
-		public void OnCreateGKDelay(CreateGKDelayEventArgs createDelayEventArg)
-		{
-			DelaysViewModel.CreateDelay(createDelayEventArg);
-		}
-
-		public void OnCreateGKPumpStation(CreateGKPumpStationEventArgs createPumpStationEventArg)
-		{
-			PumpStationsViewModel.CreatePumpStation(createPumpStationEventArg);
-		}
-
-		public void OnEditGKPumpStation(Guid pumpStationUID)
-		{
-			PumpStationsViewModel.EditPumpStation(pumpStationUID);
-		}
-
-		public void OnEditGKDelay(Guid delayUID)
-		{
-			DelaysViewModel.EditDelay(delayUID);
-		}
 		void OnSelectGKDelay(SelectGKDelayEventArg selectDelayEventArg)
 		{
 			var delaySelectionViewModel = new DelaySelectionViewModel(selectDelayEventArg.Delay);
@@ -278,14 +226,6 @@ namespace GKModule
 			selectDelaysEventArg.Delays = delaysSelectionViewModel.TargetDelays.ToList();
 		}
 
-		private void OnCreateGKDirection(CreateGKDirectionEventArg createDirectionEventArg)
-		{
-			DirectionsViewModel.CreateDirection(createDirectionEventArg);
-		}
-		private void OnEditGKDirection(Guid directionUID)
-		{
-			DirectionsViewModel.EditDirection(directionUID);
-		}
 		void OnSelectGKDirection(SelectGKDirectionEventArg selectDirectionEventArg)
 		{
 			var directionSelectionViewModel = new DirectionSelectionViewModel(selectDirectionEventArg.Direction);
@@ -299,15 +239,6 @@ namespace GKModule
 			var directionsSelectionViewModel = new DirectionsSelectationViewModel(selectDirectionsEventArg.Directions);
 			selectDirectionsEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(directionsSelectionViewModel);
 			selectDirectionsEventArg.Directions = directionsSelectionViewModel.TargetDirections.ToList();
-		}
-
-		private void OnCreateGKMPT(CreateGKMPTEventArg createMPTEventArg)
-		{
-			MPTsViewModel.CreateMPT(createMPTEventArg);
-		}
-		private void OnEditGKMPT(Guid mptUID)
-		{
-			MPTsViewModel.EditMPT(mptUID);
 		}
 		void OnSelectGKMPT(SelectGKMPTEventArg selectMPTEventArg)
 		{
@@ -324,14 +255,6 @@ namespace GKModule
 			selectMPTsEventArg.MPTs = mptsSelectionViewModel.TargetMPTs.ToList();
 		}
 
-		private void OnCreateGKDoor(CreateGKDoorEventArg createGKDoorEventArg)
-		{
-			DoorsViewModel.CreateDoor(createGKDoorEventArg);
-		}
-		private void OnEditGKDoor(Guid doorUID)
-		{
-			DoorsViewModel.EditDoor(doorUID);
-		}
 		void OnSelectGKDoor(SelectGKDoorEventArg selectDoorEventArg)
 		{
 			var doorSelectionViewModel = new GKDoorSelectionViewModel(selectDoorEventArg.Door);
@@ -345,19 +268,6 @@ namespace GKModule
 			var doorsSelectionViewModel = new DoorsSelectationViewModel(selectDoorsEventArg.Doors);
 			selectDoorsEventArg.Cancel = !ServiceFactory.DialogService.ShowModalWindow(doorsSelectionViewModel);
 			selectDoorsEventArg.Doors = doorsSelectionViewModel.TargetDoors.ToList();
-		}
-
-		private void OnCreateSKDZone(CreateGKSKDZoneEventArg createZoneEventArg)
-		{
-			SKDZonesViewModel.CreateZone(createZoneEventArg);
-		}
-		private void OnEditSKDZone(Guid zoneUID)
-		{
-			SKDZonesViewModel.EditZone(zoneUID);
-		}
-		private void OnCreateGKCode(CreateGKCodeEventArg createGKCodeEventArg)
-		{
-			CodesViewModel.CreateCode(createGKCodeEventArg);
 		}
 
 		void OnSelectGKDevice(SelectGKDeviceEventArg selectDeviceEventArg)

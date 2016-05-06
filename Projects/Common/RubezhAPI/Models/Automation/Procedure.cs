@@ -78,6 +78,12 @@ namespace RubezhAPI.Automation
 
 		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
+		public void OnPlanElementUIDsChanged()
+		{
+			if (PlanElementUIDsChanged != null)
+				PlanElementUIDsChanged();
+		}
+		public event Action PlanElementUIDsChanged;
 
 		#endregion
 
@@ -89,13 +95,6 @@ namespace RubezhAPI.Automation
 				Changed();
 		}
 		public event Action Changed;
-
-		public void OnUIDChanged(Guid oldUID, Guid newUID)
-		{
-			if (UIDChanged != null)
-				UIDChanged(oldUID, newUID);
-		}
-		public event Action<Guid, Guid> UIDChanged;
 
 		#endregion
 	}

@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Designer.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
 using RubezhAPI.Plans.Elements;
@@ -10,7 +11,7 @@ using System.Collections.Generic;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
-	public class PassCardDesignerViewModel : Infrastructure.Designer.ViewModels.PlanDesignerViewModel
+	public class PassCardDesignerViewModel : BasePlanDesignerViewModel
 	{
 		public const string PassCardImagePropertiesGroup = "PassCardImagePropertiesGroup";
 		public const string PassCardTextPropertiesGroup = "PassCardTextPropertiesGroup";

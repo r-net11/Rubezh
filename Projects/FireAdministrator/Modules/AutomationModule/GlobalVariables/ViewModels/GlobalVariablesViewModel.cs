@@ -10,6 +10,7 @@ using Infrastructure.ViewModels;
 using RubezhClient;
 using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
+using AutomationModule.Validation;
 
 namespace AutomationModule.ViewModels
 {
@@ -62,7 +63,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables, "Добавить глобальную переменную", true);
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, 
+				ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables, 
+				"Добавить глобальную переменную", true);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
 				ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
@@ -82,6 +85,17 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var result = Validator.GetDependency(SelectedGlobalVariable.Variable);
+			if (result.HasDependency)
+			{
+				//if (!MessageBoxService.ShowQuestion("Глобальная переменная имеет зависимости, удалить?",
+				//	"Удаление глобальной переменной"))
+				//	return;
+				var dialog = new DependencyResultDialogViewModel(result);
+				if (!DialogService.ShowModalWindow(dialog))
+					return;
+			}
+
 			var index = GlobalVariables.IndexOf(SelectedGlobalVariable);
 			ClientManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.Variable);
 			GlobalVariables.Remove(SelectedGlobalVariable);

@@ -1,31 +1,16 @@
-﻿using System;
+﻿using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using Common;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Windows.Views
 {
 	internal partial class WindowBaseView : Window
 	{
-		private const int AbsolutMinSize = 100;
-
-		[Flags]
-		internal enum ResizeDirection
-		{
-			Left = 1,
-			Bottom = 2,
-			Top = 4,
-			Right = 8,
-			TopRight = Top | Right,
-			TopLeft = Top | Left,
-			BottomRight = Bottom | Right,
-			BottomLeft = Bottom | Left,
-		}
 		private WindowBaseViewModel _model;
 
 		public WindowBaseView()
@@ -41,6 +26,7 @@ namespace Infrastructure.Common.Windows.Views
 				DataContext = _model;
 			}
 			InitializeComponent();
+
 			Loaded += (s, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 		}
 
@@ -54,15 +40,6 @@ namespace Infrastructure.Common.Windows.Views
 			}
 			CalculateSize();
 			UpdateWindowSize();
-			TruncateSize();
-			var shellViewModel = _model as ShellViewModel;
-			if (shellViewModel != null)
-			{
-				MinHeight = shellViewModel.MinHeight;
-				MinWidth = shellViewModel.MinWidth;
-				Height = shellViewModel.Height;
-				Width = shellViewModel.Width;
-			}
 			if (_model.HideInTaskbar)
 				ShowInTaskbar = false;
 		}
@@ -89,66 +66,6 @@ namespace Infrastructure.Common.Windows.Views
 			_model.Unloaded();
 		}
 
-		private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
-		{
-			Thumb thumb = (Thumb)sender;
-			ResizeDirection direction = (ResizeDirection)thumb.Tag;
-			if ((direction & ResizeDirection.Bottom) == ResizeDirection.Bottom)
-			{
-				if (Height + e.VerticalChange >= MinHeight && Height + e.VerticalChange <= MaxHeight)
-					Height += e.VerticalChange;
-				//else
-				//	thumb.ReleaseMouseCapture();
-			}
-			if ((direction & ResizeDirection.Top) == ResizeDirection.Top)
-			{
-				if (Height - e.VerticalChange >= MinHeight && Height - e.VerticalChange <= MaxHeight)
-				{
-					Height -= e.VerticalChange;
-					Top += e.VerticalChange;
-				}
-				//else
-				//	thumb.ReleaseMouseCapture();
-			}
-			if ((direction & ResizeDirection.Left) == ResizeDirection.Left)
-			{
-				if (Width - e.HorizontalChange >= MinWidth && Width - e.HorizontalChange <= MaxWidth)
-				{
-					Width -= e.HorizontalChange;
-					Left += e.HorizontalChange;
-				}
-				//else
-				//	thumb.ReleaseMouseCapture();
-			}
-			if ((direction & ResizeDirection.Right) == ResizeDirection.Right)
-			{
-				if (Width + e.HorizontalChange >= MinWidth && Width + e.HorizontalChange <= MaxWidth)
-					Width += e.HorizontalChange;
-				//else
-				//	thumb.ReleaseMouseCapture();
-			}
-		}
-
-		private void TruncateSize()
-		{
-			if (MinHeight < AbsolutMinSize)
-				MinHeight = AbsolutMinSize;
-			if (MinWidth < AbsolutMinSize)
-				MinWidth = AbsolutMinSize;
-
-			if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
-				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 15;
-			if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
-				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth - 15;
-			if (Left < 0)
-				Left = 0;
-			if (Top < 0)
-				Top = 0;
-			if (Left + Width > SystemParameters.MaximizedPrimaryScreenWidth)
-				Left = SystemParameters.MaximizedPrimaryScreenWidth - Width;
-			if (Top + Height > SystemParameters.MaximizedPrimaryScreenHeight)
-				Top = SystemParameters.MaximizedPrimaryScreenHeight - Height;
-		}
 		private void CalculateSize()
 		{
 			ContentPresenter presenter = FindPresenter(this);

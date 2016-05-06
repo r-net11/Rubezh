@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -22,23 +22,18 @@ namespace GKModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
-			Directions = new ObservableCollection<DirectionViewModel>();
-			foreach (var direction in GKManager.Directions)
-			{
-				var directionViewModel = new DirectionViewModel(direction);
-				Directions.Add(directionViewModel);
-			}
+			Directions = new ObservableCollection<GKDirection>(GKManager.Directions);
 			if (IElementDirection.DirectionUID != Guid.Empty)
-				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == IElementDirection.DirectionUID);
+				SelectedDirection = Directions.FirstOrDefault(x => x.UID == IElementDirection.DirectionUID);
 
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
 		}
 
-		public ObservableCollection<DirectionViewModel> Directions { get; private set; }
+		public ObservableCollection<GKDirection> Directions { get; private set; }
 
-		DirectionViewModel _selectedDirection;
-		public DirectionViewModel SelectedDirection
+		GKDirection _selectedDirection;
+		public GKDirection SelectedDirection
 		{
 			get { return _selectedDirection; }
 			set
@@ -84,8 +79,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.Direction.UID);
-			SelectedDirection.Update();
+			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.UID);
 		}
 		bool CanEdit()
 		{
@@ -95,7 +89,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDirection.ShowState = ShowState;
 			IElementDirection.ShowDelay = ShowDelay;
-			IElementDirection.DirectionUID = SelectedDirection.Direction.UID;
+			GKPlanExtension.Instance.RewriteItem(IElementDirection, SelectedDirection);
 			return base.Save();
 		}
 		protected override bool CanSave()

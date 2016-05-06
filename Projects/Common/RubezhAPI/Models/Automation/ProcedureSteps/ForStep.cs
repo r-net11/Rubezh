@@ -30,5 +30,10 @@ namespace RubezhAPI.Automation
 		public ConditionType ConditionType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.For; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { IndexerArgument, InitialValueArgument, ValueArgument, IteratorArgument }; }
+		}
 	}
 }

@@ -19,20 +19,20 @@
                 <uib-tab heading="Пользователи">
                     <ul id="OrganisationUsers" class="SelectableList">
                         <li ng-repeat="user in model.users" ng-class="{selected: selectedUser === user}">
-                            <div ng-click="canSelectUsers && userClick(user)">
+                            <div ng-click="canSelectUsers() && userClick(user)">
                                 <img src="~/Content/Image/Icon/Hr/SKDUser.png" />
-                                <input type="checkbox" ng-disabled="!canSelectUsers" ng-model="user.IsChecked" value="">
+                                <input type="checkbox" ng-disabled="!canSelectUsers()" ng-model="user.IsChecked" value="">
                                 <span>{{user.User.Name}}</span>
                             </div>
                         </li>
                     </ul>
                 </uib-tab>
-                <uib-tab heading="Точки доступа">
+                <uib-tab heading="Точки доступа" ng-show="model.hasOrganisationDoors()">
                     <ul id="OrganisationDoors" class="SelectableList">
                         <li ng-repeat="door in model.doors" ng-class="{selected: selectedDoor === door}">
-                            <div ng-click="canSelectDoors && doorClick(door)">
+                            <div ng-click="canSelectDoors() && doorClick(door)">
                                 <img src="~/Content/Image/Icon/Hr/Door.png" />
-                                <input type="checkbox" ng-disabled="!canSelectDoors" ng-model="door.IsChecked" value="">
+                                <input type="checkbox" ng-disabled="!canSelectDoors()" ng-model="door.IsChecked" value="">
                                 <span>{{door.PresentationName}}</span>
                             </div>
                         </li>

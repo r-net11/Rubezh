@@ -22,7 +22,7 @@ namespace GKModule.Reports
 			var table = new DataTable("Devices");
 			table.Columns.Add("Driver", typeof(string));
 			table.Columns.Add("Count", typeof(int));
-			foreach (var driver in GKManager.DriversConfiguration.Drivers)
+			foreach (var driver in  DriversRepository.Drivers)
 			{
 				if (driver.IsAutoCreate || driver.DriverType == GKDriverType.System)
 					continue;

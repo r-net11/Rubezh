@@ -129,7 +129,7 @@ namespace SKDModule.ViewModels
 			var organisationFilter = new OrganisationFilter 
 				{ 
 					UIDs = filter.OrganisationUIDs, 
-					UserUID = ClientManager.CurrentUser.UID, 
+					User = ClientManager.CurrentUser, 
 					LogicalDeletationType = filter.LogicalDeletationType 
 				};
 			var organisations = OrganisationHelper.Get(organisationFilter);

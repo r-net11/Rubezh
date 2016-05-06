@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -153,6 +154,9 @@ namespace RubezhAPI.Automation
 				default: return new ProcedureStep();
 			}
 		}
+
+		[IgnoreDataMember]
+		public virtual Argument[] Arguments { get { return new Argument[0]; } }
 	}
 
 	[DataContract]

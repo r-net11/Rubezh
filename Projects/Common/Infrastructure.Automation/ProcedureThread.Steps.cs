@@ -275,7 +275,9 @@ namespace Infrastructure.Automation
 		public void ControlGKFireZoneStep(ProcedureStep procedureStep)
 		{
 			var controlGKFireZoneStep = (ControlGKFireZoneStep)procedureStep;
-			var zoneRef = (ObjectReference)GetValue(controlGKFireZoneStep.GKFireZoneArgument);
+			var zoneRef = new ObjectReference();
+			zoneRef.ObjectType = controlGKFireZoneStep.GKFireZoneArgument.ObjectType;
+			zoneRef.UID = (Guid)GetValue(controlGKFireZoneStep.GKFireZoneArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasFirefighting)
 			{
 				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление пожарной зоной\" заблокировано в связи с отсутствием лицензии", zoneRef.UID);
@@ -293,7 +295,9 @@ namespace Infrastructure.Automation
 		public void ControlGKGuardZoneStep(ProcedureStep procedureStep)
 		{
 			var controlGKGuardZoneStep = (ControlGKGuardZoneStep)procedureStep;
-			var zoneRef = (ObjectReference)GetValue(controlGKGuardZoneStep.GKGuardZoneArgument);
+			var zoneRef = new ObjectReference();
+			zoneRef.ObjectType = controlGKGuardZoneStep.GKGuardZoneArgument.ObjectType;
+			zoneRef.UID = (Guid)GetValue(controlGKGuardZoneStep.GKGuardZoneArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasGuard)
 			{
 				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление охранной зоной\" заблокировано в связи с отсутствием лицензии", zoneRef.UID);
@@ -311,14 +315,18 @@ namespace Infrastructure.Automation
 		public void ControlDirectionStep(ProcedureStep procedureStep)
 		{
 			var controlDirectionStep = (ControlDirectionStep)procedureStep;
-			var directionRef = (ObjectReference)GetValue(controlDirectionStep.DirectionArgument);
+			var directionRef = new ObjectReference();
+			directionRef.ObjectType = controlDirectionStep.DirectionArgument.ObjectType;
+			directionRef.UID = (Guid)GetValue(controlDirectionStep.DirectionArgument);
 			ProcedureExecutionContext.ControlDirection(ClientUID, directionRef.UID, controlDirectionStep.DirectionCommandType);
 		}
 
 		public void ControlGKDoorStep(ProcedureStep procedureStep)
 		{
 			var controlGKDoorStep = (ControlGKDoorStep)procedureStep;
-			var doorRef = (ObjectReference)GetValue(controlGKDoorStep.DoorArgument);
+			var doorRef = new ObjectReference();
+			doorRef.ObjectType = controlGKDoorStep.DoorArgument.ObjectType;
+			doorRef.UID = (Guid)GetValue(controlGKDoorStep.DoorArgument);
 			if (!LicenseManager.CurrentLicenseInfo.HasSKD)
 			{
 				ProcedureExecutionContext.AddJournalItem(ClientUID, "Выполнение функции \"Управление точкой доступа\" заблокировано в связи с отсутствием лицензии", doorRef.UID);
@@ -336,21 +344,27 @@ namespace Infrastructure.Automation
 		public void ControlDelayStep(ProcedureStep procedureStep)
 		{
 			var controlDelayStep = (ControlDelayStep)procedureStep;
-			var delayRef = (ObjectReference)GetValue(controlDelayStep.DelayArgument);
+			var delayRef = new ObjectReference();
+			delayRef.ObjectType = controlDelayStep.DelayArgument.ObjectType;
+			delayRef.UID = (Guid)GetValue(controlDelayStep.DelayArgument);
 			ProcedureExecutionContext.ControlDelay(ClientUID, delayRef.UID, controlDelayStep.DelayCommandType);
 		}
 
 		public void ControlPumpStationStep(ProcedureStep procedureStep)
 		{
 			var controlPumpStationStep = (ControlPumpStationStep)procedureStep;
-			var pumpStationRef = (ObjectReference)GetValue(controlPumpStationStep.PumpStationArgument);
+			var pumpStationRef = new ObjectReference();
+			pumpStationRef.ObjectType = controlPumpStationStep.PumpStationArgument.ObjectType;
+			pumpStationRef.UID = (Guid)GetValue(controlPumpStationStep.PumpStationArgument);
 			ProcedureExecutionContext.ControlPumpStation(ClientUID, pumpStationRef.UID, controlPumpStationStep.PumpStationCommandType);
 		}
 
 		public void ControlMPTStep(ProcedureStep procedureStep)
 		{
 			var controlMPTStep = (ControlMPTStep)procedureStep;
-			var mptRef = (ObjectReference)GetValue(controlMPTStep.MPTArgument);
+			var mptRef = new ObjectReference();
+			mptRef.ObjectType = controlMPTStep.MPTArgument.ObjectType;
+			mptRef.UID = (Guid)GetValue(controlMPTStep.MPTArgument);
 			ProcedureExecutionContext.ControlMPT(ClientUID, mptRef.UID, controlMPTStep.MPTCommandType);
 		}
 

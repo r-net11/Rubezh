@@ -24,12 +24,14 @@ namespace VideoModule.ViewModels
 		{
 			_camerasViewModel = camerasViewModel;
 			Camera = camera;
+			camera.PlanElementUIDsChanged += UpdateVisualizationState;
 			PresentationName = presentationName;
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand,
 				CanAllowMultipleVizualizationCommand);
 			ImageSource = camera.ImageSource;
+			Update();
 		}
 		public CameraViewModel(RviServer server)
 		{
@@ -46,17 +48,25 @@ namespace VideoModule.ViewModels
 		{
 			OnPropertyChanged(() => Camera);
 			OnPropertyChanged(() => PresentationAddress);
-			OnPropertyChanged(() => IsOnPlan);
-			OnPropertyChanged(() => VisualizationState);
+			UpdateVisualizationState();
 		}
-
+		void UpdateVisualizationState()
+		{
+			VisualizationState = IsOnPlan ? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent;
+		}
 		public bool IsOnPlan
 		{
 			get { return Camera != null && Camera.PlanElementUIDs.Count > 0; }
 		}
+		VisualizationState _visualizationState;
 		public VisualizationState VisualizationState
 		{
-			get { return IsOnPlan ? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent; }
+			get { return _visualizationState; }
+			private set
+			{
+				_visualizationState = value;
+				OnPropertyChanged(() => VisualizationState);
+			}
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
@@ -108,6 +118,12 @@ namespace VideoModule.ViewModels
 		bool CanAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			return Camera.AllowMultipleVizualization != isAllow;
+		}
+
+		public void UnsubscribeEvents()
+		{
+			if (IsCamera)
+				Camera.PlanElementUIDsChanged -= UpdateVisualizationState;
 		}
 	}
 }

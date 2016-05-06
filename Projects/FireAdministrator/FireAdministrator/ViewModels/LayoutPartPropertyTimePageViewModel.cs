@@ -1,10 +1,9 @@
-﻿using Common;
-using Infrastructure.Common.Services.Layout;
-using RubezhAPI;
-//using System.Windows.Media;
+﻿using Infrastructure.Common.Services.Layout;
+using Infrastructure.Plans;
 using RubezhAPI.Models.Layouts;
 using System.Collections.Generic;
 using System.Linq;
+using Color = System.Windows.Media.Color;
 
 namespace FireAdministrator.ViewModels
 {
@@ -205,9 +204,9 @@ namespace FireAdministrator.ViewModels
 			if (properties != null)
 			{
 				Format = properties.Format;
-				BackgroundColor = properties.BackgroundColor;
-				ForegroundColor = properties.ForegroundColor;
-				BorderColor = properties.BorderColor;
+				BackgroundColor = properties.BackgroundColor.ToWindowsColor();
+				ForegroundColor = properties.ForegroundColor.ToWindowsColor();
+				BorderColor = properties.BorderColor.ToWindowsColor();
 				BorderThickness = properties.BorderThickness;
 				FontSize = properties.FontSize;
 				FontItalic = properties.FontItalic;
@@ -229,9 +228,9 @@ namespace FireAdministrator.ViewModels
 			if (_haveChanges)
 			{
 				properties.Format = Format;
-				properties.BackgroundColor = BackgroundColor;
-				properties.ForegroundColor = ForegroundColor;
-				properties.BorderColor = BorderColor;
+				properties.BackgroundColor = BackgroundColor.ToRubezhColor();
+				properties.ForegroundColor = ForegroundColor.ToRubezhColor();
+				properties.BorderColor = BorderColor.ToRubezhColor();
 				properties.BorderThickness = BorderThickness;
 				properties.FontSize = FontSize;
 				properties.FontBold = FontBold;

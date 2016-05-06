@@ -1,9 +1,7 @@
 <UserControl x:Class="JournalModule.Views.JournalViewInternal"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 Loaded="UserControl_Loaded">
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="70" />
@@ -57,7 +55,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Height="16" Source="{Binding ObjectImageSource}" VerticalAlignment="Center" Margin="2" />
+								<Image Width="16" Height="16" Source="{Binding ObjectImageSource}" VerticalAlignment="Center" Margin="2 0" />
 								<TextBlock VerticalAlignment="Center" Background="{Binding IsExistsInConfig, Converter={StaticResource BoolToStringColorConverter}}">
 									<Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}" IsEnabled="{Binding IsExistsInConfig}">
 										<TextBlock Text="{Binding ObjectName}" />
@@ -68,7 +66,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Header="Пользователь" Binding="{Binding JournalItem.UserName}" Width="Auto" />
-				<DataGridTemplateColumn Header="Подсистема" Width="Auto">
+				<DataGridTemplateColumn Header="Подсистема" Width="Auto" MinWidth="80">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

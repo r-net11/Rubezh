@@ -97,7 +97,6 @@ namespace FireMonitor
 
 					OpcDaHelper.Initialize(ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers, OpcDaHelper.SetTagValue, WriteTagValue);
 
-					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");

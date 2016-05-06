@@ -12,12 +12,9 @@ namespace GKModule.Plans.InstrumentAdorners
 {
 	public class SKDZonePolygonAdorner : BasePolygonAdorner
 	{
-		SKDZonesViewModel _skdZonesViewModel;
-
-		public SKDZonePolygonAdorner(CommonDesignerCanvas designerCanvas, SKDZonesViewModel skdZonesViewModel)
+		public SKDZonePolygonAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			_skdZonesViewModel = skdZonesViewModel;
 		}
 
 		protected override Shape CreateRubberband()
@@ -33,10 +30,8 @@ namespace GKModule.Plans.InstrumentAdorners
 			var element = new ElementPolygonGKSKDZone();
 			var propertiesViewModel = new SKDZonePropertiesViewModel(element);
 			if (DialogService.ShowModalWindow(propertiesViewModel))
-			{
-				_skdZonesViewModel.UpdateZones(element.ZoneUID);
+
 				return element;
-			}
 			return null;
 		}
 	}

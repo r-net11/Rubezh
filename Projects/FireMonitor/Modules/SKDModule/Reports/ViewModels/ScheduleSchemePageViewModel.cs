@@ -19,14 +19,18 @@ namespace SKDModule.Reports.ViewModels
 		public ScheduleSchemePageViewModel()
 		{
 			Title = "Графики работы";
-
 			var organisations = OrganisationHelper.Get(new OrganisationFilter());
 			Schedules = new ObservableCollection<TreeNodeItemViewModel>(organisations.Select(item => new TreeNodeItemViewModel(item, false)));
-			var map = Schedules.ToDictionary(item => item.Item.UID);
-
 			var scheduleSchemas = ScheduleHelper.Get(new ScheduleFilter());
-			scheduleSchemas.ForEach(item => map[item.OrganisationUID].AddChild(new TreeNodeItemViewModel(item, true)));
-
+			if (scheduleSchemas != null)
+			{
+				foreach (var scheduleScheme in scheduleSchemas)
+				{
+					var schedule = Schedules.FirstOrDefault(x => x.Item.UID == scheduleScheme.OrganisationUID);
+					if (schedule != null)
+						schedule.AddChild(new TreeNodeItemViewModel(scheduleScheme, true));
+				}
+			}
 			SelectAllCommand = new RelayCommand(() => Schedules.SelectMany(item => item.Children).ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Schedules.SelectMany(item => item.Children).ForEach(item => item.IsChecked = false));
 		}

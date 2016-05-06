@@ -14,7 +14,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		private Point? endPoint;
 		private readonly Rectangle rubberband;
 
-		public RubberbandAdorner(DesignerCanvas designerCanvas)
+		public RubberbandAdorner(BaseDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 			rubberband = new Rectangle

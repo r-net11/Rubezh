@@ -1,24 +1,21 @@
-﻿using System;
-using System.Linq;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
-using GKModule.ViewModels;
+﻿using GKModule.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GKModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
 		ElementGKDevice _elementGKDevice;
-		DevicesViewModel _devicesViewModel;
 
-		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementGKDevice elementDevice)
+		public DevicePropertiesViewModel(ElementGKDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство ГК";
 			_elementGKDevice = elementDevice;
-			_devicesViewModel = devicesViewModel;
 
 			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			if (SelectedDevice != null)
@@ -63,15 +60,28 @@ namespace GKModule.Plans.ViewModels
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
+		public string DeviceDescription
+		{
+			get
+			{
+				return SelectedDevice != null ? SelectedDevice.Description : "";
+			}
+			set
+			{
+				if (SelectedDevice != null)
+				{
+					SelectedDevice.Description = value;
+					var device = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == SelectedDevice.Device);
+					if (device != null)
+						device.Update();
+				}
+				OnPropertyChanged(() => DeviceDescription);
+			}
+		}
 
 		protected override bool Save()
 		{
-			Guid deviceUID = _elementGKDevice.DeviceUID;
-			GKPlanExtension.Instance.SetItem<GKDevice>(_elementGKDevice, SelectedDevice.Device);
-
-			if (deviceUID != _elementGKDevice.DeviceUID)
-				Update(deviceUID);
-			_devicesViewModel.SelectedDevice = Update(_elementGKDevice.DeviceUID);
+			GKPlanExtension.Instance.RewriteItem(_elementGKDevice, SelectedDevice.Device);
 			return base.Save();
 		}
 
@@ -80,12 +90,18 @@ namespace GKModule.Plans.ViewModels
 			return SelectedDevice != null && SelectedDevice.Driver.IsPlaceable;
 		}
 
-		DeviceViewModel Update(Guid deviceUID)
+		public override void OnClosed()
 		{
-			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (device != null)
-				device.Update();
-			return device;
+			Unsubscribe(RootDevices);
+			base.OnClosed();
+		}
+		void Unsubscribe(IEnumerable<DeviceViewModel> devices)
+		{
+			foreach (var device in devices)
+			{
+				device.UnsubscribeEvents();
+				Unsubscribe(device.Children);
+			}
 		}
 	}
 }

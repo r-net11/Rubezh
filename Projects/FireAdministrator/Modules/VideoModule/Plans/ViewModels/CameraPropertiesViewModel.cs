@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace VideoModule.Plans.ViewModels
 		CamerasViewModel _camerasViewModelForPlanExtension;
 		List<CameraViewModel> CamerasForUpdate { get; set; }
 
-		public CameraPropertiesViewModel(CamerasViewModel camerasViewModel, ElementCamera elementCamera)
+		public CameraPropertiesViewModel(ElementCamera elementCamera)
 		{
 			Title = "Свойства фигуры: Камера";
 			_elementCamera = elementCamera;
@@ -22,7 +21,6 @@ namespace VideoModule.Plans.ViewModels
 			_camerasViewModelForPlanExtension.Initialize();
 
 			Cameras = _camerasViewModelForPlanExtension.Cameras;
-			CamerasForUpdate = camerasViewModel.AllCameras;
 			SelectedCamera = _camerasViewModelForPlanExtension.AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == elementCamera.CameraUID);
 			Rotation = elementCamera.Rotation;
 		}
@@ -53,21 +51,9 @@ namespace VideoModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid cameraUID = _elementCamera.CameraUID;
-			PlanExtension.Instance.SetItem(_elementCamera, SelectedCamera.Camera);
-
-			if (cameraUID != _elementCamera.CameraUID)
-				Update(cameraUID);
-			_camerasViewModelForPlanExtension.SelectedCamera = Update(_elementCamera.CameraUID);
-			_elementCamera.Rotation = this.Rotation;
+			PlanExtension.Instance.RewriteItem(_elementCamera, SelectedCamera.Camera);
+			_elementCamera.Rotation = Rotation;
 			return base.Save();
-		}
-		CameraViewModel Update(Guid cameraUID)
-		{
-			var camera = CamerasForUpdate.FirstOrDefault(x => x.IsCamera && x.Camera.UID == cameraUID);
-			if (camera != null)
-				camera.Update();
-			return camera;
 		}
 
 		protected override bool CanSave()
@@ -79,6 +65,20 @@ namespace VideoModule.Plans.ViewModels
 			if (SelectedCamera.IsOnPlan && !SelectedCamera.Camera.AllowMultipleVizualization && SelectedCamera.Camera.UID != _elementCamera.CameraUID)
 				return false;
 			return true;
+		}
+
+		public override void OnClosed()
+		{
+			Unsubscribe(Cameras);
+			base.OnClosed();
+		}
+		void Unsubscribe(IEnumerable<CameraViewModel> cameras)
+		{
+			foreach (var camera in cameras)
+			{
+				camera.UnsubscribeEvents();
+				Unsubscribe(camera.Children);
+			}
 		}
 	}
 }

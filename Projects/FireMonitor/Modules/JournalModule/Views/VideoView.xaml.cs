@@ -13,7 +13,8 @@ namespace JournalModule.Views
 			InitializeComponent();
 			Loaded += OnLoaded;
 		}
-		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+
+		void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var videoViewModel = DataContext as VideoViewModel;
 			videoViewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -26,7 +27,8 @@ namespace JournalModule.Views
 				MediaSourcePlayer.Play();
 			}
 		}
-		private void Close(object sender, EventArgs e)
+
+		void Close(object sender, EventArgs e)
 		{
 			MediaSourcePlayer.Stop();
 			MediaSourcePlayer.Close();

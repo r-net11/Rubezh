@@ -1,5 +1,4 @@
 ﻿using GKModule.Plans.ViewModels;
-using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
@@ -12,14 +11,10 @@ namespace GKModule.Plans.InstrumentAdorners
 {
 	public class ZonePolygonAdorner : BasePolygonAdorner
 	{
-		ZonesViewModel _zonesViewModel;
-
-		public ZonePolygonAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
+		public ZonePolygonAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			_zonesViewModel = zonesViewModel;
 		}
-
 		protected override Shape CreateRubberband()
 		{
 			return new Polygon();
@@ -33,10 +28,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var element = new ElementPolygonGKZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element);
 			if (DialogService.ShowModalWindow(propertiesViewModel))
-			{
-				_zonesViewModel.UpdateZones(element.ZoneUID);
 				return element;
-			}
 			return null;
 		}
 	}

@@ -28,14 +28,15 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
+								<Image Source="{Binding PlanElementUIDs, Converter={StaticResource PlanElementUIDsToImageSourceConverter}}" />
 								<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/GuardZone.png" />
-								<TextBlock Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Zone.No}" />
+								<TextBlock Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding No}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="Auto" Binding="{Binding Zone.Name}" Header="Наименование" />
-				<DataGridTextColumn Width="*" Binding="{Binding Zone.Description}" Header="Примечание" />
+				<DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Наименование" />
+				<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
 			<DataGrid.ContextMenu>
 				<ContextMenu>

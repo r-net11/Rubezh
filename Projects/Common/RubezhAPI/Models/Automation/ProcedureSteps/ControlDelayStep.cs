@@ -18,6 +18,11 @@ namespace RubezhAPI.Automation
 		public DelayCommandType DelayCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlDelay; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { DelayArgument }; }
+		}
 	}
 
 	public enum DelayCommandType

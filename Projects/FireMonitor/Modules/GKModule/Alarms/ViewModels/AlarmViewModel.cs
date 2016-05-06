@@ -29,9 +29,7 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			Alarm = alarm;
-			var IplanElement = Alarm.GkBaseEntity as IPlanPresentable;
-			if (IplanElement != null)
-				PlanLinks = new PlanLinksViewModel(IplanElement);
+			InitializePlanLink();
 		}
 
 		public string ObjectName
@@ -61,6 +59,13 @@ namespace GKModule.ViewModels
 					return Alarm.GkBaseEntity.State.StateClass;
 				return XStateClass.Norm;
 			}
+		}
+
+		public void InitializePlanLink()
+		{
+			var IplanElement = Alarm.GkBaseEntity as IPlanPresentable;
+			if (IplanElement != null)
+				PlanLinks = new PlanLinksViewModel(IplanElement);
 		}
 
 		public RelayCommand ShowObjectOrPlanCommand { get; private set; }
@@ -108,6 +113,7 @@ namespace GKModule.ViewModels
 				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.GkBaseEntity.UID);
 			}
 		}
+		
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{

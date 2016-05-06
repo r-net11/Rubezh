@@ -44,4 +44,8 @@
 		<Views:MirrorView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DevicesInsertIntoViewModel}">
+		<Views:DevicesInsertIntoView />
+	</DataTemplate>
+	
 </ResourceDictionary>

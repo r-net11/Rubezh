@@ -40,8 +40,11 @@ namespace GKModule.ViewModels
 			ShowDependencyItemsCommand = new RelayCommand(ShowDependencyItems);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Subscribe(CreateDirection);
+			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Subscribe(EditDirection);
 		}
 		private void RegisterShortcuts()
 		{
@@ -255,12 +258,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createDirectionEventArg.Cancel = true;
-				createDirectionEventArg.DirectionUID = Guid.Empty;
 			}
 			else
 			{
 				createDirectionEventArg.Cancel = false;
-				createDirectionEventArg.DirectionUID = result.Direction.UID;
 				createDirectionEventArg.Direction = result.Direction;
 			}
 		}
@@ -271,31 +272,6 @@ namespace GKModule.ViewModels
 				OnEdit(directionViewModel);
 		}
 
-		private void OnDirectionChanged(Guid directionUID)
-		{
-			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
-			if (direction != null)
-			{
-				direction.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedDirection = direction;
-			}
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
-			elements.ForEach(element =>
-			{
-				var elementDirection = GetElementDirection(element);
-				if (elementDirection != null)
-				{
-					OnDirectionChanged(elementDirection.DirectionUID);
-				}
-			});
-			_lockSelection = false;
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementDirection = GetElementDirection(element);
@@ -313,14 +289,6 @@ namespace GKModule.ViewModels
 				elementDirection = element as ElementPolygonGKDirection;
 			return elementDirection;
 		}
-
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
 		public override void OnShow()
 		{
 			base.OnShow();
@@ -334,19 +302,6 @@ namespace GKModule.ViewModels
 				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
 		#endregion
-
-		void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
 
 		private void SetRibbonItems()
 		{
@@ -362,13 +317,6 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить все пустые направления", DeleteAllEmptyCommand, "BDeleteEmpty"),
 				}, "BEdit") { Order = 2 }
 			};
-		}
-		public void UpdateDirections(Guid directionUID)
-		{
-			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
-			if (direction != null)
-				direction.Update();
-			LockedSelect(directionUID);
 		}
 	}
 }

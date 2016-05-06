@@ -19,6 +19,8 @@
 
             $scope.employee = employee.Employee;
 
+            $scope.employee.Type = personType;
+
             $scope.model.photoData = employee.PhotoData;
 
             $scope.popupDocumentValidTo = {
@@ -159,7 +161,10 @@
                     controller: 'employeeSelectionDialogCtrl',
                     backdrop: 'static',
                     resolve: {
-                        employees: employeesService.getOrganisationDepartmentEmployees(organisation.UID, $scope.employee.DepartmentUID)
+                        employees: employeesService.getOrganisationDepartmentEmployees(organisation.UID, $scope.employee.DepartmentUID),
+                        selectedEmployeeUID: function () {
+                            return $scope.employee.EscortUID === emptyGuid ? null : $scope.employee.EscortUID;
+                        }
                     }
                 });
 
@@ -168,7 +173,7 @@
                         $scope.employee.EscortUID = employee.UID;
                         $scope.employee.EscortName = employee.Name;
                     } else {
-                        $scope.employee.EscortUID = emptyGuid;
+                        $scope.employee.EscortUID = null;
                         $scope.employee.EscortName = null;
                     }
                 });

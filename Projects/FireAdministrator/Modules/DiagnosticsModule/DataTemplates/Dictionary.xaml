@@ -7,4 +7,16 @@
 		<Views:DiagnosticsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
+		<Views:ZonesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ZoneDetailsViewModel}">
+		<Views:ZoneDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ZonesMenuViewModel}">
+		<Views:ZonesMenuView />
+	</DataTemplate>
+
 </ResourceDictionary>

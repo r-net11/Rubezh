@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using Common;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
+﻿using Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ShellViewModel : ApplicationViewModel
 	{
-		private double _splitterDistance;
-		private GridLength _emptyGridColumn;
+		double _splitterDistance;
+		GridLength _emptyGridColumn;
 		public ShellViewModel(ClientType clientType)
 		{
 			ClientType = clientType;
@@ -26,8 +26,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			AllowMaximize = true;
 			AllowMinimize = true;
 			ContentFotter = null;
-			MinWidth = 800;
-			MinHeight = 600;
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
 			MinimizeCommand = new RelayCommand<MinimizeTarget>(OnMinimize);
 			TextVisibility = !RegistrySettingsHelper.GetBool(ClientType + ".Shell.TextVisibility");
@@ -65,7 +63,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool textVisibility;
+		bool textVisibility;
 		public bool TextVisibility
 		{
 			get { return textVisibility; }
@@ -81,7 +79,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public ClientType ClientType { get; private set; }
 		public Layout Layout { get; protected set; }
 
-		private ReadOnlyCollection<NavigationItem> _navigationItems;
+		ReadOnlyCollection<NavigationItem> _navigationItems;
 		public ReadOnlyCollection<NavigationItem> NavigationItems
 		{
 			get { return _navigationItems; }
@@ -93,7 +91,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private double _minWidth;
+		double _minWidth;
 		public double MinWidth
 		{
 			get { return _minWidth; }
@@ -103,7 +101,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => MinWidth);
 			}
 		}
-		private double _minHeight;
+
+		double _minHeight;
 		public double MinHeight
 		{
 			get { return _minHeight; }
@@ -113,7 +112,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => MinHeight);
 			}
 		}
-		private double _height;
+
+		double _height;
 		public double Height
 		{
 			get { return _height; }
@@ -123,7 +123,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Height);
 			}
 		}
-		private double _width;
+
+		double _width;
 		public double Width
 		{
 			get { return _width; }
@@ -134,7 +135,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private ObservableCollection<IViewPartViewModel> _contentItems;
+		ObservableCollection<IViewPartViewModel> _contentItems;
 		public ObservableCollection<IViewPartViewModel> ContentItems
 		{
 			get { return _contentItems; }
@@ -145,7 +146,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool _toolbarVisible;
+		bool _toolbarVisible;
 		public bool ToolbarVisible
 		{
 			get { return _toolbarVisible; }
@@ -156,7 +157,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private BaseViewModel _toolbar;
+		BaseViewModel _toolbar;
 		public BaseViewModel Toolbar
 		{
 			get { return _toolbar; }
@@ -167,7 +168,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private RightContentViewModel _rightContent;
+		RightContentViewModel _rightContent;
 		public RightContentViewModel RightContent
 		{
 			get { return _rightContent; }
@@ -184,7 +185,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public bool IsRightPanelFocused { get; set; }
 		public bool IsLeftPanelFocused { get; set; }
 
-		private bool _isRightPanelEnabled;
+		bool _isRightPanelEnabled;
 		public bool IsRightPanelEnabled
 		{
 			get { return _isRightPanelEnabled; }
@@ -197,7 +198,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool _leftPanelVisible;
+		bool _leftPanelVisible;
 		public bool LeftPanelVisible
 		{
 			get { return _leftPanelVisible; }
@@ -210,7 +211,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				UpdateWidth();
 			}
 		}
-		private bool _rightPanelVisible;
+
+		bool _rightPanelVisible;
 		public bool RightPanelVisible
 		{
 			get { return _rightPanelVisible; }
@@ -231,7 +233,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool _ribbonVisible;
+		bool _ribbonVisible;
 		public bool RibbonVisible
 		{
 			get { return _ribbonVisible; }
@@ -241,7 +243,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => RibbonVisible);
 			}
 		}
-		private RibbonMenuViewModel _ribbonContent;
+
+		RibbonMenuViewModel _ribbonContent;
 		public RibbonMenuViewModel RibbonContent
 		{
 			get { return _ribbonContent; }
@@ -252,7 +255,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private GridLength _width1;
+		GridLength _width1;
 		public GridLength Width1
 		{
 			get { return _width1; }
@@ -262,7 +265,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Width1);
 			}
 		}
-		private GridLength _width2;
+
+		GridLength _width2;
 		public GridLength Width2
 		{
 			get { return _width2; }
@@ -272,7 +276,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Width2);
 			}
 		}
-		private GridLength _width3;
+
+		GridLength _width3;
 		public GridLength Width3
 		{
 			get { return _width3; }
@@ -283,7 +288,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private void UpdateWidth()
+		void UpdateWidth()
 		{
 			if (Width1 != _emptyGridColumn && Width3 != _emptyGridColumn)
 				_splitterDistance = Width1.Value / Width3.Value;
@@ -304,7 +309,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			base.OnClosed();
 		}
 
-		private void UpdateNavigationItemContext(IEnumerable<NavigationItem> items)
+		void UpdateNavigationItemContext(IEnumerable<NavigationItem> items)
 		{
 			if (items != null)
 				items.ForEach(item =>

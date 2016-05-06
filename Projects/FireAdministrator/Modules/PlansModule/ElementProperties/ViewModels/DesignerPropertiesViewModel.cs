@@ -1,8 +1,10 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using RubezhAPI;
+using Infrastructure.Plans;
 using RubezhAPI.Models;
+using Color = System.Windows.Media.Color;
+
 
 namespace PlansModule.ViewModels
 {
@@ -46,7 +48,7 @@ namespace PlansModule.ViewModels
 
 		void CopyProperties()
 		{
-			BackgroundColor = Plan.BackgroundColor;
+			BackgroundColor = Plan.BackgroundColor.ToWindowsColor();
 			Caption = Plan.Caption;
 			Description = Plan.Description;
 			Width = Plan.Width;
@@ -145,13 +147,13 @@ namespace PlansModule.ViewModels
 		{
 			RegistrySettingsHelper.SetDouble("Administrator.Plans.DefaultWidth", Width);
 			RegistrySettingsHelper.SetDouble("Administrator.Plans.DefaultHeight", Height);
-			RegistrySettingsHelper.SetColor("Administrator.Plans.DefaultColor", BackgroundColor);
+			RegistrySettingsHelper.SetColor("Administrator.Plans.DefaultColor", BackgroundColor.ToRubezhColor());
 
 			Plan.Caption = Caption;
 			Plan.Description = Description;
 			Plan.Width = Width;
 			Plan.Height = Height;
-			Plan.BackgroundColor = BackgroundColor;
+			Plan.BackgroundColor = BackgroundColor.ToRubezhColor();
 			Plan.IsAsynchronousLoad = IsAsynchronousLoadChecked;
 			Plan.IsNotShowPlan = IsNotShowPlanChecked;
 			ImagePropertiesViewModel.Save();

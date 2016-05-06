@@ -22,6 +22,11 @@ namespace RubezhAPI.Automation
 		public ChangeType ChangeType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ChangeList; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { ListArgument, ItemArgument }; }
+		}
 	}
 
 	public enum ChangeType

@@ -31,6 +31,7 @@ namespace GKIntegratedTest
 
 			WaitWhileState(zone, XStateClass.Off, 10000, "Ждем норму в охранной зоне");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
+			Assert.IsTrue(device3.State.StateClass == XStateClass.Off, "Проверка того, что датчик выключен");
 			ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic, "Постановка зоны на охрану");
 			WaitWhileState(zone, XStateClass.On, 3000, "Ждем пока зона не встанет на охрану");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.On, "Проверка того, что зона установилась на охрану");
@@ -40,10 +41,16 @@ namespace GKIntegratedTest
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
 			CheckTime(() => Thread.Sleep(1000), "Ждем 1 секунду");
 			Assert.IsTrue(device3.State.StateClass == XStateClass.Fire1, "Проверка того, что датчик ещё в тревоге");
+			CheckJournal(5, JournalItem(zone, JournalEventNameType.На_охране),
+				JournalItem(device3, JournalEventNameType.Включено), JournalItem(device3, JournalEventNameType.Сработка_1),
+				JournalItem(zone, JournalEventNameType.Внимание), JournalItem(zone, JournalEventNameType.Тревога));
 			ConrtolGKBase(zone, GKStateBit.Reset, "Cброс зоны");
-			WaitWhileState(zone, XStateClass.Fire1, 10000, "Ждем пока зона не перейдёт в тревогу");
+			WaitWhileOneOfStates(zone, XStateClass.Fire1, 10000, "Ждем пока зона не перейдёт в тревогу");
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.Fire1), "Проверка того, что зона перешла в тревогу");
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
+			Thread.Sleep(6000);
+			CheckJournal(3, JournalItem(zone, JournalEventNameType.Норма),
+				JournalItem(zone, JournalEventNameType.Внимание), JournalItem(zone, JournalEventNameType.Тревога));
 
 		}
 
@@ -74,17 +81,24 @@ namespace GKIntegratedTest
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
 			CheckTime(() => Thread.Sleep(1000), "Ждем 1 секунду");
 			Assert.IsTrue(device2.State.StateClass == XStateClass.Fire1, "Проверка того, что датчик ещё в тревоге");
+			CheckJournal(5, JournalItem(zone, JournalEventNameType.На_охране),
+				JournalItem(device2, JournalEventNameType.Включено), JournalItem(device2, JournalEventNameType.Сработка_1),
+				JournalItem(zone, JournalEventNameType.Внимание), JournalItem(zone, JournalEventNameType.Тревога));
+			ConrtolGKBase(zone, GKStateBit.Reset, "Cброс зоны");
 			ConrtolGKBase(zone, GKStateBit.Reset, "Cброс зоны");
 			WaitWhileState(zone, XStateClass.Fire1, 10000, "Ждем пока зона не перейдёт в тревогу");
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.Fire1), "Проверка того, что зона перешла в тревогу");
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
+			Thread.Sleep(6000);
+			CheckJournal(3, JournalItem(zone, JournalEventNameType.Норма),
+				JournalItem(zone, JournalEventNameType.Внимание), JournalItem(zone, JournalEventNameType.Тревога));
 		}
 
-		[TestCase(XStateClass.Off, XStateClass.On)]
-		[TestCase(XStateClass.On, XStateClass.Off)]
+		[TestCase(XStateClass.Off, XStateClass.On, JournalEventNameType.Не_на_охране, JournalEventNameType.На_охране)]
+		[TestCase(XStateClass.On, XStateClass.Off, JournalEventNameType.На_охране, JournalEventNameType.Не_на_охране)]
 		/* RG-1034(Фиксация АМ в сработке в режиме "Изменение" не должно приводить к
 		 постоянной выдаче сообщений о постановке и снятия зоны  с охраны) */
-		public void TestGuardZoneFire1NotChange(XStateClass mode1, XStateClass mode2)
+		public void TestGuardZoneFire1NotChange(XStateClass mode1, XStateClass mode2, JournalEventNameType event1, JournalEventNameType event2)
 		{
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
 			var aM = AddGuardZoneDevice(device1);
@@ -97,7 +111,11 @@ namespace GKIntegratedTest
 			WaitWhileState(zone, XStateClass.Off, 10000, "Ждем норму в охранной зоне");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
 			if (mode1 == XStateClass.Off)
+			{
 				ConrtolGKBase(zone, GKStateBit.TurnOn_InAutomatic, "включаем зону, case#1");
+				WaitWhileState(zone, XStateClass.On, 4000, "Ждём пока зона не встанет на охрану");
+				CheckJournal(1, JournalItem(zone, JournalEventNameType.На_охране));
+			}
 			ConrtolGKBase(device1, GKStateBit.Fire1, "Сработка1 у АМ");
 			WaitWhileState(device1, XStateClass.Fire1, 10000, "Ждем пока АМ не перейдёт в режим сработка1");
 			Assert.IsTrue(device1.State.StateClass == XStateClass.Fire1, "Проверка того, что АМ перешёл в сработку");
@@ -106,15 +124,18 @@ namespace GKIntegratedTest
 			WaitWhileState(zone, mode2, 2000, "Ждём 6 секунды, зона не должна перейти в mode2 ");
 			Assert.IsFalse(zone.State.StateClasses.Contains(mode2), "Проверка того, что зона не перешла в mode2");
 			ConrtolGKBase(device1, GKStateBit.Reset, "Сбрасываем АМ");
-			WaitWhileState(device1, XStateClass.Off, 3000, "Ждем пока АМ не выключится");
+			WaitWhileState(device1, XStateClass.Norm, 4000, "Ждем пока АМ не выключится");
 			Assert.IsTrue(device1.State.StateClass == XStateClass.Norm, "Проверка того, что АМ выключен");
 			ConrtolGKBase(device1, GKStateBit.Fire1, "Сработка1 у АМ");
 			WaitWhileState(device1, XStateClass.Fire1, 10000, "Ждем пока АМ не перейдёт в режим сработка1");
 			Assert.IsTrue(device1.State.StateClass == XStateClass.Fire1, "Проверка того, что АМ перешёл в сработку");
-			WaitWhileState(zone, mode2, 3000, "Ждем пока зона не установится в mode2");
+			WaitWhileOneOfStates(zone, mode2, 4000, "Ждем пока зона не установится в mode2");
 			Assert.IsTrue(zone.State.StateClasses.Contains(mode2), "Проверка того, что зона установилась в mode2");
 			WaitWhileState(zone, mode1, 2000, "Ждём 2 секунды, зона не должна перейти в mode1 ");
 			Assert.IsFalse(zone.State.StateClasses.Contains(mode1), "Проверка того, что зона не перешла в mode1");
+				CheckJournal(5, JournalItem(device1, JournalEventNameType.Сработка_1),
+					JournalItem(zone, event1), JournalItem(device1, JournalEventNameType.Норма),
+					JournalItem(device1, JournalEventNameType.Сработка_1), JournalItem(zone, event2));
 		}
 
 		[Test]

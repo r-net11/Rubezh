@@ -18,5 +18,9 @@ namespace RubezhAPI.Automation
 		public Argument EventUIDArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.StopRecord; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { CameraArgument, EventUIDArgument }; }
+		}
 	}
 }

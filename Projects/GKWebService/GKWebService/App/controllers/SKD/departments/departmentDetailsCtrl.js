@@ -19,8 +19,8 @@
 
             $scope.save = function () {
                 departmentsService.saveDepartment($scope.model, $scope.isNew).then(function() {
-                        $uibModalInstance.close();
-                    });
+                    $uibModalInstance.close($scope.department);
+                });
             };
 
             $scope.cancel = function () {
@@ -60,8 +60,11 @@
                     controller: 'employeeSelectionDialogCtrl',
                     backdrop: 'static',
                     resolve: {
-                        employees: departmentsService.getDepartmentEmployees($scope.department.UID)
-                    }
+                        employees: departmentsService.getDepartmentEmployees($scope.department.UID),
+                        selectedEmployeeUID: function () {
+                            return ($scope.model.SelectedChief) ? $scope.model.SelectedChief.UID : null;
+                        }
+            }
                 });
 
                 modalInstance.result.then(function (employee) {

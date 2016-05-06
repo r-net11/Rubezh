@@ -35,14 +35,15 @@
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
+										<Image Source="{Binding PlanElementUIDs, Converter={StaticResource PlanElementUIDsToImageSourceConverter}}" />
 										<Rectangle Margin="1 0 0 0" Width="16" Height="16" Fill="{DynamicResource Blue_Direction}" VerticalAlignment="Center" />
-										<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" />
+										<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding No}" VerticalAlignment="Center" />
 									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTextColumn Width="Auto" Binding="{Binding Direction.Name}" Header="Наименование" />
-						<DataGridTextColumn Width="*" Binding="{Binding Direction.Description}" Header="Примечание" />
+						<DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Наименование" />
+						<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
 					</DataGrid.Columns>
 					<DataGrid.ContextMenu>
 						<ContextMenu>

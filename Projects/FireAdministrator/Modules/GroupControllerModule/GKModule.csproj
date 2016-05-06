@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="Devices\GkUsers\ViewModels\GKUserViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesInsertIntoViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
@@ -117,6 +118,9 @@
     </Compile>
     <Compile Include="Devices\GkUsers\Views\GKUsersView.xaml.cs">
       <DependentUpon>GKUsersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DevicesInsertIntoView.xaml.cs">
+      <DependentUpon>DevicesInsertIntoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
       <DependentUpon>ClausesView.xaml</DependentUpon>
@@ -668,6 +672,10 @@
     <Page Include="Devices\GkUsers\Views\GKUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\DevicesInsertIntoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\Logic\ClausesView.xaml">
       <SubType>Designer</SubType>

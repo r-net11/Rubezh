@@ -37,6 +37,9 @@
                          organisation: function () {
                              return organisationsService.getOrganisationDetails(UID);
                          },
+                         organisations: function() {
+                             return organisationsService.organisations;
+                         },
                          isNew: function () {
                              return isNew;
                          }
@@ -73,6 +76,22 @@
                             }
                         }
                     );
+                 }
+             };
+
+             $scope.restore = function() {
+                 if (dialogService.showConfirm("Вы уверены, что хотите восстановить огранизацию?")) {
+                     var items = organisationsService.organisations;
+                     for (var i = 0; i < items.length; i++) {
+                         var item = items[i];
+                         if (item.Name === $scope.selectedOrganisation.Name && item.UID !== $scope.selectedOrganisation.UID && !item.IsDeleted) {
+                             $window.alert("Существует неудалённый элемент с таким именем");
+                             return;
+                         }
+                     }
+                     organisationsService.restore($scope.selectedOrganisation.UID, $scope.selectedOrganisation.Name).then(function () {
+                         $scope.$parent.$broadcast('RestoreOrganisationEvent', $scope.selectedOrganisation);
+                     });
                  }
              };
 

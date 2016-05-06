@@ -16,11 +16,9 @@ namespace FireMonitor.ViewModels
 	public sealed class ChangeUserViewModel : SaveCancelDialogViewModel
 	{
 		readonly Bootstrapper _botstrapper;
-		readonly Guid _userUID;
-		public ChangeUserViewModel(Bootstrapper botstrapper, Guid userUID)
+		public ChangeUserViewModel(Bootstrapper botstrapper)
 		{
 			_botstrapper = botstrapper;
-			_userUID = userUID;
 			Title = "Смена пользователя";
 			Password = "";
 		}
@@ -50,7 +48,7 @@ namespace FireMonitor.ViewModels
 			var user = ClientManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == Login);
 			if (user != null)
 			{
-				if (_userUID == user.UID)
+				if (ClientManager.CurrentUser.UID == user.UID)
 				{
 					MessageBoxService.Show("Невозможно перелогиниться на текущего пользователя");
 					return false;

@@ -42,5 +42,10 @@ namespace RubezhAPI.Automation
 		public Argument PasswordArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.SendEmail; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { EMailAddressFromArgument, EMailAddressToArgument, EMailContentArgument, 
+				EMailTitleArgument, SmtpArgument, PortArgument, LoginArgument, PasswordArgument }; }
+		}
 	}
 }

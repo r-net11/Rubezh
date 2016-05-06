@@ -26,5 +26,10 @@ namespace RubezhAPI.Automation
 		public Argument PathArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ExportConfiguration; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { IsExportDevices, IsExportDoors, PathArgument }; }
+		}
 	}
 }

@@ -140,10 +140,6 @@ namespace Infrastructure.Plans.Designer
 		{
 			get { return DesignerSurface == null ? Enumerable.Empty<ElementBase>() : from item in DesignerSurface.Items.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
 		}
-		public DesignerItem GetDesignerItem(ElementBase elementBase)
-		{
-			return GetDesignerItem(elementBase.UID);
-		}
 		public DesignerItem GetDesignerItem(Guid elementUID)
 		{
 			return _map.ContainsKey(elementUID) ? _map[elementUID] as DesignerItem : null;

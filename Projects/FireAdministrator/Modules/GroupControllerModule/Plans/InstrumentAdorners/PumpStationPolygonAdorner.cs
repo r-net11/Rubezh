@@ -1,5 +1,4 @@
 ﻿using GKModule.Plans.ViewModels;
-using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
@@ -12,11 +11,9 @@ namespace GKModule.Plans.InstrumentAdorners
 {
 	public class PumpStationPolygonAdorner : BasePolygonAdorner
 	{
-		private PumpStationsViewModel _pumpStationsViewModel = null;
-		public PumpStationPolygonAdorner(CommonDesignerCanvas designerCanvas, PumpStationsViewModel pumpStationsViewModel)
+		public PumpStationPolygonAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			_pumpStationsViewModel = pumpStationsViewModel;
 		}
 
 		protected override Shape CreateRubberband()
@@ -32,10 +29,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var element = new ElementPolygonGKPumpStation();
 			var propertiesViewModel = new PumpStationPropertiesViewModel(element);
 			if (DialogService.ShowModalWindow(propertiesViewModel))
-			{
-				_pumpStationsViewModel.UpdatePumpStations(element.PumpStationUID);
 				return element;
-			}
 			return null;
 		}
 	}

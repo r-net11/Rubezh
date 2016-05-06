@@ -43,6 +43,11 @@ namespace RubezhAPI.Automation
 			if (LayoutFilter.Count == 0)
 				LayoutFilter.Add(Guid.Empty);
 		}
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { Argument }; }
+		}
 	}
 
 	[DataContract]

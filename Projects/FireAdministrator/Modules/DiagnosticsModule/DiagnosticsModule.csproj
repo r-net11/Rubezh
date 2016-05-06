@@ -108,8 +108,23 @@
     </Compile>
     <Compile Include="DiagnosticsModule.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ItemsBaseViewModel.cs" />
+    <Compile Include="ViewModels\ZonesMenuViewModel.cs" />
+    <Compile Include="ViewModels\ZonesViewModel.cs" />
+    <Compile Include="ViewModels\ItemBaseViewModel.cs" />
+    <Compile Include="ViewModels\ZoneViewModel.cs" />
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZoneDetailsView.xaml.cs">
+      <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZonesMenuView.xaml.cs">
+      <DependentUpon>ZonesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <None Include="app.config" />
     <AppDesigner Include="Properties\" />
@@ -122,6 +137,18 @@
     <Page Include="Views\DiagnosticsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ZoneDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZonesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZonesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

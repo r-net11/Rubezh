@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common;
+﻿using Controls.Converters;
+using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.Events;
@@ -107,6 +108,10 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		protected override bool Save()
 		{
 			ElementBase.Copy(this, this.ElementRectangle);
+
+			var colorConverter = new ColorToSystemColorConverter();
+			ElementRectangle.BackgroundColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BackgroundColor, this.BackgroundColor.GetType(), null, null);
+			ElementRectangle.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);
 			ElementRectangle.BorderThickness = StrokeThickness;
 			ImagePropertiesViewModel.Save();
 			ElementRectangle.PlanElementBindingItems = PlanElementBindingItems;

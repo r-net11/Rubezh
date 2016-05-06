@@ -170,8 +170,6 @@ namespace FiresecService.Report
 			var employeeFilter = new EmployeeFilter();
 			var withDeleted = filter is IReportFilterArchive ? ((IReportFilterArchive)filter).UseArchive : false;
 			employeeFilter.LogicalDeletationType = withDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
-			employeeFilter.IsEmptyDepartment = withDeleted;
-			employeeFilter.IsEmptyPosition = withDeleted;
 			employeeFilter.UserUID = filter.UserUID;
 			if (filter is IReportFilterOrganisation)
 			{

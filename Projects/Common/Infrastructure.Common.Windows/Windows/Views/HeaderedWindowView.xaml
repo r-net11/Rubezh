@@ -4,13 +4,7 @@
 			 Loaded="HeaderedView_Loaded" 
 			 Tag="{Binding AllowMaximize}">
 	<DockPanel>
-		<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" 
-				CornerRadius="11 11 0 0" 
-				DockPanel.Dock="Top" 
-				MouseDown="Header_MouseDown" 
-				MouseMove="Header_MouseMove">
-			<ContentPresenter Content="{Binding Header}" />
-		</Border>
+		<ContentPresenter Content="{Binding Header}" DockPanel.Dock="Top" />
 		<ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}" />
 	</DockPanel>
 </UserControl>

@@ -122,6 +122,9 @@
       <HintPath>..\..\..\3rdParty\SQL_SMO\Microsoft.SqlServer.SqlEnum.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Windows.Shell">
+      <HintPath>..\..\..\3rdParty\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql.EntityFrameworkLegacy">
       <HintPath>..\..\..\3rdParty\Npgsql\Npgsql.EntityFrameworkLegacy.dll</HintPath>
     </Reference>

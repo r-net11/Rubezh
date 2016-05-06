@@ -14,6 +14,9 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using Infrastructure.Plans;
+using Color = System.Windows.Media.Color;
+
 
 namespace AutomationModule.ViewModels
 {
@@ -39,8 +42,8 @@ namespace AutomationModule.ViewModels
 			JournalEventNameTypeValues = AutomationHelper.GetEnumObs<JournalEventNameType>();
 			JournalEventDescriptionTypeValues = AutomationHelper.GetEnumObs<JournalEventDescriptionType>();
 			JournalObjectTypeValues = AutomationHelper.GetEnumObs<JournalObjectType>();
-			MinIntValue = Int32.MinValue;
-			MaxIntValue = Int32.MaxValue;
+			_minIntValue = Int32.MinValue;
+			_maxIntValue = Int32.MaxValue;
 
 			IntValueList = new ObservableCollection<ExplicitValueInstanceViewModel<int>>(explicitValue.IntValueList.Select(x => new ExplicitValueInstanceViewModel<int>(x)));
 			FloatValueList = new ObservableCollection<ExplicitValueInstanceViewModel<double>>(explicitValue.FloatValueList.Select(x => new ExplicitValueInstanceViewModel<double>(x)));
@@ -55,7 +58,7 @@ namespace AutomationModule.ViewModels
 			JournalEventNameTypeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<JournalEventNameType>>(explicitValue.JournalEventNameTypeValueList.Select(x => new ExplicitValueInstanceViewModel<JournalEventNameType>(x)));
 			JournalEventDescriptionTypeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<JournalEventDescriptionType>>(explicitValue.JournalEventDescriptionTypeValueList.Select(x => new ExplicitValueInstanceViewModel<JournalEventDescriptionType>(x)));
 			JournalObjectTypeValueList = new ObservableCollection<ExplicitValueInstanceViewModel<JournalObjectType>>(explicitValue.JournalObjectTypeValueList.Select(x => new ExplicitValueInstanceViewModel<JournalObjectType>(x)));
-			ColorValueList = new ObservableCollection<ExplicitValueInstanceViewModel<Color>>(explicitValue.ColorValueList.Select(x => new ExplicitValueInstanceViewModel<Color>(x)));
+			ColorValueList = new ObservableCollection<ExplicitValueInstanceViewModel<Color>>(explicitValue.ColorValueList.Select(x => new ExplicitValueInstanceViewModel<Color>(x.ToWindowsColor())));
 
 			Initialize();
 
@@ -140,8 +143,11 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				IsSimpleType = value != ExplicitType.Object;
-				ExplicitValue.ExplicitType = value;
-				OnPropertyChanged(() => ExplicitType);
+				if (ExplicitValue.ExplicitType != value)
+				{
+					ExplicitValue.ExplicitType = value;
+					OnPropertyChanged(() => ExplicitType);
+				}
 			}
 		}
 
@@ -150,8 +156,11 @@ namespace AutomationModule.ViewModels
 			get { return ExplicitValue.EnumType; }
 			set
 			{
-				ExplicitValue.EnumType = value;
-				OnPropertyChanged(() => EnumType);
+				if (ExplicitValue.EnumType != value)
+				{
+					ExplicitValue.EnumType = value;
+					OnPropertyChanged(() => EnumType);
+				}
 			}
 		}
 
@@ -160,10 +169,13 @@ namespace AutomationModule.ViewModels
 			get { return ExplicitValue.ObjectType; }
 			set
 			{
-				ExplicitValue.ObjectType = value;
-				if (ObjectReferenceValueList != null && ObjectReferenceValueList.Any(x => x.Value.ObjectType != value))
-					ObjectReferenceValueList.Clear();
-				OnPropertyChanged(() => ObjectType);
+				if (ExplicitValue.ObjectType != value)
+				{
+					ExplicitValue.ObjectType = value;
+					if (ObjectReferenceValueList != null && ObjectReferenceValueList.Any(x => x.Value.ObjectType != value))
+						ObjectReferenceValueList.Clear();
+					OnPropertyChanged(() => ObjectType);
+				}
 			}
 		}
 
@@ -173,8 +185,11 @@ namespace AutomationModule.ViewModels
 			get { return _isSimpleType; }
 			set
 			{
-				_isSimpleType = value;
-				OnPropertyChanged(() => IsSimpleType);
+				if (_isSimpleType != value)
+				{
+					_isSimpleType = value;
+					OnPropertyChanged(() => IsSimpleType);
+				}
 			}
 		}
 
@@ -244,8 +259,11 @@ namespace AutomationModule.ViewModels
 			get { return _minIntValue; }
 			set
 			{
-				_minIntValue = value;
-				OnPropertyChanged(() => MinIntValue);
+				if (_minIntValue != value)
+				{
+					_minIntValue = value;
+					OnPropertyChanged(() => MinIntValue);
+				}
 			}
 		}
 
@@ -255,8 +273,11 @@ namespace AutomationModule.ViewModels
 			get { return _maxIntValue; }
 			set
 			{
-				_maxIntValue = value;
-				OnPropertyChanged(() => MaxIntValue);
+				if (_maxIntValue != value)
+				{
+					_maxIntValue = value;
+					OnPropertyChanged(() => MaxIntValue);
+				}
 			}
 		}
 
@@ -327,10 +348,10 @@ namespace AutomationModule.ViewModels
 
 		public Color ColorValue
 		{
-			get { return ExplicitValue.ColorValue; }
+			get { return ExplicitValue.ColorValue.ToWindowsColor(); }
 			set
 			{
-				ExplicitValue.ColorValue = value;
+				ExplicitValue.ColorValue = value.ToRubezhColor();
 				OnPropertyChanged(() => ColorValue);
 			}
 		}

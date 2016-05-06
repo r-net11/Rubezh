@@ -14,9 +14,7 @@
 					  Style="{StaticResource OutlookTreeView}"
 					  TargetUpdated="TreeView_TargetUpdated"
 					  MouseLeftButtonUp="TreeView_MouseLeftButtonUp"
-					  PreviewMouseLeftButtonDown="TreeView_PreviewMouseLeftButtonDown"
-					  TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick"
-					  TreeViewItem.Selected="TreeViewItem_Selected">
+					  PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick">
 				<TreeView.ItemTemplate>
 					<HierarchicalDataTemplate ItemsSource="{Binding Childs}">
 						<HierarchicalDataTemplate.Resources>

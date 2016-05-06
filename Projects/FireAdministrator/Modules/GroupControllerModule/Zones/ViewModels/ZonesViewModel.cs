@@ -38,8 +38,11 @@ namespace GKModule.ViewModels
 			ZoneDevices = new ZoneDevicesViewModel();
 			IsRightPanelEnabled = true;
 			RegisterShortcuts();
-			SubscribeEvents();
 			SetRibbonItems();
+
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Subscribe(CreateZone);
+			ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Subscribe(EditZone);
 		}
 
 		public void Initialize()
@@ -194,12 +197,10 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createZoneEventArg.Cancel = true;
-				createZoneEventArg.ZoneUID = Guid.Empty;
 			}
 			else
 			{
 				createZoneEventArg.Cancel = false;
-				createZoneEventArg.ZoneUID = result.Zone.UID;
 				createZoneEventArg.Zone = result.Zone;
 			}
 		}
@@ -229,31 +230,11 @@ namespace GKModule.ViewModels
 
 		#endregion
 
-		public void LockedSelect(Guid zoneUID)
-		{
-			_lockSelection = true;
-			Select(zoneUID);
-			_lockSelection = false;
-		}
-
 		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
-
-		private void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		private void SetRibbonItems()
@@ -270,36 +251,6 @@ namespace GKModule.ViewModels
 			};
 		}
 
-		private void OnZoneChanged(Guid zoneUID)
-		{
-			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-			if (zone != null)
-			{
-				zone.Update();
-				// TODO: FIX IT
-				if (!_lockSelection)
-					SelectedZone = zone;
-			}
-		}
-		private void OnElementChanged(List<ElementBase> elements)
-		{
-			Guid guid = Guid.Empty;
-			_lockSelection = true;
-			elements.ForEach(element =>
-			{
-				var elementZone = GetElementGKZone(element);
-				if (elementZone != null)
-				{
-					OnZoneChanged(elementZone.ZoneUID);
-					//if (guid != Guid.Empty)
-					//	OnZoneChanged(guid);
-					//guid = elementZone.ZoneUID;
-				}
-			});
-			_lockSelection = false;
-			//if (guid != Guid.Empty)
-			//	OnZoneChanged(guid);
-		}
 		private void OnElementSelected(ElementBase element)
 		{
 			var elementZone = GetElementGKZone(element);
@@ -316,13 +267,6 @@ namespace GKModule.ViewModels
 			if (elementZone == null)
 				elementZone = element as ElementPolygonGKZone;
 			return elementZone;
-		}
-		public void UpdateZones(Guid zoneUID)
-		{
-			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-			if (zone != null)
-				zone.Update();
-			LockedSelect(zoneUID);
 		}
 	}
 }

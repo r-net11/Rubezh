@@ -16,7 +16,7 @@ namespace AutomationModule.ViewModels
 			: base(stepViewModel)
 		{
 			StartRecordStep = (StartRecordStep)stepViewModel.Step;
-			EventUIDArgument = new ArgumentViewModel(StartRecordStep.EventUIDArgument, stepViewModel.Update, UpdateContent);
+			EventUIDArgument = new ArgumentViewModel(StartRecordStep.EventUIDArgument, stepViewModel.Update, UpdateContent, false);
 			TimeoutArgument = new ArgumentViewModel(StartRecordStep.TimeoutArgument, stepViewModel.Update, UpdateContent);
 			CameraArgument = new ArgumentViewModel(StartRecordStep.CameraArgument, stepViewModel.Update, null);
 			TimeTypes = AutomationHelper.GetEnumObs<TimeType>();

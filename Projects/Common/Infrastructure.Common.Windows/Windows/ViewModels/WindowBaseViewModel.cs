@@ -18,7 +18,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			TopMost = false;
 			HideInTaskbar = false;
 			AllowClose = true;
-			ResizeMode = System.Windows.ResizeMode.CanResize;
+			Draggable = true;
 		}
 
 		public Window Surface { get; private set; }
@@ -27,7 +27,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Surface = surface;
 		}
 
-		private string _icon;
+		string _icon;
 		public string Icon
 		{
 			get { return _icon; }
@@ -37,7 +37,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Icon);
 			}
 		}
-		private string _title;
+		string _title;
 		public string Title
 		{
 			get { return _title; }
@@ -47,7 +47,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Title);
 			}
 		}
-		private bool _topMost;
+
+		bool _topMost;
 		public bool TopMost
 		{
 			get { return _topMost; }
@@ -58,7 +59,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool _sizable;
+		bool _sizable;
 		public bool Sizable
 		{
 			get { return _sizable; }
@@ -71,7 +72,15 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool _allowClose;
+		bool _draggable;
+		public bool Draggable
+		{
+			get { return _draggable; }
+			set { _draggable = value; }
+		}
+
+
+		bool _allowClose;
 		public bool AllowClose
 		{
 			get { return _allowClose; }

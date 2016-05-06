@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Controls.Converters;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System.Windows.Media;
@@ -69,6 +70,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		protected override bool Save()
 		{
 			ElementBase.Copy(this, this._elementPolyline);
+			var colorConverter = new ColorToSystemColorConverter();
+			_elementPolyline.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);
 			_elementPolyline.BorderThickness = StrokeThickness;
 			return base.Save();
 		}

@@ -13,6 +13,7 @@
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
+	<Converters:BoolToResizeModeConverter x:Key="BoolToResizeModeConverter" />
 	<Converters:NullToBoolConverter x:Key="NullToBoolConverter" />
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 	<Converters:TimeToStringConverter x:Key="TimeToStringConverter" />
@@ -38,6 +39,7 @@
 	<Converters:BoolToMinimizeTooltipConverter x:Key="BoolToMinimizeTooltipConverter" />
 	<Converters:BoolToRotationConverter x:Key="BoolToRotatinConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
+	<Converters:PlanElementUIDsToImageSourceConverter x:Key="PlanElementUIDsToImageSourceConverter" />
 	<Converters:ConnectionStateToImageSourceConverter x:Key="ConnectionStateToImageSourceConverter" />
 	<Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
 	<Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
@@ -64,6 +66,7 @@
 	<Converters:DoorStateClassToStringConverter x:Key="DoorStateClassToStringConverter" />
 	<Converters:MultiParameterConverter x:Key="MultiParameterConverter" />
 	<Converters:MultiBooleanConverter x:Key="MultiBooleanConverter" />
+	<Converters:ColorToSystemColorConverter x:Key="ColorToSystemColorConverter" />
 
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />

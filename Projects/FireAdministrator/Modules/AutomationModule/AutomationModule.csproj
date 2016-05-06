@@ -531,6 +531,7 @@
     <Compile Include="Validation\ScheduleValidationError.cs" />
     <Compile Include="Validation\SoundValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.GetDependency.cs" />
     <Compile Include="Validation\Validator.GlobalVariable.cs" />
     <Compile Include="Validation\Validator.Procedure.cs" />
     <Compile Include="Validation\Validator.Schedule.cs" />
@@ -548,6 +549,10 @@
     </Compile>
     <Compile Include="OPCServers\Views\OPCServersView.xaml.cs">
       <DependentUpon>OPCServersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\ViewModels\DependencyResultDialogViewModel.cs" />
+    <Compile Include="Validation\Views\DependencyResultDialogView.xaml.cs">
+      <DependentUpon>DependencyResultDialogView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1042,6 +1047,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ControlPumpStationStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Validation\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Validation\Views\DependencyResultDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
