@@ -1,24 +1,5 @@
-﻿<div id="app">
-	<div class="splitView" data-win-control="WinJS.UI.SplitView">
-		<!-- Pane area -->
-		<div>
-			<div class="header">
-				<button class="win-splitviewpanetoggle"
-						data-win-control="WinJS.UI.SplitViewPaneToggle"
-						data-win-options="{ splitView: select('.splitView') }"></button>
-				<div class="title">Глобал</div>
-			</div>
-
-			<div class="nav-commands">
-				<div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{ label: 'Home', icon: 'home'}"></div>
-				<div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{ label: 'Hello world', icon: 'comment'}" [routerLink]="['HelloWorld']"></div>
-				<div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{ label: 'Settings', icon: 'settings'}"></div>
-			</div>
-		</div>
-		<!-- Content area -->
-		<router-outlet></router-outlet>
-	</div>
-</div>
+﻿<a [routerLink]="['/hello-world']">Hello World</a>
+<router-outlet></router-outlet>
 
 
 

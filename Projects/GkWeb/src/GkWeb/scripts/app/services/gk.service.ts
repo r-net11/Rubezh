@@ -1,7 +1,6 @@
-﻿import {Injectable, OnInit} from 'angular2/core';
+﻿import {Injectable} from '@angular/core';
 
 @Injectable()
-export class GkService implements OnInit
+export class GkService
 {
-	ngOnInit() {}
 }

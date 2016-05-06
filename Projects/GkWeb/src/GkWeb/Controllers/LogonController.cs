@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region Usings
+
 using System.Security.Claims;
 using System.Threading.Tasks;
 using GkWeb.Services;
@@ -9,6 +8,9 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
+
+#endregion
+
 //using RubezhClient;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,13 +20,12 @@ namespace GkWeb.Controllers
 	[Authorize]
 	public class LogonController : Controller
 	{
-		private readonly ILogger _logger;
 		private readonly ClientManager _clientManager;
+		private readonly ILogger _logger;
 
 		public LogonController(ILoggerFactory loggerFactory, ClientManager clientManager) {
 			_logger = loggerFactory.CreateLogger<LogonController>();
 			_clientManager = clientManager;
-
 		}
 
 		[HttpGet]
@@ -65,13 +66,12 @@ namespace GkWeb.Controllers
 			if (Url.IsLocalUrl(returnUrl)) {
 				return Redirect(returnUrl);
 			}
-			else {
-				return RedirectToAction(nameof(HomeController.Index), "Home");
-			}
+			return RedirectToAction(nameof(HomeController.Index), "Home");
 		}
 
-				public async Task<IActionResult> Logout() {
+		public async Task<IActionResult> Logout() {
 			await HttpContext.Authentication.SignOutAsync("Automatic");
+			_logger.LogInformation(1, "User logged out.");
 			return RedirectToAction("Login");
 		}
 	}

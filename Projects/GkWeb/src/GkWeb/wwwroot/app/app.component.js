@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './hello/hello-world.component'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', './hello/hello-world.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -29,9 +29,9 @@ System.register(['angular2/core', 'angular2/router', './hello/hello-world.compon
                 }
                 AppComponent.prototype.ngOnInit = function () {
                     // init winjs menu
-                    WinJS.UI.processAll().done(function () {
-                        var splitView = document.querySelector(".splitView").winControl;
-                    });
+                    //WinJS.UI.processAll().done(() => {
+                    //	var splitView = document.querySelector(".splitView").winControl;
+                    //});
                 };
                 AppComponent = __decorate([
                     core_1.Component({
@@ -39,14 +39,14 @@ System.register(['angular2/core', 'angular2/router', './hello/hello-world.compon
                         templateUrl: 'views/layout/layout.html',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
-                    router_1.RouteConfig([
+                    router_1.Routes([
                         //{
                         //	path: 'signalr-test',
                         //	name: 'SignalrTest',
                         //	component: SignalrTestComponent,
                         //	useAsDefault: true
                         //},
-                        { path: '/hello-world', name: 'HelloWorld', component: hello_world_component_1.HelloWorldComponent }
+                        { path: '/hello-world', component: hello_world_component_1.HelloWorldComponent }
                     ]), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
