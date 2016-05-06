@@ -55,7 +55,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Height="16" Source="{Binding ObjectImageSource}" VerticalAlignment="Center" Margin="2" />
+								<Image Width="16" Height="16" Source="{Binding ObjectImageSource}" VerticalAlignment="Center" Margin="2 0" />
 								<TextBlock VerticalAlignment="Center" Background="{Binding IsExistsInConfig, Converter={StaticResource BoolToStringColorConverter}}">
 									<Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}" IsEnabled="{Binding IsExistsInConfig}">
 										<TextBlock Text="{Binding ObjectName}" />
