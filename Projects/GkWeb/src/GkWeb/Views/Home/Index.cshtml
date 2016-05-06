@@ -6,19 +6,14 @@
 	<script src="~/lib/etc/es6-shim.min.js"></script>
 	<script src="~/lib/etc/zone.js"></script>
 	<script src="~/lib/etc/Reflect.js"></script>
-	<script src="~/lib/etc/system.src.js"></script>
-
-	<script src="~/lib/winjs/base.min.js"></script>
-	<script src="~/lib/winjs/ui.min.js"></script>
-}
+	<script src="~/lib/etc/system.src.js"></script>}
 @section systemjsconfig{
 	<!-- 2. Configure SystemJS -->
 	<script src="~/staticlibs/systemconfig.js"></script>
 	<script>
-		System.import('app').catch(function (err) { console.error(err); });
+		System.import('app').catch(function (err) { console.error(err); })
 	</script>
 }
-
 @section signalr {
 	@*<script type="text/javascript">
 			$(function() {

@@ -20,7 +20,7 @@ System.register(["@angular/platform-browser-dynamic", "@angular/router", "@angul
                 app_component_1 = app_component_1_1;
             }],
         execute: function() {
-            platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [router_1.ROUTER_PROVIDERS, core_1.provide(index_1.LocationStrategy, { useClass: index_1.HashLocationStrategy })]);
+            platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [router_1.ROUTER_PROVIDERS, index_1.Location, core_1.provide(index_1.LocationStrategy, { useClass: index_1.HashLocationStrategy })]);
         }
     }
 });

@@ -21,7 +21,14 @@ var paths = {
         '@angular/http',
         '@angular/platform-browser',
         '@angular/platform-browser-dynamic',
-        '@angular/router'
+        '@angular/router'		
+	],
+	material: [
+		'@angular2-material/core',
+		'@angular2-material/icon',
+		'@angular2-material/sidenav',
+		'@angular2-material/toolbar',
+		'@angular2-material/button'
 	]
 };
 
@@ -44,6 +51,10 @@ gulp.task('copyLibs:angular', function () {
 		gulp.src('node_modules/' + paths.packages[i] + '/*.js*').pipe(gulp.dest('./wwwroot/lib/' + paths.packages[i]));
 		gulp.src('node_modules/' + paths.packages[i] + '/src/**/*.js*').pipe(gulp.dest('./wwwroot/lib/' + paths.packages[i] + '/src/'));
 	}
+
+	for (var i = 0; i < paths.material.length; i++) {
+		gulp.src('node_modules/' + paths.material[i] + '/**/*.*').pipe(gulp.dest('./wwwroot/lib/' + paths.material[i]));
+	}
 });
 
 gulp.task("copyLibs:d3", function () {
@@ -51,9 +62,4 @@ gulp.task("copyLibs:d3", function () {
 	.pipe(gulp.dest('./wwwroot/lib/d3/'));
 });
 
-gulp.task("copyLibs:winjs", function () {
-	gulp.src(['./node_modules/winjs/js/*.js', './node_modules/winjs/css/*.css', './node_modules/winjs/fonts/*.ttf'])
-	.pipe(gulp.dest('./wwwroot/lib/winjs/'));
-});
-
-gulp.task("copyLibs", ["copyLibs:angular", "copyLibs:d3", "copyLibs:winjs"]);
+gulp.task("copyLibs", ["copyLibs:angular", "copyLibs:d3"]);

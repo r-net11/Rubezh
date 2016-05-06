@@ -4,13 +4,38 @@
 	var map = {
 		'app': 'app', // 'dist',
 		'rxjs': 'lib/rxjs',
-		'@angular': 'lib/@angular'
+		'@angular': 'lib/@angular',
+		'@angular2-material/core': 'lib/@angular2-material/core',
+		'@angular2-material/sidenav': 'lib/@angular2-material/sidenav',
+		'@angular2-material/toolbar': 'lib/@angular2-material/toolbar',
+		'@angular2-material/icon': 'lib/@angular2-material/icon',
+		'@angular2-material/button': 'lib/@angular2-material/button'
 	};
 
 	// packages tells the System loader how to load when no filename and/or no extension
 	var packages = {
 		'app': { main: 'main.js', defaultExtension: 'js' },
 		'rxjs': { defaultExtension: 'js' },
+		'@angular2-material/core': {
+			defaultExtension: 'js',
+			main: 'core.js'
+		},
+		'@angular2-material/sidenav': {
+			defaultExtension: 'js',
+			main: 'sidenav.js'
+		},
+		'@angular2-material/toolbar': {
+			defaultExtension: 'js',
+			main: 'toolbar.js'
+		},
+		'@angular2-material/icon': {
+			defaultExtension: 'js',
+			main: 'icon.js'
+		},
+		'@angular2-material/button': {
+			defaultExtension: 'js',
+			main: 'button.js'
+		}
 	};
 
 	var packageNames = [
