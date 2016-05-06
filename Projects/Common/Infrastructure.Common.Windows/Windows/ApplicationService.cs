@@ -46,14 +46,6 @@ namespace Infrastructure.Common.Windows
 		public static void Run(ApplicationViewModel model, bool noBorder, bool? isMaximized)
 		{
 			var windowBaseView = new WindowBaseView(model);
-			if (noBorder)
-			{
-				windowBaseView.ClearValue(Window.AllowsTransparencyProperty);
-				windowBaseView.ClearValue(Window.WindowStyleProperty);
-				windowBaseView.ClearValue(Window.BackgroundProperty);
-				windowBaseView.SetValue(Window.WindowStyleProperty, WindowStyle.None);
-				windowBaseView.SetValue(Window.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
-			}
 			if (isMaximized.HasValue)
 				windowBaseView.SetValue(Window.WindowStateProperty, isMaximized.Value ? WindowState.Maximized : WindowState.Minimized);
 			windowBaseView.ContentRendered += (s, e) => ApplicationActivated = true;
