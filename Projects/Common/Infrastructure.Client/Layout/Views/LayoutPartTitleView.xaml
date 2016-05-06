@@ -3,11 +3,6 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:controls="clr-namespace:Controls;assembly=Controls"
 			 Background="White">
-	<UserControl.Style>
-		<Style>
-			<Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
-		</Style>
-	</UserControl.Style>
 	<controls:AlignableWrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center">
 		<controls:AlignableWrapPanel.LayoutTransform>
 			<ScaleTransform ScaleX="2" ScaleY="2" />
