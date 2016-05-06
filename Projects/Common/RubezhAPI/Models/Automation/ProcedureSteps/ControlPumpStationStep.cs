@@ -18,6 +18,11 @@ namespace RubezhAPI.Automation
 		public PumpStationCommandType PumpStationCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlPumpStation; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { PumpStationArgument }; }
+		}
 	}
 
 	public enum PumpStationCommandType

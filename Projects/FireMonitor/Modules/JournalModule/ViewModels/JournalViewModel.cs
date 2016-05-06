@@ -51,7 +51,7 @@ namespace JournalModule.ViewModels
 			SafeFiresecService.CallbackOperationResultEvent += new Action<CallbackOperationResult>(OnCallbackOperationResult);
 		}
 
-		private void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
+		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
 		{
 			if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetJournal && callbackOperationResult.ClientUid == _uid)
 			{
@@ -188,8 +188,9 @@ namespace JournalModule.ViewModels
 			AdditionalColumnsChanged = !AdditionalColumnsChanged;
 		}
 
-		private DispatcherOperation _updateUnreadOperation = null;
-		private void UpdateUnread()
+		DispatcherOperation _updateUnreadOperation = null;
+
+		void UpdateUnread()
 		{
 			if (_updateUnreadOperation == null && Container != null)
 				_updateUnreadOperation = ApplicationService.BeginInvoke(new Action(() =>
@@ -215,7 +216,7 @@ namespace JournalModule.ViewModels
 
 		#endregion
 
-		private string GetDefaultTitle()
+		string GetDefaultTitle()
 		{
 			return Container.LayoutPart.Title ?? Container.LayoutPartPresenter.Name;
 		}

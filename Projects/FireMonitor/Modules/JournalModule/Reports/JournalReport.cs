@@ -11,7 +11,7 @@ namespace JournalModule.Reports
 {
 	internal class JournalReport : ISingleReportProvider, IFilterableReport
 	{
-		private ArchiveViewModel ArchiveViewModel { get; set; }
+		ArchiveViewModel ArchiveViewModel { get; set; }
 		public JournalReport()
 		{
 			PdfProvider = new JournalReportPdf();

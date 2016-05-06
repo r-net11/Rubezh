@@ -32,9 +32,8 @@ namespace RubezhAPI
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn2_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
-			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
 			var property1 = new GKDriverProperty()
 			{

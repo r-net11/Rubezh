@@ -32,7 +32,6 @@ namespace RubezhAPI
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Время удержания, с", 0, 0, 65535);

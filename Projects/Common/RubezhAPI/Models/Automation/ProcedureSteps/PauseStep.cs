@@ -18,5 +18,10 @@ namespace RubezhAPI.Automation
 		public Argument PauseArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.Pause; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { PauseArgument }; }
+		}
 	}
 }

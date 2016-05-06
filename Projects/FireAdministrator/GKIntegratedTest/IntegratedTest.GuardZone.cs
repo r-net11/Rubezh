@@ -48,7 +48,7 @@ namespace GKIntegratedTest
 			WaitWhileOneOfStates(zone, XStateClass.Fire1, 10000, "Ждем пока зона не перейдёт в тревогу");
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.Fire1), "Проверка того, что зона перешла в тревогу");
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
-			Thread.Sleep(3000);
+			Thread.Sleep(6000);
 			CheckJournal(3, JournalItem(zone, JournalEventNameType.Норма),
 				JournalItem(zone, JournalEventNameType.Внимание), JournalItem(zone, JournalEventNameType.Тревога));
 
@@ -89,7 +89,7 @@ namespace GKIntegratedTest
 			WaitWhileState(zone, XStateClass.Fire1, 10000, "Ждем пока зона не перейдёт в тревогу");
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.Fire1), "Проверка того, что зона перешла в тревогу");
 			Assert.IsTrue(zone.State.StateClasses.Contains(XStateClass.On), "Проверка того, что зона на охране");
-			Thread.Sleep(5000);
+			Thread.Sleep(6000);
 			CheckJournal(3, JournalItem(zone, JournalEventNameType.Норма),
 				JournalItem(zone, JournalEventNameType.Внимание), JournalItem(zone, JournalEventNameType.Тревога));
 		}

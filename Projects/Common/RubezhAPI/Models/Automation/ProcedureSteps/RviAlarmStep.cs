@@ -15,5 +15,9 @@ namespace RubezhAPI.Automation
 		public Argument NameArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.RviAlarm; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { NameArgument }; }
+		}
 	}
 }

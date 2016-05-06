@@ -34,5 +34,9 @@ namespace RubezhAPI.Automation
 		public Argument IpArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.RviOpenWindow; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { NameArgument, XArgument, YArgument, MonitorNumberArgument, LoginArgument, IpArgument }; }
+		}
 	}
 }

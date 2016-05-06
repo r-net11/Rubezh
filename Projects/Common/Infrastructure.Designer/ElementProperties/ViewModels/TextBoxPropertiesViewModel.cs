@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Controls.Converters;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -213,6 +214,10 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		protected override bool Save()
 		{
 			ElementBase.Copy(this, this.ElementTextBlock);
+			var colorConverter = new ColorToSystemColorConverter();
+			ElementTextBlock.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);
+			ElementTextBlock.BackgroundColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BackgroundColor, this.BackgroundColor.GetType(), null, null);
+			ElementTextBlock.ForegroundColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.ForegroundColor, this.ForegroundColor.GetType(), null, null);
 			ElementTextBlock.BorderThickness = StrokeThickness;
 			return base.Save();
 		}

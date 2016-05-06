@@ -19,6 +19,10 @@ namespace RubezhAPI.Automation
 		public SafeEnum<GKDoorCommandType> DoorCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlGKDoor; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { DoorArgument }; }
+		}
 	}
 
 	public enum GKDoorCommandType

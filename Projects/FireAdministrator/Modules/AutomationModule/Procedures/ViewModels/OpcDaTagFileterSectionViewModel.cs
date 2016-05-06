@@ -36,7 +36,11 @@ namespace AutomationModule.ViewModels
 
 		void InitializeFilters()
 		{
-			Filters = new ObservableCollection<OpcTagFilterViewModel>();
+			if (Filters == null)
+				Filters = new ObservableCollection<OpcTagFilterViewModel>();
+			else
+				Filters.Clear();
+
 			foreach (var filter in ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters
 				.FindAll(x => !Procedure.OpcDaTagFiltersUids.Contains(x.UID)))
 			{
@@ -56,9 +60,8 @@ namespace AutomationModule.ViewModels
 				var filterViewModel = opcDaTagFilterCreationViewModel.OpcDaTagFilterResult;
 				ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters.Add(filterViewModel.OpcDaTagFilter);
 				ServiceFactory.SaveService.AutomationChanged = true;
-				
+
 				ServiceFactoryBase.Events.GetEvent<CreateOpcDaTagFilterEvent>().Publish(filterViewModel.OpcDaTagFilter.UID);
-				InitializeFilters();
 			}
 		}
 
@@ -88,7 +91,9 @@ namespace AutomationModule.ViewModels
 			{
 				if (!Filters.Any(vm => vm.OpcDaTagFilter.UID == newFilter.UID))
 				{
-					Filters.Add(new OpcTagFilterViewModel(newFilter));
+					var filter = new OpcTagFilterViewModel(newFilter);
+					Filters.Add(filter);
+					SelectedFilter = filter;
 				}
 			}
 		}

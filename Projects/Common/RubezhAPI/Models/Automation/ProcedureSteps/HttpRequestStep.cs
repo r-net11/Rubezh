@@ -26,6 +26,11 @@ namespace RubezhAPI.Automation
 		public Argument ResponseArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.HttpRequest; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { UrlArgument, ContentArgument, ResponseArgument }; }
+		}
 	}
 
 	public enum HttpMethod

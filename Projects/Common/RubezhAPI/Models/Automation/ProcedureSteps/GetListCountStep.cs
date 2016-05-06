@@ -18,5 +18,10 @@ namespace RubezhAPI.Automation
 		public Argument CountArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.GetListCount; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { ListArgument, CountArgument }; }
+		}
 	}
 }

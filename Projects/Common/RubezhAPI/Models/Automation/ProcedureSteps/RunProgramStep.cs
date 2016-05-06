@@ -18,5 +18,9 @@ namespace RubezhAPI.Automation
 		public Argument ParametersArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.RunProgram; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { PathArgument, ParametersArgument }; }
+		}
 	}
 }

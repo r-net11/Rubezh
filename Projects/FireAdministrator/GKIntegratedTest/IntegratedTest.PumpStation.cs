@@ -106,7 +106,7 @@ namespace GKIntegratedTest
 			Assert.IsTrue(pumpStaition.State.StateClass == state, "Проверка того, что НС Включен/Выключен");
 			Assert.IsTrue(pump.State.StateClass == state, "Проверка того, что насос Включен/Выключен");
 			WaitWhileState(Led("Устройство Включение ПУСК "), state, 2000,"Ждём пока индикатор не будет Включен/Выключен");
-			CheckJournal(3, JournalItem(pumpStaition, eventname), JournalItem(pump, eventname), JournalItem(Led("Устройство Включение ПУСК "), eventname));
+			// RG-1340 CheckJournal(3, JournalItem(pumpStaition, eventname), JournalItem(pump, eventname), JournalItem(Led("Устройство Включение ПУСК "), eventname));
 		}
 	}
 }

@@ -10,23 +10,13 @@ namespace Infrastructure.Common.Navigation
 {
 	public partial class NavigationView : UserControl, INotifyPropertyChanged
 	{
-		TreeViewItem _selectedItem;
 		public NavigationView()
 		{
 			InitializeComponent();
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		void OnPropertyChanged(string name)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
-		}
-
 		void TreeView_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
 		{
-			TreeView tv = e.TargetObject as TreeView;
 			if (e.Property == TreeView.ItemsSourceProperty && tv != null)
 			{
 				var items = tv.ItemsSource as IList<NavigationItem>;
@@ -60,7 +50,6 @@ namespace Infrastructure.Common.Navigation
 
 		TreeViewItem GetTreeViewItemClicked(RoutedEventArgs e)
 		{
-			TreeView tv = e.Source as TreeView;
 			FrameworkElement item = (FrameworkElement)e.OriginalSource;
 			FrameworkElement parent = item.Parent as FrameworkElement;
 			TreeViewItem result = parent == null ? null : parent.TemplatedParent as TreeViewItem;
@@ -100,18 +89,20 @@ namespace Infrastructure.Common.Navigation
 
 		bool SelectFirst(IList<NavigationItem> items)
 		{
-			for (int index = 0; index < items.Count; index++)
-				if (items[index].IsVisible)
+			foreach (NavigationItem item in items)
+				if (item.IsVisible)
 				{
-					if (items[index].IsSelectionAllowed)
+					if (item.IsSelectionAllowed)
 					{
-						items[index].Execute();
+						item.Execute();
 						return true;
 					}
-					if (SelectFirst(items[index].Childs))
+					if (SelectFirst(item.Childs))
 						return true;
 				}
 			return false;
 		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 }

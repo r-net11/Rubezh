@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using Common;
-using RubezhAPI.Journal;
-using RubezhClient;
+﻿using Common;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
-using Infrastructure.Common.Services.Layout;
-using System.Diagnostics;
-using System.Windows.Threading;
 using RubezhAPI;
+using RubezhAPI.Journal;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace JournalModule.ViewModels
 {
@@ -24,7 +20,7 @@ namespace JournalModule.ViewModels
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public JournalFilter Filter { get; private set; }
-		private LayoutPartContainerCollection _container;
+		LayoutPartContainerCollection _container;
 
 		public ArchiveViewModel()
 		{
@@ -45,7 +41,7 @@ namespace JournalModule.ViewModels
 
 		void OnCallbackOperationResult(CallbackOperationResult callbackOperationResult)
 		{
-			if(callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetArchivePage)
+			if (callbackOperationResult.CallbackOperationResultType == CallbackOperationResultType.GetArchivePage)
 			{
 				ApplicationService.BeginInvoke(() =>
 				{
@@ -231,9 +227,9 @@ namespace JournalModule.ViewModels
 		}
 
 		bool _isLoading;
-		public bool IsLoading 
+		public bool IsLoading
 		{
-			get { return _isLoading; } 
+			get { return _isLoading; }
 			private set
 			{
 				_isLoading = value;

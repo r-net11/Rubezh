@@ -1,4 +1,7 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace RubezhAPI.Automation
 {
@@ -30,5 +33,10 @@ namespace RubezhAPI.Automation
 		public bool WithConfirmation { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ShowMessage; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { MessageArgument, ConfirmationValueArgument }; }
+		}
 	}
 }

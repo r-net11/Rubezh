@@ -23,5 +23,10 @@ namespace RubezhAPI.Automation
 		public ObjectType ObjectType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.AddJournalItem; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { MessageArgument }; }
+		}
 	}
 }

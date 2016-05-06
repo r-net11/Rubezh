@@ -25,9 +25,8 @@
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, Converter={StaticResource ColorToSystemColorConverter}, 
-					UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" IsChecked="{Binding IsNotShowPlanChecked, Mode=TwoWay}" Content="Отображать план в ОЗ" Foreground="{DynamicResource ForegroundColorLight}" />
+				<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" IsChecked="{Binding IsNotShowPlanChecked, Mode=TwoWay}" Content="Отображать задержку в ОЗ" Foreground="{DynamicResource ForegroundColorLight}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Изображение">

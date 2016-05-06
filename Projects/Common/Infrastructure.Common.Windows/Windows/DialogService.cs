@@ -30,6 +30,7 @@ namespace Infrastructure.Common.Windows
 			{
 				WindowBaseView win = new WindowBaseView(windowBaseViewModel);
 				windowBaseViewModel.OnLoad();
+				win.Topmost = true;
 				bool? result = win.ShowDialog();
 				return result.HasValue ? result.Value : false;
 			}

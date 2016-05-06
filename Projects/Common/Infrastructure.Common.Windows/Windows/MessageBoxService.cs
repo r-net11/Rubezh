@@ -75,8 +75,9 @@ namespace Infrastructure.Common.Windows
 			_messageBoxHandler = null;
 		}
 
-		private static Action<MessageBoxViewModel, bool> _messageBoxHandler;
-		private static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false, bool isModal = true)
+		static Action<MessageBoxViewModel, bool> _messageBoxHandler;
+
+		static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false, bool isModal = true)
 		{
 			var viewModel = new MessageBoxViewModel(title, message, messageBoxButton, messageBoxImage, isException);
 			if (_messageBoxHandler == null)
@@ -85,7 +86,8 @@ namespace Infrastructure.Common.Windows
 				_messageBoxHandler(viewModel, isModal);
 			return viewModel.Result;
 		}
-		private static void Show(MessageBoxViewModel viewModel, bool isModal = true)
+
+		static void Show(MessageBoxViewModel viewModel, bool isModal = true)
 		{
 			if (isModal)
 				DialogService.ShowModalWindow(viewModel);
