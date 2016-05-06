@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq;

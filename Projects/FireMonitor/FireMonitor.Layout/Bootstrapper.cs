@@ -17,7 +17,7 @@ namespace FireMonitor.Layout
 	internal class Bootstrapper : Shell.Bootstrapper
 	{
 		private Guid? _layoutID;
-		private FiresecAPI.Models.Layouts.Layout _layout;
+		private StrazhAPI.Models.Layouts.Layout _layout;
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
 
 		public Bootstrapper()
@@ -40,7 +40,7 @@ namespace FireMonitor.Layout
 			return _layout == null ? base.CreateShell() : _monitorLayoutShellViewModel;
 		}
 
-		private FiresecAPI.Models.Layouts.Layout SelectLayout(List<FiresecAPI.Models.Layouts.Layout> layouts)
+		private StrazhAPI.Models.Layouts.Layout SelectLayout(List<StrazhAPI.Models.Layouts.Layout> layouts)
 		{
 			layouts.Sort((x, y) => string.Compare(x.Caption, y.Caption));
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;

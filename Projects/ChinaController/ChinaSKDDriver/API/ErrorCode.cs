@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ChinaSKDDriverAPI
+namespace StrazhDeviceSDK.API
 {
     public enum ErrorCode
     {

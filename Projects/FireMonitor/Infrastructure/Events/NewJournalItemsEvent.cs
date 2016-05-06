@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Microsoft.Practices.Prism.Events;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 
 namespace Infrastructure.Events
 {

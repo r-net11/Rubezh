@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using StrazhAPI.Automation;
+using StrazhAPI.Models;
 
 namespace Infrastructure
 {

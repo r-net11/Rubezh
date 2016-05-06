@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
+using StrazhAPI.Models.Layouts;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Services.Layout;
 using System;
-using FiresecAPI.GK;
+using StrazhAPI.GK;
 using FiresecClient;
 
 namespace SKDModule.ViewModels

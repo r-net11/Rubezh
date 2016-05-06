@@ -1,1 +1,0 @@
-..\FireMonitor.exe /integrate

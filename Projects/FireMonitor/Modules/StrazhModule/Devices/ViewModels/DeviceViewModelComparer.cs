@@ -1,5 +1,5 @@
 ﻿using Common;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure.Common.TreeList;
 
 namespace StrazhModule.ViewModels

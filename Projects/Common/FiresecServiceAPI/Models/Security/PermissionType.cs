@@ -1,232 +1,232 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	public enum PermissionType
 	{
-		[DescriptionAttribute("Все")]
+		[Description("Все")]
 		All,
 
-		[DescriptionAttribute("Администратор")]
+		[Description("Администратор")]
 		Adm_All,
 
-		[DescriptionAttribute("Просмотр конфигурации")]
+		[Description("Просмотр конфигурации")]
 		Adm_ViewConfig,
 
-		[DescriptionAttribute("Применение конфигурации")]
+		[Description("Применение конфигурации")]
 		Adm_SetNewConfig,
 
-		[DescriptionAttribute("Запись конфигурации в устройства")]
+		[Description("Запись конфигурации в устройства")]
 		Adm_WriteDeviceConfig,
 
-		[DescriptionAttribute("Изменение ПО в устройствах")]
+		[Description("Изменение ПО в устройствах")]
 		Adm_ChangeDevicesSoft,
 
-		[DescriptionAttribute("Управление правами пользователей")]
+		[Description("Управление правами пользователей")]
 		Adm_Security,
 
-		[DescriptionAttribute("ОЗ")]
+		[Description("ОЗ")]
 		Oper_All,
 
-		[DescriptionAttribute("Вход")]
+		[Description("Вход")]
 		Oper_Login,
 
-		[DescriptionAttribute("Выход")]
+		[Description("Выход")]
 		Oper_Logout,
 
-		[DescriptionAttribute("Выход без пароля")]
+		[Description("Выход без пароля")]
 		Oper_LogoutWithoutPassword,
 
-		[DescriptionAttribute("Не требуется подтверждение тревог")]
+		[Description("Не требуется подтверждение тревог")]
 		Oper_NoAlarmConfirm,
 
-		[DescriptionAttribute("Управление устройствами, зонами")]
+		[Description("Управление устройствами, зонами")]
 		Oper_ControlDevices,
 
-		[DescriptionAttribute("Управление интерфейсом")]
+		[Description("Управление интерфейсом")]
 		Oper_ChangeView,
 
-		[DescriptionAttribute("Разрешить не подтверждать команды паролем")]
+		[Description("Разрешить не подтверждать команды паролем")]
 		Oper_MayNotConfirmCommands,
 
-		[DescriptionAttribute("СКД")]
+		[Description("СКД")]
 		Oper_SKD,
 
-		[DescriptionAttribute("Управление графиками СКД")]
+		[Description("Управление графиками СКД")]
 		Oper_GKSchedules, //TODO: Rename
 
-		[DescriptionAttribute("Просмотр журнала")]
+		[Description("Просмотр журнала")]
 		Oper_Journal_View,
 
-		[DescriptionAttribute("Просмотр архива")]
+		[Description("Просмотр архива")]
 		Oper_Archive_View,
 
-		[DescriptionAttribute("Настройка отображения архива")]
+		[Description("Настройка отображения архива")]
 		Oper_Archive_Settings,
 
-		[DescriptionAttribute("Список точек доступа")]
+		[Description("Список точек доступа")]
 		Oper_Reports_Doors,
 
-		[DescriptionAttribute("Отчет по событиям системы контроля доступа")]
+		[Description("Отчет по событиям системы контроля доступа")]
 		Oper_Reports_Events,
 
-		[DescriptionAttribute("Маршрут сотрудника/посетителя")]
+		[Description("Маршрут сотрудника/посетителя")]
 		Oper_Reports_EmployeeRoot,
 
-		[DescriptionAttribute("Сведения о пропусках")]
+		[Description("Сведения о пропусках")]
 		Oper_Reports_Cards,
 
-		[DescriptionAttribute("Доступ в зоны сотрудников/посетителей")]
+		[Description("Доступ в зоны сотрудников/посетителей")]
 		Oper_Reports_Employees_Access,
 
-		[DescriptionAttribute("Права доступа сотрудников/посетителей")]
+		[Description("Права доступа сотрудников/посетителей")]
 		Oper_Reports_Employees_Rights,
 
-		[DescriptionAttribute("Список подразделений организации")]
+		[Description("Список подразделений организации")]
 		Oper_Reports_Departments,
 
-		[DescriptionAttribute("Список должностей организации")]
+		[Description("Список должностей организации")]
 		Oper_Reports_Positions,
 
-		[DescriptionAttribute("Местонахождение сотрудников/посетителей")]
+		[Description("Местонахождение сотрудников/посетителей")]
 		Oper_Reports_EmployeeZone,
 
-		[DescriptionAttribute("Справка о сотруднике/посетителе")]
+		[Description("Справка о сотруднике/посетителе")]
 		Oper_Reports_Employee,
 
-		[DescriptionAttribute("Дисциплинарный отчет")]
+		[Description("Дисциплинарный отчет")]
 		Oper_Reports_Discipline,
 
-		[DescriptionAttribute("Отчет по графикам работ")]
+		[Description("Отчет по графикам работ")]
 		Oper_Reports_Schedules,
 
-		[DescriptionAttribute("Отчет по оправдательным документам")]
+		[Description("Отчет по оправдательным документам")]
 		Oper_Reports_Documents,
 
-		[DescriptionAttribute("Справка по отработанному времени")]
+		[Description("Справка по отработанному времени")]
 		Oper_Reports_WorkTime,
 
-		[DescriptionAttribute("Табель учета рабочего времени (форма Т-13)")]
+		[Description("Табель учета рабочего времени (форма Т-13)")]
 		Oper_Reports_T13,
 
-		[DescriptionAttribute("Просмотр устройств")]
+		[Description("Просмотр устройств")]
 		Oper_Strazh_Devices_View,
 
-		[DescriptionAttribute("Управление замками")]
+		[Description("Управление замками")]
 		Oper_Strazh_Devices_Control,
 
-		[DescriptionAttribute("Просмотр зон")]
+		[Description("Просмотр зон")]
 		Oper_Strazh_Zones_View,
 
-		[DescriptionAttribute("Управление замками")]
+		[Description("Управление замками")]
 		Oper_Strazh_Zones_Control,
 
-		[DescriptionAttribute("Просмотр точек доступа")]
+		[Description("Просмотр точек доступа")]
 		Oper_Strazh_Doors_View,
 
-		[DescriptionAttribute("Управление замками")]
+		[Description("Управление замками")]
 		Oper_Strazh_Doors_Control,
 
-		[DescriptionAttribute("Просмотр сотрудников")]
+		[Description("Просмотр сотрудников")]
 		Oper_SKD_Employees_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление сотрудника")]
+		[Description("Создание, редактирование, архивирование, восстановление сотрудника")]
 		Oper_SKD_Employees_Edit,
 
-		[DescriptionAttribute("Просмотр посетителей")]
+		[Description("Просмотр посетителей")]
 		Oper_SKD_Guests_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление посетителя")]
+		[Description("Создание, редактирование, архивирование, восстановление посетителя")]
 		Oper_SKD_Guests_Edit,
 
-		[DescriptionAttribute("Просмотр подразделений")]
+		[Description("Просмотр подразделений")]
 		Oper_SKD_Departments_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление подразделения")]
+		[Description("Создание, редактирование, архивирование, восстановление подразделения")]
 		Oper_SKD_Departments_Etit,
 
-		[DescriptionAttribute("Добавление сотрудника в подразделение, удаление сотрудника из подразделения")]
+		[Description("Добавление сотрудника в подразделение, удаление сотрудника из подразделения")]
 		Oper_SKD_Departments_Employees,
 
-		[DescriptionAttribute("Просмотра должностей")]
+		[Description("Просмотра должностей")]
 		Oper_SKD_Positions_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление должности")]
+		[Description("Создание, редактирование, архивирование, восстановление должности")]
 		Oper_SKD_Positions_Etit,
 
-		[DescriptionAttribute("Просмотр списка дополнительных колонок")]
+		[Description("Просмотр списка дополнительных колонок")]
 		Oper_SKD_AdditionalColumns_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление дополнительных колонок")]
+		[Description("Создание, редактирование, архивирование, восстановление дополнительных колонок")]
 		Oper_SKD_AdditionalColumns_Etit,
 
-		[DescriptionAttribute("Просмотр пропусков")]
+		[Description("Просмотр пропусков")]
 		Oper_SKD_Cards_View,
 
-		[DescriptionAttribute("Архивирование, восстановление пропусков")]
+		[Description("Архивирование, восстановление пропусков")]
 		Oper_SKD_Cards_Etit,
 
-		[DescriptionAttribute("Сброс флага запрета повторного прохода")]
+		[Description("Сброс флага запрета повторного прохода")]
 		Oper_SKD_Cards_ResetRepeatEnter,
 
-		[DescriptionAttribute("Просмотр шаблонов доступа")]
+		[Description("Просмотр шаблонов доступа")]
 		Oper_SKD_AccessTemplates_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление шаблонов доступа")]
+		[Description("Создание, редактирование, архивирование, восстановление шаблонов доступа")]
 		Oper_SKD_AccessTemplates_Etit,
 
-		[DescriptionAttribute("Просмотр шаблонов пропусков")]
+		[Description("Просмотр шаблонов пропусков")]
 		Oper_SKD_PassCards_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление шаблонов пропусков")]
+		[Description("Создание, редактирование, архивирование, восстановление шаблонов пропусков")]
 		Oper_SKD_PassCards_Etit,
 
-		[DescriptionAttribute("Просмотр организаций")]
+		[Description("Просмотр организаций")]
 		Oper_SKD_Organisations_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление организации")]
+		[Description("Создание, редактирование, архивирование, восстановление организации")]
 		Oper_SKD_Organisations_Edit,
 
-		[DescriptionAttribute("Привязка пользователей к организации, открепление пользователей от организации")]
+		[Description("Привязка пользователей к организации, открепление пользователей от организации")]
 		Oper_SKD_Organisations_Users,
 
-		[DescriptionAttribute("Привязка точек доступа к организации, открепление точек доступа от организации")]
+		[Description("Привязка точек доступа к организации, открепление точек доступа от организации")]
 		Oper_SKD_Organisations_Doors,
 
-		[DescriptionAttribute("Просмотр дневных графиков")]
+		[Description("Просмотр дневных графиков")]
 		Oper_SKD_TimeTrack_DaySchedules_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление дневных графиков")]
+		[Description("Создание, редактирование, архивирование, восстановление дневных графиков")]
 		Oper_SKD_TimeTrack_DaySchedules_Edit,
 
-		[DescriptionAttribute("Просмотр графиков")]
+		[Description("Просмотр графиков")]
 		Oper_SKD_TimeTrack_ScheduleSchemes_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление графиков")]
+		[Description("Создание, редактирование, архивирование, восстановление графиков")]
 		Oper_SKD_TimeTrack_ScheduleSchemes_Edit,
 
-		[DescriptionAttribute("Просмотр сокращённых дней")]
+		[Description("Просмотр сокращённых дней")]
 		Oper_SKD_TimeTrack_Holidays_View,
 
-		[DescriptionAttribute("Добавление, редактирование, архивирование, восстановление сокращённых дней")]
+		[Description("Добавление, редактирование, архивирование, восстановление сокращённых дней")]
 		Oper_SKD_TimeTrack_Holidays_Edit,
 
-		[DescriptionAttribute("Просмотр графиков работ")]
+		[Description("Просмотр графиков работ")]
 		Oper_SKD_TimeTrack_Schedules_View,
 
-		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление графиков работ")]
+		[Description("Создание, редактирование, архивирование, восстановление графиков работ")]
 		Oper_SKD_TimeTrack_Schedules_Edit,
 
-		[DescriptionAttribute("Просмотр журнала учета рабочего времени")]
+		[Description("Просмотр журнала учета рабочего времени")]
 		Oper_SKD_TimeTrack_Report_View,
 
-		[DescriptionAttribute("Ручное редактирование графика проходов")]
+		[Description("Ручное редактирование графика проходов")]
 		Oper_SKD_TimeTrack_Parts_Edit,
 
-		[DescriptionAttribute("Создание, редактирование, удаление, оправдательных документов")]
+		[Description("Создание, редактирование, удаление, оправдательных документов")]
 		Oper_SKD_TimeTrack_Documents_Edit,
 
-		[DescriptionAttribute("Ведение справочника видов оправдательных документов")]
+		[Description("Ведение справочника видов оправдательных документов")]
 		Oper_SKD_TimeTrack_DocumentTypes_Edit,
 	}
 }

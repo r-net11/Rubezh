@@ -1,7 +1,7 @@
 ﻿using Infrustructure.Plans.Devices;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public class SKDLibraryFrame : ILibraryFrame

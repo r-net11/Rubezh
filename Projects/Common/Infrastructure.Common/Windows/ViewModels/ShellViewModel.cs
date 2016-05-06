@@ -1,6 +1,6 @@
 ﻿using Common;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
 using System.Collections.Generic;

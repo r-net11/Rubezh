@@ -21,7 +21,7 @@
 				<File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Server.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\..\3rdParty\NLog.2.0.1.2\" />
@@ -85,7 +85,7 @@
 			</Component>
 
 			<Component Id="Server.SKD_MODULE" Guid="47582E19-F112-4827-A8FC-D782C88C7B93">
-				<File Id="Server.SKDDriver.dll" Name="SKDDriver.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+				<File Id="Server.StrazhDAL.dll" Name="StrazhDAL.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
 				<File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
@@ -100,7 +100,7 @@
 				<File Id="Server.Stream.dll" Name="Stream.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.CPPWrapper.dll" Name="CPPWrapper.dll" Source="$(var.Server.TargetDir)" />
-				<File Id="Server.ChinaSKDDriver.dll" Name="ChinaSKDDriver.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.StrazhDeviceSDK.dll" Name="StrazhDeviceSDK.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 		</DirectoryRef>

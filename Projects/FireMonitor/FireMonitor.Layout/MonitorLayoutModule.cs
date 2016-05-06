@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using FireMonitor.Layout.ViewModels;
 using FireMonitor.ViewModels;
-using FiresecAPI.Enums;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Enums;
+using StrazhAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;

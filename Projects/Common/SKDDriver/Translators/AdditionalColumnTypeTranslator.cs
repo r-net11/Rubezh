@@ -1,12 +1,12 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using LinqKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class AdditionalColumnTypeTranslator : WithShortTranslator<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter, ShortAdditionalColumnType>
 	{

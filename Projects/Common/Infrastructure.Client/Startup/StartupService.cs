@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure.Client.Startup.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

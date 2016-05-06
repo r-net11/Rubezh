@@ -1,10 +1,10 @@
-﻿using FiresecAPI.Models;
-using FiresecAPI.SKD;
+﻿using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
 using AutomationModule.ViewModels;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using Infrustructure.Plans.Elements;
 using AutomationModule.Plans.ViewModels;
 

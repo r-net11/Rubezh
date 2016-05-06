@@ -1,43 +1,43 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	public enum EnumType
 	{
-		[DescriptionAttribute("Состояние")]
+		[Description("Состояние")]
 		StateType,
 
-		[DescriptionAttribute("Тип устройства")]
+		[Description("Тип устройства")]
 		DriverType,
 
-		[DescriptionAttribute("Права пользователя")]
+		[Description("Права пользователя")]
 		PermissionType,
 
-		[DescriptionAttribute("Название события")]
+		[Description("Название события")]
 		JournalEventNameType,
 
-		[DescriptionAttribute("Уточнение")]
+		[Description("Уточнение")]
 		JournalEventDescriptionType,
 
-		[DescriptionAttribute("Тип объекта")]
+		[Description("Тип объекта")]
 		JournalObjectType,
 
-		[DescriptionAttribute("Цвет")]
+		[Description("Цвет")]
 		ColorType,
 
-		[DescriptionAttribute("Тип пропуска")]
+		[Description("Тип пропуска")]
 		CardType,
 
-		[DescriptionAttribute("Режим доступа")]
+		[Description("Режим доступа")]
 		AccessState,
 
-		[DescriptionAttribute("Статус двери")]
+		[Description("Статус двери")]
 		DoorStatus,
 
-		[DescriptionAttribute("Статус по взлому")]
+		[Description("Статус по взлому")]
 		BreakInStatus,
 
-		[DescriptionAttribute("Статус соединения")]
+		[Description("Статус соединения")]
 		ConnectionStatus
 	}
 }

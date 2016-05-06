@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Services.Layout;

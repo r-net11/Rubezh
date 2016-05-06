@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	public interface IVSSContract
 	{

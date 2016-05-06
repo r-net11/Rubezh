@@ -76,7 +76,7 @@ namespace SKDModule.Views
 			}
 		}
 
-		bool IsGuest { get { return (DataContext as EmployeesViewModel).PersonType == FiresecAPI.SKD.PersonType.Guest; } }
+		bool IsGuest { get { return (DataContext as EmployeesViewModel).PersonType == StrazhAPI.SKD.PersonType.Guest; } }
 		GridView gridView { get { return (TreeList.View as GridView); } }
 		GridViewColumn PositionColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == "Должность"); } }
 		GridViewColumn DescriptionColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == "Примечание"); } }

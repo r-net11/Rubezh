@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using System.Data;
 

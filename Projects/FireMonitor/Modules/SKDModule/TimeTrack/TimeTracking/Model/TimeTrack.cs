@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using ReactiveUI;
 using SKDModule.Helpers;
 using SKDModule.ViewModels;

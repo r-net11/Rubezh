@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrustructure.Plans.Designer;

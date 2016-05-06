@@ -1,11 +1,11 @@
-﻿using FiresecAPI.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using FiresecAPI.Models.Automation;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Automation;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	[DataContract]
 	public class AutomationConfiguration

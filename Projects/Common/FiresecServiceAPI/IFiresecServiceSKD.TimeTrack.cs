@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	public partial interface IFiresecServiceSKD
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
@@ -8,7 +8,7 @@ using Infrustructure.Plans.InstrumentAdorners;
 using StrazhModule.Plans.Designer;
 using StrazhModule.Plans.ViewModels;
 using StrazhModule.ViewModels;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace StrazhModule.Plans.InstrumentAdorners
 {

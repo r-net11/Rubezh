@@ -1,6 +1,6 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
+using StrazhAPI;
+using StrazhAPI.Journal;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

@@ -1,14 +1,14 @@
 ﻿using Common;
-using FiresecAPI.GK;
-using FiresecAPI.SKD.Device;
+using StrazhAPI.SKD.Device;
 using Infrustructure.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public class SKDDevice : ModelBase, IStateProvider, IPlanPresentable

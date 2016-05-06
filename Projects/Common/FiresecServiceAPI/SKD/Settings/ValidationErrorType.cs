@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	[Flags]
 	public enum ValidationErrorType

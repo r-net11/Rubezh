@@ -1,5 +1,5 @@
 ﻿using System.Windows.Navigation;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Services;

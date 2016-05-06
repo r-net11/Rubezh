@@ -1,12 +1,12 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using LinqKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using OperationResult = FiresecAPI.OperationResult;
+using OperationResult = StrazhAPI.OperationResult;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class DayIntervalPartTranslator : WithFilterTranslator<DataAccess.DayIntervalPart, DayIntervalPart, DayIntervalPartFilter>
 	{

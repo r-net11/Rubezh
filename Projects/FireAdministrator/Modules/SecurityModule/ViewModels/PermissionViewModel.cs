@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models;
+using StrazhAPI;
+using StrazhAPI.Models;
 using Infrastructure.Common.TreeList;
 
 namespace SecurityModule.ViewModels

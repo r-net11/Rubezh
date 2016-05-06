@@ -1,7 +1,7 @@
 ﻿using Common;
 using FireAdministrator.ViewModels;
-using FiresecAPI;
-using FiresecAPI.Models;
+using StrazhAPI;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
@@ -87,8 +87,8 @@ namespace FireAdministrator
 					AterInitialize();
 					FiresecManager.StartPoll();
 
-					SafeFiresecService.SKDProgressCallbackEvent -= new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
-					SafeFiresecService.SKDProgressCallbackEvent += new Action<FiresecAPI.SKDProgressCallback>(OnSKDProgressCallbackEvent);
+					SafeFiresecService.SKDProgressCallbackEvent -= OnSKDProgressCallbackEvent;
+					SafeFiresecService.SKDProgressCallbackEvent += OnSKDProgressCallbackEvent;
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);

@@ -1,13 +1,15 @@
 ﻿using System.Xml.Serialization;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
 using System;
 using System.Runtime.Serialization;
 using System.Windows.Media;
-using FiresecAPI.SKD;
+using StrazhAPI.Automation.Enums;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
+using AccessState = StrazhAPI.Automation.Enums.AccessState;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	[DataContract]
 	public class ExplicitValue
@@ -76,15 +78,15 @@ namespace FiresecAPI.Automation
 		public CardType CardTypeValue { get; set; }
 
 		[DataMember]
-		public FiresecAPI.Automation.Enums.AccessState? AccessStateValue { get; set; }
+		public AccessState? AccessStateValue { get; set; }
 
 		[DataMember]
-		public FiresecAPI.Automation.Enums.DoorStatus? DoorStatusValue { get; set; }
+		public DoorStatus? DoorStatusValue { get; set; }
 
 		[DataMember]
-		public FiresecAPI.Automation.Enums.BreakInStatus? BreakInStatusValue { get; set; }
+		public BreakInStatus? BreakInStatusValue { get; set; }
 
 		[DataMember]
-		public FiresecAPI.Automation.Enums.ConnectionStatus? ConnectionStatusValue { get; set; }
+		public ConnectionStatus? ConnectionStatusValue { get; set; }
 	}
 }

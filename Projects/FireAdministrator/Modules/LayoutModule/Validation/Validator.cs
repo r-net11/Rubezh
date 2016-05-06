@@ -6,7 +6,7 @@ using Infrastructure;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Validation;
 using FiresecClient;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 
 namespace LayoutModule.Validation
 {

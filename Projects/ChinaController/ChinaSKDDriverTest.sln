@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{33DF6BA1-9DEC-4597-B1A1-380CA8AB951F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaSKDDriver", "ChinaSKDDriver\ChinaSKDDriver.csproj", "{77C8D1E5-51B4-45F9-93DF-D114433771E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhDeviceSDK", "ChinaSKDDriver\StrazhDeviceSDK.csproj", "{77C8D1E5-51B4-45F9-93DF-D114433771E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaSKDDriverTest", "ChinaSKDDriverTest\ChinaSKDDriverTest.csproj", "{594FC4CC-2EF9-485A-B621-55321463C0A2}"
 EndProject

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Enums
+namespace StrazhAPI.Enums
 {
 	/// <summary>
 	/// Рабочее окружение, заменяющее стандартный рабочий стол Windows

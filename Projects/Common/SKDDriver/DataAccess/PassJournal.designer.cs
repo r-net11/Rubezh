@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.DataAccess
+namespace StrazhDAL.DataAccess
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -39,7 +39,7 @@ namespace SKDDriver.DataAccess
     #endregion
 		
 		public PassJournalDataContext() : 
-				base(global::SKDDriver.Properties.Settings.Default.PassJournal_0ConnectionString, mappingSource)
+				base(global::StrazhDAL.Properties.Settings.Default.PassJournal_0ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Infrastructure.Client.Layout.ViewModels;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using FiresecClient;
 namespace AutomationModule.Layout.ViewModels

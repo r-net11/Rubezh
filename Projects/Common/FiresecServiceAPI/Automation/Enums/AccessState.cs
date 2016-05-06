@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Automation.Enums
+namespace StrazhAPI.Automation.Enums
 {
 	/// <summary>
 	/// Описывает режим доступа для замка в автоматизации
@@ -11,13 +11,13 @@ namespace FiresecAPI.Automation.Enums
 		/// Режим ОТКРЫТО
 		/// </summary>
 		[Description("Режим ОТКРЫТО")]
-		Opened = FiresecAPI.SKD.AccessState.OpenAlways,
+		Opened = SKD.AccessState.OpenAlways,
 		
 		/// <summary>
 		/// Режим НОРМА
 		/// </summary>
 		[Description("Режим НОРМА")]
-		Normal = FiresecAPI.SKD.AccessState.Normal,
+		Normal = SKD.AccessState.Normal,
 		
 		/// <summary>
 		/// Режим ЗАКРЫТО

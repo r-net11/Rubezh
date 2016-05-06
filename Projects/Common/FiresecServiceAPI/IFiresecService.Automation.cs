@@ -1,12 +1,12 @@
-﻿using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Windows.Media;
-using FiresecAPI.Models.Automation;
+using StrazhAPI.Automation;
+using StrazhAPI.AutomationCallback;
+using StrazhAPI.Models.Automation;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	public partial interface IFiresecServiceSKD
 	{

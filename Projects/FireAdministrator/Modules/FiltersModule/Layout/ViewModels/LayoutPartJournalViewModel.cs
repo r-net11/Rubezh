@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.Models.Layouts;
+using StrazhAPI.SKD;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using FiresecClient;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 
 namespace FiltersModule.ViewModels
 {

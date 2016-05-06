@@ -1,11 +1,11 @@
-﻿using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
-using FiresecAPI.Journal;
+﻿using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
+using StrazhAPI.Journal;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public partial class Wrapper
 	{
@@ -39,7 +39,7 @@ namespace ChinaSKDDriver
 
 		public int Connect(string ipAddress, int port, string login, string password, out string error)
 		{
-			var deviceInfo = new ChinaSKDDriverNativeApi.NativeWrapper.NET_DEVICEINFO();
+			var deviceInfo = new NativeAPI.NativeWrapper.NET_DEVICEINFO();
 			int intError;
 			LoginID = NativeWrapper.CLIENT_Login(ipAddress, (UInt16)port, login, password, out deviceInfo, out intError);
 			error = GetError(intError);
@@ -62,7 +62,7 @@ namespace ChinaSKDDriver
 			{
 				LoginID = lLoginID,
 				SystemDateTime = DateTime.Now,
-				JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Потеря_связи
+				JournalEventNameType = StrazhAPI.Journal.JournalEventNameType.Потеря_связи
 			};
 			AddJournalItem(journalItem);
 		}
@@ -73,7 +73,7 @@ namespace ChinaSKDDriver
 			{
 				LoginID = lLoginID,
 				SystemDateTime = DateTime.Now,
-				JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Восстановление_связи
+				JournalEventNameType = StrazhAPI.Journal.JournalEventNameType.Восстановление_связи
 			};
 			AddJournalItem(journalItem);
 

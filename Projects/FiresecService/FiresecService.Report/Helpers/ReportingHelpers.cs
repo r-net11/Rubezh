@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using FiresecService.Report.Export;
 using FiresecService.Report.Templates;
 using System;

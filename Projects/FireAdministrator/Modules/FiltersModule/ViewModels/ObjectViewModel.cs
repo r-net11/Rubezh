@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using Infrastructure.Common.TreeList;
 using Controls.Converters;
 
@@ -77,7 +77,7 @@ namespace FiltersModule.ViewModels
 			ImageSource = "/Controls;component/Images/Door.png";
 		}
 
-		public ObjectViewModel(FiresecAPI.Models.Camera camera)
+		public ObjectViewModel(StrazhAPI.Models.Camera camera)
 		{
 			Name = camera.Name;
 			UID = camera.UID;

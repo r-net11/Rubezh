@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Threading;
-using System.Windows;
-using System.Windows.Threading;
-using ChinaSKDDriver;
+﻿using StrazhDeviceSDK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 

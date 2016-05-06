@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using NUnit.Framework;
 
 namespace FiresecMonitorUnitTests.FireMonitorTests

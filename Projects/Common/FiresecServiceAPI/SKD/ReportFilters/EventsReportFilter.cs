@@ -1,10 +1,10 @@
-﻿using FiresecAPI.Enums;
-using FiresecAPI.Journal;
+﻿using StrazhAPI.Enums;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using StrazhAPI.Journal;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(EventsReportFilter))]
@@ -18,7 +18,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
 			IsEmployee = true;
-			ReportType = ReportType.EventsReport;
+			ReportType = Enums.ReportType.EventsReport;
 		}
 
 		#region IReportFilterPeriod Members

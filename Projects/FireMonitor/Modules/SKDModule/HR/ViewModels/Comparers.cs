@@ -1,7 +1,7 @@
 ﻿using System;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.SKD;
 using Infrastructure.Common.TreeList;
 using SKDModule.PassCardDesigner.ViewModels;
 using SKDModule.Reports.ViewModels;

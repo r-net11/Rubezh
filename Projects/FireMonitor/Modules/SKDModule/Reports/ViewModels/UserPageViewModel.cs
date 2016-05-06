@@ -1,6 +1,6 @@
 ﻿using Common;
-using FiresecAPI.Models;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.Models;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public class EventDescriptionAttribute : Attribute
 	{

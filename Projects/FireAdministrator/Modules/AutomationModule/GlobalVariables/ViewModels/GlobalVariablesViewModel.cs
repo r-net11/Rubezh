@@ -1,6 +1,6 @@
 ﻿using AutomationModule.Properties;
-using FiresecAPI.Automation;
-using FiresecAPI.Models.Automation;
+using StrazhAPI.Automation;
+using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

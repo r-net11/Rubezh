@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Automation.Enums
+namespace StrazhAPI.Automation.Enums
 {
 	/// <summary>
 	/// Описывает статус соединения в автоматизации

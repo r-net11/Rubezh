@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using LinqKit;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Xml.Serialization;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public abstract class Synchroniser<TExportItem, TTableItem>
 		where TTableItem : class, DataAccess.IExternalKey, new()

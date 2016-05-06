@@ -3,17 +3,17 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
-using FiresecAPI.SKD.ReportFilters;
-using SKDDriver.DataAccess;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.SKD.ReportFilters;
+using StrazhDAL.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class ReportFiltersTranslator
 	{

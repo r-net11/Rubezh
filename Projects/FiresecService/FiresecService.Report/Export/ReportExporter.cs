@@ -2,9 +2,9 @@
 using System.IO;
 using Common;
 using DevExpress.XtraReports.UI;
-using FiresecAPI.Enums;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.Enums;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.Templates;
 
 namespace FiresecService.Report.Export

@@ -1,8 +1,8 @@
-﻿using FiresecAPI.SKD.ReportFilters;
+﻿using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using System.Collections.Generic;
 using SKDModule.Reports.ViewModels;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 
 namespace SKDModule.Reports.Providers
 {

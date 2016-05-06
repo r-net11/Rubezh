@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Journal;
+﻿using StrazhAPI.Journal;
 using System;
 using System.Windows.Data;
 

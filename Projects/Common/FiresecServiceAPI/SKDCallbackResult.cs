@@ -1,9 +1,9 @@
-﻿using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 
-namespace FiresecAPI.GK
+namespace StrazhAPI.GK
 {
 	[DataContract]
 	public class SKDCallbackResult

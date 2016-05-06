@@ -1,7 +1,7 @@
 ﻿using Common;
 using FireMonitor.ViewModels;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;

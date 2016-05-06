@@ -1,4 +1,4 @@
-﻿using FiresecAPI;
+﻿using StrazhAPI;
 using Infrastructure.Common.Windows;
 
 namespace FiresecClient.SKDHelpers

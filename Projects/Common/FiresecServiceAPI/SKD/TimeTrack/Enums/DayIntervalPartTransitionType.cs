@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public enum DayIntervalPartTransitionType
 	{
-		[DescriptionAttribute("Нет")]
+		[Description("Нет")]
 		[EnumMember]
 		Day = 0,
 
-		[DescriptionAttribute("Переход")]
+		[Description("Переход")]
 		[EnumMember]
 		Night = 1,
 	}

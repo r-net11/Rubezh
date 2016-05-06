@@ -1,11 +1,11 @@
-﻿using FiresecAPI.GK;
-using Infrustructure.Plans.Devices;
+﻿using Infrustructure.Plans.Devices;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public class SKDLibraryDevice : ILibraryDevice<SKDLibraryState, SKDLibraryFrame, XStateClass>

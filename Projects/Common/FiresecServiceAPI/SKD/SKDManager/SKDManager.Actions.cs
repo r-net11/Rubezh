@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public partial class SKDManager
 	{

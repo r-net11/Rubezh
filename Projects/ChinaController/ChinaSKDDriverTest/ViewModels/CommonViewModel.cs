@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
+using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
 
 namespace ControllerSDK.ViewModels
 {

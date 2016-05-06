@@ -1,6 +1,6 @@
 ﻿using System.Windows.Threading;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;

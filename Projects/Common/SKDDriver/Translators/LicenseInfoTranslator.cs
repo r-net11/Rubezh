@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using SKDDriver.DataAccess;
+using StrazhDAL.DataAccess;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class LicenseInfoTranslator
 	{

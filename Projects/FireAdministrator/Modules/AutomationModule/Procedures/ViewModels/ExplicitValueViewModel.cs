@@ -3,11 +3,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Media;
-using FiresecAPI.Automation;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.Automation;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -50,10 +50,10 @@ namespace AutomationModule.ViewModels
 			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
 			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
 			CardTypeValues = ProcedureHelper.GetEnumObs<CardType>();
-			AccessStateValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.AccessState>();
-			DoorStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.DoorStatus>();
-			BreakInStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.BreakInStatus>();
-			ConnectionStatusValues = ProcedureHelper.GetEnumObs<FiresecAPI.Automation.Enums.ConnectionStatus>();
+			AccessStateValues = ProcedureHelper.GetEnumObs<StrazhAPI.Automation.Enums.AccessState>();
+			DoorStatusValues = ProcedureHelper.GetEnumObs<StrazhAPI.Automation.Enums.DoorStatus>();
+			BreakInStatusValues = ProcedureHelper.GetEnumObs<StrazhAPI.Automation.Enums.BreakInStatus>();
+			ConnectionStatusValues = ProcedureHelper.GetEnumObs<StrazhAPI.Automation.Enums.ConnectionStatus>();
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}
@@ -282,8 +282,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<FiresecAPI.Automation.Enums.AccessState> AccessStateValues { get; private set; }
-		public FiresecAPI.Automation.Enums.AccessState? AccessStateValue
+		public ObservableCollection<StrazhAPI.Automation.Enums.AccessState> AccessStateValues { get; private set; }
+		public StrazhAPI.Automation.Enums.AccessState? AccessStateValue
 		{
 			get { return ExplicitValue.AccessStateValue; }
 			set
@@ -293,8 +293,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<FiresecAPI.Automation.Enums.DoorStatus> DoorStatusValues { get; private set; }
-		public FiresecAPI.Automation.Enums.DoorStatus? DoorStatusValue
+		public ObservableCollection<StrazhAPI.Automation.Enums.DoorStatus> DoorStatusValues { get; private set; }
+		public StrazhAPI.Automation.Enums.DoorStatus? DoorStatusValue
 		{
 			get { return ExplicitValue.DoorStatusValue; }
 			set
@@ -304,8 +304,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<FiresecAPI.Automation.Enums.BreakInStatus> BreakInStatusValues { get; private set; }
-		public FiresecAPI.Automation.Enums.BreakInStatus? BreakInStatusValue
+		public ObservableCollection<StrazhAPI.Automation.Enums.BreakInStatus> BreakInStatusValues { get; private set; }
+		public StrazhAPI.Automation.Enums.BreakInStatus? BreakInStatusValue
 		{
 			get { return ExplicitValue.BreakInStatusValue; }
 			set
@@ -315,8 +315,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<FiresecAPI.Automation.Enums.ConnectionStatus> ConnectionStatusValues { get; private set; }
-		public FiresecAPI.Automation.Enums.ConnectionStatus? ConnectionStatusValue
+		public ObservableCollection<StrazhAPI.Automation.Enums.ConnectionStatus> ConnectionStatusValues { get; private set; }
+		public StrazhAPI.Automation.Enums.ConnectionStatus? ConnectionStatusValue
 		{
 			get { return ExplicitValue.ConnectionStatusValue; }
 			set

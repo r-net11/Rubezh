@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using FiresecAPI;
+using StrazhAPI;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

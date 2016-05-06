@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels

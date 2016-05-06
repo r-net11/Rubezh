@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	public interface IReportFilterPeriod
 	{

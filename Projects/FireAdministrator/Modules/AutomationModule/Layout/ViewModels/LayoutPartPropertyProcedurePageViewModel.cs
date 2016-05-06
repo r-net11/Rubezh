@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using FiresecClient;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 
 namespace AutomationModule.Layout.ViewModels
 {

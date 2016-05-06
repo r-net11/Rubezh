@@ -1,9 +1,9 @@
-﻿using FiresecAPI.Automation;
+﻿using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models;
-using FiresecAPI;
-using FiresecAPI.Journal;
+using StrazhAPI.Models;
+using StrazhAPI;
+using StrazhAPI.Journal;
 
 namespace AutomationModule.ViewModels
 {

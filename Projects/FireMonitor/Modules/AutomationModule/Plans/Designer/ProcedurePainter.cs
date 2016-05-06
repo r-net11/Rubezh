@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
 using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using System.Windows.Input;
 using AutomationModule.ViewModels;
 

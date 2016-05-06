@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ChinaSKDDriver;
-using ChinaSKDDriverAPI;
-using FiresecAPI.Journal;
 using Infrastructure.Common.Windows.ViewModels;
+using StrazhDeviceSDK;
+using StrazhDeviceSDK.API;
 
 namespace ControllerSDK.ViewModels
 {

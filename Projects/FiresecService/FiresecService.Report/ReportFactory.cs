@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Enums;
-using FiresecAPI.SKD.ReportFilters;
+﻿using StrazhAPI.Enums;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.Templates;
 using System.Diagnostics;
 

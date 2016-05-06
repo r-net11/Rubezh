@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 
 namespace SKDModule.Converters
 {

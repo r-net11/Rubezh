@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Controls;
 using Controls.TreeList;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure;
 using SKDModule.Events;
 

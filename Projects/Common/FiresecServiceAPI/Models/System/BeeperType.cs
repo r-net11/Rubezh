@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	public enum BeeperType
 	{
-		[DescriptionAttribute("<нет>")]
+		[Description("<нет>")]
 		None = 0,
 
-		[DescriptionAttribute("Тревога")]
+		[Description("Тревога")]
 		Alarm = 200,
 
-		[DescriptionAttribute("Внимание")]
+		[Description("Внимание")]
 		Attention = 50
 	}
 }

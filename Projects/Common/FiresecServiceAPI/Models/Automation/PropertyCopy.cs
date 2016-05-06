@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	/// <summary>
 	/// Non-generic class allowing properties to be copied from one instance

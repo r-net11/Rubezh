@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Media;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Client.Images;

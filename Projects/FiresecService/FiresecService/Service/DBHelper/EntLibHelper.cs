@@ -1,5 +1,5 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
-using SKDDriver;
+using StrazhDAL;
 using System;
 using System.Data;
 using System.Diagnostics;

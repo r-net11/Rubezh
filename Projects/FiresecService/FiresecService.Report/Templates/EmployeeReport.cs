@@ -1,8 +1,8 @@
 ﻿using System;
 using DevExpress.XtraReports.UI;
-using FiresecAPI;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using System.Data;
 using System.Drawing.Printing;

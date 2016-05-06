@@ -1,13 +1,13 @@
-﻿using FiresecAPI.Enums;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	[ServiceContract(SessionMode = SessionMode.Required)]
 	public partial interface IFiresecServiceSKD

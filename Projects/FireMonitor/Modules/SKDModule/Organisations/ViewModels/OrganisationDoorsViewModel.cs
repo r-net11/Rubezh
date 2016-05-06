@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient;
 
 namespace SKDModule.ViewModels
@@ -15,9 +15,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Doors; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_Organisations_Doors; }
 		}
 	}
 }

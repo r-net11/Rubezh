@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels

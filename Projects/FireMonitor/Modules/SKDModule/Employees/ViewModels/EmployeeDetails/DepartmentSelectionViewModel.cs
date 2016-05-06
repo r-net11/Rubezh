@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Extensions;
-using FiresecAPI.SKD;
+using StrazhAPI.Extensions;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			Title = "Выбор подразделения";
 			_organisationUID = organisationUID;
 			_firstSelectedDepartmentUID = departmentUID;
-			AddCommand = new RelayCommand(OnAdd, () => FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit));
+			AddCommand = new RelayCommand(OnAdd, () => FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Departments_Etit));
 			ClearCommand = new RelayCommand(OnClear, () => SelectedDepartment != null);
 		}
 

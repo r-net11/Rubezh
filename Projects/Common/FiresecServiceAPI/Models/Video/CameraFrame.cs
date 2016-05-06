@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	public class CameraFrame
 	{

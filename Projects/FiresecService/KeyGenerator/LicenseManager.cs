@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Enums;
+﻿using StrazhAPI.Enums;
 using GenerateKeyApplication.Common;
 using Infrastructure.Common;
 using KeyGenerator.Utils;

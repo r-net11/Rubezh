@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

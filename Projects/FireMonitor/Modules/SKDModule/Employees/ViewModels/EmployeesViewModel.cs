@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Services;
@@ -150,7 +150,7 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if(PersonType == FiresecAPI.SKD.PersonType.Employee)
+				if (PersonType == StrazhAPI.SKD.PersonType.Employee)
 					return "сотрудника";
 				else
 					return "посетителя";
@@ -174,7 +174,7 @@ namespace SKDModule.ViewModels
 
 		public string TabItemHeader
 		{
-			get { return PersonType == FiresecAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
+			get { return PersonType == StrazhAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
 		}
 
 		protected override bool Add(ShortEmployee item)
@@ -206,9 +206,9 @@ namespace SKDModule.ViewModels
 			InitializeAdditionalColumns();
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
 		}
 	}
 }

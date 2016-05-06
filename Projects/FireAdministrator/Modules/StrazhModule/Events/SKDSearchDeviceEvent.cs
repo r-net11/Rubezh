@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.Device;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.Device;
 using Microsoft.Practices.Prism.Events;
 
 namespace StrazhModule.Events

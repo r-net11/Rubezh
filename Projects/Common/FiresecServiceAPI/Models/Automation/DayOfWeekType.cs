@@ -1,31 +1,31 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	public enum DayOfWeekType
 	{
-		[DescriptionAttribute("Любой")]
+		[Description("Любой")]
 		Any,
 
-		[DescriptionAttribute("Понедельник")]
+		[Description("Понедельник")]
 		Monday,
 
-		[DescriptionAttribute("Вторник")]
+		[Description("Вторник")]
 		Tuesday,
 
-		[DescriptionAttribute("Среда")]
+		[Description("Среда")]
 		Wednesday,
 
-		[DescriptionAttribute("Четверг")]
+		[Description("Четверг")]
 		Thursday,
 
-		[DescriptionAttribute("Пятница")]
+		[Description("Пятница")]
 		Friday,
 
-		[DescriptionAttribute("Суббота")]
+		[Description("Суббота")]
 		Saturday,
 
-		[DescriptionAttribute("Воскресенье")]
+		[Description("Воскресенье")]
 		Sunday
 	}
 }

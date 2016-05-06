@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Journal_1" Class="JournalDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\sqlexpress;Initial Catalog=Journal_1;Integrated Security=True" SettingsObjectName="SKDDriver.Properties.Settings" SettingsPropertyName="Journal_1ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=Journal_1;Integrated Security=True" SettingsObjectName="StrazhDAL.Properties.Settings" SettingsPropertyName="Journal_1ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Journal" Member="Journals">
     <Type Name="Journal" Id="ID1">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
