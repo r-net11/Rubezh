@@ -87,7 +87,7 @@ namespace GKIntegratedTest
 			Assert.IsTrue(device1.State.StateClass == XStateClass.Fire2, "Проверка того, что device1 находится в Сработка2");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire2, "Проверка того, что пожараная зона перешла в Пожар2");
 			CheckJournal(3, JournalItem(device1, JournalEventNameType.Сработка_2),
-				JournalItem(zone, JournalEventNameType.Пожар_2), JournalItem(Led("Устройство Пожар 2"), JournalEventNameType.Включено));
+				JournalItem(zone, JournalEventNameType.Пожар_2), JournalItem(Led("Устройство Пожар 2 "), JournalEventNameType.Включено));
 			ConrtolGKBase(zone, GKStateBit.Reset, "Сброс зоны");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire2, "Проверка того, что зона всё ещё в режиме Сработка2");
 			ConrtolGKBase(device1, GKStateBit.Reset, "Сброс устройства1");
@@ -137,14 +137,15 @@ namespace GKIntegratedTest
 			WaitWhileState(direction, XStateClass.TurningOn, 6000, "Ждем 6 секунд, направление не должено перейти в режим Включается");
 			Assert.IsFalse(direction.State.StateClass == XStateClass.TurningOn, "Проверка того, что направление не перешло в режим Включается");
 			Assert.IsTrue(direction.State.StateClass == state, "Проверка того, что направление Включено/Выключено");
-			if (direction.DelayRegime == DelayRegime.On)
+/*			if (direction.DelayRegime == DelayRegime.On)
 				CheckJournal(4, JournalItem(direction, JournalEventNameType.Включается),
 							JournalItem(Led("Устройство Включение ПУСК "), JournalEventNameType.Включено), JournalItem(Led("Устройство Пожар 1 "), JournalEventNameType.Включено),
-							JournalItem(direction, JournalEventNameType.Включено));
+							JournalItem(direction, JournalEventNameType.Включено)); 
 			else
 				CheckJournal(6, JournalItem(direction, JournalEventNameType.Включается),
 					JournalItem(Led("Устройство Включение ПУСК "), JournalEventNameType.Включено), JournalItem(Led("Устройство Пожар 1 "), JournalEventNameType.Включено),
 					JournalItem(direction, JournalEventNameType.Включено), JournalItem(direction, JournalEventNameType.Выключено), JournalItem(Led("Устройство Пожар 1 "), JournalEventNameType.Выключено));
+RG-1340*/
 		}
 
 		[TestCase(DelayRegime.On, XStateClass.On)]
