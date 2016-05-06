@@ -45,10 +45,10 @@
 				<StackPanel Orientation="Horizontal"
 							Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}"
 							HorizontalAlignment="Right"
-							Height="28">
+							Height="29">
 					<TextBlock Text="Значение"
 							   Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding IsLabelDisabled, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-					<DockPanel Width="200" Margin="2">
+					<DockPanel Width="200">
 						<TextBox Width="182"
 								 Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}"
 								 VerticalContentAlignment="Center" />
@@ -104,7 +104,7 @@
 							Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 							ConverterParameter={x:Static automation:ExplicitType.Enum}}"
 							HorizontalAlignment="Right"
-							Height="28">
+							Height="29">
 					<TextBlock Text="Значение" Style="{DynamicResource TextBlockDetailsStyle}" Visibility="{Binding IsLabelDisabled, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 					<ComboBox ItemsSource="{Binding StateTypeValues}"
 							  SelectedItem="{Binding StateTypeValue}"
