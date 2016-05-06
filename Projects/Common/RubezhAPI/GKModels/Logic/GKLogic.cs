@@ -12,6 +12,7 @@ namespace RubezhAPI.GK
 		public GKLogic()
 		{
 			OnClausesGroup = new GKClauseGroup();
+			On2ClausesGroup = new GKClauseGroup();
 			OffClausesGroup = new GKClauseGroup();
 			OnNowClausesGroup = new GKClauseGroup();
 			OffNowClausesGroup = new GKClauseGroup();
@@ -24,6 +25,12 @@ namespace RubezhAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKClauseGroup OnClausesGroup { get; set; }
+
+		/// <summary>
+		/// Группа условий для включения 2
+		/// </summary>
+		[DataMember]
+		public GKClauseGroup On2ClausesGroup { get; set; }
 
 		/// <summary>
 		/// Группа условий для выключения
@@ -59,6 +66,7 @@ namespace RubezhAPI.GK
 		{
 			var result = new List<GKBase>();
 			result.AddRange(OnClausesGroup.GetObjects());
+			result.AddRange(On2ClausesGroup.GetObjects());
 			if (!UseOffCounterLogic)
 				result.AddRange(OffClausesGroup.GetObjects());
 			result.AddRange(OnNowClausesGroup.GetObjects());
