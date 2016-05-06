@@ -32,7 +32,7 @@ namespace Infrastructure.Common.Navigation
 			return PermissionPredicate == null || PermissionPredicate(this);
 		}
 
-		private string _title;
+		string _title;
 		public string Title
 		{
 			get { return _title; }
@@ -42,7 +42,8 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged(() => Title);
 			}
 		}
-		private string _icon;
+
+		string _icon;
 		public string Icon
 		{
 			get { return _icon; }
@@ -52,7 +53,8 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("Icon");
 			}
 		}
-		private bool _isVisible;
+
+		bool _isVisible;
 		public bool IsVisible
 		{
 			get { return _isVisible; }
@@ -63,7 +65,7 @@ namespace Infrastructure.Common.Navigation
 			}
 		}
 
-		private bool _isExpanded;
+		bool _isExpanded;
 		public bool IsExpanded
 		{
 			get { return _isExpanded; }
@@ -75,7 +77,8 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("IsExpanded");
 			}
 		}
-		private bool _isSelected;
+
+		bool _isSelected;
 		public bool IsSelected
 		{
 			get { return _isSelected; }
@@ -87,7 +90,8 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("IsSelected");
 			}
 		}
-		private NavigationItem _parent;
+
+		NavigationItem _parent;
 		public NavigationItem Parent
 		{
 			get { return _parent; }
@@ -97,7 +101,8 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("Parent");
 			}
 		}
-		private PermissionType? _permission = null;
+
+		PermissionType? _permission = null;
 		public PermissionType? Permission
 		{
 			get { return _permission; }
@@ -107,7 +112,8 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("Permission");
 			}
 		}
-		private bool _isSelectionAllowed;
+
+		bool _isSelectionAllowed;
 		public bool IsSelectionAllowed
 		{
 			get { return _isSelectionAllowed; }

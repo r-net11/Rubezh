@@ -23,21 +23,22 @@ namespace JournalModule
 {
 	public class JournalModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
-		private NavigationItem _journalNavigationItem;
-		JournalViewModel JournalViewModel;
-		ArchiveViewModel ArchiveViewModel;
+		NavigationItem _journalNavigationItem;
+		JournalViewModel _journalViewModel;
+		ArchiveViewModel _archiveViewModel;
 
 		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
-			JournalViewModel = new JournalViewModel();
-			ArchiveViewModel = new ArchiveViewModel();
+			_journalViewModel = new JournalViewModel();
+			_archiveViewModel = new ArchiveViewModel();
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Unsubscribe(OnShowArchive);
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(OnShowArchive);
 		}
 
 		int _unreadJournalCount;
-		private int UnreadJournalCount
+
+		int UnreadJournalCount
 		{
 			get { return _unreadJournalCount; }
 			set
@@ -51,30 +52,30 @@ namespace JournalModule
 		void OnShowJournal(object obj)
 		{
 			UnreadJournalCount = 0;
-			JournalViewModel.SelectedJournal = JournalViewModel.JournalItems.FirstOrDefault();
+			_journalViewModel.SelectedJournal = _journalViewModel.JournalItems.FirstOrDefault();
 		}
 
 		void OnShowArchive(List<Guid> objectUIDs)
 		{
 			if (objectUIDs != null)
 			{
-				ArchiveViewModel.Sort(objectUIDs);
+				_archiveViewModel.Sort(objectUIDs);
 			}
 		}
 
 		public override void Initialize()
 		{
-			JournalViewModel.Initialize();
-			ArchiveViewModel.Initialize();
+			_journalViewModel.Initialize();
+			_archiveViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, "Журнал событий", "Book");
+			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(_journalViewModel, "Журнал событий", "Book");
 			UnreadJournalCount = 0;
 			return new List<NavigationItem>()
 			{
 				_journalNavigationItem,
-				new NavigationItem<ShowArchiveEvent, List<Guid>>(ArchiveViewModel, "Архив", "Archive")
+				new NavigationItem<ShowArchiveEvent, List<Guid>>(_archiveViewModel, "Архив", "Archive")
 			};
 		}
 		public override ModuleType ModuleType
@@ -99,8 +100,8 @@ namespace JournalModule
 			SafeFiresecService.JournalItemsEvent -= new Action<List<JournalItem>, bool>(OnJournalItems);
 			SafeFiresecService.JournalItemsEvent += new Action<List<JournalItem>, bool>(OnJournalItems);
 			
-			JournalViewModel.SetJournalItems();
-			ArchiveViewModel.Update();
+			_journalViewModel.SetJournalItems();
+			_archiveViewModel.Update();
 		}
 
 		void OnJournalItems(List<JournalItem> journalItems, bool isNew)
@@ -153,7 +154,7 @@ namespace JournalModule
 				
 				return journalViewModel;
 			});
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => ArchiveViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => _archiveViewModel);
 		}
 
 		#endregion
