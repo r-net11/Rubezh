@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
-using Organisation = FiresecAPI.SKD.Organisation;
+using Organisation = StrazhAPI.SKD.Organisation;
 
 namespace SKDModule.ViewModels
 {

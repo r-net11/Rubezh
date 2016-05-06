@@ -1,6 +1,6 @@
 ﻿using System.Drawing.Text;
 using DevExpress.XtraReports.UI;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
 using System;
 using System.Collections.Generic;
 using System.Data;

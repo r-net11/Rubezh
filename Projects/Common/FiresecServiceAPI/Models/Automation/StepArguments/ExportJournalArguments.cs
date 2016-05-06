@@ -2,10 +2,10 @@
 using System.Data.Linq.Mapping;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using FiresecAPI.Enums;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.Enums;
+using StrazhAPI.SKD.ReportFilters;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	[DataContract]
 	public class ExportJournalArguments

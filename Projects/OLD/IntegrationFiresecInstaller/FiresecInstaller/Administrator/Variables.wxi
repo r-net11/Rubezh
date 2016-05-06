@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define AdministratorName="Администратор ОПС FireSec-2" ?>
-  <?define AdministratorInstallLocation="FireAdministrator" ?>
-  <?define Administrator.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
-  <?define Administrator.TargetFileName="FireAdministrator.exe"?>
-  <?define Administrator.TargetPath="..\..\..\..\..\FireAdministrator\bin\Release\FireAdministrator.exe"?>
-  <?define Administrator.Deploy.TargetDir="..\..\..\..\..\Deploy\ConfigurationAdministrator\"?>
-</Include>

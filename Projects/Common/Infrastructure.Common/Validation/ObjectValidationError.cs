@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Enums;
+﻿using StrazhAPI.Enums;
 using Infrastructure.Common.Services;
 using Microsoft.Practices.Prism.Events;
 

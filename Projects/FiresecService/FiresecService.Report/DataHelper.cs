@@ -1,4 +1,4 @@
-﻿using SKDDriver;
+﻿using StrazhDAL;
 using System;
 using System.Data.SqlClient;
 

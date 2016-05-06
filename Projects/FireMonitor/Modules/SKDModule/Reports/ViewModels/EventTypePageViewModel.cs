@@ -2,10 +2,10 @@
 using Common;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using System.Collections.ObjectModel;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using Infrastructure.Common;
 
 namespace SKDModule.Reports.ViewModels

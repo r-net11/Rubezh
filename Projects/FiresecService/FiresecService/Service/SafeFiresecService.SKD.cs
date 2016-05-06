@@ -2,14 +2,14 @@
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Service
 {

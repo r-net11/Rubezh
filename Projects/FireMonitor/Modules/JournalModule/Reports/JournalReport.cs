@@ -4,7 +4,7 @@ using JournalModule.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using System;
 
 namespace JournalModule.Reports

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(EmployeeAccessReportFilter))]
@@ -18,7 +18,7 @@ namespace FiresecAPI.SKD.ReportFilters
 			PassCardPermanent = true;
 			PassCardTemprorary = true;
 			IsEmployee = true;
-			ReportType = ReportType.EmployeeAccessReport;
+			ReportType = Enums.ReportType.EmployeeAccessReport;
 		}
 
 		#region IReportFilterPassCardType Members

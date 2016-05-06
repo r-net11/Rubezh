@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 using DeviceControls;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
 using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;

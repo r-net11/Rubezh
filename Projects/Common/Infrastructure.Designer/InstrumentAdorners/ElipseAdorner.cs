@@ -1,5 +1,5 @@
 ﻿using System.Windows.Shapes;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {

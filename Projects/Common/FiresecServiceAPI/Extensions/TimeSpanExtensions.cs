@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FiresecAPI.Extensions
+namespace StrazhAPI.Extensions
 {
 	public static class TimeSpanExtensions
 	{

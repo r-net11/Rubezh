@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Threading;
 using Common;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 using Microsoft.Win32;
 
 namespace Infrastructure.Common

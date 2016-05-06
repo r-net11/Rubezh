@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace FiresecAPI.SKD.Device
+namespace StrazhAPI.SKD.Device
 {
 	[DataContract]
 	public class SKDDeviceSearchInfo

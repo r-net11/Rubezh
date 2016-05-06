@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Threading;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
+using StrazhDeviceSDK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using ChinaSKDDriver;
+using StrazhDeviceSDK.API;
 
 namespace ControllerSDK.ViewModels
 {
@@ -79,7 +76,7 @@ namespace ControllerSDK.ViewModels
 			{
 				SearchDevices.Clear();
 			}));
-			ChinaSKDDriver.Wrapper.StartSearchDevices();
+			Wrapper.StartSearchDevices();
 			_searchTimer.Stop();
 			_searchTimer.Start();
 			IsSearchDevicesStarted = true;
@@ -93,7 +90,7 @@ namespace ControllerSDK.ViewModels
 		private void OnStopSearchDevices()
 		{
 			_searchTimer.Stop();
-			ChinaSKDDriver.Wrapper.StopSearchDevices();
+			Wrapper.StopSearchDevices();
 			IsSearchDevicesStarted = false;
 		}
 		private bool CanStopSearchDevices()

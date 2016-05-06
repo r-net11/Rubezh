@@ -1,11 +1,11 @@
 ﻿using Entities.DeviceOriented;
-using FiresecAPI.Automation;
-using FiresecAPI.Journal;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
+using StrazhAPI.Automation;
+using StrazhAPI.Journal;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class SystemConfiguration : VersionedConfiguration

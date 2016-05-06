@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI;
+using StrazhAPI;
 using Infrastructure.Common.Theme;
 
 namespace SettingsModule.Converters

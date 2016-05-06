@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -143,9 +143,9 @@ namespace SKDModule.ViewModels
 			get { return "график работы"; }
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit; }
 		}
 
 		void OnUpdateFilter(HRFilter hrFilter)
@@ -177,7 +177,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowSettings()
 		{
-			return ParentOrganisation != null && !ParentOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit);
+			return ParentOrganisation != null && !ParentOrganisation.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit);
 		}
 
 		public List<ScheduleViewModel> DoorsParents

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	public class ElementProperty
 	{

@@ -1,5 +1,5 @@
 ﻿using Common;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrustructure.Plans.Designer;

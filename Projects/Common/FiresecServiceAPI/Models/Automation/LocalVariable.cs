@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 
-namespace FiresecAPI.Models.Automation
+namespace StrazhAPI.Models.Automation
 {
 	[DataContract]
 	public sealed class LocalVariable : IVariable

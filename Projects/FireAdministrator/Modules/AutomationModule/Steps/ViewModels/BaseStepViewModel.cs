@@ -2,7 +2,7 @@
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq.Expressions;
 using Infrastructure;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {

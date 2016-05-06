@@ -76,17 +76,17 @@
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\FiresecServiceAPI\StrazhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
+      <Name>StrazhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SKDDriver\SKDDriver.csproj">
+    <ProjectReference Include="..\SKDDriver\StrazhDAL.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
-      <Name>SKDDriver</Name>
+      <Name>StrazhDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.Models.Automation;
-using SKDDriver.DataAccess;
+using StrazhAPI;
+using StrazhAPI.Automation;
+using StrazhAPI.Models.Automation;
+using StrazhDAL.DataAccess;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class GlobalVariablesTranslator
 	{

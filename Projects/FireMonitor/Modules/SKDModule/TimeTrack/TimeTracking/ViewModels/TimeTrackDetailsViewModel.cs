@@ -1,6 +1,6 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -248,13 +248,13 @@ namespace SKDModule.ViewModels
 			CloseOnEscape = false;
 
 			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
-			AddDocumentCommand = new RelayCommand(OnAddDocument, () => FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit));
+			AddDocumentCommand = new RelayCommand(OnAddDocument, () => FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit));
 			EditDocumentCommand = new RelayCommand(OnEditDocument, CanEditDocument);
 			RemoveDocumentCommand = new RelayCommand(OnRemoveDocument, CanRemoveDocument);
 			AddFileCommand = new RelayCommand(OnAddFile, CanAddFile);
 			OpenFileCommand = new RelayCommand(OnOpenFile, CanOpenOrRemoveFile);
 			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanOpenOrRemoveFile);
-			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, () => FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit));
+			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, () => FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit));
 			RemovePartCommand = new RelayCommand(OnRemovePart, CanRemovePart);
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditPart);
 			ResetAdjustmentsCommand = new RelayCommand(OnResetAdjustments);
@@ -376,7 +376,7 @@ namespace SKDModule.ViewModels
 
 		private bool CanOpenOrRemoveFile()
 		{
-			return SelectedDocument != null && SelectedDocument.HasFile && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && SelectedDocument.HasFile && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		void OnRemovePart()
@@ -393,13 +393,13 @@ namespace SKDModule.ViewModels
 		{
 			return SelectedDayTimeTrackPart != null
 				&& SelectedDayTimeTrackPart.IsManuallyAdded
-				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
+				&& FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
 		bool CanEditPart()
 		{
 			return SelectedDayTimeTrackPart != null
-				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit)
+				&& FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit)
 				&& !SelectedDayTimeTrackPart.IsOpen;
 		}
 
@@ -469,7 +469,7 @@ namespace SKDModule.ViewModels
 
 		bool CanEditDocument()
 		{
-			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		void OnRemoveDocument()
@@ -492,7 +492,7 @@ namespace SKDModule.ViewModels
 
 		bool CanRemoveDocument()
 		{
-			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+			return SelectedDocument != null && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		void OnAddFile()

@@ -1,5 +1,5 @@
 ﻿using Common;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;

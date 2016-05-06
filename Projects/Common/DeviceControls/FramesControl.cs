@@ -4,9 +4,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrustructure.Plans.Devices;
 
 namespace DeviceControls

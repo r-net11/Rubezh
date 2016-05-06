@@ -1,8 +1,8 @@
-﻿using SKDDriver.DataAccess;
+﻿using StrazhDAL.DataAccess;
 using System;
 using System.Linq;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class MetadataTranslator
 	{

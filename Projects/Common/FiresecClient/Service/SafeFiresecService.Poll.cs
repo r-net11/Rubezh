@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using Common;
-using FiresecAPI;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.Device;
+using StrazhAPI;
+using StrazhAPI.AutomationCallback;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.Device;
 using Infrastructure.Common.Windows;
 
 namespace FiresecClient

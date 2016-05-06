@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using FiresecAPI.Automation;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Automation;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
 

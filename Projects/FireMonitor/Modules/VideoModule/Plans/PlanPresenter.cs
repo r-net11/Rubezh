@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;

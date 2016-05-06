@@ -59,9 +59,9 @@
       <Project>{d8450c23-4958-41c1-a4bd-3c46218f8aea}</Project>
       <Name>EntitiesValidation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\FiresecServiceAPI\StrazhAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
+      <Name>StrazhAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

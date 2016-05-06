@@ -4,7 +4,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
-using FiresecAPI.GK;
+using StrazhAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Painters;

@@ -1,7 +1,7 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
 using Infrastructure.Common.Windows;
 using System;
 using System.Collections.Generic;

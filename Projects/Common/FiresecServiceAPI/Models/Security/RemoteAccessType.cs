@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	public enum RemoteAccessType
 	{
-		[DescriptionAttribute("Запрещен")]
+		[Description("Запрещен")]
 		RemoteAccessBanned,
 
-		[DescriptionAttribute("Разрешен с любых компьютеров")]
+		[Description("Разрешен с любых компьютеров")]
 		RemoteAccessAllowed,
 
-		[DescriptionAttribute("Разрешен только с указанных компьютеров")]
+		[Description("Разрешен только с указанных компьютеров")]
 		SelectivelyAllowed
 	}
 }

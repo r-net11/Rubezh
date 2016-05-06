@@ -1,12 +1,12 @@
-﻿using FiresecAPI.Enums;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using StrazhAPI.Enums;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	[ServiceContract]
 	public interface IFiresecService : IFiresecServiceSKD

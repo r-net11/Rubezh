@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using FiresecAPI.Models;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.Models;
+using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using SKDModule.Reports.ViewModels;
 

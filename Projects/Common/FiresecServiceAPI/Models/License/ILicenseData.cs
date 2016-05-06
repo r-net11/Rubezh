@@ -1,4 +1,4 @@
-﻿namespace FiresecAPI.Models
+﻿namespace StrazhAPI.Models
 {
 	public interface ILicenseData
 	{

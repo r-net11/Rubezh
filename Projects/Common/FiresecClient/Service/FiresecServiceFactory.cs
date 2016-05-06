@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using Common;
-using FiresecAPI;
+using StrazhAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 

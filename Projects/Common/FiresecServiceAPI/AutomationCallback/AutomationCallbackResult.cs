@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.AutomationCallback
+namespace StrazhAPI.AutomationCallback
 {
 	[DataContract]
 	public class AutomationCallbackResult

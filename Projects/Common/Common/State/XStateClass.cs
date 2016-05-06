@@ -1,73 +1,73 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.GK
+namespace StrazhAPI.GK
 {
 	/// <summary>
 	/// Класс состояния
 	/// </summary>
 	public enum XStateClass
 	{
-		[DescriptionAttribute("Лицензия отсутствует")]
+		[Description("Лицензия отсутствует")]
 		HasNoLicense = 0,
 
-		[DescriptionAttribute("База данных устройства не соответствует базе данных ПК")]
+		[Description("База данных устройства не соответствует базе данных ПК")]
 		DBMissmatch = 1,
 
-		[DescriptionAttribute("Контроллер в технологическом режиме")]
+		[Description("Контроллер в технологическом режиме")]
 		TechnologicalRegime = 2,
 
-		[DescriptionAttribute("Потеря связи")]
+		[Description("Потеря связи")]
 		ConnectionLost = 3,
 
-		[DescriptionAttribute("Пожар 2")]
+		[Description("Пожар 2")]
 		Fire2 = 4,
 
-		[DescriptionAttribute("Пожар 1")]
+		[Description("Пожар 1")]
 		Fire1 = 5,
 
-		[DescriptionAttribute("Тревога")]
+		[Description("Тревога")]
 		Attention = 6,
 
-		[DescriptionAttribute("Отключено")]
+		[Description("Отключено")]
 		Ignore = 7,
 
-		[DescriptionAttribute("Неисправность")]
+		[Description("Неисправность")]
 		Failure = 8,
 
-		[DescriptionAttribute("Включено")]
+		[Description("Включено")]
 		On = 9,
 
-		[DescriptionAttribute("Включается")]
+		[Description("Включается")]
 		TurningOn = 10,
 
-		[DescriptionAttribute("Выключается")]
+		[Description("Выключается")]
 		TurningOff = 11,
 
-		[DescriptionAttribute("Автоматика отключена")]
+		[Description("Автоматика отключена")]
 		AutoOff = 12,
 
-		[DescriptionAttribute("Требуется обслуживание")]
+		[Description("Требуется обслуживание")]
 		Service = 13,
 
-		[DescriptionAttribute("Тест")]
+		[Description("Тест")]
 		Test = 14,
 
-		[DescriptionAttribute("Информация")]
+		[Description("Информация")]
 		Info = 15,
 
-		[DescriptionAttribute("Выключено")]
+		[Description("Выключено")]
 		Off = 16,
 
-		[DescriptionAttribute("Неизвестно")]
+		[Description("Неизвестно")]
 		Unknown = 17,
 
-		[DescriptionAttribute("Норма")]
+		[Description("Норма")]
 		Norm = 18,
 
-		[DescriptionAttribute("Нет")]
+		[Description("Нет")]
 		No = 19,
 
-		[DescriptionAttribute("Лицензия обнаружена")]
+		[Description("Лицензия обнаружена")]
 		HasLicense = 20,
 	}
 }

@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using Common;
 using Infrustructure.Plans.Devices;
-using FiresecAPI.GK;
+using StrazhAPI.GK;
 
 namespace DeviceControls
 {

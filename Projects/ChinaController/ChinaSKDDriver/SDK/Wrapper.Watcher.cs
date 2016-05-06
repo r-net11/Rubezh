@@ -1,10 +1,10 @@
-﻿using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
-using FiresecAPI.Journal;
+﻿using StrazhDeviceSDK.API;
+using StrazhDeviceSDK.NativeAPI;
+using StrazhAPI.Journal;
 using System;
 using System.Threading;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public partial class Wrapper
 	{
@@ -18,7 +18,7 @@ namespace ChinaSKDDriver
 
 		public static void WrapInitialize()
 		{
-			ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
+			NativeAPI.NativeWrapper.WRAP_Initialize();
 		}
 
 		#region Connct

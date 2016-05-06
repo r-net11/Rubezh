@@ -1,29 +1,28 @@
 ﻿using System.IO;
 using System.Text;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.Automation.Enums;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.Enums;
-using FiresecAPI.Extensions;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Automation;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.Automation;
+using StrazhAPI.Automation.Enums;
+using StrazhAPI.AutomationCallback;
+using StrazhAPI.Enums;
+using StrazhAPI.Extensions;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Automation;
+using StrazhAPI.SKD;
 using FiresecService.Automation;
 using FiresecService.Service;
 using HigLabo.Mime;
 using HigLabo.Net.Smtp;
-using SKDDriver;
-using SKDDriver.Translators;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
-using Property = FiresecAPI.Automation.Property;
+using Property = StrazhAPI.Automation.Property;
 
 namespace FiresecService
 {
@@ -1131,7 +1130,7 @@ namespace FiresecService
 					variableValue.ExplicitValue.CardTypeValue = (CardType)propertyValue;
 				// Режим доступа
 				if (variableValue.EnumType == EnumType.AccessState)
-					variableValue.ExplicitValue.AccessStateValue = (FiresecAPI.Automation.Enums.AccessState?)propertyValue;
+					variableValue.ExplicitValue.AccessStateValue = (StrazhAPI.Automation.Enums.AccessState?)propertyValue;
 				// Статус двери
 				if (variableValue.EnumType == EnumType.DoorStatus)
 					variableValue.ExplicitValue.DoorStatusValue = (DoorStatus?)propertyValue;
@@ -1248,7 +1247,7 @@ namespace FiresecService
 		{
 			// Режим доступа
 			if (property == Property.AccessState)
-				return (FiresecAPI.Automation.Enums.AccessState)device.State.AccessState;
+				return (StrazhAPI.Automation.Enums.AccessState)device.State.AccessState;
 			// Статус двери
 			if (property == Property.DoorStatus)
 				return XStateClassToDoorStatus(device.State.StateClass);
@@ -1309,7 +1308,7 @@ namespace FiresecService
 		{
 			// Режим доступа
 			if (property == Property.AccessState)
-				return (FiresecAPI.Automation.Enums.AccessState)door.State.AccessState;
+				return (StrazhAPI.Automation.Enums.AccessState)door.State.AccessState;
 			// Статус двери
 			if (property == Property.DoorStatus)
 				return XStateClassToDoorStatus(door.State.StateClass);

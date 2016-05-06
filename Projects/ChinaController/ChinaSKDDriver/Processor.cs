@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using ChinaSKDDriverAPI;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
+using StrazhDeviceSDK.API;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
 using System.Linq;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.Device;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.Device;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public static partial class Processor
 	{

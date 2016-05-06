@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Models;
-using FiresecAPI.SKD;
+﻿using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;

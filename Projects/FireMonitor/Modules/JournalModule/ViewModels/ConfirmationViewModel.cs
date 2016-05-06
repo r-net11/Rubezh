@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;

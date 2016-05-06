@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
-using FiresecAPI.Extensions;
-using FiresecAPI.SKD;
+using StrazhAPI.Extensions;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;

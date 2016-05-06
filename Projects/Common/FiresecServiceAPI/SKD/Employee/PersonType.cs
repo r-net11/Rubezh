@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public enum PersonType
 	{
-		[DescriptionAttribute("Сотрудник")]
+		[Description("Сотрудник")]
 		Employee,
 
-		[DescriptionAttribute("Посетитель")]
+		[Description("Посетитель")]
 		Guest
 	}
 }

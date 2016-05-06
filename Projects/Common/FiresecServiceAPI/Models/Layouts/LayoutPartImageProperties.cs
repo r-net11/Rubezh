@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Windows.Media;
 
-namespace FiresecAPI.Models.Layouts
+namespace StrazhAPI.Models.Layouts
 {
 	[DataContract]
 	public class LayoutPartImageProperties : LayoutPartReferenceProperties

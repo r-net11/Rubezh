@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using StrazhAPI.GK;
+using StrazhAPI.SKD;
 
 namespace StrazhModule.ViewModels
 {

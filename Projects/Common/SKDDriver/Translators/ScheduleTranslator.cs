@@ -1,10 +1,10 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using LinqKit;
 using System;
 using System.Linq;
-using OperationResult = FiresecAPI.OperationResult;
+using OperationResult = StrazhAPI.OperationResult;
 
-namespace SKDDriver.Translators
+namespace StrazhDAL
 {
 	public class ScheduleTranslator : EmployeeTranslatorBase<DataAccess.Schedule, Schedule, ScheduleFilter, ShortSchedule>
 	{

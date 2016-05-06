@@ -1,4 +1,4 @@
-﻿using ChinaSKDDriver;
+﻿using StrazhDeviceSDK;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 

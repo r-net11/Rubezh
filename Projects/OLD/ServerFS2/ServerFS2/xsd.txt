@@ -1,2 +1,0 @@
-﻿"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\xsd.exe" C:/rubezh2010.xml /outputdir:C:/
-"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\xsd.exe" C:/rubezh2010.xsd /classes /outputdir:C:/

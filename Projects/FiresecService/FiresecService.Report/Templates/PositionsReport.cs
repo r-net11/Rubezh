@@ -1,8 +1,8 @@
 ﻿using Common;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
-using SKDDriver;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Data;

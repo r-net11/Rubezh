@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using EntitiesValidation;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return IsSlide && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
+			return IsSlide && !IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -131,7 +131,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
+			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
 		}
 
 		void Sort()

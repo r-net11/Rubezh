@@ -1,7 +1,7 @@
-﻿using FiresecAPI.SKD;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using StrazhAPI.SKD;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class ServerTask

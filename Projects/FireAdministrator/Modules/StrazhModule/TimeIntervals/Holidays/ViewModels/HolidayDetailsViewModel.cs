@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace StrazhModule.ViewModels

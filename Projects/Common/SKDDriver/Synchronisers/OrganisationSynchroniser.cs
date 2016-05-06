@@ -1,11 +1,11 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using LinqKit;
 using System;
 using System.Data.Linq;
 using System.Linq.Expressions;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class OrganisationSynchroniser : Synchroniser<ExportOrganisation, DataAccess.Organisation>
 	{

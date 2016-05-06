@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using LayoutModel = FiresecAPI.Models.Layouts.Layout;
-using FiresecAPI.Models.Layouts;
+using LayoutModel = StrazhAPI.Models.Layouts.Layout;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 
 namespace AutomationModule.ViewModels

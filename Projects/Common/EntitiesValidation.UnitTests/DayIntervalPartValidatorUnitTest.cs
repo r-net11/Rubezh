@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EntitiesValidation.UnitTests

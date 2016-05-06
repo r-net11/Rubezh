@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -96,9 +96,9 @@ namespace SKDModule.ViewModels
 			base.OnOrganisationUsersChanged(newOrganisation);
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
 		}
 
 		protected override void UpdateSelected()
@@ -115,7 +115,7 @@ namespace SKDModule.ViewModels
 
 		public bool IsShowEmployeeList
 		{
-			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
+			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using SKDModule.Events;
@@ -50,9 +50,9 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Publish(null);
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_AdditionalColumns_Etit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_AdditionalColumns_Etit; }
 		}
 
 		protected override ShortAdditionalColumnType CopyModel(ShortAdditionalColumnType source)

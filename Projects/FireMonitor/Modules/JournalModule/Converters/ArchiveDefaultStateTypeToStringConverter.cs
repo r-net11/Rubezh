@@ -1,5 +1,5 @@
 ﻿using System.Windows.Data;
-using FiresecAPI;
+using StrazhAPI;
 using Infrastructure.Models;
 
 namespace JournalModule.Converters

@@ -5,8 +5,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using EntitiesValidation;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 	{
 		ScheduleSchemeViewModel _scheduleScheme;
 		bool _initialized;
-		public bool CanSelect { get { return !_scheduleScheme.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit); } }
+		public bool CanSelect { get { return !_scheduleScheme.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit); } }
 
 		public SheduleDayIntervalViewModel(ScheduleSchemeViewModel scheduleScheme, ScheduleDayInterval dayInterval)
 			: base(dayInterval)

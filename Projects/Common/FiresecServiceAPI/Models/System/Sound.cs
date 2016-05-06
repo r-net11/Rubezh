@@ -1,7 +1,7 @@
-﻿using FiresecAPI.GK;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class Sound

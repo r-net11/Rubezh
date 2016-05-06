@@ -1,7 +1,7 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.IO;

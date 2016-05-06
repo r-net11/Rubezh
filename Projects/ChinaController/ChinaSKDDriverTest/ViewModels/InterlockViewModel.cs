@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
-using ChinaSKDDriverAPI;
+using StrazhDeviceSDK.API;
 using System.Collections.ObjectModel;
 
 namespace ControllerSDK.ViewModels

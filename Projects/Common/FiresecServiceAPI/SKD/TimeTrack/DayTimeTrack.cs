@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Windows.Media;
-using FiresecAPI.Extensions;
+using StrazhAPI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public class DayTimeTrack

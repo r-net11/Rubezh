@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	[DataContract]
 	public class FindObjectCondition
@@ -56,16 +56,16 @@ namespace FiresecAPI.Automation
 		[Description("Режим")]
 		DelayRegime,
 
-		[DescriptionAttribute("Режим доступа")]
+		[Description("Режим доступа")]
 		AccessState,
 
-		[DescriptionAttribute("Статус двери")]
+		[Description("Статус двери")]
 		DoorStatus,
 
-		[DescriptionAttribute("Статус по взлому")]
+		[Description("Статус по взлому")]
 		BreakInStatus,
 
-		[DescriptionAttribute("Статус соединения")]
+		[Description("Статус соединения")]
 		ConnectionStatus
 	}
 }

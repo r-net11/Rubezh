@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Journal;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
+using StrazhAPI.Journal;
+using StrazhAPI.Models.Layouts;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;

@@ -1,4 +1,9 @@
-﻿<UserControl x:Class="AutomationModule.Views.ControlVisualStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:AutomationModule.Views" xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI">
+﻿<UserControl
+	x:Class="AutomationModule.Views.ControlVisualStepView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Views="clr-namespace:AutomationModule.Views"
+	xmlns:automation="clr-namespace:StrazhAPI.Automation;assembly=StrazhAPI">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

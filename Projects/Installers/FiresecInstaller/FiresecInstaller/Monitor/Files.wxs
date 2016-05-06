@@ -27,7 +27,7 @@
 				<File Id="Monitor.StrazhMonitor.Layout.exe.config" Name="StrazhMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.StrazhMonitor.Layout.exe.manifest" Name="StrazhMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 
-				<File Id="Monitor.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Monitor.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.EntitiesValidation.dll" Name="EntitiesValidation.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
 

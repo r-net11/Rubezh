@@ -1,8 +1,8 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using System.Linq;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class PhotoTranslator : WithFilterTranslator<DataAccess.Photo, Photo, PhotoFilter>
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure.Client.Login;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;

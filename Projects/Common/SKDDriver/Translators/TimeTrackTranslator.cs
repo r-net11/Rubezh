@@ -1,16 +1,17 @@
 ﻿using System.Diagnostics;
-using FiresecAPI;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.SKD;
 using Infrastructure.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using SKDDriver.DataAccess;
-using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
+using StrazhDAL.DataAccess;
+using TimeTrackDocumentType = StrazhAPI.SKD.TimeTrackDocumentType;
 using System.Threading.Tasks;
-namespace SKDDriver.Translators
+
+namespace StrazhDAL
 {
 	public class TimeTrackTranslator
 	{

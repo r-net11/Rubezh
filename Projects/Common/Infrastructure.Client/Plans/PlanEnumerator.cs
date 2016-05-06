@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Client.Plans

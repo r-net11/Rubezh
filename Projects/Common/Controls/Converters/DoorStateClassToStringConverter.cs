@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.GK;
+﻿using StrazhAPI;
+using StrazhAPI.GK;
 using System;
 using System.Windows.Data;
 

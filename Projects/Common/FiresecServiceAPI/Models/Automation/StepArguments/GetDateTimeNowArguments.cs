@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	public class GetDateTimeNowArguments
 	{

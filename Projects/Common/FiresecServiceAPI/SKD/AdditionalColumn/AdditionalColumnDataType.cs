@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[Flags]
 	public enum AdditionalColumnDataType

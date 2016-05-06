@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Schedule = FiresecAPI.SKD.Schedule;
+using Schedule = StrazhAPI.SKD.Schedule;
 
 namespace SKDModule.ViewModels
 {

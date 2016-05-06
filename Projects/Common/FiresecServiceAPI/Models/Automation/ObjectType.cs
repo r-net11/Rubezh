@@ -1,31 +1,31 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	public enum ObjectType
 	{
-		[DescriptionAttribute("СКД-устройство")]
+		[Description("СКД-устройство")]
 		SKDDevice,
 
-		[DescriptionAttribute("СКД-зона")]
+		[Description("СКД-зона")]
 		SKDZone,
 
-		[DescriptionAttribute("Видеоустройство")]
+		[Description("Видеоустройство")]
 		VideoDevice,
 
-		[DescriptionAttribute("Точка доступа")]
+		[Description("Точка доступа")]
 		Door,
 
-		[DescriptionAttribute("Организация")]
+		[Description("Организация")]
 		Organisation,
 
-		[DescriptionAttribute("Пользователь")]
+		[Description("Пользователь")]
 		User,
 
-		[DescriptionAttribute("Сотрудник")]
+		[Description("Сотрудник")]
 		Employee,
 
-		[DescriptionAttribute("Посетитель")]
+		[Description("Посетитель")]
 		Visitor
 	}
 }

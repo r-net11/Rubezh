@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using FiresecAPI.Automation;
-using FiresecAPI.Automation.Enums;
+using StrazhAPI.Automation;
+using StrazhAPI.Automation.Enums;
 using Infrastructure;
 using System.Collections.ObjectModel;
 

@@ -7,7 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using RviCommonClient;
 using RviOperatorClient.RviIntegrationServiceReference;
 using RviOperatorClient.RviIntegrationVideoStreamingServiceReference;

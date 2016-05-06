@@ -1,7 +1,7 @@
 ﻿using AutomationModule.ViewModels;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.Models.Automation;
+using StrazhAPI;
+using StrazhAPI.Automation;
+using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using System;

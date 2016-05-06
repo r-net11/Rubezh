@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Enums;
+using StrazhAPI.Enums;
 
-namespace FiresecAPI.SKD.ReportFilters
+namespace StrazhAPI.SKD.ReportFilters
 {
 	[DataContract]
 	[KnownType(typeof(EmployeeRootReportFilter))]
@@ -12,7 +12,7 @@ namespace FiresecAPI.SKD.ReportFilters
 		public EmployeeRootReportFilter()
 		{
 			IsEmployee = true;
-			ReportType = ReportType.EmployeeRootReport;
+			ReportType = Enums.ReportType.EmployeeRootReport;
 		}
 
 		#region IReportFilterOrganisation Members

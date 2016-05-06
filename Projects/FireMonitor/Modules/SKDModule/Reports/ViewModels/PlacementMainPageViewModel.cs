@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD.ReportFilters;
+﻿using StrazhAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using System;
 

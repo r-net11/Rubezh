@@ -1,7 +1,7 @@
-﻿using FiresecAPI.Automation;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using StrazhAPI.Automation;
 
-namespace FiresecAPI.AutomationCallback
+namespace StrazhAPI.AutomationCallback
 {
 	[DataContract]
 	[KnownType(typeof(MessageCallbackData))]

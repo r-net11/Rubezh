@@ -1,7 +1,7 @@
 ﻿using Common;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.Automation;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;

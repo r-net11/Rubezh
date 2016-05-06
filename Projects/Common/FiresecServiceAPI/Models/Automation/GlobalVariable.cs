@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 
-namespace FiresecAPI.Models.Automation
+namespace StrazhAPI.Models.Automation
 {
 	[DataContract]
 	public sealed class GlobalVariable : IVariable

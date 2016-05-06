@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	[DataContract]
 	public class ArchiveFilter

@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
-using FiresecAPI;
-using FiresecAPI.Models;
+using StrazhAPI;
+using StrazhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -11,7 +11,7 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
 using StrazhModule.Events;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace StrazhModule.ViewModels

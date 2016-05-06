@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -115,7 +115,7 @@ namespace SKDModule.ViewModels
 
 		bool CanEditRemove()
 		{
-			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			 return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
+			return FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -181,7 +181,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRestore()
 		{
-			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
+			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Windows.Media;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using System.Windows.Controls;
 
 namespace LayoutModule.LayoutParts.ViewModels

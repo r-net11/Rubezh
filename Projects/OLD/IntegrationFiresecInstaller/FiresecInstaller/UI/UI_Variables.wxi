@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define btnNext="Далее >"?>
-  <?define btnCancel="Отмена"?>
-  <?define btnBack="< Назад"?>
-  <?define pushButtonHeight="17"?>
-</Include>

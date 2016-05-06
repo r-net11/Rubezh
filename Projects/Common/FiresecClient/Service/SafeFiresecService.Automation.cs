@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.Models.Automation;
+using StrazhAPI;
+using StrazhAPI.Automation;
+using StrazhAPI.AutomationCallback;
+using StrazhAPI.Models.Automation;
 
 namespace FiresecClient
 {

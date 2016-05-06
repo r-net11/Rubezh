@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 		bool CanAdd()
 		{
 			return SelectedDocumentType != null
-				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+				&& FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -159,7 +159,7 @@ namespace SKDModule.ViewModels
 			return SelectedDocumentType != null
 				&& SelectedDocumentType.Parent != null
 				&& !SelectedDocumentType.IsOrganisation
-				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+				&& FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -197,7 +197,7 @@ namespace SKDModule.ViewModels
 				&& !SelectedDocumentType.IsOrganisation
 				&& SelectedDocumentType.TimeTrackDocumentType != null
 				&& !SelectedDocumentType.TimeTrackDocumentType.IsSystem
-				&& FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
+				&& FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 	}
 }

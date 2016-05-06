@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Automation;
+﻿using StrazhAPI.Automation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

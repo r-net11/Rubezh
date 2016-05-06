@@ -7,10 +7,10 @@ using Infrustructure.Plans.Designer;
 using AutomationModule.ViewModels;
 using Infrastructure;
 using Infrustructure.Plans.Events;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using FiresecClient;
 using Common;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Services;
 using Infrustructure.Plans.Interfaces;
@@ -19,7 +19,7 @@ using AutomationModule.Plans.InstrumentAdorners;
 using AutomationModule.Plans.ViewModels;
 using AutomationModule.Events;
 using Infrastructure.Common;
-using FiresecAPI;
+using StrazhAPI;
 
 namespace AutomationModule.Plans
 {

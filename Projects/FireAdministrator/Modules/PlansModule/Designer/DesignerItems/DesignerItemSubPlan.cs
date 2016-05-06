@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using StrazhAPI.Models;
 using Infrastructure.Designer.DesignerItems;
 using Infrustructure.Plans.Elements;
 using PlansModule.ViewModels;

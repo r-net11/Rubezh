@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	public enum ExplicitType
 	{
