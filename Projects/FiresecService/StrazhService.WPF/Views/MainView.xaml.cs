@@ -3,8 +3,10 @@ using Infrastructure.Common.Windows;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using StrazhService.Service;
+using StrazhService.Starter;
 
-namespace FiresecService.Views
+namespace StrazhService.Views
 {
 	public partial class MainView : UserControl
 	{

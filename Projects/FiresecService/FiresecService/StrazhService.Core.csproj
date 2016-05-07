@@ -6,10 +6,10 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{903CA80D-886E-43AF-A631-BEB260F8F93D}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FiresecService</RootNamespace>
-    <AssemblyName>StrazhService</AssemblyName>
+    <AssemblyName>StrazhService.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -55,11 +55,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Server.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>StrazhService.exe.manifest</ApplicationManifest>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -155,21 +157,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Automation\ProcedurePropertyCache.cs" />
     <Compile Include="Automation\ProcedureThread.cs" />
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Automation\ScheduleRunner.cs" />
     <Compile Include="Automation\ProcedureRunner.cs" />
+    <Compile Include="IStrazhNotifier.cs" />
     <Compile Include="PatchManager\PatchManager.SKD.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Automation\ProcedureThread.Steps.cs" />
+    <Compile Include="Processor\Notifier.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
@@ -192,28 +191,8 @@
     <Compile Include="Service\Validators\DayIntervalPartValidator.cs" />
     <Compile Include="Service\Validators\DayIntervalValidator.cs" />
     <Compile Include="Service\Validators\ScheduleDayIntervalValidator.cs" />
-    <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />
-    <Compile Include="ViewModels\ClientViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
-    <Compile Include="Views\UILogger.cs" />
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\MainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -229,13 +208,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
     <Compile Include="Automation\ProcedureThread.Callback.cs" />
-    <None Include="StrazhService.exe.manifest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -320,9 +293,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Server.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="mscoree">
       <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -332,9 +302,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ServerLogo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

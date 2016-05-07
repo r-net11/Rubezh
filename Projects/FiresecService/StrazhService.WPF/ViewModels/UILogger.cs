@@ -1,4 +1,4 @@
-﻿namespace FiresecService.ViewModels
+﻿namespace StrazhService.ViewModels
 {
 	public static class UILogger
 	{

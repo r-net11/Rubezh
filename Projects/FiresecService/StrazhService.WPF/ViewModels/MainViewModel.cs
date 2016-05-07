@@ -12,7 +12,7 @@ using System.Windows.Threading;
 using KeyGenerator;
 using KeyGenerator.Entities;
 
-namespace FiresecService.ViewModels
+namespace StrazhService.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{

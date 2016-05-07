@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace FiresecService.Service
+namespace StrazhService.Service
 {
 	public static class NotifyIconService
 	{

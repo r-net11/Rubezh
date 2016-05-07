@@ -1,8 +1,9 @@
 ﻿using Common;
+using FiresecService;
 using FiresecService.Report;
 using FiresecService.Service;
 using FiresecService.Service.Validators;
-using FiresecService.ViewModels;
+using StrazhService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
@@ -14,7 +15,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 
-namespace FiresecService
+namespace StrazhService.Starter
 {
 	public static class Bootstrapper
 	{
@@ -29,6 +30,8 @@ namespace FiresecService
 
 			try
 			{
+				Notifier.SetNotifier(new StrazhNotifier());
+
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();

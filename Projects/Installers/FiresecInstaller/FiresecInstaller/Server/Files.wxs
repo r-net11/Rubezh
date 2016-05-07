@@ -16,6 +16,7 @@
 				<File Id="Server.StrazhService.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
 				<File Id="Server.StrazhService.exe.config" Name="StrazhService.exe.config" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.exe.manifest" Name="StrazhService.exe.manifest" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.StrazhService.Core.dll" Name="StrazhService.Core.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.StrazhService.Report.dll" Name="StrazhService.Report.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />

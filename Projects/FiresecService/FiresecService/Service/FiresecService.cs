@@ -8,7 +8,6 @@ using StrazhAPI.Journal;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecService.Service.Validators;
-using FiresecService.ViewModels;
 using Infrastructure.Common;
 using KeyGenerator;
 using StrazhDAL;
@@ -16,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using StrazhService;
 
 namespace FiresecService.Service
 {
@@ -115,7 +115,7 @@ namespace FiresecService.Service
 			if (operationResult.HasError)
 				return operationResult;
 
-			MainViewModel.Current.EditClient(uid, login);
+			Notifier.EditClient(uid, login);
 			AddJournalMessage(JournalEventNameType.Дежурство_сдал, null, JournalEventDescriptionType.NULL, oldUserName);
 			clientCredentials.UserName = login;
 			SetUserFullName(clientCredentials);

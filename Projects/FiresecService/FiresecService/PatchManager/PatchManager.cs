@@ -1,7 +1,5 @@
 ﻿using Common;
 using StrazhAPI;
-using FiresecService.ViewModels;
-using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using StrazhDAL;
@@ -9,6 +7,7 @@ using System;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
+using StrazhService;
 
 namespace FiresecService
 {
@@ -180,18 +179,20 @@ namespace FiresecService
 
 		private static void HandleConnectionFailureException(Exception e, string codePlace)
 		{
-			const string msg = "Не удалось подключиться к базе данных";
-			UILogger.Log(String.Format("[*] {0} '{1}' ", msg, ConnectionString));
 			Logger.Error(e, codePlace);
-			BalloonHelper.ShowFromServer(msg);
+
+			const string msg = "Не удалось подключиться к базе данных";
+			Notifier.UILog(String.Format("[*] {0} '{1}' ", msg, ConnectionString));
+			Notifier.BalloonShowFromServer(msg);
 		}
 
 		private static void HandleExecutionFailureException(Exception e, string codePlace)
 		{
-			const string msg = "Возникла ошибка при работе с базой данных";
-			UILogger.Log(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
 			Logger.Error(e, codePlace);
-			BalloonHelper.ShowFromServer(msg);
+
+			const string msg = "Возникла ошибка при работе с базой данных";
+			Notifier.UILog(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
+			Notifier.BalloonShowFromServer(msg);
 		}
 	}
 }

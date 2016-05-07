@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService", "FiresecService\FiresecService.csproj", "{903CA80D-886E-43AF-A631-BEB260F8F93D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhService.Core", "FiresecService\StrazhService.Core.csproj", "{903CA80D-886E-43AF-A631-BEB260F8F93D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common\Common.csproj", "{FE37B6D4-73E5-40F2-A770-A974561430B8}"
 EndProject
@@ -55,6 +55,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Licensing.Model", "..\Licence.Model\Licensing.Model.csproj", "{B5D11993-2A32-40F7-BFB9-333B7348062E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateKeyApplication.Common", "..\GenerateKeyApplication.Common\GenerateKeyApplication.Common.csproj", "{9CC9E430-243F-4F66-9051-65A91BBDDC22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhService.WPF", "StrazhService.WPF\StrazhService.WPF.csproj", "{4E85E914-A972-4ED6-9585-71EA855FCB67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -349,6 +351,20 @@ Global
 		{9CC9E430-243F-4F66-9051-65A91BBDDC22}.Release|Win32.ActiveCfg = Release|Any CPU
 		{9CC9E430-243F-4F66-9051-65A91BBDDC22}.Release|x64.ActiveCfg = Release|Any CPU
 		{9CC9E430-243F-4F66-9051-65A91BBDDC22}.Release|x86.ActiveCfg = Release|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|Win32.ActiveCfg = Release|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|x64.ActiveCfg = Release|Any CPU
+		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

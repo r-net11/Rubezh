@@ -1,23 +1,27 @@
-﻿using System.Threading;
-using System.Windows.Threading;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
 using Common;
 using FiresecService;
-using FiresecService.ViewModels;
-using FiresecService.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
-using System;
-using System.Diagnostics;
-using System.Windows;
 using KeyGenerator;
 
-namespace FiresecServiceRunner
+namespace StrazhService.Starter
 {
-	public partial class App
+	public class App : Application
 	{
 		private const string SignalId = "{59CFC4B4-BA41-4F34-9C41-1CA3851D7019}";
 		private const string WaitId = "{6023CC31-322E-4A74-86FD-E851C2E6C20C}";
+
+		[STAThread]
+		private static void Main()
+		{
+			var app = new App();
+			Current.Resources.MergedDictionaries.Add(LoadComponent(new Uri("Controls;component/Themes/Styles.xaml", UriKind.Relative)) as ResourceDictionary);
+			app.Run();
+		}
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -44,8 +48,7 @@ namespace FiresecServiceRunner
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{
-				AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-				AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
+				AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 				try
 				{
 					Bootstrapper.Run(licenseService);
@@ -59,13 +62,7 @@ namespace FiresecServiceRunner
 			}
 		}
 
-		protected override void OnExit(ExitEventArgs e)
-		{
-			ProcedureRunner.Terminate();
-			base.OnExit(e);
-		}
-
-		private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
 			BalloonHelper.ShowFromServer("Перезагрузка");
@@ -79,8 +76,10 @@ namespace FiresecServiceRunner
 			Current.Shutdown();
 		}
 
-		private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
+		protected override void OnExit(ExitEventArgs e)
 		{
+			ProcedureRunner.Terminate();
+			base.OnExit(e);
 		}
 	}
 }

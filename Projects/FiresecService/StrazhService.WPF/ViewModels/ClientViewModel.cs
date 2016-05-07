@@ -4,7 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 
-namespace FiresecService.ViewModels
+namespace StrazhService.ViewModels
 {
 	public class ClientViewModel : BaseViewModel
 	{
