@@ -5,6 +5,7 @@ import {Location, LocationStrategy, HashLocationStrategy} from
 "@angular/common/index";
 import {HTTP_PROVIDERS} from '@angular/http';
 import {provide} from "@angular/core";
+import 'rxjs/Rx';
 
 import {AppComponent} from "./app.component";
 
