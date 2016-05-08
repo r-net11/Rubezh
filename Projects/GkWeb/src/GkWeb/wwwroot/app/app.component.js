@@ -25,13 +25,18 @@ System.register(['@angular/core', '@angular/router', './hello/hello-world.compon
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent() {
+                function AppComponent(_router) {
+                    this._router = _router;
                 }
+                AppComponent.prototype.clicked = function (event) {
+                    event.preventDefault();
+                    this._router.navigate(['/hello-world']);
+                };
                 AppComponent.prototype.ngOnInit = function () {
                     // init winjs menu
-                    //WinJS.UI.processAll().done(() => {
-                    //	var splitView = document.querySelector(".splitView").winControl;
-                    //});
+                    WinJS.UI.processAll().done(function () {
+                        var splitView = document.querySelector(".splitView").winControl;
+                    });
                 };
                 AppComponent = __decorate([
                     core_1.Component({
@@ -48,7 +53,7 @@ System.register(['@angular/core', '@angular/router', './hello/hello-world.compon
                         //},
                         { path: '/hello-world', component: hello_world_component_1.HelloWorldComponent }
                     ]), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [router_1.Router])
                 ], AppComponent);
                 return AppComponent;
             }());

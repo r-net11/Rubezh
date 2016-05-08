@@ -1,5 +1,5 @@
 ﻿import {Component, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
+import {ROUTER_DIRECTIVES, Router, Routes} from '@angular/router';
 import {HashLocationStrategy} from
 "@angular/common/index";
 
@@ -22,12 +22,25 @@ import {HelloWorldComponent} from './hello/hello-world.component';
 
 		{ path: '/hello-world', component: HelloWorldComponent }
 ])
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit
+{
+	constructor(
+		private _router: Router)
+	{
+
+	}
+
+	clicked(event)
+	{
+		event.preventDefault();
+		this._router.navigate(['/hello-world']);
+	}
+
 	ngOnInit()
 	{
 		// init winjs menu
-		//WinJS.UI.processAll().done(() => {
-		//	var splitView = document.querySelector(".splitView").winControl;
-		//});
+		WinJS.UI.processAll().done(() => {
+			var splitView = document.querySelector(".splitView").winControl;
+		});
 	}
 }
