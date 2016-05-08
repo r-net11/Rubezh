@@ -1,22 +1,5 @@
-﻿<md-sidenav-layout class="demo-root" fullscreen>
-	<md-sidenav #start>
-		<md-nav-list>
-			<a md-list-item [routerLink]="['/hello-world']">Hello world</a>
-		</md-nav-list>
-		<button md-button (click)="start.close()">CLOSE</button>
-	</md-sidenav>
-	<div>
-		<md-toolbar color="primary">
-			<md-icon (click)="start.open()">menu</md-icon>
-			<div class="demo-toolbar">
-				<h1>Angular Material 2 Demos</h1>
-			</div>
-		</md-toolbar>
-			<router-outlet></router-outlet>
-	</div>
-</md-sidenav-layout>
-
-
+﻿<a [routerLink]="['/hello-world']">Hello World</a>
+<router-outlet></router-outlet>
 
 
 
