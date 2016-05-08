@@ -33,10 +33,7 @@ export class AppComponent implements OnInit
 {
 	constructor(mdIconRegistry: MdIconRegistry)
 	{
-		mdIconRegistry
-			.addSvgIcon('thumb-up', '/images/thumbup-icon.svg')
-			.addSvgIconSetInNamespace('core', '/images/core-icon-set.svg')
-			.registerFontClassAlias('fontawesome', 'fa');
+		mdIconRegistry.registerFontClassAlias('fontawesome', 'fa');
 	}
 	ngOnInit()
 	{

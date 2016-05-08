@@ -41,10 +41,7 @@ System.register(['@angular/core', '@angular/router', '@angular2-material/icon', 
         execute: function() {
             AppComponent = (function () {
                 function AppComponent(mdIconRegistry) {
-                    mdIconRegistry
-                        .addSvgIcon('thumb-up', '/images/thumbup-icon.svg')
-                        .addSvgIconSetInNamespace('core', '/images/core-icon-set.svg')
-                        .registerFontClassAlias('fontawesome', 'fa');
+                    mdIconRegistry.registerFontClassAlias('fontawesome', 'fa');
                 }
                 AppComponent.prototype.ngOnInit = function () {
                 };
