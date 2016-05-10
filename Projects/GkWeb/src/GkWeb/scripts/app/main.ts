@@ -6,5 +6,13 @@ import {LocationStrategy, HashLocationStrategy} from
 import {provide} from "@angular/core";
 
 import {AppComponent} from "./app.component";
+import {GkService, ChannelConfig, SignalrWindow} from "./services/gk.service";
 
-bootstrap(AppComponent, [ROUTER_PROVIDERS, provide(LocationStrategy, { useClass: HashLocationStrategy })]);
+let channelConfig = new ChannelConfig();
+channelConfig.url = "http://localhost:5000/signalr";
+channelConfig.hubName = "EventHub";
+
+bootstrap(AppComponent, [ROUTER_PROVIDERS, GkService,
+    provide(SignalrWindow, { useValue: window }),
+    provide("channel.config", { useValue: channelConfig }),
+	provide(LocationStrategy, { useClass: HashLocationStrategy })]);

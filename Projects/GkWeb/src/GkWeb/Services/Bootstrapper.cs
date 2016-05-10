@@ -49,6 +49,11 @@ namespace GkWeb.Services
 		private void SubscribeOnServiceStateEvents() {
 			SafeFiresecService.ConfigurationChangedEvent += SafeFiresecServiceOnConfigurationChangedEvent;
 			SafeFiresecService.OnConnectionAppeared += SafeFiresecServiceOnConnectionAppeared;
+			SafeFiresecService.GKCallbackResultEvent += SafeFiresecServiceOnGKCallbackResultEvent;
+		}
+
+		private void SafeFiresecServiceOnGKCallbackResultEvent(GKCallbackResult obj) {
+			var states = obj.GKStates;
 		}
 
 		private void SafeFiresecServiceOnConnectionAppeared() {
