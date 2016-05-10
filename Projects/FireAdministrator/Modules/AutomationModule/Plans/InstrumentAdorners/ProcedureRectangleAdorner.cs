@@ -1,12 +1,10 @@
-﻿using RubezhAPI.Models;
-using RubezhAPI.SKD;
+﻿using AutomationModule.Plans.ViewModels;
+using AutomationModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
-using AutomationModule.ViewModels;
-using RubezhAPI.Automation;
+using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
-using AutomationModule.Plans.ViewModels;
 
 namespace AutomationModule.Plans.InstrumentAdorners
 {
@@ -19,14 +17,11 @@ namespace AutomationModule.Plans.InstrumentAdorners
 			_proceduresViewModel = proceduresViewModel;
 		}
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementProcedure();
+			var element = new ElementProcedure() { Left = left, Top = top };
 			var propertiesViewModel = new ProcedurePropertiesViewModel(element, _proceduresViewModel);
-			if (!DialogService.ShowModalWindow(propertiesViewModel))
-				return null;
-			AutomationPlanExtension.Instance.SetItem<Procedure>(element);
-			return element;
+			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}
 }

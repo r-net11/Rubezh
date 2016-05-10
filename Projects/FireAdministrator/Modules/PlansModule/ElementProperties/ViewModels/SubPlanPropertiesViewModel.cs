@@ -9,15 +9,44 @@ namespace PlansModule.ViewModels
 {
 	public class SubPlanPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
 		private IElementSubPlan _elementSubPlan;
 
-		public SubPlanPropertiesViewModel(IElementSubPlan elementSubPlan)
+		public SubPlanPropertiesViewModel(IElementSubPlan element)
 		{
 			Title = "Свойства фигуры: Ссылка на план";
-			_elementSubPlan = elementSubPlan;
+			_elementSubPlan = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			Initialize();
 		}
-
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 		private void Initialize()
 		{
 			Plans = new ObservableCollection<PlanViewModel>();
@@ -64,6 +93,8 @@ namespace PlansModule.ViewModels
 		}
 		protected override bool Save()
 		{
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
 			Helper.SetSubPlan(_elementSubPlan, SelectedPlan == null ? null : SelectedPlan.Plan);
 			return base.Save();
 		}

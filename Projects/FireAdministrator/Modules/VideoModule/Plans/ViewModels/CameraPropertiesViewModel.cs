@@ -9,22 +9,43 @@ namespace VideoModule.Plans.ViewModels
 {
 	public class CameraPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		ElementCamera _elementCamera;
 		CamerasViewModel _camerasViewModelForPlanExtension;
-		List<CameraViewModel> CamerasForUpdate { get; set; }
-
-		public CameraPropertiesViewModel(ElementCamera elementCamera)
+		public CameraPropertiesViewModel(ElementCamera element)
 		{
 			Title = "Свойства фигуры: Камера";
-			_elementCamera = elementCamera;
+			_elementCamera = element;
+			Left = (int)(_elementCamera.Left * _sensivityFactor);
+			Top = (int)(_elementCamera.Top * _sensivityFactor);
 			_camerasViewModelForPlanExtension = new CamerasViewModel();
 			_camerasViewModelForPlanExtension.Initialize();
 
 			Cameras = _camerasViewModelForPlanExtension.Cameras;
-			SelectedCamera = _camerasViewModelForPlanExtension.AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == elementCamera.CameraUID);
-			Rotation = elementCamera.Rotation;
+			SelectedCamera = _camerasViewModelForPlanExtension.AllCameras.FirstOrDefault(item => item.IsCamera && item.Camera.UID == element.CameraUID);
+			Rotation = element.Rotation;
 		}
 
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
 
 		CameraViewModel _selectedCamera;
@@ -51,6 +72,8 @@ namespace VideoModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
+			_elementCamera.Left = (double)Left / _sensivityFactor;
+			_elementCamera.Top = (double)Top / _sensivityFactor;
 			PlanExtension.Instance.RewriteItem(_elementCamera, SelectedCamera.Camera);
 			_elementCamera.Rotation = Rotation;
 			return base.Save();

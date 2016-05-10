@@ -13,19 +13,48 @@ namespace GKModule.Plans.ViewModels
 {
 	public class SKDZonePropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		IElementZone IElementZone;
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
 
-		public SKDZonePropertiesViewModel(IElementZone iElementZone)
+		public SKDZonePropertiesViewModel(IElementZone element)
 		{
-			IElementZone = iElementZone;
+			IElementZone = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: СКД Зона";
 			Zones = new ObservableCollection<GKSKDZone>(GKManager.SKDZones);
-			if (iElementZone.ZoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.UID == iElementZone.ZoneUID);
+			if (element.ZoneUID != Guid.Empty)
+				SelectedZone = Zones.FirstOrDefault(x => x.UID == element.ZoneUID);
 		}
-
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 		public ObservableCollection<GKSKDZone> Zones { get; private set; }
 
 		GKSKDZone _selectedZone;
@@ -62,6 +91,8 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
 			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone);
 			return base.Save();
 		}

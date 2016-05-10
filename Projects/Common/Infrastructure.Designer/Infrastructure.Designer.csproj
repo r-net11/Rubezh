@@ -113,7 +113,7 @@
       <DependentUpon>TextBlockPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DesignerLoader.cs" />
-    <Compile Include="InstrumentAdorners\ElipseAdorner.cs" />
+    <Compile Include="InstrumentAdorners\EllipseAdorner.cs" />
     <Compile Include="InstrumentAdorners\GridLineAdorner.cs" />
     <Compile Include="InstrumentAdorners\GridLineShape.cs" />
     <Compile Include="InstrumentAdorners\PointsAdorner.cs" />

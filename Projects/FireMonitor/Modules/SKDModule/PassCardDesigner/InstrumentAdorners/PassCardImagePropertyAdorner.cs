@@ -19,14 +19,12 @@ namespace SKDModule.PassCardDesigner.InstrumentAdorners
 
 		Guid _organisationUID;
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementPassCardImageProperty() { BackgroundColor = Colors.Transparent };
+			var element = new ElementPassCardImageProperty() { BackgroundColor = Colors.Transparent, Left = left, Top = top };
 			element.OrganisationUID = _organisationUID;
 			var propertiesViewModel = new PassCardImagePropertyViewModel(element);
-			if (!DialogService.ShowModalWindow(propertiesViewModel))
-				return null;
-			return element;
+			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}
 }

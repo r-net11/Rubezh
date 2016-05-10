@@ -16,7 +16,6 @@ namespace GKImitator
 		{
 			CheckConfigDirectory();
 			GKManager.DeviceConfiguration = GetDeviceConfiguration();
-			GKDriversCreator.Create();
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
