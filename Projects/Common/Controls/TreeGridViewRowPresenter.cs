@@ -15,14 +15,14 @@ namespace Controls
 		public static DependencyProperty FirstColumnIndentProperty = DependencyProperty.Register("FirstColumnIndent", typeof(Double), typeof(TreeGridViewRowPresenter), new PropertyMetadata(0d));
 		public static DependencyProperty ExpanderProperty = DependencyProperty.Register("Expander", typeof(UIElement), typeof(TreeGridViewRowPresenter), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnExpanderChanged)));
 
-		private UIElementCollection childs;
+		UIElementCollection _childs;
 
-		private static PropertyInfo ActualIndexProperty = typeof(GridViewColumn).GetProperty("ActualIndex", BindingFlags.NonPublic | BindingFlags.Instance);
-		private static PropertyInfo DesiredWidthProperty = typeof(GridViewColumn).GetProperty("DesiredWidth", BindingFlags.NonPublic | BindingFlags.Instance);
+		static PropertyInfo ActualIndexProperty = typeof(GridViewColumn).GetProperty("ActualIndex", BindingFlags.NonPublic | BindingFlags.Instance);
+		static PropertyInfo DesiredWidthProperty = typeof(GridViewColumn).GetProperty("DesiredWidth", BindingFlags.NonPublic | BindingFlags.Instance);
 
 		public TreeGridViewRowPresenter()
 		{
-			childs = new UIElementCollection(this, this);
+			_childs = new UIElementCollection(this, this);
 			DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ColumnsProperty, typeof(TreeGridViewRowPresenter));
 			if (dpd != null)
 				dpd.AddValueChanged(this, (s, e) => EnsureLines());
@@ -40,20 +40,20 @@ namespace Controls
 			set { SetValue(ExpanderProperty, value); }
 		}
 
-		private static void OnExpanderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		static void OnExpanderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			// Use a second UIElementCollection so base methods work as original
 			TreeGridViewRowPresenter p = (TreeGridViewRowPresenter)d;
 
 			if (e.OldValue != null)
-				p.childs.Remove(e.OldValue as UIElement);
+				p._childs.Remove(e.OldValue as UIElement);
 			if (e.NewValue != null)
-				p.childs.Add((UIElement)e.NewValue);
+				p._childs.Add((UIElement)e.NewValue);
 		}
 
-		private static readonly Style DefaultSeparatorStyle;
+		static readonly Style DefaultSeparatorStyle;
 		public static readonly DependencyProperty SeparatorStyleProperty;
-		private readonly List<FrameworkElement> _lines = new List<FrameworkElement>();
+		readonly List<FrameworkElement> _lines = new List<FrameworkElement>();
 		static TreeGridViewRowPresenter()
 		{
 			DefaultSeparatorStyle = new Style(typeof(Rectangle));
@@ -67,25 +67,27 @@ namespace Controls
 			get { return (Style)GetValue(SeparatorStyleProperty); }
 			set { SetValue(SeparatorStyleProperty, value); }
 		}
-		private IEnumerable<FrameworkElement> Children
+
+		IEnumerable<FrameworkElement> Children
 		{
 			get { return LogicalTreeHelper.GetChildren(this).OfType<FrameworkElement>(); }
 		}
-		private static void SeparatorStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+
+		static void SeparatorStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var presenter = (TreeGridViewRowPresenter)d;
 			var style = (Style)e.NewValue;
 			foreach (FrameworkElement line in presenter._lines)
 				line.Style = style;
 		}
-		private void EnsureLines()
+
+		void EnsureLines()
 		{
 			int count = Columns == null ? 0 : Columns.Count;
 			count = count - _lines.Count;
 			for (var i = 0; i < count; i++)
 			{
 				var line = (FrameworkElement)Activator.CreateInstance(SeparatorStyle.TargetType);
-				//line = new Rectangle{Fill=Brushes.LightGray};
 				line.Style = SeparatorStyle;
 				AddVisualChild(line);
 				_lines.Add(line);
@@ -111,7 +113,7 @@ namespace Controls
 				UIElement uiColumn = (UIElement)base.GetVisualChild((int)ActualIndexProperty.GetValue(column, null));
 
 				// Compute column width
-				double w = Math.Min(max, (Double.IsNaN(column.Width)) ? (double)DesiredWidthProperty.GetValue(column, null) : column.Width);
+				double w = Math.Min(max, Double.IsNaN(column.Width) ? (double)DesiredWidthProperty.GetValue(column, null) : column.Width);
 
 				// First column indent
 				Rect rect;

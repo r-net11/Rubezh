@@ -1,9 +1,13 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls" xmlns:converters="clr-namespace:Controls.TreeList.Converters" xmlns:tree="clr-namespace:Controls.TreeList">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:controls="clr-namespace:Controls"
+					xmlns:converters="clr-namespace:Controls.TreeList.Converters"
+					xmlns:tree="clr-namespace:Controls.TreeList">
 
 	<Style TargetType="{x:Type ListViewItem}">
 		<Setter Property="Panel.Background" Value="#00FFFFFF" />
-		<Setter Property="Control.Padding" Value="1,0,0,0" />
-		<Setter Property="Control.Margin" Value="0,0,0,0" />
+		<Setter Property="Padding" Value="1,0,0,0" />
+		<Setter Property="Margin" Value="0,0,0,0" />
 		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 		<Setter Property="BorderThickness" Value="0,0,0,1" />
 		<Setter Property="BorderBrush" Value="LightGray" />
@@ -12,7 +16,7 @@
 		<Setter Property="Height" Value="20" />
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="FrameworkElement.FocusVisualStyle">
+		<Setter Property="FocusVisualStyle">
 			<Setter.Value>
 				<Style TargetType="IFrameworkInputElement">
 					<Setter Property="Control.Template">
@@ -25,12 +29,22 @@
 				</Style>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="Control.Template">
+		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ListViewItem">
-					<Border Name="Bd" Grid.Row="0" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}">
+					<Border Name="Bd"
+							Background="{TemplateBinding Panel.Background}"
+							BorderBrush="{TemplateBinding Border.BorderBrush}"
+							BorderThickness="{TemplateBinding Border.BorderThickness}"
+							Padding="{TemplateBinding Control.Padding}"
+							SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}">
 						<DockPanel>
-							<CheckBox x:Name="mark" Margin="2,0,0,0" VerticalAlignment="Center" DockPanel.Dock="Left" IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsHitTestVisible="False" Visibility="Collapsed">
+							<CheckBox x:Name="mark" Margin="2,0,0,0"
+									  VerticalAlignment="Center"
+									  DockPanel.Dock="Left"
+									  IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+									  IsHitTestVisible="False"
+									  Visibility="Collapsed">
 								<CheckBox.Template>
 									<ControlTemplate TargetType="{x:Type CheckBox}">
 										<BulletDecorator Background="Transparent">
@@ -62,24 +76,24 @@
 									</ControlTemplate>
 								</CheckBox.Template>
 							</CheckBox>
-							<Controls:TreeGridViewRowPresenter x:Name="PART_Header">
-								<Controls:TreeGridViewRowPresenter.Resources>
+							<controls:TreeGridViewRowPresenter x:Name="PART_Header">
+								<controls:TreeGridViewRowPresenter.Resources>
 									<Style TargetType="{x:Type ContentPresenter}">
 										<Setter Property="VerticalAlignment" Value="Center" />
 										<Setter Property="HorizontalAlignment" Value="Stretch" />
 									</Style>
-								</Controls:TreeGridViewRowPresenter.Resources>
-								<Controls:TreeGridViewRowPresenter.Expander>
+								</controls:TreeGridViewRowPresenter.Resources>
+								<controls:TreeGridViewRowPresenter.Expander>
 									<tree:RowExpander />
-								</Controls:TreeGridViewRowPresenter.Expander>
-							</Controls:TreeGridViewRowPresenter>
+								</controls:TreeGridViewRowPresenter.Expander>
+							</controls:TreeGridViewRowPresenter>
 						</DockPanel>
 					</Border>
 					<ControlTemplate.Triggers>
-						<Trigger Property="Controls:UIBehavior.ShowSelectionMark" Value="True">
+						<Trigger Property="controls:UIBehavior.ShowSelectionMark" Value="True">
 							<Setter TargetName="mark" Property="Visibility" Value="Visible" />
 						</Trigger>
-						<Trigger Property="Controls:UIBehavior.IsActiveSelectionMark" Value="True">
+						<Trigger Property="controls:UIBehavior.IsActiveSelectionMark" Value="True">
 							<Setter TargetName="mark" Property="IsHitTestVisible" Value="True" />
 						</Trigger>
 						<Trigger Property="IsSelected" Value="true">
@@ -96,8 +110,8 @@
 	</Style>
 
 	<Style x:Key="listviewscroll" TargetType="{x:Type ScrollViewer}">
-		<Setter Property="UIElement.Focusable" Value="False" />
-		<Setter Property="Control.Template">
+		<Setter Property="Focusable" Value="False" />
+		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ScrollViewer}">
 					<Grid Background="{TemplateBinding Background}">
@@ -110,14 +124,45 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
-						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Background="{DynamicResource BackgroundBrush}" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-							<GridViewHeaderRowPresenter AllowsColumnReorder="False" Columns="{Binding Path=View.Columns, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						<ScrollViewer Grid.Row="0" Grid.Column="0"
+									  Background="{DynamicResource BackgroundBrush}"
+									  Focusable="false"
+									  HorizontalScrollBarVisibility="Hidden"
+									  VerticalScrollBarVisibility="Hidden">
+							<GridViewHeaderRowPresenter AllowsColumnReorder="False"
+														Columns="{Binding Path=View.Columns, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+														SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</ScrollViewer>
-						<Rectangle Grid.Row="0" Grid.Column="1" Fill="{DynamicResource BackgroundBrush}" StrokeThickness="0" />
-						<ScrollContentPresenter Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.Column="0" CanContentScroll="{TemplateBinding CanContentScroll}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" KeyboardNavigation.DirectionalNavigation="Local" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-						<ScrollBar Name="PART_VerticalScrollBar" Grid.Row="1" Grid.Column="1" Cursor="Arrow" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0.0" Orientation="Vertical" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-						<ScrollBar Name="PART_HorizontalScrollBar" Grid.Row="2" Grid.Column="0" Cursor="Arrow" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0.0" Orientation="Horizontal" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-						<DockPanel Grid.Row="2" Grid.Column="1" Background="{Binding Path=Background, ElementName=PART_VerticalScrollBar}" LastChildFill="false">
+						<Rectangle Grid.Row="0" Grid.Column="1"
+								   Fill="{DynamicResource BackgroundBrush}"
+								   StrokeThickness="0" />
+						<ScrollContentPresenter Name="PART_ScrollContentPresenter"
+												Grid.Row="1" Grid.Column="0"
+												CanContentScroll="{TemplateBinding CanContentScroll}"
+												Content="{TemplateBinding Content}"
+												ContentTemplate="{TemplateBinding ContentTemplate}"
+												KeyboardNavigation.DirectionalNavigation="Local"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						<ScrollBar Name="PART_VerticalScrollBar"
+								   Grid.Row="1" Grid.Column="1"
+								   Cursor="Arrow"
+								   Maximum="{TemplateBinding ScrollableHeight}"
+								   Minimum="0.0"
+								   Orientation="Vertical"
+								   ViewportSize="{TemplateBinding ViewportHeight}"
+								   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+								   Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+						<ScrollBar Name="PART_HorizontalScrollBar"
+								   Grid.Row="2" Grid.Column="0"
+								   Cursor="Arrow" Maximum="{TemplateBinding ScrollableWidth}"
+								   Minimum="0.0"
+								   Orientation="Horizontal"
+								   ViewportSize="{TemplateBinding ViewportWidth}"
+								   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+								   Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+						<DockPanel Grid.Row="2" Grid.Column="1"
+								   Background="{Binding Path=Background, ElementName=PART_VerticalScrollBar}"
+								   LastChildFill="false">
 							<Rectangle Width="1" DockPanel.Dock="Left" Fill="White" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
 							<Rectangle Height="1" DockPanel.Dock="Top" Fill="White" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
 						</DockPanel>
@@ -139,9 +184,9 @@
 		<Setter Property="ScrollViewer.CanContentScroll" Value="True" />
 		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
 		<Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
-		<Setter Property="Controls:ListViewLayoutManager.Enabled" Value="True" />
-		<Setter Property="Controls:ListViewLayoutManager.MinWidth" Value="50" />
-		<Setter Property="Controls:ListViewLayoutManager.Columns" Value="{Binding View.Columns, RelativeSource={RelativeSource Self}}" />
+		<Setter Property="controls:ListViewLayoutManager.Enabled" Value="True" />
+		<Setter Property="controls:ListViewLayoutManager.MinWidth" Value="50" />
+		<Setter Property="controls:ListViewLayoutManager.Columns" Value="{Binding View.Columns, RelativeSource={RelativeSource Self}}" />
 		<Setter Property="SelectionMode" Value="Single" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -152,7 +197,12 @@
 							<Grid.OpacityMask>
 								<VisualBrush Visual="{Binding Source={x:Reference Bd}}" />
 							</Grid.OpacityMask>
-							<ScrollViewer Background="{TemplateBinding Background}" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Style="{StaticResource listviewscroll}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+							<ScrollViewer Background="{TemplateBinding Background}" CanContentScroll="True" 
+										  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+										  Padding="{TemplateBinding Padding}"
+										  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+										  Style="{StaticResource listviewscroll}"
+										  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
 								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
 							</ScrollViewer>
 						</Grid>
@@ -200,6 +250,7 @@
 	<converters:CanExpandConverter x:Key="CanExpandConverter" />
 
 	<Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type tree:TreeList}" />
+
 	<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type tree:TreeListItem}">
 		<Style.Resources>
 			<Style TargetType="{x:Type tree:RowExpander}">
@@ -207,14 +258,16 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type tree:RowExpander}">
-							<ToggleButton x:Name="Expander" Margin="{Binding Level, Converter={StaticResource LevelToIndentConverter}}" ClickMode="Press" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeListItem}}}" IsChecked="{Binding IsExpanded, Mode=TwoWay}" Style="{StaticResource ExpandCollapseToggleStyle}" Visibility="{Binding HasChildren, Converter={StaticResource CanExpandConverter}}" />
+							<ToggleButton x:Name="Expander"
+										  Margin="{Binding Level, Converter={StaticResource LevelToIndentConverter}}"
+										  ClickMode="Press" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeListItem}}}"
+										  IsChecked="{Binding IsExpanded, Mode=TwoWay}" Style="{StaticResource ExpandCollapseToggleStyle}"
+										  Visibility="{Binding HasChildren, Converter={StaticResource CanExpandConverter}}" />
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
 			</Style>
 		</Style.Resources>
-		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-		<Setter Property="VerticalContentAlignment" Value="Center" />
 	</Style>
 
 </ResourceDictionary>
