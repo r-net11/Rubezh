@@ -498,6 +498,7 @@
     <ProjectReference Include="..\..\Localization\Localization.csproj">
       <Project>{e967498f-e456-4ce8-aba1-b27363a05235}</Project>
       <Name>Localization</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -8,119 +8,119 @@
     xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
 	MinWidth="400"
 	MinHeight="500">
-	<TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
+    <TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
         <TabItem Header="{x:Static lang:CommonViews.Main}">
-			<Grid Margin="2">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" MinWidth="150" />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TextBlock
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="150" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.Text}"
 					Foreground="White"
 					VerticalAlignment="Top"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="1"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.HorizontalAlignment}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="2"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.VerticalAlignment}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="3"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.TextColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="4"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.BackgroungColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="5"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.BorderColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="6"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.BorderThickness}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="7"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.FontSize}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="8"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.Font}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="9"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.Bold}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="10"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.Italic}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="11"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.Stretch}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBlock
+                <TextBlock
 					Grid.Row="12"
 					Margin="2"
 					HorizontalAlignment="Right"
 					Text="{x:Static lang:CommonViews.TextWrap}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
-				<TextBox
+                <TextBox
 					x:Name="_textBox"
 					Grid.Column="1"
 					Margin="2"
@@ -130,119 +130,119 @@
 					VerticalContentAlignment="Top"
 					Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
 					VerticalScrollBarVisibility="Auto" />
-				<ComboBox
+                <ComboBox
 					Grid.Row="1"
 					Grid.Column="1"
 					Margin="2"
 					ItemsSource="{Binding TextAlignments}"
 					SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
-				<ComboBox
+                <ComboBox
 					Grid.Row="2"
 					Grid.Column="1"
 					Margin="2"
 					ItemsSource="{Binding VerticalAlignments}"
 					SelectedIndex="{Binding VerticalAlignment, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker
+                <xc:ColorPicker
 					Grid.Row="3"
 					Grid.Column="1"
 					Margin="2"
 					SelectedColor="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker
+                <xc:ColorPicker
 					Grid.Row="4"
 					Grid.Column="1"
 					Margin="2"
 					SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker
+                <xc:ColorPicker
 					Grid.Row="5"
 					Grid.Column="1"
 					Margin="2"
 					SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
-				<extToolkit:IntegerUpDown
+                <extToolkit:IntegerUpDown
 					Grid.Row="6"
 					Grid.Column="1"
 					Margin="2"
 					Maximum="100"
 					Minimum="0"
 					Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
-				<extToolkit:IntegerUpDown
+                <extToolkit:IntegerUpDown
 					Grid.Row="7"
 					Grid.Column="1"
 					Margin="2"
 					Maximum="1000"
 					Minimum="5"
 					Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" />
-				<ComboBox
+                <ComboBox
 					Grid.Row="8"
 					Grid.Column="1"
 					Margin="2"
 					ItemsSource="{Binding Fonts}"
 					SelectedItem="{Binding FontFamilyName, UpdateSourceTrigger=PropertyChanged}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock FontFamily="{Binding}" Text="{Binding}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<CheckBox
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock FontFamily="{Binding}" Text="{Binding}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <CheckBox
 					Grid.Row="9"
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					IsChecked="{Binding FontBold, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox
+                <CheckBox
 					Grid.Row="10"
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					IsChecked="{Binding FontItalic, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox
+                <CheckBox
 					Grid.Row="11"
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox
+                <CheckBox
 					Grid.Row="12"
 					Grid.Column="1"
 					VerticalAlignment="Center"
 					IsChecked="{Binding WordWrap, UpdateSourceTrigger=PropertyChanged}" />
-			</Grid>
-		</TabItem>
-		<TabItem Header="Процедура">
-			<ListView
+            </Grid>
+        </TabItem>
+        <TabItem Header="{x:Static lang:CommonViews.Procedure}">
+            <ListView
 				ItemsSource="{Binding Procedures}"
 				SelectedItem="{Binding SelectedProcedure}">
-				<ListView.Resources>
-					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-						<MouseBinding
+                <ListView.Resources>
+                    <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                        <MouseBinding
 							Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type inf:SaveCancelDialogView}}, Mode=OneTime}"
 							MouseAction="LeftDoubleClick" />
-					</InputBindingCollection>
-				</ListView.Resources>
-				<ListView.ItemContainerStyle>
-					<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
-						<Setter Property="Attach.InputBindings" Value="{StaticResource inputCollection}" />
-					</Style>
-				</ListView.ItemContainerStyle>
-				<ListView.View>
-					<GridView>
+                    </InputBindingCollection>
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
                         <GridViewColumn Width="250" Header="{x:Static lang:CommonViews.Title}">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image
 											Margin="2 0 0 0"
 											VerticalAlignment="Center"
 											Source="/Controls;component/Images/ProcedureYellow.png" />
-										<TextBlock
+                                        <TextBlock
 											Margin="2 0"
 											HorizontalAlignment="Stretch"
 											VerticalAlignment="Center"
 											Text="{Binding Name}" />
-									</StackPanel>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-					</GridView>
-				</ListView.View>
-			</ListView>
-		</TabItem>
-	</TabControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </TabItem>
+    </TabControl>
 </UserControl>
