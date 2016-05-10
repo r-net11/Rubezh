@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,7 +29,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-				return "Максимальное значение: " + MaxValueArgument.Description;
+				return string.Format(StepCommonViewModel.Random,MaxValueArgument.Description);
 			}
 		}
 	}

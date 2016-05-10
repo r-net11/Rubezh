@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -40,7 +41,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Точка доступа: " + DoorArgument.Description + " Команда: " + SelectedCommand.ToDescription();
+				return string.Format(StepCommonViewModel.ControlDoor,DoorArgument.Description,SelectedCommand.ToDescription());
 			}
 		}
 	}

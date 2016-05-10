@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Services.Layout;
 using FiresecAPI.Models.Layouts;
+using Localization.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -107,8 +109,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Макет: " + (SelectedLayout != null ? SelectedLayout.Name : "<пусто>") + "; Элемент: " + (SelectedLayoutPart != null ? SelectedLayoutPart.Name : "<пусто>") +
-					"; Свойство: " + (SelectedLayoutPartProperty != null ? SelectedLayoutPartProperty.Name.ToDescription() : "<пусто>") + "; Операция: " + ControlElementType.ToDescription() + "; Значение: " + ValueArgument.Description;
+                return string.Format(StepCommonViewModel.ControlVisual, SelectedLayout != null ? SelectedLayout.Name : CommonResources.Empty,
+                                                                (SelectedLayoutPart != null ? SelectedLayoutPart.Name : CommonResources.Empty),
+                                                                (SelectedLayoutPartProperty != null ? SelectedLayoutPartProperty.Name.ToDescription() : CommonResources.Empty),
+                                                                ControlElementType.ToDescription(),
+                                                                ValueArgument.Description);
 			}
 		}
 

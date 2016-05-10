@@ -1,14 +1,15 @@
 ﻿<UserControl x:Class="AutomationModule.Views.GetObjectPropertyStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Views="clr-namespace:AutomationModule.Views">
+			 xmlns:Views="clr-namespace:AutomationModule.Views"
+			 xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<Grid>
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Тип объекта" />
+                <Label Content="{x:Static lang:CommonViews.ObjectType}" />
 				<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding SelectedObjectType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -19,12 +20,12 @@
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Объект" />
+                <Label Content="{x:Static lang:CommonViews.Object}" />
 				<Views:ArgumentView DataContext="{Binding ObjectArgument}" />
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Свойство" />
+                <Label Content="{x:Static lang:CommonViews.Property}" />
 				<ComboBox ItemsSource="{Binding Properties}" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -35,7 +36,7 @@
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Результат" />
+                <Label Content="{x:Static lang:CommonViews.Result}" />
 				<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 			</StackPanel>
 		</StackPanel>

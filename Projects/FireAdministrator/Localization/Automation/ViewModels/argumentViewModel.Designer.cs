@@ -70,15 +70,6 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;пусто&gt;.
-        /// </summary>
-        public static string Empty {
-            get {
-                return ResourceManager.GetString("Empty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Добавить локальную переменную.
         /// </summary>
         public static string Title {

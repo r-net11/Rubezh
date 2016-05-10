@@ -1,6 +1,7 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Enums;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -35,7 +36,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return string.Format("Результат: {0}. Округление: {1}", Result.Description, SelectedRoundingType.ToDescription()); }
+			get { return string.Format(StepCommonViewModel.GetDateTimeNow, Result.Description, SelectedRoundingType.ToDescription()); }
 		}
 	}
 }

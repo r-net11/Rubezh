@@ -3,6 +3,7 @@ using FiresecAPI.Automation;
 using FiresecAPI.Automation.Enums;
 using Infrastructure;
 using System.Collections.ObjectModel;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -164,7 +165,7 @@ namespace AutomationModule.ViewModels
 								? EMailAddressToArguments[0].Argument.Description
 								: string.Empty;
 
-				return string.Format("От кого: {0} Кому: {1} Адрес сервера: {2} Порт: {3}",
+				return string.Format(StepCommonViewModel.SendEmail,
 					EMailAddressFromArgument.Description,
 					addressTo,
 					SmtpArgument.Description,

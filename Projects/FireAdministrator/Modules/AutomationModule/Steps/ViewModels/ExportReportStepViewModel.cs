@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -294,7 +295,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return "Экспорт отчета: " + SelectedReportType.ToDescription() + ". Фильтр: " + SelectedFilter + "."; }
+			get { return string.Format(StepCommonViewModel.ExportReport,SelectedReportType.ToDescription(),SelectedFilter); }
 		}
 	}
 }

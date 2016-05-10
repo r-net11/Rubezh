@@ -89,9 +89,9 @@
       <Project>{b5d11993-2a32-40f7-bfb9-333b7348062e}</Project>
       <Name>Licensing.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Localization\Localization.csproj">
+    <ProjectReference Include="..\Localization\LocalizationConverters.csproj">
       <Project>{0fabff9f-2922-4c8e-9c1c-7a014fedccf1}</Project>
-      <Name>Localization</Name>
+      <Name>LocalizationConverters</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

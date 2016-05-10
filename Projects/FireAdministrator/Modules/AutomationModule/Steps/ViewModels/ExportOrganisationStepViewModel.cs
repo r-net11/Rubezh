@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -29,11 +30,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var result = "Экспортировать " + Organisation.Description;
+				var result = StepCommonViewModel.ExportOrganisation + Organisation.Description;
 				if (IsWithDeleted.ExplicitValue.BoolValue)
-					result += " с архивированными объектами ";
+                    result += StepCommonViewModel.Archive;
 				if (!PathArgument.IsEmpty)
-					result += "в " + PathArgument.Description;
+                    result += StepCommonViewModel.In + PathArgument.Description;
 				return result;
 			}
 		}

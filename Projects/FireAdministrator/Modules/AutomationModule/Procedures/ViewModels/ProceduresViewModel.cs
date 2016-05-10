@@ -250,20 +250,36 @@ namespace AutomationModule.ViewModels
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
 		}
 
-		private void SetRibbonItems()
-		{
-			RibbonItems = new List<RibbonMenuItemViewModel>
+        //private void SetRibbonItems()
+        //{
+        //    RibbonItems = new List<RibbonMenuItemViewModel>
+        //    {
+        //        new RibbonMenuItemViewModel(proceduresViewModel.Edition, new ObservableCollection<RibbonMenuItemViewModel>
+        //        {
+        //            new RibbonMenuItemViewModel(proceduresViewModel.Add, AddCommand, "BAdd"),
+        //            new RibbonMenuItemViewModel(proceduresViewModel.Edit, EditCommand, "BEdit"),
+        //            new RibbonMenuItemViewModel(proceduresViewModel.Copy, CopyCommand, "BCopy"),
+        //            new RibbonMenuItemViewModel(proceduresViewModel.Cut, CutCommand, "BCut"),
+        //            new RibbonMenuItemViewModel(proceduresViewModel.Paste, PasteCommand, "BPaste"),
+        //            new RibbonMenuItemViewModel(proceduresViewModel.Delete, DeleteCommand, "BDelete"),
+        //        }, "BEdit") { Order = 2 }
+        //    };
+        //}
+
+        private void SetRibbonItems()
+        {
+            RibbonItems = new List<RibbonMenuItemViewModel>
 			{
-				new RibbonMenuItemViewModel(proceduresViewModel.Edition, new ObservableCollection<RibbonMenuItemViewModel>
+				new RibbonMenuItemViewModel("", new ObservableCollection<RibbonMenuItemViewModel>
 				{
-					new RibbonMenuItemViewModel(proceduresViewModel.Add, AddCommand, "BAdd"),
-					new RibbonMenuItemViewModel(proceduresViewModel.Edit, EditCommand, "BEdit"),
-					new RibbonMenuItemViewModel(proceduresViewModel.Copy, CopyCommand, "BCopy"),
-					new RibbonMenuItemViewModel(proceduresViewModel.Cut, CutCommand, "BCut"),
-					new RibbonMenuItemViewModel(proceduresViewModel.Paste, PasteCommand, "BPaste"),
-					new RibbonMenuItemViewModel(proceduresViewModel.Delete, DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("", EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel("", CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel("", CutCommand, "BCut"),
+					new RibbonMenuItemViewModel("", PasteCommand, "BPaste"),
+					new RibbonMenuItemViewModel("", DeleteCommand, "BDelete"),
 				}, "BEdit") { Order = 2 }
 			};
-		}
+        }
 	}
 }

@@ -2,7 +2,8 @@
 	x:Class="AutomationModule.Views.SendEmailStepView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:views="clr-namespace:AutomationModule.Views">
+	xmlns:views="clr-namespace:AutomationModule.Views"
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -17,7 +18,7 @@
 	</UserControl.Resources>
 	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 		<StackPanel>
-			<TextBlock Style="{StaticResource TextBlockStyle}"  Text="Параметры сообщения" Margin="120 2 2 10" />
+			<TextBlock Style="{StaticResource TextBlockStyle}"  Text="{x:Static lang:CommonViews.MessageParameters}" Margin="120 2 2 10" />
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="120"/>
@@ -31,10 +32,10 @@
 					<RowDefinition/>
 				</Grid.RowDefinitions>
 
-				<TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="От кого" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.FromWho}" />
 				<views:ArgumentView Grid.Row="0" Grid.Column="1" DataContext="{Binding EMailAddressFromArgument}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Кому" VerticalAlignment="Top" Margin="2 10 2 2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.ToWhom}" VerticalAlignment="Top" Margin="2 10 2 2" />
 				<ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding EMailAddressToArguments}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
@@ -43,13 +44,13 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Тема письма" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.MailTheme}" />
 				<views:ArgumentView Grid.Row="2" Grid.Column="1" DataContext="{Binding EMailTitleArgument}" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Текст письма" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.MailText}" />
 				<views:ArgumentView Grid.Row="3" Grid.Column="1" DataContext="{Binding EMailContentArgument}" />
 
-				<TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Путь к файлу" VerticalAlignment="Top" Margin="2 10 2 2"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.PathToFile}" VerticalAlignment="Top" Margin="2 10 2 2"/>
 				<ItemsControl Grid.Row="4" Grid.Column="1" ItemsSource="{Binding EMailAttachedFileArguments}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
@@ -59,7 +60,7 @@
 				</ItemsControl>
 
 			</Grid>
-			<TextBlock Style="{StaticResource TextBlockStyle}" Text="Параметры подключения к серверу" Margin="120 10 2 10"/>
+            <TextBlock Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.ConnectionSettings}" Margin="120 10 2 10"/>
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="120"/>
@@ -72,19 +73,19 @@
 					<RowDefinition/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Адрес сервера" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.ServerAddress}" />
 				<views:ArgumentView Grid.Row="0" Grid.Column="1" DataContext="{Binding SmtpArgument}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Порт" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.Port}" />
 				<views:ArgumentView Grid.Row="1" Grid.Column="1" DataContext="{Binding PortArgument}" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Логин" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.Login}" />
 				<views:ArgumentView Grid.Row="2" Grid.Column="1" DataContext="{Binding LoginArgument}" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Пароль" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.Password}" />
 				<views:ArgumentView Grid.Row="3" Grid.Column="1" DataContext="{Binding PasswordArgument}" />
 
-				<TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Защита соединения" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="{x:Static lang:CommonViews.SecureConnection}" />
 				<ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding SecureProtocols}" SelectedItem="{Binding SecureProtocol, UpdateSourceTrigger=PropertyChanged}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>

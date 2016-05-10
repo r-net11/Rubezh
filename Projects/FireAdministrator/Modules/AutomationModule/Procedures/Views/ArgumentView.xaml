@@ -5,7 +5,9 @@
 	xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 	xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 	xmlns:p="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework"
-	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit">
+	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
+    
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -24,7 +26,7 @@
 									<Grid Name="DropDown" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" SnapsToDevicePixels="True">
 										<Border x:Name="DropDownBorder" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="Black" BorderThickness="1" />
 										<DockPanel Margin="4,6,4,6">
-											<Button Name="button" Command="{Binding AddVariableCommand}" Content="Создать" DockPanel.Dock="Bottom" Visibility="{Binding AddVariableVisibility, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                            <Button Name="button" Command="{Binding AddVariableCommand}" Content="{x:Static lang:CommonViews.Create}" DockPanel.Dock="Bottom" Visibility="{Binding AddVariableVisibility, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 											<ScrollViewer KeyboardNavigation.DirectionalNavigation="Cycle" SnapsToDevicePixels="True">
 												<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
 											</ScrollViewer>
@@ -189,7 +191,7 @@
 				<TextBlock Margin="7 7 0 0" VerticalAlignment="Top" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}">
 					<Hyperlink Command="{Binding ChangeCommand}" Style="{StaticResource HyperlinkStyle}">
 						<TextBlock Text="{Binding ExplicitValue.PresentationName}" Visibility="{Binding IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-						<TextBlock Text="Нажмите для выбора объекта">
+						<TextBlock Text="{x:Static lang:CommonViews.ChooseObject}">
 							<TextBlock.Style>
 								<Style>
 									<Setter Property="TextBlock.Visibility" Value="Collapsed" />

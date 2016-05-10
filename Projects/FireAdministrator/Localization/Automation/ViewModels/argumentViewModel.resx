@@ -120,9 +120,6 @@
   <data name="DefaultName" xml:space="preserve">
     <value>локальная переменная</value>
   </data>
-  <data name="Empty" xml:space="preserve">
-    <value>&lt;пусто&gt;</value>
-  </data>
   <data name="Title" xml:space="preserve">
     <value>Добавить локальную переменную</value>
   </data>

@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -52,7 +53,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Сообщение: " + MessageArgument.Description;
+				return string.Format(StepCommonViewModel.Journal,MessageArgument.Description);
 			}
 		}
 	}

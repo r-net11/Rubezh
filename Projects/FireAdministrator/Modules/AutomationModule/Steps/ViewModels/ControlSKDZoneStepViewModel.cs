@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -39,7 +40,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Зона: " + SKDZoneArgument.Description + " Команда: " + SelectedCommand.ToDescription();
+				return string.Format(StepCommonViewModel.ControlSKDZone,SKDZoneArgument.Description, SelectedCommand.ToDescription());
 			}
 		}
 	}

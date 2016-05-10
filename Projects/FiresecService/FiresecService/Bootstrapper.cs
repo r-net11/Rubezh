@@ -53,7 +53,7 @@ namespace FiresecService
 
 				//UILogger.Log("Загрузка конфигурации");
                 //UILogger.Log((string)Application.Current.FindResource("lang_LoadConfiguration"));
-                UILogger.Log(Resources.Language.Bootstrapper.AutomationStart);
+                UILogger.Log(Resources.Language.Bootstrapper.LoadConfiguration);
 				ConfigurationCashHelper.Update();
 
 				//UILogger.Log("Открытие хоста");

@@ -1,6 +1,6 @@
 ﻿using FiresecAPI.SKD;
 using System.ComponentModel;
-using Localization;
+using LocalizationConveters;
 
 namespace ChinaSKDDriverAPI
 {

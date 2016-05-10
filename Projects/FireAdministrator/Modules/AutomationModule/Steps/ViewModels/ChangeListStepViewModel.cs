@@ -1,6 +1,7 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -46,7 +47,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Список: " + ListArgument.Description + " Элемент: " + ItemArgument.Description + " Операция: " + ChangeListArguments.ChangeType.ToDescription();
+                return string.Format(StepCommonViewModel.ChangeList,ListArgument.Description,ItemArgument.Description,ChangeListArguments.ChangeType.ToDescription());
 			}
 		}
 	}

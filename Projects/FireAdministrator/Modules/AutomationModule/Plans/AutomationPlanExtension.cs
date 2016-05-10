@@ -70,7 +70,7 @@ namespace AutomationModule.Plans
 						((List<IInstrument>)_instruments).Add(new InstrumentViewModel()
 						{
 							ImageSource = "Procedure",
-                            ToolTip = CommonResources.Procedure,
+                            ToolTip = "Процедура",
 							Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
 							Index = 400,
 							Autostart = true
@@ -122,7 +122,7 @@ namespace AutomationModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-            LayerGroupService.Instance.RegisterGroup("Procedure", CommonResources.Procedures, 42);
+            LayerGroupService.Instance.RegisterGroup("Procedure", "Процедуры", 42);
 		}
 		public override void ExtensionAttached()
 		{

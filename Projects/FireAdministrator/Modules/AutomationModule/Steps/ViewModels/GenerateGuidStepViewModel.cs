@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -22,7 +23,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Результат: " + ResultArgument.Description;
+                return string.Format(StepCommonViewModel.GenerateGuid, ResultArgument.Description);
 			}
 		}
 	}

@@ -5,10 +5,11 @@
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Views;assembly=Infrastructure.Common"
 	xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+    xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
 	MinWidth="400"
 	MinHeight="500">
 	<TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
-		<TabItem Header="Основные">
+        <TabItem Header="{x:Static lang:CommonViews.Main}">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" MinWidth="150" />
@@ -32,91 +33,91 @@
 				<TextBlock
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Текст"
+					Text="{x:Static lang:CommonViews.Text}"
 					Foreground="White"
 					VerticalAlignment="Top"/>
 				<TextBlock
 					Grid.Row="1"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Выравнивать"
+					Text="{x:Static lang:CommonViews.HorizontalAlignment}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="2"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Выравнивать по высоте"
+					Text="{x:Static lang:CommonViews.VerticalAlignment}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="3"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Цвет текста"
+					Text="{x:Static lang:CommonViews.TextColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="4"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Цвет фона"
+					Text="{x:Static lang:CommonViews.BackgroungColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="5"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Цвет границы"
+					Text="{x:Static lang:CommonViews.BorderColor}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="6"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Ширина границы"
+					Text="{x:Static lang:CommonViews.BorderThickness}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="7"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Размер шрифта"
+					Text="{x:Static lang:CommonViews.FontSize}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="8"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Шрифт"
+					Text="{x:Static lang:CommonViews.Font}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="9"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Жирный"
+					Text="{x:Static lang:CommonViews.Bold}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="10"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Курсив"
+					Text="{x:Static lang:CommonViews.Italic}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="11"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Растянуть"
+					Text="{x:Static lang:CommonViews.Stretch}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBlock
 					Grid.Row="12"
 					Margin="2"
 					HorizontalAlignment="Right"
-					Text="Перенос слов"
+					Text="{x:Static lang:CommonViews.TextWrap}"
 					Foreground="White"
 					VerticalAlignment="Center"/>
 				<TextBox
@@ -222,7 +223,7 @@
 				</ListView.ItemContainerStyle>
 				<ListView.View>
 					<GridView>
-						<GridViewColumn Width="250" Header="Название">
+                        <GridViewColumn Width="250" Header="{x:Static lang:CommonViews.Title}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">

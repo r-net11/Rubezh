@@ -2,13 +2,14 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:Views="clr-namespace:AutomationModule.Views">
+			 xmlns:Views="clr-namespace:AutomationModule.Views"
+			 xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Тип значений" />
+            <Label Content="{x:Static lang:CommonViews.ValueType}" />
 			<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -34,11 +35,11 @@
 			</ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Результат" />
+			<Label Content="{x:Static lang:CommonViews.Result}" />
 			<Views:ArgumentView DataContext="{Binding TargetArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Значение" />
+            <Label Content="{x:Static lang:CommonViews.Value}" />
 			<Views:ArgumentView DataContext="{Binding SourceArgument}" />
 		</StackPanel>
 	</StackPanel>

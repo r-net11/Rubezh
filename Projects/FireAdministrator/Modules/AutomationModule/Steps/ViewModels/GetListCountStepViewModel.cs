@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,7 +27,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Список: " + ListArgument.Description + "Размер: " + CountArgument.Description;
+				return string.Format(StepCommonViewModel.GetListCount, ListArgument.Description, CountArgument.Description);
 			}
 		}
 	}

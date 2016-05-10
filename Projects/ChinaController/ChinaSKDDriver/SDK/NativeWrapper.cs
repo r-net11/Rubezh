@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using Localization;
+using LocalizationConveters;
 
 namespace ChinaSKDDriverNativeApi
 {

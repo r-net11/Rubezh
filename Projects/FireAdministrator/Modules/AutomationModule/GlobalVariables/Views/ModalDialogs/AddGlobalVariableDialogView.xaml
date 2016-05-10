@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:views="clr-namespace:AutomationModule.Views"
+    xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
     mc:Ignorable="d"
 	MinWidth="650"
 	MinHeight="400">
@@ -22,7 +23,7 @@
 				Source="{Binding ExplicitTypes}">
 				<TreeList.View>
 					<GridView>
-						<GridViewColumn Width="250" Header="Тип">
+						<GridViewColumn Width="250" Header="{x:Static lang:CommonViews.Type}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
@@ -59,7 +60,7 @@
 						HorizontalAlignment="Right"
 						Orientation="Horizontal">
 						<TextBlock
-							Text="Имя"
+							Text="{x:Static lang:CommonViews.Name}"
 							VerticalAlignment="Center"
 							Margin="5"
 							Foreground="White"/>
@@ -77,7 +78,7 @@
 					Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.IsRealType, Converter={StaticResource BoolToVisibilityConverter}}" />
 				<CheckBox
 					Grid.Row="2"
-					Content="Сохранять значение при перезапуске сервера"
+					Content="{x:Static lang:CommonViews.SaveValueWithRestart}"
 					Foreground="White"
 					VerticalAlignment="Center"
 					IsChecked="{Binding IsSaveWhenRestart}"

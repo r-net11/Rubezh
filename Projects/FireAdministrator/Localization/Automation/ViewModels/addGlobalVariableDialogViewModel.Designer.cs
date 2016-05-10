@@ -86,14 +86,5 @@ namespace Localization.Automation.ViewModels {
                 return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Название не может быть пустым.
-        /// </summary>
-        public static string SaveEmpty1 {
-            get {
-                return ResourceManager.GetString("SaveEmpty1", resourceCulture);
-            }
-        }
     }
 }

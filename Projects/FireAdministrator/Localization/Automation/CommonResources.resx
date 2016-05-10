@@ -120,6 +120,9 @@
   <data name="Automation" xml:space="preserve">
     <value>Автоматизация</value>
   </data>
+  <data name="Empty" xml:space="preserve">
+    <value>&lt;пусто&gt;</value>
+  </data>
   <data name="ExecuteProcedure" xml:space="preserve">
     <value>Выполнить процедуру</value>
   </data>

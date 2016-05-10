@@ -2,6 +2,8 @@
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
+using Localization.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -19,7 +21,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{ 
-				return "Звук: " + (SelectedSound != null ? SelectedSound.Name : "<пусто>") ; 
+				return string.Format(StepCommonViewModel.Sound, SelectedSound != null ? SelectedSound.Name : CommonResources.Empty) ; 
 			}
 		}
 

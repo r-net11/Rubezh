@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,7 +29,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return "Список: " + ListArgument.Description + " Элемент: " + ItemArgument.Description; }
+			get { return string.Format(StepCommonViewModel.Foreach,ListArgument.Description, ItemArgument.Description); }
 		}
 
 	}

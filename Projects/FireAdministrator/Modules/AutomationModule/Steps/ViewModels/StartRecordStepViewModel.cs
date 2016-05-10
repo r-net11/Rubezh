@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -31,7 +32,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Камера: " + CameraArgument.Description + " Идентификатор: " + EventUIDArgument.Description + " Таймаут: " + TimeoutArgument.Description;
+				return string.Format(StepCommonViewModel.StartRecord, CameraArgument.Description, EventUIDArgument.Description, TimeoutArgument.Description);
 			}
 		}
 	}

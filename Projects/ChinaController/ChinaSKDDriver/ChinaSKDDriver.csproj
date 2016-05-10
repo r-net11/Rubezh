@@ -167,9 +167,9 @@
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>SKDDriver</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\FiresecService\Localization\Localization.csproj">
+    <ProjectReference Include="..\..\FiresecService\Localization\LocalizationConverters.csproj">
       <Project>{0fabff9f-2922-4c8e-9c1c-7a014fedccf1}</Project>
-      <Name>Localization</Name>
+      <Name>LocalizationConverters</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1040,6 +1040,8 @@ INSERT INTO Patches (Id) VALUES
 ('AddingGlobalVariablesTable')
 INSERT INTO Patches (Id) VALUES
 ('Table_AccessTemplateDeactivatingReader_Added')
+INSERT INTO [dbo].[Patches] (Id) VALUES
+('Column_AllowedPassCount_Added_In_Table_Card')
 
 DECLARE @OrgUid uniqueidentifier;
 SET @OrgUid = NEWID();

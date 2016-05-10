@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
 using FiresecAPI;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,7 +29,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-				return "Значение: " + PauseArgument.Description + " " + SelectedTimeType.ToDescription(); 
+				return string.Format(StepCommonViewModel.Pause, PauseArgument.Description,SelectedTimeType.ToDescription()); 
 			}
 		}
 

@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -35,16 +36,16 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var result = "Экспортировать ";
+				var result = StepCommonViewModel.ExportJournal;
 				if (IsExportJournalArgument.ExplicitValue.BoolValue && !IsExportPassJournalArgument.ExplicitValue.BoolValue)
-					result += "журнал событий ";
+					result += StepCommonViewModel.ExportJournal_Event;
 				else if (!IsExportJournalArgument.ExplicitValue.BoolValue && IsExportPassJournalArgument.ExplicitValue.BoolValue)
-					result += "журнал проходов ";
+					result += StepCommonViewModel.ExportJournal_Pass;
 				else if (IsExportJournalArgument.ExplicitValue.BoolValue && IsExportPassJournalArgument.ExplicitValue.BoolValue)
-					result += "журнал событий и журнал проходов ";
-				result += "c " + MinDateArgument.Description + " до " + MaxDateArgument.Description;
+					result += StepCommonViewModel.ExportJournal_EventAndPass;
+                result += StepCommonViewModel.ExportJournal_From + MinDateArgument.Description + StepCommonViewModel.ExportJournal_To + MaxDateArgument.Description;
 				if (!PathArgument.IsEmpty)
-					result += "в " + PathArgument.Description;
+                    result += StepCommonViewModel.In + PathArgument.Description;
 				return result;
 			}
 		}

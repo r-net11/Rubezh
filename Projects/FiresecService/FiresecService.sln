@@ -56,7 +56,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Licensing.Model", "..\Licen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateKeyApplication.Common", "..\GenerateKeyApplication.Common\GenerateKeyApplication.Common.csproj", "{9CC9E430-243F-4F66-9051-65A91BBDDC22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localization\Localization.csproj", "{0FABFF9F-2922-4C8E-9C1C-7A014FEDCCF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationConverters", "Localization\LocalizationConverters.csproj", "{0FABFF9F-2922-4C8E-9C1C-7A014FEDCCF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Localization;
+using LocalizationConveters;
 using Infrastructure.Common;
 using License.Model.Entities;
 using System;

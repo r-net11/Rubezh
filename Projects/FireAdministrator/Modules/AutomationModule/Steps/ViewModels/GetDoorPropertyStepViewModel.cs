@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using FiresecAPI;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -59,7 +60,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return string.Format("Точка доступа: {0} Свойство: {1} Значение: {2}",ObjectArgument.Description, SelectedProperty.ToDescription(), ResultArgument.Description);
+				return string.Format(StepCommonViewModel.GetDoorProperty,ObjectArgument.Description, SelectedProperty.ToDescription(), ResultArgument.Description);
 			}
 		}
 

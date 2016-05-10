@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Versioning;
-using Localization;
+using LocalizationConveters;
 
 namespace ChinaSKDDriverAPI
 {

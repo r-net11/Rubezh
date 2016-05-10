@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
+using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -27,7 +28,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Показать свойство объекта: " + ObjectArgument.Description;
+				return string.Format(StepCommonViewModel.ShowProperty, ObjectArgument.Description);
 			}
 		}
 

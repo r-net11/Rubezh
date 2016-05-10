@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using Localization.Automation;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -19,7 +20,7 @@ namespace AutomationModule.ViewModels
 	/// </summary>
 	public class ArgumentViewModel : BaseViewModel
 	{
-		public static string EmptyText = argumentViewModel.Empty;
+		public static string EmptyText = CommonResources.Empty;
 		#region Properties
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
