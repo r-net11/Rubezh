@@ -111,9 +111,9 @@ namespace SKDModule
 		{
 			if (LicenseManager.CurrentLicenseInfo.HasSKD)
 			{
-				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => SKDTabItems.HRViewModel);
-				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
-				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "BLevels.png", (p) => SKDTabItems.HRViewModel);
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "BTree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "BTree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
 			}
 		}
 		#endregion

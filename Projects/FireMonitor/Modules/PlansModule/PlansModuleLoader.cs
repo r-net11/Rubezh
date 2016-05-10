@@ -78,7 +78,7 @@ namespace PlansModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, "Планы", "Map.png", CreatePlansViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, "Планы", "CMap.png", CreatePlansViewModel);
 		}
 		#endregion
 
