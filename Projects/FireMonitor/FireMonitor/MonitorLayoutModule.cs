@@ -35,11 +35,11 @@ namespace FireMonitor
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.EmptySpace, "Пространство", "Exit.png", (p) => new EmptyPartViewModel());
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Indicator, "Индикаторы", "Alarm.png", (p) => ((ToolbarViewModel)Bootstrapper.ShellViewModel.Toolbar).AlarmGroups);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Image, "Картинка", "View.png", (p) => new ImagePartViewModel(p as LayoutPartImageProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.TemplateContainer, "Макет", "TemplateContainer.png", (p) => new TemplateContainerPartViewModel(p as LayoutPartReferenceProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.TimePresenter, "Часы", "Time.png", (p) => new TimePresenterViewModel(p as LayoutPartTimeProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.EmptySpace, "Пространство", "BExit.png", (p) => new EmptyPartViewModel());
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Indicator, "Индикаторы", "BAlarm.png", (p) => ((ToolbarViewModel)Bootstrapper.ShellViewModel.Toolbar).AlarmGroups);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Image, "Картинка", "BView.png", (p) => new ImagePartViewModel(p as LayoutPartImageProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.TemplateContainer, "Макет", "BTemplateContainer.png", (p) => new TemplateContainerPartViewModel(p as LayoutPartReferenceProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.TimePresenter, "Часы", "BTime.png", (p) => new TimePresenterViewModel(p as LayoutPartTimeProperties));
 		}
 
 		#endregion

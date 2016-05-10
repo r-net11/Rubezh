@@ -12,9 +12,9 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 		}
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementTextBox();
+			var element = new ElementTextBox() { Left = left, Top = top };
 			var propertiesViewModel = new TextBoxPropertiesViewModel(element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}

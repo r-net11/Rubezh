@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Controls.Converters;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System.Windows.Media;
@@ -82,6 +83,9 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		protected override bool Save()
 		{
 			ElementBase.Copy(this, this._elementPolygon);
+			var colorConverter = new ColorToSystemColorConverter();
+			_elementPolygon.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);
+			_elementPolygon.BackgroundColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BackgroundColor, this.BackgroundColor.GetType(), null, null);
 			_elementPolygon.BorderThickness = StrokeThickness;
 			ImagePropertiesViewModel.Save();
 			return base.Save();

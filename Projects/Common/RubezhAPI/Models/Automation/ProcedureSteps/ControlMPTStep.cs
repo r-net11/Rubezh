@@ -18,6 +18,11 @@ namespace RubezhAPI.Automation
 		public MPTCommandType MPTCommandType { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ControlMPT; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { MPTArgument }; }
+		}
 	}
 
 	public enum MPTCommandType

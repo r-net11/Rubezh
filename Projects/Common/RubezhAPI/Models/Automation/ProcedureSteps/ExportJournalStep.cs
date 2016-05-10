@@ -30,5 +30,10 @@ namespace RubezhAPI.Automation
 		public Argument PathArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.ExportJournal; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { IsExportJournalArgument, IsExportPassJournalArgument, MinDateArgument, MaxDateArgument, PathArgument }; }
+		}
 	}
 }

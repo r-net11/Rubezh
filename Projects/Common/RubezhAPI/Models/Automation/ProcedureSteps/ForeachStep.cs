@@ -18,6 +18,11 @@ namespace RubezhAPI.Automation
 		public Argument ItemArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.Foreach; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { ListArgument, ItemArgument }; }
+		}
 	}
 
 	[DataContract]

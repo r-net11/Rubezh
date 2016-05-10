@@ -53,8 +53,8 @@ namespace SKDModule.Reports.ViewModels
 				return;
 			AllowVisitor = _employeeFilter is IReportFilterEmployeeAndVisitor;
 			_isEmployee = AllowVisitor ? ((IReportFilterEmployeeAndVisitor)_employeeFilter).IsEmployee : true;
-			var organisations = (filter as IReportFilterOrganisation).Organisations;
-			OrganisationUIDs = organisations != null ? organisations : new List<Guid>();
+			var organisationFilter = filter as IReportFilterOrganisation;
+			OrganisationUIDs = organisationFilter != null && organisationFilter.Organisations != null ? organisationFilter.Organisations : new List<Guid>();
 			var filterArchive = filter as IReportFilterArchive;
 			IsWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			OnPropertyChanged(() => IsEmployee);

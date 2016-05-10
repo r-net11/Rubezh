@@ -34,7 +34,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center"
+									<Image Width="16" Height="16" Margin="2 0" VerticalAlignment="Center"
 										   Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
 									<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="Auto">
 										<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">

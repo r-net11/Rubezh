@@ -16,6 +16,11 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public Argument PathArgument { get; set; }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { IsWithDeleted, PathArgument }; }
+		}
 	}
 
 	[DataContract]

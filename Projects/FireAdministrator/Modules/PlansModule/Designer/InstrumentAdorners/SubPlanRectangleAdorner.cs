@@ -1,8 +1,8 @@
-﻿using RubezhAPI.Models;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
 using Infrastructure.Designer.InstrumentAdorners;
 using PlansModule.ViewModels;
+using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 
 namespace PlansModule.InstrumentAdorners
@@ -14,9 +14,9 @@ namespace PlansModule.InstrumentAdorners
 		{
 		}
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementRectangleSubPlan();
+			var element = new ElementRectangleSubPlan() { Left = left, Top = top };
 			var propertiesViewModel = new SubPlanPropertiesViewModel(element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}

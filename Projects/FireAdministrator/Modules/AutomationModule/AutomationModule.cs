@@ -103,6 +103,7 @@ namespace AutomationModule
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcTechnosoftware/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaClient/DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "OpcDaTagFilters/DataTemplates/Dictionary.xaml");
+			ServiceFactory.ResourceService.AddResource(GetType().Assembly, "Validation/DataTemplates/Dictionary.xaml");
 		}
 
 		public IEnumerable<IValidationError> Validate()
@@ -115,7 +116,7 @@ namespace AutomationModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выполнить процедуру", "BProcedures.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выполнить процедуру", "ProcedureYellow.png")
 			{
 				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};

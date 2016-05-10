@@ -18,14 +18,12 @@ namespace SKDModule.PassCardDesigner.InstrumentAdorners
 			_organisationUID = organisationUID;
 		}
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementPassCardTextProperty();
+			var element = new ElementPassCardTextProperty() { Left = left, Top = top };
 			element.OrganisationUID = _organisationUID;
 			var propertiesViewModel = new PassCardTextPropertyViewModel(element);
-			if (!DialogService.ShowModalWindow(propertiesViewModel))
-				return null;
-			return element;
+			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}
 }

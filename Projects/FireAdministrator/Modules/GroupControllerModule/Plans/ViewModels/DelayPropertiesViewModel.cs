@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -13,10 +13,20 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DelayPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private IElementDelay IElementDelay;
+		const int _sensivityFactor = 100;
+		IElementDelay IElementDelay;
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
 		public DelayPropertiesViewModel(IElementDelay element)
 		{
 			IElementDelay = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			Title = "Свойства фигуры: Задержка";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -24,13 +34,33 @@ namespace GKModule.Plans.ViewModels
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
 
-			Delays = new ObservableCollection<DelayViewModel>(GKManager.Delays.Select(delay => new DelayViewModel(delay)));
+			Delays = new ObservableCollection<GKDelay>(GKManager.Delays);
 			if (element.DelayUID != Guid.Empty)
 				SelectedDelay = Delays
-					.Where(delay => delay.Delay.UID == element.DelayUID)
+					.Where(delay => delay.UID == element.DelayUID)
 					.FirstOrDefault();
 		}
 
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 		private void OnCreate()
 		{
 			var createDelayEventArg = new CreateGKDelayEventArgs();
@@ -43,8 +73,9 @@ namespace GKModule.Plans.ViewModels
 
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Publish(this.SelectedDelay.Delay.UID);
-			SelectedDelay.Update();
+			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Publish(this.SelectedDelay.UID);
+			Delays = new ObservableCollection<GKDelay>(GKManager.Delays);
+			OnPropertyChanged(() => Delays);
 		}
 
 		private bool CanEdit()
@@ -55,10 +86,10 @@ namespace GKModule.Plans.ViewModels
 
 		public RelayCommand EditCommand { get; private set; }
 
-		public ObservableCollection<DelayViewModel> Delays { get; private set; }
+		public ObservableCollection<GKDelay> Delays { get; private set; }
 
-		private DelayViewModel _selectedDelay = null;
-		public DelayViewModel SelectedDelay
+		private GKDelay _selectedDelay = null;
+		public GKDelay SelectedDelay
 		{
 			get { return _selectedDelay; }
 			set
@@ -93,7 +124,9 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDelay.ShowState = ShowState;
 			IElementDelay.ShowDelay = ShowDelay;
-			GKPlanExtension.Instance.RewriteItem(IElementDelay, SelectedDelay.Delay);
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			GKPlanExtension.Instance.RewriteItem(IElementDelay, SelectedDelay);
 			return base.Save();
 		}
 		protected override bool CanSave()

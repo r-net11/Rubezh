@@ -12,7 +12,7 @@ namespace AutomationModule.ViewModels
 			: base(stepViewModel)
 		{
 			StopRecordStep = (StopRecordStep)stepViewModel.Step;
-			EventUIDArgument = new ArgumentViewModel(StopRecordStep.EventUIDArgument, stepViewModel.Update, UpdateContent);
+			EventUIDArgument = new ArgumentViewModel(StopRecordStep.EventUIDArgument, stepViewModel.Update, UpdateContent, false);
 			CameraArgument = new ArgumentViewModel(StopRecordStep.CameraArgument, stepViewModel.Update, null);
 		}
 

@@ -13,6 +13,7 @@ namespace GKProcessor
 		int LastKauId = -1;
 		string IpAddress = "";
 		bool IsFirstTimeReadJournal = true;
+		bool isWrite;
 
 		void PingJournal()
 		{
@@ -74,6 +75,16 @@ namespace GKProcessor
 			}
 			ConnectionChanged(true);
 			var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
+
+			if (!isWrite)
+				isWrite = journalParser.JournalItem.JournalEventNameType == JournalEventNameType.Запись_конфигурации_в_прибор;
+
+			if (journalParser.JournalItem.JournalEventNameType == JournalEventNameType.Смена_БД)
+			{
+				IsWritedConfingurationOutServer = !isWrite;
+				isWrite = false;
+			}
+
 			return journalParser.GKJournalRecordNo;
 		}
 

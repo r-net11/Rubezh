@@ -14,13 +14,11 @@ namespace GKModule.Plans.InstrumentAdorners
 		{
 		}
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementRectangleGKSKDZone();
+			var element = new ElementRectangleGKSKDZone() { Left = left, Top = top };
 			var propertiesViewModel = new SKDZonePropertiesViewModel(element);
-			if (DialogService.ShowModalWindow(propertiesViewModel))
-				return element;
-			return null;
+			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}
 }

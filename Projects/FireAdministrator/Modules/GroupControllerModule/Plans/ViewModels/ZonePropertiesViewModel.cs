@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -13,30 +13,55 @@ namespace GKModule.Plans.ViewModels
 {
 	public class ZonePropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		IElementZone IElementZone;
-		public ZonePropertiesViewModel(IElementZone iElementZone)
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
+		public ZonePropertiesViewModel(IElementZone element)
 		{
-			IElementZone = iElementZone;
+			IElementZone = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			Title = "Свойства фигуры: Пожарная зона";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
-			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in GKManager.DeviceConfiguration.SortedZones)
-			{
-				var zoneViewModel = new ZoneViewModel(zone);
-				Zones.Add(zoneViewModel);
-			}
-			if (iElementZone.ZoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
+			Zones = new ObservableCollection<GKZone>(GKManager.Zones);
+			if (element.ZoneUID != Guid.Empty)
+				SelectedZone = Zones.FirstOrDefault(x => x.UID == element.ZoneUID);
 
 			ShowState = IElementZone.ShowState;
 		}
 
-		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
+		public ObservableCollection<GKZone> Zones { get; private set; }
 
-		ZoneViewModel _selectedZone;
-		public ZoneViewModel SelectedZone
+		GKZone _selectedZone;
+		public GKZone SelectedZone
 		{
 			get { return _selectedZone; }
 			set
@@ -71,8 +96,9 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Publish(SelectedZone.Zone.UID);
-			SelectedZone.Update();
+			ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Publish(SelectedZone.UID);
+			Zones = new ObservableCollection<GKZone>(GKManager.Zones);
+			OnPropertyChanged(() => Zones);
 		}
 		bool CanEdit()
 		{
@@ -81,7 +107,9 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			IElementZone.ShowState = ShowState;
-			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone.Zone);
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone);
 			return base.Save();
 		}
 		protected override bool CanSave()

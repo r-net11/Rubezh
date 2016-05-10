@@ -153,7 +153,7 @@ namespace Infrastructure.Designer.ViewModels
 					ImageSource="Ellipse",
 					ToolTip="Эллипс",
 					Index = 1013,
-					Adorner = new ElipseAdorner(DesignerCanvas),
+					Adorner = new EllipseAdorner(DesignerCanvas),
 					GroupIndex = 1010,
 				},
 				new InstrumentViewModel()

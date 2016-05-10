@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Controls.Converters;
+using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -7,17 +8,28 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
 	public class TextBoxPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		private const int MaxFontSize = 1000;
 		public List<string> Fonts { get; private set; }
 		public List<string> TextAlignments { get; private set; }
 		public List<string> VerticalAlignments { get; private set; }
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
 		protected IElementTextBlock ElementTextBlock { get; private set; }
 
-		public TextBoxPropertiesViewModel(IElementTextBlock elementTextBlock)
+		public TextBoxPropertiesViewModel(IElementTextBlock element)
 		{
 			Title = "Свойства фигуры: Ввод";
-			ElementTextBlock = elementTextBlock;
+			ElementTextBlock = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			CopyProperties();
+
 
 			Fonts = new List<string>();
 			foreach (var fontfamily in System.Drawing.FontFamily.Families)
@@ -36,6 +48,26 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			};
 		}
 
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 		protected virtual void CopyProperties()
 		{
 			ElementBase.Copy(this.ElementTextBlock, this);
@@ -212,7 +244,13 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
 			ElementBase.Copy(this, this.ElementTextBlock);
+			var colorConverter = new ColorToSystemColorConverter();
+			ElementTextBlock.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);
+			ElementTextBlock.BackgroundColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BackgroundColor, this.BackgroundColor.GetType(), null, null);
+			ElementTextBlock.ForegroundColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.ForegroundColor, this.ForegroundColor.GetType(), null, null);
 			ElementTextBlock.BorderThickness = StrokeThickness;
 			return base.Save();
 		}

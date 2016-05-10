@@ -23,6 +23,11 @@ namespace RubezhAPI.Automation
 
 		[DataMember]
 		public Argument ValueArgument { get; set; }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { ValueArgument }; }
+		}
 	}
 
 	[DataContract]

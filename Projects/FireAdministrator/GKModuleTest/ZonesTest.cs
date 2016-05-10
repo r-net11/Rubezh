@@ -43,7 +43,6 @@ namespace GKModuleTest
 		{
 			GKManager.DeviceLibraryConfiguration = new GKDeviceLibraryConfiguration();
 			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
-			GKDriversCreator.Create();
 			var systemDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
 			Assert.IsNotNull(systemDriver);
 			var systemDevice = GKManager.DeviceConfiguration.RootDevice = new GKDevice { Driver = systemDriver, DriverUID = systemDriver.UID };

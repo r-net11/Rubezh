@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common;
+﻿using Controls.Converters;
+using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.Events;
@@ -11,18 +12,40 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
 	public class RectanglePropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		public ImagePropertiesViewModel ImagePropertiesViewModel { get; private set; }
 		protected ElementRectangle ElementRectangle { get; private set; }
 
-		public RectanglePropertiesViewModel(ElementRectangle elementRectangle)
+		public RectanglePropertiesViewModel(ElementRectangle element)
 		{
 			Title = "Свойства фигуры: Прямоугольник";
-			ElementRectangle = elementRectangle;
+			ElementRectangle = element;
+			Left = (int)(ElementRectangle.Left * _sensivityFactor);
+			Top = (int)(ElementRectangle.Top * _sensivityFactor);
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(ElementRectangle);
 			BindStrokeThicknessCommand = new RelayCommand(OnBindStrokeThickness);
 			CopyProperties();
 		}
-
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 		protected virtual void CopyProperties()
 		{
 			ElementBase.Copy(this.ElementRectangle, this);
@@ -106,7 +129,13 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
+			ElementRectangle.Left = (double)Left / _sensivityFactor;
+			ElementRectangle.Top = (double)Top / _sensivityFactor;
 			ElementBase.Copy(this, this.ElementRectangle);
+
+			var colorConverter = new ColorToSystemColorConverter();
+			ElementRectangle.BackgroundColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BackgroundColor, this.BackgroundColor.GetType(), null, null);
+			ElementRectangle.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);
 			ElementRectangle.BorderThickness = StrokeThickness;
 			ImagePropertiesViewModel.Save();
 			ElementRectangle.PlanElementBindingItems = PlanElementBindingItems;

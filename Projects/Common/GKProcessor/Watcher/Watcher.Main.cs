@@ -15,6 +15,7 @@ namespace GKProcessor
 		AutoResetEvent SuspendingEvent = new AutoResetEvent(false);
 
 		public bool IsStopping { get; private set; }
+		public bool IsWritedConfingurationOutServer { get; private set; }
 		AutoResetEvent StopEvent;
 		Thread RunThread;
 		public GkDatabase GkDatabase { get; private set; }
@@ -176,6 +177,8 @@ namespace GKProcessor
 					Monitor.Exit(CallbackResultLocker);
 
 					RunMonitoring();
+					if (IsWritedConfingurationOutServer)
+						break;
 
 					Monitor.TryEnter(CallbackResultLocker, TimeSpan.FromSeconds(30));
 					{
@@ -212,6 +215,7 @@ namespace GKProcessor
 			bool IsPingFailure = false;
 			bool IsInTechnologicalRegime = false;
 			bool IsGetStatesFailure = false;
+			IsWritedConfingurationOutServer = false;
 			IsHashFailure = false;
 
 			foreach (var descriptor in GkDatabase.Descriptors)

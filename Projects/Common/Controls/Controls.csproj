@@ -135,13 +135,14 @@
     <Compile Include="Converters\BoolToRotationConverter.cs" />
     <Compile Include="Converters\BoolToResizeModeConverter.cs" />
     <Compile Include="Converters\BoolToYesNoConverter.cs" />
-    <Compile Include="Converters\ColorToSystemColor.cs" />
+    <Compile Include="Converters\ColorToSystemColorConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
     <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
     <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
     <Compile Include="Converters\IfConverter.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\MultiParameterConverter.cs" />
+    <Compile Include="Converters\PlanElementUIDsToImageSourceConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Converters\RviStatusToDescriptionConverter.cs" />
     <Compile Include="Converters\RviStatusToIconConverter.cs" />

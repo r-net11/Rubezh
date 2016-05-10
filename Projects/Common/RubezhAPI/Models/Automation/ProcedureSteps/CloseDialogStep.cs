@@ -14,5 +14,10 @@ namespace RubezhAPI.Automation
 		public Argument WindowIDArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.CloseDialog; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { WindowIDArgument }; }
+		}
 	}
 }

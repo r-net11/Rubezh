@@ -8,17 +8,19 @@ namespace GKModule.ViewModels
 	public class LogicViewModel : SaveCancelDialogViewModel
 	{
 		public ClauseGroupViewModel OnClausesGroup { get; private set; }
+		public ClauseGroupViewModel On2ClausesGroup { get; private set; }
 		public ClauseGroupViewModel OffClausesGroup { get; private set; }
 		public ClauseGroupViewModel OnNowClausesGroup { get; private set; }
 		public ClauseGroupViewModel OffNowClausesGroup { get; private set; }
 		public ClauseGroupViewModel StopClausesGroup { get; private set; }
 		public bool HasOnClause { get; private set; }
+		public bool HasOn2Clause { get; private set; }
 		public bool HasOffClause { get; private set; }
 		public bool HasStopClause { get; private set; }
 		public bool HasOnNowClause { get; private set; }
 		public bool HasOffNowClause { get; private set; }
 
-		public LogicViewModel(GKBase gkBase, GKLogic logic, bool hasOffClause = false, bool hasOnNowClause = false, bool hasOffNowClause = false, bool hasStopClause = false, bool hasOnClause = true)
+		public LogicViewModel(GKBase gkBase, GKLogic logic, bool hasOffClause = false, bool hasOnNowClause = false, bool hasOffNowClause = false, bool hasStopClause = false, bool hasOnClause = true, bool hasOn2Clause = false)
 		{
 			if (gkBase != null)
 				Title = "Настройка логики " + gkBase.PresentationName;
@@ -31,10 +33,11 @@ namespace GKModule.ViewModels
 			}
 
 			OnClausesGroup = new ClauseGroupViewModel(gkBase, logic.OnClausesGroup);
+			On2ClausesGroup = new ClauseGroupViewModel(gkBase, logic.On2ClausesGroup);
 			OffClausesGroup = new ClauseGroupViewModel(gkBase, logic.OffClausesGroup);
 			OnNowClausesGroup = new ClauseGroupViewModel(gkBase, logic.OnNowClausesGroup);
 			OffNowClausesGroup = new ClauseGroupViewModel(gkBase, logic.OffNowClausesGroup);
-			StopClausesGroup = new ClauseGroupViewModel(gkBase, logic.StopClausesGroup);
+			StopClausesGroup = new ClauseGroupViewModel(gkBase, logic.StopClausesGroup);	
 			UseOffCounterLogic = logic.UseOffCounterLogic;
 
 			HasOnClause = hasOnClause;
@@ -42,7 +45,8 @@ namespace GKModule.ViewModels
 			HasOnNowClause = hasOnNowClause;
 			HasOffNowClause = hasOffNowClause;
 			HasStopClause = hasStopClause;
-		}
+			HasOn2Clause = hasOn2Clause;
+	}
 
 		bool _useOffCounterLogic;
 		public bool UseOffCounterLogic

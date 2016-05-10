@@ -127,7 +127,6 @@ namespace GKModuleTest
 		GKDeviceConfiguration CreateConfiguration()
 		{
 			var newConfiguration = new GKDeviceConfiguration();
-			GKDriversCreator.Create();
 			var drivers = GKManager.Drivers;
 			var systemDriver = drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
 			var gkDriver = drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK);

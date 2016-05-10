@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -13,32 +13,57 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DirectionPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		IElementDirection IElementDirection;
-
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
 		public DirectionPropertiesViewModel(IElementDirection element)
 		{
 			IElementDirection = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			Title = "Свойства фигуры: Направление";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
-			Directions = new ObservableCollection<DirectionViewModel>();
-			foreach (var direction in GKManager.Directions)
-			{
-				var directionViewModel = new DirectionViewModel(direction);
-				Directions.Add(directionViewModel);
-			}
+			Directions = new ObservableCollection<GKDirection>(GKManager.Directions);
 			if (IElementDirection.DirectionUID != Guid.Empty)
-				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == IElementDirection.DirectionUID);
+				SelectedDirection = Directions.FirstOrDefault(x => x.UID == IElementDirection.DirectionUID);
 
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
 		}
 
-		public ObservableCollection<DirectionViewModel> Directions { get; private set; }
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 
-		DirectionViewModel _selectedDirection;
-		public DirectionViewModel SelectedDirection
+		public ObservableCollection<GKDirection> Directions { get; private set; }
+
+		GKDirection _selectedDirection;
+		public GKDirection SelectedDirection
 		{
 			get { return _selectedDirection; }
 			set
@@ -84,8 +109,9 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.Direction.UID);
-			SelectedDirection.Update();
+			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.UID);
+			Directions = new ObservableCollection<GKDirection>(GKManager.Directions);
+			OnPropertyChanged(() => Directions);
 		}
 		bool CanEdit()
 		{
@@ -95,7 +121,9 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDirection.ShowState = ShowState;
 			IElementDirection.ShowDelay = ShowDelay;
-			GKPlanExtension.Instance.RewriteItem(IElementDirection, SelectedDirection.Direction);
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			GKPlanExtension.Instance.RewriteItem(IElementDirection, SelectedDirection);
 			return base.Save();
 		}
 		protected override bool CanSave()

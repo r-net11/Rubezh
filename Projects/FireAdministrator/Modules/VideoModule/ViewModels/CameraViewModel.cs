@@ -119,5 +119,11 @@ namespace VideoModule.ViewModels
 		{
 			return Camera.AllowMultipleVizualization != isAllow;
 		}
+
+		public void UnsubscribeEvents()
+		{
+			if (IsCamera)
+				Camera.PlanElementUIDsChanged -= UpdateVisualizationState;
+		}
 	}
 }

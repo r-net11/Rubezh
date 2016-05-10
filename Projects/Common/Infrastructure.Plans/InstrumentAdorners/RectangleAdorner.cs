@@ -38,7 +38,7 @@ namespace Infrastructure.Plans.InstrumentAdorners
 			return new Rectangle();
 		}
 
-		protected abstract ElementBaseRectangle CreateElement();
+		protected abstract ElementBaseRectangle CreateElement(double left, double top);
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
@@ -71,11 +71,9 @@ namespace Infrastructure.Plans.InstrumentAdorners
 		{
 			if (!AdornerCanvas.IsMouseCaptured || !StartPoint.HasValue || !endPoint.HasValue) return;
 			//AdornerCanvas.Cursor = Cursors.Pen;
-			ElementBaseRectangle element = CreateElement();
+			ElementBaseRectangle element = CreateElement(Canvas.GetLeft(rubberband), Canvas.GetTop(rubberband));
 			if (element != null)
 			{
-				element.Left = Canvas.GetLeft(rubberband);
-				element.Top = Canvas.GetTop(rubberband);
 				element.Height = rubberband.Height;
 				element.Width = rubberband.Width;
 				DesignerCanvas.CreateDesignerItem(element);

@@ -32,6 +32,11 @@ namespace RubezhAPI.Automation
 		public Argument ResultArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.Arithmetics; } }
+
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { Argument1, Argument2, ResultArgument }; }
+		}
 	}
 
 	public enum ArithmeticOperationType

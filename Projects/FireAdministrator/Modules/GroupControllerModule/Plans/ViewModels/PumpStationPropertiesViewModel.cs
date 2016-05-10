@@ -1,9 +1,9 @@
 ﻿using GKModule.Events;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
+using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.ObjectModel;
@@ -13,32 +13,57 @@ namespace GKModule.Plans.ViewModels
 {
 	public class PumpStationPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		IElementPumpStation IElementPumpStation;
-
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
 		public PumpStationPropertiesViewModel(IElementPumpStation element)
 		{
 			IElementPumpStation = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			Title = "Свойства фигуры: Насосная станция";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
-			PumpStations = new ObservableCollection<PumpStationViewModel>();
-			foreach (var pumpStation in GKManager.PumpStations)
-			{
-				var pumpStationViewModel = new PumpStationViewModel(pumpStation);
-				PumpStations.Add(pumpStationViewModel);
-			}
+			PumpStations = new ObservableCollection<GKPumpStation>(GKManager.PumpStations);
 			if (IElementPumpStation.PumpStationUID != Guid.Empty)
-				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == IElementPumpStation.PumpStationUID);
+				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.UID == IElementPumpStation.PumpStationUID);
 
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
 		}
 
-		public ObservableCollection<PumpStationViewModel> PumpStations { get; private set; }
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 
-		PumpStationViewModel _selectedPumpStation;
-		public PumpStationViewModel SelectedPumpStation
+		public ObservableCollection<GKPumpStation> PumpStations { get; private set; }
+
+		GKPumpStation _selectedPumpStation;
+		public GKPumpStation SelectedPumpStation
 		{
 			get { return _selectedPumpStation; }
 			set
@@ -85,8 +110,9 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKPumpStationEvent>().Publish(SelectedPumpStation.PumpStation.UID);
-			SelectedPumpStation.Update();
+			ServiceFactory.Events.GetEvent<EditGKPumpStationEvent>().Publish(SelectedPumpStation.UID);
+			PumpStations = new ObservableCollection<GKPumpStation>(GKManager.PumpStations);
+			OnPropertyChanged(() => PumpStations);
 		}
 		bool CanEdit()
 		{
@@ -97,7 +123,9 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementPumpStation.ShowState = ShowState;
 			IElementPumpStation.ShowDelay = ShowDelay;
-			GKPlanExtension.Instance.RewriteItem(IElementPumpStation, SelectedPumpStation.PumpStation);
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			GKPlanExtension.Instance.RewriteItem(IElementPumpStation, SelectedPumpStation);
 			return base.Save();
 		}
 		protected override bool CanSave()

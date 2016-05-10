@@ -18,5 +18,9 @@ namespace RubezhAPI.Automation
 		public Argument PtzNumberArgument { get; set; }
 
 		public override ProcedureStepType ProcedureStepType { get { return ProcedureStepType.Ptz; } }
+		public override Argument[] Arguments
+		{
+			get { return new Argument[] { CameraArgument, PtzNumberArgument }; }
+		}
 	}
 }
