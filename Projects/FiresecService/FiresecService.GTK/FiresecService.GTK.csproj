@@ -7,8 +7,8 @@
     <ProjectGuid>{ED3A8953-8B21-4C0F-BCFD-79A7D5B05AFD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FiresecService.GTK</RootNamespace>
-    <AssemblyName>FiresecService.GTK</AssemblyName>
+    <RootNamespace>FiresecService</RootNamespace>
+    <AssemblyName>FiresecService</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>84e97436</NuGetPackageImportStamp>
