@@ -5,7 +5,6 @@ using Microsoft.SqlServer.Management.Smo;
 using System;
 using System.Data.SqlClient;
 using System.IO;
-using System.Windows;
 
 namespace FiresecService
 {
@@ -48,26 +47,30 @@ namespace FiresecService
 
 		private static void CreateSKD(Server server)
 		{
-			var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/SKD/Create.sql"));
-			string commandText;
-			using (StreamReader streamReader = new StreamReader(createStream.Stream))
+			using (var createStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.SKD.Create.sql"))
 			{
-				commandText = streamReader.ReadToEnd();
+				string commandText;
+				using (var streamReader = new StreamReader(createStream))
+				{
+					commandText = streamReader.ReadToEnd();
+				}
+				server.ConnectionContext.ExecuteNonQuery(commandText);
+				server.ConnectionContext.Disconnect();
 			}
-			server.ConnectionContext.ExecuteNonQuery(commandText);
-			server.ConnectionContext.Disconnect();
 		}
 
 		private static void PatchSKDInternal(Server server)
 		{
-			var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/SKD/Patches.sql"));
-			string commandText;
-			using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
+			using (var patchesStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.SKD.Patches.sql"))
 			{
-				commandText = streamReader.ReadToEnd();
+				string commandText;
+				using (var streamReader = new StreamReader(patchesStream))
+				{
+					commandText = streamReader.ReadToEnd();
+				}
+				server.ConnectionContext.ExecuteNonQuery(commandText);
+				server.ConnectionContext.Disconnect();
 			}
-			server.ConnectionContext.ExecuteNonQuery(commandText);
-			server.ConnectionContext.Disconnect();
 		}
 
 		public static OperationResult Reset_SKD()
@@ -88,14 +91,16 @@ namespace FiresecService
 
 		private static void DropIfExistsSKD(Server server)
 		{
-			var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/SKD/DropIfExists.sql"));
-			string commandText;
-			using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
+			using (var patchesStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.SKD.DropIfExists.sql"))
 			{
-				commandText = streamReader.ReadToEnd();
+				string commandText;
+				using (var streamReader = new StreamReader(patchesStream))
+				{
+					commandText = streamReader.ReadToEnd();
+				}
+				server.ConnectionContext.ExecuteNonQuery(commandText);
+				server.ConnectionContext.Disconnect();
 			}
-			server.ConnectionContext.ExecuteNonQuery(commandText);
-			server.ConnectionContext.Disconnect();
 		}
 	}
 }

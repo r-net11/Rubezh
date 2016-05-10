@@ -50,8 +50,9 @@ namespace FiresecService
 			}
 			else
 			{
-				MessageBox.Show(Resources.ConfigFileNotExist, Resources.ErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
-				Application.Current.MainWindow.Close();
+				//MessageBox.Show(Resources.ConfigFileNotExist, Resources.ErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+				//Application.Current.MainWindow.Close();
+				throw new FileNotFoundException(Resources.ConfigFileNotExist);
 			}
 		}
 

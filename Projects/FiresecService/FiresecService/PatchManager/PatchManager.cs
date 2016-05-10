@@ -6,8 +6,8 @@ using StrazhDAL;
 using System;
 using System.Data.SqlClient;
 using System.IO;
-using System.Windows;
 using StrazhService;
+using System.Reflection;
 
 namespace FiresecService
 {
@@ -42,9 +42,21 @@ namespace FiresecService
 				server.ConnectionContext.Disconnect();
 				if (!isExists)
 				{
-					var createStream =
-						Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/Journal/Create.sql"));
-					using (var streamReader = new StreamReader(createStream.Stream))
+					using (var createStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.Journal.Create.sql"))
+					{
+						using (var streamReader = new StreamReader(createStream))
+						{
+							commandText = streamReader.ReadToEnd();
+						}
+						commandText = commandText.Replace("Journal_0", String.Format("Journal_{0}", no));
+						server.ConnectionContext.ExecuteNonQuery(commandText);
+						server.ConnectionContext.Disconnect();
+					}
+				}
+
+				using (var patchesStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.Journal.Patches.sql"))
+				{
+					using (var streamReader = new StreamReader(patchesStream))
 					{
 						commandText = streamReader.ReadToEnd();
 					}
@@ -52,15 +64,6 @@ namespace FiresecService
 					server.ConnectionContext.ExecuteNonQuery(commandText);
 					server.ConnectionContext.Disconnect();
 				}
-				var patchesStream =
-					Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/Journal/Patches.sql"));
-				using (var streamReader = new StreamReader(patchesStream.Stream))
-				{
-					commandText = streamReader.ReadToEnd();
-				}
-				commandText = commandText.Replace("Journal_0", String.Format("Journal_{0}", no));
-				server.ConnectionContext.ExecuteNonQuery(commandText);
-				server.ConnectionContext.Disconnect();
 			}
 			catch (ConnectionFailureException e)
 			{
@@ -89,9 +92,20 @@ namespace FiresecService
 				server.ConnectionContext.Disconnect();
 				if (!isExists)
 				{
-					var createStream =
-						Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/PassJournal/Create.sql"));
-					using (var streamReader = new StreamReader(createStream.Stream))
+					using (var createStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.PassJournal.Create.sql"))
+					{
+						using (var streamReader = new StreamReader(createStream))
+						{
+							commandText = streamReader.ReadToEnd();
+						}
+						commandText = commandText.Replace("PassJournal_0", String.Format("PassJournal_{0}", no));
+						server.ConnectionContext.ExecuteNonQuery(commandText);
+						server.ConnectionContext.Disconnect();
+					}
+				}
+				using (var patchesStream = GetResourceStream("StrazhDAL.dll", "StrazhDAL.Scripts.PassJournal.Patches.sql"))
+				{
+					using (var streamReader = new StreamReader(patchesStream))
 					{
 						commandText = streamReader.ReadToEnd();
 					}
@@ -99,15 +113,6 @@ namespace FiresecService
 					server.ConnectionContext.ExecuteNonQuery(commandText);
 					server.ConnectionContext.Disconnect();
 				}
-				var patchesStream =
-					Application.GetResourceStream(new Uri(@"pack://application:,,,/StrazhDAL;component/Scripts/PassJournal/Patches.sql"));
-				using (var streamReader = new StreamReader(patchesStream.Stream))
-				{
-					commandText = streamReader.ReadToEnd();
-				}
-				commandText = commandText.Replace("PassJournal_0", String.Format("PassJournal_{0}", no));
-				server.ConnectionContext.ExecuteNonQuery(commandText);
-				server.ConnectionContext.Disconnect();
 			}
 			catch (ConnectionFailureException e)
 			{
@@ -193,6 +198,12 @@ namespace FiresecService
 			const string msg = "Возникла ошибка при работе с базой данных";
 			Notifier.UILog(String.Format("[*] {0}: {1}", msg, (e.InnerException == null) ? e.Message : e.InnerException.Message));
 			Notifier.BalloonShowFromServer(msg);
+		}
+
+		private static Stream GetResourceStream(string assemblyName, string resourceName)
+		{
+			var assembly = Assembly.LoadFrom(assemblyName);
+			return assembly.GetManifestResourceStream(resourceName);
 		}
 	}
 }
