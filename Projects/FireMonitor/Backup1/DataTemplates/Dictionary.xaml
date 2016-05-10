@@ -1,0 +1,55 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels"
+	xmlns:Views="clr-namespace:AutomationModule.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
+		<Views:ProceduresView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutProcedurePartViewModel}">
+		<Views:LayoutProcedurePartView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ProcedureArgumentsViewModel}">
+		<Views:ProcedureArgumentsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ArgumentsViewModel}">
+		<Views:ArgumentsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ProcedureTooltipViewModel}">
+		<Views:ProcedureTooltipView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ArgumentDetailsViewModel}">
+		<Views:ArgumentDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SKDDeviceSelectionViewModel}">
+		<Views:SKDDeviceSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SKDZoneSelectionViewModel}">
+		<Views:SKDZoneSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:CameraSelectionViewModel}">
+		<Views:CameraSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
+		<Views:DoorSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutTextBlockPartViewModel}">
+		<Views:LayoutTextBlockPartView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutTextBoxPartViewModel}">
+		<Views:LayoutTextBoxPartView />
+	</DataTemplate>
+
+</ResourceDictionary>

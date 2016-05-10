@@ -18,5 +18,4 @@
 	<DataTemplate DataType="{x:Type ViewModels:ProcedureSelectionViewModel}">
 		<Views:ProcedureSelectionView/>
 	</DataTemplate>
-	
 </ResourceDictionary>

@@ -1,9 +1,9 @@
 ﻿<UserControl
+	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
 	x:Class="AutomationModule.Views.ProcedureSelectionView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:compModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization"
 	MinWidth="400"
 	MinHeight="400">
     

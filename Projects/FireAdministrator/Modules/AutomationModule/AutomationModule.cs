@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Resources;
 using AutomationModule.Events;
 using AutomationModule.Layout.ViewModels;
 using AutomationModule.Plans;
@@ -57,17 +59,22 @@ namespace AutomationModule
 			// Скрываем в главном меню пункт "Сценарии автоматизации", если лицензия этого требует
 			if (!ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
 				return new List<NavigationItem>();
+
+		    var s = CommonResources.ResourceManager.GetString("Procedure");
+
+            //ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
+            //String str = rm.GetString("Procedure");
 			
 			return new List<NavigationItem>
 				{
 					new NavigationItem(ModuleType.ToDescription(), "tree",
 						new List<NavigationItem>
 						{
-                            //new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, CommonResources.Procedures, "Procedure"),
+                            new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, s, "Procedure"),
                             //new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, CommonResources.GlobalVariables, "Shedules"),
                             //new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, CommonResources.Schedules, "GlobalVariables"),
                             //new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, CommonResources.Sounds, "Music")
-                            new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
+                         //   new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music")

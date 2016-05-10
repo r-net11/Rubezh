@@ -1,0 +1,532 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StrazhAPI</RootNamespace>
+    <AssemblyName>StrazhAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\StrazhAPI.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\FiresecAPI.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\FiresecAPI.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\FiresecAPI.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\FiresecAPI.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>true</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Entities">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SqlXml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    </Compile>
+    <Compile Include="AutomationCallback\DialogCallbackData.cs" />
+    <Compile Include="AutomationCallback\PlanCallbackData.cs" />
+    <Compile Include="AutomationCallback\ProcedureProperties.cs" />
+    <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
+    <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
+    <Compile Include="Enums\LicenseStatus.cs" />
+    <Compile Include="Automation\Enums\AccessState.cs" />
+    <Compile Include="Enums\ModuleType.cs" />
+    <Compile Include="Automation\Enums\BreakInStatus.cs" />
+    <Compile Include="Automation\Enums\ConnectionStatus.cs" />
+    <Compile Include="Automation\Enums\DoorStatus.cs" />
+    <Compile Include="Automation\Enums\EmailSecureProtocol.cs" />
+    <Compile Include="Enums\ReportFormatEnum.cs" />
+    <Compile Include="Enums\ReportType.cs" />
+    <Compile Include="Enums\RoundingType.cs" />
+    <Compile Include="Enums\ShellType.cs" />
+    <Compile Include="Extensions\GuidExtensions.cs" />
+    <Compile Include="Extensions\TimeSpanExtensions.cs" />
+    <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
+    <Compile Include="Journal\EventDescriptionAttribute.cs" />
+    <Compile Include="Journal\JournalDetalisationItem.cs" />
+    <Compile Include="Journal\JournalErrorCode.cs" />
+    <Compile Include="ModelBase.cs" />
+    <Compile Include="Models\Automation\Argument.cs" />
+    <Compile Include="Models\Automation\ElementProperty.cs" />
+    <Compile Include="Models\Automation\EnumType.cs" />
+    <Compile Include="Models\Automation\GlobalVariable.cs" />
+    <Compile Include="Models\Automation\IVariable.cs" />
+    <Compile Include="Models\Automation\LocalVariable.cs" />
+    <Compile Include="Models\Automation\PropertyCopy.cs" />
+    <Compile Include="Models\Automation\StepArguments\ChangeListArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\CheckPermissionArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlPlanArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlVisualArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ExportJournalArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ForArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GenerateGuidArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetDateTimeNowArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetJournalItemArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetListCountArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetListItemArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetObjectPropertyArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlDoorArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
+    <Compile Include="Models\Automation\StepArguments\PtzArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\SendEmailArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\SetJournalItemGuidArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ShowDialogArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ShowMessageArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\SetValueArguments.cs" />
+    <Compile Include="CallbackResult.cs" />
+    <Compile Include="Journal\EventNameAttribute.cs" />
+    <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />
+    <Compile Include="Journal\JournalEventNameType.cs" />
+    <Compile Include="Journal\JournalSubsystemType.cs" />
+    <Compile Include="IFiresecService.Automation.cs" />
+    <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
+    <Compile Include="Models\Automation\VariableValue.cs" />
+    <Compile Include="Models\License\ILicenseData.cs" />
+    <Compile Include="Models\License\LicenseData.cs" />
+    <Compile Include="SKDCallbackResult.cs" />
+    <Compile Include="SKDObjectsStateChangedEvent.cs" />
+    <Compile Include="SKDProgressCallback.cs" />
+    <Compile Include="IFiresecServiceSKD.cs" />
+    <Compile Include="IFiresecService.cs" />
+    <Compile Include="Models\Automation\Condition.cs" />
+    <Compile Include="Models\Automation\FindObjectCondition.cs" />
+    <Compile Include="Models\Automation\JoinOperator.cs" />
+    <Compile Include="Models\Automation\ProcedureObject.cs" />
+    <Compile Include="Models\Automation\StepArguments\ConditionArguments.cs" />
+    <Compile Include="Models\Automation\DayOfWeekType.cs" />
+    <Compile Include="Models\Automation\ObjectType.cs" />
+    <Compile Include="Models\Automation\ScheduleProcedure.cs" />
+    <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ExitArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ForeachArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ShowPropertyArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
+    <Compile Include="Models\Automation\ExplicitValue.cs" />
+    <Compile Include="Models\Automation\StepArguments\StartRecordArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\StopRecordArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\UIArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RviAlarmArguments.cs" />
+    <Compile Include="Models\Automation\VariableScope.cs" />
+    <Compile Include="Models\Automation\ExplicitType.cs" />
+    <Compile Include="Models\Layouts\LayoutPartTextProperties.cs" />
+    <Compile Include="Models\Layouts\LayoutPartTimeProperties.cs" />
+    <Compile Include="Models\Layouts\LayoutPartProcedureProperties.cs" />
+    <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
+    <Compile Include="Models\Plans\ElementProcedure.cs" />
+    <Compile Include="Models\Plans\ElementDoor.cs" />
+    <Compile Include="Models\ServerTask\ServerTask.cs" />
+    <Compile Include="AutomationCallback\AutomationCallbackData.cs" />
+    <Compile Include="AutomationCallback\AutomationCallbackResult.cs" />
+    <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
+    <Compile Include="AutomationCallback\MessageCallbackData.cs" />
+    <Compile Include="AutomationCallback\SoundCallbackData.cs" />
+    <Compile Include="Models\Video\CameraState.cs" />
+    <Compile Include="Models\Video\RviSettings.cs" />
+    <Compile Include="SKD\AttachedFile\Attachment.cs" />
+    <Compile Include="SKD\Card\AccessTemplateDeactivatingReader.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDoorDayInterval.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDoorDayIntervalPart.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDoorWeeklyIntervalPart.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDoorWeeklyInterval.cs" />
+    <Compile Include="SKD\Device\SKDAntiPassBackConfiguration.cs" />
+    <Compile Include="SKD\Device\SKDDeviceSearchInfo.cs" />
+    <Compile Include="SKD\Device\SKDInterlockConfiguration.cs" />
+    <Compile Include="SKD\Device\SKDLocksPassword.cs" />
+    <Compile Include="SKD\Device\SKDControllerPasswords.cs" />
+    <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterEmployeeAndVisitor.cs" />
+    <Compile Include="SKD\ReportFilters\EventsReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\EmployeeRootReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\DoorsReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterDoor.cs" />
+    <Compile Include="SKD\ReportFilters\DisciplineReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\SchedulesReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\DocumentsReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\EmployeeZonesReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterArchive.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterScheduleScheme.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterZoneWithDirection.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterPassCardTypeFull.cs" />
+    <Compile Include="SKD\ReportFilters\EmployeeReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\WorkingTimeReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\EndDateType.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterSchedule.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterZone.cs" />
+    <Compile Include="SKD\ReportFilters\EmployeeAccessReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\EmployeeDoorsReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterPassCardType.cs" />
+    <Compile Include="SKD\ReportFilters\CardsReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\PositionsReportFilter.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterEmployee.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterPosition.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterDepartment.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterOrganisation.cs" />
+    <Compile Include="SKD\ReportFilters\DepartmentsReportFilter.cs" />
+    <Compile Include="SKD\Card\PendingCardAction.cs" />
+    <Compile Include="SKD\Common\EmployeeFilterBase.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDayOfWeek.cs" />
+    <Compile Include="SKD\Device\SKDControllerTimeSettings.cs" />
+    <Compile Include="SKD\Device\SKDDeviceInfo.cs" />
+    <Compile Include="SKD\Device\SKDDoorConfiguration.cs" />
+    <Compile Include="SKD\Device\SKDProperty.cs" />
+    <Compile Include="SKD\Device\SKDControllerNetworkSettings.cs" />
+    <Compile Include="SKD\Device\SKDTimeZoneType.cs" />
+    <Compile Include="SKD\Door\Door.cs" />
+    <Compile Include="SKD\Door\DoorType.cs" />
+    <Compile Include="SKD\Driver\SKDDriverProperty.cs" />
+    <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
+    <Compile Include="SKD\EmployeeDay.cs" />
+    <Compile Include="SKD\Position\PositionFilter.cs" />
+    <Compile Include="SKD\PassCardLibrary\ShortPassCardTemplate.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterPeriod.cs" />
+    <Compile Include="SKD\ReportFilters\ReportPeriodType.cs" />
+    <Compile Include="SKD\ReportFilters\SKDReportFilters.cs" />
+    <Compile Include="SKD\ReportFilters\SKDReportFilter.cs" />
+    <Compile Include="SKD\Settings\AppServerSettings.cs" />
+    <Compile Include="SKD\Settings\ValidationErrorType.cs" />
+    <Compile Include="SKD\SKDManager\CommonChinaControllerHelper.cs" />
+    <Compile Include="SKD\TimeTrack\DayIntervalCreator.cs" />
+    <Compile Include="SKD\TimeTrack\DayIntervalPartExtensions.cs" />
+    <Compile Include="SKD\TimeTrack\DayTimeTrackPart.cs" />
+    <Compile Include="SKD\TimeTrack\Enums\DocumentType.cs" />
+    <Compile Include="SKD\TimeTrack\ReportT13.cs" />
+    <Compile Include="SKD\TimeTrack\Enums\TimeTrackActions.cs" />
+    <Compile Include="SKD\TimeTrack\TimeTrackResult.cs" />
+    <Compile Include="SKD\TimeTrack\PlannedTimeTrackCollection.cs" />
+    <Compile Include="SKD\TimeTrack\ShortSchedule.cs" />
+    <Compile Include="Models\Automation\AutomationSchedule.cs" />
+    <Compile Include="SKD\TimeTrack\DayTimeTrack.cs" />
+    <Compile Include="Journal\JournalObjectType.cs" />
+    <Compile Include="SKD\TimeTrack\TimeTrackDocument.cs" />
+    <Compile Include="SKD\TimeTrack\TimeTrackDocumentType.cs" />
+    <Compile Include="SKD\TimeTrack\TimeTrackPart.cs" />
+    <Compile Include="SKD\TimeTrack\TimeTrackTotal.cs" />
+    <Compile Include="SKD\TimeTrack\Enums\TimeTrackType.cs" />
+    <Compile Include="SKD\Settings\GlobalSettings.cs" />
+    <Compile Include="Models\Automation\AutomationConfiguration.cs" />
+    <Compile Include="Models\Automation\AutomationSound.cs" />
+    <Compile Include="Models\Automation\Procedure.cs" />
+    <Compile Include="Models\Automation\ProcedureStep.cs" />
+    <Compile Include="Models\Automation\ProcedureStepType.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_1_Helper.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_2_Helper.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_4_Helper.cs" />
+    <Compile Include="SKD\SKDManager\ControllerHelper.cs" />
+    <Compile Include="SKD\SKDManager\ReaderHelper.cs" />
+    <Compile Include="SKD\SKDManager\LockHelper.cs" />
+    <Compile Include="SKD\SKDManager\LockControlHelper.cs" />
+    <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
+    <Compile Include="SKD\States\SKDDoorState.cs" />
+    <Compile Include="SKD\TimeTrack\NightSettings.cs" />
+    <Compile Include="GKModels\IStateProvider.cs" />
+    <Compile Include="Models\ClientCredentials.cs" />
+    <Compile Include="Models\ClientType.cs" />
+    <Compile Include="Models\ConfigurationCash.cs" />
+    <Compile Include="Models\Configuration\LayoutsConfiguration.cs" />
+    <Compile Include="Models\Configuration\ZipConfigurationItem.cs" />
+    <Compile Include="Models\Configuration\ZipConfigurationItemsCollection.cs" />
+    <Compile Include="Models\Configuration\PlansConfiguration.cs" />
+    <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
+    <Compile Include="ConfigurationVersion.cs" />
+    <Compile Include="Models\ExtensionMethods.cs" />
+    <Compile Include="Models\Layouts\ILayoutProperties.cs" />
+    <Compile Include="Models\Layouts\LayoutPartImageProperties.cs" />
+    <Compile Include="Models\Layouts\LayoutPart.cs" />
+    <Compile Include="Models\Layouts\Layout.cs" />
+    <Compile Include="Models\Layouts\LayoutPartPlansProperties.cs" />
+    <Compile Include="Models\Layouts\LayoutPartPlansType.cs" />
+    <Compile Include="Models\Plans\ElementCamera.cs" />
+    <Compile Include="Models\Video\CameraFrame.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumnDataType.cs" />
+    <Compile Include="SKD\AdditionalColumn\ShortAdditionalColumnType.cs" />
+    <Compile Include="SKD\Card\CardType.cs" />
+    <Compile Include="SKD\Card\IntervalType.cs" />
+    <Compile Include="SKD\Common\IsDeletedFilter.cs" />
+    <Compile Include="SKD\Common\SKDHelper.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumnFilter.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumnType.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumnTypeFilter.cs" />
+    <Compile Include="SKD\Department\ShortDepartment.cs" />
+    <Compile Include="Models\Video\IVSSContract.cs" />
+    <Compile Include="SKD\Card\CardDoor.cs" />
+    <Compile Include="SKD\TimeTrack\ScheduleZoneFilter.cs" />
+    <Compile Include="SKD\TimeTrack\ScheduleFilter.cs" />
+    <Compile Include="SKD\TimeTrack\ScheduleDayIntervalFilter.cs" />
+    <Compile Include="SKD\TimeTrack\ScheduleSchemeFilter.cs" />
+    <Compile Include="SKD\TimeTrack\HolidayFilter.cs" />
+    <Compile Include="SKD\TimeTrack\DayIntervalPartFilter.cs" />
+    <Compile Include="SKD\TimeTrack\DayIntervalFilter.cs" />
+    <Compile Include="SKD\TimeTrack\ScheduleScheme.cs" />
+    <Compile Include="SKD\Employee\ShortEmployee.cs" />
+    <Compile Include="SKD\Employee\PersonType.cs" />
+    <Compile Include="Journal\ArchiveFilter.cs" />
+    <Compile Include="SKD\Organisation\OrganisationFilter.cs" />
+    <Compile Include="SKD\Common\OrganisationFilterBase.cs" />
+    <Compile Include="SKD\Organisation\Organisation.cs" />
+    <Compile Include="SKD\Common\OrganisationElementBase.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardImagePropertyType.cs" />
+    <Compile Include="SKD\Photo\Photo.cs" />
+    <Compile Include="SKD\Photo\PhotoFilter.cs" />
+    <Compile Include="SKD\Position\ShortPosition.cs" />
+    <Compile Include="SKD\Common\SKDModelBase.cs" />
+    <Compile Include="SKD\TimeTrack\Holiday.cs" />
+    <Compile Include="SKD\TimeTrack\Enums\HolidayType.cs" />
+    <Compile Include="SKD\TimeTrack\Schedule.cs" />
+    <Compile Include="SKD\TimeTrack\DayInterval.cs" />
+    <Compile Include="SKD\TimeTrack\DayIntervalPart.cs" />
+    <Compile Include="SKD\TimeTrack\ScheduleDayInterval.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumn.cs" />
+    <Compile Include="SKD\Card\Card.cs" />
+    <Compile Include="SKD\Card\CardDoorFilter.cs" />
+    <Compile Include="SKD\Card\CardFilter.cs" />
+    <Compile Include="SKD\Common\DateTimePeriod.cs" />
+    <Compile Include="SKD\Department\Department.cs" />
+    <Compile Include="SKD\Department\DepartmentFilter.cs" />
+    <Compile Include="SKD\Employee\Employee.cs" />
+    <Compile Include="SKD\Employee\EmployeeFilter.cs" />
+    <Compile Include="SKD\Common\FilterBase.cs" />
+    <Compile Include="SKD\TimeTrack\Enums\DayIntervalPartTransitionType.cs" />
+    <Compile Include="SKD\TimeTrack\ScheduleZone.cs" />
+    <Compile Include="SKD\TimeTrack\Enums\ScheduleSchemeType.cs" />
+    <Compile Include="SKD\Card\AccessTemplateFilter.cs" />
+    <Compile Include="SKD\PassCardLibrary\ElementPassCardImageProperty.cs" />
+    <Compile Include="SKD\PassCardLibrary\ElementPassCardTextProperty.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardTextPropertyType.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
+    <Compile Include="SKD\Position\Position.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardTemplateFilter.cs" />
+    <Compile Include="Models\Notification\Email.cs" />
+    <Compile Include="Models\Notification\EmailData.cs" />
+    <Compile Include="Models\Notification\EmailSettings.cs" />
+    <Compile Include="Models\Plans\ElementRectangleTank.cs" />
+    <Compile Include="Models\Plans\PlanFolder.cs" />
+    <Compile Include="Models\Plans\ElementSKDDevice.cs" />
+    <Compile Include="Models\Plans\ElementPolygonSKDZone.cs" />
+    <Compile Include="Models\Plans\ElementRectangleSKDZone.cs" />
+    <Compile Include="SKD\Library\SKDLibraryConfiguration.cs" />
+    <Compile Include="SKD\Library\SKDLibraryDevice.cs" />
+    <Compile Include="SKD\Library\SKDLibraryFrame.cs" />
+    <Compile Include="SKD\Library\SKDLibraryState.cs" />
+    <Compile Include="SKD\Card\AccessTemplate.cs" />
+    <Compile Include="SKD\SKDConfiguration.cs" />
+    <Compile Include="SKD\SKDManager\SKDManager.Actions.cs" />
+    <Compile Include="SKD\Device\SKDDevice.cs" />
+    <Compile Include="SKD\States\SKDDeviceState.cs" />
+    <Compile Include="SKD\Driver\SKDDriver.cs" />
+    <Compile Include="SKD\Driver\SKDDriverType.cs" />
+    <Compile Include="SKD\SKDManager\SKDManager.Drivers.cs" />
+    <Compile Include="SKD\SKDManager\SKDManager.cs" />
+    <Compile Include="Journal\JournalFilter.cs" />
+    <Compile Include="SKD\States\SKDStates.cs" />
+    <Compile Include="SKD\States\SKDZoneState.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDHoliday.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDSlideWeeklyInterval.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDayInterval.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDSlideDayInterval.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDayIntervalPart.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDWeeklyInterval.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDWeeklyIntervalPart.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\TimeIntervalsConfiguration.cs" />
+    <Compile Include="SKD\TimeTrack\TimeTrackZone.cs" />
+    <Compile Include="SKD\Zone\SKDZone.cs" />
+    <Compile Include="VersionedConfiguration.cs" />
+    <Compile Include="Models\Plans\ElementPolyline.cs" />
+    <Compile Include="Models\Plans\ElementPolygon.cs" />
+    <Compile Include="Models\Plans\ElementTextBlock.cs" />
+    <Compile Include="Models\Plans\ElementEllipse.cs" />
+    <Compile Include="Models\Plans\ElementRectangle.cs" />
+    <Compile Include="Models\Security\PermissionType.cs" />
+    <Compile Include="Models\Security\RemoteAccessType.cs" />
+    <Compile Include="Models\Security\UserRole.cs" />
+    <Compile Include="Models\System\BeeperType.cs" />
+    <Compile Include="Models\Security\RemoteAccess.cs" />
+    <Compile Include="Models\Video\Camera.cs" />
+    <Compile Include="Models\Plans\ElementSubPlan.cs" />
+    <Compile Include="Models\Plans\Plan.cs" />
+    <Compile Include="Models\System\Sound.cs" />
+    <Compile Include="Models\Configuration\SystemConfiguration.cs" />
+    <Compile Include="OperationResult.cs" />
+    <Compile Include="Journal\JournalEventDescriptionType.cs" />
+    <Compile Include="Journal\JournalItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Security\User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
