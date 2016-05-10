@@ -115,6 +115,14 @@ namespace Controls
 				// Compute column width
 				double w = Math.Min(max, Double.IsNaN(column.Width) ? (double)DesiredWidthProperty.GetValue(column, null) : column.Width);
 
+
+				// Fix width of column in case of row having CheckBox.
+				TreeList.TreeList parent = VisualHelper.GetParent<TreeList.TreeList>(this);
+				if (UIBehavior.GetShowSelectionMark(parent))
+				{
+					w = w - 19;
+				}
+
 				// First column indent
 				Rect rect;
 				if (x == 0 && expander != null)
@@ -161,6 +169,7 @@ namespace Controls
 
 			return s;
 		}
+
 		protected override Visual GetVisualChild(int index)
 		{
 			var count = base.VisualChildrenCount;
