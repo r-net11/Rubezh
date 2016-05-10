@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Common;
-using FiresecService.Report.DataSources;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
@@ -11,9 +10,9 @@ using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class DoorsReport : BaseReport
+	public class DoorsReport : BaseReport<List<DoorData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<DoorData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<DoorsReportFilter>(f);
 			if (!filter.ZoneIn && !filter.ZoneOut)
@@ -22,7 +21,7 @@ namespace FiresecService.Report.Reports
 				filter.ZoneOut = true;
 			}
 
-			var dataSet = new DoorsDataSet();
+			var result = new List<DoorData>();
 
 			IEnumerable<GKDoor> doors = GKManager.Doors;
 			if (!filter.Doors.IsEmpty())
@@ -37,33 +36,33 @@ namespace FiresecService.Report.Reports
 				organisationsResult.Result.ForEach(organisation =>
 					doors.Where(item => organisation.DoorUIDs.Contains(item.UID)).ForEach(door =>
 					{
-						var dataRow = dataSet.Data.NewDataRow();
-						dataRow.Number = door.No;
-						dataRow.Door = door.Name;
-						dataRow.Type = ((Enum)door.DoorType).ToDescription();
-						dataRow.Comment = door.Description;
+						var data = new DoorData();
+						data.Number = door.No;
+						data.Door = door.Name;
+						data.Type = ((Enum)door.DoorType).ToDescription();
+						data.Comment = door.Description;
 						if (door.EnterDevice != null)
 						{
-							dataRow.EnterReader = door.EnterDevice.PresentationName;
+							data.EnterReader = door.EnterDevice.PresentationName;
 							var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
 							if (enterZone != null)
 							{
-								dataRow.EnterZone = enterZone.Name;
+								data.EnterZone = enterZone.Name;
 							}
 						}
 						if (door.ExitDevice != null)
 						{
-							dataRow.ExitReader = door.ExitDevice.PresentationName;
+							data.ExitReader = door.ExitDevice.PresentationName;
 							var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
 							if (exitZone != null)
 							{
-								dataRow.ExitZone = exitZone.Name;
+								data.ExitZone = exitZone.Name;
 							}
 						}
-						dataRow.Organisation = organisation.Name;
-						dataSet.Data.Rows.Add(dataRow);
+						data.Organisation = organisation.Name;
+						result.Add(data);
 					}));
-			return dataSet;
+			return result;
 		}
 	}
 }

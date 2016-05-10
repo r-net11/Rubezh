@@ -1,22 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FiresecService.Report.DataSources;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class DisciplineReport : BaseReport
+	public class DisciplineReport : BaseReport<List<DisciplineData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<DisciplineData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<DisciplineReportFilter>(f);
 			var employeeFilter = dataProvider.GetEmployeeFilter(filter);
 			var employees = dataProvider.GetEmployees(employeeFilter, filter.IsDefault);
 			var timeTrackResult = dataProvider.DbService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
-			var dataSet = new DisciplineDataSet();
+			var result = new List<DisciplineData>();
 			foreach (var employee in employees)
 			{
 				if (filter.ScheduleSchemas != null && filter.ScheduleSchemas.Count > 0)
@@ -54,41 +54,41 @@ namespace FiresecService.Report.Reports
 								filter.ShowConfirmed && hasDocument;
 						if (isShow)
 						{
-							var dataRow = dataSet.Data.NewDataRow();
-							dataRow.Employee = employee.Name;
-							dataRow.Organisation = employee.Organisation;
-							dataRow.Department = employee.Department;
+							var data = new DisciplineData();
+							data.Employee = employee.Name;
+							data.Organisation = employee.Organisation;
+							data.Department = employee.Department;
 
-							dataRow.Date = dayTimeTrack.Date;
+							data.Date = dayTimeTrack.Date;
 
 							if (dayTimeTrack.RealTimeTrackParts.Count > 0)
 							{
-								dataRow.FirstEnter = dayTimeTrack.RealTimeTrackParts.Min(x => x.StartTime);
-								dataRow.LastExit = dayTimeTrack.RealTimeTrackParts.Max(x => x.EndTime);
+								data.FirstEnter = dayTimeTrack.RealTimeTrackParts.Min(x => x.StartTime);
+								data.LastExit = dayTimeTrack.RealTimeTrackParts.Max(x => x.EndTime);
 							}
 
 							var absence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Absence);
 							if (absence != null)
 							{
-								dataRow.Absence = absence.TimeSpan;
+								data.Absence = absence.TimeSpan;
 							}
 
 							var late = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Late);
 							if (late != null)
 							{
-								dataRow.Late = late.TimeSpan;
+								data.Late = late.TimeSpan;
 							}
 
 							var earlyLeave = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.EarlyLeave);
 							if (earlyLeave != null)
 							{
-								dataRow.EarlyLeave = earlyLeave.TimeSpan;
+								data.EarlyLeave = earlyLeave.TimeSpan;
 							}
 
 							var overtime = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Overtime);
 							if (overtime != null)
 							{
-								dataRow.Overtime = overtime.TimeSpan;
+								data.Overtime = overtime.TimeSpan;
 							}
 
 							var isHoliday = dayTimeTrack.IsHoliday;
@@ -96,20 +96,20 @@ namespace FiresecService.Report.Reports
 							var document = timeTrackEmployeeResult.Documents.FirstOrDefault(x => (dayTimeTrack.Date >= x.StartDateTime.Date && dayTimeTrack.Date <= x.EndDateTime.Date) && x.TimeTrackDocumentType.ShortName == dayTimeTrack.LetterCode);
 							if (document != null)
 							{
-								dataRow.DocumentDate = document.DocumentDateTime;
-								dataRow.DocumentName = document.TimeTrackDocumentType.Name;
-								dataRow.DocumentNo = document.DocumentNumber.ToString();
+								data.DocumentDate = document.DocumentDateTime;
+								data.DocumentName = document.TimeTrackDocumentType.Name;
+								data.DocumentNo = document.DocumentNumber.ToString();
 							}
 
 							if (absence.TimeSpan.TotalSeconds > 0 || late.TimeSpan.TotalSeconds > 0 || earlyLeave.TimeSpan.TotalSeconds > 0 || overtime.TimeSpan.TotalSeconds > 0 || document != null)
 							{
-								dataSet.Data.Rows.Add(dataRow);
+								result.Add(data);
 							}
 						}
 					}
 				}
 			}
-			return dataSet;
+			return result;
 		}
 	}
 }

@@ -1,19 +1,18 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecService.Report.DataSources;
 using RubezhAPI;
 using RubezhAPI.Journal;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class EventsReport : BaseReport
+	public class EventsReport : BaseReport<List<EventsData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<EventsData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<EventsReportFilter>(f);
-			var dataSet = new EventsDataSet();
+			var result = new List<EventsData>();
 			var archiveFilter = new JournalFilter();
 			archiveFilter.StartDate = filter.DateTimeFrom;
 			archiveFilter.EndDate = filter.DateTimeTo;
@@ -48,7 +47,7 @@ namespace FiresecService.Report.Reports
 			{
 				foreach (var journalItem in journalItemsResult.Result)
 				{
-					var dataRow = dataSet.Data.NewDataRow();
+					var dataRow = new EventsData();
 					dataRow.SystemDateTime = journalItem.SystemDateTime;
 					if (journalItem.DeviceDateTime.HasValue)
 					{
@@ -159,18 +158,18 @@ namespace FiresecService.Report.Reports
 							break;
 					}
 
-					if (dataRow.IsObjectNull())
+					if (dataRow.Object == null)
 					{
 						dataRow.Object = journalItem.ObjectName;
 					}
 
-					if (dataRow.IsObjectNull())
+					if (dataRow.Object == null)
 						dataRow.Object = "<Нет в конфигурации>";
 
 					dataRow.System = journalItem.JournalSubsystemType.ToDescription();
 					dataRow.User = journalItem.UserName;
 
-					dataSet.Data.Rows.Add(dataRow);
+					result.Add(dataRow);
 				}
 			}
 			else
@@ -180,7 +179,7 @@ namespace FiresecService.Report.Reports
 				else
 					ThrowException("Exception was trown in EventsReport.CreateDataSet()");
 			}
-			return dataSet;
+			return result;
 		}
 	}
 }

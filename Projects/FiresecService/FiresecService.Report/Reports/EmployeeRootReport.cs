@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FiresecService.Report.DataSources;
 using RubezhAPI;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class EmployeeRootReport : BaseReport
+	public class EmployeeRootReport : BaseReport<EmployeeRootReportData>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override EmployeeRootReportData CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<EmployeeRootReportFilter>(f);
-			var ds = new EmployeeRootDataSet();
+			var result = new EmployeeRootReportData();
+			result.Employees = new List<EmployeeRootData>();
+			result.Data = new List<EmployeeAdditionalData>();
+
 			var employees = dataProvider.GetEmployees(filter);
 			var passJournal = dataProvider.DbService.PassJournalTranslator != null ?
 				dataProvider.DbService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) : null;
@@ -29,7 +31,7 @@ namespace FiresecService.Report.Reports
 
 			foreach (var employee in employees)
 			{
-				var employeeRow = ds.Employee.NewEmployeeRow();
+				var employeeRow = new EmployeeRootData();
 				employeeRow.UID = employee.UID;
 				employeeRow.Name = employee.Name;
 				employeeRow.Department = employee.Department;
@@ -47,7 +49,7 @@ namespace FiresecService.Report.Reports
 					employeeRow.Description = employee.Item.Description;
 				}
 
-				ds.Employee.AddEmployeeRow(employeeRow);
+				result.Employees.Add(employeeRow);
 				if (passJournal != null)
 				{
 					var dayPassJournals = passJournal.Where(item => item.EmployeeUID == employee.UID).GroupBy(x => x.EnterTime.Date);
@@ -60,19 +62,19 @@ namespace FiresecService.Report.Reports
 
 					foreach (var pass in timeTrackParts)
 					{
-						var row = ds.Data.NewDataRow();
-						row.EmployeeRow = employeeRow;
+						var row = new EmployeeAdditionalData();
+						row.EmployeeUID = employeeRow.UID;
 						if (zoneMap.ContainsKey(pass.ZoneUID))
 							row.Zone = zoneMap[pass.ZoneUID];
 						if (filter.DateTimeFrom.Ticks <= pass.EnterTime.Ticks && (!pass.ExitTime.HasValue || pass.ExitTime.Value.Ticks <= filter.DateTimeTo.Ticks))
 						{
 							row.DateTime = new DateTime(pass.EnterTime.Ticks);
-							ds.Data.AddDataRow(row);
+							result.Data.Add(row);
 						}
 					}
 				}
 			}
-			return ds;
+			return result;
 		}
 
 		public static List<RubezhDAL.DataClasses.PassJournal> NormalizePassJournals(IEnumerable<RubezhDAL.DataClasses.PassJournal> passJournals)

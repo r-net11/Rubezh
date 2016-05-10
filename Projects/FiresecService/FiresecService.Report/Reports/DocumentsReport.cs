@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using FiresecService.Report.DataSources;
 using RubezhAPI;
@@ -7,13 +8,14 @@ using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class DocumentsReport : BaseReport
+	public class DocumentsReport : BaseReport<List<DocumentData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<DocumentData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<DocumentsReportFilter>(f);
 			var employees = dataProvider.GetEmployees(filter);
-			var ds = new DataSetDocuments();
+
+			var result = new List<DocumentData>();
 			foreach (var employee in employees)
 			{
 				var documentsResult = dataProvider.DbService.TimeTrackDocumentTranslator.Get(employee.UID, filter.DateTimeFrom, filter.DateTimeTo);
@@ -33,24 +35,24 @@ namespace FiresecService.Report.Reports
 								   filter.Presence && documentType.DocumentType == DocumentType.Presence ||
 									filter.Overtime && documentType.DocumentType == DocumentType.Overtime)
 								{
-									var row = ds.Data.NewDataRow();
-									row.Organisation = employee.Organisation;
-									row.Employee = employee.Name;
-									row.Department = employee.Department;
-									row.StartDateTime = document.StartDateTime;
-									row.EndDateTime = document.EndDateTime;
-									row.DocumentCode = documentType.Code;
-									row.DocumentName = documentType.Name;
-									row.DocumentShortName = documentType.ShortName;
-									row.DocumentType = documentType.DocumentType.ToDescription();
-									ds.Data.AddDataRow(row);
+									var data = new DocumentData();
+									data.Organisation = employee.Organisation;
+									data.Employee = employee.Name;
+									data.Department = employee.Department;
+									data.StartDateTime = document.StartDateTime;
+									data.EndDateTime = document.EndDateTime;
+									data.DocumentCode = documentType.Code;
+									data.DocumentName = documentType.Name;
+									data.DocumentShortName = documentType.ShortName;
+									data.DocumentType = documentType.DocumentType.ToDescription();
+									result.Add(data);
 								}
 							}
 						}
 					}
 				}
 			}
-			return ds;
+			return result;
 		}
 	}
 }

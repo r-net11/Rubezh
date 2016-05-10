@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using FiresecService.Report.DataSources;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class WorkingTimeReport : BaseReport
+	public class WorkingTimeReport : BaseReport<List<WorkingTimeData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<WorkingTimeData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<WorkingTimeReportFilter>(f);
 
@@ -24,15 +22,14 @@ namespace FiresecService.Report.Reports
 			}
 			var timeTrackResult = dataProvider.DbService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
-			var dataSet = new WorkingTimeDataSet();
+			var result = new List<WorkingTimeData>();
 			foreach (var employee in employees)
 			{
-				var dataRow = dataSet.Data.NewDataRow();
-
-				dataRow.Employee = employee.Name;
-				dataRow.Organisation = employee.Organisation;
-				dataRow.Department = employee.Department;
-				dataRow.Position = employee.Position;
+				var data = new WorkingTimeData();
+				data.Employee = employee.Name;
+				data.Organisation = employee.Organisation;
+				data.Department = employee.Department;
+				data.Position = employee.Position;
 
 				var timeTrackEmployeeResult = timeTrackResult.Result.TimeTrackEmployeeResults.FirstOrDefault(x => x.ShortEmployee.UID == employee.UID);
 				if (timeTrackEmployeeResult != null)
@@ -98,21 +95,21 @@ namespace FiresecService.Report.Reports
 							totalBalance += balance.TimeSpan;
 						}
 					}
-					dataRow.ScheduleDay = (totalSchedule - totalScheduleNight).TotalHours;
-					dataRow.ScheduleNight = totalScheduleNight.TotalHours;
-					dataRow.Presence = totalPresence.TotalHours;
-					dataRow.Overtime = totalOvertime.TotalHours;
-					dataRow.Night = totalNight.TotalHours;
-					dataRow.TotalPresence = totalPresence.TotalHours + totalNight.TotalHours;
-					dataRow.DocumentOvertime = totalDocumentOvertime.TotalHours;
-					dataRow.DocumentAbsence = totalDocumentAbsence.TotalHours;
-					dataRow.Balance = totalBalance.TotalHours - dataRow.DocumentOvertime + dataRow.DocumentAbsence;
-					dataRow.TotalBalance = totalBalance.TotalHours;
+					data.ScheduleDay = (totalSchedule - totalScheduleNight).TotalHours;
+					data.ScheduleNight = totalScheduleNight.TotalHours;
+					data.Presence = totalPresence.TotalHours;
+					data.Overtime = totalOvertime.TotalHours;
+					data.Night = totalNight.TotalHours;
+					data.TotalPresence = totalPresence.TotalHours + totalNight.TotalHours;
+					data.DocumentOvertime = totalDocumentOvertime.TotalHours;
+					data.DocumentAbsence = totalDocumentAbsence.TotalHours;
+					data.Balance = totalBalance.TotalHours - data.DocumentOvertime + data.DocumentAbsence;
+					data.TotalBalance = totalBalance.TotalHours;
 				}
 
-				dataSet.Data.Rows.Add(dataRow);
+				result.Add(data);
 			}
-			return dataSet;
+			return result;
 		}
 
 		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end, List<TimeTrackPart> timeTrackParts)

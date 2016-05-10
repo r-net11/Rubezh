@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Common;
-using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class PositionsReport : BaseReport
+	public class PositionsReport : BaseReport<List<PositionsData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<PositionsData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<PositionsReportFilter>(f);
 			var databaseService = new RubezhDAL.DataClasses.DbService();
@@ -40,17 +39,17 @@ namespace FiresecService.Report.Reports
 
 			};
 			var positions = GetPosition(dataProvider, filter);
-			var ds = new PositionsDataSet();
+			List<PositionsData> result = new List<PositionsData>();
 			if (positions != null)
 				positions.ForEach(position =>
 				{
-					var row = ds.Data.NewDataRow();
+					PositionsData row = new PositionsData();
 					row.Organisation = position.Organisation;
 					row.Position = position.Item.Name;
 					row.Description = position.Item.Description;
-					ds.Data.AddDataRow(row);
+					result.Add(row);
 				});
-			return ds;
+			return result;
 		}
 
 		private static IEnumerable<OrganisationBaseObjectInfo<Position>> GetPosition(DataProvider dataProvider, PositionsReportFilter filter)

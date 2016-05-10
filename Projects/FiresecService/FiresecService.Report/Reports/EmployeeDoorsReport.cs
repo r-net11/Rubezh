@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Common;
-using FiresecService.Report.DataSources;
 using FiresecService.Report.Templates;
 using RubezhAPI;
 using RubezhAPI.GK;
@@ -12,9 +11,9 @@ using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class EmployeeDoorsReport : BaseReport
+	public class EmployeeDoorsReport : BaseReport<List<EmployeeDoorsData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<EmployeeDoorsData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<EmployeeDoorsReportFilter>(f);
 			if (!filter.PassCardActive && !filter.PassCardForcing && !filter.PassCardLocked && !filter.PassCardOnceOnly && !filter.PassCardPermanent && !filter.PassCardTemprorary)
@@ -43,7 +42,7 @@ namespace FiresecService.Report.Reports
 			cardFilter.LogicalDeletationType = LogicalDeletationType.Active;
 			var cardsResult = dataProvider.DbService.CardTranslator.Get(cardFilter);
 
-			var dataSet = new EmployeeDoorsDataSet();
+			var result = new List<EmployeeDoorsData>();
 			if (!cardsResult.HasError)
 			{
 				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID.GetValueOrDefault()));
@@ -99,32 +98,32 @@ namespace FiresecService.Report.Reports
 						{
 							var door = doorMap[cardDoor.DoorUID];
 
-							var dataRow = dataSet.Data.NewDataRow();
-							dataRow.Type = card.GKCardType.ToDescription();
-							dataRow.Number = card.Number.ToString();
+							var data = new EmployeeDoorsData();
+							data.Type = card.GKCardType.ToDescription();
+							data.Number = card.Number.ToString();
 							if (employee != null)
 							{
-								dataRow.Employee = employee.Name;
-								dataRow.Organisation = employee.Organisation;
-								dataRow.Department = employee.Department;
-								dataRow.Position = employee.Position;
+								data.Employee = employee.Name;
+								data.Organisation = employee.Organisation;
+								data.Department = employee.Department;
+								data.Position = employee.Position;
 							}
-							dataRow.ZoneIn = door.EnterZoneName;
-							dataRow.ZoneOut = door.ExitZoneName;
-							dataRow.NoEnterZone = door.NoEnterZone;
-							dataRow.NoExitZone = door.NoExitZone;
+							data.ZoneIn = door.EnterZoneName;
+							data.ZoneOut = door.ExitZoneName;
+							data.NoEnterZone = door.NoEnterZone;
+							data.NoExitZone = door.NoExitZone;
 
 							if (intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
-								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo];
+								data.Enter = intervalMap[cardDoor.EnterScheduleNo];
 							if (door.Type != GKDoorType.OneWay && intervalMap.ContainsKey(cardDoor.ExitScheduleNo))
-								dataRow.Exit = intervalMap[cardDoor.ExitScheduleNo];
-							dataRow.AccessPoint = door.Name;
-							dataRow.NoDoor = door.NoDoor;
-							dataSet.Data.Rows.Add(dataRow);
+								data.Exit = intervalMap[cardDoor.ExitScheduleNo];
+							data.AccessPoint = door.Name;
+							data.NoDoor = door.NoDoor;
+							result.Add(data);
 						}
 				}
 			}
-			return dataSet;
+			return result;
 		}
 	}
 }

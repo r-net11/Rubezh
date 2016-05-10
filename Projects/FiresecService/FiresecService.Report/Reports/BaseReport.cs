@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data;
+using System.Collections.Generic;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
@@ -7,11 +7,11 @@ namespace FiresecService.Report.Reports
 	/// <summary>
 	/// Base Class for Reports.
 	/// </summary>
-	public abstract class BaseReport
+	public abstract class BaseReport<TData>
 	{
-		public abstract DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter filter);
+		public abstract TData CreateDataSet(DataProvider dataProvider, SKDReportFilter filter);
 
-		public DataSet CreateDataSet(DataProvider dataProvider)
+		public TData CreateDataSet(DataProvider dataProvider)
 		{
 			return this.CreateDataSet(dataProvider, null);
 		}

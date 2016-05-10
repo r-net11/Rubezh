@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using FiresecService.Report.DataSources;
 using RubezhAPI;
@@ -6,12 +7,12 @@ using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class SchedulesReport : BaseReport
+	public class SchedulesReport : BaseReport<List<SchedulesData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<SchedulesData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<SchedulesReportFilter>(f);
-			var dataSet = new SchedulesDataSet();
+			var result = new List<SchedulesData>();
 
 			var employees = dataProvider.GetEmployees(filter);
 			foreach (var employee in employees)
@@ -22,7 +23,7 @@ namespace FiresecService.Report.Reports
 						continue;
 				}
 
-				var dataRow = dataSet.Data.NewDataRow();
+				var dataRow = new SchedulesData();
 				dataRow.Employee = employee.Name;
 				dataRow.Organisation = employee.Organisation;
 				dataRow.Department = employee.Department;
@@ -48,10 +49,10 @@ namespace FiresecService.Report.Reports
 					}
 				}
 
-				dataSet.Data.Rows.Add(dataRow);
+				result.Add(dataRow);
 			}
 
-			return dataSet;
+			return result;
 		}
 	}
 }

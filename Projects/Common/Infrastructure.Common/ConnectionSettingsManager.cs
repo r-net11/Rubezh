@@ -5,43 +5,54 @@ using Common;
 
 namespace Infrastructure.Common
 {
-	public static class ConnectionSettingsManager
-	{
-		
-		public static string RemoteAddress
-		{
-			get
-			{
-				if (GlobalSettingsHelper.GlobalSettings.RemoteAddress == "localhost")
-					return "127.0.0.1";
-				return GlobalSettingsHelper.GlobalSettings.RemoteAddress;
-			}
+    public static class ConnectionSettingsManager
+    {
 
-		}
-		
-		public static string ServerAddress
-		{
-			get
-			{
-				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
-				if (IsRemote)
-				{
-					serviceAddress = "net.tcp://" + RemoteAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort + "/FiresecService/";
-				}
-				return serviceAddress;
-			}
-		}
+        public static string RemoteAddress
+        {
+            get
+            {
+                if (GlobalSettingsHelper.GlobalSettings.RemoteAddress == "localhost")
+                    return "127.0.0.1";
+                return GlobalSettingsHelper.GlobalSettings.RemoteAddress;
+            }
 
-		public static string ReportServerAddress
-		{
-			get
-			{
-				var serviceAddress = "net.tcp://" + GetIPAddress() + ":" + GlobalSettingsHelper.GlobalSettings.ReportRemotePort + "/ReportFiresecService/";
-				return serviceAddress;
-			}
-		}
+        }
 
-		public static bool IsRemote
+        public static string ServerAddress
+        {
+            get
+            {
+                var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
+                if (IsRemote)
+                {
+                    serviceAddress = "net.tcp://" + RemoteAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort + "/FiresecService/";
+                }
+                return serviceAddress;
+            }
+        }
+
+        public static string ReportServerAddress
+        {
+            get
+            {
+                var serviceAddress = "net.tcp://" + GetIPAddress() + ":" + GlobalSettingsHelper.GlobalSettings.ReportRemotePort + "/ReportFiresecService/";
+                return serviceAddress;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves an Address of the Report Service which retrieves only Data.
+        /// </summary>
+        public static string ReportDataServerAddress
+        {
+            get
+            {
+                return string.Format("net.tcp://{0}:{1}/ReportDataFiresecService/", GetIPAddress(), GlobalSettingsHelper.GlobalSettings.ReportRemotePort);
+            }
+        }
+
+        public static bool IsRemote
 		{
 			get
 			{

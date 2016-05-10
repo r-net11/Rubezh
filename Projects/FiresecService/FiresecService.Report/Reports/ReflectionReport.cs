@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FiresecService.Report.DataSources;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class ReflectionReport : BaseReport
+	public class ReflectionReport : BaseReport<List<ReflectionData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter filter)
+		public override List<ReflectionData> CreateDataSet(DataProvider dataProvider, SKDReportFilter filter)
 		{
-			var ds = new ReflectioDataSet();
+			List<ReflectionData> result = new List<ReflectionData>();
 			var mirror = filter as ReflectionReportFilter;
 			if (mirror != null && mirror.Mirror != Guid.Empty)
 			{
@@ -22,7 +22,7 @@ namespace FiresecService.Report.Reports
 					{
 						mirrorItem.GKReflectionItem.Zones.ForEach(x =>
 						{
-							AddRow(x, ds, mirrorItem.Address);
+							AddRow(x, result, mirrorItem.Address);
 						});
 					}
 
@@ -30,7 +30,7 @@ namespace FiresecService.Report.Reports
 					{
 						mirrorItem.GKReflectionItem.Delays.ForEach(x =>
 						{
-							AddRow(x, ds, mirrorItem.Address);
+							AddRow(x, result, mirrorItem.Address);
 						});
 					}
 
@@ -38,7 +38,7 @@ namespace FiresecService.Report.Reports
 					{
 						mirrorItem.GKReflectionItem.Devices.ForEach(x =>
 						{
-							AddRow(x, ds, mirrorItem.Address);
+							AddRow(x, result, mirrorItem.Address);
 						});
 					}
 
@@ -46,7 +46,7 @@ namespace FiresecService.Report.Reports
 					{
 						mirrorItem.GKReflectionItem.Diretions.ForEach(x =>
 						{
-							AddRow(x, ds, mirrorItem.Address);
+							AddRow(x, result, mirrorItem.Address);
 						});
 					}
 
@@ -54,7 +54,7 @@ namespace FiresecService.Report.Reports
 					{
 						mirrorItem.GKReflectionItem.GuardZones.ForEach(x =>
 						{
-							AddRow(x, ds, mirrorItem.Address);
+							AddRow(x, result, mirrorItem.Address);
 						});
 					}
 
@@ -62,7 +62,7 @@ namespace FiresecService.Report.Reports
 					{
 						mirrorItem.GKReflectionItem.MPTs.ForEach(x =>
 						{
-							AddRow(x, ds, mirrorItem.Address);
+							AddRow(x, result, mirrorItem.Address);
 						});
 					}
 
@@ -70,20 +70,20 @@ namespace FiresecService.Report.Reports
 					{
 						mirrorItem.GKReflectionItem.NSs.ForEach(x =>
 						{
-							AddRow(x, ds, mirrorItem.Address);
+							AddRow(x, result, mirrorItem.Address);
 						});
 					}
 				}
 			}
-			return ds;
+			return result;
 		}
 
-		private void AddRow(GKBase obj, ReflectioDataSet ds, string number)
+		private void AddRow(GKBase obj, List<ReflectionData> ds, string number)
 		{
-			var row = ds.Data.NewDataRow();
+			ReflectionData row = new ReflectionData();
 			row.NO = number;
-			row._object = obj.PresentationName;
-			ds.Data.AddDataRow(row);
+			row.Object = obj.PresentationName;
+			ds.Add(row);
 		}
 	}
 }

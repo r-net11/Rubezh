@@ -1,79 +1,82 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using FiresecService.Report.DataSources;
 using RubezhAPI;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class EmployeeReport : BaseReport
+	public class EmployeeReport : BaseReport<EmployeeReportData>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override EmployeeReportData CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<EmployeeReportFilter>(f);
 			dataProvider.LoadCache();
 			var employees = dataProvider.GetEmployees(filter);
 			var cards = dataProvider.GetCards(new CardFilter { EmployeeFilter = new EmployeeFilter { UIDs = employees.Select(x => x.UID).ToList() } });
-			var dataSet = new EmployeeDataSet();
+			var result = new EmployeeReportData();
+			result.EmployeeData = new List<EmployeeData>();
+			result.AdditionalColumns = new List<EmployeeAdditionalColumnsData>();
+			result.PassCards = new List<EmployeePassCardData>();
 			foreach (var employee in employees)
 			{
-				var dataRow = dataSet.Data.NewDataRow();
-				dataRow.IsEmployee = filter.IsEmployee;
-				dataRow.BirthDay = employee.Item.BirthDate;
-				dataRow.BirthPlace = employee.Item.BirthPlace;
-				dataRow.Department = employee.Department;
-				dataRow.Document = employee.Item.DocumentType.ToDescription();
-				dataRow.DocumentIssuer = employee.Item.DocumentGivenBy;
-				dataRow.DocumentNumber = employee.Item.DocumentNumber;
-				dataRow.DocumentValidFrom = employee.Item.DocumentGivenDate;
-				dataRow.DocumentValidTo = employee.Item.DocumentValidTo;
-				dataRow.FirstName = employee.Item.FirstName;
-				dataRow.LastName = employee.Item.LastName;
-				dataRow.Nationality = employee.Item.Citizenship;
+				var data = new EmployeeData();
+				data.IsEmployee = filter.IsEmployee;
+				data.BirthDay = employee.Item.BirthDate;
+				data.BirthPlace = employee.Item.BirthPlace;
+				data.Department = employee.Department;
+				data.Document = employee.Item.DocumentType.ToDescription();
+				data.DocumentIssuer = employee.Item.DocumentGivenBy;
+				data.DocumentNumber = employee.Item.DocumentNumber;
+				data.DocumentValidFrom = employee.Item.DocumentGivenDate;
+				data.DocumentValidTo = employee.Item.DocumentValidTo;
+				data.FirstName = employee.Item.FirstName;
+				data.LastName = employee.Item.LastName;
+				data.Nationality = employee.Item.Citizenship;
 				int number = -1;
 				int.TryParse(employee.Item.TabelNo, out number);
-				dataRow.Number = number;
-				dataRow.Organisation = employee.Organisation;
-				dataRow.Phone = employee.Item.Phone;
+				data.Number = number;
+				data.Organisation = employee.Organisation;
+				data.Phone = employee.Item.Phone;
 				if (employee.Item.Photo != null)
-					dataRow.Photo = employee.Item.Photo.Data;
+					data.Photo = employee.Item.Photo.Data;
 				if (employee.Item.Type == PersonType.Guest)
 				{
-					dataRow.Type = "Сопровождающий";
-					dataRow.PositionOrEscort = employee.Item.EscortName;
+					data.Type = "Сопровождающий";
+					data.PositionOrEscort = employee.Item.EscortName;
 				}
 				if (employee.Item.Type == PersonType.Employee)
 				{
-					dataRow.Type = "Должность";
-					dataRow.PositionOrEscort = employee.Position;
-					dataRow.Schedule = employee.Item.ScheduleName;
+					data.Type = "Должность";
+					data.PositionOrEscort = employee.Position;
+					data.Schedule = employee.Item.ScheduleName;
 				}
-				dataRow.SecondName = employee.Item.SecondName;
-				dataRow.Sex = employee.Item.Gender.ToDescription();
-				dataRow.UID = employee.UID;
-				dataSet.Data.Rows.Add(dataRow);
+				data.SecondName = employee.Item.SecondName;
+				data.Sex = employee.Item.Gender.ToDescription();
+				data.UID = employee.UID;
+				result.EmployeeData.Add(data);
 				var employeeCards = cards.Where(x => x.EmployeeUID == employee.UID);
 				foreach (var card in employeeCards)
 				{
-					var cardRow = dataSet.PassCards.NewPassCardsRow();
-					cardRow.DataRow = dataRow;
-					cardRow.Number = (int)card.Number;
-					dataSet.PassCards.AddPassCardsRow(cardRow);
+					EmployeePassCardData cardData = new EmployeePassCardData();
+					cardData.EmployeeUID = data.UID;
+					cardData.Number = (int)card.Number;
+					result.PassCards.Add(cardData);
 				}
 				foreach (var column in employee.Item.AdditionalColumns)
 				{
 					if (column.DataType == AdditionalColumnDataType.Text)
 					{
-						var columnRow = dataSet.AdditionalColumns.NewAdditionalColumnsRow();
-						columnRow.DataRow = dataRow;
-						columnRow.Value = column.TextData;
-						columnRow.Name = column.ColumnName;
-						dataSet.AdditionalColumns.AddAdditionalColumnsRow(columnRow);
+						EmployeeAdditionalColumnsData columnData = new EmployeeAdditionalColumnsData();
+						columnData.EmployeeUID = data.UID;
+						columnData.Value = column.TextData;
+						columnData.Name = column.ColumnName;
+						result.AdditionalColumns.Add(columnData);
 					}
 				}
 			}
-			return dataSet;
+			return result;
 		}
 	}
 }

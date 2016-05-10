@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FiresecService.Report.DataSources;
 using RubezhAPI;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class CardsReport : BaseReport
+	public class CardsReport : BaseReport<List<CardData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<CardData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<CardsReportFilter>(f);
 			var cardFilter = new CardFilter();
@@ -40,29 +40,29 @@ namespace FiresecService.Report.Reports
 				}
 			var cardsResult = dataProvider.DbService.CardTranslator.Get(cardFilter);
 
-			var dataSet = new CardsDataSet();
+			var result = new List<CardData>();
 			if (!cardsResult.HasError)
 			{
 				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID.GetValueOrDefault()));
 				foreach (var card in cardsResult.Result)
 				{
-					var dataRow = dataSet.Data.NewDataRow();
-					dataRow.Type = card.IsInStopList ? "Деактивированный" : card.GKCardType.ToDescription();
-					dataRow.Number = card.Number.ToString();
+					var cardData = new CardData();
+					cardData.Type = card.IsInStopList ? "Деактивированный" : card.GKCardType.ToDescription();
+					cardData.Number = card.Number.ToString();
 					var employee = dataProvider.GetEmployee(card.EmployeeUID.GetValueOrDefault());
 					if (employee != null)
 					{
-						dataRow.Employee = employee.Name;
-						dataRow.Organisation = employee.Organisation;
-						dataRow.Department = employee.Department;
-						dataRow.Position = employee.Position;
+						cardData.Employee = employee.Name;
+						cardData.Organisation = employee.Organisation;
+						cardData.Department = employee.Department;
+						cardData.Position = employee.Position;
 					}
 					if (!card.IsInStopList)
-						dataRow.Period = card.EndDate;
-					dataSet.Data.Rows.Add(dataRow);
+						cardData.Period = card.EndDate;
+					result.Add(cardData);
 				}
 			}
-			return dataSet;
+			return result;
 		}
 
 	}

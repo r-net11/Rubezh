@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Common;
-using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class DepartmentsReport : BaseReport
+	public class DepartmentsReport : BaseReport<List<DepartmentData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<DepartmentData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<DepartmentsReportFilter>(f);
 			var databaseService = new RubezhDAL.DataClasses.DbService();
@@ -20,24 +19,24 @@ namespace FiresecService.Report.Reports
 			var departments = GetDepartments(dataProvider, filter);
 			var uids = departments.Select(item => item.UID).ToList();
 			var employees = dataProvider.GetEmployees(departments.Where(item => item.Item.ChiefUID != Guid.Empty).Select(item => item.Item.ChiefUID));
-			var ds = new DepartmentsDataSet();
+			var result = new List<DepartmentData>();
 			departments.ForEach(department =>
 			{
-				var row = ds.Data.NewDataRow();
-				row.Organisation = department.Organisation;
-				row.Department = department.Name;
-				row.Phone = department.Item.Phone;
-				row.Chief = employees.Where(item => item.UID == department.Item.ChiefUID).Select(item => item.Name).FirstOrDefault();
-				row.ParentDepartment = dataProvider.Departments.ContainsKey(department.Item.ParentDepartmentUID) ?
+				var data = new DepartmentData();
+				data.Organisation = department.Organisation;
+				data.Department = department.Name;
+				data.Phone = department.Item.Phone;
+				data.Chief = employees.Where(item => item.UID == department.Item.ChiefUID).Select(item => item.Name).FirstOrDefault();
+				data.ParentDepartment = dataProvider.Departments.ContainsKey(department.Item.ParentDepartmentUID) ?
 					dataProvider.Departments[department.Item.ParentDepartmentUID].Name : string.Empty;
-				row.Description = department.Item.Description;
-				row.IsArchive = department.IsDeleted;
+				data.Description = department.Item.Description;
+				data.IsArchive = department.IsDeleted;
 				var parents = GetParents(dataProvider, department);
-				row.Level = parents.Count;
-				row.Tag = string.Join("/", parents.Select(item => item.UID));
-				ds.Data.AddDataRow(row);
+				data.Level = parents.Count;
+				data.Tag = string.Join("/", parents.Select(item => item.UID));
+				result.Add(data);
 			});
-			return ds;
+			return result;
 		}
 
 		private static List<OrganisationBaseObjectInfo<Department>> GetParents(DataProvider dataProvider, OrganisationBaseObjectInfo<Department> department)

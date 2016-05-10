@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FiresecService.Report.DataSources;
 using RubezhAPI;
 using RubezhAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Reports
 {
-	public class EmployeeZonesReport : BaseReport
+	public class EmployeeZonesReport : BaseReport<List<EmployeeZonesData>>
 	{
-		public override DataSet CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
+		public override List<EmployeeZonesData> CreateDataSet(DataProvider dataProvider, SKDReportFilter f)
 		{
 			var filter = GetFilter<EmployeeZonesReportFilter>(f);
 			if (filter.UseCurrentDate)
 				filter.ReportDateTime = DateTime.Now;
 
-			var dataSet = new EmployeeZonesDataSet();
+			var result = new List<EmployeeZonesData>();
 			if (dataProvider.DbService.PassJournalTranslator != null)
 			{
 				var employees = dataProvider.GetEmployees(filter);
@@ -28,32 +27,32 @@ namespace FiresecService.Report.Reports
 				var enterJournal = dataProvider.DbService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
 					employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);
 				foreach (var record in enterJournal)
-					AddRecord(dataProvider, dataSet, record, filter, true, zoneMap);
+					AddRecord(dataProvider, result, record, filter, true, zoneMap);
 			}
-			return dataSet;
+			return result;
 		}
 
-		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, RubezhDAL.DataClasses.PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, string> zoneMap)
+		private void AddRecord(DataProvider dataProvider, List<EmployeeZonesData> ds, RubezhDAL.DataClasses.PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, string> zoneMap)
 		{
 			if (record.EmployeeUID == null)
 				return;
-			var dataRow = ds.Data.NewDataRow();
+			var data = new EmployeeZonesData();
 			var employee = dataProvider.GetEmployee(record.EmployeeUID.Value);
-			dataRow.Employee = employee.Name;
-			dataRow.Orgnisation = employee.Organisation;
-			dataRow.Department = employee.Department;
-			dataRow.Position = employee.Position;
-			dataRow.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID] : null;
-			dataRow.EnterDateTime = record.EnterTime;
+			data.Employee = employee.Name;
+			data.Organisation = employee.Organisation;
+			data.Department = employee.Department;
+			data.Position = employee.Position;
+			data.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID] : null;
+			data.EnterDateTime = record.EnterTime;
 			if (record.ExitTime.HasValue)
 			{
-				dataRow.ExitDateTime = record.ExitTime.Value;
-				dataRow.Period = dataRow.ExitDateTime - dataRow.EnterDateTime;
+				data.ExitDateTime = record.ExitTime.Value;
+				data.Period = data.ExitDateTime - data.EnterDateTime;
 			}
 			else
 			{
-				dataRow.ExitDateTime = filter.ReportDateTime;
-				dataRow.Period = filter.ReportDateTime - dataRow.EnterDateTime;
+				data.ExitDateTime = filter.ReportDateTime;
+				data.Period = filter.ReportDateTime - data.EnterDateTime;
 			}
 
 			if (!filter.IsEmployee)
@@ -62,10 +61,10 @@ namespace FiresecService.Report.Reports
 				if (escortUID.HasValue)
 				{
 					var escort = dataProvider.GetEmployee(escortUID.Value);
-					dataRow.Escort = escort.Name;
+					data.Escort = escort.Name;
 				}
 			}
-			ds.Data.Rows.Add(dataRow);
+			ds.Add(data);
 		}
 
 	}

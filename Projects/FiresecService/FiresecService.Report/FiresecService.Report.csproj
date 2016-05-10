@@ -123,6 +123,7 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="DataContracts.cs" />
     <Compile Include="DataSetHelper.cs" />
     <Compile Include="DataSourceService.cs" />
     <Compile Include="DataSources\DevicesDataSet.Designer.cs">
@@ -218,6 +219,8 @@
       <DependentUpon>DoorsDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="DataProvider.cs" />
+    <Compile Include="FiresecReportDataService.cs" />
+    <Compile Include="IReportDataService.cs" />
     <Compile Include="Model\DeletableObjectInfo.cs" />
     <Compile Include="Model\EmployeeInfo.cs" />
     <Compile Include="Model\ObjectInfo.cs" />
@@ -232,6 +235,15 @@
     <Compile Include="Reports\DoorsReport.cs" />
     <Compile Include="Reports\EmployeeAccessReport.cs" />
     <Compile Include="Reports\EmployeeDoorsReport.cs" />
+    <Compile Include="Reports\EmployeeReport.cs" />
+    <Compile Include="Reports\EmployeeRootReport.cs" />
+    <Compile Include="Reports\EmployeeZonesReport.cs" />
+    <Compile Include="Reports\EmptyReport.cs" />
+    <Compile Include="Reports\EventsReport.cs" />
+    <Compile Include="Reports\PositionsReport.cs" />
+    <Compile Include="Reports\ReflectionReport.cs" />
+    <Compile Include="Reports\SchedulesReport.cs" />
+    <Compile Include="Reports\WorkingTimeReport.cs" />
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="Templates\DevicesReport.cs">
       <SubType>Component</SubType>
