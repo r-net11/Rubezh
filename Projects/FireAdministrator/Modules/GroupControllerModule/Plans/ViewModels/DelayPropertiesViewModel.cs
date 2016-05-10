@@ -13,10 +13,20 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DelayPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private IElementDelay IElementDelay;
+		const int _sensivityFactor = 100;
+		IElementDelay IElementDelay;
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
 		public DelayPropertiesViewModel(IElementDelay element)
 		{
 			IElementDelay = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			Title = "Свойства фигуры: Задержка";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -31,6 +41,26 @@ namespace GKModule.Plans.ViewModels
 					.FirstOrDefault();
 		}
 
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
 		private void OnCreate()
 		{
 			var createDelayEventArg = new CreateGKDelayEventArgs();
@@ -92,6 +122,8 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDelay.ShowState = ShowState;
 			IElementDelay.ShowDelay = ShowDelay;
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
 			GKPlanExtension.Instance.RewriteItem(IElementDelay, SelectedDelay);
 			return base.Save();
 		}

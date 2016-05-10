@@ -11,9 +11,9 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 		}
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			return new ElementRectangle();
+			return new ElementRectangle() { Left = left, Top = top };
 		}
 	}
 }

@@ -3,43 +3,66 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 MinWidth="400" MinHeight="400">
-
-	<tree:TreeList SelectedTreeNode="{Binding SelectedPlan}" 
+	<TabControl>
+		<TabItem Header="Основные">
+			<tree:TreeList SelectedTreeNode="{Binding SelectedPlan}" 
 				   Source="{Binding Plans}" 
 				   UIBehavior.ShowSelectionMark="True" 
 				   VirtualizingStackPanel.IsVirtualizing="True" 
 				   VirtualizingStackPanel.VirtualizationMode="Standard" 
 				   UIBehavior.IsActiveSelectionMark="True">
-		<tree:TreeList.Resources>
-			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-				<MouseBinding Command="{Binding DataContext.SaveCommand,RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}" MouseAction="LeftDoubleClick" />
-			</InputBindingCollection>
-		</tree:TreeList.Resources>
-		<tree:TreeList.ItemContainerStyle>
-			<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
-				<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-			</Style>
-		</tree:TreeList.ItemContainerStyle>
-		<tree:TreeList.View>
-			<GridView>
-				<GridViewColumn Width="250" Header="Название">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Name="Image" Width="16" Source="/Controls;component/Images/CMap.png" />
-								<TextBlock Text="{Binding Plan.Caption}" />
-							</StackPanel>
-							<DataTemplate.Triggers>
-								<DataTrigger Binding="{Binding IsFolder}" Value="True">
-									<Setter TargetName="Image" Property="Image.Source" Value="/Controls;component/Images/CFolder.png" />
-								</DataTrigger>
-							</DataTemplate.Triggers>
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-				<GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Plan.Description, Converter={StaticResource StringToSingleLineString}}" />
-			</GridView>
-		</tree:TreeList.View>
-	</tree:TreeList>
+				<tree:TreeList.Resources>
+					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+						<MouseBinding Command="{Binding DataContext.SaveCommand,RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}" MouseAction="LeftDoubleClick" />
+					</InputBindingCollection>
+				</tree:TreeList.Resources>
+				<tree:TreeList.ItemContainerStyle>
+					<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
+						<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+					</Style>
+				</tree:TreeList.ItemContainerStyle>
+				<tree:TreeList.View>
+					<GridView>
+						<GridViewColumn Width="250" Header="Название">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Name="Image" Width="16" Source="/Controls;component/Images/CMap.png" />
+										<TextBlock Text="{Binding Plan.Caption}" />
+									</StackPanel>
+									<DataTemplate.Triggers>
+										<DataTrigger Binding="{Binding IsFolder}" Value="True">
+											<Setter TargetName="Image" Property="Image.Source" Value="/Controls;component/Images/CFolder.png" />
+										</DataTrigger>
+									</DataTemplate.Triggers>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Plan.Description, Converter={StaticResource StringToSingleLineString}}" />
+					</GridView>
+				</tree:TreeList.View>
+			</tree:TreeList>
+		</TabItem>
+		<TabItem Header="Настройки" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Координаты по иси Х" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<ExtToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Left, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
+
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Координаты по оси У" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+				<ExtToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Top, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
+			</Grid>
+		</TabItem>
+	</TabControl>
 </UserControl>

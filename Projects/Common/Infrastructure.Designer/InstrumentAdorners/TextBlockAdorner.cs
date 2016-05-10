@@ -2,10 +2,6 @@
 using Infrastructure.Designer.ElementProperties.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {
@@ -16,9 +12,9 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 		}
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementTextBlock();
+			var element = new ElementTextBlock() { Left = left, Top = top };
 			var propertiesViewModel = new TextBlockPropertiesViewModel(element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
