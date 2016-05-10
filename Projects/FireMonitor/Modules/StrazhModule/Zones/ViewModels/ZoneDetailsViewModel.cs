@@ -2,16 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using StrazhAPI.GK;
 using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using StrazhModule.Zones;
 
 namespace StrazhModule.ViewModels

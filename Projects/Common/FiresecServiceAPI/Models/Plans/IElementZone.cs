@@ -1,9 +1,9 @@
-﻿using Infrustructure.Plans.Interfaces;
+﻿using StrazhAPI.Plans.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Windows.Media;
 
-namespace Infrustructure.Plans.Elements
+namespace StrazhAPI.Plans.Elements
 {
 	public interface IElementZone : IElementReference, IElementBase
 	{

@@ -1,7 +1,7 @@
-﻿using Infrustructure.Plans.Elements;
+﻿using StrazhAPI.Plans.Elements;
 using System;
 
-namespace Infrustructure.Plans.Interfaces
+namespace StrazhAPI.Plans.Interfaces
 {
 	public interface IElementReference : IElementBase
 	{

@@ -2,10 +2,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Windows;
-using System.Windows.Media;
 using System.Xml.Serialization;
 
-namespace Infrustructure.Plans.Elements
+namespace StrazhAPI.Plans.Elements
 {
 	[DataContract]
 	public abstract class ElementBase : IElementBackground, IElementBorder, IElementBase

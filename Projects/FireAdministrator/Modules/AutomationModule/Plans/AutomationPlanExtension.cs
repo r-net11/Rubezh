@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Infrastructure.Client.Plans;
 using Infrustructure.Plans.Designer;
 using AutomationModule.ViewModels;
@@ -11,15 +10,11 @@ using StrazhAPI.Automation;
 using FiresecClient;
 using Common;
 using StrazhAPI.Models;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Services;
-using Infrustructure.Plans.Interfaces;
-using System.Windows.Media;
 using AutomationModule.Plans.InstrumentAdorners;
 using AutomationModule.Plans.ViewModels;
 using AutomationModule.Events;
-using Infrastructure.Common;
-using StrazhAPI;
 
 namespace AutomationModule.Plans
 {

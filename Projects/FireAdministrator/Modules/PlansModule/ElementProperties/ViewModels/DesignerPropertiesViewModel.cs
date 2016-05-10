@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media;
+using Infrustructure.Plans;
 using StrazhAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -34,7 +35,7 @@ namespace PlansModule.ViewModels
 
 		void CopyProperties()
 		{
-			BackgroundColor = Plan.BackgroundColor;
+			BackgroundColor = Plan.BackgroundColor.ToWindowsColor();
 			Caption = Plan.Caption;
 			Description = Plan.Description;
 			Width = Plan.Width;
@@ -105,13 +106,13 @@ namespace PlansModule.ViewModels
 		{
 			RegistrySettingsHelper.SetDouble("Administrator.Plans.DefaultWidth", Width);
 			RegistrySettingsHelper.SetDouble("Administrator.Plans.DefaultHeight", Height);
-			RegistrySettingsHelper.SetColor("Administrator.Plans.DefaultColor", BackgroundColor);
+			RegistrySettingsHelper.SetColor("Administrator.Plans.DefaultColor", BackgroundColor.ToStruzhColor());
 
 			Plan.Caption = Caption;
 			Plan.Description = Description;
 			Plan.Width = Width;
 			Plan.Height = Height;
-			Plan.BackgroundColor = BackgroundColor;
+			Plan.BackgroundColor = BackgroundColor.ToStruzhColor();
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

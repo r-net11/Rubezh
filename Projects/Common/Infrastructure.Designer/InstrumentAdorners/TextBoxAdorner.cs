@@ -1,7 +1,7 @@
 ﻿using StrazhAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {
@@ -12,7 +12,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override StrazhAPI.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementTextBlock();
 			var propertiesViewModel = new TextBlockPropertiesViewModel(element);

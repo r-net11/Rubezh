@@ -1,15 +1,15 @@
 ﻿using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace Infrustructure.Plans.Elements
+namespace StrazhAPI.Plans.Elements
 {
 	[DataContract]
-	public abstract class ElementBasePolygon : ElementBaseShape
+	public abstract class ElementBasePolyline : ElementBaseShape
 	{
 		[XmlIgnore]
 		public override ElementType Type
 		{
-			get { return ElementType.Polygon; }
+			get { return ElementType.Polyline; }
 		}
 	}
 }

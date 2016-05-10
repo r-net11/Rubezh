@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrustructure.Plans.Elements
+namespace StrazhAPI.Plans.Elements
 {
 	public interface IElementBase
 	{

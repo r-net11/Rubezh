@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Xml.Serialization;
 
-namespace Infrustructure.Plans.Elements
+namespace StrazhAPI.Plans.Elements
 {
 	[DataContract]
 	public abstract class ElementBaseRectangle : ElementBasePoint

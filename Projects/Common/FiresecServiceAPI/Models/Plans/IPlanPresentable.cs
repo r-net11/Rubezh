@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrustructure.Plans.Interfaces
+namespace StrazhAPI.Plans.Interfaces
 {
 	public interface IPlanPresentable : IChangedNotification
 	{

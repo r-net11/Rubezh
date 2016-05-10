@@ -9,10 +9,9 @@ using Infrastructure;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrastructure.Common;
 
 namespace StrazhModule.ViewModels
 {

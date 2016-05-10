@@ -1,26 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Windows.Media;
-using Common;
+﻿using Common;
 using DeviceControls;
-using StrazhAPI.Models;
-using StrazhAPI.SKD;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;
+using Infrastructure.Common.Navigation;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
+using StrazhAPI;
+using StrazhAPI.Models;
+using StrazhAPI.Plans.Elements;
+using StrazhAPI.Plans.Interfaces;
+using StrazhAPI.SKD;
+using StrazhModule.Events;
 using StrazhModule.Plans.Designer;
 using StrazhModule.Plans.InstrumentAdorners;
 using StrazhModule.Plans.ViewModels;
 using StrazhModule.ViewModels;
-using Infrustructure.Plans.Interfaces;
 using System;
-using FiresecClient;
-using StrazhModule.Events;
-using Infrastructure.Common.Navigation;
-using Infrastructure.Common;
-using StrazhAPI;
+using System.Collections.Generic;
 
 namespace StrazhModule.Plans
 {

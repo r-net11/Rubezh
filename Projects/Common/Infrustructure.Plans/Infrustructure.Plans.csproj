@@ -56,37 +56,23 @@
     <Compile Include="Designer\DesignerHelper.cs" />
     <Compile Include="Designer\DesignerSurface.cs" />
     <Compile Include="Designer\GridLine.cs" />
-    <Compile Include="Devices\ILibraryDevice.cs" />
-    <Compile Include="Devices\ILibraryFrame.cs" />
     <Compile Include="Designer\IGridLineController.cs" />
     <Compile Include="Designer\IInstrument.cs" />
     <Compile Include="Designer\IVisualItem.cs" />
     <Compile Include="Designer\MoveAdorner.cs" />
-    <Compile Include="Devices\ILibraryState.cs" />
-    <Compile Include="Elements\ElementError.cs" />
-    <Compile Include="Elements\IElementBase.cs" />
-    <Compile Include="Elements\IElementBorder.cs" />
-    <Compile Include="Elements\IElementRectangle.cs" />
-    <Compile Include="Elements\IElementBackground.cs" />
-    <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Events\PlansConfigurationChangedEvent.cs" />
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\RegisterPlanPresenterEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
+    <Compile Include="Extentions\ColorExtentions.cs" />
     <Compile Include="InstrumentAdorners\GeometryHelper.cs" />
     <Compile Include="InstrumentAdorners\InstrumentAdorner.cs" />
     <Compile Include="InstrumentAdorners\PolygonAdorner.cs" />
     <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
     <Compile Include="Designer\ResizeChrome.cs" />
     <Compile Include="Designer\ResizeDirection.cs" />
-    <Compile Include="Elements\ElementBasePolygon.cs" />
-    <Compile Include="Elements\ElementBasePolyline.cs" />
-    <Compile Include="Elements\ElementType.cs" />
     <Compile Include="Designer\DesignerItem.cs" />
-    <Compile Include="Elements\IElementTextBlock.cs" />
-    <Compile Include="Elements\IPrimitive.cs" />
-    <Compile Include="Elements\Primitive.cs" />
     <Compile Include="EventService.cs" />
     <Compile Include="Events\ContextMenuFactoryEvent.cs" />
     <Compile Include="Events\RegisterPlanExtensionEvent.cs" />
@@ -97,14 +83,7 @@
     <Compile Include="Events\ElementSelectedEvent.cs" />
     <Compile Include="Events\PainterFactoryEvent.cs" />
     <Compile Include="Events\DesignerItemFactoryEvent.cs" />
-    <Compile Include="Elements\ElementBasePoint.cs" />
-    <Compile Include="Elements\ElementBaseRectangle.cs" />
-    <Compile Include="Elements\ElementBaseShape.cs" />
-    <Compile Include="Elements\ElementBase.cs" />
     <Compile Include="Events\ShowElementEvent.cs" />
-    <Compile Include="Interfaces\IChangedNotification.cs" />
-    <Compile Include="Interfaces\IElementReference.cs" />
-    <Compile Include="Interfaces\IPlanPresentable.cs" />
     <Compile Include="IPlanExtension.cs" />
     <Compile Include="IPlanPresenter.cs" />
     <Compile Include="Painters\DefaultPainter.cs" />
@@ -138,8 +117,14 @@
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FiresecServiceAPI\StrazhAPI.csproj">
+      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Name>StrazhAPI</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Elements\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,7 +3,7 @@ using System.Windows.Media;
 using StrazhAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
+using StrazhAPI.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 

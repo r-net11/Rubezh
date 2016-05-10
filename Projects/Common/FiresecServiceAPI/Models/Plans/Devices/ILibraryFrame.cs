@@ -1,4 +1,4 @@
-﻿namespace Infrustructure.Plans.Devices
+﻿namespace StrazhAPI.Plans.Devices
 {
 	public interface ILibraryFrame
 	{

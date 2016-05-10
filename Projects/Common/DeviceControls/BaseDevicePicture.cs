@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Common;
-using Infrustructure.Plans.Devices;
+using StrazhAPI.Plans.Devices;
 using StrazhAPI.GK;
 
 namespace DeviceControls

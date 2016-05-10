@@ -1,7 +1,7 @@
 ﻿using Common;
 using System;
 
-namespace Infrustructure.Plans.Interfaces
+namespace StrazhAPI.Plans.Interfaces
 {
 	public interface IChangedNotification : IIdentity
 	{

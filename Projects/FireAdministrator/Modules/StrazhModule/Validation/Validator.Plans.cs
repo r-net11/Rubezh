@@ -3,7 +3,7 @@ using StrazhAPI.Models;
 using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common.Validation;
-using Infrustructure.Plans.Interfaces;
+using StrazhAPI.Plans.Interfaces;
 using StrazhModule.Plans;
 
 namespace StrazhModule.Validation

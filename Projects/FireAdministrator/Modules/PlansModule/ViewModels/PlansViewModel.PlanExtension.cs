@@ -2,16 +2,13 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using Controls.Converters;
-using StrazhAPI;
 using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Client.Plans;
-using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using PlansModule.Designer;
+using StrazhAPI.Plans.Elements;
 using PlansModule.Validation;
 
 namespace PlansModule.ViewModels

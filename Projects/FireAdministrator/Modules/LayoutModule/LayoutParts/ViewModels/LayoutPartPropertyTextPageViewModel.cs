@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Windows.Media;
+using Infrustructure.Plans;
 using StrazhAPI.Models.Layouts;
 using System.Windows.Controls;
 
@@ -227,12 +228,12 @@ namespace LayoutModule.LayoutParts.ViewModels
 			{
 				AcceptReturn = properties.AcceptReturn;
 				AcceptTab = properties.AcceptTab;
-				BackgroundColor = properties.BackgroundColor;
+				BackgroundColor = properties.BackgroundColor.ToWindowsColor();
 				FontBold = properties.FontBold;
 				FontFamily =  new FontFamily(properties.FontFamilyName);
 				FontItalic = properties.FontItalic;
 				FontSize = properties.FontSize;
-				ForegroundColor = properties.ForegroundColor;
+				ForegroundColor = properties.ForegroundColor.ToWindowsColor();
 				Text = properties.Text;
 				TextAlignment = properties.TextAlignment;
 				TextTrimming = properties.TextTrimming;
@@ -253,12 +254,12 @@ namespace LayoutModule.LayoutParts.ViewModels
 			{
 				properties.AcceptReturn = AcceptReturn;
 				properties.AcceptTab = AcceptTab;
-				properties.BackgroundColor = BackgroundColor;
+				properties.BackgroundColor = BackgroundColor.ToStruzhColor();
 				properties.FontBold = FontBold;
 				properties.FontFamilyName = FontFamily.Source;
 				properties.FontItalic = FontItalic;
 				properties.FontSize = FontSize;
-				properties.ForegroundColor = ForegroundColor;
+				properties.ForegroundColor = ForegroundColor.ToStruzhColor();
 				properties.HorizontalAlignment = HorizontalAlignment;
 				properties.Text = Text;
 				properties.TextAlignment = TextAlignment;

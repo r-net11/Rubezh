@@ -1,4 +1,4 @@
-﻿using Infrustructure.Plans.Elements;
+﻿using StrazhAPI.Plans.Elements;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -24,7 +24,7 @@ namespace StrazhAPI.Models
 		[XmlIgnore]
 		public virtual Primitive Primitive
 		{
-			get { return Infrustructure.Plans.Elements.Primitive.Rectangle; }
+			get { return StrazhAPI.Plans.Elements.Primitive.Rectangle; }
 		}
 
 		#endregion IPrimitive Members

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrustructure.Plans.Devices
+namespace StrazhAPI.Plans.Devices
 {
 	public interface ILibraryDevice<TLibraryState, TLibraryFrame, TStateType>
 		where TLibraryFrame : ILibraryFrame
