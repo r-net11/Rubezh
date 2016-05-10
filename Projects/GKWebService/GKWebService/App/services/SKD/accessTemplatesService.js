@@ -107,6 +107,23 @@
             return deferred.promise;
         };
     
+        var _restore = function (accessTemplate) {
+            var deferred = $q.defer();
+
+            $http.post("AccessTemplates/Restore", {
+                uid: accessTemplate.UID,
+                name: accessTemplate.Name
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка восстановления шаблона доступа");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
         var _paste = function (organisationUID, accessTemplateModel) {
             var deferred = $q.defer();
 
@@ -133,6 +150,7 @@
             saveAccessTemplate: _saveAccessTemplate,
             getAccessTemplateDetails: _getAccessTemplateDetails,
             markDeleted: _markDeleted,
+            restore: _restore,
             getLinkedCards: _getLinkedCards,
             paste: _paste
         }

@@ -3,13 +3,15 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('positionDetailsCtrl',
-        ['$scope', '$uibModalInstance', 'position', 'isNew', 'positionsService',
-        function ($scope, $uibModalInstance, position, isNew, positionsService) {
+        ['$scope', '$uibModalInstance', 'position', 'positions', 'isNew', 'positionsService',
+        function ($scope, $uibModalInstance, position, positions, isNew, positionsService) {
             $scope.isNew = isNew;
 
             $scope.position = position.Position;
 
             $scope.model = position;
+
+            $scope.positions = positions;
 
             if ($scope.isNew) {
                 $scope.title = "Создание должности";

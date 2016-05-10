@@ -3,33 +3,41 @@
     Layout = null;
 }
 
-<div class="modal-header">
-    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
-    <h3 class="modal-title">{{title}}</h3>
-</div>
-<div class="modal-body">
-    <uib-tabset>
-        <uib-tab heading="Основные">
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
+<form name="positionDetailsForm" class="form-horizontal" role="form">
+    <div class="modal-header">
+        <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <uib-tabset>
+            <uib-tab heading="Основные">
+                <div class="form-group" ng-class="{'has-error': (positionDetailsForm.$submitted || positionDetailsForm.name.$touched) && positionDetailsForm.name.$invalid}">
                     <label class="control-label col-sm-4" for="positionDetailsName">Название</label>
                     <div class="col-sm-8">
-                        <input id="positionDetailsName" class="form-control" ng-model="position.Name">
+                        <input id="positionDetailsName" name="name" class="form-control" ng-model="position.Name" required ng-maxlength="50" unique-element="positions">
+                        <div ng-show="positionDetailsForm.$submitted || positionDetailsForm.name.$touched">
+                            <div class="help-block" ng-show="positionDetailsForm.name.$error.required">Введите название должности</div>
+                            <div class="help-block" ng-show="positionDetailsForm.name.$error.maxlength">Значение поля 'Название' не может быть длиннее 50 символов</div>
+                            <div class="help-block" ng-show="positionDetailsForm.name.$error.unique">Название должности совпадает с введенным ранее</div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': (positionDetailsForm.$submitted || positionDetailsForm.description.$touched) && positionDetailsForm.description.$invalid}">
                     <label class="control-label col-sm-4" for="positionDetailsDescription">Примечание</label>
                     <div class="col-sm-8">
-                        <input id="positionDetailsDescription" class="form-control" ng-model="position.Description">
+                        <input id="positionDetailsDescription" name="description" class="form-control" ng-model="position.Description" ng-maxlength="50">
+                        <div ng-show="positionDetailsForm.$submitted || positionDetailsForm.description.$touched">
+                            <div class="help-block" ng-show="positionDetailsForm.description.$error.maxlength">Значение поля 'Примечание' не может быть длиннее 50 символов</div>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </uib-tab>
-        <uib-tab heading="Логотип">
-            <photo-selection ng-model="model.photoData"></photo-selection>
-        </uib-tab>
-    </uib-tabset>
-</div>
-<div mobile-hover-fix class="modal-footer">
-    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
-</div>
+            </uib-tab>
+            <uib-tab heading="Логотип">
+                <photo-selection ng-model="model.photoData"></photo-selection>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+    <div mobile-hover-fix class="modal-footer">
+        <button class="btn btn-primary pull-right" ng-click="positionDetailsForm.$valid && save()">OK</button>
+    </div>
+</form>

@@ -221,7 +221,7 @@ namespace GKWebService.Controllers
         [ErrorHandler]
         public JsonResult GetOrganisationsFilter(bool isWithDeleted)
         {
-            var filter = new OrganisationFilter { UserUID = ClientManager.CurrentUser.UID };
+            var filter = new OrganisationFilter { User = ClientManager.CurrentUser };
             if (isWithDeleted)
             {
                 filter.LogicalDeletationType = LogicalDeletationType.All;

@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('HRCtrl', 
-        ['$scope', '$uibModal', '$timeout', '$filter', 'authData', 'employeesService', 'dateFilter',
-        function ($scope, $uibModal, $timeout, $filter, authData, employeesService, dateFilter) {
+        ['$scope', '$uibModal', '$timeout', '$filter', '$q', 'authData', 'employeesService', 'dateFilter', 'dialogService',
+        function ($scope, $uibModal, $timeout, $filter, $q, authData, employeesService, dateFilter, dialogService) {
             $scope.authData = authData;
 
             $scope.canEmployeesView = function () {
@@ -81,6 +81,9 @@
                         },
                         personType: function () {
                             return $scope.selectedPersonType;
+                        },
+                        showEmployeeFilter: function() {
+                            return $scope.activeTab === 0 || $scope.activeTab === 3;
                         }
                     }
                 });
@@ -176,6 +179,29 @@
                     });
                 }
             }
+
+            $scope.restoreElement = function (elementName, elements, selectedElement) {
+                var deferred = $q.defer();
+
+                if (dialogService.showConfirm("Вы уверены, что хотите восстановить " + elementName + "?")) {
+                    var items = elements;
+                    for (var i = 0; i < items.length; i++) {
+                        var item = items[i];
+                        if (item.Name === selectedElement.Name &&
+                            item.UID !== selectedElement.UID &&
+                            item.OrganisationUID === selectedElement.OrganisationUID &&
+                            !item.IsOrganisation &&
+                            !item.IsDeleted) {
+                            $window.alert("Существует неудалённый элемент с таким именем");
+                            deferred.reject();
+                        }
+                    }
+                }
+
+                deferred.resolve();
+
+                return deferred.promise;
+            };
         }]
     );
 

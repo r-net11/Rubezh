@@ -3,13 +3,17 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('departmentDetailsCtrl',
-        ['$scope', '$uibModal', '$uibModalInstance', 'department', 'isNew', 'departmentsService',
-        function ($scope, $uibModal, $uibModalInstance, department, isNew, departmentsService) {
+        ['$scope', '$uibModal', '$uibModalInstance', '$filter', 'department', 'departments', 'isNew', 'departmentsService',
+        function ($scope, $uibModal, $uibModalInstance, $filter, department, departments, isNew, departmentsService) {
             $scope.isNew = isNew;
 
             $scope.department = department.Department;
 
             $scope.model = department;
+
+            $scope.departments = $filter('filter')(departments, function (d) {
+                return d.OrganisationUID === $scope.department.OrganisationUID && !d.IsOrganisation && d.ParentUID === $scope.department.ParentDepartmentUID;
+            });
 
             if ($scope.isNew) {
                 $scope.title = "Создание подразделения";

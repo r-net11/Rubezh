@@ -94,6 +94,14 @@
                         accessTemplatesService.reload();
                  });
              };
+
+             $scope.restore = function () {
+                 $scope.restoreElement("шаблон доступа", accessTemplatesService.accessTemplates, $scope.selectedAccessTemplate).then(function () {
+                     accessTemplatesService.restore($scope.selectedAccessTemplate).then(function () {
+                         accessTemplatesService.reload();
+                     });
+                 });
+             };
          }]
     );
 
