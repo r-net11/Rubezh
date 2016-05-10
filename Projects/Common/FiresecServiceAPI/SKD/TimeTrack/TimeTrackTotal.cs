@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public class TimeTrackTotal
 	{

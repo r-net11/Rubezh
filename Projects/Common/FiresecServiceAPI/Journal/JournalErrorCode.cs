@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using LocalizationConveters;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public enum JournalErrorCode
 	{

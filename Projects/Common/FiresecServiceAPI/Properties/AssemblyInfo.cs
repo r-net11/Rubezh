@@ -3,7 +3,7 @@
 // Управление общими сведениями о сборке осуществляется с помощью
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("FiresecAPI")]
+[assembly: AssemblyTitle("StrazhAPI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("FiresecAPI")]
+[assembly: AssemblyProduct("StrazhAPI")]

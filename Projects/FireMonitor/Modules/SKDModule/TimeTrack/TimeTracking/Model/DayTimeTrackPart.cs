@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Models;
-using FiresecAPI.SKD;
+﻿using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using FiresecClient;
 using ReactiveUI;
 using ReactiveUI.Xaml;
@@ -200,7 +200,8 @@ namespace SKDModule.Model
 
 		#region Constructors
 
-		public DayTimeTrackPart(FiresecAPI.SKD.DayTimeTrackPart dayTimeTrackPart) : this()
+		public DayTimeTrackPart(StrazhAPI.SKD.DayTimeTrackPart dayTimeTrackPart)
+			: this()
 		{
 			if (dayTimeTrackPart == null) return;
 
@@ -336,9 +337,9 @@ namespace SKDModule.Model
 				);
 		}
 
-		public FiresecAPI.SKD.DayTimeTrackPart ToDTO()
+		public StrazhAPI.SKD.DayTimeTrackPart ToDTO()
 		{
-			var timeTrackPart = new FiresecAPI.SKD.DayTimeTrackPart
+			var timeTrackPart = new StrazhAPI.SKD.DayTimeTrackPart
 			{
 				UID = UID,
 				TimeTrackActions = TimeTrackActions,

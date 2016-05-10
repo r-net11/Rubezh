@@ -1,4 +1,4 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 

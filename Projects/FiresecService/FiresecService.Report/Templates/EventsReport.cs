@@ -1,8 +1,8 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using Infrastructure.Common;
 using System;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using SKDDriver;
+using StrazhDAL;
 
 namespace FiresecService.Report.Templates
 {

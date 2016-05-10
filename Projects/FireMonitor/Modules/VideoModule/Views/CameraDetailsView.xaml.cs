@@ -2,7 +2,7 @@
 using System.Net;
 using System.Windows;
 using Common;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using MediaSourcePlayer.MediaSource;
 using VideoModule.ViewModels;
 

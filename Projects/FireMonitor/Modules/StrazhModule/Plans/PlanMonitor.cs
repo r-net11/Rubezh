@@ -1,7 +1,7 @@
 ﻿using System;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrastructure.Client.Plans.Presenter;
 using Infrustructure.Plans.Elements;
 

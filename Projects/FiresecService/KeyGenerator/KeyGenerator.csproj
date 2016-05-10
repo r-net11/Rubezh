@@ -69,17 +69,17 @@
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\..\Common\FiresecServiceAPI\StrazhAPI.csproj">
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
-      <Name>FiresecAPI</Name>
+      <Name>StrazhAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
+    <ProjectReference Include="..\..\Common\SKDDriver\StrazhDAL.csproj">
       <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
-      <Name>SKDDriver</Name>
+      <Name>StrazhDAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\GenerateKeyApplication.Common\GenerateKeyApplication.Common.csproj">
       <Project>{9cc9e430-243f-4f66-9051-65a91bbddc22}</Project>

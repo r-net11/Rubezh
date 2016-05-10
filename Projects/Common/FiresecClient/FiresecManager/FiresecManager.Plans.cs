@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrustructure.Plans.Elements;
 
 namespace FiresecClient

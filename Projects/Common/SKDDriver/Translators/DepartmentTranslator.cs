@@ -1,10 +1,10 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class DepartmentTranslator : EmployeeTranslatorBase<DataAccess.Department, Department, DepartmentFilter, ShortDepartment>
 	{

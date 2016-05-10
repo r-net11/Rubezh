@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace SKDModule.Model
 {
@@ -25,7 +25,7 @@ namespace SKDModule.Model
 		{
 		}
 
-		public TimeTrackZone(FiresecAPI.SKD.TimeTrackZone timeTrackZone)
+		public TimeTrackZone(StrazhAPI.SKD.TimeTrackZone timeTrackZone)
 		{
 			SKDZone = timeTrackZone.SKDZone;
 			UID = timeTrackZone.UID;
@@ -35,9 +35,9 @@ namespace SKDModule.Model
 			IsURV = timeTrackZone.IsURV;
 		}
 
-		public FiresecAPI.SKD.TimeTrackZone ToDTO()
+		public StrazhAPI.SKD.TimeTrackZone ToDTO()
 		{
-			return new FiresecAPI.SKD.TimeTrackZone
+			return new StrazhAPI.SKD.TimeTrackZone
 			{
 				Description = Description,
 				IsURV = IsURV,

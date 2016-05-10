@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using LocalizationConveters;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	public enum ExplicitType
 	{

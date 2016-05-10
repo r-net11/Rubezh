@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public static class DayIntervalCreator
 	{

@@ -3,7 +3,7 @@ using Infrustructure.Plans.Interfaces;
 using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class ElementDoor : ElementBasePoint, IElementReference

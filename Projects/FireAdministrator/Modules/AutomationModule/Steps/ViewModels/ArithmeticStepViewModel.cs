@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels

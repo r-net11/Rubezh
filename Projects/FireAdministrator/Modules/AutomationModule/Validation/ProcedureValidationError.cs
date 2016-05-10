@@ -1,9 +1,9 @@
 ﻿using System;
 using AutomationModule.Events;
-using FiresecAPI.Automation;
-using FiresecAPI.Enums;
+using StrazhAPI.Automation;
+using StrazhAPI.Enums;
 using Infrastructure.Common.Validation;
-using FiresecAPI;
+using StrazhAPI;
 using Infrastructure.Common;
 
 namespace AutomationModule.Validation

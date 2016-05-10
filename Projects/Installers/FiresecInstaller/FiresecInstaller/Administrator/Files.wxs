@@ -17,7 +17,7 @@
 				<File Id="Administrator.Common.dll" Name="Common.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.Controls.dll" Name="Controls.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Administrator.TargetDir)" />
-				<File Id="Administrator.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Administrator.TargetDir)" />
+				<File Id="Administrator.StrazhAPI.dll" Name="StrazhAPI.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
 				<File Id="Administrator.FiltersModule.dll" Name="FiltersModule.dll" Source="$(var.Administrator.TargetDir)" />

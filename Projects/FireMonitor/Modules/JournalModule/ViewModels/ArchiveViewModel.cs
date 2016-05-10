@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

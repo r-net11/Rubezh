@@ -1,11 +1,11 @@
 ﻿using Common;
-using FiresecAPI.Models.Automation;
 using Infrustructure.Plans.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using StrazhAPI.Models.Automation;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	[DataContract]
 	[KnownType(typeof(GlobalVariable))]

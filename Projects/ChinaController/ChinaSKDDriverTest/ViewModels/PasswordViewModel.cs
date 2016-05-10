@@ -1,4 +1,4 @@
-﻿using ChinaSKDDriverAPI;
+﻿using StrazhDeviceSDK.API;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels

@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using LocalizationConveters;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public enum HolidayType

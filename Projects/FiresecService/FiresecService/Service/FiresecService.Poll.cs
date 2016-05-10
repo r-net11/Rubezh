@@ -1,12 +1,12 @@
-﻿using FiresecAPI;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.AutomationCallback;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.SKD.Device;
+using StrazhAPI.SKD.Device;
 
 namespace FiresecService.Service
 {

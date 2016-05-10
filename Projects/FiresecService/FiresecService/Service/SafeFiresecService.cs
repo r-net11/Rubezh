@@ -1,15 +1,15 @@
 ﻿using Common;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.Enums;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
+using StrazhAPI;
+using StrazhAPI.Automation;
+using StrazhAPI.AutomationCallback;
+using StrazhAPI.Enums;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using FiresecAPI.Models.Automation;
+using StrazhAPI.Models.Automation;
 using KeyGenerator;
 
 namespace FiresecService.Service

@@ -48,7 +48,7 @@ namespace FiresecService.Service
 			try
 			{
 				var netpipeAddress = AppServerConnectionManager.ServerNamedPipesUri;
-				ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
+				ServiceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
 				//UILogger.Log("Локальный адрес: " + netpipeAddress);
                 UILogger.Log(String.Format(Resources.Language.Service.FiresecServiceManager.CreateNetPipesEndpoint_Address, netpipeAddress));
 			}
@@ -64,7 +64,7 @@ namespace FiresecService.Service
 			try
 			{
 				var remoteAddress = AppServerConnectionManager.ServerHttpUri;
-				ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
+				ServiceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
                 //UILogger.Log("Удаленный адрес: " + remoteAddress);
                 UILogger.Log(String.Format(Resources.Language.Service.FiresecServiceManager.CreateHttpEndpoint_Address, remoteAddress));
 
@@ -81,7 +81,7 @@ namespace FiresecService.Service
 			try
 			{
 				var remoteAddress = AppServerConnectionManager.ServerTcpUri;
-				ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
+				ServiceHost.AddServiceEndpoint("StrazhAPI.IFiresecService", BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
                 //UILogger.Log("Удаленный адрес: " + remoteAddress);
                 UILogger.Log(String.Format(Resources.Language.Service.FiresecServiceManager.CreateTcpEndpoint_Address, remoteAddress));
 			}

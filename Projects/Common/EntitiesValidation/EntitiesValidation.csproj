@@ -60,9 +60,9 @@
     <Compile Include="ScheduleSchemeValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+    <ProjectReference Include="..\FiresecServiceAPI\StrazhAPI.csproj">
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
-      <Name>FiresecAPI</Name>
+      <Name>StrazhAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

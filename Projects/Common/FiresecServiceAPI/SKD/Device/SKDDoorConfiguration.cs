@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.Serialization;
 using LocalizationConveters;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	/// <summary>
 	/// Описывает конфигурацию двери/замка

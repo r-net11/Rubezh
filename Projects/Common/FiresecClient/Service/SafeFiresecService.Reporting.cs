@@ -1,9 +1,9 @@
 ﻿using System;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.SKD.ReportFilters;
 using System.Collections.Generic;
 
 namespace FiresecClient

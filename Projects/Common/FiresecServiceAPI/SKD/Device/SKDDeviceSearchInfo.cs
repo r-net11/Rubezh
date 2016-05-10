@@ -6,7 +6,7 @@ using System.Text;
 using LocalizationConveters;
 using System.Resources;
 
-namespace FiresecAPI.SKD.Device
+namespace StrazhAPI.SKD.Device
 {
 	[DataContract]
 	public class SKDDeviceSearchInfo

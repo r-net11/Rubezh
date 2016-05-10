@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using LocalizationConveters;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public enum JournalObjectType
 	{

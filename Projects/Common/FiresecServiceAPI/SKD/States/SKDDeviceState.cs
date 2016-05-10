@@ -1,10 +1,10 @@
 ﻿using Common;
-using FiresecAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using StrazhAPI.GK;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public class SKDDeviceState : IDeviceState

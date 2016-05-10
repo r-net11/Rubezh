@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
 {

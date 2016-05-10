@@ -1,11 +1,11 @@
 ﻿using Common;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
-using SKDDriver;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Automation;
+﻿using StrazhAPI.Automation;
 using System.Collections.ObjectModel;
 using Localization.Automation.ViewModels;
 

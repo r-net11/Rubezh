@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using LocalizationConveters;
 
-namespace FiresecAPI.Automation.Enums
+namespace StrazhAPI.Automation.Enums
 {
 	/// <summary>
 	/// Описывает режим доступа для замка в автоматизации
@@ -13,7 +13,7 @@ namespace FiresecAPI.Automation.Enums
 		/// </summary>
 		//[Description("Режим ОТКРЫТО")]
         [LocalizedDescription(typeof(Resources.Language.Automation.Enums.AccessState), "Opened")]
-		Opened = FiresecAPI.SKD.AccessState.OpenAlways,
+		Opened = SKD.AccessState.OpenAlways,
 		
 		/// <summary>
 		/// Режим НОРМА

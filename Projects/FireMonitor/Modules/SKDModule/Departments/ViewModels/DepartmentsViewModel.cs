@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Extensions;
-using FiresecAPI.SKD;
+using StrazhAPI.Extensions;
+using StrazhAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -243,9 +243,9 @@ namespace SKDModule.ViewModels
 			get { return "подразделение"; }
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
 		}
 
 		protected override void SetIsDeletedByOrganisation(DepartmentViewModel organisationViewModel)
@@ -268,7 +268,7 @@ namespace SKDModule.ViewModels
 
 		public bool IsShowEmployeeList
 		{
-			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
+			get { return SelectedItem != null && !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(StrazhAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 	}
 }

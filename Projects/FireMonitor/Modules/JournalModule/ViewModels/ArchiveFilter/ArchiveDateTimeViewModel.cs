@@ -6,7 +6,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
 using JournalModule.Events;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 
 namespace JournalModule.ViewModels
 {

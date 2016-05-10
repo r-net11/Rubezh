@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SKDDriver.DataAccess
+namespace StrazhDAL.DataAccess
 {
 	public interface IDatabaseElement
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using StrazhAPI.GK;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace StrazhModule.ViewModels

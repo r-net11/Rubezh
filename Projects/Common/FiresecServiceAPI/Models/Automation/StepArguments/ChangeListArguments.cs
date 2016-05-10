@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Security.RightsManagement;
 using LocalizationConveters;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	[DataContract]
 	public class ChangeListArguments

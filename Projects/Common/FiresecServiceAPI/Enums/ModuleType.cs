@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using LocalizationConveters;
 
-namespace FiresecAPI.Enums
+namespace StrazhAPI.Enums
 {
 	public enum ModuleType
 	{

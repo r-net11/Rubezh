@@ -1,7 +1,7 @@
 ﻿using FiresecService.Report.Model;
 using FiresecService.Report.Templates;
 using NUnit.Framework;
-using SKDDriver.DataAccess;
+using StrazhDAL.DataAccess;
 using System;
 using System.Collections.Generic;
 

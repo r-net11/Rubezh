@@ -4,7 +4,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	[DataContract]
 	public class ElementSubPlan : ElementBaseRectangle, IPrimitive, IElementReference

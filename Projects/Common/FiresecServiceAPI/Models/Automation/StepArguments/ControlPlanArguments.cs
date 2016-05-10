@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.Serialization;
 using LocalizationConveters;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	[DataContract]
 	public class ControlPlanArguments : UIArguments

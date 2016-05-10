@@ -1,4 +1,4 @@
-﻿namespace FiresecAPI.Models.Layouts
+﻿namespace StrazhAPI.Models.Layouts
 {
 	public enum LayoutPartPlansType
 	{

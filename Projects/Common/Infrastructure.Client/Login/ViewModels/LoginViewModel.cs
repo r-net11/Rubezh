@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using Common;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Client.Properties;
 using Infrastructure.Common;

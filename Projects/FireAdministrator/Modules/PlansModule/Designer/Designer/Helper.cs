@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Media;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;

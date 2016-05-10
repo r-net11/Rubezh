@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using LocalizationConveters;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	public enum JournalSubsystemType
 	{

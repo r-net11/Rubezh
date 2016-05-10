@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.TreeList;
-using FiresecAPI.Automation;
-using FiresecAPI;
+using StrazhAPI.Automation;
+using StrazhAPI;
 
 namespace AutomationModule.ViewModels
 {

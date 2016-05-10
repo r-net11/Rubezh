@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using ChinaSKDDriverAPI;
+using StrazhDeviceSDK.API;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 

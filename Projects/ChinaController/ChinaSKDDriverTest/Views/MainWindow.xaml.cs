@@ -1,11 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using ChinaSKDDriver;
 using ControllerSDK.ViewModels;
-using ChinaSKDDriverNativeApi;
-using System;
-using ChinaSKDDriverAPI;
-using System.Diagnostics;
+using StrazhDeviceSDK;
 
 namespace ControllerSDK.Views
 {

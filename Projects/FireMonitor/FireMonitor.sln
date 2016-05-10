@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceControls", "..\Common
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient", "..\Common\FiresecClient\FiresecClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\Common\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhAPI", "..\Common\FiresecServiceAPI\StrazhAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Client", "..\Common\Infrastructure.Client\Infrastructure.Client.csproj", "{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}"
 EndProject

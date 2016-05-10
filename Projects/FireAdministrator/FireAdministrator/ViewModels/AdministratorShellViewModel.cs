@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

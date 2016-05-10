@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;

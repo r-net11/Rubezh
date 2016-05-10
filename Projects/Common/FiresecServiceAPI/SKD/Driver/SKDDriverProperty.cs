@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public class SKDDriverProperty
 	{

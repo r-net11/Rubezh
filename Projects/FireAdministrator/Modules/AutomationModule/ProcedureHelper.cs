@@ -1,9 +1,9 @@
 ﻿using AutomationModule.ViewModels;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Automation;
+using StrazhAPI;
+using StrazhAPI.Automation;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Property = FiresecAPI.Automation.Property;
+using Property = StrazhAPI.Automation.Property;
 
 namespace AutomationModule
 {

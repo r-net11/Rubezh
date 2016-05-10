@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using Localization.Automation.ViewModels;
 

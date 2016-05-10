@@ -1,11 +1,11 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class PassCardTemplateTranslator : WithShortTranslator<DataAccess.PassCardTemplate, PassCardTemplate, PassCardTemplateFilter, ShortPassCardTemplate>
 	{

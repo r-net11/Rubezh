@@ -1,8 +1,8 @@
-﻿using FiresecAPI.SKD;
+﻿using StrazhAPI.SKD;
 using System.ComponentModel;
 using LocalizationConveters;
 
-namespace ChinaSKDDriverAPI
+namespace StrazhDeviceSDK.API
 {
 	public class DoorConfiguration
 	{

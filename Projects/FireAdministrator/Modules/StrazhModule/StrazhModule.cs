@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD.Device;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.Models.Layouts;
+using StrazhAPI.SKD.Device;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
@@ -19,7 +19,7 @@ using StrazhModule.Events;
 using StrazhModule.Plans;
 using StrazhModule.Validation;
 using StrazhModule.ViewModels;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace StrazhModule
 {

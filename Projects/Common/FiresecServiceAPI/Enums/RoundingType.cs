@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using LocalizationConveters;
 
-namespace FiresecAPI.Enums
+namespace StrazhAPI.Enums
 {
 	public enum RoundingType
 	{

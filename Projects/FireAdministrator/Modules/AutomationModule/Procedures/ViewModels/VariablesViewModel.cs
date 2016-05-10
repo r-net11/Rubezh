@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Automation;
-using FiresecAPI.Models.Automation;
+﻿using StrazhAPI.Automation;
+using StrazhAPI.Models.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -58,12 +58,12 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-            var variableDetailsViewModel = new VariableDetailsViewModel(null, CommonViewModel.LocalVariable_DefaultName, CommonViewModel.LocalVariable_Add);
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, CommonViewModel.LocalVariable_DefaultName, CommonViewModel.LocalVariable_Add);
 			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
 
 			if (IsExist(variableDetailsViewModel.Variable))
 			{
-                MessageBoxService.ShowError(CommonErrors.VariableExist_Error);
+				MessageBoxService.ShowError(CommonErrors.VariableExist_Error);
 				return;
 			}
 
@@ -92,7 +92,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-            var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, CommonViewModel.LocalVariable_DefaultName, CommonViewModel.LocalVariable_Edit);
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, CommonViewModel.LocalVariable_DefaultName, CommonViewModel.LocalVariable_Edit);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);

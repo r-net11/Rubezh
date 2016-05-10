@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels

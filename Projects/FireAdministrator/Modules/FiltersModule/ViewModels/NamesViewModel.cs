@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using Common;
-using FiresecAPI.Journal;
+using StrazhAPI.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 

@@ -2,9 +2,9 @@
 using System.IO;
 using System.Windows;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

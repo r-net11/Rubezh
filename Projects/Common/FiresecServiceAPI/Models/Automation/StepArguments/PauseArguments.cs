@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FiresecAPI.Automation
+namespace StrazhAPI.Automation
 {
 	[DataContract]
 	public class PauseArguments

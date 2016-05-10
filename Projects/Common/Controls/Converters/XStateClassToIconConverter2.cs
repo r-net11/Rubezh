@@ -1,4 +1,4 @@
-﻿using FiresecAPI.GK;
+﻿using StrazhAPI.GK;
 using System;
 using System.Linq;
 using System.Windows.Data;

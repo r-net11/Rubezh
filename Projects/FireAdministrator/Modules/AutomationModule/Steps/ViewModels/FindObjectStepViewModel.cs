@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
+using StrazhAPI;
 using System.Linq.Expressions;
 using Localization.Automation;
 using Localization.Automation.ViewModels;

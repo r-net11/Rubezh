@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using AutomationModule.ViewModels;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using StrazhAPI.Automation;
+using StrazhAPI.Models;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 using Localization.Automation.ViewModels;
 

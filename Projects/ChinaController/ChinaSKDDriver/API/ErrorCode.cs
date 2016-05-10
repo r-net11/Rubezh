@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using LocalizationConveters;
 
-namespace ChinaSKDDriverAPI
+namespace StrazhDeviceSDK.API
 {
     public enum ErrorCode
     {

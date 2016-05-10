@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models.Automation;
+using StrazhAPI.Models.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using System.Collections.ObjectModel;
 using Infrastructure;
 using Localization.Automation;

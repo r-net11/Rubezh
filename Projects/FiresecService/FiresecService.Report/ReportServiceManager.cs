@@ -4,7 +4,7 @@ using Common;
 using DevExpress.Office.Utils;
 using DevExpress.Xpf.Printing;
 using DevExpress.XtraReports.Service;
-using FiresecAPI;
+using StrazhAPI;
 using FiresecService.Report.Properties;
 using Infrastructure.Common;
 using System;
@@ -16,7 +16,7 @@ namespace FiresecService.Report
 {
 	public class ReportServiceManager
 	{
-		private const string FilterNamespace = @"FiresecAPI.SKD.ReportFilters";
+		private const string FilterNamespace = @"StrazhAPI.SKD.ReportFilters";
 		private static ReportServiceManager _instance = new ReportServiceManager();
 
 		public static bool IsRunning { get; private set; }

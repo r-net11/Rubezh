@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Models.Layouts
+namespace StrazhAPI.Models.Layouts
 {
 	[DataContract]
 	public class LayoutPartPlansProperties : ILayoutProperties

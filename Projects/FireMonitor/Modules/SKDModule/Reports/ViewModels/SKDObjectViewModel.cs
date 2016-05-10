@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Reflection;
 using Controls.Converters;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
 using Infrastructure.Common.TreeList;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 
 namespace SKDModule.Reports.ViewModels
 {

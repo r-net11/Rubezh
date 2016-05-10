@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.GK;
+using StrazhAPI;
+using StrazhAPI.GK;
 
 namespace FiresecClient
 {

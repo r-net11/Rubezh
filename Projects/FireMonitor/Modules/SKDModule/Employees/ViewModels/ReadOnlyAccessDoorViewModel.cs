@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using StrazhAPI.GK;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 

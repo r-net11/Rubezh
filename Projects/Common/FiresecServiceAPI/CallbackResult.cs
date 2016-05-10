@@ -1,13 +1,13 @@
-﻿using FiresecAPI.AutomationCallback;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.SKD.Device;
+using StrazhAPI.AutomationCallback;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.Device;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	[DataContract]
 	public class CallbackResult

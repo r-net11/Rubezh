@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 
 namespace RviCommonClient
 {

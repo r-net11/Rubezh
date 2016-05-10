@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.Enums;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI;
+using StrazhAPI.Automation;
+using StrazhAPI.Enums;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using Infrastructure.Common;
 using System.Collections.Generic;

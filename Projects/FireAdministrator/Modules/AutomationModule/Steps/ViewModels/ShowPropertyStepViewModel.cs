@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels

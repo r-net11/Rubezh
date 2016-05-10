@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using LocalizationConveters;
 
-namespace FiresecAPI.Automation.Enums
+namespace StrazhAPI.Automation.Enums
 {
 	/// <summary>
 	/// Описывает состояние двери в автоматизации

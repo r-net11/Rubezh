@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
+using StrazhAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 

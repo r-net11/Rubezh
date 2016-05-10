@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI;
+using StrazhAPI;
 using System.Linq;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using FiresecClient;
 using System;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Services.Layout;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Models.Layouts;
 using Localization.Automation;
 using Localization.Automation.ViewModels;
 
@@ -109,11 +109,11 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-                return string.Format(StepCommonViewModel.ControlVisual, SelectedLayout != null ? SelectedLayout.Name : CommonResources.Empty,
-                                                                (SelectedLayoutPart != null ? SelectedLayoutPart.Name : CommonResources.Empty),
-                                                                (SelectedLayoutPartProperty != null ? SelectedLayoutPartProperty.Name.ToDescription() : CommonResources.Empty),
-                                                                ControlElementType.ToDescription(),
-                                                                ValueArgument.Description);
+				return string.Format(StepCommonViewModel.ControlVisual, SelectedLayout != null ? SelectedLayout.Name : CommonResources.Empty,
+																(SelectedLayoutPart != null ? SelectedLayoutPart.Name : CommonResources.Empty),
+																(SelectedLayoutPartProperty != null ? SelectedLayoutPartProperty.Name.ToDescription() : CommonResources.Empty),
+																ControlElementType.ToDescription(),
+																ValueArgument.Description);
 			}
 		}
 

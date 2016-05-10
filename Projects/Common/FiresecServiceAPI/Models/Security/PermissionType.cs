@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using LocalizationConveters;
 
-namespace FiresecAPI.Models
+namespace StrazhAPI.Models
 {
 	public enum PermissionType
 	{

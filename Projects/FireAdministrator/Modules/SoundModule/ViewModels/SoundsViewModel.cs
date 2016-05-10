@@ -1,6 +1,6 @@
 using Common;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+using StrazhAPI.GK;
+using StrazhAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;

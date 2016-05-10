@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using FiresecAPI.Automation;
-using FiresecAPI.Models.Automation;
+using StrazhAPI.Automation;
+using StrazhAPI.Models.Automation;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 
 			if (IsExist(globalVariableDetailsViewModel.Variable))
 			{
-                MessageBoxService.ShowError(CommonErrors.VariableExist_Error);
+				MessageBoxService.ShowError(CommonErrors.VariableExist_Error);
 				return;
 			}
 

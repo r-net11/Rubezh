@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
 
 namespace SKDModule.Reports.ViewModels
 {

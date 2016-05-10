@@ -1,25 +1,22 @@
-﻿using System.Threading.Tasks;
-using EntitiesValidation;
-using FiresecAPI;
-using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.Journal;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using FiresecService.Service.Validators;
-using SKDDriver;
-using SKDDriver.Translators;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DayInterval = FiresecAPI.SKD.DayInterval;
-using DayIntervalPart = FiresecAPI.SKD.DayIntervalPart;
+using DayInterval = StrazhAPI.SKD.DayInterval;
+using DayIntervalPart = StrazhAPI.SKD.DayIntervalPart;
 using DayIntervalPartValidator = FiresecService.Service.Validators.DayIntervalPartValidator;
 using DayIntervalValidator = FiresecService.Service.Validators.DayIntervalValidator;
-using Holiday = FiresecAPI.SKD.Holiday;
-using Schedule = FiresecAPI.SKD.Schedule;
-using ScheduleScheme = FiresecAPI.SKD.ScheduleScheme;
-using ScheduleZone = FiresecAPI.SKD.ScheduleZone;
-using TimeTrackDocument = FiresecAPI.SKD.TimeTrackDocument;
-using TimeTrackDocumentType = FiresecAPI.SKD.TimeTrackDocumentType;
+using Holiday = StrazhAPI.SKD.Holiday;
+using Schedule = StrazhAPI.SKD.Schedule;
+using ScheduleScheme = StrazhAPI.SKD.ScheduleScheme;
+using ScheduleZone = StrazhAPI.SKD.ScheduleZone;
+using TimeTrackDocument = StrazhAPI.SKD.TimeTrackDocument;
+using TimeTrackDocumentType = StrazhAPI.SKD.TimeTrackDocumentType;
 
 namespace FiresecService.Service
 {

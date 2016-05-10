@@ -1,11 +1,11 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.Linq;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public abstract class TranslatorBase<TableT, ApiT>
 		where TableT : class,DataAccess.IDatabaseElement, new()

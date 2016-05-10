@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Data;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using FiresecClient;
 
 namespace VideoModule.Converters

@@ -8,8 +8,8 @@
     d:DesignHeight="700"
 	d:DesignWidth="500"
 	xmlns:Views="clr-namespace:AutomationModule.Views"
-	xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI"
-	xmlns:enums="clr-namespace:FiresecAPI.Enums;assembly=FiresecAPI"
+	xmlns:API="clr-namespace:StrazhAPI.SKD.ReportFilters;assembly=StrazhAPI"
+	xmlns:enums="clr-namespace:StrazhAPI.Enums;assembly=StrazhAPI"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
 	xmlns:lang="clr-namespace:Localization.Automation.Views;assembly=Localization">

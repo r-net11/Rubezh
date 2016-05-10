@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.Versioning;
 using LocalizationConveters;
 
-namespace ChinaSKDDriverAPI
+namespace StrazhDeviceSDK.API
 {
 	public class AntiPassBackConfiguration
 	{

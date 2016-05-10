@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 using DeviceControls;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using StrazhAPI.Models;
+using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
@@ -12,7 +12,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using StrazhModule.ViewModels;
-using FiresecAPI.GK;
+using StrazhAPI.GK;
 
 namespace StrazhModule.Plans.Designer
 {

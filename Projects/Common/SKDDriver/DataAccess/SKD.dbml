@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKD" EntityNamespace="SKDDriver.DataAccess" ContextNamespace="SKDDriver.DataAccess" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKD" EntityNamespace="StrazhDAL.DataAccess" ContextNamespace="StrazhDAL.DataAccess" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="ConnectionString" ConnectionString="Data Source=WS-SRT01-1584;Initial Catalog=SKD;Integrated Security=True" Provider="System.Data.SqlClient" />
   <Table Name="dbo.AccessTemplate" Member="AccessTemplates">
     <Type Name="AccessTemplate">
@@ -421,7 +421,7 @@
       <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="" Member="GlobalVariables">
+  <Table Name="dbo.GlobalVariables" Member="GlobalVariables">
     <Type Name="GlobalVariables">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="false" />

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using FireAdministrator.ViewModels;
-using FiresecAPI.Enums;
-using FiresecAPI.Models.Layouts;
+using StrazhAPI.Enums;
+using StrazhAPI.Models.Layouts;
 using Infrastructure.Common;
 using Infrastructure.Common.Layouts;
 using Infrastructure.Common.Navigation;

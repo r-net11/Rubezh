@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;

@@ -5,7 +5,7 @@ using System.Windows.Threading;
 using Common;
 using DevExpress.DocumentServices.ServiceModel.Client;
 using DevExpress.Xpf.Printing;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

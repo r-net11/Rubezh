@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SKDDriver.DataAccess
+namespace StrazhDAL.DataAccess
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -20,51 +20,51 @@ namespace SKDDriver.DataAccess
 	using System.Linq.Expressions;
 	using System.ComponentModel;
 	using System;
-
-
+	
+	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Journal_1")]
 	public partial class JournalDataContext : System.Data.Linq.DataContext
 	{
-
+		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
-
+		
     #region Extensibility Method Definitions
     partial void OnCreated();
     partial void InsertJournal(Journal instance);
     partial void UpdateJournal(Journal instance);
     partial void DeleteJournal(Journal instance);
     #endregion
-
-		public JournalDataContext() :
-		base(global::SKDDriver.Properties.Settings.Default.Journal_1ConnectionString, mappingSource)
+		
+		public JournalDataContext() : 
+				base(global::StrazhDAL.Properties.Settings.Default.Journal_1ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
-
-		public JournalDataContext(string connection) :
+		
+		public JournalDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-
-		public JournalDataContext(System.Data.IDbConnection connection) :
+		
+		public JournalDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-
-		public JournalDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
+		
+		public JournalDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-
-		public JournalDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
+		
+		public JournalDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-
+		
 		public System.Data.Linq.Table<Journal> Journals
 		{
 			get
@@ -72,7 +72,7 @@ namespace SKDDriver.DataAccess
 				return this.GetTable<Journal>();
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLastJournalItemProducedByController")]
 		public ISingleResult<Journal> GetLastJournalItemProducedByController([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="UniqueIdentifier")] System.Nullable<System.Guid> contollerUid)
 		{
@@ -80,49 +80,49 @@ namespace SKDDriver.DataAccess
 			return ((ISingleResult<Journal>)(result.ReturnValue));
 		}
 	}
-
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Journal")]
 	public partial class Journal : INotifyPropertyChanging, INotifyPropertyChanged
 	{
-
+		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
+		
 		private System.Guid _UID;
-
+		
 		private System.DateTime _SystemDate;
-
+		
 		private System.Nullable<System.DateTime> _DeviceDate;
-
+		
 		private int _Subsystem;
-
+		
 		private int _Name;
-
+		
 		private int _Description;
-
+		
 		private string _NameText;
-
+		
 		private string _DescriptionText;
-
+		
 		private int _ObjectType;
-
+		
 		private string _ObjectName;
-
+		
 		private System.Guid _ObjectUID;
-
+		
 		private string _Detalisation;
-
+		
 		private string _UserName;
-
+		
 		private System.Nullable<System.Guid> _EmployeeUID;
-
+		
 		private System.Nullable<System.Guid> _VideoUID;
-
+		
 		private System.Nullable<System.Guid> _CameraUID;
-
+		
 		private System.Nullable<int> _ErrorCode;
-
+		
 		private System.Nullable<System.Guid> _ControllerUID;
-
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -164,12 +164,12 @@ namespace SKDDriver.DataAccess
     partial void OnControllerUIDChanging(System.Nullable<System.Guid> value);
     partial void OnControllerUIDChanged();
     #endregion
-
+		
 		public Journal()
 		{
 			OnCreated();
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid UID
 		{
@@ -189,7 +189,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SystemDate", DbType="DateTime NOT NULL")]
 		public System.DateTime SystemDate
 		{
@@ -209,7 +209,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceDate", DbType="DateTime")]
 		public System.Nullable<System.DateTime> DeviceDate
 		{
@@ -229,7 +229,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Subsystem", DbType="Int NOT NULL")]
 		public int Subsystem
 		{
@@ -249,7 +249,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="Int NOT NULL")]
 		public int Name
 		{
@@ -269,7 +269,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Int NOT NULL")]
 		public int Description
 		{
@@ -289,7 +289,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NameText", DbType="NVarChar(MAX)")]
 		public string NameText
 		{
@@ -309,7 +309,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DescriptionText", DbType="NVarChar(MAX)")]
 		public string DescriptionText
 		{
@@ -329,7 +329,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectType", DbType="Int NOT NULL")]
 		public int ObjectType
 		{
@@ -349,7 +349,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectName", DbType="NVarChar(50)")]
 		public string ObjectName
 		{
@@ -369,7 +369,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectUID", DbType="UniqueIdentifier NOT NULL")]
 		public System.Guid ObjectUID
 		{
@@ -389,7 +389,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Detalisation", DbType="Text", UpdateCheck=UpdateCheck.Never)]
 		public string Detalisation
 		{
@@ -409,7 +409,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(50)")]
 		public string UserName
 		{
@@ -429,7 +429,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier")]
 		public System.Nullable<System.Guid> EmployeeUID
 		{
@@ -449,7 +449,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VideoUID", DbType="UniqueIdentifier")]
 		public System.Nullable<System.Guid> VideoUID
 		{
@@ -469,7 +469,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CameraUID", DbType="UniqueIdentifier")]
 		public System.Nullable<System.Guid> CameraUID
 		{
@@ -489,7 +489,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ErrorCode", DbType="int")]
 		public System.Nullable<int> ErrorCode
 		{
@@ -509,7 +509,7 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ControllerUID", DbType="UniqueIdentifier")]
 		public System.Nullable<System.Guid> ControllerUID
 		{
@@ -529,11 +529,11 @@ namespace SKDDriver.DataAccess
 				}
 			}
 		}
-
+		
 		public event PropertyChangingEventHandler PropertyChanging;
-
+		
 		public event PropertyChangedEventHandler PropertyChanged;
-
+		
 		protected virtual void SendPropertyChanging()
 		{
 			if ((this.PropertyChanging != null))
@@ -541,7 +541,7 @@ namespace SKDDriver.DataAccess
 				this.PropertyChanging(this, emptyChangingEventArgs);
 			}
 		}
-
+		
 		protected virtual void SendPropertyChanged(String propertyName)
 		{
 			if ((this.PropertyChanged != null))

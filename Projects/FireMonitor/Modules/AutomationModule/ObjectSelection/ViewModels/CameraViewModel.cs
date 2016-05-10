@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using StrazhAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels

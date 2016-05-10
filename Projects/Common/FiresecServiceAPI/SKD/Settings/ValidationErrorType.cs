@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using LocalizationConveters;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	[Flags]
 	public enum ValidationErrorType

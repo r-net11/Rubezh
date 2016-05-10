@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;

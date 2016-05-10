@@ -1,7 +1,7 @@
 ﻿using LocalizationConveters;
 using System.ComponentModel;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public enum PendingCardAction
 	{

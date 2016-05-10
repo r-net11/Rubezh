@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.SKD;
+﻿using StrazhAPI;
+using StrazhAPI.SKD;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace SKDDriver
+namespace StrazhDAL
 {
 	public class PassJounalSynchroniser
 	{

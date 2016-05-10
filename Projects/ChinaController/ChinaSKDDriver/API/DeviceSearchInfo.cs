@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using LocalizationConveters;
 
-namespace ChinaSKDDriverAPI
+namespace StrazhDeviceSDK.API
 {
 	public class DeviceSearchInfo
 	{

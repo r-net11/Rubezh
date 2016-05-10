@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Automation;
+﻿using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Localization.Automation.ViewModels;

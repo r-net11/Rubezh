@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using Infrastructure.Common;
 
 namespace SKDModule.Views

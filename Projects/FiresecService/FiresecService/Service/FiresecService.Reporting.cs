@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecService.Report.Helpers;
 using FiresecService.Report.Templates;
-using SKDDriver;
+using StrazhDAL;
 using System.Collections.Generic;
 
 namespace FiresecService.Service

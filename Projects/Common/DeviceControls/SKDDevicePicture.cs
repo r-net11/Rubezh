@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using StrazhAPI.GK;
+using StrazhAPI.SKD;
 using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
@@ -13,12 +13,12 @@ namespace DeviceControls
 		{
 		}
 
-		public Brush GetBrush(FiresecAPI.SKD.SKDDevice device)
+		public Brush GetBrush(SKDDevice device)
 		{
 			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
 			return GetBrush(driverUID);
 		}
-		public Brush GetDynamicBrush(FiresecAPI.SKD.SKDDevice device)
+		public Brush GetDynamicBrush(SKDDevice device)
 		{
 			return device == null || device.DriverUID == Guid.Empty || device.State == null ? GetBrush(device) : GetDynamicBrush(device.DriverUID, device.State);
 		}

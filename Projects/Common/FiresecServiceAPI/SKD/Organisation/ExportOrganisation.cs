@@ -1,8 +1,8 @@
 ﻿using System;
-using FiresecAPI.Enums;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.Enums;
+using StrazhAPI.SKD.ReportFilters;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public class ExportOrganisation : IExportItem
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutomationModule.Procedures;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;

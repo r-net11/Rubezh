@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Extensions;
-using FiresecAPI.SKD;
+using StrazhAPI.Extensions;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 
@@ -131,9 +131,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
 		}
 	}
 }

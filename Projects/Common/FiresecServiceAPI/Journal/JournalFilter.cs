@@ -1,9 +1,9 @@
-﻿using FiresecAPI.SKD;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using StrazhAPI.SKD;
 
-namespace FiresecAPI.Journal
+namespace StrazhAPI.Journal
 {
 	[DataContract]
 	public class JournalFilter : FilterBase

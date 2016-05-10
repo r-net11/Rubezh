@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Enums;
-using FiresecAPI.Models;
+using StrazhAPI;
+using StrazhAPI.Enums;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Client;
 using Infrastructure.Common;

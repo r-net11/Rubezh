@@ -1,12 +1,12 @@
 ﻿using Common;
-using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using StrazhAPI.Models;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[DataContract]
 	public class PassCardTemplate : OrganisationElementBase, IElementBackground, IElementRectangle, IElementBorder

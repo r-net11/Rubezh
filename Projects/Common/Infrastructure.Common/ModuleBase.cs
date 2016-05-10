@@ -1,5 +1,5 @@
-﻿using FiresecAPI;
-using FiresecAPI.Enums;
+﻿using StrazhAPI;
+using StrazhAPI.Enums;
 using Infrastructure.Common.Navigation;
 using System.Collections.Generic;
 

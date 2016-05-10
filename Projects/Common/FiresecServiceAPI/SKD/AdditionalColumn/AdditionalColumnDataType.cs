@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using LocalizationConveters;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	[Flags]
 	public enum AdditionalColumnDataType

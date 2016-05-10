@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
-namespace FiresecAPI.Extensions
+namespace StrazhAPI.Extensions
 {
 	public static class TimeTrackPartExtensions
 	{

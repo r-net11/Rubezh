@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using FireMonitor.ViewModels;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -16,8 +16,8 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
-using LayoutModel = FiresecAPI.Models.Layouts.Layout;
-using FiresecAPI.AutomationCallback;
+using LayoutModel = StrazhAPI.Models.Layouts.Layout;
+using StrazhAPI.AutomationCallback;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.Layout.ViewModels
@@ -26,7 +26,7 @@ namespace FireMonitor.Layout.ViewModels
 	{
 		private SoundViewModel _soundViewModel;
 
-		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
+		public MonitorLayoutShellViewModel(StrazhAPI.Models.Layouts.Layout layout)
 			: base(ClientType.Monitor)
 		{
 			Layout = layout;

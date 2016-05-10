@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FiresecAPI.SKD
+namespace StrazhAPI.SKD
 {
 	public class ReportT13
 	{

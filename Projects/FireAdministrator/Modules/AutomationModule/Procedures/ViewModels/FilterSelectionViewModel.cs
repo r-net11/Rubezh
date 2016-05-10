@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Automation;
+using StrazhAPI.Automation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

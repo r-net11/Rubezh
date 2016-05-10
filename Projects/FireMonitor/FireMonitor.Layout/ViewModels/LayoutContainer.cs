@@ -12,7 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
-using LayoutModel = FiresecAPI.Models.Layouts.Layout;
+using LayoutModel = StrazhAPI.Models.Layouts.Layout;
 using Infrastructure;
 using Infrastructure.Events;
 

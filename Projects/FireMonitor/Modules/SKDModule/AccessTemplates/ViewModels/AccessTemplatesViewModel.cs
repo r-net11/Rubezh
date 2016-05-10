@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
@@ -87,9 +87,9 @@ namespace SKDModule.ViewModels
 			get { return "шаблон доступа"; }
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit; }
 		}
 
 		public List<AccessTemplateViewModel> DoorsParents

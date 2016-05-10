@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.SKD.ReportFilters;
+using StrazhAPI.SKD.ReportFilters;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;

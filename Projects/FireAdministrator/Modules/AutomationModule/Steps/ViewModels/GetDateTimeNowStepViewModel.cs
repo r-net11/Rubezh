@@ -1,6 +1,6 @@
-﻿using FiresecAPI;
-using FiresecAPI.Automation;
-using FiresecAPI.Enums;
+﻿using StrazhAPI;
+using StrazhAPI.Automation;
+using StrazhAPI.Enums;
 using Localization.Automation.ViewModels;
 
 namespace AutomationModule.ViewModels

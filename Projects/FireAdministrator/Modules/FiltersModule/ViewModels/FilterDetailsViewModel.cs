@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Journal;
+﻿using StrazhAPI.Journal;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 

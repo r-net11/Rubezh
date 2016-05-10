@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;

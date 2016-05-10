@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Common.Validation;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 
 namespace StrazhModule.Validation
 {

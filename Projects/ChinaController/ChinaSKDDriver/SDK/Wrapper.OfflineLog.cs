@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using ChinaSKDDriverAPI;
+using StrazhDeviceSDK.API;
 using System;
 using System.Collections.Generic;
 
-namespace ChinaSKDDriver
+namespace StrazhDeviceSDK
 {
 	public partial class Wrapper
 	{

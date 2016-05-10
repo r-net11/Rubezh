@@ -6,7 +6,7 @@ using System.ServiceModel.PeerResolvers;
 using System.Text;
 using LocalizationConveters;
 
-namespace FiresecAPI.Enums
+namespace StrazhAPI.Enums
 {
 	public enum ReportType
 	{

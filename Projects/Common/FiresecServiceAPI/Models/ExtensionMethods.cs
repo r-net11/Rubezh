@@ -1,11 +1,11 @@
-﻿using FiresecAPI.Journal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
+using StrazhAPI.Journal;
 
-namespace FiresecAPI
+namespace StrazhAPI
 {
 	public static class ExtensionMethods
 	{

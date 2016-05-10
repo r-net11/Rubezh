@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+using StrazhAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;

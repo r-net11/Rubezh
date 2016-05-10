@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using StrazhAPI.Automation;
+using StrazhAPI.Models;
 
 namespace Infrastructure.Common.Services.Configuration
 {

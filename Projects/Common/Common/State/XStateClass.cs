@@ -3,7 +3,7 @@ using Common.Properties;
 using Org.BouncyCastle.Asn1.Crmf;
 using LocalizationConveters;
 
-namespace FiresecAPI.GK
+namespace StrazhAPI.GK
 {
 	/// <summary>
 	/// Класс состояния

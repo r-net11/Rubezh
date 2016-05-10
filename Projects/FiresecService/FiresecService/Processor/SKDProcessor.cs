@@ -1,13 +1,12 @@
-﻿using ChinaSKDDriver;
+﻿using StrazhDeviceSDK;
 using Common;
-using FiresecAPI;
-using FiresecAPI.GK;
-using FiresecAPI.Journal;
-using FiresecAPI.SKD;
-using FiresecAPI.SKD.Device;
+using StrazhAPI;
+using StrazhAPI.GK;
+using StrazhAPI.Journal;
+using StrazhAPI.SKD;
+using StrazhAPI.SKD.Device;
 using FiresecService.Service;
-using SKDDriver;
-using SKDDriver.Translators;
+using StrazhDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +62,7 @@ namespace FiresecService
 
 		public static void Stop()
 		{
-			ChinaSKDDriver.Processor.Stop();
+			StrazhDeviceSDK.Processor.Stop();
 		}
 
 		private static void OnNewJournalItem(JournalItem journalItem)
@@ -302,16 +301,16 @@ namespace FiresecService
 						var cardWriter = new CardWriter();
 						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
 						{
-							cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
+							cardWriter = StrazhDeviceSDK.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
 						}
 						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Edit)
 						{
-							cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
-							cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
+							cardWriter = StrazhDeviceSDK.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
+							cardWriter = StrazhDeviceSDK.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
 						}
 						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
 						{
-							cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
+							cardWriter = StrazhDeviceSDK.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
 						}
 						if ((PendingCardAction) pendingCard.Action == PendingCardAction.ResetRepeatEnter)
 						{

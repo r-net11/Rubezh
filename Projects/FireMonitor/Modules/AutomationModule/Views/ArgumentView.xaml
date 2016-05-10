@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ArgumentView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
+			 xmlns:automation="clr-namespace:StrazhAPI.Automation;assembly=StrazhAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
              xmlns:res="clr-namespace:AutomationModule.Resources.Language">
 	<UserControl.Resources>

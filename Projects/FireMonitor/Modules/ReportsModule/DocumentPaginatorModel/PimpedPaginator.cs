@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using FiresecAPI;
+using StrazhAPI;
 
 namespace ReportsModule.DocumentPaginatorModel
 {

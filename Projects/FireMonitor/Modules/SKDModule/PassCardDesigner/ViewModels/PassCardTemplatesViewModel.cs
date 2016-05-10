@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
+using StrazhAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -95,9 +95,9 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			get { return "шаблон пропуска"; }
 		}
 
-		protected override FiresecAPI.Models.PermissionType Permission
+		protected override StrazhAPI.Models.PermissionType Permission
 		{
-			get { return FiresecAPI.Models.PermissionType.Oper_SKD_PassCards_Etit; }
+			get { return StrazhAPI.Models.PermissionType.Oper_SKD_PassCards_Etit; }
 		}
 
 	}
