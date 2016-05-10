@@ -74,6 +74,8 @@ namespace GKModule.Plans.ViewModels
 		private void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDelayEvent>().Publish(this.SelectedDelay.UID);
+			Delays = new ObservableCollection<GKDelay>(GKManager.Delays);
+			OnPropertyChanged(() => Delays);
 		}
 
 		private bool CanEdit()

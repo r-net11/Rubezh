@@ -84,6 +84,8 @@ namespace GKModule.Plans.ViewModels
 		private void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Publish(SelectedZone.UID);
+			Zones = new ObservableCollection<GKGuardZone>(GKManager.GuardZones);
+			OnPropertyChanged(() => Zones);
 		}
 		private bool CanEdit()
 		{

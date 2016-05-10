@@ -110,6 +110,8 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.UID);
+			Directions = new ObservableCollection<GKDirection>(GKManager.Directions);
+			OnPropertyChanged(() => Directions);
 		}
 		bool CanEdit()
 		{

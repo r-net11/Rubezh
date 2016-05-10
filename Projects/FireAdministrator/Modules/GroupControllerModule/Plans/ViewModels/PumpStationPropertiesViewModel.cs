@@ -111,6 +111,8 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKPumpStationEvent>().Publish(SelectedPumpStation.UID);
+			PumpStations = new ObservableCollection<GKPumpStation>(GKManager.PumpStations);
+			OnPropertyChanged(() => PumpStations);
 		}
 		bool CanEdit()
 		{

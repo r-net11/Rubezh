@@ -80,6 +80,8 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Publish(SelectedGKDoor.UID);
+			GKDoors = new ObservableCollection<GKDoor>(GKManager.Doors);
+			OnPropertyChanged(() => GKDoors);
 		}
 		bool CanEdit()
 		{
