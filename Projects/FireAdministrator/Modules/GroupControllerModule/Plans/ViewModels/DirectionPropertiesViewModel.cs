@@ -13,11 +13,20 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DirectionPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		IElementDirection IElementDirection;
-
+		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		public bool CanEditPosition { get; private set; }
 		public DirectionPropertiesViewModel(IElementDirection element)
 		{
 			IElementDirection = element;
+			ElementBaseRectangle = element as ElementBaseRectangle;
+			CanEditPosition = ElementBaseRectangle != null;
+			if (CanEditPosition)
+			{
+				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+			}
 			Title = "Свойства фигуры: Направление";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -28,6 +37,27 @@ namespace GKModule.Plans.ViewModels
 
 			ShowState = element.ShowState;
 			ShowDelay = element.ShowDelay;
+		}
+
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
 		}
 
 		public ObservableCollection<GKDirection> Directions { get; private set; }
@@ -89,6 +119,8 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDirection.ShowState = ShowState;
 			IElementDirection.ShowDelay = ShowDelay;
+			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
+			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
 			GKPlanExtension.Instance.RewriteItem(IElementDirection, SelectedDirection);
 			return base.Save();
 		}

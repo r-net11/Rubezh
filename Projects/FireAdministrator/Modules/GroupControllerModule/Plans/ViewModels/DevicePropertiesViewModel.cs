@@ -10,16 +10,40 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		ElementGKDevice _elementGKDevice;
 
 		public DevicePropertiesViewModel(ElementGKDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство ГК";
 			_elementGKDevice = elementDevice;
+			Left = (int)(_elementGKDevice.Left * _sensivityFactor);
+			Top = (int)(_elementGKDevice.Top * _sensivityFactor);
 
 			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			if (SelectedDevice != null)
 				SelectedDevice.ExpandToThis();
+		}
+
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
 		}
 		DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
@@ -81,6 +105,8 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
+			_elementGKDevice.Left = (double)Left / _sensivityFactor;
+			_elementGKDevice.Top = (double)Top / _sensivityFactor;
 			GKPlanExtension.Instance.RewriteItem(_elementGKDevice, SelectedDevice.Device);
 			return base.Save();
 		}

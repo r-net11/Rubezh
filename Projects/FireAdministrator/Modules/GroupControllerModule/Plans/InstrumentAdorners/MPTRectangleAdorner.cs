@@ -13,13 +13,11 @@ namespace GKModule.Plans.InstrumentAdorners
 			: base(designerCanvas)
 		{
 		}
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementRectangleGKMPT();
+			var element = new ElementRectangleGKMPT() { Left = left, Top = top };
 			var propertiesViewModel = new MPTPropertiesViewModel(element);
-			if (DialogService.ShowModalWindow(propertiesViewModel))
-				return element;
-			return null;
+			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}
 }

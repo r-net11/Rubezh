@@ -15,9 +15,9 @@ namespace PlansModule.Kursk.InstrumentAdorners
 		{
 		}
 
-		protected override ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement(double left, double top)
 		{
-			var element = new ElementRectangleTank();
+			var element = new ElementRectangleTank() { Left = left, Top = top };
 			var propertiesViewModel = new TankPropertiesViewModel(element);
 			DialogService.ShowModalWindow(propertiesViewModel);
 			Helper.SetGKDevice(element);
