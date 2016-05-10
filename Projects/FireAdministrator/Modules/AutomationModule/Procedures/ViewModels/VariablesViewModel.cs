@@ -58,7 +58,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-            var variableDetailsViewModel = new VariableDetailsViewModel(null, variablesViewModel.LocalVariable, variablesViewModel.AddLocalVariable);
+            var variableDetailsViewModel = new VariableDetailsViewModel(null, CommonViewModel.LocalVariable_DefaultName, CommonViewModel.LocalVariable_Add);
 			if (!DialogService.ShowModalWindow(variableDetailsViewModel)) return;
 
 			if (IsExist(variableDetailsViewModel.Variable))
@@ -92,7 +92,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-            var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, variablesViewModel.LocalVariable, variablesViewModel.EditLocalVariable);
+            var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, CommonViewModel.LocalVariable_DefaultName, CommonViewModel.LocalVariable_Edit);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);

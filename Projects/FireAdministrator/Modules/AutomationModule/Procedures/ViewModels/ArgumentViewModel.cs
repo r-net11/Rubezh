@@ -215,8 +215,8 @@ namespace AutomationModule.ViewModels
 
 		private void AddLocalVariable()
 		{
-			string defaultName = argumentViewModel.DefaultName;
-            string title = argumentViewModel.Title;
+			string defaultName = CommonViewModel.LocalVariable_DefaultName;
+            string title = CommonViewModel.LocalVariable_Edit;
 
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, defaultName, title)
 			{

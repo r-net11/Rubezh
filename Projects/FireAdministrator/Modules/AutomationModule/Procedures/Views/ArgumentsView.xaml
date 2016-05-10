@@ -1,4 +1,9 @@
-﻿<UserControl x:Class="AutomationModule.Views.ArgumentsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:AutomationModule.Views">
+﻿<UserControl 
+    x:Class="AutomationModule.Views.ArgumentsView" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Views="clr-namespace:AutomationModule.Views">
+    
 	<UserControl.Resources>
 		<Style x:Key="LabelStyle" TargetType="Label">
 			<Setter Property="HorizontalAlignment" Value="Right" />

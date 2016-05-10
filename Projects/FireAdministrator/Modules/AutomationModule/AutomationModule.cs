@@ -60,24 +60,15 @@ namespace AutomationModule
 			if (!ServiceFactory.UiElementsVisibilityService.IsMainMenuAutomationElementVisible)
 				return new List<NavigationItem>();
 
-		    var s = CommonResources.ResourceManager.GetString("Procedure");
-
-            //ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
-            //String str = rm.GetString("Procedure");
-			
 			return new List<NavigationItem>
 				{
 					new NavigationItem(ModuleType.ToDescription(), "tree",
 						new List<NavigationItem>
 						{
-                            new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, s, "Procedure"),
-                            //new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, CommonResources.GlobalVariables, "Shedules"),
-                            //new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, CommonResources.Schedules, "GlobalVariables"),
-                            //new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, CommonResources.Sounds, "Music")
-                         //   new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
-							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
-							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
-							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music")
+                            new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, CommonResources.Procedure, "Procedure"),
+                            new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, CommonResources.GlobalVariables, "Shedules"),
+                            new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, CommonResources.Schedules, "GlobalVariables"),
+                            new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, CommonResources.Sounds, "Music")
 						}) {IsExpanded = true},
 				};
 		}
@@ -109,12 +100,12 @@ namespace AutomationModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выполнить процедуру" /*CommonResources.Procedure, CommonResources.ExecuteProcedure*/, "BProcedures.png")
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, CommonResources.Procedure, CommonResources.ExecuteProcedure, "BProcedures.png")
 			{
 				Factory = p => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
 #if DEBUG
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, CommonResources.Procedures, CommonResources.ProcedurePanel, "BProcedures.png");
 #endif
 		}
 

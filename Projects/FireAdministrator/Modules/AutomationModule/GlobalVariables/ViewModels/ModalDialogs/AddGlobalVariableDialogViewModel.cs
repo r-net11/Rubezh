@@ -13,7 +13,7 @@ namespace AutomationModule.ViewModels
 {
 	public class AddGlobalVariableDialogViewModel : SaveCancelDialogViewModel
 	{
-		private static string DefaulVariableName = addGlobalVariableDialogViewModel.DefaultName;
+        private static string DefaulVariableName = CommonViewModel.GlobalVariable_DefaultName;
 		#region Properties
 
 		private bool _isSaveWhenRestart;
@@ -91,7 +91,7 @@ namespace AutomationModule.ViewModels
 
 		public AddGlobalVariableDialogViewModel(GlobalVariable variable)
 		{
-			Title = variable != null ? addGlobalVariableDialogViewModel.Edit : addGlobalVariableDialogViewModel.Add;
+            Title = variable != null ? CommonViewModel.GlobalVariable_Edit : CommonViewModel.GlobalVariable_Add;
 			Name = variable != null ? variable.Name : DefaulVariableName;
 			IsSaveWhenRestart = variable != null ? variable.IsSaveWhenRestart : default(bool);
 

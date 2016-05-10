@@ -16,12 +16,12 @@ namespace AutomationModule.ViewModels
 			if (procedure == null)
 			{
 				Procedure = new Procedure();
-				Title = procedureDetailsViewModel.CreateTitle;
+                Title = CommonViewModel.ProcedureDetails_Create;
 			}
 			else
 			{
 				Procedure = procedure;
-				Title = procedureDetailsViewModel.EditTitle;
+                Title = CommonViewModel.ProcedureDetails_Edit;
 			}
 			Name = Procedure.Name;
 			Description = Procedure.Description;

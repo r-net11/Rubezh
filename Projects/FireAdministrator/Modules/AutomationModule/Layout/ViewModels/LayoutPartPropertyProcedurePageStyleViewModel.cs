@@ -26,9 +26,9 @@ namespace AutomationModule.Layout.ViewModels
 			_layoutPartViewModel = layoutPartViewModel;
 			TextAlignments = new List<string>()
 			{
-				layoutPartPropertyProcedurePageStyleViewModel.Left,
-				layoutPartPropertyProcedurePageStyleViewModel.Center,
-				layoutPartPropertyProcedurePageStyleViewModel.Right,
+				CommonViewModel.LayoutPartPropertyProcedure_Left,
+				CommonViewModel.LayoutPartPropertyProcedure_Center,
+				CommonViewModel.LayoutPartPropertyProcedure_Right,
 			};
 			Fonts = System.Windows.Media.Fonts.SystemFontFamilies.OrderBy(item => item.Source).ToList();
 		}
@@ -180,7 +180,7 @@ namespace AutomationModule.Layout.ViewModels
 
 		public override string Header
 		{
-			get { return "Стиль"; }
+			get { return CommonViewModel.Style; }
 		}
 		public override void CopyProperties()
 		{

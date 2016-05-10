@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,55 +55,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StepCommonViewModel.resx</DependentUpon>
     </Compile>
-    <Compile Include="Automation\ViewModels\argumentsViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>argumentsViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Automation\ViewModels\argumentViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>argumentViewModel.resx</DependentUpon>
-    </Compile>
     <Compile Include="Automation\ViewModels\CommonViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Automation\ViewModels\layoutPartPropertyProcedurePageStyleViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>layoutPartPropertyProcedurePageStyleViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Automation\ViewModels\addGlobalVariableDialogViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>addGlobalVariableDialogViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Automation\ViewModels\procedureDetailsViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>procedureDetailsViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Automation\ViewModels\proceduresViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>proceduresViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Automation\ViewModels\scheduleDetailsViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>scheduleDetailsViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Automation\ViewModels\stepTypeSelectionViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>stepTypeSelectionViewModel.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Automation\ViewModels\variablesViewModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>variablesViewModel.resx</DependentUpon>
     </Compile>
     <Compile Include="Automation\Views\CommonViews.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -128,45 +84,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\layoutPartPropertyProcedurePageStyleViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>layoutPartPropertyProcedurePageStyleViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Automation\Views\CommonViews.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonViews.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\argumentsViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>argumentsViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\argumentViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>argumentViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\procedureDetailsViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>procedureDetailsViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\proceduresViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>proceduresViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\stepTypeSelectionViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>stepTypeSelectionViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\variablesViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>variablesViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\scheduleDetailsViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>scheduleDetailsViewModel.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Automation\ViewModels\addGlobalVariableDialogViewModel.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>addGlobalVariableDialogViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

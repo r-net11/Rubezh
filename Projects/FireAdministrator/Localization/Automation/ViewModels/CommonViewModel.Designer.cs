@@ -61,6 +61,33 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавить аргумент.
+        /// </summary>
+        public static string Argument_Add {
+            get {
+                return ResourceManager.GetString("Argument_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать аргумент.
+        /// </summary>
+        public static string Argument_Edit {
+            get {
+                return ResourceManager.GetString("Argument_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to аргумент.
+        /// </summary>
+        public static string Argument_Title {
+            get {
+                return ResourceManager.GetString("Argument_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Редактировать аргумент.
         /// </summary>
         public static string ArgumentDetailsViewModel_Title {
@@ -106,11 +133,110 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавить глобальную переменную.
+        /// </summary>
+        public static string GlobalVariable_Add {
+            get {
+                return ResourceManager.GetString("GlobalVariable_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to глобальная переменная.
+        /// </summary>
+        public static string GlobalVariable_DefaultName {
+            get {
+                return ResourceManager.GetString("GlobalVariable_DefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать глобальную переменную.
+        /// </summary>
+        public static string GlobalVariable_Edit {
+            get {
+                return ResourceManager.GetString("GlobalVariable_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to По центру.
+        /// </summary>
+        public static string LayoutPartPropertyProcedure_Center {
+            get {
+                return ResourceManager.GetString("LayoutPartPropertyProcedure_Center", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to По левому краю.
+        /// </summary>
+        public static string LayoutPartPropertyProcedure_Left {
+            get {
+                return ResourceManager.GetString("LayoutPartPropertyProcedure_Left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to По правому краю.
+        /// </summary>
+        public static string LayoutPartPropertyProcedure_Right {
+            get {
+                return ResourceManager.GetString("LayoutPartPropertyProcedure_Right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Добавить локальную переменную.
+        /// </summary>
+        public static string LocalVariable_Add {
+            get {
+                return ResourceManager.GetString("LocalVariable_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to локальная переменная.
+        /// </summary>
+        public static string LocalVariable_DefaultName {
+            get {
+                return ResourceManager.GetString("LocalVariable_DefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать локальную переменную.
+        /// </summary>
+        public static string LocalVariable_Edit {
+            get {
+                return ResourceManager.GetString("LocalVariable_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выбор организации.
         /// </summary>
         public static string OrganisationSelectionViewModel_Title {
             get {
                 return ResourceManager.GetString("OrganisationSelectionViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Создание процедуры.
+        /// </summary>
+        public static string ProcedureDetails_Create {
+            get {
+                return ResourceManager.GetString("ProcedureDetails_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактирование процедуры.
+        /// </summary>
+        public static string ProcedureDetails_Edit {
+            get {
+                return ResourceManager.GetString("ProcedureDetails_Edit", resourceCulture);
             }
         }
         
@@ -124,11 +250,92 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавить.
+        /// </summary>
+        public static string Procedures_Add {
+            get {
+                return ResourceManager.GetString("Procedures_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Копировать.
+        /// </summary>
+        public static string Procedures_Copy {
+            get {
+                return ResourceManager.GetString("Procedures_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вырезать.
+        /// </summary>
+        public static string Procedures_Cut {
+            get {
+                return ResourceManager.GetString("Procedures_Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить.
+        /// </summary>
+        public static string Procedures_Delete {
+            get {
+                return ResourceManager.GetString("Procedures_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать.
+        /// </summary>
+        public static string Procedures_Edit {
+            get {
+                return ResourceManager.GetString("Procedures_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактирование.
+        /// </summary>
+        public static string Procedures_Edition {
+            get {
+                return ResourceManager.GetString("Procedures_Edition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вставить.
+        /// </summary>
+        public static string Procedures_Paste {
+            get {
+                return ResourceManager.GetString("Procedures_Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выбор процедуры.
         /// </summary>
         public static string ProcedureSelectionViewModel_Title {
             get {
                 return ResourceManager.GetString("ProcedureSelectionViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Добавить элемент расписания.
+        /// </summary>
+        public static string ScheduleDetails_Add {
+            get {
+                return ResourceManager.GetString("ScheduleDetails_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Свойства элемента расписания.
+        /// </summary>
+        public static string ScheduleDetails_Properties {
+            get {
+                return ResourceManager.GetString("ScheduleDetails_Properties", resourceCulture);
             }
         }
         
@@ -169,11 +376,110 @@ namespace Localization.Automation.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Функции цикла.
+        /// </summary>
+        public static string StepTypeSelection_CycleFunctions {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_CycleFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Обмен данными.
+        /// </summary>
+        public static string StepTypeSelection_DataExchange {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_DataExchange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Реестр функций.
+        /// </summary>
+        public static string StepTypeSelection_FunctionsRegister {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_FunctionsRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Управление аппаратурой.
+        /// </summary>
+        public static string StepTypeSelection_HardwareControl {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_HardwareControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Интерактивная логика.
+        /// </summary>
+        public static string StepTypeSelection_Logic {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_Logic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Операции.
+        /// </summary>
+        public static string StepTypeSelection_Operations {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_Operations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Служебные функции.
+        /// </summary>
+        public static string StepTypeSelection_ServiceFunctions {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_ServiceFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Управление Страж.
+        /// </summary>
+        public static string StepTypeSelection_StrazhControl {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_StrazhControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выбор типа функции.
+        /// </summary>
+        public static string StepTypeSelection_Title {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Управление Видео.
+        /// </summary>
+        public static string StepTypeSelection_VideoControl {
+            get {
+                return ResourceManager.GetString("StepTypeSelection_VideoControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Редактор строки.
         /// </summary>
         public static string StringDetailsViewModel_Title {
             get {
                 return ResourceManager.GetString("StringDetailsViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Стиль.
+        /// </summary>
+        public static string Style {
+            get {
+                return ResourceManager.GetString("Style", resourceCulture);
             }
         }
         
