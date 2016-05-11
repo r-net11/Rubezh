@@ -118,7 +118,7 @@ namespace Controls
 
 				// Fix width of column in case of row having CheckBox.
 				TreeList.TreeList parent = VisualHelper.GetParent<TreeList.TreeList>(this);
-				if (UIBehavior.GetShowSelectionMark(parent))
+				if (parent != null && UIBehavior.GetShowSelectionMark(parent))
 				{
 					w = w - 19;
 				}
