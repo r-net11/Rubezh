@@ -152,9 +152,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
@@ -230,10 +227,6 @@
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Controls\Controls.csproj">
-      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
-      <Name>Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\EntitiesValidation\EntitiesValidation.csproj">
       <Project>{d8450c23-4958-41c1-a4bd-3c46218f8aea}</Project>
       <Name>EntitiesValidation</Name>
@@ -245,10 +238,6 @@
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\RviClient\RviClient.csproj">
       <Project>{112658EB-3244-4922-AEF7-6376E688B7A7}</Project>
