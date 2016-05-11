@@ -39,6 +39,49 @@
             return deferred.promise;
         };
     
+        var _getDepartmentDetailsMany = function (organisationUID, UIDs) {
+            var deferred = $q.defer();
+
+            $http.get('Departments/GetDepartmentDetailsMany', { params: {
+                organisationId: organisationUID,
+                ids: UIDs
+            }
+            }).then(function (response) {
+                deferred.resolve(response.data);
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка получения подразделений");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+    
+        var _paste = function (organisationUID, parentUID, departments) {
+            var deferred = $q.defer();
+
+            if (parentUID) {
+                departments[0].SelectedDepartment = { UID: parentUID };
+            } else {
+                departments[0].SelectedDepartment = null;
+            }
+            angular.forEach(departments, function (department) {
+                department.Department.OrganisationUID = organisationUID;
+            });
+
+            $http.post('Departments/Paste', {
+                departments: departments
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка вставки подразделения");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
         var _getDepartmentEmployeeList = function (filter) {
             var deferred = $q.defer();
 
@@ -184,12 +227,14 @@
             reload: null,
             getDepartments: _getDepartments,
             getDepartmentEmployeeList: _getDepartmentEmployeeList,
+            getDepartmentDetailsMany: _getDepartmentDetailsMany,
             saveEmployeeDepartment: _saveEmployeeDepartment,
             saveDepartmentChief: _saveDepartmentChief,
             saveDepartment: _saveDepartment,
             getDepartmentDetails: _getDepartmentDetails,
             markDeleted: _markDeleted,
             restore: _restore,
+            paste: _paste,
             getChildEmployeeUIDs: _getChildEmployeeUIDs,
             getDepartmentEmployees: _getDepartmentEmployees
         }

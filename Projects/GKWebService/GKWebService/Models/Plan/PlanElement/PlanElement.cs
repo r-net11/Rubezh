@@ -10,6 +10,7 @@ using GKWebService.Utils;
 using ImageMagick;
 using Infrastructure.Common.Services.Content;
 using Infrastructure.Plans;
+using Controls.Extentions;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;

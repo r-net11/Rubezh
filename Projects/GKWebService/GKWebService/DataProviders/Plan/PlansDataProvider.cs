@@ -4,7 +4,6 @@ using Common;
 using GKWebService.Models.Plan;
 using GKWebService.Models.Plan.PlanElement;
 using GKWebService.Utils;
-using Infrastructure.Plans;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
@@ -13,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Controls.Extentions;
 
 #endregion
 

@@ -18,7 +18,7 @@
              };
              $scope.canRemove = function () {
                  return $scope.selectedDepartment && !$scope.selectedDepartment.IsDeleted && !$scope.selectedDepartment.IsOrganisation && $scope.isDepartmentsEditAllowed;
-             };
+             };http://localhost:64726/../HR
              $scope.canEdit = function () {
                  return $scope.selectedDepartment && !$scope.selectedDepartment.IsDeleted && !$scope.selectedDepartment.IsOrganisation && $scope.isDepartmentsEditAllowed;
              };
@@ -26,7 +26,7 @@
                  return $scope.selectedDepartment && !$scope.selectedDepartment.IsDeleted && !$scope.selectedDepartment.IsOrganisation && $scope.isDepartmentsEditAllowed;
              };
              $scope.canPaste = function () {
-                 return $scope.selectedDepartment && !$scope.selectedDepartment.IsDeleted && $scope.Clipboard && $scope.isDepartmentsEditAllowed;
+                 return $scope.selectedDepartment && !$scope.selectedDepartment.IsDeleted && $scope.clipboard && $scope.isDepartmentsEditAllowed;
              };
              $scope.canRestore = function () {
                  return $scope.selectedDepartment && $scope.selectedDepartment.IsDeleted && !$scope.selectedDepartment.IsOrganisation && $scope.isDepartmentsEditAllowed;
@@ -88,6 +88,34 @@
                          departmentsService.reload();
                      });
                  });
+             };
+
+             $scope.copy = function () {
+                 var departmentUIDs = [];
+                 departmentUIDs.push($scope.selectedDepartment.UID);
+                 for (var i = 0; i < departmentsService.departments.length; i++) {
+                     var department = departmentsService.departments[i];
+                     if (departmentUIDs.indexOf(department.ParentUID) !== -1) {
+                         departmentUIDs.push(department.UID);
+                     }
+                 }
+
+                 departmentsService.getDepartmentDetailsMany($scope.selectedDepartment.OrganisationUID, departmentUIDs)
+                     .then(function (departments) {
+                         $scope.clipboard = departments;
+                     });
+             };
+
+             $scope.paste = function () {
+                 var parentUID;
+                 if ($scope.selectedDepartment.IsOrganisation) {
+                     parentUID = null;
+                 } else {
+                     parentUID = $scope.selectedDepartment.UID;
+                 }
+                 departmentsService.paste($scope.selectedDepartment.OrganisationUID, parentUID, $scope.clipboard).then(function () {
+                         departmentsService.reload();
+                     });
              };
          }]
     );
