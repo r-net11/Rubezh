@@ -42,6 +42,7 @@ namespace FireMonitor
 			ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml");
 			ServiceFactory.ResourceService.AddResource(typeof(Bootstrapper).Assembly, "Layout/DataTemplates/Dictionary.xaml");
 			ServiceFactory.StartupService.Show();
+			ServiceFactory.StartupService.OnCloseEvent += Close;
 			if (ServiceFactory.StartupService.PerformLogin(Login, Password))
 			{
 				Login = ServiceFactory.StartupService.Login;
@@ -133,11 +134,6 @@ namespace FireMonitor
 						RegistrySettingsHelper.SetBool("isException", true);
 					}
 					ServiceFactory.StartupService.Close();
-				}
-				catch (StartupCancellationException)
-				{
-					if (Application.Current != null)
-						Application.Current.Shutdown();
 				}
 				catch (Exception e)
 				{

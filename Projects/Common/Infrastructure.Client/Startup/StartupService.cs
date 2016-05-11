@@ -20,6 +20,8 @@ namespace Infrastructure.Client.Startup
 		public string Login { get; private set; }
 		public string Password { get; private set; }
 
+		public event Action OnCloseEvent;
+
 		public StartupService(ClientType clientType)
 		{
 			_clientType = clientType;
@@ -112,7 +114,7 @@ namespace Infrastructure.Client.Startup
 			if (IsActive)
 			{
 				MessageBoxService.ResetMessageBoxHandler();
-				ApplicationService.Invoke((Action)(() => { throw new StartupCancellationException(); }));
+				OnCloseEvent();
 			}
 		}
 

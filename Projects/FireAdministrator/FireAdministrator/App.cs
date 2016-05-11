@@ -39,11 +39,6 @@ namespace FireAdministrator
 					FileConfigurationHelper.LoadFromFile(fileName);
 				}
 			}
-			catch (StartupCancellationException)
-			{
-				ApplicationService.ShutDown();
-				return;
-			}
 			finally
 			{
 				ServiceFactory.StartupService.Close();

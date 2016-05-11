@@ -140,7 +140,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Startup\StartupCancellationException.cs" />
     <Compile Include="Startup\StartupService.cs" />
     <Compile Include="Startup\ViewModels\StartupHeaderViewModel.cs" />
     <Compile Include="Startup\ViewModels\StartupLoadingViewModel.cs" />
