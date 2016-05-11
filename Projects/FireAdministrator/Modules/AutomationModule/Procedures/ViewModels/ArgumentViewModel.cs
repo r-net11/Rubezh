@@ -44,9 +44,11 @@ namespace AutomationModule.ViewModels
 			get { return Argument.ExplicitType; }
 			set
 			{
-				Argument.ExplicitType = value;
-				ExplicitValue.ExplicitType = value;
-				OnPropertyChanged(() => ExplicitType);
+				if (Argument.ExplicitType != value)
+				{
+					ExplicitValue.ExplicitType = value;
+					OnPropertyChanged(() => ExplicitType);
+				}
 			}
 		}
 
@@ -55,7 +57,6 @@ namespace AutomationModule.ViewModels
 			get { return Argument.EnumType; }
 			set
 			{
-				Argument.EnumType = value;
 				ExplicitValue.EnumType = value;
 				OnPropertyChanged(() => EnumType);
 			}
@@ -66,10 +67,12 @@ namespace AutomationModule.ViewModels
 			get { return Argument.ObjectType; }
 			set
 			{
-				Argument.ObjectType = value;
-				ExplicitValue.ObjectType = value;
-				OnPropertyChanged(() => ObjectType);
-				OnPropertyChanged(() => IsEmpty);
+				if (Argument.ObjectType != value)
+				{
+					ExplicitValue.ObjectType = value;
+					OnPropertyChanged(() => ObjectType);
+					OnPropertyChanged(() => IsEmpty);
+				}
 			}
 		}
 
@@ -176,7 +179,8 @@ namespace AutomationModule.ViewModels
 
 			if (ExplicitTypes.Count == 1)
 			{
-				ExplicitValue.ExplicitType = ExplicitTypes[0].ExplicitType;
+				ExplicitType = ExplicitTypes[0].ExplicitType;
+				//ExplicitValue.ExplicitType = ExplicitTypes[0].ExplicitType;
 				ExplicitValue.UpdateObjectHandler();
 			}
 
