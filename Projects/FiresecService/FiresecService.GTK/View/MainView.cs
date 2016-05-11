@@ -96,6 +96,7 @@ namespace FiresecService.Views
 				if (clientPoll == null)
 				{
 					clientPoll = new ClientPoll {Uid = uid, Client = client};
+                    clientPoll.FirstPollTime = DateTime.Now;
 					ClientPolls.Add(clientPoll);
 				}
 				if (clientInfo != null)
