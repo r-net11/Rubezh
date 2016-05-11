@@ -34,23 +34,25 @@
             </div>
             <uib-tabset>
                 <uib-tab heading="Управление">
-                    <div>
+                    <div style="background: #698ebe; padding: 5px; height:50px">
                         <img style="margin: 2px; vertical-align:middle" src="/Content/Image/Icon/GKStateIcons/{{delay.ControlRegimeIcon}}.png" />
                         <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                         <span style="font-weight: bold; font-size: large; margin: 5px">{{delay.ControlRegimeName}}</span>
                     </div>
-                    <div mobile-hover-fix style="background: #fff">
-                        <div style="float: left; width: 50%">
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!delay.CanSetAutomaticState">Автоматика</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetManualState && SetManualState()" ng-disabled="!delay.CanSetManualState">Ручное</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!delay.CanSetIgnoreState">Отключение</div>
-                        </div>
-                        <div style="float: left; width: 50%">
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOn()" ng-disabled="!delay.IsControlRegime">Включить</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOnNow()" ng-disabled="!delay.IsControlRegime">Включить немедленно</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOff()" ng-disabled="!delay.IsControlRegime">Выключить</div>
-                        </div>
-                        <div style="clear: left">
+                    <div style="background: #698ebe; padding: 5px">
+                        <div mobile-hover-fix style="background: #fff; text-align: center; height: 250px">
+                            <div style="float: left; width: 50%">
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!delay.CanSetAutomaticState">Автоматика</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetManualState && SetManualState()" ng-disabled="!delay.CanSetManualState">Ручное</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!delay.CanSetIgnoreState">Отключение</div>
+                            </div>
+                            <div style="float: left; width: 50%">
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOn()" ng-disabled="!delay.IsControlRegime">Включить</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOnNow()" ng-disabled="!delay.IsControlRegime">Включить немедленно</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="delay.IsControlRegime && TurnOff()" ng-disabled="!delay.IsControlRegime">Выключить</div>
+                            </div>
+                            <div style="clear: left">
+                            </div>
                         </div>
                     </div>
                 </uib-tab>

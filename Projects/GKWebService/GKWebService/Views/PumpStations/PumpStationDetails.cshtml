@@ -35,24 +35,26 @@
             </div>
             <uib-tabset>
                 <uib-tab heading="Управление">
-                    <div>
+                    <div style="background: #698ebe; padding: 5px; height:50px">
                         <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{pumpStation.ControlRegimeIcon}}.png" />
                         <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                         <span style="font-weight: bold; font-size: large; margin: 5px">{{pumpStation.ControlRegimeName}}</span>
                     </div>
-                    <div mobile-hover-fix style="background: #fff">
-                        <div style="float: left; width: 50%">
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetAutomaticState()" ng-disabled="!pumpStation.CanSetAutomaticState">Автоматика</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetManualState()" ng-disabled="!pumpStation.CanSetManualState">Ручное</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetIgnoreState()" ng-disabled="!pumpStation.CanSetIgnoreState">Отключение</div>
-                        </div>
-                        <div style="float: left; width: 50%; background: #fff">
-                            <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="TurnOn()" ng-disabled="!pumpStation.IsControlRegime">Пуск</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOnNow()" ng-disabled="!pumpStation.IsControlRegime">Пуск немедленно</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOff()" ng-disabled="!pumpStation.IsControlRegime">Стоп</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="ForbidStart()" ng-disabled="!pumpStation.IsControlRegime">Останов пуска</div>
-                        </div>
-                        <div style="clear: left">
+                    <div style="background: #698ebe; padding: 5px">
+                        <div mobile-hover-fix style="background: #fff; text-align: center; height: 250px">
+                            <div style="float: left; width: 50%">
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetAutomaticState()" ng-disabled="!pumpStation.CanSetAutomaticState">Автоматика</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetManualState()" ng-disabled="!pumpStation.CanSetManualState">Ручное</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetIgnoreState()" ng-disabled="!pumpStation.CanSetIgnoreState">Отключение</div>
+                            </div>
+                            <div style="float: left; width: 50%; background: #fff">
+                                <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="TurnOn()" ng-disabled="!pumpStation.IsControlRegime">Пуск</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOnNow()" ng-disabled="!pumpStation.IsControlRegime">Пуск немедленно</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="TurnOff()" ng-disabled="!pumpStation.IsControlRegime">Стоп</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="ForbidStart()" ng-disabled="!pumpStation.IsControlRegime">Останов пуска</div>
+                            </div>
+                            <div style="clear: left">
+                            </div>
                         </div>
                     </div>
                 </uib-tab>

@@ -43,55 +43,59 @@
                                 <a ui-sref="doors({uid: door.UID})" ui-sref-opts="{reload: true}" class="labelImage" style="background-image:url(/Content/Image/Images/Door.png)">{{door.Name}}</a>
                             </div>
                             <div>
-                                <span >Номер в ГК:</span>
-                                <span >{{door.GKDescriptorNo}}</span>
+                                <span>Номер в ГК:</span>
+                                <span>{{door.GKDescriptorNo}}</span>
                             </div>
                             <div>
                                 <img style="margin: 2px; vertical-align: middle" height="16" width="16" src="~/Content/Image/Icon/GK/BJournal.png" />
                                 @*<a href="" ng-click="ShowJournal()" style="margin: 2px; font-weight: bold">Показать связанные события</a>*@
                                 <a ui-sref="archive({uid: door.UID})" ui-sref-opts="{reload: true}" style="margin: 2px; font-weight: bold">Показать связанные события</a>
                             </div>
-							<div>
-								<span>Задержка на выключение, с: </span>
-								<span>{{door.Delay}}</span>
-							</div>
-							<div>
-								<span>Удержание, с: </span>
-								<span>{{door.Hold}}</span>
-							</div>
+                            <div>
+                                <span>Задержка на выключение, с: </span>
+                                <span>{{door.Delay}}</span>
+                            </div>
+                            <div>
+                                <span>Удержание, с: </span>
+                                <span>{{door.Hold}}</span>
+                            </div>
                         </div>
                     </div>
                 </uib-tab>
                 <uib-tab heading="Управление" ng-show="::CanControl" active="canControl">
-                    <div style="background: #fff">
-                        <div mobile-hover-fix style="float: left; width: 100%">
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeNorm()">Установить режим Норма</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeOpen()">Установить режим Всегда Открыто</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeClose()">Установить режим Всегда Закрыто</div>
-                        </div>
-                        <div style="clear: left">
+                    <div style="background: #698ebe; padding: 5px">
+                        <div mobile-hover-fix style="background: #fff; text-align: center; height: 300px">
+                            <div style="float: left; width: 100%">
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeNorm()">Установить режим Норма</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeOpen()">Установить режим Всегда Открыто</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="SetRegimeClose()">Установить режим Всегда Закрыто</div>
+                            </div>
+                            <div style="clear: left">
+                            </div>
                         </div>
                     </div>
                 </uib-tab>
                 <uib-tab heading="Расширенное управление" ng-show="::FullCanControl" active="fulControl">
-                    <div>
+                    <div style="background: #698ebe; padding: 5px; height:50px">
                         <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{door.ControlRegimeIcon}}.png" />
                         <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                         <span style="font-weight: bold; font-size: large; margin: 5px">{{door.ControlRegimeName}}</span>
                     </div>
-                    <div mobile-hover-fix style="background: #fff">
-                        <div style="float: left; width: 50%">
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!door.CanSetAutomaticState">Автоматика</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetManualState && SetManualState()" ng-disabled="!door.CanSetManualState">Ручное</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!door.CanSetIgnoreState">Отключение</div>
-                        </div>
-                        <div style="float: left; width: 50%; background: #fff">
-                            <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOn()" ng-disabled="!door.IsControlRegime">Открыть</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOff()" ng-disabled="!door.IsControlRegime">Закрыть</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOffNow()" ng-disabled="!door.IsControlRegime">Закрыть немедленно</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="Reset()">Сброс</div>
-                        </div>
-                        <div style="clear: left">
+                    <div style="background: #698ebe; padding: 5px">
+                        <div mobile-hover-fix style="background: #fff; text-align: center; height: 250px">
+                            <div style="float: left; width: 50%">
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!door.CanSetAutomaticState">Автоматика</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetManualState && SetManualState()" ng-disabled="!door.CanSetManualState">Ручное</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!door.CanSetIgnoreState">Отключение</div>
+                            </div>
+                            <div style="float: left; width: 50%; background: #fff">
+                                <div class="btn btn-primary" style="height:  50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOn()" ng-disabled="!door.IsControlRegime">Открыть</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOff()" ng-disabled="!door.IsControlRegime">Закрыть</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="door.IsControlRegime && TurnOffNow()" ng-disabled="!door.IsControlRegime">Закрыть немедленно</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="Reset()">Сброс</div>
+                            </div>
+                            <div style="clear: left">
+                            </div>
                         </div>
                     </div>
                 </uib-tab>
