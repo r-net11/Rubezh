@@ -67,7 +67,7 @@ namespace GKWebService.Models.SKD.Common
 
         protected virtual bool InitializeOrganisations(TFilter filter)
         {
-            var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = ClientManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
+            var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, User = ClientManager.CurrentUser, LogicalDeletationType = filter.LogicalDeletationType };
             var organisations = OrganisationHelper.Get(organisationFilter);
             if (organisations == null)
                 return false;

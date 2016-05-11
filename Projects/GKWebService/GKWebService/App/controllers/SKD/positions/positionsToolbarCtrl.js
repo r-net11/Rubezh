@@ -44,6 +44,9 @@
                          },
                          isNew: function () {
                              return isNew;
+                         },
+                         positions: function() {
+                             return positionsService.positions;
                          }
                      }
                  });
@@ -77,6 +80,14 @@
                         }
                     });
                  }
+             };
+
+             $scope.restore = function () {
+                 $scope.restoreElement("должность", positionsService.positions, $scope.selectedPosition).then(function () {
+                     positionsService.restore($scope.selectedPosition).then(function () {
+                         positionsService.reload();
+                     });
+                 });
              };
          }]
     );

@@ -133,6 +133,22 @@
             return deferred.promise;
         };
     
+        var _restore = function (department) {
+            var deferred = $q.defer();
+
+            $http.post("Departments/Restore", {
+                uid: department.UID
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка восстановления подразделения");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
         var _getChildEmployeeUIDs = function (UID) {
             var deferred = $q.defer();
 
@@ -161,6 +177,8 @@
             return deferred.promise;
         };
 
+
+
         return {
             selectedDepartment: null,
             reload: null,
@@ -171,6 +189,7 @@
             saveDepartment: _saveDepartment,
             getDepartmentDetails: _getDepartmentDetails,
             markDeleted: _markDeleted,
+            restore: _restore,
             getChildEmployeeUIDs: _getChildEmployeeUIDs,
             getDepartmentEmployees: _getDepartmentEmployees
         }

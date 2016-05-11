@@ -2,6 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
@@ -15,17 +16,18 @@ namespace GKModule.Plans.ViewModels
 	{
 		const int _sensivityFactor = 100;
 		IElementZone IElementZone;
-		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		ElementBase ElementBase { get; set; }
 		public bool CanEditPosition { get; private set; }
 		public ZonePropertiesViewModel(IElementZone element)
 		{
 			IElementZone = element;
-			ElementBaseRectangle = element as ElementBaseRectangle;
-			CanEditPosition = ElementBaseRectangle != null;
+			ElementBase = element as ElementBase;
+			CanEditPosition = ElementBase != null;
 			if (CanEditPosition)
 			{
-				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+				var position = ElementBase.GetPosition();
+				Left = (int)(position.X * _sensivityFactor);
+				Top = (int)(position.Y * _sensivityFactor);
 			}
 			Title = "Свойства фигуры: Пожарная зона";
 			CreateCommand = new RelayCommand(OnCreate);
@@ -97,6 +99,8 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Publish(SelectedZone.UID);
+			Zones = new ObservableCollection<GKZone>(GKManager.Zones);
+			OnPropertyChanged(() => Zones);
 		}
 		bool CanEdit()
 		{
@@ -105,8 +109,8 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			IElementZone.ShowState = ShowState;
-			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
-			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			if (CanEditPosition)
+				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone);
 			return base.Save();
 		}

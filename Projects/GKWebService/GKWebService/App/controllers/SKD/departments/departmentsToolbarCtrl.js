@@ -44,6 +44,9 @@
                          },
                          isNew: function () {
                              return isNew;
+                         },
+                         departments: function() {
+                             return departmentsService.departments;
                          }
                      }
                  });
@@ -77,6 +80,14 @@
                         }
                     });
                  }
+             };
+
+             $scope.restore = function () {
+                 $scope.restoreElement("подразделение", departmentsService.departments, $scope.selectedDepartment).then(function (){
+                     departmentsService.restore($scope.selectedDepartment).then(function () {
+                         departmentsService.reload();
+                     });
+                 });
              };
          }]
     );

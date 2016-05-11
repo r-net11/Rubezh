@@ -50,6 +50,7 @@
                     .then(function (accessTemplate) {
                         $scope.accessTemplates = accessTemplate;
                         $scope.gridOptionsAccessTemplates.data = $scope.accessTemplates;
+                        accessTemplatesService.accessTemplates = $scope.accessTemplates;
                         accessTemplatesService.selectedAccessTemplate = null;
                         $timeout(function() {
                             $scope.gridApi.treeBase.expandAllRows();
@@ -78,8 +79,8 @@
                             });
                         });
                 } else {
-                    $scope.doors = null;
-                    $scope.gridOptionsDoors.data = null;
+                    $scope.doors = [];
+                    $scope.gridOptionsDoors.data = [];
                 }
             }
 

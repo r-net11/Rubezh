@@ -24,13 +24,11 @@ namespace GKModule.Plans.InstrumentAdorners
 		{
 			get { return ((Polygon)Rubberband).Points; }
 		}
-		protected override ElementBaseShape CreateElement()
+		protected override ElementBaseShape CreateElement(RubezhAPI.PointCollection points)
 		{
-			var element = new ElementPolygonGKPumpStation();
+			var element = new ElementPolygonGKPumpStation { Points = points };
 			var propertiesViewModel = new PumpStationPropertiesViewModel(element);
-			if (DialogService.ShowModalWindow(propertiesViewModel))
-				return element;
-			return null;
+			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}
 }

@@ -26,9 +26,9 @@ namespace PlansModule.InstrumentAdorners
 			get { return ((Polygon)Rubberband).Points; }
 		}
 
-		protected override ElementBaseShape CreateElement()
+		protected override ElementBaseShape CreateElement(RubezhAPI.PointCollection points)
 		{
-			var element = new ElementPolygonSubPlan();
+			var element = new ElementPolygonSubPlan { Points = points };
 			var propertiesViewModel = new SubPlanPropertiesViewModel(element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}

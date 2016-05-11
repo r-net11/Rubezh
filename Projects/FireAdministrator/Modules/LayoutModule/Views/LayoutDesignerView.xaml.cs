@@ -26,7 +26,7 @@ namespace LayoutModule.Views
 			{
 				var binding = new Binding("Manager") { Mode = BindingMode.OneWayToSource };
 				var expression = SetBinding(ManagerProperty, binding);
-				//Manager = manager;
+				Manager = manager;
 			}
 		}
 	}

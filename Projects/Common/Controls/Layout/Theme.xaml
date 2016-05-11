@@ -44,6 +44,7 @@
 			<Trigger Property="IsChecked" Value="True">
 				<Setter Property="BorderBrush" Value="{DynamicResource WindowBorderBrush}" />
 				<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+				<Setter Property="IsEnabled" Value="False" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>
@@ -316,7 +317,7 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="DocumentTitleTemplate">
-		<TextBlock VerticalAlignment="Center" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+		<TextBlock VerticalAlignment="Center" Text="{Binding Title}" TextTrimming="CharacterEllipsis" Margin="8 2 0 0"/>
 	</DataTemplate>
 
 	<DataTemplate x:Key="IconContentTemplate">

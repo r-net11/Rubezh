@@ -115,6 +115,23 @@
             return deferred.promise;
         };
     
+        var _restore = function (position) {
+            var deferred = $q.defer();
+
+            $http.post("Positions/Restore", {
+                uid: position.UID,
+                name: position.Name
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка восстановления должности");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
         var _getChildEmployeeUIDs = function (UID) {
             var deferred = $q.defer();
 
@@ -138,6 +155,7 @@
             saveEmployeePosition: _saveEmployeePosition,
             getPositionDetails: _getPositionDetails,
             markDeleted: _markDeleted,
+            restore: _restore,
             getChildEmployeeUIDs: _getChildEmployeeUIDs
         }
     }]);

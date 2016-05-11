@@ -310,7 +310,7 @@ namespace GKModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => 
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "BAlarm.png", (p) => 
 			{
 				foreach (var alarm in AlarmsViewModel.Alarms)
 				{
@@ -320,10 +320,10 @@ namespace GKModule
 			}
 				
 				);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) =>
+			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "BTree.png", (p) =>
 			{ DevicesViewModel.Properties = p as LayoutPartAdditionalProperties; return DevicesViewModel; });
 			if (LicenseManager.CurrentLicenseInfo.HasFirefighting)
-				yield return new LayoutPartPresenter(LayoutPartIdentities.Zones, "Зоны", "Zones.png", (p) =>
+				yield return new LayoutPartPresenter(LayoutPartIdentities.Zones, "Зоны", "BZones.png", (p) =>
 					{
 						var zonesViewModel = new ZonesViewModel();
 						zonesViewModel.Initialize();
@@ -331,7 +331,7 @@ namespace GKModule
 						return zonesViewModel;
 					});
 			if (LicenseManager.CurrentLicenseInfo.HasGuard)
-				yield return new LayoutPartPresenter(LayoutPartIdentities.GuardZones, "Охранные зоны", "Zones.png", (p) =>
+				yield return new LayoutPartPresenter(LayoutPartIdentities.GuardZones, "Охранные зоны", "BZones.png", (p) =>
 					{
 						var guardZonesViewModel = new GuardZonesViewModel();
 						guardZonesViewModel.Initialize();
@@ -339,16 +339,16 @@ namespace GKModule
 						return guardZonesViewModel;
 					});
 			if (LicenseManager.CurrentLicenseInfo.HasSKD)
-				yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "Zones.png", (p) => SKDZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Directions, "Направления", "Direction.png", (p) => DirectionsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "PumpStation.png", (p) => PumpStationsViewModel);
+				yield return new LayoutPartPresenter(LayoutPartIdentities.GKSKDZones, "Зоны СКД", "BZones.png", (p) => SKDZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Directions, "Направления", "BDirection.png", (p) => DirectionsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "BPumpStation.png", (p) => PumpStationsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.MPTs, "МПТ", "BMPT.png", (p) =>
 				{ MPTsViewModel.Properties = p as LayoutPartAdditionalProperties; return MPTsViewModel; });
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Delays, "Задержки", "Delay.png", (p) => DelaysViewModel);
 			if (LicenseManager.CurrentLicenseInfo.HasSKD)
-				yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Tree.png", (p) =>
+				yield return new LayoutPartPresenter(LayoutPartIdentities.Doors, "Точки доступа", "Door.png", (p) =>
 					{ DoorsViewModel.Properties = p as LayoutPartAdditionalProperties; return DoorsViewModel; });
-			yield return new LayoutPartPresenter(LayoutPartIdentities.ConnectionIndicator, "Индикатор связи", "ConnectionIndicator.png", (p) => new GKConnectionIndicatorViewModel());
+			yield return new LayoutPartPresenter(LayoutPartIdentities.ConnectionIndicator, "Индикатор связи", "BConnectionIndicator.png", (p) => new GKConnectionIndicatorViewModel());
 		}
 		#endregion
 

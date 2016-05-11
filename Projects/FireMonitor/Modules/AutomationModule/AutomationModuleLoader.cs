@@ -54,9 +54,9 @@ namespace AutomationModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedure.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBlock, "Метка", "Text.png", p => new LayoutTextBlockPartViewModel((LayoutPartTextProperties)p));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBox, "Текстовое поле", "Text.png", p => new LayoutTextBoxPartViewModel((LayoutPartTextProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "ProcedureYellow.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBlock, "Метка", "BText.png", p => new LayoutTextBlockPartViewModel((LayoutPartTextProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.TextBox, "Текстовое поле", "BText.png", p => new LayoutTextBoxPartViewModel((LayoutPartTextProperties)p));
 		}
 		#endregion
 	}

@@ -98,7 +98,8 @@ namespace GKIntegratedTest
 		[TestCase(XStateClass.On, XStateClass.Off, JournalEventNameType.На_охране, JournalEventNameType.Не_на_охране)]
 		/* RG-1034(Фиксация АМ в сработке в режиме "Изменение" не должно приводить к
 		 постоянной выдаче сообщений о постановке и снятия зоны  с охраны) */
-		public void TestGuardZoneFire1NotChange(XStateClass mode1, XStateClass mode2, JournalEventNameType event1, JournalEventNameType event2)
+		public void TestGuardZoneFire1NotChange(XStateClass mode1, XStateClass mode2, JournalEventNameType event1,
+			JournalEventNameType event2)
 		{
 			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
 			var aM = AddGuardZoneDevice(device1);
@@ -133,9 +134,9 @@ namespace GKIntegratedTest
 			Assert.IsTrue(zone.State.StateClasses.Contains(mode2), "Проверка того, что зона установилась в mode2");
 			WaitWhileState(zone, mode1, 2000, "Ждём 2 секунды, зона не должна перейти в mode1 ");
 			Assert.IsFalse(zone.State.StateClasses.Contains(mode1), "Проверка того, что зона не перешла в mode1");
-				CheckJournal(5, JournalItem(device1, JournalEventNameType.Сработка_1),
-					JournalItem(zone, event1), JournalItem(device1, JournalEventNameType.Норма),
-					JournalItem(device1, JournalEventNameType.Сработка_1), JournalItem(zone, event2));
+			CheckJournal(5, JournalItem(device1, JournalEventNameType.Сработка_1),
+				JournalItem(zone, event1), JournalItem(device1, JournalEventNameType.Норма),
+				JournalItem(device1, JournalEventNameType.Сработка_1), JournalItem(zone, event2));
 		}
 
 		[Test]
@@ -164,7 +165,37 @@ namespace GKIntegratedTest
 			WaitWhileState(device2, XStateClass.Fire1, 6000, "Ждем пока АМ не перейдёт в Сработка2");
 			Assert.IsTrue(device2.State.StateClass == XStateClass.Fire1, "Проверка того, АМ перешла в сработку 2");
 			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка невзятия зоны");
-			CheckJournal(2, JournalItem(device1, JournalEventNameType.Сработка_2), JournalItem(device2, JournalEventNameType.Сработка_1));
+			CheckJournal(2, JournalItem(device1, JournalEventNameType.Сработка_2),
+				JournalItem(device2, JournalEventNameType.Сработка_1));
+		}
+
+		[Test]
+		/* RG-1028 (После сброса тревоги в охранной зоне тревога должна включиться вновь, если тревожный датчик остаётся в сработке)*/
+		public void TestGuardZoneAlarmAfterResetWhileFire1()
+		{
+			var device1 = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
+			var aM1 = AddGuardZoneDevice(device1);
+			var device2 = AddDevice(kauDevice11, GKDriverType.RSR2_AM_1);
+			var aM2 = AddGuardZoneDevice(device2);
+			aM1.ActionType = GKGuardZoneDeviceActionType.SetAlarm;
+			aM2.ActionType = GKGuardZoneDeviceActionType.SetGuard;
+			var zone = new GKGuardZone {Name = "Охранная зона", No = 1};
+			GKManager.AddGuardZone(zone);
+			GKManager.AddDeviceToGuardZone(zone, aM1);
+			GKManager.AddDeviceToGuardZone(zone, aM2);
+			SetConfigAndRestartImitator();
+
+			WaitWhileState(zone, XStateClass.Off, 10000, "Ждем норму в охранной зоне");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.Off, "Проверка того, что зона снята с охраны");
+			ConrtolGKBase(device2, GKStateBit.Fire1, "Постановка зоны на охрану");
+			WaitWhileState(zone, XStateClass.On, 6000, "Ждем пока зона не перейдёт на охрану");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.On, "Проверка того, зона установилась на охрану");
+			ConrtolGKBase(device1, GKStateBit.Fire1, "Перевод тревожного датчика в тревогу");
+			WaitWhileState(zone, XStateClass.Fire1, 6000, "Ждем пока зона не перейдёт в тревогу");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, зона перешла в тревогу");
+			ConrtolGKBase(zone, GKStateBit.Reset, "Сброс тревоги у зоны");
+			WaitWhileState(zone, XStateClass.Fire1, 6000, "Ждем пока зона не перейдёт в тревогу");
+			Assert.IsTrue(zone.State.StateClass == XStateClass.Fire1, "Проверка того, зона в тревоге");
 		}
 	}
 }

@@ -113,7 +113,7 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool CanSave()
 		{
-			return SelectedDevice != null && SelectedDevice.Driver.IsPlaceable;
+			return SelectedDevice != null && SelectedDevice.Driver.IsPlaceable && (SelectedDevice.Device.PlanElementUIDs.Count == 0 || SelectedDevice.Device.AllowMultipleVizualization);
 		}
 
 		public override void OnClosed()

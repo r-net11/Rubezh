@@ -37,6 +37,7 @@
                     .then(function (positions) {
                         $scope.positions = positions;
                         $scope.gridOptions.data = $scope.positions;
+                        positionsService.positions = $scope.positions;
                         positionsService.selectedPosiotion = null;
                         positionsService.selectedEmployee = null;
                         $timeout(function() {
