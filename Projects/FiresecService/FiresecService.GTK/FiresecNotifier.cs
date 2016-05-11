@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common.BalloonTrayTip;
-using System;
+﻿using System;
 using FiresecService.View;
 using FiresecService.Views;
 
@@ -14,7 +13,7 @@ namespace FiresecService
 
 		public void BalloonShowFromServer(string text)
 		{
-			BalloonHelper.ShowFromServer(text);
+			//BalloonHelper.ShowFromServer(text);
 		}
 
 		public void OnPoll(Guid clientUID)
@@ -34,12 +33,12 @@ namespace FiresecService
 
 		public void AddServerTask(ServerTask serverTask)
 		{
-			//MainPresenter.Current.AddTask(serverTask);
+			MainView.Current.AddTask(serverTask);
 		}
 
 		public void RemoveServerTask(ServerTask serverTask)
 		{
-			//MainPresenter.Current.RemoveTask(serverTask);
+			MainView.Current.RemoveTask(serverTask);
 		}
 
 		public void SetLocalAddress(string address)

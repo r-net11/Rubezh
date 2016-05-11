@@ -11,7 +11,7 @@
     <AssemblyName>FiresecService</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>84e97436</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>331a8bbe</NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -81,7 +81,6 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="FiresecNotifier.cs" />
-    <Compile Include="GKLifecycleViewModel.cs" />
     <Compile Include="View\LicenseView.cs" />
     <Compile Include="View\MainView.cs" />
     <Compile Include="Program.cs" />
@@ -99,10 +98,6 @@
       <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Controls\Controls.csproj">
-      <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
-      <Name>Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
       <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>
       <Name>GKProcessor</Name>
@@ -110,10 +105,6 @@
     <ProjectReference Include="..\..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj">
       <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
       <Name>Infrastructure.Automation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
-      <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
-      <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>

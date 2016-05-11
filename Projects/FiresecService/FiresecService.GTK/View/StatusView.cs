@@ -58,10 +58,5 @@ namespace FiresecService
 		{
 			set { reportAddressEntry.Text = value; }
 		}
-
-		public void Update()
-		{
-			//hBox.ShowAll();
-		}
 	}
 }

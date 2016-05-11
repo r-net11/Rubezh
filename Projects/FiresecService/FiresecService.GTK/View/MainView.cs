@@ -19,11 +19,13 @@ namespace FiresecService.Views
 		static NodeView gkNode;
 		static NodeView connectionNode;
 		static NodeView pollingNode;
+		static NodeView operationNode;
 		static StatusView statusView;
 
 		public static MainView Current { get; private set; }
-		public List<GKLifecycleInfo> GKLifecycles;
-		public List<ClientCredentials> Clients;
+		readonly List<KeyValuePair<GKLifecycleInfo, DateTime>> GKLifecycles;
+		readonly List<ClientCredentials> Clients;
+		readonly List<ServerTask> ServerTasks; 
 
 		public MainView()
 		{
@@ -51,13 +53,16 @@ namespace FiresecService.Views
 			pollingNode.AppendColumn("Последний поллинг", new CellRendererText(), "text", 3);
 			pollingNode.AppendColumn("Индекс", new CellRendererText(), "text", 4);
 			pollingNode.NodeStore = new NodeStore(typeof(PollingTreeNode));
+			operationNode = new NodeView();
+			operationNode.AppendColumn("Название", new CellRendererText(), "text", 0);
+			operationNode.NodeStore = new NodeStore(typeof(OperationTreeNode));
 			Notebook notepadControl = new Notebook();
 			notepadControl.AppendPage(connectionNode, new Label("Соединения"));
 			notepadControl.AppendPage(logNode, new Label("Лог"));
 			notepadControl.AppendPage(statusView.Create(), new Label("Статус"));
 			notepadControl.AppendPage(gkNode, new Label("ГК"));
 			notepadControl.AppendPage(pollingNode, new Label("Поллинг"));
-			notepadControl.AppendPage(new Box(Orientation.Horizontal, 20), new Label("Операции"));
+			notepadControl.AppendPage(operationNode, new Label("Операции"));
 			notepadControl.AppendPage(new LicenseView().Create(), new Label("Лицензирование"));
 			MainWindow.Add(notepadControl);
 			MainWindow.SetDefaultSize(500, 500);
@@ -65,9 +70,10 @@ namespace FiresecService.Views
 			GKLifecycleManager.GKLifecycleChangedEvent += On_GKLifecycleChangedEvent;
 			LicenseManager.LicenseChanged += On_LicenseChanged;
 
-			GKLifecycles = new List<GKLifecycleInfo>();
+			GKLifecycles = new List<KeyValuePair<GKLifecycleInfo, DateTime>>();
 			Clients = new List<ClientCredentials>();
 			ClientPolls = new List<ClientPoll>();
+			ServerTasks = new List<ServerTask>();
 			Current = this;
 		}
 
@@ -95,6 +101,7 @@ namespace FiresecService.Views
 				if (clientInfo != null)
 					clientPoll.CallbackIndex = clientInfo.CallbackIndex; 
 				clientPoll.LastPollTime = now;
+				pollingNode.NodeStore = new NodeStore(typeof(PollingTreeNode));
 				ClientPolls.ForEach(x => pollingNode.NodeStore.AddNode(new PollingTreeNode(x.Client, x.Uid.ToString(), x.FirstPollTime.ToString(), x.LastPollTime.ToString(), x.CallbackIndex.ToString())));
 				pollingNode.ShowAll();
 			});
@@ -104,24 +111,25 @@ namespace FiresecService.Views
 		{
 			Application.Invoke(delegate
 			{
-				var gkLifecycle = GKLifecycles.FirstOrDefault(x => x.UID == gkLifecycleInfo.UID);
-				if (gkLifecycle == null)
+				var gkLifecycle = GKLifecycles.FirstOrDefault(x => x.Key.UID == gkLifecycleInfo.UID);
+				if (gkLifecycle.Equals(new KeyValuePair<GKLifecycleInfo, DateTime>()))
 				{
-					GKLifecycles.Insert(0, gkLifecycleInfo);
+					GKLifecycles.Insert(0, new KeyValuePair<GKLifecycleInfo, DateTime>(gkLifecycleInfo, DateTime.Now));
 				}
 				if (GKLifecycles.Count > 20)
 					GKLifecycles.RemoveAt(20);
 				gkNode.NodeStore = new NodeStore(typeof(GKTreeNode));
-				GKLifecycles.ForEach(x => gkNode.NodeStore.AddNode(new GKTreeNode(DateTime.Now.TimeOfDay.ToString(@"hh\:mm\:ss"), x.Device.PresentationAddress, x.Name, x.Progress)));
+				GKLifecycles.ForEach(x => gkNode.NodeStore.AddNode(new GKTreeNode(x.Value.TimeOfDay.ToString(@"hh\:mm\:ss"), x.Key.Device.PresentationAddress, x.Key.Name, x.Key.Progress)));
 				gkNode.ShowAll();
 			});
 		}
 
 		public void AddLog(string message, bool isError)
 		{
+			var dateTime = DateTime.Now;
 			Application.Invoke(delegate
 			{
-				logNode.NodeStore.AddNode(new LogTreeNode(message, DateTime.Now.ToString()));
+				logNode.NodeStore.AddNode(new LogTreeNode(message, dateTime.ToString()));
 				logNode.ShowAll();
 			});
 		}
@@ -161,19 +169,43 @@ namespace FiresecService.Views
 			connectionNode.ShowAll();
 		}
 
+		void UpdateOperationNode()
+		{
+			operationNode.NodeStore = new NodeStore(typeof(OperationTreeNode));
+			ServerTasks.ForEach(x => operationNode.NodeStore.AddNode(new OperationTreeNode(x.Name)));
+			operationNode.ShowAll();
+		}
+
 		public void SetLocalAddress(string address)
 		{
-			Application.Invoke(delegate { statusView.LocalAddress = address; statusView.Update();});
+			Application.Invoke(delegate { statusView.LocalAddress = address; });
 		}
 
 		public void SetRemoteAddress(string address)
 		{
-			Application.Invoke(delegate { statusView.RemoteAddress = address; statusView.Update(); });
+			Application.Invoke(delegate { statusView.RemoteAddress = address; });
 		}
 
 		public void SetReportAddress(string address)
 		{
-			Application.Invoke(delegate { statusView.ReportAddress = address; statusView.Update(); });
+			Application.Invoke(delegate { statusView.ReportAddress = address; });
+		}
+
+		public void AddTask(ServerTask serverTask)
+		{
+			Application.Invoke(delegate 
+			{
+				ServerTasks.Add(serverTask);
+				UpdateOperationNode();
+			});
+		}
+		public void RemoveTask(ServerTask serverTask)
+		{
+			Application.Invoke(delegate 
+			{
+				ServerTasks.Remove(serverTask);
+				UpdateOperationNode();
+			});
 		}
 	}
 
@@ -259,6 +291,17 @@ namespace FiresecService.Views
 
 		[TreeNodeValue(Column = 4)]
 		public string CallbackIndex;
+	}
+
+	public class OperationTreeNode : TreeNode
+	{
+		public OperationTreeNode(string name)
+		{
+			Name = name;
+		}
+
+		[TreeNodeValue(Column = 0)]
+		public string Name;
 	}
 
 	public class ClientPoll

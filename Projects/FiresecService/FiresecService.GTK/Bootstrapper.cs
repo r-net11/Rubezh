@@ -45,7 +45,7 @@ namespace FiresecService
 
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
-				ServerLoadHelper.SetStatus(FSServerState.Opened);
+				//ServerLoadHelper.SetStatus(FSServerState.Opened);
 
 				OpcDaHelper.Initialize(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers, ReadTagValue, WriteTagValue);
 
@@ -108,7 +108,7 @@ namespace FiresecService
 
 		public static void Close()
 		{
-			ServerLoadHelper.SetStatus(FSServerState.Closed);
+			//ServerLoadHelper.SetStatus(FSServerState.Closed);
 			Environment.Exit(1);
 #if !DEBUG
 			System.Diagnostics.Process.GetCurrentProcess().Kill();
