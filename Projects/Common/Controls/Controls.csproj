@@ -134,6 +134,7 @@
     <Compile Include="BindingProxy.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
+    <Compile Include="Converters\ColorToSystemColorConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
     <Compile Include="Converters\DoorStateClassToStringConverter.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />

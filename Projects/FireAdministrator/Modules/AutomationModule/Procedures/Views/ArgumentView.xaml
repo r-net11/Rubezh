@@ -184,7 +184,7 @@
 							</DataTemplate>
 						</FeaturedComboBox.ItemTemplate>
 					</FeaturedComboBox>
-					<xc:ColorPicker Width="200" Height="25" SelectedColor="{Binding ExplicitValue.ColorValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}" />
+					<xc:ColorPicker Width="200" Height="25" SelectedColor="{Binding ExplicitValue.ColorValue, Converter={StaticResource ColorToSystemColorConverter}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.ColorType}}" />
 				</StackPanel>
 				<TextBlock Margin="7 7 0 0" VerticalAlignment="Top" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}">
 					<Hyperlink Command="{Binding ChangeCommand}" Style="{StaticResource HyperlinkStyle}">

@@ -58,6 +58,7 @@
 	<Converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
 	<Converters:SKDDeviceTypeEnumToAttributeValueConverter x:Key="SKDDeviceTypeEnumToAttributeValueConverter"/>
 	<Converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
+	<Converters:ColorToSystemColorConverter x:Key="ColorToSystemColorConverter"/>
 
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />
