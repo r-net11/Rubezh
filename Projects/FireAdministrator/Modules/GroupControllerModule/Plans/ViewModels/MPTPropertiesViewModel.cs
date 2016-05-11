@@ -2,6 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
@@ -15,17 +16,18 @@ namespace GKModule.Plans.ViewModels
 	{
 		const int _sensivityFactor = 100;
 		private IElementMPT IElementMPT;
-		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		ElementBase ElementBase { get; set; }
 		public bool CanEditPosition { get; private set; }
 		public MPTPropertiesViewModel(IElementMPT element)
 		{
 			IElementMPT = element;
-			ElementBaseRectangle = element as ElementBaseRectangle;
-			CanEditPosition = ElementBaseRectangle != null;
+			ElementBase = element as ElementBase;
+			CanEditPosition = ElementBase != null;
 			if (CanEditPosition)
 			{
-				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+				var position = ElementBase.GetPosition();
+				Left = (int)(position.X * _sensivityFactor);
+				Top = (int)(position.Y * _sensivityFactor);
 			}
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -70,7 +72,6 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		private void OnCreate()
 		{
-			Guid mptUID = IElementMPT.MPTUID;
 			var createMPTEventArg = new CreateGKMPTEventArg();
 			ServiceFactory.Events.GetEvent<CreateGKMPTEvent>().Publish(createMPTEventArg);
 			if (createMPTEventArg.MPT != null)
@@ -92,8 +93,8 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
-			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			if (CanEditPosition)
+				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			GKPlanExtension.Instance.RewriteItem(IElementMPT, SelectedMPT);
 			return base.Save();
 		}

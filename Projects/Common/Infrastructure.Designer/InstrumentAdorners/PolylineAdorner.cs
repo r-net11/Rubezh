@@ -2,7 +2,6 @@
 using RubezhAPI.Plans.Elements;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrastructure.Plans;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {
@@ -21,9 +20,9 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 			get { return ((Polyline)Rubberband).Points; }
 		}
-		protected override ElementBaseShape CreateElement()
+		protected override ElementBaseShape CreateElement(RubezhAPI.PointCollection points)
 		{
-			return new ElementPolyline();
+			return new ElementPolyline() { Points = points };
 		}
 	}
 }
