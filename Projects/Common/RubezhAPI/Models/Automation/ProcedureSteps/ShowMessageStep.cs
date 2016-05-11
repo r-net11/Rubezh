@@ -27,6 +27,9 @@ namespace RubezhAPI.Automation
 		public EnumType EnumType { get; set; }
 
 		[DataMember]
+		public ObjectType ObjectType { get; set; }
+
+		[DataMember]
 		public bool IsModalWindow { get; set; }
 
 		[DataMember]
