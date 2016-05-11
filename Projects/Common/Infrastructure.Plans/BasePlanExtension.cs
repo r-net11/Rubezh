@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Client.Plans
+namespace Infrastructuret.Plans
 {
 	public abstract class BasePlanExtension : IPlanExtension<Plan>
 	{

@@ -1,7 +1,7 @@
-﻿using System;
-using Infrastructure.Plans.Designer;
+﻿using Infrastructure.Plans.Designer;
+using System;
 
-namespace Infrastructure.Client.Plans
+namespace Infrastructure.Plans.ViewModels
 {
 	public interface IPlanDesignerViewModel
 	{

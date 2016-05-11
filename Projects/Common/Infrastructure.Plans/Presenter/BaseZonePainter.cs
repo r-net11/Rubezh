@@ -1,15 +1,16 @@
-﻿using System;
-using System.Windows.Controls;
-using RubezhAPI.GK;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Plans.Painters;
 using Infrastructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
+using RubezhAPI;
+using RubezhAPI.GK;
+using System;
+using System.Windows.Controls;
 
-namespace Infrastructure.Client.Plans.Presenter
+namespace Infrastructure.Plans.Presenter
 {
-	public abstract class BasePointPainter<T, TShowEvent> : PointPainter, IBasePainter<T, TShowEvent>
+	public abstract class BaseZonePainter<T, TShowEvent> : PolygonZonePainter, IPainter, IBasePainter<T, TShowEvent>
 		where T : IStateProvider
 		where TShowEvent : CompositePresentationEvent<Guid>, new()
 	{
@@ -21,7 +22,7 @@ namespace Infrastructure.Client.Plans.Presenter
 			get { return Helper.Item; }
 		}
 
-		public BasePointPainter(PresenterItem presenterItem)
+		public BaseZonePainter(PresenterItem presenterItem)
 			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			Helper = new PresenterPainterHelper<T, TShowEvent>(presenterItem, this);
@@ -32,11 +33,45 @@ namespace Infrastructure.Client.Plans.Presenter
 		protected abstract StateTooltipViewModel<T> CreateToolTip();
 		protected abstract ContextMenu CreateContextMenu();
 		protected abstract WindowBaseViewModel CreatePropertiesViewModel();
-		//protected abstract Brush GetBrush();
 
+		#region IPainter Members
 		public override object GetToolTip(string title)
 		{
 			return Helper.Tooltip;
+		}
+		protected override System.Windows.Media.Brush GetBrush()
+		{
+			return PainterCache.GetTransparentBrush(GetStateColor());
+		}
+		#endregion
+
+		protected virtual Color GetStateColor()
+		{
+			switch (Helper.Item.StateClass.StateClass)
+			{
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
+					return Colors.DarkGray;
+
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+					return Colors.Red;
+
+				case XStateClass.Attention:
+					return Colors.Yellow;
+
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+
+				case XStateClass.Norm:
+					return Colors.Green;
+
+				default:
+					return Colors.White;
+			}
 		}
 
 		#region IBasePainter<T,TShowEvent> Members
@@ -69,7 +104,7 @@ namespace Infrastructure.Client.Plans.Presenter
 
 		bool IBasePainter<T, TShowEvent>.IsPoint
 		{
-			get { return true; }
+			get { return false; }
 		}
 
 		RelayCommand IBasePainter<T, TShowEvent>.ShowPropertiesCommand

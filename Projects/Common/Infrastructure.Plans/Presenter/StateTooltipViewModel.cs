@@ -3,7 +3,7 @@ using RubezhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 
-namespace Infrastructure.Client.Plans.Presenter
+namespace Infrastructure.Plans.Presenter
 {
 	public class StateTooltipViewModel<T> : BaseViewModel
 		where T : IStateProvider

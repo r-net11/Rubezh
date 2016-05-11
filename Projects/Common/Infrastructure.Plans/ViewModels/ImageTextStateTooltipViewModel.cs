@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Client.Plans.ViewModels
+namespace Infrastructure.Plans.ViewModels
 {
 	public class ImageTextStateTooltipViewModel : BaseViewModel
 	{

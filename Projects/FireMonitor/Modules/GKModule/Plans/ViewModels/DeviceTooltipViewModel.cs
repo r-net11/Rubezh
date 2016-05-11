@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Infrastructure.Plans.Presenter;
 using RubezhAPI.GK;
-using Infrastructure.Client.Plans.Presenter;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {

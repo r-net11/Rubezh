@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Infrastructure.Client.Plans.Views
+namespace Infrastructure.Plans.Views
 {
 	public partial class ImageTextTooltipView : UserControl
 	{

@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:Views="clr-namespace:Infrastructure.Client.Plans.Views"
-					xmlns:ViewModels="clr-namespace:Infrastructure.Client.Plans.ViewModels">
+					xmlns:Views="clr-namespace:Infrastructure.Plans.Views"
+					xmlns:ViewModels="clr-namespace:Infrastructure.Plans.ViewModels">
 
 	<DataTemplate DataType="{x:Type ViewModels:ImageTextTooltipViewModel}">
 		<Views:ImageTextTooltipView />

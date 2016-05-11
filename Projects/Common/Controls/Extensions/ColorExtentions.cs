@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Plans
+﻿namespace Controls.Extentions
 {
 	public static class ColorExtentions
 	{

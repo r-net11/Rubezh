@@ -1,4 +1,4 @@
-﻿using Infrastructure.Client.Plans.Presenter;
+﻿using Infrastructure.Plans.Presenter;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;

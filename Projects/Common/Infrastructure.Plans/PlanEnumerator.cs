@@ -3,7 +3,7 @@ using RubezhAPI.Plans.Elements;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Client.Plans
+namespace Infrastructure.Plans
 {
 	public static class PlanEnumerator
 	{

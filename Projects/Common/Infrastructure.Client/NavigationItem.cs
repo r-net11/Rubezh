@@ -2,7 +2,6 @@
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Plans.Events;
 using Microsoft.Practices.Prism.Events;
 using RubezhAPI.Models;
 using RubezhClient;

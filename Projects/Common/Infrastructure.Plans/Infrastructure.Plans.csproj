@@ -54,7 +54,6 @@
     <Compile Include="Extentions\ElementBaseExtentions.cs" />
     <Compile Include="Extentions\PointCollectionExtentions.cs" />
     <Compile Include="Extentions\StretchExtentions.cs" />
-    <Compile Include="Extentions\ColorExtentions.cs" />
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
     <Compile Include="Designer\CommonDesignerItem.cs" />
     <Compile Include="Designer\DesignerHelper.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\RegisterPlanPresenterEvent.cs" />
-    <Compile Include="Events\SelectPlanEvent.cs" />
     <Compile Include="InstrumentAdorners\GeometryHelper.cs" />
     <Compile Include="InstrumentAdorners\InstrumentAdorner.cs" />
     <Compile Include="InstrumentAdorners\PolygonAdorner.cs" />
@@ -107,6 +105,28 @@
     <Compile Include="Painters\SubPlanPainter.cs" />
     <Compile Include="Painters\TextBlockPainter.cs" />
     <Compile Include="Painters\TextBoxPainter.cs" />
+    <Compile Include="BasePlanExtension.cs" />
+    <Compile Include="PlanEnumerator.cs" />
+    <Compile Include="Presenter\BasePointPainter.cs" />
+    <Compile Include="Presenter\BaseZonePainter.cs" />
+    <Compile Include="Presenter\IBasePainter.cs" />
+    <Compile Include="Presenter\PresenterPainterHelper.cs" />
+    <Compile Include="Presenter\StateMonitor.cs" />
+    <Compile Include="Presenter\StateTooltipViewModel.cs" />
+    <Compile Include="UIHelper.cs" />
+    <Compile Include="ViewModels\ImageTextStateTooltipViewModel.cs" />
+    <Compile Include="ViewModels\ImageTextTooltipViewModel.cs" />
+    <Compile Include="ViewModels\InstrumentViewModel.cs" />
+    <Compile Include="ViewModels\IPlanDesignerViewModel.cs" />
+    <Compile Include="Views\ImageTextStateTooltipView.xaml.cs">
+      <DependentUpon>ImageTextStateTooltipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImageTextTooltipView.xaml.cs">
+      <DependentUpon>ImageTextTooltipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlanDesignerView.xaml.cs">
+      <DependentUpon>PlanDesignerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenter\BaseMonitor.cs" />
     <Compile Include="Presenter\BorderPainter.cs" />
     <Compile Include="Presenter\PresenterItem.cs" />
@@ -122,6 +142,10 @@
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
       <Name>Infrastructure.Common.Windows</Name>
@@ -131,7 +155,24 @@
       <Name>RubezhAPI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ImageTextStateTooltipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ImageTextTooltipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PlanDesignerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

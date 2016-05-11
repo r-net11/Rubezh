@@ -3,7 +3,7 @@ using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.InstrumentAdorners;
 using System.Windows.Input;
 
-namespace Infrastructure.Client.Plans
+namespace Infrastructure.Plans.ViewModels
 {
 	public class InstrumentViewModel : BaseViewModel, IInstrument
 	{

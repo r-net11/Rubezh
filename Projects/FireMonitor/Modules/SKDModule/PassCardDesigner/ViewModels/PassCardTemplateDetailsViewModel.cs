@@ -1,7 +1,6 @@
 using Common;
 using Controls.Menu.ViewModels;
 using Infrastructure;
-using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -9,6 +8,7 @@ using Infrastructure.Designer;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Services;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
 using SKDModule.PassCardDesigner.InstrumentAdorners;

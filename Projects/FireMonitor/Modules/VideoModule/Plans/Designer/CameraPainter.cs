@@ -1,6 +1,4 @@
-﻿using Common;
-using DeviceControls;
-using Infrastructure.Client.Plans.Presenter;
+﻿using DeviceControls;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Plans.Painters;

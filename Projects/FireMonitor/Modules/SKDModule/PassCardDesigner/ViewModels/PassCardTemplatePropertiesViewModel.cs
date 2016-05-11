@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Controls.Extentions;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrastructure.Plans;
 using RubezhAPI.SKD;
 using Color = System.Windows.Media.Color;
 

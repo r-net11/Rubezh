@@ -152,6 +152,7 @@
     <Compile Include="Converters\XStateClassToStringConverter2.cs" />
     <Compile Include="DataGridHelper.cs" />
     <Compile Include="DataGridSingleRowSelected.cs" />
+    <Compile Include="Extensions\ColorExtentions.cs" />
     <Compile Include="IsDeletedTextBlock.xaml.cs">
       <DependentUpon>IsDeletedTextBlock.xaml</DependentUpon>
     </Compile>
@@ -1855,10 +1856,6 @@
     <ProjectReference Include="..\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infrastructure.Plans\Infrastructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrastructure.Plans</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

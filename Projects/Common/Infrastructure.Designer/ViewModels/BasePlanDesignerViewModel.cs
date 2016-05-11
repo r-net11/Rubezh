@@ -1,9 +1,9 @@
-﻿using System;
-using Infrastructure.Client.Plans;
-using Infrastructure.Common.Services;
+﻿using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
+using Infrastructure.Plans.ViewModels;
+using System;
 
 namespace Infrastructure.Designer.ViewModels
 {

@@ -4,7 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Plans.Presenter;
 
-namespace Infrastructure.Client.Plans.Presenter
+namespace Infrastructure.Plans.Presenter
 {
 	public interface IBasePainter<T, TShowEvent>
 			where T : IStateProvider

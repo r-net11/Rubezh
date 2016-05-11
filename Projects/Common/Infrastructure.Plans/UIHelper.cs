@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace Infrastructure.Client.Plans
+namespace Infrastructure.Plans
 {
 	public static class UIHelper
 	{

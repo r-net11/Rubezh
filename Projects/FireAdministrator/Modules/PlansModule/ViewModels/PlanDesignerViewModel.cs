@@ -1,8 +1,9 @@
 ﻿using Common;
-using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Designer.ViewModels;
+using Infrastructure.Plans;
 using Infrastructure.Plans.Designer;
+using Infrastructure.Plans.ViewModels;
 using PlansModule.Designer;
 using PlansModule.InstrumentAdorners;
 using RubezhAPI.Models;

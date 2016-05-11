@@ -1,8 +1,7 @@
 ﻿using GKModule.ViewModels;
-using Infrastructure.Client.Plans;
-using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.Plans;
 using Infrastructure.Plans.Painters;
 using Infrastructure.Plans.Presenter;
 using RubezhAPI;

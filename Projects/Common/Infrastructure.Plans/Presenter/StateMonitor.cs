@@ -5,7 +5,7 @@ using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Client.Plans.Presenter
+namespace Infrastructure.Plans.Presenter
 {
 	public class StateMonitor : BaseMonitor<Plan>
 	{

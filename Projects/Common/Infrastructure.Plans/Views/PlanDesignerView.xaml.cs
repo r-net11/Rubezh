@@ -1,11 +1,12 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Plans.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace Infrastructure.Client.Plans
+namespace Infrastructure.Plans.Views
 {
 	public partial class PlanDesignerView : UserControl
 	{

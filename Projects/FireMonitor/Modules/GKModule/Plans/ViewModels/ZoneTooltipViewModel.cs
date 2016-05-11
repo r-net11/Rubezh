@@ -1,5 +1,5 @@
-﻿using RubezhAPI.GK;
-using Infrastructure.Client.Plans.Presenter;
+﻿using Infrastructure.Plans.Presenter;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {

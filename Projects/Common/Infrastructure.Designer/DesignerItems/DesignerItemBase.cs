@@ -1,10 +1,10 @@
-﻿using Infrastructure.Client.Plans.ViewModels;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;

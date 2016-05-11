@@ -1,14 +1,13 @@
 ﻿using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Infrastructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
 using RubezhAPI.GK;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Infrastructure.Client.Plans.Presenter
+namespace Infrastructure.Plans.Presenter
 {
 	public class PresenterPainterHelper<T, TShowEvent>
 		where T : IStateProvider
