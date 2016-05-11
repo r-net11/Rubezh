@@ -12,9 +12,13 @@
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<TextBlock Grid.Column="0" Grid.Row="0" Text="Идентификатор" Style="{DynamicResource TextBlockDetailsStyle}" />
-		<views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding EventUIDArgument}" />
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Камера" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<views:ArgumentView Grid.Column="1" Grid.Row="0" DataContext="{Binding CameraArgument}" />
+		
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Идентификатор" Style="{DynamicResource TextBlockDetailsStyle}" />
+		<views:ArgumentView Grid.Column="1" Grid.Row="1" DataContext="{Binding EventUIDArgument}" />
 	</Grid>
 </UserControl>

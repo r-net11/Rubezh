@@ -36,7 +36,25 @@
                 deferred.resolve();
             }, function (response) {
                 // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения сотрудника");
+                alert("Ошибка удаления сотрудника");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
+        var _restore = function (employee) {
+            var deferred = $q.defer();
+
+            $http.post("Employees/Restore", {
+                uid: employee.UID,
+                name: employee.Name,
+                isOrganisation: employee.IsOrganisation
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                // TODO: реализовать обработку ошибок
+                alert("Ошибка восстановления сотрудника");
                 deferred.reject();
             });
 
@@ -251,6 +269,7 @@
                 return deferred.promise;
             },
             markDeleted: _markDeleted,
+            restore: _restore,
             getEmployeeCardDetails: _getEmployeeCardDetails,
             saveEmployeeCardDetails: _saveEmployeeCardDetails,
             deleteCard: _deleteCard,

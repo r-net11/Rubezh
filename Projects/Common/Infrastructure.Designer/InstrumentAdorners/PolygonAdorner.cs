@@ -21,9 +21,9 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		{
 			get { return ((Polygon)Rubberband).Points; }
 		}
-		protected override ElementBaseShape CreateElement()
+		protected override ElementBaseShape CreateElement(RubezhAPI.PointCollection points)
 		{
-			return new ElementPolygon();
+			return new ElementPolygon { Points = points };
 		}
 	}
 }

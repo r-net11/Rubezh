@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-//using PointCollection = Common.PointCollection;
 
 namespace Infrastructure.Plans.InstrumentAdorners
 {
@@ -39,7 +38,7 @@ namespace Infrastructure.Plans.InstrumentAdorners
 
 		protected abstract Shape CreateRubberband();
 		protected abstract PointCollection Points { get; }
-		protected abstract ElementBaseShape CreateElement();
+		protected abstract ElementBaseShape CreateElement(RubezhAPI.PointCollection points);
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
@@ -82,7 +81,7 @@ namespace Infrastructure.Plans.InstrumentAdorners
 					case MouseButton.Right:
 						if (Points.Count > 1)
 						{
-							ElementBaseShape element = CreateElement();
+							ElementBaseShape element = CreateElement(Points.ToRubezhPointCollection());
 							if (element != null)
 							{
 								element.Points = Points.ToRubezhPointCollection();
@@ -128,11 +127,10 @@ namespace Infrastructure.Plans.InstrumentAdorners
 		{
 			if (Points.Count > 2)
 			{
-				ElementBaseShape element = CreateElement();
+				Points.RemoveAt(Points.Count - 1);
+				ElementBaseShape element = CreateElement(Points.ToRubezhPointCollection());
 				if (element != null)
 				{
-					Points.RemoveAt(Points.Count - 1);
-					element.Points = Points.ToRubezhPointCollection();
 					DesignerCanvas.CreateDesignerItem(element);
 				}
 				Cleanup();

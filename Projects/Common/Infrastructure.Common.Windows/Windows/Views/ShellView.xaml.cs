@@ -20,21 +20,23 @@ namespace Infrastructure.Common.Windows.Views
 			SetBinding(IsRightPanelFocusedProperty, new Binding("IsRightPanelFocused") { Mode = BindingMode.OneWayToSource });
 		}
 
-		private void LeftContent_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		void LeftContent_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			IsRightPanelFocused = false;
 		}
-		private void RightContent_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+
+		void RightContent_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			IsRightPanelFocused = true;
 		}
 
-		private void LeftContent_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+		void LeftContent_PreviewMouseDown(object sender, MouseButtonEventArgs e)
 		{
 			if (!LeftContent.IsKeyboardFocusWithin)
 				LeftContent.Focus();
 		}
-		private void RightContent_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+
+		void RightContent_PreviewMouseDown(object sender, MouseButtonEventArgs e)
 		{
 			if (!RightContent.IsKeyboardFocusWithin)
 				RightContent.Focus();

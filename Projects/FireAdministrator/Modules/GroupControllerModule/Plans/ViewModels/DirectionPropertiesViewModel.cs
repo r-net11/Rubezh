@@ -2,6 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
@@ -15,17 +16,18 @@ namespace GKModule.Plans.ViewModels
 	{
 		const int _sensivityFactor = 100;
 		IElementDirection IElementDirection;
-		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		ElementBase ElementBase { get; set; }
 		public bool CanEditPosition { get; private set; }
 		public DirectionPropertiesViewModel(IElementDirection element)
 		{
 			IElementDirection = element;
-			ElementBaseRectangle = element as ElementBaseRectangle;
-			CanEditPosition = ElementBaseRectangle != null;
+			ElementBase = element as ElementBase;
+			CanEditPosition = ElementBase != null;
 			if (CanEditPosition)
 			{
-				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+				var position = ElementBase.GetPosition();
+				Left = (int)(position.X * _sensivityFactor);
+				Top = (int)(position.Y * _sensivityFactor);
 			}
 			Title = "Свойства фигуры: Направление";
 			CreateCommand = new RelayCommand(OnCreate);
@@ -110,6 +112,8 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.UID);
+			Directions = new ObservableCollection<GKDirection>(GKManager.Directions);
+			OnPropertyChanged(() => Directions);
 		}
 		bool CanEdit()
 		{
@@ -119,8 +123,8 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDirection.ShowState = ShowState;
 			IElementDirection.ShowDelay = ShowDelay;
-			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
-			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			if (CanEditPosition)
+				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			GKPlanExtension.Instance.RewriteItem(IElementDirection, SelectedDirection);
 			return base.Save();
 		}

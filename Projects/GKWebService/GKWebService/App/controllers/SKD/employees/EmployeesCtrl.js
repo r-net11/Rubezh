@@ -40,6 +40,7 @@
                             value.$$treeLevel = value.Level;
                         });
                         $scope.gridOptions.data = $scope.employees;
+                        employeesService.employees = $scope.employees;
                         employeesService.selectedEmployee = null;
                         employeesService.selectedCard = null;
                         $timeout(function() {

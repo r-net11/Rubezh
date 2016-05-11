@@ -143,11 +143,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				IsSimpleType = value != ExplicitType.Object;
-				if (ExplicitValue.ExplicitType != value)
-				{
-					ExplicitValue.ExplicitType = value;
-					OnPropertyChanged(() => ExplicitType);
-				}
+				ExplicitValue.ExplicitType = value;
+				OnPropertyChanged(() => ExplicitType);
 			}
 		}
 
@@ -174,6 +171,13 @@ namespace AutomationModule.ViewModels
 					ExplicitValue.ObjectType = value;
 					if (ObjectReferenceValueList != null && ObjectReferenceValueList.Any(x => x.Value.ObjectType != value))
 						ObjectReferenceValueList.Clear();
+
+					if (ExplicitValue.Value is ObjectReference)
+					{
+						ExplicitValue.Value = new ObjectReference { ObjectType = ExplicitValue.ObjectType };
+						IsEmpty = true;
+					}
+
 					OnPropertyChanged(() => ObjectType);
 				}
 			}

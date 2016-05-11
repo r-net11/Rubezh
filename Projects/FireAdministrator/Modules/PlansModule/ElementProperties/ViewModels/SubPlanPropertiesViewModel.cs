@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans;
 using PlansModule.Designer;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
@@ -10,7 +11,7 @@ namespace PlansModule.ViewModels
 	public class SubPlanPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		const int _sensivityFactor = 100;
-		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		ElementBase ElementBase { get; set; }
 		public bool CanEditPosition { get; private set; }
 		private IElementSubPlan _elementSubPlan;
 
@@ -18,12 +19,13 @@ namespace PlansModule.ViewModels
 		{
 			Title = "Свойства фигуры: Ссылка на план";
 			_elementSubPlan = element;
-			ElementBaseRectangle = element as ElementBaseRectangle;
-			CanEditPosition = ElementBaseRectangle != null;
+			ElementBase = element as ElementBase;
+			CanEditPosition = ElementBase != null;
 			if (CanEditPosition)
 			{
-				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+				var position = ElementBase.GetPosition();
+				Left = (int)(position.X * _sensivityFactor);
+				Top = (int)(position.Y * _sensivityFactor);
 			}
 			Initialize();
 		}
@@ -93,8 +95,8 @@ namespace PlansModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
-			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			if (CanEditPosition)
+				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			Helper.SetSubPlan(_elementSubPlan, SelectedPlan == null ? null : SelectedPlan.Plan);
 			return base.Save();
 		}

@@ -2,6 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Plans;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Plans.Elements;
@@ -15,17 +16,18 @@ namespace GKModule.Plans.ViewModels
 	{
 		const int _sensivityFactor = 100;
 		IElementPumpStation IElementPumpStation;
-		ElementBaseRectangle ElementBaseRectangle { get; set; }
+		ElementBase ElementBase { get; set; }
 		public bool CanEditPosition { get; private set; }
 		public PumpStationPropertiesViewModel(IElementPumpStation element)
 		{
 			IElementPumpStation = element;
-			ElementBaseRectangle = element as ElementBaseRectangle;
-			CanEditPosition = ElementBaseRectangle != null;
+			ElementBase = element as ElementBase;
+			CanEditPosition = ElementBase != null;
 			if (CanEditPosition)
 			{
-				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
+				var position = ElementBase.GetPosition();
+				Left = (int)(position.X * _sensivityFactor);
+				Top = (int)(position.Y * _sensivityFactor);
 			}
 			Title = "Свойства фигуры: Насосная станция";
 			CreateCommand = new RelayCommand(OnCreate);
@@ -111,6 +113,8 @@ namespace GKModule.Plans.ViewModels
 		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKPumpStationEvent>().Publish(SelectedPumpStation.UID);
+			PumpStations = new ObservableCollection<GKPumpStation>(GKManager.PumpStations);
+			OnPropertyChanged(() => PumpStations);
 		}
 		bool CanEdit()
 		{
@@ -121,8 +125,8 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementPumpStation.ShowState = ShowState;
 			IElementPumpStation.ShowDelay = ShowDelay;
-			ElementBaseRectangle.Left = (double)Left / _sensivityFactor;
-			ElementBaseRectangle.Top = (double)Top / _sensivityFactor;
+			if (CanEditPosition)
+				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			GKPlanExtension.Instance.RewriteItem(IElementPumpStation, SelectedPumpStation);
 			return base.Save();
 		}

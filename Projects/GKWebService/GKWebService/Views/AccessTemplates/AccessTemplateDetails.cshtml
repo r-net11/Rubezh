@@ -3,34 +3,40 @@
     Layout = null;
 }
 
-<div class="modal-header">
-    <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()" /></a>
-    <h3 class="modal-title">{{title}}</h3>
-</div>
-<div class="modal-body">
-    <uib-tabset>
-        <uib-tab heading="Основные">
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
+<form name="accessTemplateDetailsForm" class="form-horizontal" role="form">
+    <div class="modal-header">
+        <a class="close" href=""><img src="Content/Image/Icon/Header/close_pop.png" title="Закрыть" ng-click="cancel()"/></a>
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <uib-tabset>
+            <uib-tab heading="Основные">
+                <div class="form-group" ng-class="{'has-error': (accessTemplateDetailsForm.$submitted || accessTemplateDetailsForm.name.$touched) && accessTemplateDetailsForm.name.$invalid}">
                     <label class="control-label col-sm-4" for="accessTemplateDetailsName">Название</label>
                     <div class="col-sm-8">
-                        <input id="accessTemplateDetailsName" class="form-control" ng-model="accessTemplate.Name">
+                        <input id="accessTemplateDetailsName" name="name" class="form-control" ng-model="accessTemplate.Name" required ng-maxlength="50" unique-element="accessTemplates">
+                        <div ng-show="accessTemplateDetailsForm.$submitted || accessTemplateDetailsForm.name.$touched">
+                            <div class="help-block" ng-show="accessTemplateDetailsForm.name.$error.required">Введите название</div>
+                            <div class="help-block" ng-show="accessTemplateDetailsForm.name.$error.maxlength">Значение поля 'Название' не может быть длиннее 50 символов</div>
+                            <div class="help-block" ng-show="accessTemplateDetailsForm.name.$error.unique">Название точки доступа совпадает с введенным ранее</div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': (accessTemplateDetailsForm.$submitted || accessTemplateDetailsForm.description.$touched) && accessTemplateDetailsForm.description.$invalid}">
                     <label class="control-label col-sm-4" for="accessTemplateDetailsDescription">Примечание</label>
                     <div class="col-sm-8">
-                        <input id="accessTemplateDetailsDescription" class="form-control" ng-model="accessTemplate.Description">
+                        <input id="accessTemplateDetailsDescription" name="description" class="form-control" ng-model="accessTemplate.Description" ng-maxlength="50">
+                        <div ng-show="accessTemplateDetailsForm.$submitted || accessTemplateDetailsForm.description.$touched">
+                            <div class="help-block" ng-show="accessTemplateDetailsForm.description.$error.maxlength">Значение поля 'Примечание' не может быть длиннее 50 символов</div>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </uib-tab>
-        <uib-tab heading="Точки доступа">
-            <form class="form-horizontal" role="form">
+            </uib-tab>
+            <uib-tab heading="Точки доступа">
                 <ul id="EmployeeCardDetailsDoors" class="SelectableList">
                     <li ng-repeat="door in model.Doors" ng-class="{selected: door === model.SelectedDoor}">
                         <div ng-click="model.SelectedDoor = door">
-                            <img src="~/Content/Image/Icon/Hr/Door.png" />
+                            <img src="~/Content/Image/Icon/Hr/Door.png"/>
                             <input type="checkbox" ng-model="door.IsChecked" value="">
                             <span>{{door.PresentationName}}</span>
                         </div>
@@ -38,19 +44,19 @@
                 </ul>
                 <div id="EmployeeCardDetailsDoor" ng-show="model.SelectedDoor">
                     <label for="EnterSchedule">
-                        <span>Временной критерий для входа</span><br />
+                        <span>Временной критерий для входа</span><br/>
                         <select name="EnterSchedule" class="form-control" ng-model="model.SelectedDoor.SelectedEnterSchedule" ng-options="schedule.Name for schedule in model.SelectedDoor.EnterSchedules track by schedule.ScheduleNo" ng-disabled="!model.SelectedDoor.IsChecked"></select>
                     </label>
-                    <br />
+                    <br/>
                     <label for="ExitSchedule" ng-show="model.SelectedDoor.HasExit">
-                        <span>Временной критерий для выхода</span><br />
+                        <span>Временной критерий для выхода</span><br/>
                         <select name="ExitSchedule" class="form-control" ng-model="model.SelectedDoor.SelectedExitSchedule" ng-options="schedule.Name for schedule in model.SelectedDoor.ExitSchedules track by schedule.ScheduleNo" ng-disabled="!model.SelectedDoor.IsChecked"></select>
                     </label>
                 </div>
-            </form>
-        </uib-tab>
-    </uib-tabset>
-</div>
-<div mobile-hover-fix class="modal-footer">
-    <button class="btn btn-primary pull-right" ng-click="save()">OK</button>
-</div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+    <div mobile-hover-fix class="modal-footer">
+        <button class="btn btn-primary pull-right" ng-click="accessTemplateDetailsForm.$valid && save()">OK</button>
+    </div>
+</form>

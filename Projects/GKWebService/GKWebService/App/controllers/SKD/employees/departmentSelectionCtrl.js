@@ -70,10 +70,13 @@
                      backdrop: 'static',
                      resolve: {
                          department: function () {
-                             return departmentsService.getDepartmentDetails(organisationUID, null, $scope.selectedDepartment.ParentUID);
+                             return departmentsService.getDepartmentDetails(organisationUID, null, $scope.selectedDepartment ? $scope.selectedDepartment.ParentUID : organisationUID);
                          },
                          isNew: function () {
                              return true;
+                         },
+                         departments: function() {
+                             return $scope.departments;
                          }
                      }
                  });

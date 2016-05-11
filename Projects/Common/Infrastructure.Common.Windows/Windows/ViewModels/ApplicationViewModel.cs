@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Infrastructure.Common.About.ViewModels;
+﻿using Infrastructure.Common.About.ViewModels;
+using System.Windows;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -28,7 +28,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			surface.StateChanged += (s, e) => OnPropertyChanged(() => IsMaximized);
 		}
 
-		private bool _allowHelp;
+		bool _allowHelp;
 		public bool AllowHelp
 		{
 			get { return _allowHelp; }
@@ -38,7 +38,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => AllowHelp);
 			}
 		}
-		private bool _allowMinimize;
+
+		bool _allowMinimize;
 		public bool AllowMinimize
 		{
 			get { return _allowMinimize; }
@@ -48,7 +49,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => AllowMinimize);
 			}
 		}
-		private bool _allowLogoIcon;
+
+		bool _allowLogoIcon;
 		public bool AllowLogoIcon
 		{
 			get { return _allowLogoIcon; }
@@ -61,18 +63,21 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public RelayCommand ApplicationCloseCommand { get; private set; }
 		public RelayCommand ApplicationMinimizeCommand { get; private set; }
-		private void Minimize()
+
+		void Minimize()
 		{
 			Surface.WindowState = WindowState.Minimized;
 		}
 		public RelayCommand ApplicationMaximizeCommand { get; private set; }
-		private void Maximize()
+
+		void Maximize()
 		{
 			Surface.WindowState = WindowState.Maximized;
 			OnPropertyChanged(() => IsMaximized);
 		}
 		public RelayCommand ApplicationNormalizeCommand { get; private set; }
-		private void Normalize()
+
+		void Normalize()
 		{
 			Surface.WindowState = WindowState.Normal;
 			OnPropertyChanged(() => IsMaximized);
@@ -94,7 +99,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			get { return Surface != null && Surface.WindowState == WindowState.Normal; }
 		}
 
-		private BaseViewModel _headerTop;
+		BaseViewModel _headerTop;
 		public BaseViewModel HeaderTop
 		{
 			get { return _headerTop; }
@@ -105,7 +110,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private BaseViewModel _headerMenu;
+		BaseViewModel _headerMenu;
 		public BaseViewModel HeaderMenu
 		{
 			get { return _headerMenu; }
@@ -116,7 +121,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private BaseViewModel _contentFotter;
+		BaseViewModel _contentFotter;
 		public BaseViewModel ContentFotter
 		{
 			get { return _contentFotter; }
