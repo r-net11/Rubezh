@@ -37,13 +37,13 @@
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Height="16" Source="/Controls;component/Images/BPumpStation.png" />
-										<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding PumpStation.No}" VerticalAlignment="Center" />
+										<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding No}" VerticalAlignment="Center" />
 									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTextColumn Width="Auto" Binding="{Binding PumpStation.Name}" Header="Наименование" />
-						<DataGridTextColumn Width="*" Binding="{Binding PumpStation.Description}" Header="Примечание" />
+						<DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Наименование" />
+						<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
 					</DataGrid.Columns>
 					<DataGrid.ContextMenu>
 						<ContextMenu>
