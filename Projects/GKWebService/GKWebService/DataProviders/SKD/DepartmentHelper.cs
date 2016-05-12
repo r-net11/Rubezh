@@ -43,7 +43,7 @@ namespace GKWebService.DataProviders.SKD
 
 		public static IEnumerable<ShortDepartment> GetByCurrentUser()
 		{
-			return Get(new DepartmentFilter() { UserUID = ClientManager.CurrentUser.UID });
+			return Get(new DepartmentFilter() { User = ClientManager.CurrentUser });
 		}
 
 		public static Department GetDetails(Guid? uid)
