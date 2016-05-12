@@ -71,7 +71,7 @@ namespace FiresecService.Views
 		TabPage _tabPageStatus;
 		Label _labelServerRemoteAddress;
 		ContextMenuStrip _contexMenuStripRemoteAddressCopyToClipboard;
-		
+
 		public string RemoteAddress
 		{
 			set { _labelServerRemoteAddress.Text = value; }
@@ -329,7 +329,7 @@ namespace FiresecService.Views
 			menuItem.Text = "Копировать";
 			menuItem.Click += EventHandler_MenuItemRemoteAddressCopyToClipboard_Click;
 			_contexMenuStripRemoteAddressCopyToClipboard.Items.Add(menuItem);
-						
+
 			var font = new Font(Label.DefaultFont.FontFamily, 10, FontStyle.Bold);
 
 			var label = new Label()
