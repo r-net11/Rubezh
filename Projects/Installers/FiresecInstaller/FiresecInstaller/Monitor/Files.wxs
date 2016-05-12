@@ -10,9 +10,8 @@
 				<File Id="Monitor.FireMonitor.exe.manifest"									Name="FireMonitor.exe.manifest"									Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.Infrastructure.Client.dll"								Name="Infrastructure.Client.dll"								Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Infrastructure.Common.dll"								Name="Infrastructure.Common.dll"								Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Infrastructure.Common.Windows.dll"								Name="Infrastructure.Common.Windows.dll"								Source="$(var.Common.TargetDir)" />
+				<File Id="Monitor.Infrastructure.Common.Windows.dll"						Name="Infrastructure.Common.Windows.dll"						Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Infrastructure.Plans.dll"									Name="Infrastructure.Plans.dll"									Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Infrastructure.Designer.dll"								Name="Infrastructure.Designer.dll"								Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Infrastructure.Automation.dll"							Name="Infrastructure.Automation.dll"							Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Infrastructure.dll"										Name="Infrastructure.dll"										Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.Common.dll"												Name="Common.dll"												Source="$(var.Common.TargetDir)" />
