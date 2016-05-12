@@ -8,13 +8,12 @@ using Infrastructure.Common.Reports;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.SKDReports;
-using Infrastructure.Designer;
 using Infrastructure.Events;
 using RubezhAPI.License;
+using Infrastructure.Plans;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using SKDModule.Events;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
@@ -62,8 +61,8 @@ namespace SKDModule
 				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"){IsVisible = isCardFiels},
-						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW"){IsVisible = isTimeTracking}
+						new NavigationItem<ShowJournalHREvent, Guid>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"){IsVisible = isCardFiels},
+						new NavigationItem<ShowJournalTimeTrackingEvent, Guid>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW"){IsVisible = isTimeTracking}
 					}) { IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD && (isCardFiels || isTimeTracking)}
 				};
 		}
@@ -111,9 +110,9 @@ namespace SKDModule
 		{
 			if (LicenseManager.CurrentLicenseInfo.HasSKD)
 			{
-				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => SKDTabItems.HRViewModel);
-				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
-				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "BLevels.png", (p) => SKDTabItems.HRViewModel);
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "BTree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
+				yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "BTree.png", (p) => SKDTabItems.TimeTrackingTabsViewModel);
 			}
 		}
 		#endregion
@@ -146,13 +145,15 @@ public class SKDTabItems
 	public TimeTrackingTabsViewModel TimeTrackingTabsViewModel { get; set; }
 	public SKDTabItems()
 	{
-		var userUID = ClientManager.CurrentUser.UID;
-		Filter = new HRFilter() { UserUID = ClientManager.CurrentUser.UID };
-		Filter.EmployeeFilter.UserUID = userUID;
+		var user = ClientManager.CurrentUser;
+		Filter = new HRFilter() { User = user };
+		Filter.EmployeeFilter.User = user;
 		HRViewModel = new HRViewModel(this);
 		TimeTrackingTabsViewModel = new TimeTrackingTabsViewModel(this);
 		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Unsubscribe(OnShowJournalHR);
 		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Subscribe(OnShowJournalHR);
+		ServiceFactory.Events.GetEvent<ShowJournalTimeTrackingEvent>().Unsubscribe(OnShowJournalTimeTracking);
+		ServiceFactory.Events.GetEvent<ShowJournalTimeTrackingEvent>().Subscribe(OnShowJournalTimeTracking);
 	}
 
 	public void Initialize()
@@ -163,8 +164,11 @@ public class SKDTabItems
 
 	void OnShowJournalHR(Guid uid)
 	{
-		if (HRViewModel.ShowFromJournal(uid))
-			return;
+		HRViewModel.ShowFromJournal(uid);
+	}
+
+	void OnShowJournalTimeTracking(Guid uid)
+	{
 		TimeTrackingTabsViewModel.ShowFromJournal(uid);
 	}
 }

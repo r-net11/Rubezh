@@ -73,9 +73,9 @@ namespace SKDModule.ViewModels
 			if (ClientManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View))
 				PersonTypes.Add(PersonType.Guest);
 			_selectedPersonType = PersonTypes.FirstOrDefault();
-			var userUID = ClientManager.CurrentUser.UID;
-			Filter = new HRFilter() { UserUID = userUID };
-			Filter.EmployeeFilter.UserUID = userUID;
+			var user = ClientManager.CurrentUser;
+			Filter = new HRFilter() { User = user };
+			Filter.EmployeeFilter.User = user;
 		}
 
 		bool IsConnected

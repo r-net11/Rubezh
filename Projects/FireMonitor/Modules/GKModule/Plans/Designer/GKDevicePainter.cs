@@ -1,19 +1,17 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
-using DeviceControls;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using GKModule.Events;
+﻿using DeviceControls;
 using GKModule.ViewModels;
 using Infrastructure;
-using Infrastructure.Client.Plans;
-using Infrastructure.Client.Plans.Presenter;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.Plans;
 using Infrastructure.Plans.Presenter;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GKModule.Plans.Designer
 {

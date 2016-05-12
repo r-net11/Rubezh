@@ -1,14 +1,14 @@
-﻿using System.ComponentModel;
+﻿using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Controls.TreeList
 {
 	public class TreeListItem : ListViewItem, INotifyPropertyChanged
 	{
-		private TreeNodeViewModel _node;
+		TreeNodeViewModel _node;
 		public TreeNodeViewModel Node
 		{
 			get { return _node; }
@@ -81,7 +81,7 @@ namespace Controls.TreeList
 				base.OnKeyDown(e);
 		}
 
-		private void ChangeFocus(TreeNodeViewModel node)
+		void ChangeFocus(TreeNodeViewModel node)
 		{
 			if (Tree != null)
 			{
@@ -96,7 +96,8 @@ namespace Controls.TreeList
 
 		#region INotifyPropertyChanged Members
 		public event PropertyChangedEventHandler PropertyChanged;
-		private void OnPropertyChanged(string name)
+
+		void OnPropertyChanged(string name)
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(name));

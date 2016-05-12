@@ -1,12 +1,11 @@
-﻿using RubezhAPI.GK;
+﻿using Infrastructure.Plans.Presenter;
 using RubezhAPI.Models;
-using Infrastructure.Client.Plans.Presenter;
 
 namespace VideoModule.ViewModels
 {
 	public class CameraTooltipViewModel : StateTooltipViewModel<Camera>
 	{
-		
+
 		public Camera Camera
 		{
 			get { return Item; }
@@ -24,7 +23,7 @@ namespace VideoModule.ViewModels
 		public override void OnStateChanged()
 		{
 			base.OnStateChanged();
-			
+
 		}
 	}
 }

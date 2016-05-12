@@ -9,8 +9,8 @@ using RubezhAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Threading;
 
 namespace FiresecService.Presenters
 {
@@ -18,7 +18,7 @@ namespace FiresecService.Presenters
 	{
 		public MainPresenter(IMainView view)
 		{
-			FormDispatcher = Dispatcher.CurrentDispatcher;
+			SyncContext = SynchronizationContext.Current;
 
 			View = view;
 
@@ -77,7 +77,7 @@ namespace FiresecService.Presenters
 
 		public static MainPresenter Current { get; set; }
 
-		public Dispatcher FormDispatcher { get; private set; }
+		public SynchronizationContext SyncContext { get; private set; }
 
 		public IMainView View { get; private set; }
 
@@ -96,51 +96,25 @@ namespace FiresecService.Presenters
 
 		public void AddLog(string message, bool isError)
 		{
-			FormDispatcher.BeginInvoke((Action)(() =>
+			SyncContext.Post(state =>
 			{
 				LastLog = message;
 				var logViewModel = new Log(message, isError);
 				_bindingSourceLogs.Add(logViewModel);
 				if (_bindingSourceLogs.Count > 1000)
 					_bindingSourceLogs.RemoveAt(0);
-			}));
+			}, null);
 		}
 
 		#endregion
 
 		#region Address
 
-		public static void SetLocalAddress(string address)
-		{
-			if (Current != null)
-			{
-				Current.FormDispatcher.BeginInvoke((Action)(() => { Current.LocalAddress = address; }));
-			}
-		}
-
 		public static void SetRemoteAddress(string address)
 		{
 			if (Current != null)
 			{
-				Current.FormDispatcher.BeginInvoke((Action)(() => { Current.RemoteAddress = address; }));
-			}
-		}
-
-		public static void SetReportAddress(string address)
-		{
-			if (Current != null)
-			{
-				Current.FormDispatcher.BeginInvoke((Action)(() => { Current.ReportAddress = address; }));
-			}
-		}
-
-		string _localAddress;
-		public string LocalAddress
-		{
-			set
-			{
-				_localAddress = value;
-				View.LocalAddress = _localAddress;
+				Current.SyncContext.Post(state => { Current.RemoteAddress = address; }, null);
 			}
 		}
 
@@ -155,16 +129,6 @@ namespace FiresecService.Presenters
 			}
 		}
 
-		string _reportAddress;
-		public string ReportAddress
-		{
-			get { return _reportAddress; }
-			set
-			{
-				_reportAddress = value;
-				View.ReportAddress = _reportAddress;
-			}
-		}
 		#endregion Address
 
 		#region Clients
@@ -187,31 +151,31 @@ namespace FiresecService.Presenters
 
 		public void AddClient(ClientCredentials clientCredentials)
 		{
-			FormDispatcher.BeginInvoke((Action)(() =>
+			SyncContext.Post(state =>
 			{
 				var connectionViewModel = new Client(clientCredentials);
 				_bindingSourceClients.Add(connectionViewModel);
 				View.EnableMenuDisconnect = _bindingSourceClients.Count > 0;
-			}));
+			}, null);
 		}
 		public void RemoveClient(Guid uid)
 		{
-			FormDispatcher.BeginInvoke((Action)(() =>
+			SyncContext.Post(state =>
 			{
 				var connectionViewModel = _clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					_bindingSourceClients.Remove(connectionViewModel);
 				View.EnableMenuDisconnect = _bindingSourceClients.Count > 0;
-			}));
+			}, null);
 		}
 		public void EditClient(Guid uid, string userName)
 		{
-			FormDispatcher.BeginInvoke((Action)(() =>
+			SyncContext.Post(state =>
 			{
 				var connectionViewModel = _clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 					connectionViewModel.FriendlyUserName = userName;
-			}));
+			}, null);
 		}
 
 		void EventHandler_View_CommandDisconnectActivated(object sender, EventArgs e)
@@ -246,7 +210,7 @@ namespace FiresecService.Presenters
 
 		void On_GKLifecycleChangedEvent(GKLifecycleInfo gkLifecycleInfo)
 		{
-			FormDispatcher.Invoke((Action)(() =>
+			SyncContext.Send(state =>
 			{
 				var gkLifecycle = GKLifecycles.FirstOrDefault(x => x.GKLifecycleInfo.UID == gkLifecycleInfo.UID);
 				if (gkLifecycle == null)
@@ -257,7 +221,7 @@ namespace FiresecService.Presenters
 				{
 					gkLifecycle.Update(gkLifecycleInfo);
 				}
-			}));
+			}, null);
 		}
 
 		GKLifecycle AddGKViewModel(GKLifecycleInfo gkLifecycleInfo)
@@ -278,7 +242,7 @@ namespace FiresecService.Presenters
 
 		public void OnPoll(Guid uid)
 		{
-			FormDispatcher.Invoke((Action)(() =>
+			SyncContext.Send(state =>
 			{
 				var now = DateTime.Now;
 				var clientInfo = FiresecService.Service.ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
@@ -297,7 +261,7 @@ namespace FiresecService.Presenters
 				clientPoll.LastPollTime = now;
 				_bindingSourceClientPolls.EndEdit();
 				_bindingSourceClientPolls.ResetBindings(false);
-			}));
+			}, null);
 		}
 
 		#endregion
@@ -310,30 +274,30 @@ namespace FiresecService.Presenters
 
 		public void AddTask(ServerTask serverTask)
 		{
-			FormDispatcher.BeginInvoke((Action)(() =>
+			SyncContext.Post(state =>
 			{
 				var serverTaskModel = new ServerTaskModel(serverTask);
 				_bindingSourceOperations.Add(serverTaskModel);
-			}));
+			}, null);
 		}
 
 		public void RemoveTask(ServerTask serverTask)
 		{
-			FormDispatcher.BeginInvoke((Action)(() =>
+			SyncContext.Post(state =>
 			{
 				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.Task.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
 					_bindingSourceOperations.Remove(serverTaskViewModel);
-			}));
+			}, null);
 		}
 		public void EditTask(ServerTask serverTask)
 		{
-			FormDispatcher.BeginInvoke((Action)(() =>
+			SyncContext.Post(state =>
 			{
 				var serverTaskViewModel = ServerTasks.FirstOrDefault(x => x.Task.UID == serverTask.UID);
 				if (serverTaskViewModel != null)
 					serverTaskViewModel.Task = serverTask;
-			}));
+			}, null);
 		}
 
 		#endregion

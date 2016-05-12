@@ -1,5 +1,5 @@
-﻿using RubezhAPI.GK;
-using Infrastructure.Client.Plans.Presenter;
+﻿using Infrastructure.Plans.Presenter;
+using RubezhAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -9,7 +9,7 @@ namespace GKModule.ViewModels
 		{
 			get { return base.Item; }
 		}
-		
+
 		public PumpStationTooltipViewModel(GKPumpStation pumpStation)
 			: base(pumpStation)
 		{

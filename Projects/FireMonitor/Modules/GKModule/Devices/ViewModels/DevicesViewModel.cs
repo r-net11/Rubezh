@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.ViewModels;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models.Layouts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RubezhAPI.GK;
-using RubezhClient;
-using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI.Models.Layouts;
-using RubezhAPI;
 
 namespace GKModule.ViewModels
 {
@@ -115,7 +114,7 @@ namespace GKModule.ViewModels
 			FillAllDevices();
 		}
 
-		private DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
+		DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)

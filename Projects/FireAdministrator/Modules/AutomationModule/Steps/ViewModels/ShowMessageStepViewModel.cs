@@ -19,12 +19,13 @@ namespace AutomationModule.ViewModels
 			ConfirmationValueArgument = new ArgumentViewModel(ShowMessageStep.ConfirmationValueArgument, stepViewModel.Update, UpdateContent, false);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(AutomationHelper.GetEnumList<ExplicitType>());
 			EnumTypes = AutomationHelper.GetEnumObs<EnumType>();
+			ObjectTypes = AutomationHelper.GetEnumObs<ObjectType>();
 			IsServerContext = Procedure.ContextType == ContextType.Server;
 		}
 
 		public override void UpdateContent()
 		{
-			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList: false);
+			MessageArgument.Update(Procedure, ExplicitType, EnumType, ObjectType, isList: false);
 			ConfirmationValueArgument.Update(Procedure, ExplicitType.Boolean, isList: false);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageStep.LayoutFilter);
 			IsServerContext = Procedure.ContextType == ContextType.Server;
@@ -86,6 +87,17 @@ namespace AutomationModule.ViewModels
 				ShowMessageStep.EnumType = value;
 				UpdateContent();
 				OnPropertyChanged(() => EnumType);
+			}
+		}
+		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
+		public ObjectType ObjectType
+		{
+			get { return ShowMessageStep.ObjectType; }
+			set
+			{
+				ShowMessageStep.ObjectType = value;
+				UpdateContent();
+				OnPropertyChanged(() => ObjectType);
 			}
 		}
 

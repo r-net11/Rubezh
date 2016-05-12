@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
 			{
-				UserUID = ClientManager.CurrentUser.UID,
+				User = ClientManager.CurrentUser, 
 			};
 
 			TimeTrackFilter.Period = TimeTrackingPeriod.CurrentMonth;

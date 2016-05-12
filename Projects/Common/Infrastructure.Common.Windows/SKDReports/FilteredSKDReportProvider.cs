@@ -28,8 +28,7 @@ namespace Infrastructure.Common.SKDReports
 
 		public virtual SKDReportFilter GetFilter()
 		{
-			Filter.User = ApplicationService.User.Name;
-			Filter.UserUID = ApplicationService.User.UID;
+			Filter.User = ApplicationService.User;
 			Filter.Timestamp = DateTime.Now;
 			return Filter;
 		}

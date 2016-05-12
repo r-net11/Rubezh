@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 
 			Menu = new ProceduresMenuViewModel(this);
 			SetRibbonItems();
-			IsRightPanelEnabled = true;
+			IsRightPanelEnabled = false;
 			IsRightPanelVisible = false;
 		}
 

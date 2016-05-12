@@ -57,7 +57,7 @@
 				</StackPanel>
 			</Grid>
 		</TabItem>
-		<TabItem Header="Настройки">
+		<TabItem Header="Настройки" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />

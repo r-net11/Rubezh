@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('employeesService', ['$http', '$q', function ($http, $q) {
+    app.factory('employeesService', ['$http', '$q', 'dialogService', function ($http, $q, dialogService) {
         var saveChief = function (employeeUID, organisation, isOrganisationChief, organisationChiefUID, url) {
             var deferred = $q.defer();
             var uid;
@@ -18,6 +18,9 @@
                     OrganisationName: organisation.Name
                 }).then(function() {
                     deferred.resolve();
+                }, function(response) {
+                    dialogService.showError(response.data, "Ошибка сохранения руководителя");
+                    deferred.reject();
                 });
             } else {
                 deferred.resolve();
@@ -35,8 +38,24 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения сотрудника");
+                dialogService.showError(response.data, "Ошибка удаления сотрудника");
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        };
+
+        var _restore = function (employee) {
+            var deferred = $q.defer();
+
+            $http.post("Employees/Restore", {
+                uid: employee.UID,
+                name: employee.Name,
+                isOrganisation: employee.IsOrganisation
+            }).then(function (response) {
+                deferred.resolve();
+            }, function (response) {
+                dialogService.showError(response.data, "Ошибка восстановления сотрудника");
                 deferred.reject();
             });
 
@@ -50,8 +69,7 @@
                 .then(function (response) {
                     deferred.resolve(response.data.Schedules);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения графиков работы");
+                    dialogService.showError(response.data, "Ошибка получения графиков работы");
                     deferred.reject();
             });
 
@@ -66,7 +84,7 @@
                     deferred.resolve(response.data);
                 }, function (response) {
                     // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения пропуска");
+                    dialogService.showError(response.data, "Ошибка получения пропуска");
                     deferred.reject();
             });
 
@@ -80,8 +98,7 @@
                 .then(function (response) {
                     deferred.resolve(response.data.Employees);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения сотрудников");
+                    dialogService.showError(response.data, "Ошибка получения сотрудников");
                     deferred.reject();
             });
 
@@ -102,8 +119,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения сотрудника");
+                dialogService.showError(response.data, "Ошибка сохранения сотрудника");
                 deferred.reject();
             });
 
@@ -118,8 +134,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения сотрудника");
+                dialogService.showError(response.data, "Ошибка сохранения сотрудника");
                 deferred.reject();
             });
 
@@ -136,8 +151,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения сотрудника");
+                dialogService.showError(response.data, "Ошибка сохранения сотрудника");
                 deferred.reject();
             });
 
@@ -154,8 +168,7 @@
                 $http.get('Employees/GetEmployeeDetails/' + UID).then(function (response) {
                     deferred.resolve(response.data);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения сотрудника");
+                    dialogService.showError(response.data, "Ошибка получения сотрудника");
                     deferred.reject();
                 });
 
@@ -167,8 +180,7 @@
                 $http.get('Employees/GetOrganisations', { params: filter }).then(function (response) {
                     deferred.resolve(response.data.rows);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения сотрудника");
+                    dialogService.showError(response.data, "Ошибка получения сотрудника");
                     deferred.reject();
                 });
 
@@ -180,8 +192,7 @@
                 $http.get('Employees/GetOrganisation/' + UID).then(function (response) {
                     deferred.resolve(response.data);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения сотрудника");
+                    dialogService.showError(response.data, "Ошибка получения сотрудника");
                     deferred.reject();
                 });
 
@@ -193,8 +204,7 @@
                 $http.get('Employees/GetSingleShort/' + UID).then(function (response) {
                     deferred.resolve(response.data);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения сотрудника");
+                    dialogService.showError(response.data, "Ошибка получения сотрудника");
                     deferred.reject();
                 });
 
@@ -206,8 +216,7 @@
                 $http.get('Employees/GetEmployeeCards/' + UID).then(function (response) {
                     deferred.resolve(response.data);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения сотрудника");
+                    dialogService.showError(response.data, "Ошибка получения пропусков");
                     deferred.reject();
                 });
 
@@ -219,8 +228,7 @@
                 $http.get('Employees/GetEmployeePhoto/' + UID).then(function (response) {
                     deferred.resolve(response.data);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения сотрудника");
+                    dialogService.showError(response.data, "Ошибка получения фото сотрудника");
                     deferred.reject();
                 });
 
@@ -243,14 +251,14 @@
                 }).then(function (response) {
                     deferred.resolve();
                 }).catch(function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка сохранения сотрудника");
+                    dialogService.showError(response.data, "Ошибка сохранения сотрудника");
                     deferred.reject();
                 });
 
                 return deferred.promise;
             },
             markDeleted: _markDeleted,
+            restore: _restore,
             getEmployeeCardDetails: _getEmployeeCardDetails,
             saveEmployeeCardDetails: _saveEmployeeCardDetails,
             deleteCard: _deleteCard,

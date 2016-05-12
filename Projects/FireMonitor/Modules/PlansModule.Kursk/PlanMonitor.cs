@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Infrastructure.Plans.Presenter;
 using RubezhAPI.Models;
-using Infrastructure.Client.Plans.Presenter;
+using System;
 
 namespace PlansModule.Kursk
 {

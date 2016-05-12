@@ -148,7 +148,7 @@ namespace ReportsModule.ViewModels
 						var filter = ReportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)ReportProvider).GetFilter() : null;
 						FilterName = filter == null ? null : filter.Name;
 						if (filter != null)
-							filter.UserUID = ClientManager.CurrentUser.UID;
+							filter.User = ClientManager.CurrentUser;
 						var filterPeriod = filter as IReportFilterPeriod;
 						IsPeriodReport = filterPeriod != null;
 						if (IsPeriodReport)

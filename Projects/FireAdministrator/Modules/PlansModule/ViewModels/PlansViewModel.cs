@@ -1,15 +1,16 @@
 ﻿using Common;
 using Controls.Menu.ViewModels;
 using Infrastructure;
-using Infrastructure.Client.Plans;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Designer.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.Plans;
 using Infrastructure.Plans.Events;
 using Infrastructure.Plans.Services;
+using Infrastructure.Plans.ViewModels;
 using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
 using RubezhAPI.Models;
@@ -167,7 +168,7 @@ namespace PlansModule.ViewModels
 		}
 
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
-		public Infrastructure.Designer.BaseDesignerCanvas DesignerCanvas
+		public BaseDesignerCanvas DesignerCanvas
 		{
 			get { return PlanDesignerViewModel.DesignerCanvas; }
 		}

@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('employeesToolbarCtrl',
-        ['$scope', '$uibModal', 'employeesService', 'dialogService', 
-         function ($scope, $uibModal, employeesService, dialogService) {
+        ['$scope', '$uibModal', '$window', 'employeesService', 'dialogService', 
+         function ($scope, $uibModal, $window, employeesService, dialogService) {
              $scope.$watch(function() {
                  return employeesService.selectedEmployee;
              }, function(employee) {
@@ -110,6 +110,9 @@
 
                  modalInstance.result.then(function () {
                      employeesService.reloadCards();
+                     if (isNew) {
+                         $scope.$parent.$broadcast('NewCardEvent');
+                     }
                  });
              };
 
@@ -129,6 +132,14 @@
                  }
              };
 
+             $scope.restoreEmployeeClick = function () {
+                 $scope.restoreElement(itemRemovingName(), employeesService.employees, $scope.selectedEmployee).then(function () {
+                     employeesService.restore($scope.selectedEmployee).then(function () {
+                         $scope.$parent.$broadcast('EditEmployeeEvent', $scope.selectedEmployee.UID);
+                     });
+                 });
+             };
+
              $scope.removeEmployeeCardClick = function () {
                  var modalInstance = $uibModal.open({
                      animation: false,
@@ -142,6 +153,7 @@
                          if (dialogService.showConfirm("Вы уверены, что хотите удалить карту?")) {
                              employeesService.deleteCard($scope.selectedCard.UID).then(function () {
                                  employeesService.reloadCards();
+                                 $scope.$parent.$broadcast('DeleteCardEvent', $scope.selectedCard);
                              });
                          }
                      };
@@ -150,7 +162,8 @@
                             $scope.selectedEmployee.Name,
                             cardRemovalReason.removalReason)
                             .then(function () {
-                            employeesService.reloadCards();
+                                employeesService.reloadCards();
+                                $scope.$parent.$broadcast('BlockCardEvent', $scope.selectedCard);
                         });
                      };
                  });

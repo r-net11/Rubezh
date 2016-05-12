@@ -3,8 +3,8 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('cardsCtrl',
-        ['$scope', '$timeout', '$window', 'cardsService', 
-         function ($scope, $timeout, $window, cardsService) {
+        ['$scope', '$timeout', '$window', '$filter', 'cardsService', 
+         function ($scope, $timeout, $window, $filter, cardsService) {
             $scope.gridOptions = {
                 onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
@@ -65,6 +65,39 @@
 
             $scope.$on('RemoveOrganisationEvent', function (event, organisation) {
                 $scope.removeOrganisation($scope.cards, organisation);
+            });
+
+            var removeEmptyRootItem = function(UID) {
+                var childCards = $filter('filter')($scope.cards, function(card) {
+                    return card.ParentUID === UID;
+                });
+                if (childCards.length === 0) {
+                    for (var i = 0; i < $scope.cards.length; i++) {
+                        if ($scope.cards[i].UID === UID) {
+                            $scope.cards.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            $scope.$on('DeleteCardEvent', function (event, card) {
+                for (var i = 0; i < $scope.cards.length; i++) {
+                    var item = $scope.cards[i];
+                    if (item.UID === card.UID) {
+                        $scope.cards.splice(i, 1);
+                        removeEmptyRootItem(item.ParentUID);
+                        break;
+                    }
+                }
+            });
+
+            $scope.$on('BlockCardEvent', function () {
+                reloadTree();
+            });
+
+            $scope.$on('NewCardEvent', function () {
+                reloadTree();
             });
          }]
     );

@@ -140,7 +140,7 @@ namespace JournalModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) =>
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "BBook.png", (p) =>
 			{
 				var layoutPartJournalProperties = p as LayoutPartJournalProperties;
 				var filter = ClientManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.FilterUID);
@@ -154,7 +154,7 @@ namespace JournalModule
 				
 				return journalViewModel;
 			});
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => _archiveViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "BArchive.png", (p) => _archiveViewModel);
 		}
 
 		#endregion

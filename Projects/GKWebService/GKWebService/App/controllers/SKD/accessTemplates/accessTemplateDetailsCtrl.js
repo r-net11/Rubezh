@@ -11,6 +11,8 @@
 
             $scope.model = accessTemplate;
 
+            $scope.accessTemplates = accessTemplatesService.accessTemplates;
+
             if ($scope.isNew) {
                 $scope.title = "Создание шаблона доступа";
             } else {

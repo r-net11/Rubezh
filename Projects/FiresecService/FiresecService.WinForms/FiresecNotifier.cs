@@ -1,5 +1,4 @@
 ﻿using FiresecService.Presenters;
-using Infrastructure.Common.BalloonTrayTip;
 using System;
 
 namespace FiresecService
@@ -13,7 +12,6 @@ namespace FiresecService
 
 		public void BalloonShowFromServer(string text)
 		{
-			BalloonHelper.ShowFromServer(text);
 		}
 
 		public void OnPoll(Guid clientUID)
@@ -43,7 +41,7 @@ namespace FiresecService
 
 		public void SetLocalAddress(string address)
 		{
-			MainPresenter.SetLocalAddress(address);
+			
 		}
 
 		public void SetRemoteAddress(string address)

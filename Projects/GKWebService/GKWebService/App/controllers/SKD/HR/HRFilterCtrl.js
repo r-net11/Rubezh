@@ -3,9 +3,11 @@
     'use strict';
 
     var app = angular.module('gkApp.controllers').controller('HRFilterCtrl', 
-        ['$scope', '$uibModalInstance', 'filter', 'personType',
-        function ($scope, $uibModalInstance, filter, personType) {
+        ['$scope', '$uibModalInstance', 'filter', 'personType', 'showEmployeeFilter',
+        function ($scope, $uibModalInstance, filter, personType, showEmployeeFilter) {
             $scope.isShowPositions = (personType === "Employee");
+
+            $scope.showEmployeeFilter = showEmployeeFilter;
 
             $scope.employeesHeader = (personType === "Employee") ? "Сотрудники" : "Посетители";
 

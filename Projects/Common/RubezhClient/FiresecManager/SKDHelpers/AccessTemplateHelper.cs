@@ -14,7 +14,7 @@ namespace RubezhClient.SKDHelpers
 
 		public static IEnumerable<AccessTemplate> GetByCurrentUser()
 		{
-			return Get(new AccessTemplateFilter() { UserUID = ClientManager.CurrentUser.UID });
+			return Get(new AccessTemplateFilter() { User = ClientManager.CurrentUser });
 		}
 
 		public static bool Save(AccessTemplate accessTemplate, bool isNew)

@@ -80,5 +80,17 @@ namespace GKWebService.Models.SKD.Departments
 
             return operationResult;
         }
-    }
+
+		public static void Paste(List<DepartmentDetailsViewModel> departments)
+		{
+			foreach (var department in departments)
+			{
+				var childDepartments = departments.Where(d => d.Department.ParentDepartmentUID == department.Department.UID).ToList();
+				department.Department.UID = Guid.NewGuid();
+				childDepartments.ForEach(d => d.SelectedDepartment.UID = department.Department.UID);
+				department.Department.ChildDepartmentUIDs = new List<Guid>();
+				department.Save(true);
+			}
+		}
+	}
 }

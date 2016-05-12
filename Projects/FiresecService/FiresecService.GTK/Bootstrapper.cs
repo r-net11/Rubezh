@@ -2,7 +2,6 @@
 using System.Reflection;
 using Common;
 using FiresecService.Processor;
-using FiresecService.Report;
 using FiresecService.Service;
 using Infrastructure.Automation;
 using Infrastructure.Common;
@@ -45,7 +44,7 @@ namespace FiresecService
 
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
-				ServerLoadHelper.SetStatus(FSServerState.Opened);
+				//ServerLoadHelper.SetStatus(FSServerState.Opened);
 
 				OpcDaHelper.Initialize(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers, ReadTagValue, WriteTagValue);
 
@@ -54,7 +53,7 @@ namespace FiresecService
 				GKProcessor.Start();
 
 				UILogger.Log("Запуск сервиса отчетов");
-				if (ReportServiceManager.Run())
+				/*if (ReportServiceManager.Run())
 				{
 					UILogger.Log("Сервис отчетов запущен: " + ConnectionSettingsManager.ReportServerAddress);
 					MainView.Current.SetReportAddress(ConnectionSettingsManager.ReportServerAddress);
@@ -63,7 +62,7 @@ namespace FiresecService
 				{
 					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
 					MainView.Current.SetReportAddress("<Ошибка>");
-				}
+				}*/
 
 				AutomationProcessor.Start();
 				ScheduleRunner.Start();
@@ -108,7 +107,7 @@ namespace FiresecService
 
 		public static void Close()
 		{
-			ServerLoadHelper.SetStatus(FSServerState.Closed);
+			//ServerLoadHelper.SetStatus(FSServerState.Closed);
 			Environment.Exit(1);
 #if !DEBUG
 			System.Diagnostics.Process.GetCurrentProcess().Kill();

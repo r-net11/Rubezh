@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Common;
-using RubezhAPI.Models;
-using RubezhClient;
-using Infrastructure;
-using Infrastructure.Client.Plans;
+﻿using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
+using Infrastructure.Plans;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Presenter;
+using Infrastructure.Plans.ViewModels;
 using PlansModule.Designer;
 using PlansModule.Primitives;
+using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System;
+using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
@@ -82,7 +81,7 @@ namespace PlansModule.ViewModels
 				presenterItem.OverridePainter(new MonitorPolygonSubPlanPainter(presenterItem, elementBase.PlanUID));
 			}
 
-			foreach(var elementBase in Plan.ElementTextBoxes)
+			foreach (var elementBase in Plan.ElementTextBoxes)
 			{
 				var presenterItem = DesignerCanvas.CreateMonitorTextBoxPresenterItem(elementBase);
 				presenterItem.OverridePainter(new MonitorTextBoxPainter(presenterItem));

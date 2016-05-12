@@ -65,6 +65,25 @@ namespace GKWebService.Controllers
             return new JsonNetResult { Data = departmentModel };
         }
 
+        [ErrorHandler]
+        public JsonNetResult GetDepartmentDetailsMany(Guid organisationId, List<Guid> ids)
+        {
+	        var departments = ids.Select(id =>
+	        {
+				var departmentModel = new DepartmentDetailsViewModel()
+				{
+					Department = new Department()
+				};
+
+				departmentModel.Initialize(organisationId, id, null);
+
+		        return departmentModel;
+	        }).ToList();
+
+
+            return new JsonNetResult { Data = departments };
+        }
+
         [HttpPost]
         [ErrorHandler]
         public JsonNetResult DepartmentDetails(DepartmentDetailsViewModel departmentModel, bool isNew)
@@ -160,5 +179,14 @@ namespace GKWebService.Controllers
             var operationResult = DepartmentHelper.Restore(department);
             return new JsonNetResult { Data = operationResult };
         }
-    }
+
+		[HttpPost]
+		[ErrorHandler]
+		public JsonNetResult Paste(List<DepartmentDetailsViewModel> departments)
+		{
+			DepartmentDetailsViewModel.Paste(departments);
+
+			return new JsonNetResult();
+		}
+	}
 }

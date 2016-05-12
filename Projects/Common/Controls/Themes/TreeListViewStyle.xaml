@@ -1,24 +1,23 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:Controls="clr-namespace:Controls"
-					xmlns:Converters="clr-namespace:Controls.Converters"
-					xmlns:s="clr-namespace:System;assembly=mscorlib">
+					xmlns:controls="clr-namespace:Controls"
+					xmlns:converters="clr-namespace:Controls.Converters">
 
-	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
+	<converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 
-	<Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
+	<Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type controls:TreeListViewItem}">
 		<Setter Property="Panel.Background" Value="#00FFFFFF" />
 		<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
 		<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-		<Setter Property="Control.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
-		<Setter Property="Control.VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
-		<Setter Property="Control.Padding" Value="1,0,0,0" />
+		<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
+		<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
+		<Setter Property="Padding" Value="1,0,0,0" />
 		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 		<Setter Property="BorderThickness" Value="0,0,0,1" />
 		<Setter Property="BorderBrush" Value="LightGray" />
 		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
 		<Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
-		<Setter Property="FrameworkElement.FocusVisualStyle">
+		<Setter Property="FocusVisualStyle">
 			<Setter.Value>
 				<Style TargetType="IFrameworkInputElement">
 					<Setter Property="Control.Template">
@@ -31,9 +30,9 @@
 				</Style>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="Control.Template">
+		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="Controls:TreeListViewItem">
+				<ControlTemplate TargetType="controls:TreeListViewItem">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
@@ -42,26 +41,45 @@
 							<RowDefinition Height="Auto" />
 							<RowDefinition />
 						</Grid.RowDefinitions>
-						<Border Name="Bd" Grid.Row="0" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="True">
-							<Controls:TreeGridViewRowPresenter x:Name="PART_Header" Height="{Binding Path=RowHeight, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" Columns="{Binding Path=Columns, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" Content="{TemplateBinding Header}" FirstColumnIndent="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}, ConverterParameter=19}">
-								<Controls:TreeGridViewRowPresenter.Resources>
+						<Border Name="Bd"
+								Grid.Row="0"
+								Background="{TemplateBinding Panel.Background}"
+								BorderBrush="{TemplateBinding Border.BorderBrush}"
+								BorderThickness="{TemplateBinding Border.BorderThickness}"
+								Padding="{TemplateBinding Control.Padding}"
+								SnapsToDevicePixels="True">
+							<controls:TreeGridViewRowPresenter x:Name="PART_Header"
+															   Height="{Binding Path=RowHeight, RelativeSource={RelativeSource AncestorType={x:Type controls:TreeListView}}}"
+															   Columns="{Binding Path=Columns, RelativeSource={RelativeSource AncestorType={x:Type controls:TreeListView}}}"
+															   Content="{TemplateBinding Header}"
+															   FirstColumnIndent="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type controls:TreeListViewItem}}, ConverterParameter=19}">
+								<controls:TreeGridViewRowPresenter.Resources>
 									<Style TargetType="{x:Type ContentPresenter}">
 										<Setter Property="VerticalAlignment" Value="Center" />
 									</Style>
-								</Controls:TreeGridViewRowPresenter.Resources>
-								<Controls:TreeGridViewRowPresenter.Expander>
+								</controls:TreeGridViewRowPresenter.Resources>
+								<controls:TreeGridViewRowPresenter.Expander>
 									<Grid>
-										<ToggleButton Name="Expander" Width="21" Height="20" Margin="-1" ClickMode="Press" IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}}">
+										<ToggleButton Name="Expander"
+													  Width="21" Height="20"
+													  Margin="-1"
+													  ClickMode="Press"
+													  IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type controls:TreeListViewItem}}}">
 											<ToggleButton.Style>
 												<Style TargetType="ToggleButton">
-													<Setter Property="UIElement.Focusable" Value="False" />
-													<Setter Property="FrameworkElement.Width" Value="19" />
-													<Setter Property="FrameworkElement.Height" Value="13" />
-													<Setter Property="Control.Template">
+													<Setter Property="Focusable" Value="False" />
+													<Setter Property="Width" Value="19" />
+													<Setter Property="Height" Value="13" />
+													<Setter Property="Template">
 														<Setter.Value>
 															<ControlTemplate TargetType="ToggleButton">
 																<Border Background="Transparent">
-																	<Path x:Name="CheckMark" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Gray" UseLayoutRounding="False" />
+																	<Path x:Name="CheckMark"
+																		  Margin="2"
+																		  HorizontalAlignment="Center"
+																		  VerticalAlignment="Center"
+																		  Fill="Gray"
+																		  UseLayoutRounding="False" />
 																</Border>
 																<ControlTemplate.Triggers>
 																	<Trigger Property="IsMouseOver" Value="True">
@@ -81,8 +99,8 @@
 											</ToggleButton.Style>
 										</ToggleButton>
 									</Grid>
-								</Controls:TreeGridViewRowPresenter.Expander>
-							</Controls:TreeGridViewRowPresenter>
+								</controls:TreeGridViewRowPresenter.Expander>
+							</controls:TreeGridViewRowPresenter>
 						</Border>
 						<ItemsPresenter Name="ItemsHost" Grid.Row="1" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" />
 					</Grid>
@@ -106,9 +124,9 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="treelistviewscroll" TargetType="{x:Type ScrollViewer}">
-		<Setter Property="UIElement.Focusable" Value="False" />
-		<Setter Property="Control.Template">
+	<Style x:Key="Treelistviewscroll" TargetType="{x:Type ScrollViewer}">
+		<Setter Property="Focusable" Value="False" />
+		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ScrollViewer}">
 					<Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
@@ -121,13 +139,36 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
-						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-							<GridViewHeaderRowPresenter Columns="{Binding Path=Columns, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						<ScrollViewer Grid.Row="0" Grid.Column="0" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+							<GridViewHeaderRowPresenter Columns="{Binding Path=Columns, RelativeSource={RelativeSource AncestorType={x:Type controls:TreeListView}}}"
+														SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</ScrollViewer>
 						<Rectangle Grid.Row="0" Grid.Column="1" Fill="{DynamicResource BackgroundBrush}" SnapsToDevicePixels="True" />
-						<ScrollContentPresenter Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.Column="0" CanContentScroll="{TemplateBinding CanContentScroll}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" KeyboardNavigation.DirectionalNavigation="Local" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-						<ScrollBar Name="PART_VerticalScrollBar" Grid.Row="1" Grid.Column="1" Cursor="Arrow" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0.0" Orientation="Vertical" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-						<ScrollBar Name="PART_HorizontalScrollBar" Grid.Row="2" Grid.Column="0" Cursor="Arrow" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0.0" Orientation="Horizontal" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+						<ScrollContentPresenter Name="PART_ScrollContentPresenter"
+												Grid.Row="1" Grid.Column="0"
+												CanContentScroll="{TemplateBinding CanContentScroll}"
+												Content="{TemplateBinding Content}"
+												ContentTemplate="{TemplateBinding ContentTemplate}"
+												KeyboardNavigation.DirectionalNavigation="Local"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						<ScrollBar Name="PART_VerticalScrollBar"
+								   Grid.Row="1" Grid.Column="1"
+								   Cursor="Arrow"
+								   Maximum="{TemplateBinding ScrollableHeight}"
+								   Minimum="0.0"
+								   Orientation="Vertical"
+								   ViewportSize="{TemplateBinding ViewportHeight}"
+								   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+								   Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+						<ScrollBar Name="PART_HorizontalScrollBar"
+								   Grid.Row="2" Grid.Column="0"
+								   Cursor="Arrow"
+								   Maximum="{TemplateBinding ScrollableWidth}"
+								   Minimum="0.0"
+								   Orientation="Horizontal"
+								   ViewportSize="{TemplateBinding ViewportWidth}"
+								   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+								   Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 						<DockPanel Grid.Row="2" Grid.Column="1" Background="{Binding Path=Background, ElementName=PART_VerticalScrollBar}" LastChildFill="false">
 							<Rectangle Width="1" DockPanel.Dock="Left" Fill="White" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
 							<Rectangle Height="1" DockPanel.Dock="Top" Fill="White" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
@@ -138,7 +179,7 @@
 		</Setter>
 	</Style>
 
-	<Style BasedOn="{StaticResource {x:Type TreeView}}" TargetType="{x:Type Controls:TreeListView}">
+	<Style BasedOn="{StaticResource {x:Type TreeView}}" TargetType="{x:Type controls:TreeListView}">
 		<Setter Property="ItemTemplate">
 			<Setter.Value>
 				<HierarchicalDataTemplate ItemsSource="{Binding Children}" />
@@ -154,19 +195,24 @@
 		<Setter Property="RowHeight" Value="19" />
 		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
 		<Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
-		<Setter Property="Controls:ListViewLayoutManager.Enabled" Value="True" />
-		<Setter Property="Controls:ListViewLayoutManager.MinWidth" Value="50" />
-		<Setter Property="Controls:ListViewLayoutManager.Columns" Value="{Binding Columns, RelativeSource={RelativeSource Self}}" />
-		<Setter Property="Control.Template">
+		<Setter Property="controls:ListViewLayoutManager.Enabled" Value="True" />
+		<Setter Property="controls:ListViewLayoutManager.MinWidth" Value="50" />
+		<Setter Property="controls:ListViewLayoutManager.Columns" Value="{Binding Columns, RelativeSource={RelativeSource Self}}" />
+		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="Controls:TreeListView">
+				<ControlTemplate TargetType="controls:TreeListView">
 					<Grid>
 						<Border Name="Bd" Margin="1" Background="DarkGray" BorderThickness="0" CornerRadius="5" />
 						<Grid>
 							<Grid.OpacityMask>
 								<VisualBrush Visual="{Binding Source={x:Reference Bd}}" />
 							</Grid.OpacityMask>
-							<ScrollViewer Background="{TemplateBinding Background}" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Style="{StaticResource treelistviewscroll}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+							<ScrollViewer Background="{TemplateBinding Background}" CanContentScroll="True"
+										  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+										  Padding="{TemplateBinding Padding}"
+										  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+										  Style="{StaticResource Treelistviewscroll}"
+										  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
 								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
 							</ScrollViewer>
 						</Grid>

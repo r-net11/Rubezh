@@ -12,13 +12,13 @@ namespace FiresecService
 		public Widget Create()
 		{
 			vBox = new VBox{ Spacing = 6 };
-			var hBox1 = new HBox { Spacing = 6, MarginStart = 5, MarginTop = 10, MarginEnd = 5 };
+			var hBox1 = new HBox { Spacing = 6, MarginLeft = 5, MarginTop = 10, MarginRight = 5 };
 			var vBox11 = new VBox();
 			var vBox12 = new VBox();
-			var hBox2 = new HBox { Spacing = 7, MarginStart = 5, MarginEnd = 5 };
+			var hBox2 = new HBox { Spacing = 7, MarginLeft = 5, MarginRight = 5 };
 			var vBox21 = new VBox();
 			var vBox22 = new VBox();
-			var hBox3 = new HBox { Spacing = 24, MarginStart = 5, MarginEnd = 5 };
+			var hBox3 = new HBox { Spacing = 24, MarginLeft = 5, MarginRight = 5 };
 			var vBox31 = new VBox();
 			var vBox32 = new VBox();
 			WidgetHelper.AddWidget(vBox, hBox1, 0);
@@ -57,11 +57,6 @@ namespace FiresecService
 		public string ReportAddress
 		{
 			set { reportAddressEntry.Text = value; }
-		}
-
-		public void Update()
-		{
-			//hBox.ShowAll();
 		}
 	}
 }

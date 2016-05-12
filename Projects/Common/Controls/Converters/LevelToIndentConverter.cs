@@ -16,9 +16,7 @@ namespace Controls.Converters
 			if (parameter != null)
 				Double.TryParse(parameter.ToString(), out indentSize);
 
-			return ((int)o) * indentSize;
-			//else
-			//	return new Thickness((int)o * c_IndentSize, 0, 0, 0);
+			return (int)o * indentSize;
 		}
 
 		public object ConvertBack(object o, Type type, object parameter, CultureInfo culture)

@@ -33,13 +33,13 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ToolbarVisible = true;
 		}
 
-		string logoSource;
+		string _logoSource;
 		public string LogoSource
 		{
-			get { return logoSource; }
+			get { return _logoSource; }
 			set
 			{
-				logoSource = value;
+				_logoSource = value;
 				OnPropertyChanged(() => LogoSource);
 			}
 		}
@@ -63,15 +63,15 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		bool textVisibility;
+		bool _textVisibility;
 		public bool TextVisibility
 		{
-			get { return textVisibility; }
+			get { return _textVisibility; }
 			set
 			{
 				if (TextVisibility != value)
 					RegistrySettingsHelper.SetBool(ClientType + ".Shell.TextVisibility", !value);
-				textVisibility = value;
+				_textVisibility = value;
 				OnPropertyChanged(() => TextVisibility);
 			}
 		}

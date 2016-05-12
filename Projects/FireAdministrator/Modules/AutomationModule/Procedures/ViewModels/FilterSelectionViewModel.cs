@@ -24,8 +24,12 @@ namespace AutomationModule.ViewModels
 		}
 
 		void InitializeFilters()
-		{
-			Filters = new ObservableCollection<FilterViewModel>();
+		{			
+			if (Filters == null)
+				Filters = new ObservableCollection<FilterViewModel>();
+			else
+				Filters.Clear();
+
 			foreach (var filter in ClientManager.SystemConfiguration.JournalFilters.FindAll(x => !Procedure.FiltersUids.Contains(x.UID)))
 			{
 				var filterViewModel = new FilterViewModel(filter);
@@ -39,7 +43,16 @@ namespace AutomationModule.ViewModels
 		void OnCreateFilter()
 		{
 			ServiceFactoryBase.Events.GetEvent<CreateFilterEvent>().Publish(new object());
-			InitializeFilters();
+
+			var all = ClientManager.SystemConfiguration.JournalFilters.FindAll(x => !Procedure.FiltersUids.Contains(x.UID));
+			var newFilters = all.Where(f => !Filters.Any(x => x.Filter.UID == f.UID)).Select(p => new FilterViewModel(p));
+
+			foreach (var filter in newFilters)
+			{
+				Filters.Add(filter);
+			}
+
+			SelectedFilter = Filters.Last();
 		}
 
 		public ObservableCollection<FilterViewModel> Filters { get; private set; }

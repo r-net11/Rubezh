@@ -109,7 +109,7 @@ namespace SKDModule.ViewModels
 		{
 			var filter = new ScheduleFilter()
 			{
-				UserUID = ClientManager.CurrentUser.UID,
+				User = ClientManager.CurrentUser, 
 				LogicalDeletationType = hrFilter.LogicalDeletationType,
 				EmployeeUIDs = hrFilter.EmplooyeeUIDs
 			};

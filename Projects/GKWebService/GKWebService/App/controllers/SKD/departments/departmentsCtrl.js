@@ -40,6 +40,7 @@
                         $scope.gridOptions.data = $scope.departments;
                         departmentsService.selectedDepartment = null;
                         departmentsService.selectedEmployee = null;
+                        departmentsService.departments = $scope.departments;
                         $timeout(function() {
                             $scope.gridApi.treeBase.expandAllRows();
                     });

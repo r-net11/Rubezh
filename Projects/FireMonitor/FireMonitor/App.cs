@@ -67,11 +67,6 @@ namespace FireMonitor
 				if (GlobalSettingsHelper.GlobalSettings.RunRevisor)
 					StartRevisor();
 			}
-			catch (StartupCancellationException)
-			{
-				ApplicationService.ShutDown();
-				return;
-			}
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "App.OnStartup");

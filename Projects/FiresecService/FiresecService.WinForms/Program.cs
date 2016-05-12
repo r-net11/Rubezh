@@ -19,8 +19,6 @@ namespace FiresecService
 		[STAThread]
 		static void Main()
 		{
-			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
-			ServerLoadHelper.SetStatus(FSServerState.Opening);
 
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 

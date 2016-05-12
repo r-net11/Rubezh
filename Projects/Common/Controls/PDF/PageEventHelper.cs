@@ -6,8 +6,8 @@ namespace Controls.PDF
 {
 	public class PageEventHelper : PdfPageEventHelper
 	{
-		private PdfContentByte cb;
-		private PdfTemplate template;
+		PdfContentByte cb;
+		PdfTemplate template;
 
 		public int FontSize { get; set; }
 		public int FotterShift { get; set; }

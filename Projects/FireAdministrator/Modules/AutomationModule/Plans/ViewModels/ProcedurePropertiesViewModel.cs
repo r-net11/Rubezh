@@ -1,5 +1,5 @@
 ﻿using AutomationModule.ViewModels;
-using Infrastructure.Designer.ElementProperties.ViewModels;
+using Infrastructure.Plans.ElementProperties.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using System;
