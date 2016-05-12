@@ -73,7 +73,6 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(850, 650);
 			this.Name = "MainView";
-			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MainWinFormView";
 			this._statusStripMain.ResumeLayout(false);
