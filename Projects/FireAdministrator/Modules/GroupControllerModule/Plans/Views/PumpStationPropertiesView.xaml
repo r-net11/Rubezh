@@ -36,7 +36,8 @@
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Height="16" Source="/Controls;component/Images/BPumpStation.png" />
+										<Image Source="{Binding PlanElementUIDs, Converter={StaticResource PlanElementUIDsToImageSourceConverter}}" />
+										<Image Width="16" Height="16" Margin="1 0 0 0" Source="/Controls;component/Images/BPumpStation.png" />
 										<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding No}" VerticalAlignment="Center" />
 									</StackPanel>
 								</DataTemplate>
