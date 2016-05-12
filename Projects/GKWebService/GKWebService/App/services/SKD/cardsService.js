@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('cardsService', ['$http', '$q', function ($http, $q) {
+    app.factory('cardsService', ['$http', '$q', 'dialogService', function ($http, $q, dialogService) {
         var _getCards = function(filter) {
             var deferred = $q.defer();
 
@@ -12,8 +12,7 @@
                 });
                 deferred.resolve(response.data.rows);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения пропусков");
+                dialogService.showError(response.data, "Ошибка получения пропусков");
                 deferred.reject();
             });
 
@@ -28,8 +27,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка удаления должности");
+                dialogService.showError(response.data, "Ошибка удаления должности");
                 deferred.reject();
             });
 

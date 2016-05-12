@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('departmentsService', ['$http', '$q', function ($http, $q) {
+    app.factory('departmentsService', ['$http', '$q', 'dialogService', function ($http, $q, dialogService) {
         var _getDepartments = function(filter) {
             var deferred = $q.defer();
 
@@ -12,8 +12,7 @@
                 });
                 deferred.resolve(response.data.rows);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения подразделений");
+                dialogService.showError(response.data, "Ошибка получения подразделений");
                 deferred.reject();
             });
 
@@ -31,8 +30,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения подразделения");
+                dialogService.showError(response.data, "Ошибка получения подразделения");
                 deferred.reject();
             });
 
@@ -49,8 +47,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения подразделений");
+                dialogService.showError(response.data, "Ошибка получения подразделений");
                 deferred.reject();
             });
 
@@ -74,8 +71,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка вставки подразделения");
+                dialogService.showError(response.data, "Ошибка вставки подразделения");
                 deferred.reject();
             });
 
@@ -95,8 +91,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data.rows);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения сотрудников подразделения");
+                dialogService.showError(response.data, "Ошибка получения сотрудников подразделения");
                 deferred.reject();
             });
 
@@ -113,8 +108,7 @@
             }).then(function (response) {
                 deferred.resolve(employee);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения сотрудника подразделения");
+                dialogService.showError(response.data, "Ошибка сохранения сотрудника подразделения");
                 deferred.reject();
             });
 
@@ -131,8 +125,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка установки руководителя");
+                dialogService.showError(response.data, "Ошибка установки руководителя");
                 deferred.reject();
             });
 
@@ -152,8 +145,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения подразделения");
+                dialogService.showError(response.data, "Ошибка сохранения подразделения");
                 deferred.reject();
             });
 
@@ -168,8 +160,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка удаления подразделения");
+                dialogService.showError(response.data, "Ошибка удаления подразделения");
                 deferred.reject();
             });
 
@@ -184,8 +175,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка восстановления подразделения");
+                dialogService.showError(response.data, "Ошибка восстановления подразделения");
                 deferred.reject();
             });
 
@@ -198,8 +188,7 @@
             $http.get('Departments/GetChildEmployeeUIDs', { params: { departmentId: UID } }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения сотрудников");
+                dialogService.showError(response.data, "Ошибка получения сотрудников");
                 deferred.reject();
             });
 
@@ -212,8 +201,7 @@
             $http.get('Hr/GetDepartmentEmployees/' + UID).then(function (response) {
                 deferred.resolve(response.data.Employees);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения сотрудников");
+                dialogService.showError(response.data, "Ошибка получения сотрудников");
                 deferred.reject();
             });
 

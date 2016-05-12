@@ -3,7 +3,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('accessTemplatesService', ['$http', '$q', function ($http, $q) {
+    app.factory('accessTemplatesService', ['$http', '$q', 'dialogService', function ($http, $q, dialogService) {
         var _getAccessTemplates = function (filter) {
             var deferred = $q.defer();
 
@@ -13,8 +13,7 @@
                 });
                 deferred.resolve(response.data.rows);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения шаблонов доступа");
+                dialogService.showError(response.data, "Ошибка получения шаблонов доступа");
                 deferred.reject();
             });
 
@@ -27,8 +26,7 @@
             $http.get('AccessTemplates/GetDoors/' + UID).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения точек доступа");
+                dialogService.showError(response.data, "Ошибка получения точек доступа");
                 deferred.reject();
             });
 
@@ -46,8 +44,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения шаблона доступа");
+                dialogService.showError(response.data, "Ошибка получения шаблона доступа");
                 deferred.reject();
             });
 
@@ -65,8 +62,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения шаблона доступа");
+                dialogService.showError(response.data, "Ошибка получения шаблона доступа");
                 deferred.reject();
             });
 
@@ -82,8 +78,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения шаблона доступа");
+                dialogService.showError(response.data, "Ошибка сохранения шаблона доступа");
                 deferred.reject();
             });
 
@@ -99,8 +94,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка удаления шаблона доступа");
+                dialogService.showError(response.data, "Ошибка удаления шаблона доступа");
                 deferred.reject();
             });
 
@@ -116,8 +110,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка восстановления шаблона доступа");
+                dialogService.showError(response.data, "Ошибка восстановления шаблона доступа");
                 deferred.reject();
             });
 
@@ -134,8 +127,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка вставки шаблона доступа");
+                dialogService.showError(response.data, "Ошибка вставки шаблона доступа");
                 deferred.reject();
             });
 

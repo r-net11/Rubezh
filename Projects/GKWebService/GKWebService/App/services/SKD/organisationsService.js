@@ -2,15 +2,14 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('organisationsService', ['$http', '$q', function ($http, $q) {
+    app.factory('organisationsService', ['$http', '$q', 'dialogService', function ($http, $q, dialogService) {
         var _getOrganisations = function(filter) {
             var deferred = $q.defer();
 
             $http.get('Organisations/GetOrganisations', { params: filter }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения организаций");
+                dialogService.showError(response.data, "Ошибка получения организаций");
                 deferred.reject();
             });
 
@@ -23,8 +22,7 @@
             $http.get('Organisations/GetOrganisationDetails/' + UID).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения организации");
+                dialogService.showError(response.data, "Ошибка получения организации");
                 deferred.reject();
             });
 
@@ -37,8 +35,7 @@
             $http.get('Hr/GetOrganisationEmployees/' + UID).then(function (response) {
                 deferred.resolve(response.data.Employees);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения сотрудников организации");
+                dialogService.showError(response.data, "Ошибка получения сотрудников организации");
                 deferred.reject();
             });
 
@@ -52,8 +49,7 @@
                 .then(function (response) {
                     deferred.resolve(response.data.Users);
                 }, function (response) {
-                    // TODO: реализовать обработку ошибок
-                    alert("Ошибка получения пользователей организации");
+                    dialogService.showError(response.data, "Ошибка получения пользователей организации");
                     deferred.reject();
                 });
 
@@ -68,8 +64,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data.Doors);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения точек доступа организации");
+                dialogService.showError(response.data, "Ошибка получения точек доступа организации");
                 deferred.reject();
             });
 
@@ -82,8 +77,7 @@
             $http.get('Organisations/IsAnyOrganisationItems/' + UID).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения привязанных объектов организации");
+                dialogService.showError(response.data, "Ошибка получения привязанных объектов организации");
                 deferred.reject();
             });
 
@@ -99,8 +93,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения пользователя организации");
+                dialogService.showError(response.data, "Ошибка сохранения пользователя организации");
                 deferred.reject();
             });
 
@@ -116,8 +109,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения точки доступа организации");
+                dialogService.showError(response.data, "Ошибка сохранения точки доступа организации");
                 deferred.reject();
             });
 
@@ -137,8 +129,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения организации");
+                dialogService.showError(response.data, "Ошибка сохранения организации");
                 deferred.reject();
             });
 
@@ -154,8 +145,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка удаления организации");
+                dialogService.showError(response.data, "Ошибка удаления организации");
                 deferred.reject();
             });
 
@@ -171,8 +161,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка восстановления организации");
+                dialogService.showError(response.data, "Ошибка восстановления организации");
                 deferred.reject();
             });
 
