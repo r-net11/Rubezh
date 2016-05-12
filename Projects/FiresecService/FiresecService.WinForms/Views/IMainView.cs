@@ -1,11 +1,6 @@
-﻿using FiresecService.Models;
-using RubezhAPI.License;
+﻿using RubezhAPI.License;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Windows.Threading;
 
 namespace FiresecService.Views
 {
@@ -43,9 +38,7 @@ namespace FiresecService.Views
 		bool EnableMenuDisconnect { get; set; }
 		BindingSource ClientsContext { set; }
 		BindingSource LogsContext { set; }
-		string LocalAddress { set; }
 		string RemoteAddress { set; }
-		string ReportAddress { set; }
 		BindingSource GkLifecyclesContext { set; }
 		BindingSource ClientPollsContext { set; }
 		BindingSource OperationsContext { set; }
@@ -58,6 +51,6 @@ namespace FiresecService.Views
 		bool HasVideo { set; }
 		bool HasOpcServer { set; }
 		string InitialKey { set; }
-		event EventHandler ClickLoadLicense; 
+		event EventHandler ClickLoadLicense;
 	}
 }

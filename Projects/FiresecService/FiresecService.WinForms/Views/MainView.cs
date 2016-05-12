@@ -1,16 +1,8 @@
-﻿using RubezhAPI.License;
+﻿using FiresecService.Views.TypeConverters;
+using RubezhAPI.License;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Windows.Threading;
-using FiresecService.Views.TypeConverters;
-using System.Windows.Data;
-using FiresecService.Models;
 
 namespace FiresecService.Views
 {
@@ -74,47 +66,33 @@ namespace FiresecService.Views
 			}
 			get { return (BindingSource)_dataGridViewLog.DataSource; }
 		}
-		
+
 		// Вкладка "Статус"
 		TabPage _tabPageStatus;
-		Label _labelServerLocalAddress;
 		Label _labelServerRemoteAddress;
-		Label _labelReportServerAddress;
-		ContextMenuStrip _contexMenuStripServerLocalAddressCopyToClipboard;
 		ContextMenuStrip _contexMenuStripRemoteAddressCopyToClipboard;
-		ContextMenuStrip _contexMenuStripReportServerAddressCopyToClipboard;
-
-		public string LocalAddress
-		{
-			set { _labelServerLocalAddress.Text = value; }
-		}
-
+		
 		public string RemoteAddress
 		{
 			set { _labelServerRemoteAddress.Text = value; }
 		}
 
-		public string ReportAddress
-		{
-			set { _labelReportServerAddress.Text = value; }
-		}
-
 		// Вкладка ГК
 		TabPage _tabPageGK;
 		DataGridView _dataGridViewGkLifecycles;
-		public BindingSource GkLifecyclesContext 
+		public BindingSource GkLifecyclesContext
 		{
-			set 
+			set
 			{
 				_dataGridViewGkLifecycles.DataSource = null;
 				_dataGridViewGkLifecycles.DataSource = value;
-			} 
+			}
 		}
 
 		// Вкладка Поллинг
 		TabPage _tabPagePolling;
 		DataGridView _dataGridViewPolling;
-		public BindingSource ClientPollsContext 
+		public BindingSource ClientPollsContext
 		{
 			set
 			{
@@ -126,7 +104,7 @@ namespace FiresecService.Views
 		// Вкладка Операции
 		TabPage _tabPageOperations;
 		DataGridView _dataGridViewOperations;
-		public BindingSource OperationsContext 
+		public BindingSource OperationsContext
 		{
 			set
 			{
@@ -148,7 +126,7 @@ namespace FiresecService.Views
 		Button _buttonLoadLicense;
 		Button _buttonCopyLicense;
 
-		public LicenseMode LicenseMode 
+		public LicenseMode LicenseMode
 		{
 			set
 			{
@@ -156,22 +134,22 @@ namespace FiresecService.Views
 				_labelLicenseStatus.Text = converter.ConvertToString(value);
 			}
 		}
-		public int RemoteClientsCount 
+		public int RemoteClientsCount
 		{
-			set 
+			set
 			{
 				_labelRemoteWorkStation.Text = value.ToString();
-			} 
+			}
 		}
-		public bool HasFirefighting 
+		public bool HasFirefighting
 		{
-			set 
+			set
 			{
 				var converter = new BooleanTypeConverter();
 				_labelFirefighting.Text = converter.ConvertToString(value);
-			} 
+			}
 		}
-		public bool HasGuard 
+		public bool HasGuard
 		{
 			set
 			{
@@ -179,35 +157,35 @@ namespace FiresecService.Views
 				_labelSecurity.Text = converter.ConvertToString(value);
 			}
 		}
-		public bool HasSKD 
+		public bool HasSKD
 		{
 			set
 			{
 				var converter = new BooleanTypeConverter();
 				_labelAccess.Text = converter.ConvertToString(value);
-			} 
+			}
 		}
-		public bool HasVideo 
+		public bool HasVideo
 		{
 			set
 			{
 				var converter = new BooleanTypeConverter();
 				_labelVideo.Text = converter.ConvertToString(value);
-			} 
+			}
 		}
-		public bool HasOpcServer 
+		public bool HasOpcServer
 		{
 			set
 			{
 				var converter = new BooleanTypeConverter();
 				_labelOpcServer.Text = converter.ConvertToString(value);
-			} 
+			}
 		}
-		public string InitialKey 
+		public string InitialKey
 		{
 			set { _labelLicenseKey.Text = value; }
 		}
-		
+
 		// Сторока состояния окна
 		public string LastLog
 		{
@@ -345,58 +323,22 @@ namespace FiresecService.Views
 			_tabPageStatus = new TabPage() { Name = "_tabPageStatus", Text = "Статус" };
 			_tabControlMain.TabPages.Add(_tabPageStatus);
 
-			_contexMenuStripServerLocalAddressCopyToClipboard = new ContextMenuStrip();
-			var menuItem = new ToolStripMenuItem();
-			menuItem.Name = "_ToolStripMenuItemServerLocalAddressCopyToClipboard";
-			menuItem.Text = "Копировать";
-			menuItem.Click += EventHandler_MenuItemServerLocalAddressCopyToClipboard_Click;
-			_contexMenuStripServerLocalAddressCopyToClipboard.Items.Add(menuItem);
-
 			_contexMenuStripRemoteAddressCopyToClipboard = new ContextMenuStrip();
-			menuItem = new ToolStripMenuItem();
+			var menuItem = new ToolStripMenuItem();
 			menuItem.Name = "_ToolStripMenuItemRemoteAddressCopyToClipboard";
 			menuItem.Text = "Копировать";
 			menuItem.Click += EventHandler_MenuItemRemoteAddressCopyToClipboard_Click;
 			_contexMenuStripRemoteAddressCopyToClipboard.Items.Add(menuItem);
-
-			_contexMenuStripReportServerAddressCopyToClipboard = new ContextMenuStrip();
-			menuItem = new ToolStripMenuItem();
-			menuItem.Name = "_ToolStripMenuItemReportServerAddressCopyToClipboard";
-			menuItem.Text = "Копировать";
-			menuItem.Click += EventHandler_MenuItemReportServerAddressCopyToClipboard_Click;
-			_contexMenuStripReportServerAddressCopyToClipboard.Items.Add(menuItem);
-
-
-			var font = new Font(Label.DefaultFont.FontFamily, 10, FontStyle.Bold); 
+						
+			var font = new Font(Label.DefaultFont.FontFamily, 10, FontStyle.Bold);
 
 			var label = new Label()
-			{
-				Name = "_labelServerLocalAddressTitle",
-				Text = "Локальный адрес сервера:",
-				Font = font,
-				AutoSize = true,
-				Location = new Point(10, 10)
-			};
-			_tabPageStatus.Controls.Add(label);
-
-			_labelServerLocalAddress = new Label()
-			{
-				Name = "_labelServerLocalAddressValue",
-				Text = String.Empty,
-				Font = font,
-				AutoSize = true,
-				Location = new Point(label.Location.X + label.Width + 10, label.Location.Y),
-				ContextMenuStrip = _contexMenuStripServerLocalAddressCopyToClipboard
-			};
-			_tabPageStatus.Controls.Add(_labelServerLocalAddress);
-
-			label = new Label()
 			{
 				Name = "_labelServerRemoteAddressTitle",
 				Text = "Удалённый адрес сервера:",
 				Font = font,
 				AutoSize = true,
-				Location = new Point(10, 40)
+				Location = new Point(10, 10)
 			};
 			_tabPageStatus.Controls.Add(label);
 
@@ -410,27 +352,6 @@ namespace FiresecService.Views
 				ContextMenuStrip = _contexMenuStripRemoteAddressCopyToClipboard
 			};
 			_tabPageStatus.Controls.Add(_labelServerRemoteAddress);
-
-			label = new Label()
-			{
-				Name = "_labelReportServerAddressTitle",
-				Text = "Адрес сервера отчётов:",
-				Font = font,
-				AutoSize = true,
-				Location = new Point(10, 70)
-			};
-			_tabPageStatus.Controls.Add(label);
-
-			_labelReportServerAddress = new Label()
-			{
-				Name = "_labelReportServerAddressValue",
-				Text = String.Empty,
-				Font = font,
-				AutoSize = true,
-				Location = new Point(label.Location.X + label.Width + 10, label.Location.Y),
-				ContextMenuStrip = _contexMenuStripReportServerAddressCopyToClipboard
-			};
-			_tabPageStatus.Controls.Add(_labelReportServerAddress);
 
 			#endregion
 
@@ -513,7 +434,7 @@ namespace FiresecService.Views
 				Name = "_dataGridViewColumnFirstPollTime",
 				HeaderText = "Первый полинг",
 				DataPropertyName = "FirstPollTime",
-				DefaultCellStyle = new DataGridViewCellStyle{ Format = "dd.MM.yyyy HH:mm:ss" }
+				DefaultCellStyle = new DataGridViewCellStyle { Format = "dd.MM.yyyy HH:mm:ss" }
 			});
 
 			_dataGridViewPolling.Columns.Add(new DataGridViewTextBoxColumn()
@@ -521,7 +442,7 @@ namespace FiresecService.Views
 				Name = "_dataGridViewColumnLastPollTime",
 				HeaderText = "Последний полинг",
 				DataPropertyName = "LastPollTime",
-				DefaultCellStyle = new DataGridViewCellStyle{ Format = "dd.MM.yyyy HH:mm:ss" }
+				DefaultCellStyle = new DataGridViewCellStyle { Format = "dd.MM.yyyy HH:mm:ss" }
 			});
 
 			_dataGridViewPolling.Columns.Add(new DataGridViewTextBoxColumn()
@@ -567,18 +488,18 @@ namespace FiresecService.Views
 			_tabPageLicense.Resize += EventHandler_tabPageLicense_Resize;
 			_tabControlMain.TabPages.Add(_tabPageLicense);
 
-			var groupBox = new GroupBox 
-			{ 
-				Name = "groupBoxLicenseStatus", 
+			var groupBox = new GroupBox
+			{
+				Name = "groupBoxLicenseStatus",
 				Text = String.Empty,
 				Left = _tabPageLicense.Padding.Left,
- 				Padding = new Padding(10),
+				Padding = new Padding(10),
 			};
 			_tabPageLicense.Controls.Add(groupBox);
 
-			label = new Label 
-			{ 
-				Name = "_labelLicenseStatus", 
+			label = new Label
+			{
+				Name = "_labelLicenseStatus",
 				Text = "Статус лицензии:",
 				AutoSize = true,
 				Font = font,
@@ -761,19 +682,9 @@ namespace FiresecService.Views
 
 		}
 
-		void EventHandler_MenuItemReportServerAddressCopyToClipboard_Click(object sender, EventArgs e)
-		{
-			Clipboard.SetText(_labelReportServerAddress.Text);
-		}
-
 		void EventHandler_MenuItemRemoteAddressCopyToClipboard_Click(object sender, EventArgs e)
 		{
 			Clipboard.SetText(_labelServerRemoteAddress.Text);
-		}
-
-		void EventHandler_MenuItemServerLocalAddressCopyToClipboard_Click(object sender, EventArgs e)
-		{
-			Clipboard.SetText(_labelServerLocalAddress.Text);
 		}
 
 		void EventHandler_dataGridViewLog_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -802,7 +713,7 @@ namespace FiresecService.Views
 			groupBoxLicenseStatus.Top = 0;
 			groupBoxLicenseStatus.Left = control.Padding.Left;
 			groupBoxLicenseStatus.Width = control.Width - (control.Padding.Left + control.Padding.Right);
-			
+
 			var labelLicenseStatus = (Label)groupBoxLicenseStatus.Controls["_labelLicenseStatus"];
 			labelLicenseStatus.Location = new Point(groupBoxLicenseStatus.Left, groupBoxLicenseStatus.Padding.Top);
 			_labelLicenseStatus.Location = new Point(labelLicenseStatus.Location.X + labelLicenseStatus.Width + 10,
@@ -834,7 +745,7 @@ namespace FiresecService.Views
 
 			_labelSecurity.Top = labelSecurity.Top;
 			_labelSecurity.Left = labelSecurity.Left + labelSecurity.Width + 10;
-			
+
 			var labelAccess = (Label)groupBoxLicense.Controls["_labelAccess"];
 			labelAccess.Location = new Point(groupBoxLicense.Left,
 				groupBoxLicense.Padding.Top + labelRemoteWorkStation.Height * 3);
@@ -856,7 +767,7 @@ namespace FiresecService.Views
 			_labelOpcServer.Top = labelOpcServer.Top;
 			_labelOpcServer.Left = labelOpcServer.Left + labelOpcServer.Width + 10;
 
-			groupBoxLicense.Height = groupBoxLicense.Padding.Top + groupBoxLicense.Padding.Bottom 
+			groupBoxLicense.Height = groupBoxLicense.Padding.Top + groupBoxLicense.Padding.Bottom
 				+ labelRemoteWorkStation.Height * 6;
 
 			var groupBoxLoadingLicense = (GroupBox)control.Controls["groupBoxLoadingLicense"];

@@ -110,37 +110,11 @@ namespace FiresecService.Presenters
 
 		#region Address
 
-		public static void SetLocalAddress(string address)
-		{
-			if (Current != null)
-			{
-				Current.SyncContext.Post(state => { Current.LocalAddress = address; }, null);
-			}
-		}
-
 		public static void SetRemoteAddress(string address)
 		{
 			if (Current != null)
 			{
 				Current.SyncContext.Post(state => { Current.RemoteAddress = address; }, null);
-			}
-		}
-
-		public static void SetReportAddress(string address)
-		{
-			if (Current != null)
-			{
-				Current.SyncContext.Post(state => { Current.ReportAddress = address; }, null);
-			}
-		}
-
-		string _localAddress;
-		public string LocalAddress
-		{
-			set
-			{
-				_localAddress = value;
-				View.LocalAddress = _localAddress;
 			}
 		}
 
@@ -155,16 +129,6 @@ namespace FiresecService.Presenters
 			}
 		}
 
-		string _reportAddress;
-		public string ReportAddress
-		{
-			get { return _reportAddress; }
-			set
-			{
-				_reportAddress = value;
-				View.ReportAddress = _reportAddress;
-			}
-		}
 		#endregion Address
 
 		#region Clients
