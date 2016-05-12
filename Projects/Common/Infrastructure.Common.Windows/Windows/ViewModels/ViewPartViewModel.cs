@@ -8,7 +8,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 	{
 		protected Dictionary<KeyGesture, RelayCommand> Shortcuts { get; private set; }
 
-		private bool _isActive;
+		bool _isActive;
 		public bool IsActive
 		{
 			get { return _isActive; }
@@ -20,7 +20,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public bool IsRightPanelEnabled { get; set; }
-		private bool _isRightPanelVisible;
+		bool _isRightPanelVisible;
 		public bool IsRightPanelVisible
 		{
 			get { return _isRightPanelVisible; }
@@ -34,7 +34,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			get { return false; }
 		}
-		private string IsRightPanelVisibleRegistryKey
+
+		string IsRightPanelVisibleRegistryKey
 		{
 			get { return "Shell.IsRightPanelVisible." + Key; }
 		}
@@ -68,7 +69,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			IsActive = false;
 		}
 
-		private void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
+		void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
 		{
 			if (IsActive && ApplicationService.ApplicationWindow.IsKeyboardFocusWithin && !ApplicationService.Layout.IsRightPanelFocused)
 			{

@@ -10,11 +10,9 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Designer;
 using Infrastructure.Events;
-using RubezhAPI.License;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
 using RubezhClient;
-using SKDModule.Events;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
@@ -62,8 +60,8 @@ namespace SKDModule
 				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowHREvent>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"){IsVisible = isCardFiels},
-						new NavigationItem<ShowTimeTrackingEvent>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW"){IsVisible = isTimeTracking}
+						new NavigationItem<ShowJournalHREvent, Guid>(SKDTabItems.HRViewModel, "Картотека", "Kartoteka2W"){IsVisible = isCardFiels},
+						new NavigationItem<ShowJournalTimeTrackingEvent, Guid>(SKDTabItems.TimeTrackingTabsViewModel, "Учет рабочего времени", "TimeTrackingW"){IsVisible = isTimeTracking}
 					}) { IsVisible = LicenseManager.CurrentLicenseInfo.HasSKD && (isCardFiels || isTimeTracking)}
 				};
 		}
@@ -153,6 +151,8 @@ public class SKDTabItems
 		TimeTrackingTabsViewModel = new TimeTrackingTabsViewModel(this);
 		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Unsubscribe(OnShowJournalHR);
 		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Subscribe(OnShowJournalHR);
+		ServiceFactory.Events.GetEvent<ShowJournalTimeTrackingEvent>().Unsubscribe(OnShowJournalTimeTracking);
+		ServiceFactory.Events.GetEvent<ShowJournalTimeTrackingEvent>().Subscribe(OnShowJournalTimeTracking);
 	}
 
 	public void Initialize()
@@ -163,8 +163,11 @@ public class SKDTabItems
 
 	void OnShowJournalHR(Guid uid)
 	{
-		if (HRViewModel.ShowFromJournal(uid))
-			return;
+		HRViewModel.ShowFromJournal(uid);
+	}
+
+	void OnShowJournalTimeTracking(Guid uid)
+	{
 		TimeTrackingTabsViewModel.ShowFromJournal(uid);
 	}
 }
