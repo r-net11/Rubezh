@@ -1,4 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:clientPlans="clr-namespace:Infrastructure.Plans.Views;assembly=Infrastructure.Plans" xmlns:common="clr-namespace:Infrastructure.Plans.Designer;assembly=Infrastructure.Plans" xmlns:ViewModels="clr-namespace:PlansModule.ViewModels" xmlns:Views="clr-namespace:PlansModule.Views">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:clientPlans="clr-namespace:Infrastructure.Plans.Views;assembly=Infrastructure.Plans"
+					xmlns:ViewModels="clr-namespace:PlansModule.ViewModels"
+					xmlns:Views="clr-namespace:PlansModule.Views">
 
 	<DataTemplate DataType="{x:Type ViewModels:PlanDesignerViewModel}">
 		<clientPlans:PlanDesignerView />

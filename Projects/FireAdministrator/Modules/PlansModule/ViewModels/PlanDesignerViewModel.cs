@@ -1,6 +1,5 @@
 ﻿using Common;
 using Infrastructure.Common;
-using Infrastructure.Designer.ViewModels;
 using Infrastructure.Plans;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.ViewModels;

@@ -6,8 +6,6 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Designer;
-using Infrastructure.Designer.Events;
 using Infrastructure.Events;
 using Infrastructure.Plans;
 using Infrastructure.Plans.Events;

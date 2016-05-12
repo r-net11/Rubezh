@@ -38,6 +38,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -46,11 +47,58 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Adorners\ResizeChromePoint.cs" />
+    <Compile Include="Adorners\ResizeChromeRectangle.cs" />
+    <Compile Include="Adorners\ResizeChromeShape.cs" />
+    <Compile Include="BaseDesignerCanvas.cs" />
+    <Compile Include="DesignerCanvasHelper.cs" />
+    <Compile Include="DesignerClipboard.cs" />
+    <Compile Include="DesignerItemFactory.cs" />
+    <Compile Include="DesignerItems\DesignerItemBase.cs" />
+    <Compile Include="DesignerItems\DesignerItemPoint.cs" />
+    <Compile Include="DesignerItems\DesignerItemRectangle.cs" />
+    <Compile Include="DesignerItems\DesignerItemShape.cs" />
+    <Compile Include="DesignerLoader.cs" />
+    <Compile Include="ElementProperties\ViewModels\EllipsePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\PolygonPropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\PolylinePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\RectanglePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\TextBlockPropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\TextBoxPropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\EllipsePropertiesView.xaml.cs">
+      <DependentUpon>EllipsePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ElementProperties\Views\ImagePropertiesView.xaml.cs">
+      <DependentUpon>ImagePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ElementProperties\Views\PolygonPropertiesView.xaml.cs">
+      <DependentUpon>PolygonPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ElementProperties\Views\PolylinePropertiesView.xaml.cs">
+      <DependentUpon>PolylinePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ElementProperties\Views\RectanglePropertiesView.xaml.cs">
+      <DependentUpon>RectanglePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ElementProperties\Views\TextBlockPropertiesView.xaml.cs">
+      <DependentUpon>TextBlockPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ElementProperties\Views\TextBoxPropertiesView.xaml.cs">
+      <DependentUpon>TextBoxPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\EditPlanElementBindingEvent.cs" />
     <Compile Include="Extentions\ElementBaseExtentions.cs" />
     <Compile Include="Extentions\PointCollectionExtentions.cs" />
     <Compile Include="Extentions\StretchExtentions.cs" />
@@ -67,10 +115,17 @@
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\RegisterPlanPresenterEvent.cs" />
+    <Compile Include="GridLineController.cs" />
+    <Compile Include="InstrumentAdorners\EllipseAdorner.cs" />
     <Compile Include="InstrumentAdorners\GeometryHelper.cs" />
+    <Compile Include="InstrumentAdorners\GridLineAdorner.cs" />
+    <Compile Include="InstrumentAdorners\GridLineShape.cs" />
     <Compile Include="InstrumentAdorners\InstrumentAdorner.cs" />
+    <Compile Include="InstrumentAdorners\PointsAdorner.cs" />
+    <Compile Include="InstrumentAdorners\BasePolygonAdorner.cs" />
     <Compile Include="InstrumentAdorners\PolygonAdorner.cs" />
-    <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
+    <Compile Include="InstrumentAdorners\PolylineAdorner.cs" />
+    <Compile Include="InstrumentAdorners\BaseRectangleAdorner.cs" />
     <Compile Include="Designer\ResizeChrome.cs" />
     <Compile Include="Designer\ResizeDirection.cs" />
     <Compile Include="Designer\DesignerItem.cs" />
@@ -85,6 +140,11 @@
     <Compile Include="Events\PainterFactoryEvent.cs" />
     <Compile Include="Events\DesignerItemFactoryEvent.cs" />
     <Compile Include="Events\ShowElementEvent.cs" />
+    <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
+    <Compile Include="InstrumentAdorners\RemoveButton.cs" />
+    <Compile Include="InstrumentAdorners\RubberbandAdorner.cs" />
+    <Compile Include="InstrumentAdorners\TextBlockAdorner.cs" />
+    <Compile Include="InstrumentAdorners\TextBoxAdorner.cs" />
     <Compile Include="IPlanExtension.cs" />
     <Compile Include="IPlanPresenter.cs" />
     <Compile Include="Painters\DefaultPainter.cs" />
@@ -114,15 +174,36 @@
     <Compile Include="Presenter\StateMonitor.cs" />
     <Compile Include="Presenter\StateTooltipViewModel.cs" />
     <Compile Include="UIHelper.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.Align.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.CopyPaste.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.History.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.ZIndex.cs" />
+    <Compile Include="ViewModels\BasePlanDesignerViewModel.Zoom.cs" />
+    <Compile Include="ViewModels\ElementBaseViewModel.cs" />
+    <Compile Include="ViewModels\ElementGroupViewModel.cs" />
+    <Compile Include="ViewModels\ElementsViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModel.cs" />
     <Compile Include="ViewModels\ImageTextStateTooltipViewModel.cs" />
     <Compile Include="ViewModels\ImageTextTooltipViewModel.cs" />
+    <Compile Include="ViewModels\InstrumentGroupViewModel.cs" />
     <Compile Include="ViewModels\InstrumentViewModel.cs" />
     <Compile Include="ViewModels\IPlanDesignerViewModel.cs" />
+    <Compile Include="ViewModels\ToolboxViewModel.cs" />
+    <Compile Include="Views\ElementsView.xaml.cs">
+      <DependentUpon>ElementsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ImageTextStateTooltipView.xaml.cs">
       <DependentUpon>ImageTextStateTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ImageTextTooltipView.xaml.cs">
       <DependentUpon>ImageTextTooltipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InstrumentGroupView.xaml.cs">
+      <DependentUpon>InstrumentGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InstrumentView.xaml.cs">
+      <DependentUpon>InstrumentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlanDesignerView.xaml.cs">
       <DependentUpon>PlanDesignerView.xaml</DependentUpon>
@@ -133,6 +214,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LayerGroupService.cs" />
     <Compile Include="Events\FindElementEvent.cs" />
+    <Compile Include="Views\ToolboxView.xaml.cs">
+      <DependentUpon>ToolboxView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Transparent.bmp" />
@@ -145,6 +229,10 @@
     <ProjectReference Include="..\Controls\Controls.csproj">
       <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
       <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Client\Infrastructure.Client.csproj">
+      <Project>{f91017cc-7740-46f0-b86a-9fdb6e2e1edb}</Project>
+      <Name>Infrastructure.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common.Windows\Infrastructure.Common.Windows.csproj">
       <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
@@ -160,6 +248,42 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ElementProperties\Views\EllipsePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\ImagePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\PolygonPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\PolylinePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\RectanglePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\TextBlockPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\TextBoxPropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InstrumentAdorners\GridLineShape.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ElementsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ImageTextStateTooltipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -168,7 +292,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\InstrumentGroupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\InstrumentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\PlanDesignerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ToolboxResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ToolboxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

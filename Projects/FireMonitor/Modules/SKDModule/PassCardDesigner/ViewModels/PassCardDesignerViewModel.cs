@@ -1,8 +1,8 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Designer.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI.SKD;
 using SKDModule.PassCardDesigner.Designer;
