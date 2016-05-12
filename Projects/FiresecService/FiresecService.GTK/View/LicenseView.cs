@@ -63,8 +63,8 @@ public class LicenseView
 		vbox11 = new VBox { Spacing = 6 };
 		vbox12 = new VBox { Spacing = 6 };
 
-		hbox2 = new HBox { Spacing = 6, MarginBottom = 10, MarginStart = 10 };
-		vbox21 = new VBox { Spacing = 6, MarginEnd = 10};
+		hbox2 = new HBox { Spacing = 6, MarginBottom = 10, MarginRight = 10 };
+		vbox21 = new VBox { Spacing = 6, MarginLeft = 10};
 		hbox211 = new HBox { Spacing = 4 };
 		hbox212 = new HBox { Spacing = 6 };
 

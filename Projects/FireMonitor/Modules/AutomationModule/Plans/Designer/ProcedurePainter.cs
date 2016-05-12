@@ -1,15 +1,9 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using Infrastructure.Client.Plans.Presenter;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
+﻿using AutomationModule.ViewModels;
 using Infrastructure.Plans.Painters;
 using Infrastructure.Plans.Presenter;
 using RubezhAPI.Automation;
+using RubezhAPI.Models;
 using System.Windows.Input;
-using AutomationModule.ViewModels;
 
 namespace AutomationModule.Plans.Designer
 {
@@ -28,7 +22,7 @@ namespace AutomationModule.Plans.Designer
 			PresenterItem.IsPoint = false;
 			PresenterItem.ShowBorderOnMouseOver = true;
 			PresenterItem.Cursor = Cursors.Hand;
-			PresenterItem.ClickEvent += (s, e) => 
+			PresenterItem.ClickEvent += (s, e) =>
 				ProcedureArgumentsViewModel.Run(Item);
 			_tooltip = new ProcedureTooltipViewModel(Item);
 		}

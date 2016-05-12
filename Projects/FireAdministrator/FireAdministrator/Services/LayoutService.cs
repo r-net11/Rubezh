@@ -5,9 +5,9 @@ namespace FireAdministrator
 {
 	public class LayoutService : Infrastructure.ILayoutService
 	{
-		private Infrastructure.Common.Windows.ILayoutService ApplicationLayoutService
+		ILayoutService ApplicationLayoutService
 		{
-			get { return Infrastructure.Common.Windows.ApplicationService.Layout; }
+			get { return ApplicationService.Layout; }
 		}
 
 		#region ILayoutService Members

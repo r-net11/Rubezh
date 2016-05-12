@@ -1,9 +1,9 @@
-﻿using Infrastructure;
+﻿using Controls.Extentions;
+using Infrastructure;
 using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;
@@ -14,9 +14,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using Infrastructure.Plans;
 using Color = System.Windows.Media.Color;
-
 
 namespace AutomationModule.ViewModels
 {
@@ -143,11 +141,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				IsSimpleType = value != ExplicitType.Object;
-				if (ExplicitValue.ExplicitType != value)
-				{
-					ExplicitValue.ExplicitType = value;
-					OnPropertyChanged(() => ExplicitType);
-				}
+				ExplicitValue.ExplicitType = value;
+				OnPropertyChanged(() => ExplicitType);
 			}
 		}
 
@@ -174,6 +169,13 @@ namespace AutomationModule.ViewModels
 					ExplicitValue.ObjectType = value;
 					if (ObjectReferenceValueList != null && ObjectReferenceValueList.Any(x => x.Value.ObjectType != value))
 						ObjectReferenceValueList.Clear();
+
+					if (ExplicitValue.Value is ObjectReference)
+					{
+						ExplicitValue.Value = new ObjectReference { ObjectType = ExplicitValue.ObjectType };
+						IsEmpty = true;
+					}
+
 					OnPropertyChanged(() => ObjectType);
 				}
 			}

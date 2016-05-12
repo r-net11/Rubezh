@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('gkApp.services');
-    app.factory('positionsService', ['$http', '$q', function ($http, $q) {
+    app.factory('positionsService', ['$http', '$q', 'dialogService', function ($http, $q, dialogService) {
         var _getPositions = function(filter) {
             var deferred = $q.defer();
 
@@ -12,8 +12,7 @@
                 });
                 deferred.resolve(response.data.rows);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения должности");
+                dialogService.showError(response.data, "Ошибка получения должности");
                 deferred.reject();
             });
 
@@ -31,8 +30,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения должности");
+                dialogService.showError(response.data, "Ошибка получения должности");
                 deferred.reject();
             });
 
@@ -51,8 +49,7 @@
             }).then(function (response) {
                 deferred.resolve(response.data.rows);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения сотрудников должности");
+                dialogService.showError(response.data, "Ошибка получения сотрудников должности");
                 deferred.reject();
             });
 
@@ -69,8 +66,7 @@
             }).then(function (response) {
                 deferred.resolve(employee);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения сотрудника должности");
+                dialogService.showError(response.data, "Ошибка сохранения сотрудника должности");
                 deferred.reject();
             });
 
@@ -90,8 +86,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка сохранения должности");
+                dialogService.showError(response.data, "Ошибка сохранения должности");
                 deferred.reject();
             });
 
@@ -107,8 +102,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка удаления должности");
+                dialogService.showError(response.data, "Ошибка удаления должности");
                 deferred.reject();
             });
 
@@ -124,8 +118,7 @@
             }).then(function (response) {
                 deferred.resolve();
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка восстановления должности");
+                dialogService.showError(response.data, "Ошибка восстановления должности");
                 deferred.reject();
             });
 
@@ -138,8 +131,7 @@
             $http.get('Positions/GetChildEmployeeUIDs', { params: { positionId: UID } }).then(function (response) {
                 deferred.resolve(response.data);
             }, function (response) {
-                // TODO: реализовать обработку ошибок
-                alert("Ошибка получения сотрудников");
+                dialogService.showError(response.data, "Ошибка получения сотрудников");
                 deferred.reject();
             });
 

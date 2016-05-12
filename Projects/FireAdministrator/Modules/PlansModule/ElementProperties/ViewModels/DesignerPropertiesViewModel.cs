@@ -1,7 +1,7 @@
-﻿using Infrastructure.Common;
+﻿using Controls.Extentions;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrastructure.Plans;
+using Infrastructure.Plans.ElementProperties.ViewModels;
 using RubezhAPI.Models;
 using Color = System.Windows.Media.Color;
 

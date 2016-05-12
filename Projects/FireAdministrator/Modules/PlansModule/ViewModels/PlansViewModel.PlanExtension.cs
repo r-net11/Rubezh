@@ -1,10 +1,9 @@
 ﻿using Controls.Converters;
-using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Plans;
 using Infrastructure.Plans.Designer;
-using PlansModule.Designer;
+using Infrastructuret.Plans;
 using PlansModule.Validation;
 using RubezhAPI;
 using RubezhAPI.Models;

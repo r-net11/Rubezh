@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:Infrastructure.Plans.Views"
+					xmlns:ViewModels="clr-namespace:Infrastructure.Plans.ViewModels"
+					xmlns:Common="clr-namespace:Infrastructure.Plans.Designer"
+					xmlns:ElementPropertiesViewModels="clr-namespace:Infrastructure.Plans.ElementProperties.ViewModels"
+					xmlns:ElementPropertiesViews="clr-namespace:Infrastructure.Plans.ElementProperties.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:ImageTextTooltipViewModel}">
+		<Views:ImageTextTooltipView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ImageTextStateTooltipViewModel}">
+		<Views:ImageTextStateTooltipView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:InstrumentGroupViewModel}">
+		<Views:InstrumentGroupView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ToolboxViewModel}">
+		<Views:ToolboxView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type Common:IInstrument}">
+		<Views:InstrumentView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ElementsViewModel}">
+		<Views:ElementsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:RectanglePropertiesViewModel}">
+		<ElementPropertiesViews:RectanglePropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:EllipsePropertiesViewModel}">
+		<ElementPropertiesViews:EllipsePropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:PolygonPropertiesViewModel}">
+		<ElementPropertiesViews:PolygonPropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:PolylinePropertiesViewModel}">
+		<ElementPropertiesViews:PolylinePropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:TextBlockPropertiesViewModel}">
+		<ElementPropertiesViews:TextBlockPropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:TextBoxPropertiesViewModel}">
+		<ElementPropertiesViews:TextBoxPropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ElementPropertiesViewModels:ImagePropertiesViewModel}">
+		<ElementPropertiesViews:ImagePropertiesView />
+	</DataTemplate>
+
+</ResourceDictionary>

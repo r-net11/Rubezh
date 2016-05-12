@@ -1,14 +1,7 @@
-using System.Collections.Generic;
 using Common;
-using RubezhAPI;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhAPI.Models.Layouts;
-using RubezhClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
-using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
@@ -18,6 +11,12 @@ using Infrastructure.Plans;
 using Infrastructure.Plans.Events;
 using Infrastructure.Plans.Painters;
 using PlansModule.ViewModels;
+using RubezhAPI;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhAPI.Models.Layouts;
+using RubezhClient;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PlansModule
@@ -65,7 +64,7 @@ namespace PlansModule
 					}
 				ClientManager.InvalidatePlans();
 			}
-			_planNavigationItem.IsVisible = ClientManager.PlansConfiguration.Plans.Any(x=> !x.IsNotShowPlan);
+			_planNavigationItem.IsVisible = ClientManager.PlansConfiguration.Plans.Any(x => !x.IsNotShowPlan);
 			_plansViewModel.Initialize();
 			_plansViewModels.ForEach(item => item.Initialize());
 		}

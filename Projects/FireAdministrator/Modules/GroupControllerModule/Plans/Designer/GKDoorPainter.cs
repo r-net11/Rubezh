@@ -1,10 +1,10 @@
-﻿using System.Windows.Media;
-using DeviceControls;
-using RubezhAPI.Models;
-using Infrastructure.Client.Plans.ViewModels;
+﻿using DeviceControls;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.ViewModels;
+using RubezhAPI.Models;
 using System;
+using System.Windows.Media;
 
 namespace GKModule.Plans.Designer
 {

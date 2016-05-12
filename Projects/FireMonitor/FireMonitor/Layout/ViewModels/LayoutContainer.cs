@@ -1,9 +1,9 @@
-﻿using Infrastructure;
+﻿using Controls.Extentions;
+using Infrastructure;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrastructure.Plans;
 using RubezhClient;
 using System;
 using System.Collections.Generic;

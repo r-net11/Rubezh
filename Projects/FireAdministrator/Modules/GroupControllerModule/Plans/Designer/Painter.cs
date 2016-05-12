@@ -1,7 +1,7 @@
 ﻿using DeviceControls;
-using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Painters;
+using Infrastructure.Plans.ViewModels;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using System.Windows.Media;

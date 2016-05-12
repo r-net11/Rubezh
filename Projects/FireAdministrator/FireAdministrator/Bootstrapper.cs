@@ -27,6 +27,7 @@ namespace FireAdministrator
 			var assembly = GetType().Assembly;
 			ServiceFactory.ResourceService.AddResource(assembly, "DataTemplates/Dictionary.xaml");
 			ServiceFactory.StartupService.Show();
+			ServiceFactory.StartupService.OnCloseEvent += Close;
 			if (ServiceFactory.StartupService.PerformLogin())
 			{
 				Login = ServiceFactory.StartupService.Login;
@@ -79,10 +80,6 @@ namespace FireAdministrator
 					SafeFiresecService.RestartEvent += () => { ApplicationService.Invoke(Restart); };
 
 					MutexHelper.KeepAlive();
-				}
-				catch (StartupCancellationException)
-				{
-					throw;
 				}
 				catch (Exception e)
 				{

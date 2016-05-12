@@ -152,7 +152,7 @@ namespace Infrastructure.Automation
 					var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachStep.ItemArgument.VariableUid);
 					if (listVariable != null && listVariable.IsList)
 					{
-						foreach (var listVariableItem in listVariable.Value as IList)
+						foreach (var listVariableItem in listVariable.ResolvedValue as IList)
 						{
 							if (itemVariable != null)
 								ProcedureExecutionContext.SetVariableValue(itemVariable, listVariableItem, ClientUID);

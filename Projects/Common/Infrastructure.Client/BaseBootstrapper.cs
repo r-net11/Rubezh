@@ -61,10 +61,6 @@ namespace Infrastructure.Client
 					}
 				}
 			}
-			catch (StartupCancellationException)
-			{
-				throw;
-			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "BaseBootstrapper.PreInitialize");
@@ -79,10 +75,6 @@ namespace Infrastructure.Client
 				{
 					module.AfterInitialize();
 					ApplicationService.DoEvents();
-				}
-				catch (StartupCancellationException)
-				{
-					throw;
 				}
 				catch (Exception e)
 				{
@@ -99,10 +91,6 @@ namespace Infrastructure.Client
 				{
 					module.CreateViewModels();
 					ApplicationService.DoEvents();
-				}
-				catch (StartupCancellationException)
-				{
-					throw;
 				}
 				catch (Exception e)
 				{
@@ -136,10 +124,6 @@ namespace Infrastructure.Client
 					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 					module.Initialize();
 					module.RegisterPlanExtension();
-				}
-				catch (StartupCancellationException)
-				{
-					throw;
 				}
 				catch (Exception e)
 				{
@@ -210,10 +194,6 @@ namespace Infrastructure.Client
 							Logger.Error(message);
 						}
 					}
-					catch (StartupCancellationException)
-					{
-						throw;
-					}
 					catch (Exception e)
 					{
 						Logger.Error(e, "BaseBootstrapper.ReadConfiguration");
@@ -229,10 +209,6 @@ namespace Infrastructure.Client
 			try
 			{
 				return GetLoadedAssemblyByFileName(path) ?? Assembly.LoadFile(path);
-			}
-			catch (StartupCancellationException)
-			{
-				throw;
 			}
 			catch (Exception e)
 			{
@@ -290,6 +266,12 @@ namespace Infrastructure.Client
 			if (Login != null && Password != null)
 				commandLineArguments = "login='" + Login + "' password='" + Password + "'";
 			return commandLineArguments;
+		}
+
+		protected void Close()
+		{
+			ClientManager.Disconnect();
+			Environment.Exit(1); 
 		}
 	}
 }

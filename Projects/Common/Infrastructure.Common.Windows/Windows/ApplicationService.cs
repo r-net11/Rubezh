@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Infrastructure.Common.Windows.DataTemplates;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
+using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,12 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Threading;
-using RubezhAPI.Models;
-using Infrastructure.Common.Windows.DataTemplates;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows.Views;
 
 namespace Infrastructure.Common.Windows
 {
@@ -43,7 +42,7 @@ namespace Infrastructure.Common.Windows
 			};
 		}
 
-		public static void Run(ApplicationViewModel model, bool noBorder, bool? isMaximized)
+		public static void Run(ApplicationViewModel model, bool? isMaximized)
 		{
 			var windowBaseView = new WindowBaseView(model);
 			if (isMaximized.HasValue)
@@ -100,7 +99,7 @@ namespace Infrastructure.Common.Windows
 			if (Starting != null)
 				Starting(Layout, EventArgs.Empty);
 			if (ApplicationController == null)
-				Run((ApplicationViewModel)model, false, true);
+				Run((ApplicationViewModel)model, true);
 			else
 			{
 				var frameworkElement = BuildControl(model);
@@ -127,7 +126,7 @@ namespace Infrastructure.Common.Windows
 		}
 		public static bool IsApplicationThread()
 		{
-			return Application.Current == null ? false : Application.Current.Dispatcher.Thread == Thread.CurrentThread;
+			return Application.Current != null && Application.Current.Dispatcher.Thread == Thread.CurrentThread;
 		}
 		public static void DoEvents()
 		{
@@ -178,12 +177,13 @@ namespace Infrastructure.Common.Windows
 			IsReportEnabled = Modules.Any(item => item.Name == "Отчёты");
 		}
 
-		private static void win_Closing(object sender, CancelEventArgs e)
+		static void win_Closing(object sender, CancelEventArgs e)
 		{
 			if (Closing != null)
 				Closing(sender, e);
 		}
-		private static void win_Closed(object sender, EventArgs e)
+
+		static void win_Closed(object sender, EventArgs e)
 		{
 			if (Closed != null)
 				Closed(sender, e);

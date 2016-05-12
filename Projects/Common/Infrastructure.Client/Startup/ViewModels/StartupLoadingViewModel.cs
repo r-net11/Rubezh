@@ -10,10 +10,5 @@ namespace Infrastructure.Client.Startup.ViewModels
 		{
 			CanCancel = false;
 		}
-		protected override void OnCancel()
-		{
-			base.OnCancel();
-			ApplicationService.Invoke((Action)(() => { throw new StartupCancellationException(); }));
-		}
 	}
 }
