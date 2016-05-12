@@ -53,9 +53,20 @@
             return $window.confirm(message);
         };
 
+        var _showError = function (data, message) {
+            if (message) {
+                message = message + ". ";
+            } else {
+                message = "";
+            }
+            message = message + (data ? data.errorText : "");
+            return $window.alert(message);
+        };
+
         return {
             showWindow: _showWindow,
-            showConfirm: _showConfirm
+            showConfirm: _showConfirm,
+            showError: _showError
         }
     }]);
 }());

@@ -1,8 +1,8 @@
-﻿using Infrastructure.Automation;
+﻿using Controls.Extentions;
+using Infrastructure.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Plans;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Journal;

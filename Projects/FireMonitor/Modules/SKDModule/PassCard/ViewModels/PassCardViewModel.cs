@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using Common;
-using RubezhAPI.SKD;
-using RubezhClient.SKDHelpers;
+﻿using Common;
 using Infrastructure;
-using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Plans.Designer;
-using RubezhAPI.Plans.Elements;
 using Infrastructure.Plans.Events;
+using Infrastructure.Plans.ViewModels;
+using RubezhAPI.Plans.Elements;
+using RubezhAPI.SKD;
+using RubezhClient.SKDHelpers;
 using SKDModule.PassCard.Designer;
-using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Infrastructure.Plans.Painters;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace SKDModule.PassCard.ViewModels
 {

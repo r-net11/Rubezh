@@ -1,4 +1,5 @@
-﻿using Common;
+﻿//#define WINDOWS
+using Common;
 using FiresecService.Presenters;
 using FiresecService.Processor;
 using FiresecService.Report;
@@ -11,6 +12,7 @@ using RubezhAPI.Automation;
 using RubezhAPI.AutomationCallback;
 using RubezhDAL.DataClasses;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -44,15 +46,19 @@ namespace FiresecService
 				ConfigurationCashHelper.Update();
 
 				UILogger.Log("Открытие хоста");
-				FiresecServiceManager.Open();
+#if WINDOWS
+				FiresecServiceManager.Open(true);
+#else
+				FiresecServiceManager.Open(false);
+#endif
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
-
+#if WINDOWS
 				OpcDaHelper.Initialize(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.OpcDaTsServers, ReadTagValue, WriteTagValue);
-
+#endif
 				GKProcessor.Create();
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
-
+#if WINDOWS
 				UILogger.Log("Запуск сервиса отчетов");
 				if (ReportServiceManager.Run())
 				{
@@ -64,14 +70,16 @@ namespace FiresecService
 					UILogger.Log("Ошибка при запуске сервиса отчетов", true);
 					MainPresenter.SetReportAddress("<Ошибка>");
 				}
-
+#endif
 				AutomationProcessor.Start();
 				ScheduleRunner.Start();
 				ServerTaskRunner.Start();
 				AutomationProcessor.RunOnApplicationRun();
 				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
+#if WINDOWS
 				UILogger.Log("Запуск OPC DA");
 				OpcDaServersProcessor.Start();
+#endif
 				UILogger.Log("Готово");
 
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
@@ -84,6 +92,7 @@ namespace FiresecService
 			}
 		}
 
+		[Conditional("WINDOWS")]
 		static void ReadTagValue(Guid tagUID, object value)
 		{
 			OpcDaHelper.SetTagValue(tagUID, value);
@@ -100,6 +109,7 @@ namespace FiresecService
 			}, null);
 		}
 
+		[Conditional("WINDOWS")]
 		static void WriteTagValue(Guid tagUID, object value)
 		{
 			string error;

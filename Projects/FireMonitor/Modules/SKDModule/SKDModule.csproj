@@ -390,7 +390,6 @@
     <Compile Include="Employees\Views\EmployeeDetails\PositionSelectionView.xaml.cs">
       <DependentUpon>PositionSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\ShowTimeTrackingEvent.cs" />
     <Compile Include="Events\ShowHREvent.cs" />
     <Compile Include="HR\ViewModels\EmployeesFilterViewModel.cs" />

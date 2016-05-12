@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Infrastructure.Plans.Views.ToolboxView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:i="clr-namespace:Infrastructure.Plans.Designer;assembly=Infrastructure.Plans"
+			 xmlns:TemplateSelector="clr-namespace:Controls.TemplateSelectors;assembly=Controls"
+			 IsEnabled="{Binding IsEnabled}">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ToolboxResource.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<Style x:Key="ToolBoxItem2" BasedOn="{StaticResource ToolBoxItem}" TargetType="ListBoxItem">
+				<EventSetter Event="PreviewMouseRightButtonDown" Handler="OnListViewItemPreviewMouseRightButtonDown" />
+			</Style>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+	<ListBox ItemContainerStyle="{StaticResource ToolBoxItem2}"
+			 ItemsSource="{Binding Instruments}"
+			 ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}"
+			 SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" />
+
+</UserControl>

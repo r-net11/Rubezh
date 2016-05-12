@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Infrastructure.Plans.ElementProperties.ViewModels;
 using RubezhAPI;
 using RubezhAPI.SKD;
 using RubezhClient.SKDHelpers;
-using Infrastructure.Designer.ElementProperties.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -64,7 +64,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();
 			SelectedPropertyType = ((ElementPassCardTextProperty)ElementTextBlock).PropertyType;
-			SelectedAdditionalColumnType = SelectedPropertyType == PassCardTextPropertyType.Additional ? 
+			SelectedAdditionalColumnType = SelectedPropertyType == PassCardTextPropertyType.Additional ?
 					AdditionalColumnTypes.FirstOrDefault(item => item.UID == ((ElementPassCardTextProperty)ElementTextBlock).AdditionalColumnUID) : null;
 		}
 		protected override bool Save()

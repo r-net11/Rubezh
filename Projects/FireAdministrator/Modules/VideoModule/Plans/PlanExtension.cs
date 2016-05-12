@@ -1,10 +1,10 @@
 ﻿using Common;
 using Infrastructure;
-using Infrastructure.Client.Plans;
 using Infrastructure.Events;
 using Infrastructure.Plans.Designer;
 using Infrastructure.Plans.Events;
 using Infrastructure.Plans.Services;
+using Infrastructuret.Plans;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
 using RubezhAPI.Plans.Interfaces;

@@ -180,7 +180,6 @@ namespace AutomationModule.ViewModels
 			if (ExplicitTypes.Count == 1)
 			{
 				ExplicitType = ExplicitTypes[0].ExplicitType;
-				//ExplicitValue.ExplicitType = ExplicitTypes[0].ExplicitType;
 				ExplicitValue.UpdateObjectHandler();
 			}
 

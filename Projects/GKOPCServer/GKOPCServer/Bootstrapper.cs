@@ -1,20 +1,19 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using Common;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using RubezhClient;
+﻿using Common;
 using GKOPCServer.ViewModels;
 using GKProcessor;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.License;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common.BalloonTrayTip;
-using RubezhAPI.License;
 using RubezhAPI;
-using Infrastructure.Common.License;
+using RubezhAPI.GK;
+using RubezhAPI.Models;
+using RubezhClient;
+using System;
+using System.Linq;
+using System.Threading;
 
 namespace GKOPCServer
 {
@@ -70,7 +69,7 @@ namespace GKOPCServer
 			try
 			{
 				MainViewModel = new MainViewModel();
-				ApplicationService.Run(MainViewModel, false, false);
+				ApplicationService.Run(MainViewModel, false);
 			}
 			catch (Exception e)
 			{

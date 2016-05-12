@@ -86,6 +86,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BaseBootstrapper.cs" />
+    <Compile Include="Events\SelectPlanEvent.cs" />
     <Compile Include="Images\ImageExtensions.cs" />
     <Compile Include="Images\ImageHelper.cs" />
     <Compile Include="Images\Converters\SVGConverter.cs" />
@@ -107,28 +108,6 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationItem.cs" />
-    <Compile Include="Plans\BasePlanExtension.cs" />
-    <Compile Include="Plans\Presenter\BasePointPainter.cs" />
-    <Compile Include="Plans\Presenter\BaseZonePainter.cs" />
-    <Compile Include="Plans\Presenter\IBasePainter.cs" />
-    <Compile Include="Plans\Presenter\PresenterPainterHelper.cs" />
-    <Compile Include="Plans\Presenter\StateMonitor.cs" />
-    <Compile Include="Plans\UIHelper.cs" />
-    <Compile Include="Plans\ViewModels\ImageTextTooltipViewModel.cs" />
-    <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
-    <Compile Include="Plans\ViewModels\IPlanDesignerViewModel.cs" />
-    <Compile Include="Plans\ViewModels\ImageTextStateTooltipViewModel.cs" />
-    <Compile Include="Plans\Presenter\StateTooltipViewModel.cs" />
-    <Compile Include="Plans\Views\ImageTextTooltipView.xaml.cs">
-      <DependentUpon>ImageTextTooltipView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\PlanDesignerView.xaml.cs">
-      <DependentUpon>PlanDesignerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\PlanEnumerator.cs" />
-    <Compile Include="Plans\Views\ImageTextStateTooltipView.xaml.cs">
-      <DependentUpon>ImageTextStateTooltipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -182,10 +161,6 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrastructure.Plans\Infrastructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrastructure.Plans</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -219,22 +194,6 @@
     <Page Include="Login\Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Plans\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\ImageTextTooltipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\PlanDesignerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\ImageTextStateTooltipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Startup\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

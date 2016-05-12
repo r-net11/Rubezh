@@ -130,12 +130,12 @@ namespace FiresecService
 			OpcDaServersProcessor.WriteTag(tagUID, value, out error);
 		}
 
-		private static void OnWorkThread()
+		static void OnWorkThread()
 		{
 			try
 			{
 				MainViewModel = new MainViewModel();
-				ApplicationService.Run(MainViewModel, false, false);
+				ApplicationService.Run(MainViewModel, false);
 			}
 			catch (Exception e)
 			{

@@ -249,7 +249,11 @@ namespace JournalModule.ViewModels
 			if (JournalItem.JournalSubsystemType == JournalSubsystemType.SKD)
 			{
 				IsExistsInConfig = true;
-				ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowJournalHREvent>();
+				if ((int)JournalItem.JournalObjectType >= 11 && (int)JournalItem.JournalObjectType <= 19)
+					ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowJournalHREvent>();
+
+				if ((int)JournalItem.JournalObjectType >= 20 && (int)JournalItem.JournalObjectType <= 26)
+					ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowJournalTimeTrackingEvent>();
 			}
 
 		}

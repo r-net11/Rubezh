@@ -1,5 +1,5 @@
 ﻿using Infrastructure;
-using Infrastructure.Designer;
+using Infrastructure.Plans;
 using Infrastructure.Plans.Designer;
 using PlansModule.ViewModels;
 using RubezhAPI.Models;
@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace PlansModule.Designer
 {
-	public class DesignerCanvas : Infrastructure.Designer.BaseDesignerCanvas
+	public class DesignerCanvas : BaseDesignerCanvas
 	{
 		public Plan Plan { get; private set; }
 

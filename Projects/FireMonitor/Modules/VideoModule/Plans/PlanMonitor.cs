@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using Common;
-using RubezhAPI.GK;
-using RubezhAPI.Models;
-using Infrastructure.Client.Plans.Presenter;
+﻿using Infrastructure.Plans.Presenter;
 using RubezhAPI;
+using RubezhAPI.Models;
+using System;
+using System.Linq;
 
 namespace VideoModule.Plans
 {

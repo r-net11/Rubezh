@@ -180,7 +180,6 @@ namespace RubezhAPI.Automation
 						case ExplicitType.Boolean: return BoolValue;
 						case ExplicitType.DateTime: return DateTimeValue;
 						case ExplicitType.String: return StringValue;
-						case ExplicitType.Guid: return UidValue;
 						case ExplicitType.Object: return new ObjectReference { ObjectType = this.ObjectType, UID = UidValue };
 						case ExplicitType.Enum:
 							switch (EnumType)
@@ -437,13 +436,6 @@ namespace RubezhAPI.Automation
 						ExplicitType = ExplicitType.String;
 						return;
 					}
-					if (value is Guid)
-					{
-						UidValue = (Guid)value;
-						IsList = false;
-						ExplicitType = ExplicitType.Guid;
-						return;
-					}
 
 					if (value is XStateClass)
 					{
@@ -646,7 +638,6 @@ namespace RubezhAPI.Automation
 					case ExplicitType.Boolean: return GetBoolString(BoolValue);
 					case ExplicitType.DateTime: return DateTimeValue.ToString();
 					case ExplicitType.String: return StringValue;
-					case Automation.ExplicitType.Guid:
 					case ExplicitType.Object: return GetObjectString(UidValue);
 					case ExplicitType.Enum:
 						switch (EnumType)
