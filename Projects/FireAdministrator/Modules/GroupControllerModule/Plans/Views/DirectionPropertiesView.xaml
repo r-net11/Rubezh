@@ -19,7 +19,8 @@
 						  VirtualizingStackPanel.IsVirtualizing="True" 
 						  VirtualizingStackPanel.VirtualizationMode="Standard" 
 						  UIBehavior.ShowSelectionMark="True" 
-						  UIBehavior.IsActiveSelectionMark="True">
+						  UIBehavior.IsActiveSelectionMark="True"
+						  SelectionChanged="DataGrid_SelectionChanged">
 					<DataGrid.Resources>
 						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 							<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" 

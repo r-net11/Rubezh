@@ -6,6 +6,40 @@
 			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 MinWidth="400" MinHeight="500">
 	<TabControl Background="{DynamicResource BackgroundBrush}">
+		<TabItem Header="Процедура">
+			<DataGrid ItemsSource="{Binding Procedures}" 
+					  SelectedItem="{Binding SelectedProcedure}"
+					  CanUserSortColumns="True"
+					  UIBehavior.ShowSelectionMark="True" 
+					  VirtualizingStackPanel.IsVirtualizing="True"
+					  VirtualizingStackPanel.VirtualizationMode="Standard"
+					  UIBehavior.IsActiveSelectionMark="True"
+					  SelectionChanged="DataGrid_SelectionChanged">
+				<DataGrid.Resources>
+					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+						<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+									  MouseAction="LeftDoubleClick" />
+					</InputBindingCollection>
+				</DataGrid.Resources>
+				<DataGrid.ItemContainerStyle>
+					<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+						<Setter Property="Attach.InputBindings" Value="{StaticResource inputCollection}" />
+					</Style>
+				</DataGrid.ItemContainerStyle>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Наименование1111" SortMemberPath="Name" Width="*" CanUserResize="False">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Margin="2 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/ProcedureYellow.png" />
+									<TextBlock Margin="2 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Name}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</TabItem>
 		<TabItem Header="Основные">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
@@ -85,40 +119,6 @@
 				<TextBlock Grid.Row="1" Grid.Column="0" Text="Координаты по оси У" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 				<ExtToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Top, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
 			</Grid>
-		</TabItem>
-		<TabItem Header="Процедура">
-			<ListView ItemsSource="{Binding Procedures}" 
-					  SelectedItem="{Binding SelectedProcedure}" 
-					  UIBehavior.ShowSelectionMark="True" 
-					  VirtualizingStackPanel.IsVirtualizing="True"
-					  VirtualizingStackPanel.VirtualizationMode="Standard"
-					  UIBehavior.IsActiveSelectionMark="True">
-				<ListView.Resources>
-					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-						<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type inf:SaveCancelDialogView}}, Mode=OneTime}" 
-									  MouseAction="LeftDoubleClick" />
-					</InputBindingCollection>
-				</ListView.Resources>
-				<ListView.ItemContainerStyle>
-					<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
-						<Setter Property="Attach.InputBindings" Value="{StaticResource inputCollection}" />
-					</Style>
-				</ListView.ItemContainerStyle>
-				<ListView.View>
-					<GridView>
-						<GridViewColumn Width="250" Header="Название">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Margin="2 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/ProcedureYellow.png" />
-										<TextBlock Margin="2 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Name}" />
-									</StackPanel>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-					</GridView>
-				</ListView.View>
-			</ListView>
 		</TabItem>
 	</TabControl>
 </UserControl>
