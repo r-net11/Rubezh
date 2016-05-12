@@ -67,14 +67,14 @@ namespace SKDModule.ViewModels
 				_selectedYear = value;
 				OnPropertyChanged(() => SelectedYear);
 
-				var filter = new HolidayFilter() { UserUID = ClientManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
+				var filter = new HolidayFilter() { User = ClientManager.CurrentUser, Year = value, LogicalDeletationType = LogicalDeletationType };
 				Initialize(filter);
 			}
 		}
 
 		public void Initialize()
 		{
-			var filter = new HolidayFilter() { UserUID = ClientManager.CurrentUser.UID, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
+			var filter = new HolidayFilter() { User = ClientManager.CurrentUser, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
 			Initialize(filter);
 		}
 

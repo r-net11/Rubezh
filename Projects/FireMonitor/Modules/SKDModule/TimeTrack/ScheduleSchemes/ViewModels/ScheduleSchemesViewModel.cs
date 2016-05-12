@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 			{
 				var dayIntervals = DayIntervalHelper.Get(new DayIntervalFilter()
 				{
-					UserUID = ClientManager.CurrentUser.UID,
+					User = ClientManager.CurrentUser, 
 					OrganisationUIDs = Organisations.Select(item => item.Organisation.UID).ToList(),
 				});
 				_dayIntervals = new Dictionary<Guid, ObservableCollection<DayInterval>>();

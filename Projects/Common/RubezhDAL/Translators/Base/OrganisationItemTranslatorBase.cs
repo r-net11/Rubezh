@@ -157,15 +157,20 @@ namespace RubezhDAL.DataClasses
 		protected virtual void ClearDependentData(TTableItem tableItem) { }
 		public virtual IQueryable<TTableItem> GetFilteredTableItems(TFilter filter, IQueryable<TTableItem> tableItems)
 		{
-			return tableItems.Where(x =>
-				(filter.UIDs.Count() == 0 || filter.UIDs.Contains(x.UID)) &&
-				(filter.ExceptUIDs.Count() == 0 || !filter.ExceptUIDs.Contains(x.UID)) &&
-				(filter.LogicalDeletationType != API.LogicalDeletationType.Active || !x.IsDeleted) &&
-				(filter.OrganisationUIDs.Count() == 0 ||
-					(x.OrganisationUID != null && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value))) &&
-				(filter.UserUID == Guid.Empty ||
-					x.Organisation != null && x.Organisation.Users.Any(organisationUser => organisationUser.UserUID == filter.UserUID))
-			);
+			var result = tableItems;
+			if(filter.UIDs.Count() > 0)
+				result = result.Where(x => filter.UIDs.Contains(x.UID));
+			if(filter.ExceptUIDs.Count() > 0)
+				result = result.Where(x => !filter.UIDs.Contains(x.UID));
+			if(filter.LogicalDeletationType == API.LogicalDeletationType.Active)
+				result = result.Where(x => !x.IsDeleted);
+			if(filter.LogicalDeletationType == API.LogicalDeletationType.Deleted)
+				result = result.Where(x => x.IsDeleted);
+			if(filter.OrganisationUIDs.Count() > 0)
+				result = result.Where(x => filter.OrganisationUIDs.Contains(x.OrganisationUID.Value));
+			if(filter.User != null && filter.User.UID != Guid.Empty && !filter.User.IsAdm)
+				result = result.Where(x => x.Organisation != null && x.Organisation.Users.Any(organisationUser => organisationUser.UserUID == filter.User.UID));
+			return result;
 		}
 
 		public IQueryable<TTableItem> GetFilteredTableItems(TFilter filter)

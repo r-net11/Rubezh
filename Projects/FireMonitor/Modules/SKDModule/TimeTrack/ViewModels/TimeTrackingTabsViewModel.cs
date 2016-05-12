@@ -47,25 +47,25 @@ namespace SKDModule.ViewModels
 		{
 			DayIntervalsViewModel.Initialize(new DayIntervalFilter 
 			{ 
-				UserUID = ClientManager.CurrentUser.UID, 
+				User = ClientManager.CurrentUser, 
 				LogicalDeletationType = Filter.LogicalDeletationType, 
 				OrganisationUIDs = Filter.OrganisationUIDs
 			});
 			ScheduleSchemesViewModel.Initialize(new ScheduleSchemeFilter
 			{
-				UserUID = ClientManager.CurrentUser.UID,
+				User = ClientManager.CurrentUser, 
 				LogicalDeletationType = Filter.LogicalDeletationType,
 				OrganisationUIDs = Filter.OrganisationUIDs
 			});
 			HolidaysViewModel.Initialize(new HolidayFilter
 			{
-				UserUID = ClientManager.CurrentUser.UID,
+				User = ClientManager.CurrentUser, 
 				LogicalDeletationType = Filter.LogicalDeletationType,
 				OrganisationUIDs = Filter.OrganisationUIDs
 			});
 			SchedulesViewModel.Initialize(new ScheduleFilter
 			{
-				UserUID = ClientManager.CurrentUser.UID,
+				User = ClientManager.CurrentUser, 
 				LogicalDeletationType = Filter.LogicalDeletationType,
 				OrganisationUIDs = Filter.OrganisationUIDs
 			});

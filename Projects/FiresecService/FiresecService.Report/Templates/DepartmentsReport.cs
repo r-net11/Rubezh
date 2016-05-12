@@ -63,7 +63,7 @@ namespace FiresecService.Report.Templates
 		private static IEnumerable<OrganisationBaseObjectInfo<Department>> GetDepartments(DataProvider dataProvider, DepartmentsReportFilter filter)
 		{
 			var organisationUID = Guid.Empty;
-			var organisations = dataProvider.Organisations.Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));
+			var organisations = dataProvider.Organisations.Where(org => filter.User == null || filter.User.IsAdm || org.Value.Item.UserUIDs.Any(y => y == filter.User.UID));
 			if (!filter.UseArchive)
 				organisations = organisations.Where(org => !org.Value.IsDeleted);
 			if (filter.Organisations.IsEmpty())

@@ -60,7 +60,7 @@ namespace RubezhClient.SKDHelpers
 
 		public static IEnumerable<ShortPosition> GetByCurrentUser()
 		{
-			return Get(new PositionFilter() { UserUID = ClientManager.CurrentUser.UID });
+			return Get(new PositionFilter() { User = ClientManager.CurrentUser });
 		}
 
 		public static ShortPosition GetSingleShort(Guid uid)

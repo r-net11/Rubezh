@@ -146,9 +146,9 @@ public class SKDTabItems
 	public TimeTrackingTabsViewModel TimeTrackingTabsViewModel { get; set; }
 	public SKDTabItems()
 	{
-		var userUID = ClientManager.CurrentUser.UID;
-		Filter = new HRFilter() { UserUID = ClientManager.CurrentUser.UID };
-		Filter.EmployeeFilter.UserUID = userUID;
+		var user = ClientManager.CurrentUser;
+		Filter = new HRFilter() { User = user };
+		Filter.EmployeeFilter.User = user;
 		HRViewModel = new HRViewModel(this);
 		TimeTrackingTabsViewModel = new TimeTrackingTabsViewModel(this);
 		ServiceFactory.Events.GetEvent<ShowJournalHREvent>().Unsubscribe(OnShowJournalHR);

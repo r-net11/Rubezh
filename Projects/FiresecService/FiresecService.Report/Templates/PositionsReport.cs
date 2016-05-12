@@ -36,7 +36,7 @@ namespace FiresecService.Report.Templates
             var databaseService = new RubezhDAL.DataClasses.DbService();
 			dataProvider.LoadCache();
 			Guid organisationUID = Guid.Empty;
-			var organisations = dataProvider.Organisations.Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));
+			var organisations = dataProvider.Organisations.Where(org => filter.User == null || filter.User.IsAdm || org.Value.Item.UserUIDs.Any(y => y == filter.User.UID));
 			if (!filter.UseArchive)
 				organisations = organisations.Where(org => !org.Value.IsDeleted);
 			if (filter.Organisations.IsEmpty())
@@ -73,7 +73,7 @@ namespace FiresecService.Report.Templates
 		private static IEnumerable<OrganisationBaseObjectInfo<Position>> GetPosition(DataProvider dataProvider, PositionsReportFilter filter)
 		{
 			var organisationUID = Guid.Empty;
-			var organisations = dataProvider.Organisations.Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));
+			var organisations = dataProvider.Organisations.Where(org => filter.User == null || filter.User.IsAdm || org.Value.Item.UserUIDs.Any(y => y == filter.User.UID));
 			if (filter.Organisations.IsEmpty())
 			{
 				if (filter.IsDefault)
