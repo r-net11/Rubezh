@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,7 @@ namespace GKModule.Plans.ViewModels
 	{
 		const int _sensivityFactor = 100;
 		ElementGKDevice _elementGKDevice;
+		Guid CurrentDeviceUid { get; set; }
 
 		public DevicePropertiesViewModel(ElementGKDevice elementDevice)
 		{
@@ -54,7 +56,10 @@ namespace GKModule.Plans.ViewModels
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
 			if (device.UID == _elementGKDevice.DeviceUID)
+			{
 				SelectedDevice = deviceViewModel;
+				CurrentDeviceUid = SelectedDevice.Device.UID;
+			}
 			return deviceViewModel;
 		}
 
@@ -113,7 +118,14 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool CanSave()
 		{
-			return SelectedDevice != null && SelectedDevice.Driver.IsPlaceable && (SelectedDevice.Device.PlanElementUIDs.Count == 0 || SelectedDevice.Device.AllowMultipleVizualization);
+			if (SelectedDevice != null && SelectedDevice.Driver.IsPlaceable)
+			{
+				if (SelectedDevice.Device.UID == CurrentDeviceUid)
+					return true;
+				if (SelectedDevice.Device.PlanElementUIDs.Count == 0 || SelectedDevice.Device.AllowMultipleVizualization)
+					return true;
+			}
+			return false;
 		}
 
 		public override void OnClosed()
