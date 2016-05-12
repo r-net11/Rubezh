@@ -789,19 +789,6 @@ namespace FiresecService.Views
 			groupBoxLoadingLicense.Height = _labelLicenseKey.Height + button.Height + groupBoxLoadingLicense.Padding.Top
 				+ groupBoxLoadingLicense.Padding.Bottom;
 		}
-
-		protected override void SetVisibleCore(bool value)
-		{
-			// этот код необходим что бы скрыть форму при запуске приложения
-			// http://stackoverflow.com/questions/4556411/how-to-hide-a-window-in-start-in-c-sharp-desktop-application
-			if (!IsHandleCreated && value)
-			{
-				value = false;
-				CreateHandle();
-			}
-			base.SetVisibleCore(value);
-		}
-
 		void OnCommandDisconnectActivated()
 		{
 			if (CommandDisconnectActivated != null)

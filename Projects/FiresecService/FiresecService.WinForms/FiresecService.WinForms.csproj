@@ -73,10 +73,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Selectors" />
@@ -90,7 +86,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -152,10 +147,6 @@
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Controls\Controls.csproj">
-      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
-      <Name>Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FiresecService.Core\FiresecService.Core.csproj">
       <Project>{863cfff3-5380-453e-b512-84e228ab1e5b}</Project>
       <Name>FiresecService.Core</Name>
@@ -187,10 +178,6 @@
     <ProjectReference Include="..\..\Common\RviClient\RviClient.csproj">
       <Project>{112658EB-3244-4922-AEF7-6376E688B7A7}</Project>
       <Name>RviClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FiresecService.Report\FiresecService.Report.csproj">
-      <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>
-      <Name>FiresecService.Report</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
