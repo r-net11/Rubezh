@@ -13,7 +13,6 @@ namespace AutomationModule.Plans.ViewModels
 		const int _sensivityFactor = 100;
 		private ElementProcedure _element;
 		ElementBaseRectangle ElementBaseRectangle { get; set; }
-		public bool CanEditPosition { get; private set; }
 
 		public ProcedurePropertiesViewModel(ElementProcedure element, ProceduresViewModel proceduresViewModel)
 			: base(element)
@@ -21,12 +20,8 @@ namespace AutomationModule.Plans.ViewModels
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;
 			ElementBaseRectangle = element as ElementBaseRectangle;
-			CanEditPosition = ElementBaseRectangle != null;
-			if (CanEditPosition)
-			{
-				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
-			}
+			Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+			Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
 			Title = "Свойства фигуры: Процедура";
 			if (element.ProcedureUID != Guid.Empty)
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);

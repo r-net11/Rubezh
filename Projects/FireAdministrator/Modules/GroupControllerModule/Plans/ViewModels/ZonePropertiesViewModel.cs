@@ -17,18 +17,13 @@ namespace GKModule.Plans.ViewModels
 		const int _sensivityFactor = 100;
 		IElementZone IElementZone;
 		ElementBase ElementBase { get; set; }
-		public bool CanEditPosition { get; private set; }
 		public ZonePropertiesViewModel(IElementZone element)
 		{
 			IElementZone = element;
 			ElementBase = element as ElementBase;
-			CanEditPosition = ElementBase != null;
-			if (CanEditPosition)
-			{
-				var position = ElementBase.GetPosition();
-				Left = (int)(position.X * _sensivityFactor);
-				Top = (int)(position.Y * _sensivityFactor);
-			}
+			var position = ElementBase.GetPosition();
+			Left = (int)(position.X * _sensivityFactor);
+			Top = (int)(position.Y * _sensivityFactor);
 			Title = "Свойства фигуры: Пожарная зона";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -109,8 +104,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			IElementZone.ShowState = ShowState;
-			if (CanEditPosition)
-				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
+			ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			GKPlanExtension.Instance.RewriteItem(IElementZone, SelectedZone);
 			return base.Save();
 		}
