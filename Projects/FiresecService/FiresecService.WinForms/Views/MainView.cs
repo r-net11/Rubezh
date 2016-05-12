@@ -198,17 +198,6 @@ namespace FiresecService.Views
 
 		#endregion
 
-		#region Event handlers for form
-
-		private void EventHandler_MainWinFormView_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			ShowInTaskbar = false;
-			Visible = false;
-			e.Cancel = true;
-		}
-
-		#endregion
-
 		#region Event handlers for context menu _toolStripMenuItemDisconnect
 
 		void EventHandler_toolStripMenuItemDisconnect_Click(object sender, EventArgs e)
