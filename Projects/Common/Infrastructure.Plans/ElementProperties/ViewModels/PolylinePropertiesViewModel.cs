@@ -8,13 +8,37 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 {
 	public class PolylinePropertiesViewModel : SaveCancelDialogViewModel
 	{
+		const int _sensivityFactor = 100;
 		ElementPolyline _elementPolyline;
-
-		public PolylinePropertiesViewModel(ElementPolyline elementPolyline)
+		public PolylinePropertiesViewModel(ElementPolyline element)
 		{
 			Title = "Свойства фигуры: Линия";
-			_elementPolyline = elementPolyline;
+			_elementPolyline = element;
+			var position = element.GetPosition();
+			Left = (int)(position.X * _sensivityFactor);
+			Top = (int)(position.Y * _sensivityFactor);
 			CopyProperties();
+		}
+
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged(() => Top);
+			}
 		}
 
 		void CopyProperties()
@@ -71,6 +95,7 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 		{
 			ElementBase.Copy(this, this._elementPolyline);
 			var colorConverter = new ColorToSystemColorConverter();
+			_elementPolyline.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			_elementPolyline.BorderColor = (RubezhAPI.Color)colorConverter.ConvertBack(this.BorderColor, this.BorderColor.GetType(), null, null);
 			_elementPolyline.BorderThickness = StrokeThickness;
 			return base.Save();
