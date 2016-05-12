@@ -34,24 +34,26 @@
             </div>
             <uib-tabset>
                 <uib-tab heading="Управление">
-                    <div>
+                    <div style="background: #698ebe; padding: 5px; height:50px">
                         <img style="margin: 2px; vertical-align:middle" ng-src="/Content/Image/Icon/GKStateIcons/{{mpt.ControlRegimeIcon}}.png" />
                         <span style="font-weight: bold; font-size: large; margin: 5px">Режим</span>
                         <span style="font-weight: bold; font-size: large; margin: 5px">{{mpt.ControlRegimeName}}</span>
                     </div>
-                    <div mobile-hover-fix style="background: #fff">
-                        <div style="float: left; width: 50%">
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!mpt.CanSetAutomaticState">Автоматика</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.CanSetManualState && SetManualState()" ng-disabled="!mpt.CanSetManualState">Ручное</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!mpt.CanSetIgnoreState">Отключение</div>
-                        </div>
-                        <div style="float: left; width: 50%; background: #fff">
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.IsControlRegime && TurnOn()" ng-disabled="!mpt.IsControlRegime">Пуск</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.IsControlRegime && TurnOnNow()" ng-disabled="!mpt.IsControlRegime">Пуск немедленно</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.IsControlRegime && TurnOff()" ng-disabled="!mpt.IsControlRegime">Стоп</div>
-                            <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.IsControlRegime && ForbidStart()" ng-disabled="!mpt.IsControlRegime">Осанов пуска</div>
-                        </div>
-                        <div style="clear: left">
+                    <div style="background: #698ebe; padding: 5px">
+                        <div mobile-hover-fix style="background: #fff; text-align: center; height: 250px">
+                            <div style="float: left; width: 50%">
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.CanSetAutomaticState && SetAutomaticState()" ng-disabled="!mpt.CanSetAutomaticState">Автоматика</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.CanSetManualState && SetManualState()" ng-disabled="!mpt.CanSetManualState">Ручное</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.CanSetIgnoreState && SetIgnoreState()" ng-disabled="!mpt.CanSetIgnoreState">Отключение</div>
+                            </div>
+                            <div style="float: left; width: 50%; background: #fff">
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.IsControlRegime && TurnOn()" ng-disabled="!mpt.IsControlRegime">Пуск</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.IsControlRegime && TurnOnNow()" ng-disabled="!mpt.IsControlRegime">Пуск немедленно</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.IsControlRegime && TurnOff()" ng-disabled="!mpt.IsControlRegime">Стоп</div>
+                                <div class="btn btn-primary" style="height: 50px; display: block; margin: 5px" ng-click="mpt.IsControlRegime && ForbidStart()" ng-disabled="!mpt.IsControlRegime">Осанов пуска</div>
+                            </div>
+                            <div style="clear: left">
+                            </div>
                         </div>
                     </div>
                 </uib-tab>

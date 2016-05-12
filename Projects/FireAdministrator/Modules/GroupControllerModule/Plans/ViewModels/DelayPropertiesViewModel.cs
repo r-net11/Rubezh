@@ -17,18 +17,13 @@ namespace GKModule.Plans.ViewModels
 		const int _sensivityFactor = 100;
 		IElementDelay IElementDelay;
 		ElementBase ElementBase { get; set; }
-		public bool CanEditPosition { get; private set; }
 		public DelayPropertiesViewModel(IElementDelay element)
 		{
 			IElementDelay = element;
 			ElementBase = element as ElementBase;
-			CanEditPosition = ElementBase != null;
-			if (CanEditPosition)
-			{
-				var position = ElementBase.GetPosition();
-				Left = (int)(position.X * _sensivityFactor);
-				Top = (int)(position.Y * _sensivityFactor);
-			}
+			var position = ElementBase.GetPosition();
+			Left = (int)(position.X * _sensivityFactor);
+			Top = (int)(position.Y * _sensivityFactor);
 			Title = "Свойства фигуры: Задержка";
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -126,8 +121,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			IElementDelay.ShowState = ShowState;
 			IElementDelay.ShowDelay = ShowDelay;
-			if (CanEditPosition)
-				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
+			ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			GKPlanExtension.Instance.RewriteItem(IElementDelay, SelectedDelay);
 			return base.Save();
 		}

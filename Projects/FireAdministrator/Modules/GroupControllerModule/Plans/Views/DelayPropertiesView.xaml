@@ -81,7 +81,7 @@
 					<TextBlock Text="Отображать задержку в ОЗ" HorizontalAlignment="Left" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 				</StackPanel>
 
-				<Grid Grid.Row="2" Grid.ColumnSpan="2" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Grid.Row="2" Grid.ColumnSpan="2">
 					<Grid.RowDefinitions>
 						<RowDefinition />
 						<RowDefinition />

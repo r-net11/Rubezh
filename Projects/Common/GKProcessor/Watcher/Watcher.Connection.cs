@@ -22,10 +22,21 @@ namespace GKProcessor
 						return;
 				}
 				else
-					ConnectionLostCount = 0;
+				{
+					if (ConnectionLostCount != 0)
+					{
+						ConnectionLostCount = 0;
+						IsHashFailure = GetHashResult().Item1;
+						if (!IsHashFailure)
+						{
+							GetAllStates();
+						}
+					}
+				}
 
 				if (IsConnected != isConnected)
 				{
+					IsConnected = isConnected;
 					var journalItem = new JournalItem()
 					{
 						SystemDateTime = DateTime.Now,
@@ -38,19 +49,6 @@ namespace GKProcessor
 					//if (!string.IsNullOrEmpty(gkIpAddress))
 					//	journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 					AddJournalItem(journalItem);
-
-					IsConnected = isConnected;
-					if (isConnected)
-					{
-						var hashBytes = GKFileInfo.CreateHash1(GkDatabase.RootDevice);
-						var gkFileReaderWriter = new GKFileReaderWriter();
-						var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-						IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
-						if (!IsHashFailure)
-						{
-							GetAllStates();
-						}
-					}
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{

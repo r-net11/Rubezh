@@ -14,7 +14,6 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 		public List<string> TextAlignments { get; private set; }
 		public List<string> VerticalAlignments { get; private set; }
 		ElementBaseRectangle ElementBaseRectangle { get; set; }
-		public bool CanEditPosition { get; private set; }
 		protected IElementTextBlock ElementTextBlock { get; private set; }
 
 		public TextBoxPropertiesViewModel(IElementTextBlock element)
@@ -22,14 +21,10 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 			Title = "Свойства фигуры: Ввод";
 			ElementTextBlock = element;
 			ElementBaseRectangle = element as ElementBaseRectangle;
-			CanEditPosition = ElementBaseRectangle != null;
-			if (CanEditPosition)
-			{
-				Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
-				Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
-			}
-			CopyProperties();
+			Left = (int)(ElementBaseRectangle.Left * _sensivityFactor);
+			Top = (int)(ElementBaseRectangle.Top * _sensivityFactor);
 
+			CopyProperties();
 
 			Fonts = new List<string>();
 			foreach (var fontfamily in System.Drawing.FontFamily.Families)

@@ -27,6 +27,7 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowOnPlanOrPropertiesCommand = new RelayCommand(ShowOnPlanOrProperties);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			PumpStation = pumpStation;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
@@ -71,6 +72,11 @@ namespace GKModule.ViewModels
 		{
 			return ShowOnPlanHelper.CanShowOnPlan(PumpStation);
 		}
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		private void OnShowProperties()
+		{
+			DialogService.ShowWindow(new PumpStationDetailsViewModel(PumpStation));
+		}
 
 		public bool HasOnDelay
 		{
@@ -93,5 +99,6 @@ namespace GKModule.ViewModels
 		{
 			get { return GKManager.GetPresentationLogic(PumpStation.AutomaticOffLogic.OnClausesGroup); }
 		}
+
 	}
 }
