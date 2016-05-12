@@ -1,13 +1,12 @@
 ﻿using Common;
-using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using RubezhAPI.Plans.Elements;
 using RubezhAPI;
 using RubezhAPI.Automation;
 using RubezhAPI.GK;
 using RubezhAPI.Models;
 using RubezhAPI.Models.Layouts;
+using RubezhAPI.Plans.Elements;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -139,8 +138,9 @@ namespace RubezhClient
 				GKManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.MPTs.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				GKManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				GKManager.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				GKManager.SKDZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SystemConfiguration.Cameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 				SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
@@ -192,6 +192,14 @@ namespace RubezhClient
 				{
 					if (!gkDoorMap.ContainsKey(door.UID))
 						gkDoorMap.Add(door.UID, door);
+				}
+
+				var gkSkdZoneMap = new Dictionary<Guid, GKSKDZone>();
+				foreach (var skdZone in GKManager.SKDZones)
+				{
+					if (!gkSkdZoneMap.ContainsKey(skdZone.UID))
+						gkSkdZoneMap.Add(skdZone.UID, skdZone);
+
 				}
 
 				var cameraMap = new Dictionary<Guid, Camera>();
@@ -247,15 +255,15 @@ namespace RubezhClient
 					{
 						var elementRectangleGKSKDZone = plan.ElementRectangleGKSKDZones[i - 1];
 						elementRectangleGKSKDZone.UpdateZLayer();
-						if (gkDoorMap.ContainsKey(elementRectangleGKSKDZone.ZoneUID))
-							gkDoorMap[elementRectangleGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementRectangleGKSKDZone.UID);
+						if (gkSkdZoneMap.ContainsKey(elementRectangleGKSKDZone.ZoneUID))
+							gkSkdZoneMap[elementRectangleGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementRectangleGKSKDZone.UID);
 					}
 					for (int i = plan.ElementPolygonGKSKDZones.Count(); i > 0; i--)
 					{
 						var elementPolygonGKSKDZone = plan.ElementPolygonGKSKDZones[i - 1];
 						elementPolygonGKSKDZone.UpdateZLayer();
-						if (gkDoorMap.ContainsKey(elementPolygonGKSKDZone.ZoneUID))
-							gkDoorMap[elementPolygonGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementPolygonGKSKDZone.UID);
+						if (gkSkdZoneMap.ContainsKey(elementPolygonGKSKDZone.ZoneUID))
+							gkSkdZoneMap[elementPolygonGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementPolygonGKSKDZone.UID);
 					}
 					foreach (var delay in plan.ElementRectangleGKDelays)
 					{
