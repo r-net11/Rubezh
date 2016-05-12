@@ -15,23 +15,13 @@
 	<link href="~/favicon.ico"
 		  rel="icon">
 	<title>Оперативная задача Глобал</title>
-
-	<link href="~/lib/bootstrap/dist/css/bootstrap.css"
+	<link href="~/lib/tether/dist/css/tether.min.css" rel="stylesheet" />
+	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css"
 		  rel="stylesheet" />
-	<link href="~/lib/winjs/ui-light.min.css" rel="stylesheet" />
-	<link href="~/css/menu.css" rel="stylesheet" />
 </head>
 <body>
 	@RenderBody()
-	<script src="~/lib/jquery/dist/jquery.js"></script>
-	<script src="~/lib/tether/dist/js/tether.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-	<script src="~/staticlibs/ie10-viewport-bug-workaround.js"></script>
-	<script src="~/lib/signalr/jquery.signalr.min.js"></script>
-	<script src="signalr/hubs"></script>
-
 	@RenderSection("scripts", required: false)
 	@RenderSection("systemjsconfig", required: false)
-	@RenderSection("signalr", required: false)
 </body>
 </html>

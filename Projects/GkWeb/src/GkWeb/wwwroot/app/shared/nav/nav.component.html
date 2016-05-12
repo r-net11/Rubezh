@@ -1,0 +1,20 @@
+﻿<nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
+	<button class="navbar-toggler hidden-sm-up" aria-expanded="false" aria-controls="navbar" type="button" data-toggle="collapse" data-target="#navbar">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	</button>
+	<a class="navbar-brand" href="#">Глобал</a>
+	<div id="navbar">
+		<nav class="nav navbar-nav pull-xs-left">
+			<a class="nav-item nav-link" >Сводка</a>
+			<a class="nav-item nav-link" [routerLink]="['/plans']">Графические планы</a>
+			<a class="nav-item nav-link" href="#">Profile</a>
+			<a class="nav-item nav-link" href="#">Help</a>
+		</nav>
+		<form class="pull-xs-right">
+			<input class="form-control" type="text" placeholder="Search...">
+		</form>
+	</div>
+</nav>

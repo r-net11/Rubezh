@@ -1,4 +1,4 @@
-System.register(["@angular/core", 'rxjs/Subject', 'rxjs/add/operator/map'], function(exports_1, context_1) {
+System.register(["@angular/core", 'rxjs/Subject'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -27,8 +27,7 @@ System.register(["@angular/core", 'rxjs/Subject', 'rxjs/add/operator/map'], func
             },
             function (Subject_1_1) {
                 Subject_1 = Subject_1_1;
-            },
-            function (_1) {}],
+            }],
         execute: function() {
             SignalrWindow = (function (_super) {
                 __extends(SignalrWindow, _super);

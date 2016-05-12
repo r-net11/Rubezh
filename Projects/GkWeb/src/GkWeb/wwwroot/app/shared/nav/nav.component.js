@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', './shared/index'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', '../../+components/index'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -11,7 +11,7 @@ System.register(['@angular/core', '@angular/router', './shared/index'], function
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, router_1, index_1;
-    var AppComponent;
+    var NavComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -24,31 +24,27 @@ System.register(['@angular/core', '@angular/router', './shared/index'], function
                 index_1 = index_1_1;
             }],
         execute: function() {
-            AppComponent = (function () {
-                function AppComponent(_router) {
+            NavComponent = (function () {
+                function NavComponent(_router) {
                     this._router = _router;
                 }
-                AppComponent.prototype.openHello = function (event) {
-                    event.preventDefault();
-                    this._router.navigate(['/hello-world']);
-                    this._router.navigate();
+                NavComponent.prototype.ngOnInit = function () {
                 };
-                AppComponent.prototype.ngOnInit = function () {
-                };
-                AppComponent = __decorate([
+                NavComponent = __decorate([
                     core_1.Component({
-                        selector: 'gk-app',
-                        templateUrl: 'app/app.component.html',
-                        styleUrls: ['app/app.component.css'],
-                        directives: [router_1.ROUTER_DIRECTIVES, index_1.NavComponent]
+                        selector: 'gk-nav',
+                        templateUrl: 'app/shared/nav/nav.component.html',
+                        directives: [router_1.ROUTER_DIRECTIVES, index_1.PlansComponent]
                     }),
-                    router_1.Routes([]), 
+                    router_1.Routes([
+                        { path: '/plans', component: index_1.PlansComponent }
+                    ]), 
                     __metadata('design:paramtypes', [router_1.Router])
-                ], AppComponent);
-                return AppComponent;
+                ], NavComponent);
+                return NavComponent;
             }());
-            exports_1("AppComponent", AppComponent);
+            exports_1("NavComponent", NavComponent);
         }
     }
 });
-//# sourceMappingURL=app.component.js.map
+//# sourceMappingURL=nav.component.js.map

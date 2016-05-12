@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', './shared/index'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(['@angular/core', '@angular/router', './shared/index'], function
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, index_1;
-    var AppComponent;
+    var core_1, router_1;
+    var PlansComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -19,36 +19,26 @@ System.register(['@angular/core', '@angular/router', './shared/index'], function
             },
             function (router_1_1) {
                 router_1 = router_1_1;
-            },
-            function (index_1_1) {
-                index_1 = index_1_1;
             }],
         execute: function() {
-            AppComponent = (function () {
-                function AppComponent(_router) {
+            PlansComponent = (function () {
+                function PlansComponent(_router) {
                     this._router = _router;
                 }
-                AppComponent.prototype.openHello = function (event) {
-                    event.preventDefault();
-                    this._router.navigate(['/hello-world']);
-                    this._router.navigate();
+                PlansComponent.prototype.ngOnInit = function () {
                 };
-                AppComponent.prototype.ngOnInit = function () {
-                };
-                AppComponent = __decorate([
+                PlansComponent = __decorate([
                     core_1.Component({
-                        selector: 'gk-app',
-                        templateUrl: 'app/app.component.html',
-                        styleUrls: ['app/app.component.css'],
-                        directives: [router_1.ROUTER_DIRECTIVES, index_1.NavComponent]
+                        selector: 'gk-plans',
+                        templateUrl: 'app/+components/+plans/plans.component.html'
                     }),
                     router_1.Routes([]), 
                     __metadata('design:paramtypes', [router_1.Router])
-                ], AppComponent);
-                return AppComponent;
+                ], PlansComponent);
+                return PlansComponent;
             }());
-            exports_1("AppComponent", AppComponent);
+            exports_1("PlansComponent", PlansComponent);
         }
     }
 });
-//# sourceMappingURL=app.component.js.map
+//# sourceMappingURL=plans.component.js.map

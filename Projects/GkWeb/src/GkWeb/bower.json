@@ -2,7 +2,7 @@
   "name": "ASP.NET",
   "private": true,
   "dependencies": {
-    "jquery": "2.2.3",
+    "jquery": "~2.2.3",
     "bootstrap": "4.0.0-alpha.2",
     "tether": "~1.2.2",
     "signalr": "~2.2.0",

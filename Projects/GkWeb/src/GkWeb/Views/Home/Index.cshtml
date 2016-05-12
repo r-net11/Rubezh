@@ -8,39 +8,18 @@
 	<script src="~/lib/etc/Reflect.js"></script>
 	<script src="~/lib/etc/system.src.js"></script>
 
-	<script src="~/lib/winjs/base.min.js"></script>
-	<script src="~/lib/winjs/ui.min.js"></script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/staticlibs/ie10-viewport-bug-workaround.js"></script>
+	<script src="~/lib/tether/dist/js/tether.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="~/lib/signalr/jquery.signalr.min.js"></script>
+	<script src="signalr/hubs"></script>
 }
 
 @section systemjsconfig{
 	<!-- 2. Configure SystemJS -->
-	<script src="~/staticlibs/systemconfig.js"></script>
+	<script src="~/lib/staticlibs/systemconfig.js"></script>
 	<script>
-		System.import('app').catch(function (err) { console.error(err); })
+		System.import('app').catch(function (err) { console.error(err); })		
 	</script>
-}
-
-@section signalr {
-	@*<script type="text/javascript">
-			$(function() {
-				// This optional function html-encodes messages for display in the page.
-				var htmlEncode = function(value) {
-					var encodedValue = $('<div />').text(value).html();
-					return encodedValue;
-				};
-				// Declare a proxy to reference the hub.
-				var test = $.connection.testHub;
-				// Create a function that the hub can call to broadcast messages.
-				test.client.broadcastMessage =
-					function(message) {
-						$('#testMessage').empty();
-						$('#testMessage').append('<strong>' + htmlEncode(message) + '</strong>');
-					};
-				// Start the connection.
-				$.connection.hub.start()
-					.done(function() {
-						test.server.startTestBroadcast();
-					});
-			});
-		</script>*@
 }

@@ -51,9 +51,4 @@ gulp.task("copyLibs:d3", function () {
 	.pipe(gulp.dest('./wwwroot/lib/d3/'));
 });
 
-gulp.task("copyLibs:winjs", function () {
-	gulp.src(['./node_modules/winjs/js/*.js', './node_modules/winjs/css/*.css', './node_modules/winjs/fonts/*.ttf'])
-	.pipe(gulp.dest('./wwwroot/lib/winjs/'));
-});
-
-gulp.task("copyLibs", ["copyLibs:angular", "copyLibs:d3", "copyLibs:winjs"]);
+gulp.task("copyLibs", ["copyLibs:angular", "copyLibs:d3"]);

@@ -5,6 +5,8 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,12 +31,26 @@ namespace GkWeb
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services) {
 			// Add framework services.
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowAllOrigins", builder => {
+					builder.AllowAnyOrigin();
+				});
+			});
+
+			services.Configure<MvcOptions>(options =>
+			{
+				options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigins"));
+			});
+
 			services.AddMvc();
 			//Other middleware
 			services.AddAuthentication();
 			services.AddAuthorization();
 
-			services.AddSignalR();
+			services.AddSignalR(options => {
+				options.Hubs.EnableDetailedErrors = true;
+			});
 
 			services.AddInstance(new Bootstrapper());
 			services.AddInstance(new ClientManager());
@@ -53,6 +69,9 @@ namespace GkWeb
 			else {
 				app.UseExceptionHandler("/Home/Error");
 			}
+
+			app.UseCors("AllowSpecificOrigin");			
+
 			app.UseWebSockets();
 
 			app.UseStaticFiles();
