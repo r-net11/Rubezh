@@ -8,8 +8,8 @@
 	<a class="navbar-brand" href="#">Глобал</a>
 	<div id="navbar">
 		<nav class="nav navbar-nav pull-xs-left">
-			<a class="nav-item nav-link" >Сводка</a>
-			<a class="nav-item nav-link" [routerLink]="['/plans']">Графические планы</a>
+			<a class="nav-item nav-link" href="#">Сводка</a>
+			<a class="nav-item nav-link" (click)="onNavigateToPlansClick($event)">Графические планы</a>
 			<a class="nav-item nav-link" href="#">Profile</a>
 			<a class="nav-item nav-link" href="#">Help</a>
 		</nav>

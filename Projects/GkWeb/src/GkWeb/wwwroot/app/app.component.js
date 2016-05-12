@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', './shared/index'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', './shared/index', './+components/index'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router', './shared/index'], function
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, index_1;
+    var core_1, router_1, index_1, index_2;
     var AppComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['@angular/core', '@angular/router', './shared/index'], function
             },
             function (index_1_1) {
                 index_1 = index_1_1;
+            },
+            function (index_2_1) {
+                index_2 = index_2_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -42,7 +45,9 @@ System.register(['@angular/core', '@angular/router', './shared/index'], function
                         styleUrls: ['app/app.component.css'],
                         directives: [router_1.ROUTER_DIRECTIVES, index_1.NavComponent]
                     }),
-                    router_1.Routes([]), 
+                    router_1.Routes([
+                        { path: '/plans', component: index_2.PlansComponent }
+                    ]), 
                     __metadata('design:paramtypes', [router_1.Router])
                 ], AppComponent);
                 return AppComponent;

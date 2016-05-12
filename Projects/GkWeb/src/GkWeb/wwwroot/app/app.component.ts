@@ -2,6 +2,7 @@
 import { ROUTER_DIRECTIVES, Router, Routes } from '@angular/router';
 
 import { NavComponent } from './shared/index';
+import { PlansComponent } from './+components/index';
 
 @Component({
 	selector: 'gk-app',
@@ -9,7 +10,8 @@ import { NavComponent } from './shared/index';
 	styleUrls: ['app/app.component.css'],
 	directives: [ROUTER_DIRECTIVES, NavComponent]
 })
-	@Routes([
+@Routes([
+		{ path: '/plans', component: PlansComponent }
 		//{ path: '/hello-world', component: HelloWorldComponent },
 		//{ path: '/tasks', component: TasksComponent }
 ])

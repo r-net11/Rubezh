@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', '../../+components/index'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router', '../../+components/index'],
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, index_1;
+    var core_1, router_1;
     var NavComponent;
     return {
         setters:[
@@ -19,26 +19,24 @@ System.register(['@angular/core', '@angular/router', '../../+components/index'],
             },
             function (router_1_1) {
                 router_1 = router_1_1;
-            },
-            function (index_1_1) {
-                index_1 = index_1_1;
             }],
         execute: function() {
             NavComponent = (function () {
-                function NavComponent(_router) {
-                    this._router = _router;
+                function NavComponent(router) {
+                    this.router = router;
                 }
+                NavComponent.prototype.onNavigateToPlansClick = function (event) {
+                    this.router.navigate(['/plans', { outlet: 'topOutlet' }]);
+                };
                 NavComponent.prototype.ngOnInit = function () {
                 };
                 NavComponent = __decorate([
                     core_1.Component({
                         selector: 'gk-nav',
                         templateUrl: 'app/shared/nav/nav.component.html',
-                        directives: [router_1.ROUTER_DIRECTIVES, index_1.PlansComponent]
+                        directives: [router_1.ROUTER_DIRECTIVES]
                     }),
-                    router_1.Routes([
-                        { path: '/plans', component: index_1.PlansComponent }
-                    ]), 
+                    router_1.Routes([]), 
                     __metadata('design:paramtypes', [router_1.Router])
                 ], NavComponent);
                 return NavComponent;
