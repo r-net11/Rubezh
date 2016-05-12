@@ -4,8 +4,6 @@ using RubezhAPI.GK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Threading;
 
 namespace GKProcessor
 {
@@ -97,7 +95,7 @@ namespace GKProcessor
 						kauDevice.DriverUID = kauDevice.Driver.UID;
 						kauDevice.Parent = gkControllerDevice;
 						kauDevice.IntAddress = i;
-						kauDevice.Properties.Add(new GKProperty {Name = "Mode", Value = 0});
+						kauDevice.Properties.Add(new GKProperty { Name = "Mode", Value = 0 });
 
 						var result1 = DeviceBytesHelper.Ping(kauDevice);
 						var parameters = SendManager.Send(kauDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(1)).Bytes;
@@ -109,10 +107,10 @@ namespace GKProcessor
 								if (!sendResult.HasError && sendResult.Bytes.Count == 32)
 								{
 									var alsParameterByte = sendResult.Bytes[27];
-									kauDevice.Properties.Add(new GKProperty {Name = "als12", Value = (ushort) (alsParameterByte & 0x03)});
-									kauDevice.Properties.Add(new GKProperty {Name = "als34", Value = (ushort) (alsParameterByte & 0x0C)});
-									kauDevice.Properties.Add(new GKProperty {Name = "als56", Value = (ushort) (alsParameterByte & 0x30)});
-									kauDevice.Properties.Add(new GKProperty {Name = "als78", Value = (ushort) (alsParameterByte & 0xC0)});
+									kauDevice.Properties.Add(new GKProperty { Name = "als12", Value = (ushort)(alsParameterByte & 0x03) });
+									kauDevice.Properties.Add(new GKProperty { Name = "als34", Value = (ushort)(alsParameterByte & 0x0C) });
+									kauDevice.Properties.Add(new GKProperty { Name = "als56", Value = (ushort)(alsParameterByte & 0x30) });
+									kauDevice.Properties.Add(new GKProperty { Name = "als78", Value = (ushort)(alsParameterByte & 0xC0) });
 									GKManager.AddAutoCreateChildren(kauDevice);
 									kauDevices.Add(kauDevice);
 								}
@@ -188,7 +186,7 @@ namespace GKProcessor
 		bool FindDevicesOnShleif(GKDevice kauDevice, int shleifNo, GKProgressCallback progressCallback, Guid clientUID)
 		{
 			var shleifDevice = kauDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif && x.IntAddress == shleifNo + 1);
-			progressCallback.Title = "Автопоиск на АЛС " + (shleifNo + 1) + " устройста " + kauDevice.PresentationName;
+			progressCallback.Title = "Автопоиск на АЛС " + (shleifNo + 1) + " устройства " + kauDevice.PresentationName;
 			progressCallback.CurrentStep = 0;
 			progressCallback.StepCount = 256;
 			using (var gkLifecycleManager = new GKLifecycleManager(kauDevice, "Автопоиск на АЛС " + (shleifNo + 1)))

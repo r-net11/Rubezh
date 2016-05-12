@@ -77,7 +77,6 @@ namespace Infrastructure.Plans
 		}
 		public Vector Pull(Vector shift, Rect rect)
 		{
-			System.Diagnostics.Debug.WriteLine(this._accumulateX + ", " + this._accumulateY);
 			if (IsVisible)
 			{
 				var factor = DELTA / _canvas.Zoom;

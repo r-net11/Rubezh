@@ -247,7 +247,6 @@ namespace Infrastructure.Plans
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
 		{
-			//Debug.WriteLine("CloneElements");
 			_initialElements = new List<ElementBase>();
 			foreach (var designerItem in designerItems)
 			{
@@ -278,7 +277,6 @@ namespace Infrastructure.Plans
 		}
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
 		{
-			//Debug.WriteLine("BeginChange");
 			_initialElements = CloneElements(designerItems);
 		}
 		public override void BeginChange()
@@ -287,7 +285,6 @@ namespace Infrastructure.Plans
 		}
 		public override void EndChange()
 		{
-			//Debug.WriteLine("EndChange");
 			var after = PlanDesignerViewModel.AddHistoryItem(_initialElements);
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Publish(after);
 			foreach (var designerItem in SelectedItems)

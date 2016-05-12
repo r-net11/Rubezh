@@ -91,10 +91,10 @@
 						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
 
-					<TextBlock Grid.Row="0" Grid.Column="0" Text="Координаты по иси Х" HorizontalAlignment="Right" IsEnabled="{Binding DesignerItemExist}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="Координаты по иси Х" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 					<ExtToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Left, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
 
-					<TextBlock Grid.Row="1" Grid.Column="0" Text="Координаты по оси У" HorizontalAlignment="Right" IsEnabled="{Binding DesignerItemExist}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Координаты по оси У" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 					<ExtToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Top, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
 				</Grid>
 			</Grid>
