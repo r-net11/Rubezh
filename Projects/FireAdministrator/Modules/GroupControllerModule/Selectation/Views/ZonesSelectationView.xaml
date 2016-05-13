@@ -15,7 +15,6 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<DataGrid x:Name="dataGrid1"
-					  controls:DataGridSingleRowSelected.IsSelectionFixEnabled="True"
 					  Grid.Column="0"
 					  ItemsSource="{Binding TargetZones}"
 					  SelectedItem="{Binding SelectedTargetZone}"
@@ -57,7 +56,6 @@
 				<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="rightRight" />
 			</StackPanel>
 			<DataGrid x:Name="dataGrid2"
-					  controls:DataGridSingleRowSelected.IsSelectionFixEnabled="True"
 					  Grid.Column="2"
 					  ItemsSource="{Binding SourceZones}"
 					  SelectedItem="{Binding SelectedSourceZone}"
