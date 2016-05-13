@@ -106,12 +106,38 @@ namespace GKProcessor
 				Formula.AddPutBit(GKStateBit.Reset, Device);
 			}
 
-			if (Device.Door != null && (Device.Door.LockDeviceUID == Device.UID || Device.Door.LockDeviceExitUID == Device.UID))
+			if (Device.Door != null && Device.Door.DoorType == GKDoorType.Turnstile)
+			{
+				if (Device.UID == Device.Door.LockDeviceUID)
+				{
+					Formula.AddGetBit(GKStateBit.On, Device.Door.LockDelay);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door.LockDelay);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+				}
+
+				if (Device.UID == Device.Door.LockDeviceExitUID)
+				{
+					Formula.AddGetBit(GKStateBit.On, Device.Door.LockDelayExit);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door.LockDelayExit);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+				}
+
+				if (Device.UID == Device.Door.ResetDeviceUID)
+				{
+					Formula.AddGetBit(GKStateBit.On, Device.Door.ResetDelay);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door.ResetDelay);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+				}
+			}
+
+			else if (Device.Door != null && (Device.Door.LockDeviceUID == Device.UID || Device.Door.LockDeviceExitUID == Device.UID))
 			{
 				switch (Device.Door.DoorType)
 				{
 					case GKDoorType.AirlockBooth:
-					case GKDoorType.Turnstile:
 						var device = Device.Door.LockDeviceUID == Device.UID ? Device.Door.ExitDevice : Device.Door.EnterDevice;
 						var button = Device.Door.LockDeviceUID == Device.UID ? Device.Door.EnterButton : Device.Door.ExitButton;
 						if (device != null)
@@ -164,8 +190,10 @@ namespace GKProcessor
 						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 						break;
 				}
-				Formula.Add(FormulaOperationType.END);
+				
 			}
+
+			Formula.Add(FormulaOperationType.END);
 		}
 
 		void SetPropertiesBytes()
@@ -178,7 +206,7 @@ namespace GKProcessor
 				return;
 			}
 
-			if (DatabaseType == DatabaseType.Gk && (Device.DriverType == GKDriverType.GKMirror || (Device.Parent!=null && Device.Parent.DriverType == GKDriverType.GKMirror)))
+			if (DatabaseType == DatabaseType.Gk && (Device.DriverType == GKDriverType.GKMirror || (Device.Parent != null && Device.Parent.DriverType == GKDriverType.GKMirror)))
 			{
 				return;
 			}
@@ -266,7 +294,7 @@ namespace GKProcessor
 					return true;
 				}
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDevice.MPTDeviceType == GKMPTDeviceType.ExitBoard || mptDevice.MPTDeviceType == GKMPTDeviceType.Speaker)
-				{ 
+				{
 					CreateOnDevices(deviceMpt);
 					Device.LinkToDescriptor(deviceMpt);
 					return true;

@@ -153,6 +153,17 @@ namespace JournalModule.ViewModels
 									break;
 								}
 							}
+
+							if (Delay.DoorUID != Guid.Empty)
+							{
+								GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == Delay.DoorUID);
+								if (GKDoor != null)
+								{
+									ObjectName += " (" + GKDoor.PresentationName + ")";
+									ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDoorEvent>();
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
+								}
+							}
 						}
 					}
 					break;

@@ -241,6 +241,7 @@
     <Compile Include="Drivers\RSR2\RSR2_Valve_KVMV_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Valve_KV_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_ZOV_Helper.cs" />
+    <Compile Include="GKModels\SKD\GKDoorDelayType.cs" />
     <Compile Include="Hierarchy\HierarchicalCollection.cs" />
     <Compile Include="Hierarchy\HierarchicalItem.cs" />
     <Compile Include="Color.cs" />

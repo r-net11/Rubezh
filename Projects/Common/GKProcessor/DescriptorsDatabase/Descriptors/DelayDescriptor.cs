@@ -6,7 +6,7 @@ namespace GKProcessor
 {
 	public class DelayDescriptor : BaseDescriptor
 	{
-		GKDelay Delay { get; set; }
+		protected GKDelay Delay { get; set; }
 
 		public DelayDescriptor(GKDelay delay)
 			: base(delay)

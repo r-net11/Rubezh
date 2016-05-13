@@ -13,11 +13,21 @@ namespace GKProcessor
 		public DoorPimDescriptorExit DoorPimDescriptorExit { get; private set; }
 		public DoorPimDescriptorCrossing DoorPimDescriptorCrossing { get; private set; }
 
+		public DoorDelayDescriptor LockDelayDescriptor { get; private set; }
+		public DoorDelayDescriptor LockDelayExitDescriptor { get; private set; }
+		public DoorDelayDescriptor ResetDelayDescriptor { get; private set; }
+
 		public DoorDescriptor(GKDoor door)
 			: base(door)
 		{
 			DescriptorType = DescriptorType.Door;
 			Door = door;
+			if (Door.DoorType == GKDoorType.Turnstile)
+			{
+				LockDelayDescriptor = new DoorDelayDescriptor(Door, Door.LockDelay, GKDoorDelayType.LockDelay);
+				LockDelayExitDescriptor = new DoorDelayDescriptor(Door, Door.LockDelayExit, GKDoorDelayType.LockDelayExit);
+				ResetDelayDescriptor = new DoorDelayDescriptor(Door, Door.ResetDelay, GKDoorDelayType.ResetDelay);
+			}
 			if (Door.DoorType == GKDoorType.AirlockBooth)
 			{
 				DoorPimDescriptorEnter = new DoorPimDescriptorEnter(Door);
@@ -44,6 +54,8 @@ namespace GKProcessor
 			if (hasOpenRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.OpenRegimeLogic.OnClausesGroup);
+				Formula.AddClauseFormula(Door.OpenExitRegimeLogic.OnClausesGroup);
+				Formula.Add(FormulaOperationType.OR);
 				Formula.Add(FormulaOperationType.BR, 1, 7);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
@@ -203,6 +215,45 @@ namespace GKProcessor
 			}
 		}
 
+		void SetTurnstileFormul()
+		{
+			// Если ТД включена и датчик проворота в сработке1 или сработке2 => перевести ТД в Выключается
+			Formula.AddGetBit(GKStateBit.On, Door);
+			Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
+			Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
+			Formula.Add(FormulaOperationType.OR);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
+
+			// Если ТД выключается и датчик проворота не в сработке1 и не в сработке2 => перевести ТД в Выключено
+			Formula.AddGetBit(GKStateBit.TurningOff, Door);
+			Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
+			Formula.Add(FormulaOperationType.COM);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
+			Formula.Add(FormulaOperationType.COM);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Door);
+
+			if (Door.AntipassbackOn)
+			{
+				Formula.AddGetBit(GKStateBit.On, Door);
+				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.Add(FormulaOperationType.BR, 1, 2);
+				Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
+				Formula.Add(FormulaOperationType.PUTP);
+			}
+
+			if (Door.EnterDevice != null || Door.ExitDevice != null)
+			{
+				if (Door.EnterDevice != null)
+					TurnOnDoorBuilder(true);
+				if (Door.ExitDevice != null)
+					TurnOnDoorBuilder(false);
+			}
+		}
+
 		void SetFormulaDoor()
 		{
 			if (Door.LockControlDevice != null)
@@ -226,6 +277,8 @@ namespace GKProcessor
 				{
 					Formula.AddGetBit(GKStateBit.On, Door);
 					Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
+					Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
+					Formula.Add(FormulaOperationType.OR);
 					Formula.Add(FormulaOperationType.AND);
 					Formula.Add(FormulaOperationType.BR, 1, 2);
 					Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);

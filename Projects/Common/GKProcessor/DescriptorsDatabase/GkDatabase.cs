@@ -122,6 +122,18 @@ namespace GKProcessor
 				{
 					Descriptors.Add(doorDescriptor.DoorPimDescriptorCrossing);
 				}
+				if (doorDescriptor.LockDelayDescriptor != null)
+				{
+					Descriptors.Add(doorDescriptor.LockDelayDescriptor);
+				}
+				if (doorDescriptor.LockDelayExitDescriptor != null)
+				{
+					Descriptors.Add(doorDescriptor.LockDelayExitDescriptor);
+				}
+				if (doorDescriptor.ResetDelayDescriptor != null)
+				{
+					Descriptors.Add(doorDescriptor.ResetDelayDescriptor);
+				}
 			}
 
 			Descriptors.Add(GlobalPimDescriptor);

@@ -55,6 +55,12 @@ namespace RubezhAPI
 			door.OpenRegimeLogic = newLogic;
 			door.ChangedLogic();
 		}
+		
+		public static void SetDoorOpenExitRegimeLogic(GKDoor door, GKLogic newLogic)
+		{
+			door.OpenExitRegimeLogic = newLogic;
+			door.ChangedLogic();
+		}
 
 		public static void SetDoorNormRegimeLogic(GKDoor door, GKLogic newLogic)
 		{
@@ -172,6 +178,24 @@ namespace RubezhAPI
 			{
 				door.LockDeviceExit.Door = door;
 				door.AddDependentElement(door.LockDeviceExit);
+			}
+			door.OnChanged();
+		}
+
+		public static void ChangeResetDevice(GKDoor door, GKDevice device)
+		{
+			RemoveDependenctElement(door, door.ResetDeviceUID);
+
+			door.ResetDeviceUID = device != null ? device.UID : Guid.Empty;
+			if (door.ResetDevice != null)
+			{
+				door.ResetDevice.Door = null;
+			}
+			door.ResetDevice = device;
+			if (door.ResetDevice != null)
+			{
+				door.ResetDevice.Door = door;
+				door.AddDependentElement(door.ResetDevice);
 			}
 			door.OnChanged();
 		}

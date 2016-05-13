@@ -30,11 +30,13 @@ namespace GKModule.ViewModels
 			ChangeExitButtonCommand = new RelayCommand(OnChangeExitButton);
 			ChangeLockDeviceCommand = new RelayCommand(OnChangeLockDevice);
 			ChangeLockDeviceExitCommand = new RelayCommand(OnChangeLockDeviceExit);
+			ChangeResetDeviceCommand = new RelayCommand(OnChangeResetDevice);
 			ChangeLockControlDeviceCommand = new RelayCommand(OnChangeLockControlDevice);
 			ChangeLockControlDeviceExitCommand = new RelayCommand(OnChangeLockControlDeviceExit);
 			ChangeEnterZoneCommand = new RelayCommand(OnChangeEnterZone);
 			ChangeExitZoneCommand = new RelayCommand(OnChangeExitZone);
 			ChangeOpenRegimeLogicCommand = new RelayCommand(OnChangeOpenRegimeLogic);
+			ChangeOpenExitRegimeLogicCommand = new RelayCommand(OnChangeOpenExitRegimeLogic);
 			ChangeNormRegimeLogicCommand = new RelayCommand(OnChangeNormRegimeLogic);
 			ChangeCloseRegimeLogicCommand = new RelayCommand(OnChangeCloseRegimeLogic);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
@@ -54,6 +56,7 @@ namespace GKModule.ViewModels
 			ExitButton = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitButtonUID);
 			LockDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
 			LockDeviceExit = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceExitUID);
+			ResetDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ResetDeviceUID);
 			LockControlDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
 			LockControlDeviceExit = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceExitUID);
 			EnterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
@@ -80,6 +83,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => ExitButton);
 			OnPropertyChanged(() => LockDevice);
 			OnPropertyChanged(() => LockDeviceExit);
+			OnPropertyChanged(() => ResetDevice);
 			OnPropertyChanged(() => LockControlDevice);
 			OnPropertyChanged(() => LockControlDeviceExit);
 			OnPropertyChanged(() => EnterZone);
@@ -112,6 +116,7 @@ namespace GKModule.ViewModels
 		public GKDevice ExitButton { get; private set; }
 		public GKDevice LockDevice { get; private set; }
 		public GKDevice LockDeviceExit { get; private set; }
+		public GKDevice ResetDevice { get; private set; }
 		public GKDevice LockControlDevice { get; private set; }
 		public GKDevice LockControlDeviceExit { get; private set; }
 		public GKSKDZone EnterZone { get; private set; }
@@ -192,6 +197,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand ChangeResetDeviceCommand { get; private set; }
+		void OnChangeResetDevice()
+		{
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(ResetDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_RM_1 || x.DriverType == GKDriverType.RSR2_MVK8 || x.Driver.IsCardReaderOrCodeReader));
+			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+			{
+				GKManager.ChangeResetDevice(Door, deviceSelectationViewModel.SelectedDevice);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
 		public RelayCommand ChangeLockControlDeviceCommand { get; private set; }
 		void OnChangeLockControlDevice()
 		{
@@ -248,9 +264,26 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand ChangeOpenExitRegimeLogicCommand { get; private set; }
+		void OnChangeOpenExitRegimeLogic()
+		{
+			var logicViewModel = new LogicViewModel(Door, Door.OpenExitRegimeLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
+			{
+				GKManager.SetDoorOpenExitRegimeLogic(Door, logicViewModel.GetModel());
+				OnPropertyChanged(() => OpenExitRegimeLogicPresentationName);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
 		public string OpenRegimeLogicPresentationName
 		{
 			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic.OnClausesGroup); }
+		}
+
+		public string OpenExitRegimeLogicPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(Door.OpenExitRegimeLogic.OnClausesGroup); }
 		}
 
 		public RelayCommand ChangeNormRegimeLogicCommand { get; private set; }

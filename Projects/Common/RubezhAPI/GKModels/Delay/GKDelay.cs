@@ -72,6 +72,12 @@ namespace RubezhAPI.GK
 		[DataMember]
 		public Guid PumpStationUID { get; set; }
 
+		/// <summary>
+		/// Идентификатор ТД
+		/// </summary>
+		[DataMember]
+		public Guid DoorUID { get; set; }
+
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Delay; } }
 

@@ -173,11 +173,6 @@ namespace RubezhAPI.GK
 					}
 				}
 
-				foreach (var deviceDoor in GKManager.DeviceConfiguration.Doors.Where(x => x.LockDevice == device))
-				{
-					device.LinkToDescriptor(deviceDoor);
-				}
-
 				foreach (var devicePumpStation in GKManager.DeviceConfiguration.PumpStations.Where(x => x.NSDevices.Contains(device)))
 				{
 					device.LinkToDescriptor(devicePumpStation);
@@ -305,15 +300,40 @@ namespace RubezhAPI.GK
 					door.LinkToDescriptor(door.EnterButton);
 				if (door.ExitButton != null)
 					door.LinkToDescriptor(door.ExitButton);
-				if (door.LockDevice != null)
-					door.LockDevice.LinkToDescriptor(door);
-				if (door.LockDeviceExit != null)
-					door.LockDeviceExit.LinkToDescriptor(door);
+
+				if (door.DoorType == GKDoorType.Turnstile)
+				{
+					if (door.LockDelay != null)
+						door.LockDelay.LinkToDescriptor(door);
+					if (door.LockDelayExit != null)
+						door.LockDelayExit.LinkToDescriptor(door);
+					if (door.ResetDelay != null)
+					{
+						LinkLogic(door.ResetDelay, door.OpenRegimeLogic.OnClausesGroup);
+						LinkLogic(door.ResetDelay, door.OpenExitRegimeLogic.OnClausesGroup);
+						LinkLogic(door.ResetDelay, door.NormRegimeLogic.OnClausesGroup);
+					}
+
+					if (door.LockDevice != null)
+						door.LockDevice.LinkToDescriptor(door.LockDelay);
+					if (door.LockDeviceExit != null)
+						door.LockDeviceExit.LinkToDescriptor(door.LockDelayExit);
+					if (door.ResetDevice != null)
+						door.ResetDevice.LinkToDescriptor(door.ResetDelay);
+				}
+				else
+				{
+					if (door.LockDevice != null)
+						door.LockDevice.LinkToDescriptor(door);
+					if (door.LockDeviceExit != null)
+						door.LockDeviceExit.LinkToDescriptor(door);
+				}
 				if (door.LockControlDevice != null)
 					door.LinkToDescriptor(door.LockControlDevice);
 				if (door.LockControlDeviceExit != null)
 					door.LinkToDescriptor(door.LockControlDeviceExit);
 				LinkLogic(door, door.OpenRegimeLogic.OnClausesGroup);
+				LinkLogic(door, door.OpenExitRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
 				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
 				door.LinkToDescriptor(door);
@@ -353,6 +373,11 @@ namespace RubezhAPI.GK
 					door.PimExit.LinkToDescriptor(door.PimExit);
 				}
 			}
+		}
+
+		public void LinkLogic(GKClauseGroup clauseGroup)
+		{
+			LinkLogic(this, clauseGroup);
 		}
 
 		void LinkLogic(GKBase gkBase, GKClauseGroup clauseGroup)

@@ -1,9 +1,6 @@
 ﻿<UserControl x:Class="GKModule.Views.DoorsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:Views="clr-namespace:GKModule.Views"
 			 xmlns:gk="clr-namespace:RubezhAPI.GK;assembly=RubezhAPI"
 			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common.Windows">
 	<UserControl.Resources>
@@ -64,105 +61,105 @@
 				<Grid Visibility="{Binding HasSelectedDoor, Converter={StaticResource BoolToVisibilityConverter}}">
 					<StackPanel Margin="2" DataContext="{Binding SelectedDoor}">
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на вход" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Устройство на вход" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding EnterDevice.Driver.ImageSource}" Visibility="{Binding EnterDevice, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding EnterDevice.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding EnterDevice}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding EnterDevice.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding EnterDevice}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 							</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ExitDevice.Driver.ImageSource}" Visibility="{Binding ExitDevice, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding ExitDevice.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding ExitDevice}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding ExitDevice.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding ExitDevice}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Кнопка на вход" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Кнопка на вход" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding EnterButton.Driver.ImageSource}" Visibility="{Binding EnterButton, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterButtonCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding EnterButton.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding EnterButton}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding EnterButton.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding EnterButton}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Кнопка на выход" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Кнопка на выход" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ExitButton.Driver.ImageSource}" Visibility="{Binding ExitButton, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitButtonCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding ExitButton.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding ExitButton}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding ExitButton.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding ExitButton}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Замок" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}"/>
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Замок" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}"/>
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на открытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}"/>
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}"/>
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Замок" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}"/>
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Замок" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}"/>
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Реле на открытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}"/>
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Реле на вход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}"/>
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockDevice.Driver.ImageSource}" Visibility="{Binding LockDevice, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding LockDevice.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding LockDevice}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding LockDevice.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding LockDevice}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
@@ -184,47 +181,67 @@
 									</Style.Triggers>
 								</Style>
 							</StackPanel.Style>
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на закрытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Реле на закрытие" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Реле на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockDeviceExit.Driver.ImageSource}" Visibility="{Binding LockDeviceExit, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockDeviceExitCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding LockDeviceExit.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding LockDeviceExit}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding LockDeviceExit.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding LockDeviceExit}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}">
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Реле на сброс" />
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ResetDevice.Driver.ImageSource}" Visibility="{Binding ResetDevice, Converter={StaticResource NullToVisibilityConverter}}" />
+							<TextBlock Margin="2" VerticalAlignment="Center">
+							<Hyperlink Command="{Binding ChangeResetDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding ResetDevice.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding ResetDevice}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+							</TextBlock>
+						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}" />
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}" />
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик проворота" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля на въезд" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Датчик проворота" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Датчик контроля на въезд" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockControlDevice.Driver.ImageSource}" Visibility="{Binding LockControlDevice, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockControlDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding LockControlDevice.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding LockControlDevice}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding LockControlDevice.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding LockControlDevice}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
@@ -243,119 +260,139 @@
 									</Style.Triggers>
 								</Style>
 							</StackPanel.Style>
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля на выезд" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери на выход" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.AirlockBooth}}" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Датчик контроля на выезд" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Barrier}}" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding LockControlDeviceExit.Driver.ImageSource}" Visibility="{Binding LockControlDeviceExit, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockControlDeviceExitCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding LockControlDeviceExit.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding LockControlDeviceExit}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding LockControlDeviceExit.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding LockControlDeviceExit}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона входа" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Зона входа" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="/Controls;component/Images/SKDZone.png" Visibility="{Binding EnterZone, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding EnterZone.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding EnterZone}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding EnterZone.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding EnterZone}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Visibility="{Binding Path=Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.OneWay}}">
-							<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона выхода" />
+							<TextBlock Width="350" Margin="5 2" FontWeight="Bold" Text="Зона выхода" />
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="/Controls;component/Images/SKDZone.png" Visibility="{Binding ExitZone, Converter={StaticResource NullToVisibilityConverter}}" />
 							<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding ExitZone.PresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding ExitZone}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding ExitZone.PresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding ExitZone}" Value="{x:Null}">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Условие для перевода в режим всегда открыто" FontWeight="Bold" Width="300" Margin="5 2" />
+							<TextBlock Text="Условие для перевода в режим всегда открыто" FontWeight="Bold" Width="350" Margin="5 2" Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
+							<TextBlock Text="Условие для перевода в режим всегда открыто на вход" FontWeight="Bold" Width="350" Margin="5 2" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
 							<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeOpenRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding OpenRegimeLogicPresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding OpenRegimeLogicPresentationName}" Value="">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding OpenRegimeLogicPresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding OpenRegimeLogicPresentationName}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}">
+							<TextBlock Text="Условие для перевода в режим всегда открыто на выход" FontWeight="Bold" Width="350" Margin="5 2" />
+							<TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeOpenExitRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding OpenExitRegimeLogicPresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding OpenExitRegimeLogicPresentationName}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Условие для перевода в режим норма" FontWeight="Bold" Width="300" Margin="5 2" />
+							<TextBlock Text="Условие для перевода в режим норма" FontWeight="Bold" Width="350" Margin="5 2" />
 							<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeNormRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding NormRegimeLogicPresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding NormRegimeLogicPresentationName}" Value="">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding NormRegimeLogicPresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding NormRegimeLogicPresentationName}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Условие для перевода в режим всегда закрыто" FontWeight="Bold" Width="300" Margin="5 2" />
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}">
+							<TextBlock Text="Условие для перевода в режим всегда закрыто" FontWeight="Bold" Width="350" Margin="5 2" />
 							<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeCloseRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
-									<TextBlock.Style>
-										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding CloseRegimeLogicPresentationName}" />
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding CloseRegimeLogicPresentationName}" Value="">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding CloseRegimeLogicPresentationName}" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding CloseRegimeLogicPresentationName}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>

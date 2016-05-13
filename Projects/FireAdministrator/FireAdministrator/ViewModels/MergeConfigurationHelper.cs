@@ -309,6 +309,7 @@ namespace FireAdministrator.ViewModels
 			foreach (var delay in GKDeviceConfiguration.Delays)
 			{
 				delay.PumpStationUID = ReplaceUID(delay.PumpStationUID, GKPumpStationUIDs);
+				delay.DoorUID = ReplaceUID(delay.DoorUID, GKPumpStationUIDs);
 				ReplaceLogic(delay.Logic);
 			}
 
@@ -367,13 +368,14 @@ namespace FireAdministrator.ViewModels
 				door.ExitButtonUID = ReplaceUID(door.ExitButtonUID, GKDeviceUIDs);
 				door.LockDeviceUID = ReplaceUID(door.LockDeviceUID, GKDeviceUIDs);
 				door.LockDeviceExitUID = ReplaceUID(door.LockDeviceExitUID, GKDeviceUIDs);
+				door.ResetDeviceUID = ReplaceUID(door.ResetDeviceUID, GKDeviceUIDs);
 				door.LockControlDeviceUID = ReplaceUID(door.LockControlDeviceUID, GKDeviceUIDs);
 				door.LockControlDeviceExitUID = ReplaceUID(door.LockControlDeviceExitUID, GKDeviceUIDs);
 				door.EnterZoneUID = ReplaceUID(door.EnterZoneUID, GKSKDZonesUIDs);
 				door.ExitZoneUID = ReplaceUID(door.ExitZoneUID, GKSKDZonesUIDs);
 				ReplaceLogic(door.OpenRegimeLogic);
 				ReplaceLogic(door.NormRegimeLogic);
-				ReplaceLogic(door.OpenRegimeLogic);
+				ReplaceLogic(door.OpenExitRegimeLogic);
 			}
 
 			foreach (var plan in PlansConfiguration.AllPlans)

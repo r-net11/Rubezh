@@ -176,6 +176,7 @@ namespace GKManager2.Test
 			var door = new GKDoor();
 			GKManager.AddDoor(door);
 			GKManager.SetDoorOpenRegimeLogic(door, gkLogic);
+			GKManager.SetDoorOpenExitRegimeLogic(door, gkLogic);
 			GKManager.SetDoorCloseRegimeLogic(door, gkLogic);
 			GKManager.ChangeEnterButtonDevice(door, device);
 			Assert.IsTrue(door.EnterButton == device);

@@ -62,6 +62,7 @@
     <Compile Include="DescriptorsDatabase\DescriptorHelper.cs" />
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DoorDelays\DoorDelayDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorCrossing.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorEnter.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DoorPims\DoorPimDescriptorExit.cs" />

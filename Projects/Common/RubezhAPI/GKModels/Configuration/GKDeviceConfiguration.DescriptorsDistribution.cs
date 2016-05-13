@@ -103,6 +103,7 @@ namespace RubezhAPI.GK
 			foreach (var door in Doors)
 			{
 				door.ChildDescriptors.AddRange(door.OpenRegimeLogic.GetObjects());
+				door.ChildDescriptors.AddRange(door.OpenExitRegimeLogic.GetObjects());
 				door.ChildDescriptors.AddRange(door.NormRegimeLogic.GetObjects());
 				door.ChildDescriptors.AddRange(door.CloseRegimeLogic.GetObjects());
 
@@ -138,6 +139,12 @@ namespace RubezhAPI.GK
 					door.LockDeviceExit.ChildDescriptors.Add(door);
 				}
 
+				if (door.ResetDevice != null)
+				{
+					door.ChildDescriptors.Add(door.ResetDevice);
+					door.ResetDevice.ChildDescriptors.Add(door);
+				}
+
 				if (door.LockControlDevice != null)
 				{
 					door.ChildDescriptors.Add(door.LockControlDevice);
@@ -152,6 +159,9 @@ namespace RubezhAPI.GK
 				gkBases.Add(door.PimCrossing);
 				gkBases.Add(door.PimEnter);
 				gkBases.Add(door.PimExit);
+				gkBases.Add(door.LockDelay);
+				gkBases.Add(door.LockDelayExit);
+				gkBases.Add(door.ResetDelay);
 			}
 
 			foreach (var device in Devices)
