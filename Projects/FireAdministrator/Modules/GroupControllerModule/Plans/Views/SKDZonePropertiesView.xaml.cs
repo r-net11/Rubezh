@@ -1,8 +1,6 @@
-﻿using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace GKModule.Plans.Views
@@ -59,31 +57,12 @@ namespace GKModule.Plans.Views
 			}
 			return null;
 		}
-
-		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-
-			if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)
-				|| Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-				return;
 			DataGrid dataGrid = sender as DataGrid;
-			if (dataGrid != null && dataGrid.SelectedItem != null)
+			if (dataGrid != null && dataGrid.SelectedItem != null && !dataGrid.IsMouseOver)
 			{
-				dataGrid.UpdateLayout();
 				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
-				var row = dataGrid.ItemContainerGenerator.ContainerFromItem(dataGrid.SelectedItem) as DataGridRow;
-				if (row != null)
-				{
-					DataGridCell cell = GetCell(dataGrid, row, 0);
-					if (cell != null)
-					{
-						if (cell.IsFocused)
-							return;
-						var method = typeof(DataGrid).GetMethod("HandleSelectionForCellInput", BindingFlags.Instance | BindingFlags.NonPublic);
-						method.Invoke(dataGrid, new object[] { cell, false, false, false });
-						cell.Focus();
-					}
-				}
 			}
 		}
 	}

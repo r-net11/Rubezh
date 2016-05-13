@@ -14,7 +14,7 @@
 				<DataGrid Grid.Row="0" 
 				  ItemsSource="{Binding Zones}"
 				  SelectedItem="{Binding SelectedZone}"
-				  SelectionChanged="OnSelectionChanged"
+				  SelectionChanged="DataGrid_SelectionChanged"
 				  UIBehavior.ShowSelectionMark="True"
 				  VirtualizingStackPanel.IsVirtualizing="True"
 				  VirtualizingStackPanel.VirtualizationMode="Standard"
