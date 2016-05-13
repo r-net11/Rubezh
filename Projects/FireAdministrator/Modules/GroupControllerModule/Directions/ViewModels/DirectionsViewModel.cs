@@ -196,6 +196,7 @@ namespace GKModule.ViewModels
 			GKManager.AddDirection(directionViewModel.Direction);
 			Directions.Add(directionViewModel);
 			SelectedDirection = directionViewModel;
+			GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
