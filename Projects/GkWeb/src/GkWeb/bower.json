@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "jquery": "~2.2.3",
-    "bootstrap": "4.0.0-alpha.2",
+    "bootstrap": "~3.3.6",
     "tether": "~1.2.2",
     "signalr": "~2.2.0",
     "jquery-validation-unobtrusive": "~3.2.6"

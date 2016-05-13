@@ -74,5 +74,11 @@ namespace GkWeb.Controllers
 			_logger.LogInformation(1, "User logged out.");
 			return RedirectToAction("Login");
 		}
+
+		[HttpGet]
+		public string GetUserName() {
+			var name = HttpContext.User.Identity.Name;
+			return name;
+		}
 	}
 }

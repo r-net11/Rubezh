@@ -23,13 +23,6 @@ export class AppComponent implements OnInit
 
 	}
 
-	openHello(event)
-	{
-		event.preventDefault();
-		this._router.navigate(['/hello-world']);
-		this._router.navigate(
-	}
-
 	ngOnInit()
 	{
 	}

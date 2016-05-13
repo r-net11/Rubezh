@@ -31,11 +31,6 @@ System.register(['@angular/core', '@angular/router', './shared/index', './+compo
                 function AppComponent(_router) {
                     this._router = _router;
                 }
-                AppComponent.prototype.openHello = function (event) {
-                    event.preventDefault();
-                    this._router.navigate(['/hello-world']);
-                    this._router.navigate();
-                };
                 AppComponent.prototype.ngOnInit = function () {
                 };
                 AppComponent = __decorate([
