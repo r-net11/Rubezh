@@ -27,10 +27,6 @@ namespace GKProcessor
 					{
 						ConnectionLostCount = 0;
 						IsHashFailure = GetHashResult().Item1;
-						if (!IsHashFailure)
-						{
-							GetAllStates();
-						}
 					}
 				}
 
@@ -49,6 +45,11 @@ namespace GKProcessor
 					//if (!string.IsNullOrEmpty(gkIpAddress))
 					//	journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 					AddJournalItem(journalItem);
+
+					if (!IsHashFailure && isConnected)
+					{
+						GetAllStates();
+					}
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
