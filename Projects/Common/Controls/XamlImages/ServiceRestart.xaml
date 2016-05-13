@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush
+		x:Key="ServiceRestart"
+		Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing
+						Brush="{DynamicResource ButtonBackgroundColor}"
+						Geometry="F1 M 23.3493,6.34937L 23.3493,0L 9.92668,9.61334L 23.3493,19.2293L 23.3493,12.576C 30.7653,13.564 36.488,19.8973 36.488,27.5814C 36.488,35.9507 29.704,42.736 21.3333,42.736C 12.964,42.736 6.17867,35.9507 6.17867,27.5814C 6.17867,26.9186 6.236,26.268 6.31864,25.628L 0.0999756,25.628C 0.0399984,26.272 0,26.9227 0,27.5814C 0,39.3627 9.552,48.9147 21.3333,48.9147C 33.1147,48.9147 42.6667,39.3627 42.6667,27.5814C 42.6667,16.48 34.1853,7.3667 23.3493,6.34937 Z " />
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

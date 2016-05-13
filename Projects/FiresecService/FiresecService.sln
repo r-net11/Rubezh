@@ -58,6 +58,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateKeyApplication.Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhService.WPF", "StrazhService.WPF\StrazhService.WPF.csproj", "{4E85E914-A972-4ED6-9585-71EA855FCB67}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhService.Monitor", "StrazhService.Monitor\StrazhService.Monitor.csproj", "{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrazhService.WS", "StrazhService.WS\StrazhService.WS.csproj", "{41A4E626-BA7A-4367-930E-60E6260AA2BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -365,6 +369,34 @@ Global
 		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|Win32.ActiveCfg = Release|Any CPU
 		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|x64.ActiveCfg = Release|Any CPU
 		{4E85E914-A972-4ED6-9585-71EA855FCB67}.Release|x86.ActiveCfg = Release|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Release|Win32.ActiveCfg = Release|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Release|x64.ActiveCfg = Release|Any CPU
+		{BD0238BB-4924-4BAE-A7E6-7FF7AC893874}.Release|x86.ActiveCfg = Release|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Release|Win32.ActiveCfg = Release|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Release|x64.ActiveCfg = Release|Any CPU
+		{41A4E626-BA7A-4367-930E-60E6260AA2BD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
