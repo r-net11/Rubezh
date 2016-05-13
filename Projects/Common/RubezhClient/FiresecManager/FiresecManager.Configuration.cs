@@ -175,14 +175,14 @@ namespace RubezhClient
 					}
 					foreach (var zone in plan.ElementPolygonGKZones)
 					{
-						var _zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zone.ZoneUID);
+						var _zone = GKManager.Zones.Find(x => x.UID == zone.ZoneUID);
 						UpdateSKDZoneType(zone, _zone);
 						if (_zone != null)
 							_zone.PlanElementUIDs.Add(zone.UID);
 					}
 					foreach (var zone in plan.ElementRectangleGKZones)
 					{
-						var _zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zone.ZoneUID);
+						var _zone = GKManager.Zones.Find(x => x.UID == zone.ZoneUID);
 						UpdateSKDZoneType(zone, _zone);
 						if (_zone != null)
 							_zone.PlanElementUIDs.Add(zone.UID);
@@ -190,7 +190,7 @@ namespace RubezhClient
 
 					foreach (var zoneSKD in plan.ElementPolygonGKSKDZones)
 					{
-						var skd = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneSKD.ZoneUID);
+						var skd = GKManager.SKDZones.Find(x => x.UID == zoneSKD.ZoneUID);
 						UpdateSKDZoneType(zoneSKD, skd);
 						if (skd != null)
 							skd.PlanElementUIDs.Add(zoneSKD.UID);
