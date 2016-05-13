@@ -44,7 +44,7 @@
 				</tree:TreeList.View>
 			</tree:TreeList>
 		</TabItem>
-		<TabItem Header="Настройки" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
+		<TabItem Header="Настройки">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />

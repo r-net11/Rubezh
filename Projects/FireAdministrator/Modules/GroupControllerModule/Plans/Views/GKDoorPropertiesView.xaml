@@ -10,7 +10,7 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<DataGrid Grid.Column="0" Focusable="True" ItemsSource="{Binding GKDoors}" SelectedItem="{Binding SelectedGKDoor}">
+				<DataGrid Grid.Column="0" Focusable="True" ItemsSource="{Binding GKDoors}" SelectedItem="{Binding SelectedGKDoor}" SelectionChanged="DataGrid_SelectionChanged" >
 					<DataGrid.Resources>
 						<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
 							<Setter Property="MinWidth" Value="0" />

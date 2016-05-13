@@ -74,6 +74,8 @@ namespace PlansModule.ViewModels
 			}
 			RenewPlan(copy);
 			OnPlanPaste(copy, isRoot);
+			if (this.clipboard.SourceAction == ClipboardSourceAction.Cut)
+				this.clipboard.Clear();
 		}
 		private bool CanPlanPaste()
 		{

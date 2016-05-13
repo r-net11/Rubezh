@@ -19,7 +19,8 @@
 						  VirtualizingStackPanel.IsVirtualizing="True" 
 						  VirtualizingStackPanel.VirtualizationMode="Standard" 
 						  UIBehavior.ShowSelectionMark="True" 
-						  UIBehavior.IsActiveSelectionMark="True">
+						  UIBehavior.IsActiveSelectionMark="True"
+						  SelectionChanged="DataGrid_SelectionChanged">
 					<DataGrid.Resources>
 						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 							<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" 
@@ -81,7 +82,7 @@
 					<TextBlock Text="Отображать задержку в ОЗ" HorizontalAlignment="Left" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 				</StackPanel>
 
-				<Grid Grid.Row="2" Grid.ColumnSpan="2" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Grid.Row="2" Grid.ColumnSpan="2">
 					<Grid.RowDefinitions>
 						<RowDefinition />
 						<RowDefinition />
@@ -91,10 +92,10 @@
 						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
 
-					<TextBlock Grid.Row="0" Grid.Column="0" Text="Координаты по иси Х" HorizontalAlignment="Right" IsEnabled="{Binding DesignerItemExist}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="Координаты по иси Х" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 					<ExtToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Left, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
 
-					<TextBlock Grid.Row="1" Grid.Column="0" Text="Координаты по оси У" HorizontalAlignment="Right" IsEnabled="{Binding DesignerItemExist}" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Координаты по оси У" HorizontalAlignment="Right" Style="{DynamicResource TextBlockDetailsStyle}" Margin="2" />
 					<ExtToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Top, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="2" />
 				</Grid>
 			</Grid>

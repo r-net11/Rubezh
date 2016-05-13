@@ -110,6 +110,10 @@
 		<Views:MPTToolTipView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationTooltipViewModel}">
+		<Views:PumpStationToolTipView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:ZoneTooltipViewModel}">
 		<Views:ZoneToolTipView />
 	</DataTemplate>
@@ -179,8 +183,8 @@
 		<Views:ZonePageView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ReflectionPageViewModel}">
-        <Views:ReflectionPageView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ReflectionPageViewModel}">
+		<Views:ReflectionPageView />
+	</DataTemplate>
 
 </ResourceDictionary>

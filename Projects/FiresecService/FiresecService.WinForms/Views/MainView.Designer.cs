@@ -39,7 +39,7 @@
 			// 
 			this._statusStripMain.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this._statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._toolStripStatusLabelLastLog});
+			this._toolStripStatusLabelLastLog});
 			this._statusStripMain.Location = new System.Drawing.Point(0, 646);
 			this._statusStripMain.Name = "_statusStripMain";
 			this._statusStripMain.Size = new System.Drawing.Size(834, 25);
@@ -73,10 +73,8 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(850, 650);
 			this.Name = "MainView";
-			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MainWinFormView";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EventHandler_MainWinFormView_FormClosing);
 			this._statusStripMain.ResumeLayout(false);
 			this._statusStripMain.PerformLayout();
 			this.ResumeLayout(false);

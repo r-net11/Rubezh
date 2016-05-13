@@ -50,7 +50,7 @@ namespace Infrastructure.Plans.ViewModels
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
 				designerItem.UpdateElementProperties();
-				this.clipboard.Buffer.Add(designerItem.Element);
+				this.clipboard.Buffer.Add(designerItem.Element.Clone());
 			}
 		}
 		private bool CanCopyCut(object obj)

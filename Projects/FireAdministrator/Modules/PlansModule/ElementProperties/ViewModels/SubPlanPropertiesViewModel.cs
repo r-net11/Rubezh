@@ -12,7 +12,6 @@ namespace PlansModule.ViewModels
 	{
 		const int _sensivityFactor = 100;
 		ElementBase ElementBase { get; set; }
-		public bool CanEditPosition { get; private set; }
 		private IElementSubPlan _elementSubPlan;
 
 		public SubPlanPropertiesViewModel(IElementSubPlan element)
@@ -20,15 +19,12 @@ namespace PlansModule.ViewModels
 			Title = "Свойства фигуры: Ссылка на план";
 			_elementSubPlan = element;
 			ElementBase = element as ElementBase;
-			CanEditPosition = ElementBase != null;
-			if (CanEditPosition)
-			{
-				var position = ElementBase.GetPosition();
-				Left = (int)(position.X * _sensivityFactor);
-				Top = (int)(position.Y * _sensivityFactor);
-			}
+			var position = ElementBase.GetPosition();
+			Left = (int)(position.X * _sensivityFactor);
+			Top = (int)(position.Y * _sensivityFactor);
 			Initialize();
 		}
+
 		int _left;
 		public int Left
 		{
@@ -95,8 +91,7 @@ namespace PlansModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (CanEditPosition)
-				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
+			ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			Helper.SetSubPlan(_elementSubPlan, SelectedPlan == null ? null : SelectedPlan.Plan);
 			return base.Save();
 		}

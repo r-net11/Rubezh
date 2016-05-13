@@ -248,7 +248,7 @@ namespace GKWebService.Controllers
         [ErrorHandler]
         public JsonResult GetDepartmentsFilter(bool isWithDeleted)
         {
-            var filter = new DepartmentFilter { UserUID = ClientManager.CurrentUser.UID };
+            var filter = new DepartmentFilter { User = ClientManager.CurrentUser };
             if (isWithDeleted)
             {
                 filter.LogicalDeletationType = LogicalDeletationType.All;
@@ -276,7 +276,7 @@ namespace GKWebService.Controllers
         [ErrorHandler]
         public JsonResult GetPositionsFilter(bool isWithDeleted)
         {
-            var filter = new PositionFilter { UserUID = ClientManager.CurrentUser.UID };
+            var filter = new PositionFilter { User = ClientManager.CurrentUser };
             if (isWithDeleted)
             {
                 filter.LogicalDeletationType = LogicalDeletationType.All;

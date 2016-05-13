@@ -17,18 +17,13 @@ namespace GKModule.Plans.ViewModels
 		const int _sensivityFactor = 100;
 		private IElementMPT IElementMPT;
 		ElementBase ElementBase { get; set; }
-		public bool CanEditPosition { get; private set; }
 		public MPTPropertiesViewModel(IElementMPT element)
 		{
 			IElementMPT = element;
 			ElementBase = element as ElementBase;
-			CanEditPosition = ElementBase != null;
-			if (CanEditPosition)
-			{
-				var position = ElementBase.GetPosition();
-				Left = (int)(position.X * _sensivityFactor);
-				Top = (int)(position.Y * _sensivityFactor);
-			}
+			var position = ElementBase.GetPosition();
+			Left = (int)(position.X * _sensivityFactor);
+			Top = (int)(position.Y * _sensivityFactor);
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: МПТ";
@@ -93,8 +88,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (CanEditPosition)
-				ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
+			ElementBase.SetPosition(new System.Windows.Point((double)Left / _sensivityFactor, (double)Top / _sensivityFactor));
 			GKPlanExtension.Instance.RewriteItem(IElementMPT, SelectedMPT);
 			return base.Save();
 		}

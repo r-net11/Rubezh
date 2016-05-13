@@ -14,7 +14,7 @@ namespace Infrastructure.Plans
 		public static Point GetPosition(this ElementBasePoint elementBasePoint)
 		{
 			Rect rect = GetRectangle(elementBasePoint);
-			return new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+			return new Point(rect.Left, rect.Top);
 		}
 		public static void SetPosition(this ElementBasePoint elementBasePoint, Point point)
 		{
@@ -29,12 +29,12 @@ namespace Infrastructure.Plans
 		public static Point GetPosition(this ElementBaseRectangle elementBaseRectangle)
 		{
 			Rect rect = GetRectangle(elementBaseRectangle);
-			return new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+			return new Point(rect.Left, rect.Top);
 		}
 		public static void SetPosition(this ElementBaseRectangle elementBaseRectangle, Point point)
 		{
-			elementBaseRectangle.Left = point.X - elementBaseRectangle.Width / 2;
-			elementBaseRectangle.Top = point.Y - elementBaseRectangle.Height / 2;
+			elementBaseRectangle.Left = point.X;
+			elementBaseRectangle.Top = point.Y;
 		}
 
 		public static Rect GetRectangle(this ElementBaseShape elementBaseShape)
@@ -69,12 +69,12 @@ namespace Infrastructure.Plans
 		public static Point GetPosition(this ElementBaseShape elementBaseShape)
 		{
 			Rect rect = GetRectangle(elementBaseShape);
-			return new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+			return new Point(rect.Left, rect.Top);
 		}
 		public static void SetPosition(this ElementBaseShape elementBaseShape, Point point)
 		{
 			Rect rect = GetRectangle(elementBaseShape);
-			Vector shift = new Vector(point.X - rect.Width / 2 - rect.X, point.Y - rect.Height / 2 - rect.Y);
+			Vector shift = new Vector(point.X - rect.X, point.Y - rect.Y);
 			Application.Current.Dispatcher.Invoke((Action)(() =>
 			{
 				for (int i = 0; i < elementBaseShape.Points.Count; i++)
