@@ -53,29 +53,33 @@ namespace PlansModule.ViewModels
 			var copy = Utils.Clone(this.clipboard.Buffer);
 			if (this.clipboard.SourceAction == ClipboardSourceAction.Copy)
 			{
-				var elements = copy.ElementGKDevices.Cast<IElementReference>()
-					.Union(copy.ElementGKDoors)
-					.Union(copy.ElementPolygonGKDelays)
-					.Union(copy.ElementPolygonGKPumpStations)
-					.Union(copy.ElementPolygonGKDirections)
-					.Union(copy.ElementPolygonGKGuardZones)
-					.Union(copy.ElementPolygonGKMPTs)
-					.Union(copy.ElementPolygonGKSKDZones)
-					.Union(copy.ElementPolygonGKZones)
-					.Union(copy.ElementRectangleGKDelays)
-					.Union(copy.ElementRectangleGKPumpStations)
-					.Union(copy.ElementRectangleGKDirections)
-					.Union(copy.ElementRectangleGKGuardZones)
-					.Union(copy.ElementRectangleGKMPTs)
-					.Union(copy.ElementRectangleGKSKDZones)
-					.Union(copy.ElementRectangleGKZones);
-				foreach (var element in elements)
-					element.ItemUID = Guid.Empty;
+				ClearElements(copy);
 			}
 			RenewPlan(copy);
 			OnPlanPaste(copy, isRoot);
 			if (this.clipboard.SourceAction == ClipboardSourceAction.Cut)
 				this.clipboard.Clear();
+		}
+		void ClearElements(Plan plan)
+		{
+			var elements = plan.ElementGKDevices.Cast<IElementReference>()
+					.Union(plan.ElementGKDoors)
+					.Union(plan.ElementPolygonGKDelays)
+					.Union(plan.ElementPolygonGKPumpStations)
+					.Union(plan.ElementPolygonGKDirections)
+					.Union(plan.ElementPolygonGKGuardZones)
+					.Union(plan.ElementPolygonGKMPTs)
+					.Union(plan.ElementPolygonGKSKDZones)
+					.Union(plan.ElementPolygonGKZones)
+					.Union(plan.ElementRectangleGKDelays)
+					.Union(plan.ElementRectangleGKPumpStations)
+					.Union(plan.ElementRectangleGKDirections)
+					.Union(plan.ElementRectangleGKGuardZones)
+					.Union(plan.ElementRectangleGKMPTs)
+					.Union(plan.ElementRectangleGKSKDZones)
+					.Union(plan.ElementRectangleGKZones);
+			elements.ForEach(element => element.ItemUID = Guid.Empty);
+			plan.Children.ForEach(child => ClearElements(child));
 		}
 		private bool CanPlanPaste()
 		{
