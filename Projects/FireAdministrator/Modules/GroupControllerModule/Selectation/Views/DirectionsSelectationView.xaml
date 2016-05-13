@@ -16,7 +16,6 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<DataGrid x:Name="dataGrid1"
-				  controls:DataGridSingleRowSelected.IsSelectionFixEnabled="True"
 				  Grid.Column="0"
 				  ItemsSource="{Binding TargetDirections}"
 				  SelectedItem="{Binding SelectedTargetDirection}"
@@ -58,7 +57,6 @@
 				<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="rightRight" />
 			</StackPanel>
 			<DataGrid x:Name="dataGrid2"
-				  controls:DataGridSingleRowSelected.IsSelectionFixEnabled="True"
 				  Grid.Column="2"
 				  ItemsSource="{Binding SourceDirections}"
 				  SelectedItem="{Binding SelectedSourceDirection}"

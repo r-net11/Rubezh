@@ -11,7 +11,6 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<DataGrid x:Name="dataGrid1"
-				  controls:DataGridSingleRowSelected.IsSelectionFixEnabled="True"
 				  Grid.Column="0"
 				  ItemsSource="{Binding Devices}"
 				  SelectedItem="{Binding SelectedDevice}"
@@ -73,13 +72,12 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
-			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
-			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="leftLeft"  />
-			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="rightRight"  />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="left" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="right" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="leftLeft" />
+			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="rightRight" />
 		</StackPanel>
 		<DataGrid x:Name="dataGrid2"
-				  controls:DataGridSingleRowSelected.IsSelectionFixEnabled="True"
 				  Grid.Column="2"
 				  ItemsSource="{Binding AvailableDevices}"
 				  SelectedItem="{Binding SelectedAvailableDevice}"

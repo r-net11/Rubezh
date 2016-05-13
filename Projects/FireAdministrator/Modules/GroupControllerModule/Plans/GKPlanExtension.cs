@@ -25,7 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-//using System.Windows.Media;
 
 namespace GKModule.Plans
 {
@@ -731,7 +730,7 @@ namespace GKModule.Plans
 		}
 		Color GetGkEntityColor<T>(T entity, Color entityColor)
 		{
-			Color color = Colors.Black;
+			Color color = Color.FromRgb(150,150,150);
 			if (entity != null)
 				color = entityColor;
 			return color;
