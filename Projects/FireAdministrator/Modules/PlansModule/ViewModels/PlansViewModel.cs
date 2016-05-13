@@ -396,7 +396,6 @@ namespace PlansModule.ViewModels
 			{
 				base.OnShow();
 				using (new TimeCounter("PlansViewModel.UpdatePlansConfiguration: {0}"))
-					ClientManager.UpdatePlansConfiguration();
 				DesignerCanvas.DeselectAll();
 				ExtensionAttached();
 
