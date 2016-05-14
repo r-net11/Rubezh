@@ -33,6 +33,9 @@ namespace FiresecService
 					_gkLifecycleItems.Add(new GKLifecycleItem(gkLifecycleInfo));
 				else
 					gkLifecycleItem.Update();
+
+				while (_gkLifecycleItems.Count > 50)
+					_gkLifecycleItems.RemoveAt(0);
 			}
 			PageController.OnPageChanged(Page.GK);
 		}
