@@ -18,29 +18,28 @@ namespace FiresecService
 			try
 			{
 				Notifier.SetNotifier(new FiresecNotifier());
-				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
+				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				ServiceBootstrapper.Run();
 				Logger.Trace(SystemInfo.GetString());
 
+				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
+				LogPresenter.AddLog("Проверка лицензии");
+				if (!FiresecLicenseProcessor.TryLoadLicense())
+					LogPresenter.AddLog("Ошибка лицензии", true);
+				LicensePresenter.Initialize();
+
+				LogPresenter.AddLog("Проверка соединения с БД");
+				using (var dbService = new DbService())
+				{
+					if (dbService.CheckConnection().HasError)
+						LogPresenter.AddLog("Ошибка соединения с БД", true);
+				}
+
+				LogPresenter.AddLog("Загрузка конфигурации");
+				ConfigurationCashHelper.Update();
+
 				if (UACHelper.IsAdministrator)
 				{
-					Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
-					LogPresenter.AddLog("Проверка лицензии");
-					if (!FiresecLicenseProcessor.TryLoadLicense())
-						LogPresenter.AddLog("Ошибка лицензии", true);
-					LicensePresenter.Initialize();
-
-					LogPresenter.AddLog("Проверка соединения с БД");
-					using (var dbService = new DbService())
-					{
-						if (dbService.CheckConnection().HasError)
-							LogPresenter.AddLog("Ошибка соединения с БД", true);
-					}
-
-					LogPresenter.AddLog("Загрузка конфигурации");
-					ConfigurationCashHelper.Update();
-
 					LogPresenter.AddLog("Открытие хоста");
 					FiresecServiceManager.Open(false);
 
@@ -55,11 +54,11 @@ namespace FiresecService
 					AutomationProcessor.RunOnApplicationRun();
 					ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
 					LogPresenter.AddLog("Готово");
-
-					FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 				}
 				else
 					LogPresenter.AddLog("Для запуска сервера требуются права администратора", true);
+
+				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 
 			}
 			catch (Exception e)
