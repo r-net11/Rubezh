@@ -3,4 +3,3 @@
 /// <reference path="main/ambient/jasmine/index.d.ts" />
 /// <reference path="main/ambient/jquery/index.d.ts" />
 /// <reference path="main/ambient/signalr/index.d.ts" />
-/// <reference path="main/ambient/winjs/index.d.ts" />
