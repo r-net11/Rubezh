@@ -3,6 +3,7 @@ using FiresecService.Presenters;
 using FiresecService.Processor;
 using FiresecService.Service;
 using Infrastructure.Automation;
+using Infrastructure.Common;
 using RubezhAPI;
 using RubezhDAL.DataClasses;
 using System;
@@ -22,38 +23,44 @@ namespace FiresecService
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 				Logger.Trace(SystemInfo.GetString());
 
-				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
-
-				UILogger.Log("Проверка лицензии");
-				if (!FiresecLicenseProcessor.TryLoadLicense())
-					UILogger.Log("Ошибка лицензии", true);
-
-				UILogger.Log("Проверка соединения с БД");
-				using (var dbService = new DbService())
+				if (UACHelper.IsAdministrator)
 				{
-					if (dbService.CheckConnection().HasError)
-						UILogger.Log("Ошибка соединения с БД", true);
+					FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
+
+					UILogger.Log("Проверка лицензии");
+					if (!FiresecLicenseProcessor.TryLoadLicense())
+						UILogger.Log("Ошибка лицензии", true);
+
+					UILogger.Log("Проверка соединения с БД");
+					using (var dbService = new DbService())
+					{
+						if (dbService.CheckConnection().HasError)
+							UILogger.Log("Ошибка соединения с БД", true);
+					}
+
+					UILogger.Log("Загрузка конфигурации");
+					ConfigurationCashHelper.Update();
+
+					UILogger.Log("Открытие хоста");
+
+					FiresecServiceManager.Open(false);
+
+					GKProcessor.Create();
+					UILogger.Log("Запуск ГК");
+					GKProcessor.Start();
+					AutomationProcessor.Start();
+					ScheduleRunner.Start();
+					ServerTaskRunner.Start();
+					AutomationProcessor.RunOnApplicationRun();
+					ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
+
+					UILogger.Log("Готово");
+
+					FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 				}
+				else
+					UILogger.Log("Для запуска сервера требуются права администратора", true);
 
-				UILogger.Log("Загрузка конфигурации");
-				ConfigurationCashHelper.Update();
-
-				UILogger.Log("Открытие хоста");
-
-				FiresecServiceManager.Open(false);
-
-				GKProcessor.Create();
-				UILogger.Log("Запуск ГК");
-				GKProcessor.Start();
-				AutomationProcessor.Start();
-				ScheduleRunner.Start();
-				ServerTaskRunner.Start();
-				AutomationProcessor.RunOnApplicationRun();
-				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
-
-				UILogger.Log("Готово");
-
-				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
 			}
 			catch (Exception e)
 			{
