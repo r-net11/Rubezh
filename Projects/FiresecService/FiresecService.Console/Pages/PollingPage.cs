@@ -1,5 +1,6 @@
-﻿
-using System;
+﻿using System;
+using System.Linq;
+
 namespace FiresecService
 {
 	class PollingPage : ConsolePageBase
@@ -18,18 +19,21 @@ namespace FiresecService
 			DrawTableLine(left, top + 2, width, "Имя пользователя", "", "Последний", "");
 			ConsoleHelper.WriteLine(left, top + 3, width, String.Format(" {0} ", new String('-', width - 2)));
 			ConsoleHelper.WriteLine(left, top + 4, width);
-			var count = PollingPresenter.PollingItems.Count;
+			var items = PollingPresenter.PollingItems
+				.Skip(Math.Max(0, PollingPresenter.PollingItems.Count - (height - 7) / 3))
+				.Take(Math.Min(PollingPresenter.PollingItems.Count, (height - 7) / 3)).ToList();
+			var count = items.Count;
 			for (int i = 0; i < count; i++)
 			{
 				DrawTableLine(left, top + 5 + i * 3, width,
-					String.Format("{0} ({1})", PollingPresenter.PollingItems[i].IpAddress, PollingPresenter.PollingItems[i].ClientType),
-					PollingPresenter.PollingItems[i].UID.ToString().Substring(0, 14),
-					PollingPresenter.PollingItems[i].FirstPollTime.ToString(),
-					PollingPresenter.PollingItems[i].CallbackIndex.ToString());
+					String.Format("{0} ({1})", items[i].IpAddress, items[i].ClientType),
+					items[i].UID.ToString().Substring(0, 14),
+					items[i].FirstPollTime.ToString(),
+					items[i].CallbackIndex.ToString());
 				DrawTableLine(left, top + 6 + i * 3, width,
-					PollingPresenter.PollingItems[i].UserName,
-					PollingPresenter.PollingItems[i].UID.ToString().Substring(14, 11) + "...",
-					PollingPresenter.PollingItems[i].LastPollTime.ToString(),
+					items[i].UserName,
+					items[i].UID.ToString().Substring(14, 11) + "...",
+					items[i].LastPollTime.ToString(),
 					"");
 				ConsoleHelper.WriteLine(left, top + 7 + i * 3, width);
 			}
