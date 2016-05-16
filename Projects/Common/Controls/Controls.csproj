@@ -131,7 +131,6 @@
     <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
-    <Compile Include="ButtonSpinner.cs" />
     <Compile Include="Converters\BoolToRotationConverter.cs" />
     <Compile Include="Converters\BoolToResizeModeConverter.cs" />
     <Compile Include="Converters\BoolToYesNoConverter.cs" />
