@@ -1,4 +1,4 @@
-System.register(['@angular/core', 'rxjs/add/operator/map', '../services/gk.service'], function(exports_1, context_1) {
+System.register(["@angular/core", "rxjs/add/operator/map", "../services/gk.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -11,7 +11,7 @@ System.register(['@angular/core', 'rxjs/add/operator/map', '../services/gk.servi
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, gk_service_1;
-    var ConnectionIndicatorComponent;
+    var ConnectionIndicatorComponent, ConnectionState;
     return {
         setters:[
             function (core_1_1) {
@@ -24,36 +24,45 @@ System.register(['@angular/core', 'rxjs/add/operator/map', '../services/gk.servi
         execute: function() {
             ConnectionIndicatorComponent = (function () {
                 function ConnectionIndicatorComponent(gkService) {
+                    var _this = this;
                     this.gkService = gkService;
                     this.channel = "connection";
-                    // Let's wire up to the signalr observables
+                    // Подписываемся на observables для SignalR
                     //
-                    this.connectionState = this.gkService.connectionState
-                        .map(function (state) { return state.toString(); });
-                    this.gkService.error.subscribe(function (error) {
-                        console.warn(error);
-                    }, function (error) {
-                        console.error("errors$ error", error);
+                    this.connectionState = new ConnectionState();
+                    this.gkService.connectionState
+                        .subscribe(function (state) {
+                        console.info("Connection state has changed.");
+                        _this.connectionState.fromState(state);
                     });
-                    // Wire up a handler for the starting$ observable to log the
-                    //  success/fail result
-                    //
-                    this.gkService.starting.subscribe(function () {
-                        console.log("signalr service has been started");
-                    }, function () {
-                        console.warn("signalr service failed to start!");
-                    });
+                    //this.gkService.error.subscribe(
+                    //	(error: any) => {
+                    //		console.warn(error);
+                    //	},
+                    //	(error: any) => {
+                    //		console.error("errors$ error", error);
+                    //	}
+                    //);
+                    //this.gkService.starting.subscribe(
+                    //	() => {
+                    //		console.log(
+                    //			"signalr service has been started");
+                    //	},
+                    //	() => {
+                    //		console.warn(
+                    //			"signalr service failed to start!");
+                    //	}
+                    //);
                 }
                 ConnectionIndicatorComponent.prototype.ngOnInit = function () {
-                    // Start the connection up!
-                    //
-                    console.log("Starting the channel service");
+                    console.log("Запускается Gk Service.");
                     this.gkService.start();
                 };
                 ConnectionIndicatorComponent = __decorate([
                     core_1.Component({
-                        selector: 'nav-connection',
-                        templateUrl: 'app/shared/nav/connection-indicator.component.html',
+                        selector: "nav-connection",
+                        templateUrl: "app/shared/nav/connection-indicator.component.html",
+                        styleUrls: ["app/shared/nav/connection-indicator.component.css"],
                         providers: [gk_service_1.GkService]
                     }), 
                     __metadata('design:paramtypes', [gk_service_1.GkService])
@@ -61,6 +70,47 @@ System.register(['@angular/core', 'rxjs/add/operator/map', '../services/gk.servi
                 return ConnectionIndicatorComponent;
             }());
             exports_1("ConnectionIndicatorComponent", ConnectionIndicatorComponent);
+            ConnectionState = (function () {
+                function ConnectionState() {
+                    this.Text = "Подключение отсутствует";
+                    this.Class = "disconnected";
+                }
+                ConnectionState.prototype.fromState = function (state) {
+                    switch (state) {
+                        case 0 /* Connecting */ .valueOf():
+                            {
+                                this.Text = "Выполняется подключение к серверу";
+                                this.Class = "connecting";
+                                break;
+                            }
+                        case 1 /* Connected */ .valueOf():
+                            {
+                                this.Text = "Подключено к серверу";
+                                this.Class = "connected";
+                                break;
+                            }
+                        case 4 /* Disconnected */ .valueOf():
+                            {
+                                this.Text = "Подключение отсутствует";
+                                this.Class = "disconnected";
+                                break;
+                            }
+                        case 2 /* Reconnecting */ .valueOf():
+                            {
+                                this.Text = "Выполняется попытка переподключения к серверу";
+                                this.Class = "reconnecting";
+                                break;
+                            }
+                        default:
+                            {
+                                this.Text = "Подключение отсутствует";
+                                this.Class = "disconnected";
+                                break;
+                            }
+                    }
+                };
+                return ConnectionState;
+            }());
         }
     }
 });

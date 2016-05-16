@@ -1,0 +1,35 @@
+﻿.indicator
+{
+	width: 12px;
+	height: 12px;
+	-ms-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid black;
+	background: gray;
+	vertical-align: middle;	
+}
+
+.indicator.connected
+{
+	background: green;
+}
+.indicator.connecting
+{
+	background: darkorange;
+}
+.indicator.disconnected
+{
+	background: red;
+}
+.indicator.reconnecting
+{
+	background: darkorange;
+}
+.indicator.reconnected
+{
+	background: green;
+}
+.indicator.connection-error
+{
+	background: red;
+}

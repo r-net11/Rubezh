@@ -1,5 +1,1 @@
-﻿<ul class="nav navbar-nav navbar-right">
-	<li>
-		Статус подключения:<br>{{connectionState | async}}
-	</li>
-</ul>
+﻿<label class="indicator {{connectionState.Class}}" title="{{connectionState.Text}}"></label>

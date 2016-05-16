@@ -26,7 +26,7 @@ export class GkService
 
 	// Эти поля используются для трансляции в соответствующие публичные Observable
 	//
-    private connectionStateSubject = new Subject<SignalR.ConnectionState>();
+    private connectionStateSubject = new Subject<number>();
     private startingSubject = new Subject<any>();
     private errorSubject = new Subject<string>();
 
@@ -39,7 +39,7 @@ export class GkService
 	{
 		// Настройка observables
         //
-        this.connectionState = this.connectionStateSubject.asObservable();
+		this.connectionState = this.connectionStateSubject.asObservable();
         this.error = this.errorSubject.asObservable();
         this.starting = this.startingSubject.asObservable();
 
@@ -51,23 +51,14 @@ export class GkService
 
 		// Задаем обработчики событий подключения
 		//
-        this.hubConnection.stateChanged((change: any) =>
-		{
-			if (change.newState === change.oldState)
-			{
-				return;
-			}
-			console.info("Signalr connection state changed.");
-		// Проталкиваем новое состояние в субъект
-		//
-		this.connectionStateSubject.next(change.newState);
-		});
+        this.hubConnection.stateChanged((state) => { this.onStateChanged(state); });
 		//this.hubConnection.error(this.onConnectionError);
 		this.hubConnection.connectionSlow(() => { console.info("Signalr connection is slow.");});
 		this.hubConnection.disconnected(() => { console.info("Signalr disconnected.") });
 		//this.hubConnection.error((e) => { console.error("Signalr connection error." + e.message) });
 		this.hubConnection.reconnected(() => { console.info("Signalr connection reconnected.")  });
 		this.hubConnection.reconnecting(() => { console.info("Signalr connection reconnecting.") });
+		this.connectionState.subscribe(() => { console.info("Connection state subscription"); });
 	}
 
 	private onConnectionError(error: SignalR.ConnectionError)
@@ -85,7 +76,7 @@ export class GkService
 		}
 		// Проталкиваем новое состояние в субъект
 		//
-		//this.connectionStateSubject.next(change.newState);
+		this.connectionStateSubject.next(change.newState);
 	}
 
 	start() {

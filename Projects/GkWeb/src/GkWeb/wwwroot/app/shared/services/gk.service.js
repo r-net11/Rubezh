@@ -40,21 +40,14 @@ System.register(["@angular/core", 'rxjs/Subject'], function(exports_1, context_1
                     //this.hubProxy = this.hubConnection.createHubProxy("gkHub");
                     // Задаем обработчики событий подключения
                     //
-                    this.hubConnection.stateChanged(function (change) {
-                        if (change.newState === change.oldState) {
-                            return;
-                        }
-                        console.info("Signalr connection state changed.");
-                        // Проталкиваем новое состояние в субъект
-                        //
-                        _this.connectionStateSubject.next(change.newState);
-                    });
+                    this.hubConnection.stateChanged(function (state) { _this.onStateChanged(state); });
                     //this.hubConnection.error(this.onConnectionError);
                     this.hubConnection.connectionSlow(function () { console.info("Signalr connection is slow."); });
                     this.hubConnection.disconnected(function () { console.info("Signalr disconnected."); });
                     //this.hubConnection.error((e) => { console.error("Signalr connection error." + e.message) });
                     this.hubConnection.reconnected(function () { console.info("Signalr connection reconnected."); });
                     this.hubConnection.reconnecting(function () { console.info("Signalr connection reconnecting."); });
+                    this.connectionState.subscribe(function () { console.info("Connection state subscription"); });
                 }
                 GkService.prototype.onConnectionError = function (error) {
                     // Проталкиваем сообщение в субъект
@@ -67,7 +60,7 @@ System.register(["@angular/core", 'rxjs/Subject'], function(exports_1, context_1
                     }
                     // Проталкиваем новое состояние в субъект
                     //
-                    //this.connectionStateSubject.next(change.newState);
+                    this.connectionStateSubject.next(change.newState);
                 };
                 GkService.prototype.start = function () {
                     this.hubConnection.start().done(function () {
