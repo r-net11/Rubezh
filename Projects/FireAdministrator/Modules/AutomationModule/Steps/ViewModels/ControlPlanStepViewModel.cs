@@ -183,7 +183,9 @@ namespace AutomationModule.ViewModels
 					ElementPropertyType.Left, 
 					ElementPropertyType.Top 
 				};
-			if (element.ElementType == typeof(ElementGKDevice) || element.ElementType == typeof(ElementGKDoor))
+			if (element.ElementType == typeof(ElementGKDevice) ||
+				element.ElementType == typeof(ElementGKDoor) ||
+				element.ElementType == typeof(ElementCamera))
 				return new ObservableCollection<ElementPropertyType> 
 				{ 
 					ElementPropertyType.IsVisible, 
