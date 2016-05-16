@@ -41,6 +41,7 @@ namespace AutomationModule
 			allElements.AddRange(plan.ElementSubPlans);
 			allElements.AddRange(plan.ElementPolygonSubPlans);
 			allElements.AddRange(plan.ElementTextBoxes);
+			allElements.AddRange(plan.ElementGKDoors);
 			foreach (var elementRectangle in allElements)
 			{
 				elements.Add(new ElementViewModel(elementRectangle));
