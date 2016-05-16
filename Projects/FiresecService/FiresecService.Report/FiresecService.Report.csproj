@@ -352,10 +352,6 @@
       <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Infrastructure.Plans\Infrastructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrastructure.Plans</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
       <Name>RubezhAPI</Name>
