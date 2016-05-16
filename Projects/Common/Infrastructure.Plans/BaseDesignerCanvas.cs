@@ -229,6 +229,7 @@ namespace Infrastructure.Plans
 			{
 				var element = designerItem.Element;
 				elementBase.Copy(element);
+				designerItem.UpdateElementProperties();
 				designerItem.ResetElement(element);
 			}
 			else

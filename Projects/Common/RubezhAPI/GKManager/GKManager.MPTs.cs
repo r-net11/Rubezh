@@ -1,8 +1,4 @@
 ﻿using RubezhAPI.GK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RubezhAPI
 {
@@ -35,6 +31,8 @@ namespace RubezhAPI
 				x.UpdateLogic(DeviceConfiguration);
 				x.OnChanged();
 			});
+
+			mpt.OnChanged();
 		}
 
 		/// <summary>
