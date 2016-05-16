@@ -6,6 +6,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -19,7 +20,7 @@ namespace GKModule.ViewModels
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
 			MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(Device, false);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 		}
 
 		GKDevice _device;
@@ -71,6 +72,10 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+		private bool CanShowProperties()
+		{
+			return IsCodeReader;
 		}
 
 		public string Description

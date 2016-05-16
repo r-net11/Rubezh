@@ -11,69 +11,88 @@
 			<Setter Property="TextBlock.FontWeight" Value="Bold" />
 		</Style>
 	</UserControl.Resources>
-
-	<StackPanel>
-		<ItemsControl ItemsSource="{Binding StringProperties}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
-						<TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
-					</Grid>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-		<ItemsControl ItemsSource="{Binding ShortProperties}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
-						<TextBox Grid.Column="1" Text="{Binding Text}" VerticalAlignment="Center" Margin="2" />
-					</Grid>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-		<ItemsControl ItemsSource="{Binding BoolProperties}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-						<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
-					</Grid>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-		<ItemsControl ItemsSource="{Binding EnumProperties}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
-						<ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" ToolTip="{Binding SelectedParameter.Name}" VerticalAlignment="Center" Margin="2">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-					</Grid>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</StackPanel>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0">
+			<ItemsControl ItemsSource="{Binding StringProperties}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+							<TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			<ItemsControl ItemsSource="{Binding ShortProperties}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+							<TextBox Grid.Column="1" Text="{Binding Text}" VerticalAlignment="Center" Margin="2" />
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			<ItemsControl ItemsSource="{Binding BoolProperties}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<TextBlock Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+							<CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			<ItemsControl ItemsSource="{Binding EnumProperties}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<TextBlock Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+							<ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" ToolTip="{Binding SelectedParameter.Name}" VerticalAlignment="Center" Margin="2">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StackPanel>
+		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+			<ToolBarButton Command="{Binding ReadPropertiesCommand}"
+									   ImageSource="read"
+									   ToolTip="Считать параметры"
+									   IsEnabled="{Binding IsEdit}"
+									   Width="36" Height="36"
+									   Margin="0,0,0,-8" />
+			<ToolBarButton Command="{Binding WritePropertiesCommand}"
+									   ImageSource="write"
+									   ToolTip="Записать параметры"
+									   IsEnabled="{Binding IsEdit}"
+									   Width="36" Height="36"
+									   Margin="0,0,0,-8" />
+		</StackPanel>
+	</Grid>
 </UserControl>

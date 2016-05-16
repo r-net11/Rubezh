@@ -107,24 +107,20 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-						<StackPanel Grid.Column="0" DataContext="{Binding SelectedDevice}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}">
-							<Grid>
+						<StackPanel Grid.Column="0" DataContext="{Binding SelectedDevice}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Margin="0 10 0 10">
+							<!--<Grid Margin="0 10 0 10">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="*" />
-								</Grid.ColumnDefinitions>
+								</Grid.ColumnDefinitions>-->
 								<TextBlock Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 								<TextBox Grid.Column="1" Text="{Binding Description}" Margin="2" />
-							</Grid>
-							<TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="{Binding IsCodeReader, Converter={StaticResource BoolToVisibilityConverter}}">
-								<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
-									<TextBlock Margin="2" Text="Свойства" Style="{DynamicResource TextBlockDetailsStyle}" />
-								</Hyperlink>
-							</TextBlock>
-							<Views:MPTDevicePropertiesView DataContext="{Binding MPTDevicePropertiesViewModel}" MinHeight="10" />
+							<!--</Grid>-->
 						</StackPanel>
 						<ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="Settings2" VerticalAlignment="Top" />
+						<ToolBarButton Grid.Column="2" Command="{Binding ShowPropertiesCommand}" ToolTip="Свойства" ImageSource="Shedules" VerticalAlignment="Top" DataContext="{Binding SelectedDevice}" />
 					</Grid>
 				</Grid>
 			</Grid>
@@ -195,7 +191,7 @@
 
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Задержка, с" Width="200" Margin="2" />
-                        <extToolkit:IntegerUpDown Value="{Binding Delay}" Minimum="0" Maximum="65535" Width="160" Margin="2"/>						
+						<extToolkit:IntegerUpDown Value="{Binding Delay}" Minimum="0" Maximum="65535" Width="160" Margin="2"/>
 					</StackPanel>
 				</StackPanel>
 			</Grid>
