@@ -134,8 +134,6 @@
 	</Style>
 	<Style x:Key="{x:Type DataGrid}"
 		   TargetType="{x:Type DataGrid}">
-		<Setter Property="local:DataGridSingleRowSelected.IsSelectionFixEnabled"
-				Value="True" />
 		<Setter Property="ColumnHeaderStyle"
 				Value="{DynamicResource ColumnHeaderStyle}" />
 		<Setter Property="CellStyle"
@@ -275,6 +273,11 @@
 					 Value="true">
 				<Setter Property="ScrollViewer.CanContentScroll"
 						Value="false" />
+			</Trigger>
+			<Trigger Property="SelectionMode"
+					 Value="Extended">
+				<Setter Property="local:DataGridSingleRowSelected.IsSelectionFixEnabled"
+						Value="True" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>
