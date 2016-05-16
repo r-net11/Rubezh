@@ -174,6 +174,7 @@ namespace GKModule.ViewModels
 			GKManager.Delays.Add(delayViewModel.Delay);
 			Delays.Add(delayViewModel);
 			SelectedDelay = delayViewModel;
+			GKPlanExtension.Instance.Cache.BuildSafe<GKDelay>();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 

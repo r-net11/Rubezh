@@ -2,6 +2,7 @@
 using FiresecService.Processor;
 using FiresecService.Service;
 using Infrastructure.Automation;
+using Infrastructure.Common;
 using RubezhAPI;
 using RubezhDAL.DataClasses;
 using System;
@@ -17,11 +18,11 @@ namespace FiresecService
 			try
 			{
 				Notifier.SetNotifier(new FiresecNotifier());
-				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
-				ServiceBootstrapper.Run();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+				ServiceBootstrapper.Run();
 				Logger.Trace(SystemInfo.GetString());
 
+				FiresecService.Service.FiresecService.ServerState = ServerState.Starting;
 				LogPresenter.AddLog("Проверка лицензии");
 				if (!FiresecLicenseProcessor.TryLoadLicense())
 					LogPresenter.AddLog("Ошибка лицензии", true);
@@ -37,22 +38,28 @@ namespace FiresecService
 				LogPresenter.AddLog("Загрузка конфигурации");
 				ConfigurationCashHelper.Update();
 
-				LogPresenter.AddLog("Открытие хоста");
-				FiresecServiceManager.Open(false);
+				if (UACHelper.IsAdministrator)
+				{
+					LogPresenter.AddLog("Открытие хоста");
+					FiresecServiceManager.Open(false);
 
-				GKProcessor.Create();
-				LogPresenter.AddLog("Запуск ГК");
-				GKPresenter.Initialize();
-				GKProcessor.Start();
+					GKProcessor.Create();
+					LogPresenter.AddLog("Запуск ГК");
+					GKPresenter.Initialize();
+					GKProcessor.Start();
 
-				AutomationProcessor.Start();
-				ScheduleRunner.Start();
-				ServerTaskRunner.Start();
-				AutomationProcessor.RunOnApplicationRun();
-				ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
-				LogPresenter.AddLog("Готово");
+					AutomationProcessor.Start();
+					ScheduleRunner.Start();
+					ServerTaskRunner.Start();
+					AutomationProcessor.RunOnApplicationRun();
+					ClientsManager.StartRemoveInactiveClients(TimeSpan.FromDays(1));
+					LogPresenter.AddLog("Готово");
+				}
+				else
+					LogPresenter.AddLog("Для запуска сервера требуются права администратора", true);
 
 				FiresecService.Service.FiresecService.ServerState = ServerState.Ready;
+
 			}
 			catch (Exception e)
 			{
