@@ -1,7 +1,6 @@
-﻿using RubezhClient;
+﻿using Infrastructure.Common.License;
 using Infrastructure.Common.Validation;
-using RubezhAPI.License;
-using Infrastructure.Common.License;
+using RubezhClient;
 
 namespace VideoModule.Validation
 {
@@ -13,7 +12,7 @@ namespace VideoModule.Validation
 				return;
 
 			foreach (var camera in ClientManager.SystemConfiguration.Cameras)
-				Errors.Add(new VideoValidationError(camera, "Отсутствует лицензия модуля \"GLOBAL Видео\"", ValidationErrorLevel.Warning));
+				Errors.Add(new VideoValidationError(camera, "Отсутствует лицензия модуля \"GLOBAL Видео\"", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }
