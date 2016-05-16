@@ -29,8 +29,9 @@ namespace GKProcessor
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes(0x107);
+			DeviceType = BytesHelper.ShortToBytes(0x101);
 			SetAddress(0);
+            SetPropertiesBytes();
 		}
 
 		public override void BuildFormula()
@@ -82,8 +83,7 @@ namespace GKProcessor
 				if (device != null)
 				{
 					Formula.AddGetBit(GKStateBit.Attention, device);
-					Formula.Add(FormulaOperationType.COM);
-					Formula.Add(FormulaOperationType.BR, 2, 6);
+					Formula.Add(FormulaOperationType.BR, 1, 6);
 				}
 
 				Formula.AddGetBit(GKStateBit.On, Door);
