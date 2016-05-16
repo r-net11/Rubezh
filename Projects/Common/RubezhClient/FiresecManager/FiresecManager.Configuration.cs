@@ -169,21 +169,21 @@ namespace RubezhClient
 					{
 						var elementGKDevice = plan.ElementGKDevices[i - 1];
 						var device = GKManager.Devices.Find(x => x.UID == elementGKDevice.DeviceUID);
-						elementGKDevice.UpdateZLayer();
+						//elementGKDevice.UpdateZLayer();
 						if (device != null)
 							device.PlanElementUIDs.Add(elementGKDevice.UID);
 					}
 					foreach (var zone in plan.ElementPolygonGKZones)
 					{
 						var _zone = GKManager.Zones.Find(x => x.UID == zone.ZoneUID);
-						UpdateSKDZoneType(zone, _zone);
+						//UpdateSKDZoneType(zone, _zone);
 						if (_zone != null)
 							_zone.PlanElementUIDs.Add(zone.UID);
 					}
 					foreach (var zone in plan.ElementRectangleGKZones)
 					{
 						var _zone = GKManager.Zones.Find(x => x.UID == zone.ZoneUID);
-						UpdateSKDZoneType(zone, _zone);
+						//UpdateSKDZoneType(zone, _zone);
 						if (_zone != null)
 							_zone.PlanElementUIDs.Add(zone.UID);
 					}
@@ -191,7 +191,7 @@ namespace RubezhClient
 					foreach (var zoneSKD in plan.ElementPolygonGKSKDZones)
 					{
 						var skd = GKManager.SKDZones.Find(x => x.UID == zoneSKD.ZoneUID);
-						UpdateSKDZoneType(zoneSKD, skd);
+						//UpdateSKDZoneType(zoneSKD, skd);
 						if (skd != null)
 							skd.PlanElementUIDs.Add(zoneSKD.UID);
 					}
@@ -199,35 +199,35 @@ namespace RubezhClient
 					foreach (var zoneSKD in plan.ElementRectangleGKSKDZones)
 					{
 						var skd = GKManager.SKDZones.Find(x => x.UID == zoneSKD.ZoneUID);
-						UpdateSKDZoneType(zoneSKD, skd);
+						//UpdateSKDZoneType(zoneSKD, skd);
 						if (skd != null)
 							skd.PlanElementUIDs.Add(zoneSKD.UID);
 					}
 					foreach (var guardZone in plan.ElementPolygonGKGuardZones)
 					{
 						var zone = GKManager.GuardZones.Find(x => x.UID == guardZone.ZoneUID);
-						UpdateZoneType(guardZone, zone);
+						//UpdateZoneType(guardZone, zone);
 						if (zone != null)
 							zone.PlanElementUIDs.Add(guardZone.UID);
 					}
 					foreach (var guardZone in plan.ElementRectangleGKGuardZones)
 					{
 						var zone = GKManager.GuardZones.Find(x => x.UID == guardZone.ZoneUID);
-						UpdateZoneType(guardZone, zone);
+						//UpdateZoneType(guardZone, zone);
 						if (zone != null)
 							zone.PlanElementUIDs.Add(guardZone.UID);
 					}
 					foreach (var delay in plan.ElementRectangleGKDelays)
 					{
 						var delayGK = GKManager.Delays.Find(x => x.UID == delay.DelayUID);
-						UpdateDelayType(delay, delayGK);
+						//UpdateDelayType(delay, delayGK);
 						if (delayGK != null)
 							delayGK.PlanElementUIDs.Add(delay.UID);
 					}
 					foreach (var delay in plan.ElementPolygonGKDelays)
 					{
 						var delayGK = GKManager.Delays.Find(x => x.UID == delay.DelayUID);
-						UpdateDelayType(delay, delayGK);
+						//UpdateDelayType(delay, delayGK);
 						if (delayGK != null)
 							delayGK.PlanElementUIDs.Add(delay.UID);
 					}
@@ -236,35 +236,35 @@ namespace RubezhClient
 						.Concat(plan.ElementRectangleGKPumpStations))
 					{
 						var pump =  GKManager.PumpStations.Find(x => x.UID == pumpStation.PumpStationUID);
-						UpdatePumpStationType(pumpStation, pump);
+						//UpdatePumpStationType(pumpStation, pump);
 						if (pump != null)
 							pump.PlanElementUIDs.Add(pumpStation.UID);
 					}
 					foreach (var direction in plan.ElementRectangleGKDirections)
 					{
 						var directionGK = GKManager.Directions.Find(x => x.UID == direction.DirectionUID);
-						UpdateDirectionType(direction, directionGK);
+						//UpdateDirectionType(direction, directionGK);
 						if (directionGK != null)
 							directionGK.PlanElementUIDs.Add(direction.UID);
 					}
 					foreach (var direction in plan.ElementPolygonGKDirections)
 					{
 						var directionGK = GKManager.Directions.Find(x => x.UID == direction.DirectionUID);
-						UpdateDirectionType(direction, directionGK);
+						//UpdateDirectionType(direction, directionGK);
 						if (directionGK != null)
 							directionGK.PlanElementUIDs.Add(direction.UID);
 					}
 					foreach (var mpt in plan.ElementRectangleGKMPTs)
 					{
 						var mptGK = GKManager.MPTs.Find(x => x.UID == mpt.MPTUID);
-						UpdateMPTType(mpt, mptGK);
+						//UpdateMPTType(mpt, mptGK);
 						if (mptGK != null)
 							mptGK.PlanElementUIDs.Add(mpt.UID);
 					}
 					foreach (var mpt in plan.ElementPolygonGKMPTs)
 					{
 						var mptGK = GKManager.MPTs.Find(x => x.UID == mpt.MPTUID);
-						UpdateMPTType(mpt, mptGK);
+						//UpdateMPTType(mpt, mptGK);
 						if (mptGK != null)
 							mptGK.PlanElementUIDs.Add(mpt.UID);
 					}
@@ -272,7 +272,7 @@ namespace RubezhClient
 					{
 						var elementGKDoor = plan.ElementGKDoors[i - 1];
 						var doorGK = GKManager.Doors.Find(x => x.UID == elementGKDoor.DoorUID);
-						elementGKDoor.UpdateZLayer();
+						//elementGKDoor.UpdateZLayer();
 						if (doorGK != null)
 							doorGK.PlanElementUIDs.Add(elementGKDoor.UID);
 					}
@@ -280,7 +280,7 @@ namespace RubezhClient
 					for (int i = plan.ElementExtensions.Count(); i > 0; i--)
 					{
 						var elementExtension = plan.ElementExtensions[i - 1];
-						elementExtension.UpdateZLayer();
+						//elementExtension.UpdateZLayer();
 						var elementCamera = elementExtension as ElementCamera;
 
 						if (elementCamera != null && cameraMap.ContainsKey(elementCamera.CameraUID))
@@ -306,35 +306,35 @@ namespace RubezhClient
 			}
 		}
 
-		private static void UpdateZoneType(IElementZone elementZone, GKGuardZone zone)
-		{
-			elementZone.SetZLayer(zone == null ? 20 : 40);
-			elementZone.BackgroundColor = zone == null ? Colors.Black : Colors.Brown;
-		}
+		//private static void UpdateZoneType(IElementZone elementZone, GKGuardZone zone)
+		//{
+		//	elementZone.SetZLayer(zone == null ? 20 : 40);
+		//	elementZone.BackgroundColor = zone == null ? Colors.Black : Colors.Brown;
+		//}
 		
-		private static void UpdateSKDZoneType(IElementZone elementZone, GKBase zone)
-		{
-			elementZone.SetZLayer(zone == null  ? 50 : 60);
-			elementZone.BackgroundColor = zone == null ? Colors.Black : Colors.Green;
-		}
-		private static void UpdateDelayType(IElementDelay elementGKDelay, GKDelay gkDelay)
-		{
-			elementGKDelay.BackgroundColor = gkDelay == null ? Colors.Black : Colors.LightBlue;
-		}
-		private static void UpdatePumpStationType(IElementPumpStation elementGKPumpStation, GKPumpStation gkPumpStation)
-		{
-			elementGKPumpStation.BackgroundColor = (gkPumpStation == null) ? Colors.Black : Colors.Cyan;
-		}
-		private static void UpdateDirectionType(IElementDirection elementGKDirection, GKDirection gkDirection)
-		{
-			elementGKDirection.SetZLayer(gkDirection == null ? 10 : 11);
-			elementGKDirection.BackgroundColor = gkDirection == null ? Colors.Black : Colors.LightBlue;
-		}
-		private static void UpdateMPTType(IElementMPT elementGKMPT, GKMPT gkMPT)
-		{
-			elementGKMPT.SetZLayer(gkMPT == null ? 10 : 11);
-			elementGKMPT.BackgroundColor = gkMPT == null ? Colors.Black : Colors.LightBlue;
-		}
+		//private static void UpdateSKDZoneType(IElementZone elementZone, GKBase zone)
+		//{
+		//	elementZone.SetZLayer(zone == null  ? 50 : 60);
+		//	elementZone.BackgroundColor = zone == null ? Colors.Black : Colors.Green;
+		//}
+		//private static void UpdateDelayType(IElementDelay elementGKDelay, GKDelay gkDelay)
+		//{
+		//	elementGKDelay.BackgroundColor = gkDelay == null ? Colors.Black : Colors.LightBlue;
+		//}
+		//private static void UpdatePumpStationType(IElementPumpStation elementGKPumpStation, GKPumpStation gkPumpStation)
+		//{
+		//	elementGKPumpStation.BackgroundColor = (gkPumpStation == null) ? Colors.Black : Colors.Cyan;
+		//}
+		//private static void UpdateDirectionType(IElementDirection elementGKDirection, GKDirection gkDirection)
+		//{
+		//	elementGKDirection.SetZLayer(gkDirection == null ? 10 : 11);
+		//	elementGKDirection.BackgroundColor = gkDirection == null ? Colors.Black : Colors.LightBlue;
+		//}
+		//private static void UpdateMPTType(IElementMPT elementGKMPT, GKMPT gkMPT)
+		//{
+		//	elementGKMPT.SetZLayer(gkMPT == null ? 10 : 11);
+		//	elementGKMPT.BackgroundColor = gkMPT == null ? Colors.Black : Colors.LightBlue;
+		//}
 		private static void UpdateSubPlan(ElementBase elementSubPlan, Plan plan)
 		{
 			elementSubPlan.BackgroundColor = plan == null ? Colors.Black : Colors.Green;
