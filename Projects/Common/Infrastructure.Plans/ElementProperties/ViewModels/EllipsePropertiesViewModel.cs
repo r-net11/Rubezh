@@ -1,4 +1,5 @@
 ﻿using Controls.Converters;
+using Controls.Extentions;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
@@ -47,6 +48,8 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 		{
 			ElementBase.Copy(this._elementEllipse, this);
 			StrokeThickness = _elementEllipse.BorderThickness;
+			BackgroundColor = _elementEllipse.BackgroundColor.ToWindowsColor();
+			BorderColor = _elementEllipse.BorderColor.ToWindowsColor();
 		}
 
 		Color _backgroundColor;

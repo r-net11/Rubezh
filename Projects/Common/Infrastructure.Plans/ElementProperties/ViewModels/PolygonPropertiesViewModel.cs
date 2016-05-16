@@ -1,4 +1,5 @@
 ﻿using Controls.Converters;
+using Controls.Extentions;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
@@ -48,6 +49,8 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 		{
 			ElementBase.Copy(this._elementPolygon, this);
 			StrokeThickness = _elementPolygon.BorderThickness;
+			BackgroundColor = _elementPolygon.BackgroundColor.ToWindowsColor();
+			BorderColor = _elementPolygon.BorderColor.ToWindowsColor();
 		}
 
 		Color _backgroundColor;

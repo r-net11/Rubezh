@@ -1,4 +1,5 @@
 ﻿using Controls.Converters;
+using Controls.Extentions;
 using Infrastructure.Common.Windows.ViewModels;
 using RubezhAPI.Models;
 using RubezhAPI.Plans.Elements;
@@ -45,6 +46,7 @@ namespace Infrastructure.Plans.ElementProperties.ViewModels
 		{
 			ElementBase.Copy(this._elementPolyline, this);
 			StrokeThickness = _elementPolyline.BorderThickness;
+			BorderColor = _elementPolyline.BorderColor.ToWindowsColor();
 		}
 
 		Color _borderColor;
