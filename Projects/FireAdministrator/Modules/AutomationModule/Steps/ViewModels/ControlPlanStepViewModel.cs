@@ -216,7 +216,7 @@ namespace AutomationModule.ViewModels
 					ElementPropertyType.Left, 
 					ElementPropertyType.Top 
 				};
-			if (element.ElementType == typeof(ElementTextBlock))
+			if (element.ElementType == typeof(ElementTextBlock) || element.ElementType == typeof(ElementTextBox))
 				return AutomationHelper.GetEnumObs<ElementPropertyType>();
 			return new ObservableCollection<ElementPropertyType>();
 		}

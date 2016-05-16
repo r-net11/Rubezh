@@ -40,6 +40,7 @@ namespace AutomationModule
 			allElements.AddRange(plan.ElementPolygonGKPumpStations);
 			allElements.AddRange(plan.ElementSubPlans);
 			allElements.AddRange(plan.ElementPolygonSubPlans);
+			allElements.AddRange(plan.ElementTextBoxes);
 			foreach (var elementRectangle in allElements)
 			{
 				elements.Add(new ElementViewModel(elementRectangle));
