@@ -140,5 +140,20 @@ namespace RubezhAPI
 
 		[OperationContract]
 		OperationResult<CurrentConsumption> GetAlsMeasure(Guid clientUID, Guid alsUid);
+
+		[OperationContract]
+		void GKOpenEnterTurnstile(Guid clientUID, Guid doorUID);
+		
+		[OperationContract]
+		void GKOpenExitTurnstile(Guid clientUID, Guid doorUID);
+
+		[OperationContract]
+		void GKSetOpenEnterTurnstile(Guid clientUID, Guid doorUID);
+
+		[OperationContract]
+		void GKSetOpenExitTurnstile(Guid clientUID, Guid doorUID);
+
+		[OperationContract]
+		void GKSetNormTurnstile(Guid clientUID, Guid doorUID);
 	}
 }

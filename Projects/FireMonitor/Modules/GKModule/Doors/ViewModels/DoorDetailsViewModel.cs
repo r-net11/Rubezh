@@ -35,6 +35,9 @@ namespace GKModule.ViewModels
 
 			SetRegimeNormCommand = new RelayCommand(OnSetRegimeNorm);
 			SetRegimeOpenCommand = new RelayCommand(OnSetRegimeOpen);
+			SetRegimeOpenExitCommand = new RelayCommand(OnSetRegimeOpenExit);
+			OpenEnterCommand = new RelayCommand(OnOpenEnter);
+			OpenExitCommand = new RelayCommand(OnOpenExit);
 			SetRegimeCloseCommand = new RelayCommand(OnSetRegimeClose);
 
 			Door = door;
@@ -163,8 +166,15 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				ClientManager.FiresecService.GKSetAutomaticRegime(Door);
-				ClientManager.FiresecService.GKTurnOffInAutomatic(Door);
+				if (Door.DoorType == GKDoorType.Turnstile)
+				{
+					ClientManager.FiresecService.GKSetNormTurnstile(Door);
+				}
+				else
+				{
+					ClientManager.FiresecService.GKSetAutomaticRegime(Door);
+					ClientManager.FiresecService.GKTurnOffInAutomatic(Door);
+				}
 			}
 		}
 
@@ -174,8 +184,56 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				ClientManager.FiresecService.GKSetManualRegime(Door);
-				ClientManager.FiresecService.GKTurnOn(Door);
+				if (Door.DoorType == GKDoorType.Turnstile)
+				{
+					ClientManager.FiresecService.GKSetOpenEnterTurnstile(Door);
+				}
+				else
+				{
+					ClientManager.FiresecService.GKSetManualRegime(Door);
+					ClientManager.FiresecService.GKTurnOn(Door);
+				}
+			}
+		}
+
+		public RelayCommand SetRegimeOpenExitCommand { get; private set; }
+		void OnSetRegimeOpenExit()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				if (Door.DoorType == GKDoorType.Turnstile)
+				{
+					ClientManager.FiresecService.GKSetOpenExitTurnstile(Door);
+				}
+				else
+				{
+					ClientManager.FiresecService.GKSetManualRegime(Door);
+					ClientManager.FiresecService.GKTurnOn(Door);
+				}
+			}
+		}
+
+		public RelayCommand OpenEnterCommand { get; private set; }
+		void OnOpenEnter()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				if (Door.DoorType == GKDoorType.Turnstile)
+				{
+					ClientManager.FiresecService.GKOpenEnterTurnstile(Door);
+				}
+			}
+		}
+
+		public RelayCommand OpenExitCommand { get; private set; }
+		void OnOpenExit()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				if (Door.DoorType == GKDoorType.Turnstile)
+				{
+					ClientManager.FiresecService.GKOpenExitTurnstile(Door);
+				}
 			}
 		}
 

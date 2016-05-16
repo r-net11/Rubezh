@@ -451,6 +451,31 @@ namespace FiresecService.Service
 			return SafeOperationCall(clientUID, () => FiresecService.GetAlsMeasure(clientUID, alsUid), "GetAlsMeasure");
 		}
 
+		public void GKOpenEnterTurnstile(Guid clientUid, Guid doorUid)
+		{
+			SafeOperationCall(clientUid, () => { FiresecService.GKOpenEnterTurnstile(clientUid, doorUid); }, "GKOpenEnterTurnstile");
+		}
+
+		public void GKOpenExitTurnstile(Guid clientUid, Guid doorUid)
+		{
+			SafeOperationCall(clientUid, () => { FiresecService.GKOpenExitTurnstile(clientUid, doorUid); }, "GKOpenExitTurnstile");
+		}
+
+		public void GKSetOpenEnterTurnstile(Guid clientUid, Guid doorUid)
+		{
+			SafeOperationCall(clientUid, () => { FiresecService.GKSetOpenEnterTurnstile(clientUid, doorUid); }, "GKSetOpenEnterTurnstile");
+		}
+
+		public void GKSetOpenExitTurnstile(Guid clientUid, Guid doorUid)
+		{
+			SafeOperationCall(clientUid, () => { FiresecService.GKSetOpenExitTurnstile(clientUid, doorUid); }, "GKSetOpenExitTurnstile");
+		}
+
+		public void GKSetNormTurnstile(Guid clientUid, Guid doorUid)
+		{
+			SafeOperationCall(clientUid, () => { FiresecService.GKSetNormTurnstile(clientUid, doorUid); }, "GKSetNormTurnstile");
+		}
+
 		#endregion
 
 		#region Automation

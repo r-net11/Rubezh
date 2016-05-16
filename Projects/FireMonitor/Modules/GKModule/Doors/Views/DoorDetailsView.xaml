@@ -3,7 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converters="clr-namespace:GKModule.Converters"
 			  xmlns:views="clr-namespace:Infrastructure.PlanLink.View;assembly=Infrastructure"
-			 MinWidth="400" MinHeight="400" MaxWidth="600" MaxHeight="600">
+			  xmlns:gk="clr-namespace:RubezhAPI.GK;assembly=RubezhAPI"
+			  MinWidth="400" MinHeight="400" MaxWidth="600" MaxHeight="600">
 	<UserControl.Resources>
 		<Converters:DeviceControlRegimeToStringConverter x:Key="DeviceControlRegimeToStringConverter" />
 		<Converters:DeviceControlRegimeToIconConverter x:Key="DeviceControlRegimeToIconConverter" />
@@ -96,9 +97,19 @@
 			</TabItem>
 			<TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel Background="White">
-					<Button Content="Установить режим Норма" Command="{Binding SetRegimeNormCommand}" Width="250" Height="50" Margin="2" />
-					<Button Content="Установить режим Всегда Открыто" Command="{Binding SetRegimeOpenCommand}" Width="250" Height="50" Margin="2" />
-					<Button Content="Установить режим Всегда Закрыто" Command="{Binding SetRegimeCloseCommand}" Width="250" Height="50" Margin="2" />
+					<Button Content="Установить режим Норма" Command="{Binding SetRegimeNormCommand}" Width="300" Height="50" Margin="2" />
+					<Button Content="Установить режим Всегда Открыто" Command="{Binding SetRegimeOpenCommand}" Width="300" Height="50" Margin="2"
+								Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
+					<Button Content="Установить режим Всегда Закрыто" Command="{Binding SetRegimeCloseCommand}" Width="300" Height="50" Margin="2"
+								Visibility="{Binding Door.DoorType, Converter={StaticResource InversedEnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}"/>
+					<Button Content="Открыть вход" Command="{Binding OpenEnterCommand}" Width="300" Height="50" Margin="2"
+								Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+					<Button Content="Открыть выход" Command="{Binding OpenExitCommand}" Width="300" Height="50" Margin="2"
+								Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+					<Button Content="Установить режим Всегда Открыто на вход" Command="{Binding SetRegimeOpenCommand}" Width="300" Height="50" Margin="2"
+								Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
+					<Button Content="Установить режим Всегда Открыто на выход" Command="{Binding SetRegimeOpenExitCommand}" Width="300" Height="50" Margin="2"
+								Visibility="{Binding Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.Turnstile}}" />
 				</StackPanel>
 			</TabItem>
 			<TabItem Header="Расширенное управление" IsSelected="{Binding FullCanControl, Mode=OneWay}" Visibility="{Binding FullCanControl, Converter={StaticResource BoolToVisibilityConverter}}">

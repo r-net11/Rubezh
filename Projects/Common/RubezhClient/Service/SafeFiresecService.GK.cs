@@ -450,6 +450,56 @@ namespace RubezhClient
 			}, "GetAlsMeasure");
 		}
 
+		public void GKOpenEnterTurnstile(GKDoor door)
+		{
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.GKOpenEnterTurnstile(FiresecServiceFactory.UID, door.UID);
+			}, "GKOpenEnterTurnstile");
+		}
+
+		public void GKOpenExitTurnstile(GKDoor door)
+		{
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.GKOpenExitTurnstile(FiresecServiceFactory.UID, door.UID);
+			}, "GKOpenExitTurnstile");
+		}
+
+		public void GKSetOpenEnterTurnstile(GKDoor door)
+		{
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.GKSetOpenEnterTurnstile(FiresecServiceFactory.UID, door.UID);
+			}, "GKSetOpenEnterTurnstile");
+		}
+
+		public void GKSetOpenExitTurnstile(GKDoor door)
+		{
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.GKSetOpenExitTurnstile(FiresecServiceFactory.UID, door.UID);
+			}, "GKSetOpenExitTurnstile");
+		}
+
+		public void GKSetNormTurnstile(GKDoor door)
+		{
+			SafeOperationCall(() =>
+			{
+				var firesecService = FiresecServiceFactory.Create(TimeSpan.FromMinutes(10));
+				using (firesecService as IDisposable)
+					firesecService.GKSetNormTurnstile(FiresecServiceFactory.UID, door.UID);
+			}, "GKSetNormTurnstile");
+		}
+
 		public void GKAddMessage(JournalEventNameType journalEventNameType, string description)
 		{
 		}

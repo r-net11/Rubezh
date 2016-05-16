@@ -566,6 +566,80 @@ namespace GKProcessor
 			return new OperationResult<CurrentConsumption>(alsMeasure);
 		}
 
+		public static void GKOpenEnterTurnstile(Guid doorUid, string userName)
+		{
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorUid);
+			if (door == null)
+				return;
+			var lockDelay = door.LockDelay;
+			if (lockDelay == null)
+				return;
+			Watcher.SendControlCommand(lockDelay, GKStateBit.TurnOnNow_InAutomatic, "Включить для режима автоматика");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Открыть_турникет_на_вход, "", door, userName);
+		}
+
+		public static void GKOpenExitTurnstile(Guid doorUid, string userName)
+		{
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorUid);
+			if (door == null)
+				return;
+			var lockDelayExit = door.LockDelayExit;
+			if (lockDelayExit == null)
+				return;
+			Watcher.SendControlCommand(lockDelayExit, GKStateBit.TurnOnNow_InAutomatic, "Включить для режима автоматика");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Открыть_турникет_на_выход, "", door, userName);
+		}
+
+		public static void GKSetOpenEnterTurnstile(Guid doorUid, string userName)
+		{
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorUid);
+			if (door == null)
+				return;
+			var lockDelay = door.LockDelay;
+			if (lockDelay == null)
+				return;
+			var resetDelay = door.ResetDelay;
+			if (resetDelay == null)
+				return;
+			Watcher.SendControlCommand(lockDelay, GKStateBit.TurnOnNow_InAutomatic, "Включить для режима автоматика");
+			Watcher.SendControlCommand(resetDelay, GKStateBit.TurnOnNow_InAutomatic, "Включить для режима автоматика");
+			Watcher.SendControlCommand(door, GKStateBit.SetRegime_Manual, "Перевод в ручной режим");
+			Watcher.SendControlCommand(door, GKStateBit.TurnOnNow_InManual, "Включить немедленно");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевести_турникет_в_режим_всегда_открыто_на_вход, "", door, userName);
+		}
+
+		public static void GKSetOpenExitTurnstile(Guid doorUid, string userName)
+		{
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorUid);
+			if (door == null)
+				return;
+			var lockDelayExit = door.LockDelayExit;
+			if (lockDelayExit == null)
+				return;
+			var resetDelay = door.ResetDelay;
+			if (resetDelay == null)
+				return;
+			Watcher.SendControlCommand(lockDelayExit, GKStateBit.TurnOnNow_InAutomatic, "Включить для режима автоматика");
+			Watcher.SendControlCommand(resetDelay, GKStateBit.TurnOnNow_InAutomatic, "Включить для режима автоматика");
+			Watcher.SendControlCommand(door, GKStateBit.SetRegime_Manual, "Перевод в ручной режим");
+			Watcher.SendControlCommand(door, GKStateBit.TurnOnNow_InManual, "Включить немедленно");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевести_турникет_в_режим_всегда_открыто_на_выход, "", door, userName);
+		}
+
+		public static void GKSetNormTurnstile(Guid doorUid, string userName)
+		{
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == doorUid);
+			if (door == null)
+				return;
+			var resetDelay = door.ResetDelay;
+			if (resetDelay == null)
+				return;
+			Watcher.SendControlCommand(resetDelay, GKStateBit.TurnOnNow_InAutomatic, "Включить для режима автоматика");
+			Watcher.SendControlCommand(door, GKStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
+			Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Выключить в автоматике");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевести_турникет_в_норму, "", door, userName);
+		}
+
 		#endregion
 
 		#region JournalItem Callback

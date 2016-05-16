@@ -1674,5 +1674,22 @@ namespace RubezhAPI.Journal
 		[EventDescriptionAttribute("Восстановление", JournalEventNameType.Редактирование_шаблона_пропуска)]
 		Восстановление_шаблон_пропуска = 543,
 		#endregion
+
+		#region управление турникетом
+		[EventDescriptionAttribute("Открыть турникет на вход", JournalEventNameType.Команда_оператора)]
+		Открыть_турникет_на_вход = 544,
+
+		[EventDescriptionAttribute("Открыть турникет на выход", JournalEventNameType.Команда_оператора)]
+		Открыть_турникет_на_выход = 545,
+
+		[EventDescriptionAttribute("Перевести турникет в режим всегда открыто на вход", JournalEventNameType.Команда_оператора)]
+		Перевести_турникет_в_режим_всегда_открыто_на_вход = 546,
+
+		[EventDescriptionAttribute("Перевести турникет в режим всегда открыто на выход", JournalEventNameType.Команда_оператора)]
+		Перевести_турникет_в_режим_всегда_открыто_на_выход = 547,
+
+		[EventDescriptionAttribute("Перевести турникет в норму", JournalEventNameType.Команда_оператора)]
+		Перевести_турникет_в_норму = 548,
+		#endregion
 	}
 }

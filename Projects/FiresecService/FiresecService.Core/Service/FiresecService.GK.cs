@@ -485,6 +485,31 @@ namespace FiresecService.Service
 			}
 		}
 
+		public void GKOpenEnterTurnstile(Guid clientUID, Guid doorUid)
+		{
+			GKProcessorManager.GKOpenEnterTurnstile(doorUid, GetUserName(clientUID));
+		}
+
+		public void GKOpenExitTurnstile(Guid clientUID, Guid doorUid)
+		{
+			GKProcessorManager.GKOpenExitTurnstile(doorUid, GetUserName(clientUID));
+		}
+
+		public void GKSetOpenEnterTurnstile(Guid clientUID, Guid doorUid)
+		{
+			GKProcessorManager.GKSetOpenEnterTurnstile(doorUid, GetUserName(clientUID));
+		}
+
+		public void GKSetOpenExitTurnstile(Guid clientUID, Guid doorUid)
+		{
+			GKProcessorManager.GKSetOpenExitTurnstile(doorUid, GetUserName(clientUID));
+		}
+
+		public void GKSetNormTurnstile(Guid clientUID, Guid doorUid)
+		{
+			GKProcessorManager.GKSetNormTurnstile(doorUid, GetUserName(clientUID));
+		}
+
 		#region Users
 		public OperationResult<bool> GKGetUsers(Guid clientUID, Guid gkDeviceUID)
 		{

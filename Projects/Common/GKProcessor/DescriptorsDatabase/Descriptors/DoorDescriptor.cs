@@ -51,11 +51,13 @@ namespace GKProcessor
 			Formula = new FormulaBuilder();
 
 			var hasOpenRegimeLogic = Door.OpenRegimeLogic.OnClausesGroup.GetObjects().Count > 0;
-			if (hasOpenRegimeLogic)
+			var hasOpenExitRegimeLogic = Door.OpenExitRegimeLogic.OnClausesGroup.GetObjects().Count > 0;
+			if (hasOpenRegimeLogic || hasOpenExitRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.OpenRegimeLogic.OnClausesGroup);
 				Formula.AddClauseFormula(Door.OpenExitRegimeLogic.OnClausesGroup);
-				Formula.Add(FormulaOperationType.OR);
+				if (hasOpenRegimeLogic && hasOpenExitRegimeLogic)
+					Formula.Add(FormulaOperationType.OR);
 				Formula.Add(FormulaOperationType.BR, 1, 7);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
@@ -212,45 +214,6 @@ namespace GKProcessor
 			if (Door.PimCrossing != null)
 			{
 				Door.LinkToDescriptor(Door.PimCrossing);
-			}
-		}
-
-		void SetTurnstileFormul()
-		{
-			// Если ТД включена и датчик проворота в сработке1 или сработке2 => перевести ТД в Выключается
-			Formula.AddGetBit(GKStateBit.On, Door);
-			Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
-			Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
-			Formula.Add(FormulaOperationType.OR);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
-
-			// Если ТД выключается и датчик проворота не в сработке1 и не в сработке2 => перевести ТД в Выключено
-			Formula.AddGetBit(GKStateBit.TurningOff, Door);
-			Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
-			Formula.Add(FormulaOperationType.COM);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
-			Formula.Add(FormulaOperationType.COM);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Door);
-
-			if (Door.AntipassbackOn)
-			{
-				Formula.AddGetBit(GKStateBit.On, Door);
-				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.Add(FormulaOperationType.BR, 1, 2);
-				Formula.AddWithGKBase(FormulaOperationType.GETMEMB, 0, Door);
-				Formula.Add(FormulaOperationType.PUTP);
-			}
-
-			if (Door.EnterDevice != null || Door.ExitDevice != null)
-			{
-				if (Door.EnterDevice != null)
-					TurnOnDoorBuilder(true);
-				if (Door.ExitDevice != null)
-					TurnOnDoorBuilder(false);
 			}
 		}
 

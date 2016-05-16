@@ -229,5 +229,10 @@ namespace RubezhClient
 		OperationResult<OpcDaElement[]> GetOpcDaServerGroupAndTags(Guid clientUID, OpcDaServer server);
 		OperationResult<OpcDaTagValue[]> ReadOpcDaServerTags(Guid clientUID, OpcDaServer server);
 		OperationResult<bool> WriteOpcDaServerTag(Guid clientUID, Guid tagId, object values);
+		void GKOpenEnterTurnstile(GKDoor door);
+		void GKOpenExitTurnstile(GKDoor door);
+		void GKSetOpenEnterTurnstile(GKDoor door);
+		void GKSetOpenExitTurnstile(GKDoor door);
+		void GKSetNormTurnstile(GKDoor door);
 	}
 }
