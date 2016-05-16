@@ -1,15 +1,15 @@
-﻿using System;
-using RubezhAPI.GK;
-using GKModule.Events;
-using Infrastructure.Common.Validation;
+﻿using GKModule.Events;
 using Infrastructure.Common;
+using Infrastructure.Common.Validation;
+using RubezhAPI.GK;
+using System;
 
 namespace GKModule.Validation
 {
-	public class DirectionValidationError : ObjectValidationError<GKDirection, ShowGKDirectionEvent, Guid>
+	public class DirectionValidationError : PlanObjectValidationError<GKDirection, ShowGKDirectionEvent, Guid>
 	{
-		public DirectionValidationError(GKDirection direction, string error, ValidationErrorLevel level)
-			: base(direction, error, level)
+		public DirectionValidationError(GKDirection direction, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+			: base(direction, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
@@ -18,7 +18,7 @@ namespace GKModule.Validation
 			get { return ModuleType.GK; }
 		}
 
-		protected override Guid Key
+		protected override Guid KeyValue
 		{
 			get { return Object.UID; }
 		}

@@ -1,15 +1,15 @@
-﻿using System;
-using RubezhAPI.GK;
-using GKModule.Events;
-using Infrastructure.Common.Validation;
+﻿using GKModule.Events;
 using Infrastructure.Common;
+using Infrastructure.Common.Validation;
+using RubezhAPI.GK;
+using System;
 
 namespace GKModule.Validation
 {
-	class MPTValidationError : ObjectValidationError<GKMPT, ShowGKMPTEvent, Guid>
+	class MPTValidationError : PlanObjectValidationError<GKMPT, ShowGKMPTEvent, Guid>
 	{
-		public MPTValidationError(GKMPT mpt, string error, ValidationErrorLevel level)
-			: base(mpt, error, level)
+		public MPTValidationError(GKMPT mpt, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+			: base(mpt, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
@@ -17,7 +17,7 @@ namespace GKModule.Validation
 		{
 			get { return ModuleType.GK; }
 		}
-		protected override Guid Key
+		protected override Guid KeyValue
 		{
 			get { return Object.UID; }
 		}
