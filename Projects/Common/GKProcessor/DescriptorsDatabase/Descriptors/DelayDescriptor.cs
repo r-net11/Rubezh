@@ -65,7 +65,7 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.END);
 		}
 
-		void SetPropertiesBytes()
+		protected void SetPropertiesBytes()
 		{
 			Parameters = new List<byte>();
 			var binProperties = new List<BinProperty>();
