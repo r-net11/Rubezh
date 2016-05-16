@@ -1,5 +1,4 @@
-﻿using Common;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace RubezhAPI.Plans.Elements
 {
@@ -13,5 +12,12 @@ namespace RubezhAPI.Plans.Elements
 
 		[DataMember]
 		public PointCollection Points { get; set; }
+
+		public override ElementBase Clone()
+		{
+			ElementBaseShape newElement = (ElementBaseShape)base.Clone();
+			newElement.Points = new PointCollection(newElement.Points);
+			return newElement;
+		}
 	}
 }

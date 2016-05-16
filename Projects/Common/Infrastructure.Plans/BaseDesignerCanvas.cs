@@ -248,13 +248,13 @@ namespace Infrastructure.Plans
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
 		{
-			_initialElements = new List<ElementBase>();
+			var elements = new List<ElementBase>();
 			foreach (var designerItem in designerItems)
 			{
 				designerItem.UpdateElementProperties();
-				_initialElements.Add(designerItem.Element.Clone());
+				elements.Add(designerItem.Element.Clone());
 			}
-			return _initialElements;
+			return elements;
 		}
 
 		public override void Update()
