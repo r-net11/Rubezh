@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Common;
-using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using MediaSourcePlayer.MediaSource;
+using StrazhAPI.Models;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
