@@ -1,9 +1,9 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿/// <reference path="../../../typings/browser/ambient/signalr/index.d.ts" />
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HTTP_PROVIDERS, Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { GkService, ConnectionState, ChannelEvent } from '../services/gk.service';
+import { GkService } from '../services/gk.service';
 
 @Component({
 	selector: 'nav-connection',
@@ -17,30 +17,44 @@ export class ConnectionIndicatorComponent implements OnInit
     //  need to do that then we could use the service's observable 
     //  right in the template.
     //   
-    connectionState$: Observable<string>;
+    connectionState: Observable<string>;
 
 	private started: boolean;
 	private startedError: any;
 	private channel = "connection";
 
-	constructor(private gkService: GkService, private http: Http)
+	constructor(private gkService: GkService)
 	{
 		// Let's wire up to the signalr observables
         //
-        this.connectionState$ = this.gkService.connectionState$
-            .map((state: ConnectionState) => { return ConnectionState[state]; });
+		this.connectionState = this.gkService.connectionState
+            .map((state: SignalR.ConnectionState) => { return state.toString(); });
 
-        this.gkService.error$.subscribe(
-            (error: any) => { console.warn(error); },
-            (error: any) => { console.error("errors$ error", error); }
+        this.gkService.error.subscribe(
+            (error: any) =>
+			{
+				console.warn(error);
+			},
+            (error: any) =>
+			{
+				console.error("errors$ error", error);
+			}
         );
 
         // Wire up a handler for the starting$ observable to log the
         //  success/fail result
         //
-        this.gkService.starting$.subscribe(
-            () => { console.log("signalr service has been started"); },
-            () => { console.warn("signalr service failed to start!"); }
+        this.gkService.starting.subscribe(
+            () =>
+			{
+				console.log(
+					"signalr service has been started");
+			},
+            () =>
+			{
+				console.warn(
+					"signalr service failed to start!");
+			}
         );
 
 	}	

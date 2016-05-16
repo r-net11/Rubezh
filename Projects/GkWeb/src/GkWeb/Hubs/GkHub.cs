@@ -13,6 +13,12 @@ namespace GkWeb.Hubs
 	[HubName("gkHub")]
 	public class GkHub : Hub
 	{
+		private GkHubProxy _hubProxy;
+
+		public GkHub(GkHubProxy hubProxy) {
+			_hubProxy = hubProxy;
+		}
+
 		public override Task OnConnected() {
 			return base.OnConnected();
 		}
@@ -42,15 +48,6 @@ namespace GkWeb.Hubs
 		/// <returns></returns>
 		public async Task UnsubscribeId(Guid elementUid) {
 			await Groups.Remove(Context.ConnectionId, elementUid.ToString());
-		}
-
-		/// <summary>
-		/// Отсылает событие <paramref name="state"/> состояния для объекта с UID = <paramref name="uid"/>.
-		/// </summary>
-		/// <param name="uid">UID объекта</param>
-		/// <param name="state">состояние объекта</param>
-		private async Task BroadcastEvent(Guid uid, GKState state) {
-			await Clients.Group(uid.ToString()).send(state);
 		}
 	}
 }

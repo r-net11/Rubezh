@@ -6,7 +6,6 @@
 /// <reference path="app/app.component.js" />
 /// <reference path="app/main.js" />
 /// <reference path="app/shared/index.js" />
-/// <reference path="app/shared/nav/connection-indicator.component.js" />
 /// <reference path="app/shared/nav/index.js" />
 /// <reference path="app/shared/nav/nav.component.js" />
 /// <reference path="app/shared/nav/user-identity.component.js" />

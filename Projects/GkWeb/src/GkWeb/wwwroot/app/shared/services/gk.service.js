@@ -1,4 +1,4 @@
-System.register(["@angular/core"], function(exports_1, context_1) {
+System.register(["@angular/core", 'rxjs/Subject'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,44 +10,65 @@ System.register(["@angular/core"], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, Subject_1;
     var GkService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (Subject_1_1) {
+                Subject_1 = Subject_1_1;
             }],
         execute: function() {
             GkService = (function () {
                 function GkService() {
-                    this.hubConnection.url = "http://localhost:5000/signalr";
-                    this.hubProxy = this.hubConnection.createHubProxy("gkHub");
-                    this.connection.connectionSlow(function () { });
-                    this.connection.disconnected(function () { });
-                    this.connection.error(function () { });
-                    this.connection.reconnected(function () { });
-                    this.connection.reconnecting(function () { });
-                    this.connection.stateChanged(function (change) {
+                    var _this = this;
+                    // Эти поля используются для трансляции в соответствующие публичные Observable
+                    //
+                    this.connectionStateSubject = new Subject_1.Subject();
+                    this.startingSubject = new Subject_1.Subject();
+                    this.errorSubject = new Subject_1.Subject();
+                    // Настройка observables
+                    //
+                    this.connectionState = this.connectionStateSubject.asObservable();
+                    this.error = this.errorSubject.asObservable();
+                    this.starting = this.startingSubject.asObservable();
+                    // Создаем JavaScript-прокси для хаба
+                    //
+                    this.hubConnection = $.connection.hub;
+                    //this.hubProxy = this.hubConnection.createHubProxy("gkHub");
+                    // Задаем обработчики событий подключения
+                    //
+                    this.hubConnection.stateChanged(function (change) {
                         if (change.newState === change.oldState) {
                             return;
                         }
-                        switch (change.newState) {
-                            case 1 /* Connected */:
-                                {
-                                }
-                            case 0 /* Connecting */:
-                                {
-                                }
-                            case 4 /* Disconnected */:
-                                {
-                                }
-                            case 2 /* Reconnecting */:
-                                {
-                                }
-                            default:
-                        }
+                        console.info("Signalr connection state changed.");
+                        // Проталкиваем новое состояние в субъект
+                        //
+                        _this.connectionStateSubject.next(change.newState);
                     });
+                    //this.hubConnection.error(this.onConnectionError);
+                    this.hubConnection.connectionSlow(function () { console.info("Signalr connection is slow."); });
+                    this.hubConnection.disconnected(function () { console.info("Signalr disconnected."); });
+                    //this.hubConnection.error((e) => { console.error("Signalr connection error." + e.message) });
+                    this.hubConnection.reconnected(function () { console.info("Signalr connection reconnected."); });
+                    this.hubConnection.reconnecting(function () { console.info("Signalr connection reconnecting."); });
                 }
+                GkService.prototype.onConnectionError = function (error) {
+                    // Проталкиваем сообщение в субъект
+                    //
+                    this.errorSubject.next(error.message);
+                };
+                GkService.prototype.onStateChanged = function (change) {
+                    if (change.newState === change.oldState) {
+                        return;
+                    }
+                    // Проталкиваем новое состояние в субъект
+                    //
+                    //this.connectionStateSubject.next(change.newState);
+                };
                 GkService.prototype.start = function () {
                     this.hubConnection.start().done(function () {
                         //this.startingSubject.next(null);

@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', '@angular/http', './user-identity.component', '../services/data.service'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', './user-identity.component', './connection-indicator.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router', '@angular/http', './user-id
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, http_1, user_identity_component_1, data_service_1;
+    var core_1, router_1, user_identity_component_1, connection_indicator_component_1;
     var NavComponent;
     return {
         setters:[
@@ -20,14 +20,11 @@ System.register(['@angular/core', '@angular/router', '@angular/http', './user-id
             function (router_1_1) {
                 router_1 = router_1_1;
             },
-            function (http_1_1) {
-                http_1 = http_1_1;
-            },
             function (user_identity_component_1_1) {
                 user_identity_component_1 = user_identity_component_1_1;
             },
-            function (data_service_1_1) {
-                data_service_1 = data_service_1_1;
+            function (connection_indicator_component_1_1) {
+                connection_indicator_component_1 = connection_indicator_component_1_1;
             }],
         execute: function() {
             NavComponent = (function () {
@@ -40,8 +37,7 @@ System.register(['@angular/core', '@angular/router', '@angular/http', './user-id
                     core_1.Component({
                         selector: 'gk-nav',
                         templateUrl: 'app/shared/nav/nav.component.html',
-                        directives: [router_1.ROUTER_DIRECTIVES, user_identity_component_1.UserIdentityComponent],
-                        providers: [http_1.HTTP_PROVIDERS, data_service_1.DataService]
+                        directives: [router_1.ROUTER_DIRECTIVES, user_identity_component_1.UserIdentityComponent, connection_indicator_component_1.ConnectionIndicatorComponent]
                     }),
                     router_1.Routes([]), 
                     __metadata('design:paramtypes', [router_1.Router])

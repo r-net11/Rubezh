@@ -138,7 +138,7 @@ export class GkService
 		{
             // Push the error on our subject
             //
-            this.errorSubject.next(error);
+            this.errorSubject.next(JSON.stringify(error));
         });
 
         this.hubProxy.on("onEvent", (channel: string, ev: ChannelEvent) =>

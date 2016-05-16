@@ -119,7 +119,7 @@ System.register(["@angular/core", 'rxjs/Subject'], function(exports_1, context_1
                     this.hubConnection.error(function (error) {
                         // Push the error on our subject
                         //
-                        _this.errorSubject.next(error);
+                        _this.errorSubject.next(JSON.stringify(error));
                     });
                     this.hubProxy.on("onEvent", function (channel, ev) {
                         //console.log(`onEvent - ${channel} channel`, ev);

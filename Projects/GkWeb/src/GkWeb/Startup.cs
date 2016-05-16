@@ -1,5 +1,6 @@
 ﻿#region Usings
 
+using GkWeb.Hubs;
 using GkWeb.Services;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
@@ -49,12 +50,15 @@ namespace GkWeb
 			services.AddAuthorization();
 
 			services.AddSignalR(options => {
-				options.Hubs.EnableDetailedErrors = true;
+				options.Hubs.EnableDetailedErrors = true;				
+				options.Transports.DisconnectTimeout = new System.TimeSpan(0, 0, 15);
+				options.Transports.KeepAlive = new System.TimeSpan(0, 0, 5);
 			});
 
 			services.AddInstance(new Bootstrapper());
-			services.AddInstance(new ClientManager());
+			services.AddSingleton<ClientManager>();
 			services.AddInstance(RubezhClient.ClientManager.FiresecService);
+			services.AddSingleton<GkHubProxy>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
