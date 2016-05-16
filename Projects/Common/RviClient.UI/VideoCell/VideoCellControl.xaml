@@ -16,7 +16,7 @@
 			VerticalAlignment="Center"
 			Visibility="{Binding ElementName=videoCellControl, Path=ShowReconnectButton, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock
-				Text="В процессе воспроизведения видео возники проблемы."
+				Text="RVi Оператор (Интегратор) не доступен. Проверьте подключение"
 				Foreground="{DynamicResource ForegroundColorLight}"
 				Margin="10"/>
 			<Button
