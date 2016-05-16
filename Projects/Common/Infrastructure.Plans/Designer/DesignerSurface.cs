@@ -38,10 +38,8 @@ namespace Infrastructure.Plans.Designer
 			{
 				Children.Add(visual.WPFControl);
 			}
-			else
-			{
-				_visuals.Add(visual);
-			}
+			
+			_visuals.Add(visual);
 			_isZIndexValid = false;
 		}
 		internal void DeleteDesignerItem(CommonDesignerItem visual)

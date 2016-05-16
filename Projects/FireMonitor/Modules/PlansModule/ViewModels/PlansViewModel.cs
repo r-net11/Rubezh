@@ -190,8 +190,6 @@ namespace PlansModule.ViewModels
 			return false;
 		}
 
-		///////////////////////////////////////////////////////////////////////////////
-
 		private void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
@@ -247,7 +245,7 @@ namespace PlansModule.ViewModels
 					element.BorderColor = Utils.Cast<Color>(data.Value).ToRubezhColor();
 					break;
 				case ElementPropertyType.BackColor:
-					element.BackgroundColor = Utils.Cast<Color>(data.Value).ToRubezhColor();
+					element.BackgroundColor = Utils.Cast<RubezhAPI.Color>(data.Value);
 					break;
 				case ElementPropertyType.BorderThickness:
 					element.BorderThickness = Convert.ToDouble(data.Value);
