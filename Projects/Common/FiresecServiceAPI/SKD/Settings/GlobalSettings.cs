@@ -92,7 +92,8 @@ namespace StrazhAPI
 				"FiltersModule.dll",
 				"JournalModule.dll",
 				"SoundsModule.dll",
-				"SettingsModule.dll"
+				"SettingsModule.dll",
+				"Integration.OPC.dll"
 			};
 		}
 

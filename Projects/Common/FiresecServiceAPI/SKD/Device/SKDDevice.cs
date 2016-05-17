@@ -82,7 +82,7 @@ namespace StrazhAPI.SKD
 				{
 					case SKDDriverType.System:
 					case SKDDriverType.Controller:
-						return "";
+						return string.Empty;
 
 					case SKDDriverType.ChinaController_1:
 					case SKDDriverType.ChinaController_2:
@@ -92,7 +92,7 @@ namespace StrazhAPI.SKD
 						{
 							return property.StringValue;
 						}
-						return "";
+						return string.Empty;
 
 					case SKDDriverType.Reader:
 					case SKDDriverType.Lock:
@@ -101,7 +101,7 @@ namespace StrazhAPI.SKD
 						return (IntAddress + 1).ToString();
 
 					default:
-						return "";
+						return string.Empty;
 				}
 			}
 		}

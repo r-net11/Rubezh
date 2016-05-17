@@ -201,6 +201,7 @@
     <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RubezhClientViewModel.cs" />
     <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
     <Compile Include="Views\RubezhClientView.xaml.cs">
       <DependentUpon>RubezhClientView.xaml</DependentUpon>
@@ -295,6 +296,10 @@
     <ProjectReference Include="..\..\Common\SKDDriver\StrazhDAL.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>StrazhDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecIntegrationClient\FiresecIntegrationClient.csproj">
+      <Project>{ea766e25-87b2-40e4-a155-638ecaf25b38}</Project>
+      <Name>FiresecIntegrationClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecService.Report\FiresecService.Report.csproj">
       <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>

@@ -195,14 +195,6 @@ namespace FireAdministrator
 		{
 			ServiceFactory.Layout.Close();
 			ServiceFactory.Layout.ShowFooter(null);
-			//if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
-			//{
-			//	var deviceUID = Guid.Empty;
-			//	var firstDevice = GKManager.Devices.FirstOrDefault();
-			//	if (firstDevice != null)
-			//		deviceUID = firstDevice.UID;
-			//	ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(deviceUID);
-			//}
 		}
 	}
 }

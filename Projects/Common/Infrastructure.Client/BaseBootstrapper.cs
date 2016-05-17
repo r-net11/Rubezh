@@ -31,7 +31,7 @@ namespace Infrastructure.Client
 
 		protected virtual void RegisterResource()
 		{
-			ResourceService resourceService = new ResourceService();
+			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Login/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Startup/DataTemplates/Dictionary.xaml"));
@@ -70,7 +70,7 @@ namespace Infrastructure.Client
 		}
 		protected void AterInitialize()
 		{
-			foreach (IModule module in _modules)
+			foreach (var module in _modules)
 				try
 				{
 					module.AfterInitialize();
@@ -90,7 +90,7 @@ namespace Infrastructure.Client
 		}
 		protected void CreateViewModels()
 		{
-			foreach (IModule module in _modules)
+			foreach (var module in _modules)
 				try
 				{
 					module.CreateViewModels();
@@ -126,7 +126,7 @@ namespace Infrastructure.Client
 		protected bool InitializeModules()
 		{
 			ReadConfiguration();
-			foreach (IModule module in _modules.OrderBy(module => module.Order))
+			foreach (var module in _modules.OrderBy(module => module.Order))
 				try
 				{
 					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
@@ -152,10 +152,10 @@ namespace Infrastructure.Client
 		{
 			ReadConfiguration();
 			var navigationItems = new List<NavigationItem>();
-			foreach (IModule module in _modules)
+			foreach (var module in _modules)
 			{
 				var items = module.CreateNavigation();
-				if (items != null && items.Count() > 0)
+				if (items != null && items.Any())
 					navigationItems.AddRange(items);
 				ApplicationService.DoEvents();
 			}
@@ -164,21 +164,20 @@ namespace Infrastructure.Client
 
 		protected int GetModuleCount()
 		{
-			if (_modules == null)
-			{
-				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-				ModuleSection section = config.GetSection("modules") as ModuleSection;
-				return section.Modules.Count;
-			}
-			else
-				return _modules.Count;
+			if (_modules != null) return _modules.Count;
+
+			var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+			var section = config.GetSection("modules") as ModuleSection;
+
+			return section.Modules.Count;
 		}
+
 		protected void ReadConfiguration()
 		{
 			if (_modules == null)
 			{
-				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-				ModuleSection moduleSection = config.GetSection("modules") as ModuleSection;
+				var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+				var moduleSection = config.GetSection("modules") as ModuleSection;
 				_modules = new List<IModule>();
 				InvestigateAssembly(Assembly.GetEntryAssembly());
 				foreach (ModuleElement moduleElement in moduleSection.Modules)
@@ -190,12 +189,14 @@ namespace Infrastructure.Client
 							GlobalSettingsHelper.GlobalSettings.SetDefaultModules();
 							GlobalSettingsHelper.Save();
 						}
+
 						if (!GlobalSettingsHelper.GlobalSettings.ModuleItems.Contains(moduleElement.AssemblyFile))
 							continue;
-						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
+
+						var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
 						if (File.Exists(path))
 						{
-							Assembly assembly = GetAssemblyByFileName(path);
+							var assembly = GetAssemblyByFileName(path);
 							if (assembly != null)
 								InvestigateAssembly(assembly);
 						}
@@ -213,7 +214,7 @@ namespace Infrastructure.Client
 			}
 			ApplicationService.RegisterModules(_modules);
 		}
-		private Assembly GetAssemblyByFileName(string path)
+		private static Assembly GetAssemblyByFileName(string path)
 		{
 			try
 			{
@@ -230,7 +231,7 @@ namespace Infrastructure.Client
 				return null;
 			}
 		}
-		private Assembly GetLoadedAssemblyByFileName(string path)
+		private static Assembly GetLoadedAssemblyByFileName(string path)
 		{
 			var assemblies = from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
 							 where !(assembly is System.Reflection.Emit.AssemblyBuilder) &&
@@ -238,10 +239,8 @@ namespace Infrastructure.Client
 							 !assembly.GlobalAssemblyCache &&
 							 assembly.CodeBase != Assembly.GetExecutingAssembly().CodeBase
 							 select assembly;
-			foreach (Assembly assembly in assemblies)
-				if (assembly.Location == path)
-					return assembly;
-			return null;
+
+			return assemblies.FirstOrDefault(assembly => assembly.Location == path);
 		}
 		private void InvestigateAssembly(Assembly assembly)
 		{

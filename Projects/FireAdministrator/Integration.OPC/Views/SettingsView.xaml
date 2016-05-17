@@ -1,11 +1,11 @@
 ﻿<UserControl
-	x:Class="FiresecService.Views.RubezhClientView"
+	x:Class="Integration.OPC.Views.SettingsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
     mc:Ignorable="d"
-	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
     d:DesignHeight="300"
 	d:DesignWidth="500">
 	<Grid>
@@ -14,8 +14,11 @@
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Grid Margin="10 20" HorizontalAlignment="Center">
+		<Grid
+			Margin="10 20"
+			HorizontalAlignment="Center">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
@@ -32,7 +35,7 @@
 				Margin="5" />
 			<CheckBox
 				Grid.Column="1"
-				IsChecked="{Binding IsClientEnabled}"
+				IsChecked="{Binding Settings.IsActive}"
 				VerticalAlignment="Center"
 				Margin="5"/>
 			<TextBlock
@@ -45,7 +48,7 @@
 			<TextBox
 				Grid.Column="1"
 				Grid.Row="1"
-				Text="{Binding IPAddress}"
+				Text="{Binding Settings.IPAddress}"
 				VerticalAlignment="Center"
 				Margin="5"/>
 			<TextBlock
@@ -58,26 +61,43 @@
 			<extToolkit:IntegerUpDown
 				Grid.Column="1"
 				Grid.Row="2"
-				Value="{Binding Port}"
+				Value="{Binding Settings.Port}"
 				VerticalAlignment="Center"
 				Margin="5"/>
+			<Border
+				Grid.Row="3"
+				Grid.ColumnSpan="2"
+				BorderThickness="1"
+				CornerRadius="3"
+				Opacity="0.8"
+				Margin="5"
+				BorderBrush="{DynamicResource BaseWindowBackgroundBrush}"
+				Background="LightCoral"
+				Padding="0">
+				<Border.Style>
+					<Style TargetType="{x:Type Border}">
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding Settings.CurrentError}" Value="">
+								<Setter Property="Visibility" Value="Collapsed" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>Settings
+				</Border.Style>
+				<TextBlock Height="16" VerticalAlignment="Center" Margin="5 4 0 0" FontSize="10">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="* {0}">
+							<Binding Path="CurrentTimeTrackPart.CurrentError" FallbackValue="FallbackValueText" />
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
+			</Border>
 		</Grid>
-		<UniformGrid
+		<Button
 			Grid.Row="2"
-			HorizontalAlignment="Right"
-			Columns="2">
-			<Button
-				Command="{Binding PingCommand}"
-				Content="Проверка соединения"
-				VerticalAlignment="Center"
-				Width="170"
-				Margin="5" />
-			<Button
-				Content="Применить"
-				Command="{Binding ApplyCommand}"
-				VerticalAlignment="Center"
-				Width="170"
-				Margin="5"/>
-		</UniformGrid>
+			Command="{Binding PingCommand}"
+			Content="Проверка соединения"
+			VerticalAlignment="Center"
+			Width="170"
+			Margin="5" />
 	</Grid>
 </UserControl>

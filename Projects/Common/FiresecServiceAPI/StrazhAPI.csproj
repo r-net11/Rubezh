@@ -161,6 +161,7 @@
     <Compile Include="Automation\Enums\ConnectionStatus.cs" />
     <Compile Include="Automation\Enums\DoorStatus.cs" />
     <Compile Include="Automation\Enums\EmailSecureProtocol.cs" />
+    <Compile Include="Enums\OPCZoneType.cs" />
     <Compile Include="Enums\ReportFormatEnum.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\RoundingType.cs" />
@@ -168,6 +169,8 @@
     <Compile Include="Extensions\GuidExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TimeTrackPartExtensions.cs" />
+    <Compile Include="Integration.OPC\OPCSettings.cs" />
+    <Compile Include="Integration.OPC\OPCZone.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Journal\JournalErrorCode.cs" />

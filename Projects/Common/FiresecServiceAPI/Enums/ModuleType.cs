@@ -57,5 +57,8 @@ namespace StrazhAPI.Enums
 
 		[Description("Монитор")]
 		Monitor,
+
+		[Description("Зоны ОПС")]
+		IntegrationOPC
 	}
 }
