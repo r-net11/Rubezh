@@ -31,6 +31,12 @@ namespace Infrastructure.Plans
 			Rect rect = GetRectangle(elementBaseRectangle);
 			return new Point(rect.Left, rect.Top);
 		}
+
+		static Point GetCenterPosition(this ElementBaseRectangle elementBaseRectangle)
+		{
+			Rect rect = GetRectangle(elementBaseRectangle);
+			return new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+		}
 		public static void SetPosition(this ElementBaseRectangle elementBaseRectangle, Point point)
 		{
 			elementBaseRectangle.Left = point.X;
@@ -71,6 +77,11 @@ namespace Infrastructure.Plans
 			Rect rect = GetRectangle(elementBaseShape);
 			return new Point(rect.Left, rect.Top);
 		}
+		static Point GetCenterPosition(this ElementBaseShape elementBaseShape)
+		{
+			Rect rect = GetRectangle(elementBaseShape);
+			return new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+		}
 		public static void SetPosition(this ElementBaseShape elementBaseShape, Point point)
 		{
 			Rect rect = GetRectangle(elementBaseShape);
@@ -98,6 +109,17 @@ namespace Infrastructure.Plans
 				return GetPosition((ElementBaseRectangle)elementBase);
 			if (elementBase is ElementBaseShape)
 				return GetPosition((ElementBaseShape)elementBase);
+			if (elementBase is ElementBasePoint)
+				return GetPosition((ElementBasePoint)elementBase);
+			throw new ArgumentException("Метод GetPosition определен только для типов ElementBasePoint, ElementBaseRectangle и ElementBaseShape.");
+		}
+
+		public static Point GetCenterPosition(this ElementBase elementBase)
+		{
+			if (elementBase is ElementBaseRectangle)
+				return GetCenterPosition((ElementBaseRectangle)elementBase);
+			if (elementBase is ElementBaseShape)
+				return GetCenterPosition((ElementBaseShape)elementBase);
 			if (elementBase is ElementBasePoint)
 				return GetPosition((ElementBasePoint)elementBase);
 			throw new ArgumentException("Метод GetPosition определен только для типов ElementBasePoint, ElementBaseRectangle и ElementBaseShape.");

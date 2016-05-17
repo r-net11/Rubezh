@@ -24,7 +24,7 @@ namespace PlansModule.ViewModels
 		}
 		private void SetPresenterItem()
 		{
-			var position = PresenterItem.Element.GetPosition();
+			var position = PresenterItem.Element.GetCenterPosition();
 			CenterX = position.X;
 			CenterY = position.Y;
 			var rect = PresenterItem.Element.GetRectangle();
