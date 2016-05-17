@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:navigation="clr-namespace:Infrastructure.Common.Navigation;assembly=Infrastructure.Common.Windows" xmlns:ViewModels="clr-namespace:RubezhMonitor.Layout.ViewModels" xmlns:Views="clr-namespace:RubezhMonitor.Layout.Views" xmlns:Windows="clr-namespace:Infrastructure.Common.Windows.ViewModels;assembly=Infrastructure.Common.Windows">
+
+	<DataTemplate DataType="{x:Type ViewModels:SelectLayoutViewModel}">
+		<Views:SelectLayoutView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type Windows:ShellViewModel}">
+		<Views:MonitorLayoutShellView />
+	</DataTemplate>
+	
+</ResourceDictionary>

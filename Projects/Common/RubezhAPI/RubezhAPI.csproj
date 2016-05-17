@@ -245,7 +245,7 @@
     <Compile Include="Hierarchy\HierarchicalItem.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Colors.cs" />
-    <Compile Include="License\FiresecLicenseInfo.cs" />
+    <Compile Include="License\RubezhLicenseInfo.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="IImitatorService.cs" />
     <Compile Include="License\LicenseMode.cs" />
@@ -374,13 +374,13 @@
     <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />
     <Compile Include="Journal\JournalEventNameType.cs" />
     <Compile Include="Journal\JournalSubsystemType.cs" />
-    <Compile Include="IFiresecServiceAutomation.cs" />
-    <Compile Include="IFiresecServiceSKD.TimeTrack.cs" />
+    <Compile Include="IRubezhServiceAutomation.cs" />
+    <Compile Include="IRubezhServiceSKD.TimeTrack.cs" />
     <Compile Include="GKCallbackResult.cs" />
     <Compile Include="GKProgressCallback.cs" />
-    <Compile Include="IFiresecServiceSKD.cs" />
+    <Compile Include="IRubezhServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
-    <Compile Include="IFiresecService.cs" />
+    <Compile Include="IRubezhService.cs" />
     <Compile Include="Models\Automation\Condition.cs" />
     <Compile Include="Models\Automation\FindObjectCondition.cs" />
     <Compile Include="Models\Automation\JoinOperator.cs" />

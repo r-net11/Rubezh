@@ -10,7 +10,7 @@ namespace Infrastructure.Common
 		static AppDataFolderHelper()
 		{
 			var appDataFolderName = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			AppDataFolderName = Path.Combine(appDataFolderName, "Firesec2");
+			AppDataFolderName = Path.Combine(appDataFolderName, "Rubezh");
 		}
 
 		public static string GetLocalFolder(string folderName)

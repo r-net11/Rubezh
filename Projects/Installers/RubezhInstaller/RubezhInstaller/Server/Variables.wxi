@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+	<?define ServerName						="Сервер приложений Глобал" ?>
+	<?define Server.TargetDir				="..\..\..\..\..\RubezhService\bin\Release\"?>
+	<?define Server.TargetFileName			="RubezhService.exe"?>
+	<?define Server.TargetPath				="..\..\..\..\..\RubezhService\bin\Release\RubezhService.exe"?>
+	<?define Server.RVIVSS					="..\..\..\..\..\..\3rdParty\RVIVSS\"?>
+	<?define Server.DevExpress.TargetDir	="..\..\..\..\..\..\3rdParty\DevExpress\DevExpress 15.1\"?>
+	<?define Common.TargetDir				="..\..\..\..\..\RubezhAdministrator\bin\Release\"?>
+</Include>

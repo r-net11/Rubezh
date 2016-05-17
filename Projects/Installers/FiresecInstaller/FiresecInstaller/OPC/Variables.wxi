@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define OPCName				="OPC-Сервер ГК Глобал" ?>
-  <?define OPC.TargetDir		="..\..\..\..\..\GKOPCServer\GKOPCServer\bin\Release\"?>
-  <?define OPC.TargetFileName	="GKOPCServer.exe"?>
-  <?define Common.TargetDir		="..\..\..\..\..\FireAdministrator\bin\Release\"?>
-  <?define Server.TargetDir		="..\..\..\..\..\FiresecService\bin\Release\"?>
-</Include>

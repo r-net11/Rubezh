@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{863CFFF3-5380-453E-B512-84E228AB1E5B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RubezhService</RootNamespace>
+    <AssemblyName>RubezhService.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="OpcClientSdk40">
+      <HintPath>..\..\..\3rdParty\OPC\OpcClientSdk40.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    </Compile>
+    <Compile Include="ServiceBootstrapper.cs" />
+    <Compile Include="ProcedureHelper.cs" />
+    <Compile Include="Processor\ConfigurationCashHelper.cs" />
+    <Compile Include="Processor\RubezhLicenseProcessor.cs" />
+    <Compile Include="Processor\GKProcessor.cs" />
+    <Compile Include="IRubezhNotifier.cs" />
+    <Compile Include="Processor\Notifier.cs" />
+    <Compile Include="Processor\OpcDaServersProcessor.cs" />
+    <Compile Include="Processor\RviProcessor.cs" />
+    <Compile Include="Processor\ServerTaskRunner.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CallbackManager.cs" />
+    <Compile Include="Service\ClientsManager.cs" />
+    <Compile Include="Service\RubezhService.Authentication.cs" />
+    <Compile Include="Service\RubezhService.Automation.cs" />
+    <Compile Include="Service\RubezhService.cs" />
+    <Compile Include="Service\RubezhService.Files.cs" />
+    <Compile Include="Service\RubezhService.GK.cs" />
+    <Compile Include="Service\RubezhService.Journal.cs" />
+    <Compile Include="Service\RubezhService.OpcDa.cs" />
+    <Compile Include="Service\RubezhService.Poll.cs" />
+    <Compile Include="Service\RubezhService.Rvi.cs" />
+    <Compile Include="Service\RubezhService.SKD.cs" />
+    <Compile Include="Service\RubezhService.SKD.TimeInterval.cs" />
+    <Compile Include="Service\RubezhServiceManager.cs" />
+    <Compile Include="Service\PollAsyncResult.cs" />
+    <Compile Include="Service\SafeRubezhService.cs" />
+    <Compile Include="Service\SafeRubezhService.SKD.cs" />
+    <Compile Include="Service\SafeRubezhService.SKD.TimeTrack.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common\Common.csproj">
+      <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
+      <Project>{62564d14-0234-4947-8218-2c7d74721023}</Project>
+      <Name>GKProcessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Automation\Infrastructure.Automation.csproj">
+      <Project>{ae2102f4-c2b3-4ca3-850f-69c93e23dfb7}</Project>
+      <Name>Infrastructure.Automation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{43efdad9-051e-462b-8f6d-4e99acac1df6}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhAPI\RubezhAPI.csproj">
+      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Name>RubezhAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RubezhDAL\RubezhDAL.csproj">
+      <Project>{e1d3cda0-1de6-47d3-8d2f-c56b297e8007}</Project>
+      <Name>RubezhDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\RviClient\RviClient.csproj">
+      <Project>{112658eb-3244-4922-aef7-6376e688b7a7}</Project>
+      <Name>RviClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

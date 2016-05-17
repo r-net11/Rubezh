@@ -23,10 +23,10 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
+				var serviceAddress = "net.pipe://127.0.0.1/RubezhService/";
 				if (IsRemote)
 				{
-					serviceAddress = "net.tcp://" + RemoteAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort + "/FiresecService/";
+					serviceAddress = "net.tcp://" + RemoteAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort + "/RubezhService/";
 				}
 				return serviceAddress;
 			}
@@ -36,7 +36,7 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				var serviceAddress = "net.tcp://" + GetIPAddress() + ":" + GlobalSettingsHelper.GlobalSettings.ReportRemotePort + "/ReportFiresecService/";
+				var serviceAddress = "net.tcp://" + GetIPAddress() + ":" + GlobalSettingsHelper.GlobalSettings.ReportRemotePort + "/ReportRubezhService/";
 				return serviceAddress;
 			}
 		}
@@ -67,7 +67,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecServiceManager.GetIPAddress");
+				Logger.Error(e, "RubezhServiceManager.GetIPAddress");
 				return "localhost";
 			}
 		}

@@ -22,7 +22,7 @@ namespace Infrastructure.Common
 				revisorPath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
 #endif
 			}
-			if (proc.Count() == 0 && Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
+			if (proc.Count() == 0 && Process.GetCurrentProcess().ProcessName != "RubezhMonitor.vshost")
 			{
 				if (File.Exists(revisorPath))
 				{

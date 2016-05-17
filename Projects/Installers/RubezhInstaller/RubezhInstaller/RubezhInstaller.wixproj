@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">
+    </Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.5</ProductVersion>
+    <ProjectGuid>{184068e9-b59d-4b55-a57b-60c9cc3450f2}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>Rubezh 2.1.5</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <Name>RubezhInstaller</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+    <Cultures>
+    </Cultures>
+    <CompilerAdditionalOptions>
+    </CompilerAdditionalOptions>
+    <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Binary.wxs" />
+    <Compile Include="Common.wxs" />
+    <Compile Include="CustomActions.wxs" />
+    <Compile Include="Features.wxs" />
+    <Compile Include="Administrator\Features.wxs" />
+    <Compile Include="Administrator\Files.wxs" />
+    <Compile Include="Administrator\Shortcuts.wxs" />
+    <Compile Include="Administrator\Uninstall.wxs" />
+    <Compile Include="Monitor\Features.wxs" />
+    <Compile Include="Monitor\Files.wxs" />
+    <Compile Include="Monitor\Shortcuts.wxs" />
+    <Compile Include="Monitor\Uninstall.wxs" />
+    <Compile Include="Installer.wxs" />
+    <Compile Include="OPC\Features.wxs" />
+    <Compile Include="OPC\Files.wxs" />
+    <Compile Include="OPC\Shortcuts.wxs" />
+    <Compile Include="OPC\Uninstall.wxs" />
+    <Compile Include="Server\Features.wxs" />
+    <Compile Include="Server\Files.wxs" />
+    <Compile Include="Server\Shortcuts.wxs" />
+    <Compile Include="Server\Uninstall.wxs" />
+    <Compile Include="UI\ModulesDialog.wxs" />
+    <Compile Include="UI\DestinationFolderDialog.wxs" />
+    <Compile Include="UI\InstallChangeFolderDialog.wxs" />
+    <Compile Include="UI\LicenseAgreementDialog.wxs" />
+    <Compile Include="UI\SetupProgressDialog.wxs" />
+    <Compile Include="UI\ShortcutsDialog.wxs" />
+    <Compile Include="UI\SQLLoginDialog.wxs" />
+    <Compile Include="UI\VerifyReadyDialog.wxs" />
+    <Compile Include="UI\WelcomeDialog.wxs" />
+    <Compile Include="Uninstall.wxs" />
+    <Compile Include="UI\UI_Dialogs.wxs" />
+    <Compile Include="UI\UI_Elements.wxs" />
+    <Compile Include="UI\UI_Logic.wxs" />
+    <Compile Include="UI\UI_TextStyle.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixSqlExtension">
+      <HintPath>$(WixExtDir)\WixSqlExtension.dll</HintPath>
+      <Name>WixSqlExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\OPC.ico" />
+    <Content Include="Data\ProgramIcon.ico" />
+    <Content Include="Data\SetupProgress.ico" />
+    <Content Include="Administrator\Variables.wxi" />
+    <Content Include="Data\TitleRect.bmp" />
+    <Content Include="Monitor\Variables.wxi" />
+    <Content Include="OPC\Variables.wxi" />
+    <Content Include="Server\Variables.wxi" />
+    <Content Include="UI\UI_Variables.wxi" />
+    <Content Include="Variables.wxi" />
+    <Content Include="Data\DestinationFolder.ico" />
+    <Content Include="Data\License.rtf" />
+    <Content Include="Data\NewFolder.ico" />
+    <Content Include="Data\Up.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data" />
+    <Folder Include="OPC" />
+    <Folder Include="Server" />
+    <Folder Include="Administrator" />
+    <Folder Include="Monitor" />
+    <Folder Include="UI" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomAction\CustomAction.csproj">
+      <Name>CustomAction</Name>
+      <Project>{db0996cd-bc6b-4783-a61f-25fd1e88e824}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <PropertyGroup>
+    <PreBuildEvent />
+  </PropertyGroup>
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

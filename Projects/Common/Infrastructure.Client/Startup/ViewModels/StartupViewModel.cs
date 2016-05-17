@@ -216,7 +216,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			{
 				for (int i = 1; i < 100; i++)
 				{
-					var serverState = ClientManager.FiresecService.GetServerState();
+					var serverState = ClientManager.RubezhService.GetServerState();
 					if (!serverState.HasError)
 					{
 						switch (serverState.Result)

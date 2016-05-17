@@ -19,13 +19,13 @@ namespace RubezhClient
 		{
 			var directoryInfo = Directory.CreateDirectory(AppDataDirectory(directoryName));
 			var fullDirectoryName = directoryInfo.FullName;
-			var remoteFileNamesList = ClientManager.FiresecService.GetFileNamesList(directoryName);
+			var remoteFileNamesList = ClientManager.RubezhService.GetFileNamesList(directoryName);
 
 			foreach (var localFileName in GetFileNamesList(fullDirectoryName).Where(x => remoteFileNamesList.Contains(x) == false))
 				File.Delete(Path.Combine(fullDirectoryName, localFileName));
 
 			var localDirectoryHash = HashHelper.GetDirectoryHash(directoryInfo.FullName);
-			foreach (var remoteFileHash in ClientManager.FiresecService.GetDirectoryHash(directoryName).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
+			foreach (var remoteFileHash in ClientManager.RubezhService.GetDirectoryHash(directoryName).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
 			{
 				var fileName = Path.Combine(fullDirectoryName, remoteFileHash.Value);
 				if (File.Exists(fileName))
@@ -36,7 +36,7 @@ namespace RubezhClient
 
 		static void DownloadFile(string sourcePath, string destinationPath)
 		{
-			using (var stream = ClientManager.FiresecService.GetServerAppDataFile(sourcePath))
+			using (var stream = ClientManager.RubezhService.GetServerAppDataFile(sourcePath))
 			using (var destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write))
 			{
 				stream.CopyTo(destinationStream);
