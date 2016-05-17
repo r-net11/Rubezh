@@ -81,7 +81,7 @@
 								<Setter Property="Visibility" Value="Collapsed" />
 							</DataTrigger>
 						</Style.Triggers>
-					</Style>Settings
+					</Style>
 				</Border.Style>
 				<TextBlock Height="16" VerticalAlignment="Center" Margin="5 4 0 0" FontSize="10">
 					<TextBlock.Text>
