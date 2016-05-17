@@ -223,15 +223,21 @@ namespace GKProcessor
 			{
 				Formula.AddGetBit(GKStateBit.On, Door);
 				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
+				Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
+				Formula.Add(FormulaOperationType.OR);
 				Formula.Add(FormulaOperationType.AND);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door);
 				Formula.AddGetBit(GKStateBit.TurningOff, Door);
 				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
+				Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
+				Formula.Add(FormulaOperationType.OR);
 				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
 				Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Door);
 				Formula.AddGetBit(GKStateBit.Off, Door);
 				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice);
+				Formula.AddGetBit(GKStateBit.Fire2, Door.LockControlDevice);
+				Formula.Add(FormulaOperationType.OR);
 				Formula.Add(FormulaOperationType.AND);
 				Formula.AddGetBit(GKStateBit.Fire1, Door);
 				Formula.Add(FormulaOperationType.OR);
