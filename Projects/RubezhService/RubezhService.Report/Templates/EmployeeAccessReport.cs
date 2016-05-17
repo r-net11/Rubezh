@@ -7,7 +7,6 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
-using RubezhAPI;
 using RubezhService.Report.DataSources;
 using RubezhService.Report.Model;
 

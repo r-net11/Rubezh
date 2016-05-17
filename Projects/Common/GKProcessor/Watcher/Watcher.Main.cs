@@ -453,15 +453,6 @@ namespace GKProcessor
 
 				try
 				{
-					PingNextState();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Watcher.OnRunThread PingNextState");
-				}
-
-				try
-				{
 					gkLifecycleManager.AddItem("Проверка измерений");
 					CheckMeasure();
 				}

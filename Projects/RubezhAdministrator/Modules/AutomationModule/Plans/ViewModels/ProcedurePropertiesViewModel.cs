@@ -27,26 +27,6 @@ namespace AutomationModule.Plans.ViewModels
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);
 		}
 
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
-		}
 		public ObservableCollection<ProcedureViewModel> Procedures { get; private set; }
 
 		private ProcedureViewModel _selectedProcedure;

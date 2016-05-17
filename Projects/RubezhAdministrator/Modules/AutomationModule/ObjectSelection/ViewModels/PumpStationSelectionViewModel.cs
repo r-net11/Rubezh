@@ -3,7 +3,6 @@ using System.Linq;
 using RubezhAPI;
 using RubezhAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
-using RubezhAPI;
 
 namespace AutomationModule.ViewModels
 {

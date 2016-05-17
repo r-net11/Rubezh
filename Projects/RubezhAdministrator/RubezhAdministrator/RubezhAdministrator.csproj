@@ -105,9 +105,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="U2UConsult.RichHtmlTextBlock">
-      <HintPath>..\..\..\3rdParty\HtmlViewer\bin\U2UConsult.RichHtmlTextBlock.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="WPFToolkit.Extended">

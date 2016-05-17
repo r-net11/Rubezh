@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -8,9 +7,7 @@ using RubezhAPI;
 using RubezhAPI.GK;
 using RubezhAPI.SKD;
 using RubezhAPI.SKD.ReportFilters;
-using RubezhAPI;
 using RubezhService.Report.DataSources;
-using Infrastructure.Common;
 
 namespace RubezhService.Report.Templates
 {

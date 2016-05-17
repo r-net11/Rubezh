@@ -18,7 +18,6 @@ namespace RubezhAPI
 		/// <summary>
 		///  Соединение с сервисом
 		/// </summary>
-		/// <param name="uid">Уникальный идентификатор клиента</param>
 		/// <param name="clientCredentials">Данные подключаемого клиента</param>
 		/// <returns></returns>
 		[OperationContract]
@@ -27,7 +26,7 @@ namespace RubezhAPI
 		/// <summary>
 		/// Отсоединение от сервиса
 		/// </summary>
-		/// <param name="uid">Идентификатор клиента</param>
+		/// <param name="clientUID">Идентификатор клиента</param>
 		[OperationContract]
 		void Disconnect(Guid clientUID);
 
@@ -38,7 +37,7 @@ namespace RubezhAPI
 		/// Поллинг сервера с запросом результатов изменения
 		/// Метод реализует концепцию лонг-пол. Т.е. возвращает результат сразу, если есть изменения. Если изменений нет, то он блокируется либо до истечения таймаута в несколько минут, либо до изменения состояния объектов или появлении нового события. Поллинг сервера с запросом результатов изменения
 		/// </summary>
-		/// <param name="uid">Идентификатор клиента</param>
+		/// <param name="clientUID">Идентификатор клиента</param>
 		/// <param name="callbackIndex">Индекс последнего обработанного сообщения</param>
 		/// <returns></returns>
 		[OperationContract]
@@ -93,6 +92,7 @@ namespace RubezhAPI
 		/// <summary>
 		/// Добавление записи в журнал событий
 		/// </summary>
+		/// <param name="clientUID"></param>
 		/// <param name="journalItem"></param>
 		/// <returns></returns>
 		[OperationContract]
@@ -103,6 +103,8 @@ namespace RubezhAPI
 		/// </summary>
 		/// <param name="filter"></param>
 		/// <param name="page"></param>
+		/// <param name="clentUid"></param>
+		/// <param name="userName"></param>
 		/// <returns></returns>
 		[OperationContract]
 		OperationResult<bool> BeginGetArchivePage(JournalFilter filter, int page, Guid clentUid, string userName);
@@ -110,6 +112,7 @@ namespace RubezhAPI
 		/// <summary>
 		/// Запрос количества страниц событий по заданному фильтру
 		/// </summary>
+		/// <param name="clientUID"></param>
 		/// <param name="filter"></param>
 		/// <returns></returns>
 		[OperationContract]
