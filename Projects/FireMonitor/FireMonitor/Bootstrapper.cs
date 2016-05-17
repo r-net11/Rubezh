@@ -114,6 +114,7 @@ namespace FireMonitor
 					}
 
 					AutomationProcessor.Start();
+					InitOpcTagValues();
 
 					SafeFiresecService.AutomationEvent -= OnAutomationCallback;
 					SafeFiresecService.AutomationEvent += OnAutomationCallback;
@@ -151,6 +152,15 @@ namespace FireMonitor
 				return false;
 			}
 			return result;
+		}
+
+		void InitOpcTagValues()
+		{
+			foreach (var tag in OpcDaHelper.Tags)
+			{
+				var value = ReadTagValue(tag.UID);
+				tag.SetValue(value);
+			}
 		}
 
 		object ExplicitValue_ResolveObjectValue(Guid objectUID, ObjectType objectType)
@@ -233,9 +243,25 @@ namespace FireMonitor
 			return "Null";
 		}
 
-		private void WriteTagValue(Guid tagUID, object value)
+		void WriteTagValue(Guid tagUID, object value)
 		{
 			((SafeFiresecService)ClientManager.FiresecService).WriteOpcDaServerTag(FiresecServiceFactory.UID, tagUID, value);
+		}
+
+		object ReadTagValue(Guid tagUID)
+		{
+			var server = ClientManager.SystemConfiguration.AutomationConfiguration.OpcDaTsServers
+				.FirstOrDefault(p => p.Tags.Any(x => x.Uid == tagUID));
+
+			if (server == null)
+				return null;
+
+			var resutl = ((SafeFiresecService)ClientManager.FiresecService).ReadOpcDaServerTags(FiresecServiceFactory.UID, server);
+
+			if (resutl.HasError)
+				return null;
+
+			return resutl.Result.FirstOrDefault(y => y.Uid == tagUID).Value;
 		}
 
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)

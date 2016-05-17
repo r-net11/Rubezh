@@ -10,6 +10,7 @@ namespace Infrastructure.Automation
 	{
 		static object _locker = new object();
 		static List<OpcDaTagConcept> _tags = new List<OpcDaTagConcept>();
+		public static IList<OpcDaTagConcept> Tags { get { return _tags; } }
 		static List<OpcDaTagFilter> _opcDaTagFilters = new List<OpcDaTagFilter>();
 
 		public static OpcDaTagFilter[] TagsFilters { get { return _opcDaTagFilters.ToArray(); } }
