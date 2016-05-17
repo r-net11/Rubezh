@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', './shared/index', './+components/index'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', './shared/index', './components/index'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -28,10 +28,13 @@ System.register(['@angular/core', '@angular/router', './shared/index', './+compo
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(_router) {
+                function AppComponent(_router, gkService) {
                     this._router = _router;
+                    this.gkService = gkService;
                 }
                 AppComponent.prototype.ngOnInit = function () {
+                    console.log("Запускается Gk Service.");
+                    this.gkService.start();
                 };
                 AppComponent = __decorate([
                     core_1.Component({
@@ -43,7 +46,7 @@ System.register(['@angular/core', '@angular/router', './shared/index', './+compo
                     router_1.Routes([
                         { path: '/plans', component: index_2.PlansComponent }
                     ]), 
-                    __metadata('design:paramtypes', [router_1.Router])
+                    __metadata('design:paramtypes', [router_1.Router, index_1.GkService])
                 ], AppComponent);
                 return AppComponent;
             }());

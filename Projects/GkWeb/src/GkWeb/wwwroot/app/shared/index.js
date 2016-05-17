@@ -1,4 +1,4 @@
-System.register(['./nav/index'], function(exports_1, context_1) {
+System.register(['./nav/index', './services/index'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     function exportStar_1(m) {
@@ -12,6 +12,9 @@ System.register(['./nav/index'], function(exports_1, context_1) {
         setters:[
             function (index_1_1) {
                 exportStar_1(index_1_1);
+            },
+            function (index_2_1) {
+                exportStar_1(index_2_1);
             }],
         execute: function() {
         }

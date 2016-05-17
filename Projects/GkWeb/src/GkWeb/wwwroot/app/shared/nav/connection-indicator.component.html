@@ -1,1 +1,4 @@
-﻿<label class="indicator {{connectionState.Class}}" title="{{connectionState.Text}}"></label>
+﻿<button type="button" class="btn btn-xs btn-primary-outline {{connectionState.Class}}" (click)="restartConnection()" title="Переподключиться">
+	<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+</button>
+<label class="indicator {{connectionState.Class}}" title="{{connectionState.Text}}"></label>

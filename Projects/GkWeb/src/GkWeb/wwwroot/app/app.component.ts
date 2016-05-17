@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, Routes } from '@angular/router';
 
-import { NavComponent } from './shared/index';
-import { PlansComponent } from './+components/index';
+import { NavComponent, GkService } from './shared/index';
+import { PlansComponent } from './components/index';
 
 @Component({
 	selector: 'gk-app',
@@ -18,12 +18,14 @@ import { PlansComponent } from './+components/index';
 export class AppComponent implements OnInit
 {
 	constructor(
-		private _router: Router)
+		private _router: Router, private gkService: GkService)
 	{
 
 	}
 
 	ngOnInit()
 	{
+		console.log("Запускается Gk Service.");
+		this.gkService.start();
 	}
 }

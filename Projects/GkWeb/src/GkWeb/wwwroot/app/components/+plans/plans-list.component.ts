@@ -1,11 +1,13 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, Routes } from '@angular/router';
 
+import { DataService } from '../../shared/services/index';
+
 @Component({
 	selector: 'gk-plans',
-	templateUrl: 'app/+components/+plans/plans.component.html'
-	//styleUrls: ['app/app.component.css'],
-	//directives: [ROUTER_DIRECTIVES]
+	templateUrl: 'app/components/+plans/plans-list.component.html',
+	styleUrls: ['app/components/+plans/plans-list.component.html.css'],
+	directives: [ROUTER_DIRECTIVES]
 })
 @Routes([
 	//{ path: '/hello-world', component: HelloWorldComponent },
@@ -14,9 +16,13 @@ import { ROUTER_DIRECTIVES, Router, Routes } from '@angular/router';
 export class PlansComponent implements OnInit
 {
 	constructor(
-		private _router: Router)
+		private router: Router, private dataService: DataService)
 	{
 
+	}
+
+	loadPlanList()
+	{
 	}
 
 	ngOnInit()

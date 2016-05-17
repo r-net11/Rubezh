@@ -1,4 +1,4 @@
-System.register(["@angular/core", "rxjs/add/operator/map", "../services/gk.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "rxjs/add/operator/map", "../services/index"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "rxjs/add/operator/map", "../services/gk.servi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, gk_service_1;
+    var core_1, index_1;
     var ConnectionIndicatorComponent, ConnectionState;
     return {
         setters:[
@@ -18,8 +18,8 @@ System.register(["@angular/core", "rxjs/add/operator/map", "../services/gk.servi
                 core_1 = core_1_1;
             },
             function (_1) {},
-            function (gk_service_1_1) {
-                gk_service_1 = gk_service_1_1;
+            function (index_1_1) {
+                index_1 = index_1_1;
             }],
         execute: function() {
             ConnectionIndicatorComponent = (function () {
@@ -55,17 +55,19 @@ System.register(["@angular/core", "rxjs/add/operator/map", "../services/gk.servi
                     //);
                 }
                 ConnectionIndicatorComponent.prototype.ngOnInit = function () {
-                    console.log("Запускается Gk Service.");
-                    this.gkService.start();
+                };
+                ConnectionIndicatorComponent.prototype.restartConnection = function () {
+                    if (this.connectionState.Class === "disconnected") {
+                        this.gkService.start();
+                    }
                 };
                 ConnectionIndicatorComponent = __decorate([
                     core_1.Component({
                         selector: "nav-connection",
                         templateUrl: "app/shared/nav/connection-indicator.component.html",
-                        styleUrls: ["app/shared/nav/connection-indicator.component.css"],
-                        providers: [gk_service_1.GkService]
+                        styleUrls: ["app/shared/nav/connection-indicator.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [gk_service_1.GkService])
+                    __metadata('design:paramtypes', [index_1.GkService])
                 ], ConnectionIndicatorComponent);
                 return ConnectionIndicatorComponent;
             }());

@@ -1,4 +1,4 @@
-System.register(['./plans.component'], function(exports_1, context_1) {
+System.register(['./data.service', './gk.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     function exportStar_1(m) {
@@ -10,8 +10,11 @@ System.register(['./plans.component'], function(exports_1, context_1) {
     }
     return {
         setters:[
-            function (plans_component_1_1) {
-                exportStar_1(plans_component_1_1);
+            function (data_service_1_1) {
+                exportStar_1(data_service_1_1);
+            },
+            function (gk_service_1_1) {
+                exportStar_1(gk_service_1_1);
             }],
         execute: function() {
         }

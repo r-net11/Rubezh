@@ -4,13 +4,12 @@ import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 
-import { GkService } from "../services/gk.service";
+import { GkService } from "../services/index";
 
 @Component({
 	selector: "nav-connection",
 	templateUrl: "app/shared/nav/connection-indicator.component.html",
-	styleUrls: ["app/shared/nav/connection-indicator.component.css"],
-	providers: [GkService]
+	styleUrls: ["app/shared/nav/connection-indicator.component.css"]
 })
 export class ConnectionIndicatorComponent implements OnInit {
 	connectionState: ConnectionState;
@@ -53,10 +52,16 @@ export class ConnectionIndicatorComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		console.log("Запускается Gk Service.");
-		this.gkService.start();
+		
 	}
 
+	restartConnection()
+	{
+		if (this.connectionState.Class === "disconnected")
+		{
+			this.gkService.start();
+		}
+	}
 }
 
 class ConnectionState {

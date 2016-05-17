@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', '../../shared/services/index'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router'], function(exports_1, contex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1;
+    var core_1, router_1, index_1;
     var PlansComponent;
     return {
         setters:[
@@ -19,26 +19,35 @@ System.register(['@angular/core', '@angular/router'], function(exports_1, contex
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (index_1_1) {
+                index_1 = index_1_1;
             }],
         execute: function() {
             PlansComponent = (function () {
-                function PlansComponent(_router) {
-                    this._router = _router;
+                function PlansComponent(router, dataService) {
+                    this.router = router;
+                    this.dataService = dataService;
                 }
+                PlansComponent.prototype.loadPlanList = function () {
+                };
                 PlansComponent.prototype.ngOnInit = function () {
                 };
                 PlansComponent = __decorate([
                     core_1.Component({
                         selector: 'gk-plans',
-                        templateUrl: 'app/+components/+plans/plans.component.html'
+                        templateUrl: 'app/components/+plans/plans-list.component.html',
+                        styleUrls: ['app/components/+plans/plans-list.component.html.css'],
+                        directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.Routes([]), 
-                    __metadata('design:paramtypes', [router_1.Router])
+                    __metadata('design:paramtypes', [router_1.Router, (typeof (_a = typeof index_1.DataService !== 'undefined' && index_1.DataService) === 'function' && _a) || Object])
                 ], PlansComponent);
                 return PlansComponent;
+                var _a;
             }());
             exports_1("PlansComponent", PlansComponent);
         }
     }
 });
-//# sourceMappingURL=plans.component.js.map
+//# sourceMappingURL=plans-list.component.js.map
