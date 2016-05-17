@@ -14,6 +14,7 @@ namespace StrazhAPI.SKD
 			Zones = new List<SKDZone>();
 			Doors = new List<SKDDoor>();
 			OPCZones = new List<OPCZone>();
+			OPCSettings = new OPCSettings();
 			TimeIntervalsConfiguration = new TimeIntervalsConfiguration();
 		}
 

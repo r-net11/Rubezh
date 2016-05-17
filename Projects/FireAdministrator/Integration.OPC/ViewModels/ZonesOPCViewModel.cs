@@ -32,8 +32,8 @@ namespace Integration.OPC.ViewModels
 				},
 				new OPCZone
 				{
-					Name = "Архив",
-					No = 1,
+					Name = "Архив22",
+					No = 2,
 					Description = "Archive",
 					Type = OPCZoneType.Guard
 				}
@@ -72,8 +72,7 @@ namespace Integration.OPC.ViewModels
 
 		public void OnDelete()
 		{
-			if (!MessageBoxService.ShowConfirmation(string.Format(Resources.ContentRemoveOPCZone, SelectedZoneOPC.Name))) return;
-
+			if (!MessageBoxService.ShowConfirmation(string.Format(Resources.MessageRemoveOPCZoneContent, SelectedZoneOPC.Name))) return;
 
 			//TODO: Replace this comment by remove from server command. If remove result is True than go next.
 
@@ -89,14 +88,14 @@ namespace Integration.OPC.ViewModels
 
 		public void OnSettings()
 		{
-			//TODO: Show settings dialog
-			var settingsView = new SettingsViewModel
+			var settingsView = new SettingsViewModel(SKDManager.SKDConfiguration.OPCSettings.IsActive)
 			{
 				Settings = new OPCSettings(SKDManager.SKDConfiguration.OPCSettings)
 			};
 
 			if (DialogService.ShowModalWindow(settingsView))
 			{
+				SKDManager.SKDConfiguration.OPCSettings = settingsView.Settings.ToDTO();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

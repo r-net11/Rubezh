@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common;
 using StrazhAPI.GK;
 
 namespace StrazhAPI.SKD
@@ -60,6 +59,8 @@ namespace StrazhAPI.SKD
 			}
 
 			SKDConfiguration.Update();
+			foreach (var device in SKDConfiguration.Devices)
+				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 
 			Invalidate();
 		}
@@ -91,14 +92,12 @@ namespace StrazhAPI.SKD
 		public static XStateClass GetMinStateClass()
 		{
 			var minStateClass = XStateClass.No;
-
 			foreach (var device in Devices.Where(x => x.IsRealDevice))
 			{
 				var stateClass = device.State.StateClass;
 				if (stateClass < minStateClass)
 					minStateClass = device.State.StateClass;
 			}
-
 			return minStateClass;
 		}
 
@@ -108,6 +107,7 @@ namespace StrazhAPI.SKD
 			InitializeDevicesInZone();
 			InvalidateLockConfiguration();
 			InvalidateDoors();
+			InvalidateIntervals();
 		}
 
 		private static void ClearAllReferences()
@@ -182,6 +182,13 @@ namespace StrazhAPI.SKD
 			}
 		}
 
+		private static void InvalidateIntervals()
+		{
+			//foreach (var weeklyInterval in SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+			//{
+			//}
+		}
+
 		/// <summary>
 		/// Получает точку доступа для замка
 		/// </summary>
@@ -189,7 +196,7 @@ namespace StrazhAPI.SKD
 		/// <returns>Точка доступа</returns>
 		public static SKDDoor GetDoorForLock(SKDDevice device)
 		{
-			foreach (var door in Doors)
+			foreach (var door in SKDManager.Doors)
 			{
 				if (door.InDevice != null)
 				{

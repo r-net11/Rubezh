@@ -9,6 +9,12 @@ namespace Integration.OPC.Models
 {
 	public class OPCSettings : BaseViewModel, IDataErrorInfo
 	{
+
+		public bool IsValid
+		{
+			get { return string.IsNullOrEmpty(Error); }
+		}
+
 		private bool _isActive;
 		public bool IsActive
 		{
@@ -84,8 +90,19 @@ namespace Integration.OPC.Models
 						result = "Значение порта не может быть равным нулю.";
 				}
 
+				CurrentError = result;
 				return result;
 			}
+		}
+
+		public StrazhAPI.Integration.OPC.OPCSettings ToDTO()
+		{
+			return new StrazhAPI.Integration.OPC.OPCSettings
+			{
+				IPAddress = IPAddress,
+				IsActive = IsActive,
+				Port = Port
+			};
 		}
 	}
 }

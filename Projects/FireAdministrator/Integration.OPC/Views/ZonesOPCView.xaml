@@ -4,9 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:converters="clr-namespace:Controls.Converters;assembly=Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
 	d:DesignWidth="300">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+		</ResourceDictionary>
+	</UserControl.Resources>
     <Grid>
 		<DataGrid
 			ItemsSource="{Binding ZonesOPC, IsAsync=True}"
@@ -27,24 +33,30 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Наименование">
+				<DataGridTemplateColumn Header="Наименование" Width="2*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Name}" />
+							<TextBlock
+								Text="{Binding Name}"
+								Margin="5 0"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Назначение">
+				<DataGridTemplateColumn Header="Назначение" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding IsUseFor}" />
+							<TextBlock
+								Text="{Binding Type, Converter={StaticResource EnumToDescriptionConverter}}"
+								Margin="5 0"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Примечание">
+				<DataGridTemplateColumn Header="Примечание" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Description}" />
+							<TextBlock
+								Text="{Binding Description}"
+								Margin="5 0"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

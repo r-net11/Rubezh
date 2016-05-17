@@ -4,21 +4,54 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-	d:DesignWidth="500">
+    Height="260"
+	Width="540">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Controls;component/XamlImages/information.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+		<StackPanel>
+			<Grid Margin="0 5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="3*" />
+				</Grid.ColumnDefinitions>
+				<Separator
+					VerticalAlignment="Center"
+					Style="{x:Null}"
+					Background="White"/>
+				<TextBlock
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					Text="Параметры запуска интеграционного модуля"
+					Foreground="White"
+					Margin="5"/>
+				<Separator
+					Grid.Column="2"
+					Style="{x:Null}"
+					VerticalAlignment="Center"
+					Background="White"/>
+			</Grid>
+		</StackPanel>
 		<Grid
-			Margin="10 20"
-			HorizontalAlignment="Center">
+			Grid.Row="1"
+			Margin="15 0"
+			HorizontalAlignment="Right">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
@@ -38,39 +71,107 @@
 				IsChecked="{Binding Settings.IsActive}"
 				VerticalAlignment="Center"
 				Margin="5"/>
-			<TextBlock
+			<StackPanel
 				Grid.Row="1"
-				Text="IP-адрес сервера"
-				HorizontalAlignment="Right"
+				Grid.ColumnSpan="2"
+				Orientation="Horizontal">
+				<Border
+					Background="{StaticResource Information}"
+					Height="15"
+					Width="15"
+					Margin="5"
+					VerticalAlignment="Center"/>
+				<TextBlock
+					Text="Модуль интеграции запускается с IP-адресом сервера приложений"
+					Foreground="White"
+					Margin="5"
+					VerticalAlignment="Center"/>
+			</StackPanel>
+			<TextBlock
+				Grid.Row="2"
+				Text="Порт сервера интеграции"
 				Foreground="White"
+				HorizontalAlignment="Right"
 				VerticalAlignment="Center"
 				Margin="5" />
+			<xctk:IntegerUpDown
+				Grid.Column="1"
+				Grid.Row="2"
+				Value="{Binding Settings.Port, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+				VerticalAlignment="Center"
+				Minimum="0"
+				Validation.ErrorTemplate="{x:Null}"
+				Margin="5"/>
+		</Grid>
+		<Grid Grid.Row="2" Margin="0 15 0 5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="3*" />
+			</Grid.ColumnDefinitions>
+			<Separator
+				Background="White"
+				Style="{x:Null}"
+				VerticalAlignment="Center"/>
+			<TextBlock
+				Grid.Column="1"
+				Text="Настройки подключения к серверу ОПС"
+				Margin="5"
+				Foreground="White"/>
+			<Separator
+				Grid.Column="2"
+				Style="{x:Null}"
+				Background="White"
+				VerticalAlignment="Center"/>
+		</Grid>
+		<Grid
+			Grid.Row="3"
+			Margin="15 0">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="250" />
+			</Grid.ColumnDefinitions>
+			<TextBlock
+				Text="IP-адрес"
+				Foreground="White"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right"
+				Margin="5"/>
 			<TextBox
 				Grid.Column="1"
-				Grid.Row="1"
-				Text="{Binding Settings.IPAddress}"
+				Text="{Binding Settings.IPAddress, UpdateSourceTrigger=PropertyChanged}"
 				VerticalAlignment="Center"
 				Margin="5"/>
 			<TextBlock
-				Grid.Row="2"
-				Text="Порт сервера"
-				Foreground="White"
+				Grid.Row="1"
+				Text="Порт"
 				HorizontalAlignment="Right"
-				VerticalAlignment="Center"
-				Margin="5" />
-			<extToolkit:IntegerUpDown
+				Foreground="White"
+				Margin="5"
+				VerticalAlignment="Center"/>
+			<xctk:IntegerUpDown
 				Grid.Column="1"
-				Grid.Row="2"
-				Value="{Binding Settings.Port}"
+				Grid.Row="1"
+				Value="{Binding Settings.Port, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
 				VerticalAlignment="Center"
+				Minimum="0"
+				Validation.ErrorTemplate="{x:Null}"
 				Margin="5"/>
+		</Grid>
+		<UniformGrid
+			Grid.Row="4"
+			Rows="1"
+			Columns="2"
+			VerticalAlignment="Center"
+			Margin="0 5">
 			<Border
-				Grid.Row="3"
-				Grid.ColumnSpan="2"
 				BorderThickness="1"
 				CornerRadius="3"
 				Opacity="0.8"
-				Margin="5"
 				BorderBrush="{DynamicResource BaseWindowBackgroundBrush}"
 				Background="LightCoral"
 				Padding="0">
@@ -78,7 +179,7 @@
 					<Style TargetType="{x:Type Border}">
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding Settings.CurrentError}" Value="">
-								<Setter Property="Visibility" Value="Collapsed" />
+								<Setter Property="Visibility" Value="Hidden" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
@@ -86,18 +187,17 @@
 				<TextBlock Height="16" VerticalAlignment="Center" Margin="5 4 0 0" FontSize="10">
 					<TextBlock.Text>
 						<MultiBinding StringFormat="* {0}">
-							<Binding Path="CurrentTimeTrackPart.CurrentError" FallbackValue="FallbackValueText" />
+							<Binding Path="Settings.CurrentError" FallbackValue="FallbackValueText" />
 						</MultiBinding>
 					</TextBlock.Text>
 				</TextBlock>
 			</Border>
-		</Grid>
-		<Button
-			Grid.Row="2"
-			Command="{Binding PingCommand}"
-			Content="Проверка соединения"
-			VerticalAlignment="Center"
-			Width="170"
-			Margin="5" />
+			<Button
+				Command="{Binding PingCommand}"
+				Content="Проверка соединения"
+				HorizontalAlignment="Right"
+				Width="170"
+				VerticalAlignment="Center" />
+		</UniformGrid>
 	</Grid>
 </UserControl>

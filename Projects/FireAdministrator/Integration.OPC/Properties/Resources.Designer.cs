@@ -61,11 +61,38 @@ namespace Integration.OPC.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы действительно хотите удалить видеокамеру {0}?.
+        ///   Looks up a localized string similar to Соединение с сервером ОПС успешно установлено. Для того, чтобы измененные параметры вступили в силу, необходимо сохранить их и применить конфигурацию..
         /// </summary>
-        internal static string ContentRemoveOPCZone {
+        internal static string MessagePingSuccessfulContent {
             get {
-                return ResourceManager.GetString("ContentRemoveOPCZone", resourceCulture);
+                return ResourceManager.GetString("MessagePingSuccessfulContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Превышено время ожидания ответа от сервера ОПС. Проверьте настройки сетевого соединения..
+        /// </summary>
+        internal static string MessagePingTimeoutContent {
+            get {
+                return ResourceManager.GetString("MessagePingTimeoutContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перед проверкой соединения необходимо активировать модуль интеграции с ОПС &quot;Рубеж&quot;, затем сохранить настройки и применить конфигурацию..
+        /// </summary>
+        internal static string MessagePingWithNotActiveServerContent {
+            get {
+                return ResourceManager.GetString("MessagePingWithNotActiveServerContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы действительно хотите удалить зону ОПС {0}?.
+        /// </summary>
+        internal static string MessageRemoveOPCZoneContent {
+            get {
+                return ResourceManager.GetString("MessageRemoveOPCZoneContent", resourceCulture);
             }
         }
     }

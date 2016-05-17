@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using Infrastructure.Common.TreeList;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Integration.OPC.Models;
+using Integration.OPC.Properties;
 
 namespace Integration.OPC.ViewModels
 {
@@ -15,15 +12,34 @@ namespace Integration.OPC.ViewModels
 
 		public RelayCommand PingCommand { get; set; }
 
-		public SettingsViewModel()
+		private readonly bool _isActiveNow;
+
+		public SettingsViewModel(bool isActiveNow)
 		{
-			//Settings = settings;
+			Title = "Настройки";
+			_isActiveNow = isActiveNow;
 			PingCommand = new RelayCommand(OnPing);
 		}
 
 		public void OnPing()
 		{
 			//TODO: Ping connection with httpIntegrationClient
+			if (!_isActiveNow)
+				MessageBoxService.ShowWarning(Resources.MessagePingWithNotActiveServerContent);
+
+			if (true)
+			{
+				MessageBoxService.ShowExtended(Resources.MessagePingSuccessfulContent);
+			}
+			else
+			{
+				MessageBoxService.ShowWarning(Resources.MessagePingTimeoutContent);
+			}
+		}
+
+		protected override bool CanSave()
+		{
+			return Settings.IsValid;
 		}
 
 	}

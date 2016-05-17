@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ContentRemoveOPCZone" xml:space="preserve">
-    <value>Вы действительно хотите удалить видеокамеру {0}?</value>
-    <comment>Сообщение, выводимое при удалении видеокамеры. В качестве параметра - название удаляемой камеры.</comment>
+  <data name="MessagePingSuccessfulContent" xml:space="preserve">
+    <value>Соединение с сервером ОПС успешно установлено. Для того, чтобы измененные параметры вступили в силу, необходимо сохранить их и применить конфигурацию.</value>
+    <comment>Текст сообщения при успешном выполнении команды Ping интеграционного модуля.</comment>
+  </data>
+  <data name="MessagePingTimeoutContent" xml:space="preserve">
+    <value>Превышено время ожидания ответа от сервера ОПС. Проверьте настройки сетевого соединения.</value>
+    <comment>Сообщение при таймауте операции Ping.</comment>
+  </data>
+  <data name="MessagePingWithNotActiveServerContent" xml:space="preserve">
+    <value>Перед проверкой соединения необходимо активировать модуль интеграции с ОПС "Рубеж", затем сохранить настройки и применить конфигурацию.</value>
+    <comment>Сообщение, выводимое при вызове команды Ping при деактивированном модуле интеграции с ОПС сервером.</comment>
+  </data>
+  <data name="MessageRemoveOPCZoneContent" xml:space="preserve">
+    <value>Вы действительно хотите удалить зону ОПС {0}?</value>
+    <comment>Сообщение, выводимое при удалении ОПС зоны. В качестве параметра - название удаляемой зоны.</comment>
   </data>
 </root>
