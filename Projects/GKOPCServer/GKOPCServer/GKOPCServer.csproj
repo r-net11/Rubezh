@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gbda_clr">
-      <HintPath>..\..\..\3rdParty\Soft\OPC\Graybox\gbda_clr.dll</HintPath>
+      <HintPath>..\..\..\3rdParty\OPC\Graybox\gbda_clr.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
