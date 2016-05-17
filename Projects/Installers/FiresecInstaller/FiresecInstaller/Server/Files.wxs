@@ -64,16 +64,6 @@
 				<File Id="Server.Microsoft.Windows.Shell.dll"								Name="Microsoft.Windows.Shell.dll"					Source="..\..\..\..\..\..\3rdParty\Microsoft.Windows.Shell.dll" />
 			</Component>
 
-			<Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">
-				<File Id="Server.Microsoft.Sqlserver.Batchparser.dll"						Name="Microsoft.Sqlserver.Batchparser.dll"			Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.BatchParserClient.dll"					Name="Microsoft.SqlServer.BatchParserClient.dll"	Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.ConnectionInfo.dll"					Name="Microsoft.SqlServer.ConnectionInfo.dll"		Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.Management.Sdk.Sfc.dll"				Name="Microsoft.SqlServer.Management.Sdk.Sfc.dll"	Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.Smo.dll"								Name="Microsoft.SqlServer.Smo.dll"					Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.SqlClrProvider.dll"					Name="Microsoft.SqlServer.SqlClrProvider.dll"		Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-				<File Id="Server.Microsoft.SqlServer.SqlEnum.dll"							Name="Microsoft.SqlServer.SqlEnum.dll"				Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
-			</Component>
-
 			<Component Id="Server.VIDEO_MODULE" Guid="7d458de8-d0d7-478f-b0d5-e2c512469922">
 				<File Id="Server.API.dll"													Name="API.dll"										Source="..\..\..\..\..\..\3rdParty\RVIVSS\" />
 				<File Id="Server.Entities.dll"												Name="Entities.dll"									Source="..\..\..\..\..\..\3rdParty\RVIVSS\" />
