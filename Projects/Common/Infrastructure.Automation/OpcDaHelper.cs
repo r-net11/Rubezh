@@ -46,6 +46,20 @@ namespace Infrastructure.Automation
 			}
 		}
 
+		public static void UpdateOpcDaTagFilters()
+		{
+			lock (_locker)
+			{
+				_opcDaTagFilters.Clear();
+
+				foreach (var filter in ProcedureExecutionContext.SystemConfiguration.AutomationConfiguration.OpcDaTagFilters)
+				{
+					_opcDaTagFilters.Add(new OpcDaTagFilter(filter.UID, filter.Name, filter.Description,
+						filter.TagUID, filter.Hysteresis, filter.ValueType));
+				}
+			}
+		}
+
 		public static object GetTagValue(Guid tagUID)
 		{
 			var tag = _tags.FirstOrDefault(x => x.UID == tagUID);
