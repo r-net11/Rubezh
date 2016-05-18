@@ -61,6 +61,11 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ContextType ContextType
+		{
+			get { return Procedure.ContextType; } 
+		}
+
 		public string Description
 		{
 			get { return Procedure.Description; }

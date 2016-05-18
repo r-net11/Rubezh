@@ -26,10 +26,8 @@ namespace SoundsModule.ViewModels
 		public void Initialize()
 		{
 			IsNowPlaying = false;
-
-			//ClientManager.SystemConfiguration.Sounds = new List<Sound>();
 			Sounds = new SortableObservableCollection<SoundViewModel>();
-			var stateClasses = new List<Tuple<XStateClass,SoundType>>();
+			var stateClasses = new List<Tuple<XStateClass, SoundType>>();
 
 			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Fire1, SoundType.Fire1));
 			stateClasses.Add(new Tuple<XStateClass, SoundType>(XStateClass.Fire2, SoundType.Fire2));

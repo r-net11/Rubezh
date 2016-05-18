@@ -6,7 +6,7 @@ using RubezhAPI.Models;
 
 namespace Controls.Converters
 {
-	public class XSoundTypeToStringConverter : IValueConverter
+	public class SoundTypeToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{

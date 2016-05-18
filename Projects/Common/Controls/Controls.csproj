@@ -148,7 +148,8 @@
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\StringToSingleLineString.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
-    <Compile Include="Converters\XSoundTypeToStringConverter.cs" />
+    <Compile Include="Converters\SoundTypeToStringConverter.cs" />
+    <Compile Include="Converters\ProcedureContextTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToStringConverter2.cs" />
     <Compile Include="DataGridHelper.cs" />
     <Compile Include="DataGridSingleRowSelected.cs" />
@@ -2762,6 +2763,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_IS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ProcedureYellowInverted.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

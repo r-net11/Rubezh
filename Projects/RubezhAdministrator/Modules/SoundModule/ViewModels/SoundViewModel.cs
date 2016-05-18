@@ -59,6 +59,5 @@ namespace SoundsModule.ViewModels
 				return listSounds;
 			}
 		}
-
 	}
 }

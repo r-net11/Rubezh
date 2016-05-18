@@ -17,6 +17,5 @@ namespace RubezhAPI.Models
 
 		[DataMember]
 		public SoundType Type{ get; set; }
-
 	}
 }

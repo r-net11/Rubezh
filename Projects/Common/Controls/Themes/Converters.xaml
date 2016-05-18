@@ -27,7 +27,8 @@
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
 	<Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
-	<Converters:XSoundTypeToStringConverter x:Key="XSoundTypeToStringConverter" />
+	<Converters:ProcedureContextTypeToIconConverter x:Key="ProcedureContextTypeToIconConverter" />
+	<Converters:SoundTypeToStringConverter x:Key="SoundTypeToStringConverter" />
 	<Converters:XGuardZoneStateClassToStringConverter x:Key="XGuardZoneStateClassToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
 	<Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
