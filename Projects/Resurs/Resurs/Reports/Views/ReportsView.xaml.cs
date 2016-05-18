@@ -1,4 +1,5 @@
 ﻿using Common;
+using Controls;
 using DevExpress.Xpf.Printing.Native;
 using System;
 using System.Windows;

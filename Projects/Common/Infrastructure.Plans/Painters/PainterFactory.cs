@@ -19,7 +19,7 @@ namespace Infrastructure.Plans.Painters
 			{Primitive.SubPlan, typeof(SubPlanPainter)},
 			{Primitive.TextBlock, typeof(TextBlockPainter)},
 			{Primitive.TextBox, typeof(TextBoxPainter)},
-			{Primitive.Procedure, typeof(ProcedurePainter)}
+			//{Primitive.Procedure, typeof(ProcedurePainter)}
 		};
 		public static IPainter Create(CommonDesignerCanvas designerCanvas, ElementBase element)
 		{
