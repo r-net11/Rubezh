@@ -32,6 +32,11 @@ namespace Common
 			_sourceMap.ForEach(pair => ((IMap)pair.Value).BuildSafe());
 		}
 
+		public void BuildAll()
+		{
+			_sourceMap.ForEach(pair => ((IMap)pair.Value).Build());
+		}
+
 		public T Get<T>(Guid uid)
 			where T : IIdentity
 		{

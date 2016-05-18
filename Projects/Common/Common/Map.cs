@@ -32,6 +32,15 @@ namespace Common
 				items = Builder();
 			_map = items == null ? new List<T>() : items.ToList();
 		}
+		public void Build()
+		{
+			_map = Builder != null ? Builder().ToList() : new List<T>();
+		}
+		void IMap.Build()
+		{
+			Build();
+		}
+
 		void IMap.BuildSafe()
 		{
 			BuildSafe();
@@ -40,6 +49,7 @@ namespace Common
 	}
 	interface IMap
 	{
+		void Build();
 		void BuildSafe();
 	}
 }

@@ -70,7 +70,7 @@ namespace PlansModule.ViewModels
 				}
 			}
 
-			foreach (var elementBase in Plan.ElementSubPlans)
+			foreach (var elementBase in Plan.ElementRectangleSubPlans)
 			{
 				var presenterItem = DesignerCanvas.CreateMonitorPresenterItem(elementBase);
 				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, elementBase.PlanUID));
